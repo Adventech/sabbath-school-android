@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.cryart.sabbathschool.viewmodel.SSQuarterlyItemViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/card_view_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ss_quarterly_item_normal_margin_left"
+            android:layout_marginRight="@dimen/ss_quarterly_item_normal_margin_right"
+            android:layout_marginStart="@dimen/ss_quarterly_item_normal_margin_left"
+            android:layout_marginEnd="@dimen/ss_quarterly_item_normal_margin_right"
+            android:layout_marginBottom="@dimen/ss_quarterly_item_normal_margin_bottom"
+            android:layout_marginTop="@dimen/ss_quarterly_item_normal_margin_top"
+            android:padding="@dimen/ss_quarterly_item_normal_padding"
+            card_view:cardCornerRadius="@dimen/ss_quarterly_item_normal_corner_radius">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/ss_quarterly_item_normal_title"
+                    android:ellipsize="end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/ss_quarterly_item_normal_title_margin_left"
+                    android:layout_marginStart="@dimen/ss_quarterly_item_normal_title_margin_left"
+                    android:maxLines="1"
+                    android:padding="@dimen/ss_quarterly_item_normal_title_padding"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:text="@{viewModel.title}"
+                    android:textSize="@dimen/ss_quarterly_item_normal_title_text_size"
+                    tools:text="Quarterly Name" />
+
+                <TextView
+                    android:id="@+id/ss_quarterly_item_normal_date"
+                    android:ellipsize="end"
+                    android:layout_below="@+id/ss_quarterly_item_normal_title"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="@dimen/ss_quarterly_item_normal_date_margin_left"
+                    android:layout_marginStart="@dimen/ss_quarterly_item_normal_date_margin_left"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/ss_quarterly_item_normal_date_padding_left"
+                    android:paddingStart="@dimen/ss_quarterly_item_normal_date_padding_left"
+                    android:paddingRight="@dimen/ss_quarterly_item_normal_date_padding_right"
+                    android:paddingEnd="@dimen/ss_quarterly_item_normal_date_padding_right"
+                    android:text="@{viewModel.date}"
+                    android:textSize="@dimen/ss_quarterly_item_normal_date_text_size"
+                    android:textColor="@color/ss_quarterly_item_normal_name_text_color"
+                    tools:text="Quarterly Date" />
+
+                <TextView
+                    android:id="@+id/ss_quarterly_item_normal_description"
+                    android:layout_below="@+id/ss_quarterly_item_normal_date"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="@dimen/ss_quarterly_item_normal_description_margin_left"
+                    android:layout_marginStart="@dimen/ss_quarterly_item_normal_description_margin_left"
+                    android:padding="@dimen/ss_quarterly_item_normal_description_padding"
+                    android:text="@{viewModel.description}"
+                    android:textSize="@dimen/ss_quarterly_item_normal_description_text_size"
+                    tools:text="Qurterly Description" />
+
+                <Button
+                    android:layout_below="@+id/ss_quarterly_item_normal_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/ss_quarterly_item_normal_read_text"
+                    android:onClick="@{viewModel::onReadClick}"
+                    style="@style/Widget.AppCompat.Button.Borderless" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <ImageView
+            android:id="@+id/ss_quarterly_item_normal_cover"
+            android:layout_width="@dimen/ss_quarterly_item_normal_cover_width"
+            android:layout_height="@dimen/ss_quarterly_item_normal_cover_height"
+            android:layout_marginTop="@dimen/ss_quarterly_item_normal_cover_margin_top"
+            android:layout_marginLeft="@dimen/ss_quarterly_item_normal_cover_margin_left"
+            android:layout_marginStart="@dimen/ss_quarterly_item_normal_cover_margin_left"
+            app:coverUrl="@{viewModel.cover}" />
+
+    </RelativeLayout>
+</layout>
