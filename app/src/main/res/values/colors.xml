@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <color name="colorPrimary">#7DC9F3</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="backgroundColor">#F2F5F7</color>
+
+    <color name="ss_quarterly_item_featured_background_color">#7dc9f3</color>
+    <color name="ss_quarterly_item_featured_title_text_color">#ffffff</color>
+    <color name="ss_quarterly_item_featured_date_text_color">#ffffff</color>
+    <color name="ss_quarterly_item_featured_description_text_color">#ffffff</color>
+    <color name="ss_quarterly_item_featured_read_default_color">#4aa6d9</color>
+    <color name="ss_quarterly_item_featured_read_focus_color">#7dc9f3</color>
+    <color name="ss_quarterly_item_featured_read_text_color">#ffffff</color>
+
+    <color name="ss_quarterly_item_normal_name_text_color">#cccccc</color>
+    <color name="ss_quarterly_item_normal_downloading_cancel_button_text_color">#ff5a595b</color>
+    <color name="ss_quarterly_item_normal_downloading_cancel_button_focus_color">#ffbababa</color>
+</resources>

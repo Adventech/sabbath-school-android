@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.cryart.sabbathschool.viewmodel.SSQuarterliesViewModel" />
+        <import type="android.view.View"/>
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context="com.cryart.sabbathschool.view.SSQuarterliesActivity">
+
+        <LinearLayout
+            android:id="@+id/ss_quarterlies_language_filter_holder"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:background="@color/ss_quarterly_item_featured_read_focus_color"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ss_quarterly_languages_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                tools:listitem="@layout/ss_quarterly_language_item" />
+        </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ss_quarterlies_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:background="@color/backgroundColor"
+            android:scrollbars="vertical"
+            android:layout_marginTop="@{viewModel.ssQuarterliesListMarginTop}"
+            android:visibility="@{viewModel.ssQuarterliesListVisibility}"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/ss_quarterly_item_normal" />
+
+        <include
+            layout="@layout/ss_app_bar"
+            android:id="@+id/ss_app_bar"/>
+
+        <include
+            layout="@layout/ss_empty_state"
+            android:id="@+id/ss_quarterlies_empty_state"
+            bind:emptyStateVisibility="@{viewModel.ssQuarterliesEmptyStateVisibility}"
+            bind:emptyStateLabel="@{@string/ss_quarterlies_downloading}" />
+
+        <include
+            layout="@layout/ss_error_state"
+            android:id="@+id/ss_quarterlies_error_state"
+            bind:errorStateVisibility="@{viewModel.ssQuarterliesErrorStateVisibility}"
+            bind:errorStateLabel="@{@string/ss_quarterlies_downloading}" />
+
+        <include
+            layout="@layout/ss_progress_bar"
+            bind:progressVisibility="@{viewModel.ssQuarterliesLoadingVisibility}"
+            bind:progressLabel="@{@string/ss_quarterlies_downloading}"/>
+    </android.support.design.widget.CoordinatorLayout>
+</layout>
