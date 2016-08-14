@@ -4,4 +4,4 @@ android:
     - build-tools-23.0.3
     - android-23
 
-script: ./gradle assembleRelease crashlyticsUploadDistributionRelease
+script: ./gradlew assembleRelease crashlyticsUploadDistributionRelease
