@@ -52,12 +52,25 @@ android {
 
         vectorDrawables.useSupportLibrary = true
     }
+
+    signingConfigs {
+        release {
+            // this keystore is located at module level
+            storeFile file("ss-beta.keystore")
+            storePassword "9A2FLdumSLY51e5I"
+            keyAlias "sskeystore"
+            keyPassword "9A2FLdumSLY51e5I"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
+
     dataBinding {
         enabled = true
     }
