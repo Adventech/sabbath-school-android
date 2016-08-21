@@ -27,7 +27,6 @@ import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.api.SSApiService;
-import com.firebase.client.Firebase;
 
 import io.fabric.sdk.android.Fabric;
 import rx.Scheduler;
@@ -52,8 +51,6 @@ public class SSApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
-
-        Firebase.setAndroidContext(this);
     }
 
     public Scheduler defaultSubscribeScheduler() {
