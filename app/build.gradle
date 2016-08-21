@@ -1,12 +1,3 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
 /*
  * Copyright (c) 2016 Adventech <info@adventech.io>
  *
@@ -29,6 +20,16 @@ buildscript {
  * THE SOFTWARE.
  */
 
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
@@ -40,13 +41,13 @@ apply plugin: 'com.neenbedankt.android-apt'
 
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
 
     defaultConfig {
         applicationId "com.cryart.sabbathschool"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
 
@@ -79,15 +80,16 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:cardview-v7:23.3.0'
-    compile 'com.android.support:recyclerview-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
-    compile 'com.android.support:support-vector-drawable:23.3.0'
-    compile 'com.android.support:animated-vector-drawable:23.3.0'
-    compile 'com.google.android.gms:play-services-auth:8.4.0'
-    compile 'com.firebase:firebase-client-android:2.5.2'
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:cardview-v7:24.2.0'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
+    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:support-vector-drawable:24.2.0'
+    compile 'com.android.support:animated-vector-drawable:24.2.0'
+    compile 'com.google.firebase:firebase-core:9.4.0'
+    compile 'com.google.firebase:firebase-auth:9.4.0'
+    compile 'com.google.android.gms:play-services-auth:9.4.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.5.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
     compile 'io.reactivex:rxandroid:1.1.0'
@@ -97,6 +99,7 @@ dependencies {
     compile 'com.snappydb:snappydb-lib:0.5.2'
     compile 'com.esotericsoftware.kryo:kryo:2.24.0'
     compile 'com.squareup:otto:1.3.8'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
         transitive = true;
     }

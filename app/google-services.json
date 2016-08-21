@@ -1,23 +1,21 @@
 {
   "project_info": {
-    "project_id": "com-cryart-sabbathschool",
-    "project_number": "725806867451",
-    "name": "Sabbath School"
+    "project_number": "443920152945",
+    "firebase_url": "https://blistering-inferno-8720.firebaseio.com",
+    "project_id": "blistering-inferno-8720",
+    "storage_bucket": "blistering-inferno-8720.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:725806867451:android:88379b7a89890100",
-        "client_id": "android:com.cryart.sabbathschool",
-        "client_type": 1,
+        "mobilesdk_app_id": "1:443920152945:android:88379b7a89890100",
         "android_client_info": {
-          "package_name": "com.cryart.sabbathschool",
-          "certificate_hash": []
+          "package_name": "com.cryart.sabbathschool"
         }
       },
       "oauth_client": [
         {
-          "client_id": "725806867451-fderff78kcbjahipsf6rnhmg7a358ti9.apps.googleusercontent.com",
+          "client_id": "443920152945-1kbqb10go7qn201rv1vd7olarchailvr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.cryart.sabbathschool",
@@ -25,43 +23,33 @@
           }
         },
         {
-          "client_id": "725806867451-a7qu6qqbh4mn2kj821amcfosrsou8o8d.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.cryart.sabbathschool",
-            "certificate_hash": "7034ABB7A39A55EA083023673C30100A7FBC171A"
-          }
-        },
-        {
-          "client_id": "725806867451-dg10e1dvnr37cij38habsdvrrempes4v.apps.googleusercontent.com",
+          "client_id": "443920152945-rgptd4sa4vqv7qlpq070pq9pifv48k1j.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
-      "api_key": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4-62tehCHALZuJWMiIg4tVjUe3Llt9aQ"
+        }
+      ],
       "services": {
         "analytics_service": {
-          "status": 2,
-          "analytics_property": {
-            "tracking_id": "UA-60193683-1"
-          }
-        },
-        "cloud_messaging_service": {
-          "status": 2,
-          "apns_config": []
+          "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "google_signin_service": {
-          "status": 2
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "443920152945-rgptd4sa4vqv7qlpq070pq9pifv48k1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
   ],
-  "client_info": [],
-  "ARTIFACT_VERSION": "1"
+  "configuration_version": "1"
 }

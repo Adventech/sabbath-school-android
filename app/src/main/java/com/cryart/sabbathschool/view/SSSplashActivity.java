@@ -20,35 +20,19 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.viewmodel;
+package com.cryart.sabbathschool.view;
 
-import android.content.Context;
-import android.view.View;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-import com.cryart.sabbathschool.view.SSLoginActivity;
-
-public class SSLoginViewModel implements SSViewModel {
-    private static final String TAG = SSLoginViewModel.class.getSimpleName();
-    private Context context;
-
-    public SSLoginViewModel(Context context) {
-        this.context = context;
-    }
-
-    public void onClickSignIn(View view){
-        ((SSLoginActivity) context).initGoogleLogin();
-    }
-
-    public void onClickSignInFB(View view){
-        ((SSLoginActivity) context).initFacebookLogin();
-    }
-
-    public void onClickSignInAnonymous(View view){
-        ((SSLoginActivity) context).initAnonymousLogin();
-    }
-
+public class SSSplashActivity extends AppCompatActivity {
     @Override
-    public void destroy() {
-        this.context = null;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Intent intent = new Intent(this, SSLoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

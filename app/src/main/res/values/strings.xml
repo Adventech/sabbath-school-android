@@ -21,6 +21,9 @@
   -->
 
 <resources>
+    <string name="facebook_app_id">1440555266255436</string>
+    <string name="fb_login_protocol_scheme">1440555266255436</string>
+
     <string name="ss_app_name">Sabbath School</string>
 
     <string name="ss_quarterlies_menu">Filter Languages</string>

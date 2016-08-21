@@ -22,11 +22,10 @@
 
 package com.cryart.sabbathschool.view;
 
-import android.accounts.Account;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -34,56 +33,135 @@ import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.viewmodel.SSLoginViewModel;
-import com.firebase.client.AuthData;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.google.android.gms.auth.GoogleAuthException;
-import com.google.android.gms.auth.GoogleAuthUtil;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.io.IOException;
+import java.util.Arrays;
 
 public class SSLoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = SSLoginActivity.class.getSimpleName();
-    private Firebase ref;
+    private FirebaseAuth firebaseRef;
+    private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+
+    private CallbackManager ssFacebookCallbackManager;
+    private GoogleApiClient ssGoogleApiClient;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
+        this.configureGoogleLogin();
+        this.configureFacebookLogin();
+        this.configureFirebase();
 
         SsLoginActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.ss_login_activity);
-        SSLoginViewModel ssLoginViewModel = new SSLoginViewModel(this, mGoogleApiClient);
+        SSLoginViewModel ssLoginViewModel = new SSLoginViewModel(this);
         binding.setViewModel(ssLoginViewModel);
+    }
 
-        ref = new Firebase(SSConstants.SS_FIREBASE_URL);
+    private void configureFirebase(){
+        firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    openApp();
+                } else {
 
-        AuthData authData = ref.getAuth();
-        if (authData != null) {
-            Log.d(TAG, "No need");
-        }
+                }
+            }
+        };
+        firebaseRef = FirebaseAuth.getInstance();
+    }
+
+    private void configureGoogleLogin(){
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
+        ssGoogleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
+    }
+
+    private void configureFacebookLogin(){
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
+
+        ssFacebookCallbackManager = CallbackManager.Factory.create();
+
+        LoginManager.getInstance().registerCallback(ssFacebookCallbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // TODO: Handle unsuccessful / cancel
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // TODO: Handle unsuccessful
+                    }
+                });
+    }
+
+    public void initGoogleLogin(){
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(ssGoogleApiClient);
+        startActivityForResult(signInIntent, SSConstants.SS_GOOGLE_SIGN_IN_CODE);
+    }
+
+    public void initFacebookLogin(){
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"));
+    }
+
+    public void initAnonymousLogin(){
+        Log.d(TAG, "ANONYMOUS LOGIN INITIATED");
+        firebaseRef.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.d(TAG, "signInAnonymously", task.getException());
+                            // TODO: error exception
+                        }
+                    }
+                });
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, String.valueOf(requestCode));
         if (requestCode == SSConstants.SS_GOOGLE_SIGN_IN_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 
             if (result.isSuccess()) {
                 GoogleSignInAccount acct = result.getSignInAccount();
-                new GetGoogleOAuthToken().execute(acct.getEmail());
+                handleGoogleAccessToken(acct);
             } else {
-
+                // TODO: Handle unsuccessful
             }
+        } else {
+            ssFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -92,42 +170,47 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
-    private void authFirebase(String token){
-        ref.authWithOAuthToken("google", token, new Firebase.AuthResultHandler() {
-            @Override
-            public void onAuthenticated(AuthData authData) {
-                Log.d(TAG, "Firebase auth success!");
-            }
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-                Log.d(TAG, "Firebase auth error");
-            }
-        });
+    private void handleGoogleAccessToken(GoogleSignInAccount acct){
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        firebaseRef.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()) {
+                            // TODO: Handle unsuccessful
+                        }
+                    }
+                });
     }
 
-    private class GetGoogleOAuthToken extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            String scopes = "oauth2:profile email";
-            String email = params[0];
-            String token = "";
-            try {
-                token = GoogleAuthUtil.getToken(getApplicationContext(), new Account(email, "com.google"), scopes, null);
-            } catch (GoogleAuthException ex){
-            } catch (IOException ex) {}
+    private void handleFacebookAccessToken(AccessToken token) {
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        firebaseRef.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()) {
+                            // TODO: Handle unsuccessful
+                        }
+                    }
+                });
+    }
 
-            return token;
+    @Override
+    public void onStart() {
+        super.onStart();
+        firebaseRef.addAuthStateListener(firebaseAuthStateListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (firebaseAuthStateListener != null) {
+            firebaseRef.removeAuthStateListener(firebaseAuthStateListener);
         }
+    }
 
-        @Override
-        protected void onPostExecute(String result) {
-            authFirebase(result);
-        }
-
-        @Override
-        protected void onPreExecute() {}
-
-        @Override
-        protected void onProgressUpdate(Void... values) {}
+    private void openApp(){
+        startActivity(new Intent(SSLoginActivity.this, SSQuarterliesActivity.class));
     }
 }
