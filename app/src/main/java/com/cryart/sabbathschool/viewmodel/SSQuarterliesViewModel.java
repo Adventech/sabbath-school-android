@@ -40,7 +40,7 @@ import com.cryart.sabbathschool.SSApplication;
 import com.cryart.sabbathschool.api.SSApiService;
 import com.cryart.sabbathschool.bus.SSBusProvider;
 import com.cryart.sabbathschool.event.SSLanguageFilterChangeEvent;
-import com.cryart.sabbathschool.model.SSQuarterly;
+import com.cryart.sabbathschool.model.SSLanguageInfo;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
 import com.snappydb.DB;
 import com.snappydb.DBFactory;
@@ -48,7 +48,6 @@ import com.snappydb.SnappydbException;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import rx.Observable;
@@ -62,7 +61,7 @@ public class SSQuarterliesViewModel implements SSViewModel {
 
     private Context context;
     private Subscription subscription;
-    private List<SSQuarterly> quarterlies;
+    private SSLanguageInfo ssLanguageInfo;
     private List<SSQuarterlyLanguage> quarterlyLanguages;
     private DataListener dataListener;
 
@@ -87,7 +86,7 @@ public class SSQuarterliesViewModel implements SSViewModel {
         ssQuarterliesListMarginTop = new ObservableFloat(0);
 
         this.quarterlyLanguages = new ArrayList<>();
-        this.quarterlies = new ArrayList<>();
+        this.ssLanguageInfo = new SSLanguageInfo();
 
         String[] language_codes = context.getResources().getStringArray(R.array.ss_quarterlies_language_codes);
         String[] language_names = context.getResources().getStringArray(R.array.ss_quarterlies_language_names);
@@ -215,21 +214,20 @@ public class SSQuarterliesViewModel implements SSViewModel {
 
         final String quarterliesCacheKey = ssQuarterlyLanguage.code;
 
-        final Observable<List<SSQuarterly>> cache = Observable.create(
-                new Observable.OnSubscribe<List<SSQuarterly>>() {
+        final Observable<SSLanguageInfo> cache = Observable.create(
+                new Observable.OnSubscribe<SSLanguageInfo>() {
                     @Override
-                    public void call(Subscriber<? super List<SSQuarterly>> sub) {
+                    public void call(Subscriber<? super SSLanguageInfo> sub) {
                         try {
                             DB snappydb = DBFactory.open(context);
-                            SSQuarterly[] categoryList = null;
+                            SSLanguageInfo ssQuarterliesListCache = null;
 
-                            categoryList = snappydb.getObjectArray(quarterliesCacheKey, SSQuarterly.class);
-                            if (categoryList != null) {
+                            ssQuarterliesListCache = snappydb.getObject(quarterliesCacheKey, SSLanguageInfo.class);
+                            if (ssQuarterliesListCache != null) {
 
-                                List<SSQuarterly> s = Arrays.asList(categoryList);
-                                if (s.size() > 0) {
+                                if (ssQuarterliesListCache.quarterlies.size() > 0) {
                                     Log.d(TAG, "CACHEEE!");
-                                    sub.onNext(s);
+                                    sub.onNext(ssQuarterliesListCache);
                                 }
                             }
                             snappydb.close();
@@ -241,15 +239,15 @@ public class SSQuarterliesViewModel implements SSViewModel {
                 }
         );
 
-//        Observable<Observable<List<SSQuarterly>>> o =
-//                Observable.create(new Observable.OnSubscribe<Observable<List<SSQuarterly>>>(){
+//        Observable<Observable<List<SSQuarterlyInfo>>> o =
+//                Observable.create(new Observable.OnSubscribe<Observable<List<SSQuarterlyInfo>>>(){
 //            @Override
-//            public void call(Subscriber<? super Observable<List<SSQuarterly>>> sub){
+//            public void call(Subscriber<? super Observable<List<SSQuarterlyInfo>>> sub){
 //                sub.onNext(cache);
 //
 //                for(SSQuarterlyLanguage lang : quarterlyLanguages){
 //                    if (lang.selected == 1){
-//                        sub.onNext(ssApiService.getQuarterlies(lang.code));
+//                        sub.onNext(ssApiService.getLanguageInfo(lang.code));
 //                    }
 //                }
 //
@@ -259,26 +257,24 @@ public class SSQuarterliesViewModel implements SSViewModel {
 
 
 
-        quarterlies.clear();
-
         subscription = Observable
-                .concat(cache, ssApiService.getQuarterlies(ssQuarterlyLanguage.code))
+                .concat(cache, ssApiService.getLanguageInfo(ssQuarterlyLanguage.code))
                 .first()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(ssApplication.defaultSubscribeScheduler())
-                .subscribe(new Subscriber<List<SSQuarterly>>() {
+                .subscribe(new Subscriber<SSLanguageInfo>() {
                     @Override
                     public void onCompleted() {
-                        if (quarterlies.size() > 0) {
-                            dataListener.onQuarterliesChanged(quarterlies);
+                        if (ssLanguageInfo.quarterlies.size() > 0) {
+                            dataListener.onQuarterliesChanged(ssLanguageInfo);
 
-                            try {
-                                DB snappydb = DBFactory.open(context);
-
-                                snappydb.put(quarterliesCacheKey, quarterlies.toArray());
-                                snappydb.close();
-
-                            } catch (SnappydbException e) {}
+//                            try {
+//                                DB snappydb = DBFactory.open(context);
+//
+//                                snappydb.put(quarterliesCacheKey, quarterlies.toArray());
+//                                snappydb.close();
+//
+//                            } catch (SnappydbException e) {}
                         }
 
                         ssQuarterliesListVisibility.set(View.VISIBLE);
@@ -287,12 +283,12 @@ public class SSQuarterliesViewModel implements SSViewModel {
                         ssQuarterliesEmptyStateVisibility.set(View.INVISIBLE);
                         ssQuarterliesErrorStateVisibility.set(View.INVISIBLE);
 
-                        if (quarterlies.size() == 0){
+                        if (ssLanguageInfo.quarterlies.size() == 0){
                             ssQuarterliesEmptyStateVisibility.set(View.VISIBLE);
                         }
 
                         if (dataListener != null){
-                            dataListener.onQuarterliesChanged(quarterlies);
+                            dataListener.onQuarterliesChanged(ssLanguageInfo);
                         }
                     }
 
@@ -306,8 +302,8 @@ public class SSQuarterliesViewModel implements SSViewModel {
                     }
 
                     @Override
-                    public void onNext(List<SSQuarterly> ssQuarterlies) {
-                        quarterlies.addAll(ssQuarterlies);
+                    public void onNext(SSLanguageInfo ssLanguageInfoR) {
+                        ssLanguageInfo = ssLanguageInfoR;
                     }
                 });
     }
@@ -322,7 +318,7 @@ public class SSQuarterliesViewModel implements SSViewModel {
     }
 
     public interface DataListener {
-        void onQuarterliesChanged(List<SSQuarterly> quarterlies);
+        void onQuarterliesChanged(SSLanguageInfo ssLanguageInfo);
         void onQuarterliesLanguagesChanged(List<SSQuarterlyLanguage> quarterlyLanguages);
     }
 

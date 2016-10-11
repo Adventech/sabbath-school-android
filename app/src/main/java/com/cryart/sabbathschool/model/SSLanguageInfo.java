@@ -24,25 +24,18 @@ package com.cryart.sabbathschool.model;
 
 import java.util.List;
 
-public class SSQuarterly {
-    public String id;
-    public String title;
-    public String description;
-    public String date;
-    public String cover;
-    public List<SSLessonInfo> lessons;
+public class SSLanguageInfo {
+    public String checksum;
+    public long lastModified;
+    public List<SSQuarterlyInfo> quarterlies;
 
-    public SSQuarterly() {
+    public SSLanguageInfo() {
 
     }
 
-    public SSQuarterly(String id, String title, String description, String date, String cover, List<SSLessonInfo> lessons){
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.date = date;
-        this.cover = cover;
-        this.lessons = lessons;
+    public SSLanguageInfo(String checksum, long lastModified, List<SSQuarterlyInfo> quarterlies){
+        this.checksum = checksum;
+        this.lastModified = lastModified;
+        this.quarterlies = quarterlies;
     }
 }
-

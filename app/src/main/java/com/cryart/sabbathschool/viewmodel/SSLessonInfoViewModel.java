@@ -20,29 +20,46 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.model;
+package com.cryart.sabbathschool.viewmodel;
 
-import java.util.List;
+import android.content.Context;
+import android.databinding.BaseObservable;
+import android.util.Log;
+import android.view.View;
 
-public class SSQuarterly {
-    public String id;
-    public String title;
-    public String description;
-    public String date;
-    public String cover;
-    public List<SSLessonInfo> lessons;
+import com.cryart.sabbathschool.model.SSLessonInfo;
 
-    public SSQuarterly() {
+public class SSLessonInfoViewModel extends BaseObservable implements SSViewModel {
+    private static final String TAG = SSLessonInfoViewModel.class.getSimpleName();
+    private SSLessonInfo ssLessonInfo;
+    private Context context;
 
+    public SSLessonInfoViewModel(Context context, SSLessonInfo ssLessonInfo) {
+        this.ssLessonInfo = ssLessonInfo;
+        this.context = context;
     }
 
-    public SSQuarterly(String id, String title, String description, String date, String cover, List<SSLessonInfo> lessons){
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.date = date;
-        this.cover = cover;
-        this.lessons = lessons;
+    public void setSsLessonInfo(SSLessonInfo ssLessonInfo) {
+        this.ssLessonInfo = ssLessonInfo;
+        notifyChange();
+    }
+
+    public String getTitle() {
+        return ssLessonInfo.title;
+    }
+
+    public String getDate() {
+        return ssLessonInfo.date;
+    }
+
+    public void onItemClick(View v){
+        Log.d(TAG, "Click");
+    }
+
+
+    @Override
+    public void destroy() {
+
     }
 }
 

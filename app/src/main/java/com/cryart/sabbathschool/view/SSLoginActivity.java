@@ -27,7 +27,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding;
@@ -118,7 +117,7 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
 
                     @Override
                     public void onError(FacebookException exception) {
-                        // TODO: Handle unsuccessful
+                        loginFailed(exception.getMessage());
                     }
                 });
     }
@@ -133,14 +132,12 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     public void initAnonymousLogin(){
-        Log.d(TAG, "ANONYMOUS LOGIN INITIATED");
         firebaseRef.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            Log.d(TAG, "signInAnonymously", task.getException());
-                            // TODO: error exception
+                            loginFailed(task.getException().getMessage());
                         }
                     }
                 });
@@ -150,7 +147,7 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, String.valueOf(requestCode));
+
         if (requestCode == SSConstants.SS_GOOGLE_SIGN_IN_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 
@@ -158,7 +155,7 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
                 GoogleSignInAccount acct = result.getSignInAccount();
                 handleGoogleAccessToken(acct);
             } else {
-                // TODO: Handle unsuccessful
+                loginFailed("Google failed:" + result.getStatus().getStatusMessage());
             }
         } else {
             ssFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
@@ -167,7 +164,7 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.d(TAG, "onConnectionFailed:" + connectionResult);
+        loginFailed(connectionResult.getErrorMessage());
     }
 
     private void handleGoogleAccessToken(GoogleSignInAccount acct){
@@ -177,7 +174,7 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            // TODO: Handle unsuccessful
+                            loginFailed(task.getException().getMessage());
                         }
                     }
                 });
@@ -190,7 +187,7 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            // TODO: Handle unsuccessful
+                            loginFailed(task.getException().getMessage());
                         }
                     }
                 });
@@ -211,6 +208,13 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     private void openApp(){
-        startActivity(new Intent(SSLoginActivity.this, SSQuarterliesActivity.class));
+        Intent launchNextActivity;
+        launchNextActivity = new Intent(SSLoginActivity.this, SSQuarterliesActivity.class);
+        launchNextActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(launchNextActivity);
+    }
+
+    private void loginFailed(String message){
+        throw new RuntimeException(message);
     }
 }
