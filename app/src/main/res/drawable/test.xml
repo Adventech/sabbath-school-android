@@ -21,24 +21,18 @@
   ~ THE SOFTWARE.
   -->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.design.widget.AppBarLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/ss_app_bar_layout"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:elevation="@dimen/ss_app_bar_default_elevation">
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@android:color/holo_blue_dark" />
+        </shape>
+    </item>
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/ss_toolbar"
-            android:background="?attr/colorPrimary"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_width="match_parent"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    <item >
+        <shape>
+            <solid android:color="@android:color/holo_orange_light" />
+        </shape>
+    </item>
 
-    </android.support.design.widget.AppBarLayout>
-</layout>
+</selector>

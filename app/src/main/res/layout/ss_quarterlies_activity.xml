@@ -37,7 +37,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
+
         tools:context="com.cryart.sabbathschool.view.SSQuarterliesActivity">
 
         <LinearLayout
@@ -81,13 +81,13 @@
             layout="@layout/ss_empty_state"
             android:id="@+id/ss_quarterlies_empty_state"
             bind:emptyStateVisibility="@{viewModel.ssQuarterliesEmptyStateVisibility}"
-            bind:emptyStateLabel="@{@string/ss_quarterlies_downloading}" />
+            bind:emptyStateLabel="@{@string/ss_quarterlies_empty}" />
 
         <include
             layout="@layout/ss_error_state"
             android:id="@+id/ss_quarterlies_error_state"
             bind:errorStateVisibility="@{viewModel.ssQuarterliesErrorStateVisibility}"
-            bind:errorStateLabel="@{@string/ss_quarterlies_downloading}" />
+            bind:errorStateLabel="@{@string/ss_quarterlies_error}" />
 
         <include
             layout="@layout/ss_progress_bar"

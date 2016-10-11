@@ -22,9 +22,9 @@
 
 package com.cryart.sabbathschool.api;
 
+import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.model.SSLanguageInfo;
 import com.cryart.sabbathschool.model.SSQuarterly;
-
-import java.util.List;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -34,18 +34,16 @@ import retrofit2.http.Path;
 import rx.Observable;
 
 public interface SSApiService {
-//    @GET("http://10.0.3.2:63343/sabbath-school-lessons/{lang}/info.json")
-//    @GET("https://raw.githubusercontent.com/Adventech/sabbath-school-lessons/master/{lang}/info.json")
-    @GET("https://s3-us-west-2.amazonaws.com/com.cryart.sabbathschool/{lang}/info.json")
-    Observable<List<SSQuarterly>> getQuarterlies(@Path("lang") String lang);
+    @GET("{lang}/info.json")
+    Observable<SSLanguageInfo> getLanguageInfo(@Path("lang") String lang);
 
-    @GET("http://10.0.3.2:63343/sabbath-school-lessons/{lang}/info.json")
-    Observable<List<SSQuarterly>> getQuarterly(@Path("lang") String lang, @Path("a") String a);
+    @GET("{id}/info.json")
+    Observable<SSQuarterly> getQuarterly(@Path("id") String id);
 
     class Factory {
         public static SSApiService create() {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://api.github.com/")
+                    .baseUrl(SSConstants.SS_API_ENDPOINT)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();

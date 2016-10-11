@@ -22,20 +22,18 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#7DC9F3</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#25AA70</color>
+    <color name="colorPrimaryDark">#18704A</color>
     <color name="colorAccent">#FF4081</color>
     <color name="backgroundColor">#F2F5F7</color>
 
-    <color name="ss_quarterly_item_featured_background_color">#7dc9f3</color>
+    <color name="ss_quarterly_item_featured_background_color">@color/colorPrimary</color>
     <color name="ss_quarterly_item_featured_title_text_color">#ffffff</color>
     <color name="ss_quarterly_item_featured_date_text_color">#ffffff</color>
     <color name="ss_quarterly_item_featured_description_text_color">#ffffff</color>
-    <color name="ss_quarterly_item_featured_read_default_color">#4aa6d9</color>
-    <color name="ss_quarterly_item_featured_read_focus_color">#7dc9f3</color>
+    <color name="ss_quarterly_item_featured_read_default_color">@color/colorPrimaryDark</color>
+    <color name="ss_quarterly_item_featured_read_focus_color">@color/colorPrimary</color>
     <color name="ss_quarterly_item_featured_read_text_color">#ffffff</color>
 
     <color name="ss_quarterly_item_normal_name_text_color">#cccccc</color>
-    <color name="ss_quarterly_item_normal_downloading_cancel_button_text_color">#ff5a595b</color>
-    <color name="ss_quarterly_item_normal_downloading_cancel_button_focus_color">#ffbababa</color>
 </resources>

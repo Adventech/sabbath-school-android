@@ -20,28 +20,20 @@
  * THE SOFTWARE.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package com.cryart.sabbathschool.model;
 
-buildscript {
-    repositories {
-        jcenter()
+public class SSLessonInfo {
+    public String title;
+    public String date;
+    public String path;
+
+    public SSLessonInfo() {
+
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.3'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'com.google.gms:google-services:3.0.0'
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+    public SSLessonInfo(String title, String date, String path){
+        this.title = title;
+        this.date = date;
+        this.path = path;
     }
-}
-
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

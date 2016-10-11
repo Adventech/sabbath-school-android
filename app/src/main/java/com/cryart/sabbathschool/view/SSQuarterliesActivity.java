@@ -33,9 +33,11 @@ import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.adapter.SSQuarterliesAdapter;
 import com.cryart.sabbathschool.adapter.SSQuarterliesLanguageFilterAdapter;
 import com.cryart.sabbathschool.databinding.SsQuarterliesActivityBinding;
-import com.cryart.sabbathschool.model.SSQuarterly;
+import com.cryart.sabbathschool.model.SSLanguageInfo;
+import com.cryart.sabbathschool.model.SSQuarterlyInfo;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
 import com.cryart.sabbathschool.viewmodel.SSQuarterliesViewModel;
+import com.mikepenz.materialdrawer.DrawerBuilder;
 
 import java.util.List;
 
@@ -62,12 +64,14 @@ public class SSQuarterliesActivity extends AppCompatActivity implements SSQuarte
         ssQuarterliesViewModel = new SSQuarterliesViewModel(this, this);
         binding.executePendingBindings();
         binding.setViewModel(ssQuarterliesViewModel);
+
+        new DrawerBuilder().withActivity(this).withToolbar(binding.ssAppBar.ssToolbar).build();
     }
 
     @Override
-    public void onQuarterliesChanged(List<SSQuarterly> quarterlies) {
+    public void onQuarterliesChanged(SSLanguageInfo ssLanguageInfo) {
         SSQuarterliesAdapter adapter = (SSQuarterliesAdapter) binding.ssQuarterliesList.getAdapter();
-        adapter.setQuarterlies(quarterlies);
+        adapter.setQuarterlies(ssLanguageInfo.quarterlies);
         adapter.notifyDataSetChanged();
     }
 
@@ -100,4 +104,5 @@ public class SSQuarterliesActivity extends AppCompatActivity implements SSQuarte
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

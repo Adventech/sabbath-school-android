@@ -22,22 +22,24 @@
 
 package com.cryart.sabbathschool.view;
 
-import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 
 import com.cryart.sabbathschool.R;
+import com.cryart.sabbathschool.adapter.SSLessonsAdapter;
 import com.cryart.sabbathschool.databinding.SsQuarterlyActivityBinding;
+import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.viewmodel.SSQuarterlyViewModel;
+import com.mikepenz.materialdrawer.DrawerBuilder;
 
-public class SSQuarterlyActivity extends AppCompatActivity {
+public class SSQuarterlyActivity extends AppCompatActivity implements SSQuarterlyViewModel.DataListener {
     private static final String TAG = SSQuarterlyActivity.class.getSimpleName();
-    private static final String EXTRA_QUARTERLY = "EXTRA_QUARTERLY";
 
     private SsQuarterlyActivityBinding binding;
     private SSQuarterlyViewModel ssQuarterlyViewModel;
@@ -51,6 +53,9 @@ public class SSQuarterlyActivity extends AppCompatActivity {
         binding.ssAppBar.ssAppBarLayout.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         binding.ssAppBar.ssToolbar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        SSLessonsAdapter adapter = new SSLessonsAdapter();
+        binding.ssLessonInfoList.setAdapter(adapter);
+        binding.ssLessonInfoList.setLayoutManager(new LinearLayoutManager(this));
 
         setSupportActionBar(binding.ssAppBar.ssToolbar);
         ActionBar ssToolbar = getSupportActionBar();
@@ -58,25 +63,24 @@ public class SSQuarterlyActivity extends AppCompatActivity {
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
 
-//
-//        ssQuarterlyViewModel = new SSQuarterlyViewModel(this, ssQuarterly);
-//        binding.executePendingBindings();
-//        binding.setViewModel(ssQuarterlyViewModel);
-//
-//        setTitle(ssQuarterly.title);
+        new DrawerBuilder().withActivity(this).build();
+
+        ssQuarterlyViewModel = new SSQuarterlyViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_QUARTERLY_ID_EXTRA));
+        binding.executePendingBindings();
+        binding.setViewModel(ssQuarterlyViewModel);
     }
 
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, SSQuarterlyActivity.class);
-//        intent.putExtra(EXTRA_QUARTERLY, ssQuarterly);
-        return intent;
+    @Override
+    public void onQuarterlyChanged(SSQuarterly ssQuarterly) {
+        setTitle(ssQuarterly.title);
+        SSLessonsAdapter adapter = (SSLessonsAdapter) binding.ssLessonInfoList.getAdapter();
+        adapter.setLessons(ssQuarterly.lessons);
+        adapter.notifyDataSetChanged();
     }
-
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        ssQuarterlyViewModel.destroy();
+        ssQuarterlyViewModel.destroy();
     }
 }

@@ -25,4 +25,6 @@ package com.cryart.sabbathschool.misc;
 public class SSConstants {
     public static final int SS_GOOGLE_SIGN_IN_CODE = 9001;
     public static final String SS_FIREBASE_URL = "https://blistering-inferno-8720.firebaseio.com";
+    public static final String SS_API_ENDPOINT = "https://s3-us-west-2.amazonaws.com/com.cryart.sabbathschool/";
+    public static final String SS_QUARTERLY_ID_EXTRA = "SS_QUARTERLY_ID";
 }

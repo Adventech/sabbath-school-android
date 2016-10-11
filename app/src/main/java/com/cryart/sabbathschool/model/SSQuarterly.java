@@ -22,48 +22,27 @@
 
 package com.cryart.sabbathschool.model;
 
+import java.util.List;
+
 public class SSQuarterly {
+    public String id;
     public String title;
     public String description;
-    public String path;
     public String date;
     public String cover;
+    public List<SSLessonInfo> lessons;
 
     public SSQuarterly() {
 
     }
 
-    public SSQuarterly(String title, String description, String path, String date, String cover){
+    public SSQuarterly(String id, String title, String description, String date, String cover, List<SSLessonInfo> lessons){
+        this.id = id;
         this.title = title;
         this.description = description;
-        this.path = path;
         this.date = date;
         this.cover = cover;
+        this.lessons = lessons;
     }
-
-
-//
-//    @Override
-//    public int describeContents(){
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags){
-//        dest.writeString(title);
-//        dest.writeString(description);
-//        dest.writeString(path);
-//        dest.writeString(date);
-//        dest.writeString(cover);
-//    }
-//
-//    public static final Creator<SSQuarterly> CREATOR = new Creator<SSQuarterly>() {
-//        public SSQuarterly createFromParcel(Parcel source) {
-//            return new SSQuarterly(source);
-//        }
-//
-//        public SSQuarterly[] newArray(int size) {
-//            return new SSQuarterly[size];
-//        }
-//    };
 }
+

@@ -20,28 +20,46 @@
  * THE SOFTWARE.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package com.cryart.sabbathschool.viewmodel;
 
-buildscript {
-    repositories {
-        jcenter()
+import android.content.Context;
+import android.databinding.BaseObservable;
+import android.util.Log;
+import android.view.View;
+
+import com.cryart.sabbathschool.model.SSLessonInfo;
+
+public class SSLessonInfoViewModel extends BaseObservable implements SSViewModel {
+    private static final String TAG = SSLessonInfoViewModel.class.getSimpleName();
+    private SSLessonInfo ssLessonInfo;
+    private Context context;
+
+    public SSLessonInfoViewModel(Context context, SSLessonInfo ssLessonInfo) {
+        this.ssLessonInfo = ssLessonInfo;
+        this.context = context;
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.3'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'com.google.gms:google-services:3.0.0'
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+    public void setSsLessonInfo(SSLessonInfo ssLessonInfo) {
+        this.ssLessonInfo = ssLessonInfo;
+        notifyChange();
+    }
+
+    public String getTitle() {
+        return ssLessonInfo.title;
+    }
+
+    public String getDate() {
+        return ssLessonInfo.date;
+    }
+
+    public void onItemClick(View v){
+        Log.d(TAG, "Click");
+    }
+
+
+    @Override
+    public void destroy() {
+
     }
 }
 
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}

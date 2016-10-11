@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.support.v4.view.ViewCompat;
@@ -30,20 +31,21 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.cryart.sabbathschool.model.SSQuarterly;
+import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.model.SSQuarterlyInfo;
 import com.cryart.sabbathschool.view.SSQuarterlyActivity;
 
 public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewModel {
-    private SSQuarterly ssQuarterly;
+    private SSQuarterlyInfo ssQuarterly;
     private Context context;
 
-    public SSQuarterlyItemViewModel(Context context, SSQuarterly ssQuarterly) {
-        this.ssQuarterly = ssQuarterly;
+    public SSQuarterlyItemViewModel(Context context, SSQuarterlyInfo ssQuarterlyInfo) {
+        this.ssQuarterly = ssQuarterlyInfo;
         this.context = context;
     }
 
-    public void setSsQuarterly(SSQuarterly ssQuarterly) {
-        this.ssQuarterly = ssQuarterly;
+    public void setSsQuarterly(SSQuarterlyInfo ssQuarterlyInfo) {
+        this.ssQuarterly = ssQuarterlyInfo;
         notifyChange();
     }
 
@@ -56,7 +58,7 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
     }
 
     public String getCover() {
-        return ssQuarterly.cover;
+        return SSConstants.SS_API_ENDPOINT + ssQuarterly.cover;
     }
 
     public String getDescription() {
@@ -72,7 +74,9 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
     }
 
     public void onReadClick(View view) {
-        context.startActivity(SSQuarterlyActivity.newIntent(context));
+        Intent ssQuartelyIntent = new Intent(context, SSQuarterlyActivity.class);
+        ssQuartelyIntent.putExtra(SSConstants.SS_QUARTERLY_ID_EXTRA, ssQuarterly.id);
+        context.startActivity(ssQuartelyIntent);
     }
 
     @Override

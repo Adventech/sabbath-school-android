@@ -20,28 +20,22 @@
  * THE SOFTWARE.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package com.cryart.sabbathschool.model;
 
-buildscript {
-    repositories {
-        jcenter()
+import java.util.List;
+
+public class SSLanguageInfo {
+    public String checksum;
+    public long lastModified;
+    public List<SSQuarterlyInfo> quarterlies;
+
+    public SSLanguageInfo() {
+
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.3'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'com.google.gms:google-services:3.0.0'
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+    public SSLanguageInfo(String checksum, long lastModified, List<SSQuarterlyInfo> quarterlies){
+        this.checksum = checksum;
+        this.lastModified = lastModified;
+        this.quarterlies = quarterlies;
     }
-}
-
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

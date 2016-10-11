@@ -41,56 +41,77 @@
         android:weightSum="5"
         tools:context="com.cryart.sabbathschool.view.SSLoginActivity">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
-            android:background="#ccc"
+            android:background="@color/colorPrimary"
             android:gravity="center_horizontal"
-            android:orientation="vertical" />
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/ic_launcher"
+                />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="2">
 
-            <Button
-                android:id="@+id/ss_login_activity_login_button"
-                android:layout_width="220dp"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content">
 
-                android:textAllCaps="false"
-                android:textSize="14dp"
-                android:textColor="#8C000000"
-                android:text="Sign in with Google"
-                android:background="@drawable/ss_google_sign_in_button"
-                android:onClick="@{viewModel::onClickSignIn}" />
+                <Button
+                    android:id="@+id/ss_login_activity_login_button"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
 
-            <Button
-                android:id="@+id/ss_login_fb_login_button"
-                android:layout_width="220dp"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/ss_login_activity_login_button"
-                android:textAllCaps="false"
-                android:textSize="14dp"
-                android:textColor="#8C000000"
-                android:text="Sign in with Facebook"
-                android:background="@drawable/ss_facebook_login_button"
-                android:onClick="@{viewModel::onClickSignInFB}" />
+                    android:layout_marginTop="30dp"
 
-            <TextView
-                android:id="@+id/ss_login_anonymous_login_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:text="Continue without Login"
-                android:layout_marginBottom="20dp"
-                android:clickable="true"
-                android:onClick="@{viewModel::onClickSignInAnonymous}" />
+                    android:textAllCaps="false"
+                    android:textSize="14dp"
+                    android:textColor="#8C000000"
+                    android:text="Sign in with Google"
+                    android:background="@drawable/ss_google_sign_in_button"
+                    android:onClick="@{viewModel::onClickSignIn}" />
+
+                <Button
+                    android:id="@+id/ss_login_fb_login_button"
+                    android:layout_width="220dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"
+
+                    android:textAllCaps="false"
+                    android:textSize="14dp"
+                    android:textColor="#8C000000"
+                    android:text="Sign in with Facebook"
+                    android:background="@drawable/ss_facebook_login_button"
+                    android:onClick="@{viewModel::onClickSignInFB}" />
+
+                <TextView
+                    android:id="@+id/ss_login_anonymous_login_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+
+                    android:text="Continue without Login"
+                    android:layout_marginBottom="20dp"
+                    android:clickable="true"
+                    android:onClick="@{viewModel::onClickSignInAnonymous}" />
+
+
+            </LinearLayout>
+
+
         </RelativeLayout>
 
     </LinearLayout>

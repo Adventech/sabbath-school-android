@@ -20,28 +20,24 @@
  * THE SOFTWARE.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package com.cryart.sabbathschool.model;
 
-buildscript {
-    repositories {
-        jcenter()
+public class SSQuarterlyInfo {
+    public String id;
+    public String title;
+    public String description;
+    public String date;
+    public String cover;
+
+    public SSQuarterlyInfo() {
+
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.3'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'com.google.gms:google-services:3.0.0'
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+    public SSQuarterlyInfo(String id, String title, String description, String date, String cover){
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.cover = cover;
     }
-}
-
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }
