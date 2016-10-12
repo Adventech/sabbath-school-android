@@ -61,6 +61,14 @@
                        android:value="com.cryart.sabbathschool.view.SSQuarterliesActivity" />
         </activity>
 
+        <activity android:name="com.cryart.sabbathschool.view.SSReadingActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize"
+            android:parentActivityName="com.cryart.sabbathschool.view.SSQuarterlyActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cryart.sabbathschool.view.SSQuarterlyActivity" />
+        </activity>
+
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
