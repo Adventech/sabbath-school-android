@@ -20,47 +20,14 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.viewmodel;
+package com.cryart.sabbathschool.misc;
 
 import android.content.Context;
-import android.content.Intent;
-import android.databinding.BaseObservable;
-import android.view.View;
+import android.util.DisplayMetrics;
 
-import com.cryart.sabbathschool.model.SSLessonInfo;
-import com.cryart.sabbathschool.view.SSReadingActivity;
-
-public class SSLessonInfoViewModel extends BaseObservable implements SSViewModel {
-    private static final String TAG = SSLessonInfoViewModel.class.getSimpleName();
-    private SSLessonInfo ssLessonInfo;
-    private Context context;
-
-    public SSLessonInfoViewModel(Context context, SSLessonInfo ssLessonInfo) {
-        this.ssLessonInfo = ssLessonInfo;
-        this.context = context;
-    }
-
-    public void setSsLessonInfo(SSLessonInfo ssLessonInfo) {
-        this.ssLessonInfo = ssLessonInfo;
-        notifyChange();
-    }
-
-    public String getTitle() {
-        return ssLessonInfo.title;
-    }
-
-    public String getDate() {
-        return ssLessonInfo.date;
-    }
-
-    public void onItemClick(View v){
-        Intent ssQuartelyIntent = new Intent(context, SSReadingActivity.class);
-        context.startActivity(ssQuartelyIntent);
-    }
-
-    @Override
-    public void destroy() {
-
+public class SSHelper {
+    public static int convertDpToPixels(Context context, int dp){
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }
-

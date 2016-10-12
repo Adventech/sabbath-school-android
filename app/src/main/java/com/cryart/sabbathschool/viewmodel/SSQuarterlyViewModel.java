@@ -99,8 +99,6 @@ public class SSQuarterlyViewModel implements SSViewModel {
                 }
         );
 
-        Log.d(TAG, ssQuarterlyId);
-
         subscription = Observable
                 .concat(cache, ssApiService.getQuarterly(ssQuarterlyId))
                 .first()
