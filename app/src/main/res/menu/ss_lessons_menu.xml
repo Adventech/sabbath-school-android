@@ -24,17 +24,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <item
-        android:id="@+id/ss_quarterlies_action_filter"
-        android:orderInCategory="100"
-        tools:icon="@drawable/ic_filter_list_24dp"
-        android:icon="@drawable/ic_filter_list_24dp"
-        android:title="@string/ss_quarterlies_menu"
-        app:showAsAction="always" />
 
     <item
-        android:id="@+id/ss_quarterlies_action_refresh"
-        android:orderInCategory="101"
+        android:id="@+id/ss_lessons_action_refresh"
+        android:orderInCategory="100"
         android:title="Refresh"
         app:showAsAction="never" />
 </menu>

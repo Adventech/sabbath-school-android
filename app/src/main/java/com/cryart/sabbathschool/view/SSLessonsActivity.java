@@ -28,7 +28,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
+import android.view.Menu;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.adapter.SSLessonsAdapter;
@@ -73,14 +73,24 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
     public void onQuarterlyChanged(SSQuarterlyInfo ssQuarterlyInfo) {
         binding.ssAppBar.ssCollapsingToolbar.setTitle(ssQuarterlyInfo.quarterly.title);
         SSLessonsAdapter adapter = (SSLessonsAdapter) binding.ssLessonInfoList.getAdapter();
-        Log.d(TAG, String.valueOf(ssQuarterlyInfo.lessons));
         adapter.setLessons(ssQuarterlyInfo.lessons);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.ss_lessons_menu, menu);
+        return true;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ssLessonsViewModel.destroy();
+    }
+
+    @Override
+    public void onLogoutEvent(){
+        finish();
     }
 }
