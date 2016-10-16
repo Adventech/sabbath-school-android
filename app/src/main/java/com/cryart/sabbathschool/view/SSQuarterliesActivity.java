@@ -33,8 +33,7 @@ import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.adapter.SSQuarterliesAdapter;
 import com.cryart.sabbathschool.adapter.SSQuarterliesLanguageFilterAdapter;
 import com.cryart.sabbathschool.databinding.SsQuarterliesActivityBinding;
-import com.cryart.sabbathschool.model.SSLanguageInfo;
-import com.cryart.sabbathschool.model.SSQuarterlyInfo;
+import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
 import com.cryart.sabbathschool.viewmodel.SSQuarterliesViewModel;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -62,6 +61,9 @@ public class SSQuarterliesActivity extends AppCompatActivity implements SSQuarte
         binding.ssQuarterlyLanguagesList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         ssQuarterliesViewModel = new SSQuarterliesViewModel(this, this);
+
+        binding.swipeRefreshLayout.setOnRefreshListener(ssQuarterliesViewModel);
+
         binding.executePendingBindings();
         binding.setViewModel(ssQuarterliesViewModel);
 
@@ -69,9 +71,9 @@ public class SSQuarterliesActivity extends AppCompatActivity implements SSQuarte
     }
 
     @Override
-    public void onQuarterliesChanged(SSLanguageInfo ssLanguageInfo) {
+    public void onQuarterliesChanged(List<SSQuarterly> ssQuarterlies) {
         SSQuarterliesAdapter adapter = (SSQuarterliesAdapter) binding.ssQuarterliesList.getAdapter();
-        adapter.setQuarterlies(ssLanguageInfo.quarterlies);
+        adapter.setQuarterlies(ssQuarterlies);
         adapter.notifyDataSetChanged();
     }
 
@@ -80,6 +82,11 @@ public class SSQuarterliesActivity extends AppCompatActivity implements SSQuarte
         SSQuarterliesLanguageFilterAdapter adapter = (SSQuarterliesLanguageFilterAdapter) binding.ssQuarterlyLanguagesList.getAdapter();
         adapter.setQuarterlyLanguages(quarterlyLanguages);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRefreshFinished(){
+        binding.swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

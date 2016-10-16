@@ -29,27 +29,26 @@ import android.view.ViewGroup;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsLessonItemBinding;
-import com.cryart.sabbathschool.model.SSLessonInfo;
-import com.cryart.sabbathschool.viewmodel.SSLessonInfoViewModel;
+import com.cryart.sabbathschool.model.SSLesson;
+import com.cryart.sabbathschool.viewmodel.SSLessonItemViewModel;
 
 import java.util.Collections;
 import java.util.List;
 
 public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<SSLessonInfo> ssLessonsInfo;
-    private int selectedPos = 0;
+    private List<SSLesson> ssLessons;
 
     public SSLessonsAdapter() {
-        this.ssLessonsInfo = Collections.emptyList();
+        this.ssLessons = Collections.emptyList();
     }
 
-    public SSLessonsAdapter(List<SSLessonInfo> ssLessonsInfo) {
-        this.ssLessonsInfo = ssLessonsInfo;
+    public SSLessonsAdapter(List<SSLesson> ssLessons) {
+        this.ssLessons = ssLessons;
     }
 
-    public void setLessons(List<SSLessonInfo> ssLessonsInfo) {
-        this.ssLessonsInfo = ssLessonsInfo;
+    public void setLessons(List<SSLesson> ssLessonsInfo) {
+        this.ssLessons = ssLessonsInfo;
     }
 
     @Override
@@ -61,7 +60,7 @@ public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         SSLessonViewHolder holder1 = (SSLessonViewHolder) holder;
-        holder1.bindQuarterly(ssLessonsInfo.get(position));
+        holder1.bindQuarterly(ssLessons.get(position));
         holder1.binding.executePendingBindings();
 
         holder1.binding.ssLessonItemNormalIndex.setText(String.valueOf(position+1));
@@ -69,7 +68,7 @@ public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return ssLessonsInfo.size();
+        return ssLessons.size();
     }
 
 
@@ -81,11 +80,11 @@ public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             this.binding = binding;
         }
 
-        void bindQuarterly(SSLessonInfo ssLessonInfo) {
+        void bindQuarterly(SSLesson ssLesson) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new SSLessonInfoViewModel(itemView.getContext(), ssLessonInfo));
+                binding.setViewModel(new SSLessonItemViewModel(itemView.getContext(), ssLesson));
             } else {
-                binding.getViewModel().setSsLessonInfo(ssLessonInfo);
+                binding.getViewModel().setSsLesson(ssLesson);
             }
         }
     }

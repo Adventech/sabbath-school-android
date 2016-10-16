@@ -23,7 +23,6 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -48,45 +47,20 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView
+            <WebView
+                android:id="@+id/ss_ww"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:lineSpacingExtra="8dp"
-                android:id="@+id/lorem"
-                android:text="@string/lorem" />
+                android:layout_height="match_parent">
+
+            </WebView>
         </android.support.v4.widget.NestedScrollView>
 
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <include
+            layout="@layout/ss_reading_navigation_sheet"
             android:id="@+id/bottom_sheet"
-            android:layout_width="match_parent"
-            android:layout_height="340dp"
-            android:background="@android:color/darker_gray"
-            android:orientation="vertical"
-            app:behavior_hideable="false"
-            app:behavior_peekHeight="@{viewModel.ssReadingNavigationSheetPeekHeight}"
-            app:layout_behavior="@string/fancybeh"
-            >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:text="test"
-                android:textColor="@color/colorPrimary" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/accent"
-                android:gravity="center"
-                android:text="content"
-                android:textColor="@android:color/white" />
-
-        </LinearLayout>
+            bind:viewModel="@{viewModel}"
+            />
 
 
     </android.support.design.widget.CoordinatorLayout>

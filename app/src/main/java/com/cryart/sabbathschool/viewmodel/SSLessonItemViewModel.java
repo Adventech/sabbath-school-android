@@ -27,35 +27,35 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
 
-import com.cryart.sabbathschool.model.SSLessonInfo;
+import com.cryart.sabbathschool.model.SSLesson;
 import com.cryart.sabbathschool.view.SSReadingActivity;
 
-public class SSLessonInfoViewModel extends BaseObservable implements SSViewModel {
-    private static final String TAG = SSLessonInfoViewModel.class.getSimpleName();
-    private SSLessonInfo ssLessonInfo;
+public class SSLessonItemViewModel extends BaseObservable implements SSViewModel {
+    private static final String TAG = SSLessonItemViewModel.class.getSimpleName();
+    private SSLesson ssLesson;
     private Context context;
 
-    public SSLessonInfoViewModel(Context context, SSLessonInfo ssLessonInfo) {
-        this.ssLessonInfo = ssLessonInfo;
+    public SSLessonItemViewModel(Context context, SSLesson ssLesson) {
+        this.ssLesson = ssLesson;
         this.context = context;
     }
 
-    public void setSsLessonInfo(SSLessonInfo ssLessonInfo) {
-        this.ssLessonInfo = ssLessonInfo;
+    public void setSsLesson(SSLesson ssLesson) {
+        this.ssLesson = ssLesson;
         notifyChange();
     }
 
     public String getTitle() {
-        return ssLessonInfo.title;
+        return ssLesson.title;
     }
 
     public String getDate() {
-        return ssLessonInfo.date;
+        return ssLesson.date;
     }
 
     public void onItemClick(View v){
-        Intent ssQuartelyIntent = new Intent(context, SSReadingActivity.class);
-        context.startActivity(ssQuartelyIntent);
+        Intent ssReadingIntent = new Intent(context, SSReadingActivity.class);
+        context.startActivity(ssReadingIntent);
     }
 
     @Override

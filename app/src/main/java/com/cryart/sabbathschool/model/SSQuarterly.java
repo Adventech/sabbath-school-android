@@ -22,27 +22,29 @@
 
 package com.cryart.sabbathschool.model;
 
-import java.util.List;
-
 public class SSQuarterly {
     public String id;
     public String title;
     public String description;
     public String date;
     public String cover;
-    public List<SSLessonInfo> lessons;
+    public String index;
+    public String path;
+    public String full_path;
 
     public SSQuarterly() {
 
     }
 
-    public SSQuarterly(String id, String title, String description, String date, String cover, List<SSLessonInfo> lessons){
+    public SSQuarterly(String id, String title, String description, String date, String cover, String index, String path, String full_path){
         this.id = id;
         this.title = title;
         this.description = description;
         this.date = date;
         this.cover = cover;
-        this.lessons = lessons;
+        this.index = index;
+        this.path = path;
+        this.full_path = full_path;
     }
 }
 

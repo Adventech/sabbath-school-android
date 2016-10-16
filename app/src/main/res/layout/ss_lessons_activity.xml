@@ -29,7 +29,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.cryart.sabbathschool.viewmodel.SSQuarterlyViewModel" />
+            type="com.cryart.sabbathschool.viewmodel.SSLessonsViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -38,32 +38,9 @@
         android:layout_height="match_parent"
         android:background="@android:color/background_light">
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:orientation="vertical"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:weightSum="4">-->
-
-            <!--<ImageView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_weight="1"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:src="@drawable/header"-->
-                <!--android:scaleType="fitXY" />-->
-
-
-            <!--<TextView-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:layout_weight="3"-->
-                <!--android:text="@{viewModel.title}"-->
-                <!--tools:text="Quarterly Title" />-->
-
-        <!--</LinearLayout>-->
-
         <include
             layout="@layout/ss_collapsing_app_bar"
-            bind:appBarVisibility="@{viewModel.ssQuarterlyCoordinatorVisibility}"
+            bind:appBarVisibility="@{viewModel.ssLessonsCoordinatorVisibility}"
             android:id="@+id/ss_app_bar"/>
 
         <android.support.v7.widget.RecyclerView
@@ -73,25 +50,25 @@
             android:clipToPadding="false"
             android:background="@color/backgroundColor"
             android:scrollbars="vertical"
-            android:visibility="@{viewModel.ssQuarterlyCoordinatorVisibility}"
+            android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/ss_lesson_item" />
 
         <include
             layout="@layout/ss_empty_state"
             android:id="@+id/ss_quarterlies_empty_state"
-            bind:emptyStateVisibility="@{viewModel.ssQuarterlyEmptyStateVisibility}"
+            bind:emptyStateVisibility="@{viewModel.ssLessonsEmptyStateVisibility}"
             bind:emptyStateLabel="@{@string/ss_quarterly_empty}" />
 
         <include
             layout="@layout/ss_error_state"
             android:id="@+id/ss_quarterlies_error_state"
-            bind:errorStateVisibility="@{viewModel.ssQuarterlyErrorStateVisibility}"
+            bind:errorStateVisibility="@{viewModel.ssLessonsErrorStateVisibility}"
             bind:errorStateLabel="@{@string/ss_quarterly_error}" />
 
         <include
             layout="@layout/ss_progress_bar"
-            bind:progressVisibility="@{viewModel.ssQuarterlyLoadingVisibility}"
+            bind:progressVisibility="@{viewModel.ssLessonsLoadingVisibility}"
             bind:progressLabel="@{@string/ss_quarterly_downloading}"/>
 
 

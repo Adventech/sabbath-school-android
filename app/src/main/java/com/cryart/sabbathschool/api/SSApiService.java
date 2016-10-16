@@ -23,9 +23,12 @@
 package com.cryart.sabbathschool.api;
 
 import com.cryart.sabbathschool.misc.SSConstants;
-import com.cryart.sabbathschool.model.SSLanguageInfo;
 import com.cryart.sabbathschool.model.SSQuarterly;
+import com.cryart.sabbathschool.model.SSQuarterlyInfo;
 
+import java.util.List;
+
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -34,11 +37,11 @@ import retrofit2.http.Path;
 import rx.Observable;
 
 public interface SSApiService {
-    @GET("{lang}/info.json")
-    Observable<SSLanguageInfo> getLanguageInfo(@Path("lang") String lang);
+    @GET("{lang}/quarterlies")
+    Observable<Response<List<SSQuarterly>>> getQuarterlies(@Path("lang") String lang);
 
-    @GET("{id}/info.json")
-    Observable<SSQuarterly> getQuarterly(@Path("id") String id);
+    @GET("{quarterly_path}")
+    Observable<Response<SSQuarterlyInfo>> getQuarterlyInfo(@Path("quarterly_path") String quarterly_path);
 
     class Factory {
         public static SSApiService create() {

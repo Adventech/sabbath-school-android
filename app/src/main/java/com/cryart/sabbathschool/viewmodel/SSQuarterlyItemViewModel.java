@@ -32,20 +32,20 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.cryart.sabbathschool.misc.SSConstants;
-import com.cryart.sabbathschool.model.SSQuarterlyInfo;
-import com.cryart.sabbathschool.view.SSQuarterlyActivity;
+import com.cryart.sabbathschool.model.SSQuarterly;
+import com.cryart.sabbathschool.view.SSLessonsActivity;
 
 public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewModel {
-    private SSQuarterlyInfo ssQuarterly;
+    private SSQuarterly ssQuarterly;
     private Context context;
 
-    public SSQuarterlyItemViewModel(Context context, SSQuarterlyInfo ssQuarterlyInfo) {
-        this.ssQuarterly = ssQuarterlyInfo;
+    public SSQuarterlyItemViewModel(Context context, SSQuarterly ssQuarterly) {
+        this.ssQuarterly = ssQuarterly;
         this.context = context;
     }
 
-    public void setSsQuarterly(SSQuarterlyInfo ssQuarterlyInfo) {
-        this.ssQuarterly = ssQuarterlyInfo;
+    public void setSsQuarterly(SSQuarterly ssQuarterly) {
+        this.ssQuarterly = ssQuarterly;
         notifyChange();
     }
 
@@ -58,7 +58,7 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
     }
 
     public String getCover() {
-        return SSConstants.SS_API_ENDPOINT + ssQuarterly.cover;
+        return ssQuarterly.cover;
     }
 
     public String getDescription() {
@@ -74,9 +74,9 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
     }
 
     public void onReadClick(View view) {
-        Intent ssQuartelyIntent = new Intent(context, SSQuarterlyActivity.class);
-        ssQuartelyIntent.putExtra(SSConstants.SS_QUARTERLY_ID_EXTRA, ssQuarterly.id);
-        context.startActivity(ssQuartelyIntent);
+        Intent ssLessonsIntent = new Intent(context, SSLessonsActivity.class);
+        ssLessonsIntent.putExtra(SSConstants.SS_QUARTERLY_PATH_EXTRA, ssQuarterly.path);
+        context.startActivity(ssLessonsIntent);
     }
 
     @Override

@@ -26,7 +26,7 @@ import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.databinding.BindingAdapter;
-import android.databinding.ObservableFloat;
+import android.databinding.ObservableInt;
 import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -35,13 +35,18 @@ import com.cryart.sabbathschool.behavior.SSReadingNavigationSheetBehavior;
 import com.cryart.sabbathschool.misc.SSHelper;
 
 public class SSReadingViewModel implements SSViewModel, SSReadingNavigationSheetBehavior.OnNestedScrollCallback {
-    private Context context;
-    private static final int PEEK_HEIGHT = 80;
-    public ObservableFloat ssReadingNavigationSheetPeekHeight;
+    private static final int PEEK_HEIGHT = 60;
 
-    public SSReadingViewModel(Context context){
+    private Context context;
+    private SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior;
+
+    public ObservableInt ssReadingNavigationSheetPeekHeight;
+
+
+    public SSReadingViewModel(Context context, SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior){
         this.context = context;
-        ssReadingNavigationSheetPeekHeight = new ObservableFloat(SSHelper.convertDpToPixels(context, PEEK_HEIGHT));
+        this.ssReadingNavigationSheetBehavior = ssReadingNavigationSheetBehavior;
+        ssReadingNavigationSheetPeekHeight = new ObservableInt(SSHelper.convertDpToPixels(context, PEEK_HEIGHT));
     }
 
     @BindingAdapter("app:behavior_peekHeight")
@@ -78,6 +83,14 @@ public class SSReadingViewModel implements SSViewModel, SSReadingNavigationSheet
             ssReadingNavigationSheetPeekHeight.set(SSHelper.convertDpToPixels(context, PEEK_HEIGHT));
         } else if (dyConsumed > 0) {
             ssReadingNavigationSheetPeekHeight.set(0);
+        }
+    }
+
+    public void onMenuClick(View view) {
+        if (ssReadingNavigationSheetBehavior.getState() == SSReadingNavigationSheetBehavior.STATE_EXPANDED) {
+            ssReadingNavigationSheetBehavior.setState(SSReadingNavigationSheetBehavior.STATE_COLLAPSED);
+        } else {
+            ssReadingNavigationSheetBehavior.setState(SSReadingNavigationSheetBehavior.STATE_EXPANDED);
         }
     }
 

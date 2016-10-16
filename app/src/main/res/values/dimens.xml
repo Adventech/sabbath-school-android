@@ -75,4 +75,6 @@
     <dimen name="ss_quarterly_item_normal_description_padding">10dp</dimen>
     <dimen name="ss_quarterly_item_normal_description_margin_left">90dp</dimen>
     <dimen name="ss_quarterly_item_normal_description_text_size">13sp</dimen>
+
+    <dimen name="ss_reading_navigation_sheet_peek_height">60dp</dimen>
 </resources>
