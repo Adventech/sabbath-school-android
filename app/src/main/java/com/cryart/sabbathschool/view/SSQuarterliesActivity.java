@@ -110,4 +110,8 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onLogoutEvent(){
+        finish();
+    }
 }

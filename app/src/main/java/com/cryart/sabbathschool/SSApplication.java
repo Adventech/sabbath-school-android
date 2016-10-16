@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.api.SSApiService;
+import com.cryart.sabbathschool.misc.SSUserManager;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
@@ -41,11 +42,16 @@ import rx.Scheduler;
 import rx.schedulers.Schedulers;
 
 public class SSApplication extends Application {
+    private static SSApplication instance;
     private SSApiService ssApiService;
     private Scheduler defaultSubscribeScheduler;
 
     public static SSApplication get(Context context) {
         return (SSApplication) context.getApplicationContext();
+    }
+
+    public static SSApplication get(){
+        return instance;
     }
 
     public SSApiService getGithubService() {
@@ -58,6 +64,10 @@ public class SSApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
+
+        SSUserManager.getInstance();
+
         Fabric.with(this, new Crashlytics());
 
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {

@@ -24,15 +24,18 @@ package com.cryart.sabbathschool.view;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.misc.SSUserManager;
+import com.cryart.sabbathschool.model.SSUser;
 import com.cryart.sabbathschool.viewmodel.SSLoginViewModel;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -55,17 +58,20 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 
 import java.util.Arrays;
 
-public class SSLoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class SSLoginActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = SSLoginActivity.class.getSimpleName();
-    private FirebaseAuth firebaseRef;
-    private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+    private FirebaseAuth ssFirebase;
 
     private CallbackManager ssFacebookCallbackManager;
     private GoogleApiClient ssGoogleApiClient;
 
+    // Currently firebase has bug. This intends to prevent onAuthStateChanged()
+    // to be called twice
+    private boolean firebaseBugFlag = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,18 +87,7 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     private void configureFirebase(){
-        firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    openApp();
-                } else {
-
-                }
-            }
-        };
-        firebaseRef = FirebaseAuth.getInstance();
+        ssFirebase = FirebaseAuth.getInstance();
     }
 
     private void configureGoogleLogin(){
@@ -134,7 +129,7 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     public void initAnonymousLogin(){
-        firebaseRef.signInAnonymously()
+        ssFirebase.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -171,7 +166,7 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
 
     private void handleGoogleAccessToken(GoogleSignInAccount acct){
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        firebaseRef.signInWithCredential(credential)
+        ssFirebase.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -184,7 +179,7 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
 
     private void handleFacebookAccessToken(AccessToken token) {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        firebaseRef.signInWithCredential(credential)
+        ssFirebase.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -198,15 +193,13 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
     @Override
     public void onStart() {
         super.onStart();
-        firebaseRef.addAuthStateListener(firebaseAuthStateListener);
+        ssFirebase.addAuthStateListener(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (firebaseAuthStateListener != null) {
-            firebaseRef.removeAuthStateListener(firebaseAuthStateListener);
-        }
+        ssFirebase.removeAuthStateListener(this);
     }
 
     private void openApp(){
@@ -217,7 +210,27 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     private void loginFailed(String message){
-        Log.d(TAG, message);
+        Crashlytics.log(message);
         Toast.makeText(this, "Login failed. Please try again", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null && firebaseBugFlag) {
+            firebaseBugFlag = false;
+            for (UserInfo profile : user.getProviderData()) {
+                String providerId = profile.getProviderId();
+                if (providerId.equals("firebase")) {
+                    String name = profile.getDisplayName();
+                    String email = profile.getEmail();
+                    Uri photoUrl = profile.getPhotoUrl();
+                    String photo = photoUrl != null ? photoUrl.toString() : "";
+
+                    SSUserManager.getInstance().setUser(new SSUser(name, email, photo));
+                    openApp();
+                }
+            }
+        }
     }
 }

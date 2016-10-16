@@ -79,4 +79,9 @@ public class SSReadingActivity extends SSBaseActivity  {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    @Override
+    public void onLogoutEvent(){
+        finish();
+    }
 }

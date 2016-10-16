@@ -31,6 +31,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.cryart.sabbathschool.R;
+import com.cryart.sabbathschool.misc.SSUserManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -45,20 +46,20 @@ import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
-public class SSBaseActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, AccountHeader.OnAccountHeaderListener, FirebaseAuth.AuthStateListener {
+public abstract class SSBaseActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, AccountHeader.OnAccountHeaderListener, FirebaseAuth.AuthStateListener {
     private static final String TAG = SSBaseActivity.class.getSimpleName();
-    private FirebaseAuth firebaseRef;
+    private FirebaseAuth ssFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        firebaseRef = FirebaseAuth.getInstance();
+        ssFirebase = FirebaseAuth.getInstance();
     }
 
     @Override
     protected void onStart(){
         super.onStart();
-        firebaseRef.addAuthStateListener(this);
+        ssFirebase.addAuthStateListener(this);
     }
 
     private IDrawerItem[] getDrawerItems(){
@@ -81,7 +82,7 @@ public class SSBaseActivity extends AppCompatActivity implements Drawer.OnDrawer
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.ss_account_header)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Vitaliy Lim").withEmail("vitaliy@adventech.io").withIcon("https://pbs.twimg.com/profile_images/666965875350708224/fAXZsqgw_400x400.png").withIdentifier(100),
+                        new ProfileDrawerItem().withName(SSUserManager.getInstance().user.name).withEmail(SSUserManager.getInstance().user.email).withIcon(SSUserManager.getInstance().user.photo).withIdentifier(100),
                         new ProfileSettingDrawerItem().withName("Sign Out").withIdentifier(101)
                 )
                 .withOnAccountHeaderListener(this)
@@ -136,8 +137,11 @@ public class SSBaseActivity extends AppCompatActivity implements Drawer.OnDrawer
     @Override
     public boolean onProfileChanged(View view, IProfile profile, boolean current){
         if (profile instanceof ProfileSettingDrawerItem && profile.getIdentifier() == 101) {
-            firebaseRef.signOut();
+            ssFirebase.signOut();
+            onLogoutEvent();
         }
         return false;
     }
+
+    public abstract void onLogoutEvent();
 }
