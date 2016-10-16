@@ -27,6 +27,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding;
@@ -215,6 +217,7 @@ public class SSLoginActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     private void loginFailed(String message){
-        throw new RuntimeException(message);
+        Log.d(TAG, message);
+        Toast.makeText(this, "Login failed. Please try again", Toast.LENGTH_SHORT).show();
     }
 }

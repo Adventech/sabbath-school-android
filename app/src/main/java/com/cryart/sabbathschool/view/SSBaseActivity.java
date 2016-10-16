@@ -81,7 +81,7 @@ public class SSBaseActivity extends AppCompatActivity implements Drawer.OnDrawer
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.ss_account_header)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Vitaliy Lim").withEmail("vitaliy@adventech.io").withIcon("https://avatars0.githubusercontent.com/u/4108258?v=3&s=40").withIdentifier(100),
+                        new ProfileDrawerItem().withName("Vitaliy Lim").withEmail("vitaliy@adventech.io").withIcon("https://pbs.twimg.com/profile_images/666965875350708224/fAXZsqgw_400x400.png").withIdentifier(100),
                         new ProfileSettingDrawerItem().withName("Sign Out").withIdentifier(101)
                 )
                 .withOnAccountHeaderListener(this)
