@@ -25,6 +25,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fancy="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -48,13 +49,27 @@
             android:background="@color/colorPrimary"
             android:gravity="center_horizontal"
             android:orientation="vertical">
+
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/ss_login_app_logo"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
                 android:layout_centerInParent="true"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/ic_launcher"
-                />
+                app:srcCompat="@drawable/ss_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/ss_login_app_logo"
+                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:text="@string/ss_app_name" />
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -73,12 +88,11 @@
                 <Button
                     android:id="@+id/ss_login_activity_login_button"
                     android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-
-                    android:layout_marginTop="30dp"
-
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
                     android:textAllCaps="false"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:textColor="#8C000000"
                     android:text="Sign in with Google"
                     android:background="@drawable/ss_google_sign_in_button"
@@ -87,26 +101,27 @@
                 <Button
                     android:id="@+id/ss_login_fb_login_button"
                     android:layout_width="220dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_height="wrap_content"
-
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
                     android:textAllCaps="false"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:textColor="#8C000000"
                     android:text="Sign in with Facebook"
                     android:background="@drawable/ss_facebook_login_button"
                     android:onClick="@{viewModel::onClickSignInFB}" />
 
-                <TextView
-                    android:id="@+id/ss_login_anonymous_login_button"
+                <Button
+                    android:layout_below="@+id/ss_login_anonymous_login_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-
+                    android:layout_height="0dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:text="Continue without Login"
-                    android:layout_marginBottom="20dp"
-                    android:clickable="true"
-                    android:onClick="@{viewModel::onClickSignInAnonymous}" />
+                    android:onClick="@{viewModel::onClickSignInAnonymous}"
+                    style="@style/Widget.AppCompat.Button.Borderless" />
 
 
             </LinearLayout>

@@ -13,7 +13,7 @@
   ~ all copies or substantial portions of the Software.
   ~
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO pHE WARRANTIES OF MERCHANTABILITY,
   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
@@ -23,16 +23,8 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_pressed="true">
-        <shape>
-            <solid android:color="@android:color/holo_blue_dark" />
-        </shape>
+    <item android:drawable="@mipmap/ic_launcher">
+        <size android:width="96dp"
+            android:height="96dp" />
     </item>
-
-    <item >
-        <shape>
-            <solid android:color="@android:color/holo_orange_light" />
-        </shape>
-    </item>
-
 </selector>
