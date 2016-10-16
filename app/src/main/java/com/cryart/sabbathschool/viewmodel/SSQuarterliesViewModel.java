@@ -38,6 +38,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.SSApplication;
+import com.cryart.sabbathschool.bus.SSBusProvider;
 import com.cryart.sabbathschool.event.SSLanguageFilterChangeEvent;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
@@ -101,7 +102,7 @@ public class SSQuarterliesViewModel implements SSViewModel, SwipeRefreshLayout.O
         dataListener.onQuarterliesLanguagesChanged(quarterlyLanguages);
 
         loadQuarterlies(getSelectedLanguage());
-//        SSBusProvider.getInstance().register(this);
+        SSBusProvider.getInstance().register(this);
 
     }
 
@@ -291,7 +292,7 @@ public class SSQuarterliesViewModel implements SSViewModel, SwipeRefreshLayout.O
         subscription = null;
         context = null;
         dataListener = null;
-//        SSBusProvider.getInstance().unregister(this);
+        SSBusProvider.getInstance().unregister(this);
     }
 
     @Override
@@ -338,7 +339,6 @@ public class SSQuarterliesViewModel implements SSViewModel, SwipeRefreshLayout.O
 
     @Subscribe
     public void onChangeLanguageEvent(SSLanguageFilterChangeEvent event){
-        Log.d(TAG, "CHANGE!");
         this.loadQuarterlies(getSelectedLanguage());
     }
 }
