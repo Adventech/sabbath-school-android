@@ -24,7 +24,6 @@ package com.cryart.sabbathschool.view;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,11 +35,10 @@ import com.cryart.sabbathschool.databinding.SsQuarterliesActivityBinding;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
 import com.cryart.sabbathschool.viewmodel.SSQuarterliesViewModel;
-import com.mikepenz.materialdrawer.DrawerBuilder;
 
 import java.util.List;
 
-public class SSQuarterliesActivity extends AppCompatActivity implements SSQuarterliesViewModel.DataListener {
+public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterliesViewModel.DataListener {
     private static final String TAG = SSQuarterliesActivity.class.getSimpleName();
     private SsQuarterliesActivityBinding binding;
     private SSQuarterliesViewModel ssQuarterliesViewModel;
@@ -67,7 +65,7 @@ public class SSQuarterliesActivity extends AppCompatActivity implements SSQuarte
         binding.executePendingBindings();
         binding.setViewModel(ssQuarterliesViewModel);
 
-        new DrawerBuilder().withActivity(this).withToolbar(binding.ssAppBar.ssToolbar).build();
+        setUpDrawer(binding.ssAppBar.ssToolbar);
     }
 
     @Override

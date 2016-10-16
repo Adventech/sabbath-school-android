@@ -28,16 +28,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebViewClient;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.behavior.SSReadingNavigationSheetBehavior;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
-import com.mikepenz.materialdrawer.DrawerBuilder;
 
-public class SSReadingActivity extends AppCompatActivity  {
+public class SSReadingActivity extends SSBaseActivity  {
     private static final String TAG = SSReadingActivity.class.getSimpleName();
 
     private SsReadingActivityBinding binding;
@@ -74,7 +72,7 @@ public class SSReadingActivity extends AppCompatActivity  {
         binding.executePendingBindings();
         binding.setViewModel(ssReadingViewModel);
 
-        new DrawerBuilder().withActivity(this).build();
+        setUpDrawer();
     }
 
     @Override

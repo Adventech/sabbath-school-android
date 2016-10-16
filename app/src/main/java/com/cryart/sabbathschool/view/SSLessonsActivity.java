@@ -27,7 +27,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 
@@ -37,9 +36,8 @@ import com.cryart.sabbathschool.databinding.SsLessonsActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
 import com.cryart.sabbathschool.viewmodel.SSLessonsViewModel;
-import com.mikepenz.materialdrawer.DrawerBuilder;
 
-public class SSLessonsActivity extends AppCompatActivity implements SSLessonsViewModel.DataListener {
+public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewModel.DataListener {
     private static final String TAG = SSLessonsActivity.class.getSimpleName();
 
     private SsLessonsActivityBinding binding;
@@ -64,7 +62,7 @@ public class SSLessonsActivity extends AppCompatActivity implements SSLessonsVie
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
 
-        new DrawerBuilder().withActivity(this).build();
+        setUpDrawer();
 
         ssLessonsViewModel = new SSLessonsViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_QUARTERLY_PATH_EXTRA));
         binding.executePendingBindings();
