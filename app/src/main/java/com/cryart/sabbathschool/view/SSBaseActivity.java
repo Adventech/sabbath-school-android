@@ -65,12 +65,12 @@ public class SSBaseActivity extends AppCompatActivity implements Drawer.OnDrawer
         IDrawerItem[] ssDrawerItems = new IDrawerItem[7];
 
         ssDrawerItems[0] = new PrimaryDrawerItem().withName("Home").withIcon(GoogleMaterial.Icon.gmd_home).withIdentifier(1).withSelectable(false);
-        ssDrawerItems[1] = new PrimaryDrawerItem().withName("My highlights").withIcon(GoogleMaterial.Icon.gmd_border_color).withIdentifier(1).withSelectable(false);
-        ssDrawerItems[2] = new PrimaryDrawerItem().withName("My notes").withIcon(GoogleMaterial.Icon.gmd_comment).withIdentifier(2).withSelectable(false);
+        ssDrawerItems[1] = new PrimaryDrawerItem().withName("My highlights").withIcon(GoogleMaterial.Icon.gmd_border_color).withIdentifier(2).withSelectable(false);
+        ssDrawerItems[2] = new PrimaryDrawerItem().withName("My notes").withIcon(GoogleMaterial.Icon.gmd_comment).withIdentifier(3).withSelectable(false);
         ssDrawerItems[3] = new PrimaryDrawerItem().withName("Settings").withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(4).withSelectable(false);
         ssDrawerItems[4] = new DividerDrawerItem();
         ssDrawerItems[5] = new PrimaryDrawerItem().withName("Share app").withIdentifier(5).withSelectable(false);
-        ssDrawerItems[6] = new PrimaryDrawerItem().withName("About").withIdentifier(5).withSelectable(false);
+        ssDrawerItems[6] = new PrimaryDrawerItem().withName("About").withIdentifier(6).withSelectable(false);
 
         return ssDrawerItems;
     }
@@ -135,10 +135,9 @@ public class SSBaseActivity extends AppCompatActivity implements Drawer.OnDrawer
 
     @Override
     public boolean onProfileChanged(View view, IProfile profile, boolean current){
-        if (profile instanceof ProfileSettingDrawerItem && profile.getIdentifier() == 100) {
+        if (profile instanceof ProfileSettingDrawerItem && profile.getIdentifier() == 101) {
             firebaseRef.signOut();
         }
-        //false if you have not consumed the event and it should close the drawer
         return false;
     }
 }
