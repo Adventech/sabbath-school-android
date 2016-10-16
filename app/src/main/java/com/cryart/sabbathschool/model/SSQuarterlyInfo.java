@@ -22,22 +22,18 @@
 
 package com.cryart.sabbathschool.model;
 
+import java.util.List;
+
 public class SSQuarterlyInfo {
-    public String id;
-    public String title;
-    public String description;
-    public String date;
-    public String cover;
+    public SSQuarterly quarterly;
+    public List<SSLesson> lessons;
 
     public SSQuarterlyInfo() {
 
     }
 
-    public SSQuarterlyInfo(String id, String title, String description, String date, String cover){
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.date = date;
-        this.cover = cover;
+    public SSQuarterlyInfo(SSQuarterly quarterly, List<SSLesson> lessons){
+        this.quarterly = quarterly;
+        this.lessons = lessons;
     }
 }

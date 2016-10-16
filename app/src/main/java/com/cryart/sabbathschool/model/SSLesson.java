@@ -22,18 +22,25 @@
 
 package com.cryart.sabbathschool.model;
 
-public class SSLessonInfo {
+public class SSLesson {
     public String title;
     public String date;
+    public String id;
+    public String index;
     public String path;
+    public String full_path;
 
-    public SSLessonInfo() {
+
+    public SSLesson() {
 
     }
 
-    public SSLessonInfo(String title, String date, String path){
+    public SSLesson(String title, String date, String id, String index, String path, String full_path){
         this.title = title;
         this.date = date;
+        this.id = id;
+        this.index = index;
         this.path = path;
+        this.full_path = full_path;
     }
 }

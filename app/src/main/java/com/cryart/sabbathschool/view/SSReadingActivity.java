@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.webkit.WebViewClient;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.behavior.SSReadingNavigationSheetBehavior;
@@ -57,13 +58,18 @@ public class SSReadingActivity extends AppCompatActivity  {
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
 
-        ssReadingViewModel = new SSReadingViewModel(this);
+        binding.ssWw.getSettings().setJavaScriptEnabled(true);
+        binding.ssWw.setWebViewClient(new WebViewClient());
+        binding.ssWw.loadUrl("https://s3-us-west-2.amazonaws.com/com.cryart.sabbathschool/sabbath-school-reader/index.html");
 
-        SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior = (SSReadingNavigationSheetBehavior) ((CoordinatorLayout.LayoutParams) binding.bottomSheet.getLayoutParams()).getBehavior();
+        SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior = (SSReadingNavigationSheetBehavior) ((CoordinatorLayout.LayoutParams) binding.bottomSheet.bottomSheet2.getLayoutParams()).getBehavior();
+        ssReadingViewModel = new SSReadingViewModel(this, ssReadingNavigationSheetBehavior);
 
         if (ssReadingNavigationSheetBehavior != null) {
             ssReadingNavigationSheetBehavior.setOnNestedScrollCallback(ssReadingViewModel);
         }
+
+
 
         binding.executePendingBindings();
         binding.setViewModel(ssReadingViewModel);

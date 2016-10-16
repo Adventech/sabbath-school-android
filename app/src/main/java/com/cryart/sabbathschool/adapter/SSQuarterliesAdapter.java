@@ -30,14 +30,14 @@ import android.view.ViewGroup;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsQuarterlyItemFeaturedBinding;
 import com.cryart.sabbathschool.databinding.SsQuarterlyItemNormalBinding;
-import com.cryart.sabbathschool.model.SSQuarterlyInfo;
+import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.viewmodel.SSQuarterlyItemViewModel;
 
 import java.util.Collections;
 import java.util.List;
 
 public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<SSQuarterlyInfo> quarterlies;
+    private List<SSQuarterly> quarterlies;
     private static final int SSQuarterlyViewHolderHero = 0;
     private static final int SSQuarterlyViewHolderNormal = 1;
 
@@ -45,11 +45,11 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.quarterlies = Collections.emptyList();
     }
 
-    public SSQuarterliesAdapter(List<SSQuarterlyInfo> quarterlies) {
+    public SSQuarterliesAdapter(List<SSQuarterly> quarterlies) {
         this.quarterlies = quarterlies;
     }
 
-    public void setQuarterlies(List<SSQuarterlyInfo> quarterlies) {
+    public void setQuarterlies(List<SSQuarterly> quarterlies) {
         this.quarterlies = quarterlies;
     }
 
@@ -117,7 +117,7 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
             this.binding = binding;
         }
 
-        void bindQuarterly(SSQuarterlyInfo quarterly) {
+        void bindQuarterly(SSQuarterly quarterly) {
             if (binding.getViewModel() == null) {
                 binding.setViewModel(new SSQuarterlyItemViewModel(itemView.getContext(), quarterly));
             } else {
@@ -134,7 +134,7 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
             this.binding = binding;
         }
 
-        void bindQuarterly(SSQuarterlyInfo quarterly) {
+        void bindQuarterly(SSQuarterly quarterly) {
             if (binding.getViewModel() == null) {
                 binding.setViewModel(new SSQuarterlyItemViewModel(itemView.getContext(), quarterly));
             } else {

@@ -53,8 +53,9 @@
                   android:launchMode="singleTask"
                   android:configChanges="orientation|screenSize" />
 
-        <activity android:name="com.cryart.sabbathschool.view.SSQuarterlyActivity"
+        <activity android:name=".view.SSLessonsActivity"
                   android:theme="@style/AppTheme.NoActionBar"
+                  android:launchMode="singleTop"
                   android:configChanges="orientation|screenSize"
                   android:parentActivityName="com.cryart.sabbathschool.view.SSQuarterliesActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
@@ -64,9 +65,9 @@
         <activity android:name="com.cryart.sabbathschool.view.SSReadingActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|screenSize"
-            android:parentActivityName="com.cryart.sabbathschool.view.SSQuarterlyActivity">
+            android:parentActivityName=".view.SSLessonsActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.cryart.sabbathschool.view.SSQuarterlyActivity" />
+                android:value=".view.SSLessonsActivity" />
         </activity>
 
         <activity android:name="com.facebook.FacebookActivity"
