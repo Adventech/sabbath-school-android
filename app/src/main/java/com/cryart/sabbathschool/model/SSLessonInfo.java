@@ -20,12 +20,22 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.misc;
+package com.cryart.sabbathschool.model;
 
-public class SSConstants {
-    public static final int SS_GOOGLE_SIGN_IN_CODE = 9001;
-    public static final String SS_FIREBASE_URL = "https://blistering-inferno-8720.firebaseio.com";
-    public static final String SS_API_ENDPOINT = "http://com.cryart.sabbathschool.s3-website-us-west-2.amazonaws.com/api/v1/";
-    public static final String SS_QUARTERLY_PATH_EXTRA = "SS_QUARTERLY_PATH";
-    public static final String SS_LESSON_PATH_EXTRA = "SS_LESSON_PATH";
+import java.util.List;
+
+public class SSLessonInfo {
+
+    public SSLesson lesson;
+    public List<SSDay> days;
+
+    public SSLessonInfo() {
+
+    }
+
+    public SSLessonInfo(SSLesson lesson, List<SSDay> days){
+        this.lesson = lesson;
+        this.days = days;
+    }
+
 }

@@ -23,8 +23,10 @@
 package com.cryart.sabbathschool.api;
 
 import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.model.SSLessonInfo;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
+import com.cryart.sabbathschool.model.SSRead;
 
 import java.util.List;
 
@@ -42,6 +44,12 @@ public interface SSApiService {
 
     @GET("{quarterly_path}")
     Observable<Response<SSQuarterlyInfo>> getQuarterlyInfo(@Path("quarterly_path") String quarterly_path);
+
+    @GET("{lesson_path}")
+    Observable<Response<SSLessonInfo>> getLessonInfo(@Path("lesson_path") String lesson_path);
+
+    @GET("{read_path}")
+    Observable<Response<SSRead>> getRead(@Path("read_path") String read_path);
 
     class Factory {
         public static SSApiService create() {

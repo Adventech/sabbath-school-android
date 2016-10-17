@@ -23,8 +23,13 @@
 package com.cryart.sabbathschool.adapter;
 
 import android.databinding.DataBindingUtil;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.cryart.sabbathschool.R;
@@ -72,12 +77,15 @@ public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-    public static class SSLessonViewHolder extends RecyclerView.ViewHolder {
+    public static class SSLessonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
+    PopupMenu.OnMenuItemClickListener {
         final SsLessonItemBinding binding;
 
         public SSLessonViewHolder(SsLessonItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            this.binding.ssLessonItemMenu.setOnClickListener(this);
+
         }
 
         void bindQuarterly(SSLesson ssLesson) {
@@ -86,6 +94,24 @@ public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             } else {
                 binding.getViewModel().setSsLesson(ssLesson);
             }
+        }
+
+        @Override
+        public void onClick(View view) {
+            final PopupMenu popupMenu = new PopupMenu(itemView.getContext(), view);
+            final Menu menu = popupMenu.getMenu();
+
+            popupMenu.getMenuInflater().inflate(R.menu.ss_lessons_menu, menu);
+            popupMenu.setOnMenuItemClickListener(this);
+            popupMenu.setGravity(Gravity.END);
+            popupMenu.show();
+
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            // Menu Item Clicked!
+            return true;
         }
     }
 }

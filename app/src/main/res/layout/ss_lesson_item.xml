@@ -23,7 +23,8 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <data>
             <variable
@@ -37,6 +38,7 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
+                android:id="@+id/itemViewContent"
                 android:onClick="@{viewModel::onItemClick}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,6 +88,30 @@
                     android:text="@{viewModel.date}"
                     tools:text="Lesson Title" />
             </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/ss_lesson_item_menu"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_alignTop="@+id/itemViewContent"
+                android:layout_alignBottom="@+id/itemViewContent"
+                android:layout_height="wrap_content"
+                android:layout_width="64dp">
+
+                <com.mikepenz.iconics.view.IconicsImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    app:iiv_color="#cccccc"
+                    app:iiv_icon="gmd-more-vert" />
+            </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
