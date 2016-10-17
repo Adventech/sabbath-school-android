@@ -139,11 +139,11 @@ public class SSQuarterliesViewModel implements SSViewModel, SwipeRefreshLayout.O
             ssQuarterliesListMarginTop.set(v.getMeasuredHeight());
             ssQuarterliesLanguageFilterVisibility.set(View.VISIBLE);
 
-            menuItem.setIcon(R.drawable.ic_close_24dp);
+            menuItem.setIcon(R.drawable.ss_close_24dp);
         } else {
             ssQuarterliesListMarginTop.set(0);
             ssQuarterliesLanguageFilterVisibility.set(View.GONE);
-            menuItem.setIcon(R.drawable.ic_filter_list_24dp);
+            menuItem.setIcon(R.drawable.ss_filter_list_24dp);
         }
     }
 
