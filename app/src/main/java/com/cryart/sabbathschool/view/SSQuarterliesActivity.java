@@ -102,11 +102,22 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.ss_quarterlies_action_filter) {
 
+        if (id == R.id.ss_quarterlies_action_filter) {
             ssQuarterliesViewModel.onFilterClick(item);
             return true;
+        } else if (id == R.id.ss_quarterlies_action_refresh){
+            binding.swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    binding.swipeRefreshLayout.setRefreshing(true);
+                    ssQuarterliesViewModel.onRefresh();
+                }
+            });
+            return true;
+
         }
+
         return super.onOptionsItemSelected(item);
     }
 
