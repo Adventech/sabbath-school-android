@@ -22,7 +22,7 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#25AA70</color>
+    <color name="colorPrimary">#16a365</color>
     <color name="colorPrimaryDark">#18704A</color>
     <color name="colorAccent">#FF4081</color>
     <color name="backgroundColor">#F2F5F7</color>
