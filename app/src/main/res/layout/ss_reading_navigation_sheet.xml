@@ -45,67 +45,73 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/ss_reading_navigation_sheet_peek_height">
 
-            <RelativeLayout
+            <FrameLayout
                 android:clickable="true"
                 android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
+                android:foreground="?attr/selectableItemBackground"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_toStartOf="@+id/days_list"
-                android:layout_toLeftOf="@+id/days_list">
+                android:layout_toLeftOf="@+id/days_list"
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/ss_arrow_left"
-                    app:srcCompat="@drawable/ss_ic_arrow_left"
-                    android:scaleType="centerInside"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:layout_toRightOf="@+id/ss_arrow_left"
-                    android:layout_toEndOf="@+id/ss_arrow_left"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:orientation="vertical"
-                    android:layout_centerVertical="true"
-                    android:layout_alignBaseline="@+id/ss_arrow_left"
-                    android:layout_height="wrap_content">
-
-                    <TextView
+                    <ImageView
+                        android:id="@+id/ss_arrow_left"
+                        app:srcCompat="@drawable/ss_ic_arrow_left"
+                        android:scaleType="centerInside"
                         android:layout_width="wrap_content"
-                        android:text="Sunday. October 12"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:textSize="12sp"
-                        android:textColor="@android:color/black"
-                        android:layout_height="wrap_content" />
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_height="match_parent" />
 
-                    <TextView
+                    <LinearLayout
+                        android:layout_toRightOf="@+id/ss_arrow_left"
+                        android:layout_toEndOf="@+id/ss_arrow_left"
                         android:layout_width="wrap_content"
-                        android:text="Son of Moses"
-                        android:maxLines="1"
-                        android:textStyle="bold"
-                        android:textAllCaps="true"
-                        android:textSize="12sp"
-                        android:ellipsize="end"
-                        android:textColor="@android:color/black"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </RelativeLayout>
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:orientation="vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_alignBaseline="@+id/ss_arrow_left"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:text="Sunday. October 12"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:textSize="12sp"
+                            android:textColor="@android:color/black"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:text="Son of Moses"
+                            android:maxLines="1"
+                            android:textStyle="bold"
+                            android:textAllCaps="true"
+                            android:textSize="12sp"
+                            android:ellipsize="end"
+                            android:textColor="@android:color/black"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </FrameLayout>
 
             <ImageView
                 android:id="@+id/days_list"
+                android:focusable="true"
                 android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackground"
                 android:onClick="@{viewModel::onMenuClick}"
                 app:srcCompat="@drawable/ss_ic_days_list"
                 android:layout_width="60dp"
@@ -114,63 +120,71 @@
                 android:layout_centerInParent="true"
                 android:layout_height="match_parent" />
 
-            <RelativeLayout
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:foreground="?attr/selectableItemBackground"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_toEndOf="@+id/days_list"
                 android:layout_toRightOf="@+id/days_list">
 
-                <ImageView
-                    android:id="@+id/ss_arrow_right"
-                    app:srcCompat="@drawable/ss_ic_arrow_right"
-                    android:scaleType="centerInside"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="17dp"
-                    android:layout_marginEnd="17dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:layout_toLeftOf="@+id/ss_arrow_right"
-                    android:layout_toStartOf="@+id/ss_arrow_right"
-                    android:layout_width="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical"
-                    android:gravity="end"
-                    android:layout_centerVertical="true"
-                    android:layout_alignBaseline="@+id/ss_arrow_right"
-                    android:layout_height="wrap_content">
-
-                    <TextView
+                    <ImageView
+                        android:id="@+id/ss_arrow_right"
+                        app:srcCompat="@drawable/ss_ic_arrow_right"
+                        android:scaleType="centerInside"
                         android:layout_width="wrap_content"
-                        android:text="Sunday. October 12"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:textSize="12sp"
-                        android:textColor="@android:color/black"
-                        android:layout_height="wrap_content" />
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="17dp"
+                        android:layout_marginEnd="17dp"
+                        android:layout_height="match_parent" />
 
-                    <TextView
+                    <LinearLayout
+                        android:layout_toLeftOf="@+id/ss_arrow_right"
+                        android:layout_toStartOf="@+id/ss_arrow_right"
                         android:layout_width="wrap_content"
-                        android:text="Son of Moses"
-                        android:maxLines="1"
-                        android:textStyle="bold"
-                        android:textAllCaps="true"
-                        android:textSize="12sp"
-                        android:ellipsize="end"
-                        android:textColor="@android:color/black"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </RelativeLayout>
+                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:orientation="vertical"
+                        android:gravity="end"
+                        android:layout_centerVertical="true"
+                        android:layout_alignBaseline="@+id/ss_arrow_right"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:text="Sunday. October 12"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:textSize="12sp"
+                            android:textColor="@android:color/black"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:text="Son of Moses"
+                            android:maxLines="1"
+                            android:textStyle="bold"
+                            android:textAllCaps="true"
+                            android:textSize="12sp"
+                            android:ellipsize="end"
+                            android:textColor="@android:color/black"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </FrameLayout>
+
+
         </RelativeLayout>
 
         <LinearLayout
