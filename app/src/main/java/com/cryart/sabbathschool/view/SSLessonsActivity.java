@@ -52,7 +52,7 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
         binding.ssLessonInfoList.setAdapter(adapter);
         binding.ssLessonInfoList.setLayoutManager(new LinearLayoutManager(this));
 
-        setUpDrawer();
+
 
         setSupportActionBar(binding.ssAppBar2.ssToolbar2);
         ActionBar ssToolbar = getSupportActionBar();
@@ -61,12 +61,13 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
 
-
-
-
         ssLessonsViewModel = new SSLessonsViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_QUARTERLY_PATH_EXTRA));
         binding.executePendingBindings();
         binding.setViewModel(ssLessonsViewModel);
+
+        binding.swipeRefreshLayout.setOnRefreshListener(ssLessonsViewModel);
+
+        setUpDrawer();
     }
 
     @Override
@@ -75,6 +76,11 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
         SSLessonsAdapter adapter = (SSLessonsAdapter) binding.ssLessonInfoList.getAdapter();
         adapter.setLessons(ssQuarterlyInfo.lessons);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRefreshFinished(){
+        binding.swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

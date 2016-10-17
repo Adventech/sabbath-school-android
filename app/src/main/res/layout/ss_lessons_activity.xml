@@ -44,16 +44,22 @@
             bind:appBarVisibility="@{viewModel.ssLessonsCoordinatorVisibility}"
             android:id="@+id/ss_app_bar_2"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/ss_lesson_info_list"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:background="@color/backgroundColor"
-            android:scrollbars="vertical"
             android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:listitem="@layout/ss_lesson_item" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ss_lesson_info_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:background="@color/backgroundColor"
+                android:scrollbars="vertical"
+                tools:listitem="@layout/ss_lesson_item" />
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <include
             layout="@layout/ss_empty_state"

@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.viewmodel;
 
 import android.content.Context;
 import android.databinding.ObservableInt;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 
@@ -39,7 +40,7 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class SSLessonsViewModel implements SSViewModel {
+public class SSLessonsViewModel implements SSViewModel, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = SSLessonsViewModel.class.getSimpleName();
     private Context context;
     private Subscription subscription;
@@ -174,6 +175,11 @@ public class SSLessonsViewModel implements SSViewModel {
     }
 
     @Override
+    public void onRefresh() {
+        dataListener.onRefreshFinished();
+    }
+
+    @Override
     public void destroy() {
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
         subscription = null;
@@ -187,5 +193,6 @@ public class SSLessonsViewModel implements SSViewModel {
 
     public interface DataListener {
         void onQuarterlyChanged(SSQuarterlyInfo ssQuarterlyInfo);
+        void onRefreshFinished();
     }
 }

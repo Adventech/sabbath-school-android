@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
 
+import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLesson;
 import com.cryart.sabbathschool.view.SSReadingActivity;
 
@@ -55,6 +56,7 @@ public class SSLessonItemViewModel extends BaseObservable implements SSViewModel
 
     public void onItemClick(View v){
         Intent ssReadingIntent = new Intent(context, SSReadingActivity.class);
+        ssReadingIntent.putExtra(SSConstants.SS_LESSON_PATH_EXTRA, ssLesson.path);
         context.startActivity(ssReadingIntent);
     }
 

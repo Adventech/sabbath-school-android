@@ -67,15 +67,14 @@
             android:visibility="@{viewModel.ssQuarterliesListVisibility}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/ss_quarterlies_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:background="@color/backgroundColor"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/ss_quarterly_item_normal" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ss_quarterlies_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:background="@color/backgroundColor"
+                android:scrollbars="vertical"
+                tools:listitem="@layout/ss_quarterly_item_normal" />
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <include

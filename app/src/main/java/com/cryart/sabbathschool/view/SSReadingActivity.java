@@ -31,6 +31,7 @@ import android.webkit.WebViewClient;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.behavior.SSReadingNavigationSheetBehavior;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
+import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
 
 public class SSReadingActivity extends SSBaseActivity  {
@@ -56,13 +57,11 @@ public class SSReadingActivity extends SSBaseActivity  {
         binding.ssWw.loadUrl("https://s3-us-west-2.amazonaws.com/com.cryart.sabbathschool/sabbath-school-reader/index.html");
 
         SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior = (SSReadingNavigationSheetBehavior) ((CoordinatorLayout.LayoutParams) binding.bottomSheet.bottomSheet2.getLayoutParams()).getBehavior();
-        ssReadingViewModel = new SSReadingViewModel(this, ssReadingNavigationSheetBehavior);
+        ssReadingViewModel = new SSReadingViewModel(this, ssReadingNavigationSheetBehavior, getIntent().getExtras().getString(SSConstants.SS_LESSON_PATH_EXTRA));
 
         if (ssReadingNavigationSheetBehavior != null) {
             ssReadingNavigationSheetBehavior.setOnNestedScrollCallback(ssReadingViewModel);
         }
-
-
 
         binding.executePendingBindings();
         binding.setViewModel(ssReadingViewModel);

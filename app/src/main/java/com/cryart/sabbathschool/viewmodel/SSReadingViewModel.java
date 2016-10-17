@@ -28,25 +28,100 @@ import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
 import android.support.design.widget.CoordinatorLayout;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
+import com.cryart.sabbathschool.SSApplication;
 import com.cryart.sabbathschool.behavior.SSReadingNavigationSheetBehavior;
 import com.cryart.sabbathschool.misc.SSHelper;
+import com.cryart.sabbathschool.model.SSLessonInfo;
+import com.cryart.sabbathschool.model.SSRead;
+
+import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 
 public class SSReadingViewModel implements SSViewModel, SSReadingNavigationSheetBehavior.OnNestedScrollCallback {
+    private static final String TAG = SSReadingViewModel.class.getSimpleName();
     private static final int PEEK_HEIGHT = 60;
 
     private Context context;
-    private SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior;
+    private Subscription subscription;
+    private String ssLessonPath;
 
+    private SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior;
     public ObservableInt ssReadingNavigationSheetPeekHeight;
 
 
-    public SSReadingViewModel(Context context, SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior){
+    public SSReadingViewModel(Context context, SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior, String ssLessonPath){
         this.context = context;
         this.ssReadingNavigationSheetBehavior = ssReadingNavigationSheetBehavior;
         ssReadingNavigationSheetPeekHeight = new ObservableInt(SSHelper.convertDpToPixels(context, PEEK_HEIGHT));
+        this.ssLessonPath = ssLessonPath;
+
+
+        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
+        final SSApplication ssApplication = SSApplication.get(context);
+
+        Log.d(TAG, ssLessonPath);
+        subscription = ssApplication.getGithubService().getLessonInfo(ssLessonPath)
+                .flatMap(new Func1<Response<SSLessonInfo>, Observable<Response<SSRead>>>() {
+                    @Override
+                    public Observable<Response<SSRead>> call(Response<SSLessonInfo> ssLessonInfoResponse) {
+                        return ssApplication.getGithubService().getRead(ssLessonInfoResponse.body().days.get(0).read_path);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(ssApplication.defaultSubscribeScheduler())
+                .subscribe(new Subscriber<Response<SSRead>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Response<SSRead> ssReadResponse) {
+                        Log.d(TAG, ssReadResponse.body().content);
+                    }
+                });
+    }
+
+    private Subscriber<Response<SSLessonInfo>> getLessonInfoSubscriber(){
+        return new Subscriber<Response<SSLessonInfo>>() {
+            @Override
+            public void onStart(){
+                super.onStart();
+
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Response<SSLessonInfo> ssLessonInfoResponse) {
+                String etag = ssLessonInfoResponse.headers().get("etag");
+
+                if (ssLessonInfoResponse.body() != null){
+                    Log.d(TAG, ssLessonInfoResponse.body().lesson.full_path);
+                }
+            }
+        };
     }
 
     @BindingAdapter("app:behavior_peekHeight")
@@ -76,7 +151,11 @@ public class SSReadingViewModel implements SSViewModel, SSReadingNavigationSheet
         set.start();
     }
 
-    public void destroy() {}
+    public void destroy() {
+        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
+        subscription = null;
+        context = null;
+    }
 
     public void onNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed){
         if (dyConsumed < 0) {

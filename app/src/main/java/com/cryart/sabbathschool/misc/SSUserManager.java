@@ -31,9 +31,13 @@ import com.snappydb.SnappydbException;
 public class SSUserManager {
     private static final String SS_USER_CACHE_KEY = "user";
     private static SSUserManager instance;
+    private static final SSUser SS_ANONYMOUS_USER = new SSUser("Anonymous", "anonymous@adventech.io", "https://pbs.twimg.com/profile_images/666965875350708224/fAXZsqgw_400x400.png");
     public SSUser user;
 
     public void setUser(SSUser user){
+        if (user == null) {
+            user = SS_ANONYMOUS_USER;
+        }
         this.user = user;
         try {
             DB snappydb = DBFactory.open(SSApplication.get());
@@ -60,7 +64,7 @@ public class SSUserManager {
             } catch (SnappydbException e) {}
 
             if (_user == null){
-                _user = new SSUser("Anonymous", "anonymous@adventech.io", "https://pbs.twimg.com/profile_images/666965875350708224/fAXZsqgw_400x400.png");
+                _user = SS_ANONYMOUS_USER;
             }
 
             instance.user = _user;
