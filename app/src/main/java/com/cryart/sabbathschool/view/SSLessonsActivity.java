@@ -23,8 +23,6 @@
 package com.cryart.sabbathschool.view;
 
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,22 +45,24 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.ss_lessons_activity);
 
-        binding.ssAppBar.ssAppBarLayout.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        binding.ssAppBar.ssToolbar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        binding = DataBindingUtil.setContentView(this, R.layout.ss_lessons_activity);
 
         SSLessonsAdapter adapter = new SSLessonsAdapter();
         binding.ssLessonInfoList.setAdapter(adapter);
         binding.ssLessonInfoList.setLayoutManager(new LinearLayoutManager(this));
 
-        setSupportActionBar(binding.ssAppBar.ssToolbar);
+        setUpDrawer();
+
+        setSupportActionBar(binding.ssAppBar2.ssToolbar2);
         ActionBar ssToolbar = getSupportActionBar();
         if (ssToolbar != null) {
+
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
 
-        setUpDrawer();
+
+
 
         ssLessonsViewModel = new SSLessonsViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_QUARTERLY_PATH_EXTRA));
         binding.executePendingBindings();
@@ -71,7 +71,7 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
 
     @Override
     public void onQuarterlyChanged(SSQuarterlyInfo ssQuarterlyInfo) {
-        binding.ssAppBar.ssCollapsingToolbar.setTitle(ssQuarterlyInfo.quarterly.title);
+        binding.ssAppBar2.ssCollapsingToolbar.setTitle(ssQuarterlyInfo.quarterly.title);
         SSLessonsAdapter adapter = (SSLessonsAdapter) binding.ssLessonInfoList.getAdapter();
         adapter.setLessons(ssQuarterlyInfo.lessons);
         adapter.notifyDataSetChanged();
