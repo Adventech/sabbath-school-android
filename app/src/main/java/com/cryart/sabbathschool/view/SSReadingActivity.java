@@ -23,8 +23,6 @@
 package com.cryart.sabbathschool.view;
 
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
@@ -47,10 +45,7 @@ public class SSReadingActivity extends SSBaseActivity  {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.ss_reading_activity);
 
-        binding.ssAppBar.ssAppBarLayout.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        binding.ssAppBar.ssToolbar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        setSupportActionBar(binding.ssAppBar.ssToolbar);
+        setSupportActionBar(binding.ssAppBar.ssToolbar2);
         ActionBar ssToolbar = getSupportActionBar();
         if (ssToolbar != null) {
             ssToolbar.setDisplayHomeAsUpEnabled(true);

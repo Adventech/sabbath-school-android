@@ -35,13 +35,13 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="340dp"
-        android:background="@android:color/darker_gray"
+        android:background="@android:color/white"
         app:behavior_hideable="false"
         app:behavior_peekHeight="@{viewModel.ssReadingNavigationSheetPeekHeight}"
         app:layout_behavior="com.cryart.sabbathschool.behavior.SSReadingNavigationSheetBehavior">
 
         <RelativeLayout
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/ss_top_border"
             android:layout_width="match_parent"
             android:layout_height="@dimen/ss_reading_navigation_sheet_peek_height">
 
@@ -58,7 +58,7 @@
 
                 <ImageView
                     android:id="@+id/ss_arrow_left"
-                    app:srcCompat="@drawable/ss_arrow_left"
+                    app:srcCompat="@drawable/ss_ic_arrow_left"
                     android:scaleType="centerInside"
                     android:layout_width="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -86,7 +86,7 @@
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:textSize="12sp"
-                        android:textColor="#cccccc"
+                        android:textColor="@android:color/black"
                         android:layout_height="wrap_content" />
 
                     <TextView
@@ -97,7 +97,7 @@
                         android:textAllCaps="true"
                         android:textSize="12sp"
                         android:ellipsize="end"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
             </RelativeLayout>
@@ -107,7 +107,7 @@
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:onClick="@{viewModel::onMenuClick}"
-                app:srcCompat="@drawable/ss_days_list"
+                app:srcCompat="@drawable/ss_ic_days_list"
                 android:layout_width="60dp"
                 android:scaleType="centerInside"
                 android:layout_centerHorizontal="true"
@@ -127,7 +127,7 @@
 
                 <ImageView
                     android:id="@+id/ss_arrow_right"
-                    app:srcCompat="@drawable/ss_arrow_right"
+                    app:srcCompat="@drawable/ss_ic_arrow_right"
                     android:scaleType="centerInside"
                     android:layout_width="wrap_content"
                     android:layout_alignParentRight="true"
@@ -156,7 +156,7 @@
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:textSize="12sp"
-                        android:textColor="#cccccc"
+                        android:textColor="@android:color/black"
                         android:layout_height="wrap_content" />
 
                     <TextView
@@ -167,7 +167,7 @@
                         android:textAllCaps="true"
                         android:textSize="12sp"
                         android:ellipsize="end"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
             </RelativeLayout>
