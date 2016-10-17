@@ -27,8 +27,8 @@
     <item
         android:id="@+id/ss_quarterlies_action_filter"
         android:orderInCategory="100"
-        tools:icon="@drawable/ic_filter_list_24dp"
-        android:icon="@drawable/ic_filter_list_24dp"
+        tools:icon="@drawable/ss_filter_list_24dp"
+        android:icon="@drawable/ss_filter_list_24dp"
         android:title="@string/ss_quarterlies_menu"
         app:showAsAction="always" />
 
