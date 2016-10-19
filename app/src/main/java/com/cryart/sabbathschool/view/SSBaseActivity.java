@@ -105,8 +105,6 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
     protected void setUpDrawer(){
         new DrawerBuilder()
                 .withActivity(this)
-                .withTranslucentStatusBar(true)
-                .withFullscreen(true)
                 .withAccountHeader(getAccountHeader())
                 .addDrawerItems(getDrawerItems())
                 .withOnDrawerItemClickListener(this)

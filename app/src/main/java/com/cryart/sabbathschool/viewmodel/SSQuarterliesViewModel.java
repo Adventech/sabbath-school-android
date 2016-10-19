@@ -50,6 +50,7 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Response;
 import rx.Observable;
@@ -59,10 +60,12 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class SSQuarterliesViewModel implements SSViewModel, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = SSQuarterliesViewModel.class.getSimpleName();
+    private static final int SS_QUARTERLIES_UPDATE_DELAY = 5;
     private static final int ANIMATION_DURATION = 300;
 
     private Context context;
     private Subscription subscription;
+    private Subscription subscriptionDelay;
 
     private List<SSQuarterly> ssQuarterlies;
     private List<SSQuarterlyLanguage> quarterlyLanguages;
@@ -101,34 +104,11 @@ public class SSQuarterliesViewModel implements SSViewModel, SwipeRefreshLayout.O
 
         dataListener.onQuarterliesLanguagesChanged(quarterlyLanguages);
 
-        loadQuarterlies(getSelectedLanguage());
         SSBusProvider.getInstance().register(this);
 
+        loadQuarterlies(getSelectedLanguage());
+        loadQuarterlies(getSelectedLanguage(), SS_QUARTERLIES_UPDATE_DELAY);
     }
-
-    @BindingAdapter("android:layout_marginTop")
-    public static void setLayoutTopMargin(final View v, float topMargin) {
-        int start = (topMargin > 0) ? 0: ((ViewGroup.MarginLayoutParams)v.getLayoutParams()).topMargin;
-        int end = (topMargin > 0) ? (int) topMargin : 0;
-
-        ValueAnimator slideAnimator = ValueAnimator.ofInt(start, end).setDuration(ANIMATION_DURATION);
-        slideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Integer value = (Integer) animation.getAnimatedValue();
-                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)v.getLayoutParams();
-                layoutParams.topMargin = value;
-                v.setLayoutParams(layoutParams);
-                v.requestLayout();
-            }
-        });
-
-        AnimatorSet set = new AnimatorSet();
-        set.play(slideAnimator);
-        set.setInterpolator(new AccelerateDecelerateInterpolator());
-        set.start();
-    }
-
 
     public void onFilterClick(MenuItem menuItem){
         if (ssQuarterliesLanguageFilterVisibility.get() == View.GONE) {
@@ -215,28 +195,40 @@ public class SSQuarterliesViewModel implements SSViewModel, SwipeRefreshLayout.O
         return ssApplication.getGithubService().getQuarterlies(lang);
     }
 
-    private Subscriber<Response<List<SSQuarterly>>> getQuarterliesSubscriber(final Context context, final SSQuarterlyLanguage ssQuarterlyLanguage){
+    private Subscriber<Response<List<SSQuarterly>>> getQuarterliesSubscriber(final Context context, final SSQuarterlyLanguage ssQuarterlyLanguage, final boolean ui){
         return new Subscriber<Response<List<SSQuarterly>>>() {
             @Override
             public void onStart(){
                 super.onStart();
+
+                if (ui) {
+                    ssQuarterliesLoadingVisibility.set(View.VISIBLE);
+                    ssQuarterliesListVisibility.set(View.INVISIBLE);
+                    ssQuarterliesErrorMessageVisibility.set(View.INVISIBLE);
+                    ssQuarterliesEmptyStateVisibility.set(View.INVISIBLE);
+                    ssQuarterliesErrorStateVisibility.set(View.INVISIBLE);
+                }
+
                 ssQuarterlies.clear();
             }
 
             @Override
             public void onCompleted() {
+                dataListener.onRefreshFinished();
                 if (ssQuarterlies.size() > 0) {
                     dataListener.onQuarterliesChanged(ssQuarterlies);
                 }
 
-                ssQuarterliesListVisibility.set(View.VISIBLE);
-                ssQuarterliesLoadingVisibility.set(View.INVISIBLE);
-                ssQuarterliesErrorMessageVisibility.set(View.INVISIBLE);
-                ssQuarterliesEmptyStateVisibility.set(View.INVISIBLE);
-                ssQuarterliesErrorStateVisibility.set(View.INVISIBLE);
+                if (ui) {
+                    ssQuarterliesListVisibility.set(View.VISIBLE);
+                    ssQuarterliesLoadingVisibility.set(View.INVISIBLE);
+                    ssQuarterliesErrorMessageVisibility.set(View.INVISIBLE);
+                    ssQuarterliesEmptyStateVisibility.set(View.INVISIBLE);
+                    ssQuarterliesErrorStateVisibility.set(View.INVISIBLE);
 
-                if (ssQuarterlies.size() == 0){
-                    ssQuarterliesEmptyStateVisibility.set(View.VISIBLE);
+                    if (ssQuarterlies.size() == 0) {
+                        ssQuarterliesEmptyStateVisibility.set(View.VISIBLE);
+                    }
                 }
 
                 if (dataListener != null){
@@ -246,11 +238,13 @@ public class SSQuarterliesViewModel implements SSViewModel, SwipeRefreshLayout.O
 
             @Override
             public void onError(Throwable e) {
-                ssQuarterliesErrorMessageVisibility.set(View.VISIBLE);
-                ssQuarterliesListVisibility.set(View.INVISIBLE);
-                ssQuarterliesLoadingVisibility.set(View.INVISIBLE);
-                ssQuarterliesEmptyStateVisibility.set(View.INVISIBLE);
-                ssQuarterliesErrorStateVisibility.set(View.VISIBLE);
+                if (ui) {
+                    ssQuarterliesErrorMessageVisibility.set(View.VISIBLE);
+                    ssQuarterliesListVisibility.set(View.INVISIBLE);
+                    ssQuarterliesLoadingVisibility.set(View.INVISIBLE);
+                    ssQuarterliesEmptyStateVisibility.set(View.INVISIBLE);
+                    ssQuarterliesErrorStateVisibility.set(View.VISIBLE);
+                }
             }
 
             @Override
@@ -269,76 +263,80 @@ public class SSQuarterliesViewModel implements SSViewModel, SwipeRefreshLayout.O
     }
 
     private void loadQuarterlies(SSQuarterlyLanguage ssQuarterlyLanguage){
-        ssQuarterliesLoadingVisibility.set(View.VISIBLE);
-        ssQuarterliesListVisibility.set(View.INVISIBLE);
-        ssQuarterliesErrorMessageVisibility.set(View.INVISIBLE);
-        ssQuarterliesEmptyStateVisibility.set(View.INVISIBLE);
-        ssQuarterliesErrorStateVisibility.set(View.INVISIBLE);
-
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
-
         SSApplication ssApplication = SSApplication.get(context);
 
-        subscription = Observable.concat(getQuarterliesObservableCache(context, ssQuarterlyLanguage.code), getQuarterliesObservableFresh(context, ssQuarterlyLanguage.code))
+        subscription = Observable
+                .concat(
+                    getQuarterliesObservableCache(context, ssQuarterlyLanguage.code),
+                    getQuarterliesObservableFresh(context, ssQuarterlyLanguage.code))
                 .first()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(ssApplication.defaultSubscribeScheduler())
-                .subscribe(getQuarterliesSubscriber(context, ssQuarterlyLanguage));
+                .subscribe(getQuarterliesSubscriber(context, ssQuarterlyLanguage, true));
+    }
+
+
+    private void loadQuarterlies(SSQuarterlyLanguage ssQuarterlyLanguage, int delay){
+        if (subscriptionDelay != null && !subscriptionDelay.isUnsubscribed()) subscriptionDelay.unsubscribe();
+        SSApplication ssApplication = SSApplication.get(context);
+        subscriptionDelay = getQuarterliesObservableFresh(context, ssQuarterlyLanguage.code)
+                .delay(delay, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(ssApplication.defaultSubscribeScheduler())
+                .subscribe(getQuarterliesSubscriber(context, ssQuarterlyLanguage, false));
     }
 
     @Override
     public void destroy() {
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
+        if (subscriptionDelay != null && !subscriptionDelay.isUnsubscribed()) subscriptionDelay.unsubscribe();
         subscription = null;
+        subscriptionDelay = null;
         context = null;
         dataListener = null;
+        ssQuarterlies = null;
+        quarterlyLanguages = null;
         SSBusProvider.getInstance().unregister(this);
     }
 
+
     @Override
     public void onRefresh() {
-        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
-        final SSQuarterlyLanguage ssQuarterlyLanguage = getSelectedLanguage();
-        SSApplication ssApplication = SSApplication.get(context);
-        subscription = getQuarterliesObservableFresh(context, ssQuarterlyLanguage.code)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(ssApplication.defaultSubscribeScheduler())
-                .subscribe(new Subscriber<Response<List<SSQuarterly>>>() {
-                    @Override
-                    public void onCompleted() {}
+        loadQuarterlies(getSelectedLanguage(), 0);
+    }
 
-                    @Override
-                    public void onError(Throwable e) {}
+    @BindingAdapter("android:layout_marginTop")
+    public static void setLayoutTopMargin(final View v, float topMargin) {
+        int start = (topMargin > 0) ? 0: ((ViewGroup.MarginLayoutParams)v.getLayoutParams()).topMargin;
+        int end = (topMargin > 0) ? (int) topMargin : 0;
 
-                    @Override
-                    public void onNext(Response<List<SSQuarterly>> ssQuarterliesResponse) {
-                        String etag = ssQuarterliesResponse.headers().get("etag");
-                        dataListener.onRefreshFinished();
+        ValueAnimator slideAnimator = ValueAnimator.ofInt(start, end).setDuration(ANIMATION_DURATION);
+        slideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue();
+                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)v.getLayoutParams();
+                layoutParams.topMargin = value;
+                v.setLayoutParams(layoutParams);
+                v.requestLayout();
+            }
+        });
 
-                        if (etag != null && !etag.equals(getQuarterliesEtag(context, ssQuarterlyLanguage.code))){
-                            cacheQuarterlies(context, ssQuarterlyLanguage.code, ssQuarterliesResponse.body(), etag);
-                        }
+        AnimatorSet set = new AnimatorSet();
+        set.play(slideAnimator);
+        set.setInterpolator(new AccelerateDecelerateInterpolator());
+        set.start();
+    }
 
-                        if (ssQuarterliesResponse.body() != null && ssQuarterliesResponse.body().size() > 0){
-                            ssQuarterlies.clear();
-                            ssQuarterlies.addAll(ssQuarterliesResponse.body());
-                        }
-
-                        if (dataListener != null){
-                            dataListener.onQuarterliesChanged(ssQuarterlies);
-                        }
-                    }
-                });
+    @Subscribe
+    public void onChangeLanguageEvent(SSLanguageFilterChangeEvent event){
+        this.loadQuarterlies(getSelectedLanguage());
     }
 
     public interface DataListener {
         void onQuarterliesChanged(List<SSQuarterly> ssQuarterlies);
         void onQuarterliesLanguagesChanged(List<SSQuarterlyLanguage> quarterlyLanguages);
         void onRefreshFinished();
-    }
-
-    @Subscribe
-    public void onChangeLanguageEvent(SSLanguageFilterChangeEvent event){
-        this.loadQuarterlies(getSelectedLanguage());
     }
 }

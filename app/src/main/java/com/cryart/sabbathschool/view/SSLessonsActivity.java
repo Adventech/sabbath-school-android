@@ -23,10 +23,12 @@
 package com.cryart.sabbathschool.view;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.adapter.SSLessonsAdapter;
@@ -52,14 +54,19 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
         binding.ssLessonInfoList.setAdapter(adapter);
         binding.ssLessonInfoList.setLayoutManager(new LinearLayoutManager(this));
 
-
-
         setSupportActionBar(binding.ssAppBar2.ssToolbar2);
-        ActionBar ssToolbar = getSupportActionBar();
-        if (ssToolbar != null) {
 
+        ActionBar ssToolbar = getSupportActionBar();
+
+        if (ssToolbar != null) {
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
+
+        binding.ssAppBar2.ssCollapsingToolbar.setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle);
+        binding.ssAppBar2.ssCollapsingToolbar.setExpandedTitleTextAppearance(R.style.AppThemeAppBarTextStyleExpanded);
+
+        binding.ssAppBar2.ssCollapsingToolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
+        binding.ssAppBar2.ssCollapsingToolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
 
         ssLessonsViewModel = new SSLessonsViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_QUARTERLY_PATH_EXTRA));
         binding.executePendingBindings();
@@ -76,6 +83,8 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
         SSLessonsAdapter adapter = (SSLessonsAdapter) binding.ssLessonInfoList.getAdapter();
         adapter.setLessons(ssQuarterlyInfo.lessons);
         adapter.notifyDataSetChanged();
+        binding.invalidateAll();
+        binding.executePendingBindings();
     }
 
     @Override
@@ -98,5 +107,23 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
     @Override
     public void onLogoutEvent(){
         finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.ss_lessons_menu_refresh){
+            binding.swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    binding.swipeRefreshLayout.setRefreshing(true);
+                    ssLessonsViewModel.onRefresh();
+                }
+            });
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

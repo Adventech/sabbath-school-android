@@ -26,11 +26,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.view.SSLessonsActivity;
@@ -76,7 +80,27 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
     public void onReadClick(View view) {
         Intent ssLessonsIntent = new Intent(context, SSLessonsActivity.class);
         ssLessonsIntent.putExtra(SSConstants.SS_QUARTERLY_PATH_EXTRA, ssQuarterly.path);
-        context.startActivity(ssLessonsIntent);
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation((AppCompatActivity)context, view.getRootView().findViewById(R.id.ss_quarterly_item_cover), "featuredCover");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.startActivity(ssLessonsIntent, options.toBundle());
+        } else {
+            context.startActivity(ssLessonsIntent);
+        }
+    }
+
+    public void onReadClickNormal(View view) {
+        Intent ssLessonsIntent = new Intent(context, SSLessonsActivity.class);
+        ssLessonsIntent.putExtra(SSConstants.SS_QUARTERLY_PATH_EXTRA, ssQuarterly.path);
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation((AppCompatActivity)context, view.getRootView().findViewById(R.id.ss_quarterly_item_normal_cover), "featuredCover");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.startActivity(ssLessonsIntent, options.toBundle());
+        } else {
+            context.startActivity(ssLessonsIntent);
+        }
     }
 
     @Override

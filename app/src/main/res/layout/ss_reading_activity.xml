@@ -34,12 +34,12 @@
     <android.support.design.widget.CoordinatorLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
+        android:id="@+id/ss_reading_coordinator"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:background="@android:color/background_light">
 
         <include
-            layout="@layout/ss_collapsing_app_bar"
+            layout="@layout/ss_reading_app_bar"
             android:id="@+id/ss_app_bar"/>
 
         <android.support.v4.widget.NestedScrollView
@@ -57,12 +57,9 @@
         </android.support.v4.widget.NestedScrollView>
 
 
-        <include
-            layout="@layout/ss_reading_navigation_sheet"
+        <include layout="@layout/ss_reading_navigation_sheet"
             android:id="@+id/bottom_sheet"
-            bind:viewModel="@{viewModel}"
-            />
-
+            bind:viewModel="@{viewModel}" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>
