@@ -23,7 +23,9 @@
 package com.cryart.sabbathschool.view;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,7 +50,14 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.ss_quarterlies_activity);
+        binding.ssAppBar.toolbarTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
         setSupportActionBar(binding.ssAppBar.ssToolbar);
+
+        ActionBar ssToolbar = getSupportActionBar();
+        if (ssToolbar != null) {
+            ssToolbar.setDisplayShowCustomEnabled(true);
+            ssToolbar.setDisplayShowTitleEnabled(false);
+        }
 
         SSQuarterliesAdapter adapter = new SSQuarterliesAdapter();
         binding.ssQuarterliesList.setAdapter(adapter);

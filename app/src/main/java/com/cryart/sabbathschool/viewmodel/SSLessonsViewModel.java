@@ -23,16 +23,21 @@
 package com.cryart.sabbathschool.viewmodel;
 
 import android.content.Context;
+import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.cryart.sabbathschool.SSApplication;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
 import com.snappydb.DB;
 import com.snappydb.DBFactory;
 import com.snappydb.SnappydbException;
+
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Response;
 import rx.Observable;
@@ -42,8 +47,11 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class SSLessonsViewModel implements SSViewModel, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = SSLessonsViewModel.class.getSimpleName();
+    private static final int SS_LESSONS_UPDATE_DELAY = 5;
+
     private Context context;
     private Subscription subscription;
+    private Subscription subscriptionDelay;
     private SSQuarterlyInfo ssQuarterlyInfo;
     private String ssQuarterlyPath;
     private DataListener dataListener;
@@ -66,6 +74,7 @@ public class SSLessonsViewModel implements SSViewModel, SwipeRefreshLayout.OnRef
         ssLessonsCoordinatorVisibility = new ObservableInt(View.INVISIBLE);
 
         loadQuarterlyInfo();
+        loadQuarterlyInfo(SS_LESSONS_UPDATE_DELAY);
     }
 
     private String getQuarterlyInfoEtag(final Context context, String ssQuarterlyInfoCacheKey){
@@ -98,7 +107,6 @@ public class SSLessonsViewModel implements SSViewModel, SwipeRefreshLayout.OnRef
 
                         ssQuarterlyInfoCache = snappydb.getObject(ssQuarterlyInfoCacheKey, SSQuarterlyInfo.class);
                         if (ssQuarterlyInfoCache != null) {
-                            Log.d(TAG, "Retrieved from cache");
                             sub.onNext(Response.success(ssQuarterlyInfoCache));
                         }
                         snappydb.close();
@@ -115,33 +123,42 @@ public class SSLessonsViewModel implements SSViewModel, SwipeRefreshLayout.OnRef
         return ssApplication.getGithubService().getQuarterlyInfo(ssQuarterlyId);
     }
 
-    private Subscriber<Response<SSQuarterlyInfo>> getQuarterlyInfoSubscriber(){
+    private Subscriber<Response<SSQuarterlyInfo>> getQuarterlyInfoSubscriber(final boolean ui){
         return new Subscriber<Response<SSQuarterlyInfo>>() {
             @Override
             public void onStart(){
                 super.onStart();
-                ssLessonsLoadingVisibility.set(View.VISIBLE);
-                ssLessonsErrorMessageVisibility.set(View.INVISIBLE);
-                ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
-                ssLessonsErrorStateVisibility.set(View.INVISIBLE);
+
+                if (ui) {
+                    ssLessonsLoadingVisibility.set(View.VISIBLE);
+                    ssLessonsErrorMessageVisibility.set(View.INVISIBLE);
+                    ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
+                    ssLessonsErrorStateVisibility.set(View.INVISIBLE);
+                }
             }
 
             @Override
             public void onCompleted() {
-                ssLessonsLoadingVisibility.set(View.INVISIBLE);
-                ssLessonsErrorMessageVisibility.set(View.INVISIBLE);
-                ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
-                ssLessonsErrorStateVisibility.set(View.INVISIBLE);
-                ssLessonsCoordinatorVisibility.set(View.VISIBLE);
+                dataListener.onRefreshFinished();
+
+                if (ui) {
+                    ssLessonsLoadingVisibility.set(View.INVISIBLE);
+                    ssLessonsErrorMessageVisibility.set(View.INVISIBLE);
+                    ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
+                    ssLessonsErrorStateVisibility.set(View.INVISIBLE);
+                    ssLessonsCoordinatorVisibility.set(View.VISIBLE);
+                }
             }
 
             @Override
             public void onError(Throwable e) {
-                ssLessonsErrorMessageVisibility.set(View.VISIBLE);
-                ssLessonsLoadingVisibility.set(View.INVISIBLE);
-                ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
-                ssLessonsCoordinatorVisibility.set(View.INVISIBLE);
-                ssLessonsErrorStateVisibility.set(View.VISIBLE);
+                if (ui) {
+                    ssLessonsErrorMessageVisibility.set(View.VISIBLE);
+                    ssLessonsLoadingVisibility.set(View.INVISIBLE);
+                    ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
+                    ssLessonsCoordinatorVisibility.set(View.INVISIBLE);
+                    ssLessonsErrorStateVisibility.set(View.VISIBLE);
+                }
             }
 
             @Override
@@ -167,28 +184,74 @@ public class SSLessonsViewModel implements SSViewModel, SwipeRefreshLayout.OnRef
         SSApplication ssApplication = SSApplication.get(context);
 
         subscription = Observable
-                .concat(getQuarterlyInfoObservableCache(context, ssQuarterlyPath), getQuarterlyInfoObservableFresh(context, ssQuarterlyPath))
+                .concat(
+                        getQuarterlyInfoObservableCache(context, ssQuarterlyPath),
+                        getQuarterlyInfoObservableFresh(context, ssQuarterlyPath))
                 .first()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(ssApplication.defaultSubscribeScheduler())
-                .subscribe(getQuarterlyInfoSubscriber());
+                .subscribe(getQuarterlyInfoSubscriber(true));
+    }
+
+    private void loadQuarterlyInfo(int delay){
+        if (subscriptionDelay != null && !subscriptionDelay.isUnsubscribed()) subscriptionDelay.unsubscribe();
+        SSApplication ssApplication = SSApplication.get(context);
+
+        subscriptionDelay = getQuarterlyInfoObservableFresh(context, ssQuarterlyPath)
+                .delay(delay, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(ssApplication.defaultSubscribeScheduler())
+                .subscribe(getQuarterlyInfoSubscriber(false));
     }
 
     @Override
     public void onRefresh() {
-        dataListener.onRefreshFinished();
+        loadQuarterlyInfo(0);
     }
 
     @Override
     public void destroy() {
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
         subscription = null;
+        subscriptionDelay = null;
         context = null;
         dataListener = null;
+        ssQuarterlyInfo = null;
+        ssQuarterlyPath = null;
     }
 
     public void setDataListener(DataListener dataListener) {
         this.dataListener = dataListener;
+    }
+
+
+    public String getDate() {
+        if (ssQuarterlyInfo != null){
+            return ssQuarterlyInfo.quarterly.date;
+        }
+        return "";
+    }
+
+    public String getDescription() {
+        if (ssQuarterlyInfo != null){
+            return ssQuarterlyInfo.quarterly.description;
+        }
+        return "";
+    }
+
+    public String getCover() {
+        if (ssQuarterlyInfo != null){
+            return ssQuarterlyInfo.quarterly.cover;
+        }
+        return "";
+    }
+
+    @BindingAdapter({"coverUrl"})
+    public static void loadCover(ImageView view, String coverUrl) {
+        ViewCompat.setElevation(view, 15.0f);
+        Glide.with(view.getContext())
+                .load(coverUrl)
+                .into(view);
     }
 
     public interface DataListener {

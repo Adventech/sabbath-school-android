@@ -23,6 +23,8 @@
 package com.cryart.sabbathschool.view;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
@@ -51,6 +53,16 @@ public class SSReadingActivity extends SSBaseActivity  {
         if (ssToolbar != null) {
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
+
+        binding.ssAppBar.ssCollapsingToolbar.setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle);
+        binding.ssAppBar.ssCollapsingToolbar.setExpandedTitleTextAppearance(R.style.AppThemeAppBarTextStyleExpanded);
+
+        binding.ssAppBar.ssCollapsingToolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
+        binding.ssAppBar.ssCollapsingToolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
+
+        binding.ssAppBar.ssCollapsingToolbar.setTitle("The End");
+        binding.ssAppBar.ssCollapsingToolbarBackdrop.getDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.OVERLAY);
+
 
         binding.ssWw.getSettings().setJavaScriptEnabled(true);
         binding.ssWw.setWebViewClient(new WebViewClient());

@@ -44,7 +44,10 @@
             android:background="@color/ss_quarterly_item_featured_background_color" />
 
         <ImageView
-            android:id="@+id/ss_quarterly_item_featured_cover"
+            android:onClick="@{viewModel::onReadClick}"
+            android:clickable="true"
+            android:transitionName="featuredCover"
+            android:id="@+id/ss_quarterly_item_cover"
             android:layout_width="@dimen/ss_quarterly_item_featured_cover_width"
             android:layout_height="@dimen/ss_quarterly_item_featured_cover_height"
             android:layout_alignParentBottom="true"
@@ -57,9 +60,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignTop="@+id/ss_quarterly_item_featured_cover"
-            android:layout_toRightOf="@+id/ss_quarterly_item_featured_cover"
-            android:layout_toEndOf="@+id/ss_quarterly_item_featured_cover">
+            android:layout_alignTop="@+id/ss_quarterly_item_cover"
+            android:layout_toRightOf="@+id/ss_quarterly_item_cover"
+            android:layout_toEndOf="@+id/ss_quarterly_item_cover">
 
             <TextView
                 android:id="@+id/ss_quarterly_item_featured_title"
@@ -70,8 +73,8 @@
                 android:textColor="@color/ss_quarterly_item_featured_title_text_color"
                 android:text="@{viewModel.title}"
                 android:textSize="@dimen/ss_quarterly_item_featured_title_text_size"
-                android:textAllCaps="true"
-                android:textStyle="bold"
+                android:textStyle="bold|italic"
+                android:typeface="serif"
                 android:paddingLeft="@dimen/ss_quarterly_item_featured_title_padding_left"
                 android:paddingRight="@dimen/ss_quarterly_item_featured_title_padding_right"
                 android:paddingStart="@dimen/ss_quarterly_item_featured_title_padding_left"
@@ -85,6 +88,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:textStyle="italic"
                 android:textColor="@color/ss_quarterly_item_featured_date_text_color"
                 android:text="@{viewModel.date}"
                 android:textSize="@dimen/ss_quarterly_item_featured_date_text_size"
@@ -99,10 +103,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ss_quarterly_featured_date"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:ellipsize="end"
                 android:text="@{viewModel.description}"
                 android:textSize="@dimen/ss_quarterly_item_featured_description_text_size"
+                android:typeface="serif"
                 android:textColor="@color/ss_quarterly_item_featured_description_text_color"
                 android:padding="@dimen/ss_quarterly_item_featured_description_padding"
                 tools:text="Quarterly Date" />
