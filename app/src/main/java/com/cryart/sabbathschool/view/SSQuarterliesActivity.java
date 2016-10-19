@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.view;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -37,6 +38,8 @@ import com.cryart.sabbathschool.databinding.SsQuarterliesActivityBinding;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
 import com.cryart.sabbathschool.viewmodel.SSQuarterliesViewModel;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import java.util.List;
 
@@ -105,6 +108,10 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.ss_quarterlies_menu, menu);
+        menu.getItem(0).setIcon(new IconicsDrawable(this)
+                .icon(GoogleMaterial.Icon.gmd_filter_list)
+                .color(Color.WHITE)
+                .sizeDp(18));
         return true;
     }
 
