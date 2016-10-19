@@ -48,9 +48,11 @@ import rx.functions.Func1;
 public class SSReadingViewModel implements SSViewModel, SSReadingNavigationSheetBehavior.OnNestedScrollCallback {
     private static final String TAG = SSReadingViewModel.class.getSimpleName();
     private static final int PEEK_HEIGHT = 60;
+    private static final int SS_READ_UPDATE_DELAY = 5;
 
     private Context context;
     private Subscription subscription;
+    private Subscription subscriptionDelay;
     private String ssLessonPath;
 
     private SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior;
@@ -58,16 +60,15 @@ public class SSReadingViewModel implements SSViewModel, SSReadingNavigationSheet
 
 
     public SSReadingViewModel(Context context, SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior, String ssLessonPath){
+        ssReadingNavigationSheetPeekHeight = new ObservableInt(SSHelper.convertDpToPixels(context, PEEK_HEIGHT));
+
         this.context = context;
         this.ssReadingNavigationSheetBehavior = ssReadingNavigationSheetBehavior;
-        ssReadingNavigationSheetPeekHeight = new ObservableInt(SSHelper.convertDpToPixels(context, PEEK_HEIGHT));
         this.ssLessonPath = ssLessonPath;
-
 
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
         final SSApplication ssApplication = SSApplication.get(context);
 
-        Log.d(TAG, ssLessonPath);
         subscription = ssApplication.getGithubService().getLessonInfo(ssLessonPath)
                 .flatMap(new Func1<Response<SSLessonInfo>, Observable<Response<SSRead>>>() {
                     @Override
@@ -173,4 +174,8 @@ public class SSReadingViewModel implements SSViewModel, SSReadingNavigationSheet
         }
     }
 
+    public interface DataListener {
+        void onLessonInfoChanged(SSLessonInfo ssLessonInfo);
+        void onReadChanged(SSRead ssRead);
+    }
 }

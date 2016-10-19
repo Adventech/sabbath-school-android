@@ -60,9 +60,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
-                    <ImageView
+                    <com.mikepenz.iconics.view.IconicsImageView
                         android:id="@+id/ss_arrow_left"
-                        app:srcCompat="@drawable/ss_ic_arrow_left"
+                        app:iiv_color="#333333"
+                        app:iiv_icon="gmd-chevron-left"
+                        app:iiv_size="16dp"
                         android:scaleType="centerInside"
                         android:layout_width="wrap_content"
                         android:layout_alignParentLeft="true"
@@ -107,13 +109,15 @@
                 </RelativeLayout>
             </FrameLayout>
 
-            <ImageView
+            <com.mikepenz.iconics.view.IconicsImageView
                 android:id="@+id/days_list"
                 android:focusable="true"
                 android:clickable="true"
                 android:background="?attr/selectableItemBackground"
                 android:onClick="@{viewModel::onMenuClick}"
-                app:srcCompat="@drawable/ss_ic_days_list"
+                app:iiv_color="#333333"
+                app:iiv_icon="gmd-list"
+                app:iiv_size="24dp"
                 android:layout_width="60dp"
                 android:scaleType="centerInside"
                 android:layout_centerHorizontal="true"
@@ -135,9 +139,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
-                    <ImageView
+                    <com.mikepenz.iconics.view.IconicsImageView
                         android:id="@+id/ss_arrow_right"
-                        app:srcCompat="@drawable/ss_ic_arrow_right"
+                        app:iiv_color="#333333"
+                        app:iiv_icon="gmd-chevron-right"
+                        app:iiv_size="16dp"
                         android:scaleType="centerInside"
                         android:layout_width="wrap_content"
                         android:layout_alignParentRight="true"

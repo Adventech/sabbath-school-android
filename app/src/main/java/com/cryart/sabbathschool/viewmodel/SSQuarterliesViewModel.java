@@ -29,6 +29,7 @@ import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableFloat;
 import android.databinding.ObservableInt;
+import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.MenuItem;
@@ -42,6 +43,8 @@ import com.cryart.sabbathschool.bus.SSBusProvider;
 import com.cryart.sabbathschool.event.SSLanguageFilterChangeEvent;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.snappydb.DB;
 import com.snappydb.DBFactory;
 import com.snappydb.SnappydbException;
@@ -119,11 +122,17 @@ public class SSQuarterliesViewModel implements SSViewModel, SwipeRefreshLayout.O
             ssQuarterliesListMarginTop.set(v.getMeasuredHeight());
             ssQuarterliesLanguageFilterVisibility.set(View.VISIBLE);
 
-            menuItem.setIcon(R.drawable.ss_close_24dp);
+            menuItem.setIcon(new IconicsDrawable(context)
+                    .icon(GoogleMaterial.Icon.gmd_close)
+                    .color(Color.WHITE)
+                    .sizeDp(18));
         } else {
             ssQuarterliesListMarginTop.set(0);
             ssQuarterliesLanguageFilterVisibility.set(View.GONE);
-            menuItem.setIcon(R.drawable.ss_filter_list_24dp);
+            menuItem.setIcon(new IconicsDrawable(context)
+                    .icon(GoogleMaterial.Icon.gmd_filter_list)
+                    .color(Color.WHITE)
+                    .sizeDp(18));
         }
     }
 

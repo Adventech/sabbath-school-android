@@ -22,13 +22,10 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/ss_quarterlies_action_filter"
         android:orderInCategory="100"
-        tools:icon="@drawable/ss_filter_list_24dp"
-        android:icon="@drawable/ss_filter_list_24dp"
         android:title="@string/ss_quarterlies_menu"
         app:showAsAction="always" />
 
