@@ -26,25 +26,23 @@ import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.databinding.BindingAdapter;
-import android.databinding.ObservableInt;
-import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
-import com.cryart.sabbathschool.behavior.SSReadingNavigationSheetBehavior;
 import com.cryart.sabbathschool.misc.SSConstants;
-import com.cryart.sabbathschool.misc.SSHelper;
 import com.cryart.sabbathschool.model.SSLessonInfo;
 import com.cryart.sabbathschool.model.SSRead;
+import com.cryart.sabbathschool.view.SSReadingActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class SSReadingViewModel implements SSViewModel, SSReadingNavigationSheetBehavior.OnNestedScrollCallback {
+public class SSReadingViewModel implements SSViewModel {
     private static final String TAG = SSReadingViewModel.class.getSimpleName();
-    private static final int PEEK_HEIGHT = 60;
+    private static final int ANIMATION_DURATION = 300;
 
     private Context context;
     private String ssLessonIndex;
@@ -53,16 +51,10 @@ public class SSReadingViewModel implements SSViewModel, SSReadingNavigationSheet
     private SSRead ssRead;
     private DatabaseReference mDatabase;
 
-    private SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior;
-    public ObservableInt ssReadingNavigationSheetPeekHeight;
 
-
-    public SSReadingViewModel(Context context, DataListener dataListener, SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior, String ssLessonIndex) {
-        ssReadingNavigationSheetPeekHeight = new ObservableInt(SSHelper.convertDpToPixels(context, PEEK_HEIGHT));
-
+    public SSReadingViewModel(Context context, DataListener dataListener, String ssLessonIndex) {
         this.context = context;
         this.dataListener = dataListener;
-        this.ssReadingNavigationSheetBehavior = ssReadingNavigationSheetBehavior;
         this.ssLessonIndex = ssLessonIndex;
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -115,39 +107,24 @@ public class SSReadingViewModel implements SSViewModel, SSReadingNavigationSheet
         dataListener = null;
     }
 
-    public void onNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed){
-        if (dyConsumed < 0) {
-            ssReadingNavigationSheetPeekHeight.set(SSHelper.convertDpToPixels(context, PEEK_HEIGHT));
-        } else if (dyConsumed > 0) {
-            ssReadingNavigationSheetPeekHeight.set(0);
-        }
-    }
-
     public void onMenuClick(View view) {
-        if (ssReadingNavigationSheetBehavior.getState() == SSReadingNavigationSheetBehavior.STATE_EXPANDED) {
-            ssReadingNavigationSheetBehavior.setState(SSReadingNavigationSheetBehavior.STATE_COLLAPSED);
-        } else {
-            ssReadingNavigationSheetBehavior.setState(SSReadingNavigationSheetBehavior.STATE_EXPANDED);
-        }
+        ((SSReadingActivity) context).c();
+        // show reading list
     }
 
-    @BindingAdapter("app:behavior_peekHeight")
-    public static void setBehaviorPeekHeight(final View v, float peekHeight) {
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)v.getLayoutParams();
-        final SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior = (SSReadingNavigationSheetBehavior)params.getBehavior();
+    @BindingAdapter("android:layout_marginTop")
+    public static void setLayout_marginTop(final View v, int topMargin) {
+        int start = (topMargin > 0) ? 0: ((ViewGroup.MarginLayoutParams)v.getLayoutParams()).topMargin;
+        int end = (topMargin > 0) ? (int) topMargin : 0;
 
-        if (ssReadingNavigationSheetBehavior == null){
-            return;
-        }
-
-        int start = (peekHeight > 0) ? 0: ssReadingNavigationSheetBehavior.getPeekHeight();
-        int end = (peekHeight > 0) ? (int) peekHeight : 0;
-        ValueAnimator slideAnimator = ValueAnimator.ofInt(start, end).setDuration(300);
+        ValueAnimator slideAnimator = ValueAnimator.ofInt(start, end).setDuration(ANIMATION_DURATION);
         slideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 Integer value = (Integer) animation.getAnimatedValue();
-                ssReadingNavigationSheetBehavior.setPeekHeight(value);
+                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)v.getLayoutParams();
+                layoutParams.topMargin = value;
+                v.setLayoutParams(layoutParams);
                 v.requestLayout();
             }
         });
