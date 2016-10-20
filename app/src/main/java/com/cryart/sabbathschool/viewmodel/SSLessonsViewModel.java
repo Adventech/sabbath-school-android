@@ -31,30 +31,22 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.cryart.sabbathschool.SSApplication;
+import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
-import com.snappydb.DB;
-import com.snappydb.DBFactory;
-import com.snappydb.SnappydbException;
-
-import java.util.concurrent.TimeUnit;
-
-import retrofit2.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SSLessonsViewModel implements SSViewModel, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = SSLessonsViewModel.class.getSimpleName();
-    private static final int SS_LESSONS_UPDATE_DELAY = 5;
 
     private Context context;
-    private Subscription subscription;
-    private Subscription subscriptionDelay;
     private SSQuarterlyInfo ssQuarterlyInfo;
-    private String ssQuarterlyPath;
+    private String ssQuarterlyIndex;
     private DataListener dataListener;
+    private DatabaseReference mDatabase;
     
     public ObservableInt ssLessonsLoadingVisibility;
     public ObservableInt ssLessonsErrorMessageVisibility;
@@ -62,10 +54,13 @@ public class SSLessonsViewModel implements SSViewModel, SwipeRefreshLayout.OnRef
     public ObservableInt ssLessonsErrorStateVisibility;
     public ObservableInt ssLessonsCoordinatorVisibility;
 
-    public SSLessonsViewModel(Context context, DataListener dataListener, String ssQuarterlyPath) {
+    public SSLessonsViewModel(Context context, DataListener dataListener, String ssQuarterlyIndex) {
         this.context = context;
         this.dataListener = dataListener;
-        this.ssQuarterlyPath = ssQuarterlyPath;
+        this.ssQuarterlyIndex = ssQuarterlyIndex;
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.keepSynced(true);
 
         ssLessonsLoadingVisibility = new ObservableInt(View.INVISIBLE);
         ssLessonsErrorMessageVisibility = new ObservableInt(View.INVISIBLE);
@@ -74,150 +69,52 @@ public class SSLessonsViewModel implements SSViewModel, SwipeRefreshLayout.OnRef
         ssLessonsCoordinatorVisibility = new ObservableInt(View.INVISIBLE);
 
         loadQuarterlyInfo();
-        loadQuarterlyInfo(SS_LESSONS_UPDATE_DELAY);
-    }
-
-    private String getQuarterlyInfoEtag(final Context context, String ssQuarterlyInfoCacheKey){
-        String etag = null;
-        try {
-            DB snappydb = DBFactory.open(context);
-            etag = snappydb.get(ssQuarterlyInfoCacheKey + "_etag");
-            snappydb.close();
-        } catch (SnappydbException e) {}
-        return etag;
-    }
-
-    private void cacheQuarterlyInfo(final Context context, String ssQuarterlyInfoCacheKey, SSQuarterlyInfo ssQuarterlyInfo, String etag){
-        try {
-            DB snappydb = DBFactory.open(context);
-            snappydb.put(ssQuarterlyInfoCacheKey, ssQuarterlyInfo);
-            snappydb.put(ssQuarterlyInfoCacheKey + "_etag", etag);
-            snappydb.close();
-        } catch (SnappydbException e) {}
-    }
-
-    private Observable<Response<SSQuarterlyInfo>> getQuarterlyInfoObservableCache(final Context context, final String ssQuarterlyInfoCacheKey){
-        return Observable.create(
-            new Observable.OnSubscribe<Response<SSQuarterlyInfo>>() {
-                @Override
-                public void call(Subscriber<? super Response<SSQuarterlyInfo>> sub) {
-                    try {
-                        DB snappydb = DBFactory.open(context);
-                        SSQuarterlyInfo ssQuarterlyInfoCache;
-
-                        ssQuarterlyInfoCache = snappydb.getObject(ssQuarterlyInfoCacheKey, SSQuarterlyInfo.class);
-                        if (ssQuarterlyInfoCache != null) {
-                            sub.onNext(Response.success(ssQuarterlyInfoCache));
-                        }
-                        snappydb.close();
-
-                    } catch (SnappydbException e) {}
-                    sub.onCompleted();
-                }
-            }
-        );
-    }
-
-    private Observable<Response<SSQuarterlyInfo>> getQuarterlyInfoObservableFresh(final Context context, final String ssQuarterlyId){
-        SSApplication ssApplication = SSApplication.get(context);
-        return ssApplication.getGithubService().getQuarterlyInfo(ssQuarterlyId);
-    }
-
-    private Subscriber<Response<SSQuarterlyInfo>> getQuarterlyInfoSubscriber(final boolean ui){
-        return new Subscriber<Response<SSQuarterlyInfo>>() {
-            @Override
-            public void onStart(){
-                super.onStart();
-
-                if (ui) {
-                    ssLessonsLoadingVisibility.set(View.VISIBLE);
-                    ssLessonsErrorMessageVisibility.set(View.INVISIBLE);
-                    ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
-                    ssLessonsErrorStateVisibility.set(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onCompleted() {
-                dataListener.onRefreshFinished();
-
-                if (ui) {
-                    ssLessonsLoadingVisibility.set(View.INVISIBLE);
-                    ssLessonsErrorMessageVisibility.set(View.INVISIBLE);
-                    ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
-                    ssLessonsErrorStateVisibility.set(View.INVISIBLE);
-                    ssLessonsCoordinatorVisibility.set(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                if (ui) {
-                    ssLessonsErrorMessageVisibility.set(View.VISIBLE);
-                    ssLessonsLoadingVisibility.set(View.INVISIBLE);
-                    ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
-                    ssLessonsCoordinatorVisibility.set(View.INVISIBLE);
-                    ssLessonsErrorStateVisibility.set(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onNext(Response<SSQuarterlyInfo> ssQuarterlyInfoResponse) {
-                String etag = ssQuarterlyInfoResponse.headers().get("etag");
-
-                if (etag != null && !etag.equals(getQuarterlyInfoEtag(context, ssQuarterlyPath))){
-                    cacheQuarterlyInfo(context, ssQuarterlyPath, ssQuarterlyInfoResponse.body(), etag);
-                }
-
-                if (ssQuarterlyInfoResponse.body() != null){
-                    ssQuarterlyInfo = ssQuarterlyInfoResponse.body();
-                    if (dataListener != null){
-                        dataListener.onQuarterlyChanged(ssQuarterlyInfo);
-                    }
-                }
-            }
-        };
     }
 
     private void loadQuarterlyInfo() {
-        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
-        SSApplication ssApplication = SSApplication.get(context);
+        ssLessonsLoadingVisibility.set(View.VISIBLE);
+        ssLessonsErrorMessageVisibility.set(View.INVISIBLE);
+        ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
+        ssLessonsErrorStateVisibility.set(View.INVISIBLE);
+        mDatabase.child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
+                .child(ssQuarterlyIndex)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot != null) {
+                            ssQuarterlyInfo = dataSnapshot.getValue(SSQuarterlyInfo.class);
+                            dataListener.onQuarterlyChanged(ssQuarterlyInfo);
 
-        subscription = Observable
-                .concat(
-                        getQuarterlyInfoObservableCache(context, ssQuarterlyPath),
-                        getQuarterlyInfoObservableFresh(context, ssQuarterlyPath))
-                .first()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(ssApplication.defaultSubscribeScheduler())
-                .subscribe(getQuarterlyInfoSubscriber(true));
-    }
+                            ssLessonsLoadingVisibility.set(View.INVISIBLE);
+                            ssLessonsErrorMessageVisibility.set(View.INVISIBLE);
+                            ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
+                            ssLessonsErrorStateVisibility.set(View.INVISIBLE);
+                            ssLessonsCoordinatorVisibility.set(View.VISIBLE);
+                        }
+                    }
 
-    private void loadQuarterlyInfo(int delay){
-        if (subscriptionDelay != null && !subscriptionDelay.isUnsubscribed()) subscriptionDelay.unsubscribe();
-        SSApplication ssApplication = SSApplication.get(context);
-
-        subscriptionDelay = getQuarterlyInfoObservableFresh(context, ssQuarterlyPath)
-                .delay(delay, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(ssApplication.defaultSubscribeScheduler())
-                .subscribe(getQuarterlyInfoSubscriber(false));
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        ssLessonsErrorMessageVisibility.set(View.VISIBLE);
+                        ssLessonsLoadingVisibility.set(View.INVISIBLE);
+                        ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
+                        ssLessonsCoordinatorVisibility.set(View.INVISIBLE);
+                        ssLessonsErrorStateVisibility.set(View.VISIBLE);
+                    }
+                });
     }
 
     @Override
     public void onRefresh() {
-        loadQuarterlyInfo(0);
+        dataListener.onRefreshFinished();
     }
 
     @Override
     public void destroy() {
-        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
-        subscription = null;
-        subscriptionDelay = null;
         context = null;
         dataListener = null;
         ssQuarterlyInfo = null;
-        ssQuarterlyPath = null;
+        ssQuarterlyIndex = null;
     }
 
     public void setDataListener(DataListener dataListener) {

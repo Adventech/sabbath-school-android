@@ -56,7 +56,7 @@ public class SSLessonItemViewModel extends BaseObservable implements SSViewModel
 
     public void onItemClick(View v){
         Intent ssReadingIntent = new Intent(context, SSReadingActivity.class);
-        ssReadingIntent.putExtra(SSConstants.SS_LESSON_PATH_EXTRA, ssLesson.path);
+        ssReadingIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, ssLesson.index);
         context.startActivity(ssReadingIntent);
     }
 
