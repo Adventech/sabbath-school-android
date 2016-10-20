@@ -27,7 +27,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.databinding.DataBindingUtil;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.MotionEvent;
@@ -85,6 +87,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         binding.ssWw.getSettings().setJavaScriptEnabled(true);
         binding.ssWw.setWebViewClient(new WebViewClient());
 
+        ViewCompat.setNestedScrollingEnabled(binding.ssReadingSheetList, false);
 
 
         ssReadingViewModel = new SSReadingViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_LESSON_INDEX_EXTRA));
@@ -121,28 +124,29 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     public void c(){
         final View view = binding.ssReadingSheet;
         final int state = view.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int centerX = view.getRight() / 2;
+            int centerY = view.getHeight() - 20;
+            int startRadius = (state == View.VISIBLE) ? 0 : view.getHeight();
+            int endRadius = (state == View.VISIBLE) ? view.getHeight() : 0;
 
-        int centerX = view.getRight() / 2;
-        int centerY = view.getHeight() - 20;
+            Animator anim = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius);
 
-        int startRadius = (state == View.VISIBLE) ? 0 : view.getHeight();
-        int endRadius = (state == View.VISIBLE) ? view.getHeight() : 0;
+            if (state == View.VISIBLE) {
+                view.setVisibility(state);
 
-// create the animator for this view (the start radius is zero)
-
-        Animator anim = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius);
-
-        if (state == View.VISIBLE) {
-            view.setVisibility(state);
+            } else {
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        view.setVisibility(state);
+                    }
+                });
+            }
+            anim.start();
         } else {
-            anim.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    view.setVisibility(state);
-                }
-            });
+            view.setVisibility(state);
         }
-        anim.start();
     }
 }
