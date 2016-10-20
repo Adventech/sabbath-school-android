@@ -22,18 +22,21 @@
 
 package com.cryart.sabbathschool.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.databinding.DataBindingUtil;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.webkit.WebViewClient;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.adapter.SSReadingListAdapter;
-import com.cryart.sabbathschool.behavior.SSReadingNavigationSheetBehavior;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLessonInfo;
@@ -42,6 +45,8 @@ import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
 
 public class SSReadingActivity extends SSBaseActivity implements SSReadingViewModel.DataListener {
     private static final String TAG = SSReadingActivity.class.getSimpleName();
+    private static final int NAVIGATION_BAR_TOP_MARGIN = 60;
+    private boolean ssReadingNavigationBarShown = true;
 
     private SsReadingActivityBinding binding;
     protected SSReadingViewModel ssReadingViewModel;
@@ -51,9 +56,16 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.ss_reading_activity);
 
+        binding.ssReadingCoordinator.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return false;
+            }
+        });
+
         SSReadingListAdapter adapter = new SSReadingListAdapter();
-        binding.bottomSheet.ssReadingNavigationSheetReadList.setAdapter(adapter);
-        binding.bottomSheet.ssReadingNavigationSheetReadList.setLayoutManager(new LinearLayoutManager(this));
+        binding.ssReadingSheetList.setAdapter(adapter);
+        binding.ssReadingSheetList.setLayoutManager(new LinearLayoutManager(this));
 
         setSupportActionBar(binding.ssAppBar.ssToolbar2);
         ActionBar ssToolbar = getSupportActionBar();
@@ -74,12 +86,8 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         binding.ssWw.setWebViewClient(new WebViewClient());
 
 
-        SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior = (SSReadingNavigationSheetBehavior) ((CoordinatorLayout.LayoutParams) binding.bottomSheet.bottomSheet2.getLayoutParams()).getBehavior();
-        ssReadingViewModel = new SSReadingViewModel(this, this, ssReadingNavigationSheetBehavior, getIntent().getExtras().getString(SSConstants.SS_LESSON_INDEX_EXTRA));
 
-        if (ssReadingNavigationSheetBehavior != null) {
-            ssReadingNavigationSheetBehavior.setOnNestedScrollCallback(ssReadingViewModel);
-        }
+        ssReadingViewModel = new SSReadingViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_LESSON_INDEX_EXTRA));
 
         binding.executePendingBindings();
         binding.setViewModel(ssReadingViewModel);
@@ -99,7 +107,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
 
     @Override
     public void onLessonInfoChanged(SSLessonInfo ssLessonInfo){
-        SSReadingListAdapter adapter = (SSReadingListAdapter) binding.bottomSheet.ssReadingNavigationSheetReadList.getAdapter();
+        SSReadingListAdapter adapter = (SSReadingListAdapter) binding.ssReadingSheetList.getAdapter();
         adapter.setDays(ssLessonInfo.days);
         adapter.notifyDataSetChanged();
         binding.invalidateAll();
@@ -108,5 +116,33 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     @Override
     public void onReadChanged(SSRead ssRead){
         binding.ssWw.loadData(ssRead.content, "text/html", "utf-8");
+    }
+
+    public void c(){
+        final View view = binding.ssReadingSheet;
+        final int state = view.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
+
+        int centerX = view.getRight() / 2;
+        int centerY = view.getHeight() - 20;
+
+        int startRadius = (state == View.VISIBLE) ? 0 : view.getHeight();
+        int endRadius = (state == View.VISIBLE) ? view.getHeight() : 0;
+
+// create the animator for this view (the start radius is zero)
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius);
+
+        if (state == View.VISIBLE) {
+            view.setVisibility(state);
+        } else {
+            anim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    view.setVisibility(state);
+                }
+            });
+        }
+        anim.start();
     }
 }
