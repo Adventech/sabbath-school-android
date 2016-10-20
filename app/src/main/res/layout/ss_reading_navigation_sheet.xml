@@ -46,6 +46,7 @@
             android:layout_height="@dimen/ss_reading_navigation_sheet_peek_height">
 
             <FrameLayout
+                android:id="@+id/z"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
@@ -193,20 +194,33 @@
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:clickable="true"
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/ss_reading_navigation_sheet_peek_height"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal">
+        <!--<LinearLayout-->
+            <!--android:orientation="vertical"-->
+            <!--android:clickable="true"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_marginTop="@dimen/ss_reading_navigation_sheet_peek_height"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:gravity="center_horizontal">-->
 
-            <TextView
-                android:text="TEST"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+        <!--<android.support.v4.widget.NestedScrollView-->
+            <!--android:id="@+id/nScrollView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
-        </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+
+                android:layout_width="match_parent"
+                android:clipToPadding="true"
+                android:background="@color/backgroundColor"
+                android:scrollbars="vertical"
+                android:layout_height="match_parent"
+                android:id="@+id/ss_reading_navigation_sheet_read_list" />
+
+        <!--</android.support.v4.widget.NestedScrollView>-->
+
+
+
+        <!--</LinearLayout>-->
 
     </LinearLayout>
 
