@@ -34,7 +34,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:expanded="true"
         android:id="@+id/ss_app_bar_layout"
-        android:layout_height="340dp"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:theme="@style/AppTheme.AppBarOverlay"
         android:visibility="@{appBarVisibility}"
@@ -57,7 +57,7 @@
                 app:layout_collapseParallaxMultiplier="0.8"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="110dp"
-
+                android:layout_marginBottom="20dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:text="@{date}"
@@ -102,6 +102,7 @@
                     android:layout_toRightOf="@+id/ss_quarterly_item_normal_cover"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
+
                     android:minWidth="@dimen/ss_quarterly_item_featured_read_min_width"
                     fancy:fb_textFont="Roboto-Bold.ttf"
                     fancy:fb_borderWidth="@dimen/ss_quarterly_item_featured_read_border_width"
