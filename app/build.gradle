@@ -97,6 +97,8 @@ dependencies {
     compile "com.google.android.gms:play-services-auth:$PLAY_SERVICES_VERSION"
     compile "com.google.firebase:firebase-core:$PLAY_SERVICES_VERSION"
     compile "com.google.firebase:firebase-auth:$PLAY_SERVICES_VERSION"
+    compile "com.google.firebase:firebase-database:$PLAY_SERVICES_VERSION"
+
 
     compile "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
     compile "com.squareup.retrofit2:adapter-rxjava:$RETROFIT_VERSION"
