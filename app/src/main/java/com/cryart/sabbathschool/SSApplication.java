@@ -32,6 +32,7 @@ import com.bumptech.glide.Glide;
 import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.api.SSApiService;
 import com.cryart.sabbathschool.misc.SSUserManager;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
@@ -65,6 +66,8 @@ public class SSApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         SSUserManager.getInstance();
 
