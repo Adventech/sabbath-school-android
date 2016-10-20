@@ -24,8 +24,15 @@ package com.cryart.sabbathschool.misc;
 
 public class SSConstants {
     public static final int SS_GOOGLE_SIGN_IN_CODE = 9001;
-    public static final String SS_FIREBASE_URL = "https://blistering-inferno-8720.firebaseio.com";
+
+    public static final String SS_FIREBASE_QUARTERLIES_DATABASE = "quarterlies";
+    public static final String SS_FIREBASE_QUARTERLY_INFO_DATABASE = "quarterly-info";
+    public static final String SS_FIREBASE_LESSON_INFO_DATABASE = "lesson-info";
+    public static final String SS_FIREBASE_READS_DATABASE = "reads";
+    public static final String SS_FIREBASE_COMMENTS_DATABASE = "comments";
+
+
     public static final String SS_API_ENDPOINT = "http://com.cryart.sabbathschool.s3-website-us-west-2.amazonaws.com/api/v1/";
-    public static final String SS_QUARTERLY_PATH_EXTRA = "SS_QUARTERLY_PATH";
-    public static final String SS_LESSON_PATH_EXTRA = "SS_LESSON_PATH";
+    public static final String SS_QUARTERLY_INDEX_EXTRA = "SS_QUARTERLY_INDEX";
+    public static final String SS_LESSON_INDEX_EXTRA = "SS_LESSON_INDEX";
 }

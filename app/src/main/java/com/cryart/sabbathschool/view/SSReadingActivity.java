@@ -28,25 +28,32 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.webkit.WebViewClient;
 
 import com.cryart.sabbathschool.R;
+import com.cryart.sabbathschool.adapter.SSReadingListAdapter;
 import com.cryart.sabbathschool.behavior.SSReadingNavigationSheetBehavior;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.model.SSLessonInfo;
+import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
 
-public class SSReadingActivity extends SSBaseActivity  {
+public class SSReadingActivity extends SSBaseActivity implements SSReadingViewModel.DataListener {
     private static final String TAG = SSReadingActivity.class.getSimpleName();
 
     private SsReadingActivityBinding binding;
     protected SSReadingViewModel ssReadingViewModel;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.ss_reading_activity);
+
+        SSReadingListAdapter adapter = new SSReadingListAdapter();
+        binding.bottomSheet.ssReadingNavigationSheetReadList.setAdapter(adapter);
+        binding.bottomSheet.ssReadingNavigationSheetReadList.setLayoutManager(new LinearLayoutManager(this));
 
         setSupportActionBar(binding.ssAppBar.ssToolbar2);
         ActionBar ssToolbar = getSupportActionBar();
@@ -63,13 +70,12 @@ public class SSReadingActivity extends SSBaseActivity  {
         binding.ssAppBar.ssCollapsingToolbar.setTitle("The End");
         binding.ssAppBar.ssCollapsingToolbarBackdrop.getDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.OVERLAY);
 
-
         binding.ssWw.getSettings().setJavaScriptEnabled(true);
         binding.ssWw.setWebViewClient(new WebViewClient());
-        binding.ssWw.loadUrl("https://s3-us-west-2.amazonaws.com/com.cryart.sabbathschool/sabbath-school-reader/index.html");
+
 
         SSReadingNavigationSheetBehavior ssReadingNavigationSheetBehavior = (SSReadingNavigationSheetBehavior) ((CoordinatorLayout.LayoutParams) binding.bottomSheet.bottomSheet2.getLayoutParams()).getBehavior();
-        ssReadingViewModel = new SSReadingViewModel(this, ssReadingNavigationSheetBehavior, getIntent().getExtras().getString(SSConstants.SS_LESSON_PATH_EXTRA));
+        ssReadingViewModel = new SSReadingViewModel(this, this, ssReadingNavigationSheetBehavior, getIntent().getExtras().getString(SSConstants.SS_LESSON_INDEX_EXTRA));
 
         if (ssReadingNavigationSheetBehavior != null) {
             ssReadingNavigationSheetBehavior.setOnNestedScrollCallback(ssReadingViewModel);
@@ -89,5 +95,18 @@ public class SSReadingActivity extends SSBaseActivity  {
     @Override
     public void onLogoutEvent(){
         finish();
+    }
+
+    @Override
+    public void onLessonInfoChanged(SSLessonInfo ssLessonInfo){
+        SSReadingListAdapter adapter = (SSReadingListAdapter) binding.bottomSheet.ssReadingNavigationSheetReadList.getAdapter();
+        adapter.setDays(ssLessonInfo.days);
+        adapter.notifyDataSetChanged();
+        binding.invalidateAll();
+    }
+
+    @Override
+    public void onReadChanged(SSRead ssRead){
+        binding.ssWw.loadData(ssRead.content, "text/html", "utf-8");
     }
 }
