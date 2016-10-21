@@ -31,6 +31,7 @@ import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsReadingItemBinding;
 import com.cryart.sabbathschool.model.SSDay;
 import com.cryart.sabbathschool.viewmodel.SSReadingListItemViewModel;
+import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
 
 import java.util.Collections;
 import java.util.List;
@@ -38,18 +39,19 @@ import java.util.List;
 
 public class SSReadingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<SSDay> ssDays;
+    private List<SSDay> ssDays = Collections.emptyList();
+    private SSReadingViewModel ssReadingViewModel;
 
     public SSReadingListAdapter() {
         this.ssDays = Collections.emptyList();
     }
 
-    public SSReadingListAdapter(List<SSDay> ssDays) {
+    public void setDays(List<SSDay> ssDays) {
         this.ssDays = ssDays;
     }
 
-    public void setDays(List<SSDay> ssDays) {
-        this.ssDays = ssDays;
+    public void setReadingViewModel(SSReadingViewModel ssReadingViewModel) {
+        this.ssReadingViewModel = ssReadingViewModel;
     }
 
     @Override
@@ -61,7 +63,7 @@ public class SSReadingListAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         SSReadingListViewHolder holder1 = (SSReadingListViewHolder) holder;
-        holder1.bindQuarterly(ssDays.get(position));
+        holder1.bindQuarterly(ssDays.get(position), ssReadingViewModel);
         holder1.binding.executePendingBindings();
     }
 
@@ -80,9 +82,9 @@ public class SSReadingListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         }
 
-        void bindQuarterly(SSDay ssDay) {
+        void bindQuarterly(SSDay ssDay, SSReadingViewModel ssReadingViewModel) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new SSReadingListItemViewModel(itemView.getContext(), ssDay));
+                binding.setViewModel(new SSReadingListItemViewModel(itemView.getContext(), ssDay, ssReadingViewModel));
             } else {
                 binding.getViewModel().setSSDay(ssDay);
             }

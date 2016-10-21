@@ -39,7 +39,7 @@
 
         <RelativeLayout
             android:id="@+id/itemViewContent"
-            android:onClick="@{viewModel::onItemClick}"
+            android:onClick="@{() -> viewModel.onItemClick()}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="15dp"
