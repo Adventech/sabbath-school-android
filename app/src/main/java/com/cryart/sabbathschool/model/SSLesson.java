@@ -24,7 +24,9 @@ package com.cryart.sabbathschool.model;
 
 public class SSLesson {
     public String title;
-    public String date;
+    public String start_date;
+    public String end_date;
+    public String cover;
     public String id;
     public String index;
     public String path;
@@ -35,9 +37,11 @@ public class SSLesson {
 
     }
 
-    public SSLesson(String title, String date, String id, String index, String path, String full_path){
+    public SSLesson(String title, String start_date, String end_date, String cover, String id, String index, String path, String full_path){
         this.title = title;
-        this.date = date;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.cover = cover;
         this.id = id;
         this.index = index;
         this.path = path;

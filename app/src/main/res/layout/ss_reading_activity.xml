@@ -41,6 +41,7 @@
 
         <include
             layout="@layout/ss_reading_app_bar"
+            bind:cover="@{viewModel.cover}"
             android:id="@+id/ss_app_bar"/>
 
         <android.support.v4.widget.NestedScrollView
@@ -121,7 +122,7 @@
                         android:textColor="#dcdcdc"
                         android:textStyle="italic"
                         android:maxLines="1"
-                        android:text="@{viewModel.ssLessonInfo.lesson.date}"
+                        android:text="@{viewModel.ssLessonInfo.lesson.start_date}"
                         />
                 </RelativeLayout>
 

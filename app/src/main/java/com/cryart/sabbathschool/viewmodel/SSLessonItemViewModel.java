@@ -31,6 +31,8 @@ import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLesson;
 import com.cryart.sabbathschool.view.SSReadingActivity;
 
+import org.joda.time.format.DateTimeFormat;
+
 public class SSLessonItemViewModel extends BaseObservable implements SSViewModel {
     private static final String TAG = SSLessonItemViewModel.class.getSimpleName();
     private SSLesson ssLesson;
@@ -51,7 +53,16 @@ public class SSLessonItemViewModel extends BaseObservable implements SSViewModel
     }
 
     public String getDate() {
-        return ssLesson.date;
+
+        String startDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+                .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                        .parseDateTime(ssLesson.start_date));
+
+        String endDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+                .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                        .parseDateTime(ssLesson.end_date));
+
+        return startDateOut + " - " + endDateOut;
     }
 
     public void onItemClick(View v){
