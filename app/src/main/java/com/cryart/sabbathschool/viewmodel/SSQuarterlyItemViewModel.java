@@ -77,11 +77,11 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
                 .into(view);
     }
 
-    public void onReadClick(View view) {
+    private void openLessons(View view){
         Intent ssLessonsIntent = new Intent(context, SSLessonsActivity.class);
         ssLessonsIntent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, ssQuarterly.index);
         ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation((AppCompatActivity)context, view.getRootView().findViewById(R.id.ss_quarterly_item_cover), "featuredCover");
+                makeSceneTransitionAnimation((AppCompatActivity)context, view, "featuredCover");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             context.startActivity(ssLessonsIntent, options.toBundle());
@@ -90,17 +90,12 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
         }
     }
 
-    public void onReadClickNormal(View view) {
-        Intent ssLessonsIntent = new Intent(context, SSLessonsActivity.class);
-        ssLessonsIntent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, ssQuarterly.index);
-        ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation((AppCompatActivity)context, view.getRootView().findViewById(R.id.ss_quarterly_item_normal_cover), "featuredCover");
+    public void onReadClick(View view) {
+        openLessons(view.getRootView().findViewById(R.id.ss_quarterly_item_cover));
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            context.startActivity(ssLessonsIntent, options.toBundle());
-        } else {
-            context.startActivity(ssLessonsIntent);
-        }
+    public void onReadClickNormal(View view) {
+        openLessons(view.getRootView().findViewById(R.id.ss_quarterly_item_normal_cover));
     }
 
     @Override
