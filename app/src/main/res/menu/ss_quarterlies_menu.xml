@@ -24,14 +24,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/ss_quarterlies_action_filter"
+        android:id="@+id/ss_quarterlies_menu_filter"
         android:orderInCategory="100"
         android:title="@string/ss_quarterlies_menu"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/ss_quarterlies_action_refresh"
+        android:id="@+id/ss_quarterlies_menu_share"
         android:orderInCategory="101"
-        android:title="Refresh"
+        android:title="Share"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/ss_quarterlies_menu_settings"
+        android:orderInCategory="102"
+        android:title="Settings"
         app:showAsAction="never" />
 </menu>

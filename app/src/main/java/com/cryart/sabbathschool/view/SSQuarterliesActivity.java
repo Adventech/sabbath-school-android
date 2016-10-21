@@ -72,8 +72,6 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
 
         ssQuarterliesViewModel = new SSQuarterliesViewModel(this, this);
 
-        binding.swipeRefreshLayout.setOnRefreshListener(ssQuarterliesViewModel);
-
         binding.executePendingBindings();
         binding.setViewModel(ssQuarterliesViewModel);
 
@@ -92,11 +90,6 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         SSQuarterliesLanguageFilterAdapter adapter = (SSQuarterliesLanguageFilterAdapter) binding.ssQuarterlyLanguagesList.getAdapter();
         adapter.setQuarterlyLanguages(quarterlyLanguages);
         adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onRefreshFinished(){
-        binding.swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -119,19 +112,9 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.ss_quarterlies_action_filter) {
+        if (id == R.id.ss_quarterlies_menu_filter) {
             ssQuarterliesViewModel.onFilterClick(item);
             return true;
-        } else if (id == R.id.ss_quarterlies_action_refresh){
-            binding.swipeRefreshLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    binding.swipeRefreshLayout.setRefreshing(true);
-                    ssQuarterliesViewModel.onRefresh();
-                }
-            });
-            return true;
-
         }
 
         return super.onOptionsItemSelected(item);
