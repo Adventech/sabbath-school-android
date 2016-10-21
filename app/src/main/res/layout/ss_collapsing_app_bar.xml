@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content" />
 
                 <ImageView
-                    android:transitionName="featuredCover"
+                    android:transitionName="@string/ss_quarterly_cover_transition"
                     android:scaleType="centerCrop"
                     android:layout_below="@+id/date"
                     android:layout_marginTop="20dp"

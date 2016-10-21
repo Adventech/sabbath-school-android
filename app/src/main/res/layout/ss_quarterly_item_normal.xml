@@ -31,6 +31,8 @@
         <variable
             name="viewModel"
             type="com.cryart.sabbathschool.viewmodel.SSQuarterlyItemViewModel" />
+
+        <variable name="ssQuarterlyCover" type="android.widget.ImageView"/>
     </data>
 
     <RelativeLayout
@@ -107,13 +109,13 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:text="@string/ss_quarterly_item_normal_read_text"
-                    android:onClick="@{(view) -> viewModel.onReadClickNormal(view)}"
+                    android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}"
                     style="@style/Widget.AppCompat.Button.Borderless" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
         <ImageView
-            android:transitionName="featuredCover"
+            android:transitionName="@string/ss_quarterly_cover_transition"
             android:id="@+id/ss_quarterly_item_normal_cover"
             android:layout_width="@dimen/ss_quarterly_item_normal_cover_width"
             android:layout_height="@dimen/ss_quarterly_item_normal_cover_height"
@@ -121,7 +123,7 @@
             android:layout_marginLeft="@dimen/ss_quarterly_item_normal_cover_margin_left"
             android:layout_marginStart="@dimen/ss_quarterly_item_normal_cover_margin_left"
             app:coverUrl="@{viewModel.cover}"
-            android:onClick="@{(view) -> viewModel.onReadClickNormal(view)}" />
+            android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}" />
 
     </RelativeLayout>
 </layout>
