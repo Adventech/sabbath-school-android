@@ -93,7 +93,6 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
     protected void setUpDrawer(Toolbar ssToolbar){
         new DrawerBuilder()
                 .withActivity(this)
-                .withTranslucentStatusBar(true)
                 .withToolbar(ssToolbar)
                 .withAccountHeader(getAccountHeader())
                 .addDrawerItems(getDrawerItems())

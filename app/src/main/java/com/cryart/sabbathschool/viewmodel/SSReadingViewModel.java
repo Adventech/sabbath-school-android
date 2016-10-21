@@ -22,14 +22,20 @@
 
 package com.cryart.sabbathschool.viewmodel;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.databinding.ObservableInt;
+import android.os.Build;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
+import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLessonInfo;
 import com.cryart.sabbathschool.model.SSRead;
@@ -47,9 +53,12 @@ public class SSReadingViewModel implements SSViewModel {
     private Context context;
     private String ssLessonIndex;
     private DataListener dataListener;
-    private SSLessonInfo ssLessonInfo;
-    private SSRead ssRead;
     private DatabaseReference mDatabase;
+    private ValueEventListener ssReadRef;
+
+    public SSLessonInfo ssLessonInfo;
+    public ObservableInt ssReadPosition;
+    public SSRead ssRead;
 
 
     public SSReadingViewModel(Context context, DataListener dataListener, String ssLessonIndex) {
@@ -59,6 +68,10 @@ public class SSReadingViewModel implements SSViewModel {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.keepSynced(true);
+
+        // Logic to jump to today if in this lesson, to the first lesson otherwise
+        ssReadPosition = new ObservableInt(0);
+
         loadLessonInfo();
     }
 
@@ -71,7 +84,7 @@ public class SSReadingViewModel implements SSViewModel {
                         if (dataSnapshot != null) {
                             ssLessonInfo = dataSnapshot.getValue(SSLessonInfo.class);
                             dataListener.onLessonInfoChanged(ssLessonInfo);
-                            loadRead(ssLessonInfo.days.get(0).index);
+                            loadRead();
                         }
                     }
 
@@ -82,8 +95,17 @@ public class SSReadingViewModel implements SSViewModel {
                 });
     }
 
-    private void loadRead(String dayIndex){
-        mDatabase.child(SSConstants.SS_FIREBASE_READS_DATABASE)
+    private void loadRead(){
+        String dayIndex = ssLessonInfo.days.get(ssReadPosition.get()).index;
+        loadRead(dayIndex);
+    }
+
+    public void loadRead(String dayIndex){
+        if (ssReadRef != null){
+            mDatabase.removeEventListener(ssReadRef);
+        }
+
+        ssReadRef = mDatabase.child(SSConstants.SS_FIREBASE_READS_DATABASE)
                 .child(dayIndex)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -107,9 +129,43 @@ public class SSReadingViewModel implements SSViewModel {
         dataListener = null;
     }
 
-    public void onMenuClick(View view) {
-        ((SSReadingActivity) context).c();
-        // show reading list
+    public void onMenuClick() {
+        final View view = ((SSReadingActivity)context).findViewById(R.id.ss_reading_sheet);
+        final int state = view.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int centerX = view.getRight() / 2;
+            int centerY = view.getHeight() - 20;
+            int startRadius = (state == View.VISIBLE) ? 0 : view.getHeight();
+            int endRadius = (state == View.VISIBLE) ? view.getHeight() : 0;
+
+            Animator anim = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius);
+
+            if (state == View.VISIBLE) {
+                view.setVisibility(state);
+
+            } else {
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        view.setVisibility(state);
+                    }
+                });
+            }
+            anim.start();
+        } else {
+            view.setVisibility(state);
+        }
+    }
+
+    public void onNextClick(){
+        ssReadPosition.set((ssReadPosition.get() < ssLessonInfo.days.size() - 1) ? ssReadPosition.get()+1 : ssReadPosition.get());
+        loadRead();
+    }
+
+    public void onPrevClick(){
+        ssReadPosition.set((ssReadPosition.get() > 0) ? ssReadPosition.get()-1 : ssReadPosition.get());
+        loadRead();
     }
 
     @BindingAdapter("android:layout_marginTop")

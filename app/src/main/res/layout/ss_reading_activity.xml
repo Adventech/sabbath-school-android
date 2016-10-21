@@ -45,6 +45,7 @@
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
+            android:layout_gravity="fill_vertical"
             android:id="@+id/nsv"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -53,7 +54,7 @@
                 android:id="@+id/ss_ww"
                 android:isScrollContainer="false"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
             </WebView>
         </android.support.v4.widget.NestedScrollView>
@@ -78,11 +79,59 @@
             android:layout_gravity="bottom"
             android:visibility="invisible"
             android:layout_height="wrap_content">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/ss_reading_sheet_list"
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/test"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:id="@+id/ss_reading_list_header"
+                        android:ellipsize="end"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:textSize="13sp"
+                        android:textColor="#ffffff"
+                        android:maxLines="1"
+                        android:text="@{viewModel.ssLessonInfo.lesson.title}"
+                        />
+
+                    <TextView
+                        android:id="@+id/ss_lesson_item_normal_date"
+                        android:layout_below="@+id/ss_reading_list_header"
+                        android:ellipsize="end"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="#dcdcdc"
+                        android:textStyle="italic"
+                        android:maxLines="1"
+                        android:text="@{viewModel.ssLessonInfo.lesson.date}"
+                        />
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ss_reading_sheet_list"
+                    android:layout_below="@+id/test"
+                    android:layout_width="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
         </android.support.v7.widget.CardView>
 
     </android.support.design.widget.CoordinatorLayout>

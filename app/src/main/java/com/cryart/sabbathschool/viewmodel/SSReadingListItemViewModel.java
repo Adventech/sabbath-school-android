@@ -24,7 +24,6 @@ package com.cryart.sabbathschool.viewmodel;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
-import android.view.View;
 
 import com.cryart.sabbathschool.model.SSDay;
 
@@ -32,10 +31,12 @@ public class SSReadingListItemViewModel extends BaseObservable implements SSView
     private static final String TAG = SSReadingListItemViewModel.class.getSimpleName();
     private SSDay ssDay;
     private Context context;
+    private SSReadingViewModel ssReadingViewModel;
 
-    public SSReadingListItemViewModel(Context context, SSDay ssDay) {
+    public SSReadingListItemViewModel(Context context, SSDay ssDay, SSReadingViewModel ssReadingViewModel) {
         this.ssDay = ssDay;
         this.context = context;
+        this.ssReadingViewModel = ssReadingViewModel;
     }
 
     public void setSSDay(SSDay ssDay) {
@@ -51,10 +52,10 @@ public class SSReadingListItemViewModel extends BaseObservable implements SSView
         return ssDay.date;
     }
 
-    public void onItemClick(View v){
-//        Intent ssReadingIntent = new Intent(context, SSReadingActivity.class);
-//        ssReadingIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, ss.path);
-//        context.startActivity(ssReadingIntent);
+    public void onItemClick(){
+        ssReadingViewModel.loadRead(ssDay.index);
+        ssReadingViewModel.onMenuClick();
+        ssReadingViewModel.ssReadPosition.set(ssReadingViewModel.ssLessonInfo.days.indexOf(ssDay));
     }
 
     @Override
