@@ -31,6 +31,8 @@
         <variable
             name="viewModel"
             type="com.cryart.sabbathschool.viewmodel.SSQuarterlyItemViewModel" />
+
+        <variable name="ssQuarterlyCover" type="android.widget.ImageView" />
     </data>
 
     <RelativeLayout
@@ -44,9 +46,9 @@
             android:background="@color/ss_quarterly_item_featured_background_color" />
 
         <ImageView
-            android:onClick="@{(view) -> viewModel.onReadClick(view)}"
+            android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}"
             android:clickable="true"
-            android:transitionName="featuredCover"
+            android:transitionName="@string/ss_quarterly_cover_transition"
             android:id="@+id/ss_quarterly_item_cover"
             android:layout_width="@dimen/ss_quarterly_item_featured_cover_width"
             android:layout_height="@dimen/ss_quarterly_item_featured_cover_height"
@@ -128,7 +130,7 @@
                 fancy:fb_radius="@dimen/ss_quarterly_item_featured_read_radius"
                 fancy:fb_text="@string/ss_quarterly_item_featured_read_text"
                 fancy:fb_textColor="@color/ss_quarterly_item_featured_read_text_color"
-                android:onClick="@{(view) -> viewModel.onReadClick(view)}" />
+                android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}" />
         </RelativeLayout>
     </RelativeLayout>
 </layout>

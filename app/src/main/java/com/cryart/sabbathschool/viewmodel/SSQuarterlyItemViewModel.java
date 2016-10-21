@@ -77,25 +77,17 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
                 .into(view);
     }
 
-    private void openLessons(View view){
+    public void onReadClick(View view) {
         Intent ssLessonsIntent = new Intent(context, SSLessonsActivity.class);
         ssLessonsIntent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, ssQuarterly.index);
         ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation((AppCompatActivity)context, view, "featuredCover");
+                makeSceneTransitionAnimation((AppCompatActivity)context, view, context.getString(R.string.ss_quarterly_cover_transition));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             context.startActivity(ssLessonsIntent, options.toBundle());
         } else {
             context.startActivity(ssLessonsIntent);
         }
-    }
-
-    public void onReadClick(View view) {
-        openLessons(view.getRootView().findViewById(R.id.ss_quarterly_item_cover));
-    }
-
-    public void onReadClickNormal(View view) {
-        openLessons(view.getRootView().findViewById(R.id.ss_quarterly_item_normal_cover));
     }
 
     @Override

@@ -67,7 +67,7 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
         switch(viewType){
             case SSQuarterlyViewHolderHero: {
                 SsQuarterlyItemFeaturedBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.ss_quarterly_item_featured, parent, false);
-
+                binding.setSsQuarterlyCover(binding.ssQuarterlyItemCover);
                 viewHolder = new SSQuarterlyViewHolderFeatured(binding);
 
                 break;
@@ -75,6 +75,7 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             default: case SSQuarterlyViewHolderNormal: {
                 SsQuarterlyItemNormalBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.ss_quarterly_item_normal, parent, false);
+                binding.setSsQuarterlyCover(binding.ssQuarterlyItemNormalCover);
 
                 viewHolder = new SSQuarterlyViewHolderNormal(binding);
                 break;
