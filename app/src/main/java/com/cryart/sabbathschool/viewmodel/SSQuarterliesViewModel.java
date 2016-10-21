@@ -30,7 +30,6 @@ import android.databinding.BindingAdapter;
 import android.databinding.ObservableFloat;
 import android.databinding.ObservableInt;
 import android.graphics.Color;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,7 +54,7 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSQuarterliesViewModel implements SSViewModel, SwipeRefreshLayout.OnRefreshListener {
+public class SSQuarterliesViewModel implements SSViewModel {
     private static final String TAG = SSQuarterliesViewModel.class.getSimpleName();
     private static final int ANIMATION_DURATION = 300;
 
@@ -118,7 +117,7 @@ public class SSQuarterliesViewModel implements SSViewModel, SwipeRefreshLayout.O
             menuItem.setIcon(new IconicsDrawable(context)
                     .icon(GoogleMaterial.Icon.gmd_close)
                     .color(Color.WHITE)
-                    .sizeDp(18));
+                    .sizeDp(14));
         } else {
             ssQuarterliesListMarginTop.set(0);
             ssQuarterliesLanguageFilterVisibility.set(View.GONE);
@@ -198,12 +197,6 @@ public class SSQuarterliesViewModel implements SSViewModel, SwipeRefreshLayout.O
         SSBusProvider.getInstance().unregister(this);
     }
 
-
-    @Override
-    public void onRefresh() {
-        dataListener.onRefreshFinished();
-    }
-
     @BindingAdapter("android:layout_marginTop")
     public static void setLayoutTopMargin(final View v, float topMargin) {
         int start = (topMargin > 0) ? 0: ((ViewGroup.MarginLayoutParams)v.getLayoutParams()).topMargin;
@@ -235,6 +228,5 @@ public class SSQuarterliesViewModel implements SSViewModel, SwipeRefreshLayout.O
     public interface DataListener {
         void onQuarterliesChanged(List<SSQuarterly> ssQuarterlies);
         void onQuarterliesLanguagesChanged(List<SSQuarterlyLanguage> quarterlyLanguages);
-        void onRefreshFinished();
     }
 }
