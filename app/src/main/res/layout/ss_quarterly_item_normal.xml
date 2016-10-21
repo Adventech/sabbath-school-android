@@ -107,7 +107,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:text="@string/ss_quarterly_item_normal_read_text"
-                    android:onClick="@{viewModel::onReadClickNormal}"
+                    android:onClick="@{(view) -> viewModel.onReadClickNormal(view)}"
                     style="@style/Widget.AppCompat.Button.Borderless" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
@@ -120,7 +120,8 @@
             android:layout_marginTop="@dimen/ss_quarterly_item_normal_cover_margin_top"
             android:layout_marginLeft="@dimen/ss_quarterly_item_normal_cover_margin_left"
             android:layout_marginStart="@dimen/ss_quarterly_item_normal_cover_margin_left"
-            app:coverUrl="@{viewModel.cover}" />
+            app:coverUrl="@{viewModel.cover}"
+            android:onClick="@{(view) -> viewModel.onReadClickNormal(view)}" />
 
     </RelativeLayout>
 </layout>

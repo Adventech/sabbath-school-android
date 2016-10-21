@@ -44,7 +44,7 @@
             android:background="@color/ss_quarterly_item_featured_background_color" />
 
         <ImageView
-            android:onClick="@{viewModel::onReadClick}"
+            android:onClick="@{(view) -> viewModel.onReadClick(view)}"
             android:clickable="true"
             android:transitionName="featuredCover"
             android:id="@+id/ss_quarterly_item_cover"
@@ -128,7 +128,7 @@
                 fancy:fb_radius="@dimen/ss_quarterly_item_featured_read_radius"
                 fancy:fb_text="@string/ss_quarterly_item_featured_read_text"
                 fancy:fb_textColor="@color/ss_quarterly_item_featured_read_text_color"
-                android:onClick="@{viewModel::onReadClick}" />
+                android:onClick="@{(view) -> viewModel.onReadClick(view)}" />
         </RelativeLayout>
     </RelativeLayout>
 </layout>
