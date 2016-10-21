@@ -27,6 +27,6 @@
     <item
         android:id="@+id/ss_lessons_menu_refresh"
         android:orderInCategory="100"
-        android:title="Refresh"
+        android:title="Share"
         app:showAsAction="never" />
 </menu>

@@ -72,8 +72,6 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
         binding.executePendingBindings();
         binding.setViewModel(ssLessonsViewModel);
 
-        binding.swipeRefreshLayout.setOnRefreshListener(ssLessonsViewModel);
-
         setUpDrawer();
     }
 
@@ -85,11 +83,6 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
         adapter.notifyDataSetChanged();
         binding.invalidateAll();
         binding.executePendingBindings();
-    }
-
-    @Override
-    public void onRefreshFinished(){
-        binding.swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -112,17 +105,6 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.ss_lessons_menu_refresh){
-            binding.swipeRefreshLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    binding.swipeRefreshLayout.setRefreshing(true);
-                    ssLessonsViewModel.onRefresh();
-                }
-            });
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }

@@ -26,7 +26,6 @@ import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -39,7 +38,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class SSLessonsViewModel implements SSViewModel, SwipeRefreshLayout.OnRefreshListener {
+public class SSLessonsViewModel implements SSViewModel {
     private static final String TAG = SSLessonsViewModel.class.getSimpleName();
 
     private Context context;
@@ -105,11 +104,6 @@ public class SSLessonsViewModel implements SSViewModel, SwipeRefreshLayout.OnRef
     }
 
     @Override
-    public void onRefresh() {
-        dataListener.onRefreshFinished();
-    }
-
-    @Override
     public void destroy() {
         context = null;
         dataListener = null;
@@ -153,6 +147,5 @@ public class SSLessonsViewModel implements SSViewModel, SwipeRefreshLayout.OnRef
 
     public interface DataListener {
         void onQuarterlyChanged(SSQuarterlyInfo ssQuarterlyInfo);
-        void onRefreshFinished();
     }
 }
