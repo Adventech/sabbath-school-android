@@ -47,23 +47,17 @@
             bind:description="@{viewModel.description}"
             android:id="@+id/ss_app_bar_2"/>
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
+
+        <android.support.v7.widget.RecyclerView
+            android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/ss_lesson_info_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <android.support.v7.widget.RecyclerView
-
-                android:id="@+id/ss_lesson_info_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:background="@color/backgroundColor"
-                android:scrollbars="vertical"
-                tools:listitem="@layout/ss_lesson_item" />
-        </android.support.v4.widget.SwipeRefreshLayout>
+            android:clipToPadding="false"
+            android:background="@color/backgroundColor"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/ss_lesson_item" />
 
         <include
             layout="@layout/ss_empty_state"
