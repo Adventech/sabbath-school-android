@@ -38,6 +38,8 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import io.fabric.sdk.android.Fabric;
 import rx.Scheduler;
 import rx.schedulers.Schedulers;
@@ -67,12 +69,10 @@ public class SSApplication extends Application {
         super.onCreate();
         instance = this;
 
+        JodaTimeAndroid.init(this);
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
         SSUserManager.getInstance();
-
         Fabric.with(this, new Crashlytics());
-
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder) {

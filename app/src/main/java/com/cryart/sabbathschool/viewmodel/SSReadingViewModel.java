@@ -24,16 +24,11 @@ package com.cryart.sabbathschool.viewmodel;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ValueAnimator;
 import android.content.Context;
-import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
@@ -168,27 +163,11 @@ public class SSReadingViewModel implements SSViewModel {
         loadRead();
     }
 
-    @BindingAdapter("android:layout_marginTop")
-    public static void setLayout_marginTop(final View v, int topMargin) {
-        int start = (topMargin > 0) ? 0: ((ViewGroup.MarginLayoutParams)v.getLayoutParams()).topMargin;
-        int end = (topMargin > 0) ? (int) topMargin : 0;
-
-        ValueAnimator slideAnimator = ValueAnimator.ofInt(start, end).setDuration(ANIMATION_DURATION);
-        slideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Integer value = (Integer) animation.getAnimatedValue();
-                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)v.getLayoutParams();
-                layoutParams.topMargin = value;
-                v.setLayoutParams(layoutParams);
-                v.requestLayout();
-            }
-        });
-
-        AnimatorSet set = new AnimatorSet();
-        set.play(slideAnimator);
-        set.setInterpolator(new AccelerateDecelerateInterpolator());
-        set.start();
+    public String getCover() {
+        if (ssLessonInfo != null){
+            return ssLessonInfo.lesson.cover;
+        }
+        return "";
     }
 
     public interface DataListener {

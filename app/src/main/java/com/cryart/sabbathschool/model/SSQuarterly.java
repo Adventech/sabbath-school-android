@@ -26,7 +26,9 @@ public class SSQuarterly {
     public String id;
     public String title;
     public String description;
-    public String date;
+    public String human_date;
+    public String start_date;
+    public String end_date;
     public String cover;
     public String index;
     public String path;
@@ -37,11 +39,13 @@ public class SSQuarterly {
 
     }
 
-    public SSQuarterly(String id, String title, String description, String date, String cover, String index, String path, String full_path, String lang){
+    public SSQuarterly(String id, String title, String description, String human_date, String start_date, String end_date, String cover, String index, String path, String full_path, String lang){
         this.id = id;
         this.title = title;
         this.description = description;
-        this.date = date;
+        this.human_date = human_date;
+        this.start_date = start_date;
+        this.end_date = end_date;
         this.cover = cover;
         this.index = index;
         this.path = path;

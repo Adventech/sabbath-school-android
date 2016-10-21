@@ -30,7 +30,6 @@ import android.databinding.BindingAdapter;
 import android.databinding.ObservableFloat;
 import android.databinding.ObservableInt;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -160,7 +159,6 @@ public class SSQuarterliesViewModel implements SSViewModel {
                             Iterable<DataSnapshot> data = dataSnapshot.getChildren();
                             ssQuarterlies.clear();
                             for(DataSnapshot d: data){
-                                Log.d(TAG, String.valueOf(d));
                                 ssQuarterlies.add(d.getValue(SSQuarterly.class));
                             }
                             dataListener.onQuarterliesChanged(ssQuarterlies);

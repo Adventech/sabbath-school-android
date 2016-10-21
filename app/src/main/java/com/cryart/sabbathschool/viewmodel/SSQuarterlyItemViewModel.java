@@ -58,7 +58,7 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
     }
 
     public String getDate() {
-        return ssQuarterly.date;
+        return ssQuarterly.human_date;
     }
 
     public String getCover() {

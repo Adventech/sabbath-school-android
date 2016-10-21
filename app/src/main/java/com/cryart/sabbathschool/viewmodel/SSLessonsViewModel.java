@@ -118,7 +118,7 @@ public class SSLessonsViewModel implements SSViewModel {
 
     public String getDate() {
         if (ssQuarterlyInfo != null){
-            return ssQuarterlyInfo.quarterly.date;
+            return ssQuarterlyInfo.quarterly.human_date;
         }
         return "";
     }
