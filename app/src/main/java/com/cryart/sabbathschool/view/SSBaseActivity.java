@@ -80,7 +80,7 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
         return new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
-                .withHeaderBackground(R.drawable.ss_account_header)
+                .withHeaderBackground(R.color.colorPrimaryDark)
                 .addProfiles(
                         new ProfileDrawerItem().withName(SSUserManager.getInstance().user.name).withEmail(SSUserManager.getInstance().user.email).withIcon(SSUserManager.getInstance().user.photo).withIdentifier(100),
                         new ProfileSettingDrawerItem().withName("Sign Out").withIdentifier(101)
