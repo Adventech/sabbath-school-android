@@ -49,6 +49,14 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 public abstract class SSBaseActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, AccountHeader.OnAccountHeaderListener, FirebaseAuth.AuthStateListener {
     private static final String TAG = SSBaseActivity.class.getSimpleName();
     private FirebaseAuth ssFirebase;
+    private static final int MENU_READ_ID = 1;
+    private static final int MENU_HIGHLIGHTS_ID = 2;
+    private static final int MENU_NOTES_ID = 3;
+    private static final int MENU_SETTINGS_ID = 4;
+    private static final int MENU_SHARE_ID = 5;
+    private static final int MENU_ABOUT_ID = 6;
+
+    private static final int MENU_HEADER_LOGOUT_ID = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +73,13 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
     private IDrawerItem[] getDrawerItems(){
         IDrawerItem[] ssDrawerItems = new IDrawerItem[7];
 
-        ssDrawerItems[0] = new PrimaryDrawerItem().withName("Home").withIcon(GoogleMaterial.Icon.gmd_home).withIdentifier(1).withSelectable(false);
-        ssDrawerItems[1] = new PrimaryDrawerItem().withName("My highlights").withIcon(GoogleMaterial.Icon.gmd_border_color).withIdentifier(2).withSelectable(false);
-        ssDrawerItems[2] = new PrimaryDrawerItem().withName("My notes").withIcon(GoogleMaterial.Icon.gmd_comment).withIdentifier(3).withSelectable(false);
-        ssDrawerItems[3] = new PrimaryDrawerItem().withName("Settings").withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(4).withSelectable(false);
+        ssDrawerItems[0] = new PrimaryDrawerItem().withName("Read now").withIcon(GoogleMaterial.Icon.gmd_book).withIdentifier(MENU_READ_ID).withSelectable(false);
+        ssDrawerItems[1] = new PrimaryDrawerItem().withName("My Highlights").withIcon(GoogleMaterial.Icon.gmd_border_color).withIdentifier(MENU_HIGHLIGHTS_ID).withSelectable(false);
+        ssDrawerItems[2] = new PrimaryDrawerItem().withName("My Notes").withIcon(GoogleMaterial.Icon.gmd_comment).withIdentifier(MENU_NOTES_ID).withSelectable(false);
+        ssDrawerItems[3] = new PrimaryDrawerItem().withName("Settings").withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(MENU_SETTINGS_ID).withSelectable(false);
         ssDrawerItems[4] = new DividerDrawerItem();
-        ssDrawerItems[5] = new PrimaryDrawerItem().withName("Share app").withIdentifier(5).withSelectable(false);
-        ssDrawerItems[6] = new PrimaryDrawerItem().withName("About").withIdentifier(6).withSelectable(false);
+        ssDrawerItems[5] = new PrimaryDrawerItem().withName("Share Sabbath School").withIdentifier(MENU_SHARE_ID).withSelectable(false);
+        ssDrawerItems[6] = new PrimaryDrawerItem().withName("About").withIdentifier(MENU_ABOUT_ID).withSelectable(false);
 
         return ssDrawerItems;
     }
@@ -80,10 +88,10 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
         return new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
-                .withHeaderBackground(R.color.colorPrimaryDark)
+                .withHeaderBackground(R.color.colorPrimary)
                 .addProfiles(
                         new ProfileDrawerItem().withName(SSUserManager.getInstance().user.name).withEmail(SSUserManager.getInstance().user.email).withIcon(SSUserManager.getInstance().user.photo).withIdentifier(100),
-                        new ProfileSettingDrawerItem().withName("Sign Out").withIdentifier(101)
+                        new ProfileSettingDrawerItem().withName("Sign Out").withIdentifier(MENU_HEADER_LOGOUT_ID)
                 )
                 .withOnAccountHeaderListener(this)
                 .build();
@@ -97,7 +105,7 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
                 .withAccountHeader(getAccountHeader())
                 .addDrawerItems(getDrawerItems())
                 .withOnDrawerItemClickListener(this)
-                .withSelectedItem(-1)
+                .withSelectedItem(1)
                 .build();
     }
 
@@ -107,7 +115,7 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
                 .withAccountHeader(getAccountHeader())
                 .addDrawerItems(getDrawerItems())
                 .withOnDrawerItemClickListener(this)
-                .withSelectedItem(-1)
+                .withSelectedItem(1)
                 .build();
     }
 
@@ -115,14 +123,29 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
         if (drawerItem != null) {
             Log.d(TAG, String.valueOf(drawerItem.getIdentifier()));
-            if (drawerItem.getIdentifier() == 1) {
+            if (drawerItem.getIdentifier() == MENU_READ_ID) {
 
-            } else if (drawerItem.getIdentifier() == 2) {
+            } else if (drawerItem.getIdentifier() == MENU_HIGHLIGHTS_ID) {
+
+            } else if (drawerItem.getIdentifier() == MENU_NOTES_ID) {
+
+            } else if (drawerItem.getIdentifier() == MENU_SETTINGS_ID) {
+
+            } else if (drawerItem.getIdentifier() == MENU_SHARE_ID) {
+                onShareAppClick();
+            } else if (drawerItem.getIdentifier() == MENU_ABOUT_ID) {
 
             }
         }
-
         return false;
+    }
+
+    private void onShareAppClick(){
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "Sabbath School - https://play.google.com/store/apps/details?id=com.cryart.sabbathschool");
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 
     @Override
@@ -136,7 +159,7 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
 
     @Override
     public boolean onProfileChanged(View view, IProfile profile, boolean current){
-        if (profile instanceof ProfileSettingDrawerItem && profile.getIdentifier() == 101) {
+        if (profile instanceof ProfileSettingDrawerItem && profile.getIdentifier() == MENU_HEADER_LOGOUT_ID) {
             ssFirebase.signOut();
             onLogoutEvent();
         }
