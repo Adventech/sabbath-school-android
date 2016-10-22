@@ -22,44 +22,66 @@
 
 package com.cryart.sabbathschool.behavior;
 
+
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorCompat;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
+import android.view.animation.Interpolator;
 
 /**
- * Implementation based on this answer:
- *
- * http://stackoverflow.com/questions/32038332/using-google-design-library-how-to-hide-fab-button-on-scroll-down
- *
+ * Based on the BottomBarBehavior implementation of https://github.com/roughike/BottomBar
  */
 
-public class SSReadingNavigationBarBehavior<V extends View> extends CoordinatorLayout.Behavior<V> {
+class SSReadingNavigationBarBehavior<V extends View> extends VerticalScrollingBehavior<V> {
+    private static final Interpolator INTERPOLATOR = new LinearOutSlowInInterpolator();
+    private ViewPropertyAnimatorCompat mTranslationAnimator;
+    private boolean hidden = false;
+
     public SSReadingNavigationBarBehavior(Context context, AttributeSet attrs) {
         super();
     }
 
     @Override
-    public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout,
-                                       V child, View directTargetChild, View target, int nestedScrollAxes) {
-        // Ensure we react to vertical scrolling
-        return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL
-                || super.onStartNestedScroll(coordinatorLayout, child,
-                directTargetChild, target, nestedScrollAxes);
+    public void onNestedVerticalOverScroll(CoordinatorLayout coordinatorLayout, V child, @ScrollDirection int direction, int currentOverScroll, int totalOverScroll) {
     }
 
     @Override
-    public void onNestedScroll(CoordinatorLayout coordinatorLayout, V child, View target,
-                               int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-        super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed,
-                dxUnconsumed, dyUnconsumed);
-        if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
-            child.setVisibility(View.INVISIBLE);
+    public void onDirectionNestedPreScroll(CoordinatorLayout coordinatorLayout, V child, View target, int dx, int dy, int[] consumed, @ScrollDirection int scrollDirection) {
+        handleDirection(child, scrollDirection);
+    }
 
-        } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) {
-            child.setVisibility(View.VISIBLE);
+    private void handleDirection(V child, int scrollDirection) {
+        if (scrollDirection == ScrollDirection.SCROLL_DIRECTION_DOWN && hidden) {
+            hidden = false;
+            animateOffset(child, 0);
+        } else if (scrollDirection == ScrollDirection.SCROLL_DIRECTION_UP && !hidden) {
+            hidden = true;
+            animateOffset(child, child.getHeight());
+        }
+    }
+
+    @Override
+    protected boolean onNestedDirectionFling(CoordinatorLayout coordinatorLayout, V child, View target, float velocityX, float velocityY, @ScrollDirection int scrollDirection) {
+        handleDirection(child, scrollDirection);
+        return true;
+    }
+
+    private void animateOffset(final V child, final int offset) {
+        ensureOrCancelAnimator(child);
+        mTranslationAnimator.translationY(offset).start();
+    }
+
+    private void ensureOrCancelAnimator(V child) {
+        if (mTranslationAnimator == null) {
+            mTranslationAnimator = ViewCompat.animate(child);
+            mTranslationAnimator.setDuration(300);
+            mTranslationAnimator.setInterpolator(INTERPOLATOR);
+        } else {
+            mTranslationAnimator.cancel();
         }
     }
 }
