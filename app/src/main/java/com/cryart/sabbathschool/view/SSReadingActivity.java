@@ -23,12 +23,15 @@
 package com.cryart.sabbathschool.view;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.webkit.WebViewClient;
 
 import com.bumptech.glide.Glide;
@@ -42,6 +45,8 @@ import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLessonInfo;
 import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 public class SSReadingActivity extends SSBaseActivity implements SSReadingViewModel.DataListener {
     private static final String TAG = SSReadingActivity.class.getSimpleName();
@@ -83,6 +88,30 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         binding.setViewModel(ssReadingViewModel);
 
         setUpDrawer();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.ss_reading_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.ss_reading_menu_display_options);
+        menuItem.setIcon(
+                new IconicsDrawable(this)
+                        .icon(GoogleMaterial.Icon.gmd_text_format)
+                        .color(Color.WHITE)
+                        .sizeDp(16)
+        );
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.ss_reading_menu_display_options){
+            binding.getViewModel().onDisplayOptionsClick();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

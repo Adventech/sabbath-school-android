@@ -39,6 +39,7 @@ import com.cryart.sabbathschool.misc.SSHelper;
 import com.cryart.sabbathschool.model.SSLessonInfo;
 import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.view.SSReadingActivity;
+import com.cryart.sabbathschool.view.SSReadingDisplayOptionsView;
 import com.cryart.sabbathschool.view.SSReadingView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -222,5 +223,15 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     public interface DataListener {
         void onLessonInfoChanged(SSLessonInfo ssLessonInfo);
         void onReadChanged(SSRead ssRead);
+    }
+
+    public void onDisplayOptionsClick(){
+        SSReadingDisplayOptionsView ssReadingDisplayOptionsView = new SSReadingDisplayOptionsView();
+        ssReadingDisplayOptionsView.setSSReadingViewModel(context, this);
+        ssReadingDisplayOptionsView.show(((SSReadingActivity)context).getSupportFragmentManager(), ssReadingDisplayOptionsView.getTag());
+    }
+
+    public void onHideWebViewClick(){
+        ssReadingActivityBinding.ssWw.setVisibility(View.INVISIBLE);
     }
 }
