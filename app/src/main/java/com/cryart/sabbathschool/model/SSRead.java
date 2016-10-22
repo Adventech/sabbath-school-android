@@ -23,6 +23,10 @@
 package com.cryart.sabbathschool.model;
 
 public class SSRead {
+    public String id;
+    public String date;
+    public String index;
+    public String title;
     public String content;
     public String[] verses;
 
@@ -31,7 +35,11 @@ public class SSRead {
 
     }
 
-    public SSRead(String content, String[] verses){
+    public SSRead(String id, String date, String index, String title, String content, String[] verses){
+        this.id = id;
+        this.date = date;
+        this.index = index;
+        this.title = title;
         this.content = content;
         this.verses = verses;
     }

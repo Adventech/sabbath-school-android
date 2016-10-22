@@ -32,7 +32,6 @@
     </data>
 
     <android.support.design.widget.CoordinatorLayout
-
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:id="@+id/ss_reading_coordinator"
@@ -41,7 +40,6 @@
 
         <include
             layout="@layout/ss_reading_app_bar"
-            bind:cover="@{viewModel.cover}"
             android:id="@+id/ss_app_bar"/>
 
         <android.support.v4.widget.NestedScrollView
@@ -51,15 +49,26 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <WebView
+            <com.cryart.sabbathschool.view.SSReadingView
                 android:id="@+id/ss_ww"
                 android:isScrollContainer="false"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-            </WebView>
         </android.support.v4.widget.NestedScrollView>
 
+        <android.support.v7.widget.CardView
+            android:id="@+id/ssContextMenu"
+            android:visibility="invisible"
+            android:layout_width="260dp"
+            android:layout_height="80dp">
+            <TextView
+
+                android:layout_gravity="center|center_horizontal"
+                android:text="Context Menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </android.support.v7.widget.CardView>
 
         <include layout="@layout/ss_reading_navigation_bar"
             app:layout_behavior="com.cryart.sabbathschool.behavior.SSReadingNavigationBarBehavior"
