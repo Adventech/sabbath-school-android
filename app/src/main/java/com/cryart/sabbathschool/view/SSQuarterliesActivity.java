@@ -66,11 +66,13 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         binding.ssQuarterliesList.setAdapter(adapter);
         binding.ssQuarterliesList.setLayoutManager(new LinearLayoutManager(this));
 
+
         SSQuarterliesLanguageFilterAdapter languageFilterAdapter = new SSQuarterliesLanguageFilterAdapter();
         binding.ssQuarterlyLanguagesList.setAdapter(languageFilterAdapter);
         binding.ssQuarterlyLanguagesList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         ssQuarterliesViewModel = new SSQuarterliesViewModel(this, this);
+        ((SSQuarterliesLanguageFilterAdapter)binding.ssQuarterlyLanguagesList.getAdapter()).setQuarterliesViewModel(ssQuarterliesViewModel);
 
         binding.executePendingBindings();
         binding.setViewModel(ssQuarterliesViewModel);

@@ -59,7 +59,7 @@
         fancy:fb_textSize="12sp"
         fancy:fb_textColor="@color/ss_quarterly_item_featured_read_text_color"
         app:fancyColor="@{viewModel.selected}"
-        android:onClick="@{viewModel::onClick}"
+        android:onClick="@{() -> viewModel.onQuarterlyLanguageItemClick()}"
         />
     </LinearLayout>
 </layout>

@@ -29,10 +29,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.cryart.sabbathschool.R;
-import com.cryart.sabbathschool.bus.SSBusProvider;
-import com.cryart.sabbathschool.event.SSLanguageFilterChangeEvent;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
-import com.squareup.otto.Produce;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
@@ -40,11 +37,13 @@ public class SSQuarterlyLanguageItemViewModel extends BaseObservable implements 
     private static final String TAG = SSQuarterlyLanguageItemViewModel.class.getSimpleName();
     private SSQuarterlyLanguage ssQuarterlyLanguage;
     private Context context;
+    private SSQuarterliesViewModel ssQuarterliesViewModel;
     private SSQuarterliesLanguageChangeListener changeListener;
 
-    public SSQuarterlyLanguageItemViewModel(Context context, SSQuarterlyLanguage ssQuarterlyLanguage) {
+    public SSQuarterlyLanguageItemViewModel(Context context, SSQuarterlyLanguage ssQuarterlyLanguage, SSQuarterliesViewModel ssQuarterliesViewModel) {
         this.ssQuarterlyLanguage = ssQuarterlyLanguage;
         this.context = context;
+        this.ssQuarterliesViewModel = ssQuarterliesViewModel;
     }
 
     public void setChangeListener(SSQuarterliesLanguageChangeListener changeListener){
@@ -89,12 +88,11 @@ public class SSQuarterlyLanguageItemViewModel extends BaseObservable implements 
         }
     }
 
-    public void onClick(View view) {
+    public void onQuarterlyLanguageItemClick() {
         ssQuarterlyLanguage.selected = 1;
+        ssQuarterliesViewModel.onChangeLanguageEvent(ssQuarterlyLanguage);
         changeListener.onLanguageCheck(ssQuarterlyLanguage.code);
         notifyChange();
-
-        SSBusProvider.getInstance().post(produceEvent());
     }
 
     @Override
@@ -104,10 +102,5 @@ public class SSQuarterlyLanguageItemViewModel extends BaseObservable implements 
 
     public interface SSQuarterliesLanguageChangeListener {
         boolean onLanguageCheck(String code);
-    }
-
-    @Produce
-    public SSLanguageFilterChangeEvent produceEvent(){
-        return new SSLanguageFilterChangeEvent();
     }
 }
