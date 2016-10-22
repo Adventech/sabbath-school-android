@@ -37,6 +37,7 @@ import android.webkit.WebView;
 public class SSReadingView extends WebView {
     private float LastTouchX;
     private float LastTouchY;
+    private boolean contextMenuShown = false;
     private GestureDetectorCompat gestureDetector;
 
     private ContextMenuCallback contextMenuCallback;
@@ -64,6 +65,7 @@ public class SSReadingView extends WebView {
     @Override
     public ActionMode startActionMode(ActionMode.Callback callback) {
         contextMenuCallback.onSelectionStarted(LastTouchX, LastTouchY);
+        contextMenuShown = true;
         return this.emptyActionMode();
     }
 
@@ -106,12 +108,13 @@ public class SSReadingView extends WebView {
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public void onLongPress(MotionEvent event) {
-            contextMenuCallback.onSelectionStarted(LastTouchX, LastTouchY);
+            if (contextMenuShown) contextMenuCallback.onSelectionStarted(LastTouchX, LastTouchY);
         }
 
         @Override
         public boolean onSingleTapUp(MotionEvent event) {
             contextMenuCallback.onSelectionFinished();
+            contextMenuShown = false;
             return true;
         }
     }
