@@ -27,39 +27,44 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.databinding.ObservableInt;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 
 import com.cryart.sabbathschool.R;
+import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.misc.SSHelper;
 import com.cryart.sabbathschool.model.SSLessonInfo;
 import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.view.SSReadingActivity;
+import com.cryart.sabbathschool.view.SSReadingView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class SSReadingViewModel implements SSViewModel {
+public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMenuCallback {
     private static final String TAG = SSReadingViewModel.class.getSimpleName();
-    private static final int ANIMATION_DURATION = 300;
 
     private Context context;
     private String ssLessonIndex;
     private DataListener dataListener;
     private DatabaseReference mDatabase;
     private ValueEventListener ssReadRef;
+    private SsReadingActivityBinding ssReadingActivityBinding;
 
     public SSLessonInfo ssLessonInfo;
     public ObservableInt ssReadPosition;
     public SSRead ssRead;
 
-
-    public SSReadingViewModel(Context context, DataListener dataListener, String ssLessonIndex) {
+    public SSReadingViewModel(Context context, DataListener dataListener, String ssLessonIndex, SsReadingActivityBinding ssReadingActivityBinding) {
         this.context = context;
         this.dataListener = dataListener;
         this.ssLessonIndex = ssLessonIndex;
+        this.ssReadingActivityBinding = ssReadingActivityBinding;
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.keepSynced(true);
@@ -168,6 +173,50 @@ public class SSReadingViewModel implements SSViewModel {
             return ssLessonInfo.lesson.cover;
         }
         return "";
+    }
+
+    @Override
+    public void onSelectionStarted(float x, float y) {
+        y = y - ssReadingActivityBinding.nsv.getScrollY();
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        ((SSReadingActivity)context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) ssReadingActivityBinding.ssContextMenu.getLayoutParams();
+
+        int contextMenuWidth = ssReadingActivityBinding.ssContextMenu.getWidth();
+        int contextMenuHeight = ssReadingActivityBinding.ssContextMenu.getHeight();
+
+
+        int screenWidth = metrics.widthPixels;
+        int screenHeight = metrics.heightPixels;
+
+        int margin = SSHelper.convertDpToPixels(context, 20);
+        int jumpMargin = SSHelper.convertDpToPixels(context, 60);
+
+
+        int contextMenuX = (int)x - (contextMenuWidth / 2);
+        int contextMenuY = ssReadingActivityBinding.nsv.getTop() + (int)y - contextMenuHeight - margin;
+
+        if (contextMenuX - margin < 0){
+            contextMenuX = margin;
+        }
+
+        if (contextMenuX + contextMenuWidth + margin > screenWidth){
+            contextMenuX = screenWidth - margin - contextMenuWidth;
+        }
+
+        if (contextMenuY - margin < 0){
+            contextMenuY = contextMenuY + contextMenuHeight + jumpMargin;
+        }
+
+        params.setMargins(contextMenuX, contextMenuY, 0, 0);
+        ssReadingActivityBinding.ssContextMenu.setLayoutParams(params);
+        ssReadingActivityBinding.ssContextMenu.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onSelectionFinished() {
+        ssReadingActivityBinding.ssContextMenu.setVisibility(View.INVISIBLE);
     }
 
     public interface DataListener {

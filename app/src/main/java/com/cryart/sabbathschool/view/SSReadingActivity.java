@@ -70,14 +70,13 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         binding.ssAppBar.ssCollapsingToolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
         binding.ssAppBar.ssCollapsingToolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
 
-        binding.ssAppBar.ssCollapsingToolbar.setTitle("The End");
-
         binding.ssWw.getSettings().setJavaScriptEnabled(true);
         binding.ssWw.setWebViewClient(new WebViewClient());
 
         ViewCompat.setNestedScrollingEnabled(binding.ssReadingSheetList, false);
 
-        ssReadingViewModel = new SSReadingViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_LESSON_INDEX_EXTRA));
+        ssReadingViewModel = new SSReadingViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_LESSON_INDEX_EXTRA), binding);
+        binding.ssWw.setContextMenuCallback(ssReadingViewModel);
         ((SSReadingListAdapter)binding.ssReadingSheetList.getAdapter()).setReadingViewModel(ssReadingViewModel);
 
         binding.executePendingBindings();
@@ -100,7 +99,6 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     public void onLessonInfoChanged(SSLessonInfo ssLessonInfo){
         SSReadingListAdapter adapter = (SSReadingListAdapter) binding.ssReadingSheetList.getAdapter();
         adapter.setDays(ssLessonInfo.days);
-        adapter.notifyDataSetChanged();
 
         Glide.with(this)
                 .load(ssLessonInfo.lesson.cover)
@@ -117,11 +115,15 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
                     }
                 })
                 .into(binding.ssAppBar.ssCollapsingToolbarBackdrop);
+        adapter.notifyDataSetChanged();
         binding.invalidateAll();
     }
 
     @Override
     public void onReadChanged(SSRead ssRead){
         binding.ssWw.loadData(ssRead.content, "text/html", "utf-8");
+        binding.ssAppBar.ssCollapsingToolbar.setTitle(ssRead.title);
+        binding.ssAppBar.readDate.setText(ssRead.date);
+        binding.invalidateAll();
     }
 }
