@@ -30,13 +30,15 @@ import android.view.ViewGroup;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsQuarterlyLanguageItemBinding;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
+import com.cryart.sabbathschool.viewmodel.SSQuarterliesViewModel;
 import com.cryart.sabbathschool.viewmodel.SSQuarterlyLanguageItemViewModel;
 
 import java.util.Collections;
 import java.util.List;
 
-public class SSQuarterliesLanguageFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SSQuarterlyLanguageItemViewModel.SSQuarterliesLanguageChangeListener {
+public class SSQuarterliesLanguageFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SSQuarterlyLanguageItemViewModel.SSQuarterliesLanguageChangeListener{
     private List<SSQuarterlyLanguage> ssQuarterlyLanguages;
+    private SSQuarterliesViewModel ssQuarterliesViewModel;
 
     public SSQuarterliesLanguageFilterAdapter() {
         this.ssQuarterlyLanguages = Collections.emptyList();
@@ -48,6 +50,10 @@ public class SSQuarterliesLanguageFilterAdapter extends RecyclerView.Adapter<Rec
 
     public void setQuarterlyLanguages(List<SSQuarterlyLanguage> ssQuarterlyLanguages) {
         this.ssQuarterlyLanguages = ssQuarterlyLanguages;
+    }
+
+    public void setQuarterliesViewModel(SSQuarterliesViewModel ssQuarterliesViewModel){
+        this.ssQuarterliesViewModel = ssQuarterliesViewModel;
     }
 
     @Override
@@ -65,7 +71,7 @@ public class SSQuarterliesLanguageFilterAdapter extends RecyclerView.Adapter<Rec
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         SSQuarterliesLanguageFilterHolder holder1 = (SSQuarterliesLanguageFilterHolder) holder;
-        holder1.bindQuarterlyLanguage(ssQuarterlyLanguages.get(position));
+        holder1.bindQuarterlyLanguage(ssQuarterlyLanguages.get(position), ssQuarterliesViewModel);
         holder1.binding.getViewModel().setChangeListener(this);
         holder1.binding.executePendingBindings();
     }
@@ -85,9 +91,9 @@ public class SSQuarterliesLanguageFilterAdapter extends RecyclerView.Adapter<Rec
             this.binding = binding;
         }
 
-        void bindQuarterlyLanguage(SSQuarterlyLanguage ssQuarterlyLanguage) {
+        void bindQuarterlyLanguage(SSQuarterlyLanguage ssQuarterlyLanguage, SSQuarterliesViewModel ssQuarterliesViewModel) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new SSQuarterlyLanguageItemViewModel(itemView.getContext(), ssQuarterlyLanguage));
+                binding.setViewModel(new SSQuarterlyLanguageItemViewModel(itemView.getContext(), ssQuarterlyLanguage, ssQuarterliesViewModel));
             } else {
                 binding.getViewModel().setSsQuarterlyLanguage(ssQuarterlyLanguage);
             }

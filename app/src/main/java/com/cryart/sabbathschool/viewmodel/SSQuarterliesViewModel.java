@@ -36,8 +36,6 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.cryart.sabbathschool.R;
-import com.cryart.sabbathschool.bus.SSBusProvider;
-import com.cryart.sabbathschool.event.SSLanguageFilterChangeEvent;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
@@ -48,7 +46,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +58,7 @@ public class SSQuarterliesViewModel implements SSViewModel {
 
     private List<SSQuarterly> ssQuarterlies;
     private List<SSQuarterlyLanguage> quarterlyLanguages;
+    private SSQuarterlyLanguage ssQuarterlyLanguage;
     private DataListener dataListener;
     private DatabaseReference mDatabase;
 
@@ -97,9 +95,16 @@ public class SSQuarterliesViewModel implements SSViewModel {
             this.quarterlyLanguages.add(new SSQuarterlyLanguage(language_codes[i], language_names[i], language_selects[i]));
         }
 
-        dataListener.onQuarterliesLanguagesChanged(quarterlyLanguages);
+        for(SSQuarterlyLanguage lang : quarterlyLanguages){
+            if (lang.selected == 1){
+                ssQuarterlyLanguage = lang;
+                break;
+            }
+        }
 
-        SSBusProvider.getInstance().register(this);
+        if (ssQuarterlyLanguage == null) ssQuarterlyLanguage = new SSQuarterlyLanguage("en", "English", 1);
+
+        dataListener.onQuarterliesLanguagesChanged(quarterlyLanguages);
 
         loadQuarterlies(getSelectedLanguage());
     }
@@ -132,15 +137,6 @@ public class SSQuarterliesViewModel implements SSViewModel {
     }
 
     private SSQuarterlyLanguage getSelectedLanguage(){
-        SSQuarterlyLanguage ssQuarterlyLanguage = null;
-        for(SSQuarterlyLanguage lang : quarterlyLanguages){
-            if (lang.selected == 1){
-                ssQuarterlyLanguage = lang;
-                break;
-            }
-        }
-
-        if (ssQuarterlyLanguage == null) ssQuarterlyLanguage = new SSQuarterlyLanguage("en", "English", 1);
         return ssQuarterlyLanguage;
     }
 
@@ -192,7 +188,6 @@ public class SSQuarterliesViewModel implements SSViewModel {
         dataListener = null;
         ssQuarterlies = null;
         quarterlyLanguages = null;
-        SSBusProvider.getInstance().unregister(this);
     }
 
     @BindingAdapter("android:layout_marginTop")
@@ -218,8 +213,8 @@ public class SSQuarterliesViewModel implements SSViewModel {
         set.start();
     }
 
-    @Subscribe
-    public void onChangeLanguageEvent(SSLanguageFilterChangeEvent event){
+    public void onChangeLanguageEvent(SSQuarterlyLanguage ssQuarterlyLanguage){
+        this.ssQuarterlyLanguage = ssQuarterlyLanguage;
         this.loadQuarterlies(getSelectedLanguage());
     }
 

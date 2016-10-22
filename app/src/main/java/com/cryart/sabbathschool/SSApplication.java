@@ -30,7 +30,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.crashlytics.android.Crashlytics;
-import com.cryart.sabbathschool.api.SSApiService;
 import com.cryart.sabbathschool.misc.SSUserManager;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -46,7 +45,6 @@ import rx.schedulers.Schedulers;
 
 public class SSApplication extends Application {
     private static SSApplication instance;
-    private SSApiService ssApiService;
     private Scheduler defaultSubscribeScheduler;
 
     public static SSApplication get(Context context) {
@@ -57,12 +55,6 @@ public class SSApplication extends Application {
         return instance;
     }
 
-    public SSApiService getGithubService() {
-        if (ssApiService == null) {
-            ssApiService = SSApiService.Factory.create();
-        }
-        return ssApiService;
-    }
 
     @Override
     public void onCreate() {
