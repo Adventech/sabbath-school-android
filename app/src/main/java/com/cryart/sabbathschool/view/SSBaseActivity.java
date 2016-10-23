@@ -134,7 +134,7 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
             } else if (drawerItem.getIdentifier() == MENU_SHARE_ID) {
                 onShareAppClick();
             } else if (drawerItem.getIdentifier() == MENU_ABOUT_ID) {
-
+                startActivity(new Intent(SSBaseActivity.this, SSAboutActivity.class));
             }
         }
         return false;
