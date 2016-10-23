@@ -82,7 +82,7 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="@{viewModel.ssReadPosition > 0 ? viewModel.ssLessonInfo.days.get(viewModel.ssReadPosition-1).date : null}"
+                        android:text="@{viewModel.ssReadPosition > 0 ? viewModel.getDayDate(viewModel.ssReadPosition-1) : null}"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:textSize="12sp"
@@ -164,7 +164,7 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="@{viewModel.ssReadPosition &lt; (viewModel.ssLessonInfo.days.size()-1) ? viewModel.ssLessonInfo.days.get(viewModel.ssReadPosition+1).date : null}"
+                        android:text="@{viewModel.ssReadPosition &lt; (viewModel.ssLessonInfo.days.size()-1) ? viewModel.getDayDate(viewModel.ssReadPosition+1) : null}"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:textSize="12sp"

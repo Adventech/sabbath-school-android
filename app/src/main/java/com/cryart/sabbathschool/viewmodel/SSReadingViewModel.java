@@ -195,6 +195,30 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         return "";
     }
 
+    public String getLessonInterval() {
+        if (ssLessonInfo != null){
+            String startDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+                    .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                            .parseDateTime(ssLessonInfo.lesson.start_date));
+
+            String endDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+                    .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                            .parseDateTime(ssLessonInfo.lesson.end_date));
+
+            return startDateOut + " - " + endDateOut;
+        }
+        return "";
+    }
+
+    public String getDayDate(int ssDayIdx) {
+        if (ssLessonInfo != null && ssLessonInfo.days.size() > ssDayIdx){
+            return DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+                    .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                            .parseDateTime(ssLessonInfo.days.get(ssDayIdx).date));
+        }
+        return "";
+    }
+
     @Override
     public void onSelectionStarted(float x, float y) {
         y = y - ssReadingActivityBinding.nsv.getScrollY();

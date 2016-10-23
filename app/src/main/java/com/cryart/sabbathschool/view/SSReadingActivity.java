@@ -48,6 +48,8 @@ import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
+import org.joda.time.format.DateTimeFormat;
+
 public class SSReadingActivity extends SSBaseActivity implements SSReadingViewModel.DataListener {
     private static final String TAG = SSReadingActivity.class.getSimpleName();
 
@@ -152,7 +154,9 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     public void onReadChanged(SSRead ssRead){
         binding.ssWw.loadData(ssRead.content, "text/html", "utf-8");
         binding.ssAppBar.ssCollapsingToolbar.setTitle(ssRead.title);
-        binding.ssAppBar.readDate.setText(ssRead.date);
+        binding.ssAppBar.readDate.setText(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+                .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                        .parseDateTime(ssRead.date)));
         binding.invalidateAll();
     }
 }
