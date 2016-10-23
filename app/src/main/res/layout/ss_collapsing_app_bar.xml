@@ -24,10 +24,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fancy="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="appBarVisibility" type="int"/>
-        <variable name="cover" type="String"/>
-        <variable name="description" type="String"/>
-        <variable name="date" type="String"/>
+        <variable name="viewModel" type="com.cryart.sabbathschool.viewmodel.SSLessonsViewModel" />
     </data>
 
     <android.support.design.widget.AppBarLayout
@@ -37,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:theme="@style/AppTheme.AppBarOverlay"
-        android:visibility="@{appBarVisibility}"
+        android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
         app:elevation="@dimen/ss_app_bar_default_elevation">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -60,7 +57,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="@{date}"
+                    android:text="@{viewModel.date}"
                     android:id="@+id/date"
                     android:textStyle="italic"
                     android:layout_width="wrap_content"
@@ -76,10 +73,10 @@
                     android:layout_height="@dimen/ss_quarterly_item_featured_cover_height"
                     android:background="@android:drawable/dialog_holo_light_frame"
                     android:padding="@dimen/ss_quarterly_item_featured_cover_padding"
-                    app:coverUrl="@{cover}" />
+                    app:coverUrl="@{viewModel.cover}" />
 
                 <TextView
-                    android:text="@{description}"
+                    android:text="@{viewModel.description}"
                     android:id="@+id/description"
                     android:layout_below="@+id/date"
                     android:layout_marginTop="20dp"
@@ -102,7 +99,6 @@
                     android:layout_toRightOf="@+id/ss_quarterly_item_normal_cover"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
-
                     android:minWidth="@dimen/ss_quarterly_item_featured_read_min_width"
                     fancy:fb_textFont="Roboto-Bold.ttf"
                     fancy:fb_borderWidth="@dimen/ss_quarterly_item_featured_read_border_width"
@@ -111,6 +107,7 @@
                     fancy:fb_radius="@dimen/ss_quarterly_item_featured_read_radius"
                     fancy:fb_text="Read"
                     fancy:fb_textColor="@color/ss_quarterly_item_featured_read_text_color"
+                    android:onClick="@{() -> viewModel.onReadClick()}"
                      />
             </RelativeLayout>
 

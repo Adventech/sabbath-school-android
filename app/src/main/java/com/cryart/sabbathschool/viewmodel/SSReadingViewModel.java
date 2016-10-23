@@ -36,6 +36,7 @@ import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.misc.SSHelper;
+import com.cryart.sabbathschool.model.SSDay;
 import com.cryart.sabbathschool.model.SSLessonInfo;
 import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.view.SSReadingActivity;
@@ -46,6 +47,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMenuCallback {
     private static final String TAG = SSReadingViewModel.class.getSimpleName();
@@ -70,7 +74,6 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.keepSynced(true);
 
-        // Logic to jump to today if in this lesson, to the first lesson otherwise
         ssReadPosition = new ObservableInt(0);
 
         loadLessonInfo();
@@ -85,6 +88,22 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                         if (dataSnapshot != null) {
                             ssLessonInfo = dataSnapshot.getValue(SSLessonInfo.class);
                             dataListener.onLessonInfoChanged(ssLessonInfo);
+
+                            if (ssLessonInfo != null && ssLessonInfo.days.size() > 0) {
+                                DateTime today = DateTime.now().withTimeAtStartOfDay();
+                                int idx = 0;
+
+                                for (SSDay ssDay : ssLessonInfo.days){
+                                    DateTime startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                                            .parseDateTime(ssDay.date).withTimeAtStartOfDay();
+
+                                    if (startDate.isEqual(today)){
+                                        ssReadPosition.set(idx);
+                                        break;
+                                    }
+                                    idx++;
+                                }
+                            }
                             loadRead();
                         }
                     }

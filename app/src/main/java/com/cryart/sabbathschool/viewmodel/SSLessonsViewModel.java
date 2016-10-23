@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
 import android.support.v4.view.ViewCompat;
@@ -31,12 +32,18 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.model.SSLesson;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
+import com.cryart.sabbathschool.view.SSReadingActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.format.DateTimeFormat;
 
 public class SSLessonsViewModel implements SSViewModel {
     private static final String TAG = SSLessonsViewModel.class.getSimpleName();
@@ -109,6 +116,30 @@ public class SSLessonsViewModel implements SSViewModel {
         dataListener = null;
         ssQuarterlyInfo = null;
         ssQuarterlyIndex = null;
+    }
+
+    public void onReadClick(){
+        if (ssQuarterlyInfo != null && ssQuarterlyInfo.lessons.size() > 0) {
+            DateTime today = DateTime.now();
+            String ssLessonIndex = ssQuarterlyInfo.lessons.get(0).index;
+
+            for (SSLesson ssLesson : ssQuarterlyInfo.lessons){
+                DateTime startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                        .parseDateTime(ssLesson.start_date);
+
+                DateTime endDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                        .parseDateTime(ssLesson.end_date);
+
+                if (new Interval(startDate, endDate).contains(today)){
+                    ssLessonIndex = ssLesson.index;
+                    break;
+                }
+            }
+
+            Intent ssReadingIntent = new Intent(context, SSReadingActivity.class);
+            ssReadingIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, ssLessonIndex);
+            context.startActivity(ssReadingIntent);
+        }
     }
 
     public void setDataListener(DataListener dataListener) {
