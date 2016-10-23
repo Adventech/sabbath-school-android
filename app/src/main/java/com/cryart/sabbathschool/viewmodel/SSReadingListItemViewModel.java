@@ -25,7 +25,10 @@ package com.cryart.sabbathschool.viewmodel;
 import android.content.Context;
 import android.databinding.BaseObservable;
 
+import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSDay;
+
+import org.joda.time.format.DateTimeFormat;
 
 public class SSReadingListItemViewModel extends BaseObservable implements SSViewModel {
     private static final String TAG = SSReadingListItemViewModel.class.getSimpleName();
@@ -49,7 +52,9 @@ public class SSReadingListItemViewModel extends BaseObservable implements SSView
     }
 
     public String getDate() {
-        return ssDay.date;
+        return DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+                .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                        .parseDateTime(ssDay.date));
     }
 
     public void onItemClick(){

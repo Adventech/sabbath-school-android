@@ -131,7 +131,7 @@
                         android:textColor="#dcdcdc"
                         android:textStyle="italic"
                         android:maxLines="1"
-                        android:text="@{viewModel.ssLessonInfo.lesson.start_date}"
+                        android:text="@{viewModel.lessonInterval}"
                         />
                 </RelativeLayout>
 
