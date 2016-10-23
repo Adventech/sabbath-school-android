@@ -25,16 +25,22 @@ package com.cryart.sabbathschool.view;
 
 import android.content.Context;
 import android.support.v4.view.GestureDetectorCompat;
+import android.text.InputType;
 import android.util.AttributeSet;
+import android.util.Base64;
 import android.view.ActionMode;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 public class SSReadingView extends WebView {
+    private final String bridgeName = "SSBridge";
     private float LastTouchX;
     private float LastTouchY;
     private boolean contextMenuShown = false;
@@ -45,16 +51,20 @@ public class SSReadingView extends WebView {
     public SSReadingView(final Context context) {
         super(context);
         gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
+        this.addJavascriptInterface(new SSReadViewBridge(context), bridgeName);
+
     }
 
     public SSReadingView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
+        this.addJavascriptInterface(new SSReadViewBridge(context), bridgeName);
     }
 
     public SSReadingView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
+        this.addJavascriptInterface(new SSReadViewBridge(context), bridgeName);
     }
 
     @Override
@@ -116,6 +126,38 @@ public class SSReadingView extends WebView {
             contextMenuCallback.onSelectionFinished();
             contextMenuShown = false;
             return true;
+        }
+    }
+
+    private class SSReadViewBridge {
+        Context context;
+        SSReadViewBridge(Context c) {
+            context = c;
+        }
+
+        @JavascriptInterface
+        public void saveComments(String comments, final String inputId){
+            try {
+                comments = new String(Base64.decode(comments, Base64.DEFAULT), "UTF-8");
+
+                new MaterialDialog.Builder(context)
+                        .title("Comment")
+                        .inputType(InputType.TYPE_CLASS_TEXT)
+                        .input("Enter your comment", comments, new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, final CharSequence input) {
+                                ((SSReadingActivity)context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        loadUrl(String.format("javascript:ssReader.setComment('%s', '%s');", Base64.encodeToString(input.toString().getBytes(), Base64.DEFAULT), inputId));
+                                    }
+                                });
+
+
+                            }
+                        }).show();
+
+            } catch (Exception e){}
         }
     }
 }

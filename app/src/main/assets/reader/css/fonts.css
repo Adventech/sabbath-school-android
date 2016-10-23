@@ -1,0 +1,144 @@
+@font-face {
+  font-family: 'andada';
+  src: url('../fonts/andada/andada-bold-webfont.woff2') format('woff2'),
+  url('../fonts/andada/andada-bold-webfont.woff') format('woff'),
+  url('../fonts/andada/andada-bold-webfont.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'andada';
+  src: url('../fonts/andada/andada-bolditalic-webfont.woff2') format('woff2'),
+  url('../fonts/andada/andada-bolditalic-webfont.woff') format('woff'),
+  url('../fonts/andada/andada-bolditalic-webfont.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'andada';
+  src: url('../fonts/andada/andada-italic-webfont.woff2') format('woff2'),
+  url('../fonts/andada/andada-italic-webfont.woff') format('woff'),
+  url('../fonts/andada/andada-italic-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'andada';
+  src: url('../fonts/andada/andada-regular-webfont.woff2') format('woff2'),
+  url('../fonts/andada/andada-regular-webfont.woff') format('woff'),
+  url('../fonts/andada/andada-regular-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'lato';
+  src: url('../fonts/lato/lato-bold-webfont.woff2') format('woff2'),
+  url('../fonts/lato/lato-bold-webfont.woff') format('woff'),
+  url('../fonts/lato/lato-bold-webfont.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'lato';
+  src: url('../fonts/lato/lato-bolditalic-webfont.woff2') format('woff2'),
+  url('../fonts/lato/lato-bolditalic-webfont.woff') format('woff'),
+  url('../fonts/lato/lato-bolditalic-webfont.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'lato';
+  src: url('../fonts/lato/lato-italic-webfont.woff2') format('woff2'),
+  url('../fonts/lato/lato-italic-webfont.woff') format('woff'),
+  url('../fonts/lato/lato-italic-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'lato';
+  src: url('../fonts/lato/lato-regular-webfont.woff2') format('woff2'),
+  url('../fonts/lato/lato-regular-webfont.woff') format('woff'),
+  url('../fonts/lato/lato-regular-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'pt serif';
+  src: url('../fonts/pt-serif/ptf55f-webfont.woff2') format('woff2'),
+  url('../fonts/pt-serif/ptf55f-webfont.woff') format('woff'),
+  url('../fonts/pt-serif/ptf55f-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'pt serif';
+  src: url('../fonts/pt-serif/ptf56f-webfont.woff2') format('woff2'),
+  url('../fonts/pt-serif/ptf56f-webfont.woff') format('woff'),
+  url('../fonts/pt-serif/ptf56f-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'pt serif';
+  src: url('../fonts/pt-serif/ptf75f-webfont.woff2') format('woff2'),
+  url('../fonts/pt-serif/ptf75f-webfont.woff') format('woff'),
+  url('../fonts/pt-serif/ptf75f-webfont.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'pt serif';
+  src: url('../fonts/pt-serif/ptf76f-webfont.woff2') format('woff2'),
+  url('../fonts/pt-serif/ptf76f-webfont.woff') format('woff'),
+  url('../fonts/pt-serif/ptf76f-webfont.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'pt sans';
+  src: url('../fonts/pt-sans/pts55f-webfont.woff2') format('woff2'),
+  url('../fonts/pt-sans/pts55f-webfont.woff') format('woff'),
+  url('../fonts/pt-sans/pts55f-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'pt sans';
+  src: url('../fonts/pt-sans/pts56f-webfont.woff2') format('woff2'),
+  url('../fonts/pt-sans/pts56f-webfont.woff') format('woff'),
+  url('../fonts/pt-sans/pts56f-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'pt sans';
+  src: url('../fonts/pt-sans/pts75f-webfont.woff2') format('woff2'),
+  url('../fonts/pt-sans/pts75f-webfont.woff') format('woff'),
+  url('../fonts/pt-sans/pts75f-webfont.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'pt sans';
+  src: url('../fonts/pt-sans/pts76f-webfont.woff2') format('woff2'),
+  url('../fonts/pt-sans/pts76f-webfont.woff') format('woff'),
+  url('../fonts/pt-sans/pts76f-webfont.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}

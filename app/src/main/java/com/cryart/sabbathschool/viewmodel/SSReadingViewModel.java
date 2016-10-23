@@ -162,6 +162,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
             if (state == View.VISIBLE) {
                 view.setVisibility(state);
+                ssReadingActivityBinding.ssReadingSheetOverlay.setVisibility(state);
 
             } else {
                 anim.addListener(new AnimatorListenerAdapter() {
@@ -169,12 +170,14 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
                         view.setVisibility(state);
+                        ssReadingActivityBinding.ssReadingSheetOverlay.setVisibility(state);
                     }
                 });
             }
             anim.start();
         } else {
             view.setVisibility(state);
+            ssReadingActivityBinding.ssReadingSheetOverlay.setVisibility(state);
         }
     }
 
