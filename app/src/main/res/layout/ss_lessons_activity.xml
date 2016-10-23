@@ -41,10 +41,7 @@
 
         <include
             layout="@layout/ss_collapsing_app_bar"
-            bind:appBarVisibility="@{viewModel.ssLessonsCoordinatorVisibility}"
-            bind:cover="@{viewModel.cover}"
-            bind:date="@{viewModel.date}"
-            bind:description="@{viewModel.description}"
+            bind:viewModel="@{viewModel}"
             android:id="@+id/ss_app_bar_2"/>
 
 
