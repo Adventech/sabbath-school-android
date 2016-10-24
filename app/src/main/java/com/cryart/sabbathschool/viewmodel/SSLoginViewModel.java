@@ -24,10 +24,8 @@ package com.cryart.sabbathschool.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.databinding.ObservableInt;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Toast;
@@ -37,7 +35,6 @@ import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.misc.SSUserManager;
 import com.cryart.sabbathschool.model.SSUser;
-import com.cryart.sabbathschool.view.SSLessonsActivity;
 import com.cryart.sabbathschool.view.SSLoginActivity;
 import com.cryart.sabbathschool.view.SSQuarterliesActivity;
 import com.facebook.AccessToken;
@@ -157,21 +154,11 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
     }
 
     private void openApp(){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        String lastQuarterlyIndex = prefs.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, "");
-
         Intent launchNextActivity;
-
-        if (false){
-            launchNextActivity = new Intent(context, SSLessonsActivity.class);
-            launchNextActivity.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, lastQuarterlyIndex);
-        } else {
-            launchNextActivity = new Intent(context, SSQuarterliesActivity.class);
-            launchNextActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        }
-
+        launchNextActivity = new Intent(context, SSQuarterliesActivity.class);
+        launchNextActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(launchNextActivity);
+        ((SSLoginActivity)context).finish();
     }
 
     private void loginFailed(String message){
