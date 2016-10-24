@@ -23,8 +23,8 @@
 package com.cryart.sabbathschool.view;
 
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +32,8 @@ import android.view.MenuItem;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsAboutActivityBinding;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SSAboutActivity extends AppCompatActivity {
     private SsAboutActivityBinding binding;
@@ -47,7 +49,6 @@ public class SSAboutActivity extends AppCompatActivity {
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
         binding.ssAppBar.toolbarTitle.setText("About");
-        binding.ssAppBar.toolbarTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
     }
 
     @Override
@@ -59,5 +60,10 @@ public class SSAboutActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

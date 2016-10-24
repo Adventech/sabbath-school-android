@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.view;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -33,6 +32,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -47,11 +47,6 @@ import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class SSReadingActivity extends SSBaseActivity implements SSReadingViewModel.DataListener {
     private static final String TAG = SSReadingActivity.class.getSimpleName();
@@ -154,28 +149,20 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         binding.invalidateAll();
     }
 
-    public static String readFileFromAssets(Context context, String assetPath){
-        StringBuilder buf = new StringBuilder();
-        try {
-            InputStream json = context.getAssets().open(assetPath);
-            BufferedReader in = new BufferedReader(new InputStreamReader(json, "UTF-8"));
-            String str;
-            while ((str = in.readLine()) != null) {
-                buf.append(str);
-            }
-            in.close();
-            return buf.toString();
 
-        } catch (IOException e){ return "";  }
-    }
 
     @Override
     public void onReadChanged(SSRead ssRead){
-        binding.ssWw.loadDataWithBaseURL("file:///android_asset/reader/",
-                readFileFromAssets(this, "reader/index.html")
-                        .replaceAll("\\{\\{content\\}\\}", ssRead.content),
-                "text/html", "utf-8", null);
-
+        binding.ssWw.loadRead(ssRead);
         binding.ssAppBar.ssCollapsingToolbar.setTitle(ssRead.title);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (binding.ssReadingSheet.getVisibility() == View.VISIBLE){
+            binding.getViewModel().onMenuClick();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
