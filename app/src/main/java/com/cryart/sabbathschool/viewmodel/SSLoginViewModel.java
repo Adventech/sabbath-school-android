@@ -24,17 +24,19 @@ package com.cryart.sabbathschool.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.ObservableInt;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
-import com.cryart.sabbathschool.misc.SSUserManager;
-import com.cryart.sabbathschool.model.SSUser;
 import com.cryart.sabbathschool.view.SSLoginActivity;
 import com.cryart.sabbathschool.view.SSQuarterliesActivity;
 import com.facebook.AccessToken;
@@ -59,13 +61,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 
 public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateListener, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = SSLoginViewModel.class.getSimpleName();
+    private static final String FIREBASE_PROVIDER_ID = "firebase";
     private Context context;
     private FirebaseAuth ssFirebase;
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
     private CallbackManager ssFacebookCallbackManager;
     private GoogleApiClient ssGoogleApiClient;
@@ -191,16 +197,23 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
             firebaseBugFlag = false;
             for (UserInfo profile : user.getProviderData()) {
                 String providerId = profile.getProviderId();
-                if (providerId.equals("firebase")) {
-                    if (user.isAnonymous()) {
-                        SSUserManager.getInstance().setUser(null);
-                    } else {
+                if (providerId.equals(FIREBASE_PROVIDER_ID)) {
+
+                    if (!user.isAnonymous()) {
                         String name = profile.getDisplayName();
                         String email = profile.getEmail();
                         Uri photoUrl = profile.getPhotoUrl();
                         String photo = photoUrl != null ? photoUrl.toString() : "";
-                        SSUserManager.getInstance().setUser(new SSUser(name, email, photo));
+
+
+                        SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(context);
+                        SharedPreferences.Editor editor = shared.edit();
+                        editor.putString(SSConstants.SS_USER_NAME_INDEX, name);
+                        editor.putString(SSConstants.SS_USER_EMAIL_INDEX, email);
+                        editor.putString(SSConstants.SS_USER_PHOTO_INDEX, photo);
+                        editor.commit();
                     }
+
                     openApp();
                 }
             }
@@ -242,9 +255,28 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
     }
 
     public void onClickSignInAnonymous(View view){
-        this.ssLoginLoadingVisibility.set(View.VISIBLE);
-        this.ssLoginControlsVisibility.set(View.INVISIBLE);
-        initAnonymousLogin();
+
+        new MaterialDialog.Builder(context)
+                .title("Login anonymously?")
+                .content("By logging in anonymously you will not be able to synchronize your data, such as comments and highlights, across devices or after uninstalling application. Are you sure you want to proceed?")
+                .positiveText("Yes")
+                .negativeText("No")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        ssLoginLoadingVisibility.set(View.VISIBLE);
+                        ssLoginControlsVisibility.set(View.INVISIBLE);
+                        initAnonymousLogin();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    }
+                })
+                .show();
+
+
     }
 
     @Override

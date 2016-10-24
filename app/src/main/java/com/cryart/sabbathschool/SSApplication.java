@@ -30,7 +30,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.crashlytics.android.Crashlytics;
-import com.cryart.sabbathschool.misc.SSUserManager;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
@@ -63,7 +62,6 @@ public class SSApplication extends Application {
 
         JodaTimeAndroid.init(this);
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        SSUserManager.getInstance();
         Fabric.with(this, new Crashlytics());
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override

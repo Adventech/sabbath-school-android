@@ -24,14 +24,16 @@ package com.cryart.sabbathschool.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.cryart.sabbathschool.R;
-import com.cryart.sabbathschool.misc.SSUserManager;
+import com.cryart.sabbathschool.misc.SSConstants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -50,26 +52,27 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public abstract class SSBaseActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, AccountHeader.OnAccountHeaderListener, FirebaseAuth.AuthStateListener {
     private static final String TAG = SSBaseActivity.class.getSimpleName();
-    private FirebaseAuth ssFirebase;
+
     private static final int MENU_READ_ID = 1;
     private static final int MENU_HIGHLIGHTS_ID = 2;
     private static final int MENU_NOTES_ID = 3;
     private static final int MENU_SETTINGS_ID = 4;
     private static final int MENU_SHARE_ID = 5;
     private static final int MENU_ABOUT_ID = 6;
-
     private static final int MENU_HEADER_LOGOUT_ID = 101;
+
+    private FirebaseAuth ssFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ssFirebase = FirebaseAuth.getInstance();
+        ssFirebaseAuth = FirebaseAuth.getInstance();
     }
 
     @Override
     protected void onStart(){
         super.onStart();
-        ssFirebase.addAuthStateListener(this);
+        ssFirebaseAuth.addAuthStateListener(this);
     }
 
     private IDrawerItem[] getDrawerItems(){
@@ -87,18 +90,25 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
     }
 
     private AccountHeader getAccountHeader(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, "Anonymous");
+        String email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, "anonymous@adventech.io");
+        String photo = prefs.getString(SSConstants.SS_USER_PHOTO_INDEX, "https://sabbath-school.adventech.io/api/v1/anonymous-photo.png");
+
         return new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.color.colorPrimary)
                 .addProfiles(
-                        new ProfileDrawerItem().withName(SSUserManager.getInstance().user.name).withEmail(SSUserManager.getInstance().user.email).withIcon(SSUserManager.getInstance().user.photo).withIdentifier(100),
+                        new ProfileDrawerItem().withName(name)
+                                .withEmail(email)
+                                .withIcon(photo)
+                                .withIdentifier(100),
                         new ProfileSettingDrawerItem().withName("Sign Out").withIdentifier(MENU_HEADER_LOGOUT_ID)
                 )
                 .withOnAccountHeaderListener(this)
                 .build();
     }
-
 
     protected void setUpDrawer(Toolbar ssToolbar){
         new DrawerBuilder()
@@ -168,7 +178,10 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
     @Override
     public boolean onProfileChanged(View view, IProfile profile, boolean current){
         if (profile instanceof ProfileSettingDrawerItem && profile.getIdentifier() == MENU_HEADER_LOGOUT_ID) {
-            ssFirebase.signOut();
+            ssFirebaseAuth.signOut();
+            SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = shared.edit();
+            editor.clear().commit();
             onLogoutEvent();
         }
         return false;

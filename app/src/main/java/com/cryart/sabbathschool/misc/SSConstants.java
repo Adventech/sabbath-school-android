@@ -43,4 +43,8 @@ public class SSConstants {
     public static final String SS_SETTINGS_SIZE_KEY = "ss_settings_display_options_size";
 
     public static final String SS_LAST_QUARTERLY_INDEX = "ss_last_quarterly_index";
+
+    public static final String SS_USER_NAME_INDEX = "ss_user_name_index";
+    public static final String SS_USER_EMAIL_INDEX = "ss_user_email_index";
+    public static final String SS_USER_PHOTO_INDEX = "ss_user_photo_index";
 }
