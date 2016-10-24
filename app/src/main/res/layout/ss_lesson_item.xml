@@ -124,6 +124,4 @@
                 android:layout_height="1px"
                 android:background="#979797"/>
         </RelativeLayout>
-
-
 </layout>
