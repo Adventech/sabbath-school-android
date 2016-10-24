@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.cryart.sabbathschool.R;
@@ -125,13 +124,14 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
     @Override
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
         if (drawerItem != null) {
-            Log.d(TAG, String.valueOf(drawerItem.getIdentifier()));
             if (drawerItem.getIdentifier() == MENU_READ_ID) {
 
             } else if (drawerItem.getIdentifier() == MENU_HIGHLIGHTS_ID) {
-
+                Intent intent = new Intent(SSBaseActivity.this, SSMyHighlightsActivity.class);
+                startActivity(intent);
             } else if (drawerItem.getIdentifier() == MENU_NOTES_ID) {
-
+                Intent intent = new Intent(SSBaseActivity.this, SSMyNotesActivity.class);
+                startActivity(intent);
             } else if (drawerItem.getIdentifier() == MENU_SETTINGS_ID) {
                 onSettingsClick();
             } else if (drawerItem.getIdentifier() == MENU_SHARE_ID) {
