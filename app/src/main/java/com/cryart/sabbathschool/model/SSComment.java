@@ -22,14 +22,15 @@
 
 package com.cryart.sabbathschool.model;
 
-import java.util.List;
 
-public class SSDayComments {
-    public List<String> comments;
+public class SSComment {
+    public String elementId;
+    public String comment;
 
-    public SSDayComments() {}
+    public SSComment(){}
 
-    public SSDayComments(List<String> comments) {
-        this.comments = comments;
+    public SSComment(String elementId, String comment){
+        this.elementId = elementId;
+        this.comment = comment;
     }
 }

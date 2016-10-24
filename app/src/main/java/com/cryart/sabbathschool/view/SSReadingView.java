@@ -32,7 +32,6 @@ import android.support.v4.view.GestureDetectorCompat;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Base64;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -45,13 +44,17 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.cryart.sabbathschool.model.SSComment;
 import com.cryart.sabbathschool.model.SSRead;
+import com.cryart.sabbathschool.model.SSReadComments;
+import com.cryart.sabbathschool.model.SSReadHighlights;
 import com.cryart.sabbathschool.model.SSReadingDisplayOptions;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class SSReadingView extends WebView {
     public static final String SEARCH_PROVIDER = "https://www.google.com/search?q=%s";
@@ -60,9 +63,9 @@ public class SSReadingView extends WebView {
     private static final String TAG = SSReadingView.class.getSimpleName();
     private static final String bridgeName = "SSBridge";
 
-
     private GestureDetectorCompat gestureDetector;
     private ContextMenuCallback contextMenuCallback;
+    private HighlightsCommentsCallback highlightsCommentsCallback;
     private SSReadingDisplayOptions ssReadingDisplayOptions;
 
     public SSReadViewBridge ssReadViewBridge;
@@ -71,7 +74,8 @@ public class SSReadingView extends WebView {
     private float LastTouchY;
     public boolean contextMenuShown = false;
 
-    public String highlights;
+    public SSReadHighlights ssReadHighlights;
+    public SSReadComments ssReadComments;
 
 
     public SSReadingView(final Context context) {
@@ -125,8 +129,20 @@ public class SSReadingView extends WebView {
         this.contextMenuCallback = contextMenuCallback;
     }
 
+    public void setHighlightsCommentsCallback(HighlightsCommentsCallback highlightsCommentsCallback){
+        this.highlightsCommentsCallback = highlightsCommentsCallback;
+    }
+
     public void setReadingDisplayOptions(SSReadingDisplayOptions ssReadingDisplayOptions){
         this.ssReadingDisplayOptions = ssReadingDisplayOptions;
+    }
+
+    public void setReadHighlights(SSReadHighlights ssReadHighlights){
+        this.ssReadHighlights = ssReadHighlights;
+    }
+
+    public void setReadComments(SSReadComments ssReadComments){
+        this.ssReadComments = ssReadComments;
     }
 
     public void updateReadingDisplayOptions(){
@@ -135,6 +151,14 @@ public class SSReadingView extends WebView {
             ssReadViewBridge.setFont(ssReadingDisplayOptions.font);
             ssReadViewBridge.setSize(ssReadingDisplayOptions.size);
         }
+    }
+
+    public void updateHighlights(){
+        ssReadViewBridge.setHighlights(ssReadHighlights.highlights);
+    }
+
+    public void updateComments(){
+        ssReadViewBridge.setComments(ssReadComments.comments);
     }
 
     public void selectionFinished(){
@@ -187,6 +211,12 @@ public class SSReadingView extends WebView {
     public interface ContextMenuCallback {
         public void onSelectionStarted(float x, float y);
         public void onSelectionFinished();
+
+    }
+
+    public interface HighlightsCommentsCallback {
+        public void onHighlightsReceived(SSReadHighlights ssReadHighlights);
+        public void onCommentsReceived(SSReadComments ssReadComments);
     }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -206,6 +236,8 @@ public class SSReadingView extends WebView {
         @Override
         public void onPageFinished(WebView view, String url) {
             updateReadingDisplayOptions();
+            updateHighlights();
+            updateComments();
             super.onPageFinished(view, url);
         }
     }
@@ -220,7 +252,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl(String.format("javascript:ssReader.highlightSelection('%s');", color));
+                    loadUrl(String.format("javascript:if(ssReader){ssReader.highlightSelection('%s');}", color));
                 }
             });
         }
@@ -229,7 +261,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl("javascript:ssReader.unHighlightSelection();");
+                    loadUrl("javascript:if(ssReader){ssReader.unHighlightSelection();}");
                 }
             });
         }
@@ -238,7 +270,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl(String.format("javascript:ssReader.setFont('%s');", font));
+                    loadUrl(String.format("javascript:if(ssReader){ssReader.setFont('%s');}", font));
                 }
             });
         }
@@ -247,7 +279,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl(String.format("javascript:ssReader.setSize('%s');", size));
+                    loadUrl(String.format("javascript:if(ssReader){ssReader.setSize('%s');}", size));
                 }
             });
         }
@@ -256,7 +288,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl(String.format("javascript:ssReader.setTheme('%s');", theme));
+                    loadUrl(String.format("javascript:if(ssReader){ssReader.setTheme('%s');}", theme));
                 }
             });
         }
@@ -265,17 +297,22 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d(TAG, highlights);
-                    loadUrl(String.format("javascript:ssReader.setHighlights('%s');", highlights));
+                    loadUrl(String.format("javascript:if(ssReader){ssReader.setHighlights('%s');}", highlights));
                 }
             });
+        }
+
+        public void setComments(List<SSComment> comments){
+            for(SSComment comment : comments){
+                setIndividualComment(comment.comment, comment.elementId);
+            }
         }
 
         public void setIndividualComment(final String comment, final String elementId){
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl(String.format("javascript:ssReader.setComment('%s', '%s');", comment, elementId));
+                    loadUrl(String.format("javascript:if(ssReader){ssReader.setComment('%s', '%s');}", Base64.encodeToString(comment.getBytes(), Base64.DEFAULT), elementId));
                 }
             });
         }
@@ -284,7 +321,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl("javascript:ssReader.copy()");
+                    loadUrl("javascript:if(ssReader){ssReader.copy();}");
                 }
             });
         }
@@ -293,7 +330,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl("javascript:ssReader.share()");
+                    loadUrl("javascript:if(ssReader){ssReader.share();}");
                 }
             });
         }
@@ -302,19 +339,20 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl("javascript:ssReader.search()");
+                    loadUrl("javascript:if(ssReader){ssReader.search();}");
                 }
             });
         }
 
         /**
-         * Receiving serizlied highlights from webapp
+         * Receiving serizlied ssReadHighlights from webapp
          * @param serializedHighlights
          */
         @JavascriptInterface
         public void onReceiveHighlights(String serializedHighlights){
             try {
-
+                ssReadHighlights.highlights = serializedHighlights;
+                highlightsCommentsCallback.onHighlightsReceived(ssReadHighlights);
             } catch (Exception e){}
         }
 
@@ -330,6 +368,18 @@ public class SSReadingView extends WebView {
                         .input("Enter your comment", comments, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
+
+                                boolean found = false;
+                                for(SSComment comment : ssReadComments.comments){
+                                    if (comment.elementId.equalsIgnoreCase(inputId)){
+                                        comment.comment = input.toString();
+                                        found = true;
+                                    }
+                                }
+                                if (!found){
+                                    ssReadComments.comments.add(new SSComment(inputId, input.toString()));
+                                }
+                                highlightsCommentsCallback.onCommentsReceived(ssReadComments);
                                 setIndividualComment(Base64.encodeToString(input.toString().getBytes(), Base64.DEFAULT), inputId);
                             }
                         }).show();

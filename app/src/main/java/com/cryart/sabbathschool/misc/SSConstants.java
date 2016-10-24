@@ -32,6 +32,7 @@ public class SSConstants {
     public static final String SS_FIREBASE_QUARTERLY_INFO_DATABASE = "quarterly-info";
     public static final String SS_FIREBASE_LESSON_INFO_DATABASE = "lesson-info";
     public static final String SS_FIREBASE_READS_DATABASE = "reads";
+    public static final String SS_FIREBASE_HIGHLIGHTS_DATABASE = "highlights";
     public static final String SS_FIREBASE_COMMENTS_DATABASE = "comments";
 
     public static final String SS_QUARTERLY_INDEX_EXTRA = "SS_QUARTERLY_INDEX";
