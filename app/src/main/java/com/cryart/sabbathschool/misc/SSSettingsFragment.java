@@ -22,22 +22,16 @@
 
 package com.cryart.sabbathschool.misc;
 
-public class SSConstants {
-    public static final int SS_GOOGLE_SIGN_IN_CODE = 9001;
 
-    public static final String SS_DATE_FORMAT = "dd/MM/yyyy";
-    public static final String SS_DATE_FORMAT_OUTPUT = "MMMM d";
+import android.os.Bundle;
+import android.preference.PreferenceFragment;
 
-    public static final String SS_FIREBASE_QUARTERLIES_DATABASE = "quarterlies";
-    public static final String SS_FIREBASE_QUARTERLY_INFO_DATABASE = "quarterly-info";
-    public static final String SS_FIREBASE_LESSON_INFO_DATABASE = "lesson-info";
-    public static final String SS_FIREBASE_READS_DATABASE = "reads";
-    public static final String SS_FIREBASE_COMMENTS_DATABASE = "comments";
+import com.cryart.sabbathschool.R;
 
-    public static final String SS_QUARTERLY_INDEX_EXTRA = "SS_QUARTERLY_INDEX";
-    public static final String SS_LESSON_INDEX_EXTRA = "SS_LESSON_INDEX";
-
-    public static final String SS_SETTINGS_THEME_KEY = "ss_settings_display_options_theme";
-    public static final String SS_SETTINGS_FONT_KEY = "ss_settings_display_options_font";
-    public static final String SS_SETTINGS_SIZE_KEY = "ss_settings_display_options_size";
+public class SSSettingsFragment extends PreferenceFragment {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.ss_settings);
+    }
 }

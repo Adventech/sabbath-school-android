@@ -25,9 +25,11 @@ package com.cryart.sabbathschool.viewmodel;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.ObservableInt;
 import android.graphics.Color;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -98,9 +100,13 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         ssReadPosition = new ObservableInt(0);
 
         // Get Reading Options from prefs
-        ssReadingDisplayOptions = new SSReadingDisplayOptions(SSReadingDisplayOptions.SS_THEME_DARK,
-                SSReadingDisplayOptions.SS_SIZE_HUGE,
-                SSReadingDisplayOptions.SS_FONT_LATO);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        ssReadingDisplayOptions = new SSReadingDisplayOptions(
+                prefs.getString(SSConstants.SS_SETTINGS_THEME_KEY, SSReadingDisplayOptions.SS_THEME_LIGHT),
+                prefs.getString(SSConstants.SS_SETTINGS_SIZE_KEY, SSReadingDisplayOptions.SS_SIZE_MEDIUM),
+                prefs.getString(SSConstants.SS_SETTINGS_FONT_KEY, SSReadingDisplayOptions.SS_FONT_LATO)
+        );
 
         ssReadingActivityBinding.ssWw.setReadingDisplayOptions(ssReadingDisplayOptions);
 
@@ -349,6 +355,14 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
     public void onSSReadingDisplayOptions(SSReadingDisplayOptions ssReadingDisplayOptions){
         this.ssReadingDisplayOptions = ssReadingDisplayOptions;
+
+        SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = shared.edit();
+        editor.putString(SSConstants.SS_SETTINGS_THEME_KEY, ssReadingDisplayOptions.theme);
+        editor.putString(SSConstants.SS_SETTINGS_FONT_KEY, ssReadingDisplayOptions.font);
+        editor.putString(SSConstants.SS_SETTINGS_SIZE_KEY, ssReadingDisplayOptions.size);
+        editor.apply();
+
         ssReadingActivityBinding.ssWw.setReadingDisplayOptions(ssReadingDisplayOptions);
         ssReadingActivityBinding.ssWw.updateReadingDisplayOptions();
     }

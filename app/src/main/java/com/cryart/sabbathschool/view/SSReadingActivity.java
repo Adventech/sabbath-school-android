@@ -53,8 +53,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
 public class SSReadingActivity extends SSBaseActivity implements SSReadingViewModel.DataListener {
     private static final String TAG = SSReadingActivity.class.getSimpleName();
 
@@ -115,6 +113,8 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
 
         if (id == R.id.ss_reading_menu_display_options){
             binding.getViewModel().onDisplayOptionsClick();
+        } else if (id == R.id.ss_reading_menu_settings){
+            onSettingsClick();
         }
 
         return super.onOptionsItemSelected(item);
@@ -177,10 +177,5 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
                 "text/html", "utf-8", null);
 
         binding.ssAppBar.ssCollapsingToolbar.setTitle(ssRead.title);
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

@@ -73,6 +73,13 @@
                 android:value=".view.SSLessonsActivity" />
         </activity>
 
+        <activity
+            android:label="Settings"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize"
+            android:name="com.cryart.sabbathschool.view.SSSettingsActivity"
+            android:windowSoftInputMode="adjustResize" />
+
         <activity android:name="com.cryart.sabbathschool.view.SSAboutActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"

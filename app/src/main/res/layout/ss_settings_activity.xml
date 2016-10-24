@@ -21,18 +21,20 @@
   ~ THE SOFTWARE.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <item
-        android:id="@+id/ss_lessons_menu_share"
-        android:orderInCategory="100"
-        android:title="Share"
-        app:showAsAction="never" />
+        <include
+            android:id="@+id/ss_app_bar"
+            layout="@layout/ss_app_bar" />
 
-    <item
-        android:id="@+id/ss_lessons_menu_settings"
-        android:orderInCategory="101"
-        android:title="Settings"
-        app:showAsAction="never" />
-</menu>
+        <FrameLayout
+            android:id="@+id/ss_settings_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</layout>

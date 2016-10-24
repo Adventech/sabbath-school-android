@@ -22,11 +22,11 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#962a54</color>
-    <color name="colorPrimaryDark">#390e16</color>
+    <!--<color name="colorPrimary">#962a54</color>-->
+    <!--<color name="colorPrimaryDark">#390e16</color>-->
 
-    <!--<color name="colorPrimary">#16a365</color>-->
-    <!--<color name="colorPrimaryDark">#18704A</color>-->
+    <color name="colorPrimary">#16a365</color>
+    <color name="colorPrimaryDark">#18704A</color>
     <color name="colorAccent">#FF4081</color>
     <color name="backgroundColor">#F2F5F7</color>
 

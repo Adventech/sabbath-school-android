@@ -106,6 +106,12 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        if (id == R.id.ss_lessons_menu_share){
+
+        } else if (id == R.id.ss_lessons_menu_settings){
+            onSettingsClick();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 }

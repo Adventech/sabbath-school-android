@@ -22,7 +22,7 @@
   -->
 
 <resources>
-    <string-array name="ss_quarterlies_language_codes">
+    <string-array translatable="false" name="ss_quarterlies_language_codes">
         <item>en</item>
         <item>ru</item>
         <item>es</item>
@@ -44,7 +44,7 @@
         <item>French</item>
         <item>German</item>
     </string-array>
-    <integer-array name="ss_quarterlies_language_selects">
+    <integer-array translatable="false" name="ss_quarterlies_language_selects">
         <item>1</item>
         <item>0</item>
         <item>0</item>
@@ -55,4 +55,46 @@
         <item>0</item>
         <item>0</item>
     </integer-array>
+
+    <string-array name="ss_settings_display_options_theme_entries">
+        <item>Light</item>
+        <item>Sepia</item>
+        <item>Dark</item>
+    </string-array>
+
+    <string-array translatable="false" name="ss_settings_display_options_theme_values">
+        <item>light</item>
+        <item>sepia</item>
+        <item>dark</item>
+    </string-array>
+
+    <string-array name="ss_settings_display_options_font_entries">
+        <item>Andada</item>
+        <item>Lato</item>
+        <item>PT-Serif</item>
+        <item>PT-Sans</item>
+    </string-array>
+
+    <string-array translatable="false" name="ss_settings_display_options_font_values">
+        <item>andada</item>
+        <item>lato</item>
+        <item>pt-serif</item>
+        <item>pt-sans</item>
+    </string-array>
+
+    <string-array name="ss_settings_display_options_size_entries">
+        <item>Tiny</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Huge</item>
+    </string-array>
+
+    <string-array translatable="false" name="ss_settings_display_options_size_values">
+        <item>tiny</item>
+        <item>small</item>
+        <item>medium</item>
+        <item>large</item>
+        <item>huge</item>
+    </string-array>
 </resources>

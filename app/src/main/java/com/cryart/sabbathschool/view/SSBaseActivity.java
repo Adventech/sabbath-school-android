@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -45,6 +46,8 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public abstract class SSBaseActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, AccountHeader.OnAccountHeaderListener, FirebaseAuth.AuthStateListener {
     private static final String TAG = SSBaseActivity.class.getSimpleName();
@@ -130,7 +133,7 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
             } else if (drawerItem.getIdentifier() == MENU_NOTES_ID) {
 
             } else if (drawerItem.getIdentifier() == MENU_SETTINGS_ID) {
-
+                onSettingsClick();
             } else if (drawerItem.getIdentifier() == MENU_SHARE_ID) {
                 onShareAppClick();
             } else if (drawerItem.getIdentifier() == MENU_ABOUT_ID) {
@@ -146,6 +149,11 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
         sendIntent.putExtra(Intent.EXTRA_TEXT, "Sabbath School - https://play.google.com/store/apps/details?id=com.cryart.sabbathschool");
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
+    }
+
+    public void onSettingsClick(){
+        Intent intent = new Intent(SSBaseActivity.this, SSSettingsActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -164,6 +172,11 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
             onLogoutEvent();
         }
         return false;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     public abstract void onLogoutEvent();
