@@ -40,4 +40,6 @@ public class SSConstants {
     public static final String SS_SETTINGS_THEME_KEY = "ss_settings_display_options_theme";
     public static final String SS_SETTINGS_FONT_KEY = "ss_settings_display_options_font";
     public static final String SS_SETTINGS_SIZE_KEY = "ss_settings_display_options_size";
+
+    public static final String SS_LAST_QUARTERLY_INDEX = "ss_last_quarterly_index";
 }

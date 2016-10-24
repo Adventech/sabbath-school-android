@@ -24,8 +24,10 @@ package com.cryart.sabbathschool.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
+import android.preference.PreferenceManager;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.ImageView;
@@ -90,6 +92,11 @@ public class SSLessonsViewModel implements SSViewModel {
                         if (dataSnapshot != null) {
                             ssQuarterlyInfo = dataSnapshot.getValue(SSQuarterlyInfo.class);
                             dataListener.onQuarterlyChanged(ssQuarterlyInfo);
+
+                            SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(context);
+                            SharedPreferences.Editor editor = shared.edit();
+                            editor.putString(SSConstants.SS_LAST_QUARTERLY_INDEX, ssQuarterlyInfo.quarterly.index);
+                            editor.apply();
 
                             ssLessonsLoadingVisibility.set(View.INVISIBLE);
                             ssLessonsErrorMessageVisibility.set(View.INVISIBLE);

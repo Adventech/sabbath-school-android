@@ -43,7 +43,6 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
     private SsLessonsActivityBinding binding;
     private SSLessonsViewModel ssLessonsViewModel;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

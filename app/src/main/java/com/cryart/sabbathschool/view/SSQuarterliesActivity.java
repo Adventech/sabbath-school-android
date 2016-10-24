@@ -22,10 +22,13 @@
 
 package com.cryart.sabbathschool.view;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
@@ -35,6 +38,7 @@ import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.adapter.SSQuarterliesAdapter;
 import com.cryart.sabbathschool.adapter.SSQuarterliesLanguageFilterAdapter;
 import com.cryart.sabbathschool.databinding.SsQuarterliesActivityBinding;
+import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
 import com.cryart.sabbathschool.viewmodel.SSQuarterliesViewModel;
@@ -51,6 +55,13 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String lastQuarterlyIndex = prefs.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, "");
+        Intent launchNextActivity;
+        launchNextActivity = new Intent(this, SSLessonsActivity.class);
+        launchNextActivity.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, lastQuarterlyIndex);
+        startActivity(launchNextActivity);
 
         binding = DataBindingUtil.setContentView(this, R.layout.ss_quarterlies_activity);
         binding.ssAppBar.toolbarTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
