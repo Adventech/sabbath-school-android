@@ -60,10 +60,13 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String lastQuarterlyIndex = prefs.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, "");
-        Intent launchNextActivity;
-        launchNextActivity = new Intent(this, SSLessonsActivity.class);
-        launchNextActivity.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, lastQuarterlyIndex);
-        startActivity(launchNextActivity);
+
+        if (!lastQuarterlyIndex.isEmpty()){
+            Intent launchNextActivity;
+            launchNextActivity = new Intent(this, SSLessonsActivity.class);
+            launchNextActivity.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, lastQuarterlyIndex);
+            startActivity(launchNextActivity);
+        }
 
         binding = DataBindingUtil.setContentView(this, R.layout.ss_quarterlies_activity);
         setSupportActionBar(binding.ssAppBar.ssToolbar);

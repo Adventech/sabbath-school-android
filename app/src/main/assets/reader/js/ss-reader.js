@@ -125,12 +125,13 @@ var ssReader = Class({
 });
 
 $(function(){
-  ssReader.init();
+  if(ssReader){ssReader.init();}
   $("code").each(function(i){
     $(this).append($("<div class='textarea'/>").attr("id", "input-"+i).click(function(){
       SSBridge.onCommentsClick(
         ssReader.base64encode($(this).html()),
-        $(this).attr("id"));
+        $(this).attr("id")
+      );
     }));
   });
 });

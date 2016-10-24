@@ -81,6 +81,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
 
         ssReadingViewModel = new SSReadingViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_LESSON_INDEX_EXTRA), binding);
         binding.ssWw.setContextMenuCallback(ssReadingViewModel);
+        binding.ssWw.setHighlightsCommentsCallback(ssReadingViewModel);
         ((SSReadingListAdapter)binding.ssReadingSheetList.getAdapter()).setReadingViewModel(ssReadingViewModel);
 
         binding.executePendingBindings();
@@ -148,8 +149,6 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         adapter.notifyDataSetChanged();
         binding.invalidateAll();
     }
-
-
 
     @Override
     public void onReadChanged(SSRead ssRead){

@@ -39,13 +39,17 @@ import android.view.ViewGroup;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.misc.SSHelper;
+import com.cryart.sabbathschool.model.SSComment;
 import com.cryart.sabbathschool.model.SSDay;
 import com.cryart.sabbathschool.model.SSLessonInfo;
 import com.cryart.sabbathschool.model.SSRead;
+import com.cryart.sabbathschool.model.SSReadComments;
+import com.cryart.sabbathschool.model.SSReadHighlights;
 import com.cryart.sabbathschool.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.view.SSReadingActivity;
 import com.cryart.sabbathschool.view.SSReadingDisplayOptionsView;
 import com.cryart.sabbathschool.view.SSReadingView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,14 +61,19 @@ import com.mikepenz.iconics.IconicsDrawable;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMenuCallback {
+import java.util.ArrayList;
+
+public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback {
     private static final String TAG = SSReadingViewModel.class.getSimpleName();
 
     private Context context;
     private String ssLessonIndex;
     private DataListener dataListener;
+    private FirebaseAuth ssFirebaseAuth;
     private DatabaseReference mDatabase;
     private ValueEventListener ssReadRef;
+    private ValueEventListener ssHighlightsRef;
+    private ValueEventListener ssCommentsRef;
 
     public SsReadingActivityBinding ssReadingActivityBinding;
     public SSReadingDisplayOptions ssReadingDisplayOptions;
@@ -77,6 +86,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         this.dataListener = dataListener;
         this.ssLessonIndex = ssLessonIndex;
         this.ssReadingActivityBinding = ssReadingActivityBinding;
+        this.ssFirebaseAuth = FirebaseAuth.getInstance();
 
         ssReadingActivityBinding.ssContextMenu.contextMenuShare.setImageDrawable(new IconicsDrawable(context)
                 .icon(GoogleMaterial.Icon.gmd_share)
@@ -106,6 +116,8 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         );
 
         ssReadingActivityBinding.ssWw.setReadingDisplayOptions(ssReadingDisplayOptions);
+
+
 
         loadLessonInfo();
     }
@@ -151,10 +163,64 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         loadRead(dayIndex);
     }
 
-    public void loadRead(String dayIndex){
+    public void loadRead(final String dayIndex){
         if (ssReadRef != null){
             mDatabase.removeEventListener(ssReadRef);
         }
+
+        if (ssHighlightsRef != null){
+            mDatabase.removeEventListener(ssHighlightsRef);
+        }
+
+        if (ssCommentsRef != null){
+            mDatabase.removeEventListener(ssCommentsRef);
+        }
+
+        ssHighlightsRef = mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
+                .child(ssFirebaseAuth.getCurrentUser().getUid())
+                .child(dayIndex)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        SSReadHighlights ssReadHighlights = new SSReadHighlights(dayIndex, "");
+                        if (dataSnapshot != null) {
+                            if (dataSnapshot.getValue(SSReadHighlights.class) != null){
+                                ssReadHighlights = dataSnapshot.getValue(SSReadHighlights.class);
+                            }
+                        }
+                        ssReadingActivityBinding.ssWw.setReadHighlights(ssReadHighlights);
+                        ssReadingActivityBinding.ssWw.updateHighlights();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        SSReadHighlights ssReadHighlights = new SSReadHighlights(dayIndex, "");
+                        ssReadingActivityBinding.ssWw.setReadHighlights(ssReadHighlights);
+                    }
+                });
+
+        ssCommentsRef = mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
+                .child(ssFirebaseAuth.getCurrentUser().getUid())
+                .child(dayIndex)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        SSReadComments ssReadComments = new SSReadComments(dayIndex, new ArrayList<SSComment>());
+                        if (dataSnapshot != null) {
+                            if (dataSnapshot.getValue(SSReadComments.class) != null){
+                                ssReadComments = dataSnapshot.getValue(SSReadComments.class);
+                            }
+                        }
+                        ssReadingActivityBinding.ssWw.setReadComments(ssReadComments);
+                        ssReadingActivityBinding.ssWw.updateComments();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        SSReadComments ssReadComments = new SSReadComments(dayIndex, new ArrayList<SSComment>());
+                        ssReadingActivityBinding.ssWw.setReadComments(ssReadComments);
+                    }
+                });
 
         ssReadRef = mDatabase.child(SSConstants.SS_FIREBASE_READS_DATABASE)
                 .child(dayIndex)
@@ -295,6 +361,22 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     @Override
     public void onSelectionFinished() {
         ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onHighlightsReceived(SSReadHighlights ssReadHighlights) {
+        mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
+                .child(ssFirebaseAuth.getCurrentUser().getUid())
+                .child(ssReadHighlights.readIndex)
+                .setValue(ssReadHighlights);
+    }
+
+    @Override
+    public void onCommentsReceived(SSReadComments ssReadComments) {
+        mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
+                .child(ssFirebaseAuth.getCurrentUser().getUid())
+                .child(ssReadComments.readIndex)
+                .setValue(ssReadComments);
     }
 
     public interface DataListener {
