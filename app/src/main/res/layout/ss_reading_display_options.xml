@@ -31,15 +31,249 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:background="#fff"
+        android:orientation="vertical">
 
-        <Button
-            android:text="Hide webview"
-            android:onClick="@{() -> viewModel.ssReadingViewModel.onHideWebViewClick()}"
+        <TextView
+            android:gravity="left|top"
+            android:text="Color theme"
+            android:textStyle="bold"
+            android:layout_margin="20dp"
+            android:textColor="@color/colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#E0E0E0"/>
+
+        <LinearLayout
+            android:clickable="true"
+            android:weightSum="3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="@{() -> viewModel.setThemeLight()}"
+                android:background="?attr/selectableItemBackground"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="Light"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:clickable="true"
+                android:onClick="@{() -> viewModel.setThemeSepia()}"
+                android:background="#F2DEC3"
+                android:foreground="?attr/selectableItemBackground"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="Sepia"
+                    android:textAlignment="center"
+                    android:gravity="center"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:onClick="@{() -> viewModel.setThemeDark()}"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:clickable="true"
+                android:background="#484848"
+                android:foreground="?attr/selectableItemBackground"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="Dark"
+                    android:textColor="#fff"
+
+                    android:textAlignment="center"
+                    android:gravity="center"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#E0E0E0"/>
+
+        <TextView
+            android:gravity="left|top"
+            android:text="Typeface"
+            android:layout_margin="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <LinearLayout
+            android:weightSum="4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:onClick="@{() -> viewModel.setFontAndada()}"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Andada"
+                    fontPath="fonts/Andada-Regular.ttf"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_weight="1"
+                android:onClick="@{() -> viewModel.setFontLato()}"
+                android:layout_width="wrap_content"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Lato"
+                    fontPath="fonts/Lato-Regular.ttf"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_weight="1"
+                android:onClick="@{() -> viewModel.setFontPTSerif()}"
+                android:layout_width="wrap_content"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="PT Serif"
+                    fontPath="fonts/PT-Serif-Regular.ttf"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_weight="1"
+                android:onClick="@{() -> viewModel.setFontPTSans()}"
+                android:layout_width="wrap_content"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="PT Sans"
+                    fontPath="fonts/PT-Sans-Regular.ttf"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:gravity="left|top"
+            android:text="Font Size"
+            android:textStyle="bold"
+            android:layout_margin="20dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:weightSum="7"
+            android:layout_width="match_parent"
+            android:paddingTop="20dp"
+            android:paddingBottom="50dp"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Aa"
+                    android:textAlignment="textEnd"
+                    android:gravity="center|end"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
+
+            <com.cryart.sabbathschool.view.SSSeekBar
+                android:layout_weight="5"
+                android:id="@+id/ss_reading_menu_display_options_size"
+                android:max="4"
+                android:layout_gravity="center|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Aa"
+                    android:textSize="20sp"
+                    android:textAlignment="textStart"
+                    android:gravity="start|center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
+        </LinearLayout>
     </LinearLayout>
 </layout>

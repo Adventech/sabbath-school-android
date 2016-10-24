@@ -1,4 +1,4 @@
-<!doctype html>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2016 Adventech <info@adventech.io>
   ~
@@ -21,34 +21,10 @@
   ~ THE SOFTWARE.
   -->
 
-<html>
-<head>
-  <link rel="stylesheet" href="css/reset.css" type="text/css" media="all" />
-  <link rel="stylesheet" href="css/base.css" type="text/css" media="all" />
-  <link rel="stylesheet" href="css/fonts.css" type="text/css" media="all" />
-
-  <script type="text/javascript" src="js/jsface.min.js"></script>
-  <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-  <script type="text/javascript" src="js/rangy-core.js"></script>
-  <script type="text/javascript" src="js/rangy-highlighter.js"></script>
-  <script type="text/javascript" src="js/rangy-classapplier.js"></script>
-  <script type="text/javascript" src="js/rangy-serializer.js"></script>
-
-  <script type="text/javascript" src="js/ss-reader.js"></script>
-
-</head>
-
-<body>
-
-<div id="ss-wrapper">
-<div id="ss-wrapper-font" class="ss-wrapper-andada">
-<div id="ss-wrapper-size" class="ss-wrapper-medium">
-<div id="ss-wrapper-theme" class="ss-wrapper-light">
-  {{content}}
-</div>
-</div>
-</div>
-</div>
-
-</body>
-</html>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#63D724"/>
+        </shape>
+    </item>
+</selector>

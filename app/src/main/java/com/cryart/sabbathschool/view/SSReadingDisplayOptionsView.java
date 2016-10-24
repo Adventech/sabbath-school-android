@@ -28,22 +28,22 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsReadingDisplayOptionsBinding;
+import com.cryart.sabbathschool.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.viewmodel.SSReadingDisplayOptionsViewModel;
 import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
 
 public class SSReadingDisplayOptionsView extends BottomSheetDialogFragment {
     private SsReadingDisplayOptionsBinding binding;
 
-    public void setSSReadingViewModel(Context context, SSReadingViewModel ssReadingViewModel) {
+    public void setSSReadingViewModel(Context context, SSReadingViewModel ssReadingViewModel, SSReadingDisplayOptions ssReadingDisplayOptions) {
         this.binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.ss_reading_display_options, null, false);
-        binding.setViewModel(new SSReadingDisplayOptionsViewModel(ssReadingViewModel));
+        binding.setViewModel(new SSReadingDisplayOptionsViewModel(binding, ssReadingViewModel, ssReadingDisplayOptions));
     }
 
     @Override
@@ -55,10 +55,9 @@ public class SSReadingDisplayOptionsView extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.d("SSRead", String.valueOf(binding));
-
+        if (binding == null){
+            this.binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.ss_reading_display_options, null, false);
+        }
         return binding.getRoot();
-
-//        return v;
     }
 }

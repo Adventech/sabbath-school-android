@@ -20,20 +20,36 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.misc;
+package com.cryart.sabbathschool.model;
 
-public class SSConstants {
-    public static final int SS_GOOGLE_SIGN_IN_CODE = 9001;
 
-    public static final String SS_DATE_FORMAT = "dd/MM/yyyy";
-    public static final String SS_DATE_FORMAT_OUTPUT = "MMMM d";
+public class SSReadingDisplayOptions {
+    public static final String SS_THEME_LIGHT = "light";
+    public static final String SS_THEME_SEPIA = "sepia";
+    public static final String SS_THEME_DARK = "dark";
 
-    public static final String SS_FIREBASE_QUARTERLIES_DATABASE = "quarterlies";
-    public static final String SS_FIREBASE_QUARTERLY_INFO_DATABASE = "quarterly-info";
-    public static final String SS_FIREBASE_LESSON_INFO_DATABASE = "lesson-info";
-    public static final String SS_FIREBASE_READS_DATABASE = "reads";
-    public static final String SS_FIREBASE_COMMENTS_DATABASE = "comments";
+    public static final String SS_SIZE_TINY = "tiny";
+    public static final String SS_SIZE_SMALL = "small";
+    public static final String SS_SIZE_MEDIUM = "medium";
+    public static final String SS_SIZE_LARGE = "large";
+    public static final String SS_SIZE_HUGE = "huge";
 
-    public static final String SS_QUARTERLY_INDEX_EXTRA = "SS_QUARTERLY_INDEX";
-    public static final String SS_LESSON_INDEX_EXTRA = "SS_LESSON_INDEX";
+    public static final String SS_FONT_ANDADA = "andada";
+    public static final String SS_FONT_LATO = "lato";
+    public static final String SS_FONT_PT_SERIF = "pt-serif";
+    public static final String SS_FONT_PT_SANS = "pt-sans";
+
+    public String theme;
+    public String size;
+    public String font;
+
+    public SSReadingDisplayOptions(){
+        this(SS_THEME_LIGHT, SS_SIZE_MEDIUM, SS_FONT_ANDADA);
+    }
+
+    public SSReadingDisplayOptions(String theme, String size, String font){
+        this.theme = theme;
+        this.size = size;
+        this.font = font;
+    }
 }
