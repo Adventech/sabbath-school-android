@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Reading Display Options">
+        <com.cryart.sabbathschool.misc.SSListPreferenceCompat
+            android:key="ss_settings_display_options_theme"
+            android:title="Color theme"
+            android:summary="%s"
+            android:defaultValue="light"
+            android:entries="@array/ss_settings_display_options_theme_entries"
+            android:entryValues="@array/ss_settings_display_options_theme_values" />
+
+        <com.cryart.sabbathschool.misc.SSListPreferenceCompat
+            android:key="ss_settings_display_options_font"
+            android:title="Typeface"
+            android:summary="%s"
+            android:defaultValue="andada"
+            android:entries="@array/ss_settings_display_options_font_entries"
+            android:entryValues="@array/ss_settings_display_options_font_values" />
+
+        <com.cryart.sabbathschool.misc.SSListPreferenceCompat
+            android:key="ss_settings_display_options_size"
+            android:title="Font size"
+            android:summary="%s"
+            android:defaultValue="medium"
+            android:entries="@array/ss_settings_display_options_size_entries"
+            android:entryValues="@array/ss_settings_display_options_size_values" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="About">
+
+        <Preference
+            android:title="Website"
+            android:summary="http://adventech.io"
+            android:persistent="false"
+            android:selectable="true">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://adventech.io" />
+        </Preference>
+
+        <Preference
+            android:title="Facebook Page"
+            android:summary="https://facebook.com/shabbathschool"
+            android:persistent="false"
+            android:selectable="true">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://facebook.com/shabbathschool" />
+        </Preference>
+
+        <Preference
+            android:title="Instagram"
+            android:summary="\@adventech"
+            android:persistent="false"
+            android:selectable="true">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://instagram.com/adventech" />
+        </Preference>
+
+        <Preference
+            android:title="Source Code"
+            android:summary="Help the project :)"
+            android:persistent="false"
+            android:selectable="true">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Adventech/sabbath-school-android-2" />
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

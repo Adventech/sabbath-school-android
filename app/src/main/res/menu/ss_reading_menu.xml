@@ -30,14 +30,14 @@
         android:title="Display Options" />
 
     <item
-        android:id="@+id/ss_reading_menu_display_share"
-        android:orderInCategory="100"
+        android:id="@+id/ss_reading_menu_share"
+        android:orderInCategory="101"
         app:showAsAction="never"
         android:title="Share" />
 
     <item
-        android:id="@+id/ss_reading_menu_display_settings"
-        android:orderInCategory="100"
+        android:id="@+id/ss_reading_menu_settings"
+        android:orderInCategory="102"
         app:showAsAction="never"
         android:title="Settings" />
 </menu>
