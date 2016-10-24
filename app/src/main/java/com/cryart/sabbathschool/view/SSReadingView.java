@@ -312,7 +312,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl(String.format("javascript:if(ssReader){ssReader.setComment('%s', '%s');}", Base64.encodeToString(comment.getBytes(), Base64.DEFAULT), elementId));
+                    loadUrl(String.format("javascript:if(ssReader){ssReader.setComment('%s', '%s');}", Base64.encodeToString(comment.getBytes(), Base64.NO_WRAP), elementId));
                 }
             });
         }
@@ -380,7 +380,7 @@ public class SSReadingView extends WebView {
                                     ssReadComments.comments.add(new SSComment(inputId, input.toString()));
                                 }
                                 highlightsCommentsCallback.onCommentsReceived(ssReadComments);
-                                setIndividualComment(Base64.encodeToString(input.toString().getBytes(), Base64.DEFAULT), inputId);
+                                setIndividualComment(Base64.encodeToString(input.toString().getBytes(), Base64.NO_WRAP), inputId);
                             }
                         }).show();
 
