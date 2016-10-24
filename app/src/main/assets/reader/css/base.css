@@ -1,6 +1,11 @@
+html, body {padding:0; margin: 0}
+
 #ss-wrapper {
+
+}
+
+#ss-wrapper-theme {
   padding: 20px;
-  font-size: 1.2em;
 }
 
 .ss-wrapper-andada {
@@ -19,8 +24,71 @@
   font-family: 'pt sans', sans-serif;
 }
 
+.ss-wrapper-tiny {
+  font-size: .8em;
+}
+
+.ss-wrapper-small {
+  font-size: 1em;
+}
+
+.ss-wrapper-medium {
+  font-size: 1.2em;
+}
+
+.ss-wrapper-large {
+  font-size: 1.4em;
+}
+
+.ss-wrapper-huge {
+  font-size: 1.6em;
+}
+
+.ss-wrapper-light {
+  background-color: #fdfdfd;
+  color: #222;
+}
+
+.ss-wrapper-sepia {
+  background-color: #fbf0d9;
+  color: #5b4636;
+}
+
+  .ss-wrapper-sepia code, .ss-wrapper-sepia blockquote {
+    background-color: #efebe4;
+  }
+
+.ss-wrapper-dark {
+  background-color: #292929;
+  color: #ccc;
+}
+
+  .ss-wrapper-dark code, .ss-wrapper-dark blockquote {
+    background-color: #525252;
+  }
+
 .ss-wrapper p {
   padding: 0 0 10px 0;
+}
+
+.highlight_orange {
+  background-color: #F59569;
+  color: #222 !important;
+}
+
+.highlight_yellow {
+  background-color: #FFF3A0;
+  color: #222 !important;
+}
+
+.highlight_green {
+  background-color: #63D724;
+  color: #222 !important;
+}
+
+.highlight_blue {
+  background-color: #69D2F5;
+  color: #222 !important;
 }
 
 blockquote {
@@ -41,27 +109,24 @@ code {
   background: #f9f9f9;
   padding: 20px;
   display: block;
-
+  border-radius: 3px;
 }
 
 code .textarea {
-  margin-top: 20px;
-  margin-left:-20px;
-  margin-right:-20px;
-  margin-bottom: -20px;
+  border-radius: 3px;
+  color: #222;
+  margin: 20px -20px -20px;
   display: block;
-  font-size: 13px;
   line-height: 26px;
-  font-family: "PT Serif", serif;
-  background-color: #F8F5DB;
-  background-image: -webkit-linear-gradient(#DEE2D0 1px, rgba(0, 0, 0, 0) 1px);
-  background-size: 100% 26px;
   border: 0;
   outline: 0;
-  min-height: 75px;
-  padding: 7px 20px;
+  min-height: 70px;
+  padding: 5px 20px;
   border-radius: 0 !important;
+  background-color: #F8F5DB;
   background-attachment: local;
+  background-size: 100% 26px;
+  background-image: -webkit-linear-gradient(#dedede 1px, rgba(0, 0, 0, 0) 1px);
 }
 
 h3 {

@@ -23,11 +23,167 @@
 package com.cryart.sabbathschool.viewmodel;
 
 
+import android.util.Log;
+import android.widget.SeekBar;
+
+import com.cryart.sabbathschool.databinding.SsReadingDisplayOptionsBinding;
+import com.cryart.sabbathschool.model.SSReadingDisplayOptions;
+
 public class SSReadingDisplayOptionsViewModel implements SSViewModel {
     public SSReadingViewModel ssReadingViewModel;
+    private SsReadingDisplayOptionsBinding binding;
+    private SSReadingDisplayOptions ssReadingDisplayOptions;
 
-    public SSReadingDisplayOptionsViewModel(SSReadingViewModel ssReadingViewModel){
+    public SSReadingDisplayOptionsViewModel(SsReadingDisplayOptionsBinding binding, SSReadingViewModel ssReadingViewModel, SSReadingDisplayOptions ssReadingDisplayOptions){
+        this.ssReadingDisplayOptions = ssReadingDisplayOptions;
         this.ssReadingViewModel = ssReadingViewModel;
+        this.binding = binding;
+
+        Log.d("SSRead", ssReadingDisplayOptions.size);
+        updateWidget();
+
+        binding.ssReadingMenuDisplayOptionsSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                switch (i){
+                    case 0: {
+                        setSizeTiny();
+                        break;
+                    }
+
+                    case 1: {
+                        setSizeSmall();
+                        break;
+                    }
+
+                    case 2: {
+                        setSizeMedium();
+                        break;
+                    }
+
+                    case 3: {
+                        setSizeLarge();
+                        break;
+                    }
+
+                    case 4: {
+                        setSizeHuge();
+                        break;
+                    }
+
+                    default: {
+                        setSizeMedium();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    public void updateWidget(){
+        switch(ssReadingDisplayOptions.size){
+            case SSReadingDisplayOptions.SS_SIZE_TINY: {
+                binding.ssReadingMenuDisplayOptionsSize.setProgress(0);
+                break;
+            }
+
+            case SSReadingDisplayOptions.SS_SIZE_SMALL: {
+                binding.ssReadingMenuDisplayOptionsSize.setProgress(1);
+                break;
+            }
+
+            case SSReadingDisplayOptions.SS_SIZE_MEDIUM: {
+                binding.ssReadingMenuDisplayOptionsSize.setProgress(2);
+                break;
+            }
+
+            case SSReadingDisplayOptions.SS_SIZE_LARGE: {
+                binding.ssReadingMenuDisplayOptionsSize.setProgress(3);
+                break;
+            }
+
+            case SSReadingDisplayOptions.SS_SIZE_HUGE: {
+                binding.ssReadingMenuDisplayOptionsSize.setProgress(4);
+                break;
+            }
+        }
+    }
+
+    public void setFontAndada(){
+        setFont(SSReadingDisplayOptions.SS_FONT_ANDADA);
+    }
+
+    public void setFontLato(){
+        setFont(SSReadingDisplayOptions.SS_FONT_LATO);
+    }
+
+    public void setFontPTSerif(){
+        setFont(SSReadingDisplayOptions.SS_FONT_PT_SERIF);
+    }
+
+    public void setFontPTSans(){
+        setFont(SSReadingDisplayOptions.SS_FONT_PT_SANS);
+    }
+
+    public void setThemeLight(){
+        setTheme(SSReadingDisplayOptions.SS_THEME_LIGHT);
+    }
+
+    public void setThemeSepia(){
+        setTheme(SSReadingDisplayOptions.SS_THEME_SEPIA);
+    }
+
+    public void setThemeDark(){
+        setTheme(SSReadingDisplayOptions.SS_THEME_DARK);
+    }
+
+    public void setSizeTiny(){
+        setSize(SSReadingDisplayOptions.SS_SIZE_TINY);
+    }
+
+    public void setSizeSmall(){
+        setSize(SSReadingDisplayOptions.SS_SIZE_SMALL);
+    }
+
+    public void setSizeMedium(){
+        setSize(SSReadingDisplayOptions.SS_SIZE_MEDIUM);
+    }
+
+    public void setSizeLarge(){
+        setSize(SSReadingDisplayOptions.SS_SIZE_LARGE);
+    }
+
+    public void setSizeHuge(){
+        setSize(SSReadingDisplayOptions.SS_SIZE_HUGE);
+    }
+
+    private void setTheme(String theme){
+        ssReadingDisplayOptions.theme = theme;
+        relaySSReadingDisplayOptions();
+    }
+
+    private void setSize(String size){
+        ssReadingDisplayOptions.size = size;
+        relaySSReadingDisplayOptions();
+    }
+
+    private void setFont(String font){
+        ssReadingDisplayOptions.font = font;
+        relaySSReadingDisplayOptions();
+    }
+
+    private void relaySSReadingDisplayOptions(){
+        ssReadingViewModel.onSSReadingDisplayOptions(ssReadingDisplayOptions);
     }
 
     @Override

@@ -26,8 +26,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.databinding.ObservableInt;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -39,6 +41,7 @@ import com.cryart.sabbathschool.misc.SSHelper;
 import com.cryart.sabbathschool.model.SSDay;
 import com.cryart.sabbathschool.model.SSLessonInfo;
 import com.cryart.sabbathschool.model.SSRead;
+import com.cryart.sabbathschool.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.view.SSReadingActivity;
 import com.cryart.sabbathschool.view.SSReadingDisplayOptionsView;
 import com.cryart.sabbathschool.view.SSReadingView;
@@ -47,6 +50,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -59,8 +64,9 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     private DataListener dataListener;
     private DatabaseReference mDatabase;
     private ValueEventListener ssReadRef;
-    private SsReadingActivityBinding ssReadingActivityBinding;
 
+    public SsReadingActivityBinding ssReadingActivityBinding;
+    public SSReadingDisplayOptions ssReadingDisplayOptions;
     public SSLessonInfo ssLessonInfo;
     public ObservableInt ssReadPosition;
     public SSRead ssRead;
@@ -71,10 +77,32 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         this.ssLessonIndex = ssLessonIndex;
         this.ssReadingActivityBinding = ssReadingActivityBinding;
 
+        ssReadingActivityBinding.ssContextMenu.contextMenuShare.setImageDrawable(new IconicsDrawable(context)
+                .icon(GoogleMaterial.Icon.gmd_share)
+                .color(Color.DKGRAY)
+                .sizeDp(16));
+
+        ssReadingActivityBinding.ssContextMenu.contextMenuCopy.setImageDrawable(new IconicsDrawable(context)
+                .icon(GoogleMaterial.Icon.gmd_content_copy)
+                .color(Color.DKGRAY)
+                .sizeDp(16));
+
+        ssReadingActivityBinding.ssContextMenu.contextMenuSearch.setImageDrawable(new IconicsDrawable(context)
+                .icon(GoogleMaterial.Icon.gmd_search)
+                .color(Color.DKGRAY)
+                .sizeDp(16));
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.keepSynced(true);
 
         ssReadPosition = new ObservableInt(0);
+
+        // Get Reading Options from prefs
+        ssReadingDisplayOptions = new SSReadingDisplayOptions(SSReadingDisplayOptions.SS_THEME_DARK,
+                SSReadingDisplayOptions.SS_SIZE_HUGE,
+                SSReadingDisplayOptions.SS_FONT_LATO);
+
+        ssReadingActivityBinding.ssWw.setReadingDisplayOptions(ssReadingDisplayOptions);
 
         loadLessonInfo();
     }
@@ -228,10 +256,10 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
         DisplayMetrics metrics = new DisplayMetrics();
         ((SSReadingActivity)context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) ssReadingActivityBinding.ssContextMenu.getLayoutParams();
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.getLayoutParams();
 
-        int contextMenuWidth = ssReadingActivityBinding.ssContextMenu.getWidth();
-        int contextMenuHeight = ssReadingActivityBinding.ssContextMenu.getHeight();
+        int contextMenuWidth = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.getWidth();
+        int contextMenuHeight = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.getHeight();
 
 
         int screenWidth = metrics.widthPixels;
@@ -257,13 +285,13 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         }
 
         params.setMargins(contextMenuX, contextMenuY, 0, 0);
-        ssReadingActivityBinding.ssContextMenu.setLayoutParams(params);
-        ssReadingActivityBinding.ssContextMenu.setVisibility(View.VISIBLE);
+        ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.setLayoutParams(params);
+        ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onSelectionFinished() {
-        ssReadingActivityBinding.ssContextMenu.setVisibility(View.INVISIBLE);
+        ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.setVisibility(View.INVISIBLE);
     }
 
     public interface DataListener {
@@ -273,11 +301,55 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
     public void onDisplayOptionsClick(){
         SSReadingDisplayOptionsView ssReadingDisplayOptionsView = new SSReadingDisplayOptionsView();
-        ssReadingDisplayOptionsView.setSSReadingViewModel(context, this);
+        Log.d(TAG, ssReadingDisplayOptions.size);
+        ssReadingDisplayOptionsView.setSSReadingViewModel(context, this, ssReadingDisplayOptions);
         ssReadingDisplayOptionsView.show(((SSReadingActivity)context).getSupportFragmentManager(), ssReadingDisplayOptionsView.getTag());
     }
 
-    public void onHideWebViewClick(){
-        ssReadingActivityBinding.ssWw.setVisibility(View.INVISIBLE);
+    public void highlightYellow(){
+        highlightSelection("yellow");
+    }
+
+    public void highlightOrange(){
+        highlightSelection("orange");
+    }
+
+    public void highlightGreen(){
+        highlightSelection("green");
+    }
+
+    public void highlightBlue(){
+        highlightSelection("blue");
+    }
+
+    public void unHighlightSelection(){
+        ssReadingActivityBinding.ssWw.ssReadViewBridge.unHighlightSelection();
+        ssReadingActivityBinding.ssWw.selectionFinished();
+    }
+
+    private void highlightSelection(String color){
+        ssReadingActivityBinding.ssWw.ssReadViewBridge.highlightSelection(color);
+        ssReadingActivityBinding.ssWw.selectionFinished();
+    }
+
+    public void copy(){
+        ssReadingActivityBinding.ssWw.ssReadViewBridge.copy();
+        ssReadingActivityBinding.ssWw.selectionFinished();
+    }
+
+    public void share(){
+        ssReadingActivityBinding.ssWw.ssReadViewBridge.share();
+        ssReadingActivityBinding.ssWw.selectionFinished();
+    }
+
+    public void search(){
+        ssReadingActivityBinding.ssWw.ssReadViewBridge.search();
+        ssReadingActivityBinding.ssWw.selectionFinished();
+    }
+
+    public void onSSReadingDisplayOptions(SSReadingDisplayOptions ssReadingDisplayOptions){
+        this.ssReadingDisplayOptions = ssReadingDisplayOptions;
+        ssReadingActivityBinding.ssWw.setReadingDisplayOptions(ssReadingDisplayOptions);
+        ssReadingActivityBinding.ssWw.updateReadingDisplayOptions();
     }
 }

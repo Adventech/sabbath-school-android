@@ -58,21 +58,16 @@
 
         </android.support.v4.widget.NestedScrollView>
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/ssContextMenu"
+        <include
+            layout="@layout/ss_reading_context"
+            bind:viewModel="@{viewModel}"
             android:visibility="invisible"
-            android:layout_width="260dp"
-            android:layout_height="80dp">
-            <TextView
-
-                android:layout_gravity="center|center_horizontal"
-                android:text="Context Menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </android.support.v7.widget.CardView>
+            android:id="@+id/ssContextMenu" />
 
         <LinearLayout
             android:visibility="invisible"
+            android:clickable="true"
+            android:onClick="@{() -> viewModel.onMenuClick()}"
             android:id="@+id/ss_reading_sheet_overlay"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -125,8 +120,7 @@
                         android:textSize="13sp"
                         android:textColor="#ffffff"
                         android:maxLines="1"
-                        android:text="@{viewModel.ssLessonInfo.lesson.title}"
-                        />
+                        android:text="@{viewModel.ssLessonInfo.lesson.title}" />
 
                     <TextView
                         android:id="@+id/ss_lesson_item_normal_date"

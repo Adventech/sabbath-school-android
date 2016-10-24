@@ -33,7 +33,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebViewClient;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -53,6 +52,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SSReadingActivity extends SSBaseActivity implements SSReadingViewModel.DataListener {
     private static final String TAG = SSReadingActivity.class.getSimpleName();
@@ -82,7 +83,6 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         binding.ssAppBar.ssCollapsingToolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
 
         binding.ssWw.getSettings().setJavaScriptEnabled(true);
-        binding.ssWw.setWebViewClient(new WebViewClient());
 
         ViewCompat.setNestedScrollingEnabled(binding.ssReadingSheetList, false);
 
@@ -155,7 +155,6 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     }
 
     public static String readFileFromAssets(Context context, String assetPath){
-
         StringBuilder buf = new StringBuilder();
         try {
             InputStream json = context.getAssets().open(assetPath);
@@ -178,5 +177,10 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
                 "text/html", "utf-8", null);
 
         binding.ssAppBar.ssCollapsingToolbar.setTitle(ssRead.title);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

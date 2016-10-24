@@ -67,7 +67,8 @@
         <activity android:name="com.cryart.sabbathschool.view.SSReadingActivity"
             android:theme="@style/AppTheme.NoActionBar.NoStatusBar"
             android:windowSoftInputMode="adjustPan|adjustNothing"
-            android:parentActivityName=".view.SSLessonsActivity">
+            android:configChanges="orientation"
+            android:parentActivityName="com.cryart.sabbathschool.view.SSLessonsActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.SSLessonsActivity" />
         </activity>

@@ -1,4 +1,4 @@
-<!doctype html>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2016 Adventech <info@adventech.io>
   ~
@@ -21,34 +21,23 @@
   ~ THE SOFTWARE.
   -->
 
-<html>
-<head>
-  <link rel="stylesheet" href="css/reset.css" type="text/css" media="all" />
-  <link rel="stylesheet" href="css/base.css" type="text/css" media="all" />
-  <link rel="stylesheet" href="css/fonts.css" type="text/css" media="all" />
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#F59569"/>
+        </shape>
+    </item>
+</selector>
 
-  <script type="text/javascript" src="js/jsface.min.js"></script>
-  <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-  <script type="text/javascript" src="js/rangy-core.js"></script>
-  <script type="text/javascript" src="js/rangy-highlighter.js"></script>
-  <script type="text/javascript" src="js/rangy-classapplier.js"></script>
-  <script type="text/javascript" src="js/rangy-serializer.js"></script>
+<!--<vector xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:width="48dp"-->
+    <!--android:height="48dp"-->
 
-  <script type="text/javascript" src="js/ss-reader.js"></script>
+    <!--android:viewportWidth="48"-->
+    <!--android:viewportHeight="48">-->
 
-</head>
-
-<body>
-
-<div id="ss-wrapper">
-<div id="ss-wrapper-font" class="ss-wrapper-andada">
-<div id="ss-wrapper-size" class="ss-wrapper-medium">
-<div id="ss-wrapper-theme" class="ss-wrapper-light">
-  {{content}}
-</div>
-</div>
-</div>
-</div>
-
-</body>
-</html>
+    <!--<path-->
+        <!--android:fillColor="#FFFFFF"-->
+        <!--android:strokeWidth="1"-->
+        <!--android:pathData="M-12,0a12,12 0 1,0 24,0a12,12 0 1,0 -24,0" />-->
+<!--</vector>-->
