@@ -22,11 +22,11 @@
 
 package com.cryart.sabbathschool.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
@@ -47,6 +47,8 @@ import com.mikepenz.iconics.IconicsDrawable;
 
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterliesViewModel.DataListener {
     private static final String TAG = SSQuarterliesActivity.class.getSimpleName();
     private SsQuarterliesActivityBinding binding;
@@ -64,7 +66,6 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         startActivity(launchNextActivity);
 
         binding = DataBindingUtil.setContentView(this, R.layout.ss_quarterlies_activity);
-        binding.ssAppBar.toolbarTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
         setSupportActionBar(binding.ssAppBar.ssToolbar);
 
         ActionBar ssToolbar = getSupportActionBar();
@@ -136,5 +137,10 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
     @Override
     public void onLogoutEvent(){
         finish();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

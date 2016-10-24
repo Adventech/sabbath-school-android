@@ -36,7 +36,6 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 
-import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.misc.SSHelper;
@@ -99,9 +98,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
         ssReadPosition = new ObservableInt(0);
 
-        // Get Reading Options from prefs
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
         ssReadingDisplayOptions = new SSReadingDisplayOptions(
                 prefs.getString(SSConstants.SS_SETTINGS_THEME_KEY, SSReadingDisplayOptions.SS_THEME_LIGHT),
                 prefs.getString(SSConstants.SS_SETTINGS_SIZE_KEY, SSReadingDisplayOptions.SS_SIZE_MEDIUM),
@@ -184,7 +181,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     }
 
     public void onMenuClick() {
-        final View view = ((SSReadingActivity)context).findViewById(R.id.ss_reading_sheet);
+        final View view = ssReadingActivityBinding.ssReadingSheet;
         final int state = view.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int centerX = view.getRight() / 2;

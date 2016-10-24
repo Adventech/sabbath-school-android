@@ -72,8 +72,6 @@ public class SSSettingsActivity extends AppCompatActivity {
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
         binding.ssAppBar.toolbarTitle.setText("Settings");
-//        binding.ssAppBar.toolbarTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
-
         getFragmentManager().beginTransaction().replace(R.id.ss_settings_frame, new SSSettingsFragment()).commit();
     }
 

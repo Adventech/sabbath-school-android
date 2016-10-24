@@ -45,7 +45,13 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.model.SSReadingDisplayOptions;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class SSReadingView extends WebView {
     public static final String SEARCH_PROVIDER = "https://www.google.com/search?q=%s";
@@ -134,6 +140,31 @@ public class SSReadingView extends WebView {
     public void selectionFinished(){
         contextMenuCallback.onSelectionFinished();
         contextMenuShown = false;
+    }
+
+    public static String readFileFromAssets(Context context, String assetPath){
+        StringBuilder buf = new StringBuilder();
+        try {
+            InputStream json = context.getAssets().open(assetPath);
+            BufferedReader in = new BufferedReader(new InputStreamReader(json, "UTF-8"));
+            String str;
+            while ((str = in.readLine()) != null) {
+                buf.append(str);
+            }
+            in.close();
+            return buf.toString();
+
+        } catch (IOException e){ return "";  }
+    }
+
+    public void loadRead(SSRead ssRead){
+        // We don't want any flickering of themes, right?
+        String content = readFileFromAssets(getContext(), "reader/index.html").replaceAll("\\{\\{content\\}\\}", ssRead.content);
+        content = content.replace("ss-wrapper-light", "ss-wrapper-" + ssReadingDisplayOptions.theme);
+        content = content.replace("ss-wrapper-andada", "ss-wrapper-" + ssReadingDisplayOptions.font);
+        content = content.replace("ss-wrapper-medium", "ss-wrapper-" + ssReadingDisplayOptions.size);
+
+        loadDataWithBaseURL("file:///android_asset/reader/", content, "text/html", "utf-8", null);
     }
 
     public ActionMode emptyActionMode() {
