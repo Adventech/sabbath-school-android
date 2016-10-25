@@ -109,6 +109,7 @@ code {
   background: #f9f9f9;
   padding: 20px;
   display: block;
+  font-weight: bold;
   border-radius: 3px;
 }
 
@@ -117,7 +118,7 @@ code .textarea {
   color: #222;
   margin: 20px -20px -20px;
   display: block;
-  line-height: 26px;
+  line-height: inherit;
   border: 0;
   outline: 0;
   min-height: 70px;
