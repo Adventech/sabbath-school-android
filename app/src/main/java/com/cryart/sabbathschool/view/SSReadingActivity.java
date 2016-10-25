@@ -63,25 +63,23 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         binding.ssReadingSheetList.setAdapter(adapter);
         binding.ssReadingSheetList.setLayoutManager(new LinearLayoutManager(this));
 
-        setSupportActionBar(binding.ssAppBar.ssToolbar3);
+        setSupportActionBar(binding.ssReadingAppBar.ssReadingToolbar);
         ActionBar ssToolbar = getSupportActionBar();
         if (ssToolbar != null) {
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
 
-        binding.ssAppBar.ssCollapsingToolbar.setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle);
-        binding.ssAppBar.ssCollapsingToolbar.setExpandedTitleTextAppearance(R.style.AppThemeAppBarTextStyleExpanded);
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle);
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setExpandedTitleTextAppearance(R.style.AppThemeAppBarTextStyleExpanded);
 
-        binding.ssAppBar.ssCollapsingToolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
-        binding.ssAppBar.ssCollapsingToolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
-
-        binding.ssWw.getSettings().setJavaScriptEnabled(true);
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
 
         ViewCompat.setNestedScrollingEnabled(binding.ssReadingSheetList, false);
 
         ssReadingViewModel = new SSReadingViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_LESSON_INDEX_EXTRA), binding);
-        binding.ssWw.setContextMenuCallback(ssReadingViewModel);
-        binding.ssWw.setHighlightsCommentsCallback(ssReadingViewModel);
+        binding.ssReadingView.setContextMenuCallback(ssReadingViewModel);
+        binding.ssReadingView.setHighlightsCommentsCallback(ssReadingViewModel);
         ((SSReadingListAdapter)binding.ssReadingSheetList.getAdapter()).setReadingViewModel(ssReadingViewModel);
 
         binding.executePendingBindings();
@@ -145,15 +143,15 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
                         return false;
                     }
                 })
-                .into(binding.ssAppBar.ssCollapsingToolbarBackdrop);
+                .into(binding.ssReadingAppBar.ssCollapsingToolbarBackdrop);
         adapter.notifyDataSetChanged();
         binding.invalidateAll();
     }
 
     @Override
     public void onReadChanged(SSRead ssRead){
-        binding.ssWw.loadRead(ssRead);
-        binding.ssAppBar.ssCollapsingToolbar.setTitle(ssRead.title);
+        binding.ssReadingView.loadRead(ssRead);
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setTitle(ssRead.title);
     }
 
     @Override

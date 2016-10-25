@@ -92,7 +92,7 @@
                     android:layout_gravity="center"
                     android:textSize="@dimen/ss_about_list_link_text_size"
                     android:textColor="@color/colorSecondary"
-                    android:text="@string/ss_about_facebook_link"/>
+                    android:text="@string/ss_about_facebook_summary"/>
 
             </LinearLayout>
         </FrameLayout>
@@ -128,7 +128,7 @@
                     android:layout_gravity="center"
                     android:textSize="@dimen/ss_about_list_link_text_size"
                     android:textColor="@color/colorSecondary"
-                    android:text="@string/ss_about_instagram_link" />
+                    android:text="@string/ss_about_instagram_summary" />
             </LinearLayout>
         </FrameLayout>
 
@@ -163,7 +163,7 @@
                     android:layout_gravity="center"
                     android:textSize="@dimen/ss_about_list_link_text_size"
                     android:textColor="@color/colorSecondary"
-                    android:text="@string/ss_about_github_link" />
+                    android:text="@string/ss_about_github_summary" />
 
             </LinearLayout>
         </FrameLayout>

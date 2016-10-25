@@ -39,7 +39,7 @@
         app:elevation="@dimen/ss_app_bar_elevation">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/ss_collapsing_toolbar"
+            android:id="@+id/ss_lesson_collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"

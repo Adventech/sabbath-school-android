@@ -36,11 +36,10 @@ import com.cryart.sabbathschool.databinding.SsMyHighlightsActivityBinding;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SSMyHighlightsActivity extends AppCompatActivity {
-    private SsMyHighlightsActivityBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.ss_my_highlights_activity);
+        SsMyHighlightsActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.ss_my_highlights_activity);
         setSupportActionBar(binding.ssAppBar.ssToolbar);
         ActionBar ssToolbar = getSupportActionBar();
         if (ssToolbar != null) {
@@ -48,7 +47,7 @@ public class SSMyHighlightsActivity extends AppCompatActivity {
             ssToolbar.setDisplayShowTitleEnabled(false);
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
-        binding.ssAppBar.toolbarTitle.setText("My Highlights");
+        binding.ssAppBar.toolbarTitle.setText(getString(R.string.ss_my_highlights));
     }
 
     @Override

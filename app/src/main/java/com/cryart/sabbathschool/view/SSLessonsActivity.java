@@ -61,11 +61,11 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
 
-        binding.ssLessonsAppBar.ssCollapsingToolbar.setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle);
-        binding.ssLessonsAppBar.ssCollapsingToolbar.setExpandedTitleTextAppearance(R.style.AppThemeAppBarTextStyleExpanded);
+        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle);
+        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setExpandedTitleTextAppearance(R.style.AppThemeAppBarTextStyleExpanded);
 
-        binding.ssLessonsAppBar.ssCollapsingToolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
-        binding.ssLessonsAppBar.ssCollapsingToolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
+        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
+        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
 
         ssLessonsViewModel = new SSLessonsViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA));
         binding.executePendingBindings();
@@ -76,7 +76,7 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
 
     @Override
     public void onQuarterlyChanged(SSQuarterlyInfo ssQuarterlyInfo) {
-        binding.ssLessonsAppBar.ssCollapsingToolbar.setTitle(ssQuarterlyInfo.quarterly.title);
+        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setTitle(ssQuarterlyInfo.quarterly.title);
         SSLessonsAdapter adapter = (SSLessonsAdapter) binding.ssLessonInfoList.getAdapter();
         adapter.setLessons(ssQuarterlyInfo.lessons);
         adapter.notifyDataSetChanged();

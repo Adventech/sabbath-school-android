@@ -21,7 +21,9 @@
   ~ THE SOFTWARE.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
         <variable
@@ -30,23 +32,23 @@
     </data>
 
     <RelativeLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/bottom_sheet_2"
-        android:background="@drawable/ss_top_border"
+        android:id="@+id/ss_reading_navigation_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorSecondaryLighter">
+
+        <include layout="@layout/ss_horizontal_line" />
 
         <FrameLayout
-            android:id="@+id/z"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/ss_reading_navigation_menu"
+            android:layout_toLeftOf="@+id/ss_reading_navigation_menu"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:layout_width="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/days_list"
-            android:layout_toLeftOf="@+id/days_list"
-            android:layout_height="wrap_content"
             android:visibility="@{viewModel.ssReadPosition > 0 ? View.VISIBLE : View.INVISIBLE}"
             android:onClick="@{()->viewModel.onPrevClick()}">
 
@@ -55,132 +57,133 @@
                 android:layout_height="match_parent">
 
                 <com.mikepenz.iconics.view.IconicsImageView
-                    android:id="@+id/ss_arrow_left"
-                    app:iiv_color="#333333"
-                    app:iiv_icon="gmd-chevron-left"
-                    app:iiv_size="16dp"
-                    android:scaleType="centerInside"
                     android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/ss_arrow_left"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_height="match_parent" />
+                    android:layout_marginLeft="@dimen/ss_reading_navigation_icon_size"
+                    android:layout_marginStart="@dimen/ss_reading_navigation_icon_size"
+                    android:scaleType="centerInside"
+                    app:iiv_color="@color/colorSecondaryDarker"
+                    app:iiv_icon="gmd-chevron-left"
+                    app:iiv_size="@dimen/ss_reading_navigation_icon_size" />
 
                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/ss_arrow_left"
                     android:layout_toEndOf="@+id/ss_arrow_left"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:orientation="vertical"
+                    android:layout_marginLeft="@dimen/ss_reading_navigation_text_margin"
+                    android:layout_marginStart="@dimen/ss_reading_navigation_text_margin"
+                    android:layout_marginRight="@dimen/ss_reading_navigation_text_margin"
+                    android:layout_marginEnd="@dimen/ss_reading_navigation_text_margin"
                     android:layout_centerVertical="true"
                     android:layout_alignBaseline="@+id/ss_arrow_left"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="@{viewModel.ssReadPosition > 0 ? viewModel.getDayDate(viewModel.ssReadPosition-1) : null}"
+                        android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:textSize="12sp"
-                        android:textColor="@android:color/black"
-                        android:layout_height="wrap_content" />
+                        android:textSize="@dimen/ss_reading_navigation_text_size"
+                        android:textColor="@color/colorSecondaryDarker"
+                        android:text="@{viewModel.ssReadPosition > 0 ? viewModel.getDayDate(viewModel.ssReadPosition-1) : null}" />
 
                     <TextView
+                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:text="@{viewModel.ssReadPosition > 0 ? viewModel.ssLessonInfo.days.get(viewModel.ssReadPosition-1).title : null}"
                         android:maxLines="1"
+                        android:ellipsize="end"
                         android:textStyle="bold"
                         android:textAllCaps="true"
-                        android:textSize="12sp"
-                        android:ellipsize="end"
-                        android:textColor="@android:color/black"
-                        android:layout_height="wrap_content" />
+                        android:textSize="@dimen/ss_reading_navigation_text_size"
+                        android:textColor="@color/colorSecondaryDarker" />
                 </LinearLayout>
             </RelativeLayout>
         </FrameLayout>
 
         <com.mikepenz.iconics.view.IconicsImageView
-            android:id="@+id/days_list"
+            android:id="@+id/ss_reading_navigation_menu"
+            android:layout_height="match_parent"
+            android:layout_width="@dimen/ss_reading_navigation_menu_size"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:focusable="true"
             android:clickable="true"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{()->viewModel.onMenuClick()}"
-            app:iiv_color="#333333"
-            app:iiv_icon="gmd-list"
-            app:iiv_size="24dp"
-            android:layout_width="60dp"
             android:scaleType="centerInside"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:layout_height="match_parent" />
+            app:iiv_color="@color/colorSecondaryDarker"
+            app:iiv_icon="gmd-list"
+            app:iiv_size="@dimen/ss_reading_navigation_menu_icon_size"
+            android:onClick="@{()->viewModel.onMenuClick()}" />
 
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toEndOf="@+id/ss_reading_navigation_menu"
+            android:layout_toRightOf="@+id/ss_reading_navigation_menu"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_toEndOf="@+id/days_list"
-            android:onClick="@{()->viewModel.onNextClick()}"
             android:visibility="@{viewModel.ssReadPosition &lt; (viewModel.ssLessonInfo.days.size()-1) ? View.VISIBLE : View.INVISIBLE}"
-            android:layout_toRightOf="@+id/days_list">
+            android:onClick="@{()->viewModel.onNextClick()}">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
                 <com.mikepenz.iconics.view.IconicsImageView
-                    android:id="@+id/ss_arrow_right"
-                    app:iiv_color="#333333"
-                    app:iiv_icon="gmd-chevron-right"
-                    app:iiv_size="16dp"
-                    android:scaleType="centerInside"
+                    android:id="@+id/ss_reading_navigation_next"
+                    android:layout_marginRight="@dimen/ss_reading_navigation_icon_size"
+                    android:layout_marginEnd="@dimen/ss_reading_navigation_icon_size"
                     android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginRight="17dp"
-                    android:layout_marginEnd="17dp"
-                    android:layout_height="match_parent" />
+                    android:scaleType="centerInside"
+                    app:iiv_color="@color/colorSecondaryDarker"
+                    app:iiv_icon="gmd-chevron-right"
+                    app:iiv_size="@dimen/ss_reading_navigation_icon_size" />
 
                 <LinearLayout
-                    android:layout_toLeftOf="@+id/ss_arrow_right"
-                    android:layout_toStartOf="@+id/ss_arrow_right"
                     android:layout_width="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:orientation="vertical"
-                    android:gravity="end"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/ss_reading_navigation_next"
+                    android:layout_toStartOf="@+id/ss_reading_navigation_next"
+                    android:layout_marginRight="@dimen/ss_reading_navigation_text_margin"
+                    android:layout_marginEnd="@dimen/ss_reading_navigation_text_margin"
+                    android:layout_marginLeft="@dimen/ss_reading_navigation_text_margin"
+                    android:layout_marginStart="@dimen/ss_reading_navigation_text_margin"
                     android:layout_centerVertical="true"
-                    android:layout_alignBaseline="@+id/ss_arrow_right"
-                    android:layout_height="wrap_content">
+                    android:layout_alignBaseline="@+id/ss_reading_navigation_next"
+                    android:orientation="vertical"
+                    android:gravity="end">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="@{viewModel.ssReadPosition &lt; (viewModel.ssLessonInfo.days.size()-1) ? viewModel.getDayDate(viewModel.ssReadPosition+1) : null}"
+                        android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/ss_reading_navigation_text_size"
                         android:textColor="@android:color/black"
-                        android:layout_height="wrap_content" />
+                        android:text="@{viewModel.ssReadPosition &lt; (viewModel.ssLessonInfo.days.size()-1) ? viewModel.getDayDate(viewModel.ssReadPosition+1) : null}" />
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="@{viewModel.ssReadPosition &lt; (viewModel.ssLessonInfo.days.size()-1) ? viewModel.ssLessonInfo.days.get(viewModel.ssReadPosition+1).title : null}"
+                        android:layout_height="wrap_content"
                         android:maxLines="1"
+                        android:ellipsize="end"
                         android:textStyle="bold"
                         android:textAllCaps="true"
-                        android:textSize="12sp"
-                        android:ellipsize="end"
-                        android:textColor="@android:color/black"
-                        android:layout_height="wrap_content" />
+                        android:textSize="@dimen/ss_reading_navigation_text_size"
+                        android:textColor="@color/colorSecondaryDarker"
+                        android:text="@{viewModel.ssReadPosition &lt; (viewModel.ssLessonInfo.days.size()-1) ? viewModel.ssLessonInfo.days.get(viewModel.ssReadPosition+1).title : null}" />
+
                 </LinearLayout>
             </RelativeLayout>
         </FrameLayout>

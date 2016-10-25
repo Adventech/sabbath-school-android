@@ -21,12 +21,11 @@
   ~ THE SOFTWARE.
   -->
 
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="Reading Display Options">
         <com.cryart.sabbathschool.misc.SSListPreferenceCompat
             android:key="ss_settings_display_options_theme"
-            android:title="Color theme"
+            android:title="@string/ss_settings_color_theme"
             android:summary="%s"
             android:defaultValue="light"
             android:entries="@array/ss_settings_display_options_theme_entries"
@@ -34,7 +33,7 @@
 
         <com.cryart.sabbathschool.misc.SSListPreferenceCompat
             android:key="ss_settings_display_options_font"
-            android:title="Typeface"
+            android:title="@string/ss_settings_typeface"
             android:summary="%s"
             android:defaultValue="andada"
             android:entries="@array/ss_settings_display_options_font_entries"
@@ -42,18 +41,18 @@
 
         <com.cryart.sabbathschool.misc.SSListPreferenceCompat
             android:key="ss_settings_display_options_size"
-            android:title="Font size"
+            android:title="@string/ss_settings_font_size"
             android:summary="%s"
             android:defaultValue="medium"
             android:entries="@array/ss_settings_display_options_size_entries"
             android:entryValues="@array/ss_settings_display_options_size_values" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="About">
+    <PreferenceCategory android:title="@string/ss_about">
 
         <Preference
-            android:title="Website"
-            android:summary="http://adventech.io"
+            android:title="@string/ss_settings_website"
+            android:summary="@string/ss_settings_website_summary"
             android:persistent="false"
             android:selectable="true">
             <intent
@@ -62,18 +61,18 @@
         </Preference>
 
         <Preference
-            android:title="Facebook Page"
-            android:summary="https://facebook.com/shabbathschool"
+            android:title="@string/ss_settings_facebook"
+            android:summary="@string/ss_settings_facebook_summary"
             android:persistent="false"
             android:selectable="true">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://facebook.com/shabbathschool" />
+                android:data="https://facebook.com/shabbatschool" />
         </Preference>
 
         <Preference
-            android:title="Instagram"
-            android:summary="\@adventech"
+            android:title="@string/ss_settings_instagram"
+            android:summary="@string/ss_settings_instagram_summary"
             android:persistent="false"
             android:selectable="true">
             <intent
@@ -82,8 +81,8 @@
         </Preference>
 
         <Preference
-            android:title="Source Code"
-            android:summary="Help the project :)"
+            android:title="@string/ss_settings_github"
+            android:summary="@string/ss_settings_github_summary"
             android:persistent="false"
             android:selectable="true">
             <intent

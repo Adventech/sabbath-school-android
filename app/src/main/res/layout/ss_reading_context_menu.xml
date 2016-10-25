@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.cryart.sabbathschool.viewmodel.SSReadingViewModel" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/ss_reading_context_menu"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/ss_reading_context_controls_padding">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/ss_reading_context_highlight_button_padding"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:onClick="@{() -> viewModel.highlightOrange()}">
+                    <View
+                        android:layout_width="@dimen/ss_reading_context_highlight_button_size"
+                        android:layout_height="@dimen/ss_reading_context_highlight_button_size"
+                        android:background="@drawable/ss_context_menu_color_picker_orange" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/ss_reading_context_highlight_button_padding"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:onClick="@{() -> viewModel.highlightYellow()}">
+                    <View
+                        android:layout_width="@dimen/ss_reading_context_highlight_button_size"
+                        android:layout_height="@dimen/ss_reading_context_highlight_button_size"
+                        android:background="@drawable/ss_context_menu_color_picker_yellow" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/ss_reading_context_highlight_button_padding"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:onClick="@{() -> viewModel.highlightGreen()}">
+
+                    <View
+                        android:layout_width="@dimen/ss_reading_context_highlight_button_size"
+                        android:layout_height="@dimen/ss_reading_context_highlight_button_size"
+                        android:background="@drawable/ss_context_menu_color_picker_green" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/ss_reading_context_highlight_button_padding"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:onClick="@{() -> viewModel.highlightBlue()}">
+
+                    <View
+                        android:background="@drawable/ss_context_menu_color_picker_blue"
+                        android:layout_width="@dimen/ss_reading_context_highlight_button_size"
+                        android:layout_height="@dimen/ss_reading_context_highlight_button_size" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/ss_reading_context_highlight_button_padding"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:onClick="@{() -> viewModel.unHighlightSelection()}">
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:layout_width="@dimen/ss_reading_context_highlight_button_size"
+                        android:layout_height="@dimen/ss_reading_context_highlight_button_size"
+                        app:iiv_color="@color/colorSecondaryDarker"
+                        app:iiv_icon="gmd-highlight-off" />
+
+                </FrameLayout>
+            </LinearLayout>
+
+            <include layout="@layout/ss_horizontal_line" />
+
+            <LinearLayout
+                android:padding="@dimen/ss_reading_context_controls_padding"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/ss_reading_context_extra_padding_top"
+                    android:paddingBottom="@dimen/ss_reading_context_extra_padding_bottom"
+                    android:paddingLeft="@dimen/ss_reading_context_extra_padding_left"
+                    android:paddingRight="@dimen/ss_reading_context_extra_padding_right"
+                    android:paddingStart="@dimen/ss_reading_context_extra_padding_left"
+                    android:paddingEnd="@dimen/ss_reading_context_extra_padding_right"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:onClick="@{() -> viewModel.share()}">
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:layout_width="@dimen/ss_reading_context_extra_size"
+                        android:layout_height="@dimen/ss_reading_context_extra_size"
+                        app:iiv_color="@color/colorSecondaryDarker"
+                        app:iiv_icon="gmd-share" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/ss_reading_context_extra_padding_top"
+                    android:paddingBottom="@dimen/ss_reading_context_extra_padding_bottom"
+                    android:paddingLeft="@dimen/ss_reading_context_extra_padding_left"
+                    android:paddingRight="@dimen/ss_reading_context_extra_padding_right"
+                    android:paddingStart="@dimen/ss_reading_context_extra_padding_left"
+                    android:paddingEnd="@dimen/ss_reading_context_extra_padding_right"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:onClick="@{() -> viewModel.copy()}">
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:layout_width="@dimen/ss_reading_context_extra_size"
+                        android:layout_height="@dimen/ss_reading_context_extra_size"
+                        app:iiv_color="@color/colorSecondaryDarker"
+                        app:iiv_icon="gmd-content-copy" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/ss_reading_context_extra_padding_top"
+                    android:paddingBottom="@dimen/ss_reading_context_extra_padding_bottom"
+                    android:paddingLeft="@dimen/ss_reading_context_extra_padding_left"
+                    android:paddingRight="@dimen/ss_reading_context_extra_padding_right"
+                    android:paddingStart="@dimen/ss_reading_context_extra_padding_left"
+                    android:paddingEnd="@dimen/ss_reading_context_extra_padding_right"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:onClick="@{() -> viewModel.search()}">
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:layout_width="@dimen/ss_reading_context_extra_size"
+                        android:layout_height="@dimen/ss_reading_context_extra_size"
+                        app:iiv_color="@color/colorSecondaryDarker"
+                        app:iiv_icon="gmd-search" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</layout>

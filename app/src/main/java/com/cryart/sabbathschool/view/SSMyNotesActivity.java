@@ -35,11 +35,10 @@ import com.cryart.sabbathschool.databinding.SsMyNotesActivityBinding;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SSMyNotesActivity extends AppCompatActivity {
-    private SsMyNotesActivityBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.ss_my_notes_activity);
+        SsMyNotesActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.ss_my_notes_activity);
         setSupportActionBar(binding.ssAppBar.ssToolbar);
         ActionBar ssToolbar = getSupportActionBar();
         if (ssToolbar != null) {
@@ -47,7 +46,7 @@ public class SSMyNotesActivity extends AppCompatActivity {
             ssToolbar.setDisplayShowTitleEnabled(false);
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
-        binding.ssAppBar.toolbarTitle.setText("My Notes");
+        binding.ssAppBar.toolbarTitle.setText(getString(R.string.ss_my_notes));
     }
 
     @Override

@@ -59,11 +59,10 @@ import com.cryart.sabbathschool.misc.SSSettingsFragment;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SSSettingsActivity extends AppCompatActivity {
-    private SsSettingsActivityBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.ss_settings_activity);
+        SsSettingsActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.ss_settings_activity);
         setSupportActionBar(binding.ssAppBar.ssToolbar);
         ActionBar ssToolbar = getSupportActionBar();
         if (ssToolbar != null) {
@@ -71,7 +70,7 @@ public class SSSettingsActivity extends AppCompatActivity {
             ssToolbar.setDisplayShowTitleEnabled(false);
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
-        binding.ssAppBar.toolbarTitle.setText("Settings");
+        binding.ssAppBar.toolbarTitle.setText(getString(R.string.ss_settings));
         getFragmentManager().beginTransaction().replace(R.id.ss_settings_frame, new SSSettingsFragment()).commit();
     }
 
