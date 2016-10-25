@@ -62,6 +62,11 @@
     <string name="ss_lessons_empty">It looks like there are no lessons at the moment</string>
     <string name="ss_lessons_read">Read</string>
 
+    <string name="ss_reading_comment">Comment</string>
+    <string name="ss_reading_enter_comment">Enter your comment</string>
+    <string name="ss_reading_copied">Selection copied.</string>
+    <string name="ss_reading_share_to">Share selection to:</string>
+
     <string translatable="false" name="ss_reading_display_options_color_theme">@string/ss_settings_color_theme</string>
     <string translatable="false" name="ss_reading_display_options_typeface">@string/ss_settings_typeface</string>
     <string translatable="false" name="ss_reading_display_options_font_size">@string/ss_settings_font_size</string>

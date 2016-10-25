@@ -44,6 +44,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.model.SSComment;
 import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.model.SSReadComments;
@@ -365,9 +366,9 @@ public class SSReadingView extends WebView {
                 comments = new String(Base64.decode(comments, Base64.DEFAULT), "UTF-8");
 
                 new MaterialDialog.Builder(context)
-                        .title("Comment")
+                        .title(context.getString(R.string.ss_reading_comment))
                         .inputType(InputType.TYPE_CLASS_TEXT)
-                        .input("Enter your comment", comments, new MaterialDialog.InputCallback() {
+                        .input(context.getString(R.string.ss_reading_enter_comment), comments, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
 
@@ -395,7 +396,7 @@ public class SSReadingView extends WebView {
                 ClipboardManager _clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText(SSReadingView.CLIPBOARD_LABEL, selection);
                 _clipboard.setPrimaryClip(clip);
-                Toast.makeText(context.getApplicationContext(), "Selection copied!", Toast.LENGTH_LONG).show();
+                Toast.makeText(context.getApplicationContext(), context.getString(R.string.ss_reading_copied), Toast.LENGTH_LONG).show();
             } catch (Exception e){}
         }
 
@@ -414,7 +415,7 @@ public class SSReadingView extends WebView {
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, selection);
                 sendIntent.setType("text/plain");
-                context.startActivity(Intent.createChooser(sendIntent, "Share Sabbath School to:"));
+                context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.ss_reading_share_to)));
             } catch (Exception e){}
         }
     }
