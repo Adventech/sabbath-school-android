@@ -30,6 +30,7 @@ import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLesson;
 import com.cryart.sabbathschool.view.SSReadingActivity;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.format.DateTimeFormat;
 
 public class SSLessonItemViewModel extends BaseObservable implements SSViewModel {
@@ -61,7 +62,7 @@ public class SSLessonItemViewModel extends BaseObservable implements SSViewModel
                 .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                         .parseDateTime(ssLesson.end_date));
 
-        return startDateOut + " - " + endDateOut;
+        return StringUtils.capitalize(startDateOut) + " - " + StringUtils.capitalize(endDateOut);
     }
 
     public void onItemClick(){

@@ -39,6 +39,7 @@ import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.misc.SSHelper;
 import com.cryart.sabbathschool.model.SSComment;
+import com.cryart.sabbathschool.model.SSContextMenu;
 import com.cryart.sabbathschool.model.SSDay;
 import com.cryart.sabbathschool.model.SSLessonInfo;
 import com.cryart.sabbathschool.model.SSRead;
@@ -55,6 +56,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
@@ -308,16 +310,16 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                     .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                             .parseDateTime(ssLessonInfo.lesson.end_date));
 
-            return startDateOut + " - " + endDateOut;
+            return StringUtils.capitalize(startDateOut) + " - " + StringUtils.capitalize(endDateOut);
         }
         return "";
     }
 
     public String getDayDate(int ssDayIdx) {
         if (ssLessonInfo != null && ssLessonInfo.days.size() > ssDayIdx){
-            return DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+            return StringUtils.capitalize(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
                     .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                            .parseDateTime(ssLessonInfo.days.get(ssDayIdx).date));
+                            .parseDateTime(ssLessonInfo.days.get(ssDayIdx).date)));
         }
         return "";
     }
@@ -395,19 +397,19 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     }
 
     public void highlightYellow(){
-        highlightSelection("yellow");
+        highlightSelection(SSContextMenu.HIGHLIGHT_YELLOW);
     }
 
     public void highlightOrange(){
-        highlightSelection("orange");
+        highlightSelection(SSContextMenu.HIGHLIGHT_ORANGE);
     }
 
     public void highlightGreen(){
-        highlightSelection("green");
+        highlightSelection(SSContextMenu.HIGHLIGHT_GREEN);
     }
 
     public void highlightBlue(){
-        highlightSelection("blue");
+        highlightSelection(SSContextMenu.HIGHLIGHT_BLUE);
     }
 
     public void unHighlightSelection(){
