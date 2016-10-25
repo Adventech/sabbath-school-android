@@ -53,12 +53,15 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public abstract class SSBaseActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, AccountHeader.OnAccountHeaderListener, FirebaseAuth.AuthStateListener {
     private static final String TAG = SSBaseActivity.class.getSimpleName();
 
+    private static final String APP_PLAY_STORE_LINK = "https://play.google.com/store/apps/details?id=com.cryart.sabbathschool";
+    private static final String MENU_ANONYMOUS_PHOTO = "https://sabbath-school.adventech.io/api/v1/anonymous-photo.png";
     private static final int MENU_READ_ID = 1;
     private static final int MENU_HIGHLIGHTS_ID = 2;
     private static final int MENU_NOTES_ID = 3;
     private static final int MENU_SETTINGS_ID = 4;
     private static final int MENU_SHARE_ID = 5;
     private static final int MENU_ABOUT_ID = 6;
+    private static final int MENU_HEADER_PROFILE_ID = 100;
     private static final int MENU_HEADER_LOGOUT_ID = 101;
 
     private FirebaseAuth ssFirebaseAuth;
@@ -78,22 +81,22 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
     private IDrawerItem[] getDrawerItems(){
         IDrawerItem[] ssDrawerItems = new IDrawerItem[7];
 
-        ssDrawerItems[0] = new PrimaryDrawerItem().withName("Read now").withIcon(GoogleMaterial.Icon.gmd_book).withIdentifier(MENU_READ_ID).withSelectable(false);
-        ssDrawerItems[1] = new PrimaryDrawerItem().withName("My Highlights").withIcon(GoogleMaterial.Icon.gmd_border_color).withIdentifier(MENU_HIGHLIGHTS_ID).withSelectable(false);
-        ssDrawerItems[2] = new PrimaryDrawerItem().withName("My Notes").withIcon(GoogleMaterial.Icon.gmd_comment).withIdentifier(MENU_NOTES_ID).withSelectable(false);
-        ssDrawerItems[3] = new PrimaryDrawerItem().withName("Settings").withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(MENU_SETTINGS_ID).withSelectable(false);
+        ssDrawerItems[0] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_read_now)).withIcon(GoogleMaterial.Icon.gmd_book).withIdentifier(MENU_READ_ID).withSelectable(false);
+        ssDrawerItems[1] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_my_highlights)).withIcon(GoogleMaterial.Icon.gmd_border_color).withIdentifier(MENU_HIGHLIGHTS_ID).withSelectable(false);
+        ssDrawerItems[2] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_my_notes)).withIcon(GoogleMaterial.Icon.gmd_comment).withIdentifier(MENU_NOTES_ID).withSelectable(false);
+        ssDrawerItems[3] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_settings)).withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(MENU_SETTINGS_ID).withSelectable(false);
         ssDrawerItems[4] = new DividerDrawerItem();
-        ssDrawerItems[5] = new PrimaryDrawerItem().withName("Share Sabbath School").withIdentifier(MENU_SHARE_ID).withSelectable(false);
-        ssDrawerItems[6] = new PrimaryDrawerItem().withName("About").withIdentifier(MENU_ABOUT_ID).withSelectable(false);
+        ssDrawerItems[5] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_share_app)).withIdentifier(MENU_SHARE_ID).withSelectable(false);
+        ssDrawerItems[6] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_about)).withIdentifier(MENU_ABOUT_ID).withSelectable(false);
 
         return ssDrawerItems;
     }
 
     private AccountHeader getAccountHeader(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, "Anonymous");
-        String email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, "anonymous@adventech.io");
-        String photo = prefs.getString(SSConstants.SS_USER_PHOTO_INDEX, "https://sabbath-school.adventech.io/api/v1/anonymous-photo.png");
+        String name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, getString(R.string.ss_menu_anonymous_name));
+        String email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, getString(R.string.ss_menu_anonymous_email));
+        String photo = prefs.getString(SSConstants.SS_USER_PHOTO_INDEX, MENU_ANONYMOUS_PHOTO);
 
         return new AccountHeaderBuilder()
                 .withActivity(this)
@@ -103,8 +106,8 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
                         new ProfileDrawerItem().withName(name)
                                 .withEmail(email)
                                 .withIcon(photo)
-                                .withIdentifier(100),
-                        new ProfileSettingDrawerItem().withName("Sign Out").withIdentifier(MENU_HEADER_LOGOUT_ID)
+                                .withIdentifier(MENU_HEADER_PROFILE_ID),
+                        new ProfileSettingDrawerItem().withName(getString(R.string.ss_menu_sign_out)).withIdentifier(MENU_HEADER_LOGOUT_ID)
                 )
                 .withOnAccountHeaderListener(this)
                 .build();
@@ -135,7 +138,7 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
         if (drawerItem != null) {
             if (drawerItem.getIdentifier() == MENU_READ_ID) {
-
+                // Currently it's useless to do anything
             } else if (drawerItem.getIdentifier() == MENU_HIGHLIGHTS_ID) {
                 Intent intent = new Intent(SSBaseActivity.this, SSMyHighlightsActivity.class);
                 startActivity(intent);
@@ -156,7 +159,7 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
     private void onShareAppClick(){
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "Sabbath School - https://play.google.com/store/apps/details?id=com.cryart.sabbathschool");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, String.format("%s - %s", getString(R.string.ss_menu_share_app_text), APP_PLAY_STORE_LINK));
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
     }

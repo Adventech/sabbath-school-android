@@ -27,6 +27,23 @@
     <string name="ss_login_button_facebook">Sign in with Facebook</string>
     <string name="ss_login_button_anonymous">Continue without Login</string>
 
+    <string name="ss_menu_anonymous_name">Read Now</string>
+    <string translatable="false" name="ss_menu_anonymous_email">anonymous@adventech.io</string>
+    <string name="ss_menu_sign_out">Sign Out</string>
+    <string name="ss_menu_read_now">Read Now</string>
+    <string name="ss_menu_share_app">Share App</string>
+    <string translatable="false" name="ss_menu_my_highlights">@string/ss_my_highlights</string>
+    <string translatable="false" name="ss_menu_my_notes">@string/ss_my_notes</string>
+    <string translatable="false" name="ss_menu_settings">@string/ss_settings</string>
+    <string translatable="false" name="ss_menu_about">@string/ss_about</string>
+    <string name="ss_menu_share_app_text">Check out, I am using this Sabbath School app</string>
+
+    <string name="ss_my_highlights">My Highlights</string>
+    <string name="ss_my_notes">My Notes</string>
+    <string name="ss_settings">Settings</string>
+    <string name="ss_about">About</string>
+
+
     <string name="ss_login_failed">Login failed. Please try again</string>
     <string name="ss_login_anonymously_dialog_positive">Yes</string>
     <string name="ss_login_anonymously_dialog_negative">No</string>
