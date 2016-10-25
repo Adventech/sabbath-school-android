@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.service;
 
-
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
