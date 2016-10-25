@@ -36,11 +36,11 @@ import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
 import java.util.Collections;
 import java.util.List;
 
-public class SSReadingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SSReadingSheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<SSDay> ssDays = Collections.emptyList();
     private SSReadingViewModel ssReadingViewModel;
 
-    public SSReadingListAdapter() {
+    public SSReadingSheetAdapter() {
         this.ssDays = Collections.emptyList();
     }
 

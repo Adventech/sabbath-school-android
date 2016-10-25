@@ -32,12 +32,12 @@
     <item
         android:id="@+id/ss_quarterlies_menu_share"
         android:orderInCategory="101"
-        android:title="Share"
+        android:title="@string/ss_share"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/ss_quarterlies_menu_settings"
         android:orderInCategory="102"
-        android:title="Settings"
+        android:title="@string/ss_settings"
         app:showAsAction="never" />
 </menu>

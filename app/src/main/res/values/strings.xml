@@ -23,6 +23,8 @@
 <resources>
     <string name="ss_app_name">Sabbath School</string>
 
+    <string name="ss_share">Share</string>
+
     <string name="ss_login_button_google">Sign in with Google</string>
     <string name="ss_login_button_facebook">Sign in with Facebook</string>
     <string name="ss_login_button_anonymous">Continue without Login</string>
@@ -85,6 +87,7 @@
 
     <string name="ss_about_made">Made with &#10084; by Adventech</string>
 
+    <string name="ss_settings_display_options">Display Options</string>
     <string name="ss_settings_color_theme">Color theme</string>
     <string name="ss_settings_color_theme_light">Light</string>
     <string name="ss_settings_color_theme_sepia">Sepia</string>
