@@ -49,7 +49,6 @@
     <string name="ss_login_anonymously_dialog_title">Login anonymously?</string>
     <string name="ss_login_anonymously_dialog_description">By logging in anonymously you will not be able to synchronize your data, such as comments and highlights, across devices or after uninstalling application. Are you sure you want to proceed?</string>
 
-
     <string name="ss_quarterlies_filter_languages">Filter Languages</string>
     <string name="ss_quarterlies_downloading">Getting quarterlies…</string>
     <string name="ss_quarterlies_error">Unknown error occurred. Please try again</string>
@@ -61,14 +60,57 @@
     <string name="ss_lessons_empty">It looks like there are no lessons at the moment</string>
     <string name="ss_lessons_read">Read</string>
 
+    <string translatable="false" name="ss_reading_display_options_color_theme">@string/ss_settings_color_theme</string>
+    <string translatable="false" name="ss_reading_display_options_typeface">@string/ss_settings_typeface</string>
+    <string translatable="false" name="ss_reading_display_options_font_size">@string/ss_settings_font_size</string>
+
+    <string translatable="false" name="ss_reading_display_options_theme_light">@string/ss_settings_color_theme_light</string>
+    <string translatable="false" name="ss_reading_display_options_theme_sepia">@string/ss_settings_color_theme_sepia</string>
+    <string translatable="false" name="ss_reading_display_options_theme_dark">@string/ss_settings_color_theme_dark</string>
+
+    <string translatable="false" name="ss_reading_display_options_typeface_andada">@string/ss_settings_typeface_andada</string>
+    <string translatable="false" name="ss_reading_display_options_typeface_lato">@string/ss_settings_typeface_lato</string>
+    <string translatable="false" name="ss_reading_display_options_typeface_pt_serif">@string/ss_settings_typeface_pt_serif</string>
+    <string translatable="false" name="ss_reading_display_options_typeface_pt_sans">@string/ss_settings_typeface_pt_sans</string>
+    <string translatable="false" name="ss_reading_display_options_aa">Aa</string>
+
+
     <string name="ss_about_app_version">version 3.0</string>
-    <string translatable="false" name="ss_about_facebook">Facebook</string>
-    <string translatable="false" name="ss_about_facebook_link">facebook.com/shabbatschool</string>
-    <string translatable="false" name="ss_about_instagram">Instagram</string>
-    <string translatable="false" name="ss_about_instagram_link">\@adventech</string>
-    <string translatable="false" name="ss_about_github">GitHub</string>
-    <string translatable="false" name="ss_about_github_link">github.com/Adventech</string>
+    <string translatable="false" name="ss_about_facebook">@string/ss_settings_facebook</string>
+    <string translatable="false" name="ss_about_facebook_summary">@string/ss_settings_facebook_summary</string>
+    <string translatable="false" name="ss_about_instagram">@string/ss_settings_instagram</string>
+    <string translatable="false" name="ss_about_instagram_summary">@string/ss_settings_instagram_summary</string>
+    <string translatable="false" name="ss_about_github">@string/ss_settings_github</string>
+    <string translatable="false" name="ss_about_github_summary">@string/ss_settings_github_summary</string>
+
     <string name="ss_about_made">Made with &#10084; by Adventech</string>
+
+    <string name="ss_settings_color_theme">Color theme</string>
+    <string name="ss_settings_color_theme_light">Light</string>
+    <string name="ss_settings_color_theme_sepia">Sepia</string>
+    <string name="ss_settings_color_theme_dark">Dark</string>
+
+    <string name="ss_settings_typeface">Typeface</string>
+    <string name="ss_settings_typeface_andada">Andada</string>
+    <string name="ss_settings_typeface_lato">Lato</string>
+    <string name="ss_settings_typeface_pt_serif">PT Serif</string>
+    <string name="ss_settings_typeface_pt_sans">PT Sans</string>
+
+    <string name="ss_settings_font_size">Font Size</string>
+    <string name="ss_settings_font_size_tiny">Tiny</string>
+    <string name="ss_settings_font_size_small">Small</string>
+    <string name="ss_settings_font_size_medium">Medium</string>
+    <string name="ss_settings_font_size_large">Large</string>
+    <string name="ss_settings_font_size_huge">Huge</string>
+
+    <string translatable="false" name="ss_settings_website">Website</string>
+    <string translatable="false" name="ss_settings_website_summary">adventech.io</string>
+    <string translatable="false" name="ss_settings_facebook">Facebook</string>
+    <string translatable="false" name="ss_settings_facebook_summary">facebook.com/shabbatschool</string>
+    <string translatable="false" name="ss_settings_instagram">Instagram</string>
+    <string translatable="false" name="ss_settings_instagram_summary">\@adventech</string>
+    <string translatable="false" name="ss_settings_github">GitHub</string>
+    <string translatable="false" name="ss_settings_github_summary">github.com/Adventech</string>
 
     <string translatable="false" name="facebook_app_id">1440555266255436</string>
     <string translatable="false" name="fb_login_protocol_scheme">1440555266255436</string>

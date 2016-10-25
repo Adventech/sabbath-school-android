@@ -27,7 +27,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.ObservableInt;
-import android.graphics.Color;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -55,8 +54,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.iconics.IconicsDrawable;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -88,21 +85,6 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         this.ssReadingActivityBinding = ssReadingActivityBinding;
         this.ssFirebaseAuth = FirebaseAuth.getInstance();
 
-        ssReadingActivityBinding.ssContextMenu.contextMenuShare.setImageDrawable(new IconicsDrawable(context)
-                .icon(GoogleMaterial.Icon.gmd_share)
-                .color(Color.DKGRAY)
-                .sizeDp(16));
-
-        ssReadingActivityBinding.ssContextMenu.contextMenuCopy.setImageDrawable(new IconicsDrawable(context)
-                .icon(GoogleMaterial.Icon.gmd_content_copy)
-                .color(Color.DKGRAY)
-                .sizeDp(16));
-
-        ssReadingActivityBinding.ssContextMenu.contextMenuSearch.setImageDrawable(new IconicsDrawable(context)
-                .icon(GoogleMaterial.Icon.gmd_search)
-                .color(Color.DKGRAY)
-                .sizeDp(16));
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.keepSynced(true);
 
@@ -115,9 +97,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                 prefs.getString(SSConstants.SS_SETTINGS_FONT_KEY, SSReadingDisplayOptions.SS_FONT_LATO)
         );
 
-        ssReadingActivityBinding.ssWw.setReadingDisplayOptions(ssReadingDisplayOptions);
-
-
+        ssReadingActivityBinding.ssReadingView.setReadingDisplayOptions(ssReadingDisplayOptions);
 
         loadLessonInfo();
     }
@@ -188,14 +168,14 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                                 ssReadHighlights = dataSnapshot.getValue(SSReadHighlights.class);
                             }
                         }
-                        ssReadingActivityBinding.ssWw.setReadHighlights(ssReadHighlights);
-                        ssReadingActivityBinding.ssWw.updateHighlights();
+                        ssReadingActivityBinding.ssReadingView.setReadHighlights(ssReadHighlights);
+                        ssReadingActivityBinding.ssReadingView.updateHighlights();
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         SSReadHighlights ssReadHighlights = new SSReadHighlights(dayIndex, "");
-                        ssReadingActivityBinding.ssWw.setReadHighlights(ssReadHighlights);
+                        ssReadingActivityBinding.ssReadingView.setReadHighlights(ssReadHighlights);
                     }
                 });
 
@@ -211,14 +191,14 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                                 ssReadComments = dataSnapshot.getValue(SSReadComments.class);
                             }
                         }
-                        ssReadingActivityBinding.ssWw.setReadComments(ssReadComments);
-                        ssReadingActivityBinding.ssWw.updateComments();
+                        ssReadingActivityBinding.ssReadingView.setReadComments(ssReadComments);
+                        ssReadingActivityBinding.ssReadingView.updateComments();
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         SSReadComments ssReadComments = new SSReadComments(dayIndex, new ArrayList<SSComment>());
-                        ssReadingActivityBinding.ssWw.setReadComments(ssReadComments);
+                        ssReadingActivityBinding.ssReadingView.setReadComments(ssReadComments);
                     }
                 });
 
@@ -242,8 +222,31 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
     public void destroy() {
         context = null;
-        ssLessonInfo = null;
         dataListener = null;
+        ssLessonInfo = null;
+        ssLessonIndex = null;
+        ssFirebaseAuth = null;
+
+        if (ssReadRef != null){
+            mDatabase.removeEventListener(ssReadRef);
+        }
+
+        if (ssHighlightsRef != null){
+            mDatabase.removeEventListener(ssHighlightsRef);
+        }
+
+        if (ssCommentsRef != null){
+            mDatabase.removeEventListener(ssCommentsRef);
+        }
+
+        mDatabase = null;
+        ssReadRef = null;
+        ssHighlightsRef = null;
+        ssCommentsRef = null;
+        ssReadingActivityBinding = null;
+        ssReadingDisplayOptions = null;
+        ssReadPosition = null;
+        ssRead = null;
     }
 
     public void onMenuClick() {
@@ -321,7 +324,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
     @Override
     public void onSelectionStarted(float x, float y) {
-        y = y - ssReadingActivityBinding.nsv.getScrollY();
+        y = y - ssReadingActivityBinding.ssReadingViewScroll.getScrollY();
 
         DisplayMetrics metrics = new DisplayMetrics();
         ((SSReadingActivity)context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -339,7 +342,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
 
         int contextMenuX = (int)x - (contextMenuWidth / 2);
-        int contextMenuY = ssReadingActivityBinding.nsv.getTop() + (int)y - contextMenuHeight - margin;
+        int contextMenuY = ssReadingActivityBinding.ssReadingViewScroll.getTop() + (int)y - contextMenuHeight - margin;
 
         if (contextMenuX - margin < 0){
             contextMenuX = margin;
@@ -408,28 +411,28 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     }
 
     public void unHighlightSelection(){
-        ssReadingActivityBinding.ssWw.ssReadViewBridge.unHighlightSelection();
-        ssReadingActivityBinding.ssWw.selectionFinished();
+        ssReadingActivityBinding.ssReadingView.ssReadViewBridge.unHighlightSelection();
+        ssReadingActivityBinding.ssReadingView.selectionFinished();
     }
 
     private void highlightSelection(String color){
-        ssReadingActivityBinding.ssWw.ssReadViewBridge.highlightSelection(color);
-        ssReadingActivityBinding.ssWw.selectionFinished();
+        ssReadingActivityBinding.ssReadingView.ssReadViewBridge.highlightSelection(color);
+        ssReadingActivityBinding.ssReadingView.selectionFinished();
     }
 
     public void copy(){
-        ssReadingActivityBinding.ssWw.ssReadViewBridge.copy();
-        ssReadingActivityBinding.ssWw.selectionFinished();
+        ssReadingActivityBinding.ssReadingView.ssReadViewBridge.copy();
+        ssReadingActivityBinding.ssReadingView.selectionFinished();
     }
 
     public void share(){
-        ssReadingActivityBinding.ssWw.ssReadViewBridge.share();
-        ssReadingActivityBinding.ssWw.selectionFinished();
+        ssReadingActivityBinding.ssReadingView.ssReadViewBridge.share();
+        ssReadingActivityBinding.ssReadingView.selectionFinished();
     }
 
     public void search(){
-        ssReadingActivityBinding.ssWw.ssReadViewBridge.search();
-        ssReadingActivityBinding.ssWw.selectionFinished();
+        ssReadingActivityBinding.ssReadingView.ssReadViewBridge.search();
+        ssReadingActivityBinding.ssReadingView.selectionFinished();
     }
 
     public void onSSReadingDisplayOptions(SSReadingDisplayOptions ssReadingDisplayOptions){
@@ -442,7 +445,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         editor.putString(SSConstants.SS_SETTINGS_SIZE_KEY, ssReadingDisplayOptions.size);
         editor.apply();
 
-        ssReadingActivityBinding.ssWw.setReadingDisplayOptions(ssReadingDisplayOptions);
-        ssReadingActivityBinding.ssWw.updateReadingDisplayOptions();
+        ssReadingActivityBinding.ssReadingView.setReadingDisplayOptions(ssReadingDisplayOptions);
+        ssReadingActivityBinding.ssReadingView.updateReadingDisplayOptions();
     }
 }

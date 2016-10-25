@@ -31,22 +31,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fff"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
         <TextView
-            android:gravity="left|top"
-            android:text="Color theme"
-            android:textStyle="bold"
-            android:layout_margin="20dp"
-            android:textColor="@color/colorPrimary"
+            android:gravity="start|top"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_margin="@dimen/ss_reading_display_options_subtitle_margin"
+            android:text="@string/ss_reading_display_options_color_theme"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#E0E0E0"/>
+        <include layout="@layout/ss_horizontal_line" />
 
         <LinearLayout
             android:clickable="true"
@@ -55,84 +52,77 @@
             android:layout_height="wrap_content">
 
             <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:onClick="@{() -> viewModel.setThemeLight()}"
                 android:background="?attr/selectableItemBackground"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+                android:onClick="@{() -> viewModel.setThemeLight()}">
 
                 <TextView
-                    android:text="Light"
-                    android:textAlignment="center"
-                    android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:text="@string/ss_reading_display_options_theme_light" />
 
             </FrameLayout>
 
             <FrameLayout
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:clickable="true"
-                android:onClick="@{() -> viewModel.setThemeSepia()}"
-                android:background="#F2DEC3"
+                android:background="@color/colorDisplayThemeSepia"
                 android:foreground="?attr/selectableItemBackground"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:layout_height="match_parent">
+                android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+                android:onClick="@{() -> viewModel.setThemeSepia()}">
 
                 <TextView
-                    android:text="Sepia"
-                    android:textAlignment="center"
-                    android:gravity="center"
-
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:text="@string/ss_reading_display_options_theme_sepia" />
 
             </FrameLayout>
 
             <FrameLayout
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:onClick="@{() -> viewModel.setThemeDark()}"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:clickable="true"
-                android:background="#484848"
+                android:background="@color/colorDisplayThemeDark"
                 android:foreground="?attr/selectableItemBackground"
-                android:layout_height="match_parent">
+                android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+                android:onClick="@{() -> viewModel.setThemeDark()}">
 
                 <TextView
-                    android:text="Dark"
-                    android:textColor="#fff"
-
-                    android:textAlignment="center"
-                    android:gravity="center"
-
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textAlignment="center"
+                    android:text="@string/ss_reading_display_options_theme_dark" />
 
             </FrameLayout>
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#E0E0E0"/>
+        <include layout="@layout/ss_horizontal_line" />
 
         <TextView
-            android:gravity="left|top"
-            android:text="Typeface"
-            android:layout_margin="20dp"
+            android:gravity="start|top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
+            android:layout_margin="@dimen/ss_reading_display_options_subtitle_margin"
+            android:text="@string/ss_reading_display_options_typeface" />
 
         <LinearLayout
             android:weightSum="4"
@@ -140,101 +130,100 @@
             android:layout_height="wrap_content">
 
             <FrameLayout
-                android:onClick="@{() -> viewModel.setFontAndada()}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:background="?attr/selectableItemBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:onClick="@{() -> viewModel.setFontAndada()}">
 
                 <TextView
-                    android:text="Andada"
-                    fontPath="fonts/Andada-Regular.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:textAlignment="center"
                     android:gravity="center"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+                    android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+                    android:text="@string/ss_reading_display_options_typeface_andada"
+                    fontPath="fonts/Andada-Regular.ttf" />
 
             </FrameLayout>
 
             <FrameLayout
-                android:layout_weight="1"
-                android:onClick="@{() -> viewModel.setFontLato()}"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:clickable="true"
                 android:background="?attr/selectableItemBackground"
-                android:layout_height="wrap_content">
+                android:onClick="@{() -> viewModel.setFontLato()}">
 
                 <TextView
-                    android:text="Lato"
-                    fontPath="fonts/Lato-Regular.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:textAlignment="center"
                     android:gravity="center"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+                    android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+                    android:text="@string/ss_reading_display_options_typeface_lato"
+                    fontPath="fonts/Lato-Regular.ttf" />
 
             </FrameLayout>
 
             <FrameLayout
-                android:layout_weight="1"
-                android:onClick="@{() -> viewModel.setFontPTSerif()}"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:clickable="true"
                 android:background="?attr/selectableItemBackground"
-                android:layout_height="wrap_content">
+                android:onClick="@{() -> viewModel.setFontPTSerif()}">
 
                 <TextView
-                    android:text="PT Serif"
-                    fontPath="fonts/PT-Serif-Regular.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:textAlignment="center"
                     android:gravity="center"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+                    android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+                    android:text="@string/ss_reading_display_options_typeface_pt_serif"
+                    fontPath="fonts/PT-Serif-Regular.ttf" />
 
             </FrameLayout>
 
             <FrameLayout
-                android:layout_weight="1"
-                android:onClick="@{() -> viewModel.setFontPTSans()}"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:clickable="true"
                 android:background="?attr/selectableItemBackground"
-                android:layout_height="wrap_content">
+                android:onClick="@{() -> viewModel.setFontPTSans()}">
 
                 <TextView
-                    android:text="PT Sans"
-                    fontPath="fonts/PT-Sans-Regular.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:textAlignment="center"
                     android:gravity="center"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+                    android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+                    android:text="@string/ss_reading_display_options_typeface_pt_sans"
+                    fontPath="fonts/PT-Sans-Regular.ttf" />
 
             </FrameLayout>
-
         </LinearLayout>
 
         <TextView
-            android:gravity="left|top"
-            android:text="Font Size"
-            android:textStyle="bold"
-            android:layout_margin="20dp"
-            android:textColor="@color/colorPrimary"
+            android:gravity="start|top"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_margin="@dimen/ss_reading_display_options_subtitle_margin"
+            android:text="@string/ss_reading_display_options_font_size" />
 
         <LinearLayout
             android:weightSum="7"
             android:layout_width="match_parent"
-            android:paddingTop="20dp"
-            android:paddingBottom="50dp"
+            android:paddingTop="@dimen/ss_reading_display_options_seekbar_padding_top"
+            android:paddingBottom="@dimen/ss_reading_display_options_seekbar_padding_bottom"
             android:layout_height="wrap_content">
 
             <FrameLayout
@@ -244,21 +233,21 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="Aa"
-                    android:textAlignment="textEnd"
-                    android:gravity="center|end"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:gravity="center|end"
+                    android:textAlignment="textEnd"
+                    android:text="@string/ss_reading_display_options_aa" />
 
             </FrameLayout>
 
             <com.cryart.sabbathschool.view.SSSeekBar
-                android:layout_weight="5"
                 android:id="@+id/ss_reading_menu_display_options_size"
-                android:max="4"
-                android:layout_gravity="center|center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:layout_gravity="center|center_vertical"
+                android:max="4" />
 
             <FrameLayout
                 android:layout_weight="1"
@@ -267,12 +256,13 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="Aa"
-                    android:textSize="20sp"
-                    android:textAlignment="textStart"
-                    android:gravity="start|center"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:gravity="start|center"
+                    android:textAlignment="textStart"
+                    android:textSize="@dimen/ss_reading_display_options_seekbar_aa_increase"
+                    android:text="@string/ss_reading_display_options_aa" />
+
             </FrameLayout>
         </LinearLayout>
     </LinearLayout>

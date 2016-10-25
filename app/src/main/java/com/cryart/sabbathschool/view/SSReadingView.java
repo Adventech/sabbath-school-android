@@ -83,8 +83,8 @@ public class SSReadingView extends WebView {
         gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
         ssReadViewBridge = new SSReadViewBridge(context);
         this.setWebViewClient(new SSWebViewClient());
+        this.getSettings().setJavaScriptEnabled(true);
         this.addJavascriptInterface(ssReadViewBridge, bridgeName);
-
     }
 
     public SSReadingView(final Context context, final AttributeSet attrs) {
@@ -92,6 +92,7 @@ public class SSReadingView extends WebView {
         gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
         ssReadViewBridge = new SSReadViewBridge(context);
         this.setWebViewClient(new SSWebViewClient());
+        this.getSettings().setJavaScriptEnabled(true);
         this.addJavascriptInterface(ssReadViewBridge, bridgeName);
     }
 
@@ -100,6 +101,7 @@ public class SSReadingView extends WebView {
         gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
         ssReadViewBridge = new SSReadViewBridge(context);
         this.setWebViewClient(new SSWebViewClient());
+        this.getSettings().setJavaScriptEnabled(true);
         this.addJavascriptInterface(ssReadViewBridge, bridgeName);
     }
 

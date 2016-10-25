@@ -23,6 +23,7 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -32,121 +33,125 @@
     </data>
 
     <android.support.design.widget.CoordinatorLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
         android:id="@+id/ss_reading_coordinator"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/background_light">
 
         <include
-            layout="@layout/ss_reading_app_bar"
+            android:id="@+id/ss_reading_app_bar"
             bind:viewModel="@{viewModel}"
-            android:id="@+id/ss_app_bar"/>
+            layout="@layout/ss_reading_app_bar"/>
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/ss_reading_view_scroll"
             android:layout_width="match_parent"
-            android:layout_gravity="fill_vertical"
-            android:id="@+id/nsv"
             android:layout_height="match_parent"
+            android:layout_gravity="fill_vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <com.cryart.sabbathschool.view.SSReadingView
-                android:id="@+id/ss_ww"
-                android:isScrollContainer="false"
+                android:id="@+id/ss_reading_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:isScrollContainer="false" />
 
         </android.support.v4.widget.NestedScrollView>
 
         <include
-            layout="@layout/ss_reading_context"
-            bind:viewModel="@{viewModel}"
+            android:id="@+id/ssContextMenu"
             android:visibility="invisible"
-            android:id="@+id/ssContextMenu" />
+            bind:viewModel="@{viewModel}"
+            layout="@layout/ss_reading_context_menu"/>
 
         <LinearLayout
+            android:id="@+id/ss_reading_sheet_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:visibility="invisible"
             android:clickable="true"
-            android:onClick="@{() -> viewModel.onMenuClick()}"
-            android:id="@+id/ss_reading_sheet_overlay"
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:background="#5b000000"
-            android:layout_height="match_parent" />
+            android:background="@color/colorOverlay"
+            android:onClick="@{() -> viewModel.onMenuClick()}" />
 
-        <include layout="@layout/ss_reading_navigation_bar"
-            app:layout_behavior="com.cryart.sabbathschool.behavior.SSReadingNavigationBarBehavior"
-            android:id="@+id/bottom_sheet"
-            android:layout_gravity="bottom"
+        <include
+            android:id="@+id/ss_reading_navigation_bar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            bind:viewModel="@{viewModel}" />
+            android:layout_height="@dimen/ss_reading_navigation_bar_height"
+            android:layout_gravity="bottom"
+            bind:viewModel="@{viewModel}"
+            app:layout_behavior="com.cryart.sabbathschool.behavior.SSReadingNavigationBarBehavior"
+            layout="@layout/ss_reading_navigation_bar" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/ss_reading_sheet"
-            android:clipToPadding="true"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="80dp"
+            android:layout_marginLeft="@dimen/ss_reading_sheet_margin_left"
+            android:layout_marginRight="@dimen/ss_reading_sheet_margin_right"
+            android:layout_marginStart="@dimen/ss_reading_sheet_margin_left"
+            android:layout_marginEnd="@dimen/ss_reading_sheet_margin_right"
+            android:layout_marginTop="@dimen/ss_reading_sheet_margin_top"
+            android:layout_marginBottom="@dimen/ss_reading_sheet_margin_bottom"
             android:layout_gravity="bottom"
-            android:visibility="invisible"
-            android:layout_height="wrap_content">
+            android:clipToPadding="true"
+            android:visibility="invisible">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <RelativeLayout
-                    android:id="@+id/test"
+                    android:id="@+id/ss_reading_sheet_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
+                    android:paddingTop="@dimen/ss_reading_sheet_header_padding_top"
+                    android:paddingBottom="@dimen/ss_reading_sheet_header_padding_bottom"
+                    android:paddingStart="@dimen/ss_reading_sheet_header_padding_left"
+                    android:paddingEnd="@dimen/ss_reading_sheet_header_padding_right"
+                    android:paddingLeft="@dimen/ss_reading_sheet_header_padding_left"
+                    android:paddingRight="@dimen/ss_reading_sheet_header_padding_right"
+                    android:background="@color/colorPrimary">
 
                     <TextView
-                        android:id="@+id/ss_reading_list_header"
-                        android:ellipsize="end"
+                        android:id="@+id/ss_reading_sheet_header_title"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:ellipsize="end"
                         android:textStyle="bold"
                         android:textAllCaps="true"
-                        android:textSize="13sp"
-                        android:textColor="#ffffff"
+                        android:textSize="@dimen/ss_reading_sheet_header_title_text_size"
+                        android:textColor="@android:color/white"
                         android:maxLines="1"
                         android:text="@{viewModel.ssLessonInfo.lesson.title}" />
 
                     <TextView
-                        android:id="@+id/ss_lesson_item_normal_date"
-                        android:layout_below="@+id/ss_reading_list_header"
-                        android:ellipsize="end"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
+                        android:id="@+id/ss_reading_sheet_header_date"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:textSize="12sp"
-                        android:textColor="#dcdcdc"
+                        android:layout_below="@+id/ss_reading_sheet_header_title"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:ellipsize="end"
+                        android:textSize="@dimen/ss_reading_sheet_header_date_text_size"
+                        android:textColor="@color/colorSecondaryLighter"
                         android:textStyle="italic"
                         android:maxLines="1"
-                        android:text="@{viewModel.lessonInterval}"
-                        />
+                        android:text="@{viewModel.lessonInterval}" />
+
                 </RelativeLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/ss_reading_sheet_list"
-                    android:layout_below="@+id/test"
+                    android:layout_below="@+id/ss_reading_sheet_header"
                     android:scrollbars="vertical"
                     android:layout_width="match_parent"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
             </RelativeLayout>
         </android.support.v7.widget.CardView>
-
     </android.support.design.widget.CoordinatorLayout>
 </layout>
