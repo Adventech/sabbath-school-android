@@ -34,8 +34,19 @@
 
     <string name="ss_quarterly_item_featured_read_text">OPEN</string>
     <string name="ss_quarterly_item_normal_read_text">OPEN</string>
+    
+    <!--<string name="ss_language_en">English</string>-->
+    <!--<string name="ss_language_ru">Russian</string>-->
+    <!--<string name="ss_language_es">Spanish</string>-->
+    <!--<string name="ss_language_pt">Portuguese</string>-->
+    <!--<string name="ss_language_ar">Arabic</string>-->
+    <!--<string name="ss_language_he">Hebrew</string>-->
+    <!--<string name="ss_language_uk">Ukrainian</string>-->
+    <!--<string name="ss_language_fr">French</string>-->
+    <!--<string name="ss_language_ge">German</string>-->
 
     <string translatable="false" name="facebook_app_id">1440555266255436</string>
     <string translatable="false" name="fb_login_protocol_scheme">1440555266255436</string>
     <string translatable="false" name="ss_quarterly_cover_transition">ssQuarterlyCoverTransition</string>
+    
 </resources>
