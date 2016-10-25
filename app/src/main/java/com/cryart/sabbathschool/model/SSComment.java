@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.model;
 
-
 public class SSComment {
     public String elementId;
     public String comment;

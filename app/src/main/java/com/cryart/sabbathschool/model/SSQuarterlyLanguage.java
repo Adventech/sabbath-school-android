@@ -27,9 +27,7 @@ public class SSQuarterlyLanguage {
     public String name;
     public int selected = 0;
 
-    public SSQuarterlyLanguage(){
-        
-    }
+    public SSQuarterlyLanguage(){}
 
     public SSQuarterlyLanguage(String code, String name, int selected){
         this.code = code;

@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.model;
 
-
 public class SSReadingDisplayOptions {
     public static final String SS_THEME_LIGHT = "light";
     public static final String SS_THEME_SEPIA = "sepia";

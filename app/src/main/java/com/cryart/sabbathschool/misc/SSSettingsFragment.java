@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.misc;
 
-
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 

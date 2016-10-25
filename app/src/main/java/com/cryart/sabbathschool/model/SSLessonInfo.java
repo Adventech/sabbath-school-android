@@ -25,17 +25,13 @@ package com.cryart.sabbathschool.model;
 import java.util.List;
 
 public class SSLessonInfo {
-
     public SSLesson lesson;
     public List<SSDay> days;
 
-    public SSLessonInfo() {
-
-    }
+    public SSLessonInfo() {}
 
     public SSLessonInfo(SSLesson lesson, List<SSDay> days){
         this.lesson = lesson;
         this.days = days;
     }
-
 }

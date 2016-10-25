@@ -30,10 +30,7 @@ public class SSRead {
     public String content;
     public String[] verses;
 
-
-    public SSRead() {
-
-    }
+    public SSRead() {}
 
     public SSRead(String id, String date, String index, String title, String content, String[] verses){
         this.id = id;
