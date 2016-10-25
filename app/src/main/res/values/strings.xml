@@ -61,7 +61,14 @@
     <string name="ss_lessons_empty">It looks like there are no lessons at the moment</string>
     <string name="ss_lessons_read">Read</string>
 
-
+    <string name="ss_about_app_version">version 3.0</string>
+    <string translatable="false" name="ss_about_facebook">Facebook</string>
+    <string translatable="false" name="ss_about_facebook_link">facebook.com/shabbatschool</string>
+    <string translatable="false" name="ss_about_instagram">Instagram</string>
+    <string translatable="false" name="ss_about_instagram_link">\@adventech</string>
+    <string translatable="false" name="ss_about_github">GitHub</string>
+    <string translatable="false" name="ss_about_github_link">github.com/Adventech</string>
+    <string name="ss_about_made">Made with &#10084; by Adventech</string>
 
     <string translatable="false" name="facebook_app_id">1440555266255436</string>
     <string translatable="false" name="fb_login_protocol_scheme">1440555266255436</string>

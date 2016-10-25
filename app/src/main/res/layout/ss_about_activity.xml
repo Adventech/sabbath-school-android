@@ -21,8 +21,8 @@
   ~ THE SOFTWARE.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -35,44 +35,41 @@
             layout="@layout/ss_app_bar" />
 
         <ImageView
-            app:srcCompat="@drawable/ss_logo_color"
+            android:layout_width="@dimen/ss_about_app_logo_size"
+            android:layout_height="@dimen/ss_about_app_logo_size"
+            android:layout_marginTop="@dimen/ss_about_app_logo_size"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="80dp"
-            android:layout_width="80dp"
-            android:layout_height="80dp" />
+            app:srcCompat="@drawable/ss_logo_color" />
 
         <TextView
-            android:text="Sabbath School"
             android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ss_about_app_name_margin_top"
+            android:layout_gravity="center|center_horizontal"
             android:typeface="serif"
             android:textStyle="bold|italic"
-            android:textSize="20sp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center|center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="@dimen/ss_about_app_name_text_size"
+            android:text="@string/ss_app_name" />
 
         <TextView
-            android:text="version 3.0"
-            android:layout_marginTop="10dp"
-            android:textColor="#B1B1B1"
-            android:layout_gravity="center|center_horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ss_about_app_version_margin_top"
+            android:layout_marginBottom="@dimen/ss_about_app_version_margin_bottom"
+            android:layout_gravity="center|center_horizontal"
+            android:textColor="@color/colorSecondary"
+            android:text="@string/ss_about_app_version"/>
 
-        <View
-            android:layout_marginTop="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#E0E0E0"/>
+        <include layout="@layout/ss_horizontal_line" />
 
         <FrameLayout
-            android:clickable="true"
-            android:background="?attr/selectableItemBackground"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/ss_about_list_padding"
+            android:paddingBottom="@dimen/ss_about_list_padding"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -81,36 +78,34 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="Facebook Page"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/ss_about_list_title_text_size"
+                    android:textColor="@color/colorSecondaryDark"
+                    android:text="@string/ss_about_facebook" />
 
                 <TextView
-                    android:text="facebook.com/shabbatschool"
-                    android:textSize="12sp"
-                    android:textColor="#ccc"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/ss_about_list_link_text_size"
+                    android:textColor="@color/colorSecondary"
+                    android:text="@string/ss_about_facebook_link"/>
 
+            </LinearLayout>
         </FrameLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#E0E0E0"/>
+        <include layout="@layout/ss_horizontal_line" />
 
         <FrameLayout
-            android:clickable="true"
-            android:background="?attr/selectableItemBackground"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/ss_about_list_padding"
+            android:paddingBottom="@dimen/ss_about_list_padding"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -119,37 +114,33 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:text="Instagram"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/ss_about_list_title_text_size"
+                    android:textColor="@color/colorSecondaryDark"
+                    android:text="@string/ss_about_instagram" />
 
                 <TextView
-                    android:text="\@adventech"
-                    android:textSize="12sp"
-                    android:textColor="#ccc"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/ss_about_list_link_text_size"
+                    android:textColor="@color/colorSecondary"
+                    android:text="@string/ss_about_instagram_link" />
             </LinearLayout>
         </FrameLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#E0E0E0"/>
+        <include layout="@layout/ss_horizontal_line" />
 
         <FrameLayout
-            android:clickable="true"
-            android:background="?attr/selectableItemBackground"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/ss_about_list_padding"
+            android:paddingBottom="@dimen/ss_about_list_padding"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -158,42 +149,36 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="Source Code"
-                    android:textStyle="bold"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textSize="16sp"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/ss_about_list_title_text_size"
+                    android:textColor="@color/colorSecondaryDark"
+                    android:text="@string/ss_about_github" />
 
                 <TextView
-                    android:text="github.com/Adventech/sabbath-school-android-2"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textSize="12sp"
-                    android:textColor="#ccc"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/ss_about_list_link_text_size"
+                    android:textColor="@color/colorSecondary"
+                    android:text="@string/ss_about_github_link" />
 
             </LinearLayout>
         </FrameLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#E0E0E0"/>
+        <include layout="@layout/ss_horizontal_line" />
 
         <TextView
-            android:text="Made with love by Adventech"
-            android:layout_marginTop="20dp"
-            android:textColor="#B1B1B1"
-            android:layout_marginBottom="20dp"
-            android:gravity="bottom"
-            android:layout_gravity="center|center_horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center|center_horizontal"
+            android:layout_marginTop="@dimen/ss_about_made_margin"
+            android:layout_marginBottom="@dimen/ss_about_made_margin"
+            android:gravity="bottom"
+            android:textColor="@color/colorSecondaryDark"
+            android:text="@string/ss_about_made"
+            fontPath="Lato-Regular.ttf" />
     </LinearLayout>
-
 </layout>
