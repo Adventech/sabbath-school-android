@@ -28,6 +28,7 @@ public class SSConstants {
     public static final String SS_DATE_FORMAT = "dd/MM/yyyy";
     public static final String SS_DATE_FORMAT_OUTPUT = "MMMM d";
 
+    public static final String SS_FIREBASE_LANGUAGES_DATABASE = "languages";
     public static final String SS_FIREBASE_QUARTERLIES_DATABASE = "quarterlies";
     public static final String SS_FIREBASE_QUARTERLY_INFO_DATABASE = "quarterly-info";
     public static final String SS_FIREBASE_LESSON_INFO_DATABASE = "lesson-info";
@@ -42,6 +43,7 @@ public class SSConstants {
     public static final String SS_SETTINGS_FONT_KEY = "ss_settings_display_options_font";
     public static final String SS_SETTINGS_SIZE_KEY = "ss_settings_display_options_size";
 
+    public static final String SS_LAST_LANGUAGE_INDEX = "ss_last_language_index";
     public static final String SS_LAST_QUARTERLY_INDEX = "ss_last_quarterly_index";
 
     public static final String SS_USER_NAME_INDEX = "ss_user_name_index";

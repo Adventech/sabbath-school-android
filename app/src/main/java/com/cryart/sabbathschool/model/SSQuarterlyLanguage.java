@@ -25,7 +25,11 @@ package com.cryart.sabbathschool.model;
 public class SSQuarterlyLanguage {
     public String code;
     public String name;
-    public int selected;
+    public int selected = 0;
+
+    public SSQuarterlyLanguage(){
+        
+    }
 
     public SSQuarterlyLanguage(String code, String name, int selected){
         this.code = code;

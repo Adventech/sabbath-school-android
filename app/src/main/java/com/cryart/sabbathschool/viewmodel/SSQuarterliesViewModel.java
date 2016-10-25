@@ -26,10 +26,12 @@ import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableFloat;
 import android.databinding.ObservableInt;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +51,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SSQuarterliesViewModel implements SSViewModel {
     private static final String TAG = SSQuarterliesViewModel.class.getSimpleName();
@@ -86,28 +89,14 @@ public class SSQuarterliesViewModel implements SSViewModel {
 
         this.quarterlyLanguages = new ArrayList<>();
         this.ssQuarterlies = new ArrayList<>();
-
-        String[] language_codes = context.getResources().getStringArray(R.array.ss_quarterlies_language_codes);
-        String[] language_names = context.getResources().getStringArray(R.array.ss_quarterlies_language_names);
-        int[] language_selects = context.getResources().getIntArray(R.array.ss_quarterlies_language_selects);
-
-        for (int i = 0; i < language_codes.length; i++){
-            this.quarterlyLanguages.add(new SSQuarterlyLanguage(language_codes[i], language_names[i], language_selects[i]));
-        }
-
-        for(SSQuarterlyLanguage lang : quarterlyLanguages){
-            if (lang.selected == 1){
-                ssQuarterlyLanguage = lang;
-                break;
-            }
-        }
-
-        if (ssQuarterlyLanguage == null) ssQuarterlyLanguage = new SSQuarterlyLanguage("en", "English", 1);
-
-        dataListener.onQuarterliesLanguagesChanged(quarterlyLanguages);
-
-        loadQuarterlies(getSelectedLanguage());
+        loadLanguages();
     }
+
+    private SSQuarterlyLanguage getSelectedLanguage(){
+        return ssQuarterlyLanguage;
+    }
+
+
 
     public void onFilterClick(MenuItem menuItem){
         if (ssQuarterliesLanguageFilterVisibility.get() == View.GONE) {
@@ -132,20 +121,70 @@ public class SSQuarterliesViewModel implements SSViewModel {
         }
     }
 
-    public void setDataListener(DataListener dataListener) {
-        this.dataListener = dataListener;
+    private String getDisplayLanguageByCode(String languageCode){
+        Locale locale = new Locale(languageCode);
+        return org.apache.commons.lang3.StringUtils.capitalize(locale.getDisplayLanguage(Locale.getDefault()));
     }
 
-    private SSQuarterlyLanguage getSelectedLanguage(){
-        return ssQuarterlyLanguage;
-    }
-
-    private void loadQuarterlies(SSQuarterlyLanguage ssQuarterlyLanguage){
+    private void loadLanguages(){
         ssQuarterliesLoadingVisibility.set(View.VISIBLE);
         ssQuarterliesListVisibility.set(View.INVISIBLE);
         ssQuarterliesErrorMessageVisibility.set(View.INVISIBLE);
         ssQuarterliesEmptyStateVisibility.set(View.INVISIBLE);
         ssQuarterliesErrorStateVisibility.set(View.INVISIBLE);
+
+        mDatabase.child(SSConstants.SS_FIREBASE_LANGUAGES_DATABASE)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot != null) {
+                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                            Iterable<DataSnapshot> data = dataSnapshot.getChildren();
+                            quarterlyLanguages.clear();
+                            String ssLastLanguageSelected = prefs.getString(SSConstants.SS_LAST_LANGUAGE_INDEX, "");
+                            String ssDefaultLanguage = Locale.getDefault().getLanguage();
+
+                            if (!ssLastLanguageSelected.isEmpty()){
+                                ssDefaultLanguage = ssLastLanguageSelected;
+                            }
+
+                            ssQuarterlyLanguage = new SSQuarterlyLanguage(ssDefaultLanguage, getDisplayLanguageByCode(ssDefaultLanguage), 1);
+
+                            for(DataSnapshot d: data){
+                                SSQuarterlyLanguage _ssQuarterlyLanguage = d.getValue(SSQuarterlyLanguage.class);
+                                _ssQuarterlyLanguage.name = getDisplayLanguageByCode(_ssQuarterlyLanguage.code);
+
+                                if (_ssQuarterlyLanguage.code.equalsIgnoreCase(ssDefaultLanguage)){
+                                    _ssQuarterlyLanguage.selected = 1;
+                                    ssQuarterlyLanguage = _ssQuarterlyLanguage;
+                                    quarterlyLanguages.add(0, _ssQuarterlyLanguage);
+                                } else {
+                                    quarterlyLanguages.add(_ssQuarterlyLanguage);
+                                }
+                            }
+                            if (quarterlyLanguages.size() > 0){
+                                ssQuarterlyLanguage = quarterlyLanguages.get(0);
+                                ssQuarterlyLanguage.selected = 1;
+                            }
+
+                            dataListener.onQuarterliesLanguagesChanged(quarterlyLanguages);
+                            loadQuarterlies(getSelectedLanguage());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        ssQuarterliesErrorMessageVisibility.set(View.VISIBLE);
+                        ssQuarterliesListVisibility.set(View.INVISIBLE);
+                        ssQuarterliesLoadingVisibility.set(View.INVISIBLE);
+                        ssQuarterliesEmptyStateVisibility.set(View.INVISIBLE);
+                        ssQuarterliesErrorStateVisibility.set(View.VISIBLE);
+                    }
+                });
+    }
+
+    private void loadQuarterlies(SSQuarterlyLanguage ssQuarterlyLanguage){
+
         mDatabase.child(SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE)
                 .child(ssQuarterlyLanguage.code)
                 .addValueEventListener(new ValueEventListener() {
@@ -215,6 +254,12 @@ public class SSQuarterliesViewModel implements SSViewModel {
 
     public void onChangeLanguageEvent(SSQuarterlyLanguage ssQuarterlyLanguage){
         this.ssQuarterlyLanguage = ssQuarterlyLanguage;
+
+        SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = shared.edit();
+        editor.putString(SSConstants.SS_LAST_LANGUAGE_INDEX, ssQuarterlyLanguage.code);
+        editor.apply();
+
         this.loadQuarterlies(getSelectedLanguage());
     }
 
