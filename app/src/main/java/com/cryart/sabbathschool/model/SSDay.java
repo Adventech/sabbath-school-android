@@ -32,10 +32,7 @@ public class SSDay {
     public String read_path;
     public String full_read_path;
 
-
-    public SSDay() {
-
-    }
+    public SSDay() {}
 
     public SSDay(String title, String date, String id, String index, String path, String full_path, String read_path, String full_read_path){
         this.title = title;

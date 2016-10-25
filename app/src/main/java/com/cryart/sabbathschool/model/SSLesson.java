@@ -32,10 +32,7 @@ public class SSLesson {
     public String path;
     public String full_path;
 
-
-    public SSLesson() {
-
-    }
+    public SSLesson() {}
 
     public SSLesson(String title, String start_date, String end_date, String cover, String id, String index, String path, String full_path){
         this.title = title;

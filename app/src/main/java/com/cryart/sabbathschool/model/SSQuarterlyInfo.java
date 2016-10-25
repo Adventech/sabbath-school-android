@@ -28,9 +28,7 @@ public class SSQuarterlyInfo {
     public SSQuarterly quarterly;
     public List<SSLesson> lessons;
 
-    public SSQuarterlyInfo() {
-
-    }
+    public SSQuarterlyInfo() {}
 
     public SSQuarterlyInfo(SSQuarterly quarterly, List<SSLesson> lessons){
         this.quarterly = quarterly;

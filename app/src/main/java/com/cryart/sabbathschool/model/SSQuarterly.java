@@ -35,9 +35,7 @@ public class SSQuarterly {
     public String full_path;
     public String lang;
 
-    public SSQuarterly() {
-
-    }
+    public SSQuarterly() {}
 
     public SSQuarterly(String id, String title, String description, String human_date, String start_date, String end_date, String cover, String index, String path, String full_path, String lang){
         this.id = id;

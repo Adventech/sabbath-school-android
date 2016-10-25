@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.model;
 
-
 public class SSReadHighlights {
     public String readIndex;
     public String highlights;
