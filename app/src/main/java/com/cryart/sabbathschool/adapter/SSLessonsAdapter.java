@@ -66,7 +66,7 @@ public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         SSLessonViewHolder holder1 = (SSLessonViewHolder) holder;
         holder1.bindQuarterly(ssLessons.get(position));
         holder1.binding.executePendingBindings();
-        holder1.binding.ssLessonItemNormalIndex.setText(String.valueOf(position+1));
+        holder1.binding.ssLessonItemIndex.setText(String.valueOf(position+1));
     }
 
     @Override
@@ -81,7 +81,6 @@ public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(binding.getRoot());
             this.binding = binding;
             this.binding.ssLessonItemMenu.setOnClickListener(this);
-
         }
 
         void bindQuarterly(SSLesson ssLesson) {

@@ -54,11 +54,12 @@
     <string name="ss_quarterlies_downloading">Getting quarterlies…</string>
     <string name="ss_quarterlies_error">Unknown error occurred. Please try again</string>
     <string name="ss_quarterlies_empty">It looks like there are not quarterlies at the moment</string>
-
     <string name="ss_quarterly_item_read_text">Open</string>
-    <string name="ss_quarterly_downloading">Getting your quarterly…</string>
-    <string name="ss_quarterly_error">Error occurred while getting quarterly</string>
-    <string name="ss_quarterly_empty">It looks like there are no quarterlies at the moment</string>
+
+    <string name="ss_lessons_downloading">Opening quarterly…</string>
+    <string name="ss_lessons_error">Error occurred while opening quarterly</string>
+    <string name="ss_lessons_empty">It looks like there are no lessons at the moment</string>
+    <string name="ss_lessons_read">Read</string>
 
 
 

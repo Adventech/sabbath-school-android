@@ -21,7 +21,9 @@
   -->
 
 <resources>
-    <dimen name="ss_app_bar_default_elevation">0dp</dimen>
+    <dimen name="ss_app_bar_elevation">0dp</dimen>
+
+    <!-- LOGIN SCREEN RELATED -->
 
     <dimen name="ss_login_app_logo_size">72dp</dimen>
     <dimen name="ss_login_app_name_font_size">20sp</dimen>
@@ -32,6 +34,7 @@
     <dimen name="ss_login_button_social_height">0dp</dimen>
     <dimen name="ss_login_button_social_text_size">14sp</dimen>
 
+    <!-- QUARTERLIES SCREEN RELATED -->
 
     <dimen name="ss_quarterlies_language_filter_holder_padding_left">18dp</dimen>
     <dimen name="ss_quarterlies_language_filter_holder_padding_right">15dp</dimen>
@@ -39,8 +42,6 @@
     <dimen name="ss_quarterlies_language_filter_holder_padding_bottom">10dp</dimen>
 
     <dimen name="ss_quarterly_loading_size">30dp</dimen>
-
-
 
     <dimen name="ss_quarterly_item_featured_height">160dp</dimen>
     <dimen name="ss_quarterly_item_featured_background_height">120dp</dimen>
@@ -92,6 +93,36 @@
     <dimen name="ss_quarterly_item_normal_description_padding">10dp</dimen>
     <dimen name="ss_quarterly_item_normal_description_margin_left">90dp</dimen>
     <dimen name="ss_quarterly_item_normal_description_text_size">13sp</dimen>
+
+    <!-- LESSONS SCREEN RELATED -->
+    <dimen name="ss_lessons_toolbar_title_margin_start">30dp</dimen>
+    <dimen name="ss_lessons_toolbar_title_margin_top">60dp</dimen>
+    <dimen name="ss_lessons_toolbar_content_margin_left">30dp</dimen>
+    <dimen name="ss_lessons_toolbar_content_margin_top">110dp</dimen>
+    <dimen name="ss_lessons_toolbar_content_margin_bottom">20dp</dimen>
+    <dimen name="ss_lessons_toolbar_cover_height">@dimen/ss_quarterly_item_featured_cover_height</dimen>
+    <dimen name="ss_lessons_toolbar_cover_width">@dimen/ss_quarterly_item_featured_cover_width</dimen>
+    <dimen name="ss_lessons_toolbar_cover_margin_top">20dp</dimen>
+    <dimen name="ss_lessons_toolbar_cover_padding">@dimen/ss_quarterly_item_featured_cover_padding</dimen>
+    <dimen name="ss_lessons_toolbar_description_margin_top">20dp</dimen>
+    <dimen name="ss_lessons_toolbar_description_margin_left">20dp</dimen>
+    <dimen name="ss_lessons_toolbar_description_margin_right">40dp</dimen>
+    <dimen name="ss_lessons_toolbar_read_margin">20dp</dimen>
+    <dimen name="ss_lessons_toolbar_read_min_width">140dp</dimen>
+    <dimen name="ss_lessons_toolbar_read_border">0dp</dimen>
+    <dimen name="ss_lessons_toolbar_read_radius">30dp</dimen>
+
+    <dimen name="ss_lesson_item_content_padding_top">15dp</dimen>
+    <dimen name="ss_lesson_item_content_padding_bottom">15dp</dimen>
+    <dimen name="ss_lesson_item_content_padding_left">20dp</dimen>
+    <dimen name="ss_lesson_item_content_padding_right">20dp</dimen>
+    <dimen name="ss_lesson_item_index_text_size">26sp</dimen>
+    <dimen name="ss_lesson_item_index_margin_right">20dp</dimen>
+    <dimen name="ss_lesson_item_title_text_size">13sp</dimen>
+    <dimen name="ss_lesson_item_date_text_size">12sp</dimen>
+    <dimen name="ss_lesson_item_menu_width">64dp</dimen>
+    <dimen name="ss_lesson_item_menu_icon_size">12dp</dimen>
+
 
     <dimen name="ss_reading_navigation_sheet_peek_height">60dp</dimen>
 </resources>

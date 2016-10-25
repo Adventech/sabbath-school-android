@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:theme="@style/AppTheme.AppBarOverlay"
-        app:elevation="@dimen/ss_app_bar_default_elevation">
+        app:elevation="@dimen/ss_app_bar_elevation">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/ss_toolbar"

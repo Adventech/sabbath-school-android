@@ -25,7 +25,6 @@ package com.cryart.sabbathschool.viewmodel;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
-import android.view.View;
 
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLesson;
@@ -65,7 +64,7 @@ public class SSLessonItemViewModel extends BaseObservable implements SSViewModel
         return startDateOut + " - " + endDateOut;
     }
 
-    public void onItemClick(View v){
+    public void onItemClick(){
         Intent ssReadingIntent = new Intent(context, SSReadingActivity.class);
         ssReadingIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, ssLesson.index);
         context.startActivity(ssReadingIntent);
