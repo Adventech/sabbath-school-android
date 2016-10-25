@@ -54,7 +54,6 @@ public class SSApplication extends Application {
         return instance;
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -83,7 +82,6 @@ public class SSApplication extends Application {
                 } else if ("customUrlItem".equals(tag)) {
                     return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(R.color.md_red_500).sizeDp(56);
                 }
-
                 return super.placeholder(ctx, tag);
             }
         });
