@@ -34,10 +34,12 @@ public class SSQuarterly {
     public String path;
     public String full_path;
     public String lang;
+    public String color_primary;
+    public String color_primary_dark;
 
     public SSQuarterly() {}
 
-    public SSQuarterly(String id, String title, String description, String human_date, String start_date, String end_date, String cover, String index, String path, String full_path, String lang){
+    public SSQuarterly(String id, String title, String description, String human_date, String start_date, String end_date, String cover, String index, String path, String full_path, String lang, String color_primary, String color_primary_dark){
         this.id = id;
         this.title = title;
         this.description = description;
@@ -49,6 +51,8 @@ public class SSQuarterly {
         this.path = path;
         this.full_path = full_path;
         this.lang = lang;
+        this.color_primary = color_primary;
+        this.color_primary_dark = color_primary_dark;
     }
 }
 
