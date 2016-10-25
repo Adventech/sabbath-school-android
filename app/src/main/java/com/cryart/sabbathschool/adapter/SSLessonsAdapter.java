@@ -96,7 +96,7 @@ public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final PopupMenu popupMenu = new PopupMenu(itemView.getContext(), view);
             final Menu menu = popupMenu.getMenu();
 
-            popupMenu.getMenuInflater().inflate(R.menu.ss_lessons_menu, menu);
+            popupMenu.getMenuInflater().inflate(R.menu.ss_lesson_item_menu, menu);
             popupMenu.setOnMenuItemClickListener(this);
             popupMenu.setGravity(Gravity.END);
             popupMenu.show();
@@ -104,7 +104,12 @@ public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            // Menu Item Clicked!
+            int id = item.getItemId();
+
+            if (id == R.id.ss_lessons_item_menu_read){
+                binding.getViewModel().onItemClick();
+            }
+
             return true;
         }
     }

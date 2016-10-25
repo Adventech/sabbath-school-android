@@ -23,21 +23,10 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/ss_reading_menu_display_options"
+        android:id="@+id/ss_lessons_item_menu_read"
         android:orderInCategory="100"
-        app:showAsAction="always"
-        android:title="@string/ss_settings_display_options" />
-
-    <item
-        android:id="@+id/ss_reading_menu_share"
-        android:orderInCategory="101"
-        app:showAsAction="never"
-        android:title="@string/ss_share" />
-
-    <item
-        android:id="@+id/ss_reading_menu_settings"
-        android:orderInCategory="102"
-        app:showAsAction="never"
-        android:title="@string/ss_settings" />
+        android:title="@string/ss_lessons_read"
+        app:showAsAction="never" />
 </menu>

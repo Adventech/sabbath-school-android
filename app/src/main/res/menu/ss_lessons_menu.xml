@@ -27,12 +27,12 @@
     <item
         android:id="@+id/ss_lessons_menu_share"
         android:orderInCategory="100"
-        android:title="Share"
+        android:title="@string/ss_share"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/ss_lessons_menu_settings"
         android:orderInCategory="101"
-        android:title="Settings"
+        android:title="@string/ss_settings"
         app:showAsAction="never" />
 </menu>

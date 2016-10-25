@@ -39,7 +39,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.cryart.sabbathschool.R;
-import com.cryart.sabbathschool.adapter.SSReadingListAdapter;
+import com.cryart.sabbathschool.adapter.SSReadingSheetAdapter;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLessonInfo;
@@ -59,7 +59,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.ss_reading_activity);
 
-        SSReadingListAdapter adapter = new SSReadingListAdapter();
+        SSReadingSheetAdapter adapter = new SSReadingSheetAdapter();
         binding.ssReadingSheetList.setAdapter(adapter);
         binding.ssReadingSheetList.setLayoutManager(new LinearLayoutManager(this));
 
@@ -80,7 +80,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         ssReadingViewModel = new SSReadingViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_LESSON_INDEX_EXTRA), binding);
         binding.ssReadingView.setContextMenuCallback(ssReadingViewModel);
         binding.ssReadingView.setHighlightsCommentsCallback(ssReadingViewModel);
-        ((SSReadingListAdapter)binding.ssReadingSheetList.getAdapter()).setReadingViewModel(ssReadingViewModel);
+        ((SSReadingSheetAdapter)binding.ssReadingSheetList.getAdapter()).setReadingViewModel(ssReadingViewModel);
 
         binding.executePendingBindings();
         binding.setViewModel(ssReadingViewModel);
@@ -126,7 +126,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
 
     @Override
     public void onLessonInfoChanged(SSLessonInfo ssLessonInfo){
-        final SSReadingListAdapter adapter = (SSReadingListAdapter) binding.ssReadingSheetList.getAdapter();
+        final SSReadingSheetAdapter adapter = (SSReadingSheetAdapter) binding.ssReadingSheetList.getAdapter();
         adapter.setDays(ssLessonInfo.days);
 
         Glide.with(this)
