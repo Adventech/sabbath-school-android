@@ -25,13 +25,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:fancy="http://schemas.android.com/apk/res-auto">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
             name="viewModel"
             type="com.cryart.sabbathschool.viewmodel.SSQuarterlyItemViewModel" />
-
         <variable name="ssQuarterlyCover" type="android.widget.ImageView"/>
     </data>
 
@@ -41,7 +40,6 @@
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/ss_quarterly_item_normal_margin_left"
@@ -59,17 +57,18 @@
 
                 <TextView
                     android:id="@+id/ss_quarterly_item_normal_title"
-                    android:ellipsize="end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/ss_quarterly_item_normal_title_margin_left"
                     android:layout_marginStart="@dimen/ss_quarterly_item_normal_title_margin_left"
-                    android:maxLines="1"
                     android:padding="@dimen/ss_quarterly_item_normal_title_padding"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:textAllCaps="true"
                     android:textStyle="bold"
                     android:text="@{viewModel.title}"
                     android:textSize="@dimen/ss_quarterly_item_normal_title_text_size"
+                    android:textColor="@color/colorSecondaryDark"
                     tools:text="Quarterly Name" />
 
                 <TextView
@@ -87,7 +86,7 @@
                     android:paddingEnd="@dimen/ss_quarterly_item_normal_date_padding_right"
                     android:text="@{viewModel.date}"
                     android:textSize="@dimen/ss_quarterly_item_normal_date_text_size"
-                    android:textColor="@color/ss_quarterly_item_normal_name_text_color"
+                    android:textColor="@color/colorSecondary"
                     tools:text="Quarterly Date" />
 
                 <TextView
@@ -100,7 +99,7 @@
                     android:padding="@dimen/ss_quarterly_item_normal_description_padding"
                     android:text="@{viewModel.description}"
                     android:textSize="@dimen/ss_quarterly_item_normal_description_text_size"
-                    tools:text="Qurterly Description" />
+                    tools:text="Quarterly Description" />
 
                 <Button
                     android:layout_below="@+id/ss_quarterly_item_normal_description"
@@ -108,9 +107,12 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
-                    android:text="@string/ss_quarterly_item_normal_read_text"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorSecondaryDark"
+                    android:text="@string/ss_quarterly_item_read_text"
                     android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}"
                     style="@style/Widget.AppCompat.Button.Borderless" />
+
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 

@@ -21,6 +21,8 @@
   -->
 
 <resources>
+    <dimen name="ss_app_bar_default_elevation">0dp</dimen>
+
     <dimen name="ss_login_app_logo_size">72dp</dimen>
     <dimen name="ss_login_app_name_font_size">20sp</dimen>
     <dimen name="ss_login_app_name_margin_top">30dp</dimen>
@@ -31,12 +33,14 @@
     <dimen name="ss_login_button_social_text_size">14sp</dimen>
 
 
-    <dimen name="ss_app_bar_default_elevation">0dp</dimen>
-
-
-
+    <dimen name="ss_quarterlies_language_filter_holder_padding_left">18dp</dimen>
+    <dimen name="ss_quarterlies_language_filter_holder_padding_right">15dp</dimen>
+    <dimen name="ss_quarterlies_language_filter_holder_padding_top">10dp</dimen>
+    <dimen name="ss_quarterlies_language_filter_holder_padding_bottom">10dp</dimen>
 
     <dimen name="ss_quarterly_loading_size">30dp</dimen>
+
+
 
     <dimen name="ss_quarterly_item_featured_height">160dp</dimen>
     <dimen name="ss_quarterly_item_featured_background_height">120dp</dimen>

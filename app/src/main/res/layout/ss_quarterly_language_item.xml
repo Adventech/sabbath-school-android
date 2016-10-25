@@ -57,9 +57,9 @@
         fancy:fb_radius="@dimen/ss_quarterly_item_featured_read_radius"
         fancy:fb_text="@{viewModel.name}"
         fancy:fb_textSize="15sp"
-        fancy:fb_textColor="@color/ss_quarterly_item_featured_read_text_color"
-        app:fancyColor="@{viewModel.selected}"
+        fancy:fb_textColor="@android:color/white"
         android:onClick="@{() -> viewModel.onQuarterlyLanguageItemClick()}"
-        />
+        app:fancyColor="@{viewModel.selected}" />
+
     </LinearLayout>
 </layout>

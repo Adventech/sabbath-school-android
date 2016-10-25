@@ -102,11 +102,11 @@
                     android:minWidth="@dimen/ss_quarterly_item_featured_read_min_width"
                     fancy:fb_textFont="Roboto-Bold.ttf"
                     fancy:fb_borderWidth="@dimen/ss_quarterly_item_featured_read_border_width"
-                    fancy:fb_defaultColor="@color/ss_quarterly_item_featured_read_default_color"
-                    fancy:fb_focusColor="@color/ss_quarterly_item_featured_read_focus_color"
+                    fancy:fb_defaultColor="@color/colorPrimaryDark"
+                    fancy:fb_focusColor="@color/colorPrimary"
                     fancy:fb_radius="@dimen/ss_quarterly_item_featured_read_radius"
                     fancy:fb_text="Read"
-                    fancy:fb_textColor="@color/ss_quarterly_item_featured_read_text_color"
+                    fancy:fb_textColor="@android:color/white"
                     android:onClick="@{() -> viewModel.onReadClick()}"
                      />
             </RelativeLayout>

@@ -23,6 +23,8 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -33,11 +35,9 @@
     </data>
 
     <android.support.design.widget.CoordinatorLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ss_quarterlies_coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/ss_quarterlies_coordinator"
         tools:context="com.cryart.sabbathschool.view.SSQuarterliesActivity">
 
         <LinearLayout
@@ -45,11 +45,13 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:background="@color/ss_quarterly_item_featured_read_focus_color"
+            android:paddingLeft="@dimen/ss_quarterlies_language_filter_holder_padding_left"
+            android:paddingStart="@dimen/ss_quarterlies_language_filter_holder_padding_left"
+            android:paddingRight="@dimen/ss_quarterlies_language_filter_holder_padding_right"
+            android:paddingEnd="@dimen/ss_quarterlies_language_filter_holder_padding_right"
+            android:paddingBottom="@dimen/ss_quarterlies_language_filter_holder_padding_bottom"
+            android:paddingTop="@dimen/ss_quarterlies_language_filter_holder_padding_top"
+            android:background="@color/colorPrimary"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <android.support.v7.widget.RecyclerView
@@ -58,18 +60,19 @@
                 android:layout_height="match_parent"
                 android:scrollbars="none"
                 tools:listitem="@layout/ss_quarterly_language_item" />
+
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ss_quarterlies_list"
-            android:layout_marginTop="@{viewModel.ssQuarterliesListMarginTop}"
-            android:visibility="@{viewModel.ssQuarterliesListVisibility}"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/colorBackground"
+            android:layout_marginTop="@{viewModel.ssQuarterliesListMarginTop}"
+            android:visibility="@{viewModel.ssQuarterliesListVisibility}"
             android:clipToPadding="false"
-            android:background="@color/backgroundColor"
             android:scrollbars="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/ss_quarterly_item_normal" />
 
         <include
@@ -91,6 +94,7 @@
         <include
             layout="@layout/ss_progress_bar"
             bind:progressVisibility="@{viewModel.ssQuarterliesLoadingVisibility}"
-            bind:progressLabel="@{@string/ss_quarterlies_downloading}"/>
+            bind:progressLabel="@{@string/ss_quarterlies_downloading}" />
+
     </android.support.design.widget.CoordinatorLayout>
 </layout>
