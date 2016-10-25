@@ -51,7 +51,7 @@ public class SSLessonsViewModel implements SSViewModel {
     private static final String TAG = SSLessonsViewModel.class.getSimpleName();
 
     private Context context;
-    private SSQuarterlyInfo ssQuarterlyInfo;
+    public SSQuarterlyInfo ssQuarterlyInfo;
     private String ssQuarterlyIndex;
     private DataListener dataListener;
     private DatabaseReference mDatabase;

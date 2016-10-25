@@ -157,9 +157,13 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
     }
 
     private void onShareAppClick(){
+        shareApp(getString(R.string.ss_menu_share_app_text));
+    }
+
+    public void shareApp(String message){
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, String.format("%s - %s", getString(R.string.ss_menu_share_app_text), APP_PLAY_STORE_LINK));
+        sendIntent.putExtra(Intent.EXTRA_TEXT, String.format("%s - %s", message, APP_PLAY_STORE_LINK));
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
     }

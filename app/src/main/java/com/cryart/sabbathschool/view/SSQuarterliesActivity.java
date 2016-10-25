@@ -129,9 +129,15 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+
+
         if (id == R.id.ss_quarterlies_menu_filter) {
             ssQuarterliesViewModel.onFilterClick(item);
             return true;
+        } else if (id == R.id.ss_quarterlies_menu_share) {
+            shareApp(getString(R.string.ss_menu_share_app_text));
+        } else if (id == R.id.ss_quarterlies_menu_settings) {
+            onSettingsClick();
         }
 
         return super.onOptionsItemSelected(item);
