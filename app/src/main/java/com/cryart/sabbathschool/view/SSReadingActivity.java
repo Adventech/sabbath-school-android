@@ -126,7 +126,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
 
     @Override
     public void onLessonInfoChanged(SSLessonInfo ssLessonInfo){
-        SSReadingListAdapter adapter = (SSReadingListAdapter) binding.ssReadingSheetList.getAdapter();
+        final SSReadingListAdapter adapter = (SSReadingListAdapter) binding.ssReadingSheetList.getAdapter();
         adapter.setDays(ssLessonInfo.days);
 
         Glide.with(this)
@@ -134,18 +134,20 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        adapter.notifyDataSetChanged();
+                        binding.invalidateAll();
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                         resource.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.OVERLAY);
+                        adapter.notifyDataSetChanged();
+                        binding.invalidateAll();
                         return false;
                     }
                 })
                 .into(binding.ssReadingAppBar.ssCollapsingToolbarBackdrop);
-        adapter.notifyDataSetChanged();
-        binding.invalidateAll();
     }
 
     @Override
