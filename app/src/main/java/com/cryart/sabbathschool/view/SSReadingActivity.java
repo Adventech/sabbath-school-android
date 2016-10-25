@@ -105,7 +105,9 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.ss_reading_menu_display_options){
+        if (id == R.id.ss_reading_menu_share){
+            shareApp(ssReadingViewModel.ssRead.title);
+        } else if (id == R.id.ss_reading_menu_display_options){
             binding.getViewModel().onDisplayOptionsClick();
         } else if (id == R.id.ss_reading_menu_settings){
             onSettingsClick();

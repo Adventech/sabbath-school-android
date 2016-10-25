@@ -106,7 +106,7 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
         int id = item.getItemId();
 
         if (id == R.id.ss_lessons_menu_share){
-
+            shareApp(ssLessonsViewModel.ssQuarterlyInfo.quarterly.title);
         } else if (id == R.id.ss_lessons_menu_settings){
             onSettingsClick();
         }
