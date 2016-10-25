@@ -43,7 +43,7 @@
             android:layout_alignParentTop="true"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/ss_quarterly_item_featured_background_height"
-            android:background="@color/ss_quarterly_item_featured_background_color" />
+            android:background="@color/colorPrimary" />
 
         <ImageView
             android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}"
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/ss_quarterly_item_featured_title_text_color"
+                android:textColor="@android:color/white"
                 android:text="@{viewModel.title}"
                 android:textSize="@dimen/ss_quarterly_item_featured_title_text_size"
                 android:textStyle="bold|italic"
@@ -91,7 +91,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textStyle="italic"
-                android:textColor="@color/ss_quarterly_item_featured_date_text_color"
+                android:textColor="@android:color/white"
                 android:text="@{viewModel.date}"
                 android:textSize="@dimen/ss_quarterly_item_featured_date_text_size"
                 android:layout_below="@id/ss_quarterly_item_featured_title"
@@ -110,7 +110,7 @@
                 android:text="@{viewModel.description}"
                 android:textSize="@dimen/ss_quarterly_item_featured_description_text_size"
                 android:typeface="serif"
-                android:textColor="@color/ss_quarterly_item_featured_description_text_color"
+                android:textColor="@android:color/white"
                 android:padding="@dimen/ss_quarterly_item_featured_description_padding"
                 tools:text="Quarterly Date" />
 
@@ -125,12 +125,13 @@
                 android:minWidth="@dimen/ss_quarterly_item_featured_read_min_width"
                 fancy:fb_textFont="Roboto-Bold.ttf"
                 fancy:fb_borderWidth="@dimen/ss_quarterly_item_featured_read_border_width"
-                fancy:fb_defaultColor="@color/ss_quarterly_item_featured_read_default_color"
-                fancy:fb_focusColor="@color/ss_quarterly_item_featured_read_focus_color"
+                fancy:fb_defaultColor="@color/colorPrimaryDark"
+                fancy:fb_focusColor="@color/colorPrimary"
                 fancy:fb_radius="@dimen/ss_quarterly_item_featured_read_radius"
-                fancy:fb_text="@string/ss_quarterly_item_featured_read_text"
-                fancy:fb_textColor="@color/ss_quarterly_item_featured_read_text_color"
+                fancy:fb_text="@string/ss_quarterly_item_read_text"
+                fancy:fb_textColor="@android:color/white"
                 android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}" />
+
         </RelativeLayout>
     </RelativeLayout>
 </layout>

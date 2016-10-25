@@ -27,7 +27,7 @@
     <string name="ss_login_button_facebook">Sign in with Facebook</string>
     <string name="ss_login_button_anonymous">Continue without Login</string>
 
-    <string name="ss_menu_anonymous_name">Read Now</string>
+    <string name="ss_menu_anonymous_name">Anonymous</string>
     <string translatable="false" name="ss_menu_anonymous_email">anonymous@adventech.io</string>
     <string name="ss_menu_sign_out">Sign Out</string>
     <string name="ss_menu_read_now">Read Now</string>
@@ -43,7 +43,6 @@
     <string name="ss_settings">Settings</string>
     <string name="ss_about">About</string>
 
-
     <string name="ss_login_failed">Login failed. Please try again</string>
     <string name="ss_login_anonymously_dialog_positive">Yes</string>
     <string name="ss_login_anonymously_dialog_negative">No</string>
@@ -51,20 +50,19 @@
     <string name="ss_login_anonymously_dialog_description">By logging in anonymously you will not be able to synchronize your data, such as comments and highlights, across devices or after uninstalling application. Are you sure you want to proceed?</string>
 
 
-    <string name="ss_quarterlies_menu">Filter Languages</string>
-    <string name="ss_quarterlies_downloading">Getting your quarterlies…</string>
-    <string name="ss_quarterlies_error">Error occurred while getting quarterlies</string>
+    <string name="ss_quarterlies_filter_languages">Filter Languages</string>
+    <string name="ss_quarterlies_downloading">Getting quarterlies…</string>
+    <string name="ss_quarterlies_error">Unknown error occurred. Please try again</string>
     <string name="ss_quarterlies_empty">It looks like there are not quarterlies at the moment</string>
 
+    <string name="ss_quarterly_item_read_text">Open</string>
     <string name="ss_quarterly_downloading">Getting your quarterly…</string>
     <string name="ss_quarterly_error">Error occurred while getting quarterly</string>
-    <string name="ss_quarterly_empty">It looks like there are no lessons that has been added to the current quarterly</string>
+    <string name="ss_quarterly_empty">It looks like there are no quarterlies at the moment</string>
 
-    <string name="ss_quarterly_item_featured_read_text">OPEN</string>
-    <string name="ss_quarterly_item_normal_read_text">OPEN</string>
+
 
     <string translatable="false" name="facebook_app_id">1440555266255436</string>
     <string translatable="false" name="fb_login_protocol_scheme">1440555266255436</string>
     <string translatable="false" name="ss_quarterly_cover_transition">ssQuarterlyCoverTransition</string>
-    
 </resources>

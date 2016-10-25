@@ -51,6 +51,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterliesViewModel.DataListener {
     private static final String TAG = SSQuarterliesActivity.class.getSimpleName();
+
     private SsQuarterliesActivityBinding binding;
     private SSQuarterliesViewModel ssQuarterliesViewModel;
 
@@ -59,9 +60,9 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         super.onCreate(savedInstanceState);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String lastQuarterlyIndex = prefs.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, "");
+        String lastQuarterlyIndex = prefs.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, null);
 
-        if (!lastQuarterlyIndex.isEmpty()){
+        if (lastQuarterlyIndex != null){
             Intent launchNextActivity;
             launchNextActivity = new Intent(this, SSLessonsActivity.class);
             launchNextActivity.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, lastQuarterlyIndex);
@@ -80,7 +81,6 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         SSQuarterliesAdapter adapter = new SSQuarterliesAdapter();
         binding.ssQuarterliesList.setAdapter(adapter);
         binding.ssQuarterliesList.setLayoutManager(new LinearLayoutManager(this));
-
 
         SSQuarterliesLanguageFilterAdapter languageFilterAdapter = new SSQuarterliesLanguageFilterAdapter();
         binding.ssQuarterlyLanguagesList.setAdapter(languageFilterAdapter);

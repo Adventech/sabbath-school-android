@@ -76,14 +76,14 @@ public class SSQuarterlyLanguageItemViewModel extends BaseObservable implements 
     public static void setFancyColor(View v, int selected){
         FancyButton view = (FancyButton) v;
         if (selected == 1) {
-            view.setFocusBackgroundColor(R.color.ss_quarterly_item_featured_read_focus_color);
+            view.setFocusBackgroundColor(R.color.colorPrimaryDark);
             view.setBackgroundColor(
-                    ContextCompat.getColor(v.getContext(), R.color.ss_quarterly_item_featured_read_default_color)
+                    ContextCompat.getColor(v.getContext(), R.color.colorPrimaryDark)
             );
         } else {
-            view.setFocusBackgroundColor(R.color.ss_quarterly_item_featured_read_default_color);
+            view.setFocusBackgroundColor(R.color.colorPrimary);
             view.setBackgroundColor(
-                    ContextCompat.getColor(v.getContext(), R.color.ss_quarterly_item_featured_read_focus_color)
+                    ContextCompat.getColor(v.getContext(), R.color.colorPrimary)
             );
         }
     }

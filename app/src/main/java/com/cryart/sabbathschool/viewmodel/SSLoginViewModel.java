@@ -67,9 +67,9 @@ import java.util.Arrays;
 public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateListener, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = SSLoginViewModel.class.getSimpleName();
     private static final String FIREBASE_PROVIDER_ID = "firebase";
+
     private Context context;
     private FirebaseAuth ssFirebaseAuth;
-
     private CallbackManager ssFacebookCallbackManager;
     private GoogleApiClient ssGoogleApiClient;
 
