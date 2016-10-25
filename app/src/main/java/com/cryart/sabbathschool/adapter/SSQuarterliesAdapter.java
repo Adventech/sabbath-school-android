@@ -53,12 +53,10 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.quarterlies = quarterlies;
     }
 
-
     @Override
     public int getItemViewType(int position){
         return (position == 0) ? SSQuarterlyViewHolderHero : SSQuarterlyViewHolderNormal;
     }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -69,21 +67,18 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 SsQuarterlyItemFeaturedBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.ss_quarterly_item_featured, parent, false);
                 binding.setSsQuarterlyCover(binding.ssQuarterlyItemCover);
                 viewHolder = new SSQuarterlyViewHolderFeatured(binding);
-
                 break;
             }
 
             default: case SSQuarterlyViewHolderNormal: {
                 SsQuarterlyItemNormalBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.ss_quarterly_item_normal, parent, false);
                 binding.setSsQuarterlyCover(binding.ssQuarterlyItemNormalCover);
-
                 viewHolder = new SSQuarterlyViewHolderNormal(binding);
                 break;
             }
         }
 
         return viewHolder;
-
     }
 
     @Override
@@ -110,10 +105,10 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
         return quarterlies.size();
     }
 
-    public static class SSQuarterlyViewHolderFeatured extends RecyclerView.ViewHolder {
+    private static class SSQuarterlyViewHolderFeatured extends RecyclerView.ViewHolder {
         final SsQuarterlyItemFeaturedBinding binding;
 
-        public SSQuarterlyViewHolderFeatured(SsQuarterlyItemFeaturedBinding binding) {
+        SSQuarterlyViewHolderFeatured(SsQuarterlyItemFeaturedBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
@@ -127,10 +122,10 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public static class SSQuarterlyViewHolderNormal extends RecyclerView.ViewHolder {
+    private static class SSQuarterlyViewHolderNormal extends RecyclerView.ViewHolder {
         final SsQuarterlyItemNormalBinding binding;
 
-        public SSQuarterlyViewHolderNormal(SsQuarterlyItemNormalBinding binding) {
+        SSQuarterlyViewHolderNormal(SsQuarterlyItemNormalBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

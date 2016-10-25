@@ -41,7 +41,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
     private List<SSLesson> ssLessons;
 
     public SSLessonsAdapter() {
@@ -67,7 +66,6 @@ public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         SSLessonViewHolder holder1 = (SSLessonViewHolder) holder;
         holder1.bindQuarterly(ssLessons.get(position));
         holder1.binding.executePendingBindings();
-
         holder1.binding.ssLessonItemNormalIndex.setText(String.valueOf(position+1));
     }
 
@@ -76,12 +74,10 @@ public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return ssLessons.size();
     }
 
-
-    public static class SSLessonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
-    PopupMenu.OnMenuItemClickListener {
+    private static class SSLessonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
         final SsLessonItemBinding binding;
 
-        public SSLessonViewHolder(SsLessonItemBinding binding) {
+        SSLessonViewHolder(SsLessonItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             this.binding.ssLessonItemMenu.setOnClickListener(this);
@@ -105,7 +101,6 @@ public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             popupMenu.setOnMenuItemClickListener(this);
             popupMenu.setGravity(Gravity.END);
             popupMenu.show();
-
         }
 
         @Override

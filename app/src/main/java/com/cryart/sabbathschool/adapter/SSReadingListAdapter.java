@@ -36,9 +36,7 @@ import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
 import java.util.Collections;
 import java.util.List;
 
-
 public class SSReadingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
     private List<SSDay> ssDays = Collections.emptyList();
     private SSReadingViewModel ssReadingViewModel;
 
@@ -73,13 +71,12 @@ public class SSReadingListAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
 
-    public static class SSReadingListViewHolder extends RecyclerView.ViewHolder {
+    private static class SSReadingListViewHolder extends RecyclerView.ViewHolder {
         final SsReadingItemBinding binding;
 
-        public SSReadingListViewHolder(SsReadingItemBinding binding) {
+        SSReadingListViewHolder(SsReadingItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-
         }
 
         void bindQuarterly(SSDay ssDay, SSReadingViewModel ssReadingViewModel) {

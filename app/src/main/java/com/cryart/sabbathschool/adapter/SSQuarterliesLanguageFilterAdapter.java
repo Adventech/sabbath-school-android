@@ -59,13 +59,9 @@ public class SSQuarterliesLanguageFilterAdapter extends RecyclerView.Adapter<Rec
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
-
         SsQuarterlyLanguageItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.ss_quarterly_language_item, parent, false);
-
         viewHolder = new SSQuarterliesLanguageFilterHolder(binding);
-
         return viewHolder;
-
     }
 
     @Override
@@ -81,12 +77,20 @@ public class SSQuarterliesLanguageFilterAdapter extends RecyclerView.Adapter<Rec
         return ssQuarterlyLanguages.size();
     }
 
+    @Override
+    public boolean onLanguageCheck(String code) {
+        for(SSQuarterlyLanguage lang : ssQuarterlyLanguages){
+            if (!lang.code.equals(code)) lang.selected = 0;
+        }
 
-    public static class SSQuarterliesLanguageFilterHolder extends RecyclerView.ViewHolder {
+        notifyDataSetChanged();
+        return true;
+    }
+
+    private static class SSQuarterliesLanguageFilterHolder extends RecyclerView.ViewHolder {
         final SsQuarterlyLanguageItemBinding binding;
 
-
-        public SSQuarterliesLanguageFilterHolder(SsQuarterlyLanguageItemBinding binding) {
+        SSQuarterliesLanguageFilterHolder(SsQuarterlyLanguageItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
@@ -98,14 +102,5 @@ public class SSQuarterliesLanguageFilterAdapter extends RecyclerView.Adapter<Rec
                 binding.getViewModel().setSsQuarterlyLanguage(ssQuarterlyLanguage);
             }
         }
-    }
-
-    @Override
-    public boolean onLanguageCheck(String code) {
-        for(SSQuarterlyLanguage lang : ssQuarterlyLanguages){
-            if (!lang.code.equals(code)) lang.selected = 0;
-        }
-        notifyDataSetChanged();
-        return true;
     }
 }
