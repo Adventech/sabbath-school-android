@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -31,16 +32,17 @@ import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding;
 import com.cryart.sabbathschool.viewmodel.SSLoginViewModel;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class SSLoginActivity extends AppCompatActivity {
     private static final String TAG = SSLoginActivity.class.getSimpleName();
-    private SsLoginActivityBinding binding;
     private SSLoginViewModel ssLoginViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.ss_login_activity);
+        SsLoginActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.ss_login_activity);
         ssLoginViewModel = new SSLoginViewModel(this);
         binding.setViewModel(ssLoginViewModel);
     }
@@ -49,5 +51,10 @@ public class SSLoginActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         ssLoginViewModel.processActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

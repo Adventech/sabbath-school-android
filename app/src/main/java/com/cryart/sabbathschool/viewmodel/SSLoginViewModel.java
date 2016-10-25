@@ -61,8 +61,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 
@@ -70,8 +68,7 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
     private static final String TAG = SSLoginViewModel.class.getSimpleName();
     private static final String FIREBASE_PROVIDER_ID = "firebase";
     private Context context;
-    private FirebaseAuth ssFirebase;
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private FirebaseAuth ssFirebaseAuth;
 
     private CallbackManager ssFacebookCallbackManager;
     private GoogleApiClient ssGoogleApiClient;
@@ -85,30 +82,34 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
 
     public SSLoginViewModel(Context context) {
         this.context = context;
+        this.ssLoginLoadingVisibility = new ObservableInt(View.INVISIBLE);
+        this.ssLoginControlsVisibility = new ObservableInt(View.VISIBLE);
 
         this.configureGoogleLogin();
         this.configureFacebookLogin();
         this.configureFirebase();
-
-        this.ssLoginLoadingVisibility = new ObservableInt(View.INVISIBLE);
-        this.ssLoginControlsVisibility = new ObservableInt(View.VISIBLE);
     }
 
     private void configureFirebase(){
-        ssFirebase = FirebaseAuth.getInstance();
-        ssFirebase.addAuthStateListener(this);
+        ssFirebaseAuth = FirebaseAuth.getInstance();
+        ssFirebaseAuth.addAuthStateListener(this);
     }
 
     private void configureGoogleLogin(){
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(context.getString(R.string.default_web_client_id)).requestEmail().build();
-        ssGoogleApiClient = new GoogleApiClient.Builder(context).enableAutoManage((SSLoginActivity)context, this).addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(context.getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        ssGoogleApiClient = new GoogleApiClient.Builder(context)
+                .enableAutoManage((SSLoginActivity)context, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
     private void configureFacebookLogin(){
         FacebookSdk.sdkInitialize(context.getApplicationContext());
-
         ssFacebookCallbackManager = CallbackManager.Factory.create();
-
         LoginManager.getInstance().registerCallback(ssFacebookCallbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
@@ -129,13 +130,13 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         loginFailed(connectionResult.getErrorMessage());
     }
 
     private void handleGoogleAccessToken(GoogleSignInAccount acct){
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        ssFirebase.signInWithCredential(credential)
+        ssFirebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener((SSLoginActivity)context, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -148,7 +149,7 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
 
     private void handleFacebookAccessToken(AccessToken token) {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        ssFirebase.signInWithCredential(credential)
+        ssFirebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener((SSLoginActivity)context, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -169,21 +170,19 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
 
     private void loginFailed(String message){
         Crashlytics.log(message);
-        Toast.makeText(context, "Login failed. Please try again", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getString(R.string.ss_login_failed), Toast.LENGTH_SHORT).show();
         this.ssLoginLoadingVisibility.set(View.INVISIBLE);
         this.ssLoginControlsVisibility.set(View.VISIBLE);
     }
 
     public void processActivityResult(int requestCode, int resultCode, Intent data){
-
         if (requestCode == SSConstants.SS_GOOGLE_SIGN_IN_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-
             if (result.isSuccess()) {
                 GoogleSignInAccount acct = result.getSignInAccount();
                 handleGoogleAccessToken(acct);
             } else {
-                loginFailed("Google failed:" + result.getStatus().getStatusMessage());
+                loginFailed(result.getStatus().getStatusMessage());
             }
         } else {
             ssFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
@@ -198,13 +197,11 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
             for (UserInfo profile : user.getProviderData()) {
                 String providerId = profile.getProviderId();
                 if (providerId.equals(FIREBASE_PROVIDER_ID)) {
-
                     if (!user.isAnonymous()) {
                         String name = profile.getDisplayName();
                         String email = profile.getEmail();
                         Uri photoUrl = profile.getPhotoUrl();
                         String photo = photoUrl != null ? photoUrl.toString() : "";
-
 
                         SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(context);
                         SharedPreferences.Editor editor = shared.edit();
@@ -213,24 +210,23 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
                         editor.putString(SSConstants.SS_USER_PHOTO_INDEX, photo);
                         editor.commit();
                     }
-
                     openApp();
                 }
             }
         }
     }
 
-    public void initGoogleLogin(){
+    private void initGoogleLogin(){
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(ssGoogleApiClient);
         ((SSLoginActivity)context).startActivityForResult(signInIntent, SSConstants.SS_GOOGLE_SIGN_IN_CODE);
     }
 
-    public void initFacebookLogin(){
+    private void initFacebookLogin(){
         LoginManager.getInstance().logInWithReadPermissions((SSLoginActivity)context, Arrays.asList("public_profile", "email"));
     }
 
-    public void initAnonymousLogin(){
-        ssFirebase.signInAnonymously()
+    private void initAnonymousLogin(){
+        ssFirebaseAuth.signInAnonymously()
                 .addOnCompleteListener((SSLoginActivity)context, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -242,25 +238,24 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
 
     }
 
-    public void onClickSignIn(View view){
+    public void onClickSignInGoogle(){
         this.ssLoginLoadingVisibility.set(View.VISIBLE);
         this.ssLoginControlsVisibility.set(View.INVISIBLE);
         initGoogleLogin();
     }
 
-    public void onClickSignInFB(View view){
+    public void onClickSignInFB(){
         this.ssLoginLoadingVisibility.set(View.VISIBLE);
         this.ssLoginControlsVisibility.set(View.INVISIBLE);
         initFacebookLogin();
     }
 
-    public void onClickSignInAnonymous(View view){
-
+    public void onClickSignInAnonymous(){
         new MaterialDialog.Builder(context)
-                .title("Login anonymously?")
-                .content("By logging in anonymously you will not be able to synchronize your data, such as comments and highlights, across devices or after uninstalling application. Are you sure you want to proceed?")
-                .positiveText("Yes")
-                .negativeText("No")
+                .title(context.getString(R.string.ss_login_anonymously_dialog_title))
+                .content(context.getString(R.string.ss_login_anonymously_dialog_description))
+                .positiveText(context.getString(R.string.ss_login_anonymously_dialog_positive))
+                .negativeText(context.getString(R.string.ss_login_anonymously_dialog_negative))
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -275,15 +270,13 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
                     }
                 })
                 .show();
-
-
     }
 
     @Override
     public void destroy() {
         this.context = null;
-        ssFirebase.removeAuthStateListener(this);
-        ssFirebase = null;
+        ssFirebaseAuth.removeAuthStateListener(this);
+        ssFirebaseAuth = null;
         ssFacebookCallbackManager = null;
         ssGoogleApiClient = null;
     }
