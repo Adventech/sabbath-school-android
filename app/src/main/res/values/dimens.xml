@@ -21,7 +21,20 @@
   -->
 
 <resources>
+    <dimen name="ss_login_app_logo_size">72dp</dimen>
+    <dimen name="ss_login_app_name_font_size">20sp</dimen>
+    <dimen name="ss_login_app_name_margin_top">30dp</dimen>
+    <dimen name="ss_login_loading_size">48dp</dimen>
+    <dimen name="ss_login_button_margin_top">5dp</dimen>
+    <dimen name="ss_login_button_social_width">220dp</dimen>
+    <dimen name="ss_login_button_social_height">0dp</dimen>
+    <dimen name="ss_login_button_social_text_size">14sp</dimen>
+
+
     <dimen name="ss_app_bar_default_elevation">0dp</dimen>
+
+
+
 
     <dimen name="ss_quarterly_loading_size">30dp</dimen>
 

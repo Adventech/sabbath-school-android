@@ -30,9 +30,8 @@
     <data>
         <variable
             name="viewModel"
-            type="com.cryart.sabbathschool.viewmodel.SSLoginViewModel"/>
+            type="com.cryart.sabbathschool.viewmodel.SSLoginViewModel" />
     </data>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,22 +50,22 @@
 
             <ImageView
                 android:id="@+id/ss_login_app_logo"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
+                android:layout_width="@dimen/ss_login_app_logo_size"
+                android:layout_height="@dimen/ss_login_app_logo_size"
                 android:layout_centerInParent="true"
                 android:layout_centerHorizontal="true"
                 app:srcCompat="@drawable/ss_logo" />
 
             <TextView
+                android:id="@+id/ss_login_app_name"
                 android:layout_width="wrap_content"
-                android:layout_below="@+id/ss_login_app_logo"
-                android:layout_marginTop="30dp"
-                android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/ss_login_app_logo"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/ss_login_app_name_margin_top"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textAllCaps="true"
+                android:textSize="@dimen/ss_login_app_name_font_size"
+                fontPath="fonts/PTF76F.ttf"
                 android:text="@string/ss_app_name" />
 
         </RelativeLayout>
@@ -78,65 +77,58 @@
 
             <ProgressBar
                 android:visibility="@{viewModel.ssLoginLoadingVisibility}"
+                android:layout_width="@dimen/ss_login_loading_size"
+                android:layout_height="@dimen/ss_login_loading_size"
                 android:layout_centerVertical="true"
                 android:layout_centerInParent="true"
-                android:layout_width="48dp"
                 android:indeterminate="true"
-                style="?android:attr/progressBarStyle"
-                android:layout_height="48dp" />
+                style="?android:attr/progressBarStyle" />
 
             <LinearLayout
                 android:visibility="@{viewModel.ssLoginControlsVisibility}"
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerInParent="true"
-                android:layout_height="wrap_content">
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/ss_login_activity_login_button"
-                    android:layout_width="220dp"
-                    android:layout_height="0dp"
+                    android:id="@+id/ss_login_button_google"
+                    android:layout_width="@dimen/ss_login_button_social_width"
+                    android:layout_height="@dimen/ss_login_button_social_height"
+                    android:layout_margin="@dimen/ss_login_button_margin_top"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:textAllCaps="false"
-                    android:textSize="14sp"
-                    android:textColor="#8C000000"
-                    android:text="Sign in with Google"
                     android:background="@drawable/ss_google_sign_in_button"
-                    android:onClick="@{viewModel::onClickSignIn}" />
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/ss_login_button_social_text_size"
+                    android:textColor="#8C000000"
+                    android:text="@string/ss_login_button_google"
+                    android:onClick="@{() -> viewModel.onClickSignInGoogle()}" />
 
                 <Button
                     android:id="@+id/ss_login_fb_login_button"
-                    android:layout_width="220dp"
-                    android:layout_height="0dp"
+                    android:layout_width="@dimen/ss_login_button_social_width"
+                    android:layout_height="@dimen/ss_login_button_social_height"
+                    android:layout_margin="@dimen/ss_login_button_margin_top"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
+                    android:background="@drawable/ss_facebook_login_button"
                     android:textAllCaps="false"
                     android:textSize="14sp"
                     android:textColor="#8C000000"
-                    android:text="Sign in with Facebook"
-                    android:background="@drawable/ss_facebook_login_button"
-                    android:onClick="@{viewModel::onClickSignInFB}" />
+                    android:text="@string/ss_login_button_facebook"
+                    android:onClick="@{() -> viewModel.onClickSignInFB()}" />
 
                 <Button
-                    android:layout_below="@+id/ss_login_anonymous_login_button"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/ss_login_button_margin_top"
                     android:layout_weight="1"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:text="Continue without Login"
-                    android:onClick="@{viewModel::onClickSignInAnonymous}"
+                    android:text="@string/ss_login_button_anonymous"
+                    android:onClick="@{() -> viewModel.onClickSignInAnonymous()}"
                     style="@style/Widget.AppCompat.Button.Borderless" />
 
-
             </LinearLayout>
-
-
         </RelativeLayout>
-
     </LinearLayout>
 </layout>

@@ -22,40 +22,6 @@
   -->
 
 <resources>
-    <!--<string-array translatable="false" name="ss_quarterlies_language_codes">-->
-        <!--<item>en</item>-->
-        <!--<item>ru</item>-->
-        <!--<item>es</item>-->
-        <!--<item>pt</item>-->
-        <!--<item>ar</item>-->
-        <!--<item>he</item>-->
-        <!--<item>uk</item>-->
-        <!--<item>fr</item>-->
-        <!--<item>de</item>-->
-    <!--</string-array>-->
-    <!--<string-array name="ss_quarterlies_language_names">-->
-        <!--<item>English</item>-->
-        <!--<item>Russian</item>-->
-        <!--<item>Spanish</item>-->
-        <!--<item>Portuguese</item>-->
-        <!--<item>Arabic</item>-->
-        <!--<item>Hebrew</item>-->
-        <!--<item>Ukrainian</item>-->
-        <!--<item>French</item>-->
-        <!--<item>German</item>-->
-    <!--</string-array>-->
-    <!--<integer-array translatable="false" name="ss_quarterlies_language_selects">-->
-        <!--<item>1</item>-->
-        <!--<item>0</item>-->
-        <!--<item>0</item>-->
-        <!--<item>0</item>-->
-        <!--<item>0</item>-->
-        <!--<item>0</item>-->
-        <!--<item>0</item>-->
-        <!--<item>0</item>-->
-        <!--<item>0</item>-->
-    <!--</integer-array>-->
-
     <string-array name="ss_settings_display_options_theme_entries">
         <item>Light</item>
         <item>Sepia</item>
