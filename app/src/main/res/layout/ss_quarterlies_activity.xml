@@ -76,8 +76,8 @@
             tools:listitem="@layout/ss_quarterly_item_normal" />
 
         <include
-            layout="@layout/ss_app_bar"
-            android:id="@+id/ss_app_bar"/>
+            android:id="@+id/ss_app_bar"
+            layout="@layout/ss_app_bar" />
 
         <include
             layout="@layout/ss_empty_state"

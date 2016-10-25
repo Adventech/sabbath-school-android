@@ -24,7 +24,8 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -33,16 +34,15 @@
     </data>
 
     <android.support.design.widget.CoordinatorLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/ss_lessons_coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/ss_lessons_coordinator"
         android:background="@android:color/background_light">
 
         <include
-            layout="@layout/ss_collapsing_app_bar"
+            android:id="@+id/ss_lessons_app_bar"
             bind:viewModel="@{viewModel}"
-            android:id="@+id/ss_app_bar_2"/>
+            layout="@layout/ss_lessons_app_bar" />
 
 
         <android.support.v7.widget.RecyclerView
@@ -60,19 +60,18 @@
             layout="@layout/ss_empty_state"
             android:id="@+id/ss_quarterlies_empty_state"
             bind:emptyStateVisibility="@{viewModel.ssLessonsEmptyStateVisibility}"
-            bind:emptyStateLabel="@{@string/ss_quarterly_empty}" />
+            bind:emptyStateLabel="@{@string/ss_lessons_empty}" />
 
         <include
             layout="@layout/ss_error_state"
             android:id="@+id/ss_quarterlies_error_state"
             bind:errorStateVisibility="@{viewModel.ssLessonsErrorStateVisibility}"
-            bind:errorStateLabel="@{@string/ss_quarterly_error}" />
+            bind:errorStateLabel="@{@string/ss_lessons_error}" />
 
         <include
             layout="@layout/ss_progress_bar"
             bind:progressVisibility="@{viewModel.ssLessonsLoadingVisibility}"
-            bind:progressLabel="@{@string/ss_quarterly_downloading}"/>
-
+            bind:progressLabel="@{@string/ss_lessons_downloading}"/>
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

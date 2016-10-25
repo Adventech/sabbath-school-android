@@ -53,7 +53,7 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
         binding.ssLessonInfoList.setAdapter(adapter);
         binding.ssLessonInfoList.setLayoutManager(new LinearLayoutManager(this));
 
-        setSupportActionBar(binding.ssAppBar2.ssToolbar2);
+        setSupportActionBar(binding.ssLessonsAppBar.ssLessonsToolbar);
 
         ActionBar ssToolbar = getSupportActionBar();
 
@@ -61,11 +61,11 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
 
-        binding.ssAppBar2.ssCollapsingToolbar.setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle);
-        binding.ssAppBar2.ssCollapsingToolbar.setExpandedTitleTextAppearance(R.style.AppThemeAppBarTextStyleExpanded);
+        binding.ssLessonsAppBar.ssCollapsingToolbar.setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle);
+        binding.ssLessonsAppBar.ssCollapsingToolbar.setExpandedTitleTextAppearance(R.style.AppThemeAppBarTextStyleExpanded);
 
-        binding.ssAppBar2.ssCollapsingToolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
-        binding.ssAppBar2.ssCollapsingToolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
+        binding.ssLessonsAppBar.ssCollapsingToolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
+        binding.ssLessonsAppBar.ssCollapsingToolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
 
         ssLessonsViewModel = new SSLessonsViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA));
         binding.executePendingBindings();
@@ -76,7 +76,7 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
 
     @Override
     public void onQuarterlyChanged(SSQuarterlyInfo ssQuarterlyInfo) {
-        binding.ssAppBar2.ssCollapsingToolbar.setTitle(ssQuarterlyInfo.quarterly.title);
+        binding.ssLessonsAppBar.ssCollapsingToolbar.setTitle(ssQuarterlyInfo.quarterly.title);
         SSLessonsAdapter adapter = (SSLessonsAdapter) binding.ssLessonInfoList.getAdapter();
         adapter.setLessons(ssQuarterlyInfo.lessons);
         adapter.notifyDataSetChanged();

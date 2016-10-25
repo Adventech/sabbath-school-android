@@ -33,95 +33,100 @@
         </data>
 
         <RelativeLayout
-            android:id="@+id/itemView"
+            android:id="@+id/ss_lesson_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/itemViewContent"
-                android:onClick="@{viewModel::onItemClick}"
+                android:id="@+id/ss_lesson_item_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:paddingTop="@dimen/ss_lesson_item_content_padding_top"
+                android:paddingBottom="@dimen/ss_lesson_item_content_padding_bottom"
+                android:paddingLeft="@dimen/ss_lesson_item_content_padding_left"
+                android:paddingStart="@dimen/ss_lesson_item_content_padding_left"
+                android:paddingRight="@dimen/ss_lesson_item_content_padding_right"
+                android:paddingEnd="@dimen/ss_lesson_item_content_padding_right"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?attr/selectableItemBackground">
+                android:background="?attr/selectableItemBackground"
+                android:onClick="@{() -> viewModel.onItemClick()}">
 
                 <TextView
-                    android:id="@+id/ss_lesson_item_normal_index"
+                    android:id="@+id/ss_lesson_item_index"
+                    android:layout_marginRight="@dimen/ss_lesson_item_index_margin_right"
+                    android:layout_marginEnd="@dimen/ss_lesson_item_index_margin_right"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
                     android:gravity="center"
                     android:maxEms="1"
                     android:minEms="1"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
                     android:maxLines="1"
-                    android:textSize="26sp"
-                    android:textColor="#ccc"
-                    android:layout_marginRight="20dp"
-                    android:text="1"
+                    android:textSize="@dimen/ss_lesson_item_index_text_size"
+                    android:textColor="@color/colorSecondary"
                     tools:text="1" />
 
                 <TextView
-                    android:id="@+id/ss_lesson_item_normal_title"
-                    android:ellipsize="end"
-                    android:layout_toRightOf="@+id/ss_lesson_item_normal_index"
-                    android:layout_toEndOf="@+id/ss_lesson_item_normal_index"
-                    android:layout_alignTop="@+id/ss_lesson_item_normal_index"
+                    android:id="@+id/ss_lesson_item_title"
+
+                    android:layout_toRightOf="@+id/ss_lesson_item_index"
+                    android:layout_toEndOf="@+id/ss_lesson_item_index"
+                    android:layout_alignTop="@+id/ss_lesson_item_index"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:textStyle="bold"
                     android:textAllCaps="true"
-                    android:textSize="13sp"
-                    android:textColor="#515151"
-                    android:maxLines="1"
+                    android:textSize="@dimen/ss_lesson_item_title_text_size"
+                    android:textColor="@color/colorSecondaryDark"
                     android:text="@{viewModel.title}"
                     tools:text="Lesson Title" />
 
                 <TextView
                     android:id="@+id/ss_lesson_item_normal_date"
-                    android:ellipsize="end"
-                    android:layout_toRightOf="@+id/ss_lesson_item_normal_index"
-                    android:layout_toEndOf="@+id/ss_lesson_item_normal_index"
-                    android:layout_alignBottom="@+id/ss_lesson_item_normal_index"
+                    android:layout_toRightOf="@+id/ss_lesson_item_index"
+                    android:layout_toEndOf="@+id/ss_lesson_item_index"
+                    android:layout_alignBottom="@+id/ss_lesson_item_index"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#969696"
-                    android:textStyle="italic"
+                    android:ellipsize="end"
                     android:maxLines="1"
+                    android:textSize="@dimen/ss_lesson_item_date_text_size"
+                    android:textColor="@color/colorSecondary"
+                    android:textStyle="italic"
                     android:text="@{viewModel.date}"
                     tools:text="Lesson Title" />
-            </RelativeLayout>
 
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/ss_lesson_item_menu"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackground"
+                android:layout_height="wrap_content"
+                android:layout_width="@dimen/ss_lesson_item_menu_width"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
-                android:layout_alignTop="@+id/itemViewContent"
-                android:layout_alignBottom="@+id/itemViewContent"
-                android:layout_height="wrap_content"
-                android:layout_width="64dp">
+                android:layout_alignTop="@+id/ss_lesson_item_content"
+                android:layout_alignBottom="@+id/ss_lesson_item_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
 
                 <com.mikepenz.iconics.view.IconicsImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
+                    android:layout_width="@dimen/ss_lesson_item_menu_icon_size"
+                    android:layout_height="@dimen/ss_lesson_item_menu_icon_size"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
-                    app:iiv_color="#cccccc"
+                    app:iiv_color="@color/colorSecondary"
                     app:iiv_icon="gmd-more-vert" />
+
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="#979797"/>
+                android:background="@color/colorSecondary"/>
+
         </RelativeLayout>
 </layout>
