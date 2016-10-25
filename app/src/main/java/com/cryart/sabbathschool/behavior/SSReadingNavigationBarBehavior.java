@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.behavior;
 
-
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
@@ -46,8 +45,7 @@ class SSReadingNavigationBarBehavior<V extends View> extends VerticalScrollingBe
     }
 
     @Override
-    public void onNestedVerticalOverScroll(CoordinatorLayout coordinatorLayout, V child, @ScrollDirection int direction, int currentOverScroll, int totalOverScroll) {
-    }
+    public void onNestedVerticalOverScroll(CoordinatorLayout coordinatorLayout, V child, @ScrollDirection int direction, int currentOverScroll, int totalOverScroll) {}
 
     @Override
     public void onDirectionNestedPreScroll(CoordinatorLayout coordinatorLayout, V child, View target, int dx, int dy, int[] consumed, @ScrollDirection int scrollDirection) {
