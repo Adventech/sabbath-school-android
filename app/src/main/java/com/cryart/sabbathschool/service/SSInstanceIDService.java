@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.service;
 
-
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
