@@ -22,24 +22,34 @@
   -->
 
 <layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable name="emptyStateVisibility" type="int"/>
         <variable name="emptyStateLabel" type="String"/>
     </data>
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="@{emptyStateVisibility}">
 
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:layout_gravity="center|center_horizontal"
+            android:layout_width="@dimen/ss_misc_top_image_size"
+            android:layout_height="@dimen/ss_misc_top_image_size"
+            android:layout_marginTop="@dimen/ss_misc_top_image_margin_top"
+            app:iiv_color="@color/colorSecondaryLight"
+            app:iiv_icon="gmd-code" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{emptyStateLabel}"
-            android:layout_centerVertical="true"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
+            android:layout_gravity="center|center_horizontal"
+            android:layout_margin="@dimen/ss_misc_subheader_margin"
+            android:text="@{emptyStateLabel}" />
+    </LinearLayout>
+
 </layout>

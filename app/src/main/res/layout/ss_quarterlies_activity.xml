@@ -81,13 +81,11 @@
 
         <include
             layout="@layout/ss_empty_state"
-            android:id="@+id/ss_quarterlies_empty_state"
             bind:emptyStateVisibility="@{viewModel.ssQuarterliesEmptyStateVisibility}"
             bind:emptyStateLabel="@{@string/ss_quarterlies_empty}" />
 
         <include
             layout="@layout/ss_error_state"
-            android:id="@+id/ss_quarterlies_error_state"
             bind:errorStateVisibility="@{viewModel.ssQuarterliesErrorStateVisibility}"
             bind:errorStateLabel="@{@string/ss_quarterlies_error}" />
 

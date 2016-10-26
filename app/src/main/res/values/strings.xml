@@ -62,6 +62,10 @@
     <string name="ss_lessons_empty">It looks like there are no lessons at the moment</string>
     <string name="ss_lessons_read">Read</string>
 
+    <string name="ss_reading_empty">Looks like this lesson is empty. Please check back later</string>
+    <string name="ss_reading_error">Error occurred while opening lesson</string>
+    <string name="ss_reading_downloading">Opening lesson</string>
+
     <string name="ss_reading_comment">Comment</string>
     <string name="ss_reading_enter_comment">Enter your comment</string>
     <string name="ss_reading_copied">Selection copied.</string>
@@ -80,6 +84,10 @@
     <string translatable="false" name="ss_reading_display_options_typeface_pt_serif">@string/ss_settings_typeface_pt_serif</string>
     <string translatable="false" name="ss_reading_display_options_typeface_pt_sans">@string/ss_settings_typeface_pt_sans</string>
     <string translatable="false" name="ss_reading_display_options_aa">Aa</string>
+
+    <!--TODO: remove when done-->
+    <string name="ss_coming_soon_header">Coming Soon</string>
+    <string name="ss_coming_soon_subheader">We are working on this feature right now. Stay tuned, it\'s coming soon</string>
 
 
     <string name="ss_about_app_version">version 3.0</string>

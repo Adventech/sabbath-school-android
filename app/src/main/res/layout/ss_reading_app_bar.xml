@@ -36,6 +36,7 @@
         android:layout_height="@dimen/ss_reading_toolbar_height"
         android:layout_width="match_parent"
         android:theme="@style/AppTheme.AppBarOverlay"
+        android:visibility="@{viewModel.ssLessonCoordinatorVisibility}"
         app:expanded="true"
         app:elevation="@dimen/ss_app_bar_elevation">
 

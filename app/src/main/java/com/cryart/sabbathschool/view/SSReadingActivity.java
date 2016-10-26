@@ -154,6 +154,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
 
     @Override
     public void onReadChanged(SSRead ssRead){
+        binding.ssReadingViewScroll.smoothScrollTo(0, 0);
         binding.ssReadingView.loadRead(ssRead);
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setTitle(ssRead.title);
     }

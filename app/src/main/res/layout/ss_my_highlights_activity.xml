@@ -22,7 +22,6 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -43,7 +42,7 @@
             app:iiv_icon="gmd-code" />
 
         <TextView
-            android:text="Coming soon"
+            android:text="@string/ss_coming_soon_header"
             android:layout_gravity="center|center_horizontal"
             android:layout_marginTop="20dp"
             android:textStyle="bold"
@@ -52,7 +51,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:text="We are working on this feature right now. Stay tuned, it's coming soon"
+            android:text="@string/ss_coming_soon_subheader"
             android:textAlignment="center"
             android:layout_gravity="center|center_horizontal"
             android:layout_margin="10dp"
