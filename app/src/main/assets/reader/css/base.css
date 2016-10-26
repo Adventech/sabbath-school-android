@@ -114,6 +114,7 @@ code {
 }
 
 code .textarea {
+  font-weight: normal;
   border-radius: 3px;
   color: #222;
   margin: 20px -20px -20px;

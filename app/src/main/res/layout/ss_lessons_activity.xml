@@ -36,8 +36,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/ss_lessons_coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/background_light">
+        android:layout_height="match_parent">
 
         <include
             android:id="@+id/ss_lessons_app_bar"
@@ -58,13 +57,11 @@
 
         <include
             layout="@layout/ss_empty_state"
-            android:id="@+id/ss_quarterlies_empty_state"
             bind:emptyStateVisibility="@{viewModel.ssLessonsEmptyStateVisibility}"
             bind:emptyStateLabel="@{@string/ss_lessons_empty}" />
 
         <include
             layout="@layout/ss_error_state"
-            android:id="@+id/ss_quarterlies_error_state"
             bind:errorStateVisibility="@{viewModel.ssLessonsErrorStateVisibility}"
             bind:errorStateLabel="@{@string/ss_lessons_error}" />
 

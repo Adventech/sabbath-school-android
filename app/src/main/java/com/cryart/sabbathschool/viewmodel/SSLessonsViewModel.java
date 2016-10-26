@@ -57,7 +57,6 @@ public class SSLessonsViewModel implements SSViewModel {
     private DatabaseReference mDatabase;
     
     public ObservableInt ssLessonsLoadingVisibility;
-    public ObservableInt ssLessonsErrorMessageVisibility;
     public ObservableInt ssLessonsEmptyStateVisibility;
     public ObservableInt ssLessonsErrorStateVisibility;
     public ObservableInt ssLessonsCoordinatorVisibility;
@@ -71,7 +70,6 @@ public class SSLessonsViewModel implements SSViewModel {
         mDatabase.keepSynced(true);
 
         ssLessonsLoadingVisibility = new ObservableInt(View.INVISIBLE);
-        ssLessonsErrorMessageVisibility = new ObservableInt(View.INVISIBLE);
         ssLessonsEmptyStateVisibility = new ObservableInt(View.INVISIBLE);
         ssLessonsErrorStateVisibility = new ObservableInt(View.INVISIBLE);
         ssLessonsCoordinatorVisibility = new ObservableInt(View.INVISIBLE);
@@ -81,7 +79,6 @@ public class SSLessonsViewModel implements SSViewModel {
 
     private void loadQuarterlyInfo() {
         ssLessonsLoadingVisibility.set(View.VISIBLE);
-        ssLessonsErrorMessageVisibility.set(View.INVISIBLE);
         ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
         ssLessonsErrorStateVisibility.set(View.INVISIBLE);
         mDatabase.child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
@@ -99,7 +96,6 @@ public class SSLessonsViewModel implements SSViewModel {
                             editor.apply();
 
                             ssLessonsLoadingVisibility.set(View.INVISIBLE);
-                            ssLessonsErrorMessageVisibility.set(View.INVISIBLE);
                             ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
                             ssLessonsErrorStateVisibility.set(View.INVISIBLE);
                             ssLessonsCoordinatorVisibility.set(View.VISIBLE);
@@ -108,7 +104,6 @@ public class SSLessonsViewModel implements SSViewModel {
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        ssLessonsErrorMessageVisibility.set(View.VISIBLE);
                         ssLessonsLoadingVisibility.set(View.INVISIBLE);
                         ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
                         ssLessonsCoordinatorVisibility.set(View.INVISIBLE);

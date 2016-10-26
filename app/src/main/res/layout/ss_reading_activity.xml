@@ -35,8 +35,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/ss_reading_coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/background_light">
+        android:layout_height="match_parent">
 
         <include
             android:id="@+id/ss_reading_app_bar"
@@ -48,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="fill_vertical"
+            android:visibility="@{viewModel.ssLessonCoordinatorVisibility}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <com.cryart.sabbathschool.view.SSReadingView
@@ -153,5 +153,21 @@
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
+
+        <include
+            layout="@layout/ss_empty_state"
+            bind:emptyStateVisibility="@{viewModel.ssLessonEmptyStateVisibility}"
+            bind:emptyStateLabel="@{@string/ss_reading_empty}" />
+
+        <include
+            layout="@layout/ss_error_state"
+            bind:errorStateVisibility="@{viewModel.ssLessonErrorStateVisibility}"
+            bind:errorStateLabel="@{@string/ss_reading_error}" />
+
+        <include
+            layout="@layout/ss_progress_bar"
+            bind:progressVisibility="@{viewModel.ssLessonLoadingVisibility}"
+            bind:progressLabel="@{@string/ss_reading_downloading}"/>
+
     </android.support.design.widget.CoordinatorLayout>
 </layout>

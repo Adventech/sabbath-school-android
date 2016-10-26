@@ -80,6 +80,11 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     public ObservableInt ssReadPosition;
     public SSRead ssRead;
 
+    public ObservableInt ssLessonLoadingVisibility;
+    public ObservableInt ssLessonEmptyStateVisibility;
+    public ObservableInt ssLessonErrorStateVisibility;
+    public ObservableInt ssLessonCoordinatorVisibility;
+
     public SSReadingViewModel(Context context, DataListener dataListener, String ssLessonIndex, SsReadingActivityBinding ssReadingActivityBinding) {
         this.context = context;
         this.dataListener = dataListener;
@@ -101,10 +106,20 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
         ssReadingActivityBinding.ssReadingView.setReadingDisplayOptions(ssReadingDisplayOptions);
 
+        ssLessonLoadingVisibility = new ObservableInt(View.INVISIBLE);
+        ssLessonEmptyStateVisibility = new ObservableInt(View.INVISIBLE);
+        ssLessonErrorStateVisibility = new ObservableInt(View.INVISIBLE);
+        ssLessonCoordinatorVisibility = new ObservableInt(View.INVISIBLE);
+
         loadLessonInfo();
     }
 
     private void loadLessonInfo(){
+        ssLessonLoadingVisibility.set(View.VISIBLE);
+        ssLessonEmptyStateVisibility.set(View.INVISIBLE);
+        ssLessonErrorStateVisibility.set(View.INVISIBLE);
+        ssLessonCoordinatorVisibility.set(View.INVISIBLE);
+        
         mDatabase.child(SSConstants.SS_FIREBASE_LESSON_INFO_DATABASE)
                 .child(ssLessonIndex)
                 .addValueEventListener(new ValueEventListener() {
@@ -129,13 +144,27 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                                     idx++;
                                 }
                             }
+
+                            ssLessonCoordinatorVisibility.set(View.VISIBLE);
+                            ssLessonLoadingVisibility.set(View.INVISIBLE);
+                            ssLessonEmptyStateVisibility.set(View.INVISIBLE);
+                            ssLessonErrorStateVisibility.set(View.VISIBLE);
+
                             loadRead();
+                        } else {
+                            ssLessonEmptyStateVisibility.set(View.VISIBLE);
+                            ssLessonErrorStateVisibility.set(View.INVISIBLE);
+                            ssLessonLoadingVisibility.set(View.INVISIBLE);
+                            ssLessonCoordinatorVisibility.set(View.INVISIBLE);
                         }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
+                        ssLessonErrorStateVisibility.set(View.VISIBLE);
+                        ssLessonLoadingVisibility.set(View.INVISIBLE);
+                        ssLessonEmptyStateVisibility.set(View.INVISIBLE);
+                        ssLessonCoordinatorVisibility.set(View.INVISIBLE);
                     }
                 });
     }
