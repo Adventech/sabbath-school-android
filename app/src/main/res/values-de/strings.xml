@@ -1,0 +1,89 @@
+<!--
+  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">Sabbatschule</string>
+    <string name="ss_share">Aktie</string>
+    <string name="ss_login_button_google">Anmeldung mit Google</string>
+    <string name="ss_login_button_facebook">Mit Facebook anmelden</string>
+    <string name="ss_login_button_anonymous">Weiter anonym</string>
+    <string name="ss_menu_anonymous_name">Anonym</string>
+    <string name="ss_menu_sign_out">Ausloggen</string>
+    <string name="ss_menu_read_now">Lies jetzt</string>
+    <string name="ss_menu_share_app">App teilen</string>
+    <string name="ss_menu_share_app_text">Ich bin mit diesem Sabbat Schule App</string>
+    <string name="ss_my_highlights">Meine Highlights</string>
+    <string name="ss_my_notes">Meine Notizen</string>
+    <string name="ss_settings">Einstellungen</string>
+    <string name="ss_about">Etwa</string>
+    <string name="ss_login_failed">Anmeldung fehlgeschlagen. Bitte versuche es erneut</string>
+    <string name="ss_login_anonymously_dialog_positive">Ja</string>
+    <string name="ss_login_anonymously_dialog_negative">Nein</string>
+    <string name="ss_login_anonymously_dialog_title">Einloggen anonym?</string>
+    <string name="ss_login_anonymously_dialog_description">Mit der Anmeldung anonym werden Sie nicht in der Lage sein, sich auf Ihre Daten, wie zum Beispiel Kommentare und Highlights, auf verschiedenen Geräten synchronisieren oder nach der Anwendung zu deinstallieren. Sind Sie sicher, dass Sie fortfahren möchten?</string>
+    <string name="ss_quarterlies_filter_languages">Filter Sprachen</string>
+    <string name="ss_quarterlies_downloading">Herunterladen vierteljährlich</string>
+    <string name="ss_quarterlies_error">Unbekannter Fehler aufgetreten. Bitte versuche es erneut</string>
+    <string name="ss_quarterlies_empty">Es sieht aus wie es nicht Quarter im Moment</string>
+    <string name="ss_quarterly_item_read_text">Öffnen</string>
+    <string name="ss_lessons_downloading">Herunterzuladen…</string>
+    <string name="ss_lessons_error">Fehler beim Öffnen vierteljährlich</string>
+    <string name="ss_lessons_empty">Es sieht aus wie es kein Unterricht im Moment sind</string>
+    <string name="ss_lessons_read">Lesen</string>
+    <string name="ss_reading_empty">Sieht aus wie diese Lektion ist leer. Versuchen Sie es später</string>
+    <string name="ss_reading_error">Fehler beim Öffnen Lektion</string>
+    <string name="ss_reading_downloading">Öffnungsstunde</string>
+    <string name="ss_reading_suggest_edit">Schlagen Sie bearbeiten oder Korrektur</string>
+    <string name="ss_reading_suggest_edit_hint">Bitte beschreiben Sie Ihre Korrektur oder einen Vorschlag</string>
+    <string name="ss_reading_suggest_edit_done">Vielen Dank! Ihr Vorschlag wird überprüft</string>
+    <string name="ss_reading_comment">Kommentar</string>
+    <string name="ss_reading_enter_comment">Geben Sie Ihren Kommentar</string>
+    <string name="ss_reading_copied">Auswahl kopiert.</string>
+    <string name="ss_reading_share_to">Teilen Auswahl:</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">Demnächst</string>
+    <string name="ss_coming_soon_subheader">Wir arbeiten jetzt auf diese Funktion. Bleiben Sie dran, es kommt bald</string>
+    <string name="ss_about_app_version">version 3.0</string>
+    <string name="ss_about_made">Hergestellt mit &#10084; von Adventech</string>
+    <string name="ss_settings_display_options">Anzeigeoptionen</string>
+    <string name="ss_settings_color_theme">Farbe Thema</string>
+    <string name="ss_settings_color_theme_light">Licht</string>
+    <string name="ss_settings_color_theme_sepia">Sepia</string>
+    <string name="ss_settings_color_theme_dark">Dunkel</string>
+    <string name="ss_settings_typeface">Schrift</string>
+    <string name="ss_settings_font_size">Schriftgröße</string>
+    <string name="ss_settings_font_size_tiny">Sehr klein</string>
+    <string name="ss_settings_font_size_small">Klein</string>
+    <string name="ss_settings_font_size_medium">Mittel</string>
+    <string name="ss_settings_font_size_large">Groß</string>
+    <string name="ss_settings_font_size_huge">Enorm</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">Bewerten Sabbatschule</string>
+    <string name="rate_dialog_message">Wenn Sie Sabbatschule mögen, würde es Ihnen etwas ausmachen man einen Moment dauert es, um zu bewerten? Danke für deine Unterstützung!</string>
+    <string name="rate_dialog_ok">Bewerte es</string>
+    <string name="rate_dialog_cancel">Später</string>
+    <string name="rate_dialog_no">Nein</string>
+    
+    <string name="ss_settings_website">Webseite</string>
+</resources>

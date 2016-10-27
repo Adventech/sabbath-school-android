@@ -1,0 +1,88 @@
+<!--
+  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">Escola Sabatina</string>
+    <string name="ss_share">Compartilhar</string>
+    <string name="ss_login_button_google">Faça login no Google</string>
+    <string name="ss_login_button_facebook">Faça login no Facebook</string>
+    <string name="ss_login_button_anonymous">Continue anonimamente</string>
+    <string name="ss_menu_anonymous_name">Anônimo</string>
+    <string name="ss_menu_sign_out">Sair</string>
+    <string name="ss_menu_read_now">Leia agora</string>
+    <string name="ss_menu_share_app">Compartilhar App</string>
+    <string name="ss_menu_share_app_text">Confira, estou usando este aplicativo Escola Sabatina</string>
+    <string name="ss_my_highlights">Meus Highlights</string>
+    <string name="ss_my_notes">Minhas Hnotações</string>
+    <string name="ss_settings">Configurações</string>
+    <string name="ss_about">Sobre</string>
+    <string name="ss_login_failed">Falha na autenticação. Por favor, tente novamente</string>
+    <string name="ss_login_anonymously_dialog_positive">Sim</string>
+    <string name="ss_login_anonymously_dialog_negative">Não</string>
+    <string name="ss_login_anonymously_dialog_title">Entre anonimamente?</string>
+    <string name="ss_login_anonymously_dialog_description">Ao iniciar a sessão anonimamente você não será capaz de sincronizar os dados, tais como comentários e destaques, através de dispositivos ou após a desinstalação do aplicativo. Tem certeza de que deseja continuar?</string>
+    <string name="ss_quarterlies_filter_languages">Filtro de Idiomas</string>
+    <string name="ss_quarterlies_downloading">Obtendo trimestrais…</string>
+    <string name="ss_quarterlies_error">Ocorreu um erro desconhecido. Por favor, tente novamente</string>
+    <string name="ss_quarterlies_empty">Parece que não há trimestrais no momento</string>
+    <string name="ss_quarterly_item_read_text">Aberto</string>
+    <string name="ss_lessons_downloading">Abrindo trimestral…</string>
+    <string name="ss_lessons_error">Ocorreu um erro ao abrir trimestral</string>
+    <string name="ss_lessons_empty">Parece que não há aulas no momento</string>
+    <string name="ss_lessons_read">Ler</string>
+    <string name="ss_reading_empty">Parece que esta lição está vazio. Por favor, volte mais tarde</string>
+    <string name="ss_reading_error">Ocorreu um erro ao abrir lição</string>
+    <string name="ss_reading_downloading">Lição de abertura</string>
+    <string name="ss_reading_suggest_edit">Sugerir editar ou correção</string>
+    <string name="ss_reading_suggest_edit_hint">Por favor, descreva a sua correção ou sugestão</string>
+    <string name="ss_reading_suggest_edit_done">Obrigado! Sua sugestão será revista</string>
+    <string name="ss_reading_comment">Comente</string>
+    <string name="ss_reading_enter_comment">Digite o seu comentário</string>
+    <string name="ss_reading_copied">Selecção copiado.</string>
+    <string name="ss_reading_share_to">selecção Partilhar no:</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">Em breve</string>
+    <string name="ss_coming_soon_subheader">Estamos a trabalhar sobre este recurso agora. Fique atento, está vindo em breve</string>
+    <string name="ss_about_app_version">versão 3.0</string>
+    <string name="ss_about_made">Feito com &#10084; por Adventech</string>
+    <string name="ss_settings_display_options">Opções de exibição</string>
+    <string name="ss_settings_color_theme">Tema de cor</string>
+    <string name="ss_settings_color_theme_light">Leve</string>
+    <string name="ss_settings_color_theme_sepia">Sépia</string>
+    <string name="ss_settings_color_theme_dark">Escuro</string>
+    <string name="ss_settings_typeface">Typeface</string>
+    <string name="ss_settings_font_size">Tamanho da fonte</string>
+    <string name="ss_settings_font_size_tiny">Minúsculo</string>
+    <string name="ss_settings_font_size_small">Pequeno</string>
+    <string name="ss_settings_font_size_medium">Médio</string>
+    <string name="ss_settings_font_size_large">Grande</string>
+    <string name="ss_settings_font_size_huge">Enorme</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">Taxa de Escola Sabatina</string>
+    <string name="rate_dialog_message">Se você gosta da Escola Sabatina, você se importaria de tomar um momento para avaliá-lo? Obrigado por seu apoio!</string>
+    <string name="rate_dialog_ok">Avalie</string>
+    <string name="rate_dialog_cancel">Mais tarde</string>
+    <string name="rate_dialog_no">Não</string>
+    <string name="ss_settings_website">Site</string>
+</resources>
