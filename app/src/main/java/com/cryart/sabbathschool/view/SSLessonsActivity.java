@@ -37,6 +37,8 @@ import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
 import com.cryart.sabbathschool.viewmodel.SSLessonsViewModel;
 
+import hotchemi.android.rate.AppRate;
+
 public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewModel.DataListener {
     private static final String TAG = SSLessonsActivity.class.getSimpleName();
 
@@ -46,6 +48,9 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AppRate.with(this).setInstallDays(SSConstants.SS_APP_RATE_INSTALL_DAYS).monitor();
+        AppRate.showRateDialogIfMeetsConditions(this);
 
         binding = DataBindingUtil.setContentView(this, R.layout.ss_lessons_activity);
 

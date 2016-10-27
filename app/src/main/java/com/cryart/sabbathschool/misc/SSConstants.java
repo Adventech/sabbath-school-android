@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.misc;
 
 public class SSConstants {
+    public static final int SS_APP_RATE_INSTALL_DAYS = 7;
     public static final int SS_GOOGLE_SIGN_IN_CODE = 9001;
 
     public static final String SS_DATE_FORMAT = "dd/MM/yyyy";
