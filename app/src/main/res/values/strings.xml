@@ -103,19 +103,19 @@
 
     <string name="ss_about_made">Made with &#10084; by Adventech</string>
 
-    <string name="ss_settings_display_options">Display Options</string>
+    <string name="ss_settings_display_options">Display options</string>
     <string name="ss_settings_color_theme">Color theme</string>
     <string name="ss_settings_color_theme_light">Light</string>
     <string name="ss_settings_color_theme_sepia">Sepia</string>
     <string name="ss_settings_color_theme_dark">Dark</string>
 
     <string name="ss_settings_typeface">Typeface</string>
-    <string name="ss_settings_typeface_andada">Andada</string>
-    <string name="ss_settings_typeface_lato">Lato</string>
-    <string name="ss_settings_typeface_pt_serif">PT Serif</string>
-    <string name="ss_settings_typeface_pt_sans">PT Sans</string>
+    <string translatable="false" name="ss_settings_typeface_andada">Andada</string>
+    <string translatable="false" name="ss_settings_typeface_lato">Lato</string>
+    <string translatable="false" name="ss_settings_typeface_pt_serif">PT Serif</string>
+    <string translatable="false" name="ss_settings_typeface_pt_sans">PT Sans</string>
 
-    <string name="ss_settings_font_size">Font Size</string>
+    <string name="ss_settings_font_size">Font size</string>
     <string name="ss_settings_font_size_tiny">Tiny</string>
     <string name="ss_settings_font_size_small">Small</string>
     <string name="ss_settings_font_size_medium">Medium</string>

@@ -1,0 +1,88 @@
+<!--
+  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">Şabat Okulu</string>
+    <string name="ss_share">Hisse</string>
+    <string name="ss_login_button_google">Google ile oturum</string>
+    <string name="ss_login_button_facebook">Facebook ile giriş</string>
+    <string name="ss_login_button_anonymous">Anonim Devam</string>
+    <string name="ss_menu_anonymous_name">Anonim</string>
+    <string name="ss_menu_sign_out">Oturumu Kapat</string>
+    <string name="ss_menu_read_now">Şimdi Oku</string>
+    <string name="ss_menu_share_app">Hisse App</string>
+    <string name="ss_menu_share_app_text">Ben bu Sabbath Okulu uygulamasını kullanıyorum</string>
+    <string name="ss_my_highlights">Benim Önemli</string>
+    <string name="ss_my_notes">Notlarım</string>
+    <string name="ss_settings">Ayarlar</string>
+    <string name="ss_about">Hakkında</string>
+    <string name="ss_login_failed">Giriş başarısız. Lütfen tekrar deneyin</string>
+    <string name="ss_login_anonymously_dialog_positive">Evet</string>
+    <string name="ss_login_anonymously_dialog_negative">Yok hayır</string>
+    <string name="ss_login_anonymously_dialog_title">Anonim Girişi?</string>
+    <string name="ss_login_anonymously_dialog_description">anonim oturum açtığınızda, cihazlar arasında veya uygulamayı kaldırdıktan sonra, bu tür yorumlar ve vurgular gibi verilerinizi, eşitlemek mümkün olmayacaktır. Devam etmek istediğinizden emin misiniz?</string>
+    <string name="ss_quarterlies_filter_languages">Filtre Diller</string>
+    <string name="ss_quarterlies_downloading">Quarterlies alınıyor …</string>
+    <string name="ss_quarterlies_error">Bilinmeyen bir hata oluştu. Lütfen tekrar deneyin</string>
+    <string name="ss_quarterlies_empty">Şu anda üç aylıkları yoktur gibi görünüyor</string>
+    <string name="ss_quarterly_item_read_text">Açık</string>
+    <string name="ss_lessons_downloading">Üç aylık Açılış …</string>
+    <string name="ss_lessons_error">Üç aylık açılırken hata oluştu</string>
+    <string name="ss_lessons_empty">Şu anda hiçbir dersler vardır gibi görünüyor</string>
+    <string name="ss_lessons_read">Okumak</string>
+    <string name="ss_reading_empty">Bu ders boş gibi görünüyor. Lütfen daha sonra tekrar</string>
+    <string name="ss_reading_error">Ders açılırken hata oluştu</string>
+    <string name="ss_reading_downloading">Açılış dersi</string>
+    <string name="ss_reading_suggest_edit">Düzenlemek veya düzeltme öner</string>
+    <string name="ss_reading_suggest_edit_hint">Senin düzeltme veya öneriyi lütfen açıklayınız</string>
+    <string name="ss_reading_suggest_edit_done">Teşekkür ederim! Öneriniz gözden geçirilecektir</string>
+    <string name="ss_reading_comment">Yorum Yap</string>
+    <string name="ss_reading_enter_comment">Yorumunuzu girin</string>
+    <string name="ss_reading_copied">Seçim kopyalandı.</string>
+    <string name="ss_reading_share_to">Hisse seçimi için:</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">Pek yakında</string>
+    <string name="ss_coming_soon_subheader">Şu anda bu özellik üzerinde çalışıyor. Bizi izlemeye devam edin, yakında geliyor</string>
+    <string name="ss_about_app_version">Sürüm 3.0</string>
+    <string name="ss_about_made">Adventech tarafından &#10084; ile yapılan</string>
+    <string name="ss_settings_display_options">Görüntüleme seçenekleri</string>
+    <string name="ss_settings_color_theme">Eenk teması</string>
+    <string name="ss_settings_color_theme_light">Işık</string>
+    <string name="ss_settings_color_theme_sepia">Sepya</string>
+    <string name="ss_settings_color_theme_dark">Karanlık</string>
+    <string name="ss_settings_typeface">Harf karakteri</string>
+    <string name="ss_settings_font_size">Yazı Boyutu</string>
+    <string name="ss_settings_font_size_tiny">Minik</string>
+    <string name="ss_settings_font_size_small">Küçük</string>
+    <string name="ss_settings_font_size_medium">Orta</string>
+    <string name="ss_settings_font_size_large">Büyük</string>
+    <string name="ss_settings_font_size_huge">Kocaman</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">Puan Sabbath Okulu</string>
+    <string name="rate_dialog_message">Eğer Sabbath Okulu isterseniz, bunu değerlendirmek için bir dakikanızı alıyor misin? Desteğin için teşekkürler!</string>
+    <string name="rate_dialog_ok">Oyla</string>
+    <string name="rate_dialog_cancel">Sonra</string>
+    <string name="rate_dialog_no">Yok hayır</string>
+    <string name="ss_settings_website">Web sitesi</string>
+</resources>
