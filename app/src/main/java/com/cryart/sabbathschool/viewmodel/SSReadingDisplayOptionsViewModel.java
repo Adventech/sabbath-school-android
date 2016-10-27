@@ -39,7 +39,6 @@ public class SSReadingDisplayOptionsViewModel implements SSViewModel {
         this.ssReadingViewModel = ssReadingViewModel;
         this.binding = binding;
 
-        Log.d("SSRead", ssReadingDisplayOptions.size);
         updateWidget();
 
         binding.ssReadingMenuDisplayOptionsSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
