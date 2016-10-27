@@ -452,7 +452,6 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
     public void onDisplayOptionsClick(){
         SSReadingDisplayOptionsView ssReadingDisplayOptionsView = new SSReadingDisplayOptionsView();
-        Log.d(TAG, ssReadingDisplayOptions.size);
         ssReadingDisplayOptionsView.setSSReadingViewModel(context, this, ssReadingDisplayOptions);
         ssReadingDisplayOptionsView.show(((SSReadingActivity)context).getSupportFragmentManager(), ssReadingDisplayOptionsView.getTag());
     }
