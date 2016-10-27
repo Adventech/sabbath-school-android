@@ -44,15 +44,33 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
 
-    defaultConfig {
-        applicationId "com.cryart.sabbathschool"
-        minSdkVersion 14
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0.2"
+    def versionPropsFile = file('version.properties')
 
-        vectorDrawables.useSupportLibrary = true
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        def versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
+
+        versionProps['VERSION_BUILD']=versionBuild.toString()
+        versionProps.store(versionPropsFile.newWriter(), null)
+
+        defaultConfig {
+            applicationId "com.cryart.sabbathschool"
+            minSdkVersion 14
+            targetSdkVersion 24
+            versionCode 1
+            versionName "3.0." + versionBuild
+
+            vectorDrawables.useSupportLibrary = true
+        }
     }
+    else {
+        throw new GradleException("Could not read version.properties!")
+    }
+
+
 
     signingConfigs {
         release {
