@@ -22,8 +22,11 @@
 
 package com.cryart.sabbathschool.model;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.List;
 
+@IgnoreExtraProperties
 public class SSLessonInfo {
     public SSLesson lesson;
     public List<SSDay> days;

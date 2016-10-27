@@ -22,6 +22,9 @@
 
 package com.cryart.sabbathschool.model;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
+@IgnoreExtraProperties
 public class SSQuarterlyLanguage {
     public String code;
     public String name;

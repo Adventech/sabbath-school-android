@@ -22,6 +22,9 @@
 
 package com.cryart.sabbathschool.model;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
+@IgnoreExtraProperties
 public class SSQuarterly {
     public String id;
     public String title;

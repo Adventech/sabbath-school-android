@@ -22,19 +22,21 @@
 
 package com.cryart.sabbathschool.model;
 
+
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @IgnoreExtraProperties
-public class SSQuarterlyInfo {
-    public SSQuarterly quarterly;
-    public List<SSLesson> lessons;
+public class SSBibleVerses {
+    public String name;
+    public Map<String, String> verses = new HashMap<>();
 
-    public SSQuarterlyInfo() {}
+    public SSBibleVerses(){}
 
-    public SSQuarterlyInfo(SSQuarterly quarterly, List<SSLesson> lessons){
-        this.quarterly = quarterly;
-        this.lessons = lessons;
+    public SSBibleVerses(String name, Map<String, String> verses){
+        this.name = name;
+        this.verses = verses;
     }
 }

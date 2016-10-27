@@ -28,13 +28,16 @@ public class SSConstants {
     public static final String SS_DATE_FORMAT = "dd/MM/yyyy";
     public static final String SS_DATE_FORMAT_OUTPUT = "MMMM d";
 
-    public static final String SS_FIREBASE_LANGUAGES_DATABASE = "languages";
-    public static final String SS_FIREBASE_QUARTERLIES_DATABASE = "quarterlies";
-    public static final String SS_FIREBASE_QUARTERLY_INFO_DATABASE = "quarterly-info";
-    public static final String SS_FIREBASE_LESSON_INFO_DATABASE = "lesson-info";
-    public static final String SS_FIREBASE_READS_DATABASE = "reads";
+    public static final String SS_FIREBASE_API_PREFIX = "/api/v1";
+    public static final String SS_FIREBASE_LANGUAGES_DATABASE = SS_FIREBASE_API_PREFIX + "/languages";
+    public static final String SS_FIREBASE_QUARTERLIES_DATABASE = SS_FIREBASE_API_PREFIX + "/quarterlies";
+    public static final String SS_FIREBASE_QUARTERLY_INFO_DATABASE = SS_FIREBASE_API_PREFIX + "/quarterly-info";
+    public static final String SS_FIREBASE_LESSON_INFO_DATABASE = SS_FIREBASE_API_PREFIX + "/lesson-info";
+    public static final String SS_FIREBASE_READS_DATABASE = SS_FIREBASE_API_PREFIX + "/reads";
+
     public static final String SS_FIREBASE_HIGHLIGHTS_DATABASE = "highlights";
     public static final String SS_FIREBASE_COMMENTS_DATABASE = "comments";
+    public static final String SS_FIREBASE_SUGGESTIONS_DATABASE = "suggestions";
 
     public static final String SS_QUARTERLY_INDEX_EXTRA = "SS_QUARTERLY_INDEX";
     public static final String SS_LESSON_INDEX_EXTRA = "SS_LESSON_INDEX";

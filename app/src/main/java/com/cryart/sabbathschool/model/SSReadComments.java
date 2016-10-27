@@ -22,8 +22,11 @@
 
 package com.cryart.sabbathschool.model;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.List;
 
+@IgnoreExtraProperties
 public class SSReadComments {
     public String readIndex;
     public List<SSComment> comments;
