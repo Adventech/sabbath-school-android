@@ -23,7 +23,6 @@
 package com.cryart.sabbathschool.viewmodel;
 
 
-import android.util.Log;
 import android.widget.SeekBar;
 
 import com.cryart.sabbathschool.databinding.SsReadingDisplayOptionsBinding;
