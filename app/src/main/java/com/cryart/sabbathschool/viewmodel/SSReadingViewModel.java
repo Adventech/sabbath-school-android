@@ -29,12 +29,16 @@ import android.content.SharedPreferences;
 import android.databinding.ObservableInt;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.misc.SSHelper;
@@ -46,6 +50,7 @@ import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.model.SSReadComments;
 import com.cryart.sabbathschool.model.SSReadHighlights;
 import com.cryart.sabbathschool.model.SSReadingDisplayOptions;
+import com.cryart.sabbathschool.model.SSSuggestion;
 import com.cryart.sabbathschool.view.SSReadingActivity;
 import com.cryart.sabbathschool.view.SSReadingDisplayOptionsView;
 import com.cryart.sabbathschool.view.SSReadingView;
@@ -57,10 +62,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback {
     private static final String TAG = SSReadingViewModel.class.getSimpleName();
@@ -148,7 +156,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                             ssLessonCoordinatorVisibility.set(View.VISIBLE);
                             ssLessonLoadingVisibility.set(View.INVISIBLE);
                             ssLessonEmptyStateVisibility.set(View.INVISIBLE);
-                            ssLessonErrorStateVisibility.set(View.VISIBLE);
+                            ssLessonErrorStateVisibility.set(View.INVISIBLE);
 
                             loadRead();
                         } else {
@@ -167,6 +175,30 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                         ssLessonCoordinatorVisibility.set(View.INVISIBLE);
                     }
                 });
+    }
+
+    public void promptForEditSuggestion(){
+        if (ssRead != null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            final String name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, context.getString(R.string.ss_menu_anonymous_name));
+            final String email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, context.getString(R.string.ss_menu_anonymous_email));
+
+            new MaterialDialog.Builder(context)
+                    .title(context.getString(R.string.ss_reading_suggest_edit))
+                    .inputType(InputType.TYPE_CLASS_TEXT)
+                    .input(context.getString(R.string.ss_reading_suggest_edit_hint), "", new MaterialDialog.InputCallback() {
+                        @Override
+                        public void onInput(@NotNull MaterialDialog dialog, CharSequence input) {
+
+                            mDatabase.child(SSConstants.SS_FIREBASE_SUGGESTIONS_DATABASE)
+                                    .child(ssFirebaseAuth.getCurrentUser().getUid())
+                                    .child(ssRead.index)
+                                    .setValue(new SSSuggestion(name, email, input.toString()));
+
+                            Toast.makeText(getApplicationContext(), context.getString(R.string.ss_reading_suggest_edit_done), Toast.LENGTH_LONG).show();
+                        }
+                    }).show();
+        }
     }
 
     private void loadRead(){

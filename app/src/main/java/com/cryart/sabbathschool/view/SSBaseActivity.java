@@ -54,7 +54,7 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
     private static final String TAG = SSBaseActivity.class.getSimpleName();
 
     private static final String APP_PLAY_STORE_LINK = "https://play.google.com/store/apps/details?id=com.cryart.sabbathschool";
-    private static final String MENU_ANONYMOUS_PHOTO = "https://sabbath-school.adventech.io/api/v1/anonymous-photo.png";
+    public static final String MENU_ANONYMOUS_PHOTO = "https://sabbath-school.adventech.io/api/v1/anonymous-photo.png";
     private static final int MENU_READ_ID = 1;
     private static final int MENU_HIGHLIGHTS_ID = 2;
     private static final int MENU_NOTES_ID = 3;

@@ -66,6 +66,9 @@
     <string name="ss_reading_error">Error occurred while opening lesson</string>
     <string name="ss_reading_downloading">Opening lesson</string>
 
+    <string name="ss_reading_suggest_edit">Suggest edit or correction</string>
+    <string name="ss_reading_suggest_edit_hint">Please describe your correction or suggestion</string>
+    <string name="ss_reading_suggest_edit_done">Thank you! Your suggestion will be reviewed</string>
     <string name="ss_reading_comment">Comment</string>
     <string name="ss_reading_enter_comment">Enter your comment</string>
     <string name="ss_reading_copied">Selection copied.</string>

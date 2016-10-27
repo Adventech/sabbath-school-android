@@ -24,17 +24,17 @@ package com.cryart.sabbathschool.model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.util.List;
-
 @IgnoreExtraProperties
-public class SSQuarterlyInfo {
-    public SSQuarterly quarterly;
-    public List<SSLesson> lessons;
+public class SSSuggestion {
+    public String name;
+    public String email;
+    public String suggestion;
 
-    public SSQuarterlyInfo() {}
+    public SSSuggestion(){}
 
-    public SSQuarterlyInfo(SSQuarterly quarterly, List<SSLesson> lessons){
-        this.quarterly = quarterly;
-        this.lessons = lessons;
+    public SSSuggestion(String name, String email, String suggestion){
+        this.name = name;
+        this.email = email;
+        this.suggestion = suggestion;
     }
 }
