@@ -23,7 +23,14 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.cryart.sabbathschool.viewmodel.SSAboutViewModel" />
+    </data>
 
     <LinearLayout
         android:orientation="vertical"
@@ -69,7 +76,8 @@
             android:paddingTop="@dimen/ss_about_list_padding"
             android:paddingBottom="@dimen/ss_about_list_padding"
             android:background="?attr/selectableItemBackground"
-            android:clickable="true">
+            android:clickable="true"
+            android:onClick="@{() -> viewModel.onFacebookClick()}">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -105,7 +113,8 @@
             android:paddingTop="@dimen/ss_about_list_padding"
             android:paddingBottom="@dimen/ss_about_list_padding"
             android:background="?attr/selectableItemBackground"
-            android:clickable="true">
+            android:clickable="true"
+            android:onClick="@{() -> viewModel.onInstagramClick()}">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -140,7 +149,8 @@
             android:paddingTop="@dimen/ss_about_list_padding"
             android:paddingBottom="@dimen/ss_about_list_padding"
             android:background="?attr/selectableItemBackground"
-            android:clickable="true">
+            android:clickable="true"
+            android:onClick="@{() -> viewModel.onGitHubClick()}">
 
             <LinearLayout
                 android:orientation="vertical"

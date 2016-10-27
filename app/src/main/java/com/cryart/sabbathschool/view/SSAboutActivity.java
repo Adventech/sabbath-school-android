@@ -32,15 +32,15 @@ import android.view.MenuItem;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsAboutActivityBinding;
+import com.cryart.sabbathschool.viewmodel.SSAboutViewModel;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SSAboutActivity extends AppCompatActivity {
-    private SsAboutActivityBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.ss_about_activity);
+        SsAboutActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.ss_about_activity);
         setSupportActionBar(binding.ssAppBar.ssToolbar);
         ActionBar ssToolbar = getSupportActionBar();
         if (ssToolbar != null) {
@@ -48,7 +48,8 @@ public class SSAboutActivity extends AppCompatActivity {
             ssToolbar.setDisplayShowTitleEnabled(false);
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
-        binding.ssAppBar.toolbarTitle.setText("About");
+        binding.ssAppBar.toolbarTitle.setText(getString(R.string.ss_about));
+        binding.setViewModel(new SSAboutViewModel(this));
     }
 
     @Override

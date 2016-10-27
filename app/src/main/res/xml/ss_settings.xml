@@ -57,7 +57,7 @@
             android:selectable="true">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="http://adventech.io" />
+                android:data="@string/ss_settings_website_url" />
         </Preference>
 
         <Preference
@@ -67,7 +67,7 @@
             android:selectable="true">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://facebook.com/shabbatschool" />
+                android:data="@string/ss_settings_facebook_url" />
         </Preference>
 
         <Preference
@@ -77,7 +77,7 @@
             android:selectable="true">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://instagram.com/adventech" />
+                android:data="@string/ss_settings_instagram_url" />
         </Preference>
 
         <Preference
@@ -87,7 +87,7 @@
             android:selectable="true">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/Adventech/sabbath-school-android-2" />
+                android:data="@string/ss_settings_github_url" />
         </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
