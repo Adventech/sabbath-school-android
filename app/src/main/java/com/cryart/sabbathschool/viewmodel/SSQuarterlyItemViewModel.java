@@ -33,11 +33,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.view.SSLessonsActivity;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewModel {
     private SSQuarterly ssQuarterly;
@@ -72,9 +72,9 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
     @BindingAdapter({"coverUrl"})
     public static void loadCover(ImageView view, String coverUrl) {
         ViewCompat.setElevation(view, 15.0f);
-        Glide.with(view.getContext())
-                .load(coverUrl)
-                .into(view);
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.displayImage(coverUrl, view);
     }
 
     public void onReadClick(View view) {
