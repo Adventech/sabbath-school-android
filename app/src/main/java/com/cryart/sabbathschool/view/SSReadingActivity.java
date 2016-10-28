@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.view;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -34,10 +35,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.adapter.SSReadingSheetAdapter;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
@@ -47,6 +44,8 @@ import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 public class SSReadingActivity extends SSBaseActivity implements SSReadingViewModel.DataListener {
     private static final String TAG = SSReadingActivity.class.getSimpleName();
@@ -133,25 +132,15 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         final SSReadingSheetAdapter adapter = (SSReadingSheetAdapter) binding.ssReadingSheetList.getAdapter();
         adapter.setDays(ssLessonInfo.days);
 
-        Glide.with(this)
-                .load(ssLessonInfo.lesson.cover)
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        adapter.notifyDataSetChanged();
-                        binding.invalidateAll();
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        resource.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.OVERLAY);
-                        adapter.notifyDataSetChanged();
-                        binding.invalidateAll();
-                        return false;
-                    }
-                })
-                .into(binding.ssReadingAppBar.ssCollapsingToolbarBackdrop);
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.loadImage(ssLessonInfo.lesson.cover, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.setImageBitmap(loadedImage);
+                binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.OVERLAY);
+                binding.invalidateAll();
+            }
+        });
     }
 
     @Override

@@ -32,7 +32,6 @@ import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLesson;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
@@ -42,6 +41,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -173,9 +173,9 @@ public class SSLessonsViewModel implements SSViewModel {
     @BindingAdapter({"coverUrl"})
     public static void loadCover(ImageView view, String coverUrl) {
         ViewCompat.setElevation(view, 15.0f);
-        Glide.with(view.getContext())
-                .load(coverUrl)
-                .into(view);
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.displayImage(coverUrl, view);
     }
 
     public interface DataListener {
