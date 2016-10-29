@@ -81,7 +81,7 @@ public class SSBibleVersesView extends WebView {
         SSReadingDisplayOptions ssReadingDisplayOptions = new SSReadingDisplayOptions(
                 prefs.getString(SSConstants.SS_SETTINGS_THEME_KEY, SSReadingDisplayOptions.SS_THEME_LIGHT),
                 prefs.getString(SSConstants.SS_SETTINGS_SIZE_KEY, SSReadingDisplayOptions.SS_SIZE_MEDIUM),
-                prefs.getString(SSConstants.SS_SETTINGS_FONT_KEY, SSReadingDisplayOptions.SS_FONT_LATO)
+                prefs.getString(SSConstants.SS_SETTINGS_FONT_KEY, SSReadingDisplayOptions.SS_FONT_ANDADA)
         );
 
         String content = content_app.replaceAll("\\{\\{content\\}\\}", verseContent);
