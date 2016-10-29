@@ -69,6 +69,7 @@
     <string name="ss_reading_enter_comment">Escriba su comentario</string>
     <string name="ss_reading_copied">Selección copiada</string>
     <string name="ss_reading_share_to">Compartir selección a:</string>
+    <string name="ss_bible">Biblia</string>
 
     <!--TODO: remove when done-->
     <string name="ss_coming_soon_header">Próximamente</string>

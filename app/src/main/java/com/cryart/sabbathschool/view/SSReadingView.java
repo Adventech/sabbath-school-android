@@ -68,6 +68,7 @@ public class SSReadingView extends WebView {
     private ContextMenuCallback contextMenuCallback;
     private HighlightsCommentsCallback highlightsCommentsCallback;
     private SSReadingDisplayOptions ssReadingDisplayOptions;
+    private String ssReaderContent;
 
     public SSReadViewBridge ssReadViewBridge;
 
@@ -186,7 +187,12 @@ public class SSReadingView extends WebView {
 
     public void loadRead(SSRead ssRead){
         // We don't want any flickering of themes, right?
-        String content = readFileFromAssets(getContext(), "reader/index.html").replaceAll("\\{\\{content\\}\\}", ssRead.content);
+        if (ssReaderContent == null){
+            ssReaderContent = readFileFromAssets(getContext(), "reader/index.html");
+        }
+
+        String content = ssReaderContent.replaceAll("\\{\\{content\\}\\}", ssRead.content);
+
         content = content.replace("ss-wrapper-light", "ss-wrapper-" + ssReadingDisplayOptions.theme);
         content = content.replace("ss-wrapper-andada", "ss-wrapper-" + ssReadingDisplayOptions.font);
         content = content.replace("ss-wrapper-medium", "ss-wrapper-" + ssReadingDisplayOptions.size);
@@ -220,6 +226,7 @@ public class SSReadingView extends WebView {
     public interface HighlightsCommentsCallback {
         public void onHighlightsReceived(SSReadHighlights ssReadHighlights);
         public void onCommentsReceived(SSReadComments ssReadComments);
+        public void onVerseClicked(String verse);
     }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -359,6 +366,13 @@ public class SSReadingView extends WebView {
             } catch (Exception e){}
         }
 
+        @JavascriptInterface
+        public void onVerseClick(String verse){
+            try {
+                String _verse = new String(Base64.decode(verse, Base64.DEFAULT), "UTF-8");
+                highlightsCommentsCallback.onVerseClicked(_verse);
+            } catch (Exception e){}
+        }
 
         @JavascriptInterface
         public void onCommentsClick(String comments, final String inputId){
