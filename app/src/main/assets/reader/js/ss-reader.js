@@ -81,7 +81,8 @@ $(function(){
       },
 
       setComment: function(comment, inputId){
-        $("#"+inputId).html(ssReader.base64decode(comment));
+        $("#"+inputId).val(ssReader.base64decode(comment));
+        $("#"+inputId).trigger("input");
       },
 
       highlightSelection: function(color){
@@ -128,20 +129,20 @@ $(function(){
     });
 
 
-  if(ssReader){ssReader.init();}
+  if(typeof ssReader !== "undefined"){ssReader.init();}
 
   $(".verse").click(function(){
     SSBridge.onVerseClick(ssReader.base64encode($(this).attr("verse")));
   });
 
   $("code").each(function(i){
-    $(this).append($("<div class='textarea'/>").attr("id", "input-"+i).click(function(){
-      if (ssReader){
-          SSBridge.onCommentsClick(
-            ssReader.base64encode($(this).html()),
-            $(this).attr("id")
-          );
-      }
+    $(this).after($("<textarea readonly onfocus='this.blur()'' class='textarea'/>").attr("id", "input-"+i).click(function(){
+      SSBridge.onCommentsClick(
+        ssReader.base64encode($(this).val()),
+        $(this).attr("id")
+      );
+    }).on("input", function(){
+        $(this).css({'height':'auto','overflow-y':'hidden'}).height(this.scrollHeight);
     }));
   });
 });

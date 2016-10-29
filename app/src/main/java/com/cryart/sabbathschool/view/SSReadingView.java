@@ -270,7 +270,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl(String.format("javascript:if(ssReader){ssReader.highlightSelection('%s');}", color));
+                    loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.highlightSelection('%s');}", color));
                 }
             });
         }
@@ -279,7 +279,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl("javascript:if(ssReader){ssReader.unHighlightSelection();}");
+                    loadUrl("javascript:if(typeof ssReader !== \"undefined\"){ssReader.unHighlightSelection();}");
                 }
             });
         }
@@ -288,7 +288,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl(String.format("javascript:if(ssReader){ssReader.setFont('%s');}", font));
+                    loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setFont('%s');}", font));
                 }
             });
         }
@@ -297,7 +297,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl(String.format("javascript:if(ssReader){ssReader.setSize('%s');}", size));
+                    loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setSize('%s');}", size));
                 }
             });
         }
@@ -306,7 +306,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl(String.format("javascript:if(ssReader){ssReader.setTheme('%s');}", theme));
+                    loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setTheme('%s');}", theme));
                 }
             });
         }
@@ -315,7 +315,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl(String.format("javascript:if(ssReader){ssReader.setHighlights('%s');}", highlights));
+                    loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setHighlights('%s');}", highlights));
                 }
             });
         }
@@ -330,7 +330,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl(String.format("javascript:if(ssReader){ssReader.setComment('%s', '%s');}", Base64.encodeToString(comment.getBytes(), Base64.NO_WRAP), elementId));
+                    loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setComment('%s', '%s');}", Base64.encodeToString(comment.getBytes(), Base64.NO_WRAP), elementId));
                 }
             });
         }
@@ -339,7 +339,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl("javascript:if(ssReader){ssReader.copy();}");
+                    loadUrl("javascript:if(typeof ssReader !== \"undefined\"){ssReader.copy();}");
                 }
             });
         }
@@ -348,7 +348,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl("javascript:if(ssReader){ssReader.share();}");
+                    loadUrl("javascript:if(typeof ssReader !== \"undefined\"){ssReader.share();}");
                 }
             });
         }
@@ -357,7 +357,7 @@ public class SSReadingView extends WebView {
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl("javascript:if(ssReader){ssReader.search();}");
+                    loadUrl("javascript:if(typeof ssReader !== \"undefined\"){ssReader.search();}");
                 }
             });
         }
