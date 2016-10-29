@@ -47,11 +47,11 @@ $(function(){
       },
 
       base64encode: function(str){
-        return btoa(str);
+        return btoa(unescape(encodeURIComponent(str)));
       },
 
       base64decode: function(str){
-        return atob(str);
+        return decodeURIComponent(escape(atob(str)));
       },
 
       clearSelection: function(){

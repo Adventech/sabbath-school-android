@@ -139,6 +139,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
                 binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.setImageBitmap(loadedImage);
                 binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.OVERLAY);
                 binding.invalidateAll();
+                adapter.notifyDataSetChanged();
             }
         });
     }

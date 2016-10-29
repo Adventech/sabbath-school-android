@@ -122,15 +122,15 @@ public class SSLessonsViewModel implements SSViewModel {
 
     public void onReadClick(){
         if (ssQuarterlyInfo != null && ssQuarterlyInfo.lessons.size() > 0) {
-            DateTime today = DateTime.now();
+            DateTime today = DateTime.now().withTimeAtStartOfDay();
             String ssLessonIndex = ssQuarterlyInfo.lessons.get(0).index;
 
             for (SSLesson ssLesson : ssQuarterlyInfo.lessons){
                 DateTime startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                        .parseDateTime(ssLesson.start_date);
+                        .parseDateTime(ssLesson.start_date).withTimeAtStartOfDay();
 
                 DateTime endDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                        .parseDateTime(ssLesson.end_date);
+                        .parseDateTime(ssLesson.end_date).plusDays(1).withTimeAtStartOfDay();
 
                 if (new Interval(startDate, endDate).contains(today)){
                     ssLessonIndex = ssLesson.index;

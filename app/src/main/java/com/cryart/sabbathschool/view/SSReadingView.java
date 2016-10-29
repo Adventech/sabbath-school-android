@@ -82,29 +82,35 @@ public class SSReadingView extends WebView {
 
     public SSReadingView(final Context context) {
         super(context);
-        gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
-        ssReadViewBridge = new SSReadViewBridge(context);
-        this.setWebViewClient(new SSWebViewClient());
-        this.getSettings().setJavaScriptEnabled(true);
-        this.addJavascriptInterface(ssReadViewBridge, bridgeName);
+        if (!isInEditMode()) {
+            gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
+            ssReadViewBridge = new SSReadViewBridge(context);
+            this.setWebViewClient(new SSWebViewClient());
+            this.getSettings().setJavaScriptEnabled(true);
+            this.addJavascriptInterface(ssReadViewBridge, bridgeName);
+        }
     }
 
     public SSReadingView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-        gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
-        ssReadViewBridge = new SSReadViewBridge(context);
-        this.setWebViewClient(new SSWebViewClient());
-        this.getSettings().setJavaScriptEnabled(true);
-        this.addJavascriptInterface(ssReadViewBridge, bridgeName);
+        if (!isInEditMode()) {
+            gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
+            ssReadViewBridge = new SSReadViewBridge(context);
+            this.setWebViewClient(new SSWebViewClient());
+            this.getSettings().setJavaScriptEnabled(true);
+            this.addJavascriptInterface(ssReadViewBridge, bridgeName);
+        }
     }
 
     public SSReadingView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
-        gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
-        ssReadViewBridge = new SSReadViewBridge(context);
-        this.setWebViewClient(new SSWebViewClient());
-        this.getSettings().setJavaScriptEnabled(true);
-        this.addJavascriptInterface(ssReadViewBridge, bridgeName);
+        if (!isInEditMode()) {
+            gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
+            ssReadViewBridge = new SSReadViewBridge(context);
+            this.setWebViewClient(new SSWebViewClient());
+            this.getSettings().setJavaScriptEnabled(true);
+            this.addJavascriptInterface(ssReadViewBridge, bridgeName);
+        }
     }
 
     @Override
@@ -397,7 +403,7 @@ public class SSReadingView extends WebView {
                                     ssReadComments.comments.add(new SSComment(inputId, input.toString()));
                                 }
                                 highlightsCommentsCallback.onCommentsReceived(ssReadComments);
-                                setIndividualComment(Base64.encodeToString(input.toString().getBytes(), Base64.NO_WRAP), inputId);
+                                setIndividualComment(input.toString(), inputId);
                             }
                         }).show();
 
