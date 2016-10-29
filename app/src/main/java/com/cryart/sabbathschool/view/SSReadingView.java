@@ -45,6 +45,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cryart.sabbathschool.R;
+import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSComment;
 import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.model.SSReadComments;
@@ -58,10 +59,10 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 public class SSReadingView extends WebView {
+    private static final String TAG = SSReadingView.class.getSimpleName();
+
     public static final String SEARCH_PROVIDER = "https://www.google.com/search?q=%s";
     public static final String CLIPBOARD_LABEL = "ss_clipboard_label";
-
-    private static final String TAG = SSReadingView.class.getSimpleName();
     private static final String bridgeName = "SSBridge";
 
     private GestureDetectorCompat gestureDetector;
@@ -194,7 +195,7 @@ public class SSReadingView extends WebView {
     public void loadRead(SSRead ssRead){
         // We don't want any flickering of themes, right?
         if (ssReaderContent == null){
-            ssReaderContent = readFileFromAssets(getContext(), "reader/index.html");
+            ssReaderContent = readFileFromAssets(getContext(), SSConstants.SS_READER_APP_ENTRYPOINT);
         }
 
         String content = ssReaderContent.replaceAll("\\{\\{content\\}\\}", ssRead.content);
@@ -203,7 +204,7 @@ public class SSReadingView extends WebView {
         content = content.replace("ss-wrapper-andada", "ss-wrapper-" + ssReadingDisplayOptions.font);
         content = content.replace("ss-wrapper-medium", "ss-wrapper-" + ssReadingDisplayOptions.size);
 
-        loadDataWithBaseURL("file:///android_asset/reader/", content, "text/html", "utf-8", null);
+        loadDataWithBaseURL(SSConstants.SS_READER_APP_BASE_URL, content, "text/html", "utf-8", null);
     }
 
     public ActionMode emptyActionMode() {
