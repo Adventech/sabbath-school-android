@@ -1,6 +1,10 @@
-html, body {padding:0; margin: 0}
+html, body {
+  padding:0;
+  margin: 0;
+}
 
-#ss-wrapper {
+
+#ss-wrapper, #ss-wrapper-font, #ss-wrapper-size, #ss-wrapper-theme {
 
 }
 
@@ -26,22 +30,27 @@ html, body {padding:0; margin: 0}
 
 .ss-wrapper-tiny {
   font-size: .8em;
+  line-height: 1.1em;
 }
 
 .ss-wrapper-small {
   font-size: 1em;
+  line-height: 1.3em;
 }
 
 .ss-wrapper-medium {
   font-size: 1.2em;
+  line-height: 1.5em;
 }
 
 .ss-wrapper-large {
   font-size: 1.4em;
+  line-height: 1.7em;
 }
 
 .ss-wrapper-huge {
   font-size: 1.6em;
+  line-height: 1.9em;
 }
 
 .ss-wrapper-light {
@@ -54,18 +63,18 @@ html, body {padding:0; margin: 0}
   color: #5b4636;
 }
 
-  .ss-wrapper-sepia code, .ss-wrapper-sepia blockquote {
-    background-color: #efebe4;
-  }
+.ss-wrapper-sepia code, .ss-wrapper-sepia blockquote {
+  background-color: #efebe4;
+}
 
 .ss-wrapper-dark {
   background-color: #292929;
   color: #ccc;
 }
 
-  .ss-wrapper-dark code, .ss-wrapper-dark blockquote {
-    background-color: #525252;
-  }
+.ss-wrapper-dark code, .ss-wrapper-dark blockquote {
+  background-color: #525252;
+}
 
 .ss-wrapper p {
   padding: 0 0 10px 0;
@@ -89,6 +98,13 @@ html, body {padding:0; margin: 0}
 .highlight_blue {
   background-color: #69D2F5;
   color: #222 !important;
+}
+
+.verse {
+  border-bottom: 1px solid #2879af;
+  cursor: pointer;
+  padding-bottom: 2px;
+  font-weight: bold;
 }
 
 blockquote {
@@ -115,7 +131,6 @@ code {
 
 code .textarea {
   font-weight: normal;
-  border-radius: 3px;
   color: #222;
   margin: 20px -20px -20px;
   display: block;
