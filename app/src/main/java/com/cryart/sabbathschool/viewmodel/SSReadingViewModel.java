@@ -186,7 +186,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
             new MaterialDialog.Builder(context)
                     .title(context.getString(R.string.ss_reading_suggest_edit))
-                    .inputType(InputType.TYPE_CLASS_TEXT)
+                    .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                     .input(context.getString(R.string.ss_reading_suggest_edit_hint), "", new MaterialDialog.InputCallback() {
                         @Override
                         public void onInput(@NotNull MaterialDialog dialog, CharSequence input) {
@@ -384,9 +384,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     }
 
     public String formatDate(String date){
-        return StringUtils.capitalize(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
-                .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                        .parseDateTime(date)));
+        return formatDate(date, SSConstants.SS_DATE_FORMAT_OUTPUT);
     }
 
     public String getDayDate(int ssDayIdx) {
