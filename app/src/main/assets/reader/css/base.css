@@ -30,12 +30,12 @@ html, body {
 
 .ss-wrapper-tiny {
   font-size: .8em;
-  line-height: 1.1em;
+  line-height: 1.2em;
 }
 
 .ss-wrapper-small {
   font-size: 1em;
-  line-height: 1.3em;
+  line-height: 1.4em;
 }
 
 .ss-wrapper-medium {
@@ -45,12 +45,12 @@ html, body {
 
 .ss-wrapper-large {
   font-size: 1.4em;
-  line-height: 1.7em;
+  line-height: 1.6em;
 }
 
 .ss-wrapper-huge {
   font-size: 1.6em;
-  line-height: 1.9em;
+  line-height: 1.7em;
 }
 
 .ss-wrapper-light {
@@ -101,10 +101,12 @@ html, body {
 }
 
 .verse {
-  border-bottom: 1px solid #2879af;
+  border-bottom: 1px solid #16a365;
   cursor: pointer;
-  padding-bottom: 2px;
   font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  padding-bottom: 0.2em;
 }
 
 blockquote {
