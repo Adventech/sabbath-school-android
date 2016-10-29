@@ -27,8 +27,8 @@ public class SSConstants {
     public static final int SS_GOOGLE_SIGN_IN_CODE = 9001;
 
     public static final String SS_DATE_FORMAT = "dd/MM/yyyy";
-    public static final String SS_DATE_FORMAT_OUTPUT = "MMMM d";
-    public static final String SS_DATE_FORMAT_OUTPUT_DAY = "EEEE. MMMM d";
+    public static final String SS_DATE_FORMAT_OUTPUT = "d MMMM";
+    public static final String SS_DATE_FORMAT_OUTPUT_DAY = "EEEE. d MMMM";
 
     public static final String SS_FIREBASE_API_PREFIX = "/api/v1";
     public static final String SS_FIREBASE_LANGUAGES_DATABASE = SS_FIREBASE_API_PREFIX + "/languages";

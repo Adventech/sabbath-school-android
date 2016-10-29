@@ -389,7 +389,7 @@ public class SSReadingView extends WebView {
 
                 new MaterialDialog.Builder(context)
                         .title(context.getString(R.string.ss_reading_comment))
-                        .inputType(InputType.TYPE_CLASS_TEXT)
+                        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                         .input(context.getString(R.string.ss_reading_enter_comment), comments, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
