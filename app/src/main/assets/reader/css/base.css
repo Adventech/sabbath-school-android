@@ -131,10 +131,11 @@ code {
   border-radius: 3px;
 }
 
-code .textarea {
+.textarea {
   font-weight: normal;
   color: #222;
-  margin: 20px -20px -20px;
+  resize: none;
+  width: 100%;
   display: block;
   line-height: inherit;
   border: 0;
