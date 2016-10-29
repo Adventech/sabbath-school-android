@@ -73,6 +73,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
 
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
+        binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.OVERLAY);
 
         ViewCompat.setNestedScrollingEnabled(binding.ssReadingSheetList, false);
 
@@ -131,17 +132,17 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     public void onLessonInfoChanged(SSLessonInfo ssLessonInfo){
         final SSReadingSheetAdapter adapter = (SSReadingSheetAdapter) binding.ssReadingSheetList.getAdapter();
         adapter.setDays(ssLessonInfo.days);
-
         ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.displayImage(ssLessonInfo.lesson.cover, binding.ssReadingAppBar.ssCollapsingToolbarBackdrop);
+
         imageLoader.loadImage(ssLessonInfo.lesson.cover, new SimpleImageLoadingListener() {
             @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
                 binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.setImageBitmap(loadedImage);
-                binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.OVERLAY);
-                binding.invalidateAll();
-                adapter.notifyDataSetChanged();
             }
         });
+        binding.invalidateAll();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -149,6 +150,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         binding.ssReadingViewScroll.smoothScrollTo(0, 0);
         binding.ssReadingView.loadRead(ssRead);
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setTitle(ssRead.title);
+        binding.ssReadingAppBar.ssCollapsingToolbarSubtitle.setText(ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY));
     }
 
     @Override

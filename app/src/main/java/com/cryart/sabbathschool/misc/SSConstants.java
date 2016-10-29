@@ -28,6 +28,7 @@ public class SSConstants {
 
     public static final String SS_DATE_FORMAT = "dd/MM/yyyy";
     public static final String SS_DATE_FORMAT_OUTPUT = "MMMM d";
+    public static final String SS_DATE_FORMAT_OUTPUT_DAY = "EEEE. MMMM d";
 
     public static final String SS_FIREBASE_API_PREFIX = "/api/v1";
     public static final String SS_FIREBASE_LANGUAGES_DATABASE = SS_FIREBASE_API_PREFIX + "/languages";
