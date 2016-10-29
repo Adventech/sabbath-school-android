@@ -73,6 +73,12 @@
                        android:value=".view.SSLessonsActivity" />
         </activity>
 
+        <activity
+            android:name="com.cryart.sabbathschool.view.SSBibleVersesActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.BibleVersesTheme" />
+
         <activity android:name="com.cryart.sabbathschool.view.SSMyNotesActivity"
                   android:theme="@style/AppTheme.NoActionBar"
                   android:screenOrientation="portrait"
