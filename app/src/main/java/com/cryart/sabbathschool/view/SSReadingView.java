@@ -251,10 +251,11 @@ public class SSReadingView extends WebView {
     private class SSWebViewClient extends WebViewClient {
         @Override
         public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+
             updateReadingDisplayOptions();
             updateHighlights();
             updateComments();
-            super.onPageFinished(view, url);
         }
     }
 
