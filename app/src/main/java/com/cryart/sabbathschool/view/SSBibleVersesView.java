@@ -66,7 +66,7 @@ public class SSBibleVersesView extends WebView {
 
     public void loadVerse(SSBibleVerses bibleVersion, String verse){
         if (content_app == null) {
-            content_app = readFileFromAssets(getContext(), "reader/index.html");
+            content_app = readFileFromAssets(getContext(), SSConstants.SS_READER_APP_ENTRYPOINT);
         }
 
         String verseContent = "";
@@ -89,6 +89,6 @@ public class SSBibleVersesView extends WebView {
         content = content.replace("ss-wrapper-andada", "ss-wrapper-" + ssReadingDisplayOptions.font);
         content = content.replace("ss-wrapper-medium", "ss-wrapper-" + ssReadingDisplayOptions.size);
 
-        loadDataWithBaseURL("file:///android_asset/reader/", content, "text/html", "utf-8", null);
+        loadDataWithBaseURL(SSConstants.SS_READER_APP_BASE_URL, content, "text/html", "utf-8", null);
     }
 }
