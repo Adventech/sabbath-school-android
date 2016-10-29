@@ -88,6 +88,8 @@
     <string translatable="false" name="ss_reading_display_options_typeface_pt_sans">@string/ss_settings_typeface_pt_sans</string>
     <string translatable="false" name="ss_reading_display_options_aa">Aa</string>
 
+    <string name="ss_bible">Bible</string>
+
     <!--TODO: remove when done-->
     <string name="ss_coming_soon_header">Coming Soon</string>
     <string name="ss_coming_soon_subheader">We are working on this feature right now. Stay tuned, it\'s coming soon</string>

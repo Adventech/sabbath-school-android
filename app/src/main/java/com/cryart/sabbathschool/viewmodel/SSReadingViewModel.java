@@ -25,13 +25,13 @@ package com.cryart.sabbathschool.viewmodel;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableInt;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -51,6 +51,7 @@ import com.cryart.sabbathschool.model.SSReadComments;
 import com.cryart.sabbathschool.model.SSReadHighlights;
 import com.cryart.sabbathschool.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.model.SSSuggestion;
+import com.cryart.sabbathschool.view.SSBibleVersesActivity;
 import com.cryart.sabbathschool.view.SSReadingActivity;
 import com.cryart.sabbathschool.view.SSReadingDisplayOptionsView;
 import com.cryart.sabbathschool.view.SSReadingView;
@@ -443,6 +444,14 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                 .child(ssFirebaseAuth.getCurrentUser().getUid())
                 .child(ssReadComments.readIndex)
                 .setValue(ssReadComments);
+    }
+
+    @Override
+    public void onVerseClicked(String verse) {
+        Intent _SSBibleActivityIntent = new Intent(context.getApplicationContext(), SSBibleVersesActivity.class);
+        _SSBibleActivityIntent.putExtra(SSConstants.SS_READ_INDEX_EXTRA, ssRead.index);
+        _SSBibleActivityIntent.putExtra(SSConstants.SS_READ_VERSE_EXTRA, verse);
+        context.startActivity(_SSBibleActivityIntent);
     }
 
     public interface DataListener {

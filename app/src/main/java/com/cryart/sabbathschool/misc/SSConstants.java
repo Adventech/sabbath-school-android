@@ -42,6 +42,8 @@ public class SSConstants {
 
     public static final String SS_QUARTERLY_INDEX_EXTRA = "SS_QUARTERLY_INDEX";
     public static final String SS_LESSON_INDEX_EXTRA = "SS_LESSON_INDEX";
+    public static final String SS_READ_INDEX_EXTRA = "SS_READ_INDEX";
+    public static final String SS_READ_VERSE_EXTRA = "SS_READ_VERSE_EXTRA";
 
     public static final String SS_SETTINGS_THEME_KEY = "ss_settings_display_options_theme";
     public static final String SS_SETTINGS_FONT_KEY = "ss_settings_display_options_font";
@@ -53,4 +55,6 @@ public class SSConstants {
     public static final String SS_USER_NAME_INDEX = "ss_user_name_index";
     public static final String SS_USER_EMAIL_INDEX = "ss_user_email_index";
     public static final String SS_USER_PHOTO_INDEX = "ss_user_photo_index";
+
+    public static final String SS_LAST_BIBLE_VERSION_USED = "ss_last_bible_version_used";
 }

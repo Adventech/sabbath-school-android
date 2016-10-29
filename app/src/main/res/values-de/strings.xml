@@ -59,6 +59,7 @@
     <string name="ss_reading_enter_comment">Geben Sie Ihren Kommentar</string>
     <string name="ss_reading_copied">Auswahl kopiert.</string>
     <string name="ss_reading_share_to">Teilen Auswahl:</string>
+    <string name="ss_bible">Bibel</string>
 
     <!-- TODO: remove when done -->
     <string name="ss_coming_soon_header">Demnächst</string>

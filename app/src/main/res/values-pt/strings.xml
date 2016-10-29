@@ -59,6 +59,7 @@
     <string name="ss_reading_enter_comment">Digite o seu comentário</string>
     <string name="ss_reading_copied">Selecção copiado.</string>
     <string name="ss_reading_share_to">selecção Partilhar no:</string>
+    <string name="ss_bible">Bíblia</string>
 
     <!-- TODO: remove when done -->
     <string name="ss_coming_soon_header">Em breve</string>

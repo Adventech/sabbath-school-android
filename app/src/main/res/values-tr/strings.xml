@@ -59,6 +59,7 @@
     <string name="ss_reading_enter_comment">Yorumunuzu girin</string>
     <string name="ss_reading_copied">Seçim kopyalandı.</string>
     <string name="ss_reading_share_to">Hisse seçimi için:</string>
+    <string name="ss_bible">İncil</string>
 
     <!-- TODO: remove when done -->
     <string name="ss_coming_soon_header">Pek yakında</string>

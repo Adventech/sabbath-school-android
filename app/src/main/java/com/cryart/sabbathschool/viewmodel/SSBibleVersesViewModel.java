@@ -20,29 +20,26 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.model;
+package com.cryart.sabbathschool.viewmodel;
 
-import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.util.List;
+import android.content.Context;
 
-@IgnoreExtraProperties
-public class SSRead {
-    public String id;
-    public String date;
-    public String index;
-    public String title;
-    public String content;
-    public List<SSBibleVerses> bible;
+import com.cryart.sabbathschool.view.SSBibleVersesActivity;
 
-    public SSRead() {}
+public class SSBibleVersesViewModel implements SSViewModel {
+    Context context;
 
-    public SSRead(String id, String date, String index, String title, String content, List<SSBibleVerses> bible){
-        this.id = id;
-        this.date = date;
-        this.index = index;
-        this.title = title;
-        this.content = content;
-        this.bible = bible;
+    public SSBibleVersesViewModel(Context context){
+        this.context = context;
+    }
+
+    public void onCloseClick(){
+        ((SSBibleVersesActivity) context).finish();
+    }
+
+    @Override
+    public void destroy(){
+
     }
 }

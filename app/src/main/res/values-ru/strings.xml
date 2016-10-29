@@ -70,6 +70,7 @@
     <string name="ss_reading_enter_comment">Введите свой комментарий</string>
     <string name="ss_reading_copied">Выделения скопировано</string>
     <string name="ss_reading_share_to">Поделиться в:</string>
+    <string name="ss_bible">Библия</string>
 
     <!--TODO: remove when done-->
     <string name="ss_coming_soon_header">Скоро</string>
