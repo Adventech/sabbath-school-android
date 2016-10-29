@@ -377,11 +377,21 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         return "";
     }
 
+    public String formatDate(String date, String DateFormatOutput){
+        return StringUtils.capitalize(DateTimeFormat.forPattern(DateFormatOutput)
+                .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                        .parseDateTime(date)));
+    }
+
+    public String formatDate(String date){
+        return StringUtils.capitalize(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+                .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                        .parseDateTime(date)));
+    }
+
     public String getDayDate(int ssDayIdx) {
         if (ssLessonInfo != null && ssLessonInfo.days.size() > ssDayIdx){
-            return StringUtils.capitalize(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
-                    .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                            .parseDateTime(ssLessonInfo.days.get(ssDayIdx).date)));
+            return formatDate(ssLessonInfo.days.get(ssDayIdx).date);
         }
         return "";
     }
