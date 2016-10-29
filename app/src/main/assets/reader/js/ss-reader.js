@@ -77,7 +77,7 @@ $(function(){
       },
 
       setTheme: function(theme){
-        $("#ss-wrapper-theme").removeClass().addClass("ss-wrapper-"+theme);
+        $("body, #ss-wrapper-theme").removeClass().addClass("ss-wrapper-"+theme);
       },
 
       setComment: function(comment, inputId){
@@ -129,6 +129,11 @@ $(function(){
 
 
   if(ssReader){ssReader.init();}
+
+  $(".verse").click(function(){
+    SSBridge.onVerseClick(ssReader.base64encode($(this).attr("verse")));
+  });
+
   $("code").each(function(i){
     $(this).append($("<div class='textarea'/>").attr("id", "input-"+i).click(function(){
       if (ssReader){
