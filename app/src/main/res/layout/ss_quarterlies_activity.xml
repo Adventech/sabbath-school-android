@@ -68,7 +68,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorBackground"
-            android:layout_marginTop="@{viewModel.ssQuarterliesListMarginTop}"
             android:visibility="@{viewModel.ssQuarterliesListVisibility}"
             android:clipToPadding="false"
             android:scrollbars="vertical"
