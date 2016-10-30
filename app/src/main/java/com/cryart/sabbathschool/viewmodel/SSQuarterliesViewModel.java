@@ -64,6 +64,7 @@ public class SSQuarterliesViewModel implements SSViewModel {
     private DatabaseReference ssFirebaseDatabase;
     private ValueEventListener ssLanguagesRef;
     private ValueEventListener ssQuarterliesRef;
+    private String ssDefaultLanguage;
 
     public ObservableInt ssQuarterliesLanguageFilterVisibility;
     public ObservableInt ssQuarterliesLoadingVisibility;
@@ -91,6 +92,19 @@ public class SSQuarterliesViewModel implements SSViewModel {
 
         this.ssQuarterlyLanguages = new ArrayList<>();
         this.ssQuarterlies = new ArrayList<>();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+
+        String ssLastLanguageSelected = prefs.getString(SSConstants.SS_LAST_LANGUAGE_INDEX, "");
+        ssDefaultLanguage = Locale.getDefault().getLanguage();
+
+        if (!ssLastLanguageSelected.isEmpty()){
+            ssDefaultLanguage = ssLastLanguageSelected;
+        }
+
+        ssQuarterlyLanguage = new SSQuarterlyLanguage(ssDefaultLanguage, getDisplayLanguageByCode(ssDefaultLanguage), 1);
+
         loadLanguages();
     }
 
@@ -154,17 +168,8 @@ public class SSQuarterliesViewModel implements SSViewModel {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot != null) {
-                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
                             Iterable<DataSnapshot> data = dataSnapshot.getChildren();
                             ssQuarterlyLanguages.clear();
-                            String ssLastLanguageSelected = prefs.getString(SSConstants.SS_LAST_LANGUAGE_INDEX, "");
-                            String ssDefaultLanguage = Locale.getDefault().getLanguage();
-
-                            if (!ssLastLanguageSelected.isEmpty()){
-                                ssDefaultLanguage = ssLastLanguageSelected;
-                            }
-
-                            ssQuarterlyLanguage = new SSQuarterlyLanguage(ssDefaultLanguage, getDisplayLanguageByCode(ssDefaultLanguage), 1);
 
                             for(DataSnapshot d: data){
                                 SSQuarterlyLanguage _ssQuarterlyLanguage = d.getValue(SSQuarterlyLanguage.class);
