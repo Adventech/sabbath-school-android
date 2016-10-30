@@ -108,6 +108,7 @@ $(function(){
 
       setHighlights: function(serializedHighlight){
         try {
+          this.highlighter.removeAllHighlights();
           this.highlighter.deserialize(serializedHighlight);
         } catch(err){}
       },
