@@ -100,7 +100,7 @@ html, body {
   color: #222 !important;
 }
 
-.verse {
+a.verse {
   border-bottom: 1px solid #16a365;
   cursor: pointer;
   font-weight: bold;
