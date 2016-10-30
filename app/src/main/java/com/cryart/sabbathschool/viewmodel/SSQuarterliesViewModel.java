@@ -22,20 +22,19 @@
 
 package com.cryart.sabbathschool.viewmodel;
 
-import android.animation.AnimatorSet;
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.databinding.BindingAdapter;
 import android.databinding.ObservableFloat;
 import android.databinding.ObservableInt;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorCompat;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
@@ -74,6 +73,9 @@ public class SSQuarterliesViewModel implements SSViewModel {
     public ObservableInt ssQuarterliesErrorStateVisibility;
     public ObservableFloat ssQuarterliesListMarginTop;
 
+    private static final Interpolator INTERPOLATOR = new LinearOutSlowInInterpolator();
+    private ViewPropertyAnimatorCompat mTranslationAnimator;
+
     public SSQuarterliesViewModel(Context context, final DataListener dataListener) {
         this.context = context;
         this.dataListener = dataListener;
@@ -102,7 +104,7 @@ public class SSQuarterliesViewModel implements SSViewModel {
             v.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
 
-            ssQuarterliesListMarginTop.set(v.getMeasuredHeight());
+            animateOffset(((Activity)context).findViewById(R.id.ss_quarterlies_list), v.getMeasuredHeight());
             ssQuarterliesLanguageFilterVisibility.set(View.VISIBLE);
 
             menuItem.setIcon(new IconicsDrawable(context)
@@ -112,10 +114,26 @@ public class SSQuarterliesViewModel implements SSViewModel {
         } else {
             ssQuarterliesListMarginTop.set(0);
             ssQuarterliesLanguageFilterVisibility.set(View.GONE);
+            animateOffset(((Activity)context).findViewById(R.id.ss_quarterlies_list), 0);
             menuItem.setIcon(new IconicsDrawable(context)
                     .icon(GoogleMaterial.Icon.gmd_filter_list)
                     .color(Color.WHITE)
                     .sizeDp(18));
+        }
+    }
+
+    private void animateOffset(final View child, final int offset) {
+        ensureOrCancelAnimator(child);
+        mTranslationAnimator.translationY(offset).start();
+    }
+
+    private void ensureOrCancelAnimator(View child) {
+        if (mTranslationAnimator == null) {
+            mTranslationAnimator = ViewCompat.animate(child);
+            mTranslationAnimator.setDuration(ANIMATION_DURATION);
+            mTranslationAnimator.setInterpolator(INTERPOLATOR);
+        } else {
+            mTranslationAnimator.cancel();
         }
     }
 
@@ -136,7 +154,7 @@ public class SSQuarterliesViewModel implements SSViewModel {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot != null) {
-                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
                             Iterable<DataSnapshot> data = dataSnapshot.getChildren();
                             ssQuarterlyLanguages.clear();
                             String ssLastLanguageSelected = prefs.getString(SSConstants.SS_LAST_LANGUAGE_INDEX, "");
@@ -249,29 +267,6 @@ public class SSQuarterliesViewModel implements SSViewModel {
         editor.apply();
 
         this.loadQuarterlies(getSelectedLanguage());
-    }
-
-    @BindingAdapter("android:layout_marginTop")
-    public static void setLayoutTopMargin(final View v, float topMargin) {
-        int start = (topMargin > 0) ? 0: ((ViewGroup.MarginLayoutParams)v.getLayoutParams()).topMargin;
-        int end = (topMargin > 0) ? (int) topMargin : 0;
-
-        ValueAnimator slideAnimator = ValueAnimator.ofInt(start, end).setDuration(ANIMATION_DURATION);
-        slideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Integer value = (Integer) animation.getAnimatedValue();
-                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)v.getLayoutParams();
-                layoutParams.topMargin = value;
-                v.setLayoutParams(layoutParams);
-                v.requestLayout();
-            }
-        });
-
-        AnimatorSet set = new AnimatorSet();
-        set.play(slideAnimator);
-        set.setInterpolator(new AccelerateDecelerateInterpolator());
-        set.start();
     }
 
     public interface DataListener {
