@@ -78,6 +78,11 @@ public class SSLessonsViewModel implements SSViewModel {
     }
 
     private void loadQuarterlyInfo() {
+        SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = shared.edit();
+        editor.putString(SSConstants.SS_LAST_QUARTERLY_INDEX, ssQuarterlyInfo.quarterly.index);
+        editor.apply();
+
         ssLessonsLoadingVisibility.set(View.VISIBLE);
         ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
         ssLessonsErrorStateVisibility.set(View.INVISIBLE);
@@ -89,12 +94,6 @@ public class SSLessonsViewModel implements SSViewModel {
                         if (dataSnapshot != null) {
                             ssQuarterlyInfo = dataSnapshot.getValue(SSQuarterlyInfo.class);
                             dataListener.onQuarterlyChanged(ssQuarterlyInfo);
-
-                            SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(context);
-                            SharedPreferences.Editor editor = shared.edit();
-                            editor.putString(SSConstants.SS_LAST_QUARTERLY_INDEX, ssQuarterlyInfo.quarterly.index);
-                            editor.apply();
-
                             ssLessonsLoadingVisibility.set(View.INVISIBLE);
                             ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
                             ssLessonsErrorStateVisibility.set(View.INVISIBLE);
