@@ -32,6 +32,7 @@ import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLesson;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
@@ -60,6 +61,7 @@ public class SSLessonsViewModel implements SSViewModel {
     public ObservableInt ssLessonsEmptyStateVisibility;
     public ObservableInt ssLessonsErrorStateVisibility;
     public ObservableInt ssLessonsCoordinatorVisibility;
+    private SharedPreferences shared;
 
     public SSLessonsViewModel(Context context, DataListener dataListener, String ssQuarterlyIndex) {
         this.context = context;
@@ -74,14 +76,12 @@ public class SSLessonsViewModel implements SSViewModel {
         ssLessonsErrorStateVisibility = new ObservableInt(View.INVISIBLE);
         ssLessonsCoordinatorVisibility = new ObservableInt(View.INVISIBLE);
 
+        shared = PreferenceManager.getDefaultSharedPreferences(context);
+
         loadQuarterlyInfo();
     }
 
     private void loadQuarterlyInfo() {
-        SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = shared.edit();
-        editor.putString(SSConstants.SS_LAST_QUARTERLY_INDEX, ssQuarterlyInfo.quarterly.index);
-        editor.apply();
 
         ssLessonsLoadingVisibility.set(View.VISIBLE);
         ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
@@ -93,6 +93,15 @@ public class SSLessonsViewModel implements SSViewModel {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot != null) {
                             ssQuarterlyInfo = dataSnapshot.getValue(SSQuarterlyInfo.class);
+
+                            try {
+                                SharedPreferences.Editor editor = shared.edit();
+                                editor.putString(SSConstants.SS_LAST_QUARTERLY_INDEX, ssQuarterlyInfo.quarterly.index);
+                                editor.apply();
+                            } catch(Exception e){
+                                Crashlytics.logException(e);
+                            }
+
                             dataListener.onQuarterlyChanged(ssQuarterlyInfo);
                             ssLessonsLoadingVisibility.set(View.INVISIBLE);
                             ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
@@ -117,6 +126,7 @@ public class SSLessonsViewModel implements SSViewModel {
         dataListener = null;
         ssQuarterlyInfo = null;
         ssQuarterlyIndex = null;
+        shared = null;
     }
 
     public void onReadClick(){
