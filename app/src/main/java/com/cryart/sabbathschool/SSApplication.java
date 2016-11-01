@@ -32,6 +32,7 @@ import com.crashlytics.android.Crashlytics;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -59,7 +60,15 @@ public class SSApplication extends Application {
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         Fabric.with(this, new Crashlytics());
 
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                .defaultDisplayImageOptions(displayImageOptions)
+                .build();
+
         ImageLoader.getInstance().init(config);
 
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
