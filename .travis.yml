@@ -11,7 +11,7 @@ android:
   - extra-google-google_play_services
   - extra-android-m2repository
   - extra-google-m2repository
-script: ./gradlew assembleBeta crashlyticsUploadDistributionBeta -PstorePassword='$BETA_STORE_PWD='
+script: ./gradlew assembleBeta crashlyticsUploadDistributionBeta -PstorePassword='$BETA_STORE_PWD'
   -PkeyPassword='$BETA_KEY_PWD'
 env:
   global:
