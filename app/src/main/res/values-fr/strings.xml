@@ -41,7 +41,7 @@
     <string name="ss_login_anonymously_dialog_title">Connexion anonyme?</string>
     <string name="ss_login_anonymously_dialog_description">En vous connectant anonymement vous ne serez pas en mesure de synchroniser vos données, tels que les commentaires et les faits saillants, à travers les dispositifs ou après la désinstallation de l\'application. Etes-vous sûr de vouloir continuer?</string>
     <string name="ss_quarterlies_filter_languages_prompt_title">Lire dans plus de langues</string>
-    <string name="ss_quarterlies_filter_languages_prompt_description">Appuyez sur l'icône de filtre pour afficher toutes les langues disponibles</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">Appuyez sur l\'icône de filtre pour afficher toutes les langues disponibles</string>
     <string name="ss_quarterlies_filter_languages">Filtrer les langues</string>
     <string name="ss_quarterlies_downloading">Téléchargement trimestrielle…</string>
     <string name="ss_quarterlies_error">Une erreur inconnue s\'est produite. Veuillez réessayer</string>
