@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "443920152945",
+    "firebase_url": "https://blistering-inferno-8720.firebaseio.com",
+    "project_id": "blistering-inferno-8720",
+    "storage_bucket": "blistering-inferno-8720.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:443920152945:android:88379b7a89890100",
+        "android_client_info": {
+          "package_name": "com.cryart.sabbathschool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "443920152945-1kbqb10go7qn201rv1vd7olarchailvr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cryart.sabbathschool",
+            "certificate_hash": "F26995A67F66FB42F9AED820579183D889E6D32E"
+          }
+        },
+        {
+          "client_id": "443920152945-rgptd4sa4vqv7qlpq070pq9pifv48k1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4-62tehCHALZuJWMiIg4tVjUe3Llt9aQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "443920152945-rgptd4sa4vqv7qlpq070pq9pifv48k1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
