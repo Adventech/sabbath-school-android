@@ -39,7 +39,7 @@
     <string name="ss_login_anonymously_dialog_positive">Ja</string>
     <string name="ss_login_anonymously_dialog_negative">Nein</string>
     <string name="ss_login_anonymously_dialog_title">Anonym anmelden?</string>
-    <string name="ss_login_anonymously_dialog_description">Mit der anonymen Anmeldung werden Sie nicht in der Lage sein Ihre Daten, wie zum Beispiel Kommentare und Hervorhebungen, auf verschiedenen Geräten zu synchronisieren oder nach Deinstallation zu verwenden. Sind Sie sicher, dass Sie fortfahren möchten?</string>
+    <string name="ss_login_anonymously_dialog_description">Mit der anonymen Anmeldung werden Sie nicht in der Lage sein Ihre Daten, wie zum Beispiel Kommentare und Hervorhebungen, auf verschiedenen Geräten zu synchronisieren oder nach einer Deinstallation zu verwenden. Sind Sie sicher, dass Sie fortfahren möchten?</string>
     <string name="ss_quarterlies_filter_languages_prompt_title">In anderen Sprachen lesen</string>
     <string name="ss_quarterlies_filter_languages_prompt_description">Tippen Sie auf das Filtersymbol, um alle verfügbaren Sprachen anzuzeigen</string>
     <string name="ss_quarterlies_filter_languages">Sprachenfilter</string>
