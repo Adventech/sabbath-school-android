@@ -40,6 +40,8 @@
     <string name="ss_login_anonymously_dialog_negative">Não</string>
     <string name="ss_login_anonymously_dialog_title">Entre anonimamente?</string>
     <string name="ss_login_anonymously_dialog_description">Ao iniciar a sessão anonimamente você não será capaz de sincronizar os dados, tais como comentários e destaques, através de dispositivos ou após a desinstalação do aplicativo. Tem certeza de que deseja continuar?</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">Leia em mais idiomas</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">Toque no ícone de filtro para ver todos os idiomas disponíveis</string>
     <string name="ss_quarterlies_filter_languages">Filtro de Idiomas</string>
     <string name="ss_quarterlies_downloading">Obtendo trimestrais…</string>
     <string name="ss_quarterlies_error">Ocorreu um erro desconhecido. Por favor, tente novamente</string>

@@ -27,7 +27,7 @@
 
     <string name="ss_login_button_google">Sign in with Google</string>
     <string name="ss_login_button_facebook">Sign in with Facebook</string>
-    <string name="ss_login_button_anonymous">Continue without Login</string>
+    <string name="ss_login_button_anonymous">Login as Anonymous</string>
 
     <string name="ss_menu_anonymous_name">Anonymous</string>
     <string translatable="false" name="ss_menu_anonymous_email">anonymous@adventech.io</string>
@@ -50,6 +50,9 @@
     <string name="ss_login_anonymously_dialog_negative">No</string>
     <string name="ss_login_anonymously_dialog_title">Login anonymously?</string>
     <string name="ss_login_anonymously_dialog_description">By logging in anonymously you will not be able to synchronize your data, such as comments and highlights, across devices or after uninstalling application. Are you sure you want to proceed?</string>
+
+    <string name="ss_quarterlies_filter_languages_prompt_title">Read in more languages</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">Tap the filter icon to see all available languages</string>
 
     <string name="ss_quarterlies_filter_languages">Filter Languages</string>
     <string name="ss_quarterlies_downloading">Getting quarterlies…</string>

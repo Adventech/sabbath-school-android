@@ -38,12 +38,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import io.fabric.sdk.android.Fabric;
-import rx.Scheduler;
-import rx.schedulers.Schedulers;
 
 public class SSApplication extends Application {
     private static SSApplication instance;
-    private Scheduler defaultSubscribeScheduler;
 
     public static SSApplication get(Context context) {
         return (SSApplication) context.getApplicationContext();
@@ -76,12 +73,5 @@ public class SSApplication extends Application {
                 ImageLoader.getInstance().cancelDisplayTask(imageView);
             }
         });
-    }
-
-    public Scheduler defaultSubscribeScheduler() {
-        if (defaultSubscribeScheduler == null) {
-            defaultSubscribeScheduler = Schedulers.io();
-        }
-        return defaultSubscribeScheduler;
     }
 }

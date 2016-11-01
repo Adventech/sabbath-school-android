@@ -40,6 +40,8 @@
     <string name="ss_login_anonymously_dialog_negative">Ні</string>
     <string name="ss_login_anonymously_dialog_title">Увійти анонімно?</string>
     <string name="ss_login_anonymously_dialog_description">Входячи анонімно ви не зможете синхронізувати дані, такі як нотатки та позначення, на різних пристроях або після видалення програми. Ви впевнені, що хочете продовжити?</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">Читайте на інших мовах</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">Натисніть на значок фільтра, щоб побачити всі доступні мови</string>
     <string name="ss_quarterlies_filter_languages">Фільтр за мовою</string>
     <string name="ss_quarterlies_downloading">Завантажую список посібників …</string>
     <string name="ss_quarterlies_error">Виникла невідома помилка. Будь ласка спробуйте ще раз</string>

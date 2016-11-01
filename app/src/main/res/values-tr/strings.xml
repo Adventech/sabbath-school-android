@@ -40,6 +40,8 @@
     <string name="ss_login_anonymously_dialog_negative">Yok hayır</string>
     <string name="ss_login_anonymously_dialog_title">Anonim Girişi?</string>
     <string name="ss_login_anonymously_dialog_description">anonim oturum açtığınızda, cihazlar arasında veya uygulamayı kaldırdıktan sonra, bu tür yorumlar ve vurgular gibi verilerinizi, eşitlemek mümkün olmayacaktır. Devam etmek istediğinizden emin misiniz?</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">Daha fazla dilde okuyun</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">Kullanılabilir tüm dilleri görmek için filtre simgesine dokunun</string>
     <string name="ss_quarterlies_filter_languages">Filtre Diller</string>
     <string name="ss_quarterlies_downloading">Quarterlies alınıyor …</string>
     <string name="ss_quarterlies_error">Bilinmeyen bir hata oluştu. Lütfen tekrar deneyin</string>
