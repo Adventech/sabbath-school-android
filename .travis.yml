@@ -11,8 +11,8 @@ android:
   - extra-google-google_play_services
   - extra-android-m2repository
   - extra-google-m2repository
-script: ./gradlew assembleBeta crashlyticsUploadDistributionBeta -PstorePassword='$BETA_STORE_PWD'
-  -PkeyPassword='$BETA_KEY_PWD'
+script: ./gradlew assembleBeta crashlyticsUploadDistributionBeta -PstorePassword=$BETA_STORE_PWD
+  -PkeyPassword=$BETA_KEY_PWD
 env:
   global:
   - secure: OYd5+p6o9A0UGFOCkZZiZXibMyoHLDR9OXkyk1ZAmTLn6mntOW/Mw2uCRd/knwP7ICe+9QFzozpCZvgekxAf0NlFzUIluqx9KbbDV1rMPjKllQ+uvZvcXYTLqlWHpdSWdJ+WUGeI9jyWFCzYBbwKnCeg4LWvVdeYXjWEsPZjivfoTKp/O1R+5z9I2lbbRld17xWyjCbz1wcPZiR4XfxVaUdEEFKevpFW1HujaLmFhOu3ZV9S53rb2fuExkbSpRMnfnWQuHOaG37HFIDepfwZjSHoEraHJf/XrvqkzhlaGikGql1ylDuykxKKmpU1RkI852VNT5G50Xc+soG6AKI45etSqtHmfYGLu+1ffdc2D6uzRuuNvwtLtK5TEKEXCct0X0P5QLRhm8vWoVwhupTGT3qcS32OmidMF66gOogBq2jcWVUc40FOcxbc15ZRHEkB/L4iEDhTvK0+KL3EMCDGRgYwsmcNNvS6urGNob1TB5Tc1EJzf1mXZEeeH+1pvn0GFGZVYNYVjG/SGWOGZC4sWKAH7AppISg7rUMVt3WZWP92qlSgZNfvVOhnMb69kd5CjgmNaru3rPRjGUQquBP0D5Jtpep8C/GgOgo2wy2g/g7pYI0/ReMkdwOE/12Xk7jl6EiB771LNd48DWQnsWIB2u2Fn2LCBqXIjiGXArpChKw=
