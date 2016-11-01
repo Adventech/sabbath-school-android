@@ -121,6 +121,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ssReadingViewModel.destroy();
     }
 
     @Override

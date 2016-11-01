@@ -165,11 +165,15 @@ public class SSReadingView extends WebView {
     }
 
     public void updateHighlights(){
-        ssReadViewBridge.setHighlights(ssReadHighlights.highlights);
+        if (ssReadHighlights != null){
+            ssReadViewBridge.setHighlights(ssReadHighlights.highlights);
+        }
     }
 
     public void updateComments(){
-        ssReadViewBridge.setComments(ssReadComments.comments);
+        if (ssReadComments != null){
+            ssReadViewBridge.setComments(ssReadComments.comments);
+        }
     }
 
     public void selectionFinished(){
