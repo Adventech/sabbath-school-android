@@ -36,6 +36,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Interpolator;
 
+import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSQuarterly;
@@ -169,28 +170,37 @@ public class SSQuarterliesViewModel implements SSViewModel {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot != null) {
                             Iterable<DataSnapshot> data = dataSnapshot.getChildren();
-                            ssQuarterlyLanguages.clear();
 
-                            for(DataSnapshot d: data){
-                                SSQuarterlyLanguage _ssQuarterlyLanguage = d.getValue(SSQuarterlyLanguage.class);
-                                _ssQuarterlyLanguage.name = getDisplayLanguageByCode(_ssQuarterlyLanguage.code);
-
-                                if (_ssQuarterlyLanguage.code.equalsIgnoreCase(ssDefaultLanguage)){
-                                    _ssQuarterlyLanguage.selected = 1;
-                                    ssQuarterlyLanguage = _ssQuarterlyLanguage;
-                                    ssQuarterlyLanguages.add(0, _ssQuarterlyLanguage);
+                            try {
+                                if (ssQuarterlyLanguages == null) {
+                                    ssQuarterlyLanguages = new ArrayList<>();
                                 } else {
-                                    ssQuarterlyLanguages.add(_ssQuarterlyLanguage);
+                                    ssQuarterlyLanguages.clear();
                                 }
-                            }
 
-                            if (ssQuarterlyLanguages.size() > 0){
-                                ssQuarterlyLanguage = ssQuarterlyLanguages.get(0);
-                                ssQuarterlyLanguage.selected = 1;
-                            }
+                                for (DataSnapshot d : data) {
+                                    SSQuarterlyLanguage _ssQuarterlyLanguage = d.getValue(SSQuarterlyLanguage.class);
+                                    _ssQuarterlyLanguage.name = getDisplayLanguageByCode(_ssQuarterlyLanguage.code);
 
-                            dataListener.onQuarterliesLanguagesChanged(ssQuarterlyLanguages);
-                            loadQuarterlies(getSelectedLanguage());
+                                    if (_ssQuarterlyLanguage.code.equalsIgnoreCase(ssDefaultLanguage)) {
+                                        _ssQuarterlyLanguage.selected = 1;
+                                        ssQuarterlyLanguage = _ssQuarterlyLanguage;
+                                        ssQuarterlyLanguages.add(0, _ssQuarterlyLanguage);
+                                    } else {
+                                        ssQuarterlyLanguages.add(_ssQuarterlyLanguage);
+                                    }
+                                }
+
+                                if (ssQuarterlyLanguages.size() > 0) {
+                                    ssQuarterlyLanguage = ssQuarterlyLanguages.get(0);
+                                    ssQuarterlyLanguage.selected = 1;
+                                }
+
+                                dataListener.onQuarterliesLanguagesChanged(ssQuarterlyLanguages);
+                                loadQuarterlies(getSelectedLanguage());
+                            } catch (Exception e){
+                                Crashlytics.log(e.getMessage());
+                            }
                         }
                     }
 
@@ -212,23 +222,32 @@ public class SSQuarterliesViewModel implements SSViewModel {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot != null) {
-                            Iterable<DataSnapshot> data = dataSnapshot.getChildren();
-                            ssQuarterlies.clear();
+                            try {
+                                Iterable<DataSnapshot> data = dataSnapshot.getChildren();
 
-                            for(DataSnapshot d: data){
-                                ssQuarterlies.add(d.getValue(SSQuarterly.class));
-                            }
+                                if (ssQuarterlies == null) {
+                                    ssQuarterlies = new ArrayList<>();
+                                } else {
+                                    ssQuarterlies.clear();
+                                }
 
-                            dataListener.onQuarterliesChanged(ssQuarterlies);
+                                for(DataSnapshot d: data){
+                                    ssQuarterlies.add(d.getValue(SSQuarterly.class));
+                                }
 
-                            ssQuarterliesListVisibility.set(View.VISIBLE);
-                            ssQuarterliesLoadingVisibility.set(View.INVISIBLE);
-                            ssQuarterliesErrorMessageVisibility.set(View.INVISIBLE);
-                            ssQuarterliesEmptyStateVisibility.set(View.INVISIBLE);
-                            ssQuarterliesErrorStateVisibility.set(View.INVISIBLE);
+                                dataListener.onQuarterliesChanged(ssQuarterlies);
 
-                            if (ssQuarterlies.size() == 0) {
-                                ssQuarterliesEmptyStateVisibility.set(View.VISIBLE);
+                                ssQuarterliesListVisibility.set(View.VISIBLE);
+                                ssQuarterliesLoadingVisibility.set(View.INVISIBLE);
+                                ssQuarterliesErrorMessageVisibility.set(View.INVISIBLE);
+                                ssQuarterliesEmptyStateVisibility.set(View.INVISIBLE);
+                                ssQuarterliesErrorStateVisibility.set(View.INVISIBLE);
+
+                                if (ssQuarterlies.size() == 0) {
+                                    ssQuarterliesEmptyStateVisibility.set(View.VISIBLE);
+                                }
+                            } catch (Exception e){
+                                Crashlytics.log(e.getMessage());
                             }
                         }
                     }

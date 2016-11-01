@@ -57,4 +57,10 @@ public class SSLoginActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ssLoginViewModel.destroy();
+    }
 }
