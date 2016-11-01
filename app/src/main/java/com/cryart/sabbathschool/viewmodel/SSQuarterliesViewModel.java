@@ -197,10 +197,11 @@ public class SSQuarterliesViewModel implements SSViewModel {
                                     ssQuarterlyLanguage.selected = 1;
                                 }
 
-                                dataListener.onQuarterliesLanguagesChanged(ssQuarterlyLanguages);
+                                if (dataListener != null) dataListener.onQuarterliesLanguagesChanged(ssQuarterlyLanguages);
                                 loadQuarterlies(getSelectedLanguage());
                             } catch (Exception e){
                                 Crashlytics.log(Log.INFO, TAG, e.getMessage());
+                                Log.d(TAG, "INTERESTING!" + e.getMessage());
                             }
                         }
                     }
@@ -236,7 +237,7 @@ public class SSQuarterliesViewModel implements SSViewModel {
                                     ssQuarterlies.add(d.getValue(SSQuarterly.class));
                                 }
 
-                                dataListener.onQuarterliesChanged(ssQuarterlies);
+                                if (dataListener != null) dataListener.onQuarterliesChanged(ssQuarterlies);
 
                                 ssQuarterliesListVisibility.set(View.VISIBLE);
                                 ssQuarterliesLoadingVisibility.set(View.INVISIBLE);
@@ -249,6 +250,7 @@ public class SSQuarterliesViewModel implements SSViewModel {
                                 }
                             } catch (Exception e){
                                 Crashlytics.log(Log.INFO, TAG, e.getMessage());
+                                Log.d(TAG, "INTERESTING!" + e.getMessage());
                             }
                         }
                     }

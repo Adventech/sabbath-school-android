@@ -136,9 +136,9 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot != null) {
                             ssLessonInfo = dataSnapshot.getValue(SSLessonInfo.class);
-                            dataListener.onLessonInfoChanged(ssLessonInfo);
+                            if (dataListener != null) dataListener.onLessonInfoChanged(ssLessonInfo);
 
-                            if (ssLessonInfo != null && ssLessonInfo.days.size() > 0) {
+                            if (ssLessonInfo != null && ssReadPosition != null && ssLessonInfo.days.size() > 0) {
                                 DateTime today = DateTime.now().withTimeAtStartOfDay();
                                 int idx = 0;
 
@@ -203,8 +203,10 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     }
 
     private void loadRead(){
-        String dayIndex = ssLessonInfo.days.get(ssReadPosition.get()).index;
-        loadRead(dayIndex);
+        if (ssLessonInfo != null && ssReadPosition != null) {
+            String dayIndex = ssLessonInfo.days.get(ssReadPosition.get()).index;
+            loadRead(dayIndex);
+        }
     }
 
     public void loadRead(final String dayIndex){
@@ -232,14 +234,19 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                                 ssReadHighlights = dataSnapshot.getValue(SSReadHighlights.class);
                             }
                         }
-                        ssReadingActivityBinding.ssReadingView.setReadHighlights(ssReadHighlights);
-                        ssReadingActivityBinding.ssReadingView.updateHighlights();
+
+                        if (ssReadingActivityBinding != null) {
+                            ssReadingActivityBinding.ssReadingView.setReadHighlights(ssReadHighlights);
+                            ssReadingActivityBinding.ssReadingView.updateHighlights();
+                        }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         SSReadHighlights ssReadHighlights = new SSReadHighlights(dayIndex, "");
-                        ssReadingActivityBinding.ssReadingView.setReadHighlights(ssReadHighlights);
+                        if (ssReadingActivityBinding != null) {
+                            ssReadingActivityBinding.ssReadingView.setReadHighlights(ssReadHighlights);
+                        }
                     }
                 });
 
@@ -255,14 +262,18 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                                 ssReadComments = dataSnapshot.getValue(SSReadComments.class);
                             }
                         }
-                        ssReadingActivityBinding.ssReadingView.setReadComments(ssReadComments);
-                        ssReadingActivityBinding.ssReadingView.updateComments();
+                        if (ssReadingActivityBinding != null) {
+                            ssReadingActivityBinding.ssReadingView.setReadComments(ssReadComments);
+                            ssReadingActivityBinding.ssReadingView.updateComments();
+                        }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         SSReadComments ssReadComments = new SSReadComments(dayIndex, new ArrayList<SSComment>());
-                        ssReadingActivityBinding.ssReadingView.setReadComments(ssReadComments);
+                        if (ssReadingActivityBinding != null) {
+                            ssReadingActivityBinding.ssReadingView.setReadComments(ssReadComments);
+                        }
                     }
                 });
 
@@ -273,7 +284,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot != null) {
                             ssRead = dataSnapshot.getValue(SSRead.class);
-                            dataListener.onReadChanged(ssRead);
+                            if (dataListener != null) dataListener.onReadChanged(ssRead);
                         }
                     }
 
