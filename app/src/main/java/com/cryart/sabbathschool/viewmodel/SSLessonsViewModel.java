@@ -102,7 +102,7 @@ public class SSLessonsViewModel implements SSViewModel {
                                 Crashlytics.logException(e);
                             }
 
-                            dataListener.onQuarterlyChanged(ssQuarterlyInfo);
+                            if (dataListener != null) dataListener.onQuarterlyChanged(ssQuarterlyInfo);
                             ssLessonsLoadingVisibility.set(View.INVISIBLE);
                             ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
                             ssLessonsErrorStateVisibility.set(View.INVISIBLE);
