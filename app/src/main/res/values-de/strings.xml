@@ -31,15 +31,15 @@
     <string name="ss_menu_read_now">Lies jetzt</string>
     <string name="ss_menu_share_app">App teilen</string>
     <string name="ss_menu_share_app_text">Ich bin mit diesem Sabbat Schule App</string>
-    <string name="ss_my_highlights">Meine Highlights</string>
+    <string name="ss_my_highlights">Meine Hervorhebens</string>
     <string name="ss_my_notes">Meine Notizen</string>
     <string name="ss_settings">Einstellungen</string>
-    <string name="ss_about">Etwa</string>
+    <string name="ss_about">Über</string>
     <string name="ss_login_failed">Anmeldung fehlgeschlagen. Bitte versuche es erneut</string>
     <string name="ss_login_anonymously_dialog_positive">Ja</string>
     <string name="ss_login_anonymously_dialog_negative">Nein</string>
     <string name="ss_login_anonymously_dialog_title">Einloggen anonym?</string>
-    <string name="ss_login_anonymously_dialog_description">Mit der Anmeldung anonym werden Sie nicht in der Lage sein, sich auf Ihre Daten, wie zum Beispiel Kommentare und Highlights, auf verschiedenen Geräten synchronisieren oder nach der Anwendung zu deinstallieren. Sind Sie sicher, dass Sie fortfahren möchten?</string>
+    <string name="ss_login_anonymously_dialog_description">Mit der Anmeldung anonym werden Sie nicht in der Lage sein, sich auf Ihre Daten, wie zum Beispiel Kommentare und Hervorhebens, auf verschiedenen Geräten synchronisieren oder nach der Anwendung zu deinstallieren. Sind Sie sicher, dass Sie fortfahren möchten?</string>
     <string name="ss_quarterlies_filter_languages_prompt_title">Lesen sie mehr sprachen</string>
     <string name="ss_quarterlies_filter_languages_prompt_description">Tippen sie auf das filtersymbol, um alle verfügbaren sprachen anzuzeigen</string>
     <string name="ss_quarterlies_filter_languages">Filter Sprachen</string>
@@ -82,9 +82,9 @@
     <string name="ss_settings_font_size_huge">Enorm</string>
 
     <!-- RATE APP -->
-    <string name="rate_dialog_title">Bewerten Sabbatschule</string>
-    <string name="rate_dialog_message">Wenn Sie Sabbatschule mögen, würde es Ihnen etwas ausmachen man einen Moment dauert es, um zu bewerten? Danke für deine Unterstützung!</string>
-    <string name="rate_dialog_ok">Bewerte es</string>
+    <string name="rate_dialog_title">Sabbatschule-App bewerten</string>
+    <string name="rate_dialog_message">Wenn Sie Sabbatschule-App mögen, wären Sie bereit einen Moment Zeit zu nehmen um die App zu bewerten? Danke für Ihre Unterstützung!</string>
+    <string name="rate_dialog_ok">Bewerten</string>
     <string name="rate_dialog_cancel">Später</string>
     <string name="rate_dialog_no">Nein</string>
     
