@@ -32,6 +32,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Interpolator;
@@ -199,7 +200,7 @@ public class SSQuarterliesViewModel implements SSViewModel {
                                 dataListener.onQuarterliesLanguagesChanged(ssQuarterlyLanguages);
                                 loadQuarterlies(getSelectedLanguage());
                             } catch (Exception e){
-                                Crashlytics.log(e.getMessage());
+                                Crashlytics.log(Log.INFO, TAG, e.getMessage());
                             }
                         }
                     }
@@ -247,7 +248,7 @@ public class SSQuarterliesViewModel implements SSViewModel {
                                     ssQuarterliesEmptyStateVisibility.set(View.VISIBLE);
                                 }
                             } catch (Exception e){
-                                Crashlytics.log(e.getMessage());
+                                Crashlytics.log(Log.INFO, TAG, e.getMessage());
                             }
                         }
                     }
