@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "96814818762",
+    "firebase_url": "https://sabbath-school-stage.firebaseio.com",
+    "project_id": "sabbath-school-stage",
+    "storage_bucket": "sabbath-school-stage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96814818762:android:88379b7a89890100",
+        "android_client_info": {
+          "package_name": "com.cryart.sabbathschool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "96814818762-q2av26f1s4rqj9ueqlp8b7ee8gep5en1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo1rOMpy7oIqLdfvo9k36Nqk_aC4GolmY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
