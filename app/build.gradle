@@ -65,12 +65,9 @@ android {
 
             vectorDrawables.useSupportLibrary = true
         }
-    }
-    else {
+    } else {
         throw new GradleException("Could not read version.properties!")
     }
-
-
 
     signingConfigs {
         release {
