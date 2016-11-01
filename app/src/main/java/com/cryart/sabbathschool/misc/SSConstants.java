@@ -58,6 +58,7 @@ public class SSConstants {
     public static final String SS_USER_PHOTO_INDEX = "ss_user_photo_index";
 
     public static final String SS_LAST_BIBLE_VERSION_USED = "ss_last_bible_version_used";
+    public static final String SS_LANGUAGE_FILTER_PROMPT_SEEN = "ss_language_filter_prompt_seen";
 
     public static final String SS_READER_APP_BASE_URL = "file:///android_asset/reader/";
     public static final String SS_READER_APP_ENTRYPOINT = "reader/index.html";

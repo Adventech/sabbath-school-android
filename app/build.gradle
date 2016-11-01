@@ -113,6 +113,7 @@ dependencies {
     compile "com.google.firebase:firebase-database:$PLAY_SERVICES_VERSION"
     compile "com.google.firebase:firebase-messaging:$PLAY_SERVICES_VERSION"
 
+    compile "uk.co.samuelwall:material-tap-target-prompt:1.5.0"
     compile "com.nostra13.universalimageloader:universal-image-loader:1.9.5"
     compile "com.github.hotchemi:android-rate:1.0.1"
     compile "org.apache.commons:commons-lang3:3.4"
@@ -123,7 +124,6 @@ dependencies {
     compile "com.github.medyo:fancybuttons:1.7"
     compile "com.mikepenz:iconics-core:2.8.1@aar"
     compile "com.mikepenz:google-material-typeface:2.2.0.3.original@aar"
-    compile "com.github.pwittchen:reactivenetwork:0.5.2"
 
     compile("com.crashlytics.sdk.android:crashlytics:2.6.1@aar") {
         transitive = true;

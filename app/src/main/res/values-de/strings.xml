@@ -40,6 +40,8 @@
     <string name="ss_login_anonymously_dialog_negative">Nein</string>
     <string name="ss_login_anonymously_dialog_title">Einloggen anonym?</string>
     <string name="ss_login_anonymously_dialog_description">Mit der Anmeldung anonym werden Sie nicht in der Lage sein, sich auf Ihre Daten, wie zum Beispiel Kommentare und Highlights, auf verschiedenen Geräten synchronisieren oder nach der Anwendung zu deinstallieren. Sind Sie sicher, dass Sie fortfahren möchten?</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">Lesen sie mehr sprachen</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">Tippen sie auf das filtersymbol, um alle verfügbaren sprachen anzuzeigen</string>
     <string name="ss_quarterlies_filter_languages">Filter Sprachen</string>
     <string name="ss_quarterlies_downloading">Herunterladen vierteljährlich</string>
     <string name="ss_quarterlies_error">Unbekannter Fehler aufgetreten. Bitte versuche es erneut</string>

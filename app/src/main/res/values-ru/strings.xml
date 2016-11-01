@@ -48,6 +48,9 @@
     <string name="ss_login_anonymously_dialog_title">Войти анонимно?</string>
     <string name="ss_login_anonymously_dialog_description">Входя анонимно вы не сможете синхронизировать данные, такие как комментарии и выделения, на разных устройствах или после удаления приложения. Вы уверены, что хотите продолжить?</string>
 
+    <string name="ss_quarterlies_filter_languages_prompt_title">Читать на других языках</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">Нажмите кнопку фильтр, чтобы увидеть доступные языки</string>
+
     <string name="ss_quarterlies_filter_languages">Фильтр по языку</string>
     <string name="ss_quarterlies_downloading">Загружаю список урочников…</string>
     <string name="ss_quarterlies_error">Произошла неизвестная ошибка. Пожалуйста, попробуйте еще раз</string>

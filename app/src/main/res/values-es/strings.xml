@@ -47,6 +47,9 @@
     <string name="ss_login_anonymously_dialog_title">Iniciar sesión de forma anónima?</string>
     <string name="ss_login_anonymously_dialog_description">Al iniciar la sesión en forma anónima que no será capaz de sincronizar los datos, tales como comentarios y pone de relieve, a través de dispositivos o después de la desinstalación de la aplicación. ¿Seguro que desea continuar?</string>
 
+    <string name="ss_quarterlies_filter_languages_prompt_title">Leer en más idiomas</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">Toque el icono de filtro para ver todos los idiomas disponibles</string>
+
     <string name="ss_quarterlies_filter_languages">Filtrar Idiomas</string>
     <string name="ss_quarterlies_downloading">Cómo trimestrales…</string>
     <string name="ss_quarterlies_error">Se produjo un error desconocido. Por favor, inténtelo de nuevo</string>
