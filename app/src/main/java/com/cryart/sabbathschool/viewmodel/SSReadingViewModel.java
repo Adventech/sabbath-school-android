@@ -282,7 +282,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot != null) {
+                        if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                             ssRead = dataSnapshot.getValue(SSRead.class);
                             if (dataListener != null) dataListener.onReadChanged(ssRead);
                         }
@@ -407,41 +407,43 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
     @Override
     public void onSelectionStarted(float x, float y) {
-        y = y - ssReadingActivityBinding.ssReadingViewScroll.getScrollY();
+        if (ssReadingActivityBinding != null) {
+            y = y - ssReadingActivityBinding.ssReadingViewScroll.getScrollY();
 
-        DisplayMetrics metrics = new DisplayMetrics();
-        ((SSReadingActivity)context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.getLayoutParams();
+            DisplayMetrics metrics = new DisplayMetrics();
+            ((SSReadingActivity) context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.getLayoutParams();
 
-        int contextMenuWidth = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.getWidth();
-        int contextMenuHeight = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.getHeight();
-
-
-        int screenWidth = metrics.widthPixels;
-        int screenHeight = metrics.heightPixels;
-
-        int margin = SSHelper.convertDpToPixels(context, 20);
-        int jumpMargin = SSHelper.convertDpToPixels(context, 60);
+            int contextMenuWidth = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.getWidth();
+            int contextMenuHeight = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.getHeight();
 
 
-        int contextMenuX = (int)x - (contextMenuWidth / 2);
-        int contextMenuY = ssReadingActivityBinding.ssReadingViewScroll.getTop() + (int)y - contextMenuHeight - margin;
+            int screenWidth = metrics.widthPixels;
+            int screenHeight = metrics.heightPixels;
 
-        if (contextMenuX - margin < 0){
-            contextMenuX = margin;
+            int margin = SSHelper.convertDpToPixels(context, 20);
+            int jumpMargin = SSHelper.convertDpToPixels(context, 60);
+
+
+            int contextMenuX = (int) x - (contextMenuWidth / 2);
+            int contextMenuY = ssReadingActivityBinding.ssReadingViewScroll.getTop() + (int) y - contextMenuHeight - margin;
+
+            if (contextMenuX - margin < 0) {
+                contextMenuX = margin;
+            }
+
+            if (contextMenuX + contextMenuWidth + margin > screenWidth) {
+                contextMenuX = screenWidth - margin - contextMenuWidth;
+            }
+
+            if (contextMenuY - margin < 0) {
+                contextMenuY = contextMenuY + contextMenuHeight + jumpMargin;
+            }
+
+            params.setMargins(contextMenuX, contextMenuY, 0, 0);
+            ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.setLayoutParams(params);
+            ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.setVisibility(View.VISIBLE);
         }
-
-        if (contextMenuX + contextMenuWidth + margin > screenWidth){
-            contextMenuX = screenWidth - margin - contextMenuWidth;
-        }
-
-        if (contextMenuY - margin < 0){
-            contextMenuY = contextMenuY + contextMenuHeight + jumpMargin;
-        }
-
-        params.setMargins(contextMenuX, contextMenuY, 0, 0);
-        ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.setLayoutParams(params);
-        ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.setVisibility(View.VISIBLE);
     }
 
     @Override
