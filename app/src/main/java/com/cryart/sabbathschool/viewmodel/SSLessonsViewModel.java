@@ -32,7 +32,6 @@ import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLesson;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
@@ -94,12 +93,10 @@ public class SSLessonsViewModel implements SSViewModel {
                         if (dataSnapshot != null) {
                             ssQuarterlyInfo = dataSnapshot.getValue(SSQuarterlyInfo.class);
 
-                            try {
+                            if (shared != null){
                                 SharedPreferences.Editor editor = shared.edit();
                                 editor.putString(SSConstants.SS_LAST_QUARTERLY_INDEX, ssQuarterlyInfo.quarterly.index);
                                 editor.apply();
-                            } catch(Exception e){
-                                Crashlytics.logException(e);
                             }
 
                             if (dataListener != null) dataListener.onQuarterlyChanged(ssQuarterlyInfo);

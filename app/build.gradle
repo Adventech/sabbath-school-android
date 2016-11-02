@@ -60,20 +60,13 @@ android {
             applicationId "com.cryart.sabbathschool"
             minSdkVersion 14
             targetSdkVersion 25
-            versionCode 14
+            versionCode 15
             versionName "3.0." + versionBuild
 
             vectorDrawables.useSupportLibrary = true
             testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         }
 
-        packagingOptions {
-            exclude 'LICENSE.txt'
-        }
-
-        lintOptions {
-            abortOnError false
-        }
     } else {
         throw new GradleException("Could not read version.properties!")
     }
@@ -93,7 +86,7 @@ android {
         }
 
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
