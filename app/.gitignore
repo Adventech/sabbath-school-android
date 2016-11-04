@@ -1,1 +1,4 @@
 /build
+app-release.apk
+fabric.properties
+crashlytics.properties
