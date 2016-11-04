@@ -6,4 +6,4 @@
 /build
 /captures
 fabric.properties
-crashlytics.properties
+/fastlane
