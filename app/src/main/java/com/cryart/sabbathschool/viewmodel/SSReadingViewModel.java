@@ -448,23 +448,29 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
     @Override
     public void onSelectionFinished() {
-        ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.setVisibility(View.INVISIBLE);
+        if (ssReadingActivityBinding != null) {
+            ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
     public void onHighlightsReceived(SSReadHighlights ssReadHighlights) {
-        mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
-                .child(ssFirebaseAuth.getCurrentUser().getUid())
-                .child(ssReadHighlights.readIndex)
-                .setValue(ssReadHighlights);
+        if (mDatabase != null){
+            mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
+                    .child(ssFirebaseAuth.getCurrentUser().getUid())
+                    .child(ssReadHighlights.readIndex)
+                    .setValue(ssReadHighlights);
+        }
     }
 
     @Override
     public void onCommentsReceived(SSReadComments ssReadComments) {
-        mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
-                .child(ssFirebaseAuth.getCurrentUser().getUid())
-                .child(ssReadComments.readIndex)
-                .setValue(ssReadComments);
+        if (mDatabase != null) {
+            mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
+                    .child(ssFirebaseAuth.getCurrentUser().getUid())
+                    .child(ssReadComments.readIndex)
+                    .setValue(ssReadComments);
+        }
     }
 
     @Override

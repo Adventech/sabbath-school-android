@@ -397,19 +397,20 @@ public class SSReadingView extends WebView {
                         .input(context.getString(R.string.ss_reading_enter_comment), comments, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
-
-                                boolean found = false;
-                                for(SSComment comment : ssReadComments.comments){
-                                    if (comment.elementId.equalsIgnoreCase(inputId)){
-                                        comment.comment = input.toString();
-                                        found = true;
+                                if (ssReadComments != null) {
+                                    boolean found = false;
+                                    for (SSComment comment : ssReadComments.comments) {
+                                        if (comment.elementId.equalsIgnoreCase(inputId)) {
+                                            comment.comment = input.toString();
+                                            found = true;
+                                        }
                                     }
+                                    if (!found) {
+                                        ssReadComments.comments.add(new SSComment(inputId, input.toString()));
+                                    }
+                                    highlightsCommentsCallback.onCommentsReceived(ssReadComments);
+                                    setIndividualComment(input.toString(), inputId);
                                 }
-                                if (!found){
-                                    ssReadComments.comments.add(new SSComment(inputId, input.toString()));
-                                }
-                                highlightsCommentsCallback.onCommentsReceived(ssReadComments);
-                                setIndividualComment(input.toString(), inputId);
                             }
                         }).show();
 
