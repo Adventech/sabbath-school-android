@@ -198,17 +198,19 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
                 String providerId = profile.getProviderId();
                 if (providerId.equals(FIREBASE_PROVIDER_ID)) {
                     if (!user.isAnonymous()) {
-                        String name = profile.getDisplayName();
-                        String email = profile.getEmail();
-                        Uri photoUrl = profile.getPhotoUrl();
-                        String photo = photoUrl != null ? photoUrl.toString() : "";
+                        if (context != null) {
+                            String name = profile.getDisplayName();
+                            String email = profile.getEmail();
+                            Uri photoUrl = profile.getPhotoUrl();
+                            String photo = photoUrl != null ? photoUrl.toString() : "";
 
-                        SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(context);
-                        SharedPreferences.Editor editor = shared.edit();
-                        editor.putString(SSConstants.SS_USER_NAME_INDEX, name);
-                        editor.putString(SSConstants.SS_USER_EMAIL_INDEX, email);
-                        editor.putString(SSConstants.SS_USER_PHOTO_INDEX, photo);
-                        editor.commit();
+                            SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(context);
+                            SharedPreferences.Editor editor = shared.edit();
+                            editor.putString(SSConstants.SS_USER_NAME_INDEX, name);
+                            editor.putString(SSConstants.SS_USER_EMAIL_INDEX, email);
+                            editor.putString(SSConstants.SS_USER_PHOTO_INDEX, photo);
+                            editor.commit();
+                        }
                     }
                     openApp();
                 }

@@ -105,9 +105,6 @@
                   android:theme="@android:style/Theme.Translucent.NoTitleBar"
                   android:label="@string/ss_app_name" />
 
-        <meta-data android:name="io.fabric.ApiKey"
-                   android:value="b718183da1681116e553f8dce7f2e124001cf594" />
-
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
