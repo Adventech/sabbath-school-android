@@ -41,6 +41,8 @@
     <string name="ss_login_anonymously_dialog_negative">"לא"</string>
     <string name="ss_login_anonymously_dialog_title">"התחברות באופן אנונימי?"</string>
     <string name="ss_login_anonymously_dialog_description">"באמצעות כניסה אנונימי אתה לא תוכל לסנכרן את הנתונים שלך, כגון הערות ונקודות מרכזיות, במכשירים שונים או לאחר הסרת יישום. האם אתה בטוח שברצונך להמשיך?"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"קרא ב- ביותר שפות"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"הקש על הסמל מסנן כדי לראות את כל השפות הזמינות"</string>
     <string name="ss_quarterlies_filter_languages">"שפות מסנן"</string>
     <string name="ss_quarterlies_downloading">"איך רבעונים ..."</string>
     <string name="ss_quarterlies_error">"אירעה שגיאה לא מוכרת. בבקשה נסה שוב"</string>
@@ -60,6 +62,7 @@
     <string name="ss_reading_enter_comment">"הזן את ההערה שלך"</string>
     <string name="ss_reading_copied">"הבחירה הועתקה."</string>
     <string name="ss_reading_share_to">"שתף בחירה:"</string>
+    <string name="ss_bible">"כִּתבֵי הַקוֹדֶשׁ"</string>
 
     <!-- TODO: remove when done -->
     <string name="ss_coming_soon_header">"בקרוב"</string>
