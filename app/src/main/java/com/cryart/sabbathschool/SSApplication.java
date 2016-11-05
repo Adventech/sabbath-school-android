@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.widget.ImageView;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
@@ -58,7 +59,7 @@ public class SSApplication extends Application {
 
         JodaTimeAndroid.init(this);
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics(), new Answers());
 
         DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
