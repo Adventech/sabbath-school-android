@@ -46,7 +46,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="@dimen/ss_lessons_toolbar_title_margin_start"
             app:expandedTitleMarginTop="@dimen/ss_lessons_toolbar_title_margin_top"
-            app:expandedTitleGravity="top">
+            app:expandedTitleGravity="start|top">
 
             <RelativeLayout
                 android:layout_width="match_parent"
