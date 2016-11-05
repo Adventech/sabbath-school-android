@@ -55,7 +55,7 @@ public class SSReadingListItemViewModel extends BaseObservable implements SSView
     public String getDate() {
         return StringUtils.capitalize(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
                 .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                        .parseDateTime(ssDay.date)));
+                        .parseLocalDate(ssDay.date)));
     }
 
     public void onItemClick(){
