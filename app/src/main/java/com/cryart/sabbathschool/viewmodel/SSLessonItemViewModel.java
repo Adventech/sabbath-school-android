@@ -56,11 +56,11 @@ public class SSLessonItemViewModel extends BaseObservable implements SSViewModel
 
         String startDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
                 .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                        .parseDateTime(ssLesson.start_date));
+                        .parseLocalDate(ssLesson.start_date));
 
         String endDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
                 .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                        .parseDateTime(ssLesson.end_date));
+                        .parseLocalDate(ssLesson.end_date));
 
         return StringUtils.capitalize(startDateOut) + " - " + StringUtils.capitalize(endDateOut);
     }

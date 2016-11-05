@@ -144,8 +144,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
                                 for (SSDay ssDay : ssLessonInfo.days){
                                     DateTime startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                                            .parseDateTime(ssDay.date).withTimeAtStartOfDay();
-
+                                                .parseLocalDate(ssDay.date).toDateTimeAtStartOfDay();
                                     if (startDate.isEqual(today)){
                                         ssReadPosition.set(idx);
                                         break;
@@ -377,11 +376,11 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         if (ssLessonInfo != null){
             String startDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
                     .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                            .parseDateTime(ssLessonInfo.lesson.start_date));
+                            .parseLocalDate(ssLessonInfo.lesson.start_date));
 
             String endDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
                     .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                            .parseDateTime(ssLessonInfo.lesson.end_date));
+                            .parseLocalDate(ssLessonInfo.lesson.end_date));
 
             return StringUtils.capitalize(startDateOut) + " - " + StringUtils.capitalize(endDateOut);
         }
@@ -391,7 +390,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     public String formatDate(String date, String DateFormatOutput){
         return StringUtils.capitalize(DateTimeFormat.forPattern(DateFormatOutput)
                 .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                        .parseDateTime(date)));
+                        .parseLocalDate(date)));
     }
 
     public String formatDate(String date){

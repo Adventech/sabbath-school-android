@@ -133,10 +133,10 @@ public class SSLessonsViewModel implements SSViewModel {
 
             for (SSLesson ssLesson : ssQuarterlyInfo.lessons){
                 DateTime startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                        .parseDateTime(ssLesson.start_date).withTimeAtStartOfDay();
+                        .parseLocalDate(ssLesson.start_date).toDateTimeAtStartOfDay();
 
                 DateTime endDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                        .parseDateTime(ssLesson.end_date).plusDays(1).withTimeAtStartOfDay();
+                        .parseLocalDate(ssLesson.end_date).plusDays(1).toDateTimeAtStartOfDay();
 
                 if (new Interval(startDate, endDate).contains(today)){
                     ssLessonIndex = ssLesson.index;
