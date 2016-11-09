@@ -25,14 +25,16 @@ package com.cryart.sabbathschool.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.cryart.sabbathschool.R;
+import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -50,7 +52,9 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public abstract class SSBaseActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, AccountHeader.OnAccountHeaderListener, FirebaseAuth.AuthStateListener {
+import static android.graphics.Color.parseColor;
+
+public abstract class SSBaseActivity extends SSColorSchemeActivity implements Drawer.OnDrawerItemClickListener, AccountHeader.OnAccountHeaderListener, FirebaseAuth.AuthStateListener {
     private static final String TAG = SSBaseActivity.class.getSimpleName();
 
     private static final String APP_PLAY_STORE_LINK = "https://play.google.com/store/apps/details?id=com.cryart.sabbathschool";
@@ -66,6 +70,10 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
 
     private FirebaseAuth ssFirebaseAuth;
 
+    private Drawer ssNavigationDrawer;
+    private AccountHeader ssAccountHeader;
+    private IDrawerItem[] ssDrawerItems = new IDrawerItem[7];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,15 +87,14 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
     }
 
     private IDrawerItem[] getDrawerItems(){
-        IDrawerItem[] ssDrawerItems = new IDrawerItem[7];
-
-        ssDrawerItems[0] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_read_now)).withIcon(GoogleMaterial.Icon.gmd_book).withIdentifier(MENU_READ_ID).withSelectable(false);
-        ssDrawerItems[1] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_my_highlights)).withIcon(GoogleMaterial.Icon.gmd_border_color).withIdentifier(MENU_HIGHLIGHTS_ID).withSelectable(false);
-        ssDrawerItems[2] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_my_notes)).withIcon(GoogleMaterial.Icon.gmd_comment).withIdentifier(MENU_NOTES_ID).withSelectable(false);
-        ssDrawerItems[3] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_settings)).withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(MENU_SETTINGS_ID).withSelectable(false);
+        int primaryColor = Color.parseColor(SSColorTheme.getInstance().getColorPrimary());
+        ssDrawerItems[0] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_read_now)).withIcon(GoogleMaterial.Icon.gmd_book).withIdentifier(MENU_READ_ID).withSelectable(false).withSelectedIconColor(primaryColor).withSelectedTextColor(primaryColor);
+        ssDrawerItems[1] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_my_highlights)).withIcon(GoogleMaterial.Icon.gmd_border_color).withIdentifier(MENU_HIGHLIGHTS_ID).withSelectable(false).withSelectedIconColor(primaryColor).withSelectedTextColor(primaryColor);
+        ssDrawerItems[2] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_my_notes)).withIcon(GoogleMaterial.Icon.gmd_comment).withIdentifier(MENU_NOTES_ID).withSelectable(false).withSelectedIconColor(primaryColor).withSelectedTextColor(primaryColor);
+        ssDrawerItems[3] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_settings)).withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(MENU_SETTINGS_ID).withSelectable(false).withSelectedIconColor(primaryColor).withSelectedTextColor(primaryColor);
         ssDrawerItems[4] = new DividerDrawerItem();
-        ssDrawerItems[5] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_share_app)).withIdentifier(MENU_SHARE_ID).withSelectable(false);
-        ssDrawerItems[6] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_about)).withIdentifier(MENU_ABOUT_ID).withSelectable(false);
+        ssDrawerItems[5] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_share_app)).withIdentifier(MENU_SHARE_ID).withSelectable(false).withSelectedTextColor(primaryColor);
+        ssDrawerItems[6] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_about)).withIdentifier(MENU_ABOUT_ID).withSelectable(false).withSelectedTextColor(primaryColor);
 
         return ssDrawerItems;
     }
@@ -98,7 +105,7 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
         String email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, getString(R.string.ss_menu_anonymous_email));
         String photo = prefs.getString(SSConstants.SS_USER_PHOTO_INDEX, MENU_ANONYMOUS_PHOTO);
 
-        return new AccountHeaderBuilder()
+        ssAccountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.color.colorPrimary)
@@ -106,15 +113,18 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
                         new ProfileDrawerItem().withName(name)
                                 .withEmail(email)
                                 .withIcon(photo)
+                                .withSelectedTextColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()))
                                 .withIdentifier(MENU_HEADER_PROFILE_ID),
                         new ProfileSettingDrawerItem().withName(getString(R.string.ss_menu_sign_out)).withIdentifier(MENU_HEADER_LOGOUT_ID)
                 )
                 .withOnAccountHeaderListener(this)
                 .build();
+
+        return ssAccountHeader;
     }
 
     protected void setUpDrawer(Toolbar ssToolbar){
-        new DrawerBuilder()
+        this.ssNavigationDrawer = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(ssToolbar)
                 .withAccountHeader(getAccountHeader())
@@ -125,13 +135,24 @@ public abstract class SSBaseActivity extends AppCompatActivity implements Drawer
     }
 
     protected void setUpDrawer(){
-        new DrawerBuilder()
+        this.ssNavigationDrawer = new DrawerBuilder()
                 .withActivity(this)
                 .withAccountHeader(getAccountHeader())
                 .addDrawerItems(getDrawerItems())
                 .withOnDrawerItemClickListener(this)
                 .withSelectedItem(1)
                 .build();
+    }
+
+    @Override
+    public void updateWindowColorScheme(){
+        this.ssAccountHeader.setBackground(new ColorDrawable(parseColor(SSColorTheme.getInstance().getColorPrimary())));
+
+        ssNavigationDrawer.removeAllItems();
+        ssNavigationDrawer.addItems(getDrawerItems());
+        ssNavigationDrawer.setSelection(1);
+
+        super.updateWindowColorScheme();
     }
 
     @Override

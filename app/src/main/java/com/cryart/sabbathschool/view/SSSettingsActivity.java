@@ -47,22 +47,24 @@ package com.cryart.sabbathschool.view;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsSettingsActivityBinding;
+import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSSettingsFragment;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class SSSettingsActivity extends AppCompatActivity {
+public class SSSettingsActivity extends SSColorSchemeActivity {
+    private SsSettingsActivityBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SsSettingsActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.ss_settings_activity);
+        binding = DataBindingUtil.setContentView(this, R.layout.ss_settings_activity);
         setSupportActionBar(binding.ssAppBar.ssToolbar);
         ActionBar ssToolbar = getSupportActionBar();
         if (ssToolbar != null) {
@@ -72,6 +74,12 @@ public class SSSettingsActivity extends AppCompatActivity {
         }
         binding.ssAppBar.toolbarTitle.setText(getString(R.string.ss_settings));
         getFragmentManager().beginTransaction().replace(R.id.ss_settings_frame, new SSSettingsFragment()).commit();
+        updateColorScheme();
+    }
+
+    private void updateColorScheme(){
+        binding.ssAppBar.ssToolbar.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()));
+        updateWindowColorScheme();
     }
 
     @Override

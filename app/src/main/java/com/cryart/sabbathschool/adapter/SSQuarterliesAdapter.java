@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.adapter;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import android.view.ViewGroup;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsQuarterlyItemFeaturedBinding;
 import com.cryart.sabbathschool.databinding.SsQuarterlyItemNormalBinding;
+import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.viewmodel.SSQuarterlyItemViewModel;
 
@@ -88,6 +90,10 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 SSQuarterlyViewHolderFeatured holder1 = (SSQuarterlyViewHolderFeatured) holder;
                 holder1.bindQuarterly(quarterlies.get(position));
                 holder1.binding.executePendingBindings();
+
+                holder1.binding.ssQuarterlyFeaturedBackground.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()));
+                holder1.binding.ssQuarterlyFeaturedRead.setFocusBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()));
+                holder1.binding.ssQuarterlyFeaturedRead.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimaryDark()));
                 break;
             }
 

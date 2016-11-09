@@ -25,18 +25,20 @@ package com.cryart.sabbathschool.view;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsAboutActivityBinding;
+import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.viewmodel.SSAboutViewModel;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class SSAboutActivity extends AppCompatActivity {
+public class SSAboutActivity extends SSColorSchemeActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,14 @@ public class SSAboutActivity extends AppCompatActivity {
         }
         binding.ssAppBar.toolbarTitle.setText(getString(R.string.ss_about));
         binding.setViewModel(new SSAboutViewModel(this));
+
+        int primaryColor = Color.parseColor(SSColorTheme.getInstance().getColorPrimary());
+
+        DrawableCompat.setTint(binding.ssLogo.getDrawable(), primaryColor);
+        binding.ssAppTitle.setTextColor(primaryColor);
+        binding.ssAppBar.ssToolbar.setBackgroundColor(primaryColor);
+
+        updateWindowColorScheme();
     }
 
     @Override

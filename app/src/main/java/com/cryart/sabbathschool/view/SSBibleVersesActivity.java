@@ -26,10 +26,10 @@ package com.cryart.sabbathschool.view;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -37,6 +37,7 @@ import android.widget.AdapterView;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.adapter.SSBibleVersionsAdapter;
 import com.cryart.sabbathschool.databinding.SsBibleVersesActivityBinding;
+import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSBibleVerses;
 import com.cryart.sabbathschool.model.SSRead;
@@ -60,6 +61,7 @@ public class SSBibleVersesActivity extends AppCompatActivity {
         if (readIndex == null) finish();
 
         binding.setViewModel(new SSBibleVersesViewModel(this));
+        binding.ssBibleVersesHeader.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()));
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();

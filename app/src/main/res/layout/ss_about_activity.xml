@@ -42,6 +42,7 @@
             layout="@layout/ss_app_bar" />
 
         <ImageView
+            android:id="@+id/ss_logo"
             android:layout_width="@dimen/ss_about_app_logo_size"
             android:layout_height="@dimen/ss_about_app_logo_size"
             android:layout_marginTop="@dimen/ss_about_app_logo_size"
@@ -49,6 +50,7 @@
             app:srcCompat="@drawable/ss_logo_color" />
 
         <TextView
+            android:id="@+id/ss_app_title"
             android:textColor="@color/colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

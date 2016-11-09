@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.view;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -33,6 +34,7 @@ import android.view.MenuItem;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.adapter.SSLessonsAdapter;
 import com.cryart.sabbathschool.databinding.SsLessonsActivityBinding;
+import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
 import com.cryart.sabbathschool.viewmodel.SSLessonsViewModel;
@@ -79,8 +81,23 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
         setUpDrawer();
     }
 
+    public void updateColorScheme(){
+        int primaryColor = Color.parseColor(SSColorTheme.getInstance().getColorPrimary());
+        binding.ssLessonsAppBar.ssLessonsToolbar.setBackgroundColor(primaryColor);
+        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setContentScrimColor(primaryColor);
+        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setBackgroundColor(primaryColor);
+        binding.ssLessonsAppBar.ssLessonsAppBarRead.setFocusBackgroundColor(primaryColor);
+        binding.ssLessonsAppBar.ssLessonsAppBarRead.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimaryDark()));
+
+        updateWindowColorScheme();
+    }
+
     @Override
     public void onQuarterlyChanged(SSQuarterlyInfo ssQuarterlyInfo) {
+        SSColorTheme.getInstance().setColorPrimary(ssQuarterlyInfo.quarterly.color_primary);
+        SSColorTheme.getInstance().setColorPrimaryDark(ssQuarterlyInfo.quarterly.color_primary_dark);
+        updateColorScheme();
+
         binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setTitle(ssQuarterlyInfo.quarterly.title);
         SSLessonsAdapter adapter = (SSLessonsAdapter) binding.ssLessonInfoList.getAdapter();
         adapter.setLessons(ssQuarterlyInfo.lessons);
@@ -117,5 +134,10 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
     }
 }
