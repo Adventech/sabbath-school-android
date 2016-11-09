@@ -201,7 +201,6 @@ public class SSQuarterliesViewModel implements SSViewModel {
                                 loadQuarterlies(getSelectedLanguage());
                             } catch (Exception e){
                                 Crashlytics.log(Log.INFO, TAG, e.getMessage());
-                                Log.d(TAG, "INTERESTING!" + e.getMessage());
                             }
                         }
                     }
@@ -250,7 +249,6 @@ public class SSQuarterliesViewModel implements SSViewModel {
                                 }
                             } catch (Exception e){
                                 Crashlytics.log(Log.INFO, TAG, e.getMessage());
-                                Log.d(TAG, "INTERESTING!" + e.getMessage());
                             }
                         }
                     }

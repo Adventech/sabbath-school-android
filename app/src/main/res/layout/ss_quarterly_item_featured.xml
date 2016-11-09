@@ -40,6 +40,7 @@
         android:layout_height="@dimen/ss_quarterly_item_featured_height">
 
         <View
+            android:id="@+id/ss_quarterly_featured_background"
             android:layout_alignParentTop="true"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/ss_quarterly_item_featured_background_height"

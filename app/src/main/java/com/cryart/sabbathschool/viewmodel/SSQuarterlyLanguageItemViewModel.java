@@ -25,10 +25,10 @@ package com.cryart.sabbathschool.viewmodel;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
-import android.support.v4.content.ContextCompat;
+import android.graphics.Color;
 import android.view.View;
 
-import com.cryart.sabbathschool.R;
+import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
 
 import mehdi.sakout.fancybuttons.FancyButton;
@@ -76,15 +76,11 @@ public class SSQuarterlyLanguageItemViewModel extends BaseObservable implements 
     public static void setFancyColor(View v, int selected){
         FancyButton view = (FancyButton) v;
         if (selected == 1) {
-            view.setFocusBackgroundColor(R.color.colorPrimaryDark);
-            view.setBackgroundColor(
-                    ContextCompat.getColor(v.getContext(), R.color.colorPrimaryDark)
-            );
+            view.setFocusBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimaryDark()));
+            view.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimaryDark()));
         } else {
-            view.setFocusBackgroundColor(R.color.colorPrimary);
-            view.setBackgroundColor(
-                    ContextCompat.getColor(v.getContext(), R.color.colorPrimary)
-            );
+            view.setFocusBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()));
+            view.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()));
         }
     }
 

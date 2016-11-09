@@ -38,6 +38,7 @@ import android.view.View;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.adapter.SSReadingSheetAdapter;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
+import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLessonInfo;
 import com.cryart.sabbathschool.model.SSRead;
@@ -73,7 +74,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
 
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/PTF76F.ttf"));
-        binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.OVERLAY);
+        binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.setColorFilter(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()), PorterDuff.Mode.OVERLAY);
 
         ViewCompat.setNestedScrollingEnabled(binding.ssReadingSheetList, false);
 
@@ -86,6 +87,16 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         binding.setViewModel(ssReadingViewModel);
 
         setUpDrawer();
+        updateColorScheme();
+    }
+
+    public void updateColorScheme(){
+        int primaryColor = Color.parseColor(SSColorTheme.getInstance().getColorPrimary());
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setContentScrimColor(primaryColor);
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setBackgroundColor(primaryColor);
+        binding.ssReadingSheetHeader.setBackgroundColor(primaryColor);
+
+        updateWindowColorScheme();
     }
 
     @Override
