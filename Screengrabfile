@@ -1,12 +1,12 @@
 # remove the leading '#' to uncomment lines
 
 app_package_name 'com.cryart.sabbathschool'
-# use_tests_in_packages ['your.screenshot.tests.package']
+use_tests_in_packages ['com.cryart.sabbathschool.loggedin']
 
-# app_apk_path 'path/to/your/app.apk'
-tests_apk_path 'path/to/your/tests.apk'
+app_apk_path 'app/build/outputs/apk/app-debug.apk'
+tests_apk_path 'app/build/outputs/apk/app-debug-androidTest.apk'
 
-locales ['en-US', 'fr-FR', 'ru-RU']
+locales ['en-US', 'fr-FR', 'ru-RU', 'de-DE', 'es-ES', 'pt-PT', 'tr-TR']
 
 # clear all previously generated screenshots in your local output directory before creating new ones
 clear_previous_screenshots true
