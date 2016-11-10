@@ -20,32 +20,59 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool;
+package com.cryart.sabbathschool.loggedin;
 
 
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.os.SystemClock;
 import android.support.test.rule.ActivityTestRule;
 
-import com.cryart.sabbathschool.view.SSLoginActivity;
+import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.view.SSLessonsActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
+import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.Locale;
+
 import tools.fastlane.screengrab.Screengrab;
 import tools.fastlane.screengrab.locale.LocaleTestRule;
 
+
 @RunWith(JUnit4.class)
-public class JUnit4StyleTests {
+public class SSLessonsActivityTest {
     @ClassRule
     public static final LocaleTestRule localeTestRule = new LocaleTestRule();
 
     @Rule
-    public ActivityTestRule<SSLoginActivity> activityRule = new ActivityTestRule<>(SSLoginActivity.class);
+    public ActivityTestRule<SSLessonsActivity> activityRule = new ActivityTestRule<>(SSLessonsActivity.class, false, false);
 
+
+    @Before
+    public void loginAsAnonymous(){
+        FirebaseAuth ssFirebaseAuth = FirebaseAuth.getInstance();
+
+        if (ssFirebaseAuth.getCurrentUser() == null){
+            ssFirebaseAuth.signInAnonymously();
+        }
+    }
+
+    @TargetApi(23)
     @Test
-    public void testTakeScreenshot() {
-        Screengrab.screenshot("login_activity");
+    public void takeScreenshot() {
+        Intent grouchyIntent = new Intent();
+        // intent stuff
+
+        grouchyIntent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, Locale.getDefault().getLanguage()+"-2016-04");
+        activityRule.launchActivity(grouchyIntent);
+
+        SystemClock.sleep(2000);
+        Screengrab.screenshot("lessons_screen");
     }
 }
