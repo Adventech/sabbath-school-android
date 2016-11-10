@@ -51,7 +51,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 public class SSReadingActivity extends SSBaseActivity implements SSReadingViewModel.DataListener {
     private static final String TAG = SSReadingActivity.class.getSimpleName();
 
-    private SsReadingActivityBinding binding;
+    public SsReadingActivityBinding binding;
     protected SSReadingViewModel ssReadingViewModel;
 
     @Override
