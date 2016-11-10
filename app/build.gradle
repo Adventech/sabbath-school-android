@@ -60,7 +60,7 @@ android {
             applicationId "com.cryart.sabbathschool"
             minSdkVersion 14
             targetSdkVersion 25
-            versionCode 15
+            versionCode 16
             versionName "3.1." + versionBuild
 
             vectorDrawables.useSupportLibrary = true
