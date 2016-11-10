@@ -1,5 +1,3 @@
-
-
 $(function(){
     window.ssReader = Class({
       $singleton: true,
@@ -129,6 +127,40 @@ $(function(){
       }
     });
 
+  if (typeof SSBridge == "undefined"){
+    window.SSBridge = Class({
+        $singleton: true,
+        urlBase: "sabbath-school://",
+
+        request: function(data){
+            window.location = this.urlBase + "/" + data;
+        },
+
+        onReceiveHighlights: function(highlights){
+            this.request("/highlights/" + highlights);
+        },
+
+        onVerseClick: function(verse){
+            this.request("/verse/" + verse);
+        },
+
+        onCommentsClick: function(comments){
+            this.request("/comments/" + verse);
+        },
+
+        onCopy: function(text){
+            this.request("/copy/" + verse);
+        },
+
+        onShare: function(text){
+            this.request("/share/" + verse);
+        },
+
+        onSearch: function(text){
+            this.request("/search/" + verse);
+        }
+    });
+  }
 
   if(typeof ssReader !== "undefined"){ssReader.init();}
 
