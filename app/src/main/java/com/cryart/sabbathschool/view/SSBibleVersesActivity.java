@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.cryart.sabbathschool.R;
+import com.cryart.sabbathschool.SSApplication;
 import com.cryart.sabbathschool.adapter.SSBibleVersionsAdapter;
 import com.cryart.sabbathschool.databinding.SsBibleVersesActivityBinding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
@@ -78,7 +79,7 @@ public class SSBibleVersesActivity extends AppCompatActivity {
                             SSBibleVersionsAdapter ssBibleVersionsAdapter = new SSBibleVersionsAdapter(ssRead.bible);
                             binding.ssReadingBibleVersionList.setAdapter(ssBibleVersionsAdapter);
 
-                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SSApplication.get());
                             String lastBibleVersionUsed = prefs.getString(SSConstants.SS_LAST_BIBLE_VERSION_USED, null);
 
                             if (lastBibleVersionUsed != null){
@@ -98,7 +99,7 @@ public class SSBibleVersesActivity extends AppCompatActivity {
                                 @Override
                                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                                     SSBibleVerses ssBibleVerses = (SSBibleVerses) adapterView.getItemAtPosition(i);
-                                    SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                    SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(SSApplication.get());
                                     SharedPreferences.Editor editor = shared.edit();
                                     editor.putString(SSConstants.SS_LAST_BIBLE_VERSION_USED, ssBibleVerses.name);
                                     editor.apply();

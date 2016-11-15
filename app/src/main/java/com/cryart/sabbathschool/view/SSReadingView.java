@@ -423,7 +423,7 @@ public class SSReadingView extends WebView {
                 ClipboardManager _clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText(SSReadingView.CLIPBOARD_LABEL, selection);
                 _clipboard.setPrimaryClip(clip);
-                Toast.makeText(context.getApplicationContext(), context.getString(R.string.ss_reading_copied), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, context.getString(R.string.ss_reading_copied), Toast.LENGTH_LONG).show();
             } catch (Exception e){}
         }
 

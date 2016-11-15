@@ -69,8 +69,6 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
 public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback {
     private static final String TAG = SSReadingViewModel.class.getSimpleName();
 
@@ -195,7 +193,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                                     .child(ssRead.index)
                                     .setValue(new SSSuggestion(name, email, input.toString()));
 
-                            Toast.makeText(getApplicationContext(), context.getString(R.string.ss_reading_suggest_edit_done), Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, context.getString(R.string.ss_reading_suggest_edit_done), Toast.LENGTH_LONG).show();
                         }
                     }).show();
         }
@@ -474,7 +472,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
     @Override
     public void onVerseClicked(String verse) {
-        Intent _SSBibleActivityIntent = new Intent(context.getApplicationContext(), SSBibleVersesActivity.class);
+        Intent _SSBibleActivityIntent = new Intent(context, SSBibleVersesActivity.class);
         _SSBibleActivityIntent.putExtra(SSConstants.SS_READ_INDEX_EXTRA, ssRead.index);
         _SSBibleActivityIntent.putExtra(SSConstants.SS_READ_VERSE_EXTRA, verse);
         context.startActivity(_SSBibleActivityIntent);
