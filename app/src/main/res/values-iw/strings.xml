@@ -82,6 +82,11 @@
     <string name="ss_settings_font_size_large">"גָדוֹל"</string>
     <string name="ss_settings_font_size_huge">"עָצוּם"</string>
 
+    <string name="ss_settings_reminder">"תזכורת יומית"</string>
+    <string name="ss_settings_reminder_summary">"סמן כדי לאפשר תזכורת לימוד יומי שיעור שבת הספר"</string>
+    <string name="ss_settings_reminder_time">"זמן תזכורת"</string>
+    <string name="ss_settings_reminder_text">"זמן ללמוד שבת הספר"</string>
+
     <!-- RATE APP -->
     <string name="rate_dialog_title">"ספר שבת שיעור"</string>
     <string name="rate_dialog_message">"אם אתה אוהב את בית הספר שבת, איכפת לך לקחת רגע כדי לדרג את זה? תודה על התמיכה שלך!"</string>

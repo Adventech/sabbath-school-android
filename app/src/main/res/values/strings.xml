@@ -127,6 +127,11 @@
     <string name="ss_settings_font_size_large">Large</string>
     <string name="ss_settings_font_size_huge">Huge</string>
 
+    <string name="ss_settings_reminder">Daily Reminder</string>
+    <string name="ss_settings_reminder_summary">Check to enable daily Sabbath School lesson study reminder</string>
+    <string name="ss_settings_reminder_time">Reminder Time</string>
+    <string name="ss_settings_reminder_text">Time to study Sabbath School</string>
+
     <!-- RATE APP -->
 
     <string name="rate_dialog_title">Rate Sabbath School</string>

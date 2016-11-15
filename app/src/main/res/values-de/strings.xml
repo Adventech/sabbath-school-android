@@ -81,6 +81,11 @@
     <string name="ss_settings_font_size_large">Groß</string>
     <string name="ss_settings_font_size_huge">Sehr groß</string>
 
+    <string name="ss_settings_reminder">Tägliche Benachrichtigung</string>
+    <string name="ss_settings_reminder_summary">Selektieren um täglich über die Sabbatschullektion benachrichtigt zu werden</string>
+    <string name="ss_settings_reminder_time">Zeitpunkt der Benachrichtigung</string>
+    <string name="ss_settings_reminder_text">Zeit, die Sabbatschule zu studieren</string>
+
     <!-- RATE APP -->
     <string name="rate_dialog_title">Sabbatschule-App bewerten</string>
     <string name="rate_dialog_message">Wenn Sie Sabbatschule-App mögen, wären Sie bereit einen Moment Zeit zu nehmen um die App zu bewerten? Danke für Ihre Unterstützung!</string>

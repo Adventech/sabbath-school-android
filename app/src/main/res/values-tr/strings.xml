@@ -81,6 +81,11 @@
     <string name="ss_settings_font_size_large">Büyük</string>
     <string name="ss_settings_font_size_huge">Kocaman</string>
 
+    <string name="ss_settings_reminder">Günlük Hatırlatma</string>
+    <string name="ss_settings_reminder_summary">Günlük Şabat Okulu dersi çalışma hatırlatıcısını etkinleştirmek için kontrol edin</string>
+    <string name="ss_settings_reminder_time">Hatırlatıcı Saati</string>
+    <string name="ss_settings_reminder_text">Şabat Okulu öğrenim zamanı</string>
+
     <!-- RATE APP -->
     <string name="rate_dialog_title">Puan Sabbath Okulu</string>
     <string name="rate_dialog_message">Eğer Sabbath Okulu isterseniz, bunu değerlendirmek için bir dakikanızı alıyor misin? Desteğin için teşekkürler!</string>

@@ -81,6 +81,11 @@
     <string name="ss_settings_font_size_large">Великий</string>
     <string name="ss_settings_font_size_huge">Величезний</string>
 
+    <string name="ss_settings_reminder">Щоденні Сповіщення</string>
+    <string name="ss_settings_reminder_summary">Влючая щоденні оповіщення про поточний уроці Суботньої Школи</string>
+    <string name="ss_settings_reminder_time">Час Сповіщення</string>
+    <string name="ss_settings_reminder_text">Час для вивчення суботню школу</string>
+
     <!-- RATE APP -->
     <string name="rate_dialog_title">Оцінити Суботню Школу</string>
     <string name="rate_dialog_message">Якщо ви любите Суботню Школу, не могли б ви знайти хвилину, щоб оцінити її? Дякую за вашу підтримку!</string>

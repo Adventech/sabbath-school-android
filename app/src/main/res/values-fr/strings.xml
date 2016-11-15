@@ -81,6 +81,11 @@
     <string name="ss_settings_font_size_large">Grand</string>
     <string name="ss_settings_font_size_huge">Énorme</string>
 
+    <string name="ss_settings_reminder">Notification Journalière</string>
+    <string name="ss_settings_reminder_summary">Vérifiez pour activer la notification quotidienne propos leçon d\'école du sabbat</string>
+    <string name="ss_settings_reminder_time">Heure de Notification</string>
+    <string name="ss_settings_reminder_text">Le temps d\'étudier l\'école du Sabbat</string>
+
     <!-- RATE APP -->
     <string name="rate_dialog_title">Taux Ecole du Sabbat</string>
     <string name="rate_dialog_message">Si vous aimez l\'école du Sabbat, cela vous dérangerait de prendre un moment pour noter? Merci de votre soutien!</string>

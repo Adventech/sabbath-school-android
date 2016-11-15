@@ -99,6 +99,11 @@
     <string name="ss_settings_font_size_large">Большой</string>
     <string name="ss_settings_font_size_huge">Гигантский</string>
 
+    <string name="ss_settings_reminder">Напоминания</string>
+    <string name="ss_settings_reminder_summary">Влючить ежедневные напоминания об уроке Субботней Школы</string>
+    <string name="ss_settings_reminder_time">Время Напоминания</string>
+    <string name="ss_settings_reminder_text">Время для изучения Субботней Школы</string>
+
     <!-- RATE APP -->
 
     <string name="rate_dialog_title">Оцените Субботнюю Школу</string>

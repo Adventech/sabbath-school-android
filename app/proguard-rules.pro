@@ -12,8 +12,20 @@
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
--keep class android.support.design.widget.** { *; }
--keep interface android.support.design.widget.** { *; }
+
+-keepattributes Signature
+-keepattributes *Annotation*
+
+-keep class .R
+-keep class **.R$* {
+    <fields>;
+}
+
+-keep class com.cryart.sabbathschool.behavior.** { *; }
+-keep abstract class com.cryart.sabbathschool.behavior.** { *; }
+-keep public class com.cryart.sabbathschool.service.** { *; }
+
+
+-keepclassmembers class com.cryart.sabbathschool.** {
+  *;
+}

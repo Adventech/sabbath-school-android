@@ -98,6 +98,11 @@
     <string name="ss_settings_font_size_large">Grande</string>
     <string name="ss_settings_font_size_huge">Enorme</string>
 
+    <string name="ss_settings_reminder">Notificación Diaria</string>
+    <string name="ss_settings_reminder_summary">Haga clic para activar el envío de todos los días acerca de la lección de la Escuela Sabática</string>
+    <string name="ss_settings_reminder_time">Tiempo Notificación</string>
+    <string name="ss_settings_reminder_text">Tiempo para estudiar la Escuela Sabática</string>
+
     <!-- RATE APP -->
 
     <string name="rate_dialog_title">Tasa de la Escuela Sabática</string>
