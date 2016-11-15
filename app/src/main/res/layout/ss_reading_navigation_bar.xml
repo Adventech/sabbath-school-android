@@ -32,9 +32,11 @@
     </data>
 
     <RelativeLayout
+        app:layout_behavior="com.cryart.sabbathschool.behavior.SSReadingNavigationBarBehavior"
         android:id="@+id/ss_reading_navigation_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/ss_reading_navigation_bar_height"
+        android:layout_gravity="bottom"
         android:visibility="@{viewModel.ssLessonCoordinatorVisibility}"
         android:background="@color/colorSecondaryLighter">
 
