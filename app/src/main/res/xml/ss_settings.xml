@@ -48,6 +48,20 @@
             android:entryValues="@array/ss_settings_display_options_size_values" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/ss_settings_reminder">
+        <CheckBoxPreference
+            android:key="ss_settings_reminder_enabled"
+            android:title="@string/ss_settings_reminder"
+            android:summary="@string/ss_settings_reminder_summary"
+            android:defaultValue="true" />
+
+        <com.cryart.sabbathschool.misc.SSTimePickerPreference
+            android:key="ss_settings_reminder_time"
+            android:title="@string/ss_settings_reminder_time"
+            android:dependency="ss_settings_reminder_enabled"
+            android:defaultValue="08:00" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/ss_about">
 
         <Preference

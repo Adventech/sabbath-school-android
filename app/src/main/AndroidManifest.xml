@@ -25,6 +25,8 @@
     package="com.cryart.sabbathschool">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -68,7 +70,6 @@
         <activity android:name="com.cryart.sabbathschool.view.SSReadingActivity"
                   android:theme="@style/AppTheme.NoActionBar.NoStatusBar"
                   android:configChanges="orientation|screenSize"
-                  android:keepScreenOn="true"
                   android:parentActivityName="com.cryart.sabbathschool.view.SSLessonsActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value=".view.SSLessonsActivity" />
@@ -109,6 +110,20 @@
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
+
+        <receiver android:name="com.cryart.sabbathschool.service.SSBroadcastService" />
+
+        <receiver android:name="com.cryart.sabbathschool.service.SSBootService"
+            android:label="SSBootService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name="com.cryart.sabbathschool.service.SSNotificationService">

@@ -46,6 +46,16 @@ public class SSConstants {
     public static final String SS_READ_INDEX_EXTRA = "SS_READ_INDEX";
     public static final String SS_READ_VERSE_EXTRA = "SS_READ_VERSE_EXTRA";
 
+    public static final String SS_COLOR_THEME_LAST_PRIMARY = "SS_COLOR_THEME_LAST_PRIMARY";
+    public static final String SS_COLOR_THEME_LAST_PRIMARY_DARK = "SS_COLOR_THEME_LAST_PRIMARY_DARK";
+
+    public static final String SS_REMINDER_TIME_SETTINGS_FORMAT = "HH:mm";
+    public static final String SS_SETTINGS_REMINDER_ENABLED_KEY = "ss_settings_reminder_enabled";
+    public static final boolean SS_SETTINGS_REMINDER_ENABLED_DEFAULT_VALUE = true;
+
+    public static final String SS_SETTINGS_REMINDER_TIME_KEY = "ss_settings_reminder_time";
+    public static final String SS_SETTINGS_REMINDER_TIME_DEFAULT_VALUE = "08:00";
+
     public static final String SS_SETTINGS_THEME_KEY = "ss_settings_display_options_theme";
     public static final String SS_SETTINGS_FONT_KEY = "ss_settings_display_options_font";
     public static final String SS_SETTINGS_SIZE_KEY = "ss_settings_display_options_size";

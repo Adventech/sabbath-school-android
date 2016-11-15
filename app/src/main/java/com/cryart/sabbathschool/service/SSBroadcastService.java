@@ -20,25 +20,18 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.view;
+package com.cryart.sabbathschool.service;
 
-import android.app.NotificationManager;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
-public class SSSplashActivity extends AppCompatActivity {
+import com.cryart.sabbathschool.misc.SSReminder;
+
+public class SSBroadcastService extends BroadcastReceiver{
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        try {
-            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            manager.cancel(1);
-        } catch (Exception e){}
-
-        Intent intent = new Intent(this, SSLoginActivity.class);
-        startActivity(intent);
-        finish();
+    public void onReceive(Context context, Intent intent) {
+        SSReminder.showLessonNotification(context);
     }
 }

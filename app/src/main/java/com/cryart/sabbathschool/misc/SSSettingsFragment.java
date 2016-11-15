@@ -22,15 +22,40 @@
 
 package com.cryart.sabbathschool.misc;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
 import com.cryart.sabbathschool.R;
 
-public class SSSettingsFragment extends PreferenceFragment {
+public class SSSettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.ss_settings);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
+    }
+
+    @Override
+    public void onPause() {
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        switch(s){
+            case SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY:
+            case SSConstants.SS_SETTINGS_REMINDER_TIME_KEY: {
+                SSReminder.setRepeatingReminder(getActivity());
+                break;
+            }
+        }
     }
 }
