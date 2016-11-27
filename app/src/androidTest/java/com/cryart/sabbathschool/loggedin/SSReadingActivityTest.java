@@ -26,10 +26,12 @@ package com.cryart.sabbathschool.loggedin;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.SystemClock;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.model.SSBibleVerses;
 import com.cryart.sabbathschool.model.SSReadHighlights;
 import com.cryart.sabbathschool.view.SSReadingActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,8 +45,10 @@ import org.junit.runners.JUnit4;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import tools.fastlane.screengrab.Screengrab;
+import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy;
 import tools.fastlane.screengrab.locale.LocaleTestRule;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -73,6 +77,8 @@ public class SSReadingActivityTest {
     @TargetApi(23)
     @Test
     public void takeScreenshot() {
+        Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
+
         Intent grouchyIntent = new Intent();
         // intent stuff
 
@@ -81,6 +87,8 @@ public class SSReadingActivityTest {
 
         onView(withId(R.id.ss_reading_navigation_next)).perform(click());
         onView(withId(R.id.ss_reading_navigation_next)).perform(click());
+
+        SystemClock.sleep(2000);
 
         // en-2016-04-06-03
         // "type:textContent|233$387$9$highlight_yellow$|388$548$10$highlight_blue$"
@@ -100,5 +108,25 @@ public class SSReadingActivityTest {
 
         SystemClock.sleep(2000);
         Screengrab.screenshot("reading_screen");
+
+        onView(withId(R.id.ss_reading_menu_display_options)).perform(click());
+        Screengrab.screenshot("reading_screen_display_options");
+
+        SystemClock.sleep(2000);
+
+        ViewActions.pressBack();
+
+        if (!Locale.getDefault().getLanguage().equals("tr") && activityRule.getActivity().ssReadingViewModel.ssRead.bible.size() > 0){
+            SSBibleVerses b = activityRule.getActivity().ssReadingViewModel.ssRead.bible.get(0);
+
+
+            Map.Entry<String,String> entry=b.verses.entrySet().iterator().next();
+            String v = entry.getKey();
+
+
+            activityRule.getActivity().ssReadingViewModel.onVerseClicked(v);
+            SystemClock.sleep(2000);
+            Screengrab.screenshot("reading_bible_verses");
+        }
     }
 }

@@ -42,6 +42,7 @@ import org.junit.runners.JUnit4;
 import java.util.Locale;
 
 import tools.fastlane.screengrab.Screengrab;
+import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy;
 import tools.fastlane.screengrab.locale.LocaleTestRule;
 
 
@@ -66,6 +67,7 @@ public class SSLessonsActivityTest {
     @TargetApi(23)
     @Test
     public void takeScreenshot() {
+        Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
         Intent grouchyIntent = new Intent();
         // intent stuff
 

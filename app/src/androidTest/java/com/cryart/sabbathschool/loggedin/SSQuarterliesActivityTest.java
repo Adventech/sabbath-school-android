@@ -37,6 +37,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import tools.fastlane.screengrab.Screengrab;
+import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy;
 import tools.fastlane.screengrab.locale.LocaleTestRule;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -65,6 +67,7 @@ public class SSQuarterliesActivityTest {
 
     @Test
     public void takeScreenshot() {
+        Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
 
         pressBack();
 
