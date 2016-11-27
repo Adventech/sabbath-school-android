@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
 import com.cryart.sabbathschool.R;
+import com.cryart.sabbathschool.SSApplication;
 
 public class SSSettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override
@@ -53,7 +54,7 @@ public class SSSettingsFragment extends PreferenceFragment implements SharedPref
         switch(s){
             case SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY:
             case SSConstants.SS_SETTINGS_REMINDER_TIME_KEY: {
-                SSReminder.setRepeatingReminder(getActivity());
+                SSReminder.setRepeatingReminder(SSApplication.get());
                 break;
             }
         }

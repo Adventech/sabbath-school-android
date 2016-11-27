@@ -52,7 +52,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     private static final String TAG = SSReadingActivity.class.getSimpleName();
 
     public SsReadingActivityBinding binding;
-    protected SSReadingViewModel ssReadingViewModel;
+    public SSReadingViewModel ssReadingViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

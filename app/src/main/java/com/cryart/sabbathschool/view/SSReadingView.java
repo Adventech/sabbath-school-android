@@ -29,9 +29,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.view.GestureDetectorCompat;
-import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Base64;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -43,7 +43,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSComment;
@@ -388,31 +387,22 @@ public class SSReadingView extends WebView {
 
         @JavascriptInterface
         public void onCommentsClick(String comments, final String inputId){
-            try {
-                comments = new String(Base64.decode(comments, Base64.DEFAULT), "UTF-8");
 
-                new MaterialDialog.Builder(context)
-                        .title(context.getString(R.string.ss_reading_comment))
-                        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-                        .input(context.getString(R.string.ss_reading_enter_comment), comments, new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                if (ssReadComments != null) {
-                                    boolean found = false;
-                                    for (SSComment comment : ssReadComments.comments) {
-                                        if (comment.elementId.equalsIgnoreCase(inputId)) {
-                                            comment.comment = input.toString();
-                                            found = true;
-                                        }
-                                    }
-                                    if (!found) {
-                                        ssReadComments.comments.add(new SSComment(inputId, input.toString()));
-                                    }
-                                    highlightsCommentsCallback.onCommentsReceived(ssReadComments);
-                                    setIndividualComment(input.toString(), inputId);
-                                }
-                            }
-                        }).show();
+            try {
+                String commentReceived = new String(Base64.decode(comments, Base64.DEFAULT), "UTF-8");
+                Log.d(TAG, commentReceived);
+
+                boolean found = false;
+                for (SSComment comment : ssReadComments.comments) {
+                    if (comment.elementId.equalsIgnoreCase(inputId)) {
+                        comment.comment = commentReceived;
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    ssReadComments.comments.add(new SSComment(inputId, commentReceived));
+                }
+                highlightsCommentsCallback.onCommentsReceived(ssReadComments);
 
             } catch (Exception e){}
         }

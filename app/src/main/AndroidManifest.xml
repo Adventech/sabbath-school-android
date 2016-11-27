@@ -27,6 +27,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:allowBackup="true"
@@ -70,6 +71,7 @@
         <activity android:name="com.cryart.sabbathschool.view.SSReadingActivity"
                   android:theme="@style/AppTheme.NoActionBar.NoStatusBar"
                   android:configChanges="orientation|screenSize"
+                  android:windowSoftInputMode="adjustResize"
                   android:parentActivityName="com.cryart.sabbathschool.view.SSLessonsActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value=".view.SSLessonsActivity" />
