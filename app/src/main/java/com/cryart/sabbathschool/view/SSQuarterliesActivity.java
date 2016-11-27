@@ -41,6 +41,7 @@ import com.cryart.sabbathschool.adapter.SSQuarterliesLanguageFilterAdapter;
 import com.cryart.sabbathschool.databinding.SsQuarterliesActivityBinding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.misc.SSReminder;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
 import com.cryart.sabbathschool.viewmodel.SSQuarterliesViewModel;
@@ -71,6 +72,10 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
             launchNextActivity = new Intent(this, SSLessonsActivity.class);
             launchNextActivity.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, lastQuarterlyIndex);
             startActivity(launchNextActivity);
+        }
+
+        if (!prefs.contains(SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY)){
+            SSReminder.setRepeatingReminder(this);
         }
 
         binding = DataBindingUtil.setContentView(this, R.layout.ss_quarterlies_activity);

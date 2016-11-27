@@ -53,10 +53,10 @@ public class SSReminder {
 
             AlarmManager _SSAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Intent _SSReminderIntent = new Intent(context, SSBroadcastService.class);
-            PendingIntent _SSAlarmIntent = PendingIntent.getBroadcast(context, 0, _SSReminderIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent _SSAlarmIntent = PendingIntent.getBroadcast(context, 0, _SSReminderIntent, 0);
 
             Calendar _SSReminderTime = Calendar.getInstance();
-
+            _SSReminderTime.setTimeInMillis(System.currentTimeMillis());
 
             String ss_settings_reminder_time = ssPreferences.getString(SSConstants.SS_SETTINGS_REMINDER_TIME_KEY, SSConstants.SS_SETTINGS_REMINDER_TIME_DEFAULT_VALUE);
 
@@ -68,7 +68,7 @@ public class SSReminder {
         }
     }
 
-    public static void cancelRepeatingReminder(Context context) {
+    private static void cancelRepeatingReminder(Context context) {
         AlarmManager _SSAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent _SSUpdateServiceIntent = new Intent(context, SSBroadcastService.class);
         PendingIntent _SSPendingUpdateServiceIntent = PendingIntent.getBroadcast(context, 0, _SSUpdateServiceIntent, 0);
@@ -106,7 +106,7 @@ public class SSReminder {
                             .addAction(0, context.getString(R.string.ss_share), _SSPendingShareIntent)
                             .setAutoCancel(true)
                             .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-                            .setVibrate(new long[] { 1000, 1000})
+                            .setVibrate(new long[] {1000, 1000})
                             .setContentIntent(_SSPendingContentIntent)
                             .setContentText(context.getString(R.string.ss_settings_reminder_text));
 
