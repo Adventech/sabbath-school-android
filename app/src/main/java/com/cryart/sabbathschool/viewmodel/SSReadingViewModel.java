@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableInt;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.DisplayMetrics;
@@ -234,7 +235,13 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
                         if (ssReadingActivityBinding != null) {
                             ssReadingActivityBinding.ssReadingView.setReadHighlights(ssReadHighlights);
-                            ssReadingActivityBinding.ssReadingView.updateHighlights();
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ssReadingActivityBinding.ssReadingView.updateHighlights();
+                                }
+                            }, 800);
                         }
                     }
 
@@ -261,7 +268,14 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                         }
                         if (ssReadingActivityBinding != null) {
                             ssReadingActivityBinding.ssReadingView.setReadComments(ssReadComments);
-                            ssReadingActivityBinding.ssReadingView.updateComments();
+
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ssReadingActivityBinding.ssReadingView.updateComments();
+                                }
+                            }, 800);
                         }
                     }
 
