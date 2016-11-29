@@ -31,7 +31,6 @@ import android.net.Uri;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.util.Base64;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -390,7 +389,6 @@ public class SSReadingView extends WebView {
 
             try {
                 String commentReceived = new String(Base64.decode(comments, Base64.DEFAULT), "UTF-8");
-                Log.d(TAG, commentReceived);
 
                 boolean found = false;
                 for (SSComment comment : ssReadComments.comments) {
