@@ -46,7 +46,7 @@ public class SSHelper {
             SimpleDateFormat sdf = new SimpleDateFormat(parseFormat);
             Date date = sdf.parse(time);
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.setTime(date);
             return calendar.get(Calendar.HOUR_OF_DAY);
         } catch (Exception exception){
             return 0;
@@ -64,7 +64,7 @@ public class SSHelper {
             SimpleDateFormat sdf = new SimpleDateFormat(parseFormat);
             Date date = sdf.parse(time);
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.setTime(date);
             return calendar.get(Calendar.MINUTE);
         } catch (Exception exception){
             return 0;
