@@ -38,6 +38,9 @@ apply plugin: 'com.getkeepsafe.dexcount'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven {
+        url "https://s3.amazonaws.com/repo.commonsware.com"
+    }
 }
 
 apply plugin: 'com.neenbedankt.android-apt'
@@ -63,8 +66,8 @@ android {
             applicationId "com.cryart.sabbathschool"
             minSdkVersion 14
             targetSdkVersion 25
-            versionCode 16
-            versionName "3.1." + versionBuild
+            versionCode 17
+            versionName "3.2." + versionBuild
 
             vectorDrawables.useSupportLibrary = true
             testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -156,6 +159,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
+    compile "com.commonsware.cwac:wakeful:1.0.+"
 }
 
 apply plugin: 'com.google.gms.google-services'
