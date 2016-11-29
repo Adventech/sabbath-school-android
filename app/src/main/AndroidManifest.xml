@@ -113,18 +113,16 @@
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
 
-        <receiver android:name="com.cryart.sabbathschool.service.SSBroadcastService" />
+        <service android:name="com.cryart.sabbathschool.misc.SSReminderService" />
 
-        <receiver android:name="com.cryart.sabbathschool.service.SSBootService"
-            android:label="SSBootService"
-            android:enabled="true"
-            android:exported="true">
+        <receiver android:name="com.commonsware.cwac.wakeful.AlarmReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
-                <action android:name="android.intent.action.TIME_SET" />
-                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
+
+            <meta-data
+                android:name="com.commonsware.cwac.wakeful"
+                android:resource="@xml/ss_reminder" />
         </receiver>
 
         <service
