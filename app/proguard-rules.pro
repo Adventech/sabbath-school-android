@@ -24,6 +24,7 @@
 -keep class com.cryart.sabbathschool.behavior.** { *; }
 -keep abstract class com.cryart.sabbathschool.behavior.** { *; }
 -keep public class com.cryart.sabbathschool.service.** { *; }
+-keep class com.cryart.sabbathschool.misc.** { *; }
 
 
 -keepclassmembers class com.cryart.sabbathschool.** {
