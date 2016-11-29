@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
+import com.commonsware.cwac.wakeful.WakefulIntentService;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.SSApplication;
 
@@ -54,7 +55,7 @@ public class SSSettingsFragment extends PreferenceFragment implements SharedPref
         switch(s){
             case SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY:
             case SSConstants.SS_SETTINGS_REMINDER_TIME_KEY: {
-                SSReminder.setRepeatingReminder(SSApplication.get());
+                WakefulIntentService.scheduleAlarms(new SSReminder(), SSApplication.get());
                 break;
             }
         }
