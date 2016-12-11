@@ -132,34 +132,34 @@ $(function(){
   if (typeof SSBridge == "undefined"){
     window.SSBridge = Class({
       $singleton: true,
-      urlBase: "sabbath-school://",
+      urlBase: "sabbath-school://ss",
 
       request: function(data){
         window.location = this.urlBase + data;
       },
 
       onReceiveHighlights: function(highlights){
-        this.request("highlights/" + highlights);
+        this.request("?highlights=" + highlights);
       },
 
       onVerseClick: function(verse){
-        this.request("verse/" + verse);
+        this.request("?verse=" + verse);
       },
 
       onCommentsClick: function(comments){
-        this.request("comments/" + comments);
+        this.request("?comments=" + comments);
       },
 
       onCopy: function(text){
-        this.request("copy/" + text);
+        this.request("?copy=" + text);
       },
 
       onShare: function(text){
-        this.request("share/" + text);
+        this.request("?share=" + text);
       },
 
       onSearch: function(text){
-        this.request("search/" + text);
+        this.request("?search=" + text);
       }
     });
   }
