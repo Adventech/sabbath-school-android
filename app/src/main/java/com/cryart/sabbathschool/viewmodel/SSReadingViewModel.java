@@ -80,7 +80,6 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     private DatabaseReference mDatabase;
     private ValueEventListener ssReadRef;
     private ValueEventListener ssHighlightsRef;
-    private ValueEventListener ssCommentsRef;
 
     public SsReadingActivityBinding ssReadingActivityBinding;
     public SSReadingDisplayOptions ssReadingDisplayOptions;
@@ -216,10 +215,6 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
             mDatabase.removeEventListener(ssHighlightsRef);
         }
 
-        if (ssCommentsRef != null){
-            mDatabase.removeEventListener(ssCommentsRef);
-        }
-
         ssHighlightsRef = mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
                 .child(ssFirebaseAuth.getCurrentUser().getUid())
                 .child(dayIndex)
@@ -254,10 +249,10 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                     }
                 });
 
-        ssCommentsRef = mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
+        mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
                 .child(ssFirebaseAuth.getCurrentUser().getUid())
                 .child(dayIndex)
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         SSReadComments ssReadComments = new SSReadComments(dayIndex, new ArrayList<SSComment>());
@@ -321,14 +316,9 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
             mDatabase.removeEventListener(ssHighlightsRef);
         }
 
-        if (ssCommentsRef != null){
-            mDatabase.removeEventListener(ssCommentsRef);
-        }
-
         mDatabase = null;
         ssReadRef = null;
         ssHighlightsRef = null;
-        ssCommentsRef = null;
         ssReadingActivityBinding = null;
         ssReadingDisplayOptions = null;
         ssReadPosition = null;
