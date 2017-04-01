@@ -64,7 +64,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
@@ -186,7 +185,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                     .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                     .input(context.getString(R.string.ss_reading_suggest_edit_hint), "", new MaterialDialog.InputCallback() {
                         @Override
-                        public void onInput(@NotNull MaterialDialog dialog, CharSequence input) {
+                        public void onInput(MaterialDialog dialog, CharSequence input) {
 
                             mDatabase.child(SSConstants.SS_FIREBASE_SUGGESTIONS_DATABASE)
                                     .child(ssFirebaseAuth.getCurrentUser().getUid())
