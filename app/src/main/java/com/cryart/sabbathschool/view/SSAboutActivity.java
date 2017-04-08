@@ -34,11 +34,17 @@ import android.view.MenuItem;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsAboutActivityBinding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
+import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.viewmodel.SSAboutViewModel;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SSAboutActivity extends SSColorSchemeActivity {
+    private FirebaseAnalytics ssFirebaseAnalytics;
+    private FirebaseAuth ssFirebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +64,14 @@ public class SSAboutActivity extends SSColorSchemeActivity {
         DrawableCompat.setTint(binding.ssLogo.getDrawable(), primaryColor);
         binding.ssAppTitle.setTextColor(primaryColor);
         binding.ssAppBar.ssToolbar.setBackgroundColor(primaryColor);
+
+        this.ssFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        this.ssFirebaseAuth = FirebaseAuth.getInstance();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(SSConstants.SS_EVENT_PARAM_USER_ID, ssFirebaseAuth.getCurrentUser().getUid());
+        bundle.putString(SSConstants.SS_EVENT_PARAM_USER_NAME, ssFirebaseAuth.getCurrentUser().getDisplayName());
+        ssFirebaseAnalytics.logEvent(SSConstants.SS_EVENT_ABOUT_OPEN, bundle);
 
         updateWindowColorScheme();
     }
