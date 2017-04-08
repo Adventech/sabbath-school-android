@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableInt;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.InputType;
@@ -56,6 +57,7 @@ import com.cryart.sabbathschool.view.SSBibleVersesActivity;
 import com.cryart.sabbathschool.view.SSReadingActivity;
 import com.cryart.sabbathschool.view.SSReadingDisplayOptionsView;
 import com.cryart.sabbathschool.view.SSReadingView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -79,6 +81,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     private DatabaseReference mDatabase;
     private ValueEventListener ssReadRef;
     private ValueEventListener ssHighlightsRef;
+    private FirebaseAnalytics ssFirebaseAnalytics;
 
     public SsReadingActivityBinding ssReadingActivityBinding;
     public SSReadingDisplayOptions ssReadingDisplayOptions;
@@ -97,6 +100,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         this.ssLessonIndex = ssLessonIndex;
         this.ssReadingActivityBinding = ssReadingActivityBinding;
         this.ssFirebaseAuth = FirebaseAuth.getInstance();
+        this.ssFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.keepSynced(true);
@@ -118,6 +122,11 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         ssLessonCoordinatorVisibility = new ObservableInt(View.INVISIBLE);
 
         loadLessonInfo();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(SSConstants.SS_EVENT_PARAM_USER_ID, ssFirebaseAuth.getCurrentUser().getUid());
+        bundle.putString(SSConstants.SS_EVENT_PARAM_USER_NAME, ssFirebaseAuth.getCurrentUser().getDisplayName());
+        ssFirebaseAnalytics.logEvent(SSConstants.SS_EVENT_READ_OPEN, bundle);
     }
 
     private void loadLessonInfo(){
@@ -460,6 +469,11 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                     .child(ssFirebaseAuth.getCurrentUser().getUid())
                     .child(ssReadHighlights.readIndex)
                     .setValue(ssReadHighlights);
+
+            Bundle bundle = new Bundle();
+            bundle.putString(SSConstants.SS_EVENT_PARAM_USER_ID, ssFirebaseAuth.getCurrentUser().getUid());
+            bundle.putString(SSConstants.SS_EVENT_PARAM_USER_NAME, ssFirebaseAuth.getCurrentUser().getDisplayName());
+            ssFirebaseAnalytics.logEvent(SSConstants.SS_EVENT_TEXT_HIGHLIGHTED, bundle);
         }
     }
 
@@ -470,6 +484,11 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                     .child(ssFirebaseAuth.getCurrentUser().getUid())
                     .child(ssReadComments.readIndex)
                     .setValue(ssReadComments);
+
+            Bundle bundle = new Bundle();
+            bundle.putString(SSConstants.SS_EVENT_PARAM_USER_ID, ssFirebaseAuth.getCurrentUser().getUid());
+            bundle.putString(SSConstants.SS_EVENT_PARAM_USER_NAME, ssFirebaseAuth.getCurrentUser().getDisplayName());
+            ssFirebaseAnalytics.logEvent(SSConstants.SS_EVENT_COMMENT_CREATED, bundle);
         }
     }
 
@@ -490,6 +509,11 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         SSReadingDisplayOptionsView ssReadingDisplayOptionsView = new SSReadingDisplayOptionsView();
         ssReadingDisplayOptionsView.setSSReadingViewModel(context, this, ssReadingDisplayOptions);
         ssReadingDisplayOptionsView.show(((SSReadingActivity)context).getSupportFragmentManager(), ssReadingDisplayOptionsView.getTag());
+
+        Bundle bundle = new Bundle();
+        bundle.putString(SSConstants.SS_EVENT_PARAM_USER_ID, ssFirebaseAuth.getCurrentUser().getUid());
+        bundle.putString(SSConstants.SS_EVENT_PARAM_USER_NAME, ssFirebaseAuth.getCurrentUser().getDisplayName());
+        ssFirebaseAnalytics.logEvent(SSConstants.SS_EVENT_READ_OPTIONS_OPEN, bundle);
     }
 
     public void highlightYellow(){

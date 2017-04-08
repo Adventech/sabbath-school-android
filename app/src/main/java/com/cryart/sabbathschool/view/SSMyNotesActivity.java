@@ -32,11 +32,17 @@ import android.view.MenuItem;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsMyNotesActivityBinding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
+import com.cryart.sabbathschool.misc.SSConstants;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SSMyNotesActivity extends SSColorSchemeActivity {
     SsMyNotesActivityBinding binding;
+    private FirebaseAnalytics ssFirebaseAnalytics;
+    private FirebaseAuth ssFirebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +55,15 @@ public class SSMyNotesActivity extends SSColorSchemeActivity {
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
         binding.ssAppBar.toolbarTitle.setText(getString(R.string.ss_my_notes));
+
+        this.ssFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        this.ssFirebaseAuth = FirebaseAuth.getInstance();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(SSConstants.SS_EVENT_PARAM_USER_ID, ssFirebaseAuth.getCurrentUser().getUid());
+        bundle.putString(SSConstants.SS_EVENT_PARAM_USER_NAME, ssFirebaseAuth.getCurrentUser().getDisplayName());
+        ssFirebaseAnalytics.logEvent(SSConstants.SS_EVENT_NOTES_OPEN, bundle);
+
         updateColorScheme();
     }
 

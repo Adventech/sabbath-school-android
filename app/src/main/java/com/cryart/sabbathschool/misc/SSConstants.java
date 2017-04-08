@@ -72,4 +72,19 @@ public class SSConstants {
 
     public static final String SS_READER_APP_BASE_URL = "file:///android_asset/reader/";
     public static final String SS_READER_APP_ENTRYPOINT = "reader/index.html";
+
+    public static final String SS_EVENT_APP_OPEN = "ss_app_open";
+    public static final String SS_EVENT_LANGUAGE_FILTER = "ss_language_filter";
+    public static final String SS_EVENT_READ_OPEN = "ss_read_open";
+    public static final String SS_EVENT_HIGHLIGHTS_OPEN = "ss_highlights_open";
+    public static final String SS_EVENT_NOTES_OPEN = "ss_notes_open";
+    public static final String SS_EVENT_ABOUT_OPEN = "ss_about_open";
+    public static final String SS_EVENT_BIBLE_OPEN = "ss_bible_open";
+    public static final String SS_EVENT_SETTINGS_OPEN = "ss_settings_open";
+    public static final String SS_EVENT_READ_OPTIONS_OPEN = "ss_read_options_open";
+    public static final String SS_EVENT_TEXT_HIGHLIGHTED = "ss_text_highlighted";
+    public static final String SS_EVENT_COMMENT_CREATED = "ss_comment_created";
+
+    public static final String SS_EVENT_PARAM_USER_ID = "user_id";
+    public static final String SS_EVENT_PARAM_USER_NAME = "user_name";
 }
