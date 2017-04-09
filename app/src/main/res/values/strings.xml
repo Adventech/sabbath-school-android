@@ -66,8 +66,10 @@
     <string name="ss_lessons_read">Read</string>
 
     <string name="ss_reading_empty">Looks like this lesson is empty. Please check back later</string>
+    <string name="ss_reading_offline">You are offline. Reconnect to read this lesson</string>
+    <string name="ss_reading_offline_retry">Retry</string>
+    <string name="ss_reading_downloading">Downloading lesson for offline</string>
     <string name="ss_reading_error">Error occurred while opening lesson</string>
-    <string name="ss_reading_downloading">Opening lesson</string>
 
     <string name="ss_reading_suggest_edit">Suggest edit or correction</string>
     <string name="ss_reading_suggest_edit_hint">Please describe your correction or suggestion</string>

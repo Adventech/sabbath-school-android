@@ -63,8 +63,10 @@
     <string name="ss_lessons_read">Читать</string>
 
     <string name="ss_reading_empty">Похоже на то, что урок пуст</string>
+    <string name="ss_reading_offline">Ошибка соединения. Подключитесь к сети и попробуйте снова</string>
+    <string name="ss_reading_offline_retry">Попробовать снова</string>
+    <string name="ss_reading_downloading">Загружется урок для режима оффлайн</string>
     <string name="ss_reading_error">Произошла ошибка при открытии урока. Пожалуйста, попробуйте еще раз</string>
-    <string name="ss_reading_downloading">Открываю урок</string>
 
     <string name="ss_reading_suggest_edit">Сообщить об ошибке</string>
     <string name="ss_reading_suggest_edit_hint">Пожалуйста, опишите ошибку или предложение</string>

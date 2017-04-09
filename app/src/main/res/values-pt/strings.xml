@@ -52,8 +52,10 @@
     <string name="ss_lessons_empty">Parece que não há aulas no momento</string>
     <string name="ss_lessons_read">Ler</string>
     <string name="ss_reading_empty">Parece que esta lição está vazio. Por favor, volte mais tarde</string>
+    <string name="ss_reading_offline">Você está offline. Reconecte-se para ler esta lição</string>
+    <string name="ss_reading_offline_retry">Tentar novamente</string>
+    <string name="ss_reading_downloading">Lição de download para offline</string>
     <string name="ss_reading_error">Ocorreu um erro ao abrir lição</string>
-    <string name="ss_reading_downloading">Lição de abertura</string>
     <string name="ss_reading_suggest_edit">Sugerir editar ou correção</string>
     <string name="ss_reading_suggest_edit_hint">Por favor, descreva a sua correção ou sugestão</string>
     <string name="ss_reading_suggest_edit_done">Obrigado! Sua sugestão será revista</string>

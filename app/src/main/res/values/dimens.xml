@@ -24,7 +24,7 @@
     <dimen name="ss_app_bar_elevation">0dp</dimen>
 
     <dimen name="ss_misc_top_image_size">72dp</dimen>
-    <dimen name="ss_misc_top_image_margin_top">100dp</dimen>
+    <dimen name="ss_misc_top_image_margin_top">150dp</dimen>
     <dimen name="ss_misc_subheader_margin">20dp</dimen>
 
     <!-- LOGIN SCREEN RELATED -->

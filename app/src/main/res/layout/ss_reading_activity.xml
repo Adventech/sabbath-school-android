@@ -152,9 +152,10 @@
         </android.support.v7.widget.CardView>
 
         <include
-            layout="@layout/ss_empty_state"
-            bind:emptyStateVisibility="@{viewModel.ssLessonEmptyStateVisibility}"
-            bind:emptyStateLabel="@{@string/ss_reading_empty}" />
+            layout="@layout/ss_offline_state"
+            bind:offlineStateVisibility="@{viewModel.ssLessonOfflineStateVisibility}"
+            bind:offlineStateLabel="@{@string/ss_reading_offline}"
+            bind:viewModel="@{viewModel}" />
 
         <include
             layout="@layout/ss_error_state"

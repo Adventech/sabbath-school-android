@@ -52,8 +52,10 @@
     <string name="ss_lessons_empty">On dirait qu\'il n\'y a pas de leçons à l\'heure actuelle</string>
     <string name="ss_lessons_read">Lire</string>
     <string name="ss_reading_empty">On dirait que cette leçon est vide. S\'il vous plaît revenez plus tard</string>
+    <string name="ss_reading_offline">Tu es hors ligne. Rebranchez-vous pour lire cette leçon</string>
+    <string name="ss_reading_offline_retry">Recommencez</string>
+    <string name="ss_reading_downloading">Télécharger la leçon pour hors ligne</string>
     <string name="ss_reading_error">Une erreur est survenue lors de l\'ouverture leçon</string>
-    <string name="ss_reading_downloading">Leçon d\'ouverture</string>
     <string name="ss_reading_suggest_edit">Proposer de modifier ou de correction</string>
     <string name="ss_reading_suggest_edit_hint">S\'il vous plaît décrire votre correction ou suggestion</string>
     <string name="ss_reading_suggest_edit_done">Je vous remercie! Votre suggestion sera examinée</string>

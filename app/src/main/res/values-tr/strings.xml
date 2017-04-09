@@ -52,8 +52,10 @@
     <string name="ss_lessons_empty">Şu anda hiçbir ders bulunamadı</string>
     <string name="ss_lessons_read">Oku</string>
     <string name="ss_reading_empty">Bu ders boş  görünüyor</string>
+    <string name="ss_reading_offline">Çevrimdışısınız. Bu dersi okumak için tekrar bağlantı kurun</string>
+    <string name="ss_reading_offline_retry">Yeniden dene</string>
+    <string name="ss_reading_downloading">Çevrimdışı ders indiriliyor</string>
     <string name="ss_reading_error">Ders açılırken hata oluştu. Lütfen tekrar deneyin</string>
-    <string name="ss_reading_downloading">Ders açılıyor</string>
     <string name="ss_reading_suggest_edit">Hata bildir</string>
     <string name="ss_reading_suggest_edit_hint">Hatayi açıklayin veya bir öneride bulunun lütfen</string>
     <string name="ss_reading_suggest_edit_done">Teşekkür ederiz! Öneriniz gözden geçirilecektir</string>

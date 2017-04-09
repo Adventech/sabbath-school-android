@@ -57,6 +57,7 @@ import com.cryart.sabbathschool.view.SSBibleVersesActivity;
 import com.cryart.sabbathschool.view.SSReadingActivity;
 import com.cryart.sabbathschool.view.SSReadingDisplayOptionsView;
 import com.cryart.sabbathschool.view.SSReadingView;
+import com.github.pwittchen.reactivenetwork.library.ReactiveNetwork;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -71,6 +72,10 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+
 public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback {
     private static final String TAG = SSReadingViewModel.class.getSimpleName();
 
@@ -83,6 +88,12 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     private ValueEventListener ssHighlightsRef;
     private FirebaseAnalytics ssFirebaseAnalytics;
 
+    private static final String DEFAULT_PING_HOST = "www.google.com";
+    private static final int DEFAULT_PING_PORT = 80;
+    private static final int DEFAULT_PING_INTERVAL_IN_MS = 2000;
+    private static final int DEFAULT_INITIAL_PING_INTERVAL_IN_MS = 500;
+    private static final int DEFAULT_PING_TIMEOUT_IN_MS = 2000;
+
     public SsReadingActivityBinding ssReadingActivityBinding;
     public SSReadingDisplayOptions ssReadingDisplayOptions;
     public SSLessonInfo ssLessonInfo;
@@ -90,7 +101,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     public SSRead ssRead;
 
     public ObservableInt ssLessonLoadingVisibility;
-    public ObservableInt ssLessonEmptyStateVisibility;
+    public ObservableInt ssLessonOfflineStateVisibility;
     public ObservableInt ssLessonErrorStateVisibility;
     public ObservableInt ssLessonCoordinatorVisibility;
 
@@ -117,11 +128,31 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         ssReadingActivityBinding.ssReadingView.setReadingDisplayOptions(ssReadingDisplayOptions);
 
         ssLessonLoadingVisibility = new ObservableInt(View.INVISIBLE);
-        ssLessonEmptyStateVisibility = new ObservableInt(View.INVISIBLE);
+        ssLessonOfflineStateVisibility = new ObservableInt(View.INVISIBLE);
         ssLessonErrorStateVisibility = new ObservableInt(View.INVISIBLE);
         ssLessonCoordinatorVisibility = new ObservableInt(View.INVISIBLE);
 
         loadLessonInfo();
+
+        ReactiveNetwork.observeInternetConnectivity(
+                DEFAULT_INITIAL_PING_INTERVAL_IN_MS,
+                DEFAULT_PING_INTERVAL_IN_MS,
+                DEFAULT_PING_HOST,
+                DEFAULT_PING_PORT,
+                DEFAULT_PING_TIMEOUT_IN_MS
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Boolean>() {
+                    @Override public void call(Boolean isConnectedToInternet) {
+                        if (!isConnectedToInternet && ssLessonInfo == null){
+                            ssLessonOfflineStateVisibility.set(View.VISIBLE);
+                            ssLessonErrorStateVisibility.set(View.INVISIBLE);
+                            ssLessonLoadingVisibility.set(View.INVISIBLE);
+                            ssLessonCoordinatorVisibility.set(View.INVISIBLE);
+                        }
+                    }
+                });
 
         Bundle bundle = new Bundle();
         bundle.putString(SSConstants.SS_EVENT_PARAM_USER_ID, ssFirebaseAuth.getCurrentUser().getUid());
@@ -131,7 +162,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
     private void loadLessonInfo(){
         ssLessonLoadingVisibility.set(View.VISIBLE);
-        ssLessonEmptyStateVisibility.set(View.INVISIBLE);
+        ssLessonOfflineStateVisibility.set(View.INVISIBLE);
         ssLessonErrorStateVisibility.set(View.INVISIBLE);
         ssLessonCoordinatorVisibility.set(View.INVISIBLE);
         
@@ -154,6 +185,8 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                                     if (startDate.isEqual(today)){
                                         ssReadPosition.set(idx);
                                         break;
+                                    } else {
+                                        downloadRead(ssDay.index);
                                     }
                                     idx++;
                                 }
@@ -161,12 +194,12 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
                             ssLessonCoordinatorVisibility.set(View.VISIBLE);
                             ssLessonLoadingVisibility.set(View.INVISIBLE);
-                            ssLessonEmptyStateVisibility.set(View.INVISIBLE);
+                            ssLessonOfflineStateVisibility.set(View.INVISIBLE);
                             ssLessonErrorStateVisibility.set(View.INVISIBLE);
 
                             loadRead();
                         } else {
-                            ssLessonEmptyStateVisibility.set(View.VISIBLE);
+                            ssLessonOfflineStateVisibility.set(View.VISIBLE);
                             ssLessonErrorStateVisibility.set(View.INVISIBLE);
                             ssLessonLoadingVisibility.set(View.INVISIBLE);
                             ssLessonCoordinatorVisibility.set(View.INVISIBLE);
@@ -177,7 +210,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                     public void onCancelled(DatabaseError databaseError) {
                         ssLessonErrorStateVisibility.set(View.VISIBLE);
                         ssLessonLoadingVisibility.set(View.INVISIBLE);
-                        ssLessonEmptyStateVisibility.set(View.INVISIBLE);
+                        ssLessonOfflineStateVisibility.set(View.INVISIBLE);
                         ssLessonCoordinatorVisibility.set(View.INVISIBLE);
                     }
                 });
@@ -205,6 +238,40 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                         }
                     }).show();
         }
+    }
+
+    private void downloadRead(final String dayIndex){
+        mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
+                .child(ssFirebaseAuth.getCurrentUser().getUid())
+                .child(dayIndex)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {}
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
+
+        mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
+                .child(ssFirebaseAuth.getCurrentUser().getUid())
+                .child(dayIndex)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {}
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
+
+        mDatabase.child(SSConstants.SS_FIREBASE_READS_DATABASE)
+                .child(dayIndex)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {}
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
     }
 
     private void loadRead(){
@@ -569,5 +636,10 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
         ssReadingActivityBinding.ssReadingView.setReadingDisplayOptions(ssReadingDisplayOptions);
         ssReadingActivityBinding.ssReadingView.updateReadingDisplayOptions();
+    }
+
+    public void reloadActivity(){
+        ((SSReadingActivity) context).finish();
+        context.startActivity(((SSReadingActivity) context).getIntent());
     }
 }

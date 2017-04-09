@@ -52,8 +52,10 @@
     <string name="ss_lessons_empty">Схоже, що немає уроків в даний момент</string>
     <string name="ss_lessons_read">Читати</string>
     <string name="ss_reading_empty">Схоже, цей урок порожній</string>
+    <string name="ss_reading_offline">Ви перебуваєте в автономному режимі. Заново читати цей урок</string>
+    <string name="ss_reading_offline_retry">Спробуйте ще раз</string>
+    <string name="ss_reading_downloading">Завантаження уроку в автономному режимі</string>
     <string name="ss_reading_error">Сталася помилка під час відкриття уроку. Будь ласка, спробуйте пізніше</string>
-    <string name="ss_reading_downloading">Відкриваю урок</string>
     <string name="ss_reading_suggest_edit">Запропонувати редагування або виправлення</string>
     <string name="ss_reading_suggest_edit_hint">Будь ласка, опишіть проблему або пропозицію</string>
     <string name="ss_reading_suggest_edit_done">Дякую! Ваша пропозиція буде розглянута</string>

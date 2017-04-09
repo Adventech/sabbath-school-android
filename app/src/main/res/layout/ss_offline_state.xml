@@ -26,15 +26,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="errorStateVisibility" type="int"/>
-        <variable name="errorStateLabel" type="String"/>
+        <variable name="offlineStateVisibility" type="int"/>
+        <variable name="offlineStateLabel" type="String"/>
+        <variable name="viewModel" type="com.cryart.sabbathschool.viewmodel.SSReadingViewModel" />
     </data>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="@{errorStateVisibility}">
+        android:visibility="@{offlineStateVisibility}">
 
         <com.mikepenz.iconics.view.IconicsImageView
             android:layout_gravity="center|center_horizontal"
@@ -42,14 +43,24 @@
             android:layout_height="@dimen/ss_misc_top_image_size"
             android:layout_marginTop="@dimen/ss_misc_top_image_margin_top"
             app:iiv_color="@color/colorSecondaryLight"
-            app:iiv_icon="gmd-warning" />
+            app:iiv_icon="gmd-cloud-off" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_horizontal"
-            android:textAlignment="center"
             android:layout_margin="@dimen/ss_misc_subheader_margin"
-            android:text="@{errorStateLabel}" />
+            android:textAlignment="center"
+            android:text="@{offlineStateLabel}" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/ss_login_button_margin_top"
+            android:layout_gravity="center|center_horizontal"
+            android:text="@string/ss_reading_offline_retry"
+            android:onClick="@{() -> viewModel.reloadActivity()}"
+            style="@style/Widget.AppCompat.Button.Borderless" />
     </LinearLayout>
+
 </layout>
