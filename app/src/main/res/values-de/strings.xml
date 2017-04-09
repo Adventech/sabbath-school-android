@@ -52,8 +52,10 @@
     <string name="ss_lessons_empty">Es wurden keine Lektionen gefunden</string>
     <string name="ss_lessons_read">Lesen</string>
     <string name="ss_reading_empty">Die Lektion ist zur Zeit leer</string>
+    <string name="ss_reading_offline">Du bist offline. Reconnect, um diese Lektion zu lesen</string>
+    <string name="ss_reading_offline_retry">Wiederholen</string>
+    <string name="ss_reading_downloading">Laden von Lektion für offline</string>
     <string name="ss_reading_error">Fehler beim Öffnen der Lektion. Bitte versuche es erneut</string>
-    <string name="ss_reading_downloading">Lektion wird geöffnet</string>
     <string name="ss_reading_suggest_edit">Fehler oder Vorschlag übermitteln</string>
     <string name="ss_reading_suggest_edit_hint">Bitte beschreiben Sie den Fehler oder Ihren Vorschlag</string>
     <string name="ss_reading_suggest_edit_done">Vielen Dank! Ihr Vorschlag wird überprüft</string>

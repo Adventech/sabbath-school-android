@@ -62,8 +62,10 @@
     <string name="ss_lessons_read">Leer</string>
 
     <string name="ss_reading_empty">Parece que esta lección está vacía. Por favor, vuelva más tarde</string>
+    <string name="ss_reading_offline">Estas desconectado. Vuelva a conectar para leer esta lección</string>
+    <string name="ss_reading_offline_retry">Rever</string>
+    <string name="ss_reading_downloading">Descargando la lección para fuera de línea</string>
     <string name="ss_reading_error">Se ha producido un error al abrir la lección</string>
-    <string name="ss_reading_downloading">Lección de apertura</string>
 
     <string name="ss_reading_suggest_edit">Sugiere edición o corrección</string>
     <string name="ss_reading_suggest_edit_hint">Por favor describa su corrección o sugerencia</string>
