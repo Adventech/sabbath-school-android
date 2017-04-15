@@ -158,7 +158,8 @@ dependencies {
         transitive = true;
     }
     compile "com.commonsware.cwac:wakeful:1.0.+"
-    compile 'com.github.pwittchen:reactivenetwork:0.8.0'
+    compile "com.github.pwittchen:reactivenetwork:0.8.0"
+    compile "com.thefinestartist:finestwebview:1.2.7"
 }
 
 apply plugin: 'com.google.gms.google-services'
