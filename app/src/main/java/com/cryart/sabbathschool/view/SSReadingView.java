@@ -23,11 +23,13 @@
 package com.cryart.sabbathschool.view;
 
 
+import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.util.Base64;
@@ -38,17 +40,20 @@ import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.cryart.sabbathschool.R;
+import com.cryart.sabbathschool.SSApplication;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSComment;
 import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.model.SSReadComments;
 import com.cryart.sabbathschool.model.SSReadHighlights;
 import com.cryart.sabbathschool.model.SSReadingDisplayOptions;
+import com.thefinestartist.finestwebview.FinestWebView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -252,6 +257,24 @@ public class SSReadingView extends WebView {
     }
 
     private class SSWebViewClient extends WebViewClient {
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//            Log.d("SSS", url);
+            new FinestWebView.Builder(SSApplication.get()).show(url);
+            return true;
+        }
+
+        @TargetApi(Build.VERSION_CODES.N)
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+//            Log.d("SSS", );
+            new FinestWebView.Builder(SSApplication.get()).show(request.getUrl().toString());
+
+            return true;
+        }
+
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
