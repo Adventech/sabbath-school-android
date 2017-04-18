@@ -75,6 +75,10 @@ android {
         throw new GradleException("Could not read version.properties!")
     }
 
+    dexOptions {
+        jumboMode = true
+    }
+
     signingConfigs {
         beta {
             storeFile file("src/beta/ss-beta.keystore")
@@ -85,6 +89,7 @@ android {
         debug {
             ext.enableCrashlytics = false
         }
+
         beta {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -118,14 +123,12 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
 
-    androidTestCompile "tools.fastlane:screengrab:0.5.5"
+    androidTestCompile "tools.fastlane:screengrab:1.0.0"
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
-
-    androidTestCompile "tools.fastlane:screengrab:0.5.5"
 
     compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"

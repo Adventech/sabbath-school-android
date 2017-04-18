@@ -82,7 +82,7 @@ public class SSReadingActivityTest {
         Intent grouchyIntent = new Intent();
         // intent stuff
 
-        grouchyIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, Locale.getDefault().getLanguage()+"-2016-04-06");
+        grouchyIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, Locale.getDefault().getLanguage()+"-2017-02-04");
         activityRule.launchActivity(grouchyIntent);
 
         onView(withId(R.id.ss_reading_navigation_next)).perform(click());
@@ -103,7 +103,7 @@ public class SSReadingActivityTest {
             put("uk", "type:textContent|227$308$1$highlight_yellow$|309$359$2$highlight_green$");
         }};
 
-        activityRule.getActivity().binding.ssReadingView.setReadHighlights(new SSReadHighlights(Locale.getDefault().getLanguage()+"-2016-04-06-03", highlights.get(Locale.getDefault().getLanguage())));
+        activityRule.getActivity().binding.ssReadingView.setReadHighlights(new SSReadHighlights(Locale.getDefault().getLanguage()+"-2017-02-04-03", highlights.get(Locale.getDefault().getLanguage())));
 
 
         SystemClock.sleep(2000);
@@ -116,7 +116,7 @@ public class SSReadingActivityTest {
 
         ViewActions.pressBack();
 
-        if (!Locale.getDefault().getLanguage().equals("tr") && activityRule.getActivity().ssReadingViewModel.ssRead.bible.size() > 0){
+        if (!Locale.getDefault().getLanguage().equals("tr") && !Locale.getDefault().getLanguage().equals("ja") && activityRule.getActivity().ssReadingViewModel.ssRead.bible.size() > 0){
             SSBibleVerses b = activityRule.getActivity().ssReadingViewModel.ssRead.bible.get(0);
 
 
