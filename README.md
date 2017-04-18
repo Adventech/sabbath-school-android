@@ -21,6 +21,6 @@ This repository contains the source code for the Sabbath School Android app.
 # Special thanks
 
 - [TestObject](http://testobject.com) for supporting with awesome on-demand real device testing
-- [Stoplight](http://stoplight.io) for supporting with amazon API platform
+- [Stoplight](http://stoplight.io) for supporting with amazing API platform
 - [Textografo](http://textografo.com) for supporting with incredible diagram-as-a-code tool
 - [POEditor](http://poeditor.com) for supporting with versatile translation platform
