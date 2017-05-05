@@ -78,7 +78,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
 
         ViewCompat.setNestedScrollingEnabled(binding.ssReadingSheetList, false);
 
-        ssReadingViewModel = new SSReadingViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_LESSON_INDEX_EXTRA), binding);
+        ssReadingViewModel = new SSReadingViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_LESSON_INDEX_EXTRA), getIntent().getExtras().getString(SSConstants.SS_READ_INDEX_EXTRA), binding);
         binding.ssReadingView.setContextMenuCallback(ssReadingViewModel);
         binding.ssReadingView.setHighlightsCommentsCallback(ssReadingViewModel);
         ((SSReadingSheetAdapter)binding.ssReadingSheetList.getAdapter()).setReadingViewModel(ssReadingViewModel);

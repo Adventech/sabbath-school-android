@@ -99,19 +99,21 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     public SSLessonInfo ssLessonInfo;
     public ObservableInt ssReadPosition;
     public SSRead ssRead;
+    public String ssReadIndex;
 
     public ObservableInt ssLessonLoadingVisibility;
     public ObservableInt ssLessonOfflineStateVisibility;
     public ObservableInt ssLessonErrorStateVisibility;
     public ObservableInt ssLessonCoordinatorVisibility;
 
-    public SSReadingViewModel(Context context, DataListener dataListener, String ssLessonIndex, SsReadingActivityBinding ssReadingActivityBinding) {
+    public SSReadingViewModel(Context context, DataListener dataListener, String ssLessonIndex, String ssReadIndex, SsReadingActivityBinding ssReadingActivityBinding) {
         this.context = context;
         this.dataListener = dataListener;
         this.ssLessonIndex = ssLessonIndex;
         this.ssReadingActivityBinding = ssReadingActivityBinding;
         this.ssFirebaseAuth = FirebaseAuth.getInstance();
         this.ssFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+        this.ssReadIndex = ssReadIndex;
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.keepSynced(true);
@@ -177,17 +179,20 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
                             if (ssLessonInfo != null && ssReadPosition != null && ssLessonInfo.days.size() > 0) {
                                 DateTime today = DateTime.now().withTimeAtStartOfDay();
+
+
                                 int idx = 0;
 
                                 for (SSDay ssDay : ssLessonInfo.days){
                                     DateTime startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                                                 .parseLocalDate(ssDay.date).toDateTimeAtStartOfDay();
-                                    if (startDate.isEqual(today)){
+                                    if (startDate.isEqual(today) && ssReadIndex == null){
                                         ssReadPosition.set(idx);
-                                        break;
-                                    } else {
-                                        downloadRead(ssDay.index);
+                                    } else if (ssReadIndex != null && ssReadIndex.equals(ssDay.index)) {
+                                        ssReadPosition.set(idx);
                                     }
+
+                                    downloadRead(ssDay.index);
                                     idx++;
                                 }
                             }
