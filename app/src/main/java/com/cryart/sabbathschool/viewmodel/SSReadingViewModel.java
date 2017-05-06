@@ -313,7 +313,9 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ssReadingActivityBinding.ssReadingView.updateHighlights();
+                                    if (ssReadingActivityBinding != null) {
+                                        ssReadingActivityBinding.ssReadingView.updateHighlights();
+                                    }
                                 }
                             }, 800);
                         }
