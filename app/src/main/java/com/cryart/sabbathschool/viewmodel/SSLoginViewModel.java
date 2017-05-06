@@ -27,7 +27,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableInt;
 import android.net.Uri;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -38,6 +37,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.misc.SSEvent;
 import com.cryart.sabbathschool.view.SSLoginActivity;
 import com.cryart.sabbathschool.view.SSQuarterliesActivity;
 import com.facebook.AccessToken;
@@ -55,7 +55,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -74,7 +73,6 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
     private FirebaseAuth ssFirebaseAuth;
     private CallbackManager ssFacebookCallbackManager;
     private GoogleApiClient ssGoogleApiClient;
-    private FirebaseAnalytics ssFirebaseAnalytics;
 
     public ObservableInt ssLoginLoadingVisibility;
     public ObservableInt ssLoginControlsVisibility;
@@ -87,7 +85,6 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
         this.context = context;
         this.ssLoginLoadingVisibility = new ObservableInt(View.INVISIBLE);
         this.ssLoginControlsVisibility = new ObservableInt(View.VISIBLE);
-        this.ssFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
         this.configureGoogleLogin();
         this.configureFacebookLogin();
@@ -217,10 +214,7 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
                         }
                     }
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString(SSConstants.SS_EVENT_PARAM_USER_ID, user.getUid());
-                    bundle.putString(SSConstants.SS_EVENT_PARAM_USER_NAME, user.getDisplayName());
-                    ssFirebaseAnalytics.logEvent(SSConstants.SS_EVENT_APP_OPEN, bundle);
+                    SSEvent.track(SSConstants.SS_EVENT_APP_OPEN);
 
                     openApp();
                 }

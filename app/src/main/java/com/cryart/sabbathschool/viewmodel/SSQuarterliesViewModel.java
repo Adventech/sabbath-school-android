@@ -28,7 +28,6 @@ import android.content.SharedPreferences;
 import android.databinding.ObservableFloat;
 import android.databinding.ObservableInt;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
@@ -41,10 +40,9 @@ import android.view.animation.Interpolator;
 import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.misc.SSEvent;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -70,8 +68,6 @@ public class SSQuarterliesViewModel implements SSViewModel {
     private ValueEventListener ssLanguagesRef;
     private ValueEventListener ssQuarterliesRef;
     private String ssDefaultLanguage;
-    private FirebaseAnalytics ssFirebaseAnalytics;
-    private FirebaseAuth ssFirebaseAuth;
 
     public ObservableInt ssQuarterliesLanguageFilterVisibility;
     public ObservableInt ssQuarterliesLoadingVisibility;
@@ -96,8 +92,6 @@ public class SSQuarterliesViewModel implements SSViewModel {
         ssQuarterliesListMarginTop = new ObservableFloat(0);
         ssFirebaseDatabase = FirebaseDatabase.getInstance().getReference();
         ssFirebaseDatabase.keepSynced(true);
-        this.ssFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
-        this.ssFirebaseAuth = FirebaseAuth.getInstance();
 
         this.ssQuarterlyLanguages = new ArrayList<>();
         this.ssQuarterlies = new ArrayList<>();
@@ -123,10 +117,6 @@ public class SSQuarterliesViewModel implements SSViewModel {
 
     public void onFilterClick(MenuItem menuItem){
         if (ssQuarterliesLanguageFilterVisibility.get() == View.GONE) {
-            Bundle bundle = new Bundle();
-            bundle.putString(SSConstants.SS_EVENT_PARAM_USER_ID, ssFirebaseAuth.getCurrentUser().getUid());
-            bundle.putString(SSConstants.SS_EVENT_PARAM_USER_NAME, ssFirebaseAuth.getCurrentUser().getDisplayName());
-            ssFirebaseAnalytics.logEvent(SSConstants.SS_EVENT_LANGUAGE_FILTER, bundle);
 
             View v = ((Activity)context).findViewById(R.id.ss_quarterlies_language_filter_holder);
             v.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
@@ -139,6 +129,8 @@ public class SSQuarterliesViewModel implements SSViewModel {
                     .icon(GoogleMaterial.Icon.gmd_close)
                     .color(Color.WHITE)
                     .sizeDp(14));
+
+            SSEvent.track(SSConstants.SS_EVENT_LANGUAGE_FILTER);
         } else {
             ssQuarterliesListMarginTop.set(0);
             ssQuarterliesLanguageFilterVisibility.set(View.GONE);

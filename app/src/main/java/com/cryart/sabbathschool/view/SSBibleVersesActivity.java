@@ -40,11 +40,10 @@ import com.cryart.sabbathschool.adapter.SSBibleVersionsAdapter;
 import com.cryart.sabbathschool.databinding.SsBibleVersesActivityBinding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.misc.SSEvent;
 import com.cryart.sabbathschool.model.SSBibleVerses;
 import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.viewmodel.SSBibleVersesViewModel;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,8 +53,6 @@ import com.google.firebase.database.ValueEventListener;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SSBibleVersesActivity extends AppCompatActivity {
-    private FirebaseAnalytics ssFirebaseAnalytics;
-    private FirebaseAuth ssFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +67,7 @@ public class SSBibleVersesActivity extends AppCompatActivity {
         binding.ssBibleVersesHeader.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()));
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-        this.ssFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        this.ssFirebaseAuth = FirebaseAuth.getInstance();
-
-        Bundle bundle = new Bundle();
-        bundle.putString(SSConstants.SS_EVENT_PARAM_USER_ID, ssFirebaseAuth.getCurrentUser().getUid());
-        bundle.putString(SSConstants.SS_EVENT_PARAM_USER_NAME, ssFirebaseAuth.getCurrentUser().getDisplayName());
-        ssFirebaseAnalytics.logEvent(SSConstants.SS_EVENT_BIBLE_OPEN, bundle);
+        SSEvent.track(SSConstants.SS_EVENT_BIBLE_OPEN);
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.keepSynced(true);

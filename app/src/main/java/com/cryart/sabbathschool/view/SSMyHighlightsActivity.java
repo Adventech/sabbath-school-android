@@ -34,15 +34,12 @@ import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsMyHighlightsActivityBinding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.FirebaseAuth;
+import com.cryart.sabbathschool.misc.SSEvent;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SSMyHighlightsActivity extends SSColorSchemeActivity {
     private SsMyHighlightsActivityBinding binding;
-    private FirebaseAnalytics ssFirebaseAnalytics;
-    private FirebaseAuth ssFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +55,7 @@ public class SSMyHighlightsActivity extends SSColorSchemeActivity {
         binding.ssAppBar.toolbarTitle.setText(getString(R.string.ss_my_highlights));
         updateColorScheme();
 
-        this.ssFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        this.ssFirebaseAuth = FirebaseAuth.getInstance();
-
-        Bundle bundle = new Bundle();
-        bundle.putString(SSConstants.SS_EVENT_PARAM_USER_ID, ssFirebaseAuth.getCurrentUser().getUid());
-        bundle.putString(SSConstants.SS_EVENT_PARAM_USER_NAME, ssFirebaseAuth.getCurrentUser().getDisplayName());
-        ssFirebaseAnalytics.logEvent(SSConstants.SS_EVENT_HIGHLIGHTS_OPEN, bundle);
+        SSEvent.track(SSConstants.SS_EVENT_HIGHLIGHTS_OPEN);
     }
 
     private void updateColorScheme(){
