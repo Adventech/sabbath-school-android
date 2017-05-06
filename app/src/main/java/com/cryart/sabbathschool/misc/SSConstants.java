@@ -85,6 +85,8 @@ public class SSConstants {
     public static final String SS_EVENT_TEXT_HIGHLIGHTED = "ss_text_highlighted";
     public static final String SS_EVENT_COMMENT_CREATED = "ss_comment_created";
 
-    public static final String SS_EVENT_PARAM_USER_ID = "user_id";
-    public static final String SS_EVENT_PARAM_USER_NAME = "user_name";
+    public static final String SS_EVENT_PARAM_USER_ID = "ss_user_id";
+    public static final String SS_EVENT_PARAM_USER_NAME = "ss_user_name";
+    public static final String SS_EVENT_PARAM_LESSON_INDEX = "ss_lesson_index";
+    public static final String SS_EVENT_PARAM_READ_INDEX = "ss_read_index";
 }

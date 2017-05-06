@@ -86,9 +86,6 @@ android {
     }
 
     buildTypes {
-        debug {
-            ext.enableCrashlytics = false
-        }
 
         beta {
             minifyEnabled true
