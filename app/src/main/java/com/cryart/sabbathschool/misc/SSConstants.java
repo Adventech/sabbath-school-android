@@ -89,4 +89,7 @@ public class SSConstants {
     public static final String SS_EVENT_PARAM_USER_NAME = "ss_user_name";
     public static final String SS_EVENT_PARAM_LESSON_INDEX = "ss_lesson_index";
     public static final String SS_EVENT_PARAM_READ_INDEX = "ss_read_index";
+
+    public static final String SS_READER_ARTIFACT_NAME = "sabbath-school-reader-latest.zip";
+    public static final String SS_READER_ARTIFACT_CREATION_TIME = "sabbath-school-reader-creation-time";
 }
