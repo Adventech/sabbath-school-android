@@ -22,12 +22,15 @@
 
 package com.cryart.sabbathschool.view;
 
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,13 +43,22 @@ import com.cryart.sabbathschool.adapter.SSReadingSheetAdapter;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.misc.SSUnzip;
 import com.cryart.sabbathschool.model.SSLessonInfo;
 import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import java.io.File;
 
 public class SSReadingActivity extends SSBaseActivity implements SSReadingViewModel.DataListener {
     private static final String TAG = SSReadingActivity.class.getSimpleName();
@@ -54,9 +66,18 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     public SsReadingActivityBinding binding;
     public SSReadingViewModel ssReadingViewModel;
 
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference storageRef = storage.getReference();
+    private StorageReference latestReaderArtifactRef = storageRef.child(SSConstants.SS_READER_ARTIFACT_NAME);
+    private SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        checkIfReaderNeeded();
+
         binding = DataBindingUtil.setContentView(this, R.layout.ss_reading_activity);
 
         SSReadingSheetAdapter adapter = new SSReadingSheetAdapter();
@@ -88,6 +109,44 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
 
         setUpDrawer();
         updateColorScheme();
+    }
+
+    private void checkIfReaderNeeded(){
+        latestReaderArtifactRef.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+            @Override
+            public void onSuccess(StorageMetadata storageMetadata) {
+                long lastReaderArtifactCreationTime = prefs.getLong(SSConstants.SS_READER_ARTIFACT_CREATION_TIME, 0);
+
+                if (lastReaderArtifactCreationTime != storageMetadata.getCreationTimeMillis()){
+                    downloadLatestReader(storageMetadata.getCreationTimeMillis());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+            }
+        });
+    }
+
+    private void downloadLatestReader(final long readerArtifactCreationTime){
+        final File localFile = new File(getFilesDir(), SSConstants.SS_READER_ARTIFACT_NAME);
+
+        latestReaderArtifactRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putLong(SSConstants.SS_READER_ARTIFACT_CREATION_TIME, readerArtifactCreationTime);
+                editor.commit();
+
+                new SSUnzip(localFile.getPath(), getFilesDir().getPath() + "/");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
     }
 
     public void updateColorScheme(){
