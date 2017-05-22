@@ -56,6 +56,8 @@ import com.cryart.sabbathschool.model.SSReadingDisplayOptions;
 import com.thefinestartist.finestwebview.FinestWebView;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -184,6 +186,25 @@ public class SSReadingView extends WebView {
         contextMenuShown = false;
     }
 
+    public static String readFileFromFiles(String path){
+        File file = new File(path);
+        try {
+            int length = (int) file.length();
+
+            byte[] bytes = new byte[length];
+
+            FileInputStream in = new FileInputStream(file);
+            try {
+                in.read(bytes);
+            } finally {
+                in.close();
+            }
+
+            return new String(bytes);
+        } catch (Exception e){ return ""; }
+    }
+
+
     public static String readFileFromAssets(Context context, String assetPath){
         StringBuilder buf = new StringBuilder();
         try {
@@ -201,8 +222,17 @@ public class SSReadingView extends WebView {
 
     public void loadRead(SSRead ssRead){
         // We don't want any flickering of themes, right?
+        String baseUrl = SSConstants.SS_READER_APP_BASE_URL;
+
         if (ssReaderContent == null){
-            ssReaderContent = readFileFromAssets(getContext(), SSConstants.SS_READER_APP_ENTRYPOINT);
+            final File indexFile = new File(getContext().getFilesDir() + "/index.html");
+
+            if (indexFile.exists()){
+                baseUrl = "file:///" + getContext().getFilesDir() + "/";
+                ssReaderContent = readFileFromFiles(getContext().getFilesDir() + "/index.html");
+            } else {
+                ssReaderContent = readFileFromAssets(getContext(), SSConstants.SS_READER_APP_ENTRYPOINT);
+            }
         }
 
         String content = ssReaderContent.replaceAll("\\{\\{content\\}\\}", ssRead.content);
@@ -211,7 +241,7 @@ public class SSReadingView extends WebView {
         content = content.replace("ss-wrapper-andada", "ss-wrapper-" + ssReadingDisplayOptions.font);
         content = content.replace("ss-wrapper-medium", "ss-wrapper-" + ssReadingDisplayOptions.size);
 
-        loadDataWithBaseURL(SSConstants.SS_READER_APP_BASE_URL, content, "text/html", "utf-8", null);
+        loadDataWithBaseURL(baseUrl, content, "text/html", "utf-8", null);
     }
 
     public ActionMode emptyActionMode() {
@@ -261,7 +291,6 @@ public class SSReadingView extends WebView {
         @SuppressWarnings("deprecation")
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//            Log.d("SSS", url);
             new FinestWebView.Builder(SSApplication.get()).show(url);
             return true;
         }
@@ -269,7 +298,6 @@ public class SSReadingView extends WebView {
         @TargetApi(Build.VERSION_CODES.N)
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-//            Log.d("SSS", );
             new FinestWebView.Builder(SSApplication.get()).show(request.getUrl().toString());
 
             return true;

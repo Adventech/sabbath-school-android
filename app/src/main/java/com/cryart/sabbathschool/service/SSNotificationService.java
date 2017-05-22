@@ -38,6 +38,11 @@ public class SSNotificationService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            if (remoteMessage.getData().containsKey("open_read")){
+                String readId = remoteMessage.getData().get("open_read");
+
+                Log.d(TAG, "Read: " + readId);
+            }
         }
 
         // Check if message contains a notification payload.
@@ -51,5 +56,6 @@ public class SSNotificationService extends FirebaseMessagingService {
 
     private void sendNotification(String messageBody) {
         // TODO: implement show notification
+        Log.d(TAG, "Message Notification Body: " + messageBody);
     }
 }

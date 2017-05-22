@@ -35,6 +35,7 @@ import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsAboutActivityBinding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.misc.SSEvent;
 import com.cryart.sabbathschool.viewmodel.SSAboutViewModel;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -68,10 +69,7 @@ public class SSAboutActivity extends SSColorSchemeActivity {
         this.ssFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         this.ssFirebaseAuth = FirebaseAuth.getInstance();
 
-        Bundle bundle = new Bundle();
-        bundle.putString(SSConstants.SS_EVENT_PARAM_USER_ID, ssFirebaseAuth.getCurrentUser().getUid());
-        bundle.putString(SSConstants.SS_EVENT_PARAM_USER_NAME, ssFirebaseAuth.getCurrentUser().getDisplayName());
-        ssFirebaseAnalytics.logEvent(SSConstants.SS_EVENT_ABOUT_OPEN, bundle);
+        SSEvent.track(SSConstants.SS_EVENT_ABOUT_OPEN);
 
         updateWindowColorScheme();
     }
