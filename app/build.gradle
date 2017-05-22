@@ -64,7 +64,7 @@ android {
             applicationId "com.cryart.sabbathschool"
             minSdkVersion 14
             targetSdkVersion 25
-            versionCode 18
+            versionCode 19
             versionName "3.2." + versionBuild
 
             vectorDrawables.useSupportLibrary = true
@@ -86,9 +86,6 @@ android {
     }
 
     buildTypes {
-        debug {
-            ext.enableCrashlytics = false
-        }
 
         beta {
             minifyEnabled true
@@ -117,7 +114,7 @@ android {
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '25.1.1'
+    final SUPPORT_LIBRARY_VERSION = '25.3.1'
     final PLAY_SERVICES_VERSION = '9.6.1'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -142,6 +139,7 @@ dependencies {
     compile "com.google.firebase:firebase-auth:$PLAY_SERVICES_VERSION"
     compile "com.google.firebase:firebase-database:$PLAY_SERVICES_VERSION"
     compile "com.google.firebase:firebase-messaging:$PLAY_SERVICES_VERSION"
+    compile "com.google.firebase:firebase-storage:$PLAY_SERVICES_VERSION"
 
     compile "uk.co.samuelwall:material-tap-target-prompt:1.5.0"
     compile "com.nostra13.universalimageloader:universal-image-loader:1.9.5"
@@ -163,6 +161,7 @@ dependencies {
     compile "com.commonsware.cwac:wakeful:1.0.+"
     compile "com.github.pwittchen:reactivenetwork:0.8.0"
     compile "com.thefinestartist:finestwebview:1.2.7"
+    compile "com.github.javiersantos:MaterialStyledDialogs:2.1"
 }
 
 apply plugin: 'com.google.gms.google-services'

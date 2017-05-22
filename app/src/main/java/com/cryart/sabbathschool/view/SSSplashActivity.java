@@ -27,16 +27,41 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import static com.cryart.sabbathschool.misc.SSConstants.SS_LESSON_INDEX_EXTRA;
+import static com.cryart.sabbathschool.misc.SSConstants.SS_READ_INDEX_EXTRA;
+
 public class SSSplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getIntent().getExtras() != null) {
+            if (getIntent().getExtras().containsKey(SS_LESSON_INDEX_EXTRA)) {
+                String ssLessonIndex = getIntent().getExtras().getString(SS_LESSON_INDEX_EXTRA);
+                String ssReadIndex = null;
+                if (getIntent().getExtras().containsKey(SS_READ_INDEX_EXTRA)){
+                    ssReadIndex = getIntent().getExtras().getString(SS_READ_INDEX_EXTRA);
+                }
+
+                Intent ssReadingIntent = new Intent(this, SSReadingActivity.class);
+                ssReadingIntent.putExtra(SS_LESSON_INDEX_EXTRA, ssLessonIndex);
+                ssReadingIntent.putExtra(SS_READ_INDEX_EXTRA, ssReadIndex);
+                startActivity(ssReadingIntent);
+                finish();
+            } else {
+                launchLoginActivity();
+            }
+        } else {
+            launchLoginActivity();
+        }
+
         try {
             NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             manager.cancel(1);
         } catch (Exception e){}
+    }
 
+    private void launchLoginActivity(){
         Intent intent = new Intent(this, SSLoginActivity.class);
         startActivity(intent);
         finish();

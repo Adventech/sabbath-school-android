@@ -35,7 +35,10 @@ import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSBibleVerses;
 import com.cryart.sabbathschool.model.SSReadingDisplayOptions;
 
+import java.io.File;
+
 import static com.cryart.sabbathschool.view.SSReadingView.readFileFromAssets;
+import static com.cryart.sabbathschool.view.SSReadingView.readFileFromFiles;
 
 public class SSBibleVersesView extends WebView {
     private String content_app;
@@ -65,8 +68,17 @@ public class SSBibleVersesView extends WebView {
     }
 
     public void loadVerse(SSBibleVerses bibleVersion, String verse){
+        String baseUrl = SSConstants.SS_READER_APP_BASE_URL;
+
         if (content_app == null) {
-            content_app = readFileFromAssets(getContext(), SSConstants.SS_READER_APP_ENTRYPOINT);
+            final File indexFile = new File(getContext().getFilesDir() + "/index.html");
+
+            if (indexFile.exists()){
+                baseUrl = "file:///" + getContext().getFilesDir() + "/";
+                content_app = readFileFromFiles(getContext().getFilesDir() + "/index.html");
+            } else {
+                content_app = readFileFromAssets(getContext(), SSConstants.SS_READER_APP_ENTRYPOINT);
+            }
         }
 
         String verseContent = "";
@@ -89,6 +101,6 @@ public class SSBibleVersesView extends WebView {
         content = content.replace("ss-wrapper-andada", "ss-wrapper-" + ssReadingDisplayOptions.font);
         content = content.replace("ss-wrapper-medium", "ss-wrapper-" + ssReadingDisplayOptions.size);
 
-        loadDataWithBaseURL(SSConstants.SS_READER_APP_BASE_URL, content, "text/html", "utf-8", null);
+        loadDataWithBaseURL(baseUrl, content, "text/html", "utf-8", null);
     }
 }
