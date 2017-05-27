@@ -30,7 +30,7 @@
     <string name="ss_login_button_anonymous">"無名でログイン"</string>
     <string name="ss_menu_anonymous_name">"無名"</string>
     <string name="ss_menu_sign_out">"サインアウト"</string>
-    <string name="ss_menu_read_now">"今すぐ読む"</string>
+    <string name="ss_menu_read_now">"読む"</string>
     <string name="ss_menu_share_app">"このアプリを共有"</string>
 
     <string name="ss_menu_share_app_text">"この安息日学校アプリを使っています。"</string>
