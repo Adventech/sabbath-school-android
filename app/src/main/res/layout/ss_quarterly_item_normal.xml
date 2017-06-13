@@ -48,20 +48,36 @@
             android:layout_marginEnd="@dimen/ss_quarterly_item_normal_margin_right"
             android:layout_marginBottom="@dimen/ss_quarterly_item_normal_margin_bottom"
             android:layout_marginTop="@dimen/ss_quarterly_item_normal_margin_top"
-            android:padding="@dimen/ss_quarterly_item_normal_padding"
             card_view:cardCornerRadius="@dimen/ss_quarterly_item_normal_corner_radius">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
+                <ImageView
+                    android:transitionName="@string/ss_quarterly_cover_transition"
+                    android:id="@+id/ss_quarterly_item_normal_cover"
+                    android:layout_width="@dimen/ss_quarterly_item_normal_cover_width"
+                    android:layout_height="@dimen/ss_quarterly_item_normal_cover_height"
+                    android:layout_alignTop="@+id/ss_quarterly_item_normal_title"
+                    android:layout_marginEnd="@dimen/ss_quarterly_item_normal_cover_margin_left"
+                    android:layout_marginStart="@dimen/ss_quarterly_item_normal_cover_margin_left"
+                    app:coverUrl="@{viewModel.cover}"
+                    android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}" />
+
                 <TextView
                     android:id="@+id/ss_quarterly_item_normal_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ss_quarterly_item_normal_cover_margin_left"
                     android:layout_marginLeft="@dimen/ss_quarterly_item_normal_title_margin_left"
                     android:layout_marginStart="@dimen/ss_quarterly_item_normal_title_margin_left"
-                    android:padding="@dimen/ss_quarterly_item_normal_title_padding"
+                    android:paddingBottom="@dimen/ss_quarterly_item_normal_title_padding_bottom"
+                    android:paddingStart="@dimen/ss_quarterly_item_normal_title_padding"
+                    android:paddingLeft="@dimen/ss_quarterly_item_normal_title_padding"
+                    android:paddingEnd="@dimen/ss_quarterly_item_normal_title_padding"
+                    android:paddingRight="@dimen/ss_quarterly_item_normal_title_padding"
+
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textAllCaps="true"
@@ -99,6 +115,7 @@
                     android:padding="@dimen/ss_quarterly_item_normal_description_padding"
                     android:text="@{viewModel.description}"
                     android:textSize="@dimen/ss_quarterly_item_normal_description_text_size"
+                    android:maxLines="3"
                     tools:text="Quarterly Description" />
 
                 <Button
@@ -116,16 +133,7 @@
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
-        <ImageView
-            android:transitionName="@string/ss_quarterly_cover_transition"
-            android:id="@+id/ss_quarterly_item_normal_cover"
-            android:layout_width="@dimen/ss_quarterly_item_normal_cover_width"
-            android:layout_height="@dimen/ss_quarterly_item_normal_cover_height"
-            android:layout_marginTop="@dimen/ss_quarterly_item_normal_cover_margin_top"
-            android:layout_marginLeft="@dimen/ss_quarterly_item_normal_cover_margin_left"
-            android:layout_marginStart="@dimen/ss_quarterly_item_normal_cover_margin_left"
-            app:coverUrl="@{viewModel.cover}"
-            android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}" />
+
 
     </RelativeLayout>
 </layout>
