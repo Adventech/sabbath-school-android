@@ -7,7 +7,7 @@ This is Sabbath School for Android by Adventech. Humble attempt to make differen
 
 ## Screenshots
 
-<img src="https://lh3.googleusercontent.com/oVH5_b8a9Dy6m_NNhRROL1CiIezZwQJ9I3xh3WgZJf_clHWXty7XLqXU7peMB1xzQ78=h900-rw" alt="Screenshot" height="500"/> <img src="https://lh3.googleusercontent.com/oVH5_b8a9Dy6m_NNhRROL1CiIezZwQJ9I3xh3WgZJf_clHWXty7XLqXU7peMB1xzQ78=h900-rw" height="500"/>
+<img src="https://lh3.googleusercontent.com/oVH5_b8a9Dy6m_NNhRROL1CiIezZwQJ9I3xh3WgZJf_clHWXty7XLqXU7peMB1xzQ78=h900-rw" alt="Screenshot" height="500"/> <img src="https://lh3.googleusercontent.com/DYEbOBb4u5pcr2hwf9840UsakKbJROn7lFkx-ZH7C6cqdebvN_LuCUou53j3aJnWMnk=h900-rw" height="500"/>
 
 ## Features
 
