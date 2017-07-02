@@ -1,0 +1,7 @@
+App ha sido rediseñado - nuevo logo y diseño de materiales.
+Nuevo diseño de la aplicación usando gestos banda magnética para navegar entre los días de clases.
+Añadir notificaciones diarias.
+Añadir opciones para cambiar el idioma trimestral dentro de los ajustes.
+Añadir idioma trimestral española.
+Añadir Night & Sepia modos de lectura.
+Añadir opción para desactivar el efecto Ken Burns en la imagen que se muestra.

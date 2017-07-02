@@ -1,0 +1,6 @@
+Adding daily reminders functionality. ⏰
+Adding color themes based on the quarterly. 🎨
+Updating comment input functionality to be inline commenting. ⌨️
+Updating UI scheme of the reader. 📝
+Fixing issue with Cyrillic fonts on some devices. ✅
+General bugfixes and improvements. ✅

@@ -1,0 +1,3 @@
+🇯🇵 Adding Japanese localization
+📶 Downloading the whole lesson for offline reading
+🌐 Opening links in an in-app browser

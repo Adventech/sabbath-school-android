@@ -1,0 +1,2 @@
+json_key_file "/Users/vitalik/Google\ Drive/Current/Adventech/Sabbath\ School/Google\ Play\ Android\ Developer-32c4a74b7fbf.json" # Path to the json secret file - Follow https://github.com/fastlane/supply#setup to get one
+package_name "com.cryart.sabbathschool" # e.g. com.krausefx.app

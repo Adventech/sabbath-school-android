@@ -1,0 +1,6 @@
+Adicionando funcionalidade de lembretes diários. ⏰
+Adicionando temas de cores com base no trimestre. 🎨
+Atualizando a funcionalidade de entrada de comentários para comentários inline. ⌨️
+Atualizando o esquema de UI do leitor. 📝
+Corrigindo o problema com fontes cirílicas em alguns dispositivos. ✅
+Correções e melhorias gerais. ✅

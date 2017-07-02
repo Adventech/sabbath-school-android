@@ -1,0 +1,6 @@
+Ajout de fonctionnalités de rappels quotidiens. ⏰
+Ajout de thèmes de couleur basés sur le trimestriel. 🎨
+Mise à jour de la fonctionnalité d'entrée des commentaires pour être commentée en ligne. ⌨
+Mise à jour du schéma d'interface utilisateur du lecteur. 📝
+Correction d'un problème avec des polices cyrilliques sur certains périphériques. ✅
+Corrections et améliorations générales. ✅

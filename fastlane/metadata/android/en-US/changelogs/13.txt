@@ -1,0 +1,8 @@
+Please welcome Sabbath School v3.
+
+- Redesign of application
+- Support of notes and highlights sync.
+- Support for Bible versions for some languages
+- Lesson auto-renew and update 
+- More reading modes with new fonts
+- And many more to come.
