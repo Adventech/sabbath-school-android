@@ -25,7 +25,7 @@ platform :android do
 
   desc "Upload meta to the Google Play"
   lane :playmeta do
-    supply(skip_upload_apk: true, skip_upload_screenshots: true, skip_upload_images: true, track: "beta")
+    supply(skip_upload_apk: true)
   end
 
   desc "Runs all the tests"
