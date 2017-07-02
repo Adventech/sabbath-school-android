@@ -1,0 +1,3 @@
+Added options to change font size. 
+Added Ukrainian language support. (Defaults to Russian, instead of English)
+Added tablet landscape layout.

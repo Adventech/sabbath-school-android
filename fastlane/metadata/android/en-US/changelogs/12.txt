@@ -1,0 +1,2 @@
+Added support for Bible verses in multiple Bible versions.
+Bugfixes and performance improvements across the app.

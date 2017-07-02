@@ -1,0 +1,6 @@
+Agregar funcionalidad de recordatorios diarios. ⏰
+Adición de temas de color basados en el trimestral. 🎨
+Actualización de la funcionalidad de entrada de comentarios para comentarios en línea. ⌨
+Actualización del esquema de interfaz de usuario del lector. 📝
+Solución de problemas con fuentes cirílicas en algunos dispositivos. ✅
+Correcciones y mejoras generales. ✅

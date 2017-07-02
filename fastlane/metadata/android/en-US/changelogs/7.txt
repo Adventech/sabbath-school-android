@@ -1,0 +1,2 @@
+Add Ken Burns effect to the hero image.
+Bug fixes

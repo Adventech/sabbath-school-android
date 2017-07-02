@@ -1,0 +1,6 @@
+Günlük hatırlatıcı işlevleri ekleme. ⏰
+Üç ayda bir renk temaları ekleniyor. 🎨
+Yorum girdi işlevselliğini satır içi yorum olarak güncelleme. ⌨️
+Okuyucunun UI şemasını güncelleme. 📝
+Bazı cihazlarda Kiril yazı tipleriyle ilgili sorunu giderme. ✅
+Genel hata düzeltmeleri ve iyileştirmeler. ✅

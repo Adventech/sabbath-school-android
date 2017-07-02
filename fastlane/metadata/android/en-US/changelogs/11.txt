@@ -1,0 +1,8 @@
+App rewritten from scratch. Beta version to test:
+
+- Real-time support of lessons
+- Social authentication for notes and highlights syncing
+- New reading experience
+- Support for additional readings like: Inside story and Teacher comments
+- New design
+- Many more

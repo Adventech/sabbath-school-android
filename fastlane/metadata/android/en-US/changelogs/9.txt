@@ -1,0 +1,4 @@
+Added French Language
+Added Portuguese Language
+Added Ukrainian Languaged
+Bug fixes

@@ -1,0 +1,2 @@
+Changed the logic of comments auto-saving 
+Fixed compatibility with Android 4.0.x operating systems

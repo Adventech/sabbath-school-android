@@ -1,0 +1,1 @@
+Fixed issue with multi-line comments not being saved.

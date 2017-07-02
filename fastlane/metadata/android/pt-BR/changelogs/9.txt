@@ -1,0 +1,4 @@
+Adicionado Idioma Francesa
+Adicionado Idioma Português
+Adicionado Idioma Ucraniana
+Correções de bugs

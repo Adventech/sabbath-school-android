@@ -1,0 +1,3 @@
+Bug fixes for some users experiencing application crash due to async network.
+Caching quarterly images for faster performance.
+Update German and Ukrainian translations strings.

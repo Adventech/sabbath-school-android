@@ -1,0 +1,6 @@
+Tägliche Erinnerungsfunktionalität hinzufügen. ⏰
+Hinzufügen von Farbthemen auf der Grundlage der vierteljährlichen. 🎨
+Aktualisieren der Kommentar-Eingabefunktionalität als Inline-Kommentar. ⌨️
+Aktualisieren des UI-Schemas des Lesers. 📝
+Fixieren Problem mit kyrillischen Schriftarten auf einigen Geräten. ✅
+Allgemeine Bugfixes und Verbesserungen. ✅

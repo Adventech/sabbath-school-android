@@ -1,0 +1,7 @@
+App has been redesigned - new logo and material design.
+New application layout using swipe gestures to navigate between lesson days.
+Add daily notifications.
+Add options to change quarterly language within settings.
+Add Spanish quarterly language.
+Add Night & Sepia reading modes.
+Add option to disable Ken Burns effect on the featured image.
