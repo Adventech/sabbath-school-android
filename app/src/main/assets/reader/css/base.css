@@ -1,8 +1,7 @@
 html, body {
-  padding:0;
+  padding: 0;
   margin: 0;
 }
-
 
 #ss-wrapper, #ss-wrapper-font, #ss-wrapper-size, #ss-wrapper-theme {
 
@@ -10,22 +9,23 @@ html, body {
 
 #ss-wrapper-theme {
   padding: 20px;
+  transition: all 0.6s ease;
 }
 
 .ss-wrapper-andada {
-  font-family: 'andada', serif;
+  font-family: 'andada', 'Lora', serif;
 }
 
 .ss-wrapper-lato {
-  font-family: 'lato', sans-serif;
+  font-family: 'lato', 'Lato', sans-serif;
 }
 
 .ss-wrapper-pt-serif {
-  font-family: 'pt serif', sans-serif;
+  font-family: 'pt serif', 'PTSerif', sans-serif;
 }
 
 .ss-wrapper-pt-sans {
-  font-family: 'pt sans', sans-serif;
+  font-family: 'pt sans', 'PTSans', sans-serif;
 }
 
 .ss-wrapper-tiny {
@@ -33,50 +33,50 @@ html, body {
   line-height: 1.2em;
 }
 
-  .ss-wrapper-tiny .textarea {
-    line-height: 1.5em;
-    background-size: 100% 1.5em;
-  }
+.ss-wrapper-tiny .textarea {
+  line-height: 1.5em;
+  background-size: 100% 1.5em;
+}
 
 .ss-wrapper-small {
   font-size: 1em;
   line-height: 1.4em;
 }
 
-  .ss-wrapper-small .textarea {
-    line-height: 1.7em;
-    background-size: 100% 1.7em;
-  }
+.ss-wrapper-small .textarea {
+  line-height: 1.7em;
+  background-size: 100% 1.7em;
+}
 
 .ss-wrapper-medium {
   font-size: 1.2em;
   line-height: 1.5em;
 }
 
-  .ss-wrapper-medium .textarea {
-    line-height: 1.8em;
-    background-size: 100% 1.8em;
-  }
+.ss-wrapper-medium .textarea {
+  line-height: 1.8em;
+  background-size: 100% 1.8em;
+}
 
 .ss-wrapper-large {
   font-size: 1.4em;
   line-height: 1.6em;
 }
 
-  .ss-wrapper-large .textarea {
-    line-height: 1.9em;
-    background-size: 100% 1.9em;
-  }
+.ss-wrapper-large .textarea {
+  line-height: 1.9em;
+  background-size: 100% 1.9em;
+}
 
 .ss-wrapper-huge {
   font-size: 1.6em;
   line-height: 1.7em;
 }
 
-  .ss-wrapper-huge .textarea {
-    line-height: 2em;
-    background-size: 100% 2em;
-  }
+.ss-wrapper-huge .textarea {
+  line-height: 2em;
+  background-size: 100% 2em;
+}
 
 .ss-wrapper-light {
   background-color: #fdfdfd;
@@ -93,12 +93,30 @@ html, body {
 }
 
 .ss-wrapper-dark {
-  background-color: #292929;
-  color: #ccc;
+  background-color: #212325;
+  color: #949595;
 }
 
 .ss-wrapper-dark code, .ss-wrapper-dark blockquote {
-  background-color: #525252;
+  background-color: #212325;
+}
+
+.ss-wrapper-dark a.verse {
+  border-bottom: 1px solid #ccc;
+}
+
+.ss-wrapper-dark .textarea, .ss-wrapper-dark code {
+  box-shadow: none;
+}
+
+.ss-wrapper-dark .textarea {
+  background-color: #232527;
+  color: #949595;
+  background-image: -webkit-linear-gradient(#434343 1px, rgba(0, 0, 0, 0) 1px);
+}
+
+.ss-wrapper-dark .textarea-border {
+  background: #434343;
 }
 
 .ss-wrapper p {
@@ -108,21 +126,33 @@ html, body {
 .highlight_orange {
   background-color: #F59569;
   color: #222 !important;
+  border-radius: 5px;
+  margin: 0 -3px;
+  padding: 0 3px;
 }
 
 .highlight_yellow {
   background-color: #FFF3A0;
   color: #222 !important;
+  border-radius: 5px;
+  margin: 0 -3px;
+  padding: 0 3px;
 }
 
 .highlight_green {
   background-color: #63D724;
   color: #222 !important;
+  border-radius: 5px;
+  margin: 0 -3px;
+  padding: 0 3px;
 }
 
 .highlight_blue {
   background-color: #69D2F5;
   color: #222 !important;
+  border-radius: 5px;
+  margin: 0 -3px;
+  padding: 0 3px;
 }
 
 a.verse {
@@ -130,7 +160,6 @@ a.verse {
   cursor: pointer;
   font-weight: bold;
   text-decoration: none;
-  display: inline-block;
   padding-bottom: 0.2em;
 }
 

@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
@@ -38,6 +39,8 @@ import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.view.SSLessonsActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import mehdi.sakout.fancybuttons.FancyButton;
 
 public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewModel {
     private SSQuarterly ssQuarterly;
@@ -67,6 +70,25 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
 
     public String getDescription() {
         return ssQuarterly.description;
+    }
+
+    public String getColorPrimary() { return ssQuarterly.color_primary; }
+
+    public String getColorPrimaryDark() { return ssQuarterly.color_primary_dark; }
+
+    @BindingAdapter({"backgroundColor"})
+    public static void setBackgroundColor(View view, String color) {
+        view.setBackgroundColor(Color.parseColor(color));
+    }
+
+    @BindingAdapter({"fbDefaultColor"})
+    public static void setFbDefaultColor(FancyButton view, String color) {
+        view.setBackgroundColor(Color.parseColor(color));
+    }
+
+    @BindingAdapter({"fbFocusColor"})
+    public static void setFbFocusColor(FancyButton view, String color) {
+        view.setFocusBackgroundColor(Color.parseColor(color));
     }
 
     @BindingAdapter({"coverUrl"})

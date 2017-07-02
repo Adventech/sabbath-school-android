@@ -62,9 +62,10 @@
                     android:id="@+id/ss_lessons_app_bar_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="italic"
+                    android:textAllCaps="true"
                     android:textColor="@android:color/white"
-                    android:text="@{viewModel.date}"/>
+                    android:text="@{viewModel.date}"
+                    fontPath="fonts/Lato-Regular.ttf"  />
 
                 <ImageView
                     android:id="@+id/ss_lessons_app_bar_cover"
@@ -90,11 +91,12 @@
                     android:layout_marginStart="@dimen/ss_lessons_toolbar_description_margin_left"
                     android:layout_marginRight="@dimen/ss_lessons_toolbar_description_margin_right"
                     android:layout_marginEnd="@dimen/ss_lessons_toolbar_description_margin_right"
-                    android:maxLines="9"
+                    android:maxLines="8"
                     android:ellipsize="end"
                     android:textColor="@android:color/white"
                     android:typeface="serif"
-                    android:text="@{viewModel.description}" />
+                    android:text="@{viewModel.description}"
+                    fontPath="fonts/Lato-Regular.ttf" />
 
                 <mehdi.sakout.fancybuttons.FancyButton
                     android:id="@+id/ss_lessons_app_bar_read"
@@ -104,8 +106,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/ss_lessons_toolbar_read_margin"
+                    android:textAllCaps="true"
                     android:minWidth="@dimen/ss_lessons_toolbar_read_min_width"
-                    fancy:fb_textFont="Roboto-Bold.ttf"
+                    fancy:fb_textFont="Lato-Bold.ttf"
                     fancy:fb_borderWidth="@dimen/ss_lessons_toolbar_read_border"
                     fancy:fb_defaultColor="@color/colorPrimaryDark"
                     fancy:fb_focusColor="@color/colorPrimary"

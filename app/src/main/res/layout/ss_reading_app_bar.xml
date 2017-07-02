@@ -40,15 +40,16 @@
         app:expanded="true"
         app:elevation="@dimen/ss_app_bar_elevation">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
             android:id="@+id/ss_reading_collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
             app:contentScrim="?attr/colorPrimary"
             app:toolbarId="@+id/ss_reading_toolbar"
+            app:maxLines="2"
             app:expandedTitleMarginTop="@dimen/ss_reading_toolbar_title_margin_top"
-            app:expandedTitleGravity="center_horizontal">
+            app:expandedTitleGravity="left">
 
             <ImageView
                 android:id="@+id/ss_collapsing_toolbar_backdrop"
@@ -70,8 +71,12 @@
                     android:textSize="@dimen/ss_reading_app_bar_subtitle_size"
                     android:textColor="@color/colorSecondaryLighter"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:textAllCaps="true"
+                    android:layout_marginLeft="33dp"
+                    android:layout_marginTop="20dp"
                     android:textStyle="italic"
+                    fontPath="fonts/Lato-Bold.ttf"
                     android:maxLines="1" />
 
             </RelativeLayout>
@@ -84,6 +89,6 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
             </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.CollapsingToolbarLayout>
+        </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 </layout>
