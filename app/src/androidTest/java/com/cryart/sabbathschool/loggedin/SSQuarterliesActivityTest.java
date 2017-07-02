@@ -72,7 +72,7 @@ public class SSQuarterliesActivityTest {
         pressBack();
 
         SystemClock.sleep(1000);
-        onView(withId(R.id.ss_quarterlies_coordinator)).perform(click());
+        onView(withId(R.id.ss_quarterly_item_featured_title)).perform(click());
 
 
 //        Screengrab.screenshot("quarterlies_screen");

@@ -11,6 +11,8 @@ android:
   - extra-google-google_play_services
   - extra-android-m2repository
   - extra-google-m2repository
+before_install:
+  - gem install fastlane
 script:
   - echo "apiKey=$FABRIC_API_KEY" >> app/fabric.properties
   - echo "apiSecret=$FABRIC_API_SECRET" >> app/fabric.properties
