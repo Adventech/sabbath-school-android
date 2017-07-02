@@ -116,7 +116,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
                 long lastReaderArtifactCreationTime = prefs.getLong(SSConstants.SS_READER_ARTIFACT_CREATION_TIME, 0);
 
                 if (lastReaderArtifactCreationTime != storageMetadata.getCreationTimeMillis()){
-                    downloadLatestReader(storageMetadata.getCreationTimeMillis());
+                    downloadLatestReader(storageMetadata.getUpdatedTimeMillis());
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
