@@ -71,7 +71,7 @@ public class SSLessonsActivityTest {
         Intent grouchyIntent = new Intent();
         // intent stuff
 
-        grouchyIntent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, Locale.getDefault().getLanguage()+"-2017-02");
+        grouchyIntent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, Locale.getDefault().getLanguage()+"-2017-03");
         activityRule.launchActivity(grouchyIntent);
 
         SystemClock.sleep(2000);
