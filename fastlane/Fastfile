@@ -16,8 +16,16 @@ fastlane_version "2.44.1"
 default_platform :android
 
 platform :android do
-  before_all do
-    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+  lane :playstore do
+    gradle(
+      task: 'assemble',
+      build_type: 'Release'
+    )
+  end
+
+  desc "Upload meta to the Google Play"
+  lane :playmeta do
+    supply(skip_upload_apk: true, skip_upload_screenshots: true, skip_upload_images: true, track: "beta")
   end
 
   desc "Runs all the tests"
