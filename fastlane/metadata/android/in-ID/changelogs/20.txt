@@ -1,0 +1,3 @@
+🖥 Pembaruan kecil pada antarmuka pengguna
+⚙️ Perbarui perpustakaan Facebook
+🇮🇩 Menambahkan lokalisasi di Indonesia

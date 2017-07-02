@@ -1,0 +1,3 @@
+🖥 Pequeña actualización en la interfaz de usuario
+⚙️ Actualizar la biblioteca de Facebook
+🇮🇩 Adición de la localización indonesia
