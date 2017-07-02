@@ -149,7 +149,7 @@ dependencies {
     compile "com.afollestad.material-dialogs:core:0.9.0.2"
     compile "net.danlew:android.joda:2.9.4.2"
     compile "com.facebook.android:facebook-android-sdk:4.23.0"
-    compile "com.github.medyo:fancybuttons:1.7"
+    compile "com.github.medyo:fancybuttons:1.8.3"
     compile "com.mikepenz:iconics-core:2.8.1@aar"
     compile "com.mikepenz:google-material-typeface:2.2.0.3.original@aar"
     compile('com.mikepenz:materialdrawer:5.6.0@aar') {
@@ -162,6 +162,7 @@ dependencies {
     compile "com.github.pwittchen:reactivenetwork:0.8.0"
     compile "com.thefinestartist:finestwebview:1.2.7"
     compile "com.github.javiersantos:MaterialStyledDialogs:2.1"
+    compile "net.opacapp:multiline-collapsingtoolbar:1.4.0"
 }
 
 apply plugin: 'com.google.gms.google-services'

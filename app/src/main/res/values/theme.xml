@@ -52,7 +52,7 @@
     </style>
 
     <style name="AppThemeAppBarTextStyleExpanded" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">30sp</item>
     </style>
 
     <style name="AppTheme.BibleVersesTheme" parent="AppTheme.NoActionBar.NoStatusBar">

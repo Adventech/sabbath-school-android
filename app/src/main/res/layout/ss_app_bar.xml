@@ -47,7 +47,7 @@
                 android:text="@string/ss_app_name"
                 android:layout_gravity="start"
                 android:textStyle="italic"
-                fontPath="fonts/PTF76F.ttf"
+                fontPath="fonts/Lato-Bold.ttf"
                 android:textColor="?android:attr/textColorPrimary"
                 android:id="@+id/toolbar_title" />
 

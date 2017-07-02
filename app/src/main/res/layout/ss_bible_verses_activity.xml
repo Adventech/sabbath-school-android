@@ -61,7 +61,7 @@
                     android:textColor="@android:color/white"
                     android:textAllCaps="true"
                     android:text="@string/ss_bible"
-                    fontPath="fonts/PTF76F.ttf" />
+                    fontPath="fonts/Lato-Regular.ttf" />
 
                 <View
                     android:layout_width="0dp"

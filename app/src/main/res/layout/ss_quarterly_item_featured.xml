@@ -34,57 +34,42 @@
 
         <variable name="ssQuarterlyCover" type="android.widget.ImageView" />
     </data>
-    <!--android:layout_height="@dimen/ss_quarterly_item_featured_background_height"-->
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="@dimen/ss_quarterly_item_featured_height">
 
         <View
-            android:id="@+id/ss_quarterly_featured_background"
             android:layout_alignParentTop="true"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary" />
+            app:backgroundColor="@{viewModel.colorPrimary}" />
 
         <ImageView
             android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}"
             android:clickable="true"
             android:transitionName="@string/ss_quarterly_cover_transition"
             android:id="@+id/ss_quarterly_item_cover"
+            android:scaleType="centerCrop"
             android:layout_width="@dimen/ss_quarterly_item_featured_cover_width"
             android:layout_height="@dimen/ss_quarterly_item_featured_cover_height"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/ss_quarterly_item_featured_cover_margin_left"
             android:layout_marginStart="@dimen/ss_quarterly_item_featured_cover_margin_left"
+            android:layout_marginTop="@dimen/ss_quarterly_item_featured_cover_margin_top"
             android:layout_marginBottom="@dimen/ss_quarterly_item_featured_cover_margin_bottom"
             android:background="@android:drawable/dialog_holo_light_frame"
             android:padding="@dimen/ss_quarterly_item_featured_cover_padding"
             app:coverUrl="@{viewModel.cover}" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
             android:layout_height="match_parent"
             android:layout_alignTop="@+id/ss_quarterly_item_cover"
             android:layout_toRightOf="@+id/ss_quarterly_item_cover"
             android:layout_toEndOf="@+id/ss_quarterly_item_cover">
-
-            <TextView
-                android:id="@+id/ss_quarterly_item_featured_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@android:color/white"
-                android:text="@{viewModel.title}"
-                android:textSize="@dimen/ss_quarterly_item_featured_title_text_size"
-                android:textStyle="bold|italic"
-                android:typeface="serif"
-                android:paddingLeft="@dimen/ss_quarterly_item_featured_title_padding_left"
-                android:paddingRight="@dimen/ss_quarterly_item_featured_title_padding_right"
-                android:paddingStart="@dimen/ss_quarterly_item_featured_title_padding_left"
-                android:paddingEnd="@dimen/ss_quarterly_item_featured_title_padding_right"
-                android:paddingBottom="@dimen/ss_quarterly_item_featured_title_padding_bottom"
-                tools:text="Quarterly Name" />
 
             <TextView
                 android:id="@+id/ss_quarterly_featured_date"
@@ -92,29 +77,36 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textStyle="italic"
+                android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:text="@{viewModel.date}"
                 android:textSize="@dimen/ss_quarterly_item_featured_date_text_size"
-                android:layout_below="@id/ss_quarterly_item_featured_title"
                 android:paddingLeft="@dimen/ss_quarterly_item_featured_date_padding_left"
                 android:paddingRight="@dimen/ss_quarterly_item_featured_date_padding_right"
                 android:paddingStart="@dimen/ss_quarterly_item_featured_date_padding_left"
                 android:paddingEnd="@dimen/ss_quarterly_item_featured_date_padding_right"
+                fontPath="fonts/Lato-Bold.ttf"
                 tools:text="Quarterly Title" />
 
             <TextView
+                android:id="@+id/ss_quarterly_item_featured_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ss_quarterly_featured_date"
-                android:maxLines="1"
                 android:ellipsize="end"
-                android:text="@{viewModel.description}"
-                android:textSize="@dimen/ss_quarterly_item_featured_description_text_size"
-                android:typeface="serif"
+                android:maxLines="2"
                 android:textColor="@android:color/white"
-                android:padding="@dimen/ss_quarterly_item_featured_description_padding"
-                tools:text="Quarterly Date" />
+                android:text="@{viewModel.title}"
+                android:textSize="@dimen/ss_quarterly_item_featured_title_text_size"
+                android:textStyle="bold"
+                android:typeface="sans"
+                android:paddingTop="@dimen/ss_quarterly_item_featured_title_padding_top"
+                android:paddingLeft="@dimen/ss_quarterly_item_featured_title_padding_left"
+                android:paddingRight="@dimen/ss_quarterly_item_featured_title_padding_right"
+                android:paddingStart="@dimen/ss_quarterly_item_featured_title_padding_left"
+                android:paddingEnd="@dimen/ss_quarterly_item_featured_title_padding_right"
+                android:paddingBottom="@dimen/ss_quarterly_item_featured_title_padding_bottom"
+                tools:text="Quarterly Name"
+                fontPath="fonts/Lato-Bold.ttf" />
 
             <mehdi.sakout.fancybuttons.FancyButton
                 android:id="@+id/ss_quarterly_featured_read"
@@ -123,21 +115,19 @@
                 android:layout_marginBottom="@dimen/ss_quarterly_item_featured_read_margin_bottom"
                 android:layout_marginLeft="@dimen/ss_quarterly_item_featured_read_margin_left"
                 android:layout_marginStart="@dimen/ss_quarterly_item_featured_read_margin_left"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:paddingTop="0dp"
-
+                android:textAllCaps="true"
                 android:minWidth="@dimen/ss_quarterly_item_featured_read_min_width"
-                fancy:fb_textFont="Roboto-Bold.ttf"
+                fancy:fb_textFont="Lato-Bold.ttf"
                 fancy:fb_borderWidth="@dimen/ss_quarterly_item_featured_read_border_width"
-                fancy:fb_defaultColor="@color/colorPrimaryDark"
-                fancy:fb_focusColor="@color/colorPrimary"
+                fancy:fb_textSize="@dimen/ss_quarterly_item_featured_read_text_size"
                 fancy:fb_radius="@dimen/ss_quarterly_item_featured_read_radius"
                 fancy:fb_text="@string/ss_quarterly_item_read_text"
                 fancy:fb_textColor="@android:color/white"
+                app:fbDefaultColor="@{viewModel.colorPrimaryDark}"
+                app:fbFocusColor="@{viewModel.colorPrimary}"
                 android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}" />
 
-        </RelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
 </layout>
