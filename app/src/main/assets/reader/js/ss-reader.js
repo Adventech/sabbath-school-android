@@ -1,5 +1,8 @@
 timeout = null;
 
+var userAgent = window.navigator.userAgent.toLowerCase(),
+    iOS = /iphone|ipod|ipad/.test(userAgent);
+
 $(function(){
   window.ssReader = Class({
     $singleton: true,
@@ -82,7 +85,7 @@ $(function(){
 
     setComment: function(comment, inputId){
       $("#"+inputId).val(ssReader.base64decode(comment));
-      $("#"+inputId).trigger("input");
+      $("#"+inputId).trigger("input", ["true"]);
     },
 
     highlightSelection: function(color){
@@ -93,7 +96,7 @@ $(function(){
       } catch(err){}
     },
 
-    unHighlightSelection: function(color){
+    unHighlightSelection: function(){
       try {
         this.highlighter.unhighlightSelection();
         SSBridge.onReceiveHighlights(this.getHighlights());
@@ -129,13 +132,17 @@ $(function(){
     }
   });
 
-  if (typeof SSBridge == "undefined"){
+  if (iOS){
     window.SSBridge = Class({
       $singleton: true,
       urlBase: "sabbath-school://ss",
 
       request: function(data){
         window.location = this.urlBase + data;
+      },
+
+      onReady: function(){
+        this.request("?ready=true");
       },
 
       onReceiveHighlights: function(highlights){
@@ -146,8 +153,8 @@ $(function(){
         this.request("?verse=" + verse);
       },
 
-      onCommentsClick: function(comments){
-        this.request("?comments=" + comments);
+      onCommentsClick: function(comments, elementId){
+        this.request("?comment=" + comments + "&elementId=" + elementId);
       },
 
       onCopy: function(text){
@@ -162,29 +169,34 @@ $(function(){
         this.request("?search=" + text);
       }
     });
+    SSBridge.onReady();
   }
 
-  if(typeof ssReader !== "undefined"){ssReader.init();}
+  if(typeof ssReader !== "undefined"){
+    ssReader.init();
+  }
 
   $(".verse").click(function(){
     SSBridge.onVerseClick(ssReader.base64encode($(this).attr("verse")));
   });
 
   $("code").each(function(i){
-    var textarea = $("<textarea class='textarea'/>").attr("id", "input-"+i).on("input propertychange", function(){
-      $(this).css({'height':'auto','overflow-y':'hidden'}).height(this.scrollHeight);
-      $(this).next().css({'height':'auto','overflow-y':'hidden'}).height(this.scrollHeight);
+    var textarea = $("<textarea class='textarea'/>").attr("id", "input-"+i).on("input propertychange", function(event, isInit) {
+      $(this).css({'height': 'auto', 'overflow-y': 'hidden'}).height(this.scrollHeight);
+      $(this).next().css({'height': 'auto', 'overflow-y': 'hidden'}).height(this.scrollHeight);
 
-      var that = this;
-      if (timeout !== null) {
-        clearTimeout(timeout);
+      if (!isInit) {
+        var that = this;
+        if (timeout !== null) {
+          clearTimeout(timeout);
+        }
+        timeout = setTimeout(function () {
+          SSBridge.onCommentsClick(
+              ssReader.base64encode($(that).val()),
+              $(that).attr("id")
+          );
+        }, 1000);
       }
-      timeout = setTimeout(function () {
-        SSBridge.onCommentsClick(
-          ssReader.base64encode($(that).val()),
-          $(that).attr("id")
-        );
-      }, 1000);
     });
     var border = $("<div class='textarea-border' />");
     var container = $("<div class='textarea-container' />");
