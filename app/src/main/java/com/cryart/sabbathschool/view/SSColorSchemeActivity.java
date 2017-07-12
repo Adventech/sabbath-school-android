@@ -35,8 +35,14 @@ import com.cryart.sabbathschool.misc.SSColorTheme;
 
 public class SSColorSchemeActivity extends AppCompatActivity {
     public void updateWindowColorScheme(){
+        updateWindowColorScheme(true);
+    }
+
+    public void updateWindowColorScheme(boolean withStatusBar){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimaryDark()));
+            if (withStatusBar) {
+                getWindow().setStatusBarColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimaryDark()));
+            }
             Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
             ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(getString(R.string.ss_app_name), bm, Color.parseColor(SSColorTheme.getInstance().getColorPrimary()));
             setTaskDescription(taskDesc);
