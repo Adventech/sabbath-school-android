@@ -7,7 +7,7 @@ This is Sabbath School for Android by Adventech. Humble attempt to make differen
 
 ## Screenshots
 
-<img src="https://raw.githubusercontent.com/Adventech/sabbath-school-android/master/fastlane/metadata/android/en-US/images/phoneScreenshots/lessons_screen_1499026235886.png" alt="Screenshot" height="500"/> <img src="https://raw.githubusercontent.com/Adventech/sabbath-school-android/master/fastlane/metadata/android/en-US/images/phoneScreenshots/reading_screen_1499026243625.png" height="500"/>
+<img src="https://raw.githubusercontent.com/Adventech/sabbath-school-android/master/fastlane/metadata/android/en-US/images/phoneScreenshots/lessons_screen_1499032106305.png" alt="Screenshot" height="500"/> <img src="https://raw.githubusercontent.com/Adventech/sabbath-school-android/master/fastlane/metadata/android/en-US/images/phoneScreenshots/reading_screen_1499032114397.png" height="500"/>
 
 ## Features
 
