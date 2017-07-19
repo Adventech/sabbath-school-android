@@ -34,10 +34,12 @@ This is Sabbath School for Android by Adventech, a humble attempt to make differ
 ## Socialize
 
 - [Instagram](http://instagram.com/adventech)
+- [Facebook](https://www.facebook.com/shabbatschool/)
+- [Twitter](https://twitter.com/adventech_io)
 
 ## Download
 
-<a href='https://play.google.com/store/apps/details?id=com.cryart.sabbathschool'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="40px"/></a> 
+<a href='https://play.google.com/store/apps/details?id=com.cryart.sabbathschool'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="40px"/></a>
 
 ## Special thanks
 
