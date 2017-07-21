@@ -1,0 +1,2 @@
+Uygulamanın çevirilerini ekleme (dersler takip edilecektir) 🇸🇦 🇧🇬 🇩🇰 🇪🇪 🇮🇷 🇮🇱 🇳🇴 🇸🇰.
+Okuma ekranının görsel görünümünü geliştirin.
