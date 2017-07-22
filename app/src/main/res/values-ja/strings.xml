@@ -67,7 +67,7 @@
     <string name="ss_coming_soon_header">"すぐです"</string>
     <string name="ss_coming_soon_subheader">"現在、この機能は完了されています。もうすぐので、待ってください。"</string>
     <string name="ss_about_app_version">"3.0バージョン"</string>
-    <string name="ss_about_made">"Adventechは愛情と作りました。"</string>
+    <string name="ss_about_made">"Adventechによって&#10084;に作りました。"</string>
     <string name="ss_settings_display_options">"表示設定"</string>
     <string name="ss_settings_color_theme">"テーマ"</string>
     <string name="ss_settings_color_theme_light">"明色"</string>
