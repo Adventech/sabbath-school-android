@@ -153,7 +153,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setBackgroundColor(primaryColor);
         binding.ssReadingSheetHeader.setBackgroundColor(primaryColor);
 
-        updateWindowColorScheme();
+        updateWindowColorScheme(false);
     }
 
     @Override

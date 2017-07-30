@@ -1,0 +1,2 @@
+🇨🇳 Agregar lenguaje en chino simplificado.
+🇯🇵 Correcciones de la lengua japonesa.

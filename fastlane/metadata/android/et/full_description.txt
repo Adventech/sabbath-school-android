@@ -1,0 +1,9 @@
+Meet uus Hingamispäevakooli Õppetükk rakendus Androidile! Uuring Jumala Sõna nende awesome funktsioone:
+
+- Esiletõstmine
+- Kommentaarid
+- Piibli salme
+- Daily Meeldetuletused
+- Reading režiimid
+
+Adventech 2017 ®

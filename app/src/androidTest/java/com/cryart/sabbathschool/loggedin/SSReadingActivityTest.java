@@ -114,7 +114,10 @@ public class SSReadingActivityTest {
 
         ViewActions.pressBack();
 
-        if (!Locale.getDefault().getLanguage().equals("in") && !Locale.getDefault().getLanguage().equals("ja") && activityRule.getActivity().ssReadingViewModel.ssRead.bible.size() > 0){
+        if (!Locale.getDefault().getLanguage().equals("in")
+                && !Locale.getDefault().getLanguage().equals("ja")
+                && !Locale.getDefault().getLanguage().equals("zh")
+                && activityRule.getActivity().ssReadingViewModel.ssRead.bible.size() > 0){
             SSBibleVerses b = activityRule.getActivity().ssReadingViewModel.ssRead.bible.get(0);
 
             Map.Entry<String,String> entry=b.verses.entrySet().iterator().next();
