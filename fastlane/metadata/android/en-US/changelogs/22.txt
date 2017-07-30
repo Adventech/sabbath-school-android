@@ -1,0 +1,2 @@
+Adding more translations of the app (lessons will follow) 🇸🇦 🇧🇬 🇩🇰 🇪🇪 🇮🇷 🇮🇱 🇳🇴 🇸🇰.
+Improve visual appearance of the reading screen.

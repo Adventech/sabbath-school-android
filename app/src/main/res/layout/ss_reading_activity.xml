@@ -36,7 +36,8 @@
         android:id="@+id/ss_reading_coordinator"
         android:layout_width="match_parent"
         android:keepScreenOn="true"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <include
             android:id="@+id/ss_reading_app_bar"

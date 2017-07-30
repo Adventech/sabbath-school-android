@@ -144,15 +144,19 @@ public abstract class SSBaseActivity extends SSColorSchemeActivity implements Dr
                 .build();
     }
 
-    @Override
     public void updateWindowColorScheme(){
+        updateWindowColorScheme(true);
+    }
+
+    @Override
+    public void updateWindowColorScheme(boolean withStatusBar){
         this.ssAccountHeader.setBackground(new ColorDrawable(parseColor(SSColorTheme.getInstance().getColorPrimary())));
 
         ssNavigationDrawer.removeAllItems();
         ssNavigationDrawer.addItems(getDrawerItems());
         ssNavigationDrawer.setSelection(1);
 
-        super.updateWindowColorScheme();
+        super.updateWindowColorScheme(withStatusBar);
     }
 
     @Override
