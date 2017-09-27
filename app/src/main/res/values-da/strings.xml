@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="ss_app_name">"Sabbatsskole"</string>
+<string name="ss_app_name">"Bibelstudium"</string>
 <string name="ss_share">"Del"</string>
 <string name="ss_login_button_google">"Log ind med Google"</string>
 <string name="ss_login_button_facebook">"Log ind med Facebook"</string>
@@ -9,47 +9,47 @@
 <string name="ss_menu_sign_out">"Log ud"</string>
 <string name="ss_menu_read_now">"Læs nu"</string>
 <string name="ss_menu_share_app">"Del App"</string>
-<string name="ss_menu_share_app_text">"Tjek, jeg bruger denne sabbatsskole app"</string>
-<string name="ss_my_highlights">"Mine højdepunkter"</string>
+<string name="ss_menu_share_app_text">"Se her! Jeg bruger denne bibelstudie app."</string>
+<string name="ss_my_highlights">"Mine highligts"</string>
 <string name="ss_my_notes">"Mine noter"</string>
 <string name="ss_settings">"Indstillinger"</string>
 <string name="ss_about">"Om"</string>
-<string name="ss_login_failed">"Login mislykkedes. Prøv igen"</string>
+<string name="ss_login_failed">"Login mislykkedes. Prøv igen."</string>
 <string name="ss_login_anonymously_dialog_positive">"Ja"</string>
 <string name="ss_login_anonymously_dialog_negative">"Ingen"</string>
 <string name="ss_login_anonymously_dialog_title">"Log ind anonymt?"</string>
-<string name="ss_login_anonymously_dialog_description">"Ved at logge ind anonymt kan du ikke synkronisere dine data, f.eks. Kommentarer og højdepunkter, på tværs af enheder eller efter afinstallation af applikationen. Er du sikker på, at du vil fortsætte?"</string>
+<string name="ss_login_anonymously_dialog_description">"Ved at logge ind anonymt kan du ikke synkronisere dine data, f.eks. kommentarer, highlights og noter på tværs af enheder eller ved geninstallation af denne applikationen. Er du sikker på, at du vil fortsætte?"</string>
 <string name="ss_quarterlies_filter_languages">"Filtrer sprog"</string>
-<string name="ss_quarterlies_downloading">"At få kvartaler ..."</string>
-<string name="ss_quarterlies_error">"Ukendt fejl opstod. Prøv igen"</string>
-<string name="ss_quarterlies_empty">"Det ser ud til, at der ikke er kvartalsvise i øjeblikket"</string>
+<string name="ss_quarterlies_downloading">"Henter studie..."</string>
+<string name="ss_quarterlies_error">"Ukendt fejl opstod. Prøv igen."</string>
+<string name="ss_quarterlies_empty">"Studiet ikke er tilgængelig i øjeblikket"</string>
 <string name="ss_quarterly_item_read_text">"Åben"</string>
-<string name="ss_lessons_downloading">"Åbning kvartalsvis ..."</string>
-<string name="ss_lessons_error">"Der opstod en fejl under åbningen kvartalsvis"</string>
-<string name="ss_lessons_empty">"Det ser ud til at der ikke er nogen lektioner i øjeblikket"</string>
-<string name="ss_lessons_read">"Læse"</string>
-<string name="ss_reading_empty">"Det ser ud til at denne lektion er tom. Tjek venligst tilbage senere"</string>
-<string name="ss_reading_error">"Der opstod en fejl under åbningen af ​​lektionen"</string>
-<string name="ss_reading_downloading">"Downloader lektion til offline"</string>
+<string name="ss_lessons_downloading">"Åbner ugens studie..."</string>
+<string name="ss_lessons_error">"Der opstod en fejl under åbningen"</string>
+<string name="ss_lessons_empty">"Studiet er ikke tilgængelig i øjeblikket"</string>
+<string name="ss_lessons_read">"Læs"</string>
+<string name="ss_reading_empty">"Dette studie er ikke klar endnu. Tjek venligst senere."</string>
+<string name="ss_reading_error">"Der opstod en fejl under åbningen af ​​studiet"</string>
+<string name="ss_reading_downloading">"Downloader offline studier"</string>
 <string name="ss_reading_suggest_edit">"Foreslå redigering eller korrektion"</string>
 <string name="ss_reading_suggest_edit_hint">"Beskriv venligst din rettelse eller forslag"</string>
 <string name="ss_reading_suggest_edit_done">"Tak! Dit forslag vil blive gennemgået"</string>
 <string name="ss_reading_comment">"Kommentar"</string>
 <string name="ss_reading_enter_comment">"Indtast din kommentar"</string>
-<string name="ss_reading_copied">"Valget er kopieret."</string>
-<string name="ss_reading_share_to">"Del valg til:"</string>
+<string name="ss_reading_copied">"Sektionen er kopieret"</string>
+<string name="ss_reading_share_to">"Del:"</string>
 
 <!-- TODO: remove when done -->
 <string name="ss_coming_soon_header">"Kommer snart"</string>
-<string name="ss_coming_soon_subheader">"Vi arbejder på denne funktion lige nu. Bliv afstemt, det kommer snart"</string>
+<string name="ss_coming_soon_subheader">"Vi arbejder på denne funktion lige nu."</string>
 <string name="ss_about_app_version">"Version 3.0"</string>
-<string name="ss_about_made">"Lavet med ❤ af Adventech"</string>
+<string name="ss_about_made">"Made with ❤ by Adventech"</string>
 <string name="ss_settings_display_options">"Display muligheder"</string>
 <string name="ss_settings_color_theme">"Fargetema"</string>
 <string name="ss_settings_color_theme_light">"Lys"</string>
 <string name="ss_settings_color_theme_sepia">"Sepia"</string>
 <string name="ss_settings_color_theme_dark">"Mørk"</string>
-<string name="ss_settings_typeface">"Typeface"</string>
+<string name="ss_settings_typeface">"Font"</string>
 <string name="ss_settings_font_size">"Skriftstørrelse"</string>
 <string name="ss_settings_font_size_tiny">"Lille bitte"</string>
 <string name="ss_settings_font_size_small">"Lille"</string>
@@ -58,19 +58,19 @@
 <string name="ss_settings_font_size_huge">"Kæmpe stor"</string>
 
 <!-- RATE APP -->
-<string name="rate_dialog_title">"Rate Sabbath School"</string>
-<string name="rate_dialog_message">"Hvis du kan lide sabbatsskole, vil du have et øjeblik at bedømme det? Tak for din støtte!"</string>
-<string name="rate_dialog_ok">"Bedøm det"</string>
+<string name="rate_dialog_title">"Feedback"</string>
+<string name="rate_dialog_message">"Synes du om denne app? Giv din mening her. Tak for din støtte!"</string>
+<string name="rate_dialog_ok">"Giv din mening"</string>
 <string name="rate_dialog_cancel">"Senere"</string>
-<string name="rate_dialog_no">"Ingen"</string>
+<string name="rate_dialog_no">"Nej"</string>
 <string name="ss_settings_website">"Internet side"</string>
 <string name="ss_quarterlies_filter_languages_prompt_title">"Læs på flere sprog"</string>
 <string name="ss_quarterlies_filter_languages_prompt_description">"Tryk på filterikonet for at se alle tilgængelige sprog"</string>
 <string name="ss_bible">"Bibel"</string>
 <string name="ss_settings_reminder">"Daglig Påmindelse"</string>
-<string name="ss_settings_reminder_summary">"Tjek for at aktivere daglig sabbatsskoleundervisning påmindelse"</string>
+<string name="ss_settings_reminder_summary">"Tjek for at aktivere daglig påmindelse"</string>
 <string name="ss_settings_reminder_time">"Påmindelsestidspunkt"</string>
-<string name="ss_settings_reminder_text">"Tid til at studere sabbatsskolen"</string>
-<string name="ss_reading_offline">"Du er offline. Forbind igen for at læse denne lektion"</string>
+<string name="ss_settings_reminder_text">"Læs dagens bibelstudie"</string>
+<string name="ss_reading_offline">"Du er offline. Forbind igen for at læse dette studie."</string>
 <string name="ss_reading_offline_retry">"Prøve igen"</string>
 </resources>
