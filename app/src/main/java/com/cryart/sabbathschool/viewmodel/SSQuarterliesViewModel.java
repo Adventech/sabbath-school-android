@@ -22,25 +22,24 @@
 
 package com.cryart.sabbathschool.viewmodel;
 
-import android.app.Activity;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.ObservableFloat;
 import android.databinding.ObservableInt;
-import android.graphics.Color;
+import android.os.Build;
 import android.preference.PreferenceManager;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.animation.Interpolator;
 
 import com.crashlytics.android.Crashlytics;
-import com.cryart.sabbathschool.R;
+import com.cryart.sabbathschool.databinding.SsQuarterliesActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
-import com.cryart.sabbathschool.misc.SSEvent;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
 import com.google.firebase.database.DataSnapshot;
@@ -48,8 +47,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.iconics.IconicsDrawable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +65,7 @@ public class SSQuarterliesViewModel implements SSViewModel {
     private ValueEventListener ssLanguagesRef;
     private ValueEventListener ssQuarterliesRef;
     private String ssDefaultLanguage;
+    private SsQuarterliesActivityBinding ssQuarterliesActivityBinding;
 
     public ObservableInt ssQuarterliesLanguageFilterVisibility;
     public ObservableInt ssQuarterliesLoadingVisibility;
@@ -80,9 +78,10 @@ public class SSQuarterliesViewModel implements SSViewModel {
     private static final Interpolator INTERPOLATOR = new LinearOutSlowInInterpolator();
     private ViewPropertyAnimatorCompat mTranslationAnimator;
 
-    public SSQuarterliesViewModel(Context context, final DataListener dataListener) {
+    public SSQuarterliesViewModel(Context context, final DataListener dataListener, SsQuarterliesActivityBinding ssQuarterliesActivityBinding) {
         this.context = context;
         this.dataListener = dataListener;
+        this.ssQuarterliesActivityBinding = ssQuarterliesActivityBinding;
         ssQuarterliesLoadingVisibility = new ObservableInt(View.INVISIBLE);
         ssQuarterliesListVisibility = new ObservableInt(View.INVISIBLE);
         ssQuarterliesLanguageFilterVisibility = new ObservableInt(View.GONE);
@@ -115,51 +114,41 @@ public class SSQuarterliesViewModel implements SSViewModel {
         return ssQuarterlyLanguage;
     }
 
-    public void onFilterClick(MenuItem menuItem){
-        if (ssQuarterliesLanguageFilterVisibility.get() == View.GONE) {
-
-            View v = ((Activity)context).findViewById(R.id.ss_quarterlies_language_filter_holder);
-            v.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-
-            animateOffset(((Activity)context).findViewById(R.id.ss_quarterlies_list), v.getMeasuredHeight());
-            ssQuarterliesLanguageFilterVisibility.set(View.VISIBLE);
-
-            menuItem.setIcon(new IconicsDrawable(context)
-                    .icon(GoogleMaterial.Icon.gmd_close)
-                    .color(Color.WHITE)
-                    .sizeDp(14));
-
-            SSEvent.track(SSConstants.SS_EVENT_LANGUAGE_FILTER);
-        } else {
-            ssQuarterliesListMarginTop.set(0);
-            ssQuarterliesLanguageFilterVisibility.set(View.GONE);
-            animateOffset(((Activity)context).findViewById(R.id.ss_quarterlies_list), 0);
-            menuItem.setIcon(new IconicsDrawable(context)
-                    .icon(GoogleMaterial.Icon.gmd_filter_list)
-                    .color(Color.WHITE)
-                    .sizeDp(18));
-        }
-    }
-
-    private void animateOffset(final View child, final int offset) {
-        ensureOrCancelAnimator(child);
-        mTranslationAnimator.translationY(offset).start();
-    }
-
-    private void ensureOrCancelAnimator(View child) {
-        if (mTranslationAnimator == null) {
-            mTranslationAnimator = ViewCompat.animate(child);
-            mTranslationAnimator.setDuration(ANIMATION_DURATION);
-            mTranslationAnimator.setInterpolator(INTERPOLATOR);
-        } else {
-            mTranslationAnimator.cancel();
-        }
-    }
-
     private String getDisplayLanguageByCode(String languageCode){
         Locale locale = new Locale(languageCode);
         return org.apache.commons.lang3.StringUtils.capitalize(locale.getDisplayLanguage(Locale.getDefault()));
+    }
+
+    public void onMenuClick() {
+        final View view = ssQuarterliesActivityBinding.ssLanguageMenu.ssLanguageMenu;
+        final int state = view.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int centerX = view.getRight();
+            int centerY = 0;
+            int startRadius = (state == View.VISIBLE) ? 0 : view.getHeight();
+            int endRadius = (state == View.VISIBLE) ? view.getHeight() : 0;
+
+            Animator anim = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius);
+
+            if (state == View.VISIBLE) {
+                view.setVisibility(state);
+                ssQuarterliesActivityBinding.ssLanguageMenuOverlay.setVisibility(state);
+
+            } else {
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        view.setVisibility(state);
+                        ssQuarterliesActivityBinding.ssLanguageMenuOverlay.setVisibility(state);
+                    }
+                });
+            }
+            anim.start();
+        } else {
+            view.setVisibility(state);
+            ssQuarterliesActivityBinding.ssLanguageMenuOverlay.setVisibility(state);
+        }
     }
 
     private void loadLanguages(){

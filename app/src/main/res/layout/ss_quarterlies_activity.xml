@@ -40,29 +40,6 @@
         android:layout_height="match_parent"
         tools:context="com.cryart.sabbathschool.view.SSQuarterliesActivity">
 
-        <LinearLayout
-            android:id="@+id/ss_quarterlies_language_filter_holder"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/ss_quarterlies_language_filter_holder_padding_left"
-            android:paddingStart="@dimen/ss_quarterlies_language_filter_holder_padding_left"
-            android:paddingRight="@dimen/ss_quarterlies_language_filter_holder_padding_right"
-            android:paddingEnd="@dimen/ss_quarterlies_language_filter_holder_padding_right"
-            android:paddingBottom="@dimen/ss_quarterlies_language_filter_holder_padding_bottom"
-            android:paddingTop="@dimen/ss_quarterlies_language_filter_holder_padding_top"
-            android:background="@color/colorPrimary"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/ss_quarterly_languages_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none"
-                tools:listitem="@layout/ss_quarterly_language_item" />
-
-        </LinearLayout>
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ss_quarterlies_list"
             android:layout_width="match_parent"
@@ -77,6 +54,20 @@
         <include
             android:id="@+id/ss_app_bar"
             layout="@layout/ss_app_bar" />
+
+        <LinearLayout
+            android:id="@+id/ss_language_menu_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:background="@color/colorOverlay"
+            android:onClick="@{() -> viewModel.onMenuClick()}"/>
+
+        <include
+            android:id="@+id/ss_language_menu"
+            layout="@layout/ss_language_menu" />
 
         <include
             layout="@layout/ss_empty_state"

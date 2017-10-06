@@ -24,14 +24,10 @@ package com.cryart.sabbathschool.viewmodel;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
-import android.databinding.BindingAdapter;
-import android.graphics.Color;
-import android.view.View;
 
-import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
 
-import mehdi.sakout.fancybuttons.FancyButton;
+import java.util.Locale;
 
 public class SSQuarterlyLanguageItemViewModel extends BaseObservable implements SSViewModel {
     private static final String TAG = SSQuarterlyLanguageItemViewModel.class.getSimpleName();
@@ -63,25 +59,14 @@ public class SSQuarterlyLanguageItemViewModel extends BaseObservable implements 
         return ssQuarterlyLanguage.name;
     }
 
-    public int getSelected() {
-        return ssQuarterlyLanguage.selected;
+    public String getNativeLanguageName(){
+        Locale loc = new Locale(ssQuarterlyLanguage.code);
+        String name = loc.getDisplayLanguage(loc);
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
     }
 
-    @BindingAdapter("fancy:fb_text")
-    public static void setfbText(View v, String n) {
-        ((FancyButton)v).setText(n);
-    }
-
-    @BindingAdapter("fancyColor")
-    public static void setFancyColor(View v, int selected){
-        FancyButton view = (FancyButton) v;
-        if (selected == 1) {
-            view.setFocusBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimaryDark()));
-            view.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimaryDark()));
-        } else {
-            view.setFocusBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()));
-            view.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()));
-        }
+    public boolean getSelected() {
+        return ssQuarterlyLanguage.selected == 1;
     }
 
     public void onQuarterlyLanguageItemClick() {
@@ -89,6 +74,7 @@ public class SSQuarterlyLanguageItemViewModel extends BaseObservable implements 
         ssQuarterliesViewModel.onChangeLanguageEvent(ssQuarterlyLanguage);
         changeListener.onLanguageCheck(ssQuarterlyLanguage.code);
         notifyChange();
+        ssQuarterliesViewModel.onMenuClick();
     }
 
     @Override

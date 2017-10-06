@@ -22,44 +22,77 @@
   -->
 
 <layout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fancy="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
             name="viewModel"
             type="com.cryart.sabbathschool.viewmodel.SSQuarterlyLanguageItemViewModel" />
+        <import type="android.view.View"/>
     </data>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <mehdi.sakout.fancybuttons.FancyButton
-        android:layout_width="wrap_content"
-        android:layout_height="28dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        fancy:fb_textFont="Roboto-Bold.ttf"
-        fancy:fb_borderWidth="@dimen/ss_quarterly_item_featured_read_border_width"
-        fancy:fb_radius="@dimen/ss_quarterly_item_featured_read_radius"
-        fancy:fb_text="@{viewModel.name}"
-        fancy:fb_textSize="15sp"
-        fancy:fb_textColor="@android:color/white"
-        android:onClick="@{() -> viewModel.onQuarterlyLanguageItemClick()}"
-        app:fancyColor="@{viewModel.selected}" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/ss_language_menu_item_padding_top"
+            android:paddingBottom="@dimen/ss_language_menu_item_padding_bottom"
+            android:paddingLeft="@dimen/ss_language_menu_item_padding_left"
+            android:paddingRight="@dimen/ss_language_menu_item_padding_right"
+            android:paddingStart="@dimen/ss_language_menu_item_padding_left"
+            android:paddingEnd="@dimen/ss_language_menu_item_padding_right"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> viewModel.onQuarterlyLanguageItemClick()}">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/ss_language_menu_item_title"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                fontPath="fonts/Lato-Medium.ttf"
+                android:textSize="@dimen/ss_language_menu_item_title_text_size"
+                android:textColor="@color/colorSecondaryDark"
+                android:text="@{viewModel.nativeLanguageName}"
+                />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/ss_language_menu_item_title"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:maxLines="1"
+                android:ellipsize="end"
+                fontPath="fonts/Lato-Regular.ttf"
+                android:textSize="@dimen/ss_language_menu_item_date_text_size"
+                android:textColor="@color/colorSecondary"
+                android:text="@{viewModel.name}"
+                />
+
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="@dimen/ss_lesson_item_menu_icon_size"
+                android:layout_height="@dimen/ss_lesson_item_menu_icon_size"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:visibility="@{viewModel.selected ? View.VISIBLE : View.INVISIBLE}"
+                app:iiv_color="@color/colorSecondary"
+                app:iiv_icon="gmd-check" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/ss_horizontal_line" />
+
+    </RelativeLayout>
 </layout>
