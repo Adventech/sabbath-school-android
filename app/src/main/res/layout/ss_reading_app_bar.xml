@@ -51,6 +51,7 @@
             app:maxLines="2"
             android:fitsSystemWindows="true"
             app:expandedTitleMarginTop="@dimen/ss_reading_toolbar_title_margin_top"
+            app:expandedTitleMarginStart="@dimen/ss_reading_toolbar_title_margin_left"
             app:expandedTitleGravity="left">
 
             <ImageView
@@ -78,8 +79,8 @@
                     android:layout_alignParentTop="true"
                     android:textAllCaps="true"
                     android:fitsSystemWindows="true"
-                    android:layout_marginLeft="33dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="@dimen/ss_reading_toolbar_date_margin_left"
+                    android:layout_marginTop="@dimen/ss_reading_toolbar_date_margin_left"
                     android:textStyle="italic"
                     fontPath="fonts/Lato-Bold.ttf"
                     android:maxLines="1" />
