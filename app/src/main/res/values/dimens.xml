@@ -45,6 +45,24 @@
     <dimen name="ss_quarterlies_language_filter_holder_padding_top">10dp</dimen>
     <dimen name="ss_quarterlies_language_filter_holder_padding_bottom">10dp</dimen>
 
+    <dimen name="ss_language_menu_margin_left">20dp</dimen>
+    <dimen name="ss_language_menu_margin_right">20dp</dimen>
+    <dimen name="ss_language_menu_margin_top">40dp</dimen>
+    <dimen name="ss_language_menu_margin_bottom">40dp</dimen>
+    <dimen name="ss_language_menu_header_padding_top">15dp</dimen>
+    <dimen name="ss_language_menu_header_padding_bottom">15dp</dimen>
+    <dimen name="ss_language_menu_header_padding_left">20dp</dimen>
+    <dimen name="ss_language_menu_header_padding_right">20dp</dimen>
+    <dimen name="ss_language_menu_header_title_text_size">13sp</dimen>
+    <dimen name="ss_language_menu_header_date_text_size">12sp</dimen>
+
+    <dimen name="ss_language_menu_item_padding_top">10dp</dimen>
+    <dimen name="ss_language_menu_item_padding_bottom">10dp</dimen>
+    <dimen name="ss_language_menu_item_padding_left">20dp</dimen>
+    <dimen name="ss_language_menu_item_padding_right">20dp</dimen>
+    <dimen name="ss_language_menu_item_title_text_size">15sp</dimen>
+    <dimen name="ss_language_menu_item_date_text_size">12sp</dimen>
+
     <dimen name="ss_quarterly_loading_size">30dp</dimen>
 
     <dimen name="ss_quarterly_item_featured_height">242dp</dimen>
@@ -172,7 +190,9 @@
     
     <dimen name="ss_reading_toolbar_height">340dp</dimen>
     <dimen name="ss_reading_toolbar_title_margin_top">140dp</dimen>
+    <dimen name="ss_reading_toolbar_title_margin_left">20dp</dimen>
     <dimen name="ss_reading_toolbar_date_margin_top">250dp</dimen>
+    <dimen name="ss_reading_toolbar_date_margin_left">20dp</dimen>
 
     <dimen name="ss_reading_context_controls_padding">10dp</dimen>
     <dimen name="ss_reading_context_highlight_button_padding">13dp</dimen>

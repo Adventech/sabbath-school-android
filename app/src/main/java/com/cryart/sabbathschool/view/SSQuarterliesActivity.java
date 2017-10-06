@@ -29,11 +29,12 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
+import android.view.View;
 
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 import com.cryart.sabbathschool.R;
@@ -93,12 +94,13 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         binding.ssQuarterliesList.setAdapter(adapter);
         binding.ssQuarterliesList.setLayoutManager(new LinearLayoutManager(this));
 
-        SSQuarterliesLanguageFilterAdapter languageFilterAdapter = new SSQuarterliesLanguageFilterAdapter();
-        binding.ssQuarterlyLanguagesList.setAdapter(languageFilterAdapter);
-        binding.ssQuarterlyLanguagesList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        SSQuarterliesLanguageFilterAdapter languagesAdapter = new SSQuarterliesLanguageFilterAdapter();
+        binding.ssLanguageMenu.ssLanguageMenuList.setAdapter(languagesAdapter);
+        binding.ssLanguageMenu.ssLanguageMenuList.setLayoutManager(new LinearLayoutManager(this));
+        ViewCompat.setNestedScrollingEnabled(binding.ssLanguageMenu.ssLanguageMenuList, false);
 
-        ssQuarterliesViewModel = new SSQuarterliesViewModel(this, this);
-        ((SSQuarterliesLanguageFilterAdapter)binding.ssQuarterlyLanguagesList.getAdapter()).setQuarterliesViewModel(ssQuarterliesViewModel);
+        ssQuarterliesViewModel = new SSQuarterliesViewModel(this, this, binding);
+        ((SSQuarterliesLanguageFilterAdapter)binding.ssLanguageMenu.ssLanguageMenuList.getAdapter()).setQuarterliesViewModel(ssQuarterliesViewModel);
 
         binding.executePendingBindings();
         binding.setViewModel(ssQuarterliesViewModel);
@@ -109,8 +111,7 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
     private void updateColorScheme(){
         int primaryColor = Color.parseColor(SSColorTheme.getInstance().getColorPrimary());
         binding.ssAppBar.ssToolbar.setBackgroundColor(primaryColor);
-        binding.ssQuarterliesLanguageFilterHolder.setBackgroundColor(primaryColor);
-        binding.ssQuarterlyLanguagesList.getAdapter().notifyDataSetChanged();
+        binding.ssLanguageMenu.ssLanguageMenuHeader.setBackgroundColor(primaryColor);
 
         updateWindowColorScheme();
     }
@@ -140,16 +141,14 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
                             .sizeDp(18))
                     .setBackgroundColour(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()))
                     .setSecondaryText(R.string.ss_quarterlies_filter_languages_prompt_description)
-                    .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
+                    .setPromptStateChangeListener(new MaterialTapTargetPrompt.PromptStateChangeListener(){
                         @Override
-                        public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
-                            SharedPreferences.Editor editor = prefs.edit();
-                            editor.putBoolean(SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, true);
-                            editor.commit();
-                        }
-
-                        @Override
-                        public void onHidePromptComplete() {
+                        public void onPromptStateChanged(MaterialTapTargetPrompt prompt, int state){
+                            if (state == MaterialTapTargetPrompt.STATE_DISMISSED){
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putBoolean(SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, true);
+                                editor.commit();
+                            }
                         }
                     })
                     .show();
@@ -158,7 +157,7 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
 
     @Override
     public void onQuarterliesLanguagesChanged(List<SSQuarterlyLanguage> quarterlyLanguages){
-        SSQuarterliesLanguageFilterAdapter adapter = (SSQuarterliesLanguageFilterAdapter) binding.ssQuarterlyLanguagesList.getAdapter();
+        SSQuarterliesLanguageFilterAdapter adapter = (SSQuarterliesLanguageFilterAdapter) binding.ssLanguageMenu.ssLanguageMenuList.getAdapter();
         adapter.setQuarterlyLanguages(quarterlyLanguages);
         adapter.notifyDataSetChanged();
     }
@@ -173,7 +172,7 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.ss_quarterlies_menu, menu);
         menu.getItem(0).setIcon(new IconicsDrawable(this)
-                .icon(GoogleMaterial.Icon.gmd_filter_list)
+                .icon(GoogleMaterial.Icon.gmd_translate)
                 .color(Color.WHITE)
                 .sizeDp(18));
         return true;
@@ -184,7 +183,7 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         int id = item.getItemId();
 
         if (id == R.id.ss_quarterlies_menu_filter) {
-            ssQuarterliesViewModel.onFilterClick(item);
+            ssQuarterliesViewModel.onMenuClick();
             return true;
         } else if (id == R.id.ss_quarterlies_menu_share) {
             shareApp(getString(R.string.ss_menu_share_app_text));
@@ -203,5 +202,14 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (binding.ssLanguageMenu.ssLanguageMenu.getVisibility() == View.VISIBLE){
+            ssQuarterliesViewModel.onMenuClick();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
