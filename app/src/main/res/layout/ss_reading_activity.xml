@@ -43,21 +43,11 @@
             bind:viewModel="@{viewModel}"
             layout="@layout/ss_reading_app_bar"/>
 
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/ss_reading_view_scroll"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/ss_reading_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="fill_vertical"
-            android:visibility="@{viewModel.ssLessonCoordinatorVisibility}"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <com.cryart.sabbathschool.view.SSReadingView
-                android:id="@+id/ss_reading_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:isScrollContainer="false" />
-
-        </android.support.v4.widget.NestedScrollView>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <include
             android:id="@+id/ssContextMenu"
@@ -65,20 +55,20 @@
             bind:viewModel="@{viewModel}"
             layout="@layout/ss_reading_context_menu"/>
 
-        <LinearLayout
-            android:id="@+id/ss_reading_sheet_overlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            android:clickable="true"
-            android:orientation="horizontal"
-            android:background="@color/colorOverlay"
-            android:onClick="@{() -> viewModel.onMenuClick()}" />
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ss_reading_sheet_overlay"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:visibility="invisible"-->
+            <!--android:clickable="true"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:background="@color/colorOverlay"-->
+            <!--android:onClick="@{() -> viewModel.onMenuClick()}" />-->
 
-        <include
-            android:id="@+id/ss_reading_navigation_bar"
-            bind:viewModel="@{viewModel}"
-            layout="@layout/ss_reading_navigation_bar" />
+        <!--<include-->
+            <!--android:id="@+id/ss_reading_navigation_bar"-->
+            <!--bind:viewModel="@{viewModel}"-->
+            <!--layout="@layout/ss_reading_navigation_bar" />-->
 
         <android.support.v7.widget.CardView
             android:id="@+id/ss_reading_sheet"
