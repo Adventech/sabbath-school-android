@@ -36,6 +36,7 @@ import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -62,7 +63,8 @@ public class SSApplication extends Application {
         Fabric.with(this, new Crashlytics(), new Answers());
 
         DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
+                .displayer(new RoundedBitmapDisplayer(20))
+                .resetViewBeforeLoading(true)
                 .cacheOnDisk(true)
                 .build();
 

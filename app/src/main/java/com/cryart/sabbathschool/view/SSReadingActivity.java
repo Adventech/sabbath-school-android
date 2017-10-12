@@ -24,13 +24,13 @@ package com.cryart.sabbathschool.view;
 
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
@@ -38,6 +38,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.cryart.sabbathschool.R;
+import com.cryart.sabbathschool.adapter.SSReadingViewAdapter;
 import com.cryart.sabbathschool.adapter.SSReadingSheetAdapter;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
@@ -54,12 +55,13 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.File;
+import java.util.List;
 
-public class SSReadingActivity extends SSBaseActivity implements SSReadingViewModel.DataListener {
+public class SSReadingActivity extends SSBaseActivity implements SSReadingViewModel.DataListener, ViewPager.OnPageChangeListener {
     private static final String TAG = SSReadingActivity.class.getSimpleName();
 
     public SsReadingActivityBinding binding;
@@ -98,9 +100,12 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         ViewCompat.setNestedScrollingEnabled(binding.ssReadingSheetList, false);
 
         ssReadingViewModel = new SSReadingViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_LESSON_INDEX_EXTRA), getIntent().getExtras().getString(SSConstants.SS_READ_INDEX_EXTRA), binding);
-        binding.ssReadingView.setContextMenuCallback(ssReadingViewModel);
-        binding.ssReadingView.setHighlightsCommentsCallback(ssReadingViewModel);
+//        binding.ssReadingView.setContextMenuCallback(ssReadingViewModel);
+//        binding.ssReadingView.setHighlightsCommentsCallback(ssReadingViewModel);
         ((SSReadingSheetAdapter)binding.ssReadingSheetList.getAdapter()).setReadingViewModel(ssReadingViewModel);
+
+        binding.ssReadingViewPager.setAdapter(new SSReadingViewAdapter(this, ssReadingViewModel));
+        binding.ssReadingViewPager.addOnPageChangeListener(this);
 
         binding.executePendingBindings();
         binding.setViewModel(ssReadingViewModel);
@@ -202,24 +207,32 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         final SSReadingSheetAdapter adapter = (SSReadingSheetAdapter) binding.ssReadingSheetList.getAdapter();
         adapter.setDays(ssLessonInfo.days);
         ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.displayImage(ssLessonInfo.lesson.cover, binding.ssReadingAppBar.ssCollapsingToolbarBackdrop);
+        imageLoader.displayImage(ssLessonInfo.lesson.cover,
+                binding.ssReadingAppBar.ssCollapsingToolbarBackdrop,
+                new DisplayImageOptions.Builder()
+                        .resetViewBeforeLoading(true)
+                        .cacheOnDisk(true)
+                        .cacheInMemory(true)
+                        .build());
 
-        imageLoader.loadImage(ssLessonInfo.lesson.cover, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
-                binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.setImageBitmap(loadedImage);
-            }
-        });
         binding.invalidateAll();
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onReadChanged(SSRead ssRead){
-        binding.ssReadingViewScroll.smoothScrollTo(0, 0);
-        binding.ssReadingView.loadRead(ssRead);
+//        binding.ssReadingViewScroll.smoothScrollTo(0, 0);
+//        binding.ssReadingView.loadRead(ssRead);
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setTitle(ssRead.title);
         binding.ssReadingAppBar.ssCollapsingToolbarSubtitle.setText(ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY));
+    }
+
+    @Override
+    public void onReadsDownloaded(List<SSRead> ssReads, int ssReadIndex){
+        SSReadingViewAdapter ssReadingViewAdapter = (SSReadingViewAdapter) binding.ssReadingViewPager.getAdapter();
+        ssReadingViewAdapter.setSSReads(ssReads);
+        ssReadingViewAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -229,5 +242,23 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        SSReadingViewAdapter ssReadingViewAdapter = (SSReadingViewAdapter) binding.ssReadingViewPager.getAdapter();
+        SSRead ssRead = ssReadingViewAdapter.ssReads.get(position);
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setTitle(ssRead.title);
+        binding.ssReadingAppBar.ssCollapsingToolbarSubtitle.setText(ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY));
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }
