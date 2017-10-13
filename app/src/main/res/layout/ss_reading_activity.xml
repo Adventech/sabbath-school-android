@@ -55,20 +55,15 @@
             bind:viewModel="@{viewModel}"
             layout="@layout/ss_reading_context_menu"/>
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/ss_reading_sheet_overlay"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:visibility="invisible"-->
-            <!--android:clickable="true"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:background="@color/colorOverlay"-->
-            <!--android:onClick="@{() -> viewModel.onMenuClick()}" />-->
-
-        <!--<include-->
-            <!--android:id="@+id/ss_reading_navigation_bar"-->
-            <!--bind:viewModel="@{viewModel}"-->
-            <!--layout="@layout/ss_reading_navigation_bar" />-->
+        <LinearLayout
+            android:id="@+id/ss_reading_sheet_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:background="@color/colorOverlay"
+            android:onClick="@{() -> viewModel.onMenuClick()}" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/ss_reading_sheet"

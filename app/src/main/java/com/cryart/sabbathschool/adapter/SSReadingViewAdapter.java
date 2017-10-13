@@ -34,6 +34,8 @@ import android.view.ViewGroup;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSRead;
+import com.cryart.sabbathschool.model.SSReadComments;
+import com.cryart.sabbathschool.model.SSReadHighlights;
 import com.cryart.sabbathschool.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.view.SSReadingView;
 import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
@@ -43,17 +45,28 @@ import java.util.List;
 
 public class SSReadingViewAdapter extends PagerAdapter {
     private Context mContext;
-    public List<SSRead> ssReads;
     private SSReadingViewModel ssReadingViewModel;
+    public List<SSRead> ssReads;
+    public List<SSReadHighlights> ssReadHighlights;
+    public List<SSReadComments> ssReadComments;
 
     public SSReadingViewAdapter(Context context, SSReadingViewModel ssReadingViewModel) {
         mContext = context;
         this.ssReads = Collections.emptyList();
+        this.ssReadComments = Collections.emptyList();
+        this.ssReadHighlights = Collections.emptyList();
         this.ssReadingViewModel = ssReadingViewModel;
     }
 
     public void setSSReads(List<SSRead> ssReads){
         this.ssReads = ssReads;
+    }
+
+    public void setSSReadHighlights(List<SSReadHighlights> ssReadHighlights){
+        this.ssReadHighlights = ssReadHighlights;
+    }
+    public void setSSReadComments(List<SSReadComments> ssReadComments){
+        this.ssReadComments = ssReadComments;
     }
 
     @Override
@@ -73,6 +86,8 @@ public class SSReadingViewAdapter extends PagerAdapter {
         ssReadingView.setReadingDisplayOptions(ssReadingDisplayOptions);
         ssReadingView.setContextMenuCallback(ssReadingViewModel);
         ssReadingView.setHighlightsCommentsCallback(ssReadingViewModel);
+        ssReadingView.setReadHighlights(ssReadHighlights.get(position));
+        ssReadingView.setReadComments(ssReadComments.get(position));
         ssReadingView.loadRead(ssReads.get(position));
 
         final Handler handler = new Handler();

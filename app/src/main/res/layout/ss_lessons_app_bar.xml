@@ -38,7 +38,7 @@
         app:expanded="true"
         app:elevation="@dimen/ss_app_bar_elevation">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
             android:id="@+id/ss_lesson_collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -46,6 +46,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="@dimen/ss_lessons_toolbar_title_margin_start"
             app:expandedTitleMarginTop="@dimen/ss_lessons_toolbar_title_margin_top"
+            app:maxLines="2"
             app:expandedTitleGravity="start|top">
 
             <RelativeLayout
@@ -126,6 +127,6 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
             </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.CollapsingToolbarLayout>
+        </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 </layout>

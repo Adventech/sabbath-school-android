@@ -38,14 +38,16 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.cryart.sabbathschool.R;
-import com.cryart.sabbathschool.adapter.SSReadingViewAdapter;
 import com.cryart.sabbathschool.adapter.SSReadingSheetAdapter;
+import com.cryart.sabbathschool.adapter.SSReadingViewAdapter;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.misc.SSUnzip;
 import com.cryart.sabbathschool.model.SSLessonInfo;
 import com.cryart.sabbathschool.model.SSRead;
+import com.cryart.sabbathschool.model.SSReadComments;
+import com.cryart.sabbathschool.model.SSReadHighlights;
 import com.cryart.sabbathschool.viewmodel.SSReadingViewModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -228,9 +230,11 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     }
 
     @Override
-    public void onReadsDownloaded(List<SSRead> ssReads, int ssReadIndex){
+    public void onReadsDownloaded(List<SSRead> ssReads, List<SSReadHighlights> ssReadHighlights, List<SSReadComments> ssReadComments, int ssReadIndex){
         SSReadingViewAdapter ssReadingViewAdapter = (SSReadingViewAdapter) binding.ssReadingViewPager.getAdapter();
         ssReadingViewAdapter.setSSReads(ssReads);
+        ssReadingViewAdapter.setSSReadComments(ssReadComments);
+        ssReadingViewAdapter.setSSReadHighlights(ssReadHighlights);
         ssReadingViewAdapter.notifyDataSetChanged();
 
     }
