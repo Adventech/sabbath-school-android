@@ -75,7 +75,7 @@
     <dimen name="ss_quarterly_item_featured_cover_margin_bottom">20dp</dimen>
     <dimen name="ss_quarterly_item_featured_cover_padding">4dp</dimen>
 
-    <dimen name="ss_quarterly_item_featured_title_text_size">30sp</dimen>
+    <dimen name="ss_quarterly_item_featured_title_text_size">25sp</dimen>
     <dimen name="ss_quarterly_item_featured_title_padding_top">5dp</dimen>
     <dimen name="ss_quarterly_item_featured_title_padding_left">10dp</dimen>
     <dimen name="ss_quarterly_item_featured_title_padding_right">10dp</dimen>
@@ -128,7 +128,7 @@
     <dimen name="ss_lessons_toolbar_title_margin_start">30dp</dimen>
     <dimen name="ss_lessons_toolbar_title_margin_top">60dp</dimen>
     <dimen name="ss_lessons_toolbar_content_margin_left">30dp</dimen>
-    <dimen name="ss_lessons_toolbar_content_margin_top">110dp</dimen>
+    <dimen name="ss_lessons_toolbar_content_margin_top">140dp</dimen>
     <dimen name="ss_lessons_toolbar_content_margin_bottom">20dp</dimen>
     <dimen name="ss_lessons_toolbar_cover_height">@dimen/ss_quarterly_item_featured_cover_height</dimen>
     <dimen name="ss_lessons_toolbar_cover_width">@dimen/ss_quarterly_item_featured_cover_width</dimen>
@@ -191,7 +191,7 @@
     <dimen name="ss_reading_toolbar_height">340dp</dimen>
     <dimen name="ss_reading_toolbar_title_margin_top">140dp</dimen>
     <dimen name="ss_reading_toolbar_title_margin_left">20dp</dimen>
-    <dimen name="ss_reading_toolbar_date_margin_top">250dp</dimen>
+    <dimen name="ss_reading_toolbar_date_margin_top">180dp</dimen>
     <dimen name="ss_reading_toolbar_date_margin_left">20dp</dimen>
 
     <dimen name="ss_reading_context_controls_padding">10dp</dimen>

@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="2"
+                android:maxLines="3"
                 android:textColor="@android:color/white"
                 android:text="@{viewModel.title}"
                 android:textSize="@dimen/ss_quarterly_item_featured_title_text_size"

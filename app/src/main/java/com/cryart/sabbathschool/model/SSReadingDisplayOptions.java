@@ -27,6 +27,10 @@ public class SSReadingDisplayOptions {
     public static final String SS_THEME_SEPIA = "sepia";
     public static final String SS_THEME_DARK = "dark";
 
+    public static final String SS_THEME_LIGHT_RGB = "#ffffff";
+    public static final String SS_THEME_SEPIA_RGB = "#fbf0d9";
+    public static final String SS_THEME_DARK_RGB = "#212325";
+
     public static final String SS_SIZE_TINY = "tiny";
     public static final String SS_SIZE_SMALL = "small";
     public static final String SS_SIZE_MEDIUM = "medium";

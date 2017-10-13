@@ -52,7 +52,7 @@
             android:fitsSystemWindows="true"
             app:expandedTitleMarginTop="@dimen/ss_reading_toolbar_title_margin_top"
             app:expandedTitleMarginStart="@dimen/ss_reading_toolbar_title_margin_left"
-            app:expandedTitleGravity="left">
+            app:expandedTitleGravity="start|bottom">
 
             <ImageView
                 android:id="@+id/ss_collapsing_toolbar_backdrop"
