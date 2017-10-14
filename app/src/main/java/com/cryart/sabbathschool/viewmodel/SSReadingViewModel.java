@@ -30,7 +30,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.widget.NestedScrollView;
 import android.text.InputType;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -254,7 +253,6 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                         }
 
                         downloadComments(dayIndex, index, ssReadHighlights);
-                        Log.d(TAG, "Downloaded highlights for " + index);
                     }
 
                     @Override
@@ -277,7 +275,6 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                         }
 
                         downloadRead(dayIndex, index, ssReadHighlights, ssReadComments);
-                        Log.d(TAG, "Downloaded comments for " + index);
                     }
 
                     @Override
@@ -300,11 +297,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
                             ssReadsLoadedCounter++;
 
-                            Log.d(TAG, "Downloaded reads for " + index);
-
                             if (ssReadsLoadedCounter == ssTotalReadsCount && !ssReadsDownloaded){
-                                Log.d(TAG, "Total Reads Loaded Count " + ssTotalReadsCount);
-                                Log.d(TAG, "Sending finsihh " + index);
                                 ssReadsDownloaded = true;
                                 if (dataListener != null) dataListener.onReadsDownloaded(ssReads, ssReadHighlights, ssReadComments, ssReadIndexInt);
 
