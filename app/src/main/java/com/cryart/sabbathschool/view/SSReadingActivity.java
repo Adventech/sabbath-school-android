@@ -102,8 +102,6 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         ViewCompat.setNestedScrollingEnabled(binding.ssReadingSheetList, false);
 
         ssReadingViewModel = new SSReadingViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_LESSON_INDEX_EXTRA), getIntent().getExtras().getString(SSConstants.SS_READ_INDEX_EXTRA), binding);
-//        binding.ssReadingView.setContextMenuCallback(ssReadingViewModel);
-//        binding.ssReadingView.setHighlightsCommentsCallback(ssReadingViewModel);
         ((SSReadingSheetAdapter)binding.ssReadingSheetList.getAdapter()).setReadingViewModel(ssReadingViewModel);
 
         binding.ssReadingViewPager.setAdapter(new SSReadingViewAdapter(this, ssReadingViewModel));
@@ -221,12 +219,9 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onReadChanged(SSRead ssRead){
-//        binding.ssReadingViewScroll.smoothScrollTo(0, 0);
-//        binding.ssReadingView.loadRead(ssRead);
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setTitle(ssRead.title);
-        binding.ssReadingAppBar.ssCollapsingToolbarSubtitle.setText(ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY));
+    private void setPageTitleAndSubtitle(String title, String subTitle){
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setTitle(title);
+        binding.ssReadingAppBar.ssCollapsingToolbarSubtitle.setText(subTitle);
     }
 
     @Override
@@ -236,7 +231,8 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         ssReadingViewAdapter.setSSReadComments(ssReadComments);
         ssReadingViewAdapter.setSSReadHighlights(ssReadHighlights);
         ssReadingViewAdapter.notifyDataSetChanged();
-
+        binding.ssReadingViewPager.setCurrentItem(ssReadIndex);
+        setPageTitleAndSubtitle(ssReads.get(ssReadIndex).title, ssReadingViewModel.formatDate(ssReads.get(ssReadIndex).date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY));
     }
 
     @Override
@@ -257,8 +253,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     public void onPageSelected(int position) {
         SSReadingViewAdapter ssReadingViewAdapter = (SSReadingViewAdapter) binding.ssReadingViewPager.getAdapter();
         SSRead ssRead = ssReadingViewAdapter.ssReads.get(position);
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setTitle(ssRead.title);
-        binding.ssReadingAppBar.ssCollapsingToolbarSubtitle.setText(ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY));
+        setPageTitleAndSubtitle(ssRead.title, ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY));
     }
 
     @Override

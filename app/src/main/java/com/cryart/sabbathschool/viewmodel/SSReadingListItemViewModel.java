@@ -59,9 +59,7 @@ public class SSReadingListItemViewModel extends BaseObservable implements SSView
     }
 
     public void onItemClick(){
-        ssReadingViewModel.loadRead(ssDay.index);
         ssReadingViewModel.onMenuClick();
-        ssReadingViewModel.ssReadPosition.set(ssReadingViewModel.ssLessonInfo.days.indexOf(ssDay));
     }
 
     @Override

@@ -30,6 +30,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.widget.NestedScrollView;
 import android.text.InputType;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -94,7 +95,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     public SsReadingActivityBinding ssReadingActivityBinding;
     public SSReadingDisplayOptions ssReadingDisplayOptions;
     public SSLessonInfo ssLessonInfo;
-    public ObservableInt ssReadPosition;
+
     public SSRead ssRead;
     public String ssReadIndex;
     public int ssReadIndexInt = 0;
@@ -105,6 +106,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
     private int ssTotalReadsCount;
     private int ssReadsLoadedCounter = 0;
+    private boolean ssReadsDownloaded = false;
 
     public ObservableInt ssLessonLoadingVisibility;
     public ObservableInt ssLessonOfflineStateVisibility;
@@ -121,8 +123,6 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.keepSynced(true);
-
-        ssReadPosition = new ObservableInt(0);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         ssReadingDisplayOptions = new SSReadingDisplayOptions(
@@ -174,7 +174,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                             ssLessonInfo = dataSnapshot.getValue(SSLessonInfo.class);
                             if (dataListener != null) dataListener.onLessonInfoChanged(ssLessonInfo);
 
-                            if (ssLessonInfo != null && ssReadPosition != null && ssLessonInfo.days.size() > 0) {
+                            if (ssLessonInfo != null && ssLessonInfo.days.size() > 0) {
                                 DateTime today = DateTime.now().withTimeAtStartOfDay();
 
                                 int idx = 0;
@@ -187,11 +187,9 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                                 for (SSDay ssDay : ssLessonInfo.days){
                                     DateTime startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                                                 .parseLocalDate(ssDay.date).toDateTimeAtStartOfDay();
-                                    if (startDate.isEqual(today) && ssReadIndex == null){
-                                        ssReadPosition.set(idx);
+                                    if (startDate.isEqual(today) && ssReadIndex == null && ssReadIndexInt < 6){
                                         ssReadIndexInt = idx;
                                     } else if (ssReadIndex != null && ssReadIndex.equals(ssDay.index)) {
-                                        ssReadPosition.set(idx);
                                         ssReadIndexInt = idx;
                                     }
 
@@ -218,7 +216,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     }
 
     public void promptForEditSuggestion(){
-        if (ssRead != null) {
+        if (ssReads.size() > 0) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             final String name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, context.getString(R.string.ss_menu_anonymous_name));
             final String email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, context.getString(R.string.ss_menu_anonymous_email));
@@ -232,7 +230,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
                             mDatabase.child(SSConstants.SS_FIREBASE_SUGGESTIONS_DATABASE)
                                     .child(ssFirebaseAuth.getCurrentUser().getUid())
-                                    .child(ssRead.index)
+                                    .child(ssReads.get(ssReadingActivityBinding.ssReadingViewPager.getCurrentItem()).index)
                                     .setValue(new SSSuggestion(name, email, input.toString()));
 
                             Toast.makeText(context, context.getString(R.string.ss_reading_suggest_edit_done), Toast.LENGTH_LONG).show();
@@ -256,6 +254,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                         }
 
                         downloadComments(dayIndex, index, ssReadHighlights);
+                        Log.d(TAG, "Downloaded highlights for " + index);
                     }
 
                     @Override
@@ -278,6 +277,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                         }
 
                         downloadRead(dayIndex, index, ssReadHighlights, ssReadComments);
+                        Log.d(TAG, "Downloaded comments for " + index);
                     }
 
                     @Override
@@ -300,8 +300,14 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
                             ssReadsLoadedCounter++;
 
-                            if (ssReadsLoadedCounter == ssTotalReadsCount){
+                            Log.d(TAG, "Downloaded reads for " + index);
+
+                            if (ssReadsLoadedCounter == ssTotalReadsCount && !ssReadsDownloaded){
+                                Log.d(TAG, "Total Reads Loaded Count " + ssTotalReadsCount);
+                                Log.d(TAG, "Sending finsihh " + index);
+                                ssReadsDownloaded = true;
                                 if (dataListener != null) dataListener.onReadsDownloaded(ssReads, ssReadHighlights, ssReadComments, ssReadIndexInt);
+
                             }
                         }
                         ssLessonCoordinatorVisibility.set(View.VISIBLE);
@@ -318,118 +324,6 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                         ssLessonErrorStateVisibility.set(View.INVISIBLE);
                     }
                 });
-    }
-
-    private void loadRead(){
-//        if (ssLessonInfo != null && ssReadPosition != null) {
-//            final String dayIndex = ssLessonInfo.days.get(ssReadPosition.get()).index;
-//
-//            SSEvent.track(SSConstants.SS_EVENT_READ_OPEN, new HashMap<String, String> (){{
-//                put(SSConstants.SS_EVENT_PARAM_LESSON_INDEX, ssLessonIndex);
-//                put(SSConstants.SS_EVENT_PARAM_READ_INDEX, dayIndex);
-//            }});
-//
-//            loadRead(dayIndex);
-//        }
-    }
-
-    public void loadRead(final String dayIndex){
-//        if (ssReadRef != null){
-//            mDatabase.removeEventListener(ssReadRef);
-//        }
-//
-//        if (ssHighlightsRef != null){
-//            mDatabase.removeEventListener(ssHighlightsRef);
-//        }
-//
-//        ssHighlightsRef = mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
-//                .child(ssFirebaseAuth.getCurrentUser().getUid())
-//                .child(dayIndex)
-//                .addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        SSReadHighlights ssReadHighlights = new SSReadHighlights(dayIndex, "");
-//                        if (dataSnapshot != null) {
-//                            if (dataSnapshot.getValue(SSReadHighlights.class) != null){
-//                                ssReadHighlights = dataSnapshot.getValue(SSReadHighlights.class);
-//                            }
-//                        }
-//
-//                        if (ssReadingActivityBinding != null) {
-////                            ssReadingActivityBinding.ssReadingView.setReadHighlights(ssReadHighlights);
-//                            final Handler handler = new Handler();
-//                            handler.postDelayed(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    if (ssReadingActivityBinding != null) {
-////                                        ssReadingActivityBinding.ssReadingView.updateHighlights();
-//                                    }
-//                                }
-//                            }, 800);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//                        SSReadHighlights ssReadHighlights = new SSReadHighlights(dayIndex, "");
-//                        if (ssReadingActivityBinding != null) {
-////                            ssReadingActivityBinding.ssReadingView.setReadHighlights(ssReadHighlights);
-//                        }
-//                    }
-//                });
-//
-//        mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
-//                .child(ssFirebaseAuth.getCurrentUser().getUid())
-//                .child(dayIndex)
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        SSReadComments ssReadComments = new SSReadComments(dayIndex, new ArrayList<SSComment>());
-//                        if (dataSnapshot != null) {
-//                            if (dataSnapshot.getValue(SSReadComments.class) != null){
-//                                ssReadComments = dataSnapshot.getValue(SSReadComments.class);
-//                            }
-//                        }
-//                        if (ssReadingActivityBinding != null) {
-////                            ssReadingActivityBinding.ssReadingView.setReadComments(ssReadComments);
-//
-//                            final Handler handler = new Handler();
-//                            handler.postDelayed(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    if (ssReadingActivityBinding != null) {
-////                                        ssReadingActivityBinding.ssReadingView.updateComments();
-//                                    }
-//                                }
-//                            }, 800);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//                        SSReadComments ssReadComments = new SSReadComments(dayIndex, new ArrayList<SSComment>());
-//                        if (ssReadingActivityBinding != null) {
-////                            ssReadingActivityBinding.ssReadingView.setReadComments(ssReadComments);
-//                        }
-//                    }
-//                });
-//
-//        ssReadRef = mDatabase.child(SSConstants.SS_FIREBASE_READS_DATABASE)
-//                .child(dayIndex)
-//                .addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-//                            ssRead = dataSnapshot.getValue(SSRead.class);
-//                            if (dataListener != null) dataListener.onReadChanged(ssRead);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//
-//                    }
-//                });
     }
 
     public void destroy() {
@@ -452,7 +346,6 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         ssHighlightsRef = null;
         ssReadingActivityBinding = null;
         ssReadingDisplayOptions = null;
-        ssReadPosition = null;
         ssRead = null;
     }
 
@@ -616,7 +509,6 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
     public interface DataListener {
         void onLessonInfoChanged(SSLessonInfo ssLessonInfo);
-        void onReadChanged(SSRead ssRead);
         void onReadsDownloaded(List<SSRead> ssReads, List<SSReadHighlights> ssReadHighlights, List<SSReadComments> ssReadComments, int ssReadIndex);
     }
 
