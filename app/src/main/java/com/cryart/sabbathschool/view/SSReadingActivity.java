@@ -179,7 +179,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         int id = item.getItemId();
 
         if (id == R.id.ss_reading_menu_share){
-            shareApp(ssReadingViewModel.ssRead.title);
+            shareApp((String) getTitle());
         } else if (id == R.id.ss_reading_menu_suggest_edit){
             ssReadingViewModel.promptForEditSuggestion();
         } else if (id == R.id.ss_reading_menu_display_options){
