@@ -1,0 +1,4 @@
+Añade funcionalidad deslizable para navegar entre lecciones
+Aumentar el rendimiento general de la aplicación
+Actualizar interfaz de usuario para selección de idioma
+Corrección de errores

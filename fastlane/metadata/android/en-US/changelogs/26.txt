@@ -1,0 +1,4 @@
+Add swiping functionality to navigate between lessons
+Increase overall app performance
+Update user interface for language selection
+Bug fixes

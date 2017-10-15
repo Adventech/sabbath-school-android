@@ -1,0 +1,4 @@
+Dersler arasında gezinmek için hızlıca kaydırma işlevleri ekleyin
+Genel uygulama performansını artırın
+Dil seçimi için güncel kullanıcı arayüzü
+Hata düzeltmeleri

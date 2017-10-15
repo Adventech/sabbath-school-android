@@ -1,0 +1,4 @@
+Ak chcete navigovať medzi lekciami, pridajte funkciu posúvania
+Zvýšte celkový výkon aplikácie
+Aktualizovať používateľské rozhranie pre výber jazyka
+Opravy chýb
