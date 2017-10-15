@@ -1,0 +1,4 @@
+Adăugați funcții de navigare între lecții
+Creșteți performanța generală a aplicațiilor
+Actualizați interfața de utilizator pentru selectarea limbii
+Corectarea erorilor

@@ -1,0 +1,4 @@
+Õppetundide vahel navigeerimiseks lisage pühkimisfunktsioone
+Suurendage rakenduse üldist jõudlust
+Keelevaliku kasutajaliidese värskendamine
+Veaparandused

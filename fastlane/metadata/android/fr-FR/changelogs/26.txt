@@ -1,0 +1,4 @@
+Ajouter la fonctionnalité de balayage pour naviguer entre les leçons
+Augmenter la performance globale de l&#39;application
+Mettre à jour l&#39;interface utilisateur pour la sélection de la langue
+Correction de bugs

@@ -1,0 +1,4 @@
+Tambahkan fungsi menggesek untuk menavigasi antara pelajaran
+Tingkatkan kinerja aplikasi secara keseluruhan
+Perbarui user interface untuk pemilihan bahasa
+Perbaikan kerusakan

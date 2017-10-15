@@ -50,7 +50,7 @@
             app:toolbarId="@+id/ss_reading_toolbar"
             app:maxLines="2"
             android:fitsSystemWindows="true"
-            app:expandedTitleMarginTop="@dimen/ss_reading_toolbar_title_margin_top"
+            app:expandedTitleMarginBottom="@dimen/ss_reading_toolbar_title_margin_bottom"
             app:expandedTitleMarginStart="@dimen/ss_reading_toolbar_title_margin_left"
             app:expandedTitleGravity="start|bottom">
 

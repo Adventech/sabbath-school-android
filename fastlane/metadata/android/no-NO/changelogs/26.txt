@@ -1,0 +1,4 @@
+Legg til swiping-funksjonalitet for å navigere mellom leksjoner
+Øk total appytelse
+Oppdater brukergrensesnitt for språkvalg
+Feilrettinger

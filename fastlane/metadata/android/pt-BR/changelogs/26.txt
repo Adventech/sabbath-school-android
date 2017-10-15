@@ -1,0 +1,4 @@
+Adicione funcionalidades de deslocamento para navegar entre lições
+Aumenta o desempenho geral do aplicativo
+Atualize a interface do usuário para seleção de idioma
+Correções de erros

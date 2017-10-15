@@ -1,0 +1,4 @@
+Hinzufügen von Wischfunktionen zum Navigieren zwischen den Lektionen
+Steigerung der gesamten App-Leistung
+Benutzeroberfläche für die Sprachauswahl aktualisieren
+Fehlerbehebung
