@@ -1,4 +1,4 @@
-Tilføj swiping funktionalitet til at navigere mellem lektioner
+Tilføj swiping funktion til at navigere mellem studier
 Forøg den samlede appydelse
-Opdater brugergrænseflade til sprogvalg
+Opdater sprogvalg brugerflade
 Fejlrettelser
