@@ -1,4 +1,4 @@
-Add swiping functionality to navigate between lessons
-Increase overall app performance
-Update user interface for language selection
-Bug fixes
+Menambahkan fungsi geser untuk navigasi antar pelajaran
+Meningkatkan kinerja aplikasi secara keseluruhan
+Memperbaharui antar muka untuk pemilihan bahasa
+Memperbaiki kerusakan
