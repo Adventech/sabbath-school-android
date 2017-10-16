@@ -31,7 +31,7 @@
 
     <dimen name="ss_login_app_logo_size">72dp</dimen>
     <dimen name="ss_login_app_name_font_size">20sp</dimen>
-    <dimen name="ss_login_app_name_margin_top">30dp</dimen>
+    <dimen name="ss_login_app_name_margin_top">15dp</dimen>
     <dimen name="ss_login_loading_size">48dp</dimen>
     <dimen name="ss_login_button_margin_top">5dp</dimen>
     <dimen name="ss_login_button_social_width">220dp</dimen>
@@ -126,7 +126,7 @@
 
     <!-- LESSONS SCREEN RELATED -->
     <dimen name="ss_lessons_toolbar_title_margin_start">30dp</dimen>
-    <dimen name="ss_lessons_toolbar_title_margin_top">60dp</dimen>
+    <dimen name="ss_lessons_toolbar_title_margin_bottom">290dp</dimen>
     <dimen name="ss_lessons_toolbar_content_margin_left">30dp</dimen>
     <dimen name="ss_lessons_toolbar_content_margin_top">140dp</dimen>
     <dimen name="ss_lessons_toolbar_content_margin_bottom">20dp</dimen>
