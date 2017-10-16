@@ -45,9 +45,9 @@
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="@dimen/ss_lessons_toolbar_title_margin_start"
-            app:expandedTitleMarginTop="@dimen/ss_lessons_toolbar_title_margin_top"
+            app:expandedTitleMarginBottom="@dimen/ss_lessons_toolbar_title_margin_bottom"
             app:maxLines="2"
-            app:expandedTitleGravity="start|top">
+            app:expandedTitleGravity="start|bottom">
 
             <RelativeLayout
                 android:layout_width="match_parent"

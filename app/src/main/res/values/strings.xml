@@ -27,7 +27,7 @@
 
     <string name="ss_login_button_google">Sign in with Google</string>
     <string name="ss_login_button_facebook">Sign in with Facebook</string>
-    <string name="ss_login_button_anonymous">Login as Anonymous</string>
+    <string name="ss_login_button_anonymous">Continue without login</string>
 
     <string name="ss_menu_anonymous_name">Anonymous</string>
     <string translatable="false" name="ss_menu_anonymous_email">anonymous@adventech.io</string>
