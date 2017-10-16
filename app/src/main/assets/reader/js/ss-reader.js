@@ -167,7 +167,10 @@ $(function(){
 
       onSearch: function(text){
         this.request("?search=" + text);
-      }
+      },
+
+      focusin: function(){},
+      focusout: function(){}
     });
     SSBridge.onReady();
   }
@@ -197,6 +200,10 @@ $(function(){
           );
         }, 1000);
       }
+    }).focusin(function(){
+        SSBridge.focusin();
+    }).focusout(function(){
+        SSBridge.focusout();
     });
     var border = $("<div class='textarea-border' />");
     var container = $("<div class='textarea-container' />");

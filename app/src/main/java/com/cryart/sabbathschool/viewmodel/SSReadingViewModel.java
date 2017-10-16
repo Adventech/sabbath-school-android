@@ -547,6 +547,11 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         ssReadingView.selectionFinished();
     }
 
+    public void paste(){
+        SSReadingView ssReadingView = getCurrentSSReadingView();
+        ssReadingView.ssReadViewBridge.paste();
+    }
+
     public void share(){
         SSReadingView ssReadingView = getCurrentSSReadingView();
         ssReadingView.ssReadViewBridge.share();
