@@ -63,6 +63,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+
 public class SSReadingView extends WebView {
     private static final String TAG = SSReadingView.class.getSimpleName();
 
@@ -80,6 +82,7 @@ public class SSReadingView extends WebView {
 
     private float LastTouchX;
     private float LastTouchY;
+    private boolean textAreaFocused = false;
     public boolean contextMenuShown = false;
 
     public SSReadHighlights ssReadHighlights;
@@ -121,6 +124,9 @@ public class SSReadingView extends WebView {
 
     @Override
     public ActionMode startActionMode(ActionMode.Callback callback, int type) {
+        if (textAreaFocused) {
+            return super.startActionMode(callback, type);
+        }
         return startActionMode(callback);
     }
 
@@ -227,7 +233,7 @@ public class SSReadingView extends WebView {
         if (ssReaderContent == null){
             final File indexFile = new File(getContext().getFilesDir() + "/index.html");
 
-            if (indexFile.exists()){
+            if (false && indexFile.exists()){
                 baseUrl = "file:///" + getContext().getFilesDir() + "/";
                 ssReaderContent = readFileFromFiles(getContext().getFilesDir() + "/index.html");
             } else {
@@ -397,6 +403,23 @@ public class SSReadingView extends WebView {
             });
         }
 
+        public void paste(){
+            ClipboardManager clipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+            ClipData clip = clipboard.getPrimaryClip();
+            if (clip == null || clip.getItemCount() == 0) {
+                return;
+            }
+
+            final String buffer = (String) clip.getItemAt(0).coerceToText(context);
+
+            ((SSReadingActivity)context).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.paste('%s');}", Base64.encodeToString(buffer.getBytes(), Base64.NO_WRAP)));
+                }
+            });
+        }
+
         public void share(){
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
@@ -459,7 +482,7 @@ public class SSReadingView extends WebView {
         @JavascriptInterface
         public void onCopy(String selection){
             try {
-                ClipboardManager _clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipboardManager _clipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText(SSReadingView.CLIPBOARD_LABEL, selection);
                 _clipboard.setPrimaryClip(clip);
                 Toast.makeText(context, context.getString(R.string.ss_reading_copied), Toast.LENGTH_LONG).show();
@@ -483,6 +506,16 @@ public class SSReadingView extends WebView {
                 sendIntent.setType("text/plain");
                 context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.ss_reading_share_to)));
             } catch (Exception e){}
+        }
+
+        @JavascriptInterface
+        public void focusin(){
+            textAreaFocused = true;
+        }
+
+        @JavascriptInterface
+        public void focusout(){
+            textAreaFocused = false;
         }
     }
 }
