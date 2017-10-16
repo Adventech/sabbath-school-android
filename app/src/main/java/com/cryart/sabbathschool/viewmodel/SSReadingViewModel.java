@@ -166,7 +166,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         
         mDatabase.child(SSConstants.SS_FIREBASE_LESSON_INFO_DATABASE)
                 .child(ssLessonIndex)
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot != null) {
@@ -423,7 +423,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
             LinearLayout view = ssReadingActivityBinding.ssReadingViewPager.findViewWithTag("ssReadingView_"+ssReadingActivityBinding.ssReadingViewPager.getCurrentItem());
             NestedScrollView scrollView = view.findViewById(R.id.ss_reading_view_scroll);
 
-            y = y - scrollView.getScrollY();
+            y = y - scrollView.getScrollY() + ssReadingActivityBinding.ssReadingViewPager.getTop();
 
             DisplayMetrics metrics = new DisplayMetrics();
             ((SSReadingActivity) context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
