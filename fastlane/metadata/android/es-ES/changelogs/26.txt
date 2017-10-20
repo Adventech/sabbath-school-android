@@ -1,4 +1,4 @@
 Permite el navegar entre los días de cada lección utilizando la función de deslizar
-Mejoras  el rendimiento general de la aplicación
+Mejoras en el rendimiento general de la aplicación
 Mejoras en la interfaz de usuario para selección de idioma
 Corrección de errores
