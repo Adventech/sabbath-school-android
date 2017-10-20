@@ -1,4 +1,4 @@
-Añade funcionalidad deslizable para navegar entre lecciones
-Aumentar el rendimiento general de la aplicación
-Actualizar interfaz de usuario para selección de idioma
+Permite el navegar entre los días de cada lección utilizando la función de deslizar
+Mejoras  el rendimiento general de la aplicación
+Mejoras en la interfaz de usuario para selección de idioma
 Corrección de errores
