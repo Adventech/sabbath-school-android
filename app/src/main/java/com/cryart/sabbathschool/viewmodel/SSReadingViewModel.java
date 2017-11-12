@@ -106,6 +106,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     private int ssTotalReadsCount;
     private int ssReadsLoadedCounter = 0;
     private boolean ssReadsDownloaded = false;
+    private int highlightId = 0;
 
     public ObservableInt ssLessonLoadingVisibility;
     public ObservableInt ssLessonOfflineStateVisibility;
@@ -418,6 +419,12 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     }
 
     @Override
+    public void onSelectionStarted(float x, float y, int highlightId){
+        onSelectionStarted(x, y);
+        this.highlightId = highlightId;
+    }
+
+    @Override
     public void onSelectionStarted(float x, float y) {
         if (ssReadingActivityBinding != null) {
             LinearLayout view = ssReadingActivityBinding.ssReadingViewPager.findViewWithTag("ssReadingView_"+ssReadingActivityBinding.ssReadingViewPager.getCurrentItem());
@@ -458,6 +465,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
             params.setMargins(contextMenuX, contextMenuY, 0, 0);
             ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.setLayoutParams(params);
             ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.setVisibility(View.VISIBLE);
+            highlightId = 0;
         }
     }
 
@@ -529,16 +537,21 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         highlightSelection(SSContextMenu.HIGHLIGHT_BLUE);
     }
 
+    public void underline() {
+        highlightSelection(SSContextMenu.UNDERLINE);
+    }
+
     public void unHighlightSelection(){
         SSReadingView ssReadingView = getCurrentSSReadingView();
-        ssReadingView.ssReadViewBridge.unHighlightSelection();
+        ssReadingView.ssReadViewBridge.unHighlightSelection(highlightId);
         ssReadingView.selectionFinished();
     }
 
     private void highlightSelection(String color){
         SSReadingView ssReadingView = getCurrentSSReadingView();
-        ssReadingView.ssReadViewBridge.highlightSelection(color);
+        ssReadingView.ssReadViewBridge.highlightSelection(color, highlightId);
         ssReadingView.selectionFinished();
+        highlightId = 0;
     }
 
     public void copy(){

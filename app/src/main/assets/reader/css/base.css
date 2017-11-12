@@ -101,8 +101,13 @@ html, body {
   background-color: #212325;
 }
 
-.ss-wrapper-dark a.verse {
+.ss-wrapper-sepia a {
+  color: #5b4636;
+}
+
+.ss-wrapper-dark a {
   border-bottom: 1px solid #ccc;
+  color: #949595;
 }
 
 .ss-wrapper-dark .textarea, .ss-wrapper-dark code {
@@ -155,12 +160,18 @@ html, body {
   padding: 0 3px;
 }
 
-a.verse {
-  border-bottom: 1px solid #16a365;
+.highlight_underline {
+  border-bottom: 1px solid #DF381D;
+  padding-bottom: 0.2em;
+}
+
+a {
+  border-bottom: 1px solid #16a365 !important;
   cursor: pointer;
   font-weight: bold;
   text-decoration: none;
   padding-bottom: 0.2em;
+  color: #222;
 }
 
 blockquote {
@@ -222,4 +233,8 @@ code {
 
 h3 {
   font-variant: small-caps;
+}
+
+sup {
+  font-style: italic;
 }
