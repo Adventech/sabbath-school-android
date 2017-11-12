@@ -33,6 +33,7 @@ import android.os.Build;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.util.Base64;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -269,6 +270,7 @@ public class SSReadingView extends WebView {
 
     public interface ContextMenuCallback {
         public void onSelectionStarted(float x, float y);
+        public void onSelectionStarted(float x, float y, int highlightId);
         public void onSelectionFinished();
 
     }
@@ -325,20 +327,28 @@ public class SSReadingView extends WebView {
             context = c;
         }
 
-        public void highlightSelection(final String color){
+        public void highlightSelection(final String color, final int highlightId){
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.highlightSelection('%s');}", color));
+                    if (highlightId>0) {
+                        loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.highlightSelection('%s', %d);}", color, highlightId));
+                    } else {
+                        loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.highlightSelection('%s');}", color));
+                    }
                 }
             });
         }
 
-        public void unHighlightSelection(){
+        public void unHighlightSelection(final int highlightId){
             ((SSReadingActivity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loadUrl("javascript:if(typeof ssReader !== \"undefined\"){ssReader.unHighlightSelection();}");
+                    if (highlightId>0) {
+                        loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.unHighlightSelection(%d);}", highlightId));
+                    } else {
+                        loadUrl("javascript:if(typeof ssReader !== \"undefined\"){ssReader.unHighlightSelection();}");
+                    }
                 }
             });
         }
@@ -477,6 +487,22 @@ public class SSReadingView extends WebView {
                 highlightsCommentsCallback.onCommentsReceived(ssReadComments);
 
             } catch (Exception e){}
+        }
+
+        @JavascriptInterface
+        public void onHighlightClicked(final int highlightId){
+            try {
+                ((SSReadingActivity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d(TAG, String.valueOf(highlightId));
+                        contextMenuCallback.onSelectionStarted(LastTouchX, LastTouchY, highlightId);
+                    }
+                });
+
+            } catch (Exception e){
+                Log.d(TAG, e.getMessage());
+            }
         }
 
         @JavascriptInterface

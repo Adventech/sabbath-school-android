@@ -111,6 +111,22 @@
                     android:padding="@dimen/ss_reading_context_highlight_button_padding"
                     android:clickable="true"
                     android:background="?attr/selectableItemBackground"
+                    android:onClick="@{() -> viewModel.underline()}">
+
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:layout_width="@dimen/ss_reading_context_highlight_button_size"
+                        android:layout_height="@dimen/ss_reading_context_highlight_button_size"
+                        app:iiv_color="@color/colorSecondaryDarker"
+                        app:iiv_icon="gmd-text-format" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/ss_reading_context_highlight_button_padding"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="@{() -> viewModel.unHighlightSelection()}">
 
                     <com.mikepenz.iconics.view.IconicsImageView

@@ -28,4 +28,5 @@ public class SSContextMenu {
     public static final String HIGHLIGHT_ORANGE = "orange";
     public static final String HIGHLIGHT_GREEN = "green";
     public static final String HIGHLIGHT_BLUE = "blue";
+    public static final String UNDERLINE = "underline";
 }
