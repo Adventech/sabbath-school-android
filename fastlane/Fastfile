@@ -25,12 +25,11 @@ platform :android do
 
   desc "Upload meta to the Google Play"
   lane :playmeta do
-    supply(skip_upload_apk: true, track: 'beta')
-  end
-
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
+    gradle(
+      task: 'assemble',
+      build_type: 'Release'
+    )
+    supply(track: 'beta')
   end
 
   desc "Submit a new Beta Build to Crashlytics Beta"
@@ -42,12 +41,6 @@ platform :android do
     # You can also use other beta testing services here
   end
 
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "assembleRelease")
-    supply
-  end
-
   # You can define as many lanes as you want
 
   after_all do |lane|
@@ -57,18 +50,4 @@ platform :android do
     #   message: "Successfully deployed new App Update."
     # )
   end
-
-  error do |lane, exception|
-    # slack(
-    #   message: exception.message,
-    #   success: false
-    # )
-  end
 end
-
-
-# More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
-# All available actions: https://docs.fastlane.tools/actions
-
-# fastlane reports which actions are used. No personal data is recorded. 
-# Learn more at https://github.com/fastlane/fastlane#metrics
