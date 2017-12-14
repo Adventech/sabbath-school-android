@@ -1,9 +1,10 @@
-Meet new Sabbath School app for Android! Study Word of God with these awesome features:
+Meet the new Sabbath School app for Android! Study the Word of God with these awesome features:
 
+- Swipe Navigation
 - Text Highlighting 
 - Comments
-- Bible verses
+- Bible Verses
 - Daily Reminders
-- Reading modes
+- Reading Modes
 
 Adventech 2017 ®
