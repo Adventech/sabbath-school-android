@@ -19,11 +19,11 @@
     <string name="ss_settings">设置</string>
     <string name="ss_about">关于</string>
 
-    <string name="ss_login_failed">"登录失败，请再次尝试 "</string>
+    <string name="ss_login_failed">"登录失败，请再次尝试。"</string>
     <string name="ss_login_anonymously_dialog_positive">是</string>
     <string name="ss_login_anonymously_dialog_negative">没有</string>
     <string name="ss_login_anonymously_dialog_title">匿名登录？</string>
-    <string name="ss_login_anonymously_dialog_description">如果您匿名登录，则无法在设备之间或卸载应用程序之后同步数据，例如注释和突出显示。 你确定要继续吗？</string>
+    <string name="ss_login_anonymously_dialog_description">如果您以匿名方式登录，则无法在设备之间或卸载应用程序之后同步数据（如注释和突出显示）。 你确定你要继续吗？</string>
 
     <string name="ss_quarterlies_filter_languages_prompt_title">用其他语言阅读</string>
     <string name="ss_quarterlies_filter_languages_prompt_description">点击滤图标查看所有可用的语言</string>
