@@ -38,7 +38,7 @@
     <string translatable="false" name="ss_menu_my_notes">@string/ss_my_notes</string>
     <string translatable="false" name="ss_menu_settings">@string/ss_settings</string>
     <string translatable="false" name="ss_menu_about">@string/ss_about</string>
-    <string name="ss_menu_share_app_text">Check out, I am using this Sabbath School app</string>
+    <string name="ss_menu_share_app_text">I am using this Sabbath School app. Check it out!</string>
 
     <string name="ss_my_highlights">My Highlights</string>
     <string name="ss_my_notes">My Notes</string>
@@ -116,7 +116,7 @@
     <string name="ss_settings_color_theme_sepia">Sepia</string>
     <string name="ss_settings_color_theme_dark">Dark</string>
 
-    <string name="ss_settings_typeface">Typeface</string>
+    <string name="ss_settings_typeface">Font</string>
     <string translatable="false" name="ss_settings_typeface_andada">Andada</string>
     <string translatable="false" name="ss_settings_typeface_lato">Lato</string>
     <string translatable="false" name="ss_settings_typeface_pt_serif">PT Serif</string>
@@ -129,9 +129,9 @@
     <string name="ss_settings_font_size_large">Large</string>
     <string name="ss_settings_font_size_huge">Huge</string>
 
-    <string name="ss_settings_reminder">Daily Reminder</string>
+    <string name="ss_settings_reminder">Daily reminder</string>
     <string name="ss_settings_reminder_summary">Check to enable daily Sabbath School lesson study reminder</string>
-    <string name="ss_settings_reminder_time">Reminder Time</string>
+    <string name="ss_settings_reminder_time">Reminder time</string>
     <string name="ss_settings_reminder_text">Time to study Sabbath School</string>
 
     <!-- RATE APP -->
