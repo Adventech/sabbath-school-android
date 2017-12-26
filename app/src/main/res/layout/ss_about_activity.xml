@@ -70,6 +70,45 @@
             android:textColor="@color/colorSecondary"
             android:text="@string/ss_about_app_version"/>
 
+        <include
+            layout="@layout/ss_horizontal_line"
+            layout_width="match_parent" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:onClick="@{() -> viewModel.onWebsiteClick()}">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/ss_settings_website"
+                    android:textColor="@color/colorSecondaryDark"
+                    android:textSize="@dimen/ss_about_list_title_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/ss_settings_website_summary"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="@dimen/ss_about_list_link_text_size" />
+
+            </LinearLayout>
+        </FrameLayout>
+
         <include layout="@layout/ss_horizontal_line" />
 
         <FrameLayout
