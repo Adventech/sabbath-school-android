@@ -164,7 +164,8 @@
     <dimen name="ss_about_list_padding">10dp</dimen>
     <dimen name="ss_about_list_title_text_size">16sp</dimen>
     <dimen name="ss_about_list_link_text_size">12sp</dimen>
-    <dimen name="ss_about_made_margin">20dp</dimen>
+    <dimen name="ss_about_made_margin_top">30dp</dimen>
+    <dimen name="ss_about_made_margin_bottom">10dp</dimen>
 
     <!-- READING SCREEN RELATED -->
 
