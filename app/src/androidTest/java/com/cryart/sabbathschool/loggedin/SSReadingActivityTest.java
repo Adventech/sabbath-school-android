@@ -26,6 +26,7 @@ package com.cryart.sabbathschool.loggedin;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.SystemClock;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 
@@ -52,6 +53,7 @@ import tools.fastlane.screengrab.locale.LocaleTestRule;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
 
 
 @RunWith(JUnit4.class)
@@ -80,11 +82,8 @@ public class SSReadingActivityTest {
         Intent grouchyIntent = new Intent();
         // intent stuff
 
-        grouchyIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, Locale.getDefault().getLanguage()+"-2017-03-01");
+        grouchyIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, Locale.getDefault().getLanguage()+"-2018-01-01");
         activityRule.launchActivity(grouchyIntent);
-
-        onView(withId(R.id.ss_reading_navigation_next)).perform(click());
-        onView(withId(R.id.ss_reading_navigation_next)).perform(click());
 
         SystemClock.sleep(2000);
 
@@ -108,17 +107,26 @@ public class SSReadingActivityTest {
         Screengrab.screenshot("reading_screen");
 
         onView(withId(R.id.ss_reading_menu_display_options)).perform(click());
+
+        SystemClock.sleep(2000);
+
         Screengrab.screenshot("reading_screen_display_options");
 
         SystemClock.sleep(2000);
 
         ViewActions.pressBack();
 
+        activityRule.getActivity().runOnUiThread(new Runnable() {
+          public void run() {
+              activityRule.getActivity().binding.ssReadingViewPager.setCurrentItem(0);
+          }
+        });
+
         if (!Locale.getDefault().getLanguage().equals("in")
                 && !Locale.getDefault().getLanguage().equals("ja")
                 && !Locale.getDefault().getLanguage().equals("zh")
-                && activityRule.getActivity().ssReadingViewModel.ssRead.bible.size() > 0){
-            SSBibleVerses b = activityRule.getActivity().ssReadingViewModel.ssRead.bible.get(0);
+                && activityRule.getActivity().ssReadingViewModel.ssReads.get(0).bible.size() > 0){
+            SSBibleVerses b = activityRule.getActivity().ssReadingViewModel.ssReads.get(0).bible.get(0);
 
             Map.Entry<String,String> entry=b.verses.entrySet().iterator().next();
             String v = entry.getKey();

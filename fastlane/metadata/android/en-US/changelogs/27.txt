@@ -1,0 +1,3 @@
+🖍 Adding ability to underline
+📝 Tapping on highlight or underline will allow to edit it
+🇷🇸 Adding Serbian localization

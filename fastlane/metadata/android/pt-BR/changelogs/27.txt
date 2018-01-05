@@ -1,0 +1,3 @@
+🖍 Adição de capacidade para sublinhar
+📝 Toque no destaque ou no sublinhado permitirá editá-lo
+🇷🇸 Adicionando localização sérvia
