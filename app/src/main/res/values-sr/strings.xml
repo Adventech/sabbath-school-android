@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"Subotna škola"</string>
+    <string name="ss_share">"Podelite"</string>
+    <string name="ss_login_button_google">"Prijavite se sa Google nalogom"</string>
+    <string name="ss_login_button_facebook">"Prijavite se sa Facebook nalogom"</string>
+    <string name="ss_login_button_anonymous">"Anonimna prijava"</string>
+    <string name="ss_menu_anonymous_name">"Anonimni korisnik"</string>
+    <string name="ss_menu_sign_out">"Odjavite se"</string>
+    <string name="ss_menu_read_now">"Pročitajte"</string>
+    <string name="ss_menu_share_app">"Podelite aplikaciju"</string>
+    <string name="ss_menu_share_app_text">"Pogledajte aplikaciju Subotna škola"</string>
+    <string name="ss_my_highlights">"Moja podvlačenja"</string>
+    <string name="ss_my_notes">"Moje beleške"</string>
+    <string name="ss_settings">"Podešavanja"</string>
+    <string name="ss_about">"O aplikaciji"</string>
+    <string name="ss_login_failed">"Prijavljivanje nije uspelo. Pokuštajte ponovo."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Da"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Ne"</string>
+    <string name="ss_login_anonymously_dialog_title">"Anonimna prijava?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Ukoliko se prijavite kao anonimni korisnik, nećete biti u mogućnosti da sinhronizujete vaše podatke (kao što su komentari i podvlačenja) između uređaja ili nakon deinstaliranja aplikacije. Da li ste sigurni da želite da nastavite?"</string>
+    <string name="ss_quarterlies_filter_languages">"Jezici"</string>
+    <string name="ss_quarterlies_downloading">"Preuzimam biblijsku pouku"</string>
+    <string name="ss_quarterlies_error">"Došlo je do nepoznate greške. Pokušajte ponovo."</string>
+    <string name="ss_quarterlies_empty">"U ovom trenutnu ne postoje dostupne biblijske pouke."</string>
+    <string name="ss_quarterly_item_read_text">"Otvorite"</string>
+    <string name="ss_lessons_downloading">"Otvaranje pouke"</string>
+    <string name="ss_lessons_error">"Došlo je do greške tokom otvaranja pouke"</string>
+    <string name="ss_lessons_empty">"U ovom trenutnu ne postoje dostupne biblijske pouke."</string>
+    <string name="ss_lessons_read">"Čitajte"</string>
+    <string name="ss_reading_empty">"Radimo na ovoj lekciji. Pokušajte kasnije."</string>
+    <string name="ss_reading_error">"Došlo je do greške prilikom otvaranja lekcije"</string>
+    <string name="ss_reading_downloading">"Preuzimanje lekcije za offline čitanje"</string>
+    <string name="ss_reading_suggest_edit">"Predložite izmenu ili korekciju"</string>
+    <string name="ss_reading_suggest_edit_hint">"Molimo vas da opišete željenu korekciju ili sugestiju"</string>
+    <string name="ss_reading_suggest_edit_done">"Hvala! Vaše sugestije će biti pregledane."</string>
+    <string name="ss_reading_comment">"Komentar"</string>
+    <string name="ss_reading_enter_comment">"Unesite vaš komentar"</string>
+    <string name="ss_reading_copied">"Kopirano"</string>
+    <string name="ss_reading_share_to">"Podelite na:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Uskoro"</string>
+    <string name="ss_coming_soon_subheader">"Trenutno radimo na ovoj mogućnosti."</string>
+    <string name="ss_about_app_version">"verzija 3.0"</string>
+    <string name="ss_about_made">"Napravio sa ❤ Adventech"</string>
+    <string name="ss_settings_display_options">"Opcije prikaza"</string>
+    <string name="ss_settings_color_theme">"Izbor boja"</string>
+    <string name="ss_settings_color_theme_light">"Svetlo"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Tamno"</string>
+    <string name="ss_settings_typeface">"Font"</string>
+    <string name="ss_settings_font_size">"Veličina fonta"</string>
+    <string name="ss_settings_font_size_tiny">"Sićušna"</string>
+    <string name="ss_settings_font_size_small">"Mala"</string>
+    <string name="ss_settings_font_size_medium">"Srednja"</string>
+    <string name="ss_settings_font_size_large">"Velika"</string>
+    <string name="ss_settings_font_size_huge">"Ogromna"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Ocenite aplikaciju"</string>
+    <string name="rate_dialog_message">"Molimo vas da ocenite aplikaciju Subotna škola. Hvala vam za vašu podršku!"</string>
+    <string name="rate_dialog_ok">"Ocenite"</string>
+    <string name="rate_dialog_cancel">"Kasnije"</string>
+    <string name="rate_dialog_no">"Ne želim"</string>
+    <string name="ss_settings_website">"Veb-sajt"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Više jezika"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Dodirnite ikonicu da biste videli dostupne jezike"</string>
+    <string name="ss_bible">"Biblija"</string>
+    <string name="ss_settings_reminder">"Dnevni podsetnik"</string>
+    <string name="ss_settings_reminder_summary">"Označite kako biste omogućili podsetnik za dnevno proučavanje"</string>
+    <string name="ss_settings_reminder_time">"Vreme podsetnika"</string>
+    <string name="ss_settings_reminder_text">"Vreme je za proučavanje subotnoškolske lekcije"</string>
+    <string name="ss_reading_offline">"Van mreže ste. Povežite se kako biste čitali ovu lekciju."</string>
+    <string name="ss_reading_offline_retry">"Pokušajte ponovo"</string>
+</resources>
