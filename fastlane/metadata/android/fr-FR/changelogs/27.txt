@@ -1,0 +1,3 @@
+🖍 Ajout de la capacité de souligner
+📝 Taper sur surligner ou souligner permettra de l&#39;éditer
+🇷🇸 Ajout de la localisation serbe

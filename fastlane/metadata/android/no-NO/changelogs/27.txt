@@ -1,0 +1,3 @@
+🖍 Legge til evne til å understreke
+📝 Tapping på høydepunkt eller understreke vil tillate å redigere det
+🇷🇸 legge til serbisk lokalisering

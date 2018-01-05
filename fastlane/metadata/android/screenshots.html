@@ -715,6 +715,73 @@
         
       </table>
     
+      <h1 class="language">sr-</h1>
+      <hr>
+      <table>
+        
+          <tr>
+            <th colspan="4">
+              <span class="deviceName">phoneScreenshots</span>
+            </th>
+          </tr>
+          <tr>
+            
+              
+              <td>
+                
+                
+                <a href="./sr-/images/phoneScreenshots/lessons_screen_1515135650121.png" target="_blank" class="screenshotLink">
+                  <img class="screenshot"
+                         src="./sr-/images/phoneScreenshots/lessons_screen_1515135650121.png"
+                       style="width: 100%;"
+                         alt="sr- phoneScreenshots"
+                data-counter="39" />
+                </a>
+              </td>
+            
+              
+              <td>
+                
+                
+                <a href="./sr-/images/phoneScreenshots/reading_bible_verses_1515135662886.png" target="_blank" class="screenshotLink">
+                  <img class="screenshot"
+                         src="./sr-/images/phoneScreenshots/reading_bible_verses_1515135662886.png"
+                       style="width: 100%;"
+                         alt="sr- phoneScreenshots"
+                data-counter="40" />
+                </a>
+              </td>
+            
+              
+              <td>
+                
+                
+                <a href="./sr-/images/phoneScreenshots/reading_screen_1515135657358.png" target="_blank" class="screenshotLink">
+                  <img class="screenshot"
+                         src="./sr-/images/phoneScreenshots/reading_screen_1515135657358.png"
+                       style="width: 100%;"
+                         alt="sr- phoneScreenshots"
+                data-counter="41" />
+                </a>
+              </td>
+            
+              
+              <td>
+                
+                
+                <a href="./sr-/images/phoneScreenshots/reading_screen_display_options_1515135658248.png" target="_blank" class="screenshotLink">
+                  <img class="screenshot"
+                         src="./sr-/images/phoneScreenshots/reading_screen_display_options_1515135658248.png"
+                       style="width: 100%;"
+                         alt="sr- phoneScreenshots"
+                data-counter="42" />
+                </a>
+              </td>
+            
+          </tr>
+        
+      </table>
+    
       <h1 class="language">tr-TR</h1>
       <hr>
       <table>
@@ -735,7 +802,7 @@
                          src="./tr-TR/images/phoneScreenshots/lessons_screen_1499032271691.png"
                        style="width: 100%;"
                          alt="tr-TR phoneScreenshots"
-                data-counter="39" />
+                data-counter="43" />
                 </a>
               </td>
             
@@ -748,7 +815,7 @@
                          src="./tr-TR/images/phoneScreenshots/reading_bible_verses_1499032288258.png"
                        style="width: 100%;"
                          alt="tr-TR phoneScreenshots"
-                data-counter="40" />
+                data-counter="44" />
                 </a>
               </td>
             
@@ -761,7 +828,7 @@
                          src="./tr-TR/images/phoneScreenshots/reading_screen_1499032282683.png"
                        style="width: 100%;"
                          alt="tr-TR phoneScreenshots"
-                data-counter="41" />
+                data-counter="45" />
                 </a>
               </td>
             
@@ -774,7 +841,7 @@
                          src="./tr-TR/images/phoneScreenshots/reading_screen_display_options_1499032283713.png"
                        style="width: 100%;"
                          alt="tr-TR phoneScreenshots"
-                data-counter="42" />
+                data-counter="46" />
                 </a>
               </td>
             
@@ -802,7 +869,7 @@
                          src="./uk/images/phoneScreenshots/lessons_screen_1499032295635.png"
                        style="width: 100%;"
                          alt="uk phoneScreenshots"
-                data-counter="43" />
+                data-counter="47" />
                 </a>
               </td>
             
@@ -815,7 +882,7 @@
                          src="./uk/images/phoneScreenshots/reading_bible_verses_1499032315129.png"
                        style="width: 100%;"
                          alt="uk phoneScreenshots"
-                data-counter="44" />
+                data-counter="48" />
                 </a>
               </td>
             
@@ -828,7 +895,7 @@
                          src="./uk/images/phoneScreenshots/reading_screen_1499032307048.png"
                        style="width: 100%;"
                          alt="uk phoneScreenshots"
-                data-counter="45" />
+                data-counter="49" />
                 </a>
               </td>
             
@@ -841,7 +908,7 @@
                          src="./uk/images/phoneScreenshots/reading_screen_display_options_1499032309656.png"
                        style="width: 100%;"
                          alt="uk phoneScreenshots"
-                data-counter="46" />
+                data-counter="50" />
                 </a>
               </td>
             
@@ -869,7 +936,7 @@
                          src="./zh-CN/images/phoneScreenshots/lessons_screen_1500682422514.png"
                        style="width: 100%;"
                          alt="zh-CN phoneScreenshots"
-                data-counter="47" />
+                data-counter="51" />
                 </a>
               </td>
             
@@ -882,7 +949,7 @@
                          src="./zh-CN/images/phoneScreenshots/reading_screen_1500682431159.png"
                        style="width: 100%;"
                          alt="zh-CN phoneScreenshots"
-                data-counter="48" />
+                data-counter="52" />
                 </a>
               </td>
             
@@ -895,7 +962,7 @@
                          src="./zh-CN/images/phoneScreenshots/reading_screen_display_options_1500682433147.png"
                        style="width: 100%;"
                          alt="zh-CN phoneScreenshots"
-                data-counter="49" />
+                data-counter="53" />
                 </a>
               </td>
             
@@ -927,12 +994,12 @@
         for (index = 0; index < screenshotLink.length; ++index) {
           screenshotLink[index].addEventListener('click', function(e) {
             e.preventDefault();
-            
+
             var img = e.target;
             if (e.target.tagName == 'A') {
               img = e.target.children[0];
             }
-            
+
             // beautify
             var tmpImg = new Image();
             tmpImg.src = img.src;
@@ -949,20 +1016,20 @@
             imageDisplay.src             = img.src;
             imageDisplay.alt             = img.alt;
             imageDisplay.dataset.counter = img.dataset.counter;
-            
+
             imageInfo.innerHTML          = '<h3>'+img.alt+'</h3>';
             imageInfo.innerHTML         += img.src.split("/").pop();
             imageInfo.innerHTML         += '<br />'+tmpImg.height+'&times;'+tmpImg.width+'px';
-                    
+
             overlay.style.display        = "block";
           });
         }
-        
+
         imageDisplay.addEventListener('click', function(e) {
           e.stopPropagation(); // !
-          
+
           overlay.style.display = "none";
-          
+
           img_counter = parseInt(e.target.dataset.counter) + 1;
           try {
             link = document.body.querySelector('img[data-counter="'+img_counter+'"]').parentNode;
@@ -979,7 +1046,7 @@
         overlay.addEventListener('click', function(e) {
           overlay.style.display = "none";
         })
-        
+
       function keyPressed(e) {
         e = e || window.event;
         var charCode = e.keyCode || e.which;
