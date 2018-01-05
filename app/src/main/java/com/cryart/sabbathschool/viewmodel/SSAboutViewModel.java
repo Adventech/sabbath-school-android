@@ -53,6 +53,10 @@ public class SSAboutViewModel implements SSViewModel{
         onLinkClick(context.getString(R.string.ss_settings_github_url));
     }
 
+    public void onWebsiteClick(){
+        onLinkClick(context.getString(R.string.ss_settings_website_url));
+    }
+
     @Override
     public void destroy(){}
 }

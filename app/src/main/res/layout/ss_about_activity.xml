@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,21 +20,21 @@
   ~ THE SOFTWARE.
   -->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.cryart.sabbathschool.viewmodel.SSAboutViewModel" />
     </data>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <include
             android:id="@+id/ss_app_bar"
@@ -43,154 +42,205 @@
 
         <ImageView
             android:id="@+id/ss_logo"
-            android:layout_width="@dimen/ss_about_app_logo_size"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/ss_about_app_logo_size"
-            android:layout_marginTop="@dimen/ss_about_app_logo_size"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/ss_about_app_logo_size"
             app:srcCompat="@drawable/ss_logo_color" />
 
         <TextView
             android:id="@+id/ss_app_title"
-            android:textColor="@color/colorPrimary"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal"
             android:layout_marginTop="@dimen/ss_about_app_name_margin_top"
-            android:layout_gravity="center|center_horizontal"
-            android:typeface="serif"
-            android:textStyle="bold|italic"
+            android:text="@string/ss_app_name"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/ss_about_app_name_text_size"
-            android:text="@string/ss_app_name" />
+            android:textStyle="bold|italic"
+            android:typeface="serif" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ss_about_app_version_margin_top"
+            android:layout_gravity="center|center_horizontal"
             android:layout_marginBottom="@dimen/ss_about_app_version_margin_bottom"
-            android:layout_gravity="center|center_horizontal"
-            android:textColor="@color/colorSecondary"
-            android:text="@string/ss_about_app_version"/>
+            android:layout_marginTop="@dimen/ss_about_app_version_margin_top"
+            android:text="@string/ss_about_app_version"
+            android:textAlignment="center"
+            android:textColor="@color/colorSecondary" />
 
-        <include layout="@layout/ss_horizontal_line" />
-
-        <FrameLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/ss_about_list_padding"
-            android:paddingBottom="@dimen/ss_about_list_padding"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:onClick="@{() -> viewModel.onFacebookClick()}">
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:orientation="vertical"
-                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/ss_horizontal_line" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="@{() -> viewModel.onWebsiteClick()}"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/ss_settings_website"
+                            android:textColor="@color/colorSecondaryDark"
+                            android:textSize="@dimen/ss_about_list_title_text_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/ss_settings_website_summary"
+                            android:textColor="@color/colorSecondary"
+                            android:textSize="@dimen/ss_about_list_link_text_size" />
+
+                    </LinearLayout>
+                </FrameLayout>
+
+                <include layout="@layout/ss_horizontal_line" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="@{() -> viewModel.onFacebookClick()}"
+                    android:paddingBottom="@dimen/ss_about_list_padding"
+                    android:paddingTop="@dimen/ss_about_list_padding">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/ss_about_facebook"
+                            android:textColor="@color/colorSecondaryDark"
+                            android:textSize="@dimen/ss_about_list_title_text_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/ss_about_facebook_summary"
+                            android:textColor="@color/colorSecondary"
+                            android:textSize="@dimen/ss_about_list_link_text_size" />
+
+                    </LinearLayout>
+                </FrameLayout>
+
+                <include layout="@layout/ss_horizontal_line" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="@{() -> viewModel.onInstagramClick()}"
+                    android:paddingBottom="@dimen/ss_about_list_padding"
+                    android:paddingTop="@dimen/ss_about_list_padding">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/ss_about_instagram"
+                            android:textColor="@color/colorSecondaryDark"
+                            android:textSize="@dimen/ss_about_list_title_text_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/ss_about_instagram_summary"
+                            android:textColor="@color/colorSecondary"
+                            android:textSize="@dimen/ss_about_list_link_text_size" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <include layout="@layout/ss_horizontal_line" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="@{() -> viewModel.onGitHubClick()}"
+                    android:paddingBottom="@dimen/ss_about_list_padding"
+                    android:paddingTop="@dimen/ss_about_list_padding">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/ss_about_github"
+                            android:textColor="@color/colorSecondaryDark"
+                            android:textSize="@dimen/ss_about_list_title_text_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/ss_about_github_summary"
+                            android:textColor="@color/colorSecondary"
+                            android:textSize="@dimen/ss_about_list_link_text_size" />
+
+                    </LinearLayout>
+                </FrameLayout>
+
+                <include layout="@layout/ss_horizontal_line" />
 
                 <TextView
+                    fontPath="Lato-Regular.ttf"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/ss_about_list_title_text_size"
-                    android:textColor="@color/colorSecondaryDark"
-                    android:text="@string/ss_about_facebook" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="@dimen/ss_about_list_link_text_size"
-                    android:textColor="@color/colorSecondary"
-                    android:text="@string/ss_about_facebook_summary"/>
-
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|center_horizontal"
+                    android:layout_marginBottom="@dimen/ss_about_made_margin_bottom"
+                    android:layout_marginTop="@dimen/ss_about_made_margin_top"
+                    android:gravity="bottom"
+                    android:paddingTop="@dimen/ss_about_list_padding"
+                    android:text="@string/ss_about_made"
+                    android:textColor="@color/colorSecondaryDark" />
             </LinearLayout>
-        </FrameLayout>
-
-        <include layout="@layout/ss_horizontal_line" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/ss_about_list_padding"
-            android:paddingBottom="@dimen/ss_about_list_padding"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:onClick="@{() -> viewModel.onInstagramClick()}">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/ss_about_list_title_text_size"
-                    android:textColor="@color/colorSecondaryDark"
-                    android:text="@string/ss_about_instagram" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="@dimen/ss_about_list_link_text_size"
-                    android:textColor="@color/colorSecondary"
-                    android:text="@string/ss_about_instagram_summary" />
-            </LinearLayout>
-        </FrameLayout>
-
-        <include layout="@layout/ss_horizontal_line" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/ss_about_list_padding"
-            android:paddingBottom="@dimen/ss_about_list_padding"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:onClick="@{() -> viewModel.onGitHubClick()}">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/ss_about_list_title_text_size"
-                    android:textColor="@color/colorSecondaryDark"
-                    android:text="@string/ss_about_github" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="@dimen/ss_about_list_link_text_size"
-                    android:textColor="@color/colorSecondary"
-                    android:text="@string/ss_about_github_summary" />
-
-            </LinearLayout>
-        </FrameLayout>
-
-        <include layout="@layout/ss_horizontal_line" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|center_horizontal"
-            android:layout_marginTop="@dimen/ss_about_made_margin"
-            android:layout_marginBottom="@dimen/ss_about_made_margin"
-            android:gravity="bottom"
-            android:textColor="@color/colorSecondaryDark"
-            android:text="@string/ss_about_made"
-            fontPath="Lato-Regular.ttf" />
+        </ScrollView>
     </LinearLayout>
 </layout>
