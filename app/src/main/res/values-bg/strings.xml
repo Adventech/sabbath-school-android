@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~ Copyright (c) 2018 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -21,77 +22,77 @@
   -->
 
 <resources>
-<string name="ss_app_name">"Съботно училище"</string>
-<string name="ss_share">"Дял"</string>
-<string name="ss_login_button_google">"Влезте в профила си в Google"</string>
-<string name="ss_login_button_facebook">"Влезте във Facebook"</string>
-<string name="ss_login_button_anonymous">"Вход като анонимен"</string>
-<string name="ss_menu_anonymous_name">"Анонимен"</string>
-<string name="ss_menu_sign_out">"Отписване"</string>
-<string name="ss_menu_read_now">"Прочетете сега"</string>
-<string name="ss_menu_share_app">"Споделяне на приложението"</string>
-<string name="ss_menu_share_app_text">"Разгледайте, използвам това приложение \"Съботно училище\""</string>
-<string name="ss_my_highlights">"Моите акценти"</string>
-<string name="ss_my_notes">"Моите бележки"</string>
-<string name="ss_settings">"Настройки"</string>
-<string name="ss_about">"Относно"</string>
-<string name="ss_login_failed">"Неуспешно влизане. Моля, опитайте отново"</string>
-<string name="ss_login_anonymously_dialog_positive">"Да"</string>
-<string name="ss_login_anonymously_dialog_negative">"Не"</string>
-<string name="ss_login_anonymously_dialog_title">"Анонимно влизате ли?"</string>
-<string name="ss_login_anonymously_dialog_description">"При анонимно влизане няма да можете да синхронизирате данните си, като например коментари и акценти, на различни устройства или след деинсталиране на приложението. Наистина ли искате да продължите?"</string>
-<string name="ss_quarterlies_filter_languages">"Филтриране на езици"</string>
-<string name="ss_quarterlies_downloading">"Първи тримесечия ..."</string>
-<string name="ss_quarterlies_error">"Появи се неизвестна грешка. Моля, опитайте отново"</string>
-<string name="ss_quarterlies_empty">"Изглежда, че в момента няма тримесечия"</string>
-<string name="ss_quarterly_item_read_text">"Отворено"</string>
-<string name="ss_lessons_downloading">"Открива се тримесечие ..."</string>
-<string name="ss_lessons_error">"Възникна грешка при отварянето тримесечно"</string>
-<string name="ss_lessons_empty">"Изглежда, че в момента няма уроци"</string>
-<string name="ss_lessons_read">"Прочети"</string>
-<string name="ss_reading_empty">"Изглежда, че този урок е празен. Моля, проверете отново по-късно"</string>
-<string name="ss_reading_error">"Възникна грешка при отваряне на урока"</string>
-<string name="ss_reading_downloading">"Изтегляне на урока за офлайн"</string>
-<string name="ss_reading_suggest_edit">"Предложете редакция или корекция"</string>
-<string name="ss_reading_suggest_edit_hint">"Моля, опишете вашата поправка или предложение"</string>
-<string name="ss_reading_suggest_edit_done">"Благодаря! Вашето предложение ще бъде прегледано"</string>
-<string name="ss_reading_comment">"Коментар"</string>
-<string name="ss_reading_enter_comment">"Въведете коментара си"</string>
-<string name="ss_reading_copied">"Изборът бе копиран."</string>
-<string name="ss_reading_share_to">"Споделяне на селекцията на:"</string>
+    <string name="ss_app_name">"Съботно училище"</string>
+    <string name="ss_share">"Дял"</string>
+    <string name="ss_login_button_google">"Влезте в профила си в Google"</string>
+    <string name="ss_login_button_facebook">"Влезте във Facebook"</string>
+    <string name="ss_login_button_anonymous">"Вход като анонимен"</string>
+    <string name="ss_menu_anonymous_name">"Анонимен"</string>
+    <string name="ss_menu_sign_out">"Отписване"</string>
+    <string name="ss_menu_read_now">"Прочетете сега"</string>
+    <string name="ss_menu_share_app">"Споделяне на приложението"</string>
+    <string name="ss_menu_share_app_text">"Разгледайте, използвам това приложение \"Съботно училище\""</string>
+    <string name="ss_my_highlights">"Моите акценти"</string>
+    <string name="ss_my_notes">"Моите бележки"</string>
+    <string name="ss_settings">"Настройки"</string>
+    <string name="ss_about">"Относно"</string>
+    <string name="ss_login_failed">"Неуспешно влизане. Моля, опитайте отново"</string>
+    <string name="ss_login_anonymously_dialog_positive">"Да"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Не"</string>
+    <string name="ss_login_anonymously_dialog_title">"Анонимно влизате ли?"</string>
+    <string name="ss_login_anonymously_dialog_description">"При анонимно влизане няма да можете да синхронизирате данните си, като например коментари и акценти, на различни устройства или след деинсталиране на приложението. Наистина ли искате да продължите?"</string>
+    <string name="ss_quarterlies_filter_languages">"Филтриране на езици"</string>
+    <string name="ss_quarterlies_downloading">"Първи тримесечия ..."</string>
+    <string name="ss_quarterlies_error">"Появи се неизвестна грешка. Моля, опитайте отново"</string>
+    <string name="ss_quarterlies_empty">"Изглежда, че в момента няма тримесечия"</string>
+    <string name="ss_quarterly_item_read_text">"Отворено"</string>
+    <string name="ss_lessons_downloading">"Открива се тримесечие ..."</string>
+    <string name="ss_lessons_error">"Възникна грешка при отварянето тримесечно"</string>
+    <string name="ss_lessons_empty">"Изглежда, че в момента няма уроци"</string>
+    <string name="ss_lessons_read">"Прочети"</string>
+    <string name="ss_reading_empty">"Изглежда, че този урок е празен. Моля, проверете отново по-късно"</string>
+    <string name="ss_reading_error">"Възникна грешка при отваряне на урока"</string>
+    <string name="ss_reading_downloading">"Изтегляне на урока за офлайн"</string>
+    <string name="ss_reading_suggest_edit">"Предложете редакция или корекция"</string>
+    <string name="ss_reading_suggest_edit_hint">"Моля, опишете вашата поправка или предложение"</string>
+    <string name="ss_reading_suggest_edit_done">"Благодаря! Вашето предложение ще бъде прегледано"</string>
+    <string name="ss_reading_comment">"Коментар"</string>
+    <string name="ss_reading_enter_comment">"Въведете коментара си"</string>
+    <string name="ss_reading_copied">"Изборът бе копиран."</string>
+    <string name="ss_reading_share_to">"Споделяне на селекцията на:"</string>
 
-<!-- TODO: remove when done -->
-<string name="ss_coming_soon_header">"Очаквайте скоро"</string>
-<string name="ss_coming_soon_subheader">"Понастоящем работим върху тази функция. Остани настроен, скоро ще дойде"</string>
-<string name="ss_about_app_version">"Версия 3.0"</string>
-<string name="ss_about_made">"Направено с ❤ от Адвентех"</string>
-<string name="ss_settings_display_options">"Опции за показване"</string>
-<string name="ss_settings_color_theme">"Цветна тема"</string>
-<string name="ss_settings_color_theme_light">"Светлина"</string>
-<string name="ss_settings_color_theme_sepia">"Сепия"</string>
-<string name="ss_settings_color_theme_dark">"Тъмен"</string>
-<string name="ss_settings_typeface">"Шрифтове"</string>
-<string name="ss_settings_font_size">"Размер на шрифта"</string>
-<string name="ss_settings_font_size_tiny">"Мъничък"</string>
-<string name="ss_settings_font_size_small">"Малък"</string>
-<string name="ss_settings_font_size_medium">"Среда"</string>
-<string name="ss_settings_font_size_large">"Голям"</string>
-<string name="ss_settings_font_size_huge">"Огромен"</string>
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Очаквайте скоро"</string>
+    <string name="ss_coming_soon_subheader">"Понастоящем работим върху тази функция. Остани настроен, скоро ще дойде"</string>
+    <string name="ss_about_app_version">"Версия 3.0"</string>
+    <string name="ss_about_made">"Направено с ❤ от Адвентех"</string>
+    <string name="ss_settings_display_options">"Опции за показване"</string>
+    <string name="ss_settings_color_theme">"Цветна тема"</string>
+    <string name="ss_settings_color_theme_light">"Светлина"</string>
+    <string name="ss_settings_color_theme_sepia">"Сепия"</string>
+    <string name="ss_settings_color_theme_dark">"Тъмен"</string>
+    <string name="ss_settings_typeface">"Шрифтове"</string>
+    <string name="ss_settings_font_size">"Размер на шрифта"</string>
+    <string name="ss_settings_font_size_tiny">"Мъничък"</string>
+    <string name="ss_settings_font_size_small">"Малък"</string>
+    <string name="ss_settings_font_size_medium">"Среда"</string>
+    <string name="ss_settings_font_size_large">"Голям"</string>
+    <string name="ss_settings_font_size_huge">"Огромен"</string>
 
-<!-- RATE APP -->
-<string name="rate_dialog_title">"Оценка на съботно училище"</string>
-<string name="rate_dialog_message">"Ако ви харесва съботно училище, нямате ли значение да отделите малко време, за да го оцените? Благодаря за подкрепата!"</string>
-<string name="rate_dialog_ok">"Го оцените"</string>
-<string name="rate_dialog_cancel">"По късно"</string>
-<string name="rate_dialog_no">"Не"</string>
-<string name="ss_settings_website">"Уебсайт"</string>
-<string name="ss_quarterlies_filter_languages_prompt_title">"Прочетете на повече езици"</string>
-<string name="ss_quarterlies_filter_languages_prompt_description">"Докоснете иконата на филтъра, за да видите всички налични езици"</string>
-<string name="ss_bible">"Библията"</string>
-<string name="ss_settings_reminder">"Ежедневно напомняне"</string>
-<string name="ss_settings_reminder_summary">"Поставете отметка, за да активирате ежедневното напомняне за изучаване на урока по съботно училище"</string>
-<string name="ss_settings_reminder_time">"Време за припомняне"</string>
-<string name="ss_settings_reminder_text">"Време е да учите съботно училище"</string>
-<string name="ss_reading_offline">"Вие сте офлайн. Свържете отново, за да прочетете този урок"</string>
-<string name="ss_reading_offline_retry">"Повторен опит"</string>
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Оценка на съботно училище"</string>
+    <string name="rate_dialog_message">"Ако ви харесва съботно училище, нямате ли значение да отделите малко време, за да го оцените? Благодаря за подкрепата!"</string>
+    <string name="rate_dialog_ok">"Го оцените"</string>
+    <string name="rate_dialog_cancel">"По късно"</string>
+    <string name="rate_dialog_no">"Не"</string>
+    <string name="ss_settings_website">"Уебсайт"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Прочетете на повече езици"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Докоснете иконата на филтъра, за да видите всички налични езици"</string>
+    <string name="ss_bible">"Библията"</string>
+    <string name="ss_settings_reminder">"Ежедневно напомняне"</string>
+    <string name="ss_settings_reminder_summary">"Поставете отметка, за да активирате ежедневното напомняне за изучаване на урока по съботно училище"</string>
+    <string name="ss_settings_reminder_time">"Време за припомняне"</string>
+    <string name="ss_settings_reminder_text">"Време е да учите съботно училище"</string>
+    <string name="ss_reading_offline">"Вие сте офлайн. Свържете отново, за да прочетете този урок"</string>
+    <string name="ss_reading_offline_retry">"Повторен опит"</string>
 </resources>

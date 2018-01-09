@@ -1,76 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
 <resources>
-<string name="ss_app_name">"Hingamispäevakooli Õppetükk"</string>
-<string name="ss_share">"Osa"</string>
-<string name="ss_login_button_google">"Logi sisse Google"</string>
-<string name="ss_login_button_facebook">"Logi sisse Facebook"</string>
-<string name="ss_login_button_anonymous">"Sisselogimine Anonymous"</string>
-<string name="ss_menu_anonymous_name">"Anonüümne"</string>
-<string name="ss_menu_sign_out">"Logi välja"</string>
-<string name="ss_menu_read_now">"loe Nüüd"</string>
-<string name="ss_menu_share_app">"Jaga App"</string>
-<string name="ss_menu_share_app_text">"Vaadake, ma kasutan seda hingamispäevakooli app"</string>
-<string name="ss_my_highlights">"Minu rõhutab"</string>
-<string name="ss_my_notes">"Minu märkmed"</string>
-<string name="ss_settings">"Seaded"</string>
-<string name="ss_about">"Umbes"</string>
-<string name="ss_login_failed">"Sisselogimine ebaõnnestus. Palun proovi uuesti"</string>
-<string name="ss_login_anonymously_dialog_positive">"Jah"</string>
-<string name="ss_login_anonymously_dialog_negative">"Ei"</string>
-<string name="ss_login_anonymously_dialog_title">"Logi sisse anonüümselt?"</string>
-<string name="ss_login_anonymously_dialog_description">"Logides sisse anonüümselt siis ei saa sünkroonida andmeid, nt kommentaarid ja tõstab esile kõikides seadmetes või pärast eemaldaks taotlus. Kas soovite kindlasti jätkata?"</string>
-<string name="ss_quarterlies_filter_languages">"Filter keeled"</string>
-<string name="ss_quarterlies_downloading">"Kuidas kvartaliõppetükke ..."</string>
-<string name="ss_quarterlies_error">"Tundmatu viga. Palun proovi uuesti"</string>
-<string name="ss_quarterlies_empty">"Tundub, et ei ole kvartaliõppetükke hetkel"</string>
-<string name="ss_quarterly_item_read_text">"Avatud"</string>
-<string name="ss_lessons_downloading">"Avamine kvartali ..."</string>
-<string name="ss_lessons_error">"Viga ilmnes avamist kvartali"</string>
-<string name="ss_lessons_empty">"Tundub, et ei ole lugu hetkel"</string>
-<string name="ss_lessons_read">"Lugenud"</string>
-<string name="ss_reading_empty">"Paistab see õppetund on tühi. Palun kontrollige hiljem uuesti"</string>
-<string name="ss_reading_error">"Viga ilmnes avamist õppetund"</string>
-<string name="ss_reading_downloading">"Allalaadimine õppetund offline"</string>
-<string name="ss_reading_suggest_edit">"Soovita muuta või korrektsioon"</string>
-<string name="ss_reading_suggest_edit_hint">"Palun kirjeldage oma korrektsioon või soovitus"</string>
-<string name="ss_reading_suggest_edit_done">"Aitäh! Teie soovitus vaadatakse"</string>
-<string name="ss_reading_comment">"Kommentaar"</string>
-<string name="ss_reading_enter_comment">"Sisesta oma kommentaar"</string>
-<string name="ss_reading_copied">"Valik on kopeeritud."</string>
-<string name="ss_reading_share_to">"Jaga valiku:"</string>
+    <string name="ss_app_name">"Hingamispäevakooli õppetükk"</string>
+    <string name="ss_share">"Jaga"</string>
+    <string name="ss_login_button_google">"Google sisselogimine"</string>
+    <string name="ss_login_button_facebook">"Facebook sisselogimine"</string>
+    <string name="ss_login_button_anonymous">"Logi sisse anonüümsena"</string>
+    <string name="ss_menu_anonymous_name">"Anonüümne"</string>
+    <string name="ss_menu_sign_out">"Logi välja"</string>
+    <string name="ss_menu_read_now">"Lugemine"</string>
+    <string name="ss_menu_share_app">"Jaga äppi"</string>
+    <string name="ss_menu_share_app_text">"Vaata ka seda hingamispäevakooli õppetüki äppi, mida kasutan"</string>
+    <string name="ss_my_highlights">"Minu rõhutused"</string>
+    <string name="ss_my_notes">"Minu märkmed"</string>
+    <string name="ss_settings">"Seaded"</string>
+    <string name="ss_about">"Meist"</string>
+    <string name="ss_login_failed">"Sisselogimine ebaõnnestus. Palun proovi uuesti."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Jah"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Ei"</string>
+    <string name="ss_login_anonymously_dialog_title">"Logi sisse anonüümselt?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Anonüümsena sisse logides ei saa sünkroonida andmeid (nt kommentaare ja esiletõstmisi) kõikides seadmetes või pärast programmi eemaldamist. Kas soovite jätkata?"</string>
+    <string name="ss_quarterlies_filter_languages">"Keeltevalik"</string>
+    <string name="ss_quarterlies_downloading">"Õppetükkide laadimine..."</string>
+    <string name="ss_quarterlies_error">"Tundmatu viga. Palun proovige uuesti."</string>
+    <string name="ss_quarterlies_empty">"Õppetükid pole hetkel saadaval"</string>
+    <string name="ss_quarterly_item_read_text">"Avatud"</string>
+    <string name="ss_lessons_downloading">"Õppetüki avamine..."</string>
+    <string name="ss_lessons_error">"Õppetüki avamisel ilmes viga"</string>
+    <string name="ss_lessons_empty">"Õppetükid pole hetkel saadaval"</string>
+    <string name="ss_lessons_read">"Loe"</string>
+    <string name="ss_reading_empty">"Töö selle materjaliga veel käib. Palun kontrollige hiljem uuesti."</string>
+    <string name="ss_reading_error">"Õppetüki avamisel ilmes viga"</string>
+    <string name="ss_reading_downloading">"Allalaadimine võrguühenduseta lugemiseks"</string>
+    <string name="ss_reading_suggest_edit">"Soovita muutust või parandust"</string>
+    <string name="ss_reading_suggest_edit_hint">"Palun kirjeldage oma parandust või soovitust"</string>
+    <string name="ss_reading_suggest_edit_done">"Aitäh! Teie soovitus vaadatakse üle."</string>
+    <string name="ss_reading_comment">"Kommentaar"</string>
+    <string name="ss_reading_enter_comment">"Sisesta oma kommentaar"</string>
+    <string name="ss_reading_copied">"Valik on kopeeritud"</string>
+    <string name="ss_reading_share_to">"Jaga valikut:"</string>
 
-<!-- TODO: remove when done -->
-<string name="ss_coming_soon_header">"Tulekul"</string>
-<string name="ss_coming_soon_subheader">"Me töötame selle funktsiooni kohe. Hoia, see peatselt"</string>
-<string name="ss_about_app_version">"Versioon 3.0"</string>
-<string name="ss_about_made">"Tehtud ❤ poolt Adventech"</string>
-<string name="ss_settings_display_options">"Kuvavalikud"</string>
-<string name="ss_settings_color_theme">"Värviteema"</string>
-<string name="ss_settings_color_theme_light">"Valgus"</string>
-<string name="ss_settings_color_theme_sepia">"Seepia"</string>
-<string name="ss_settings_color_theme_dark">"Tume"</string>
-<string name="ss_settings_typeface">"Kirjatüüp"</string>
-<string name="ss_settings_font_size">"Kirja suurus"</string>
-<string name="ss_settings_font_size_tiny">"Tilluke"</string>
-<string name="ss_settings_font_size_small">"Väike"</string>
-<string name="ss_settings_font_size_medium">"Keskmine"</string>
-<string name="ss_settings_font_size_large">"Suur"</string>
-<string name="ss_settings_font_size_huge">"Tohutu"</string>
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Tulekul"</string>
+    <string name="ss_coming_soon_subheader">"Me töötame selle funktsiooni kallal. Peatselt tulekul."</string>
+    <string name="ss_about_app_version">"Versioon 3.0"</string>
+    <string name="ss_about_made">"Tehtud ❤ Adventech'i poolt"</string>
+    <string name="ss_settings_display_options">"Kuva valikud"</string>
+    <string name="ss_settings_color_theme">"Värviteema"</string>
+    <string name="ss_settings_color_theme_light">"Hele"</string>
+    <string name="ss_settings_color_theme_sepia">"Seepia"</string>
+    <string name="ss_settings_color_theme_dark">"Tume"</string>
+    <string name="ss_settings_typeface">"Kirjatüüp"</string>
+    <string name="ss_settings_font_size">"Kirja suurus"</string>
+    <string name="ss_settings_font_size_tiny">"Tilluke"</string>
+    <string name="ss_settings_font_size_small">"Väike"</string>
+    <string name="ss_settings_font_size_medium">"Keskmine"</string>
+    <string name="ss_settings_font_size_large">"Suur"</string>
+    <string name="ss_settings_font_size_huge">"Hiiglaslik"</string>
 
-<!-- RATE APP -->
-<string name="rate_dialog_title">"Hinda hingamispäevakooli"</string>
-<string name="rate_dialog_message">"Kui soovite hingamispäevakooli, teeksite hetk Hinnake seda? Tänan toetuse eest!"</string>
-<string name="rate_dialog_ok">"Hinda seda"</string>
-<string name="rate_dialog_cancel">"Pärast"</string>
-<string name="rate_dialog_no">"Ei"</string>
-<string name="ss_settings_website">"Veebisait"</string>
-<string name="ss_quarterlies_filter_languages_prompt_title">"Loe rohkem keeli"</string>
-<string name="ss_quarterlies_filter_languages_prompt_description">"Puuduta filter ikoon, et näha kõiki saadaolevaid keeli"</string>
-<string name="ss_bible">"Piibel"</string>
-<string name="ss_settings_reminder">"Daily Meeldetuletus"</string>
-<string name="ss_settings_reminder_summary">"Kontrolli, et võimaldada igapäevase hingamispäevakooli õppetund uuringus meeldetuletus"</string>
-<string name="ss_settings_reminder_time">"Meeldetuletus aeg"</string>
-<string name="ss_settings_reminder_text">"Aeg õppida hingamispäevakooli"</string>
-<string name="ss_reading_offline">"Olete offline. Ühendage lugeda seda õppetund"</string>
-<string name="ss_reading_offline_retry">"Uuesti proovima"</string>
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Hinda hingamispäevakooli õppetükke"</string>
+    <string name="rate_dialog_message">"Palun võtke hetk, et hinnata hingamispäevakooli õppetükkide äppi. Täname teie toetuse eest!"</string>
+    <string name="rate_dialog_ok">"Hinda seda"</string>
+    <string name="rate_dialog_cancel">"Hiljem"</string>
+    <string name="rate_dialog_no">"Ei soovi"</string>
+    <string name="ss_settings_website">"Veebisait"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Veel keelevalikuid"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Puuduta ikoon, et näha kõiki saadaolevaid keeli"</string>
+    <string name="ss_bible">"Piibel"</string>
+    <string name="ss_settings_reminder">"Igapäevane meeldetuletus"</string>
+    <string name="ss_settings_reminder_summary">"Tee linnuke, et võimaldada igapäevane meeldetuletus"</string>
+    <string name="ss_settings_reminder_time">"Meeldetuletuse aeg"</string>
+    <string name="ss_settings_reminder_text">"Aeg õppida õppetükki"</string>
+    <string name="ss_reading_offline">"Olete võrgust väljas. Taasühendage et edasi lugeda."</string>
+    <string name="ss_reading_offline_retry">"Proovi uuesti"</string>
 </resources>
