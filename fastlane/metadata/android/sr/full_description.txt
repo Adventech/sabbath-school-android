@@ -1,0 +1,18 @@
+Lepa i jednostavna aplikacija za proučavanje subotnoškolske biblijske pouke Hrišćanske adventističke crkve.
+
+Mogućnosti:
+- Koristite subotnoškolske biblijske pouke gde god da se nalazite i u bilo koje vreme!
+- Slobodno preuzimanje za Android i iOS. Dizajnirano za telefone i tablete.
+- Kompletan tekst subotnoškolske pouke za odrasle i mlade.
+- Ugrađena Biblija, vi samo treba da dodirnete biblijski stih i on će se prikazati u iskačućem prozoru.
+- Markirajte (označite) reči ili rečenice.
+- Mogućnost unošenja komentara.
+- Prijavite se sa vašim Facebook ili Google nalogom da biste omogućili sinhronizaciju vaših komentara i markiranih tekstova između uređaja koje koristite.
+- Lekcije su dostupne na više jezika uključujući: bugarski, kineski, danski, francuski, nemački, indonežanski, japanski, protugalski, rumunski, ruski, španski,  turski, ukrajinski i srpski. Ovo je zaista aplikacija za internacionalnu Adventističku crkvu!
+
+U fazi razvoja:
+
+- Integracija društvenih mreža za razmenu komentara.
+- Pretraživanje ostalih bilbijskih stihova (sem onih vezanih za pouku).
+
+Adventech 2017 ®

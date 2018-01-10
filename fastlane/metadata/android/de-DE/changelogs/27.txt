@@ -1,0 +1,3 @@
+🖍 Hinzufügen der Fähigkeit zu unterstreichen
+📝 Wenn Sie auf die Markierung oder Unterstreichung tippen, können Sie sie bearbeiten
+🇷🇸 Serbische Lokalisierung hinzufügen

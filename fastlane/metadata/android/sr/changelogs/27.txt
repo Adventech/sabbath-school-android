@@ -1,0 +1,3 @@
+🖍 Dodavanje sposobnosti da se naglasi
+📝 Dodirivanje naglasom ili podcrtavanje omogućiće ga uređivanje
+🇷🇸 Dodavanje srpske lokalizacije

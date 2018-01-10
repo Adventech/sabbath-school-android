@@ -1,0 +1,3 @@
+🖍 Pridanie schopnosti zdôrazniť
+📝 Klepnutím na zvýraznenie alebo zvýraznenie môžete upraviť
+🇷🇸 Pridávanie srbskej lokalizácie

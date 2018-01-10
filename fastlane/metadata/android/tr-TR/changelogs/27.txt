@@ -1,0 +1,3 @@
+🖍 Altını çizme yeteneği ekleme
+📝 Vurguya veya altı çizgiye dokunmak düzenlenmesine izin verir
+🇷🇸 Sırp yerelleştirme ekleme
