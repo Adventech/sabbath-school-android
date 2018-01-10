@@ -1,0 +1,3 @@
+🖍 Menambah kemampuan untuk menggarisbawahi
+📝 Mengetuk sorotan atau garis bawah akan memungkinkan untuk mengeditnya
+🇷🇸 Menambahkan lokalisasi Serbia

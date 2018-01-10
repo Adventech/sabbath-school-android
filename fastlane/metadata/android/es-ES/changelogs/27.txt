@@ -1,0 +1,3 @@
+🖍 Agregar habilidad para subrayar
+📝 Tocando resaltar o subrayar permitirá editarlo
+🇷🇸 Agregar localización en serbio

@@ -35,28 +35,24 @@
     <string name="ss_my_highlights">"ההבהרה שלי"</string>
     <string name="ss_my_notes">"ההערות שלי"</string>
     <string name="ss_settings">"הגדרות"</string>
-    <string name="ss_about">"על אודות"</string>
-    <string name="ss_login_failed">"כניסה נכשלה. בבקשה נסה שוב"</string>
+    <string name="ss_about">"אודות"</string>
+    <string name="ss_login_failed">"כניסה נכשלה. אנא נסה שנית"</string>
     <string name="ss_login_anonymously_dialog_positive">"כן"</string>
     <string name="ss_login_anonymously_dialog_negative">"לא"</string>
-    <string name="ss_login_anonymously_dialog_title">"התחברות באופן אנונימי?"</string>
+    <string name="ss_login_anonymously_dialog_title">"להתחבר באופן אנונימי?"</string>
     <string name="ss_login_anonymously_dialog_description">"באמצעות כניסה אנונימי אתה לא תוכל לסנכרן את הנתונים שלך, כגון הערות ונקודות מרכזיות, במכשירים שונים או לאחר הסרת יישום. האם אתה בטוח שברצונך להמשיך?"</string>
-    <string name="ss_quarterlies_filter_languages_prompt_title">"קרא ב- ביותר שפות"</string>
-    <string name="ss_quarterlies_filter_languages_prompt_description">"הקש על הסמל מסנן כדי לראות את כל השפות הזמינות"</string>
     <string name="ss_quarterlies_filter_languages">"שפות מסנן"</string>
     <string name="ss_quarterlies_downloading">"איך רבעונים ..."</string>
-    <string name="ss_quarterlies_error">"אירעה שגיאה לא מוכרת. בבקשה נסה שוב"</string>
+    <string name="ss_quarterlies_error">"אירעה שגיאה לא מוכרת. אנא נסה שנית"</string>
     <string name="ss_quarterlies_empty">"זה נראה כאילו יש לא ברבעונים כרגע"</string>
-    <string name="ss_quarterly_item_read_text">"לִפְתוֹחַ"</string>
+    <string name="ss_quarterly_item_read_text">"פתח"</string>
     <string name="ss_lessons_downloading">"ותחילת הרבעונים ..."</string>
     <string name="ss_lessons_error">"אירעה שגיאה בעת פתיחת רבעוני"</string>
     <string name="ss_lessons_empty">"זה נראה כאילו אין שיעורים כרגע"</string>
     <string name="ss_lessons_read">"לקרוא"</string>
-    <string name="ss_reading_empty">"נראה כאילו הלקח הזה ריק. אנא בדוק שוב מאוחר יותר"</string>
-    <string name="ss_reading_offline">"אתה במצב לא מקוון. התחבר שוב כדי לקרוא את השיעור הזה"</string>
-    <string name="ss_reading_offline_retry">"נסה שוב"</string>
-    <string name="ss_reading_downloading">"הורדת שיעור לא מקוון"</string>
+    <string name="ss_reading_empty">"נראה כאילו השיעור הזה ריק. אנא בדוק שוב מאוחר יותר"</string>
     <string name="ss_reading_error">"אירעה שגיאה בעת פתיחת השיעור"</string>
+    <string name="ss_reading_downloading">"הורדת שיעור לא מקוון"</string>
     <string name="ss_reading_suggest_edit">"הצע עריכה או תיקון"</string>
     <string name="ss_reading_suggest_edit_hint">"אנא תאר תיקון או הצעתך"</string>
     <string name="ss_reading_suggest_edit_done">"תודה רבה לך! ההצעה שלך תיבדק"</string>
@@ -64,17 +60,16 @@
     <string name="ss_reading_enter_comment">"הזן את ההערה שלך"</string>
     <string name="ss_reading_copied">"הבחירה הועתקה."</string>
     <string name="ss_reading_share_to">"שתף בחירה:"</string>
-    <string name="ss_bible">"כִּתבֵי הַקוֹדֶשׁ"</string>
 
     <!-- TODO: remove when done -->
     <string name="ss_coming_soon_header">"בקרוב"</string>
     <string name="ss_coming_soon_subheader">"אנחנו עובדים על תכונה זו מיד. השארו, היא תהיה זמינה בקרוב"</string>
     <string name="ss_about_app_version">"גרסה 3.0"</string>
-    <string name="ss_about_made">"עשה עם ❤ ידי Adventech"</string>
+    <string name="ss_about_made">"נעשה ב ❤ על ידי Adventech"</string>
     <string name="ss_settings_display_options">"אפשרויות תצוגה"</string>
     <string name="ss_settings_color_theme">"נושא צבע"</string>
     <string name="ss_settings_color_theme_light">"אוֹר"</string>
-    <string name="ss_settings_color_theme_sepia">"חוּם כֵּהֶה"</string>
+    <string name="ss_settings_color_theme_sepia">"חוּם כֵּהֶה"</string>
     <string name="ss_settings_color_theme_dark">"אפל"</string>
     <string name="ss_settings_typeface">"גופן"</string>
     <string name="ss_settings_font_size">"גודל גופן"</string>
@@ -84,16 +79,20 @@
     <string name="ss_settings_font_size_large">"גָדוֹל"</string>
     <string name="ss_settings_font_size_huge">"עָצוּם"</string>
 
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"דרג ספר שבת"</string>
+    <string name="rate_dialog_message">"אם אתה אוהב את בית הספר שבת, איכפת לך לקחת רגע כדי לדרג אותה? תודה על התמיכה שלך!"</string>
+    <string name="rate_dialog_ok">"דרג אותה"</string>
+    <string name="rate_dialog_cancel">"מאוחר יותר"</string>
+    <string name="rate_dialog_no">"לא"</string>
+    <string name="ss_settings_website">"אתר אינטרנט"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"קרא ביותר שפות"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"הקש על הסמל מסנן כדי לראות את כל השפות הזמינות"</string>
+    <string name="ss_bible">"כִּתבֵי הַקוֹדֶשׁ"</string>
     <string name="ss_settings_reminder">"תזכורת יומית"</string>
     <string name="ss_settings_reminder_summary">"סמן כדי לאפשר תזכורת לימוד יומי שיעור שבת הספר"</string>
     <string name="ss_settings_reminder_time">"זמן תזכורת"</string>
     <string name="ss_settings_reminder_text">"זמן ללמוד שבת הספר"</string>
-
-    <!-- RATE APP -->
-    <string name="rate_dialog_title">"ספר שבת שיעור"</string>
-    <string name="rate_dialog_message">"אם אתה אוהב את בית הספר שבת, איכפת לך לקחת רגע כדי לדרג את זה? תודה על התמיכה שלך!"</string>
-    <string name="rate_dialog_ok">"לדרג אותו"</string>
-    <string name="rate_dialog_cancel">"יותר מאוחר"</string>
-    <string name="rate_dialog_no">"לא"</string>
-    <string name="ss_settings_website">"אתר אינטרנט"</string>
+    <string name="ss_reading_offline">"אתה במצב לא מקוון. התחבר שוב כדי לקרוא את השיעור הזה"</string>
+    <string name="ss_reading_offline_retry">"נסה שנית"</string>
 </resources>

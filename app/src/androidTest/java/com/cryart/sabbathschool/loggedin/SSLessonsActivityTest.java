@@ -64,14 +64,14 @@ public class SSLessonsActivityTest {
         }
     }
 
-    @TargetApi(23)
+    @TargetApi(27)
     @Test
     public void takeScreenshot() {
         Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
         Intent grouchyIntent = new Intent();
         // intent stuff
 
-        grouchyIntent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, Locale.getDefault().getLanguage()+"-2017-03");
+        grouchyIntent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, Locale.getDefault().getLanguage()+"-2018-01");
         activityRule.launchActivity(grouchyIntent);
 
         SystemClock.sleep(2000);

@@ -1,0 +1,3 @@
+🖍 Tilføjelse af evne til at understrege
+📝 Ved at trykke på fremhæv eller understregning kan du redigere det
+🇷🇸 Tilføjelse af serbisk lokalisering
