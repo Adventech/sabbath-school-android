@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">安息日學校</string>
+
+    <string name="ss_share">共享</string>
+
+    <string name="ss_login_button_google">用Google登入</string>
+    <string name="ss_login_button_facebook">用Facebook登入</string>
+    <string name="ss_login_button_anonymous">匿名登錄</string>
+
+    <string name="ss_menu_anonymous_name">匿名</string>
+    <string name="ss_menu_sign_out">登出</string>
+    <string name="ss_menu_read_now">现在读</string>
+    <string name="ss_menu_share_app">現在讀</string>
+    <string name="ss_menu_share_app_text">檢查一下，我正在使用這個安息日學校的應用程序</string>
+
+    <string name="ss_my_highlights">強調</string>
+    <string name="ss_my_notes">筆記</string>
+    <string name="ss_settings">設置</string>
+    <string name="ss_about">關於</string>
+
+    <string name="ss_login_failed">"登錄失敗，請再次嘗試。"</string>
+    <string name="ss_login_anonymously_dialog_positive">是</string>
+    <string name="ss_login_anonymously_dialog_negative">沒有</string>
+    <string name="ss_login_anonymously_dialog_title">匿名登錄？</string>
+    <string name="ss_login_anonymously_dialog_description">如果您以匿名方式登錄，則無法在設備之間或卸載應用程序之後同步數據（如註釋和突出顯示）。你確定你要繼續嗎？</string>
+
+    <string name="ss_quarterlies_filter_languages_prompt_title">用其他語言閱讀</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">點擊濾圖標查看所有可用的語言</string>
+
+    <string name="ss_quarterlies_filter_languages">過濾語言</string>
+    <string name="ss_quarterlies_downloading">得到季刊</string>
+    <string name="ss_quarterlies_error">出現未知錯誤。請再試一次</string>
+    <string name="ss_quarterlies_empty">現在似乎沒有四分之一</string>
+    <string name="ss_quarterly_item_read_text">打開</string>
+
+    <string name="ss_lessons_downloading">打開季刊</string>
+    <string name="ss_lessons_error">打開季刊時發生錯誤</string>
+    <string name="ss_lessons_empty">看來現在沒有任何課程</string>
+    <string name="ss_lessons_read">閱讀</string>
+
+    <string name="ss_reading_empty">看來這課是空的。請稍後再回來</string>
+    <string name="ss_reading_offline">你離線了請重新連接以閱讀本課程。</string>
+    <string name="ss_reading_offline_retry">重試</string>
+    <string name="ss_reading_downloading">下載課程</string>
+    <string name="ss_reading_error">打開課程時發生錯誤</string>
+
+    <string name="ss_reading_suggest_edit">建議修改或更正</string>
+    <string name="ss_reading_suggest_edit_hint">請描述您的更正或建議</string>
+    <string name="ss_reading_suggest_edit_done">謝謝！我們會審查您的建議。</string>
+    <string name="ss_reading_comment">評論</string>
+    <string name="ss_reading_enter_comment">輸入評論</string>
+    <string name="ss_reading_copied">選擇複製。</string>
+    <string name="ss_reading_share_to">共享選擇：</string>
+
+    <string name="ss_bible">圣经</string>
+
+<!--TODO: remove when done-->
+    <string name="ss_coming_soon_header">快來了</string>
+    <string name="ss_coming_soon_subheader">我們正在研究這個功能。請繼續關注，即將到來。</string>
+
+    <string name="ss_about_app_version">版本3.0</string>
+    <string name="ss_about_made">用Adventech的❤做出來</string>
+
+    <string name="ss_settings_display_options">顯示選項</string>
+    <string name="ss_settings_color_theme">顏色主題</string>
+    <string name="ss_settings_color_theme_light">光</string>
+    <string name="ss_settings_color_theme_sepia">烏賊</string>
+    <string name="ss_settings_color_theme_dark">黑暗</string>
+
+    <string name="ss_settings_typeface">字體</string>
+    <string name="ss_settings_font_size">字體大小</string>
+    <string name="ss_settings_font_size_tiny">很小</string>
+    <string name="ss_settings_font_size_small">小</string>
+    <string name="ss_settings_font_size_medium">中</string>
+    <string name="ss_settings_font_size_large">大</string>
+    <string name="ss_settings_font_size_huge">巨大</string>
+
+    <string name="ss_settings_reminder">每日提醒</string>
+    <string name="ss_settings_reminder_summary">啟用每日安息日學校課程提醒</string>
+    <string name="ss_settings_reminder_time">提醒時間</string>
+    <string name="ss_settings_reminder_text">現在是學習安息日學校的時候了</string>
+
+<!-- RATE APP -->
+
+    <string name="rate_dialog_title">為這個應用軟件評分</string>
+    <string name="rate_dialog_message">如果你喜歡這個程序，你會介意評級嗎？感謝您的支持！</string>
+    <string name="rate_dialog_ok">評分</string>
+    <string name="rate_dialog_no">不</string>
+    <string name="rate_dialog_cancel">後來</string>
+    <string name="ss_settings_website">網站</string>
+</resources>
