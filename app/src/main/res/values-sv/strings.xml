@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Adventech.
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">"Sabbatsskola"</string>
+    <string name="ss_share">"Dela med sig"</string>
+    <string name="ss_login_button_google">"Logga in med Google"</string>
+    <string name="ss_login_button_facebook">"Logga in med Facebook"</string>
+    <string name="ss_login_button_anonymous">"Logga in som anonym"</string>
+    <string name="ss_menu_anonymous_name">"Anonym"</string>
+    <string name="ss_menu_sign_out">"Logga ut"</string>
+    <string name="ss_menu_read_now">"Läs nu"</string>
+    <string name="ss_menu_share_app">"Dela app"</string>
+    <string name="ss_menu_share_app_text">"Kolla, jag använder den här Sabbatsskolan"</string>
+    <string name="ss_my_highlights">"Mina höjdpunkter"</string>
+    <string name="ss_my_notes">"Mina anteckningar"</string>
+    <string name="ss_settings">"inställningar"</string>
+    <string name="ss_about">"Handla om"</string>
+    <string name="ss_login_failed">"Inloggningen misslyckades. Var god försök igen."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Ja"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Nej"</string>
+    <string name="ss_login_anonymously_dialog_title">"Logga in anonymt?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Om du loggar in anonymt kan du inte synkronisera dina data (t.ex. kommentarer och höjdpunkter) över enheter eller efter avinstallation av appen. Är du säker på att du vill fortsätta?"</string>
+    <string name="ss_quarterlies_filter_languages">"Språk"</string>
+    <string name="ss_quarterlies_downloading">"Att få kvartalsvis ..."</string>
+    <string name="ss_quarterlies_error">"Okänt fel har inträffat. Var god försök igen."</string>
+    <string name="ss_quarterlies_empty">"Det finns inga kvartalslistor tillgängliga just nu"</string>
+    <string name="ss_quarterly_item_read_text">"Öppen"</string>
+    <string name="ss_lessons_downloading">"Öppnar kvartalsvis ..."</string>
+    <string name="ss_lessons_error">"Ett fel uppstod när du öppnade kvartalsvis"</string>
+    <string name="ss_lessons_empty">"Det finns inga kvartalslistor tillgängliga just nu"</string>
+    <string name="ss_lessons_read">"Läsa"</string>
+    <string name="ss_reading_empty">"Vi arbetar med den här lektionen. Vänligen kolla igen snart."</string>
+    <string name="ss_reading_error">"Ett fel uppstod när du öppnade lektionen"</string>
+    <string name="ss_reading_downloading">"Hämtar lektion för offline läsning"</string>
+    <string name="ss_reading_suggest_edit">"Föreslå redigering eller korrigering"</string>
+    <string name="ss_reading_suggest_edit_hint">"Beskriv din korrigering eller förslag"</string>
+    <string name="ss_reading_suggest_edit_done">"Tack! Ditt förslag kommer att ses över."</string>
+    <string name="ss_reading_comment">"Kommentar"</string>
+    <string name="ss_reading_enter_comment">"Skriv in din kommentar"</string>
+    <string name="ss_reading_copied">"Urval kopierat"</string>
+    <string name="ss_reading_share_to">"Dela urval till:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Kommer snart"</string>
+    <string name="ss_coming_soon_subheader">"Vi arbetar för närvarande med den här funktionen. Håll dig igång, det kommer snart."</string>
+    <string name="ss_about_app_version">"version 3.0"</string>
+    <string name="ss_about_made">"Gjord med ❤ av Adventech"</string>
+    <string name="ss_settings_display_options">"Skärmalternativ"</string>
+    <string name="ss_settings_color_theme">"Färgtema"</string>
+    <string name="ss_settings_color_theme_light">"Ljus"</string>
+    <string name="ss_settings_color_theme_sepia">"sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Mörk"</string>
+    <string name="ss_settings_typeface">"Font"</string>
+    <string name="ss_settings_font_size">"Textstorlek"</string>
+    <string name="ss_settings_font_size_tiny">"Mycket liten"</string>
+    <string name="ss_settings_font_size_small">"Små"</string>
+    <string name="ss_settings_font_size_medium">"Medium"</string>
+    <string name="ss_settings_font_size_large">"Stor"</string>
+    <string name="ss_settings_font_size_huge">"Enorm"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Betygsätt sabbatsskolan"</string>
+    <string name="rate_dialog_message">"Var snäll och värdera appen. Tack för ditt stöd!"</string>
+    <string name="rate_dialog_ok">"Betygsätt det"</string>
+    <string name="rate_dialog_cancel">"Senare"</string>
+    <string name="rate_dialog_no">"Nej"</string>
+    <string name="ss_settings_website">"Hemsida"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Flera språk"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Tryck på filterikonen för att se tillgängliga språk"</string>
+    <string name="ss_bible">"bibel"</string>
+    <string name="ss_settings_reminder">"Daglig påminnelse"</string>
+    <string name="ss_settings_reminder_summary">"Kontrollera om du vill aktivera den dagliga studiepåminnelsen"</string>
+    <string name="ss_settings_reminder_time">"Påminnelsetid"</string>
+    <string name="ss_settings_reminder_text">"Dags att studera Sabbatsskolan"</string>
+    <string name="ss_reading_offline">"Du är offline. Återanslut för att läsa den här lektionen."</string>
+    <string name="ss_reading_offline_retry">"Försök igen"</string>
+</resources>
