@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Adventech.
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">"โรงเรียนวันสะบาโต"</string>
+    <string name="ss_share">"หุ้น"</string>
+    <string name="ss_login_button_google">"ลงชื่อเข้าใช้ด้วย Google"</string>
+    <string name="ss_login_button_facebook">"ลงชื่อเข้าใช้ด้วย Facebook"</string>
+    <string name="ss_login_button_anonymous">"เข้าสู่ระบบด้วยชื่อผู้ไม่ประสงค์ออกนาม"</string>
+    <string name="ss_menu_anonymous_name">"ไม่ระบุชื่อ"</string>
+    <string name="ss_menu_sign_out">"ออกจากระบบ"</string>
+    <string name="ss_menu_read_now">"อ่านเลย"</string>
+    <string name="ss_menu_share_app">"แชร์แอป"</string>
+    <string name="ss_menu_share_app_text">"ตรวจสอบว่าฉันใช้แอป โรงเรียนวันสะบาโต นี้"</string>
+    <string name="ss_my_highlights">"จุดเด่นของฉัน"</string>
+    <string name="ss_my_notes">"บันทึกของฉัน"</string>
+    <string name="ss_settings">"การตั้งค่า"</string>
+    <string name="ss_about">"เกี่ยวกับ"</string>
+    <string name="ss_login_failed">"เข้าสู่ระบบล้มเหลว กรุณาลองอีกครั้ง."</string>
+    <string name="ss_login_anonymously_dialog_positive">"ใช่"</string>
+    <string name="ss_login_anonymously_dialog_negative">"ไม่"</string>
+    <string name="ss_login_anonymously_dialog_title">"ลงชื่อเข้าใช้โดยไม่ระบุชื่อหรือไม่"</string>
+    <string name="ss_login_anonymously_dialog_description">"หากคุณลงชื่อเข้าใช้โดยไม่ระบุตัวตนคุณจะไม่สามารถซิงโครไนซ์ข้อมูล (เช่นความคิดเห็นและไฮไลต์) ในอุปกรณ์ต่างๆหรือหลังจากถอนการติดตั้งแอพ คุณแน่ใจหรือไม่ว่าต้องการดำเนินการต่อ"</string>
+    <string name="ss_quarterlies_filter_languages">"ภาษา"</string>
+    <string name="ss_quarterlies_downloading">"กำลังได้รับบทเรียน ..."</string>
+    <string name="ss_quarterlies_error">"เกิดข้อผิดพลาดที่ไม่รู้จัก กรุณาลองอีกครั้ง."</string>
+    <string name="ss_quarterlies_empty">"ไม่มีไตรมาสที่พร้อมใช้งานในขณะนี้"</string>
+    <string name="ss_quarterly_item_read_text">"เปิด"</string>
+    <string name="ss_lessons_downloading">"เปิดไตรมาส ..."</string>
+    <string name="ss_lessons_error">"เกิดข้อผิดพลาดขณะเปิดรายไตรมาส"</string>
+    <string name="ss_lessons_empty">"ไม่มีไตรมาสที่พร้อมใช้งานในขณะนี้"</string>
+    <string name="ss_lessons_read">"อ่าน"</string>
+    <string name="ss_reading_empty">"เรากำลังดำเนินการในบทเรียนนี้ โปรดตรวจสอบอีกครั้งเร็ว ๆ นี้"</string>
+    <string name="ss_reading_error">"เกิดข้อผิดพลาดขณะเปิดบทเรียน"</string>
+    <string name="ss_reading_downloading">"กำลังดาวน์โหลดบทเรียนสำหรับการอ่านแบบออฟไลน์"</string>
+    <string name="ss_reading_suggest_edit">"แนะนำแก้ไขหรือแก้ไข"</string>
+    <string name="ss_reading_suggest_edit_hint">"โปรดอธิบายการแก้ไขหรือคำแนะนำของคุณ"</string>
+    <string name="ss_reading_suggest_edit_done">"ขอขอบคุณ! คำแนะนำของคุณจะได้รับการตรวจสอบ"</string>
+    <string name="ss_reading_comment">"คิดเห็น"</string>
+    <string name="ss_reading_enter_comment">"ป้อนความคิดเห็นของคุณ"</string>
+    <string name="ss_reading_copied">"คัดลอกแล้ว"</string>
+    <string name="ss_reading_share_to">"แบ่งปันให้กับ:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"เร็ว ๆ นี้"</string>
+    <string name="ss_coming_soon_subheader">"ขณะนี้เรากำลังดำเนินการเกี่ยวกับคุณลักษณะนี้ คอยติดตามกันเร็ว ๆ นี้"</string>
+    <string name="ss_about_app_version">"เวอร์ชัน 3.0"</string>
+    <string name="ss_about_made">"ทำด้วย❤โดย Adventech"</string>
+    <string name="ss_settings_display_options">"ตัวเลือกการแสดงผล"</string>
+    <string name="ss_settings_color_theme">"ธีมสี"</string>
+    <string name="ss_settings_color_theme_light">"เบา"</string>
+    <string name="ss_settings_color_theme_sepia">"สีซีเปีย"</string>
+    <string name="ss_settings_color_theme_dark">"มืด"</string>
+    <string name="ss_settings_typeface">"ตัวอักษร"</string>
+    <string name="ss_settings_font_size">"ขนาดตัวอักษร"</string>
+    <string name="ss_settings_font_size_tiny">"ขนาดเล็ก"</string>
+    <string name="ss_settings_font_size_small">"เล็ก"</string>
+    <string name="ss_settings_font_size_medium">"กลาง"</string>
+    <string name="ss_settings_font_size_large">"ใหญ่"</string>
+    <string name="ss_settings_font_size_huge">"ใหญ่"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"ให้คะแนนแอพ"</string>
+    <string name="rate_dialog_message">"โปรดสละเวลาสักครู่เพื่อให้คะแนนแอป ขอบคุณสำหรับการสนับสนุน!"</string>
+    <string name="rate_dialog_ok">"ให้คะแนนมัน"</string>
+    <string name="rate_dialog_cancel">"ต่อมา"</string>
+    <string name="rate_dialog_no">"ไม่"</string>
+    <string name="ss_settings_website">"เว็บไซต์"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"ภาษาอื่น ๆ"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"แตะไอคอนตัวกรองเพื่อดูภาษาที่ใช้ได้"</string>
+    <string name="ss_bible">"คัมภีร์ไบเบิล"</string>
+    <string name="ss_settings_reminder">"คำเตือนรายวัน"</string>
+    <string name="ss_settings_reminder_summary">"เลือกเพื่อเปิดใช้การแจ้งเตือนการศึกษารายวัน"</string>
+    <string name="ss_settings_reminder_time">"เวลาเตือนความจำ"</string>
+    <string name="ss_settings_reminder_text">"เวลาในการศึกษาบทเรียนของโรงเรียนวันสะบาโต"</string>
+    <string name="ss_reading_offline">"คุณออฟไลน์ เชื่อมต่อใหม่เพื่ออ่านบทเรียนนี้"</string>
+    <string name="ss_reading_offline_retry">"ลองใหม่อีกครั้ง"</string>
+</resources>
