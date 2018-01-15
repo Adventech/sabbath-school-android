@@ -1,0 +1,11 @@
+Egy gyönyörű, könnyen használható alkalmazás a hetednapi adventista szombatnapi lecke tanulmányozásához.
+
+Jellemzők:
+ - A Szombatiskola leckét bármikor, bármikor elérheti!
+ - Beépített Bibles, tehát csak meg kell érintenie a Biblia versre hivatkozást, és a biblia szöveg felbukkan.
+ - Jelöljön ki kulcsszavakat vagy mondatokat.
+ - Dobozok megjegyzések és kérdések megválaszolásához.
+ - Jelentkezzen be a Facebook-tal vagy a Google-lal a megjegyzések és kiemelések kiemelésére és mentésére az eszközök között.
+ - Csúsztassa balra és jobbra a leckék közötti navigációt.
+
+Adventech 2018 ®

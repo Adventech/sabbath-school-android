@@ -1,0 +1,9 @@
+Pridali sme nové jazyky!
+
+- kórejská lokalizácia 🇰🇷
+- maďarská lokalizácia 🇭🇺
+- Holandská lokalizácia 🇳🇱
+- Talianska lokalizácia 🇮🇹
+- Poľská lokalizácia 🇵🇱
+- Švédska lokalizácia 🇸🇪
+- thajská lokalizácia 🇹🇭

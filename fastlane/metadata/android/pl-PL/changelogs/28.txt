@@ -1,0 +1,9 @@
+Dodaliśmy nowe języki!
+
+- Koreańska lokalizacja 🇰🇷
+- Węgierska lokalizacja 🇭🇺
+- Holenderska lokalizacja 🇳🇱
+- Włoska lokalizacja 🇮🇹
+- Polska lokalizacja 🇵🇱
+- Szwedzka lokalizacja 🇸🇪
+- Tajska lokalizacja 🇹🇭

@@ -1,0 +1,9 @@
+Abbiamo aggiunto nuove lingue!
+
+- Localizzazione coreana 🇰🇷
+- Localizzazione ungherese 🇭🇺
+- Localizzazione olandese 🇳🇱
+- localizzazione italiana 🇮🇹
+- Localizzazione polacca 🇵🇱
+- Localizzazione svedese 🇸🇪
+- Localizzazione tailandese 🇹🇭

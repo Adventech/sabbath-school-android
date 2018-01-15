@@ -1,0 +1,11 @@
+Een mooie, gemakkelijk te gebruiken app voor het bestuderen van de Sabbatschool van de Zevende-dags Adventisten.
+
+Kenmerken omvatten:
+ - Toegang tot de Sabbatschool overal en altijd!
+ - Ingebouwde bijbels, dus u hoeft alleen maar op de bijbelverwijzing te tikken en de bijbeltekst verschijnt.
+ - Markeer sleutelwoorden of -zinnen.
+ - Vakken om opmerkingen en antwoorden op vragen te schrijven.
+ - Log in met Facebook of Google om opmerkingen en markeringen op verschillende apparaten op te slaan en te synchroniseren.
+ - Veeg naar links en rechts om tussen lessen te navigeren.
+
+Adventech 2018 ®
