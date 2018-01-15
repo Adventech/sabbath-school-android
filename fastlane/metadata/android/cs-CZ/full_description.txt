@@ -1,0 +1,11 @@
+Krásná, snadno použitelná aplikace pro studium lekce sedmého dne adventistní Sobotní škola.
+
+Mezi funkce patří:
+ - Vstupte do hodiny Sobotní škola kdekoliv a kdykoliv!
+ - Vestavěné Bible, takže stačí klepnout na biblický odkaz a text Bible se objeví.
+ - Zvýrazněte klíčová slova nebo věty.
+ - Krabice pro psaní komentářů a odpovědí na otázky.
+ - Přihlaste se pomocí služby Facebook nebo Google, chcete-li ukládat a synchronizovat komentáře a upozornění na všech zařízeních.
+ - Chcete-li navigovat mezi lekcemi, posuňte prstem vlevo a vpravo.
+
+Adventech 2018®
