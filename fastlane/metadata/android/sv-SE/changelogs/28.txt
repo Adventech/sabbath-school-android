@@ -1,0 +1,9 @@
+Vi har lagt till nya språk!
+
+- Koreansk lokalisering 🇰🇷
+- Ungerska lokalisering 🇭🇺
+- nederländsk lokalisering 🇳🇱
+- Italienska lokalisering 🇮🇹
+- Polsk lokalisering 🇵🇱
+- svensk lokalisering 🇸🇪
+- Thai lokalisering 🇹🇭

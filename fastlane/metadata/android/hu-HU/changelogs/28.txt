@@ -1,0 +1,9 @@
+Új nyelveket adtunk hozzá!
+
+- koreai lokalizáció 🇰🇷
+- magyar nyelvű lokalizáció 🇭🇺
+- holland lokalizáció 🇳🇱
+- olasz lokalizáció 🇮🇹
+- lengyel lokalizáció 🇵🇱
+- svéd lokalizáció 🇸🇪
+- Thai lokalizáció 🇹🇭

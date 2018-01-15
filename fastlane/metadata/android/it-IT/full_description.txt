@@ -1,0 +1,11 @@
+Un'app bella e facile da usare per studiare la lezione del Scuola del Sabato Avventista del settimo giorno.
+
+Le caratteristiche includono:
+ - Accedi alla Scuola del Sabato ovunque, in qualsiasi momento!
+ - Bibbie incorporate, quindi devi solo toccare il riferimento versetto della Bibbia e il testo della Bibbia si apre.
+ - Evidenzia parole chiave o frasi.
+ - Scatole per scrivere commenti e risposte alle domande.
+ - Accedi con Facebook o Google per salvare e sincronizzare commenti ed evidenziazioni su tutti i dispositivi.
+ - Scorri verso sinistra e verso destra per navigare tra le lezioni.
+
+Adventech 2018 ®

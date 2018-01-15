@@ -1,0 +1,9 @@
+Kami telah menambahkan bahasa baru!
+
+- Lokalisasi Korea 🇰🇷
+- Localization Hungaria 🇭🇺
+- lokalisasi Belanda 🇳🇱
+- lokalisasi Italia 🇮🇹
+- Lokalisasi Polandia 🇵🇱
+- Lokalisasi Swedia 🇸🇪
+- Lokalisasi Thailand 🇹🇭

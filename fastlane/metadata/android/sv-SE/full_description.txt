@@ -1,0 +1,11 @@
+En vacker, lättanvänd app för att studera den sjunde dagen adventistiska Sabbatsskollektionen.
+
+Funktionerna inkluderar:
+ - Få åtkomst till Sabbatsskolan, var som helst, helst!
+ - Inbyggda biblar, så du behöver bara knacka på bibelversversionen och bibeltexten dyker upp.
+ - Markera nyckelord eller meningar.
+ - Lådor att skriva kommentarer och svar på frågor.
+ - Logga in med Facebook eller Google för att spara och synkronisera kommentarer och höjdpunkter över enheter.
+ - Dra åt vänster och höger för att navigera mellan lektionerna.
+
+Adventech 2018 ®

@@ -1,0 +1,9 @@
+Oleme lisanud uusi keeli!
+
+- Korea lokaliseerimine 🇰🇷
+- Ungari lokaliseerimine 🇭🇺
+- hollandi lokaliseerimine 🇳🇱
+- Itaalia lokaliseerimine 🇮🇹
+- Poola lokaliseerimine 🇵🇱
+- Rootsi lokaliseerimine 🇸🇪
+- Tai lokaliseerimine 🇹🇭

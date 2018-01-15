@@ -1,0 +1,9 @@
+Yeni diller ekledik!
+
+- Korece Yerelleştirme 🇰🇷
+- Macarca Yerelleştirme 🇭🇺
+- Hollandaca yerelleştirme 🇳🇱
+- İtalyanca yerelleştirme 🇮🇹
+- Lehçe yerelleştirme 🇵🇱
+- İsveççe yerelleştirme 🇸🇪
+- Tay dili yerelleştirme 🇹🇭

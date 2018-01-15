@@ -1,0 +1,9 @@
+We hebben nieuwe talen toegevoegd!
+
+- Koreaanse lokalisatie 🇰🇷
+- Hongaarse lokalisatie 🇭🇺
+- Nederlandse lokalisatie 🇳🇱
+- Italiaanse lokalisatie 🇮🇹
+- Poolse lokalisatie 🇵🇱
+- Zweedse lokalisatie 🇸🇪
+- Thaise lokalisatie 🇹🇭

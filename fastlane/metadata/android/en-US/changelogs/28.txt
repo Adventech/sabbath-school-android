@@ -1,0 +1,9 @@
+We have added new languages!
+
+- Korean Localization 🇰🇷
+- Hungarian Localization 🇭🇺
+- Dutch localization 🇳🇱
+- Italian localization 🇮🇹
+- Polish localization 🇵🇱
+- Swedish localization 🇸🇪
+- Thai localization 🇹🇭
