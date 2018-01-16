@@ -83,12 +83,6 @@ android {
         beta {
             storeFile file("src/beta/ss-beta.keystore")
         }
-        release {
-            storeFile file("/Users/vitaliy/Google Drive/Current/Adventech/Sabbath School/v3/Android/v2_key.jks")
-            storePassword "trustno1"
-            keyAlias "androidkeystore"
-            keyPassword "trustno123"
-        }
     }
 
     buildTypes {
@@ -102,7 +96,6 @@ android {
 
         release {
             minifyEnabled false
-            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
