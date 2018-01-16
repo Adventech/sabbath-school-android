@@ -7,3 +7,4 @@ Oleme lisanud uusi keeli!
 - Poola lokaliseerimine 🇵🇱
 - Rootsi lokaliseerimine 🇸🇪
 - Tai lokaliseerimine 🇹🇭
+- Tšehhi lokaliseerimine 🇨🇿

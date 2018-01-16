@@ -7,3 +7,4 @@
 - Localización polaca 🇵🇱
 - Localización sueca 🇸🇪
 - Localización tailandesa 🇹🇭
+- Localización checa 🇨🇿

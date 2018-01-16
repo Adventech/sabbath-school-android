@@ -7,3 +7,4 @@ Dodali smo nove jezike!
 - poljska lokalizacija 🇵🇱
 - švedska lokalizacija 🇸🇪
 - tajlandska lokalizacija 🇹🇭
+- češka lokalizacija 🇨🇿

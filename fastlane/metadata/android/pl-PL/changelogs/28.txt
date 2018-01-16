@@ -7,3 +7,4 @@ Dodaliśmy nowe języki!
 - Polska lokalizacja 🇵🇱
 - Szwedzka lokalizacja 🇸🇪
 - Tajska lokalizacja 🇹🇭
+- Czeska lokalizacja 🇨🇿

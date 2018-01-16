@@ -7,3 +7,4 @@ Abbiamo aggiunto nuove lingue!
 - Localizzazione polacca 🇵🇱
 - Localizzazione svedese 🇸🇪
 - Localizzazione tailandese 🇹🇭
+- Localizzazione ceca 🇨🇿

@@ -7,3 +7,4 @@ We hebben nieuwe talen toegevoegd!
 - Poolse lokalisatie 🇵🇱
 - Zweedse lokalisatie 🇸🇪
 - Thaise lokalisatie 🇹🇭
+- Tsjechische lokalisatie 🇨🇿

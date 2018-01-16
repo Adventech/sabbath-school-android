@@ -7,3 +7,4 @@
 - lengyel lokalizáció 🇵🇱
 - svéd lokalizáció 🇸🇪
 - Thai lokalizáció 🇹🇭
+- cseh lokalizáció 🇨🇿
