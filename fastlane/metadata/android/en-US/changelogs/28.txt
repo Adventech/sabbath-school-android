@@ -7,3 +7,4 @@ We have added new languages!
 - Polish localization 🇵🇱
 - Swedish localization 🇸🇪
 - Thai localization 🇹🇭
+- Czech localization 🇨🇿

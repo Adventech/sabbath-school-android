@@ -7,3 +7,4 @@ Am adăugat noi limbi!
 - localizarea poloneză 🇵🇱
 - localizarea suedeză 🇸🇪
 - localizarea thailandeză 🇹🇭
+- localizarea cehă 🇨🇿

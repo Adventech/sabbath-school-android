@@ -7,3 +7,4 @@ Vi har tilføjet nye sprog!
 - Polsk lokalisering 🇵🇱
 - svensk lokalisering 🇸🇪
 - Thai lokalisering 🇹🇭
+- Tjekkisk lokalisering 🇨🇿

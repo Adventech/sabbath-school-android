@@ -7,3 +7,4 @@ Yeni diller ekledik!
 - Lehçe yerelleştirme 🇵🇱
 - İsveççe yerelleştirme 🇸🇪
 - Tay dili yerelleştirme 🇹🇭
+- Çek yerelleştirme 🇨🇿

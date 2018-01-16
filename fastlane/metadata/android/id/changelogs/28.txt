@@ -7,3 +7,4 @@ Kami telah menambahkan bahasa baru!
 - Lokalisasi Polandia 🇵🇱
 - Lokalisasi Swedia 🇸🇪
 - Lokalisasi Thailand 🇹🇭
+- Lokalisasi Ceko 🇨🇿
