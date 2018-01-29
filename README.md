@@ -48,3 +48,4 @@ This is Sabbath School for Android by Adventech, a humble attempt to make differ
 - [Textografo](http://textografo.com) for supporting with incredible diagram-as-a-code tool
 - [POEditor](http://poeditor.com) for supporting with versatile translation platform
 - [JetBrains](http://jetbrains.com) for supporting with all their IDEs for free
+- [Appfollow.io](http://appfollow.io) for supporting us with the *best* app rating and review monitoring app!
