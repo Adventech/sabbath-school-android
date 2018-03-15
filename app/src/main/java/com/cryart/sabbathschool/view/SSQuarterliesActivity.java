@@ -36,7 +36,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.commonsware.cwac.wakeful.WakefulIntentService;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.SSApplication;
 import com.cryart.sabbathschool.adapter.SSQuarterliesAdapter;
@@ -78,7 +77,7 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         }
 
         if (!prefs.contains(SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY)){
-            WakefulIntentService.scheduleAlarms(new SSReminder(), SSApplication.get());
+            SSReminder.scheduleAlarms(SSApplication.get());
         }
 
         binding = DataBindingUtil.setContentView(this, R.layout.ss_quarterlies_activity);

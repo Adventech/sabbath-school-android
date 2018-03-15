@@ -23,19 +23,24 @@
 package com.cryart.sabbathschool.misc;
 
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.commonsware.cwac.wakeful.WakefulIntentService;
+import com.cryart.sabbathschool.SSApplication;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.Trigger;
 
 import java.util.Calendar;
 
-public class SSReminder implements WakefulIntentService.AlarmListener {
-    public void scheduleAlarms(AlarmManager _SSAlarmManager, PendingIntent _SSAlarmIntent, Context context){
-        WakefulIntentService.cancelAlarms(context);
+public class SSReminder {
+    public static void scheduleAlarms(Context context){
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(SSApplication.get()));
+
+        dispatcher.cancelAll();
 
         SharedPreferences ssPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -57,15 +62,18 @@ public class SSReminder implements WakefulIntentService.AlarmListener {
                 _SSReminderTime.add(Calendar.DATE, 1);
             }
 
-            _SSAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, _SSReminderTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, _SSAlarmIntent);
+            long offset = _SSReminderTime.getTimeInMillis() - currentTimeInMillis;
+
+            Job myJob = dispatcher.newJobBuilder()
+                    .setService(SSReminderService.class)
+                    .setTag("ss-reminder-tag")
+                    .setRecurring(false)
+                    .setLifetime(Lifetime.FOREVER)
+                    .setTrigger(Trigger.executionWindow((int) (offset / 1000), (int) (offset / 1000) + (60)))
+                    .setReplaceCurrent(false)
+                    .build();
+
+            dispatcher.mustSchedule(myJob);
         }
-    }
-
-    public void sendWakefulWork(Context ctxt) {
-        WakefulIntentService.sendWakefulWork(ctxt, SSReminderService.class);
-    }
-
-    public long getMaxAge() {
-        return AlarmManager.INTERVAL_FIFTEEN_MINUTES * 2;
     }
 }

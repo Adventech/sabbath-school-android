@@ -28,7 +28,7 @@ buildscript {
 
     dependencies {
         classpath 'io.fabric.tools:gradle:1.+'
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.1'
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.2'
     }
 }
 
@@ -69,6 +69,8 @@ android {
 
             vectorDrawables.useSupportLibrary = true
             testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+            multiDexEnabled true
         }
 
     } else {
@@ -140,6 +142,8 @@ dependencies {
     compile "com.google.firebase:firebase-messaging:$PLAY_SERVICES_VERSION"
     compile "com.google.firebase:firebase-storage:$PLAY_SERVICES_VERSION"
 
+    implementation "com.firebase:firebase-jobdispatcher:0.8.5"
+
     compile "uk.co.samuelwall:material-tap-target-prompt:2.0.1"
     compile "com.nostra13.universalimageloader:universal-image-loader:1.9.5"
     compile "com.github.hotchemi:android-rate:1.0.1"
@@ -157,7 +161,6 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
-    compile "com.commonsware.cwac:wakeful:1.0.+"
     compile "com.github.pwittchen:reactivenetwork:0.8.0"
     compile "com.thefinestartist:finestwebview:1.2.7"
     compile "com.github.javiersantos:MaterialStyledDialogs:2.1"

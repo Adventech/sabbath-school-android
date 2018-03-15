@@ -23,29 +23,37 @@
 package com.cryart.sabbathschool.misc;
 
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.provider.Settings;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
-import com.commonsware.cwac.wakeful.WakefulIntentService;
 import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.view.SSSplashActivity;
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.JobService;
 
-public class SSReminderService extends WakefulIntentService {
-    public SSReminderService() {
-        super("SSReminderService");
-    }
-
+public class SSReminderService extends JobService {
     @Override
-    protected void doWakefulWork(Intent intent) {
+    public boolean onStartJob(JobParameters job) {
         Context context = getBaseContext();
+        SSReminder.scheduleAlarms(context);
         try {
+            String channelId = "ss_notification_channel";
+            String channelName = getString(R.string.app_name);
+
             NotificationManager _SSNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
+                _SSNotificationManager.createNotificationChannel(mChannel);
+            }
             Intent _SSContentIntent = new Intent(context, SSSplashActivity.class);
 
             Intent _SSShareIntent = new Intent();
@@ -61,14 +69,13 @@ public class SSReminderService extends WakefulIntentService {
             PendingIntent _SSPendingShareIntent = PendingIntent.getActivity(context, 0, Intent.createChooser(_SSShareIntent, context.getString(R.string.ss_share)), PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder _SSNotificationBuilder =
-                    new NotificationCompat.Builder(context)
+                    new NotificationCompat.Builder(context, "ss_notification_channel")
                             .setSmallIcon(R.mipmap.ic_stat_notification)
                             .setContentTitle(context.getString(R.string.ss_app_name))
                             .setColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()))
                             .addAction(0, context.getString(R.string.ss_menu_read_now), _SSPendingContentIntent)
                             .addAction(0, context.getString(R.string.ss_share), _SSPendingShareIntent)
                             .setAutoCancel(true)
-                            .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                             .setVibrate(new long[] {1000, 1000})
                             .setContentIntent(_SSPendingContentIntent)
                             .setContentText(context.getString(R.string.ss_settings_reminder_text));
@@ -77,5 +84,12 @@ public class SSReminderService extends WakefulIntentService {
         } catch (Exception e) {
             Crashlytics.log(e.getMessage());
         }
+
+        return false; // Answers the question: "Is there still work going on?"
+    }
+
+    @Override
+    public boolean onStopJob(JobParameters job) {
+        return false; // Answers the question: "Should this job be retried?"
     }
 }
