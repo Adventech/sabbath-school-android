@@ -1,0 +1,2 @@
+- Javítva az Android verzió 8-as értesítéseit.
+- Fiatal probléma az alkalmi app összeomlásakor, amikor új leckét nyit.

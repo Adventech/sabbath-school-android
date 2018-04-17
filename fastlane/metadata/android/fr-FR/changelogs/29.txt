@@ -1,0 +1,2 @@
+- Correction d'un problème avec les notifications sur Android version 8.
+- Correction d'un problème avec le plantage occasionnel de l'application lors de l'ouverture de la nouvelle leçon.

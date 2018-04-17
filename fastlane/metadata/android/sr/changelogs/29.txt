@@ -1,0 +1,2 @@
+- Fiksni problem sa obaveštenjima na Android verziji 8.
+- Fiksni problem sa povremenim pritiskom aplikacije prilikom otvaranja nove lekcije.

@@ -1,0 +1,2 @@
+- Problem mit Benachrichtigungen bei Android Version 8 behoben.
+- Problem mit gelegentlichem App-Absturz beim Öffnen einer neuen Lektion behoben.

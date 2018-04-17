@@ -3,11 +3,40 @@
 app_package_name 'com.cryart.sabbathschool'
 use_tests_in_packages ['com.cryart.sabbathschool.loggedin']
 
-# app_apk_path 'app/build/outputs/apk/app-debug.apk'
-tests_apk_path 'app/build/outputs/apk/app-debug-androidTest.apk'
+app_apk_path 'app/build/outputs/apk/debug/app-debug.apk'
+tests_apk_path 'app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk'
 
-# locales ['en-US', 'fr-FR', 'ru-RU', 'id', 'de-DE', 'es-ES', 'pt-BR', 'tr-TR', 'uk', 'ja-JP', 'ro', 'sr', 'bg', 'sr', 'zh-CN']
-locales ['ms']
+# locales [
+#     'ar',
+#     'bg',
+#     'cs-CZ',
+#     'da-DK',
+#     'de-DE',
+#     'en-US',
+#     'es-ES',
+#     'et',
+#     'fa',
+#     'fr-FR',
+#     'hu-HU',
+#     'id',
+#     'it-IT',
+#     'iw-IL',
+#     'ja-JP',
+#     'ko-KR',
+#     'ms',
+#     'no-NO',
+#     'ro',
+#     'ru-RU',
+#     'sr',
+#     'th',
+#     'tr-TR',
+#     'uk',
+#     'zh-CN'
+#     ]
+locales [
+    'sr',
+    'uk'
+]
 
 # clear all previously generated screenshots in your local output directory before creating new ones
 clear_previous_screenshots false

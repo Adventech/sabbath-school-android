@@ -1,0 +1,2 @@
+- Risolto problema con le notifiche su Android versione 8.
+- Risolto il problema relativo all'arresto occasionale dell'app durante l'apertura di una nuova lezione.

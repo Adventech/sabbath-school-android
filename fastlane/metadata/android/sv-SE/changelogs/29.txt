@@ -1,0 +1,2 @@
+- Fast problem med meddelanden i Android version 8.
+- Fast problem med tillfällig app kraschar när du öppnar ny lektion.

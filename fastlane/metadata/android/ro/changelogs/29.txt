@@ -1,0 +1,2 @@
+- S-a rezolvat problema cu notificările în versiunea Android 8.
+- Problemă fixă ​​când aplicația se prăbușește ocazional când deschideți o nouă lecție.

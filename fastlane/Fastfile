@@ -25,11 +25,11 @@ platform :android do
 
   desc "Upload meta to the Google Play"
   lane :playmeta do
-    gradle(
-      task: 'assemble',
-      build_type: 'Release'
-    )
-    supply(track: 'beta')
+    #gradle(
+    #  task: 'assemble',
+    #  build_type: 'Release'
+    #)
+    supply(track: 'beta', skip_upload_apk: true)
   end
 
   desc "Submit a new Beta Build to Crashlytics Beta"

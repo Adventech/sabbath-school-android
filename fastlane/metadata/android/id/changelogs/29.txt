@@ -1,0 +1,2 @@
+- Memperbaiki masalah dengan pemberitahuan di Android versi 8.
+- Memperbaiki masalah dengan aplikasi yang kadang-kadang terhenti saat membuka pelajaran baru.

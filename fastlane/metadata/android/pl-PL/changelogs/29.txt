@@ -1,0 +1,2 @@
+- Naprawiono problem z powiadomieniami na Androida w wersji 8.
+- Naprawiono problem sporadycznej awarii aplikacji podczas otwierania nowej lekcji.

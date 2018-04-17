@@ -1,0 +1,2 @@
+- Fixed problem with notifications on Android version 8.
+- Fixed problem with occasional app crashing when opening new lesson.

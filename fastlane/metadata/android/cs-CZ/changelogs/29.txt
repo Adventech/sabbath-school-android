@@ -1,0 +1,2 @@
+- Opraven problém s oznámeními v systému Android verze 8.
+- Opraven problém s občasným výpadkem aplikace při otevírání nové lekce.

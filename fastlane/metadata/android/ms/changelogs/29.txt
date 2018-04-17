@@ -1,0 +1,2 @@
+- Masalah tetap dengan notifikasi pada versi Android 8.
+- Masalah tetap dengan aplikasi sesekali runtuh semasa membuka pelajaran baru.

@@ -1,0 +1,2 @@
+- Opravený problém s upozorneniami vo verzii Android 8.
+- Opravený problém s príležitostným zhadzovaním aplikácie pri otvorení novej lekcie.

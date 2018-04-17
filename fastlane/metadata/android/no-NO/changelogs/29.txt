@@ -1,0 +1,2 @@
+- Fast problem med varslinger på Android versjon 8.
+- Fast problem med sporadisk appkrasj når du åpner ny leksjon.

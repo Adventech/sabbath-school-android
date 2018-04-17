@@ -1,0 +1,401 @@
+{
+    "global": [
+        {
+            "title": "Sabbath School\nin one app",
+            "font": "./fonts/Lato-Bold.ttf"
+        },
+
+        {
+            "title": "Bible Verses",
+            "font": "./fonts/Lato-Bold.ttf"
+        },
+
+        {
+            "title": "Weekly Lesson",
+            "font": "./fonts/Lato-Bold.ttf"
+        },
+
+        {
+            "title": "Reading Options",
+            "font": "./fonts/Lato-Bold.ttf"
+        }
+    ],
+    "ar": [
+        {
+            "title": "مدرسة السبت",
+            "font": "./fonts/LateefRegOT.ttf"
+        },
+
+        {
+            "title": "آيات الكتاب المقدس",
+            "font": "./fonts/LateefRegOT.ttf"
+        },
+
+        {
+            "title": "دراسة أسبوعية",
+            "font": "./fonts/LateefRegOT.ttf"
+        },
+
+        {
+            "title": "خيارات القراءة",
+            "font": "./fonts/LateefRegOT.ttf"
+        }
+    ],
+
+    "bg": [
+        {
+            "title": "Съботно Училище\nна едно място"
+        },
+
+        {
+            "title": "Библейски Стихове"
+        },
+
+        {
+            "title": "Седмичен Урок"
+        },
+
+        {
+            "title": "Опции за Четене"
+        }
+    ],
+
+    "cs": [
+        {
+            "title": "Sobotní Škola\nv jedné aplikaci"
+        },
+        {
+            "title": "Bible Verše"
+        },
+        {
+            "title": "Týdenní Lekce"
+        },
+        {
+            "title": "Možnosti Čtení"
+        }
+    ],
+
+    "da": [
+        {
+            "title": "Sabbatschule\nin einer app"
+        },
+        {
+            "title": "Bibel Vers"
+        },
+        {
+            "title": "Wochenlektion"
+        },
+        {
+            "title": "Leseoptionen"
+        }
+    ],
+
+    "es": [
+        {
+            "title": "Escuela Sabática\nen una aplicación"
+        },
+        {
+            "title": "Versículos de la Biblia"
+        },
+        {
+            "title": "Lección Semanal"
+        },
+        {
+            "title": "Opciones de Lectura"
+        }
+    ],
+
+    "et": [
+        {
+            "title": "Hingamispäevakooli\nühes rakenduses"
+        },
+        {
+            "title": "Piibli Salmid"
+        },
+        {
+            "title": "Nädalane Õppetund"
+        },
+        {
+            "title": "Lugemisvalikud"
+        }
+    ],
+
+    "fa": [
+        {
+            "title": "دانشکده سبت",
+            "font": "./fonts/LateefRegOT.ttf"
+        },
+        {
+            "title": "آیات کتاب مقدس",
+            "font": "./fonts/LateefRegOT.ttf"
+        },
+        {
+            "title": "درس هفتگی",
+            "font": "./fonts/LateefRegOT.ttf"
+        },
+        {
+            "title": "خواندن گزینه ها",
+            "font": "./fonts/LateefRegOT.ttf"
+        }
+    ],
+
+    "fr": [
+        {
+            "title": "Ecole du Sabbat\ndans une application"
+        },
+        {
+            "title": "Versets Bibliques"
+        },
+        {
+            "title": "Leçon Hebdomadaire"
+        },
+        {
+            "title": "Options de Lecture"
+        }
+    ],
+
+    "hu": [
+        {
+            "title": "Szombatiskola\negy alkalmazásban"
+        },
+        {
+            "title": "Biblia Versek"
+        },
+        {
+            "title": "Heti Lecke"
+        },
+        {
+            "title": "Olvasási Lehetőségek"
+        }
+    ],
+
+    "id": [
+        {
+            "title": "Sekolah Sabat\ndalam satu aplikasi"
+        },
+        {
+            "title": "Ayat Alkitab"
+        },
+        {
+            "title": "Pelajaran Mingguan"
+        },
+        {
+            "title": "Opsi Membaca"
+        }
+    ],
+
+    "it": [
+        {
+            "title": "Scuola del Sabato\nin un'unica app"
+        },
+        {
+            "title": "Versi Biblici"
+        },
+        {
+            "title": "Lezione Settimanale"
+        },
+        {
+            "title": "Opzioni di Lettura"
+        }
+    ],
+
+    "iw": [
+        {
+            "title": "בית ספר שבת",
+            "font": "./fonts/drugulinclm-bold-webfont.ttf"
+        },
+        {
+            "title": "פסוקי תנך",
+            "font": "./fonts/drugulinclm-bold-webfont.ttf"
+        },
+        {
+            "title": "שיעור שבועי",
+            "font": "./fonts/drugulinclm-bold-webfont.ttf"
+        },
+        {
+            "title": "אפשרויות קריאה",
+            "font": "./fonts/drugulinclm-bold-webfont.ttf"
+        }
+    ],
+
+    "ja": [
+        {
+            "title": "安息日学校",
+            "font": "./fonts/NotoSansCJKjp-Regular.otf"
+        },
+        {
+            "title": "聖書の詩",
+            "font": "./fonts/NotoSansCJKjp-Regular.otf"
+        },
+        {
+            "title": "ウィークリーレッスン",
+            "font": "./fonts/NotoSansCJKjp-Regular.otf"
+        },
+        {
+            "title": "読書オプション",
+            "font": "./fonts/NotoSansCJKjp-Regular.otf"
+        }
+    ],
+
+    "ko": [
+        {
+            "title": "안식일 학교",
+            "font": "./fonts/NotoSansCJKjp-Regular.otf"
+        },
+        {
+            "title": "성경 구절",
+            "font": "./fonts/NotoSansCJKjp-Regular.otf"
+        },
+        {
+            "title": "주간 수업",
+            "font": "./fonts/NotoSansCJKjp-Regular.otf"
+        },
+        {
+            "title": "독서 옵션",
+            "font": "./fonts/NotoSansCJKjp-Regular.otf"
+        }
+    ],
+
+    "ms": [
+        {
+            "title": "Sekolah Sabat\ndalam satu aplikasi"
+        },
+        {
+            "title": "Ayat Alkitab"
+        },
+        {
+            "title": "Pelajaran Mingguan"
+        },
+        {
+            "title": "Membaca Pilihan"
+        }
+    ],
+
+    "no": [
+        {
+            "title": "Sabbatsskole\ni en app"
+        },
+        {
+            "title": "Bibelvers"
+        },
+        {
+            "title": "Ukentlig leksjon"
+        },
+        {
+            "title": "Lesingsalternativer"
+        }
+    ],
+
+    "ro": [
+        {
+            "title": "Școala de Sabat\nîntr-o aplicație"
+        },
+        {
+            "title": "Versetele Bibliei"
+        },
+        {
+            "title": "Lecția Săptămânală"
+        },
+        {
+            "title": "Opțiunile de Citire"
+        }
+    ],
+
+    "ru": [
+        {
+            "title": "Субботняя Школа\nв одном приложении"
+        },
+        {
+            "title": "Библейские Стихи"
+        },
+        {
+            "title": "Уроки за Неделю"
+        },
+        {
+            "title": "Параметры Чтения"
+        }
+    ],
+
+    "sr": [
+        {
+            "title": "Subotna Škola\nu jednoj aplikaciji"
+        },
+        {
+            "title": "Biblijski Stihovi"
+        },
+        {
+            "title": "Nedeljna Lekcija"
+        },
+        {
+            "title": "Opcije Čitanja"
+        }
+    ],
+
+    "th": [
+        {
+            "title": "โรงเรียนวันสะบาโต",
+            "font": "./fonts/LomaBold.ttf"
+        },
+        {
+            "title": "ข้อพระคัมภีร์",
+            "font": "./fonts/LomaBold.ttf"
+        },
+        {
+            "title": "บทเรียนรายสัปดาห์",
+            "font": "./fonts/LomaBold.ttf"
+        },
+        {
+            "title": "ตัวเลือกการอ่าน",
+            "font": "./fonts/LomaBold.ttf"
+        }
+    ],
+
+    "tr": [
+        {
+            "title": "Sebt Okulu\ntek bir uygulamada"
+        },
+        {
+            "title": "İncil Satırları"
+        },
+        {
+            "title": "Haftalık Ders"
+        },
+        {
+            "title": "Okuma Seçenekleri"
+        }
+    ],
+
+    "uk": [
+        {
+            "title": "Суботня Школа\nв одному додатку"
+        },
+        {
+            "title": "Біблійні Вірші"
+        },
+        {
+            "title": "Щотижневий Урок"
+        },
+        {
+            "title": "Параметри Читання"
+        }
+    ],
+
+    "zh": [
+        {
+            "title": "安息日学校",
+            "font": "./fonts/NotoSansCJKjp-Regular.otf"
+        },
+        {
+            "title": "圣经经文",
+            "font": "./fonts/NotoSansCJKjp-Regular.otf"
+        },
+        {
+            "title": "每周一课",
+            "font": "./fonts/NotoSansCJKjp-Regular.otf"
+        },
+        {
+            "title": "阅读选项",
+            "font": "./fonts/NotoSansCJKjp-Regular.otf"
+        }
+    ]
+}

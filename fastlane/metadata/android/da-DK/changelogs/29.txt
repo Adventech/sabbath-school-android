@@ -1,0 +1,2 @@
+- Fast problem med meddelelser på Android version 8.
+- Fast problem med lejlighedsvis appkrasning, når du åbner ny lektion.

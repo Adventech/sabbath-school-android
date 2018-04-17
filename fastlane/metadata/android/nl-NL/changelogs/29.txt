@@ -1,0 +1,2 @@
+- Probleem opgelost met meldingen op Android-versie 8.
+- Probleem opgelost met incidentele app crasht bij het openen van een nieuwe les.
