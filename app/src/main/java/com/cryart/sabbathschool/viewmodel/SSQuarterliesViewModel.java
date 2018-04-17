@@ -101,6 +101,10 @@ public class SSQuarterliesViewModel implements SSViewModel {
         String ssLastLanguageSelected = prefs.getString(SSConstants.SS_LAST_LANGUAGE_INDEX, "");
         ssDefaultLanguage = Locale.getDefault().getLanguage();
 
+        if (ssDefaultLanguage.equals("iw")) {
+            ssDefaultLanguage = "he";
+        }
+
         if (!ssLastLanguageSelected.isEmpty()){
             ssDefaultLanguage = ssLastLanguageSelected;
         }

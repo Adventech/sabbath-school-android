@@ -64,7 +64,7 @@ android {
             applicationId "com.cryart.sabbathschool"
             minSdkVersion 15
             targetSdkVersion 27
-            versionCode 28
+            versionCode 29
             versionName "3.2." + versionBuild
 
             vectorDrawables.useSupportLibrary = true
@@ -122,7 +122,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
 
-    androidTestCompile "tools.fastlane:screengrab:1.0.0"
+    androidTestCompile "tools.fastlane:screengrab:1.1.0"
     androidTestCompile 'com.android.support.test:runner:1.0.1'
     androidTestCompile 'com.android.support.test:rules:1.0.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'

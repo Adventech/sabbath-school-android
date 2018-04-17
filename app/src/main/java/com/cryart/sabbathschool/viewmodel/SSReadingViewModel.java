@@ -164,6 +164,10 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         ssLessonOfflineStateVisibility.set(View.INVISIBLE);
         ssLessonErrorStateVisibility.set(View.INVISIBLE);
         ssLessonCoordinatorVisibility.set(View.INVISIBLE);
+
+        if (mDatabase == null) {
+            return;
+        }
         
         mDatabase.child(SSConstants.SS_FIREBASE_LESSON_INFO_DATABASE)
                 .child(ssLessonIndex)
@@ -240,84 +244,93 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     }
 
     private void downloadHighlights(final String dayIndex, final int index){
-        mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
-                .child(ssFirebaseAuth.getCurrentUser().getUid())
-                .child(dayIndex)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        SSReadHighlights ssReadHighlights = new SSReadHighlights(dayIndex, "");
-                        if (dataSnapshot != null) {
-                            if (dataSnapshot.getValue(SSReadHighlights.class) != null){
-                                ssReadHighlights = dataSnapshot.getValue(SSReadHighlights.class);
+        if (mDatabase != null) {
+            mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
+                    .child(ssFirebaseAuth.getCurrentUser().getUid())
+                    .child(dayIndex)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            SSReadHighlights ssReadHighlights = new SSReadHighlights(dayIndex, "");
+                            if (dataSnapshot != null) {
+                                if (dataSnapshot.getValue(SSReadHighlights.class) != null) {
+                                    ssReadHighlights = dataSnapshot.getValue(SSReadHighlights.class);
+                                }
                             }
+
+                            downloadComments(dayIndex, index, ssReadHighlights);
                         }
 
-                        downloadComments(dayIndex, index, ssReadHighlights);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {}
-                });
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+        }
     }
 
     private void downloadComments(final String dayIndex, final int index, final SSReadHighlights ssReadHighlights){
-        mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
-                .child(ssFirebaseAuth.getCurrentUser().getUid())
-                .child(dayIndex)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        SSReadComments ssReadComments = new SSReadComments(dayIndex, new ArrayList<SSComment>());
-                        if (dataSnapshot != null) {
-                            if (dataSnapshot.getValue(SSReadComments.class) != null){
-                                ssReadComments = dataSnapshot.getValue(SSReadComments.class);
+        if (mDatabase != null) {
+            mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
+                    .child(ssFirebaseAuth.getCurrentUser().getUid())
+                    .child(dayIndex)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            SSReadComments ssReadComments = new SSReadComments(dayIndex, new ArrayList<SSComment>());
+                            if (dataSnapshot != null) {
+                                if (dataSnapshot.getValue(SSReadComments.class) != null) {
+                                    ssReadComments = dataSnapshot.getValue(SSReadComments.class);
+                                }
                             }
+
+                            downloadRead(dayIndex, index, ssReadHighlights, ssReadComments);
                         }
 
-                        downloadRead(dayIndex, index, ssReadHighlights, ssReadComments);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {}
-                });
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+        }
     }
 
     private void downloadRead(final String dayIndex, final int index, final SSReadHighlights _ssReadHighlights, final SSReadComments _ssReadComments){
-        mDatabase.child(SSConstants.SS_FIREBASE_READS_DATABASE)
-                .child(dayIndex)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        SSRead ssRead;
-                        if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                            ssRead = dataSnapshot.getValue(SSRead.class);
-                            ssReads.add(index, ssRead);
-                            ssReadHighlights.add(index, _ssReadHighlights);
-                            ssReadComments.add(index, _ssReadComments);
+        if (mDatabase != null) {
+            mDatabase.child(SSConstants.SS_FIREBASE_READS_DATABASE)
+                    .child(dayIndex)
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            SSRead ssRead;
+                            if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                                ssRead = dataSnapshot.getValue(SSRead.class);
+                                ssReads.add(index, ssRead);
+                                ssReadHighlights.add(index, _ssReadHighlights);
+                                ssReadComments.add(index, _ssReadComments);
 
-                            ssReadsLoadedCounter++;
+                                ssReadsLoadedCounter++;
 
-                            if (ssReadsLoadedCounter == ssTotalReadsCount && !ssReadsDownloaded){
-                                ssReadsDownloaded = true;
-                                if (dataListener != null) dataListener.onReadsDownloaded(ssReads, ssReadHighlights, ssReadComments, ssReadIndexInt);
+                                if (ssReadsLoadedCounter == ssTotalReadsCount && !ssReadsDownloaded) {
+                                    ssReadsDownloaded = true;
+                                    if (dataListener != null)
+                                        dataListener.onReadsDownloaded(ssReads, ssReadHighlights, ssReadComments, ssReadIndexInt);
 
+                                }
                             }
+                            ssLessonCoordinatorVisibility.set(View.VISIBLE);
+                            ssLessonLoadingVisibility.set(View.INVISIBLE);
+                            ssLessonOfflineStateVisibility.set(View.INVISIBLE);
+                            ssLessonErrorStateVisibility.set(View.INVISIBLE);
                         }
-                        ssLessonCoordinatorVisibility.set(View.VISIBLE);
-                        ssLessonLoadingVisibility.set(View.INVISIBLE);
-                        ssLessonOfflineStateVisibility.set(View.INVISIBLE);
-                        ssLessonErrorStateVisibility.set(View.INVISIBLE);
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        ssLessonCoordinatorVisibility.set(View.VISIBLE);
-                        ssLessonLoadingVisibility.set(View.INVISIBLE);
-                        ssLessonOfflineStateVisibility.set(View.INVISIBLE);
-                        ssLessonErrorStateVisibility.set(View.INVISIBLE);
-                    }
-                });
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            ssLessonCoordinatorVisibility.set(View.VISIBLE);
+                            ssLessonLoadingVisibility.set(View.INVISIBLE);
+                            ssLessonOfflineStateVisibility.set(View.INVISIBLE);
+                            ssLessonErrorStateVisibility.set(View.INVISIBLE);
+                        }
+                    });
+        }
     }
 
     public void destroy() {

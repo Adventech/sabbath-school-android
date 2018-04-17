@@ -26,7 +26,6 @@ package com.cryart.sabbathschool.loggedin;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 
@@ -53,7 +52,6 @@ import tools.fastlane.screengrab.locale.LocaleTestRule;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.action.ViewActions.swipeLeft;
 
 
 @RunWith(JUnit4.class)
@@ -82,26 +80,16 @@ public class SSReadingActivityTest {
         Intent grouchyIntent = new Intent();
         // intent stuff
 
-        grouchyIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, Locale.getDefault().getLanguage()+"-2018-01-01");
+        String lang = Locale.getDefault().getLanguage();
+
+        if (lang.equals("iw")) {
+            lang = "he";
+        }
+
+        grouchyIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, lang+"-2018-02-01");
         activityRule.launchActivity(grouchyIntent);
 
         SystemClock.sleep(2000);
-
-        // en-2016-04-06-03
-        // "type:textContent|233$387$9$highlight_yellow$|388$548$10$highlight_blue$"
-//        HashMap<String, String> highlights = new HashMap<String, String>(){{
-//            put("en", "type:textContent|233$387$9$highlight_yellow$|388$548$10$highlight_blue$");
-//            put("de", "type:textContent|205$252$1$highlight_yellow$|257$375$2$highlight_green$");
-//            put("es", "type:textContent|247$319$1$highlight_yellow$|362$434$2$highlight_blue$");
-//            put("fr", "type:textContent|278$356$1$highlight_yellow$|410$502$2$highlight_green$");
-//            put("pt", "type:textContent|124$215$1$highlight_yellow$|273$393$2$highlight_green$");
-//            put("ru", "type:textContent|256$339$1$highlight_yellow$|340$401$2$highlight_green$");
-//            put("tr", "type:textContent|143$206$1$highlight_green$|280$384$2$highlight_yellow$");
-//            put("uk", "type:textContent|227$308$1$highlight_yellow$|309$359$2$highlight_green$");
-//        }};
-//
-//        activityRule.getActivity().binding.ssReadingView.setReadHighlights(new SSReadHighlights(Locale.getDefault().getLanguage()+"-2017-03-04-03", highlights.get(Locale.getDefault().getLanguage())));
-
 
         SystemClock.sleep(2000);
         Screengrab.screenshot("reading_screen");
@@ -122,10 +110,7 @@ public class SSReadingActivityTest {
           }
         });
 
-        if (!Locale.getDefault().getLanguage().equals("in")
-                && !Locale.getDefault().getLanguage().equals("ja")
-                && !Locale.getDefault().getLanguage().equals("zh")
-                && activityRule.getActivity().ssReadingViewModel.ssReads.get(0).bible.size() > 0){
+        if (activityRule.getActivity().ssReadingViewModel.ssReads.get(0).bible.size() > 0){
             SSBibleVerses b = activityRule.getActivity().ssReadingViewModel.ssReads.get(0).bible.get(0);
 
             Map.Entry<String,String> entry=b.verses.entrySet().iterator().next();

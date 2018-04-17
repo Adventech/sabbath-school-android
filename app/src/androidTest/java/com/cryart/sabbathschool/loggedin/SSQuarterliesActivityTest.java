@@ -75,6 +75,6 @@ public class SSQuarterliesActivityTest {
         onView(withId(R.id.ss_quarterly_item_featured_title)).perform(click());
 
 
-//        Screengrab.screenshot("quarterlies_screen");
+        Screengrab.screenshot("quarterlies_screen");
     }
 }
