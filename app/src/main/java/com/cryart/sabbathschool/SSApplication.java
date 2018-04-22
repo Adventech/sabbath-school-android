@@ -22,11 +22,10 @@
 
 package com.cryart.sabbathschool;
 
-import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.widget.ImageView;
 
 import com.crashlytics.android.Crashlytics;
@@ -43,7 +42,7 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 import io.fabric.sdk.android.Fabric;
 
-public class SSApplication extends Application {
+public class SSApplication extends MultiDexApplication {
     private static SSApplication instance;
 
     public static SSApplication get(Context context) {
@@ -52,12 +51,6 @@ public class SSApplication extends Application {
 
     public static SSApplication get(){
         return instance;
-    }
-
-    @Override
-    protected void attachBaseContext(Context context) {
-        super.attachBaseContext(context);
-        MultiDex.install(this);
     }
 
     @Override
