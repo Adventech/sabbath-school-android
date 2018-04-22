@@ -26,6 +26,7 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.multidex.MultiDex;
 import android.widget.ImageView;
 
 import com.crashlytics.android.Crashlytics;
@@ -51,6 +52,12 @@ public class SSApplication extends Application {
 
     public static SSApplication get(){
         return instance;
+    }
+
+    @Override
+    protected void attachBaseContext(Context context) {
+        super.attachBaseContext(context);
+        MultiDex.install(this);
     }
 
     @Override
