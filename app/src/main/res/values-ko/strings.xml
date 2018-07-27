@@ -31,11 +31,11 @@
     <string name="ss_menu_sign_out">"로그 아웃"</string>
     <string name="ss_menu_read_now">"본문속으로"</string>
     <string name="ss_menu_share_app">"앱 공유"</string>
-    <string name="ss_menu_share_app_text">"나는 이 안식일 학교 앱을 사용하고 있습니다. 시도해 보세요"</string>
+    <string name="ss_menu_share_app_text">"Adventech의 안식일 학교 앱을 사용하고 있습니다. 시도해 보세요"</string>
     <string name="ss_my_highlights">"형광펜"</string>
     <string name="ss_my_notes">"노트"</string>
     <string name="ss_settings">"설정"</string>
-    <string name="ss_about">"우리의 사역"</string>
+    <string name="ss_about">"우리의 사역소개"</string>
     <string name="ss_login_failed">"로그인 실패하였습니다. 다시 시도하십시오."</string>
     <string name="ss_login_anonymously_dialog_positive">"예"</string>
     <string name="ss_login_anonymously_dialog_negative">"아니요"</string>
@@ -43,9 +43,9 @@
     <string name="ss_login_anonymously_dialog_description">"익명으로 로그인하는 경우 기기간에 (또는 댓글이나 형광펜과 같은) 데이터를 동기화하거나 앱을 제거한 후에는 데이터를 동기화 할 수 없습니다. 계속 하시겠습니까?"</string>
     <string name="ss_quarterlies_filter_languages">"언어선택"</string>
     <string name="ss_quarterlies_downloading">"분기별 다운로드 ..."</string>
-    <string name="ss_quarterlies_error">"알 수없는 오류가 발생했습니다. 다시 시도하십시오."</string>
+    <string name="ss_quarterlies_error">"알 수 없는 오류가 발생했습니다. 다시 시도하십시오."</string>
     <string name="ss_quarterlies_empty">"현재 분기별로 사용할 수 없습니다."</string>
-    <string name="ss_quarterly_item_read_text">"교과열기"</string>
+    <string name="ss_quarterly_item_read_text">"교과책열기"</string>
     <string name="ss_lessons_downloading">"분기별 열기 ..."</string>
     <string name="ss_lessons_error">"분기별 열기중 오류가 발생했습니다."</string>
     <string name="ss_lessons_empty">"현재 분기별로 사용할 수 없습니다."</string>
@@ -69,8 +69,8 @@
     <string name="ss_settings_display_options">"디스플레이 옵션"</string>
     <string name="ss_settings_color_theme">"색상 테마"</string>
     <string name="ss_settings_color_theme_light">"빛"</string>
-    <string name="ss_settings_color_theme_sepia">"세피아"</string>
-    <string name="ss_settings_color_theme_dark">"어두운"</string>
+    <string name="ss_settings_color_theme_sepia">"sepia색상"</string>
+    <string name="ss_settings_color_theme_dark">"어둡게"</string>
     <string name="ss_settings_typeface">"글꼴"</string>
     <string name="ss_settings_font_size">"글자 크기"</string>
     <string name="ss_settings_font_size_tiny">"아주 작은"</string>
@@ -81,7 +81,7 @@
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"안식일 학교를 평가하십시오"</string>
-    <string name="rate_dialog_message">"앱을 평가 해주세요. 지원해 주셔서 감사합니다."</string>
+    <string name="rate_dialog_message">"앱을 평가해 주세요. 지원해 주셔서 감사합니다."</string>
     <string name="rate_dialog_ok">"평점"</string>
     <string name="rate_dialog_cancel">"나중에"</string>
     <string name="rate_dialog_no">"아니요"</string>
@@ -89,9 +89,9 @@
     <string name="ss_quarterlies_filter_languages_prompt_title">"기타 언어"</string>
     <string name="ss_quarterlies_filter_languages_prompt_description">"사용 가능한 언어를 보려면 필터 아이콘을 누르세요."</string>
     <string name="ss_bible">"성경"</string>
-    <string name="ss_settings_reminder">"미리 알림"</string>
+    <string name="ss_settings_reminder">"일일 알리미"</string>
     <string name="ss_settings_reminder_summary">"매일 교과공부 알림을 사용하도록 설정하려면 선택하십시오."</string>
-    <string name="ss_settings_reminder_time">"미리 알림 시간"</string>
+    <string name="ss_settings_reminder_time">"알림 시간"</string>
     <string name="ss_settings_reminder_text">"안식일 학교 교과를 공부할 시간."</string>
     <string name="ss_reading_offline">"지금 접속이 되지 않았습니다. 이 단원을 읽으려면 다시 연결하세요."</string>
     <string name="ss_reading_offline_retry">"다시 시도해 보세요"</string>
