@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+<resources>
+    <string name="ss_app_name">"Σχολή Σαββάτου"</string>
+    <string name="ss_share">"Μερίδιο"</string>
+    <string name="ss_login_button_google">"Συνδεθείτε με την Google"</string>
+    <string name="ss_login_button_facebook">"Σύνδεση με Facebook"</string>
+    <string name="ss_login_button_anonymous">"Σύνδεση ανώνυμα"</string>
+    <string name="ss_menu_anonymous_name">"Ανώνυμος"</string>
+    <string name="ss_menu_sign_out">"Αποσύνδεση"</string>
+    <string name="ss_menu_read_now">"Διάβασε τώρα"</string>
+    <string name="ss_menu_share_app">"Κοινή χρήση εφαρμογής"</string>
+    <string name="ss_menu_share_app_text">"Ελέγξτε τη νέα εφαρμογή Sabbath School που χρησιμοποιώ"</string>
+    <string name="ss_my_highlights">"Τα κυριώτερα σημεία μου"</string>
+    <string name="ss_my_notes">"Οι σημειώσεις μου"</string>
+    <string name="ss_settings">"Ρυθμίσεις"</string>
+    <string name="ss_about">"Σχετικά με"</string>
+    <string name="ss_login_failed">"Η σύνδεση απέτυχε. Παρακαλώ δοκιμάστε ξανά."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Ναί"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Οχι"</string>
+    <string name="ss_login_anonymously_dialog_title">"Σύνδεση ανώνυμα;"</string>
+    <string name="ss_login_anonymously_dialog_description">"Εάν συνδεθείτε ανώνυμα, δεν θα μπορείτε να συγχρονίσετε τα δεδομένα σας (όπως σχόλια και επισημάνσεις) σε όλες τις συσκευές ή μετά την απεγκατάσταση της εφαρμογής. Είστε βέβαιοι ότι θέλετε να προχωρήσετε;"</string>
+    <string name="ss_quarterlies_filter_languages">"Γλώσσες"</string>
+    <string name="ss_quarterlies_downloading">"Λήψη τριμηνιαίων ..."</string>
+    <string name="ss_quarterlies_error">"Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά."</string>
+    <string name="ss_quarterlies_empty">"Δεν υπάρχουν διαθέσιμα τριμηνιαία στοιχεία αυτήν τη στιγμή"</string>
+    <string name="ss_quarterly_item_read_text">"Ανοιξε"</string>
+    <string name="ss_lessons_downloading">"Άνοιγμα τριμηνιαία ..."</string>
+    <string name="ss_lessons_error">"Παρουσιάστηκε σφάλμα κατά το άνοιγμα ανά τρίμηνο"</string>
+    <string name="ss_lessons_empty">"Δεν υπάρχουν διαθέσιμα τριμηνιαία στοιχεία αυτήν τη στιγμή"</string>
+    <string name="ss_lessons_read">"Ανάγνωση"</string>
+    <string name="ss_reading_empty">"Εργαζόμαστε σε αυτό το μάθημα. Ελέγξτε ξανά σύντομα."</string>
+    <string name="ss_reading_error">"Παρουσιάστηκε σφάλμα κατά το άνοιγμα μαθήματος"</string>
+    <string name="ss_reading_downloading">"Λήψη μαθήματος για ανάγνωση εκτός σύνδεσης"</string>
+    <string name="ss_reading_suggest_edit">"Προτείνετε επεξεργασία ή διόρθωση"</string>
+    <string name="ss_reading_suggest_edit_hint">"Περιγράψτε τη διόρθωση ή την πρότασή σας"</string>
+    <string name="ss_reading_suggest_edit_done">"Ευχαριστώ! Η πρότασή σας θα επανεξεταστεί."</string>
+    <string name="ss_reading_comment">"Σχόλιο"</string>
+    <string name="ss_reading_enter_comment">"Εισάγετε το σχόλιό σας"</string>
+    <string name="ss_reading_copied">"Η αντιγραφή αντιγραφής"</string>
+    <string name="ss_reading_share_to">"Κοινή χρήση της επιλογής σε:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Ερχομαι συντομα"</string>
+    <string name="ss_coming_soon_subheader">"Επί του παρόντος, εργαζόμαστε σε αυτό το χαρακτηριστικό. Μείνετε συντονισμένοι, έρχεται σύντομα."</string>
+    <string name="ss_about_app_version">"έκδοση 3.0"</string>
+    <string name="ss_about_made">"Κατασκευάστηκε με ❤ από την Adventech"</string>
+    <string name="ss_settings_display_options">"Επιλογές προβολής"</string>
+    <string name="ss_settings_color_theme">"Χρώμα θέμα"</string>
+    <string name="ss_settings_color_theme_light">"Φως"</string>
+    <string name="ss_settings_color_theme_sepia">"Καστανόχρους"</string>
+    <string name="ss_settings_color_theme_dark">"Σκοτάδι"</string>
+    <string name="ss_settings_typeface">"Γραμματοσειρά"</string>
+    <string name="ss_settings_font_size">"Μέγεθος γραμματοσειράς"</string>
+    <string name="ss_settings_font_size_tiny">"Μικροσκοπικός"</string>
+    <string name="ss_settings_font_size_small">"Μικρό"</string>
+    <string name="ss_settings_font_size_medium">"Μεσαίο"</string>
+    <string name="ss_settings_font_size_large">"Μεγάλο"</string>
+    <string name="ss_settings_font_size_huge">"Τεράστιος"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Βαθμολόγησε αυτήν την εφαρμογή"</string>
+    <string name="rate_dialog_message">"Αφιερώστε λίγο χρόνο για να αξιολογήσετε αυτήν την εφαρμογή. Ευχαριστώ για την υποστήριξη!"</string>
+    <string name="rate_dialog_ok">"Βαθμολογήστε το"</string>
+    <string name="rate_dialog_cancel">"Αργότερα"</string>
+    <string name="rate_dialog_no">"Οχι"</string>
+    <string name="ss_settings_website">"Δικτυακός τόπος"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Περισσότερες γλώσσες"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Αγγίξτε το εικονίδιο φίλτρου για να δείτε τις διαθέσιμες γλώσσες"</string>
+    <string name="ss_bible">"Αγία Γραφή"</string>
+    <string name="ss_settings_reminder">"Καθημερινή υπενθύμιση"</string>
+    <string name="ss_settings_reminder_summary">"Επιλέξτε για να ενεργοποιήσετε την υπενθύμιση καθημερινής μελέτης"</string>
+    <string name="ss_settings_reminder_time">"Χρόνος υπενθύμισης"</string>
+    <string name="ss_settings_reminder_text">"Ώρα να μελετήσετε το μάθημα του Σαββάτου"</string>
+    <string name="ss_reading_offline">"Είστε εκτός σύνδεσης. Επανασυνδέστε για να διαβάσετε αυτό το μάθημα."</string>
+    <string name="ss_reading_offline_retry">"Ξαναδοκιμάσετε"</string>
+</resources>
