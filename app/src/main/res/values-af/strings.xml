@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">"Sabbatskool"</string>
+    <string name="ss_share">"Deel"</string>
+    <string name="ss_login_button_google">"Meld aan by Google"</string>
+    <string name="ss_login_button_facebook">"Teken in met Facebook"</string>
+    <string name="ss_login_button_anonymous">"Teken Anoniem aan"</string>
+    <string name="ss_menu_anonymous_name">"Anoniem"</string>
+    <string name="ss_menu_sign_out">"Teken uit"</string>
+    <string name="ss_menu_read_now">"Lees nou"</string>
+    <string name="ss_menu_share_app">"Deel App"</string>
+    <string name="ss_menu_share_app_text">"Kyk na die nuwe Sabbatskool-program wat ek gebruik"</string>
+    <string name="ss_my_highlights">"My hoogtepunte"</string>
+    <string name="ss_my_notes">"My notas"</string>
+    <string name="ss_settings">"Instellings"</string>
+    <string name="ss_about">"Oor"</string>
+    <string name="ss_login_failed">"Inloggen misluk. Probeer asseblief weer."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Ja"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Geen"</string>
+    <string name="ss_login_anonymously_dialog_title">"Teken anoniem in?"</string>
+    <string name="ss_login_anonymously_dialog_description">"As jy anoniem inskakel, sal jy nie jou data (soos opmerkings en hoogtepunte) oor toestelle kan sinkroniseer nie, of nadat jy die program gedeïnstalleer het. Is jy seker jy wil voortgaan?"</string>
+    <string name="ss_quarterlies_filter_languages">"Tale"</string>
+    <string name="ss_quarterlies_downloading">"Kry kwartaalliks ..."</string>
+    <string name="ss_quarterlies_error">"Onbekende fout het voorgekom. Probeer asseblief weer."</string>
+    <string name="ss_quarterlies_empty">"Daar is tans geen kwartaallikse beskikbaar nie"</string>
+    <string name="ss_quarterly_item_read_text">"Oop"</string>
+    <string name="ss_lessons_downloading">"Opening kwartaalliks ..."</string>
+    <string name="ss_lessons_error">"Kon nie kwartaalliks begin nie"</string>
+    <string name="ss_lessons_empty">"Daar is tans geen kwartaallikse beskikbaar nie"</string>
+    <string name="ss_lessons_read">"Lees"</string>
+    <string name="ss_reading_empty">"Ons werk aan hierdie les. Gaan asseblief weer gou weer aan."</string>
+    <string name="ss_reading_error">"Kon nie les oopmaak nie"</string>
+    <string name="ss_reading_downloading">"Laai les af vir vanlyn lees"</string>
+    <string name="ss_reading_suggest_edit">"Stel redigeer of regstelling voor"</string>
+    <string name="ss_reading_suggest_edit_hint">"Beskryf asseblief u regstelling of voorstel"</string>
+    <string name="ss_reading_suggest_edit_done">"Dankie! Jou voorstel sal hersien word."</string>
+    <string name="ss_reading_comment">"Kommentaar"</string>
+    <string name="ss_reading_enter_comment">"Gee jou kommentaar"</string>
+    <string name="ss_reading_copied">"Seleksie gekopieer"</string>
+    <string name="ss_reading_share_to">"Deel seleksie na:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Kom binnekort"</string>
+    <string name="ss_coming_soon_subheader">"Ons werk tans aan hierdie funksie. Bly stil, dit kom binnekort."</string>
+    <string name="ss_about_app_version">"weergawe 3.0"</string>
+    <string name="ss_about_made">"Gemaak met ❤ deur Adventech"</string>
+    <string name="ss_settings_display_options">"Wys opsies"</string>
+    <string name="ss_settings_color_theme">"Kleur tema"</string>
+    <string name="ss_settings_color_theme_light">"Lig"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Donker"</string>
+    <string name="ss_settings_typeface">"Font"</string>
+    <string name="ss_settings_font_size">"Skrifgrootte"</string>
+    <string name="ss_settings_font_size_tiny">"Tiny"</string>
+    <string name="ss_settings_font_size_small">"Klein"</string>
+    <string name="ss_settings_font_size_medium">"Medium"</string>
+    <string name="ss_settings_font_size_large">"Big"</string>
+    <string name="ss_settings_font_size_huge">"Groot"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Gradeer hierdie inligting"</string>
+    <string name="rate_dialog_message">"Neem asseblief 'n oomblik om hierdie inligting te beoordeel. Dankie vir jou ondersteuning!"</string>
+    <string name="rate_dialog_ok">"Gradeer dit"</string>
+    <string name="rate_dialog_cancel">"Later"</string>
+    <string name="rate_dialog_no">"Geen"</string>
+    <string name="ss_settings_website">"Webwerf"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Meer tale"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Tik die filterikoon om beskikbare tale te sien"</string>
+    <string name="ss_bible">"Bybel"</string>
+    <string name="ss_settings_reminder">"Daaglikse herinnering"</string>
+    <string name="ss_settings_reminder_summary">"Kontroleer om daaglikse studieherinnering aan te skakel"</string>
+    <string name="ss_settings_reminder_time">"Herinneringstyd"</string>
+    <string name="ss_settings_reminder_text">"Tyd om die Sabbatskoolles te studeer"</string>
+    <string name="ss_reading_offline">"Jy is vanlyn. Heraansluit om hierdie les te lees."</string>
+    <string name="ss_reading_offline_retry">"Weer probeer"</string>
+</resources>
