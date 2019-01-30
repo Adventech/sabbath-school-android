@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+<resources>
+    <string name="ss_app_name">"Biblíulexíur"</string>
+    <string name="ss_share">"Deila"</string>
+    <string name="ss_login_button_google">"Skráðu þig inn með Google"</string>
+    <string name="ss_login_button_facebook">"Skráðu þig inn með Facebook"</string>
+    <string name="ss_login_button_anonymous">"Innskráning Nafnlaust"</string>
+    <string name="ss_menu_anonymous_name">"Nafnlaus"</string>
+    <string name="ss_menu_sign_out">"Útskrá"</string>
+    <string name="ss_menu_read_now">"Lesa núna"</string>
+    <string name="ss_menu_share_app">"Deila app"</string>
+    <string name="ss_menu_share_app_text">"Skoðaðu nýju hvíldarskólaforritið sem ég er að nota"</string>
+    <string name="ss_my_highlights">"Hápunktur minn"</string>
+    <string name="ss_my_notes">"Minn skýringar"</string>
+    <string name="ss_settings">"Stillingar"</string>
+    <string name="ss_about">"Um"</string>
+    <string name="ss_login_failed">"Innskráning mistókst. Vinsamlegast reyndu aftur."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Já"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Nr"</string>
+    <string name="ss_login_anonymously_dialog_title">"Innskráning nafnlaust?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Ef þú skráir þig inn nafnlaust munðu ekki geta samstillt gögnin þín (eins og athugasemdir og hápunktur) yfir tæki eða eftir að þú hefur fjarlægt forritið. Ertu viss um að þú viljir halda áfram?"</string>
+    <string name="ss_quarterlies_filter_languages">"Tungumál"</string>
+    <string name="ss_quarterlies_downloading">"Að fá ársfjórðungslega ..."</string>
+    <string name="ss_quarterlies_error">"Óþekkt villa kom upp. Vinsamlegast reyndu aftur."</string>
+    <string name="ss_quarterlies_empty">"Það eru engir ársfjórðungar í boði á þessum tíma"</string>
+    <string name="ss_quarterly_item_read_text">"Opna"</string>
+    <string name="ss_lessons_downloading">"Opnun ársfjórðungslega ..."</string>
+    <string name="ss_lessons_error">"Villa kom upp við opnun ársfjórðungslega"</string>
+    <string name="ss_lessons_empty">"Það eru engir ársfjórðungar í boði á þessum tíma"</string>
+    <string name="ss_lessons_read">"Lesa"</string>
+    <string name="ss_reading_empty">"Við erum að vinna að þessari lexíu. Vinsamlegast athugaðu aftur fljótlega."</string>
+    <string name="ss_reading_error">"Villa kom upp við opnun kennslustundar"</string>
+    <string name="ss_reading_downloading">"Niðurhal kennslustund fyrir lestur án nettengingar"</string>
+    <string name="ss_reading_suggest_edit">"Leggja til breytinga eða leiðréttingar"</string>
+    <string name="ss_reading_suggest_edit_hint">"Vinsamlegast lýsið leiðréttingu þinni eða uppástungu"</string>
+    <string name="ss_reading_suggest_edit_done">"Þakka þér fyrir! Tillaga þín verður skoðuð."</string>
+    <string name="ss_reading_comment">"Athugasemd"</string>
+    <string name="ss_reading_enter_comment">"Sláðu inn athugasemdina þína"</string>
+    <string name="ss_reading_copied">"Valið afritað"</string>
+    <string name="ss_reading_share_to">"Deila val til:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Kemur fljótlega"</string>
+    <string name="ss_coming_soon_subheader">"Við erum núna að vinna að þessari aðgerð. Haltu áfram, það kemur fljótlega."</string>
+    <string name="ss_about_app_version">"útgáfa 3.0"</string>
+    <string name="ss_about_made">"Made með ❤ eftir Adventech"</string>
+    <string name="ss_settings_display_options">"Skjávalkostir"</string>
+    <string name="ss_settings_color_theme">"Litur þema"</string>
+    <string name="ss_settings_color_theme_light">"Ljós"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Myrkur"</string>
+    <string name="ss_settings_typeface">"Leturgerð"</string>
+    <string name="ss_settings_font_size">"Leturstærð"</string>
+    <string name="ss_settings_font_size_tiny">"Tiny"</string>
+    <string name="ss_settings_font_size_small">"Lítil"</string>
+    <string name="ss_settings_font_size_medium">"Miðlungs"</string>
+    <string name="ss_settings_font_size_large">"Stórt"</string>
+    <string name="ss_settings_font_size_huge">"Björt"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Meta þessa app"</string>
+    <string name="rate_dialog_message">"Vinsamlegast taktu smá stund til að meta þessa app. Þakka þér fyrir stuðninginn!"</string>
+    <string name="rate_dialog_ok">"Meta það"</string>
+    <string name="rate_dialog_cancel">"Seinna"</string>
+    <string name="rate_dialog_no">"Nr"</string>
+    <string name="ss_settings_website">"Vefsíða"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Fleiri tungumál"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Pikkaðu á síutáknið til að sjá tiltæk tungumál"</string>
+    <string name="ss_bible">"Biblían"</string>
+    <string name="ss_settings_reminder">"Dagleg áminning"</string>
+    <string name="ss_settings_reminder_summary">"Kannaðu til að virkja daglega námsáminningu"</string>
+    <string name="ss_settings_reminder_time">"Áminningartími"</string>
+    <string name="ss_settings_reminder_text">"Tími til að læra hvíldardagskennsluna"</string>
+    <string name="ss_reading_offline">"Þú ert ótengdur. Tengdu aftur til að lesa þessa lexíu."</string>
+    <string name="ss_reading_offline_retry">"Reyndu aftur"</string>
+</resources>
