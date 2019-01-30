@@ -1,76 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
 <resources>
-<string name="ss_app_name">"सब्बाथ स्कूल"</string>
-<string name="ss_share">"साझेदारी गर्नुहोस्"</string>
-<string name="ss_login_button_google">"गुगलको साथ साइन इन गर्नुहोस्"</string>
-<string name="ss_login_button_facebook">"Facebook सँग साइन इन गर्नुहोस्"</string>
-<string name="ss_login_button_anonymous">"अज्ञात लगइन गर्नुहोस्"</string>
-<string name="ss_menu_anonymous_name">"बेनामी"</string>
-<string name="ss_menu_sign_out">"साइन आउट गर्नुहोस्"</string>
-<string name="ss_menu_read_now">"अहिले पढ्नुहोस्"</string>
-<string name="ss_menu_share_app">"अनुप्रयोग साझेदारी गर्नुहोस्"</string>
-<string name="ss_menu_share_app_text">"मैले प्रयोग गर्दै नयाँ Sabbath स्कूल एप जाँच गर्नुहोस्"</string>
-<string name="ss_my_highlights">"मेरो हाइलाइटहरू"</string>
-<string name="ss_my_notes">"मेरो नोटहरू"</string>
-<string name="ss_settings">"सेटिङ्हरू"</string>
-<string name="ss_about">"बारेमा"</string>
-<string name="ss_login_failed">"लगइन असफल भयो। फेरि प्रयास गर्नुहोस।"</string>
-<string name="ss_login_anonymously_dialog_positive">"हो"</string>
-<string name="ss_login_anonymously_dialog_negative">"होइन"</string>
-<string name="ss_login_anonymously_dialog_title">"गुमनाम रूपमा लगइन गर्नुहोस्?"</string>
-<string name="ss_login_anonymously_dialog_description">"यदि तपाईं गुमनाम रूपमा लगइन गर्नुहुन्छ भने, तपाइँ यन्त्रहरूमा भरिएको डेटा (जस्तै टिप्पणीहरू र हाइलाइटहरू) सिङ्क्रोनाइज गर्न सक्षम हुनुहुँदैन, वा एप स्थापना रद्द गरेपछि। के तपाईं पक्का अगाडि बढ्न चाहनुहुन्छ?"</string>
-<string name="ss_quarterlies_filter_languages">"भाषाहरु"</string>
-<string name="ss_quarterlies_downloading">"क्वाटरलाइजहरू प्राप्त गर्दै ..."</string>
-<string name="ss_quarterlies_error">"अज्ञात त्रुटि भयो। फेरि प्रयास गर्नुहोस।"</string>
-<string name="ss_quarterlies_empty">"यस समयमा कुनै तिमाही उपलब्ध छैन"</string>
-<string name="ss_quarterly_item_read_text">"खोल्नुहोस्"</string>
-<string name="ss_lessons_downloading">"तिमाही खोल्दै ..."</string>
-<string name="ss_lessons_error">"तिमाही खोल्दा त्रुटि भयो"</string>
-<string name="ss_lessons_empty">"यस समयमा कुनै तिमाही उपलब्ध छैन"</string>
-<string name="ss_lessons_read">"पढ्नुहोस्"</string>
-<string name="ss_reading_empty">"हामी यो पाठमा काम गरिरहेका छौं। कृपया चाँडै फेरि जाँच गर्नुहोस्।"</string>
-<string name="ss_reading_error">"पाठ खोल्दा त्रुटि देखापर्यो"</string>
-<string name="ss_reading_downloading">"अफलाइन पढ्नको लागि पाठ डाउनलोड गर्दै"</string>
-<string name="ss_reading_suggest_edit">"सम्पादन वा सुधार सुझाव दिनुहोस्"</string>
-<string name="ss_reading_suggest_edit_hint">"कृपया तपाईंको सुधार वा सुझाव वर्णन गर्नुहोस्"</string>
-<string name="ss_reading_suggest_edit_done">"धन्यवाद! तपाईंको सल्लाह समीक्षा गरिनेछ।"</string>
-<string name="ss_reading_comment">"टिप्पणी"</string>
-<string name="ss_reading_enter_comment">"तपाईंको टिप्पणी प्रविष्ट गर्नुहोस्"</string>
-<string name="ss_reading_copied">"चयन प्रतिलिपि गरियो"</string>
-<string name="ss_reading_share_to">"निम्नमा चयन साझेदारी गर्नुहोस्:"</string>
+    <string name="ss_app_name">"सब्बाथ स्कूल"</string>
+    <string name="ss_share">"साझेदारी गर्नुहोस्"</string>
+    <string name="ss_login_button_google">"गुगलको साथ साइन इन गर्नुहोस्"</string>
+    <string name="ss_login_button_facebook">"Facebook सँग साइन इन गर्नुहोस्"</string>
+    <string name="ss_login_button_anonymous">"अज्ञात लगइन गर्नुहोस्"</string>
+    <string name="ss_menu_anonymous_name">"बेनामी"</string>
+    <string name="ss_menu_sign_out">"साइन आउट गर्नुहोस्"</string>
+    <string name="ss_menu_read_now">"अहिले पढ्नुहोस्"</string>
+    <string name="ss_menu_share_app">"अनुप्रयोग साझेदारी गर्नुहोस्"</string>
+    <string name="ss_menu_share_app_text">"मैले प्रयोग गर्दै नयाँ Sabbath स्कूल एप जाँच गर्नुहोस्"</string>
+    <string name="ss_my_highlights">"मेरो हाइलाइटहरू"</string>
+    <string name="ss_my_notes">"मेरो नोटहरू"</string>
+    <string name="ss_settings">"सेटिङ्हरू"</string>
+    <string name="ss_about">"बारेमा"</string>
+    <string name="ss_login_failed">"लगइन असफल भयो। फेरि प्रयास गर्नुहोस।"</string>
+    <string name="ss_login_anonymously_dialog_positive">"हो"</string>
+    <string name="ss_login_anonymously_dialog_negative">"होइन"</string>
+    <string name="ss_login_anonymously_dialog_title">"गुमनाम रूपमा लगइन गर्नुहोस्?"</string>
+    <string name="ss_login_anonymously_dialog_description">"यदि तपाईं गुमनाम रूपमा लगइन गर्नुहुन्छ भने, तपाइँ यन्त्रहरूमा भरिएको डेटा (जस्तै टिप्पणीहरू र हाइलाइटहरू) सिङ्क्रोनाइज गर्न सक्षम हुनुहुँदैन, वा एप स्थापना रद्द गरेपछि। के तपाईं पक्का अगाडि बढ्न चाहनुहुन्छ?"</string>
+    <string name="ss_quarterlies_filter_languages">"भाषाहरु"</string>
+    <string name="ss_quarterlies_downloading">"क्वाटरलाइजहरू प्राप्त गर्दै ..."</string>
+    <string name="ss_quarterlies_error">"अज्ञात त्रुटि भयो। फेरि प्रयास गर्नुहोस।"</string>
+    <string name="ss_quarterlies_empty">"यस समयमा कुनै तिमाही उपलब्ध छैन"</string>
+    <string name="ss_quarterly_item_read_text">"खोल्नुहोस्"</string>
+    <string name="ss_lessons_downloading">"तिमाही खोल्दै ..."</string>
+    <string name="ss_lessons_error">"तिमाही खोल्दा त्रुटि भयो"</string>
+    <string name="ss_lessons_empty">"यस समयमा कुनै तिमाही उपलब्ध छैन"</string>
+    <string name="ss_lessons_read">"पढ्नुहोस्"</string>
+    <string name="ss_reading_empty">"हामी यो पाठमा काम गरिरहेका छौं। कृपया चाँडै फेरि जाँच गर्नुहोस्।"</string>
+    <string name="ss_reading_error">"पाठ खोल्दा त्रुटि देखापर्यो"</string>
+    <string name="ss_reading_downloading">"अफलाइन पढ्नको लागि पाठ डाउनलोड गर्दै"</string>
+    <string name="ss_reading_suggest_edit">"सम्पादन वा सुधार सुझाव दिनुहोस्"</string>
+    <string name="ss_reading_suggest_edit_hint">"कृपया तपाईंको सुधार वा सुझाव वर्णन गर्नुहोस्"</string>
+    <string name="ss_reading_suggest_edit_done">"धन्यवाद! तपाईंको सल्लाह समीक्षा गरिनेछ।"</string>
+    <string name="ss_reading_comment">"टिप्पणी"</string>
+    <string name="ss_reading_enter_comment">"तपाईंको टिप्पणी प्रविष्ट गर्नुहोस्"</string>
+    <string name="ss_reading_copied">"चयन प्रतिलिपि गरियो"</string>
+    <string name="ss_reading_share_to">"निम्नमा चयन साझेदारी गर्नुहोस्:"</string>
 
-<!-- TODO: remove when done -->
-<string name="ss_coming_soon_header">"आउदैछ"</string>
-<string name="ss_coming_soon_subheader">"हामी हाल यस सुविधामा काम गरिरहेका छौं। घनिष्ठ रहनुहोस्, चाँडै आउँदैछ।"</string>
-<string name="ss_about_app_version">"संस्करण 3.0"</string>
-<string name="ss_about_made">"Adventech द्वारा प्यार संग"</string>
-<string name="ss_settings_display_options">"विकल्पहरू प्रदर्शन गर्नुहोस्"</string>
-<string name="ss_settings_color_theme">"रङ विषयवस्तु"</string>
-<string name="ss_settings_color_theme_light">"लाइट"</string>
-<string name="ss_settings_color_theme_sepia">"खैरो"</string>
-<string name="ss_settings_color_theme_dark">"गाढा"</string>
-<string name="ss_settings_typeface">"फन्ट"</string>
-<string name="ss_settings_font_size">"फन्ट आकार"</string>
-<string name="ss_settings_font_size_tiny">"सानो"</string>
-<string name="ss_settings_font_size_small">"सानो"</string>
-<string name="ss_settings_font_size_medium">"मध्यम"</string>
-<string name="ss_settings_font_size_large">"ठूलो"</string>
-<string name="ss_settings_font_size_huge">"विशाल"</string>
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"आउदैछ"</string>
+    <string name="ss_coming_soon_subheader">"हामी हाल यस सुविधामा काम गरिरहेका छौं। घनिष्ठ रहनुहोस्, चाँडै आउँदैछ।"</string>
+    <string name="ss_about_app_version">"संस्करण 3.0"</string>
+    <string name="ss_about_made">"Adventech द्वारा प्यार संग"</string>
+    <string name="ss_settings_display_options">"विकल्पहरू प्रदर्शन गर्नुहोस्"</string>
+    <string name="ss_settings_color_theme">"रङ विषयवस्तु"</string>
+    <string name="ss_settings_color_theme_light">"लाइट"</string>
+    <string name="ss_settings_color_theme_sepia">"खैरो"</string>
+    <string name="ss_settings_color_theme_dark">"गाढा"</string>
+    <string name="ss_settings_typeface">"फन्ट"</string>
+    <string name="ss_settings_font_size">"फन्ट आकार"</string>
+    <string name="ss_settings_font_size_tiny">"सानो"</string>
+    <string name="ss_settings_font_size_small">"सानो"</string>
+    <string name="ss_settings_font_size_medium">"मध्यम"</string>
+    <string name="ss_settings_font_size_large">"ठूलो"</string>
+    <string name="ss_settings_font_size_huge">"विशाल"</string>
 
-<!-- RATE APP -->
-<string name="rate_dialog_title">"यो अनुप्रयोग मूल्याङ्कन गर्नुहोस्"</string>
-<string name="rate_dialog_message">"यो अनुप्रयोग मूल्याङ्कन गर्नको लागि कृपया एक क्षण लिनुहोस्। सहयोगको लागि धन्यवाद!"</string>
-<string name="rate_dialog_ok">"यो दर गर्नुहोस्"</string>
-<string name="rate_dialog_cancel">"पछि"</string>
-<string name="rate_dialog_no">"होइन"</string>
-<string name="ss_settings_website">"वेबसाइट"</string>
-<string name="ss_quarterlies_filter_languages_prompt_title">"थप भाषाहरू"</string>
-<string name="ss_quarterlies_filter_languages_prompt_description">"उपलब्ध भाषाहरू हेर्न फिल्टर प्रतिमा ट्याप गर्नुहोस्"</string>
-<string name="ss_bible">"बाइबल"</string>
-<string name="ss_settings_reminder">"दैनिक अनुस्मारक"</string>
-<string name="ss_settings_reminder_summary">"दैनिक अध्ययन अनुस्मारक सक्षम गर्न जाँच गर्नुहोस्"</string>
-<string name="ss_settings_reminder_time">"रिमाइन्डर समय"</string>
-<string name="ss_settings_reminder_text">"सब्बाथ स्कूलको पाठ पढ्ने समय"</string>
-<string name="ss_reading_offline">"तपाईं अफलाइन हुनुहुन्छ। यो पाठ पढ्न पुनः जोड्नुहोस्।"</string>
-<string name="ss_reading_offline_retry">"पुन: प्रयास गर्नुहोस्"</string>
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"यो अनुप्रयोग मूल्याङ्कन गर्नुहोस्"</string>
+    <string name="rate_dialog_message">"यो अनुप्रयोग मूल्याङ्कन गर्नको लागि कृपया एक क्षण लिनुहोस्। सहयोगको लागि धन्यवाद!"</string>
+    <string name="rate_dialog_ok">"यो दर गर्नुहोस्"</string>
+    <string name="rate_dialog_cancel">"पछि"</string>
+    <string name="rate_dialog_no">"होइन"</string>
+    <string name="ss_settings_website">"वेबसाइट"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"थप भाषाहरू"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"उपलब्ध भाषाहरू हेर्न फिल्टर प्रतिमा ट्याप गर्नुहोस्"</string>
+    <string name="ss_bible">"बाइबल"</string>
+    <string name="ss_settings_reminder">"दैनिक अनुस्मारक"</string>
+    <string name="ss_settings_reminder_summary">"दैनिक अध्ययन अनुस्मारक सक्षम गर्न जाँच गर्नुहोस्"</string>
+    <string name="ss_settings_reminder_time">"रिमाइन्डर समय"</string>
+    <string name="ss_settings_reminder_text">"सब्बाथ स्कूलको पाठ पढ्ने समय"</string>
+    <string name="ss_reading_offline">"तपाईं अफलाइन हुनुहुन्छ। यो पाठ पढ्न पुनः जोड्नुहोस्।"</string>
+    <string name="ss_reading_offline_retry">"पुन: प्रयास गर्नुहोस्"</string>
 </resources>
