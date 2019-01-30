@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">"Biblijske Pouke"</string>
+    <string name="ss_share">"Udio"</string>
+    <string name="ss_login_button_google">"Prijavite se putem Googlea"</string>
+    <string name="ss_login_button_facebook">"Prijavite se putem Facebooka"</string>
+    <string name="ss_login_button_anonymous">"Prijavite se anonimno"</string>
+    <string name="ss_menu_anonymous_name">"Anoniman"</string>
+    <string name="ss_menu_sign_out">"Odjavi se"</string>
+    <string name="ss_menu_read_now">"Čitaj sad"</string>
+    <string name="ss_menu_share_app">"Podijelite aplikaciju"</string>
+    <string name="ss_menu_share_app_text">"Pogledajte novu subotnju školu koju koristim"</string>
+    <string name="ss_my_highlights">"Moji vrhunci"</string>
+    <string name="ss_my_notes">"Moje napomene"</string>
+    <string name="ss_settings">"Postavke"</string>
+    <string name="ss_about">"Oko"</string>
+    <string name="ss_login_failed">"Prijava nije uspjela. Molim te pokušaj ponovno."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Da"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Ne"</string>
+    <string name="ss_login_anonymously_dialog_title">"Prijavite se anonimno?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Ako se prijavite anonimno, nećete moći sinkronizirati podatke (kao što su komentari i istaknuti događaji) na svim uređajima ili nakon deinstaliranja aplikacije. Jeste li sigurni da želite nastaviti?"</string>
+    <string name="ss_quarterlies_filter_languages">"Jezici"</string>
+    <string name="ss_quarterlies_downloading">"Dobivanje tromjesečja ..."</string>
+    <string name="ss_quarterlies_error">"Došlo je do nepoznate pogreške. Molim te pokušaj ponovno."</string>
+    <string name="ss_quarterlies_empty">"U ovom trenutku nema dostupnih kvartala"</string>
+    <string name="ss_quarterly_item_read_text">"Otvorena"</string>
+    <string name="ss_lessons_downloading">"Otvaranje kvartalno ..."</string>
+    <string name="ss_lessons_error">"Došlo je do pogreške tijekom otvaranja kvartalno"</string>
+    <string name="ss_lessons_empty">"U ovom trenutku nema dostupnih kvartala"</string>
+    <string name="ss_lessons_read">"Čitati"</string>
+    <string name="ss_reading_empty">"Radimo na ovoj lekciji. Uskoro ponovno provjerite."</string>
+    <string name="ss_reading_error">"Došlo je do pogreške tijekom otvaranja lekcije"</string>
+    <string name="ss_reading_downloading">"Preuzimanje lekcije za izvanmrežno čitanje"</string>
+    <string name="ss_reading_suggest_edit">"Predloži uređivanje ili ispravak"</string>
+    <string name="ss_reading_suggest_edit_hint">"Opišite svoj ispravak ili prijedlog"</string>
+    <string name="ss_reading_suggest_edit_done">"Hvala vam! Vaš će prijedlog biti pregledan."</string>
+    <string name="ss_reading_comment">"Komentar"</string>
+    <string name="ss_reading_enter_comment">"Unesite svoj komentar"</string>
+    <string name="ss_reading_copied">"Odabir je kopiran"</string>
+    <string name="ss_reading_share_to">"Dijeli odabir za:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Dolazi uskoro"</string>
+    <string name="ss_coming_soon_subheader">"Trenutno radimo na ovoj značajki. Ostanite s nama, uskoro će doći."</string>
+    <string name="ss_about_app_version">"verzija 3.0"</string>
+    <string name="ss_about_made">"Napravljeno od ❤ Adventech"</string>
+    <string name="ss_settings_display_options">"Postavke zaslona"</string>
+    <string name="ss_settings_color_theme">"Tema boje"</string>
+    <string name="ss_settings_color_theme_light">"Svjetlo"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepija"</string>
+    <string name="ss_settings_color_theme_dark">"mrak"</string>
+    <string name="ss_settings_typeface">"krstionica"</string>
+    <string name="ss_settings_font_size">"Veličina fonta"</string>
+    <string name="ss_settings_font_size_tiny">"Sićušan"</string>
+    <string name="ss_settings_font_size_small">"Mali"</string>
+    <string name="ss_settings_font_size_medium">"Srednji"</string>
+    <string name="ss_settings_font_size_large">"Veliki"</string>
+    <string name="ss_settings_font_size_huge">"Ogroman"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Ocijeni ovu aplikaciju"</string>
+    <string name="rate_dialog_message">"Odvojite trenutak da biste ocijenili ovu aplikaciju. Hvala na podršci!"</string>
+    <string name="rate_dialog_ok">"Ocijenite ga"</string>
+    <string name="rate_dialog_cancel">"Kasnije"</string>
+    <string name="rate_dialog_no">"Ne"</string>
+    <string name="ss_settings_website">"Web stranica"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Više jezika"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Dodirnite ikonu filtra da biste vidjeli dostupne jezike"</string>
+    <string name="ss_bible">"Biblija"</string>
+    <string name="ss_settings_reminder">"Dnevni podsjetnik"</string>
+    <string name="ss_settings_reminder_summary">"Označite da biste omogućili podsjetnik za dnevnu studiju"</string>
+    <string name="ss_settings_reminder_time">"Podsjetnik Vrijeme"</string>
+    <string name="ss_settings_reminder_text">"Vrijeme je za proučavanje subotnje škole"</string>
+    <string name="ss_reading_offline">"Vi ste izvan mreže. Ponovno se spojite da biste pročitali ovu lekciju."</string>
+    <string name="ss_reading_offline_retry">"Pokušaj ponovno"</string>
+</resources>
