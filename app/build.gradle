@@ -64,7 +64,7 @@ android {
             applicationId "com.cryart.sabbathschool"
             minSdkVersion 15
             targetSdkVersion 27
-            versionCode 29
+            versionCode 30
             versionName "3.2." + versionBuild
 
             vectorDrawables.useSupportLibrary = true
@@ -116,8 +116,8 @@ android {
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '27.0.2'
-    final PLAY_SERVICES_VERSION = '11.8.0'
+    final SUPPORT_LIBRARY_VERSION = '27.1.0'
+    final PLAY_SERVICES_VERSION = '16.0.1'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -139,10 +139,11 @@ dependencies {
     compile "com.google.firebase:firebase-core:$PLAY_SERVICES_VERSION"
     compile "com.google.firebase:firebase-auth:$PLAY_SERVICES_VERSION"
     compile "com.google.firebase:firebase-database:$PLAY_SERVICES_VERSION"
-    compile "com.google.firebase:firebase-messaging:$PLAY_SERVICES_VERSION"
+    compile "com.google.firebase:firebase-messaging:17.3.4"
     compile "com.google.firebase:firebase-storage:$PLAY_SERVICES_VERSION"
 
     implementation "com.firebase:firebase-jobdispatcher:0.8.5"
+    implementation "com.google.android.exoplayer:exoplayer:2.7.3"
 
     compile "uk.co.samuelwall:material-tap-target-prompt:2.0.1"
     compile "com.nostra13.universalimageloader:universal-image-loader:1.9.5"

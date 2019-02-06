@@ -105,6 +105,10 @@ public class SSQuarterliesViewModel implements SSViewModel {
             ssDefaultLanguage = "he";
         }
 
+        if (ssDefaultLanguage.equals("fil")) {
+            ssDefaultLanguage = "tl";
+        }
+
         if (!ssLastLanguageSelected.isEmpty()){
             ssDefaultLanguage = ssLastLanguageSelected;
         }
