@@ -1,0 +1,21 @@
+[
+  {
+    "title": "مدرسة السبت",
+    "font": "./fonts/LateefRegOT.ttf"
+  },
+
+  {
+    "title": "آيات الكتاب المقدس",
+    "font": "./fonts/LateefRegOT.ttf"
+  },
+
+  {
+    "title": "دراسة أسبوعية",
+    "font": "./fonts/LateefRegOT.ttf"
+  },
+
+  {
+    "title": "خيارات القراءة",
+    "font": "./fonts/LateefRegOT.ttf"
+  }
+]
