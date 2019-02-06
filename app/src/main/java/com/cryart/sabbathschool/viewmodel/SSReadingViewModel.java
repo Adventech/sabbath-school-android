@@ -302,10 +302,12 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             SSRead ssRead;
                             if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                                ssRead = dataSnapshot.getValue(SSRead.class);
-                                ssReads.add(index, ssRead);
-                                ssReadHighlights.add(index, _ssReadHighlights);
-                                ssReadComments.add(index, _ssReadComments);
+                                if (ssReadsLoadedCounter < ssTotalReadsCount) {
+                                    ssRead = dataSnapshot.getValue(SSRead.class);
+                                    ssReads.add(index, ssRead);
+                                    ssReadHighlights.add(index, _ssReadHighlights);
+                                    ssReadComments.add(index, _ssReadComments);
+                                }
 
                                 ssReadsLoadedCounter++;
 
