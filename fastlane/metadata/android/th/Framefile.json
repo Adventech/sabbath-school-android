@@ -1,0 +1,18 @@
+[
+  {
+    "title": "โรงเรียนวันสะบาโต",
+    "font": "./fonts/LomaBold.ttf"
+  },
+  {
+    "title": "ข้อพระคัมภีร์",
+    "font": "./fonts/LomaBold.ttf"
+  },
+  {
+    "title": "บทเรียนรายสัปดาห์",
+    "font": "./fonts/LomaBold.ttf"
+  },
+  {
+    "title": "ตัวเลือกการอ่าน",
+    "font": "./fonts/LomaBold.ttf"
+  }
+]

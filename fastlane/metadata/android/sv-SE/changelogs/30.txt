@@ -1,0 +1,1 @@
+Lösningsproblem som påverkar lanseringen av applikationen för äldre enheter.

@@ -1,0 +1,1 @@
+Memperbaiki masalah yang mempengaruhi peluncuran aplikasi untuk perangkat yang lebih lama.

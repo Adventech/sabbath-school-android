@@ -1,0 +1,18 @@
+[
+  {
+    "title": "安息日学校",
+    "font": "./fonts/NotoSansCJKjp-Regular.otf"
+  },
+  {
+    "title": "圣经经文",
+    "font": "./fonts/NotoSansCJKjp-Regular.otf"
+  },
+  {
+    "title": "每周一课",
+    "font": "./fonts/NotoSansCJKjp-Regular.otf"
+  },
+  {
+    "title": "阅读选项",
+    "font": "./fonts/NotoSansCJKjp-Regular.otf"
+  }
+]

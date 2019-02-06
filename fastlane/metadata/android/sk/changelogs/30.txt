@@ -1,0 +1,1 @@
+Oprava problému ovplyvňujúce spustenie aplikácie pre staršie zariadenia.

@@ -1,0 +1,1 @@
+Problem behoben, das sich auf den Start der Anwendung für ältere Geräte auswirkt.

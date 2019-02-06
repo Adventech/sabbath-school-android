@@ -1,0 +1,1 @@
+Løsningsproblem som påvirker lanseringen av programmet for eldre enheter.

@@ -1,7 +1,11 @@
-Conocé nueva aplicación de Escuela Sabática para Android! Estudiar la Palabra de Dios con estas características impresionantes:
+¡Conoce la nueva aplicación de la Escuela Sabática para Android! Estudia la Palabra de Dios con estas impresionantes características:
 
+- Deslizar la navegación entre días
+- Diferentes versiones de la Biblia: ASV, KJV, NKJV, NASB, NIV
 - Resaltado de texto
 - Comentarios
 - Versículos de la Biblia
+- Recordatorios diarios
+- Modos de lectura
 
-Adventech 2017 ®
+Adventech 2019 ®

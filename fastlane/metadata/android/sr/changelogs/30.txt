@@ -1,0 +1,1 @@
+Rešavanje problema koji utiče na lansiranje aplikacije za starije uređaje.

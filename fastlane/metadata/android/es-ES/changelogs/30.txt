@@ -1,0 +1,1 @@
+Se corrigió el problema que afectaba el lanzamiento de la aplicación para dispositivos más antiguos.

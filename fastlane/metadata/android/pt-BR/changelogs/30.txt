@@ -1,0 +1,1 @@
+Corrigindo problema que afeta o lançamento do aplicativo para dispositivos mais antigos.

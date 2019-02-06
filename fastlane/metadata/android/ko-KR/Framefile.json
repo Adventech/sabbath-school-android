@@ -1,0 +1,18 @@
+[
+  {
+    "title": "안식일 학교",
+    "font": "./fonts/NotoSansCJKjp-Regular.otf"
+  },
+  {
+    "title": "성경 구절",
+    "font": "./fonts/NotoSansCJKjp-Regular.otf"
+  },
+  {
+    "title": "주간 수업",
+    "font": "./fonts/NotoSansCJKjp-Regular.otf"
+  },
+  {
+    "title": "독서 옵션",
+    "font": "./fonts/NotoSansCJKjp-Regular.otf"
+  }
+]

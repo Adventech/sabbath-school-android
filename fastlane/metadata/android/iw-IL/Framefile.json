@@ -1,0 +1,18 @@
+[
+  {
+    "title": "בית ספר שבת",
+    "font": "./fonts/drugulinclm-bold-webfont.ttf"
+  },
+  {
+    "title": "פסוקי תנך",
+    "font": "./fonts/drugulinclm-bold-webfont.ttf"
+  },
+  {
+    "title": "שיעור שבועי",
+    "font": "./fonts/drugulinclm-bold-webfont.ttf"
+  },
+  {
+    "title": "אפשרויות קריאה",
+    "font": "./fonts/drugulinclm-bold-webfont.ttf"
+  }
+]

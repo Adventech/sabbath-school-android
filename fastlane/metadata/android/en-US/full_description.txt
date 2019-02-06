@@ -1,10 +1,11 @@
 Meet the new Sabbath School app for Android! Study the Word of God with these awesome features:
 
-- Swipe Navigation
+- Swipe navigation between days
+- Different Bible versions: ASV, KJV, NKJV, NASB, NIV
 - Text Highlighting 
 - Comments
 - Bible Verses
 - Daily Reminders
 - Reading Modes
 
-Adventech 2017 ®
+Adventech 2019 ®

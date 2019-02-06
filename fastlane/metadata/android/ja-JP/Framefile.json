@@ -1,0 +1,18 @@
+[
+  {
+    "title": "安息日学校",
+    "font": "./fonts/NotoSansCJKjp-Regular.otf"
+  },
+  {
+    "title": "聖書の詩",
+    "font": "./fonts/NotoSansCJKjp-Regular.otf"
+  },
+  {
+    "title": "ウィークリーレッスン",
+    "font": "./fonts/NotoSansCJKjp-Regular.otf"
+  },
+  {
+    "title": "読書オプション",
+    "font": "./fonts/NotoSansCJKjp-Regular.otf"
+  }
+]
