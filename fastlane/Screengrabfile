@@ -7,35 +7,43 @@ app_apk_path 'app/build/outputs/apk/debug/app-debug.apk'
 tests_apk_path 'app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk'
 
 # locales [
-#     'ar',
 #     'bg',
 #     'cs-CZ',
 #     'da-DK',
 #     'de-DE',
+#     'el-GR',
 #     'en-US',
 #     'es-ES',
 #     'et',
 #     'fa',
+#     'fil',
 #     'fr-FR',
+#     'hr',
 #     'hu-HU',
 #     'id',
 #     'it-IT',
 #     'iw-IL',
 #     'ja-JP',
 #     'ko-KR',
+#     'lo-LA',
+#     'lt',
 #     'ms',
 #     'no-NO',
+#     'pl-PL',
 #     'ro',
 #     'ru-RU',
 #     'sr',
+#     'sv-SE',
+#     'sw',
+#     'ta-IN',
 #     'th',
 #     'tr-TR',
 #     'uk',
+#     'vi',
 #     'zh-CN'
-#     ]
+# ]
 locales [
-    'sr',
-    'uk'
+    'zh-CN'
 ]
 
 # clear all previously generated screenshots in your local output directory before creating new ones

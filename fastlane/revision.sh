@@ -15,6 +15,10 @@ case $i in
     FRAMEIT="${i#*=}"
     shift
     ;;
+    -l=*|--locale=*)
+    LOCALE="${i#*=}"
+    shift
+    ;;
     --default)
     DEFAULT=YES
     shift
@@ -48,13 +52,12 @@ if [[ $TRANSLATE ]]; then
     done;
 fi
 
-
-
 if [[ $FRAMEIT ]]; then
     LANGUAGE_TMP=""
     INCR=0
-    find . -name "*.png-framed.png" -exec rm '{}' \;
-    for file in metadata/android/*/images/phoneScreenshots/*.png; do
+    find metadata/android/$LOCALE/images/phoneScreenshots/ -name "*.png-framed.png" -exec rm '{}' \;
+    for file in metadata/android/$LOCALE/images/phoneScreenshots/*.png; do
+
         LANGUAGE="${file//metadata\/android\//}"
         LANGUAGE="${LANGUAGE:0:2}"
 
@@ -67,8 +70,8 @@ if [[ $FRAMEIT ]]; then
         TITLE_GLOBAL=$(eval "cat Framefile.json | jq -r '.global[$INCR].title'")
         FONT_GLOBAL=$(eval "cat Framefile.json | jq -r '.global[$INCR].font'")
 
-        TITLE_LOCAL=$(eval "cat Framefile.json | jq -r '.$LANGUAGE[$INCR].title'")
-        FONT_LOCAL=$(eval "cat Framefile.json | jq -r '.$LANGUAGE[$INCR].font'")
+        TITLE_LOCAL=$(eval "cat metadata/android/$LOCALE/Framefile.json | jq -r '.[$INCR].title'")
+        FONT_LOCAL=$(eval "cat metadata/android/$LOCALE/Framefile.json | jq -r '.[$INCR].font'")
 
         if [ ! -z "$TITLE_LOCAL" -a "$TITLE_LOCAL" != "null" ]; then
             TITLE=$TITLE_LOCAL
