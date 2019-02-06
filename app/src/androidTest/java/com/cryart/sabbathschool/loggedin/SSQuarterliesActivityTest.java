@@ -71,7 +71,7 @@ public class SSQuarterliesActivityTest {
 
         pressBack();
 
-        SystemClock.sleep(1000);
+        SystemClock.sleep(5000);
         onView(withId(R.id.ss_quarterly_item_featured_title)).perform(click());
 
 

@@ -77,10 +77,14 @@ public class SSLessonsActivityTest {
             lang = "he";
         }
 
-        grouchyIntent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, lang+"-2018-02");
+        if (lang.equals("fil")) {
+            lang = "tl";
+        }
+
+        grouchyIntent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, lang+"-2019-01");
         activityRule.launchActivity(grouchyIntent);
 
-        SystemClock.sleep(2000);
+        SystemClock.sleep(4000);
         //Screengrab.screenshot("lessons_screen");
     }
 }

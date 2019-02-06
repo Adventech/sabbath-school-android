@@ -86,21 +86,23 @@ public class SSReadingActivityTest {
             lang = "he";
         }
 
-        grouchyIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, lang+"-2018-02-01");
+        if (lang.equals("fil")) {
+            lang = "tl";
+        }
+
+        grouchyIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, lang+"-2019-01-01");
         activityRule.launchActivity(grouchyIntent);
 
-        SystemClock.sleep(2000);
-
-        SystemClock.sleep(2000);
+        SystemClock.sleep(8000);
         Screengrab.screenshot("reading_screen");
 
         onView(withId(R.id.ss_reading_menu_display_options)).perform(click());
 
-        SystemClock.sleep(2000);
+        SystemClock.sleep(5000);
 
         Screengrab.screenshot("reading_screen_display_options");
 
-        SystemClock.sleep(2000);
+        SystemClock.sleep(5000);
 
         ViewActions.pressBack();
 
@@ -118,7 +120,7 @@ public class SSReadingActivityTest {
 
 
             activityRule.getActivity().ssReadingViewModel.onVerseClicked(v);
-            SystemClock.sleep(2000);
+            SystemClock.sleep(5000);
             Screengrab.screenshot("reading_bible_verses");
         }
     }
