@@ -1,0 +1,21 @@
+[
+  {
+    "title": "ໂຮງຮຽນວັນສະບາໂຕຢູ່ບ່ອນດຽວ",
+    "font": "./fonts/saysettha_ot.ttf"
+  },
+
+  {
+    "title": "ຂໍ້ພຣະຄໍາພີ",
+    "font": "./fonts/saysettha_ot.ttf"
+  },
+
+  {
+    "title": "ບົດຮຽນອາທິດ",
+    "font": "./fonts/saysettha_ot.ttf"
+  },
+
+  {
+    "title": "ຕົວເລືອກການອ່ານ",
+    "font": "./fonts/saysettha_ot.ttf"
+  }
+]

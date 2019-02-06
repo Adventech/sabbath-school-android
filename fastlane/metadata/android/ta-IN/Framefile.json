@@ -1,0 +1,21 @@
+[
+  {
+    "title": "பெரியோர் ஓய்வுநாட்\nபள்ளி பாடங்கள்",
+    "font": "./fonts/Samyak-Tamil.ttf"
+  },
+
+  {
+    "title": "பைபிள்\nவசனங்கள்",
+    "font": "./fonts/Samyak-Tamil.ttf"
+  },
+
+  {
+    "title": "வாராந்திர\nபடிப்பினைகளை",
+    "font": "./fonts/Samyak-Tamil.ttf"
+  },
+
+  {
+    "title": "படித்தல்\nவிருப்பங்கள்",
+    "font": "./fonts/Samyak-Tamil.ttf"
+  }
+]
