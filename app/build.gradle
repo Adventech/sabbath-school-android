@@ -64,7 +64,7 @@ android {
             applicationId "com.cryart.sabbathschool"
             minSdkVersion 15
             targetSdkVersion 27
-            versionCode 30
+            versionCode 31
             versionName "3.2." + versionBuild
 
             vectorDrawables.useSupportLibrary = true
@@ -143,7 +143,6 @@ dependencies {
     compile "com.google.firebase:firebase-storage:$PLAY_SERVICES_VERSION"
 
     implementation "com.firebase:firebase-jobdispatcher:0.8.5"
-    implementation "com.google.android.exoplayer:exoplayer:2.7.3"
 
     compile "uk.co.samuelwall:material-tap-target-prompt:2.0.1"
     compile "com.nostra13.universalimageloader:universal-image-loader:1.9.5"
