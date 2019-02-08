@@ -356,6 +356,14 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         ssReadingActivityBinding = null;
         ssReadingDisplayOptions = null;
         ssRead = null;
+        ssReadIndex = null;
+        ssReads = null;
+        ssReadHighlights = null;
+        ssReadComments = null;
+        ssLessonLoadingVisibility = null;
+        ssLessonOfflineStateVisibility = null;
+        ssLessonErrorStateVisibility = null;
+        ssLessonCoordinatorVisibility = null;
     }
 
     private SSReadingView getCurrentSSReadingView(){
