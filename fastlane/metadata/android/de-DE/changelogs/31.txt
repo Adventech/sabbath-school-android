@@ -1,0 +1,18 @@
+- Stabilitätsverbesserungen
+- Afrikaans-Lokalisierung hinzugefügt
+- Birmanische Lokalisierung hinzugefügt 🇲🇲
+- Kroatische Lokalisierung hinzugefügt 🇭🇷
+- Fijianische Lokalisierung hinzugefügt
+- Griechische Lokalisierung hinzugefügt 🇬🇷
+- Hindi, Kannada und Malayalam-Lokalisierung hinzugefügt 🇮🇳
+- Lao-Lokalisierung hinzugefügt 🇱🇦
+- Litauische Lokalisierung hinzugefügt 🇱🇹
+- Mazedonische Lokalisierung hinzugefügt
+- Sesotho-Lokalisierung hinzugefügt 🇿🇦
+- Nepalesische Lokalisierung hinzugefügt
+- Swahili-Lokalisierung hinzugefügt
+- Tagalog-Lokalisierung hinzugefügt
+- Tamilische Lokalisierung hinzugefügt 🇱🇰
+- Vietnamesische Lokalisierung hinzugefügt 🇻🇳
+- Zulu und Xhosa-Lokalisierung hinzugefügt
+- Isländische Lokalisierung hinzugefügt

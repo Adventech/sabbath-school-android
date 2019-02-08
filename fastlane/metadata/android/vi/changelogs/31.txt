@@ -1,0 +1,18 @@
+- Cải thiện độ ổn định
+- Đã thêm nội địa hóa tiếng Nam Phi
+- Đã thêm nội địa hóa Miến Điện
+- Đã thêm nội địa hóa Croatia
+- Đã thêm nội địa hóa Fijian
+- Thêm nội địa hóa Hy Lạp
+- Đã thêm bản địa hóa tiếng Hindi, Kannada và Malayalam
+- Đã thêm nội địa hóa Lào
+- Thêm nội địa hóa Litva
+- Đã thêm nội địa hóa tiếng Macedonia
+- Đã thêm nội địa hóa tiếng Haiti
+- Đã thêm nội địa hóa Nepal 🇳🇵
+- Đã thêm bản địa hóa tiếng Swig
+- Đã thêm nội địa hóa Tagalog
+- Đã thêm nội địa hóa Tamil
+- Đã thêm nội địa hóa tiếng Việt
+- Đã thêm nội địa hóa Zulu và Xhosa
+- Đã thêm nội địa hóa Iceland

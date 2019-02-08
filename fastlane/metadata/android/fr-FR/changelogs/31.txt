@@ -1,0 +1,18 @@
+- Amélioration de la stabilité
+- Ajout de la localisation Afrikaans
+- Ajout de la localisation birmane
+- Ajout de la localisation croate
+- Ajout de la localisation fidjienne
+- Ajout de la localisation grecque
+- Ajout de la localisation en hindi, kannada et malayalam
+- Ajout de la localisation lao
+- Ajout de la localisation lituanienne
+- Ajout de la localisation macédonienne
+- Ajout de la localisation Sesotho 🇿🇦
+- Ajout de la localisation népalaise
+- Ajout de la localisation en swahili
+- Ajout de la localisation en tagalog
+- Ajout de la localisation tamoule
+- Ajout de la localisation vietnamienne
+- Ajout de la localisation en zoulou et xhosa 🇿🇦
+- Ajout de la localisation islandaise

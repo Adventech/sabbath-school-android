@@ -1,0 +1,18 @@
+- Poboljšanja stabilnosti
+- Dodana je lokalizacija lokalizacije loc
+- Dodana burmanska lokalizacija
+- Dodana je hrvatska lokalizacija
+- Dodana Fidžijska lokalizacija
+- Dodana grčka lokalizacija
+- Dodana lokalizacija Hindi, Kannada i Malayalam 🇮🇳
+- Dodana je lokalna lokalizacija loc
+- Dodana je litvanska lokalizacija
+- Dodana je makedonska lokalizacija
+- Dodana lokalizacija Sesotho
+- Dodana je nepalska lokalizacija
+- Dodana lokalizacija na svahiliju 🇰🇪
+- Dodana lokalizacija Tagalog loc
+- Dodana tamilska lokalizacija
+- Dodana je vijetnamska lokalizacija
+- Dodana lokalizacija Zulu i Xhosa 🇿🇦
+- Dodana je islandska lokalizacija

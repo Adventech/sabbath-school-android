@@ -1,0 +1,18 @@
+- Zlepšení stability
+- přidána lokalizace Afrikaans 🇿🇦
+- přidána barmská lokalizace 🇲🇲
+- Přidána chorvatská lokalizace 🇭🇷
+- přidána fijská lokalizace 🇫🇯
+- přidána řecká lokalizace 🇬🇷
+- přidána lokalizace Hindština, Kannada a Malayalam 🇮🇳
+- přidána Lao lokalizace 🇱🇦
+- Přidána lokalizace Lotyšska 🇱🇹
+- Přidána makedonská lokalizace 🇲🇰
+- Přidána Sesotho lokalizace 🇿🇦
+- přidána nepálská lokalizace 🇳🇵
+- přidána lokalizace Swahili 🇰🇪
+- Přidána lokalizace tagalogu 🇵🇭
+- Přidána tamilská lokalizace 🇱🇰
+- přidána vietnamská lokalizace 🇻🇳
+- přidána lokalizace Zulu a Xhosa 🇿🇦
+- Přidána islandská lokalizace 🇮🇸

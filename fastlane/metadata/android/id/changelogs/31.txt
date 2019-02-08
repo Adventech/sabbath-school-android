@@ -1,0 +1,18 @@
+- Peningkatan stabilitas
+- Menambahkan lokalisasi Afrikaans 🇿🇦
+- Menambahkan lokalisasi Burma 🇲🇲
+- Menambahkan lokalisasi Kroasia 🇭🇷
+- Menambahkan lokalisasi Fiji 🇫🇯
+- Menambahkan lokalisasi Yunani 🇬🇷
+- Menambahkan lokalisasi Hindi, Kannada, dan Malayalam 🇮🇳
+- Menambahkan lokalisasi Lao 🇱🇦
+- Menambahkan lokalisasi Lithuania 🇱🇹
+- Menambahkan lokalisasi Makedonia ed
+- Menambahkan lokalisasi Sesotho 🇿🇦
+- Menambahkan lokalisasi Nepal 🇳🇵
+- Menambahkan lokalisasi Swahili 🇰🇪
+- Menambahkan lokalisasi Tagalog 🇵🇭
+- Menambahkan lokalisasi Tamil 🇱🇰
+- Menambahkan lokalisasi Vietnam 🇻🇳
+- Menambahkan lokalisasi Zulu dan Xhosa 🇿🇦
+- Menambahkan lokalisasi Islandia 🇮🇸

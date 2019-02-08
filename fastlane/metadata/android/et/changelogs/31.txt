@@ -1,0 +1,18 @@
+- stabiilsuse parandamine
+- lisatud afrikaans lokaliseerimine 🇿🇦
+- lisatud Birma lokaliseerimine 🇲🇲
+- lisatud Horvaatia lokaliseerimine 🇭🇷
+- lisatud Fidži lokaliseerimine 🇫🇯
+- lisatud kreeka lokaliseerimine 🇬🇷
+- lisatud hindi, kanada ja malajalami lokaliseerimine 🇮🇳
+- lisatud Lao lokaliseerimine 🇱🇦
+- lisatud Leedu lokaliseerimine 🇱🇹
+- lisatud makedoonia lokaliseerimine 🇲🇰
+- lisatud Sesotho lokaliseerimine 🇿🇦
+- Lisatud Nepali lokaliseerimine 🇳🇵
+- lisatud suahiili lokaliseerimine 🇰🇪
+- Lisatud Tagalogi lokaliseerimine 🇵🇭
+- lisatud tamili lokaliseerimine 🇱🇰
+- lisatud Vietnami lokaliseerimine 🇻🇳
+- Lisatud Zulu ja Xhosa lokaliseerimine 🇿🇦
+- Lisatud Islandi lokaliseerimine 🇮🇸

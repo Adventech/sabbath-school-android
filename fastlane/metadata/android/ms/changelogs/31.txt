@@ -1,0 +1,18 @@
+- Penambahbaikan kestabilan
+- Menambahkan penyetempatan Afrikaans 🇿🇦
+- Tambah penyetempatan Burma 🇲🇲
+- Tambah penyetempatan Croatia 🇭🇷
+- Menambahkan penyetempatan Fijian 🇫🇯
+- Tambah penyetempatan Greek 🇬🇷
+- Ditambahkan penyetempatan Bahasa Hindi, Kannada dan Malayalam 🇮🇳
+- Menambahkan penyetempatan Lao 🇱🇦
+- Menambahkan penyetempatan Lithuania 🇱🇹
+- Tambah penyetempatan Bahasa Macedonia 🇲🇰
+- Menambahkan penyetempatan sesotho 🇿🇦
+- Tambah penyetempatan bahasa Nepal 🇳🇵
+- Menambahkan penyetempatan bahasa Swahili 🇰🇪
+- Menambahkan penyetempatan bahasa Tagalog 🇵🇭
+- Menambah penyetempatan Tamil 🇱🇰
+- Ditambahkan penyetempatan Vietnam 🇻🇳
+- Tambah Zulu dan Xhosa penyetempatan 🇿🇦
+- Tambah penyetempatan Iceland 🇮🇸

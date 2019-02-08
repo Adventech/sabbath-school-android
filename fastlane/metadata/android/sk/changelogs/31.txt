@@ -1,0 +1,18 @@
+- Zlepšenie stability
+- Pridaná lokalizácia Afrikaans 🇿🇦
+- pridaná barmská lokalizácia 🇲🇲
+- Pridaná chorvátska lokalizácia 🇭🇷
+- pridaná lokalizácia v Fidži 🇫🇯
+- pridaná grécka lokalizácia 🇬🇷
+- Pridaná lokalizácia Hindčina, Kannada a Malayalam 🇮🇳
+- Pridaná Lao lokalizácia 🇱🇦
+- Pridaná lokalizácia v Litve 🇱🇹
+- Pridaná macedónska lokalizácia 🇲🇰
+- Pridané Sesotho lokalizácia 🇿🇦
+- Pridaná nepálska lokalizácia 🇳🇵
+- Pridaná lokalizácia v Sahajli
+- Pridaná lokalizácia tagalogu 🇵🇭
+- Pridaná tamilská lokalizácia 🇱🇰
+- pridaná vietnamská lokalizácia 🇻🇳
+- Pridali sa lokalizácia Zulu a Xhosa 🇿🇦
+- pridaná islandská lokalizácia 🇮🇸

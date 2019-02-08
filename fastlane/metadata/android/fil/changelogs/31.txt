@@ -1,0 +1,18 @@
+- Mga pagpapabuti ng katatagan
+- Nagdagdag ng lokalization ng Afrikaans 🇿🇦
+- Nagdagdag ng lokal na Burmese 🇲🇲
+- Nagdagdag ng localization ng Croatian 🇭🇷
+- Nagdagdag ng Fijian lokalisasyon 🇫🇯
+- Nagdagdag ng lokalisasyong Griyego 🇬🇷
+- Nagdagdag ng Hindi, Kannada at Malayalam na lokalisasyon 🇮🇳
+- Nagdagdag ng lokalisasyon ng Lao 🇱🇦
+- Nagdagdag ng lokal na Lithuanian 🇱🇹
+- Nagdagdag ng Macedonian lokalisasyon 🇲🇰
+- Nagdagdag ng Sesotho lokalisasyon 🇿🇦
+- Nagdagdag ng Nepalisation lokalisasyon 🇳🇵
+- Nagdagdag ng lokalization ng Swahili 🇰🇪
+- Nagdagdag ng Tagalog na lokalisasyon 🇵🇭
+- Nagdagdag ng localization Tamil 🇱🇰
+- Nagdagdag ng Vietnamese lokalisasyon 🇻🇳
+- Nagdagdag ng Zulu at Xhosa na lokalisasyon 🇿🇦
+- Nagdagdag ng Icelandic lokalisasyon 🇮🇸

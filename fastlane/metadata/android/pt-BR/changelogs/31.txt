@@ -1,0 +1,18 @@
+- Melhorias na estabilidade
+- Adicionado localização Afrikaans 🇿🇦
+- Adicionado localização birmanesa 🇲🇲
+- Adicionado localização croata 🇭🇷
+- Adicionado localização Fijian 🇫🇯
+- Adicionado localização grega 🇬🇷
+- Adicionado Hindi, Kannada e Malayalam localização 🇮🇳
+- Adicionado Lao localização 🇱🇦
+- Adicionado localização lituana 🇱🇹
+- Adicionado macedônio localização 🇲🇰
+- Adicionado localização Sesotho 🇿🇦
+- Adicionado nepali localização 🇳🇵
+- Adicionado localização suaíli 🇰🇪
+- Adicionado localização Tagalog 🇵🇭
+- Adicionado localização Tamil 🇱🇰
+- Adicionado localização vietnamita 🇻🇳
+- Adicionado Zulu e Xhosa localização 🇿🇦
+- Adicionado localização islandesa 🇮🇸

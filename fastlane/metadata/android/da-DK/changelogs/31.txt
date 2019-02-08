@@ -1,0 +1,18 @@
+- Stabilitetsforbedringer
+- Tilføjet afrikansk lokalisering 🇿🇦
+- Tilføjet burmesisk lokalisering 🇲🇲
+- Tilføjet kroatisk lokalisering 🇭🇷
+- Tilføjet fijiansk lokalisering 🇫🇯
+- Tilføjet græsk lokalisering 🇬🇷
+- Tilføjet Hindi, Kannada og Malayalam lokalisering 🇮🇳
+- Tilføjet Lao lokalisering 🇱🇦
+- Tilføjet litauisk lokalisering 🇱🇹
+- Tilføjet makedonsk lokalisering 🇲🇰
+- Tilføjet sesotho lokalisering 🇿🇦
+- Tilføjet nepalsk lokalisering 🇳🇵
+- Tilføjet swahili lokalisering 🇰🇪
+- Tilføjet Tagalog lokalisering 🇵🇭
+- Tilføjet tamil lokalisering 🇱🇰
+- Tilføjet vietnamesisk lokalisering 🇻🇳
+- Tilføjet Zulu og Xhosa lokalisering 🇿🇦
+- Tilføjet islandsk lokalisering 🇮🇸

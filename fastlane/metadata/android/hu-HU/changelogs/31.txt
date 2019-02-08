@@ -1,0 +1,18 @@
+- Stabilitás javítása
+- Hozzáadott Afrikaans lokalizáció 🇿🇦
+- Hozzáadott burmai lokalizáció 🇲🇲
+- Hozzáadott horvát lokalizáció 🇭🇷
+- Hozzáadott Fidzsi lokalizáció ization
+- Hozzáadott görög lokalizáció 🇬🇷
+- Hozzáadott Hindi, Kanadai és Malajálam lokalizáció 🇮🇳
+- Hozzáadott Lao lokalizáció 🇱🇦
+- Hozzáadott litván lokalizáció 🇱🇹
+- Hozzáadott macedón lokalizáció 🇲🇰
+- Hozzáadott Sesotho lokalizáció 🇿🇦
+- Hozzáadott nepáli lokalizációt 🇳🇵
+- Hozzáadott swahili lokalizáció 🇰🇪
+- Hozzáadott Tagalog lokalizáció 🇵🇭
+- Tamil lokalizáció 🇱🇰
+- Hozzáadott vietnami lokalizáció 🇻🇳
+- Hozzáadott Zulu és Xhosa lokalizáció 🇿🇦
+- Hozzáadott izlandi lokalizáció 🇮🇸

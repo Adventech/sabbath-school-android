@@ -1,0 +1,18 @@
+- Stabilumo patobulinimai
+- Pridėta Afrikaano lokalizacija 🇿🇦
+- Įtraukta Birmos lokalizacija 🇲🇲
+- Įtraukta Kroatijos lokalizacija 🇭🇷
+- Pridėta Fidžio lokalizacija 🇫🇯
+- pridėta graikų lokalizacija 🇬🇷
+- Pridėta Hindi, Kanados ir Malajalamo lokalizacija 🇮🇳
+- Įtraukta Laoso lokalizacija 🇱🇦
+- Pridėta Lietuvos lokalizacija 🇱🇹
+- Įtraukta makedoniečių lokalizacija 🇲🇰
+- Įtraukta Sesoto lokalizacija 🇿🇦
+- Pridėta Nepalo lokalizacija 🇳🇵
+- Įtraukta swahili lokalizacija 🇰🇪
+- Pridėta Tagalog lokalizacija 🇵🇭
+- Tamilų lokalizacija 🇱🇰
+- Įtraukta Vietnamo lokalizacija 🇻🇳
+- Įtraukta Zulu ir Xhosa lokalizacija 🇿🇦
+- Pridėta Islandijos lokalizacija 🇮🇸

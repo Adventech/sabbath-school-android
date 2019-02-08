@@ -1,0 +1,18 @@
+- Stability improvements
+- Added Afrikaans localization 🇿🇦
+- Added Burmese localization 🇲🇲
+- Added Croatian localization 🇭🇷
+- Added Fijian localization 🇫🇯
+- Added Greek localization 🇬🇷
+- Added Hindi, Kannada and Malayalam localization 🇮🇳
+- Added Lao localization 🇱🇦
+- Added Lithuanian localization 🇱🇹
+- Added Macedonian localization 🇲🇰
+- Added Sesotho localization 🇿🇦
+- Added Nepali localization 🇳🇵
+- Added Swahili localization 🇰🇪
+- Added Tagalog localization 🇵🇭
+- Added Tamil localization 🇱🇰
+- Added Vietnamese localization 🇻🇳
+- Added Zulu and Xhosa localization 🇿🇦
+- Added Icelandic localization 🇮🇸

@@ -1,0 +1,18 @@
+- Stabiliteitsverbeteringen
+- Afrikaanse lokalisatie toegevoegd 🇿🇦
+- Birmese lokalisatie toegevoegd 🇲🇲
+- Kroatische lokalisatie toegevoegd 🇭🇷
+- Fijische lokalisatie toegevoegd 🇫🇯
+- Griekse lokalisatie toegevoegd 🇬🇷
+- Lokalisatie Hindi, Kannada en Malayalam toegevoegd 🇮🇳
+- Lao-lokalisatie toegevoegd 🇱🇦
+- Litouwse lokalisatie toegevoegd 🇱🇹
+- Toegevoegd Macedonische lokalisatie 🇲🇰
+- Sesotho-lokalisatie toegevoegd 🇿🇦
+- Nepalees lokalisatie toegevoegd 🇳🇵
+- Swahili-lokalisatie toegevoegd 🇰🇪
+- Tagalog-lokalisatie toegevoegd 🇵🇭
+- Tamillokalisatie toegevoegd 🇱🇰
+- Vietnamese lokalisatie toegevoegd 🇻🇳
+- Zulu- en Xhosa-lokalisatie toegevoegd 🇿🇦
+- IJslandse lokalisatie toegevoegd 🇮🇸

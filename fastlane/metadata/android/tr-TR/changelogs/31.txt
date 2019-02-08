@@ -1,0 +1,18 @@
+- Kararlılık iyileştirmeleri
+- Afrikaans yerelleştirmesi eklendi
+- Birmanya yerelleştirmesi eklendi
+- Hırvat yerelleştirme eklendi
+- Fijian yerelleştirmesi 🇫🇯 eklendi
+- Yunanca yerelleştirme 🇬🇷 eklendi
+- Hintçe, Kannada ve Malayalam yerelleştirme 🇮🇳 eklendi
+- Lao yerelleştirmesi eklendi
+- Litvanya yerelleştirmesi eklendi
+- Makedonya yerelleştirmesi eklendi
+- Sesotho yerelleştirmesi eklendi
+- Nepalce yerelleştirme eklendi
+- Svahili yerelleştirmesi eklendi
+- Tagalog yerelleştirmesi eklendi
+- Tamil localisation 🇱🇰 Eklendi
+- Vietnamca yerelleştirme eklendi
+- Zulu ve Xhosa yerelleştirmesi eklendi
+- İzlandaca yerelleştirme 🇮🇸 eklendi
