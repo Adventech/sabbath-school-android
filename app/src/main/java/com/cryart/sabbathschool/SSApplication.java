@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.multidex.MultiDexApplication;
@@ -66,6 +67,8 @@ public class SSApplication extends MultiDexApplication {
                 .displayer(new RoundedBitmapDisplayer(20))
                 .resetViewBeforeLoading(true)
                 .cacheOnDisk(true)
+                .cacheInMemory(false)
+                .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
