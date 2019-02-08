@@ -46,7 +46,11 @@ if [[ $TRANSLATE ]]; then
                     LANGUAGE=sr-Latn
                 fi
 
-                ./trans -b -i metadata/android/en-US/changelogs/$TRANSLATE.txt -o $dir/changelogs/$TRANSLATE.txt -no-bidi :$LANGUAGE
+                if [ "$LANGUAGE" == "fil" ]; then
+                    LANGUAGE=tl
+                fi
+
+                ./trans -b -o $dir/changelogs/$TRANSLATE.txt -no-bidi :$LANGUAGE \"`cat metadata/android/en-US/changelogs/$TRANSLATE.txt\`"
             fi;
         fi
     done;
