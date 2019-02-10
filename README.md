@@ -1,7 +1,7 @@
 Sabbath School for Android
 ============
 
-[![Travis](https://img.shields.io/travis/Adventech/sabbath-school-android-2.svg)](https://travis-ci.org/Adventech/sabbath-school-android-2) [![GitHub Stars](https://img.shields.io/github/stars/Adventech/sabbath-school-android-2.svg)](https://github.com/Adventech/sabbath-school-android-2/stargazers) [![GitHub Issues](https://img.shields.io/github/issues/Adventech/sabbath-school-android-2.svg)](https://github.com/Adventech/sabbath-school-android-2/issues) [![license](https://img.shields.io/github/license/Adventech/sabbath-school-android-2.svg)](https://github.com/Adventech/sabbath-school-android-2/blob/master/LICENSE.md)
+[![Travis](https://img.shields.io/travis/Adventech/sabbath-school-android.svg)](https://travis-ci.org/Adventech/sabbath-school-android) [![GitHub Stars](https://img.shields.io/github/stars/Adventech/sabbath-school-android.svg)](https://github.com/Adventech/sabbath-school-android/stargazers) [![GitHub Issues](https://img.shields.io/github/issues/Adventech/sabbath-school-android.svg)](https://github.com/Adventech/sabbath-school-android/issues) [![License](https://img.shields.io/github/license/Adventech/sabbath-school-android.svg)](https://github.com/Adventech/sabbath-school-android/blob/master/LICENSE.md)
 
 This is Sabbath School for Android by Adventech, a humble attempt to make difference with respect to Sabbath School as an entity of Seventh-day Adventist Church!
 
