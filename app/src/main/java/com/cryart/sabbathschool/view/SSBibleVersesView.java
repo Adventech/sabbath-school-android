@@ -85,22 +85,21 @@ public class SSBibleVersesView extends WebView {
 
         try {
             verseContent = bibleVersion.verses.get(verse);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            SSReadingDisplayOptions ssReadingDisplayOptions = new SSReadingDisplayOptions(
+                    prefs.getString(SSConstants.SS_SETTINGS_THEME_KEY, SSReadingDisplayOptions.SS_THEME_LIGHT),
+                    prefs.getString(SSConstants.SS_SETTINGS_SIZE_KEY, SSReadingDisplayOptions.SS_SIZE_MEDIUM),
+                    prefs.getString(SSConstants.SS_SETTINGS_FONT_KEY, SSReadingDisplayOptions.SS_FONT_LATO)
+            );
+
+            String content = content_app.replaceAll("\\{\\{content\\}\\}", verseContent);
+            content = content.replace("ss-wrapper-light", "ss-wrapper-" + ssReadingDisplayOptions.theme);
+            content = content.replace("ss-wrapper-andada", "ss-wrapper-" + ssReadingDisplayOptions.font);
+            content = content.replace("ss-wrapper-medium", "ss-wrapper-" + ssReadingDisplayOptions.size);
+
+            loadDataWithBaseURL(baseUrl, content, "text/html", "utf-8", null);
         } catch (Exception e){
             Crashlytics.logException(e);
         }
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        SSReadingDisplayOptions ssReadingDisplayOptions = new SSReadingDisplayOptions(
-                prefs.getString(SSConstants.SS_SETTINGS_THEME_KEY, SSReadingDisplayOptions.SS_THEME_LIGHT),
-                prefs.getString(SSConstants.SS_SETTINGS_SIZE_KEY, SSReadingDisplayOptions.SS_SIZE_MEDIUM),
-                prefs.getString(SSConstants.SS_SETTINGS_FONT_KEY, SSReadingDisplayOptions.SS_FONT_LATO)
-        );
-
-        String content = content_app.replaceAll("\\{\\{content\\}\\}", verseContent);
-        content = content.replace("ss-wrapper-light", "ss-wrapper-" + ssReadingDisplayOptions.theme);
-        content = content.replace("ss-wrapper-andada", "ss-wrapper-" + ssReadingDisplayOptions.font);
-        content = content.replace("ss-wrapper-medium", "ss-wrapper-" + ssReadingDisplayOptions.size);
-
-        loadDataWithBaseURL(baseUrl, content, "text/html", "utf-8", null);
     }
 }
