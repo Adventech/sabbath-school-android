@@ -38,6 +38,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.adapter.SSReadingSheetAdapter;
 import com.cryart.sabbathschool.adapter.SSReadingViewAdapter;
@@ -195,7 +196,11 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     @Override
     protected void onDestroy() {
         ssReadingViewModel.destroy();
-        ((BitmapDrawable) binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.getDrawable()).getBitmap().recycle();
+        try {
+            ((BitmapDrawable) binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.getDrawable()).getBitmap().recycle();
+        } catch (Exception e) {
+            Crashlytics.logException(e);
+        }
         super.onDestroy();
     }
 
