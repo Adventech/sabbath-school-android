@@ -1,10 +1,10 @@
-Meet the new Sabbath School app for Android! Study the Word of God with these awesome features:
+Gặp gỡ ứng dụng Sabbath School mới cho Android! Nghiên cứu Lời Chúa với những tính năng tuyệt vời sau:
 
-- Swipe Navigation
-- Text Highlighting 
-- Comments
-- Bible Verses
-- Daily Reminders
-- Reading Modes
+- Điều hướng vuốt
+- Đánh dấu văn bản
+- Bình luận
+- Câu Kinh Thánh
+- Nhắc nhở hàng ngày
+- Chế độ đọc
 
 Adventech 2019 ®

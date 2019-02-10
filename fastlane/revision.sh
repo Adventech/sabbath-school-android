@@ -49,8 +49,8 @@ if [[ $TRANSLATE ]]; then
                 if [ "$LANGUAGE" == "fil" ]; then
                     LANGUAGE=tl
                 fi
-
-                ./trans -b -o $dir/changelogs/$TRANSLATE.txt -no-bidi :$LANGUAGE \"`cat metadata/android/en-US/changelogs/$TRANSLATE.txt\`"
+                TEXT="./trans -b -o $dir/changelogs/$TRANSLATE.txt -no-bidi :$LANGUAGE \"\`cat metadata/android/en-US/changelogs/$TRANSLATE.txt\`\""
+                eval $TEXT
             fi;
         fi
     done;
