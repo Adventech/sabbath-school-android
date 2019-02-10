@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
@@ -150,10 +151,14 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                 .subscribe(new Action1<Boolean>() {
                     @Override public void call(Boolean isConnectedToInternet) {
                         if (!isConnectedToInternet && ssLessonInfo == null){
-                            ssLessonOfflineStateVisibility.set(View.VISIBLE);
-                            ssLessonErrorStateVisibility.set(View.INVISIBLE);
-                            ssLessonLoadingVisibility.set(View.INVISIBLE);
-                            ssLessonCoordinatorVisibility.set(View.INVISIBLE);
+                            try {
+                                ssLessonOfflineStateVisibility.set(View.VISIBLE);
+                                ssLessonErrorStateVisibility.set(View.INVISIBLE);
+                                ssLessonLoadingVisibility.set(View.INVISIBLE);
+                                ssLessonCoordinatorVisibility.set(View.INVISIBLE);
+                            } catch (Exception e) {
+                                Crashlytics.logException(e);
+                            }
                         }
                     }
                 });
