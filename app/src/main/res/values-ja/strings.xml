@@ -38,7 +38,7 @@
     <string name="ss_my_notes">"ノート"</string>
     <string name="ss_settings">"設定"</string>
     <string name="ss_about">"安息日学校アプリについて"</string>
-    <string name="ss_login_failed">"ログインするのが失敗しました。もう一度ログインして下さい。"</string>
+    <string name="ss_login_failed">"ログインするのが失敗しました。もう一度試みて下さい。"</string>
     <string name="ss_login_anonymously_dialog_positive">"はい"</string>
     <string name="ss_login_anonymously_dialog_negative">"いいえ"</string>
     <string name="ss_login_anonymously_dialog_title">"無名でログインしますか？"</string>
@@ -61,7 +61,7 @@
     <string name="ss_reading_comment">"コメント"</string>
     <string name="ss_reading_enter_comment">"コメントを入力して下さい"</string>
     <string name="ss_reading_copied">"コピーしました。"</string>
-    <string name="ss_reading_share_to">"セレクションを共有"</string>
+    <string name="ss_reading_share_to">選択したテキストの共有先</string>
 
     <!-- TODO: remove when done -->
     <string name="ss_coming_soon_header">"すぐです"</string>
@@ -88,13 +88,13 @@
     <string name="rate_dialog_cancel">"まだ"</string>
     <string name="rate_dialog_no">"いいえ"</string>
     <string name="ss_settings_website">"サイト"</string>
-    <string name="ss_quarterlies_filter_languages_prompt_title">"もっとの言語で読む"</string>
-    <string name="ss_quarterlies_filter_languages_prompt_description">"フィルターをタップして全ての可能の言語を見る"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"他のの言語で読む"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"フィルターボタンをタップして全ての使用可能の言語を見る"</string>
     <string name="ss_bible">"聖書"</string>
     <string name="ss_settings_reminder">"日々通知"</string>
     <string name="ss_settings_reminder_summary">"タップして日々通知を可能にする"</string>
-    <string name="ss_settings_reminder_time">"通知の時間"</string>
-    <string name="ss_settings_reminder_text">"聖書研究時間です。"</string>
+    <string name="ss_settings_reminder_time">"通知の時"</string>
+    <string name="ss_settings_reminder_text">"聖書研究の時間です。"</string>
 
     <string name="ss_reading_offline">"現在オフラインです。課を読むために、再接続してください。"</string>
 
