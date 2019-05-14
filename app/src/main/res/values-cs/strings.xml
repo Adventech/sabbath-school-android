@@ -23,7 +23,7 @@
 
 <resources>
     <string name="ss_app_name">"Sobotní škola"</string>
-    <string name="ss_share">"Podíl"</string>
+    <string name="ss_share">"Sdílet"</string>
     <string name="ss_login_button_google">"Přihlaste se pomocí služby Google"</string>
     <string name="ss_login_button_facebook">"Přihlásit se pomocí Facebooku"</string>
     <string name="ss_login_button_anonymous">"Přihlaste se jako anonymní"</string>
@@ -32,25 +32,25 @@
     <string name="ss_menu_read_now">"Přečtěte si teď"</string>
     <string name="ss_menu_share_app">"Sdílet aplikaci"</string>
     <string name="ss_menu_share_app_text">"Podívejte se na aplikaci Sobotní škola, kterou používám"</string>
-    <string name="ss_my_highlights">"Moje hlavní rysy"</string>
+    <string name="ss_my_highlights">"Moje zvýraznění"</string>
     <string name="ss_my_notes">"Moje poznámky"</string>
     <string name="ss_settings">"Nastavení"</string>
-    <string name="ss_about">"O"</string>
+    <string name="ss_about">"O aplikaci"</string>
     <string name="ss_login_failed">"Přihlášení selhalo. Prosím zkuste to znovu."</string>
     <string name="ss_login_anonymously_dialog_positive">"Ano"</string>
     <string name="ss_login_anonymously_dialog_negative">"Ne"</string>
-    <string name="ss_login_anonymously_dialog_title">"Přihlásit se anonymní?"</string>
-    <string name="ss_login_anonymously_dialog_description">"Pokud se přihlásíte anonymně, nebudete moci synchronizovat data (například komentáře a upozornění) v různých zařízeních nebo po odinstalování aplikace. Opravdu chcete pokračovat?"</string>
+    <string name="ss_login_anonymously_dialog_title">"Přihlásit se anonymně?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Pokud se přihlásíte anonymně, nebudete moci synchronizovat data (například komentáře a zvýraznění) v různých zařízeních nebo po odinstalování aplikace. Opravdu chcete pokračovat?"</string>
     <string name="ss_quarterlies_filter_languages">"Jazyky"</string>
     <string name="ss_quarterlies_downloading">"Získání čtvrtletníků ..."</string>
     <string name="ss_quarterlies_error">"Došlo k neznámé chybě. Prosím zkuste to znovu."</string>
     <string name="ss_quarterlies_empty">"V tuto chvíli nejsou k dispozici žádné čtvrtletí"</string>
-    <string name="ss_quarterly_item_read_text">"otevřeno"</string>
-    <string name="ss_lessons_downloading">"Otevření čtvrtletní ..."</string>
-    <string name="ss_lessons_error">"Při otevření čtvrtletně došlo k chybě"</string>
-    <string name="ss_lessons_empty">"V tuto chvíli nejsou k dispozici žádné čtvrtletí"</string>
+    <string name="ss_quarterly_item_read_text">"Otevřít"</string>
+    <string name="ss_lessons_downloading">"Otevření čtvrtletí ..."</string>
+    <string name="ss_lessons_error">"Při otevření čtvrtletí došlo k chybě"</string>
+    <string name="ss_lessons_empty">"V tuto chvíli nejsou k dispozici žádné lekce"</string>
     <string name="ss_lessons_read">"Číst"</string>
-    <string name="ss_reading_empty">"Na této lekci pracujeme. Zkontrolujte prosím brzy znovu."</string>
+    <string name="ss_reading_empty">"Na této lekci pracujeme. Zkontrolujte prosím později."</string>
     <string name="ss_reading_error">"Při otevření lekce došlo k chybě"</string>
     <string name="ss_reading_downloading">"Stažení lekce pro čtení offline"</string>
     <string name="ss_reading_suggest_edit">"Navrhovat úpravu nebo opravu"</string>
@@ -68,9 +68,9 @@
     <string name="ss_about_made">"Vyrobeno z ❤ od Adventech"</string>
     <string name="ss_settings_display_options">"Volby zobrazení"</string>
     <string name="ss_settings_color_theme">"Barevný motiv"</string>
-    <string name="ss_settings_color_theme_light">"Světlo"</string>
+    <string name="ss_settings_color_theme_light">"Světlý"</string>
     <string name="ss_settings_color_theme_sepia">"Sépie"</string>
-    <string name="ss_settings_color_theme_dark">"Temný"</string>
+    <string name="ss_settings_color_theme_dark">"Tmavý"</string>
     <string name="ss_settings_typeface">"Písmo"</string>
     <string name="ss_settings_font_size">"Velikost písma"</string>
     <string name="ss_settings_font_size_tiny">"Drobný"</string>
@@ -80,19 +80,19 @@
     <string name="ss_settings_font_size_huge">"Obrovský"</string>
 
     <!-- RATE APP -->
-    <string name="rate_dialog_title">"Hodnoť Sobotní škola"</string>
+    <string name="rate_dialog_title">"Ohodnoť aplikaci Sobotní škola"</string>
     <string name="rate_dialog_message">"Věnujte prosím prosím chvíli, abyste ohodnotili aplikaci Sobotní škola. Děkuji za vaši podporu!"</string>
     <string name="rate_dialog_ok">"Ohodnoť to"</string>
     <string name="rate_dialog_cancel">"Později"</string>
     <string name="rate_dialog_no">"Ne"</string>
     <string name="ss_settings_website">"webová stránka"</string>
-    <string name="ss_quarterlies_filter_languages_prompt_title">"Více jazyků"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Čtěte ve více jazycích"</string> 
     <string name="ss_quarterlies_filter_languages_prompt_description">"Klepnutím na ikonu filtru zobrazíte dostupné jazyky"</string>
     <string name="ss_bible">"Bible"</string>
     <string name="ss_settings_reminder">"Denní připomenutí"</string>
     <string name="ss_settings_reminder_summary">"Zaškrtněte, chcete-li zapnout připomenutí denního studia"</string>
     <string name="ss_settings_reminder_time">"Čas připomenutí"</string>
-    <string name="ss_settings_reminder_text">"Je čas na studium lekce Sabbath School"</string>
-    <string name="ss_reading_offline">"Jsi offline. Znovu připojte tuto lekci."</string>
+    <string name="ss_settings_reminder_text">"Je čas na studium lekce Sobotní školy"</string>
+    <string name="ss_reading_offline">"Jste offline. Znovu se připojte, abyste mohli číst tuto lekci."</string>
     <string name="ss_reading_offline_retry">"Opakujte"</string>
 </resources>
