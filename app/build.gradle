@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2019. Adventech <info@adventech.io>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,39 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.2'
-    }
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.getkeepsafe.dexcount'
 
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-    maven {
-        url "https://s3.amazonaws.com/repo.commonsware.com"
-    }
-}
-
-
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.2'
+    compileSdkVersion 28
 
     def versionPropsFile = file('version.properties')
 
     if (versionPropsFile.canRead()) {
-        def Properties versionProps = new Properties()
+        def versionProps = new Properties()
 
         versionProps.load(new FileInputStream(versionPropsFile))
 
@@ -63,7 +41,7 @@ android {
         defaultConfig {
             applicationId "com.cryart.sabbathschool"
             minSdkVersion 15
-            targetSdkVersion 27
+            targetSdkVersion 28
             versionCode 33
             versionName "3.2." + versionBuild
 
@@ -116,55 +94,53 @@ android {
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '27.1.0'
-    final PLAY_SERVICES_VERSION = '16.0.1'
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
 
-    androidTestCompile "tools.fastlane:screengrab:1.1.0"
-    androidTestCompile 'com.android.support.test:runner:1.0.1'
-    androidTestCompile 'com.android.support.test:rules:1.0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
-    androidTestCompile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
+    androidTestImplementation "tools.fastlane:screengrab:1.1.0"
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation "com.android.support:support-annotations:${versions.support_library}"
 
-    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:support-vector-drawable:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:animated-vector-drawable:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:appcompat-v7:${versions.support_library}"
+    implementation "com.android.support:cardview-v7:${versions.support_library}"
+    implementation "com.android.support:recyclerview-v7:${versions.support_library}"
+    implementation "com.android.support:design:${versions.support_library}"
+    implementation "com.android.support:support-vector-drawable:${versions.support_library}"
+    implementation "com.android.support:animated-vector-drawable:${versions.support_library}"
 
-    compile "com.google.android.gms:play-services-auth:16.0.1"
-    compile "com.google.firebase:firebase-core:16.0.7"
-    compile "com.google.firebase:firebase-auth:16.1.0"
-    compile "com.google.firebase:firebase-database:16.0.6"
-    compile "com.google.firebase:firebase-messaging:17.3.4"
-    compile "com.google.firebase:firebase-storage:16.0.5"
+    implementation "com.google.android.gms:play-services-auth:${versions.play_services}"
+    implementation "com.google.firebase:firebase-core:${versions.firebase_core}"
+    implementation "com.google.firebase:firebase-auth:${versions.firebase_auth}"
+    implementation "com.google.firebase:firebase-database:${versions.firebase_db}"
+    implementation "com.google.firebase:firebase-messaging:${versions.firebase_msg}"
+    implementation "com.google.firebase:firebase-storage:${versions.firebase_strg}"
 
     implementation "com.firebase:firebase-jobdispatcher:0.8.5"
 
-    compile "uk.co.samuelwall:material-tap-target-prompt:2.0.1"
-    compile "com.nostra13.universalimageloader:universal-image-loader:1.9.5"
-    compile "com.github.hotchemi:android-rate:1.0.1"
-    compile "org.apache.commons:commons-lang3:3.4"
-    compile "uk.co.chrisjenx:calligraphy:2.2.0"
-    compile("com.afollestad.material-dialogs:core:0.9.6.0")
-    compile "net.danlew:android.joda:2.9.4.2"
-    compile "com.facebook.android:facebook-android-sdk:4.23.0"
-    compile "com.github.medyo:fancybuttons:1.8.3"
-    compile "com.mikepenz:iconics-core:2.8.1@aar"
-    compile "com.mikepenz:google-material-typeface:2.2.0.3.original@aar"
-    compile('com.mikepenz:materialdrawer:5.6.0@aar') {
-        transitive = true;
+    implementation "uk.co.samuelwall:material-tap-target-prompt:2.0.1"
+    implementation "com.nostra13.universalimageloader:universal-image-loader:1.9.5"
+    implementation "com.github.hotchemi:android-rate:1.0.1"
+    implementation "org.apache.commons:commons-lang3:3.5"
+    implementation "uk.co.chrisjenx:calligraphy:2.2.0"
+    implementation("com.afollestad.material-dialogs:core:0.9.6.0")
+    implementation "net.danlew:android.joda:2.9.4.2"
+    implementation "com.facebook.android:facebook-android-sdk:4.23.0"
+    implementation "com.github.medyo:fancybuttons:1.8.3"
+    implementation "com.mikepenz:iconics-core:2.8.1@aar"
+    implementation "com.mikepenz:google-material-typeface:2.2.0.3.original@aar"
+    implementation('com.mikepenz:materialdrawer:5.6.0@aar') {
+        transitive = true
     }
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true;
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true
     }
-    compile "com.github.pwittchen:reactivenetwork:0.8.0"
-    compile "com.thefinestartist:finestwebview:1.2.7"
-    compile "com.github.javiersantos:MaterialStyledDialogs:2.1"
-    compile "net.opacapp:multiline-collapsingtoolbar:1.4.0"
+    implementation "com.github.pwittchen:reactivenetwork:0.8.0"
+    implementation "com.thefinestartist:finestwebview:1.2.7"
+    implementation "com.github.javiersantos:MaterialStyledDialogs:2.1"
+    implementation "net.opacapp:multiline-collapsingtoolbar:1.4.0"
 }
 
 apply plugin: 'com.google.gms.google-services'

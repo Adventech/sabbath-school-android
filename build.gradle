@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2019. Adventech <info@adventech.io>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,14 +23,30 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+
+    // Define Versions in a single place
+    ext.versions = [
+            'support_library': '28.0.0',
+            'play_services'  : '16.0.1',
+            'firebase_core'  : '16.0.7',
+            'firebase_auth'  : '16.1.0',
+            'firebase_db'    : '16.0.6',
+            'firebase_msg'   : '17.3.4',
+            'firebase_strg'  : '16.0.5',
+            'timber'         : '4.7.1',
+    ]
+
     repositories {
         google()
         jcenter()
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.4.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.google.gms:google-services:4.3.0'
+        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -40,13 +56,11 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven {
-            url "https://jitpack.io"
-        }
-        maven {
-            url "https://maven.google.com"
-        }
+        maven { url "https://jitpack.io" }
+        mavenCentral()
         google()
+        maven { url 'https://maven.fabric.io/public' }
+        maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
     }
 }
 
