@@ -5,12 +5,16 @@ android:
   components:
   - platform-tools
   - tools
-  - build-tools-27.0.2
-  - android-27
   - extra-android-support
   - extra-google-google_play_services
   - extra-android-m2repository
   - extra-google-m2repository
+
+before_install:
+  - touch $HOME/.android/repositories.cfg
+  - yes | sdkmanager "platforms;android-29"
+  - yes | sdkmanager "build-tools;28.0.3"
+
 script:
   - echo "apiKey=$FABRIC_API_KEY" >> app/fabric.properties
   - echo "apiSecret=$FABRIC_API_SECRET" >> app/fabric.properties
