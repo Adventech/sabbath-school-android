@@ -66,7 +66,7 @@
                     android:textAllCaps="true"
                     android:textColor="@android:color/white"
                     android:text="@{viewModel.date}"
-                    fontPath="fonts/Lato-Regular.ttf"  />
+                    android:textAppearance="@font/lato_regular"  />
 
                 <ImageView
                     android:id="@+id/ss_lessons_app_bar_cover"
@@ -97,7 +97,7 @@
                     android:textColor="@android:color/white"
                     android:typeface="serif"
                     android:text="@{viewModel.description}"
-                    fontPath="fonts/Lato-Regular.ttf" />
+                    android:textAppearance="@font/lato_regular" />
 
                 <mehdi.sakout.fancybuttons.FancyButton
                     android:id="@+id/ss_lessons_app_bar_read"
@@ -109,7 +109,7 @@
                     android:layout_margin="@dimen/ss_lessons_toolbar_read_margin"
                     android:textAllCaps="true"
                     android:minWidth="@dimen/ss_lessons_toolbar_read_min_width"
-                    fancy:fb_textFont="Lato-Bold.ttf"
+                    fancy:fb_textFont="Lato-Bold"
                     fancy:fb_borderWidth="@dimen/ss_lessons_toolbar_read_border"
                     fancy:fb_defaultColor="@color/colorPrimaryDark"
                     fancy:fb_focusColor="@color/colorPrimary"

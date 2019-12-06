@@ -82,7 +82,7 @@
                     android:layout_marginLeft="@dimen/ss_reading_toolbar_date_margin_left"
                     android:layout_marginTop="@dimen/ss_reading_toolbar_date_margin_left"
                     android:textStyle="italic"
-                    fontPath="fonts/Lato-Bold.ttf"
+                    android:textAppearance="@font/lato_bold"
                     android:maxLines="1" />
 
             </RelativeLayout>

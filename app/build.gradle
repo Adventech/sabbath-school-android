@@ -144,7 +144,6 @@ dependencies {
     implementation "com.nostra13.universalimageloader:universal-image-loader:1.9.5"
     implementation "com.github.hotchemi:android-rate:1.0.1"
     implementation "org.apache.commons:commons-lang3:3.4"
-    implementation "uk.co.chrisjenx:calligraphy:2.2.0"
     implementation("com.afollestad.material-dialogs:core:0.9.6.0")
     implementation "net.danlew:android.joda:2.9.4.2"
     implementation "com.facebook.android:facebook-android-sdk:4.23.0"

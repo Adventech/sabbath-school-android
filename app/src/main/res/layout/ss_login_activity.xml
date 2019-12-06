@@ -66,7 +66,7 @@
                 android:layout_marginTop="@dimen/ss_login_app_name_margin_top"
                 android:textColor="@color/primary"
                 android:textSize="@dimen/ss_login_app_name_font_size"
-                fontPath="fonts/Lato-Bold.ttf"
+                android:textAppearance="@font/lato_bold"
                 android:text="@string/ss_app_name" />
 
         </RelativeLayout>

@@ -22,16 +22,16 @@
 
 package com.cryart.sabbathschool.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
-import android.view.View;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSColorTheme;
@@ -49,8 +49,6 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.graphics.Color.parseColor;
 
@@ -81,12 +79,12 @@ public abstract class SSBaseActivity extends SSColorSchemeActivity implements Dr
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         ssFirebaseAuth.addAuthStateListener(this);
     }
 
-    private IDrawerItem[] getDrawerItems(){
+    private IDrawerItem[] getDrawerItems() {
         int primaryColor = Color.parseColor(SSColorTheme.getInstance().getColorPrimary());
         ssDrawerItems[0] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_read_now)).withIcon(GoogleMaterial.Icon.gmd_book).withIdentifier(MENU_READ_ID).withSelectable(false).withSelectedIconColor(primaryColor).withSelectedTextColor(primaryColor);
         ssDrawerItems[1] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_my_highlights)).withIcon(GoogleMaterial.Icon.gmd_border_color).withIdentifier(MENU_HIGHLIGHTS_ID).withSelectable(false).withSelectedIconColor(primaryColor).withSelectedTextColor(primaryColor);
@@ -99,7 +97,7 @@ public abstract class SSBaseActivity extends SSColorSchemeActivity implements Dr
         return ssDrawerItems;
     }
 
-    private AccountHeader getAccountHeader(){
+    private AccountHeader getAccountHeader() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, getString(R.string.ss_menu_anonymous_name));
         String email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, getString(R.string.ss_menu_anonymous_email));
@@ -123,7 +121,7 @@ public abstract class SSBaseActivity extends SSColorSchemeActivity implements Dr
         return ssAccountHeader;
     }
 
-    protected void setUpDrawer(Toolbar ssToolbar){
+    protected void setUpDrawer(Toolbar ssToolbar) {
         this.ssNavigationDrawer = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(ssToolbar)
@@ -134,7 +132,7 @@ public abstract class SSBaseActivity extends SSColorSchemeActivity implements Dr
                 .build();
     }
 
-    protected void setUpDrawer(){
+    protected void setUpDrawer() {
         this.ssNavigationDrawer = new DrawerBuilder()
                 .withActivity(this)
                 .withAccountHeader(getAccountHeader())
@@ -144,12 +142,12 @@ public abstract class SSBaseActivity extends SSColorSchemeActivity implements Dr
                 .build();
     }
 
-    public void updateWindowColorScheme(){
+    public void updateWindowColorScheme() {
         updateWindowColorScheme(true);
     }
 
     @Override
-    public void updateWindowColorScheme(boolean withStatusBar){
+    public void updateWindowColorScheme(boolean withStatusBar) {
         this.ssAccountHeader.setBackground(new ColorDrawable(parseColor(SSColorTheme.getInstance().getColorPrimary())));
 
         ssNavigationDrawer.removeAllItems();
@@ -181,11 +179,11 @@ public abstract class SSBaseActivity extends SSColorSchemeActivity implements Dr
         return false;
     }
 
-    private void onShareAppClick(){
+    private void onShareAppClick() {
         shareApp(getString(R.string.ss_menu_share_app_text));
     }
 
-    public void shareApp(String message){
+    public void shareApp(String message) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, String.format("%s - %s", message, APP_PLAY_STORE_LINK));
@@ -193,7 +191,7 @@ public abstract class SSBaseActivity extends SSColorSchemeActivity implements Dr
         startActivity(sendIntent);
     }
 
-    public void onSettingsClick(){
+    public void onSettingsClick() {
         Intent intent = new Intent(SSBaseActivity.this, SSSettingsActivity.class);
         startActivity(intent);
     }
@@ -208,7 +206,7 @@ public abstract class SSBaseActivity extends SSColorSchemeActivity implements Dr
     }
 
     @Override
-    public boolean onProfileChanged(View view, IProfile profile, boolean current){
+    public boolean onProfileChanged(View view, IProfile profile, boolean current) {
         if (profile instanceof ProfileSettingDrawerItem && profile.getIdentifier() == MENU_HEADER_LOGOUT_ID) {
             ssFirebaseAuth.signOut();
             SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(this);
@@ -217,11 +215,6 @@ public abstract class SSBaseActivity extends SSColorSchemeActivity implements Dr
             onLogoutEvent();
         }
         return false;
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     public abstract void onLogoutEvent();

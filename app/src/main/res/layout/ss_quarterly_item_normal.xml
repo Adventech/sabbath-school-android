@@ -74,7 +74,7 @@
                 android:textSize="@dimen/ss_quarterly_item_normal_date_text_size"
                 android:textColor="@color/colorSecondary"
                 tools:text="Quarterly Date"
-                fontPath="fonts/Lato-Bold.ttf" />
+                android:textAppearance="@font/lato_bold" />
 
             <TextView
                 android:id="@+id/ss_quarterly_item_normal_title"
@@ -87,7 +87,7 @@
                 android:textSize="@dimen/ss_quarterly_item_normal_title_text_size"
                 android:textColor="@color/colorSecondaryDark"
                 tools:text="Quarterly Name"
-                fontPath="fonts/Lato-Bold.ttf" />
+                android:textAppearance="@font/lato_bold" />
 
         </LinearLayout>
         <include layout="@layout/ss_horizontal_line" />

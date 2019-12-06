@@ -191,6 +191,6 @@
             android:gravity="bottom"
             android:textColor="@color/colorSecondaryDark"
             android:text="@string/ss_about_made"
-            fontPath="Lato-Regular.ttf" />
+            android:textAppearance="@font/lato_regular" />
     </LinearLayout>
 </layout>

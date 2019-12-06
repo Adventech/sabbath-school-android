@@ -145,7 +145,7 @@
                     android:paddingTop="@dimen/ss_reading_display_options_button_padding"
                     android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
                     android:text="@string/ss_reading_display_options_typeface_andada"
-                    fontPath="fonts/Andada-Regular.ttf" />
+                    android:textAppearance="@font/andada_regular" />
 
             </FrameLayout>
 
@@ -165,7 +165,7 @@
                     android:paddingTop="@dimen/ss_reading_display_options_button_padding"
                     android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
                     android:text="@string/ss_reading_display_options_typeface_lato"
-                    fontPath="fonts/Lato-Regular.ttf" />
+                    android:textAppearance="@font/lato_regular" />
 
             </FrameLayout>
 
@@ -185,7 +185,7 @@
                     android:paddingTop="@dimen/ss_reading_display_options_button_padding"
                     android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
                     android:text="@string/ss_reading_display_options_typeface_pt_serif"
-                    fontPath="fonts/PT-Serif-Regular.ttf" />
+                    android:textAppearance="@font/pt_serif_regular" />
 
             </FrameLayout>
 
@@ -205,7 +205,7 @@
                     android:paddingTop="@dimen/ss_reading_display_options_button_padding"
                     android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
                     android:text="@string/ss_reading_display_options_typeface_pt_sans"
-                    fontPath="fonts/PT-Sans-Regular.ttf" />
+                    android:textAppearance="@font/pt_sans_regular" />
 
             </FrameLayout>
         </LinearLayout>

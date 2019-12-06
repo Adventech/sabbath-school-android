@@ -85,7 +85,7 @@
                 android:paddingRight="@dimen/ss_quarterly_item_featured_date_padding_right"
                 android:paddingStart="@dimen/ss_quarterly_item_featured_date_padding_left"
                 android:paddingEnd="@dimen/ss_quarterly_item_featured_date_padding_right"
-                fontPath="fonts/Lato-Bold.ttf"
+                android:textAppearance="@font/lato_bold"
                 tools:text="Quarterly Title" />
 
             <TextView
@@ -106,7 +106,7 @@
                 android:paddingEnd="@dimen/ss_quarterly_item_featured_title_padding_right"
                 android:paddingBottom="@dimen/ss_quarterly_item_featured_title_padding_bottom"
                 tools:text="Quarterly Name"
-                fontPath="fonts/Lato-Bold.ttf" />
+                android:textAppearance="@font/lato_bold" />
 
             <mehdi.sakout.fancybuttons.FancyButton
                 android:id="@+id/ss_quarterly_featured_read"
@@ -118,7 +118,7 @@
                 android:paddingTop="0dp"
                 android:textAllCaps="true"
                 android:minWidth="@dimen/ss_quarterly_item_featured_read_min_width"
-                fancy:fb_textFont="Lato-Bold.ttf"
+                fancy:fb_textFont="Lato-Bold"
                 fancy:fb_borderWidth="@dimen/ss_quarterly_item_featured_read_border_width"
                 fancy:fb_textSize="@dimen/ss_quarterly_item_featured_read_text_size"
                 fancy:fb_radius="@dimen/ss_quarterly_item_featured_read_radius"

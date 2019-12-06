@@ -65,7 +65,7 @@
                     android:textSize="@dimen/ss_lesson_item_index_text_size"
                     android:textColor="@color/colorSecondary"
                     tools:text="1"
-                    fontPath="fonts/Lato-Bold.ttf" />
+                    android:textAppearance="@font/lato_bold" />
 
                 <TextView
                     android:id="@+id/ss_lesson_item_title"
@@ -80,7 +80,7 @@
                     android:textColor="@color/colorSecondaryDark"
                     android:text="@{viewModel.title}"
                     tools:text="Lesson Title"
-                    fontPath="fonts/Lato-Medium.ttf" />
+                    android:textAppearance="@font/lato_medium" />
 
                 <TextView
                     android:id="@+id/ss_lesson_item_normal_date"
@@ -96,7 +96,7 @@
                     android:textColor="@color/colorSecondary"
                     android:text="@{viewModel.date}"
                     tools:text="Lesson Title"
-                    fontPath="fonts/Lato-Regular.ttf" />
+                    android:textAppearance="@font/lato_regular" />
 
             </RelativeLayout>
 

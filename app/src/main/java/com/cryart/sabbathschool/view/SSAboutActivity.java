@@ -23,13 +23,13 @@
 package com.cryart.sabbathschool.view;
 
 
-import android.content.Context;
-import androidx.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.appcompat.app.ActionBar;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.databinding.DataBindingUtil;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsAboutActivityBinding;
@@ -39,8 +39,6 @@ import com.cryart.sabbathschool.misc.SSEvent;
 import com.cryart.sabbathschool.viewmodel.SSAboutViewModel;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SSAboutActivity extends SSColorSchemeActivity {
     private FirebaseAnalytics ssFirebaseAnalytics;
@@ -83,10 +81,5 @@ public class SSAboutActivity extends SSColorSchemeActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
