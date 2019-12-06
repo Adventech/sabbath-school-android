@@ -32,7 +32,7 @@
             type="com.cryart.sabbathschool.viewmodel.SSReadingViewModel" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/ss_reading_coordinator"
         android:layout_width="match_parent"
         android:keepScreenOn="true"
@@ -43,7 +43,7 @@
             bind:viewModel="@{viewModel}"
             layout="@layout/ss_reading_app_bar"/>
 
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/ss_reading_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -65,7 +65,7 @@
             android:background="@color/colorOverlay"
             android:onClick="@{() -> viewModel.onMenuClick()}" />
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/ss_reading_sheet"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -125,7 +125,7 @@
 
                 </RelativeLayout>
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/ss_reading_sheet_list"
                     android:layout_below="@+id/ss_reading_sheet_header"
                     android:scrollbars="vertical"
@@ -134,7 +134,7 @@
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             </RelativeLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
         <include
             layout="@layout/ss_offline_state"
@@ -152,5 +152,5 @@
             bind:progressVisibility="@{viewModel.ssLessonLoadingVisibility}"
             bind:progressLabel="@{@string/ss_reading_downloading}"/>
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -24,11 +24,11 @@ package com.cryart.sabbathschool.view;
 
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.ActionBar;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.appcompat.app.ActionBar;
 import android.view.MenuItem;
 
 import com.cryart.sabbathschool.R;

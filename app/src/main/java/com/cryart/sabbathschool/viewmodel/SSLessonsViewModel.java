@@ -25,10 +25,10 @@ package com.cryart.sabbathschool.viewmodel;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.databinding.BindingAdapter;
-import android.databinding.ObservableInt;
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.ObservableInt;
 import android.preference.PreferenceManager;
-import android.support.v4.view.ViewCompat;
+import androidx.core.view.ViewCompat;
 import android.view.View;
 import android.widget.ImageView;
 

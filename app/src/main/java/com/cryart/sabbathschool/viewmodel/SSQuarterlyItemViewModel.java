@@ -24,13 +24,13 @@ package com.cryart.sabbathschool.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.BaseObservable;
-import android.databinding.BindingAdapter;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.BindingAdapter;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 

@@ -30,7 +30,7 @@
         <variable name="viewModel" type="com.cryart.sabbathschool.viewmodel.SSLessonsViewModel" />
     </data>
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:theme="@style/AppTheme.AppBarOverlay"
@@ -119,14 +119,14 @@
                     android:onClick="@{() -> viewModel.onReadClick()}" />
             </RelativeLayout>
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/ss_lessons_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            </android.support.v7.widget.Toolbar>
+            </androidx.appcompat.widget.Toolbar>
         </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 </layout>

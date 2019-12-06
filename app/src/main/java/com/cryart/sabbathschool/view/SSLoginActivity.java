@@ -24,9 +24,9 @@ package com.cryart.sabbathschool.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding;

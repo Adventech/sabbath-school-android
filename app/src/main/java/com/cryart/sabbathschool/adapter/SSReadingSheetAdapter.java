@@ -22,8 +22,8 @@
 
 package com.cryart.sabbathschool.adapter;
 
-import android.databinding.DataBindingUtil;
-import android.support.v7.widget.RecyclerView;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 

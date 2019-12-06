@@ -31,7 +31,7 @@
             type="com.cryart.sabbathschool.viewmodel.SSReadingViewModel" />
     </data>
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/ss_reading_app_bar_layout"
         android:layout_height="@dimen/ss_reading_toolbar_height"
         android:layout_width="match_parent"
@@ -87,14 +87,14 @@
 
             </RelativeLayout>
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/ss_reading_toolbar"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_width="match_parent"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            </android.support.v7.widget.Toolbar>
+            </androidx.appcompat.widget.Toolbar>
         </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 </layout>

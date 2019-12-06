@@ -24,7 +24,7 @@ package com.cryart.sabbathschool.loggedin;
 
 
 import android.os.SystemClock;
-import android.support.test.rule.ActivityTestRule;
+import androidx.test.rule.ActivityTestRule;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.view.SSQuarterliesActivity;
@@ -41,10 +41,10 @@ import tools.fastlane.screengrab.Screengrab;
 import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy;
 import tools.fastlane.screengrab.locale.LocaleTestRule;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 
 @RunWith(JUnit4.class)

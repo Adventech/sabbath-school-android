@@ -30,7 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.view.GestureDetectorCompat;
+import androidx.core.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.Log;

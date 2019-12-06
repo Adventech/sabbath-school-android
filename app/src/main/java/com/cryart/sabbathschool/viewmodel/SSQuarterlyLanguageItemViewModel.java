@@ -23,7 +23,7 @@
 package com.cryart.sabbathschool.viewmodel;
 
 import android.content.Context;
-import android.databinding.BaseObservable;
+import androidx.databinding.BaseObservable;
 
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
 

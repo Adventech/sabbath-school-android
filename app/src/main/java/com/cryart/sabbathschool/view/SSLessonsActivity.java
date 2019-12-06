@@ -22,12 +22,12 @@
 
 package com.cryart.sabbathschool.view;
 
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.appcompat.app.ActionBar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
