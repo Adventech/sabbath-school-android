@@ -163,20 +163,3 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
-
-android.applicationVariants.all { variant ->
-    variant.outputs.each { output ->
-        tasks.findAll {
-            it.name.startsWith("crashlyticsUploadDistribution${variant.name.capitalize()}")
-        }.each {
-            it.doFirst {
-                ext.betaDistributionApkFilePath = "${buildDir}/outputs/apk/" + variantApkName(variant, output)
-            }
-        }
-    }
-}
-
-// Here you choose the custom file naming convention for your apk, also use when actually setting the filename.
-static def variantApkName(variant, output) {
-    return output.outputFile.name.replace(".apk", "-v${variant.versionName}-${variant.versionCode}.apk")
-}

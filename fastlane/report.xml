@@ -5,17 +5,22 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: Verifying fastlane version" time="0.025691">
+      <testcase classname="fastlane.lanes" name="0: Verifying fastlane version" time="0.024472">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.002829">
+      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.002683">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: supply" time="669.581587">
+      <testcase classname="fastlane.lanes" name="2: assembleRelease" time="40.094757">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: crashlytics" time="35.419793">
         
       </testcase>
     
