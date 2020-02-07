@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -85,7 +85,7 @@
                 android:paddingRight="@dimen/ss_quarterly_item_featured_date_padding_right"
                 android:paddingStart="@dimen/ss_quarterly_item_featured_date_padding_left"
                 android:paddingEnd="@dimen/ss_quarterly_item_featured_date_padding_right"
-                android:textAppearance="@font/lato_bold"
+                android:fontFamily="@font/lato_bold"
                 tools:text="Quarterly Title" />
 
             <TextView
@@ -106,7 +106,7 @@
                 android:paddingEnd="@dimen/ss_quarterly_item_featured_title_padding_right"
                 android:paddingBottom="@dimen/ss_quarterly_item_featured_title_padding_bottom"
                 tools:text="Quarterly Name"
-                android:textAppearance="@font/lato_bold" />
+                android:fontFamily="@font/lato_bold" />
 
             <mehdi.sakout.fancybuttons.FancyButton
                 android:id="@+id/ss_quarterly_featured_read"

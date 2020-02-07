@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -61,7 +61,7 @@
                     android:textColor="@android:color/white"
                     android:textAllCaps="true"
                     android:text="@string/ss_bible"
-                    android:textAppearance="@font/lato_regular" />
+                    android:fontFamily="@font/lato_regular" />
 
                 <View
                     android:layout_width="0dp"
