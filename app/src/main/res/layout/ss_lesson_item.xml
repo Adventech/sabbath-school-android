@@ -100,29 +100,6 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/ss_lesson_item_menu"
-                android:layout_height="wrap_content"
-                android:layout_width="@dimen/ss_lesson_item_menu_width"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
-                android:layout_alignTop="@+id/ss_lesson_item_content"
-                android:layout_alignBottom="@+id/ss_lesson_item_content"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true">
-
-                <com.mikepenz.iconics.view.IconicsImageView
-                    android:layout_width="@dimen/ss_lesson_item_menu_icon_size"
-                    android:layout_height="@dimen/ss_lesson_item_menu_icon_size"
-                    android:layout_centerInParent="true"
-                    android:layout_centerVertical="true"
-                    app:iiv_color="@color/colorSecondary"
-                    app:iiv_icon="gmd-more-vert" />
-
-            </RelativeLayout>
-
             <include layout="@layout/ss_horizontal_line" />
 
         </RelativeLayout>

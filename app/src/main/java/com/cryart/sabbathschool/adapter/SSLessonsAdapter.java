@@ -28,7 +28,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -74,13 +73,12 @@ public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return ssLessons.size();
     }
 
-    private static class SSLessonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+    private static class SSLessonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final SsLessonItemBinding binding;
 
         SSLessonViewHolder(SsLessonItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            this.binding.ssLessonItemMenu.setOnClickListener(this);
         }
 
         void bindQuarterly(SSLesson ssLesson) {
@@ -97,20 +95,8 @@ public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final Menu menu = popupMenu.getMenu();
 
             popupMenu.getMenuInflater().inflate(R.menu.ss_lesson_item_menu, menu);
-            popupMenu.setOnMenuItemClickListener(this);
             popupMenu.setGravity(Gravity.END);
             popupMenu.show();
-        }
-
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            int id = item.getItemId();
-
-            if (id == R.id.ss_lessons_item_menu_read){
-                binding.getViewModel().onItemClick();
-            }
-
-            return true;
         }
     }
 }

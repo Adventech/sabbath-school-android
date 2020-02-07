@@ -323,18 +323,23 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
                                 }
                             }
-                            ssLessonCoordinatorVisibility.set(View.VISIBLE);
-                            ssLessonLoadingVisibility.set(View.INVISIBLE);
-                            ssLessonOfflineStateVisibility.set(View.INVISIBLE);
-                            ssLessonErrorStateVisibility.set(View.INVISIBLE);
+                            try {
+                                ssLessonCoordinatorVisibility.set(View.VISIBLE);
+                                ssLessonLoadingVisibility.set(View.INVISIBLE);
+                                ssLessonOfflineStateVisibility.set(View.INVISIBLE);
+                                ssLessonErrorStateVisibility.set(View.INVISIBLE);
+                            } catch (Exception e){}
+
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            ssLessonCoordinatorVisibility.set(View.VISIBLE);
-                            ssLessonLoadingVisibility.set(View.INVISIBLE);
-                            ssLessonOfflineStateVisibility.set(View.INVISIBLE);
-                            ssLessonErrorStateVisibility.set(View.INVISIBLE);
+                            try {
+                                ssLessonCoordinatorVisibility.set(View.VISIBLE);
+                                ssLessonLoadingVisibility.set(View.INVISIBLE);
+                                ssLessonOfflineStateVisibility.set(View.INVISIBLE);
+                                ssLessonErrorStateVisibility.set(View.INVISIBLE);
+                            } catch (Exception e){}
                         }
                     });
         }

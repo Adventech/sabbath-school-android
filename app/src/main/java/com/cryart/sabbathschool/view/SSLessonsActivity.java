@@ -108,7 +108,7 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.ss_lessons_menu, menu);
+        // getMenuInflater().inflate(R.menu.ss_lessons_menu, menu);
         return true;
     }
 
