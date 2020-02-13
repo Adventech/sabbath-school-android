@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,7 +42,6 @@ import com.cryart.sabbathschool.viewmodel.SSLessonsViewModel;
 import hotchemi.android.rate.AppRate;
 
 public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewModel.DataListener {
-    private static final String TAG = SSLessonsActivity.class.getSimpleName();
 
     private SsLessonsActivityBinding binding;
     private SSLessonsViewModel ssLessonsViewModel;
@@ -77,8 +76,6 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
         ssLessonsViewModel = new SSLessonsViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA));
         binding.executePendingBindings();
         binding.setViewModel(ssLessonsViewModel);
-
-        setUpDrawer();
     }
 
     public void updateColorScheme(){
@@ -108,7 +105,7 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // getMenuInflater().inflate(R.menu.ss_lessons_menu, menu);
+        getMenuInflater().inflate(R.menu.ss_lessons_menu, menu);
         return true;
     }
 

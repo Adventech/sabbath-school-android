@@ -30,12 +30,11 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import androidx.appcompat.app.ActionBar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.SSApplication;
 import com.cryart.sabbathschool.adapter.SSQuarterliesAdapter;
@@ -47,11 +46,7 @@ import com.cryart.sabbathschool.misc.SSReminder;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
 import com.cryart.sabbathschool.viewmodel.SSQuarterliesViewModel;
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.iconics.IconicsDrawable;
-
 import java.util.List;
-
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterliesViewModel.DataListener {
@@ -103,7 +98,7 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         binding.executePendingBindings();
         binding.setViewModel(ssQuarterliesViewModel);
 
-        setUpDrawer(binding.ssAppBar.ssToolbar);
+        setupAccountToolbar(binding.ssAppBar.ssToolbar);
     }
 
     private void updateColorScheme() {
@@ -134,10 +129,7 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
                     .setPrimaryText(getString(R.string.ss_quarterlies_filter_languages_prompt_title))
                     .setCaptureTouchEventOutsidePrompt(true)
                     .setIconDrawableColourFilter(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()))
-                    .setIconDrawable(new IconicsDrawable(this)
-                            .icon(GoogleMaterial.Icon.gmd_translate)
-                            .color(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()))
-                            .sizeDp(18))
+                    .setIconDrawable(ContextCompat.getDrawable(this, R.drawable.ic_translate))
                     .setBackgroundColour(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()))
                     .setSecondaryText(R.string.ss_quarterlies_filter_languages_prompt_description)
                     .setPromptStateChangeListener(new MaterialTapTargetPrompt.PromptStateChangeListener() {
@@ -170,10 +162,6 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.ss_quarterlies_menu, menu);
-        menu.getItem(0).setIcon(new IconicsDrawable(this)
-                .icon(GoogleMaterial.Icon.gmd_translate)
-                .color(Color.WHITE)
-                .sizeDp(18));
         return true;
     }
 

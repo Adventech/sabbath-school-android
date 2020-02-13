@@ -21,12 +21,20 @@
   ~ THE SOFTWARE.
   -->
 
-<resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="popupMenuStyle">@style/AppTheme.PopupMenuStyle</item>
+        <item name="android:colorEdgeEffect" tools:targetApi="lollipop">@color/colorSecondary</item>
+
+        <item name="textAppearanceBody1">@style/SS.TextAppearance.Body1</item>
+        <item name="textAppearanceBody2">@style/SS.TextAppearance.Body2</item>
+        <item name="textAppearanceHeadline5">@style/SS.TextAppearance.HeadLine5</item>
+        <item name="textAppearanceHeadline6">@style/SS.TextAppearance.HeadLine6</item>
+
+        <item name="materialAlertDialogTheme">@style/Theme.SS.AlertDialog</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -36,9 +44,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 
     <style name="AppTheme.PopupMenuStyle" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
         <item name="android:dropDownHorizontalOffset">-4dp</item>

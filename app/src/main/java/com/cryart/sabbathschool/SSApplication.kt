@@ -24,25 +24,25 @@ package com.cryart.sabbathschool
 import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import android.net.Uri
-import android.widget.ImageView
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import com.google.firebase.database.FirebaseDatabase
-import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader
-import com.mikepenz.materialdrawer.util.DrawerImageLoader
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer
 import io.fabric.sdk.android.Fabric
 import net.danlew.android.joda.JodaTimeAndroid
+import timber.log.Timber
 
 class SSApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
 
         instance = this
 
@@ -63,16 +63,6 @@ class SSApplication : Application() {
                 .defaultDisplayImageOptions(displayImageOptions)
                 .build()
         ImageLoader.getInstance().init(config)
-
-        DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
-            override fun set(imageView: ImageView, uri: Uri, placeholder: Drawable) {
-                ImageLoader.getInstance().displayImage(uri.toString(), imageView)
-            }
-
-            override fun cancel(imageView: ImageView) {
-                ImageLoader.getInstance().cancelDisplayTask(imageView)
-            }
-        })
     }
 
     companion object {

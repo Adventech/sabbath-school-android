@@ -24,53 +24,28 @@ package com.cryart.sabbathschool.view;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.cryart.sabbathschool.R;
-import com.cryart.sabbathschool.misc.SSColorTheme;
+import com.cryart.sabbathschool.extensions.glide.GlideApp;
 import com.cryart.sabbathschool.misc.SSConstants;
+import com.cryart.sabbathschool.ui.account.AccountDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
-import static android.graphics.Color.parseColor;
-
-public abstract class SSBaseActivity extends SSColorSchemeActivity implements Drawer.OnDrawerItemClickListener, AccountHeader.OnAccountHeaderListener, FirebaseAuth.AuthStateListener {
-    private static final String TAG = SSBaseActivity.class.getSimpleName();
+public abstract class SSBaseActivity extends SSColorSchemeActivity implements FirebaseAuth.AuthStateListener {
 
     private static final String APP_PLAY_STORE_LINK = "https://play.google.com/store/apps/details?id=com.cryart.sabbathschool";
     public static final String MENU_ANONYMOUS_PHOTO = "https://sabbath-school.adventech.io/api/v1/anonymous-photo.png";
-    private static final int MENU_READ_ID = 1;
-    private static final int MENU_HIGHLIGHTS_ID = 2;
-    private static final int MENU_NOTES_ID = 3;
-    private static final int MENU_SETTINGS_ID = 4;
-    private static final int MENU_SHARE_ID = 5;
-    private static final int MENU_ABOUT_ID = 6;
-    private static final int MENU_HEADER_PROFILE_ID = 100;
-    private static final int MENU_HEADER_LOGOUT_ID = 101;
 
     private FirebaseAuth ssFirebaseAuth;
-
-    private Drawer ssNavigationDrawer;
-    private AccountHeader ssAccountHeader;
-    private IDrawerItem[] ssDrawerItems = new IDrawerItem[7];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,99 +59,36 @@ public abstract class SSBaseActivity extends SSColorSchemeActivity implements Dr
         ssFirebaseAuth.addAuthStateListener(this);
     }
 
-    private IDrawerItem[] getDrawerItems() {
-        int primaryColor = Color.parseColor(SSColorTheme.getInstance().getColorPrimary());
-        ssDrawerItems[0] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_read_now)).withIcon(GoogleMaterial.Icon.gmd_book).withIdentifier(MENU_READ_ID).withSelectable(false).withSelectedIconColor(primaryColor).withSelectedTextColor(primaryColor);
-        ssDrawerItems[1] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_my_highlights)).withIcon(GoogleMaterial.Icon.gmd_border_color).withIdentifier(MENU_HIGHLIGHTS_ID).withSelectable(false).withSelectedIconColor(primaryColor).withSelectedTextColor(primaryColor);
-        ssDrawerItems[2] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_my_notes)).withIcon(GoogleMaterial.Icon.gmd_comment).withIdentifier(MENU_NOTES_ID).withSelectable(false).withSelectedIconColor(primaryColor).withSelectedTextColor(primaryColor);
-        ssDrawerItems[3] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_settings)).withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(MENU_SETTINGS_ID).withSelectable(false).withSelectedIconColor(primaryColor).withSelectedTextColor(primaryColor);
-        ssDrawerItems[4] = new DividerDrawerItem();
-        ssDrawerItems[5] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_share_app)).withIdentifier(MENU_SHARE_ID).withSelectable(false).withSelectedTextColor(primaryColor);
-        ssDrawerItems[6] = new PrimaryDrawerItem().withName(getString(R.string.ss_menu_about)).withIdentifier(MENU_ABOUT_ID).withSelectable(false).withSelectedTextColor(primaryColor);
-
-        return ssDrawerItems;
-    }
-
-    private AccountHeader getAccountHeader() {
+    protected void setupAccountToolbar(final Toolbar ssToolbar) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, getString(R.string.ss_menu_anonymous_name));
-        String email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, getString(R.string.ss_menu_anonymous_email));
         String photo = prefs.getString(SSConstants.SS_USER_PHOTO_INDEX, MENU_ANONYMOUS_PHOTO);
 
-        ssAccountHeader = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withTranslucentStatusBar(true)
-                .withHeaderBackground(R.color.colorPrimary)
-                .addProfiles(
-                        new ProfileDrawerItem().withName(name)
-                                .withEmail(email)
-                                .withIcon(photo)
-                                .withSelectedTextColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()))
-                                .withIdentifier(MENU_HEADER_PROFILE_ID),
-                        new ProfileSettingDrawerItem().withName(getString(R.string.ss_menu_sign_out)).withIdentifier(MENU_HEADER_LOGOUT_ID)
-                )
-                .withOnAccountHeaderListener(this)
-                .build();
+        int size = getResources().getDimensionPixelSize(R.dimen.spacing_large);
+        GlideApp.with(this)
+                .asDrawable()
+                .load(photo)
+                .placeholder(R.drawable.ic_account_circle)
+                .error(R.drawable.ic_account_circle)
+                .circleCrop()
+                .into(new SimpleTarget<Drawable>(size, size) {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        ssToolbar.setNavigationIcon(resource);
+                    }
+                });
 
-        return ssAccountHeader;
-    }
 
-    protected void setUpDrawer(Toolbar ssToolbar) {
-        this.ssNavigationDrawer = new DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(ssToolbar)
-                .withAccountHeader(getAccountHeader())
-                .addDrawerItems(getDrawerItems())
-                .withOnDrawerItemClickListener(this)
-                .withSelectedItem(1)
-                .build();
-    }
-
-    protected void setUpDrawer() {
-        this.ssNavigationDrawer = new DrawerBuilder()
-                .withActivity(this)
-                .withAccountHeader(getAccountHeader())
-                .addDrawerItems(getDrawerItems())
-                .withOnDrawerItemClickListener(this)
-                .withSelectedItem(1)
-                .build();
+        ssToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AccountDialogFragment fragment = new AccountDialogFragment();
+                fragment.show(getSupportFragmentManager(), fragment.getTag());
+            }
+        });
     }
 
     public void updateWindowColorScheme() {
         updateWindowColorScheme(true);
-    }
-
-    @Override
-    public void updateWindowColorScheme(boolean withStatusBar) {
-        this.ssAccountHeader.setBackground(new ColorDrawable(parseColor(SSColorTheme.getInstance().getColorPrimary())));
-
-        ssNavigationDrawer.removeAllItems();
-        ssNavigationDrawer.addItems(getDrawerItems());
-        ssNavigationDrawer.setSelection(1);
-
-        super.updateWindowColorScheme(withStatusBar);
-    }
-
-    @Override
-    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-        if (drawerItem != null) {
-            if (drawerItem.getIdentifier() == MENU_READ_ID) {
-                // Currently it's useless to do anything
-            } else if (drawerItem.getIdentifier() == MENU_HIGHLIGHTS_ID) {
-                Intent intent = new Intent(SSBaseActivity.this, SSMyHighlightsActivity.class);
-                startActivity(intent);
-            } else if (drawerItem.getIdentifier() == MENU_NOTES_ID) {
-                Intent intent = new Intent(SSBaseActivity.this, SSMyNotesActivity.class);
-                startActivity(intent);
-            } else if (drawerItem.getIdentifier() == MENU_SETTINGS_ID) {
-                onSettingsClick();
-            } else if (drawerItem.getIdentifier() == MENU_SHARE_ID) {
-                onShareAppClick();
-            } else if (drawerItem.getIdentifier() == MENU_ABOUT_ID) {
-                startActivity(new Intent(SSBaseActivity.this, SSAboutActivity.class));
-            }
-        }
-        return false;
     }
 
     private void onShareAppClick() {
@@ -203,18 +115,6 @@ public abstract class SSBaseActivity extends SSColorSchemeActivity implements Dr
             Intent ssLoginActivityIntent = new Intent(SSBaseActivity.this, SSLoginActivity.class);
             startActivity(ssLoginActivityIntent);
         }
-    }
-
-    @Override
-    public boolean onProfileChanged(View view, IProfile profile, boolean current) {
-        if (profile instanceof ProfileSettingDrawerItem && profile.getIdentifier() == MENU_HEADER_LOGOUT_ID) {
-            ssFirebaseAuth.signOut();
-            SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor = shared.edit();
-            editor.clear().commit();
-            onLogoutEvent();
-        }
-        return false;
     }
 
     public abstract void onLogoutEvent();

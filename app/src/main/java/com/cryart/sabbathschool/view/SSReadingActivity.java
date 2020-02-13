@@ -112,7 +112,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         binding.executePendingBindings();
         binding.setViewModel(ssReadingViewModel);
 
-        setUpDrawer();
+//        setupAccountToolbar();
         updateColorScheme();
     }
 
