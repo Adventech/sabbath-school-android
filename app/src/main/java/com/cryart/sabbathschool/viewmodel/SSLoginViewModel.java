@@ -51,9 +51,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -66,8 +64,7 @@ import com.google.firebase.auth.UserInfo;
 import java.util.Arrays;
 import timber.log.Timber;
 
-public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateListener, GoogleApiClient.OnConnectionFailedListener {
-    private static final String TAG = SSLoginViewModel.class.getSimpleName();
+public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateListener {
     private static final String FIREBASE_PROVIDER_ID = "firebase";
 
     private Context context;
@@ -127,11 +124,6 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
                         loginFailed(exception.getMessage());
                     }
                 });
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        loginFailed(connectionResult.getErrorMessage());
     }
 
     private void handleGoogleAccessToken(GoogleSignInAccount acct) {
