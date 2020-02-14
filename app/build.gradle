@@ -117,19 +117,19 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
 
-    implementation "com.google.android.gms:play-services-auth:16.0.1"
-    implementation "com.google.firebase:firebase-core:16.0.7"
-    implementation "com.google.firebase:firebase-auth:16.1.0"
-    implementation "com.google.firebase:firebase-database:16.0.6"
-    implementation "com.google.firebase:firebase-messaging:17.3.4"
-    implementation "com.google.firebase:firebase-storage:16.0.5"
+    implementation "com.google.android.gms:play-services-auth:17.0.0"
+    implementation "com.google.firebase:firebase-core:17.2.2"
+    implementation "com.google.firebase:firebase-auth:19.2.0"
+    implementation "com.google.firebase:firebase-database:19.2.1"
+    implementation "com.google.firebase:firebase-messaging:20.1.0"
+    implementation "com.google.firebase:firebase-storage:19.1.1"
 
     implementation "com.firebase:firebase-jobdispatcher:0.8.5"
 
     implementation "uk.co.samuelwall:material-tap-target-prompt:2.0.1"
     implementation "com.nostra13.universalimageloader:universal-image-loader:1.9.5"
     implementation "com.github.hotchemi:android-rate:1.0.1"
-    implementation "org.apache.commons:commons-lang3:3.4"
+    implementation "org.apache.commons:commons-lang3:3.5"
     implementation("com.afollestad.material-dialogs:core:0.9.6.0")
     implementation "net.danlew:android.joda:2.9.4.2"
     implementation "com.facebook.android:facebook-android-sdk:4.23.0"

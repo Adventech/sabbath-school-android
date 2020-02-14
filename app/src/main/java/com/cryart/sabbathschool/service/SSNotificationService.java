@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,11 +24,18 @@ package com.cryart.sabbathschool.service;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class SSNotificationService extends FirebaseMessagingService {
     private static final String TAG = SSNotificationService.class.getSimpleName();
+
+    @Override
+    public void onNewToken(@NonNull String token) {
+        super.onNewToken(token);
+        // TODO: Implement this method if we need to send token to our backend
+    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
