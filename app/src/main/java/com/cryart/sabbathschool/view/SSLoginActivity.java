@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.view;
 
 import android.content.Intent;
+import android.view.View;
 import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,16 +33,28 @@ import com.cryart.sabbathschool.databinding.SsLoginActivityBinding;
 import com.cryart.sabbathschool.viewmodel.SSLoginViewModel;
 
 public class SSLoginActivity extends AppCompatActivity {
-    private static final String TAG = SSLoginActivity.class.getSimpleName();
     private SSLoginViewModel ssLoginViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SsLoginActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.ss_login_activity);
+        final SsLoginActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.ss_login_activity);
         ssLoginViewModel = new SSLoginViewModel(this);
         binding.setViewModel(ssLoginViewModel);
+
+        binding.ssLoginButtonGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ssLoginViewModel.onClickSignInGoogle();
+            }
+        });
+        binding.ssLoginFbLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ssLoginViewModel.initFacebookLogin(binding.ssLoginFbLoginButton);
+            }
+        });
     }
 
     @Override
