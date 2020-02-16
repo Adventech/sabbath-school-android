@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,8 +64,7 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         String lastQuarterlyIndex = prefs.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, null);
 
         if (lastQuarterlyIndex != null) {
-            Intent launchNextActivity;
-            launchNextActivity = new Intent(this, SSLessonsActivity.class);
+            Intent launchNextActivity = new Intent(this, SSLessonsActivity.class);
             launchNextActivity.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, lastQuarterlyIndex);
             startActivity(launchNextActivity);
         }

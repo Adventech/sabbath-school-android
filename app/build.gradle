@@ -62,33 +62,24 @@ android {
         jumboMode = true
     }
 
+    Properties keyProps = new Properties()
+    keyProps.load(new FileInputStream(file("../app/keystore.properties")))
+
     signingConfigs {
-        beta {
-            storeFile file("src/beta/ss-beta.keystore")
+        release {
+            storeFile file(keyProps['release.keystore'])
+            storePassword keyProps['release.keystore.password']
+            keyAlias keyProps['key.alias']
+            keyPassword keyProps['key.password']
         }
     }
 
     buildTypes {
-
-        beta {
+        release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.beta
-            ext.betaDistributionGroupAliases="testers"
+            signingConfig signingConfigs.release
         }
-
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    if (project.hasProperty('storePassword') && project.hasProperty('keyPassword')) {
-        android.signingConfigs.beta.storePassword = storePassword
-        android.signingConfigs.beta.keyPassword = keyPassword
-        android.signingConfigs.beta.keyAlias = "sskeystore"
-    } else {
-        android.buildTypes.beta.signingConfig = null
     }
 
     dataBinding {

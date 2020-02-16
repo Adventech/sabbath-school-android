@@ -7,3 +7,4 @@
 /captures
 fabric.properties
 crashlytics.properties
+*.jks

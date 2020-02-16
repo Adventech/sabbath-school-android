@@ -18,8 +18,7 @@ before_install:
 script:
   - echo "apiKey=$FABRIC_API_KEY" >> app/fabric.properties
   - echo "apiSecret=$FABRIC_API_SECRET" >> app/fabric.properties
-  - ./gradlew assembleBeta
-  #- ./gradlew assembleBeta crashlyticsUploadDistributionBeta -PstorePassword=$BETA_STORE_PWD -PkeyPassword=$BETA_KEY_PWD
+  - ./gradlew bundleRelease
 env:
   global:
   - secure: kxFugt0bp+H7W8FPGlyiLVQGheDQ2XiYA/XnzHV8adm0M+pV7/xFt4/7G3rthfqv9+rzsMmZrTqcXYnHMTObLGNTv/+1ZGx8d2DBLFrrRyVcsA6mbOSrDC9eK0RtRTmN9L3POS9aXceUiLUODkv50uYSFqWSyzsR46uIL7QV80zoSUfITXRQPw7OOIyJmdSmVn7ekMhDzHLlHE95ZCN6bLaRPxJnzwzKBvKoYHJS/hHlT7EmIupH0boKJJfSX6yHj/jY1seY5j8oCoSX76IP8443xk+4dFafciYNN0LwB4Q0GDouazOX0ZOkIz8JgndNBtHvCFp6IGXQ8jeso4ZvFd1mlCQssUPit/3xvZUpOFtUgLb6xLdGwXqQPwIfvCtczRcZ7St3/Qpd72bcfmPJ8ZoXgS6PYAM+7z88UxmwaT6F6BoOo503HfkyRq2aAa6tjKeMm0ggsRpUBJnBe2sFaTnN9lTmRf1jCUTJl8caitJ+rQAAkMg0duVMnD7N62eF2s8UP3HLCgyztwE44+fLGiTwfX9r/Y06EVr9tzk6vCBGKmBtkZsM+AF1jPtsdaus9jfIfzfZ4OLNcjUVCcBOpf/3KOosN5+pUVwHsUHZ34zCUevY0u//pcY4mFmbQIkorTLZMqfuaao8TKV6nIgesHFgLzR7TrXEBY/BXh34GI8=
