@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,39 +20,40 @@
   ~ THE SOFTWARE.
   -->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fancy="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="viewModel" type="com.cryart.sabbathschool.viewmodel.SSLessonsViewModel" />
+
+        <variable
+            name="viewModel"
+            type="com.cryart.sabbathschool.viewmodel.SSLessonsViewModel" />
     </data>
 
     <com.google.android.material.appbar.AppBarLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
         android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
-        app:expanded="true"
-        app:elevation="@dimen/ss_app_bar_elevation">
+        app:elevation="@dimen/ss_app_bar_elevation"
+        app:expanded="true">
 
         <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
             android:id="@+id/ss_lesson_collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="@dimen/ss_lessons_toolbar_title_margin_start"
+            app:expandedTitleGravity="start|bottom"
             app:expandedTitleMarginBottom="@dimen/ss_lessons_toolbar_title_margin_bottom"
-            app:maxLines="2"
-            app:expandedTitleGravity="start|bottom">
+            app:expandedTitleMarginStart="@dimen/ss_lessons_toolbar_title_margin_start"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
+            app:maxLines="2">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/ss_lessons_toolbar_content_margin_left"
                 android:layout_marginStart="@dimen/ss_lessons_toolbar_content_margin_left"
+                android:layout_marginLeft="@dimen/ss_lessons_toolbar_content_margin_left"
                 android:layout_marginTop="@dimen/ss_lessons_toolbar_content_margin_top"
                 android:layout_marginBottom="@dimen/ss_lessons_toolbar_content_margin_bottom"
                 app:layout_collapseMode="parallax"
@@ -63,60 +63,56 @@
                     android:id="@+id/ss_lessons_app_bar_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/white"
+                    android:fontFamily="@font/lato_regular"
                     android:text="@{viewModel.date}"
-                    android:fontFamily="@font/lato_regular"  />
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white" />
 
                 <ImageView
                     android:id="@+id/ss_lessons_app_bar_cover"
-                    android:layout_below="@+id/ss_lessons_app_bar_date"
                     android:layout_width="@dimen/ss_lessons_toolbar_cover_width"
                     android:layout_height="@dimen/ss_lessons_toolbar_cover_height"
+                    android:layout_below="@+id/ss_lessons_app_bar_date"
                     android:layout_marginTop="@dimen/ss_lessons_toolbar_cover_margin_top"
                     android:background="@android:drawable/dialog_holo_light_frame"
-                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/blank"
                     android:padding="@dimen/ss_lessons_toolbar_cover_padding"
+                    android:scaleType="centerCrop"
                     android:transitionName="@string/ss_quarterly_cover_transition"
                     app:coverUrl="@{viewModel.cover}" />
 
                 <TextView
                     android:id="@+id/ss_lessons_app_bar_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/ss_lessons_app_bar_date"
-                    android:layout_toRightOf="@+id/ss_lessons_app_bar_cover"
-                    android:layout_toEndOf="@+id/ss_lessons_app_bar_cover"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ss_lessons_toolbar_description_margin_top"
-                    android:layout_marginLeft="@dimen/ss_lessons_toolbar_description_margin_left"
                     android:layout_marginStart="@dimen/ss_lessons_toolbar_description_margin_left"
-                    android:layout_marginRight="@dimen/ss_lessons_toolbar_description_margin_right"
+                    android:layout_marginLeft="@dimen/ss_lessons_toolbar_description_margin_left"
+                    android:layout_marginTop="@dimen/ss_lessons_toolbar_description_margin_top"
                     android:layout_marginEnd="@dimen/ss_lessons_toolbar_description_margin_right"
-                    android:maxLines="8"
-                    android:ellipsize="end"
-                    android:textColor="@android:color/white"
-                    android:typeface="serif"
-                    android:text="@{viewModel.description}"
-                    android:fontFamily="@font/lato_regular" />
-
-                <mehdi.sakout.fancybuttons.FancyButton
-                    android:id="@+id/ss_lessons_app_bar_read"
-                    android:layout_below="@+id/ss_lessons_app_bar_description"
-                    android:layout_toRightOf="@+id/ss_lessons_app_bar_cover"
+                    android:layout_marginRight="@dimen/ss_lessons_toolbar_description_margin_right"
                     android:layout_toEndOf="@+id/ss_lessons_app_bar_cover"
+                    android:layout_toRightOf="@+id/ss_lessons_app_bar_cover"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/lato_regular"
+                    android:maxLines="8"
+                    android:text="@{viewModel.description}"
+                    android:textColor="@android:color/white" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ss_lessons_app_bar_read"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/ss_lessons_app_bar_description"
                     android:layout_margin="@dimen/ss_lessons_toolbar_read_margin"
-                    android:textAllCaps="true"
+                    android:layout_toEndOf="@+id/ss_lessons_app_bar_cover"
+                    android:layout_toRightOf="@+id/ss_lessons_app_bar_cover"
+                    android:text="@string/ss_lessons_read"
+                    android:fontFamily="@font/lato_bold"
+                    android:textColor="@android:color/white"
+                    android:onClick="@{() -> viewModel.onReadClick()}"
                     android:minWidth="@dimen/ss_lessons_toolbar_read_min_width"
-                    fancy:fb_textFont="Lato-Bold"
-                    fancy:fb_borderWidth="@dimen/ss_lessons_toolbar_read_border"
-                    fancy:fb_defaultColor="@color/colorPrimaryDark"
-                    fancy:fb_focusColor="@color/colorPrimary"
-                    fancy:fb_radius="@dimen/ss_lessons_toolbar_read_radius"
-                    fancy:fb_text="@string/ss_lessons_read"
-                    fancy:fb_textColor="@android:color/white"
-                    android:onClick="@{() -> viewModel.onReadClick()}" />
+                    app:cornerRadius="@dimen/ss_lessons_toolbar_read_radius" />
             </RelativeLayout>
 
             <androidx.appcompat.widget.Toolbar

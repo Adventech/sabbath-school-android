@@ -22,15 +22,15 @@
 
 package com.cryart.sabbathschool.view;
 
-import androidx.databinding.DataBindingUtil;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import androidx.appcompat.app.ActionBar;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.adapter.SSLessonsAdapter;
 import com.cryart.sabbathschool.databinding.SsLessonsActivityBinding;
@@ -38,7 +38,6 @@ import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
 import com.cryart.sabbathschool.viewmodel.SSLessonsViewModel;
-
 import hotchemi.android.rate.AppRate;
 
 public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewModel.DataListener {
@@ -70,21 +69,22 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
         binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle);
         binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setExpandedTitleTextAppearance(R.style.AppThemeAppBarTextStyleExpanded);
 
-        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/Lato-Bold.ttf"));
-        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/Lato-Bold.ttf"));
+        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setCollapsedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold));
+        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setExpandedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold));
 
         ssLessonsViewModel = new SSLessonsViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA));
         binding.executePendingBindings();
         binding.setViewModel(ssLessonsViewModel);
     }
 
-    public void updateColorScheme(){
+    public void updateColorScheme() {
         int primaryColor = Color.parseColor(SSColorTheme.getInstance().getColorPrimary());
+        int primaryDarkColor = Color.parseColor(SSColorTheme.getInstance().getColorPrimaryDark());
+
         binding.ssLessonsAppBar.ssLessonsToolbar.setBackgroundColor(primaryColor);
         binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setContentScrimColor(primaryColor);
         binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setBackgroundColor(primaryColor);
-        binding.ssLessonsAppBar.ssLessonsAppBarRead.setFocusBackgroundColor(primaryColor);
-        binding.ssLessonsAppBar.ssLessonsAppBarRead.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimaryDark()));
+        binding.ssLessonsAppBar.ssLessonsAppBarRead.setBackgroundTintList(ColorStateList.valueOf(primaryDarkColor));
 
         updateWindowColorScheme();
     }
@@ -116,7 +116,7 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
     }
 
     @Override
-    public void onLogoutEvent(){
+    public void onLogoutEvent() {
         finish();
     }
 
@@ -124,9 +124,9 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.ss_lessons_menu_share){
+        if (id == R.id.ss_lessons_menu_share) {
             shareApp(ssLessonsViewModel.ssQuarterlyInfo.quarterly.title);
-        } else if (id == R.id.ss_lessons_menu_settings){
+        } else if (id == R.id.ss_lessons_menu_settings) {
             onSettingsClick();
         }
 
@@ -134,7 +134,7 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         finish();
     }
 }

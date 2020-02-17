@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,23 +24,22 @@ package com.cryart.sabbathschool.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.databinding.BaseObservable;
-import androidx.databinding.BindingAdapter;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.BindingAdapter;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.view.SSLessonsActivity;
+import com.google.android.material.button.MaterialButton;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import mehdi.sakout.fancybuttons.FancyButton;
 
 public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewModel {
     private SSQuarterly ssQuarterly;
@@ -72,9 +71,13 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
         return ssQuarterly.description;
     }
 
-    public String getColorPrimary() { return ssQuarterly.color_primary; }
+    public String getColorPrimary() {
+        return ssQuarterly.color_primary;
+    }
 
-    public String getColorPrimaryDark() { return ssQuarterly.color_primary_dark; }
+    public String getColorPrimaryDark() {
+        return ssQuarterly.color_primary_dark;
+    }
 
     @BindingAdapter({"backgroundColor"})
     public static void setBackgroundColor(View view, String color) {
@@ -82,13 +85,8 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
     }
 
     @BindingAdapter({"fbDefaultColor"})
-    public static void setFbDefaultColor(FancyButton view, String color) {
-        view.setBackgroundColor(Color.parseColor(color));
-    }
-
-    @BindingAdapter({"fbFocusColor"})
-    public static void setFbFocusColor(FancyButton view, String color) {
-        view.setFocusBackgroundColor(Color.parseColor(color));
+    public static void setFbDefaultColor(MaterialButton view, String color) {
+        view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(color)));
     }
 
     @BindingAdapter({"coverUrl"})
@@ -103,7 +101,7 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
         Intent ssLessonsIntent = new Intent(context, SSLessonsActivity.class);
         ssLessonsIntent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, ssQuarterly.index);
         ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation((AppCompatActivity)context, view, context.getString(R.string.ss_quarterly_cover_transition));
+                makeSceneTransitionAnimation((AppCompatActivity) context, view, context.getString(R.string.ss_quarterly_cover_transition));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             context.startActivity(ssLessonsIntent, options.toBundle());

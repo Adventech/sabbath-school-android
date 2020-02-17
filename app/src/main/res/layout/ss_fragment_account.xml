@@ -27,8 +27,7 @@
     android:layout_height="wrap_content"
     android:background="@color/colorBackground"
     android:orientation="vertical"
-    android:paddingTop="@dimen/spacing_medium"
-    android:paddingBottom="@dimen/spacing_medium">
+    android:paddingTop="@dimen/spacing_medium">
 
     <LinearLayout
         android:id="@+id/authenticatedView"
