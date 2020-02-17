@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -21,8 +20,7 @@
   ~ THE SOFTWARE.
   -->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -40,44 +38,45 @@
             android:id="@+id/ss_reading_sheet_item_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/ss_reading_sheet_item_padding_top"
-            android:paddingBottom="@dimen/ss_reading_sheet_item_padding_bottom"
-            android:paddingLeft="@dimen/ss_reading_sheet_item_padding_left"
-            android:paddingRight="@dimen/ss_reading_sheet_item_padding_right"
-            android:paddingStart="@dimen/ss_reading_sheet_item_padding_left"
-            android:paddingEnd="@dimen/ss_reading_sheet_item_padding_right"
+            android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> viewModel.onItemClick()}">
+            android:onClick="@{() -> viewModel.onItemClick()}"
+            android:paddingStart="@dimen/ss_reading_sheet_item_padding_left"
+            android:paddingLeft="@dimen/ss_reading_sheet_item_padding_left"
+            android:paddingTop="@dimen/ss_reading_sheet_item_padding_top"
+            android:paddingEnd="@dimen/ss_reading_sheet_item_padding_right"
+            android:paddingRight="@dimen/ss_reading_sheet_item_padding_right"
+            android:paddingBottom="@dimen/ss_reading_sheet_item_padding_bottom">
 
             <TextView
                 android:id="@+id/ss_reading_sheet_item_title"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:maxLines="1"
+                android:layout_alignParentLeft="true"
                 android:ellipsize="end"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:textSize="@dimen/ss_reading_sheet_item_title_text_size"
-                android:textColor="@color/colorSecondaryDark"
+                android:fontFamily="@font/lato_bold"
+                android:maxLines="1"
                 android:text="@{viewModel.title}"
+                android:textAllCaps="true"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="@dimen/ss_reading_sheet_item_title_text_size"
                 tools:text="Read Title" />
 
             <TextView
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/ss_reading_sheet_item_title"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:maxLines="1"
+                android:layout_alignParentLeft="true"
                 android:ellipsize="end"
-                android:textSize="@dimen/ss_reading_sheet_item_date_text_size"
-                android:textColor="@color/colorSecondary"
-                android:textStyle="italic"
+                android:fontFamily="@font/lato_regular"
+                android:maxLines="1"
                 android:text="@{viewModel.date}"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="@dimen/ss_reading_sheet_item_date_text_size"
+                android:textStyle="italic"
                 tools:text="Read Date" />
         </RelativeLayout>
 

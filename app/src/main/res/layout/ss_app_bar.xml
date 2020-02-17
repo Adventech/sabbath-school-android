@@ -46,7 +46,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ss_app_name"
                 android:layout_gravity="start"
-                android:textStyle="italic"
                 android:fontFamily="@font/lato_bold"
                 android:textColor="?android:attr/textColorPrimary"
                 android:id="@+id/toolbar_title" />

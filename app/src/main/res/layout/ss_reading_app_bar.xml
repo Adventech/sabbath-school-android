@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,11 +20,11 @@
   ~ THE SOFTWARE.
   -->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.cryart.sabbathschool.viewmodel.SSReadingViewModel" />
@@ -33,64 +32,65 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/ss_reading_app_bar_layout"
-        android:layout_height="@dimen/ss_reading_toolbar_height"
         android:layout_width="match_parent"
+        android:layout_height="@dimen/ss_reading_toolbar_height"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay"
         android:visibility="@{viewModel.ssLessonCoordinatorVisibility}"
-        app:expanded="true"
-        app:elevation="@dimen/ss_app_bar_elevation">
+        app:elevation="@dimen/ss_app_bar_elevation"
+        app:expanded="true">
 
         <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
             android:id="@+id/ss_reading_collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
-            app:contentScrim="?attr/colorPrimary"
-            app:toolbarId="@+id/ss_reading_toolbar"
-            app:maxLines="2"
             android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleGravity="start|bottom"
             app:expandedTitleMarginBottom="@dimen/ss_reading_toolbar_title_margin_bottom"
             app:expandedTitleMarginStart="@dimen/ss_reading_toolbar_title_margin_left"
-            app:expandedTitleGravity="start|bottom">
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
+            app:maxLines="2"
+            app:toolbarId="@+id/ss_reading_toolbar">
 
             <ImageView
                 android:id="@+id/ss_collapsing_toolbar_backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
+                android:contentDescription="@string/blank"
                 android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/ss_reading_toolbar_date_margin_top"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ss_reading_toolbar_date_margin_top"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.4">
 
                 <TextView
                     android:id="@+id/ss_collapsing_toolbar_subtitle"
-                    android:layout_width="wrap_content"
-                    android:textSize="@dimen/ss_reading_app_bar_subtitle_size"
-                    android:textColor="@color/colorSecondaryLighter"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:textAllCaps="true"
-                    android:fitsSystemWindows="true"
                     android:layout_marginLeft="@dimen/ss_reading_toolbar_date_margin_left"
                     android:layout_marginTop="@dimen/ss_reading_toolbar_date_margin_left"
-                    android:textStyle="italic"
+                    android:fitsSystemWindows="true"
                     android:fontFamily="@font/lato_bold"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorSecondaryLighter"
+                    android:textSize="@dimen/ss_reading_app_bar_subtitle_size"
+                    android:textStyle="italic" />
 
             </RelativeLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/ss_reading_toolbar"
-                android:layout_height="?attr/actionBarSize"
                 android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
