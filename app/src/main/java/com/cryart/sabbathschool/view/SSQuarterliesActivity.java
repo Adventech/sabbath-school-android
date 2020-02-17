@@ -137,7 +137,7 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
                             if (state == MaterialTapTargetPrompt.STATE_DISMISSED) {
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putBoolean(SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, true);
-                                editor.commit();
+                                editor.apply();
                             }
                         }
                     })
@@ -171,13 +171,9 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         if (id == R.id.ss_quarterlies_menu_filter) {
             ssQuarterliesViewModel.onMenuClick();
             return true;
-        } else if (id == R.id.ss_quarterlies_menu_share) {
-            shareApp(getString(R.string.ss_menu_share_app_text));
-        } else if (id == R.id.ss_quarterlies_menu_settings) {
-            onSettingsClick();
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

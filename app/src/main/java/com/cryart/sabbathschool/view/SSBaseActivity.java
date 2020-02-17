@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -61,14 +61,14 @@ public abstract class SSBaseActivity extends SSColorSchemeActivity implements Fi
 
     protected void setupAccountToolbar(final Toolbar ssToolbar) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String photo = prefs.getString(SSConstants.SS_USER_PHOTO_INDEX, MENU_ANONYMOUS_PHOTO);
+        String photo = prefs.getString(SSConstants.SS_USER_PHOTO_INDEX, null);
 
         int size = getResources().getDimensionPixelSize(R.dimen.spacing_large);
         GlideApp.with(this)
                 .asDrawable()
-                .load(photo)
-                .placeholder(R.drawable.ic_account_circle)
-                .error(R.drawable.ic_account_circle)
+                .load((photo == null) ? R.drawable.ic_account_circle_white : photo)
+                .placeholder(R.drawable.ic_account_circle_white)
+                .error(R.drawable.ic_account_circle_white)
                 .circleCrop()
                 .into(new SimpleTarget<Drawable>(size, size) {
                     @Override

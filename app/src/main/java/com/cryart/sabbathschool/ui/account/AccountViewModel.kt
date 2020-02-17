@@ -30,7 +30,6 @@ import androidx.lifecycle.MutableLiveData
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.misc.SSConstants
 import com.cryart.sabbathschool.model.UserInfo
-import com.cryart.sabbathschool.view.SSBaseActivity.MENU_ANONYMOUS_PHOTO
 import com.google.firebase.auth.FirebaseAuth
 
 class AccountViewModel(val app: Application) : AndroidViewModel(app) {
@@ -43,7 +42,7 @@ class AccountViewModel(val app: Application) : AndroidViewModel(app) {
     init {
         val name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, app.getString(R.string.ss_menu_anonymous_name))
         val email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, app.getString(R.string.ss_menu_anonymous_email))
-        val photo = prefs.getString(SSConstants.SS_USER_PHOTO_INDEX, MENU_ANONYMOUS_PHOTO)
+        val photo = prefs.getString(SSConstants.SS_USER_PHOTO_INDEX, null)
 
         val user = UserInfo(name, email, photo)
         mutableUserInfo.postValue(user)
