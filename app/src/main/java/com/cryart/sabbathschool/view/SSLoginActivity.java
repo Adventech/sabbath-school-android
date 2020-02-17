@@ -23,11 +23,10 @@
 package com.cryart.sabbathschool.view;
 
 import android.content.Intent;
-import android.view.View;
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.databinding.DataBindingUtil;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding;
 import com.cryart.sabbathschool.viewmodel.SSLoginViewModel;
@@ -49,12 +48,6 @@ public class SSLoginActivity extends AppCompatActivity {
                 ssLoginViewModel.onClickSignInGoogle();
             }
         });
-        binding.ssLoginFbLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ssLoginViewModel.initFacebookLogin(binding.ssLoginFbLoginButton);
-            }
-        });
     }
 
     @Override
@@ -67,5 +60,10 @@ public class SSLoginActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ssLoginViewModel.destroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

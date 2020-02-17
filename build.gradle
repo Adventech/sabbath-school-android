@@ -29,6 +29,7 @@ buildscript {
             'multidex'       : '2.0.1',
             'glide'          : '4.10.0',
             'timber'         : '4.7.1',
+            'const_layout'   : '2.0.0-beta4',
     ]
 
     repositories {

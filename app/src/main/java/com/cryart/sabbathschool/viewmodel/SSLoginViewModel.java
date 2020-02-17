@@ -46,7 +46,6 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -231,11 +230,6 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
         ((SSLoginActivity) context).startActivityForResult(signInIntent, SSConstants.SS_GOOGLE_SIGN_IN_CODE);
     }
 
-    public void initFacebookLogin(LoginButton button) {
-        button.setReadPermissions(Arrays.asList("public_profile", "email"));
-        LoginManager.getInstance().logInWithReadPermissions((SSLoginActivity) context, Arrays.asList("public_profile", "email"));
-    }
-
     private void initAnonymousLogin() {
         ssFirebaseAuth.signInAnonymously()
                 .addOnCompleteListener((SSLoginActivity) context, new OnCompleteListener<AuthResult>() {
@@ -253,6 +247,11 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
         this.ssLoginLoadingVisibility.set(View.VISIBLE);
         this.ssLoginControlsVisibility.set(View.INVISIBLE);
         initGoogleLogin();
+    }
+
+    public void onClickSignInFB() {
+        LoginManager.getInstance()
+                .logInWithReadPermissions((SSLoginActivity) context, Arrays.asList("public_profile", "email"));
     }
 
     public void onClickSignInAnonymous() {

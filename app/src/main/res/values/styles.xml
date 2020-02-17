@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -40,6 +40,13 @@
     <style name="SS.TextAppearance.Body2" parent="@style/TextAppearance.MaterialComponents.Body1">
         <item name="android:fontFamily">@font/lato_regular</item>
         <item name="fontFamily">@font/lato_regular</item>
+    </style>
+
+    <style name="SS.TextAppearance.Button" parent="TextAppearance.AppCompat.Button">
+        <item name="android:fontFamily">@font/lato_medium</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
 
     <style name="Theme.SS.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">

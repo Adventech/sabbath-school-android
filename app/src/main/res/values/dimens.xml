@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@
     <dimen name="ss_login_loading_size">48dp</dimen>
     <dimen name="ss_login_button_margin_top">5dp</dimen>
     <dimen name="ss_login_button_social_width">220dp</dimen>
-    <dimen name="ss_login_button_social_height">0dp</dimen>
+    <dimen name="ss_login_button_social_height">56dp</dimen>
     <dimen name="ss_login_button_social_text_size">14sp</dimen>
 
     <!-- QUARTERLIES SCREEN RELATED -->

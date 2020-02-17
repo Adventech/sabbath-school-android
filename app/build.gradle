@@ -107,6 +107,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
+    implementation "androidx.constraintlayout:constraintlayout:${versions.const_layout}"
 
     implementation "com.google.android.gms:play-services-auth:17.0.0"
     implementation "com.google.firebase:firebase-core:17.2.2"

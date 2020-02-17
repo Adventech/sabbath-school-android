@@ -33,29 +33,31 @@
             type="com.cryart.sabbathschool.viewmodel.SSLoginViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="5"
         tools:context="com.cryart.sabbathschool.view.SSLoginActivity">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:background="@color/colorSecondaryLighter"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2">
 
             <ImageView
                 android:id="@+id/ss_login_app_logo"
                 android:layout_width="@dimen/ss_login_app_logo_size"
                 android:layout_height="@dimen/ss_login_app_logo_size"
-                android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true"
                 android:contentDescription="@string/blank"
                 android:tint="@color/primary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ss_logo" />
 
             <TextView
@@ -63,68 +65,82 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ss_login_app_logo"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/ss_login_app_name_margin_top"
                 android:fontFamily="@font/lato_bold"
                 android:text="@string/ss_app_name"
                 android:textColor="@color/primary"
-                android:textSize="@dimen/ss_login_app_name_font_size" />
+                android:textSize="@dimen/ss_login_app_name_font_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ss_login_app_logo" />
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:background="@color/colorSecondaryLighter">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.95">
 
             <ProgressBar
                 style="?android:attr/progressBarStyle"
                 android:layout_width="@dimen/ss_login_loading_size"
                 android:layout_height="@dimen/ss_login_loading_size"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
                 android:indeterminate="true"
-                android:visibility="@{viewModel.ssLoginLoadingVisibility}" />
+                android:visibility="@{viewModel.ssLoginLoadingVisibility}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:visibility="@{viewModel.ssLoginControlsVisibility}">
+                android:visibility="@{viewModel.ssLoginControlsVisibility}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.gms.common.SignInButton
                     android:id="@+id/ss_login_button_google"
-                    android:layout_width="@dimen/ss_login_button_social_width"
-                    android:layout_height="@dimen/ss_login_button_social_height"
-                    android:layout_margin="@dimen/ss_login_button_margin_top"
-                    android:layout_weight="1"
+                    android:layout_width="225dp"
+                    android:layout_height="wrap_content"
                     app:buttonSize="wide"
                     app:colorScheme="dark" />
 
-                <com.facebook.login.widget.LoginButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/ss_login_fb_login_button"
                     android:layout_width="@dimen/ss_login_button_social_width"
                     android:layout_height="@dimen/ss_login_button_social_height"
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginBottom="@dimen/spacing_medium"
-                    android:layout_weight="1"
-                    app:com_facebook_login_text="@string/ss_login_button_facebook" />
+                    android:onClick="@{() -> viewModel.onClickSignInFB()}"
+                    android:text="@string/ss_login_button_facebook"
+                    android:textAppearance="@style/SS.TextAppearance.Button"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    app:backgroundTint="@color/com_facebook_blue"
+                    app:icon="@drawable/com_facebook_button_icon"
+                    app:iconTint="@android:color/white" />
 
                 <com.google.android.material.button.MaterialButton
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="@dimen/ss_login_button_social_width"
-                    android:layout_height="0dp"
-                    android:layout_margin="@dimen/ss_login_button_margin_top"
-                    android:layout_weight="1"
+                    android:layout_height="@dimen/ss_login_button_social_height"
                     android:onClick="@{() -> viewModel.onClickSignInAnonymous()}"
                     android:text="@string/ss_login_button_anonymous"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:textAppearance="@style/SS.TextAppearance.Button" />
 
             </LinearLayout>
-        </RelativeLayout>
-    </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
