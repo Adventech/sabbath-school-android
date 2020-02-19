@@ -126,7 +126,7 @@
 
     <!-- LESSONS SCREEN RELATED -->
     <dimen name="ss_lessons_toolbar_title_margin_start">30dp</dimen>
-    <dimen name="ss_lessons_toolbar_title_margin_bottom">290dp</dimen>
+    <dimen name="ss_lessons_toolbar_title_margin_bottom">312dp</dimen>
     <dimen name="ss_lessons_toolbar_content_margin_left">30dp</dimen>
     <dimen name="ss_lessons_toolbar_content_margin_top">140dp</dimen>
     <dimen name="ss_lessons_toolbar_content_margin_bottom">20dp</dimen>

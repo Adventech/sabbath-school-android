@@ -21,7 +21,8 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -47,7 +48,8 @@
             app:expandedTitleMarginBottom="@dimen/ss_lessons_toolbar_title_margin_bottom"
             app:expandedTitleMarginStart="@dimen/ss_lessons_toolbar_title_margin_start"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
-            app:maxLines="2">
+            app:maxLines="2"
+            tools:title="Ezra and Nehemiah">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -66,7 +68,8 @@
                     android:fontFamily="@font/lato_regular"
                     android:text="@{viewModel.date}"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    tools:text="October - November - December" />
 
                 <ImageView
                     android:id="@+id/ss_lessons_app_bar_cover"
@@ -97,7 +100,8 @@
                     android:fontFamily="@font/lato_regular"
                     android:maxLines="8"
                     android:text="@{viewModel.description}"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    tools:text="@tools:sample/lorem/random" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/ss_lessons_app_bar_read"
@@ -107,11 +111,11 @@
                     android:layout_margin="@dimen/ss_lessons_toolbar_read_margin"
                     android:layout_toEndOf="@+id/ss_lessons_app_bar_cover"
                     android:layout_toRightOf="@+id/ss_lessons_app_bar_cover"
-                    android:text="@string/ss_lessons_read"
                     android:fontFamily="@font/lato_bold"
-                    android:textColor="@android:color/white"
-                    android:onClick="@{() -> viewModel.onReadClick()}"
                     android:minWidth="@dimen/ss_lessons_toolbar_read_min_width"
+                    android:onClick="@{() -> viewModel.onReadClick()}"
+                    android:text="@string/ss_lessons_read"
+                    android:textColor="@android:color/white"
                     app:cornerRadius="@dimen/ss_lessons_toolbar_read_radius" />
             </RelativeLayout>
 
