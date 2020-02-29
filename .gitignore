@@ -7,3 +7,6 @@
 /captures
 fabric.properties
 crashlytics.properties
+keystore.properties
+*.jks
+/fastlane/play_store_key.json

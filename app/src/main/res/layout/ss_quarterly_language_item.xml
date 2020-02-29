@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +20,16 @@
   ~ THE SOFTWARE.
   -->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="viewModel"
             type="com.cryart.sabbathschool.viewmodel.SSQuarterlyLanguageItemViewModel" />
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
     </data>
 
     <RelativeLayout
@@ -39,51 +39,50 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/ss_language_menu_item_padding_top"
-            android:paddingBottom="@dimen/ss_language_menu_item_padding_bottom"
-            android:paddingLeft="@dimen/ss_language_menu_item_padding_left"
-            android:paddingRight="@dimen/ss_language_menu_item_padding_right"
-            android:paddingStart="@dimen/ss_language_menu_item_padding_left"
-            android:paddingEnd="@dimen/ss_language_menu_item_padding_right"
+            android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:background="?attr/selectableItemBackground"
-            android:onClick="@{() -> viewModel.onQuarterlyLanguageItemClick()}">
+            android:onClick="@{() -> viewModel.onQuarterlyLanguageItemClick()}"
+            android:paddingStart="@dimen/ss_language_menu_item_padding_left"
+            android:paddingLeft="@dimen/ss_language_menu_item_padding_left"
+            android:paddingTop="@dimen/ss_language_menu_item_padding_top"
+            android:paddingEnd="@dimen/ss_language_menu_item_padding_right"
+            android:paddingRight="@dimen/ss_language_menu_item_padding_right"
+            android:paddingBottom="@dimen/ss_language_menu_item_padding_bottom">
 
             <TextView
                 android:id="@+id/ss_language_menu_item_title"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:maxLines="1"
+                android:layout_alignParentLeft="true"
                 android:ellipsize="end"
-                android:textStyle="bold"
-                fontPath="fonts/Lato-Medium.ttf"
-                android:textSize="@dimen/ss_language_menu_item_title_text_size"
-                android:textColor="@color/colorSecondaryDark"
+                android:fontFamily="@font/lato_medium"
+                android:maxLines="1"
                 android:text="@{viewModel.nativeLanguageName}"
-                />
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="@dimen/ss_language_menu_item_title_text_size"
+                tools:text="@tools:sample/lorem" />
 
             <TextView
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/ss_language_menu_item_title"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:maxLines="1"
+                android:layout_alignParentLeft="true"
                 android:ellipsize="end"
-                fontPath="fonts/Lato-Regular.ttf"
-                android:textSize="@dimen/ss_language_menu_item_date_text_size"
-                android:textColor="@color/colorSecondary"
+                android:fontFamily="@font/lato_regular"
+                android:maxLines="1"
                 android:text="@{viewModel.name}"
-                />
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="@dimen/ss_language_menu_item_date_text_size"
+                tools:text="@tools:sample/lorem" />
 
             <com.mikepenz.iconics.view.IconicsImageView
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_width="@dimen/ss_lesson_item_menu_icon_size"
                 android:layout_height="@dimen/ss_lesson_item_menu_icon_size"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
                 android:visibility="@{viewModel.selected ? View.VISIBLE : View.INVISIBLE}"

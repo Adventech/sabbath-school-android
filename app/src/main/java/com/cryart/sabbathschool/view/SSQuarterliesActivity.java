@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,19 @@
 
 package com.cryart.sabbathschool.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
+import androidx.appcompat.app.ActionBar;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.SSApplication;
 import com.cryart.sabbathschool.adapter.SSQuarterliesAdapter;
@@ -47,12 +46,7 @@ import com.cryart.sabbathschool.misc.SSReminder;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.model.SSQuarterlyLanguage;
 import com.cryart.sabbathschool.viewmodel.SSQuarterliesViewModel;
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.iconics.IconicsDrawable;
-
 import java.util.List;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterliesViewModel.DataListener {
@@ -69,14 +63,13 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String lastQuarterlyIndex = prefs.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, null);
 
-        if (lastQuarterlyIndex != null){
-            Intent launchNextActivity;
-            launchNextActivity = new Intent(this, SSLessonsActivity.class);
+        if (lastQuarterlyIndex != null) {
+            Intent launchNextActivity = new Intent(this, SSLessonsActivity.class);
             launchNextActivity.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, lastQuarterlyIndex);
             startActivity(launchNextActivity);
         }
 
-        if (!prefs.contains(SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY)){
+        if (!prefs.contains(SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY)) {
             SSReminder.scheduleAlarms(SSApplication.get());
         }
 
@@ -99,15 +92,15 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         ViewCompat.setNestedScrollingEnabled(binding.ssLanguageMenu.ssLanguageMenuList, false);
 
         ssQuarterliesViewModel = new SSQuarterliesViewModel(this, this, binding);
-        ((SSQuarterliesLanguageFilterAdapter)binding.ssLanguageMenu.ssLanguageMenuList.getAdapter()).setQuarterliesViewModel(ssQuarterliesViewModel);
+        ((SSQuarterliesLanguageFilterAdapter) binding.ssLanguageMenu.ssLanguageMenuList.getAdapter()).setQuarterliesViewModel(ssQuarterliesViewModel);
 
         binding.executePendingBindings();
         binding.setViewModel(ssQuarterliesViewModel);
 
-        setUpDrawer(binding.ssAppBar.ssToolbar);
+        setupAccountToolbar(binding.ssAppBar.ssToolbar);
     }
 
-    private void updateColorScheme(){
+    private void updateColorScheme() {
         int primaryColor = Color.parseColor(SSColorTheme.getInstance().getColorPrimary());
         binding.ssAppBar.ssToolbar.setBackgroundColor(primaryColor);
         binding.ssLanguageMenu.ssLanguageMenuHeader.setBackgroundColor(primaryColor);
@@ -135,19 +128,16 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
                     .setPrimaryText(getString(R.string.ss_quarterlies_filter_languages_prompt_title))
                     .setCaptureTouchEventOutsidePrompt(true)
                     .setIconDrawableColourFilter(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()))
-                    .setIconDrawable(new IconicsDrawable(this)
-                            .icon(GoogleMaterial.Icon.gmd_translate)
-                            .color(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()))
-                            .sizeDp(18))
+                    .setIconDrawable(ContextCompat.getDrawable(this, R.drawable.ic_translate))
                     .setBackgroundColour(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()))
                     .setSecondaryText(R.string.ss_quarterlies_filter_languages_prompt_description)
-                    .setPromptStateChangeListener(new MaterialTapTargetPrompt.PromptStateChangeListener(){
+                    .setPromptStateChangeListener(new MaterialTapTargetPrompt.PromptStateChangeListener() {
                         @Override
-                        public void onPromptStateChanged(MaterialTapTargetPrompt prompt, int state){
-                            if (state == MaterialTapTargetPrompt.STATE_DISMISSED){
+                        public void onPromptStateChanged(MaterialTapTargetPrompt prompt, int state) {
+                            if (state == MaterialTapTargetPrompt.STATE_DISMISSED) {
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putBoolean(SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, true);
-                                editor.commit();
+                                editor.apply();
                             }
                         }
                     })
@@ -156,7 +146,7 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
     }
 
     @Override
-    public void onQuarterliesLanguagesChanged(List<SSQuarterlyLanguage> quarterlyLanguages){
+    public void onQuarterliesLanguagesChanged(List<SSQuarterlyLanguage> quarterlyLanguages) {
         SSQuarterliesLanguageFilterAdapter adapter = (SSQuarterliesLanguageFilterAdapter) binding.ssLanguageMenu.ssLanguageMenuList.getAdapter();
         adapter.setQuarterlyLanguages(quarterlyLanguages);
         adapter.notifyDataSetChanged();
@@ -171,10 +161,6 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.ss_quarterlies_menu, menu);
-        menu.getItem(0).setIcon(new IconicsDrawable(this)
-                .icon(GoogleMaterial.Icon.gmd_translate)
-                .color(Color.WHITE)
-                .sizeDp(18));
         return true;
     }
 
@@ -185,28 +171,19 @@ public class SSQuarterliesActivity extends SSBaseActivity implements SSQuarterli
         if (id == R.id.ss_quarterlies_menu_filter) {
             ssQuarterliesViewModel.onMenuClick();
             return true;
-        } else if (id == R.id.ss_quarterlies_menu_share) {
-            shareApp(getString(R.string.ss_menu_share_app_text));
-        } else if (id == R.id.ss_quarterlies_menu_settings) {
-            onSettingsClick();
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onLogoutEvent(){
+    public void onLogoutEvent() {
         finish();
     }
 
     @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    @Override
     public void onBackPressed() {
-        if (binding.ssLanguageMenu.ssLanguageMenu.getVisibility() == View.VISIBLE){
+        if (binding.ssLanguageMenu.ssLanguageMenu.getVisibility() == View.VISIBLE) {
             ssQuarterliesViewModel.onMenuClick();
         } else {
             super.onBackPressed();

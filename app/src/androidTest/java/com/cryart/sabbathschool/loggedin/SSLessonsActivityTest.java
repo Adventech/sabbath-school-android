@@ -26,7 +26,7 @@ package com.cryart.sabbathschool.loggedin;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.support.test.rule.ActivityTestRule;
+import androidx.test.rule.ActivityTestRule;
 
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.view.SSLessonsActivity;

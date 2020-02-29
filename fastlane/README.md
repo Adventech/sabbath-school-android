@@ -31,6 +31,11 @@ Upload meta to the Google Play
 fastlane android beta
 ```
 Submit a new Beta Build to Crashlytics Beta
+### android alpha
+```
+fastlane android alpha
+```
+Submit a new Alpha Build to Google PlayStore
 
 ----
 

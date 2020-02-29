@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,38 +20,19 @@
  * THE SOFTWARE.
  */
 
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.2'
-    }
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.getkeepsafe.dexcount'
-
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-    maven {
-        url "https://s3.amazonaws.com/repo.commonsware.com"
-    }
-}
-
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.2'
-
+    compileSdkVersion 29
     def versionPropsFile = file('version.properties')
 
     if (versionPropsFile.canRead()) {
-        def Properties versionProps = new Properties()
+        Properties versionProps = new Properties()
 
         versionProps.load(new FileInputStream(versionPropsFile))
 
@@ -62,9 +43,9 @@ android {
 
         defaultConfig {
             applicationId "com.cryart.sabbathschool"
-            minSdkVersion 15
-            targetSdkVersion 27
-            versionCode 33
+            minSdkVersion 16
+            targetSdkVersion 29
+            versionCode 37
             versionName "3.2." + versionBuild
 
             vectorDrawables.useSupportLibrary = true
@@ -81,33 +62,24 @@ android {
         jumboMode = true
     }
 
+    Properties keyProps = new Properties()
+    keyProps.load(new FileInputStream(file("../app/keystore.properties")))
+
     signingConfigs {
-        beta {
-            storeFile file("src/beta/ss-beta.keystore")
+        release {
+            storeFile file(keyProps['release.keystore'])
+            storePassword keyProps['release.keystore.password']
+            keyAlias keyProps['key.alias']
+            keyPassword keyProps['key.password']
         }
     }
 
     buildTypes {
-
-        beta {
+        release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.beta
-            ext.betaDistributionGroupAliases="testers"
+            signingConfig signingConfigs.release
         }
-
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    if (project.hasProperty('storePassword') && project.hasProperty('keyPassword')) {
-        android.signingConfigs.beta.storePassword = storePassword
-        android.signingConfigs.beta.keyPassword = keyPassword
-        android.signingConfigs.beta.keyAlias = "sskeystore"
-    } else {
-        android.buildTypes.beta.signingConfig = null
     }
 
     dataBinding {
@@ -116,55 +88,58 @@ android {
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '27.1.0'
-    final PLAY_SERVICES_VERSION = '16.0.1'
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
 
-    androidTestCompile "tools.fastlane:screengrab:1.1.0"
-    androidTestCompile 'com.android.support.test:runner:1.0.1'
-    androidTestCompile 'com.android.support.test:rules:1.0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
-    androidTestCompile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
+    androidTestImplementation "tools.fastlane:screengrab:1.1.0"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.annotation:annotation:1.1.0'
 
-    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:support-vector-drawable:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:animated-vector-drawable:$SUPPORT_LIBRARY_VERSION"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}"
 
-    compile "com.google.android.gms:play-services-auth:16.0.1"
-    compile "com.google.firebase:firebase-core:16.0.7"
-    compile "com.google.firebase:firebase-auth:16.1.0"
-    compile "com.google.firebase:firebase-database:16.0.6"
-    compile "com.google.firebase:firebase-messaging:17.3.4"
-    compile "com.google.firebase:firebase-storage:16.0.5"
+    implementation "androidx.multidex:multidex:${versions.multidex}"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
+    implementation "androidx.constraintlayout:constraintlayout:${versions.const_layout}"
+
+    implementation "com.google.android.gms:play-services-auth:17.0.0"
+    implementation "com.google.firebase:firebase-core:17.2.2"
+    implementation "com.google.firebase:firebase-auth:19.2.0"
+    implementation "com.google.firebase:firebase-database:19.2.1"
+    implementation "com.google.firebase:firebase-messaging:20.1.0"
+    implementation "com.google.firebase:firebase-storage:19.1.1"
 
     implementation "com.firebase:firebase-jobdispatcher:0.8.5"
 
-    compile "uk.co.samuelwall:material-tap-target-prompt:2.0.1"
-    compile "com.nostra13.universalimageloader:universal-image-loader:1.9.5"
-    compile "com.github.hotchemi:android-rate:1.0.1"
-    compile "org.apache.commons:commons-lang3:3.4"
-    compile "uk.co.chrisjenx:calligraphy:2.2.0"
-    compile("com.afollestad.material-dialogs:core:0.9.6.0")
-    compile "net.danlew:android.joda:2.9.4.2"
-    compile "com.facebook.android:facebook-android-sdk:4.23.0"
-    compile "com.github.medyo:fancybuttons:1.8.3"
-    compile "com.mikepenz:iconics-core:2.8.1@aar"
-    compile "com.mikepenz:google-material-typeface:2.2.0.3.original@aar"
-    compile('com.mikepenz:materialdrawer:5.6.0@aar') {
-        transitive = true;
+    implementation "uk.co.samuelwall:material-tap-target-prompt:2.0.1"
+    implementation "com.nostra13.universalimageloader:universal-image-loader:1.9.5"
+    implementation "com.github.hotchemi:android-rate:1.0.1"
+    implementation "org.apache.commons:commons-lang3:3.5"
+    implementation("com.afollestad.material-dialogs:core:0.9.6.0")
+    implementation "net.danlew:android.joda:2.9.4.2"
+    implementation "com.facebook.android:facebook-android-sdk:4.23.0"
+    implementation "com.mikepenz:iconics-core:2.8.1@aar"
+    implementation "com.mikepenz:google-material-typeface:2.2.0.3.original@aar"
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true
     }
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true;
-    }
-    compile "com.github.pwittchen:reactivenetwork:0.8.0"
-    compile "com.thefinestartist:finestwebview:1.2.7"
-    compile "com.github.javiersantos:MaterialStyledDialogs:2.1"
-    compile "net.opacapp:multiline-collapsingtoolbar:1.4.0"
+    implementation "com.github.pwittchen:reactivenetwork:0.8.0"
+    implementation "com.thefinestartist:finestwebview:1.2.7"
+    implementation "com.github.javiersantos:MaterialStyledDialogs:2.1"
+    implementation "net.opacapp:multiline-collapsingtoolbar:1.4.0"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:${versions.glide}"
+    kapt "com.github.bumptech.glide:compiler:${versions.glide}"
+
+    implementation "com.jakewharton.timber:timber:${versions.timber}"
 }
 
 apply plugin: 'com.google.gms.google-services'

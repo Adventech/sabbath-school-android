@@ -23,7 +23,7 @@
 package com.cryart.sabbathschool.login;
 
 
-import android.support.test.rule.ActivityTestRule;
+import androidx.test.rule.ActivityTestRule;
 
 import com.cryart.sabbathschool.view.SSSplashActivity;
 

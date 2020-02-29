@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,6 @@
   -->
 
 <resources>
-    <!--<color name="colorPrimary">#962a54</color>-->
-    <!--<color name="colorPrimaryDark">#390e16</color>-->
 
     <color name="colorPrimary">#16a365</color>
     <color name="colorPrimaryDark">#18704A</color>
@@ -40,4 +38,11 @@
 
     <color name="colorDisplayThemeSepia">#f2dec3</color>
     <color name="colorDisplayThemeDark">#484848</color>
+
+    <color name="primary">@color/colorPrimary</color>
+    <color name="accent">@color/colorAccent</color>
+
+    <color name="list_divider">#1f000000</color>
+
+    <color name="text_primary">@color/colorSecondaryDark</color>
 </resources>

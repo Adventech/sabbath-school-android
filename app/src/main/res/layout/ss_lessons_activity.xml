@@ -33,7 +33,7 @@
             type="com.cryart.sabbathschool.viewmodel.SSLessonsViewModel" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/ss_lessons_coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -44,7 +44,7 @@
             layout="@layout/ss_lessons_app_bar" />
 
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/ss_lesson_info_list"
@@ -70,5 +70,5 @@
             bind:progressVisibility="@{viewModel.ssLessonsLoadingVisibility}"
             bind:progressLabel="@{@string/ss_lessons_downloading}"/>
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

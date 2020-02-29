@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,21 +20,10 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.service;
+package com.cryart.sabbathschool.extensions.glide
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.module.AppGlideModule
 
-public class SSInstanceIDService extends FirebaseInstanceIdService {
-    private static final String TAG = SSInstanceIDService.class.getSimpleName();
-
-    @Override
-    public void onTokenRefresh() {
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        sendRegistrationToServer(refreshedToken);
-    }
-
-    private void sendRegistrationToServer(String token) {
-        // TODO: Implement this method if we need to send token to our backend
-    }
-}
+@GlideModule
+class SsGlideApp : AppGlideModule()

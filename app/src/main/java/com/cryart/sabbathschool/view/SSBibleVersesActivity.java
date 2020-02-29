@@ -23,16 +23,16 @@
 package com.cryart.sabbathschool.view;
 
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.SSApplication;
@@ -49,8 +49,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SSBibleVersesActivity extends AppCompatActivity {
 
@@ -86,10 +84,10 @@ public class SSBibleVersesActivity extends AppCompatActivity {
                             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SSApplication.get());
                             String lastBibleVersionUsed = prefs.getString(SSConstants.SS_LAST_BIBLE_VERSION_USED, null);
 
-                            if (lastBibleVersionUsed != null){
+                            if (lastBibleVersionUsed != null) {
                                 int i = 0;
-                                for (SSBibleVerses _ssBibleVerses : ssRead.bible){
-                                    if (_ssBibleVerses.name.equalsIgnoreCase(lastBibleVersionUsed)){
+                                for (SSBibleVerses _ssBibleVerses : ssRead.bible) {
+                                    if (_ssBibleVerses.name.equalsIgnoreCase(lastBibleVersionUsed)) {
                                         binding.ssReadingBibleVersionList.setSelection(i);
                                         break;
                                     }
@@ -111,7 +109,8 @@ public class SSBibleVersesActivity extends AppCompatActivity {
                                 }
 
                                 @Override
-                                public void onNothingSelected(AdapterView<?> arg0) {}
+                                public void onNothingSelected(AdapterView<?> arg0) {
+                                }
                             });
                         }
                     }
@@ -121,10 +120,5 @@ public class SSBibleVersesActivity extends AppCompatActivity {
 
                     }
                 });
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

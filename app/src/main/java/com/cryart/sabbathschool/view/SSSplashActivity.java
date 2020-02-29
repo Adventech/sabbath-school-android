@@ -25,7 +25,7 @@ package com.cryart.sabbathschool.view;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import static com.cryart.sabbathschool.misc.SSConstants.SS_LESSON_INDEX_EXTRA;
 import static com.cryart.sabbathschool.misc.SSConstants.SS_READ_INDEX_EXTRA;

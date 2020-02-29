@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,29 +22,32 @@
 
 package com.cryart.sabbathschool.view;
 
-import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
+import android.view.View;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding;
 import com.cryart.sabbathschool.viewmodel.SSLoginViewModel;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
 public class SSLoginActivity extends AppCompatActivity {
-    private static final String TAG = SSLoginActivity.class.getSimpleName();
     private SSLoginViewModel ssLoginViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SsLoginActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.ss_login_activity);
+        final SsLoginActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.ss_login_activity);
         ssLoginViewModel = new SSLoginViewModel(this);
         binding.setViewModel(ssLoginViewModel);
+
+        binding.ssLoginButtonGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ssLoginViewModel.onClickSignInGoogle();
+            }
+        });
     }
 
     @Override
@@ -54,13 +57,13 @@ public class SSLoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         ssLoginViewModel.destroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

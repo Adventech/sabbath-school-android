@@ -22,20 +22,18 @@
 
 package com.cryart.sabbathschool.view;
 
-import android.content.Context;
-import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.databinding.DataBindingUtil;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsMyNotesActivityBinding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.misc.SSEvent;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SSMyNotesActivity extends SSColorSchemeActivity {
     SsMyNotesActivityBinding binding;
@@ -58,7 +56,7 @@ public class SSMyNotesActivity extends SSColorSchemeActivity {
         updateColorScheme();
     }
 
-    private void updateColorScheme(){
+    private void updateColorScheme() {
         binding.ssAppBar.ssToolbar.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()));
         updateWindowColorScheme();
     }
@@ -72,11 +70,6 @@ public class SSMyNotesActivity extends SSColorSchemeActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
 

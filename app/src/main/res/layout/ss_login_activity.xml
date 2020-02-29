@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -22,39 +22,42 @@
   ~ THE SOFTWARE.
   -->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.cryart.sabbathschool.viewmodel.SSLoginViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="5"
         tools:context="com.cryart.sabbathschool.view.SSLoginActivity">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:background="@color/colorSecondaryLighter"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2">
 
             <ImageView
                 android:id="@+id/ss_login_app_logo"
                 android:layout_width="@dimen/ss_login_app_logo_size"
                 android:layout_height="@dimen/ss_login_app_logo_size"
-                android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/blank"
                 android:tint="@color/primary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ss_logo" />
 
             <TextView
@@ -62,77 +65,82 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ss_login_app_logo"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/ss_login_app_name_margin_top"
+                android:fontFamily="@font/lato_bold"
+                android:text="@string/ss_app_name"
                 android:textColor="@color/primary"
                 android:textSize="@dimen/ss_login_app_name_font_size"
-                fontPath="fonts/Lato-Bold.ttf"
-                android:text="@string/ss_app_name" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ss_login_app_logo" />
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:background="@color/colorSecondaryLighter"
-            android:layout_weight="2">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.95">
 
             <ProgressBar
-                android:visibility="@{viewModel.ssLoginLoadingVisibility}"
+                style="?android:attr/progressBarStyle"
                 android:layout_width="@dimen/ss_login_loading_size"
                 android:layout_height="@dimen/ss_login_loading_size"
-                android:layout_centerVertical="true"
-                android:layout_centerInParent="true"
                 android:indeterminate="true"
-                style="?android:attr/progressBarStyle" />
+                android:visibility="@{viewModel.ssLoginLoadingVisibility}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone" />
 
             <LinearLayout
-                android:visibility="@{viewModel.ssLoginControlsVisibility}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerInParent="true"
                 android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="@{viewModel.ssLoginControlsVisibility}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <Button
+                <com.google.android.gms.common.SignInButton
                     android:id="@+id/ss_login_button_google"
-                    android:layout_width="@dimen/ss_login_button_social_width"
-                    android:layout_height="@dimen/ss_login_button_social_height"
-                    android:layout_margin="@dimen/ss_login_button_margin_top"
-                    android:layout_weight="1"
-                    android:background="@drawable/ss_google_sign_in_button"
-                    android:textAllCaps="false"
-                    android:textSize="@dimen/ss_login_button_social_text_size"
-                    android:textColor="#8C000000"
-                    android:text="@string/ss_login_button_google"
-                    android:onClick="@{() -> viewModel.onClickSignInGoogle()}" />
+                    android:layout_width="225dp"
+                    android:layout_height="wrap_content"
+                    app:buttonSize="wide"
+                    app:colorScheme="dark" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/ss_login_fb_login_button"
                     android:layout_width="@dimen/ss_login_button_social_width"
                     android:layout_height="@dimen/ss_login_button_social_height"
-                    android:layout_margin="@dimen/ss_login_button_margin_top"
-                    android:layout_weight="1"
-                    android:background="@drawable/ss_facebook_login_button"
-                    android:textAllCaps="false"
-                    android:textSize="14sp"
-                    android:textColor="#8C000000"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:onClick="@{() -> viewModel.onClickSignInFB()}"
                     android:text="@string/ss_login_button_facebook"
-                    android:onClick="@{() -> viewModel.onClickSignInFB()}" />
+                    android:textAppearance="@style/SS.TextAppearance.Button"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    app:backgroundTint="@color/com_facebook_blue"
+                    app:icon="@drawable/com_facebook_button_icon"
+                    app:iconTint="@android:color/white" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_margin="@dimen/ss_login_button_margin_top"
-                    android:layout_weight="1"
-                    android:textAllCaps="false"
-                    android:text="@string/ss_login_button_anonymous"
-                    android:textColor="@color/colorSecondaryDark"
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="@dimen/ss_login_button_social_width"
+                    android:layout_height="@dimen/ss_login_button_social_height"
                     android:onClick="@{() -> viewModel.onClickSignInAnonymous()}"
-                    style="@style/Widget.AppCompat.Button.Borderless" />
+                    android:text="@string/ss_login_button_anonymous"
+                    android:textAllCaps="false"
+                    android:textAppearance="@style/SS.TextAppearance.Button" />
 
             </LinearLayout>
-        </RelativeLayout>
-    </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

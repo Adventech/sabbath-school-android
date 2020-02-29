@@ -41,6 +41,12 @@ platform :android do
     # You can also use other beta testing services here
   end
 
+  desc "Submit a new Alpha Build to Google PlayStore"
+    lane :alpha do
+      gradle(task: "clean bundleRelease")
+      upload_to_play_store(track: 'alpha')
+    end
+
   # You can define as many lanes as you want
 
   after_all do |lane|
