@@ -137,6 +137,10 @@
                     android:layout_height="@dimen/ss_login_button_social_height"
                     android:onClick="@{() -> viewModel.onClickSignInAnonymous()}"
                     android:text="@string/ss_login_button_anonymous"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="10sp"
+                    app:autoSizeMaxTextSize="14sp"
+                    app:autoSizeStepGranularity="1sp"
                     android:textAllCaps="false"
                     android:textAppearance="@style/SS.TextAppearance.Button" />
 
