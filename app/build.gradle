@@ -109,13 +109,16 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
     implementation "androidx.constraintlayout:constraintlayout:${versions.const_layout}"
 
+    // Firebase
     implementation "com.google.android.gms:play-services-auth:17.0.0"
-    implementation "com.google.firebase:firebase-core:17.2.3"
-    implementation "com.google.firebase:firebase-auth:19.2.0"
-    implementation "com.google.firebase:firebase-database:19.2.1"
-    implementation "com.google.firebase:firebase-messaging:20.1.1"
-    implementation "com.google.firebase:firebase-storage:19.1.1"
-
+    implementation "com.google.firebase:firebase-core:${versions.fb_core}"
+    implementation "com.google.firebase:firebase-analytics:${versions.fb_analytics}"
+    implementation "com.google.firebase:firebase-auth:${versions.fb_auth}"
+    implementation "com.google.firebase:firebase-database:${versions.fb_database}"
+    implementation "com.google.firebase:firebase-database-ktx:${versions.fb_database}"
+    implementation "com.google.firebase:firebase-storage:${versions.fb_storage}"
+    implementation "com.google.firebase:firebase-storage-ktx:${versions.fb_storage}"
+    implementation "com.google.firebase:firebase-messaging:${versions.fb_msg}"
     implementation "com.firebase:firebase-jobdispatcher:0.8.5"
 
     implementation "uk.co.samuelwall:material-tap-target-prompt:2.0.1"
@@ -138,6 +141,12 @@ dependencies {
     // Glide
     implementation "com.github.bumptech.glide:glide:${versions.glide}"
     kapt "com.github.bumptech.glide:compiler:${versions.glide}"
+
+    // Dagger
+    implementation "com.google.dagger:dagger-android:${versions.dagger}"
+    implementation "com.google.dagger:dagger-android-support:${versions.dagger}"
+    kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
+    kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
 
     implementation "com.jakewharton.timber:timber:${versions.timber}"
 }

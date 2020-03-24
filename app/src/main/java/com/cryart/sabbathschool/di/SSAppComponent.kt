@@ -20,36 +20,34 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.ui.account
+package com.cryart.sabbathschool.di
 
-import android.content.SharedPreferences
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.cryart.sabbathschool.misc.SSConstants
-import com.cryart.sabbathschool.model.UserInfo
-import com.google.firebase.auth.FirebaseAuth
-import javax.inject.Inject
+import com.cryart.sabbathschool.SSApplication
+import dagger.BindsInstance
+import dagger.Component
+import dagger.android.AndroidInjectionModule
+import dagger.android.support.AndroidSupportInjectionModule
+import javax.inject.Singleton
 
-class AccountViewModel @Inject constructor(private val prefs: SharedPreferences,
-                                           private val firebaseAuth: FirebaseAuth) : ViewModel() {
+@Singleton
+@Component(modules = [
+    SSAppModule::class,
+    AndroidInjectionModule::class,
+    AndroidSupportInjectionModule::class,
+    ActivityBindings::class,
+    FragmentBindings::class,
+    ViewModelBindings::class]
+)
+interface SSAppComponent {
 
-    private val mutableUserInfo = MutableLiveData<UserInfo>()
-    val userInfoLiveData: LiveData<UserInfo> get() = mutableUserInfo
+    @Component.Builder
+    interface Builder {
 
-    init {
-        val name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, null)
-        val email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, null)
-        val photo = prefs.getString(SSConstants.SS_USER_PHOTO_INDEX, null)
+        @BindsInstance
+        fun application(app: SSApplication): Builder
 
-        val user = UserInfo(name, email, photo)
-        mutableUserInfo.postValue(user)
+        fun build(): SSAppComponent
     }
 
-    fun logoutClicked() {
-        prefs.edit()
-                .clear()
-                .apply()
-        firebaseAuth.signOut()
-    }
+    fun inject(app: SSApplication)
 }

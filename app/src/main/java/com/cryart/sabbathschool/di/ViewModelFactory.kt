@@ -20,36 +20,35 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.ui.account
+package com.cryart.sabbathschool.di
 
-import android.content.SharedPreferences
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.cryart.sabbathschool.misc.SSConstants
-import com.cryart.sabbathschool.model.UserInfo
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.ViewModelProvider
 import javax.inject.Inject
+import javax.inject.Provider
 
-class AccountViewModel @Inject constructor(private val prefs: SharedPreferences,
-                                           private val firebaseAuth: FirebaseAuth) : ViewModel() {
+class ViewModelFactory @Inject constructor(
+        private val creators: @JvmSuppressWildcards Map<Class<out ViewModel>, Provider<ViewModel>>
+) : ViewModelProvider.Factory {
 
-    private val mutableUserInfo = MutableLiveData<UserInfo>()
-    val userInfoLiveData: LiveData<UserInfo> get() = mutableUserInfo
-
-    init {
-        val name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, null)
-        val email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, null)
-        val photo = prefs.getString(SSConstants.SS_USER_PHOTO_INDEX, null)
-
-        val user = UserInfo(name, email, photo)
-        mutableUserInfo.postValue(user)
-    }
-
-    fun logoutClicked() {
-        prefs.edit()
-                .clear()
-                .apply()
-        firebaseAuth.signOut()
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        var creator: Provider<out ViewModel>? = creators[modelClass]
+        if (creator == null) {
+            for ((key, value) in creators) {
+                if (modelClass.isAssignableFrom(key)) {
+                    creator = value
+                    break
+                }
+            }
+        }
+        if (creator == null) {
+            throw IllegalArgumentException("unknown model class $modelClass")
+        }
+        try {
+            @Suppress("UNCHECKED_CAST")
+            return creator.get() as T
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
     }
 }

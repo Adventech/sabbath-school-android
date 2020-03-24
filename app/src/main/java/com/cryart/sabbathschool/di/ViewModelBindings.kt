@@ -20,36 +20,23 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.ui.account
+package com.cryart.sabbathschool.di
 
-import android.content.SharedPreferences
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.cryart.sabbathschool.misc.SSConstants
-import com.cryart.sabbathschool.model.UserInfo
-import com.google.firebase.auth.FirebaseAuth
-import javax.inject.Inject
+import androidx.lifecycle.ViewModelProvider
+import com.cryart.sabbathschool.ui.account.AccountViewModel
+import dagger.Binds
+import dagger.Module
+import dagger.multibindings.IntoMap
 
-class AccountViewModel @Inject constructor(private val prefs: SharedPreferences,
-                                           private val firebaseAuth: FirebaseAuth) : ViewModel() {
+@Module
+abstract class ViewModelBindings {
 
-    private val mutableUserInfo = MutableLiveData<UserInfo>()
-    val userInfoLiveData: LiveData<UserInfo> get() = mutableUserInfo
+    @Binds
+    abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
-    init {
-        val name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, null)
-        val email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, null)
-        val photo = prefs.getString(SSConstants.SS_USER_PHOTO_INDEX, null)
-
-        val user = UserInfo(name, email, photo)
-        mutableUserInfo.postValue(user)
-    }
-
-    fun logoutClicked() {
-        prefs.edit()
-                .clear()
-                .apply()
-        firebaseAuth.signOut()
-    }
+    @Binds
+    @IntoMap
+    @ViewModelKey(AccountViewModel::class)
+    abstract fun bindAccountViewModel(accountViewModel: AccountViewModel): ViewModel
 }
