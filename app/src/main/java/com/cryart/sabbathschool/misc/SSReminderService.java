@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,10 +31,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
-
 import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
-import com.cryart.sabbathschool.view.SSSplashActivity;
+import com.cryart.sabbathschool.ui.splash.SplashActivity;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 
@@ -54,7 +53,7 @@ public class SSReminderService extends JobService {
                 NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
                 _SSNotificationManager.createNotificationChannel(mChannel);
             }
-            Intent _SSContentIntent = new Intent(context, SSSplashActivity.class);
+            Intent _SSContentIntent = new Intent(context, SplashActivity.class);
 
             Intent _SSShareIntent = new Intent();
 

@@ -20,15 +20,20 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.di
+package com.cryart.sabbathschool.ui.splash
 
-import com.cryart.sabbathschool.ui.splash.SplashActivity
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import com.cryart.sabbathschool.extensions.arch.SingleLiveEvent
+import com.google.firebase.auth.FirebaseAuth
+import javax.inject.Inject
 
-@Module
-abstract class ActivityBindings {
+class SplashViewModel @Inject constructor(firebaseAuth: FirebaseAuth) : ViewModel() {
 
-    @ContributesAndroidInjector
-    abstract fun bindSplashActivity(): SplashActivity
+    private val mutableIsSignedIn = SingleLiveEvent<Boolean>()
+    val isSignedInLiveData: LiveData<Boolean> get() = mutableIsSignedIn
+
+    init {
+        mutableIsSignedIn.postValue(firebaseAuth.currentUser != null)
+    }
 }

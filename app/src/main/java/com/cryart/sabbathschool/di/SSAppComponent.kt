@@ -36,8 +36,8 @@ import javax.inject.Singleton
     AndroidSupportInjectionModule::class,
     ActivityBindings::class,
     FragmentBindings::class,
-    ViewModelBindings::class]
-)
+    ViewModelBindings::class
+])
 interface SSAppComponent {
 
     @Component.Builder

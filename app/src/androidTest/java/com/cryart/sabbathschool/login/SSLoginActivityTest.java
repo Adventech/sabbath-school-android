@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,15 +24,12 @@ package com.cryart.sabbathschool.login;
 
 
 import androidx.test.rule.ActivityTestRule;
-
-import com.cryart.sabbathschool.view.SSSplashActivity;
-
+import com.cryart.sabbathschool.ui.splash.SplashActivity;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
 import tools.fastlane.screengrab.Screengrab;
 import tools.fastlane.screengrab.locale.LocaleTestRule;
 
@@ -43,7 +40,7 @@ public class SSLoginActivityTest {
     public static final LocaleTestRule localeTestRule = new LocaleTestRule();
 
     @Rule
-    public ActivityTestRule<SSSplashActivity> activityRule = new ActivityTestRule<>(SSSplashActivity.class);
+    public ActivityTestRule<SplashActivity> activityRule = new ActivityTestRule<>(SplashActivity.class);
 
 
     @Test
