@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,13 +25,12 @@ package com.cryart.sabbathschool.viewmodel;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import androidx.databinding.BindingAdapter;
-import androidx.databinding.ObservableInt;
 import android.preference.PreferenceManager;
-import androidx.core.view.ViewCompat;
 import android.view.View;
 import android.widget.ImageView;
-
+import androidx.core.view.ViewCompat;
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.ObservableInt;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLesson;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
@@ -42,20 +41,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
+import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 
 public class SSLessonsViewModel implements SSViewModel {
-    private static final String TAG = SSLessonsViewModel.class.getSimpleName();
 
     private Context context;
     public SSQuarterlyInfo ssQuarterlyInfo;
     private String ssQuarterlyIndex;
     private DataListener dataListener;
     private DatabaseReference mDatabase;
-    
+
     public ObservableInt ssLessonsLoadingVisibility;
     public ObservableInt ssLessonsEmptyStateVisibility;
     public ObservableInt ssLessonsErrorStateVisibility;
@@ -81,7 +79,6 @@ public class SSLessonsViewModel implements SSViewModel {
     }
 
     private void loadQuarterlyInfo() {
-
         ssLessonsLoadingVisibility.set(View.VISIBLE);
         ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
         ssLessonsErrorStateVisibility.set(View.INVISIBLE);
@@ -89,26 +86,25 @@ public class SSLessonsViewModel implements SSViewModel {
                 .child(ssQuarterlyIndex)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot != null) {
-                            ssQuarterlyInfo = dataSnapshot.getValue(SSQuarterlyInfo.class);
+                    public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+                        ssQuarterlyInfo = dataSnapshot.getValue(SSQuarterlyInfo.class);
 
-                            if (shared != null){
-                                SharedPreferences.Editor editor = shared.edit();
-                                editor.putString(SSConstants.SS_LAST_QUARTERLY_INDEX, ssQuarterlyInfo.quarterly.index);
-                                editor.apply();
-                            }
-
-                            if (dataListener != null) dataListener.onQuarterlyChanged(ssQuarterlyInfo);
-                            ssLessonsLoadingVisibility.set(View.INVISIBLE);
-                            ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
-                            ssLessonsErrorStateVisibility.set(View.INVISIBLE);
-                            ssLessonsCoordinatorVisibility.set(View.VISIBLE);
+                        if (shared != null) {
+                            SharedPreferences.Editor editor = shared.edit();
+                            editor.putString(SSConstants.SS_LAST_QUARTERLY_INDEX, ssQuarterlyInfo.quarterly.index);
+                            editor.apply();
                         }
+
+                        if (dataListener != null)
+                            dataListener.onQuarterlyChanged(ssQuarterlyInfo);
+                        ssLessonsLoadingVisibility.set(View.INVISIBLE);
+                        ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
+                        ssLessonsErrorStateVisibility.set(View.INVISIBLE);
+                        ssLessonsCoordinatorVisibility.set(View.VISIBLE);
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NotNull DatabaseError databaseError) {
                         ssLessonsLoadingVisibility.set(View.INVISIBLE);
                         ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
                         ssLessonsCoordinatorVisibility.set(View.INVISIBLE);
@@ -126,19 +122,19 @@ public class SSLessonsViewModel implements SSViewModel {
         shared = null;
     }
 
-    public void onReadClick(){
+    public void onReadClick() {
         if (ssQuarterlyInfo != null && ssQuarterlyInfo.lessons.size() > 0) {
             DateTime today = DateTime.now();
             String ssLessonIndex = ssQuarterlyInfo.lessons.get(0).index;
 
-            for (SSLesson ssLesson : ssQuarterlyInfo.lessons){
+            for (SSLesson ssLesson : ssQuarterlyInfo.lessons) {
                 DateTime startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                         .parseLocalDate(ssLesson.start_date).toDateTimeAtStartOfDay();
 
                 DateTime endDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                         .parseLocalDate(ssLesson.end_date).plusDays(1).toDateTimeAtStartOfDay().plusHours(12);
 
-                if (new Interval(startDate, endDate).contains(today)){
+                if (startDate.isBefore(endDate) && new Interval(startDate, endDate).contains(today)) {
                     ssLessonIndex = ssLesson.index;
                     break;
                 }
@@ -156,21 +152,21 @@ public class SSLessonsViewModel implements SSViewModel {
 
 
     public String getDate() {
-        if (ssQuarterlyInfo != null){
+        if (ssQuarterlyInfo != null) {
             return ssQuarterlyInfo.quarterly.human_date;
         }
         return "";
     }
 
     public String getDescription() {
-        if (ssQuarterlyInfo != null){
+        if (ssQuarterlyInfo != null) {
             return ssQuarterlyInfo.quarterly.description;
         }
         return "";
     }
 
     public String getCover() {
-        if (ssQuarterlyInfo != null){
+        if (ssQuarterlyInfo != null) {
             return ssQuarterlyInfo.quarterly.cover;
         }
         return "";

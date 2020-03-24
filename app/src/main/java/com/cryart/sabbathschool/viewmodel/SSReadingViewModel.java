@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,16 +25,15 @@ package com.cryart.sabbathschool.viewmodel;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import androidx.databinding.ObservableInt;
 import android.preference.PreferenceManager;
-import androidx.core.widget.NestedScrollView;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
+import androidx.core.widget.NestedScrollView;
+import androidx.databinding.ObservableInt;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
@@ -62,21 +61,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
-public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback {
-    private static final String TAG = SSReadingViewModel.class.getSimpleName();
+public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMenuCallback,
+        SSReadingView.HighlightsCommentsCallback {
 
     private Context context;
     private String ssLessonIndex;
@@ -114,7 +112,9 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     public ObservableInt ssLessonErrorStateVisibility;
     public ObservableInt ssLessonCoordinatorVisibility;
 
-    public SSReadingViewModel(Context context, DataListener dataListener, final String ssLessonIndex, final String ssReadIndex, SsReadingActivityBinding ssReadingActivityBinding) {
+    public SSReadingViewModel(Context context, DataListener dataListener,
+                              final String ssLessonIndex, final String ssReadIndex,
+                              SsReadingActivityBinding ssReadingActivityBinding) {
         this.context = context;
         this.dataListener = dataListener;
         this.ssLessonIndex = ssLessonIndex;
@@ -145,12 +145,13 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                 DEFAULT_PING_HOST,
                 DEFAULT_PING_PORT,
                 DEFAULT_PING_TIMEOUT_IN_MS
-                )
+        )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Boolean>() {
-                    @Override public void call(Boolean isConnectedToInternet) {
-                        if (!isConnectedToInternet && ssLessonInfo == null){
+                    @Override
+                    public void call(Boolean isConnectedToInternet) {
+                        if (!isConnectedToInternet && ssLessonInfo == null) {
                             try {
                                 ssLessonOfflineStateVisibility.set(View.VISIBLE);
                                 ssLessonErrorStateVisibility.set(View.INVISIBLE);
@@ -164,7 +165,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                 });
     }
 
-    private void loadLessonInfo(){
+    private void loadLessonInfo() {
         ssLessonLoadingVisibility.set(View.VISIBLE);
         ssLessonOfflineStateVisibility.set(View.INVISIBLE);
         ssLessonErrorStateVisibility.set(View.INVISIBLE);
@@ -173,49 +174,44 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         if (mDatabase == null) {
             return;
         }
-        
+
         mDatabase.child(SSConstants.SS_FIREBASE_LESSON_INFO_DATABASE)
                 .child(ssLessonIndex)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot != null) {
-                            ssLessonInfo = dataSnapshot.getValue(SSLessonInfo.class);
-                            if (dataListener != null) dataListener.onLessonInfoChanged(ssLessonInfo);
+                    public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+                        ssLessonInfo = dataSnapshot.getValue(SSLessonInfo.class);
+                        if (dataListener != null)
+                            dataListener.onLessonInfoChanged(ssLessonInfo);
 
-                            if (ssLessonInfo != null && ssLessonInfo.days.size() > 0) {
-                                DateTime today = DateTime.now().withTimeAtStartOfDay();
+                        if (ssLessonInfo != null && ssLessonInfo.days.size() > 0) {
+                            DateTime today = DateTime.now().withTimeAtStartOfDay();
 
-                                int idx = 0;
+                            int idx = 0;
 
-                                ssTotalReadsCount = ssLessonInfo.days.size();
-                                ssReads = new ArrayList<SSRead>(ssTotalReadsCount);
-                                ssReadHighlights = new ArrayList<SSReadHighlights>(ssTotalReadsCount);
-                                ssReadComments = new ArrayList<SSReadComments>(ssTotalReadsCount);
+                            ssTotalReadsCount = ssLessonInfo.days.size();
+                            ssReads = new ArrayList<>(ssTotalReadsCount);
+                            ssReadHighlights = new ArrayList<>(ssTotalReadsCount);
+                            ssReadComments = new ArrayList<>(ssTotalReadsCount);
 
-                                for (SSDay ssDay : ssLessonInfo.days){
-                                    DateTime startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                                                .parseLocalDate(ssDay.date).toDateTimeAtStartOfDay();
-                                    if (startDate.isEqual(today) && ssReadIndex == null && ssReadIndexInt < 6){
-                                        ssReadIndexInt = idx;
-                                    } else if (ssReadIndex != null && ssReadIndex.equals(ssDay.index)) {
-                                        ssReadIndexInt = idx;
-                                    }
-
-                                    downloadHighlights(ssDay.index, idx);
-                                    idx++;
+                            for (SSDay ssDay : ssLessonInfo.days) {
+                                DateTime startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                                        .parseLocalDate(ssDay.date).toDateTimeAtStartOfDay();
+                                if (startDate.isEqual(today) && ssReadIndex == null && ssReadIndexInt < 6) {
+                                    ssReadIndexInt = idx;
+                                } else if (ssReadIndex != null && ssReadIndex.equals(ssDay.index)) {
+                                    ssReadIndexInt = idx;
                                 }
+
+                                downloadHighlights(ssDay.index, idx);
+                                idx++;
                             }
-                        } else {
-                            ssLessonOfflineStateVisibility.set(View.VISIBLE);
-                            ssLessonErrorStateVisibility.set(View.INVISIBLE);
-                            ssLessonLoadingVisibility.set(View.INVISIBLE);
-                            ssLessonCoordinatorVisibility.set(View.INVISIBLE);
                         }
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NotNull DatabaseError databaseError) {
+                        Timber.e(databaseError.toException());
                         ssLessonErrorStateVisibility.set(View.VISIBLE);
                         ssLessonLoadingVisibility.set(View.INVISIBLE);
                         ssLessonOfflineStateVisibility.set(View.INVISIBLE);
@@ -224,7 +220,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                 });
     }
 
-    public void promptForEditSuggestion(){
+    public void promptForEditSuggestion() {
         if (ssReads.size() > 0) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             final String name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, context.getString(R.string.ss_menu_anonymous_name));
@@ -235,7 +231,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                     .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                     .input(context.getString(R.string.ss_reading_suggest_edit_hint), "", new MaterialDialog.InputCallback() {
                         @Override
-                        public void onInput(MaterialDialog dialog, CharSequence input) {
+                        public void onInput(@NotNull MaterialDialog dialog, CharSequence input) {
 
                             mDatabase.child(SSConstants.SS_FIREBASE_SUGGESTIONS_DATABASE)
                                     .child(ssFirebaseAuth.getCurrentUser().getUid())
@@ -248,66 +244,64 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         }
     }
 
-    private void downloadHighlights(final String dayIndex, final int index){
+    private void downloadHighlights(final String dayIndex, final int index) {
         if (mDatabase != null) {
             mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
                     .child(ssFirebaseAuth.getCurrentUser().getUid())
                     .child(dayIndex)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
+                        public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
                             SSReadHighlights ssReadHighlights = new SSReadHighlights(dayIndex, "");
-                            if (dataSnapshot != null) {
-                                if (dataSnapshot.getValue(SSReadHighlights.class) != null) {
-                                    ssReadHighlights = dataSnapshot.getValue(SSReadHighlights.class);
-                                }
+                            if (dataSnapshot.getValue(SSReadHighlights.class) != null) {
+                                ssReadHighlights = dataSnapshot.getValue(SSReadHighlights.class);
                             }
 
                             downloadComments(dayIndex, index, ssReadHighlights);
                         }
 
                         @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                        public void onCancelled(@NotNull DatabaseError databaseError) {
+                            Timber.e(databaseError.toException());
                         }
                     });
         }
     }
 
-    private void downloadComments(final String dayIndex, final int index, final SSReadHighlights ssReadHighlights){
+    private void downloadComments(final String dayIndex, final int index, final SSReadHighlights ssReadHighlights) {
         if (mDatabase != null) {
             mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
                     .child(ssFirebaseAuth.getCurrentUser().getUid())
                     .child(dayIndex)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
+                        public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
                             SSReadComments ssReadComments = new SSReadComments(dayIndex, new ArrayList<SSComment>());
-                            if (dataSnapshot != null) {
-                                if (dataSnapshot.getValue(SSReadComments.class) != null) {
-                                    ssReadComments = dataSnapshot.getValue(SSReadComments.class);
-                                }
+                            if (dataSnapshot.getValue(SSReadComments.class) != null) {
+                                ssReadComments = dataSnapshot.getValue(SSReadComments.class);
                             }
 
                             downloadRead(dayIndex, index, ssReadHighlights, ssReadComments);
                         }
 
                         @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                        public void onCancelled(@NotNull DatabaseError databaseError) {
+                            Timber.e(databaseError.toException());
                         }
                     });
         }
     }
 
-    private void downloadRead(final String dayIndex, final int index, final SSReadHighlights _ssReadHighlights, final SSReadComments _ssReadComments){
+    private void downloadRead(final String dayIndex, final int index, final SSReadHighlights _ssReadHighlights, final SSReadComments _ssReadComments) {
         if (mDatabase != null) {
             mDatabase.child(SSConstants.SS_FIREBASE_READS_DATABASE)
                     .child(dayIndex)
                     .addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
+                        public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
                             SSRead ssRead;
-                            if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                                if (ssReadsLoadedCounter < ssTotalReadsCount && ssReads != null) {
+                            if (dataSnapshot.getValue() != null) {
+                                if (ssReadsLoadedCounter < ssTotalReadsCount && ssReads != null && ssReads.size() >= index) {
                                     ssRead = dataSnapshot.getValue(SSRead.class);
                                     ssReads.add(index, ssRead);
                                     ssReadHighlights.add(index, _ssReadHighlights);
@@ -328,18 +322,22 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                                 ssLessonLoadingVisibility.set(View.INVISIBLE);
                                 ssLessonOfflineStateVisibility.set(View.INVISIBLE);
                                 ssLessonErrorStateVisibility.set(View.INVISIBLE);
-                            } catch (Exception e){}
+                            } catch (Exception e) {
+                                Timber.e(e);
+                            }
 
                         }
 
                         @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                        public void onCancelled(@NotNull DatabaseError databaseError) {
                             try {
                                 ssLessonCoordinatorVisibility.set(View.VISIBLE);
                                 ssLessonLoadingVisibility.set(View.INVISIBLE);
                                 ssLessonOfflineStateVisibility.set(View.INVISIBLE);
                                 ssLessonErrorStateVisibility.set(View.INVISIBLE);
-                            } catch (Exception e){}
+                            } catch (Exception e) {
+                                Timber.e(e);
+                            }
                         }
                     });
         }
@@ -352,11 +350,11 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         ssLessonIndex = null;
         ssFirebaseAuth = null;
 
-        if (ssReadRef != null){
+        if (ssReadRef != null) {
             mDatabase.removeEventListener(ssReadRef);
         }
 
-        if (ssHighlightsRef != null){
+        if (ssHighlightsRef != null) {
             mDatabase.removeEventListener(ssHighlightsRef);
         }
 
@@ -376,8 +374,11 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         ssLessonCoordinatorVisibility = null;
     }
 
-    private SSReadingView getCurrentSSReadingView(){
-        return ssReadingActivityBinding.ssReadingViewPager.findViewWithTag("ssReadingView_"+ssReadingActivityBinding.ssReadingViewPager.getCurrentItem()).findViewById(R.id.ss_reading_view);
+    private SSReadingView getCurrentSSReadingView() {
+        return ssReadingActivityBinding.ssReadingViewPager
+                .findViewWithTag("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager
+                        .getCurrentItem())
+                .findViewById(R.id.ss_reading_view);
     }
 
     public void onMenuClick() {
@@ -413,14 +414,14 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     }
 
     public String getCover() {
-        if (ssLessonInfo != null){
+        if (ssLessonInfo != null) {
             return ssLessonInfo.lesson.cover;
         }
         return "";
     }
 
     public String getLessonInterval() {
-        if (ssLessonInfo != null){
+        if (ssLessonInfo != null) {
             String startDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
                     .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                             .parseLocalDate(ssLessonInfo.lesson.start_date));
@@ -434,25 +435,25 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         return "";
     }
 
-    public String formatDate(String date, String DateFormatOutput){
+    public String formatDate(String date, String DateFormatOutput) {
         return StringUtils.capitalize(DateTimeFormat.forPattern(DateFormatOutput)
                 .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                         .parseLocalDate(date)));
     }
 
-    public String formatDate(String date){
+    public String formatDate(String date) {
         return formatDate(date, SSConstants.SS_DATE_FORMAT_OUTPUT);
     }
 
     public String getDayDate(int ssDayIdx) {
-        if (ssLessonInfo != null && ssLessonInfo.days.size() > ssDayIdx){
+        if (ssLessonInfo != null && ssLessonInfo.days.size() > ssDayIdx) {
             return formatDate(ssLessonInfo.days.get(ssDayIdx).date);
         }
         return "";
     }
 
     @Override
-    public void onSelectionStarted(float x, float y, int highlightId){
+    public void onSelectionStarted(float x, float y, int highlightId) {
         onSelectionStarted(x, y);
         this.highlightId = highlightId;
     }
@@ -460,7 +461,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
     @Override
     public void onSelectionStarted(float x, float y) {
         if (ssReadingActivityBinding != null) {
-            LinearLayout view = ssReadingActivityBinding.ssReadingViewPager.findViewWithTag("ssReadingView_"+ssReadingActivityBinding.ssReadingViewPager.getCurrentItem());
+            LinearLayout view = ssReadingActivityBinding.ssReadingViewPager.findViewWithTag("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager.getCurrentItem());
             NestedScrollView scrollView = view.findViewById(R.id.ss_reading_view_scroll);
 
             y = y - scrollView.getScrollY() + ssReadingActivityBinding.ssReadingViewPager.getTop();
@@ -511,13 +512,15 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
     @Override
     public void onHighlightsReceived(SSReadHighlights ssReadHighlights) {
-        if (mDatabase != null){
+        if (mDatabase != null) {
             mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
                     .child(ssFirebaseAuth.getCurrentUser().getUid())
                     .child(ssReadHighlights.readIndex)
                     .setValue(ssReadHighlights);
 
-            SSEvent.track(SSConstants.SS_EVENT_TEXT_HIGHLIGHTED, new HashMap<String, Object> (){{ put(SSConstants.SS_EVENT_PARAM_READ_INDEX, ssReads.get(ssReadingActivityBinding.ssReadingViewPager.getCurrentItem()).index); }});
+            SSEvent.track(SSConstants.SS_EVENT_TEXT_HIGHLIGHTED, new HashMap<String, Object>() {{
+                put(SSConstants.SS_EVENT_PARAM_READ_INDEX, ssReads.get(ssReadingActivityBinding.ssReadingViewPager.getCurrentItem()).index);
+            }});
         }
     }
 
@@ -529,7 +532,9 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                     .child(ssReadComments.readIndex)
                     .setValue(ssReadComments);
 
-            SSEvent.track(SSConstants.SS_EVENT_COMMENT_CREATED, new HashMap<String, Object> (){{ put(SSConstants.SS_EVENT_PARAM_READ_INDEX, ssReads.get(ssReadingActivityBinding.ssReadingViewPager.getCurrentItem()).index); }});
+            SSEvent.track(SSConstants.SS_EVENT_COMMENT_CREATED, new HashMap<String, Object>() {{
+                put(SSConstants.SS_EVENT_PARAM_READ_INDEX, ssReads.get(ssReadingActivityBinding.ssReadingViewPager.getCurrentItem()).index);
+            }});
         }
     }
 
@@ -543,30 +548,33 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
     public interface DataListener {
         void onLessonInfoChanged(SSLessonInfo ssLessonInfo);
+
         void onReadsDownloaded(List<SSRead> ssReads, List<SSReadHighlights> ssReadHighlights, List<SSReadComments> ssReadComments, int ssReadIndex);
     }
 
-    public void onDisplayOptionsClick(){
+    public void onDisplayOptionsClick() {
         SSReadingDisplayOptionsView ssReadingDisplayOptionsView = new SSReadingDisplayOptionsView();
         ssReadingDisplayOptionsView.setSSReadingViewModel(context, this, ssReadingDisplayOptions);
-        ssReadingDisplayOptionsView.show(((SSReadingActivity)context).getSupportFragmentManager(), ssReadingDisplayOptionsView.getTag());
+        ssReadingDisplayOptionsView.show(((SSReadingActivity) context).getSupportFragmentManager(), ssReadingDisplayOptionsView.getTag());
 
-        SSEvent.track(SSConstants.SS_EVENT_READ_OPTIONS_OPEN, new HashMap<String, Object> (){{ put(SSConstants.SS_EVENT_PARAM_READ_INDEX, ssReads.get(ssReadingActivityBinding.ssReadingViewPager.getCurrentItem()).index); }});
+        SSEvent.track(SSConstants.SS_EVENT_READ_OPTIONS_OPEN, new HashMap<String, Object>() {{
+            put(SSConstants.SS_EVENT_PARAM_READ_INDEX, ssReads.get(ssReadingActivityBinding.ssReadingViewPager.getCurrentItem()).index);
+        }});
     }
 
-    public void highlightYellow(){
+    public void highlightYellow() {
         highlightSelection(SSContextMenu.HIGHLIGHT_YELLOW);
     }
 
-    public void highlightOrange(){
+    public void highlightOrange() {
         highlightSelection(SSContextMenu.HIGHLIGHT_ORANGE);
     }
 
-    public void highlightGreen(){
+    public void highlightGreen() {
         highlightSelection(SSContextMenu.HIGHLIGHT_GREEN);
     }
 
-    public void highlightBlue(){
+    public void highlightBlue() {
         highlightSelection(SSContextMenu.HIGHLIGHT_BLUE);
     }
 
@@ -574,43 +582,43 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         highlightSelection(SSContextMenu.UNDERLINE);
     }
 
-    public void unHighlightSelection(){
+    public void unHighlightSelection() {
         SSReadingView ssReadingView = getCurrentSSReadingView();
         ssReadingView.ssReadViewBridge.unHighlightSelection(highlightId);
         ssReadingView.selectionFinished();
     }
 
-    private void highlightSelection(String color){
+    private void highlightSelection(String color) {
         SSReadingView ssReadingView = getCurrentSSReadingView();
         ssReadingView.ssReadViewBridge.highlightSelection(color, highlightId);
         ssReadingView.selectionFinished();
         highlightId = 0;
     }
 
-    public void copy(){
+    public void copy() {
         SSReadingView ssReadingView = getCurrentSSReadingView();
         ssReadingView.ssReadViewBridge.copy();
         ssReadingView.selectionFinished();
     }
 
-    public void paste(){
+    public void paste() {
         SSReadingView ssReadingView = getCurrentSSReadingView();
         ssReadingView.ssReadViewBridge.paste();
     }
 
-    public void share(){
+    public void share() {
         SSReadingView ssReadingView = getCurrentSSReadingView();
         ssReadingView.ssReadViewBridge.share();
         ssReadingView.selectionFinished();
     }
 
-    public void search(){
+    public void search() {
         SSReadingView ssReadingView = getCurrentSSReadingView();
         ssReadingView.ssReadViewBridge.search();
         ssReadingView.selectionFinished();
     }
 
-    public void onSSReadingDisplayOptions(SSReadingDisplayOptions ssReadingDisplayOptions){
+    public void onSSReadingDisplayOptions(SSReadingDisplayOptions ssReadingDisplayOptions) {
         this.ssReadingDisplayOptions = ssReadingDisplayOptions;
 
         SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(context);
@@ -625,11 +633,11 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         ssReadingView.setReadingDisplayOptions(ssReadingDisplayOptions);
         ssReadingView.updateReadingDisplayOptions();
 
-        for (int i = 0; i < this.ssTotalReadsCount; i++){
+        for (int i = 0; i < this.ssTotalReadsCount; i++) {
             if (i == ssReadingActivityBinding.ssReadingViewPager.getCurrentItem()) continue;
 
-            if (ssReadingActivityBinding.ssReadingViewPager.findViewWithTag("ssReadingView_"+i) != null){
-                SSReadingView _ssReadingView = ssReadingActivityBinding.ssReadingViewPager.findViewWithTag("ssReadingView_"+i).findViewById(R.id.ss_reading_view);
+            if (ssReadingActivityBinding.ssReadingViewPager.findViewWithTag("ssReadingView_" + i) != null) {
+                SSReadingView _ssReadingView = ssReadingActivityBinding.ssReadingViewPager.findViewWithTag("ssReadingView_" + i).findViewById(R.id.ss_reading_view);
 
                 _ssReadingView.setReadingDisplayOptions(ssReadingDisplayOptions);
                 _ssReadingView.updateReadingDisplayOptions();
@@ -637,7 +645,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         }
     }
 
-    public void reloadActivity(){
+    public void reloadActivity() {
         ((SSReadingActivity) context).finish();
         context.startActivity(((SSReadingActivity) context).getIntent());
     }
