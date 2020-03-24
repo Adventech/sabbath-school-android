@@ -29,6 +29,10 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     def versionPropsFile = file('version.properties')
 
     if (versionPropsFile.canRead()) {
@@ -52,6 +56,8 @@ android {
             testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
             multiDexEnabled true
+
+            buildConfigField "String", "API_BASE_URL", '"BASE_URL"'
         }
 
     } else {
@@ -147,6 +153,17 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:${versions.dagger}"
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
     kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${versions.coroutines}"
+
+    // Retrofit
+    implementation "com.squareup.okhttp3:okhttp:${versions.okhttp3}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${versions.okhttp3}"
+    implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
 
     implementation "com.jakewharton.timber:timber:${versions.timber}"
 }

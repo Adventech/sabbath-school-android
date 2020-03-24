@@ -20,34 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.di
+package com.cryart.sabbathschool.data.model
 
-import com.cryart.sabbathschool.SSApplication
-import dagger.BindsInstance
-import dagger.Component
-import dagger.android.AndroidInjectionModule
-import dagger.android.support.AndroidSupportInjectionModule
-import javax.inject.Singleton
-
-@Singleton
-@Component(modules = [
-    SSAppModule::class,
-    AndroidInjectionModule::class,
-    AndroidSupportInjectionModule::class,
-    ActivityBindings::class,
-    FragmentBindings::class,
-    ViewModelBindings::class
-])
-interface SSAppComponent {
-
-    @Component.Builder
-    interface Builder {
-
-        @BindsInstance
-        fun application(app: SSApplication): Builder
-
-        fun build(): SSAppComponent
-    }
-
-    fun inject(app: SSApplication)
-}
+data class Language(val code: String,
+                    val name: String)

@@ -20,12 +20,13 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.di
+package com.cryart.sabbathschool.data.di
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.cryart.sabbathschool.SSApplication
+import com.cryart.sabbathschool.data.repository.QuarterliesRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -40,4 +41,8 @@ class SSAppModule {
     @Provides
     @Singleton
     fun provideSharedPrefs(context: Context): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
+    @Provides
+    @Singleton
+    fun provideRepository(): QuarterliesRepository = QuarterliesRepository()
 }

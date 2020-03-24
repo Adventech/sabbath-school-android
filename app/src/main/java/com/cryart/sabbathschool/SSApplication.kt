@@ -28,7 +28,7 @@ import android.graphics.Bitmap
 import androidx.fragment.app.Fragment
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
-import com.cryart.sabbathschool.di.DaggerSSAppComponent
+import com.cryart.sabbathschool.data.di.DaggerSSAppComponent
 import com.google.firebase.database.FirebaseDatabase
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.ImageLoader

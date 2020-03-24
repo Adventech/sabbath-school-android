@@ -20,29 +20,14 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.di
+package com.cryart.sabbathschool.data.api
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.cryart.sabbathschool.ui.account.AccountViewModel
-import com.cryart.sabbathschool.ui.splash.SplashViewModel
-import dagger.Binds
-import dagger.Module
-import dagger.multibindings.IntoMap
+import com.cryart.sabbathschool.data.model.Language
+import retrofit2.Response
+import retrofit2.http.GET
 
-@Module
-abstract class ViewModelBindings {
+interface SSApi {
 
-    @Binds
-    abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(SplashViewModel::class)
-    abstract fun bindSplashViewModel(splashViewModel: SplashViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(AccountViewModel::class)
-    abstract fun bindAccountViewModel(accountViewModel: AccountViewModel): ViewModel
+    @GET("api/v1/languages/index.json")
+    suspend fun listLanguages(): Response<List<Language>>
 }

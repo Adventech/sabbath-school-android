@@ -20,15 +20,34 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.di
+package com.cryart.sabbathschool.data.di
 
-import com.cryart.sabbathschool.ui.splash.SplashActivity
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import com.cryart.sabbathschool.SSApplication
+import dagger.BindsInstance
+import dagger.Component
+import dagger.android.AndroidInjectionModule
+import dagger.android.support.AndroidSupportInjectionModule
+import javax.inject.Singleton
 
-@Module
-abstract class ActivityBindings {
+@Singleton
+@Component(modules = [
+    SSAppModule::class,
+    AndroidInjectionModule::class,
+    AndroidSupportInjectionModule::class,
+    ActivityBindings::class,
+    FragmentBindings::class,
+    ViewModelBindings::class
+])
+interface SSAppComponent {
 
-    @ContributesAndroidInjector
-    abstract fun bindSplashActivity(): SplashActivity
+    @Component.Builder
+    interface Builder {
+
+        @BindsInstance
+        fun application(app: SSApplication): Builder
+
+        fun build(): SSAppComponent
+    }
+
+    fun inject(app: SSApplication)
 }

@@ -20,27 +20,15 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.extensions.arch
+package com.cryart.sabbathschool.data.di
 
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.cryart.sabbathschool.data.di.ViewModelFactory
+import com.cryart.sabbathschool.ui.splash.SplashActivity
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
-inline fun <reified T : ViewModel> getViewModel(activity: FragmentActivity, factory: ViewModelFactory): T {
-    return ViewModelProvider(activity, factory)[T::class.java]
-}
+@Module
+abstract class ActivityBindings {
 
-inline fun <reified T : ViewModel> getViewModel(fragment: Fragment, factory: ViewModelFactory): T {
-    return ViewModelProvider(fragment, factory)[T::class.java]
-}
-
-fun <T> LiveData<T>.observeNonNull(owner: LifecycleOwner, observer: (t: T) -> Unit) {
-    this.observe(owner, Observer {
-        it?.let(observer)
-    })
+    @ContributesAndroidInjector
+    abstract fun bindSplashActivity(): SplashActivity
 }

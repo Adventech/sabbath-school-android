@@ -26,7 +26,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.cryart.sabbathschool.di.ViewModelFactory
+import com.cryart.sabbathschool.data.di.ViewModelFactory
 import com.cryart.sabbathschool.extensions.arch.getViewModel
 import com.cryart.sabbathschool.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.misc.SSConstants

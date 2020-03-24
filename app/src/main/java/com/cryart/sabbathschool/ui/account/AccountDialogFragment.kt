@@ -38,7 +38,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.lifecycle.Observer
 import com.cryart.sabbathschool.R
-import com.cryart.sabbathschool.di.ViewModelFactory
+import com.cryart.sabbathschool.data.di.ViewModelFactory
 import com.cryart.sabbathschool.extensions.arch.getViewModel
 import com.cryart.sabbathschool.extensions.glide.GlideApp
 import com.cryart.sabbathschool.view.SSAboutActivity
