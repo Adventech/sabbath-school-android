@@ -20,31 +20,36 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.data.di
+package com.cryart.sabbathschool.data.model.response
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
-import com.cryart.sabbathschool.SSApplication
-import com.cryart.sabbathschool.data.repository.QuarterliesRepository
-import com.google.firebase.database.FirebaseDatabase
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import com.cryart.sabbathschool.data.model.response.Status.ERROR
+import com.cryart.sabbathschool.data.model.response.Status.LOADING
+import com.cryart.sabbathschool.data.model.response.Status.SUCCESS
 
-@Module(includes = [FirebaseModule::class])
-class SSAppModule {
+enum class Status {
+    LOADING,
+    SUCCESS,
+    ERROR
+}
 
-    @Provides
-    @Singleton
-    fun provideContext(app: SSApplication): Context = app
+class Resource<out T> private constructor(val status: Status = LOADING,
+                                          val data: T?,
+                                          val error: Throwable?) {
 
-    @Provides
-    @Singleton
-    fun provideSharedPrefs(context: Context): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    val isSuccessFul: Boolean get() = data != null
 
-    @Provides
-    @Singleton
-    fun provideRepository(firebaseDatabase: FirebaseDatabase): QuarterliesRepository =
-            QuarterliesRepository(firebaseDatabase)
+    companion object {
+
+        fun <T> success(data: T): Resource<T> {
+            return Resource(SUCCESS, data, null)
+        }
+
+        fun <T> error(error: Throwable): Resource<T> {
+            return Resource(ERROR, null, error)
+        }
+
+        fun <T> loading(): Resource<T> {
+            return Resource(LOADING, null, null)
+        }
+    }
 }

@@ -58,6 +58,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".ui.quarterlies.QuarterliesActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name="com.cryart.sabbathschool.view.SSQuarterliesActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"

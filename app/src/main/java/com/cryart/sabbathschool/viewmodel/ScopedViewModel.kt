@@ -20,31 +20,23 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.data.di
+package com.cryart.sabbathschool.viewmodel
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
-import com.cryart.sabbathschool.SSApplication
-import com.cryart.sabbathschool.data.repository.QuarterliesRepository
-import com.google.firebase.database.FirebaseDatabase
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlin.coroutines.CoroutineContext
 
-@Module(includes = [FirebaseModule::class])
-class SSAppModule {
+open class ScopedViewModel : ViewModel(), CoroutineScope {
 
-    @Provides
-    @Singleton
-    fun provideContext(app: SSApplication): Context = app
+    private val job = Job()
 
-    @Provides
-    @Singleton
-    fun provideSharedPrefs(context: Context): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
+    }
 
-    @Provides
-    @Singleton
-    fun provideRepository(firebaseDatabase: FirebaseDatabase): QuarterliesRepository =
-            QuarterliesRepository(firebaseDatabase)
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.IO
 }

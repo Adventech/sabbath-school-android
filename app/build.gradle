@@ -57,7 +57,7 @@ android {
 
             multiDexEnabled true
 
-            buildConfigField "String", "API_BASE_URL", '"BASE_URL"'
+            buildConfigField "String", "API_BASE_URL", '"https://adventech-sabbath-school.api-docs.io/"'
         }
 
     } else {

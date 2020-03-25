@@ -30,8 +30,8 @@ import com.cryart.sabbathschool.data.di.ViewModelFactory
 import com.cryart.sabbathschool.extensions.arch.getViewModel
 import com.cryart.sabbathschool.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.misc.SSConstants
+import com.cryart.sabbathschool.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.view.SSLoginActivity
-import com.cryart.sabbathschool.view.SSQuarterliesActivity
 import com.cryart.sabbathschool.view.SSReadingActivity
 import dagger.android.AndroidInjection
 import timber.log.Timber
@@ -83,7 +83,7 @@ class SplashActivity : AppCompatActivity() {
                 putExtra(SSConstants.SS_READ_INDEX_EXTRA, ssReadIndex)
             }
         } else {
-            Intent(this, SSQuarterliesActivity::class.java).apply {
+            Intent(this, QuarterliesActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
         }
