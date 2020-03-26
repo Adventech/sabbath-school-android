@@ -23,18 +23,25 @@
 package com.cryart.sabbathschool.ui.quarterlies
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.cryart.sabbathschool.data.model.Status
 import com.cryart.sabbathschool.data.repository.QuarterliesRepository
+import com.cryart.sabbathschool.extensions.arch.SingleLiveEvent
 import com.cryart.sabbathschool.misc.SSConstants
 import com.cryart.sabbathschool.model.SSQuarterly
+import com.cryart.sabbathschool.model.SSQuarterlyLanguage
 import com.cryart.sabbathschool.viewmodel.ScopedViewModel
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 
 class QuarterliesViewModel @Inject constructor(private val repository: QuarterliesRepository,
-                                               private val sharedPreferences: SharedPreferences) : ScopedViewModel() {
+                                               private val preferences: SharedPreferences) : ScopedViewModel() {
+
+    private val mutableViewStatus = SingleLiveEvent<Status>()
+    val viewStatusLiveData: LiveData<Status> get() = mutableViewStatus
 
     private val mutableQuarterlies = MutableLiveData<List<SSQuarterly>>()
     val quarterliesLiveData: LiveData<List<SSQuarterly>> get() = mutableQuarterlies
@@ -42,8 +49,10 @@ class QuarterliesViewModel @Inject constructor(private val repository: Quarterli
     private var selectedLanguage: String = ""
 
     init {
-        selectedLanguage = sharedPreferences.getString(SSConstants.SS_LAST_LANGUAGE_INDEX, null)
-                ?: Locale.getDefault().language
+        selectedLanguage = preferences.getString(
+                SSConstants.SS_LAST_LANGUAGE_INDEX,
+                Locale.getDefault().language)!!
+
         if (selectedLanguage == "iw") {
             selectedLanguage = "he"
         }
@@ -60,12 +69,19 @@ class QuarterliesViewModel @Inject constructor(private val repository: Quarterli
             return
         }
         launch {
+            mutableViewStatus.postValue(Status.LOADING)
             val resource = repository.getQuarterlies(code)
             if (resource.isSuccessFul) {
                 mutableQuarterlies.postValue(resource.data)
-            } else {
-                // handle error
             }
+            mutableViewStatus.postValue(resource.status)
         }
+    }
+
+    fun languageSelected(language: SSQuarterlyLanguage) {
+        preferences.edit {
+            putString(SSConstants.SS_LAST_LANGUAGE_INDEX, language.code)
+        }
+        updateQuarterlies(language.code)
     }
 }

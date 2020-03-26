@@ -25,12 +25,15 @@ package com.cryart.sabbathschool.ui.quarterlies
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.adapter.SSQuarterliesAdapter
 import com.cryart.sabbathschool.data.di.ViewModelFactory
+import com.cryart.sabbathschool.data.model.Status
 import com.cryart.sabbathschool.extensions.arch.getViewModel
 import com.cryart.sabbathschool.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.misc.SSColorTheme
@@ -48,6 +51,8 @@ class QuarterliesActivity : SSBaseActivity() {
     private val toolbar: Toolbar by lazy { findViewById<Toolbar>(R.id.ss_toolbar) }
     private val quarterliesListView: RecyclerView by lazy { findViewById<RecyclerView>(R.id.ss_quarterlies_list) }
     private val progressView: View by lazy { findViewById<View>(R.id.ss_quarterlies_progress_bar) }
+    private val emptyView: View by lazy { findViewById<View>(R.id.ss_quarterlies_empty) }
+    private val errorView: View by lazy { findViewById<View>(R.id.ss_quarterlies_error_state) }
 
     private lateinit var quarterliesAdapter: SSQuarterliesAdapter
 
@@ -59,8 +64,13 @@ class QuarterliesActivity : SSBaseActivity() {
         setupUi()
 
         viewModel = getViewModel(this, viewModelFactory)
+        viewModel.viewStatusLiveData.observeNonNull(this) {
+            progressView.isVisible = it == Status.LOADING
+            quarterliesListView.isVisible = it == Status.SUCCESS
+            errorView.isVisible = it == Status.ERROR
+        }
         viewModel.quarterliesLiveData.observeNonNull(this) { quarterlies ->
-            progressView.visibility = View.GONE
+            emptyView.isVisible = quarterlies.isEmpty()
 
             if (quarterlies.isNotEmpty()) {
                 SSColorTheme.getInstance().colorPrimary = quarterlies.first().color_primary
@@ -99,5 +109,14 @@ class QuarterliesActivity : SSBaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.ss_quarterlies_menu, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == R.id.ss_quarterlies_menu_filter) {
+            // show languages filter
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
     }
 }

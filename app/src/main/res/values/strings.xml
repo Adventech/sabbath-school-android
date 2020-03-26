@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -57,7 +57,7 @@
     <string name="ss_quarterlies_filter_languages">Filter Languages</string>
     <string name="ss_quarterlies_downloading">Getting quarterlies…</string>
     <string name="ss_quarterlies_error">Unknown error occurred. Please try again</string>
-    <string name="ss_quarterlies_empty">It looks like there are not quarterlies at the moment</string>
+    <string name="ss_quarterlies_empty">It looks like there are no quarterlies at the moment</string>
     <string name="ss_quarterly_item_read_text">Open</string>
 
     <string name="ss_lessons_downloading">Opening quarterly…</string>

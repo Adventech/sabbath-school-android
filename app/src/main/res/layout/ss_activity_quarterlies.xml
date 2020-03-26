@@ -40,19 +40,78 @@
         android:id="@+id/ss_app_bar"
         layout="@layout/ss_app_bar" />
 
-    <include
+    <LinearLayout
         android:id="@+id/ss_quarterlies_empty"
-        layout="@layout/ss_empty_state"
-        android:visibility="gone" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <include
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:layout_width="@dimen/ss_misc_top_image_size"
+            android:layout_height="@dimen/ss_misc_top_image_size"
+            android:layout_gravity="center|center_horizontal"
+            android:layout_marginTop="@dimen/ss_misc_top_image_margin_top"
+            app:iiv_color="@color/colorSecondaryLight"
+            app:iiv_icon="gmd-code" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal"
+            android:layout_margin="@dimen/ss_misc_subheader_margin"
+            android:text="@string/ss_quarterlies_empty" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/ss_quarterlies_error_state"
-        layout="@layout/ss_error_state"
-        android:visibility="gone" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <include
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:layout_width="@dimen/ss_misc_top_image_size"
+            android:layout_height="@dimen/ss_misc_top_image_size"
+            android:layout_gravity="center|center_horizontal"
+            android:layout_marginTop="@dimen/ss_misc_top_image_margin_top"
+            app:iiv_color="@color/colorSecondaryLight"
+            app:iiv_icon="gmd-warning" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal"
+            android:layout_margin="@dimen/ss_misc_subheader_margin"
+            android:text="@string/ss_quarterlies_empty"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <RelativeLayout
         android:id="@+id/ss_quarterlies_progress_bar"
-        layout="@layout/ss_progress_bar" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ss_quarterlies_loading"
+            android:layout_centerHorizontal="true"
+            android:text="@string/ss_quarterlies_downloading" />
+
+        <ProgressBar
+            android:id="@+id/ss_quarterlies_loading"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="20dp"
+            android:indeterminate="true"
+            android:indeterminateBehavior="repeat" />
+    </RelativeLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
