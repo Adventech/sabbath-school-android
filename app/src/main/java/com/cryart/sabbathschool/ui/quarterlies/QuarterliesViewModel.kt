@@ -31,9 +31,10 @@ import com.cryart.sabbathschool.data.repository.QuarterliesRepository
 import com.cryart.sabbathschool.extensions.arch.SingleLiveEvent
 import com.cryart.sabbathschool.misc.SSConstants
 import com.cryart.sabbathschool.model.SSQuarterly
-import com.cryart.sabbathschool.model.SSQuarterlyLanguage
 import com.cryart.sabbathschool.viewmodel.ScopedViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 import javax.inject.Inject
 
@@ -45,6 +46,9 @@ class QuarterliesViewModel @Inject constructor(private val repository: Quarterli
 
     private val mutableQuarterlies = MutableLiveData<List<SSQuarterly>>()
     val quarterliesLiveData: LiveData<List<SSQuarterly>> get() = mutableQuarterlies
+
+    private val mutableShowLanguagePrompt = SingleLiveEvent<Any>()
+    val showLanguagePromptLiveData: LiveData<Any> get() = mutableShowLanguagePrompt
 
     private var selectedLanguage: String = ""
 
@@ -73,15 +77,28 @@ class QuarterliesViewModel @Inject constructor(private val repository: Quarterli
             val resource = repository.getQuarterlies(code)
             if (resource.isSuccessFul) {
                 mutableQuarterlies.postValue(resource.data)
+
+                val languagePromptSeen = preferences.getBoolean(SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, false)
+                if (!languagePromptSeen) {
+                    withContext(Dispatchers.Main) {
+                        mutableShowLanguagePrompt.call()
+                    }
+                }
             }
             mutableViewStatus.postValue(resource.status)
         }
     }
 
-    fun languageSelected(language: SSQuarterlyLanguage) {
+    fun languageSelected(languageCode: String) {
         preferences.edit {
-            putString(SSConstants.SS_LAST_LANGUAGE_INDEX, language.code)
+            putString(SSConstants.SS_LAST_LANGUAGE_INDEX, languageCode)
         }
-        updateQuarterlies(language.code)
+        updateQuarterlies(languageCode)
+    }
+
+    fun languagesPromptSeen() {
+        preferences.edit {
+            putBoolean(SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, true)
+        }
     }
 }

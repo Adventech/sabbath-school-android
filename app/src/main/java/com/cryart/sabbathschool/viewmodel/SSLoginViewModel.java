@@ -37,8 +37,8 @@ import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.misc.SSEvent;
+import com.cryart.sabbathschool.ui.quarterlies.QuarterliesActivity;
 import com.cryart.sabbathschool.view.SSLoginActivity;
-import com.cryart.sabbathschool.view.SSQuarterliesActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -153,7 +153,7 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
 
     private void openApp() {
         Intent launchNextActivity;
-        launchNextActivity = new Intent(context, SSQuarterliesActivity.class);
+        launchNextActivity = new Intent(context, QuarterliesActivity.class);
         launchNextActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(launchNextActivity);
         ((SSLoginActivity) context).finish();

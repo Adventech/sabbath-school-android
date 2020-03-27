@@ -57,7 +57,7 @@ android {
 
             multiDexEnabled true
 
-            buildConfigField "String", "API_BASE_URL", '"https://adventech-sabbath-school.api-docs.io/"'
+            buildConfigField "String", "API_BASE_URL", '"https://sabbath-school.adventech.io/"'
         }
 
     } else {
@@ -114,7 +114,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.2.0-alpha05'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
     implementation "androidx.constraintlayout:constraintlayout:${versions.const_layout}"

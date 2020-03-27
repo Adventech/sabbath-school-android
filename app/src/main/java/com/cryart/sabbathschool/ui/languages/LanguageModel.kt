@@ -20,19 +20,14 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.data.di
+package com.cryart.sabbathschool.ui.languages
 
-import com.cryart.sabbathschool.ui.account.AccountDialogFragment
-import com.cryart.sabbathschool.ui.languages.LanguagesListFragment
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import com.cryart.sabbathschool.adapter.DynamicSearchAdapter
 
-@Module
-abstract class FragmentBindings {
+data class LanguageModel(val code: String,
+                         val nativeName: String,
+                         val name: String,
+                         val selected: Boolean) : DynamicSearchAdapter.Searchable {
 
-    @ContributesAndroidInjector
-    abstract fun bindAccountDialogFragment(): AccountDialogFragment
-
-    @ContributesAndroidInjector
-    abstract fun bindLanguagesListFragment(): LanguagesListFragment
+    override fun getSearchCriteria(): String = "$code $name $nativeName"
 }

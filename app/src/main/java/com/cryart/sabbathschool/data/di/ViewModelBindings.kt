@@ -25,6 +25,7 @@ package com.cryart.sabbathschool.data.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.cryart.sabbathschool.ui.account.AccountViewModel
+import com.cryart.sabbathschool.ui.languages.LanguagesListViewModel
 import com.cryart.sabbathschool.ui.quarterlies.QuarterliesViewModel
 import com.cryart.sabbathschool.ui.splash.SplashViewModel
 import dagger.Binds
@@ -51,4 +52,9 @@ abstract class ViewModelBindings {
     @IntoMap
     @ViewModelKey(QuarterliesViewModel::class)
     abstract fun bindQuarterliesViewModel(quarterliesViewModel: QuarterliesViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LanguagesListViewModel::class)
+    abstract fun bindLanguagesListViewModel(languagesListViewModel: LanguagesListViewModel): ViewModel
 }

@@ -97,4 +97,9 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textAppearance">?attr/textAppearanceHeadline5</item>
     </style>
+
+    <style name="SS.Widget.SearchView" parent="Widget.AppCompat.SearchView.ActionBar">
+        <item name="queryHint">@string/blank</item>
+        <item name="searchIcon">@null</item>
+    </style>
 </resources>

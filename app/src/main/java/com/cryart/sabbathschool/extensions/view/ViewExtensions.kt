@@ -20,19 +20,12 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.data.di
+package com.cryart.sabbathschool.extensions.view
 
-import com.cryart.sabbathschool.ui.account.AccountDialogFragment
-import com.cryart.sabbathschool.ui.languages.LanguagesListFragment
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 
-@Module
-abstract class FragmentBindings {
-
-    @ContributesAndroidInjector
-    abstract fun bindAccountDialogFragment(): AccountDialogFragment
-
-    @ContributesAndroidInjector
-    abstract fun bindLanguagesListFragment(): LanguagesListFragment
-}
+fun inflateView(@LayoutRes layoutResId: Int, parent: ViewGroup, attachToRoot: Boolean): View =
+        LayoutInflater.from(parent.context).inflate(layoutResId, parent, attachToRoot)

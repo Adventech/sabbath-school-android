@@ -28,7 +28,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.adapter.SSQuarterliesAdapter
@@ -37,8 +39,12 @@ import com.cryart.sabbathschool.data.model.Status
 import com.cryart.sabbathschool.extensions.arch.getViewModel
 import com.cryart.sabbathschool.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.misc.SSColorTheme
+import com.cryart.sabbathschool.ui.languages.LanguagesListFragment
 import com.cryart.sabbathschool.view.SSBaseActivity
 import dagger.android.AndroidInjection
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_DISMISSED
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
 import javax.inject.Inject
 
 class QuarterliesActivity : SSBaseActivity() {
@@ -83,6 +89,9 @@ class QuarterliesActivity : SSBaseActivity() {
                 notifyDataSetChanged()
             }
         }
+        viewModel.showLanguagePromptLiveData.observe(this, Observer {
+            showLanguagesPrompt()
+        })
     }
 
     private fun setupUi() {
@@ -103,6 +112,23 @@ class QuarterliesActivity : SSBaseActivity() {
         updateWindowColorScheme()
     }
 
+    private fun showLanguagesPrompt() {
+        MaterialTapTargetPrompt.Builder(this)
+                .setTarget(R.id.ss_quarterlies_menu_filter)
+                .setPrimaryText(getString(R.string.ss_quarterlies_filter_languages_prompt_title))
+                .setCaptureTouchEventOutsidePrompt(true)
+                .setIconDrawableColourFilter(Color.parseColor(SSColorTheme.getInstance().colorPrimary))
+                .setIconDrawable(ContextCompat.getDrawable(this, R.drawable.ic_translate))
+                .setBackgroundColour(Color.parseColor(SSColorTheme.getInstance().colorPrimary))
+                .setSecondaryText(R.string.ss_quarterlies_filter_languages_prompt_description)
+                .setPromptStateChangeListener { _, state ->
+                    if (state == STATE_DISMISSED || state == STATE_FOCAL_PRESSED) {
+                        viewModel.languagesPromptSeen()
+                    }
+                }
+                .show()
+    }
+
     override fun onLogoutEvent() {
     }
 
@@ -113,7 +139,10 @@ class QuarterliesActivity : SSBaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (item.itemId == R.id.ss_quarterlies_menu_filter) {
-            // show languages filter
+            val fragment = LanguagesListFragment.newInstance {
+                viewModel.languageSelected(it)
+            }
+            fragment.show(supportFragmentManager, fragment.tag)
             true
         } else {
             super.onOptionsItemSelected(item)
