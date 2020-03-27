@@ -50,9 +50,17 @@ class QuarterliesViewModel @Inject constructor(private val repository: Quarterli
     private val mutableShowLanguagePrompt = SingleLiveEvent<Any>()
     val showLanguagePromptLiveData: LiveData<Any> get() = mutableShowLanguagePrompt
 
+    private val mutableLastQuarterlyIndex = SingleLiveEvent<String>()
+    val lastQuarterlyIndexLiveData: LiveData<String> get() = mutableLastQuarterlyIndex
+
     private var selectedLanguage: String = ""
 
     init {
+        val lastQuarterlyIndex = preferences.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, null)
+        lastQuarterlyIndex?.let {
+            mutableLastQuarterlyIndex.postValue(it)
+        }
+
         selectedLanguage = preferences.getString(
                 SSConstants.SS_LAST_LANGUAGE_INDEX,
                 Locale.getDefault().language)!!

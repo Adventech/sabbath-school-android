@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.ui.quarterlies
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
@@ -39,8 +40,10 @@ import com.cryart.sabbathschool.data.model.Status
 import com.cryart.sabbathschool.extensions.arch.getViewModel
 import com.cryart.sabbathschool.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.misc.SSColorTheme
+import com.cryart.sabbathschool.misc.SSConstants
 import com.cryart.sabbathschool.ui.languages.LanguagesListFragment
 import com.cryart.sabbathschool.view.SSBaseActivity
+import com.cryart.sabbathschool.view.SSLessonsActivity
 import dagger.android.AndroidInjection
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_DISMISSED
@@ -92,6 +95,11 @@ class QuarterliesActivity : SSBaseActivity() {
         viewModel.showLanguagePromptLiveData.observe(this, Observer {
             showLanguagesPrompt()
         })
+        viewModel.lastQuarterlyIndexLiveData.observeNonNull(this) {
+            val intent = Intent(this, SSLessonsActivity::class.java)
+            intent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, it)
+            startActivity(intent)
+        }
     }
 
     private fun setupUi() {
