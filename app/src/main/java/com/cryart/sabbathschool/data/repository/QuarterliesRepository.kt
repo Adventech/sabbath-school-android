@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.data.repository
 
-import com.cryart.sabbathschool.data.api.RestClient
 import com.cryart.sabbathschool.data.api.SSApi
 import com.cryart.sabbathschool.data.model.Language
 import com.cryart.sabbathschool.data.model.response.Resource
@@ -36,13 +35,12 @@ import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class QuarterliesRepository(private val firebaseDatabase: FirebaseDatabase) {
-
-    private val api: SSApi = RestClient.createService(SSApi::class.java)
+class QuarterliesRepository(private val firebaseDatabase: FirebaseDatabase,
+                            private val ssApi: SSApi) {
 
     suspend fun getLanguages(): Resource<List<Language>> {
         return try {
-            val response = api.listLanguages()
+            val response = ssApi.listLanguages()
             if (response.isSuccessful && response.body() != null) {
                 Resource.success(response.body()!!)
             } else {
