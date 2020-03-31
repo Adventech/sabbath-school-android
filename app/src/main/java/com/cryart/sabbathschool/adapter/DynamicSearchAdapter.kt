@@ -26,8 +26,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class DynamicSearchAdapter<T : DynamicSearchAdapter.Searchable,
-        J : RecyclerView.ViewHolder> : RecyclerView.Adapter<J>(), Filterable {
+abstract class DynamicSearchAdapter<T : DynamicSearchAdapter.Searchable, J : RecyclerView.ViewHolder> : RecyclerView.Adapter<J>(), Filterable {
 
     private var searchableList: MutableList<T> = mutableListOf()
 
@@ -45,12 +44,6 @@ abstract class DynamicSearchAdapter<T : DynamicSearchAdapter.Searchable,
 
     fun getItem(position: Int): T = searchableList[position]
 
-    /**
-     * Searches a specific item in the list and updates adapter.
-     * if the search returns empty then onNothingFound callback is invoked if provided which can be used to update UI
-     * @param s the search query or text. It can be null.
-     * @param onNothingFound a method-body to invoke when search returns nothing. It can be null.
-     */
     fun search(s: String?, onNothingFound: (() -> Unit)?) {
         this.onNothingFound = onNothingFound
         filter.filter(s)

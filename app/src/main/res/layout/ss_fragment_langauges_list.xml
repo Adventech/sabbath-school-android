@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/blank"
-            android:src="@drawable/close"
+            app:srcCompat="@drawable/ic_arrow_back"
             android:tint="?attr/colorPrimary" />
 
         <androidx.appcompat.widget.SearchView
