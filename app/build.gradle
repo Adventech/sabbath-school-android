@@ -141,7 +141,6 @@ dependencies {
     }
     implementation "com.github.pwittchen:reactivenetwork:0.8.0"
     implementation "com.thefinestartist:finestwebview:1.2.7"
-    implementation "com.github.javiersantos:MaterialStyledDialogs:2.1"
     implementation "net.opacapp:multiline-collapsingtoolbar:1.4.0"
 
     // Glide
