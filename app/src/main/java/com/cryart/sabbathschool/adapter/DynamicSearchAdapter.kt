@@ -26,7 +26,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class DynamicSearchAdapter<T : DynamicSearchAdapter.Searchable, J : RecyclerView.ViewHolder> : RecyclerView.Adapter<J>(), Filterable {
+abstract class DynamicSearchAdapter<T : DynamicSearchAdapter.Searchable, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>(), Filterable {
 
     private var searchableList: MutableList<T> = mutableListOf()
 
