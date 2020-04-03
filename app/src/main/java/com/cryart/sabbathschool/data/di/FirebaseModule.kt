@@ -20,31 +20,26 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.login;
+package com.cryart.sabbathschool.data.di
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
+import dagger.Module
+import dagger.Provides
 
-import androidx.test.rule.ActivityTestRule;
-import com.cryart.sabbathschool.ui.splash.SplashActivity;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import tools.fastlane.screengrab.Screengrab;
-import tools.fastlane.screengrab.locale.LocaleTestRule;
+@Module
+class FirebaseModule {
 
+    @Provides
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
-@RunWith(JUnit4.class)
-public class SSLoginActivityTest {
-    @ClassRule
-    public static final LocaleTestRule localeTestRule = new LocaleTestRule();
+    @Provides
+    fun provideFirebaseStorage(): FirebaseStorage = Firebase.storage
 
-    @Rule
-    public ActivityTestRule<SplashActivity> activityRule = new ActivityTestRule<>(SplashActivity.class);
-
-
-    @Test
-    public void takeScreenshot() {
-        Screengrab.screenshot("login_screen");
-    }
+    @Provides
+    fun provideFirebaseDatabase(): FirebaseDatabase = Firebase.database
 }

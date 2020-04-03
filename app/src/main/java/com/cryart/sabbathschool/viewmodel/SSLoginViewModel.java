@@ -31,8 +31,6 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableInt;
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
@@ -51,10 +49,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -128,12 +125,9 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
     private void handleGoogleAccessToken(GoogleSignInAccount acct) {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         ssFirebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener((SSLoginActivity) context, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
-                            loginFailed(task.getException().getMessage());
-                        }
+                .addOnCompleteListener((SSLoginActivity) context, task -> {
+                    if (!task.isSuccessful()) {
+                        loginFailed(task.getException().getMessage());
                     }
                 });
     }
@@ -141,12 +135,9 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
     private void handleFacebookAccessToken(AccessToken token) {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         ssFirebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener((SSLoginActivity) context, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
-                            loginFailed(task.getException().getMessage());
-                        }
+                .addOnCompleteListener((SSLoginActivity) context, task -> {
+                    if (!task.isSuccessful()) {
+                        loginFailed(task.getException().getMessage());
                     }
                 });
     }
@@ -232,12 +223,9 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
 
     private void initAnonymousLogin() {
         ssFirebaseAuth.signInAnonymously()
-                .addOnCompleteListener((SSLoginActivity) context, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
-                            loginFailed(task.getException().getMessage());
-                        }
+                .addOnCompleteListener((SSLoginActivity) context, task -> {
+                    if (!task.isSuccessful()) {
+                        loginFailed(task.getException().getMessage());
                     }
                 });
 
@@ -255,24 +243,16 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
     }
 
     public void onClickSignInAnonymous() {
-        new MaterialDialog.Builder(context)
-                .title(context.getString(R.string.ss_login_anonymously_dialog_title))
-                .content(context.getString(R.string.ss_login_anonymously_dialog_description))
-                .positiveText(context.getString(R.string.ss_login_anonymously_dialog_positive))
-                .negativeText(context.getString(R.string.ss_login_anonymously_dialog_negative))
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        ssLoginLoadingVisibility.set(View.VISIBLE);
-                        ssLoginControlsVisibility.set(View.INVISIBLE);
-                        initAnonymousLogin();
-                    }
+        new MaterialAlertDialogBuilder(context)
+                .setTitle(R.string.ss_login_anonymously_dialog_title)
+                .setMessage(R.string.ss_login_anonymously_dialog_description)
+                .setPositiveButton(context.getString(R.string.ss_login_anonymously_dialog_positive), (dialogInterface, i) -> {
+                    ssLoginLoadingVisibility.set(View.VISIBLE);
+                    ssLoginControlsVisibility.set(View.INVISIBLE);
+                    initAnonymousLogin();
                 })
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    }
-                })
+                .setNegativeButton(context.getString(R.string.ss_login_anonymously_dialog_negative), null)
+                .create()
                 .show();
     }
 

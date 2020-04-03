@@ -20,31 +20,20 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.login;
+package com.cryart.sabbathschool.ui.splash
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import com.cryart.sabbathschool.extensions.arch.SingleLiveEvent
+import com.google.firebase.auth.FirebaseAuth
+import javax.inject.Inject
 
-import androidx.test.rule.ActivityTestRule;
-import com.cryart.sabbathschool.ui.splash.SplashActivity;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import tools.fastlane.screengrab.Screengrab;
-import tools.fastlane.screengrab.locale.LocaleTestRule;
+class SplashViewModel @Inject constructor(firebaseAuth: FirebaseAuth) : ViewModel() {
 
+    private val mutableIsSignedIn = SingleLiveEvent<Boolean>()
+    val isSignedInLiveData: LiveData<Boolean> get() = mutableIsSignedIn
 
-@RunWith(JUnit4.class)
-public class SSLoginActivityTest {
-    @ClassRule
-    public static final LocaleTestRule localeTestRule = new LocaleTestRule();
-
-    @Rule
-    public ActivityTestRule<SplashActivity> activityRule = new ActivityTestRule<>(SplashActivity.class);
-
-
-    @Test
-    public void takeScreenshot() {
-        Screengrab.screenshot("login_screen");
+    init {
+        mutableIsSignedIn.postValue(firebaseAuth.currentUser != null)
     }
 }

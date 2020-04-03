@@ -26,9 +26,14 @@ apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.github.triplet.play'
 
 android {
     compileSdkVersion 29
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     def versionPropsFile = file('version.properties')
 
     if (versionPropsFile.canRead()) {
@@ -45,13 +50,15 @@ android {
             applicationId "com.cryart.sabbathschool"
             minSdkVersion 16
             targetSdkVersion 29
-            versionCode 40
+            versionCode 42
             versionName "3.3." + versionBuild
 
             vectorDrawables.useSupportLibrary = true
             testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
             multiDexEnabled true
+
+            buildConfigField "String", "API_BASE_URL", '"BASE_URL"'
         }
 
     } else {
@@ -63,7 +70,7 @@ android {
     }
 
     Properties keyProps = new Properties()
-    keyProps.load(new FileInputStream(file("../app/keystore.properties")))
+    keyProps.load(new FileInputStream(file("../keys/keystore.properties")))
 
     signingConfigs {
         release {
@@ -109,13 +116,16 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
     implementation "androidx.constraintlayout:constraintlayout:${versions.const_layout}"
 
+    // Firebase
     implementation "com.google.android.gms:play-services-auth:17.0.0"
-    implementation "com.google.firebase:firebase-core:17.2.3"
-    implementation "com.google.firebase:firebase-auth:19.2.0"
-    implementation "com.google.firebase:firebase-database:19.2.1"
-    implementation "com.google.firebase:firebase-messaging:20.1.1"
-    implementation "com.google.firebase:firebase-storage:19.1.1"
-
+    implementation "com.google.firebase:firebase-core:${versions.fb_core}"
+    implementation "com.google.firebase:firebase-analytics:${versions.fb_analytics}"
+    implementation "com.google.firebase:firebase-auth:${versions.fb_auth}"
+    implementation "com.google.firebase:firebase-database:${versions.fb_database}"
+    implementation "com.google.firebase:firebase-database-ktx:${versions.fb_database}"
+    implementation "com.google.firebase:firebase-storage:${versions.fb_storage}"
+    implementation "com.google.firebase:firebase-storage-ktx:${versions.fb_storage}"
+    implementation "com.google.firebase:firebase-messaging:${versions.fb_msg}"
     implementation "com.firebase:firebase-jobdispatcher:0.8.5"
 
     implementation "uk.co.samuelwall:material-tap-target-prompt:2.0.1"
@@ -132,14 +142,35 @@ dependencies {
     }
     implementation "com.github.pwittchen:reactivenetwork:0.8.0"
     implementation "com.thefinestartist:finestwebview:1.2.7"
-    implementation "com.github.javiersantos:MaterialStyledDialogs:2.1"
     implementation "net.opacapp:multiline-collapsingtoolbar:1.4.0"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:${versions.glide}"
     kapt "com.github.bumptech.glide:compiler:${versions.glide}"
 
+    // Dagger
+    implementation "com.google.dagger:dagger-android:${versions.dagger}"
+    implementation "com.google.dagger:dagger-android-support:${versions.dagger}"
+    kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
+    kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${versions.coroutines}"
+
+    // Retrofit
+    implementation "com.squareup.okhttp3:okhttp:${versions.okhttp3}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${versions.okhttp3}"
+    implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
+
     implementation "com.jakewharton.timber:timber:${versions.timber}"
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+play {
+    serviceAccountCredentials = file("../keys/play_store_key.json")
+    track = "alpha"
+}

@@ -20,31 +20,34 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.login;
+package com.cryart.sabbathschool.data.di
 
+import com.cryart.sabbathschool.SSApplication
+import dagger.BindsInstance
+import dagger.Component
+import dagger.android.AndroidInjectionModule
+import dagger.android.support.AndroidSupportInjectionModule
+import javax.inject.Singleton
 
-import androidx.test.rule.ActivityTestRule;
-import com.cryart.sabbathschool.ui.splash.SplashActivity;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import tools.fastlane.screengrab.Screengrab;
-import tools.fastlane.screengrab.locale.LocaleTestRule;
+@Singleton
+@Component(modules = [
+    SSAppModule::class,
+    AndroidInjectionModule::class,
+    AndroidSupportInjectionModule::class,
+    ActivityBindings::class,
+    FragmentBindings::class,
+    ViewModelBindings::class
+])
+interface SSAppComponent {
 
+    @Component.Builder
+    interface Builder {
 
-@RunWith(JUnit4.class)
-public class SSLoginActivityTest {
-    @ClassRule
-    public static final LocaleTestRule localeTestRule = new LocaleTestRule();
+        @BindsInstance
+        fun application(app: SSApplication): Builder
 
-    @Rule
-    public ActivityTestRule<SplashActivity> activityRule = new ActivityTestRule<>(SplashActivity.class);
-
-
-    @Test
-    public void takeScreenshot() {
-        Screengrab.screenshot("login_screen");
+        fun build(): SSAppComponent
     }
+
+    fun inject(app: SSApplication)
 }

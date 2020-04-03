@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.ui.account
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
@@ -37,15 +38,21 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.lifecycle.Observer
 import com.cryart.sabbathschool.R
-import com.cryart.sabbathschool.SSApplication
+import com.cryart.sabbathschool.data.di.ViewModelFactory
+import com.cryart.sabbathschool.extensions.arch.getViewModel
 import com.cryart.sabbathschool.extensions.glide.GlideApp
 import com.cryart.sabbathschool.view.SSAboutActivity
 import com.cryart.sabbathschool.view.SSSettingsActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
 class AccountDialogFragment : AppCompatDialogFragment() {
 
-    private val viewModel: AccountViewModel by lazy { AccountViewModel(SSApplication.get()) }
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private lateinit var viewModel: AccountViewModel
 
     private lateinit var rootView: View
 
@@ -70,10 +77,17 @@ class AccountDialogFragment : AppCompatDialogFragment() {
         return rootView
     }
 
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+
+        viewModel = getViewModel(this, viewModelFactory)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.userInfoLiveData.observe(this, Observer {
+        viewModel.userInfoLiveData.observe(viewLifecycleOwner, Observer {
             GlideApp.with(this)
                     .load(it.photo)
                     .placeholder(R.drawable.ic_account_circle)
@@ -81,8 +95,8 @@ class AccountDialogFragment : AppCompatDialogFragment() {
                     .circleCrop()
                     .into(userAvatar)
 
-            userNameTextView.text = it.displayName
-            userEmailTextView.text = it.email
+            userNameTextView.text = it.displayName ?: getString(R.string.ss_menu_anonymous_name)
+            userEmailTextView.text = it.email ?: getString(R.string.ss_menu_anonymous_email)
         })
 
         if (showsDialog) {

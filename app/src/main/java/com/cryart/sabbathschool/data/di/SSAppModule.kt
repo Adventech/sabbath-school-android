@@ -20,31 +20,29 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.login;
+package com.cryart.sabbathschool.data.di
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
+import com.cryart.sabbathschool.SSApplication
+import com.cryart.sabbathschool.data.repository.QuarterliesRepository
+import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
-import androidx.test.rule.ActivityTestRule;
-import com.cryart.sabbathschool.ui.splash.SplashActivity;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import tools.fastlane.screengrab.Screengrab;
-import tools.fastlane.screengrab.locale.LocaleTestRule;
+@Module(includes = [FirebaseModule::class])
+class SSAppModule {
 
+    @Provides
+    @Singleton
+    fun provideContext(app: SSApplication): Context = app
 
-@RunWith(JUnit4.class)
-public class SSLoginActivityTest {
-    @ClassRule
-    public static final LocaleTestRule localeTestRule = new LocaleTestRule();
+    @Provides
+    @Singleton
+    fun provideSharedPrefs(context: Context): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
-    @Rule
-    public ActivityTestRule<SplashActivity> activityRule = new ActivityTestRule<>(SplashActivity.class);
-
-
-    @Test
-    public void takeScreenshot() {
-        Screengrab.screenshot("login_screen");
-    }
+    @Provides
+    @Singleton
+    fun provideRepository(): QuarterliesRepository = QuarterliesRepository()
 }

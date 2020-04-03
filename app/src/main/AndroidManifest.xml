@@ -41,7 +41,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name="com.cryart.sabbathschool.view.SSSplashActivity"
+            android:name="com.cryart.sabbathschool.ui.splash.SplashActivity"
             android:theme="@style/SSSplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
