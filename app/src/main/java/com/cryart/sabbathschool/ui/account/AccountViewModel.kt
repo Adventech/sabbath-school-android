@@ -22,26 +22,24 @@
 
 package com.cryart.sabbathschool.ui.account
 
-import android.app.Application
-import android.preference.PreferenceManager
-import androidx.lifecycle.AndroidViewModel
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.cryart.sabbathschool.R
+import androidx.lifecycle.ViewModel
 import com.cryart.sabbathschool.misc.SSConstants
 import com.cryart.sabbathschool.model.UserInfo
 import com.google.firebase.auth.FirebaseAuth
+import javax.inject.Inject
 
-class AccountViewModel(val app: Application) : AndroidViewModel(app) {
-
-    private val prefs = PreferenceManager.getDefaultSharedPreferences(app)
+class AccountViewModel @Inject constructor(private val prefs: SharedPreferences,
+                                           private val firebaseAuth: FirebaseAuth) : ViewModel() {
 
     private val mutableUserInfo = MutableLiveData<UserInfo>()
     val userInfoLiveData: LiveData<UserInfo> get() = mutableUserInfo
 
     init {
-        val name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, app.getString(R.string.ss_menu_anonymous_name))
-        val email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, app.getString(R.string.ss_menu_anonymous_email))
+        val name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, null)
+        val email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, null)
         val photo = prefs.getString(SSConstants.SS_USER_PHOTO_INDEX, null)
 
         val user = UserInfo(name, email, photo)
@@ -52,6 +50,6 @@ class AccountViewModel(val app: Application) : AndroidViewModel(app) {
         prefs.edit()
                 .clear()
                 .apply()
-        FirebaseAuth.getInstance().signOut()
+        firebaseAuth.signOut()
     }
 }

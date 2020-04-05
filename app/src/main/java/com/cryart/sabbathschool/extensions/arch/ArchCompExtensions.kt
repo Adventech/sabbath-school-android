@@ -20,31 +20,27 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.login;
+package com.cryart.sabbathschool.extensions.arch
 
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.cryart.sabbathschool.data.di.ViewModelFactory
 
-import androidx.test.rule.ActivityTestRule;
-import com.cryart.sabbathschool.ui.splash.SplashActivity;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import tools.fastlane.screengrab.Screengrab;
-import tools.fastlane.screengrab.locale.LocaleTestRule;
+inline fun <reified T : ViewModel> getViewModel(activity: FragmentActivity, factory: ViewModelFactory): T {
+    return ViewModelProvider(activity, factory)[T::class.java]
+}
 
+inline fun <reified T : ViewModel> getViewModel(fragment: Fragment, factory: ViewModelFactory): T {
+    return ViewModelProvider(fragment, factory)[T::class.java]
+}
 
-@RunWith(JUnit4.class)
-public class SSLoginActivityTest {
-    @ClassRule
-    public static final LocaleTestRule localeTestRule = new LocaleTestRule();
-
-    @Rule
-    public ActivityTestRule<SplashActivity> activityRule = new ActivityTestRule<>(SplashActivity.class);
-
-
-    @Test
-    public void takeScreenshot() {
-        Screengrab.screenshot("login_screen");
-    }
+fun <T> LiveData<T>.observeNonNull(owner: LifecycleOwner, observer: (t: T) -> Unit) {
+    this.observe(owner, Observer {
+        it?.let(observer)
+    })
 }

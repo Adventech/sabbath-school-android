@@ -20,31 +20,35 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.login;
+package com.cryart.sabbathschool.data.di
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import javax.inject.Inject
+import javax.inject.Provider
 
-import androidx.test.rule.ActivityTestRule;
-import com.cryart.sabbathschool.ui.splash.SplashActivity;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import tools.fastlane.screengrab.Screengrab;
-import tools.fastlane.screengrab.locale.LocaleTestRule;
+class ViewModelFactory @Inject constructor(
+        private val creators: @JvmSuppressWildcards Map<Class<out ViewModel>, Provider<ViewModel>>
+) : ViewModelProvider.Factory {
 
-
-@RunWith(JUnit4.class)
-public class SSLoginActivityTest {
-    @ClassRule
-    public static final LocaleTestRule localeTestRule = new LocaleTestRule();
-
-    @Rule
-    public ActivityTestRule<SplashActivity> activityRule = new ActivityTestRule<>(SplashActivity.class);
-
-
-    @Test
-    public void takeScreenshot() {
-        Screengrab.screenshot("login_screen");
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        var creator: Provider<out ViewModel>? = creators[modelClass]
+        if (creator == null) {
+            for ((key, value) in creators) {
+                if (modelClass.isAssignableFrom(key)) {
+                    creator = value
+                    break
+                }
+            }
+        }
+        if (creator == null) {
+            throw IllegalArgumentException("unknown model class $modelClass")
+        }
+        try {
+            @Suppress("UNCHECKED_CAST")
+            return creator.get() as T
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
     }
 }

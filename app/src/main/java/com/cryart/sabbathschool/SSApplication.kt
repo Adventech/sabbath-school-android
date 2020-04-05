@@ -21,21 +21,39 @@
  */
 package com.cryart.sabbathschool
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.fragment.app.Fragment
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
+import com.cryart.sabbathschool.data.di.DaggerSSAppComponent
 import com.google.firebase.database.FirebaseDatabase
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import dagger.android.support.HasSupportFragmentInjector
 import io.fabric.sdk.android.Fabric
 import net.danlew.android.joda.JodaTimeAndroid
 import timber.log.Timber
+import javax.inject.Inject
 
-class SSApplication : Application() {
+class SSApplication : Application(), HasActivityInjector, HasSupportFragmentInjector {
+
+    @Inject
+    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+
+    @Inject
+    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+
+    override fun activityInjector(): AndroidInjector<Activity> = activityInjector
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 
     override fun onCreate() {
         super.onCreate()
@@ -63,6 +81,12 @@ class SSApplication : Application() {
                 .defaultDisplayImageOptions(displayImageOptions)
                 .build()
         ImageLoader.getInstance().init(config)
+
+        // Dagger
+        DaggerSSAppComponent.builder()
+                .application(this)
+                .build()
+                .inject(this)
     }
 
     companion object {

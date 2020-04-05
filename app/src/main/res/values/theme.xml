@@ -37,6 +37,8 @@
         <item name="android:textColorPrimary">@color/text_primary</item>
 
         <item name="materialAlertDialogTheme">@style/Theme.SS.AlertDialog</item>
+        <!--Should remove this property when we remove the old android-rate lib -->
+        <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -50,7 +50,7 @@
         android:name="com.cryart.sabbathschool.SSApplication">
 
         <activity
-            android:name="com.cryart.sabbathschool.view.SSSplashActivity"
+            android:name="com.cryart.sabbathschool.ui.splash.SplashActivity"
             android:theme="@style/SSSplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
