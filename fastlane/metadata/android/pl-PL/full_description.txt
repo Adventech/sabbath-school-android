@@ -1,11 +1,11 @@
-Piękna, łatwa w obsłudze aplikacja do studiowania lekcji adwentystycznej Dnia Siódmego w Szkoła Sobotnia.
+Piękna i łatwa w obsłudze aplikacja do studiowania lekcji szkoły sobotniej w Kościele Adwentystów Dnia Siódmego.
 
-Dodatki zawarte:
- - Dostęp do lekcji Sabbath School w dowolnym miejscu, o każdej porze!
- - Wbudowane Biblie, więc wystarczy dotknąć biblijnego odnośnika i pojawi się tekst biblijny.
- - Zaznacz słowa kluczowe lub zdania.
- - Skrzynie do pisania komentarzy i odpowiedzi na pytania.
- - Zaloguj się za pomocą Facebooka lub Google, aby zapisywać i synchronizować komentarze i wyróżnienia na różnych urządzeniach.
+Funkcje aplikacji:
+ - Dostęp do lekcji Szkoły Sobotniej w dowolnym miejscu i o każdej porze dnia!
+ - Wbudowane Biblie, więc wystarczy dotknąć odnośnika biblijnego i pojawi się tekst biblijny.
+ - Zakreśl słowa kluczowe lub zdania.
+ - Pola do napisania komentarzy i odpowiedzi na pytania.
+ - Zaloguj się za pomocą Facebooka lub Google, aby zapisywać i synchronizować komentarze i zakreślone elementy na różnych urządzeniach.
  - Przesuń palcem w lewo i w prawo, aby przechodzić między lekcjami.
 
-Adventech 2019 ®
+Adventech 2020 ®
