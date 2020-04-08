@@ -12,11 +12,11 @@ android:
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_9ffb2be68e1b_key -iv $encrypted_9ffb2be68e1b_iv
-  -in play_store_key.json.enc -out play_store_key.json -d
+  -in keys/play_store_key.json.enc -out keys/play_store_key.json -d
 - openssl aes-256-cbc -K $encrypted_1de50180da55_key -iv $encrypted_1de50180da55_iv
-  -in keystore.properties.enc -out keystore.properties -d
+  -in keys/keystore.properties.enc -out keys/keystore.properties -d
 - openssl aes-256-cbc -K $encrypted_af4792e87a8b_key -iv $encrypted_af4792e87a8b_iv
-  -in v2_key.jks.enc -out v2_key.jks -d
+  -in keys/v2_key.jks.enc -out keys/v2_key.jks -d
 - touch $HOME/.android/repositories.cfg
 - yes | sdkmanager "platforms;android-29"
 - yes | sdkmanager "build-tools;28.0.3"
