@@ -25,30 +25,27 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
 import com.cryart.sabbathschool.data.di.ViewModelFactory
-import com.cryart.sabbathschool.extensions.arch.getViewModel
 import com.cryart.sabbathschool.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.misc.SSConstants
 import com.cryart.sabbathschool.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.view.SSLoginActivity
 import com.cryart.sabbathschool.view.SSReadingActivity
-import dagger.android.AndroidInjection
+import dagger.android.support.DaggerAppCompatActivity
 import timber.log.Timber
 import javax.inject.Inject
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: SplashViewModel
+    private val viewModel: SplashViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        viewModel = getViewModel(this, viewModelFactory)
         viewModel.isSignedInLiveData.observeNonNull(this) { signedIn ->
             if (signedIn) {
                 launchMain()

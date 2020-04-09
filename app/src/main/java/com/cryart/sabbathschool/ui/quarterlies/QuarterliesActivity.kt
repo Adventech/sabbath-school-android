@@ -28,6 +28,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -37,7 +38,6 @@ import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.adapter.SSQuarterliesAdapter
 import com.cryart.sabbathschool.data.di.ViewModelFactory
 import com.cryart.sabbathschool.data.model.Status
-import com.cryart.sabbathschool.extensions.arch.getViewModel
 import com.cryart.sabbathschool.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.misc.SSColorTheme
 import com.cryart.sabbathschool.misc.SSConstants
@@ -55,7 +55,7 @@ class QuarterliesActivity : SSBaseActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: QuarterliesViewModel
+    private val viewModel: QuarterliesViewModel by viewModels { viewModelFactory }
 
     private val toolbar: Toolbar by lazy { findViewById<Toolbar>(R.id.ss_toolbar) }
     private val quarterliesListView: RecyclerView by lazy { findViewById<RecyclerView>(R.id.ss_quarterlies_list) }
@@ -72,7 +72,6 @@ class QuarterliesActivity : SSBaseActivity() {
 
         setupUi()
 
-        viewModel = getViewModel(this, viewModelFactory)
         viewModel.viewStatusLiveData.observeNonNull(this) {
             progressView.isVisible = it == Status.LOADING
             quarterliesListView.isVisible = it == Status.SUCCESS

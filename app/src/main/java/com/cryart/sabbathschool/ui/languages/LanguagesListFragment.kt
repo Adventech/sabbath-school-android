@@ -22,41 +22,32 @@
 
 package com.cryart.sabbathschool.ui.languages
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.data.di.ViewModelFactory
-import com.cryart.sabbathschool.extensions.arch.getViewModel
 import com.cryart.sabbathschool.extensions.arch.observeNonNull
 import com.google.android.material.transition.MaterialFadeThrough
-import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerDialogFragment
 import javax.inject.Inject
 
-class LanguagesListFragment : DialogFragment() {
+class LanguagesListFragment : DaggerDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: LanguagesListViewModel
+    private val viewModel: LanguagesListViewModel by viewModels { viewModelFactory }
 
     private lateinit var languagesListAdapter: LanguagesListAdapter
 
     private var codeSelectedCallback: ((String) -> Unit)? = null
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-
-        viewModel = getViewModel(this, viewModelFactory)
-    }
 
     override fun getTheme(): Int = R.style.AppTheme_DialogFragment
 
