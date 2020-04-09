@@ -39,6 +39,11 @@ class QuarterliesRepository(private val firebaseDatabase: FirebaseDatabase,
                             private val ssApi: SSApi) {
 
     suspend fun getLanguages(): Resource<List<Language>> {
+        // Switch to API when we migrate
+        return getLanguagesFirebase()
+    }
+
+    private suspend fun getLanguagesApi(): Resource<List<Language>> {
         return try {
             val response = ssApi.listLanguages()
             if (response.isSuccessful && response.body() != null) {
@@ -49,6 +54,24 @@ class QuarterliesRepository(private val firebaseDatabase: FirebaseDatabase,
         } catch (ex: Exception) {
             Timber.e(ex)
             Resource.error(ex)
+        }
+    }
+
+    private suspend fun getLanguagesFirebase(): Resource<List<Language>> {
+        return suspendCoroutine { continuation ->
+            firebaseDatabase.getReference(SSConstants.SS_FIREBASE_LANGUAGES_DATABASE)
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
+                            continuation.resume(Resource.error(error.toException()))
+                        }
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val languages = snapshot.children.mapNotNull {
+                                it.getValue(Language::class.java)
+                            }
+                            continuation.resume(Resource.success(languages))
+                        }
+                    })
         }
     }
 
