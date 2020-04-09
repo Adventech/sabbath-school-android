@@ -26,6 +26,7 @@ apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.github.triplet.play'
 
 android {
     compileSdkVersion 29
@@ -49,7 +50,7 @@ android {
             applicationId "com.cryart.sabbathschool"
             minSdkVersion 16
             targetSdkVersion 29
-            versionCode 41
+            versionCode versionBuild
             versionName "3.3." + versionBuild
 
             vectorDrawables.useSupportLibrary = true
@@ -69,7 +70,7 @@ android {
     }
 
     Properties keyProps = new Properties()
-    keyProps.load(new FileInputStream(file("../app/keystore.properties")))
+    keyProps.load(new FileInputStream(file("../keys/keystore.properties")))
 
     signingConfigs {
         release {
@@ -111,7 +112,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}"
 
     implementation "androidx.multidex:multidex:${versions.multidex}"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0-beta01'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.2.0-alpha05'
@@ -146,7 +147,6 @@ dependencies {
     }
     implementation "com.github.pwittchen:reactivenetwork:0.8.0"
     implementation "com.thefinestartist:finestwebview:1.2.7"
-    implementation "com.github.javiersantos:MaterialStyledDialogs:2.1"
     implementation "net.opacapp:multiline-collapsingtoolbar:1.4.0"
 
     // Glide
@@ -174,3 +174,8 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+play {
+    serviceAccountCredentials = file("../keys/play_store_key.json")
+    track = "alpha"
+}
