@@ -38,8 +38,9 @@
             android:id="@+id/navClose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="?attr/actionBarItemBackground"
             android:contentDescription="@string/blank"
+            android:padding="@dimen/spacing_normal"
             app:srcCompat="@drawable/ic_arrow_back"
             android:tint="?attr/colorPrimary" />
 
