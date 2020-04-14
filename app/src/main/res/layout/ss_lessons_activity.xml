@@ -42,18 +42,62 @@
             layout="@layout/ss_lessons_app_bar"
             bind:viewModel="@{viewModel}" />
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ss_lesson_info_list"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorBackground"
-            android:clipToPadding="false"
-            android:scrollbars="vertical"
-            android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:listitem="@layout/ss_lesson_item" />
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/lessonTypeContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:paddingStart="@dimen/ss_lesson_item_content_padding_left"
+                    android:paddingLeft="@dimen/ss_lesson_item_content_padding_left"
+                    android:paddingTop="@dimen/ss_lesson_item_content_padding_top"
+                    android:paddingEnd="@dimen/ss_lesson_item_content_padding_right"
+                    android:paddingRight="@dimen/ss_lesson_item_content_padding_right"
+                    android:paddingBottom="@dimen/ss_lesson_item_content_padding_bottom"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/lessonTypeTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableRight="@drawable/ic_expand_more"
+                        android:drawablePadding="@dimen/spacing_normal"
+                        android:drawableTint="@color/list_divider"
+                        android:fontFamily="@font/lato_medium"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="@dimen/text_size_body"
+                        tools:text="Easy Reading Version" />
+                </FrameLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ss_lesson_info_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:scrollbars="vertical"
+                    android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/ss_lesson_item" />
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
         <include
             layout="@layout/ss_empty_state"

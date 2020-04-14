@@ -48,6 +48,6 @@ class SSAppModule {
 
     @Provides
     @Singleton
-    fun provideRepository(firebaseDatabase: FirebaseDatabase): QuarterliesRepository =
-            QuarterliesRepository(firebaseDatabase, RestClient.createService(SSApi::class.java))
+    fun provideRepository(firebaseDatabase: FirebaseDatabase, prefs: SharedPreferences): QuarterliesRepository =
+            QuarterliesRepository(firebaseDatabase, RestClient.createService(SSApi::class.java), prefs)
 }

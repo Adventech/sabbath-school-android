@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.data.repository
 
+import android.content.SharedPreferences
 import com.cryart.sabbathschool.data.api.SSApi
 import com.cryart.sabbathschool.data.model.Language
 import com.cryart.sabbathschool.data.model.response.Resource
@@ -32,11 +33,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import timber.log.Timber
+import java.util.Locale
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class QuarterliesRepository(private val firebaseDatabase: FirebaseDatabase,
-                            private val ssApi: SSApi) {
+                            private val ssApi: SSApi,
+                            private val preferences: SharedPreferences) {
 
     suspend fun getLanguages(): Resource<List<Language>> {
         // Switch to API when we migrate
@@ -75,10 +78,23 @@ class QuarterliesRepository(private val firebaseDatabase: FirebaseDatabase,
         }
     }
 
-    suspend fun getQuarterlies(languageCode: String): Resource<List<SSQuarterly>> {
+    suspend fun getQuarterlies(languageCode: String? = null): Resource<List<SSQuarterly>> {
+        var code = ""
+        if (languageCode == null) {
+            code = preferences.getString(SSConstants.SS_LAST_LANGUAGE_INDEX, Locale.getDefault().language)!!
+            if (code == "iw") {
+                code = "he"
+            }
+            if (code == "fil") {
+                code = "tl"
+            }
+        } else {
+            code = languageCode
+        }
+
         return suspendCoroutine { continuation ->
             firebaseDatabase.getReference(SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE)
-                    .child(languageCode)
+                    .child(code)
                     .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onCancelled(error: DatabaseError) {
                             continuation.resume(Resource.error(error.toException()))
