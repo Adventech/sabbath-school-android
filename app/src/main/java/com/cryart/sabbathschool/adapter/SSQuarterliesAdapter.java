@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,19 +22,19 @@
 
 package com.cryart.sabbathschool.adapter;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsQuarterlyItemFeaturedBinding;
 import com.cryart.sabbathschool.databinding.SsQuarterlyItemNormalBinding;
 import com.cryart.sabbathschool.model.SSQuarterly;
 import com.cryart.sabbathschool.viewmodel.SSQuarterlyItemViewModel;
-
 import java.util.Collections;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<SSQuarterly> quarterlies;
@@ -45,24 +45,21 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.quarterlies = Collections.emptyList();
     }
 
-    public SSQuarterliesAdapter(List<SSQuarterly> quarterlies) {
-        this.quarterlies = quarterlies;
-    }
-
     public void setQuarterlies(List<SSQuarterly> quarterlies) {
         this.quarterlies = quarterlies;
     }
 
     @Override
-    public int getItemViewType(int position){
+    public int getItemViewType(int position) {
         return (position == 0) ? SSQuarterlyViewHolderHero : SSQuarterlyViewHolderNormal;
     }
 
+    @NotNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
 
-        switch(viewType){
+        switch (viewType) {
             case SSQuarterlyViewHolderHero: {
                 SsQuarterlyItemFeaturedBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.ss_quarterly_item_featured, parent, false);
                 binding.setSsQuarterlyCover(binding.ssQuarterlyItemCover);
@@ -70,7 +67,8 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 break;
             }
 
-            default: case SSQuarterlyViewHolderNormal: {
+            default:
+            case SSQuarterlyViewHolderNormal: {
                 SsQuarterlyItemNormalBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.ss_quarterly_item_normal, parent, false);
                 binding.setSsQuarterlyCover(binding.ssQuarterlyItemNormalCover);
                 viewHolder = new SSQuarterlyViewHolderNormal(binding);
@@ -83,7 +81,7 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        switch (holder.getItemViewType()){
+        switch (holder.getItemViewType()) {
             case SSQuarterlyViewHolderHero: {
                 SSQuarterlyViewHolderFeatured holder1 = (SSQuarterlyViewHolderFeatured) holder;
                 holder1.bindQuarterly(quarterlies.get(position));
@@ -91,7 +89,8 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 break;
             }
 
-            default: case SSQuarterlyViewHolderNormal: {
+            default:
+            case SSQuarterlyViewHolderNormal: {
                 SSQuarterlyViewHolderNormal holder1 = (SSQuarterlyViewHolderNormal) holder;
                 holder1.bindQuarterly(quarterlies.get(position));
                 holder1.binding.executePendingBindings();
@@ -136,6 +135,8 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
             } else {
                 binding.getViewModel().setSsQuarterly(quarterly);
             }
+
+            binding.sectionTitle.setVisibility(getAdapterPosition() == 1 ? View.VISIBLE : View.GONE);
         }
     }
 }

@@ -84,7 +84,7 @@ class QuarterliesViewModel @Inject constructor(private val repository: Quarterli
             mutableViewStatus.postValue(Status.LOADING)
             val resource = repository.getQuarterlies(code)
             if (resource.isSuccessFul) {
-                mutableQuarterlies.postValue(resource.data)
+                mutableQuarterlies.postValue(resource.data?.distinctBy { it.group })
 
                 val languagePromptSeen = preferences.getBoolean(SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, false)
                 if (!languagePromptSeen) {

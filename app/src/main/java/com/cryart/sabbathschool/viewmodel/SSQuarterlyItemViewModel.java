@@ -79,6 +79,10 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
         return ssQuarterly.color_primary_dark;
     }
 
+    public boolean showSection() {
+        return ssQuarterly.index.equals("1");
+    }
+
     @BindingAdapter({"backgroundColor"})
     public static void setBackgroundColor(View view, String color) {
         view.setBackgroundColor(Color.parseColor(color));

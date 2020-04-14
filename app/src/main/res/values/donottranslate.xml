@@ -23,4 +23,27 @@
 
 <resources>
     <string name="blank"/>
+
+    <string translatable="false" name="ss_settings_typeface_andada">Andada</string>
+    <string translatable="false" name="ss_settings_typeface_lato">Lato</string>
+    <string translatable="false" name="ss_settings_typeface_pt_serif">PT Serif</string>
+    <string translatable="false" name="ss_settings_typeface_pt_sans">PT Sans</string>
+
+    <string translatable="false" name="ss_settings_website_summary">adventech.io</string>
+    <string translatable="false" name="ss_settings_website_url">http://adventech.io</string>
+    <string translatable="false" name="ss_settings_facebook">Facebook</string>
+    <string translatable="false" name="ss_settings_facebook_summary">facebook.com/shabbatschool</string>
+    <string translatable="false" name="ss_settings_facebook_url">https://facebook.com/shabbatschool</string>
+    <string translatable="false" name="ss_settings_instagram">Instagram</string>
+    <string translatable="false" name="ss_settings_instagram_summary">\@adventech</string>
+    <string translatable="false" name="ss_settings_instagram_url">https://instagram.com/adventech</string>
+    <string translatable="false" name="ss_settings_github">GitHub</string>
+    <string translatable="false" name="ss_settings_github_summary">github.com/Adventech</string>
+    <string translatable="false" name="ss_settings_github_url">https://github.com/Adventech</string>
+
+
+    <string translatable="false" name="facebook_app_id">1440555266255436</string>
+    <string translatable="false" name="fb_login_protocol_scheme">1440555266255436</string>
+    <string translatable="false" name="ss_quarterly_cover_transition">ssQuarterlyCoverTransition</string>
+
 </resources>
