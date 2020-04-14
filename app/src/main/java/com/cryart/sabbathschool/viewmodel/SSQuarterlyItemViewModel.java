@@ -37,7 +37,7 @@ import androidx.databinding.BindingAdapter;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSQuarterly;
-import com.cryart.sabbathschool.view.SSLessonsActivity;
+import com.cryart.sabbathschool.ui.lessons.SSLessonsActivity;
 import com.google.android.material.button.MaterialButton;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -77,10 +77,6 @@ public class SSQuarterlyItemViewModel extends BaseObservable implements SSViewMo
 
     public String getColorPrimaryDark() {
         return ssQuarterly.color_primary_dark;
-    }
-
-    public boolean showSection() {
-        return ssQuarterly.index.equals("1");
     }
 
     @BindingAdapter({"backgroundColor"})

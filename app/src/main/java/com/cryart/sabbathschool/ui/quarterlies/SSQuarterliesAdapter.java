@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.adapter;
+package com.cryart.sabbathschool.ui.quarterlies;
 
 import android.view.LayoutInflater;
 import android.view.View;

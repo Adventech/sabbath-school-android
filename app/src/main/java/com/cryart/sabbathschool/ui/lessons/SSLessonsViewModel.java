@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.viewmodel;
+package com.cryart.sabbathschool.ui.lessons;
 
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +35,7 @@ import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLesson;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
 import com.cryart.sabbathschool.view.SSReadingActivity;
+import com.cryart.sabbathschool.viewmodel.SSViewModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

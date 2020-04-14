@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,30 +20,29 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.viewmodel;
+package com.cryart.sabbathschool.ui.lessons;
 
 import android.content.Context;
 import android.content.Intent;
 import androidx.databinding.BaseObservable;
-
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLesson;
 import com.cryart.sabbathschool.view.SSReadingActivity;
-
+import com.cryart.sabbathschool.viewmodel.SSViewModel;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.format.DateTimeFormat;
 
 public class SSLessonItemViewModel extends BaseObservable implements SSViewModel {
-    private static final String TAG = SSLessonItemViewModel.class.getSimpleName();
+
     private SSLesson ssLesson;
     private Context context;
 
-    public SSLessonItemViewModel(Context context, SSLesson ssLesson) {
+    SSLessonItemViewModel(Context context, SSLesson ssLesson) {
         this.ssLesson = ssLesson;
         this.context = context;
     }
 
-    public void setSsLesson(SSLesson ssLesson) {
+    void setSsLesson(SSLesson ssLesson) {
         this.ssLesson = ssLesson;
         notifyChange();
     }
@@ -65,7 +64,7 @@ public class SSLessonItemViewModel extends BaseObservable implements SSViewModel
         return StringUtils.capitalize(startDateOut) + " - " + StringUtils.capitalize(endDateOut);
     }
 
-    public void onItemClick(){
+    public void onItemClick() {
         Intent ssReadingIntent = new Intent(context, SSReadingActivity.class);
         ssReadingIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, ssLesson.index);
         context.startActivity(ssReadingIntent);

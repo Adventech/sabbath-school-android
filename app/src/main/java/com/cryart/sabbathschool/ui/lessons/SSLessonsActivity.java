@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.view;
+package com.cryart.sabbathschool.ui.lessons;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -30,14 +30,12 @@ import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cryart.sabbathschool.R;
-import com.cryart.sabbathschool.adapter.SSLessonsAdapter;
 import com.cryart.sabbathschool.databinding.SsLessonsActivityBinding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
-import com.cryart.sabbathschool.viewmodel.SSLessonsViewModel;
+import com.cryart.sabbathschool.view.SSBaseActivity;
 import hotchemi.android.rate.AppRate;
 
 public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewModel.DataListener {
@@ -56,7 +54,6 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
 
         SSLessonsAdapter adapter = new SSLessonsAdapter();
         binding.ssLessonInfoList.setAdapter(adapter);
-        binding.ssLessonInfoList.setLayoutManager(new LinearLayoutManager(this));
 
         setSupportActionBar(binding.ssLessonsAppBar.ssLessonsToolbar);
 
@@ -65,9 +62,6 @@ public class SSLessonsActivity extends SSBaseActivity implements SSLessonsViewMo
         if (ssToolbar != null) {
             ssToolbar.setDisplayHomeAsUpEnabled(true);
         }
-
-        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle);
-        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setExpandedTitleTextAppearance(R.style.AppThemeAppBarTextStyleExpanded);
 
         binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setCollapsedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold));
         binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setExpandedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold));

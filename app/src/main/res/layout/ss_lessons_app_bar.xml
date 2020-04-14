@@ -28,7 +28,7 @@
 
         <variable
             name="viewModel"
-            type="com.cryart.sabbathschool.viewmodel.SSLessonsViewModel" />
+            type="com.cryart.sabbathschool.ui.lessons.SSLessonsViewModel" />
     </data>
 
     <com.google.android.material.appbar.AppBarLayout
@@ -49,6 +49,8 @@
             app:expandedTitleMarginStart="@dimen/ss_lessons_toolbar_title_margin_start"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
             app:maxLines="2"
+            app:collapsedTitleTextAppearance="@style/AppThemeAppBarTextStyle"
+            app:expandedTitleTextAppearance="@style/AppThemeAppBarTextStyleExpanded"
             tools:title="Ezra and Nehemiah">
 
             <RelativeLayout

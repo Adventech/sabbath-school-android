@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -21,16 +20,16 @@
   ~ THE SOFTWARE.
   -->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.cryart.sabbathschool.viewmodel.SSLessonsViewModel" />
+            type="com.cryart.sabbathschool.ui.lessons.SSLessonsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -40,35 +39,36 @@
 
         <include
             android:id="@+id/ss_lessons_app_bar"
-            bind:viewModel="@{viewModel}"
-            layout="@layout/ss_lessons_app_bar" />
+            layout="@layout/ss_lessons_app_bar"
+            bind:viewModel="@{viewModel}" />
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/ss_lesson_info_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
             android:background="@color/colorBackground"
+            android:clipToPadding="false"
             android:scrollbars="vertical"
+            android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/ss_lesson_item" />
 
         <include
             layout="@layout/ss_empty_state"
-            bind:emptyStateVisibility="@{viewModel.ssLessonsEmptyStateVisibility}"
-            bind:emptyStateLabel="@{@string/ss_lessons_empty}" />
+            bind:emptyStateLabel="@{@string/ss_lessons_empty}"
+            bind:emptyStateVisibility="@{viewModel.ssLessonsEmptyStateVisibility}" />
 
         <include
             layout="@layout/ss_error_state"
-            bind:errorStateVisibility="@{viewModel.ssLessonsErrorStateVisibility}"
-            bind:errorStateLabel="@{@string/ss_lessons_error}" />
+            bind:errorStateLabel="@{@string/ss_lessons_error}"
+            bind:errorStateVisibility="@{viewModel.ssLessonsErrorStateVisibility}" />
 
         <include
             layout="@layout/ss_progress_bar"
-            bind:progressVisibility="@{viewModel.ssLessonsLoadingVisibility}"
-            bind:progressLabel="@{@string/ss_lessons_downloading}"/>
+            bind:progressLabel="@{@string/ss_lessons_downloading}"
+            bind:progressVisibility="@{viewModel.ssLessonsLoadingVisibility}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

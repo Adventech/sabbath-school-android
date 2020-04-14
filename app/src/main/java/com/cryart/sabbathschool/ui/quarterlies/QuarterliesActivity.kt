@@ -35,15 +35,14 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.cryart.sabbathschool.R
-import com.cryart.sabbathschool.adapter.SSQuarterliesAdapter
 import com.cryart.sabbathschool.data.di.ViewModelFactory
 import com.cryart.sabbathschool.data.model.Status
 import com.cryart.sabbathschool.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.misc.SSColorTheme
 import com.cryart.sabbathschool.misc.SSConstants
 import com.cryart.sabbathschool.ui.languages.LanguagesListFragment
+import com.cryart.sabbathschool.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.view.SSBaseActivity
-import com.cryart.sabbathschool.view.SSLessonsActivity
 import dagger.android.AndroidInjection
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_DISMISSED
