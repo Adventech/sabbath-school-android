@@ -102,4 +102,13 @@
         <item name="queryHint">@string/blank</item>
         <item name="searchIcon">@null</item>
     </style>
+
+    <style name="SS.Widget.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="android:elevation">@dimen/elevation_bottom_sheet</item>
+    </style>
+
+    <style name="SS.Widget.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="behavior_peekHeight">@dimen/peek_height_bottom_sheet_modal</item>
+        <item name="behavior_skipCollapsed">true</item>
+    </style>
 </resources>

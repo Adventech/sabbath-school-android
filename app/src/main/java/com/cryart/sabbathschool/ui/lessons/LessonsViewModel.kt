@@ -47,16 +47,19 @@ class LessonsViewModel @Inject constructor(private val repository: QuarterliesRe
             if (resource.isSuccessFul) {
                 val quarterlies = resource.data ?: return@launch
                 val selected = quarterlies.find { it.index == index } ?: return@launch
-                val lessonTypes = quarterlies.filter {
+                lessonTypes = quarterlies.filter {
                     it.start_date == selected.start_date && it.end_date == selected.end_date
                 }
-                mutableQuarterlyTypes.postValue(lessonTypes.map { it.group })
+                if (lessonTypes.size > 1) {
+                    mutableQuarterlyTypes.postValue(lessonTypes.map { it.index })
+                }
             }
         }
     }
 
     fun lessonTypeSelected(type: String) {
-        val index = lessonTypes.find { it.group == type }?.index ?: return
-        mutableSelectedType.postValue(Pair(index, type))
+        // TODO: Find type title
+        //val index = lessonTypes.find { it.index == type }?.index ?: return
+        mutableSelectedType.postValue(Pair(type, type))
     }
 }

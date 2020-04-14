@@ -76,11 +76,18 @@ public class SSLessonsViewModel implements SSViewModel {
 
         shared = PreferenceManager.getDefaultSharedPreferences(context);
 
-        loadQuarterlyInfo();
+        loadQuarterlyInfo(true);
     }
 
-    private void loadQuarterlyInfo() {
-        ssLessonsLoadingVisibility.set(View.VISIBLE);
+    public void setSsQuarterlyIndex(String ssQuarterlyIndex) {
+        this.ssQuarterlyIndex = ssQuarterlyIndex;
+        loadQuarterlyInfo(false);
+    }
+
+    private void loadQuarterlyInfo(boolean showLoading) {
+        if (showLoading) {
+            ssLessonsLoadingVisibility.set(View.VISIBLE);
+        }
         ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
         ssLessonsErrorStateVisibility.set(View.INVISIBLE);
         mDatabase.child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)

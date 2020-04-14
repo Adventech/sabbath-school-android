@@ -34,9 +34,11 @@ import androidx.lifecycle.Observer
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.data.di.ViewModelFactory
 import com.cryart.sabbathschool.databinding.SsLessonsActivityBinding
+import com.cryart.sabbathschool.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.misc.SSColorTheme
 import com.cryart.sabbathschool.misc.SSConstants
 import com.cryart.sabbathschool.model.SSQuarterlyInfo
+import com.cryart.sabbathschool.ui.lessons.types.LessonTypesFragment
 import com.cryart.sabbathschool.view.SSBaseActivity
 import dagger.android.AndroidInjection
 import hotchemi.android.rate.AppRate
@@ -77,10 +79,20 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
             if (types.isNotEmpty()) {
                 binding.lessonTypeTextView.text = types.first()
                 binding.lessonTypeContainer.setOnClickListener {
-
+                    val fragment = LessonTypesFragment.newInstance(types) {
+                        viewModel.lessonTypeSelected(it)
+                    }
+                    fragment.show(supportFragmentManager, fragment.tag)
                 }
             }
         })
+        viewModel.selectedTypeLiveData.observeNonNull(this) {
+            val newIndex = it.first
+            val type = it.second
+
+            binding.lessonTypeTextView.text = type
+            ssLessonsViewModel?.setSsQuarterlyIndex(newIndex)
+        }
         viewModel.setQuarterlyIndex(index)
     }
 

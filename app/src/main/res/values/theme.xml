@@ -39,6 +39,9 @@
         <item name="materialAlertDialogTheme">@style/Theme.SS.AlertDialog</item>
         <!--Should remove this property when we remove the old android-rate lib -->
         <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
+
+        <item name="bottomSheetStyle">@style/SS.Widget.BottomSheet</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.SS.BottomSheetDialog</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -86,5 +89,12 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="ThemeOverlay.SS.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="bottomSheetStyle">@style/SS.Widget.BottomSheet.Modal</item>
     </style>
 </resources>
