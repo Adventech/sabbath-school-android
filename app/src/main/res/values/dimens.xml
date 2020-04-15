@@ -34,7 +34,6 @@
     <dimen name="ss_login_app_name_margin_top">15dp</dimen>
     <dimen name="ss_login_loading_size">48dp</dimen>
     <dimen name="ss_login_button_margin_top">5dp</dimen>
-    <dimen name="ss_login_button_social_width">220dp</dimen>
     <dimen name="ss_login_button_social_height">56dp</dimen>
     <dimen name="ss_login_button_social_text_size">14sp</dimen>
 

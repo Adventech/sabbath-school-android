@@ -95,31 +95,28 @@
         android:layout_marginBottom="@dimen/spacing_medium"
         android:background="@color/list_divider" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/nav.settings"
         style="@style/SS.Widget.ActionButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_settings"
-        android:drawableLeft="@drawable/ic_settings"
-        android:text="@string/ss_menu_settings" />
+        android:text="@string/ss_menu_settings"
+        app:drawableStartCompat="@drawable/ic_settings" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/nav.share"
         style="@style/SS.Widget.ActionButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_share"
-        android:drawableLeft="@drawable/ic_share"
-        android:text="@string/ss_menu_share_app" />
+        android:text="@string/ss_menu_share_app"
+        app:drawableStartCompat="@drawable/ic_share" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/nav.about"
         style="@style/SS.Widget.ActionButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_info_outline"
-        android:drawableLeft="@drawable/ic_info_outline"
-        android:text="@string/ss_menu_about" />
+        android:text="@string/ss_menu_about"
+        app:drawableStartCompat="@drawable/ic_info_outline" />
 
 </LinearLayout>
