@@ -30,7 +30,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import androidx.core.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.Log;
@@ -45,6 +44,8 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+
+import androidx.core.view.GestureDetectorCompat;
 
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.SSApplication;
@@ -234,7 +235,7 @@ public class SSReadingView extends WebView {
         if (ssReaderContent == null){
             final File indexFile = new File(getContext().getFilesDir() + "/index.html");
 
-            if (false && indexFile.exists()){
+            if (indexFile.exists()){
                 baseUrl = "file:///" + getContext().getFilesDir() + "/";
                 ssReaderContent = readFileFromFiles(getContext().getFilesDir() + "/index.html");
             } else {
