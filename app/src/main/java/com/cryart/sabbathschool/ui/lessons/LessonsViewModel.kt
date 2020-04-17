@@ -51,15 +51,17 @@ class LessonsViewModel @Inject constructor(private val repository: QuarterliesRe
                     it.start_date == selected.start_date && it.end_date == selected.end_date
                 }
                 if (lessonTypes.size > 1) {
-                    mutableQuarterlyTypes.postValue(lessonTypes.map { it.index })
+                    val names = listOf(selected.quarterly_name) + lessonTypes
+                            .filterNot { it.id == selected.id }
+                            .map { it.quarterly_name }
+                    mutableQuarterlyTypes.postValue(names.filterNotNull())
                 }
             }
         }
     }
 
-    fun lessonTypeSelected(type: String) {
-        // TODO: Find type title
-        //val index = lessonTypes.find { it.index == type }?.index ?: return
-        mutableSelectedType.postValue(Pair(type, type))
+    fun quarterlyTypeSelected(type: String) {
+        val index = lessonTypes.find { it.quarterly_name == type }?.index ?: return
+        mutableSelectedType.postValue(Pair(index, type))
     }
 }

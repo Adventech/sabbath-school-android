@@ -40,6 +40,7 @@ public class SSQuarterly {
     public String lang;
     public String color_primary;
     public String color_primary_dark;
+    public String quarterly_name;
 
     public SSQuarterly() {}
 }

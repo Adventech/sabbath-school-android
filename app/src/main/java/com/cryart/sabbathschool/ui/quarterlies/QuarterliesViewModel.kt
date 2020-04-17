@@ -56,8 +56,7 @@ class QuarterliesViewModel @Inject constructor(private val repository: Quarterli
     private var selectedLanguage: String = ""
 
     init {
-        val lastQuarterlyIndex = preferences.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, null)
-        lastQuarterlyIndex?.let {
+        preferences.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, null)?.let {
             mutableLastQuarterlyIndex.postValue(it)
         }
 
@@ -84,9 +83,16 @@ class QuarterliesViewModel @Inject constructor(private val repository: Quarterli
             mutableViewStatus.postValue(Status.LOADING)
             val resource = repository.getQuarterlies(code)
             if (resource.isSuccessFul) {
-                mutableQuarterlies.postValue(resource.data?.distinctBy { it.group })
+                val quarterlies = resource.data ?: emptyList()
+                val filtered = quarterlies
+                        .filter { it.group != null }
+                        .distinctBy { it.group } + quarterlies
+                        .filter { it.group == null }
 
-                val languagePromptSeen = preferences.getBoolean(SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, false)
+                mutableQuarterlies.postValue(filtered)
+
+                val languagePromptSeen = preferences.getBoolean(
+                        SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, false)
                 if (!languagePromptSeen) {
                     withContext(Dispatchers.Main) {
                         mutableShowLanguagePrompt.call()

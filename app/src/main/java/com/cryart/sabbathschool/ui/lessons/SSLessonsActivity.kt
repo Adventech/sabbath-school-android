@@ -26,9 +26,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.cryart.sabbathschool.R
@@ -75,12 +75,12 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
         binding.viewModel = ssLessonsViewModel
 
         viewModel.quarterlyTypesLiveData.observe(this, Observer { types ->
-            binding.lessonTypeContainer.visibility = if (types.isEmpty()) View.GONE else View.VISIBLE
+            binding.lessonTypeContainer.isVisible = types.isNotEmpty()
             if (types.isNotEmpty()) {
                 binding.lessonTypeTextView.text = types.first()
                 binding.lessonTypeContainer.setOnClickListener {
                     val fragment = LessonTypesFragment.newInstance(types) {
-                        viewModel.lessonTypeSelected(it)
+                        viewModel.quarterlyTypeSelected(it)
                     }
                     fragment.show(supportFragmentManager, fragment.tag)
                 }
