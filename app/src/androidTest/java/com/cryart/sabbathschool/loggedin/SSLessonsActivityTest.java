@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,20 +27,16 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.SystemClock;
 import androidx.test.rule.ActivityTestRule;
-
 import com.cryart.sabbathschool.misc.SSConstants;
-import com.cryart.sabbathschool.view.SSLessonsActivity;
+import com.cryart.sabbathschool.ui.lessons.SSLessonsActivity;
 import com.google.firebase.auth.FirebaseAuth;
-
+import java.util.Locale;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import java.util.Locale;
-
 import tools.fastlane.screengrab.Screengrab;
 import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy;
 import tools.fastlane.screengrab.locale.LocaleTestRule;

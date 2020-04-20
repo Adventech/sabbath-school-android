@@ -22,22 +22,9 @@
 
 package com.cryart.sabbathschool.extensions.arch
 
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.cryart.sabbathschool.data.di.ViewModelFactory
-
-inline fun <reified T : ViewModel> getViewModel(activity: FragmentActivity, factory: ViewModelFactory): T {
-    return ViewModelProvider(activity, factory)[T::class.java]
-}
-
-inline fun <reified T : ViewModel> getViewModel(fragment: Fragment, factory: ViewModelFactory): T {
-    return ViewModelProvider(fragment, factory)[T::class.java]
-}
 
 fun <T> LiveData<T>.observeNonNull(owner: LifecycleOwner, observer: (t: T) -> Unit) {
     this.observe(owner, Observer {

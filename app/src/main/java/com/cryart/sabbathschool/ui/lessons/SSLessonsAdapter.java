@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,52 +20,47 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.adapter;
+package com.cryart.sabbathschool.ui.lessons;
 
-import androidx.databinding.DataBindingUtil;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-
+import androidx.appcompat.widget.PopupMenu;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsLessonItemBinding;
 import com.cryart.sabbathschool.model.SSLesson;
-import com.cryart.sabbathschool.viewmodel.SSLessonItemViewModel;
-
 import java.util.Collections;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class SSLessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<SSLesson> ssLessons;
 
-    public SSLessonsAdapter() {
+    SSLessonsAdapter() {
         this.ssLessons = Collections.emptyList();
-    }
-
-    public SSLessonsAdapter(List<SSLesson> ssLessons) {
-        this.ssLessons = ssLessons;
     }
 
     public void setLessons(List<SSLesson> ssLessonsInfo) {
         this.ssLessons = ssLessonsInfo;
     }
 
+    @NotNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         SsLessonItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.ss_lesson_item, parent, false);
         return new SSLessonViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NotNull RecyclerView.ViewHolder holder, final int position) {
         SSLessonViewHolder holder1 = (SSLessonViewHolder) holder;
         holder1.bindQuarterly(ssLessons.get(position));
         holder1.binding.executePendingBindings();
-        holder1.binding.ssLessonItemIndex.setText(String.valueOf(position+1));
+        holder1.binding.ssLessonItemIndex.setText(String.valueOf(position + 1));
     }
 
     @Override

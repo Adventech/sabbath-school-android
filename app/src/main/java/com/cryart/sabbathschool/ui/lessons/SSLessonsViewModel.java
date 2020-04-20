@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.viewmodel;
+package com.cryart.sabbathschool.ui.lessons;
 
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +35,7 @@ import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSLesson;
 import com.cryart.sabbathschool.model.SSQuarterlyInfo;
 import com.cryart.sabbathschool.view.SSReadingActivity;
+import com.cryart.sabbathschool.viewmodel.SSViewModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -75,11 +76,18 @@ public class SSLessonsViewModel implements SSViewModel {
 
         shared = PreferenceManager.getDefaultSharedPreferences(context);
 
-        loadQuarterlyInfo();
+        loadQuarterlyInfo(true);
     }
 
-    private void loadQuarterlyInfo() {
-        ssLessonsLoadingVisibility.set(View.VISIBLE);
+    public void setSsQuarterlyIndex(String ssQuarterlyIndex) {
+        this.ssQuarterlyIndex = ssQuarterlyIndex;
+        loadQuarterlyInfo(false);
+    }
+
+    private void loadQuarterlyInfo(boolean showLoading) {
+        if (showLoading) {
+            ssLessonsLoadingVisibility.set(View.VISIBLE);
+        }
         ssLessonsEmptyStateVisibility.set(View.INVISIBLE);
         ssLessonsErrorStateVisibility.set(View.INVISIBLE);
         mDatabase.child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)

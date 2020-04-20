@@ -27,7 +27,7 @@
 
         <variable
             name="viewModel"
-            type="com.cryart.sabbathschool.viewmodel.SSLessonItemViewModel" />
+            type="com.cryart.sabbathschool.ui.lessons.SSLessonItemViewModel" />
     </data>
 
     <RelativeLayout

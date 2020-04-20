@@ -58,31 +58,30 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.cryart.sabbathschool.view.SSQuarterliesActivity"
-            android:configChanges="orientation|screenSize"
+            android:name=".ui.quarterlies.QuarterliesActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".view.SSLessonsActivity"
+            android:name=".ui.lessons.SSLessonsActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTop"
-            android:parentActivityName="com.cryart.sabbathschool.view.SSQuarterliesActivity"
+            android:parentActivityName="com.cryart.sabbathschool.ui.quarterlies.QuarterliesActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.cryart.sabbathschool.view.SSQuarterliesActivity" />
+                android:value="com.cryart.sabbathschool.ui.quarterlies.QuarterliesActivity" />
         </activity>
 
         <activity
             android:name="com.cryart.sabbathschool.view.SSReadingActivity"
             android:configChanges="orientation|screenSize"
-            android:parentActivityName="com.cryart.sabbathschool.view.SSLessonsActivity"
+            android:parentActivityName="com.cryart.sabbathschool.ui.lessons.SSLessonsActivity"
             android:theme="@style/AppTheme.NoActionBar.NoStatusBar"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.SSLessonsActivity" />
+                android:value=".ui.lessons.SSLessonsActivity" />
         </activity>
 
         <activity

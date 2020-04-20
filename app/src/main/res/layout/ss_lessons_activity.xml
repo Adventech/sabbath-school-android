@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -21,16 +20,16 @@
   ~ THE SOFTWARE.
   -->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.cryart.sabbathschool.viewmodel.SSLessonsViewModel" />
+            type="com.cryart.sabbathschool.ui.lessons.SSLessonsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -40,35 +39,80 @@
 
         <include
             android:id="@+id/ss_lessons_app_bar"
-            bind:viewModel="@{viewModel}"
-            layout="@layout/ss_lessons_app_bar" />
+            layout="@layout/ss_lessons_app_bar"
+            bind:viewModel="@{viewModel}" />
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:id="@+id/ss_lesson_info_list"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
             android:background="@color/colorBackground"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/ss_lesson_item" />
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/lessonTypeContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:paddingStart="@dimen/ss_lesson_item_content_padding_left"
+                    android:paddingLeft="@dimen/ss_lesson_item_content_padding_left"
+                    android:paddingTop="@dimen/ss_lesson_item_content_padding_top"
+                    android:paddingEnd="@dimen/ss_lesson_item_content_padding_right"
+                    android:paddingRight="@dimen/ss_lesson_item_content_padding_right"
+                    android:paddingBottom="@dimen/ss_lesson_item_content_padding_bottom"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/lessonTypeTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableRight="@drawable/ic_expand_more"
+                        android:drawablePadding="@dimen/spacing_normal"
+                        android:drawableTint="@color/list_divider"
+                        android:fontFamily="@font/lato_medium"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="@dimen/text_size_body"
+                        tools:text="Easy Reading Version" />
+                </FrameLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ss_lesson_info_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:scrollbars="vertical"
+                    android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/ss_lesson_item" />
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
         <include
             layout="@layout/ss_empty_state"
-            bind:emptyStateVisibility="@{viewModel.ssLessonsEmptyStateVisibility}"
-            bind:emptyStateLabel="@{@string/ss_lessons_empty}" />
+            bind:emptyStateLabel="@{@string/ss_lessons_empty}"
+            bind:emptyStateVisibility="@{viewModel.ssLessonsEmptyStateVisibility}" />
 
         <include
             layout="@layout/ss_error_state"
-            bind:errorStateVisibility="@{viewModel.ssLessonsErrorStateVisibility}"
-            bind:errorStateLabel="@{@string/ss_lessons_error}" />
+            bind:errorStateLabel="@{@string/ss_lessons_error}"
+            bind:errorStateVisibility="@{viewModel.ssLessonsErrorStateVisibility}" />
 
         <include
             layout="@layout/ss_progress_bar"
-            bind:progressVisibility="@{viewModel.ssLessonsLoadingVisibility}"
-            bind:progressLabel="@{@string/ss_lessons_downloading}"/>
+            bind:progressLabel="@{@string/ss_lessons_downloading}"
+            bind:progressVisibility="@{viewModel.ssLessonsLoadingVisibility}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

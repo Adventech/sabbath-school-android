@@ -22,26 +22,91 @@
 
 package com.cryart.sabbathschool.data.repository
 
-import com.cryart.sabbathschool.data.api.RestClient
+import android.content.SharedPreferences
 import com.cryart.sabbathschool.data.api.SSApi
 import com.cryart.sabbathschool.data.model.Language
+import com.cryart.sabbathschool.data.model.response.Resource
+import com.cryart.sabbathschool.misc.SSConstants
+import com.cryart.sabbathschool.model.SSQuarterly
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import timber.log.Timber
+import java.util.Locale
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
-class QuarterliesRepository {
+class QuarterliesRepository(private val firebaseDatabase: FirebaseDatabase,
+                            private val ssApi: SSApi,
+                            private val preferences: SharedPreferences) {
 
-    private val api: SSApi = RestClient.createService(SSApi::class.java)
+    suspend fun getLanguages(): Resource<List<Language>> {
+        // Switch to API when we migrate
+        return getLanguagesFirebase()
+    }
 
-    suspend fun getLanguages(): List<Language> {
+    private suspend fun getLanguagesApi(): Resource<List<Language>> {
         return try {
-            val response = api.listLanguages()
+            val response = ssApi.listLanguages()
             if (response.isSuccessful && response.body() != null) {
-                response.body()!!
+                Resource.success(response.body()!!)
             } else {
-                emptyList()
+                Resource.error(Throwable())
             }
         } catch (ex: Exception) {
             Timber.e(ex)
-            emptyList()
+            Resource.error(ex)
+        }
+    }
+
+    private suspend fun getLanguagesFirebase(): Resource<List<Language>> {
+        return suspendCoroutine { continuation ->
+            firebaseDatabase.getReference(SSConstants.SS_FIREBASE_LANGUAGES_DATABASE)
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
+                            continuation.resume(Resource.error(error.toException()))
+                        }
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val languages = snapshot.children.mapNotNull {
+                                it.getValue(Language::class.java)
+                            }
+                            continuation.resume(Resource.success(languages))
+                        }
+                    })
+        }
+    }
+
+    suspend fun getQuarterlies(languageCode: String? = null): Resource<List<SSQuarterly>> {
+        var code = ""
+        if (languageCode == null) {
+            code = preferences.getString(SSConstants.SS_LAST_LANGUAGE_INDEX, Locale.getDefault().language)!!
+            if (code == "iw") {
+                code = "he"
+            }
+            if (code == "fil") {
+                code = "tl"
+            }
+        } else {
+            code = languageCode
+        }
+
+        return suspendCoroutine { continuation ->
+            firebaseDatabase.getReference(SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE)
+                    .child(code)
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
+                            continuation.resume(Resource.error(error.toException()))
+                        }
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val quarterlies = snapshot.children.mapNotNull {
+                                it.getValue(SSQuarterly::class.java)
+                            }
+                            continuation.resume(Resource.success(quarterlies))
+                        }
+                    })
         }
     }
 }

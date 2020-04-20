@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,28 +34,14 @@ public class SSQuarterly {
     public String end_date;
     public String cover;
     public String index;
+    public String group;
     public String path;
     public String full_path;
     public String lang;
     public String color_primary;
     public String color_primary_dark;
+    public String quarterly_name;
 
     public SSQuarterly() {}
-
-    public SSQuarterly(String id, String title, String description, String human_date, String start_date, String end_date, String cover, String index, String path, String full_path, String lang, String color_primary, String color_primary_dark){
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.human_date = human_date;
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.cover = cover;
-        this.index = index;
-        this.path = path;
-        this.full_path = full_path;
-        this.lang = lang;
-        this.color_primary = color_primary;
-        this.color_primary_dark = color_primary_dark;
-    }
 }
 

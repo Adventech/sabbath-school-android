@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.data.di
 
 import com.cryart.sabbathschool.ui.account.AccountDialogFragment
+import com.cryart.sabbathschool.ui.languages.LanguagesListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -31,4 +32,7 @@ abstract class FragmentBindings {
 
     @ContributesAndroidInjector
     abstract fun bindAccountDialogFragment(): AccountDialogFragment
+
+    @ContributesAndroidInjector
+    abstract fun bindLanguagesListFragment(): LanguagesListFragment
 }

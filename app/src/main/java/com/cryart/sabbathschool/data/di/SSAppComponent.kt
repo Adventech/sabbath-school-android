@@ -23,9 +23,9 @@
 package com.cryart.sabbathschool.data.di
 
 import com.cryart.sabbathschool.SSApplication
-import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
+import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
@@ -38,16 +38,8 @@ import javax.inject.Singleton
     FragmentBindings::class,
     ViewModelBindings::class
 ])
-interface SSAppComponent {
+interface SSAppComponent : AndroidInjector<SSApplication> {
 
-    @Component.Builder
-    interface Builder {
-
-        @BindsInstance
-        fun application(app: SSApplication): Builder
-
-        fun build(): SSAppComponent
-    }
-
-    fun inject(app: SSApplication)
+    @Component.Factory
+    abstract class Factory : AndroidInjector.Factory<SSApplication>
 }

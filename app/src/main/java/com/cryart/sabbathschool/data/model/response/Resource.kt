@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,16 +20,31 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool;
+package com.cryart.sabbathschool.data.model.response
 
-import android.app.Application;
-import android.test.ApplicationTestCase;
+import com.cryart.sabbathschool.data.model.Status
+import com.cryart.sabbathschool.data.model.Status.ERROR
+import com.cryart.sabbathschool.data.model.Status.LOADING
+import com.cryart.sabbathschool.data.model.Status.SUCCESS
 
-/**
- * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
- */
-public class ApplicationTest extends ApplicationTestCase<Application> {
-    public ApplicationTest() {
-        super(Application.class);
+class Resource<out T> private constructor(val status: Status = LOADING,
+                                          val data: T?,
+                                          val error: Throwable?) {
+
+    val isSuccessFul: Boolean get() = data != null
+
+    companion object {
+
+        fun <T> success(data: T): Resource<T> {
+            return Resource(SUCCESS, data, null)
+        }
+
+        fun <T> error(error: Throwable): Resource<T> {
+            return Resource(ERROR, null, error)
+        }
+
+        fun <T> loading(): Resource<T> {
+            return Resource(LOADING, null, null)
+        }
     }
 }

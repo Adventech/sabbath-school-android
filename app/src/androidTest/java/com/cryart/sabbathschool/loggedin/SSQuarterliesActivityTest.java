@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,18 +25,15 @@ package com.cryart.sabbathschool.loggedin;
 
 import android.os.SystemClock;
 import androidx.test.rule.ActivityTestRule;
-
 import com.cryart.sabbathschool.R;
-import com.cryart.sabbathschool.view.SSQuarterliesActivity;
+import com.cryart.sabbathschool.ui.quarterlies.QuarterliesActivity;
 import com.google.firebase.auth.FirebaseAuth;
-
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
 import tools.fastlane.screengrab.Screengrab;
 import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy;
 import tools.fastlane.screengrab.locale.LocaleTestRule;
@@ -53,14 +50,14 @@ public class SSQuarterliesActivityTest {
     public static final LocaleTestRule localeTestRule = new LocaleTestRule();
 
     @Rule
-    public ActivityTestRule<SSQuarterliesActivity> activityRule = new ActivityTestRule<>(SSQuarterliesActivity.class);
+    public ActivityTestRule<QuarterliesActivity> activityRule = new ActivityTestRule<>(QuarterliesActivity.class);
 
 
     @Before
-    public void loginAsAnonymous(){
+    public void loginAsAnonymous() {
         FirebaseAuth ssFirebaseAuth = FirebaseAuth.getInstance();
 
-        if (ssFirebaseAuth.getCurrentUser() == null){
+        if (ssFirebaseAuth.getCurrentUser() == null) {
             ssFirebaseAuth.signInAnonymously();
         }
     }
