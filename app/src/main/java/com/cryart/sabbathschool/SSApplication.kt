@@ -23,9 +23,8 @@ package com.cryart.sabbathschool
 
 import android.content.Context
 import android.graphics.Bitmap
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.answers.Answers
 import com.cryart.sabbathschool.data.di.DaggerSSAppComponent
+import com.cryart.sabbathschool.extensions.CrashlyticsTree
 import com.google.firebase.database.FirebaseDatabase
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.ImageLoader
@@ -33,7 +32,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
-import io.fabric.sdk.android.Fabric
 import net.danlew.android.joda.JodaTimeAndroid
 import timber.log.Timber
 
@@ -44,6 +42,8 @@ class SSApplication : DaggerApplication() {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+        } else {
+            Timber.plant(CrashlyticsTree())
         }
 
         instance = this
@@ -51,8 +51,6 @@ class SSApplication : DaggerApplication() {
         JodaTimeAndroid.init(this)
 
         FirebaseDatabase.getInstance().setPersistenceEnabled(true)
-
-        Fabric.with(this, Crashlytics(), Answers())
 
         val displayImageOptions = DisplayImageOptions.Builder()
                 .displayer(RoundedBitmapDisplayer(20))

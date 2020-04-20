@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,10 +26,8 @@ package com.cryart.sabbathschool.view;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.databinding.DataBindingUtil;
-
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsMyHighlightsActivityBinding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
@@ -53,7 +51,7 @@ public class SSMyHighlightsActivity extends SSColorSchemeActivity {
         binding.ssAppBar.toolbarTitle.setText(getString(R.string.ss_my_highlights));
         updateColorScheme();
 
-        SSEvent.track(SSConstants.SS_EVENT_HIGHLIGHTS_OPEN);
+        SSEvent.track(this, SSConstants.SS_EVENT_HIGHLIGHTS_OPEN);
     }
 
     private void updateColorScheme() {

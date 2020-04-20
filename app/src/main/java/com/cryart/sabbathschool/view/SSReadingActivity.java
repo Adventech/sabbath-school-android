@@ -23,22 +23,20 @@
 package com.cryart.sabbathschool.view;
 
 import android.content.SharedPreferences;
-import androidx.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.core.view.ViewCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.ActionBar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.crashlytics.android.Crashlytics;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.core.view.ViewCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager.widget.ViewPager;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.adapter.SSReadingSheetAdapter;
 import com.cryart.sabbathschool.adapter.SSReadingViewAdapter;
@@ -61,9 +59,9 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import java.io.File;
 import java.util.List;
+import timber.log.Timber;
 
 public class SSReadingActivity extends SSBaseActivity implements SSReadingViewModel.DataListener, ViewPager.OnPageChangeListener {
     private static final String TAG = SSReadingActivity.class.getSimpleName();
@@ -104,7 +102,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         ViewCompat.setNestedScrollingEnabled(binding.ssReadingSheetList, false);
 
         ssReadingViewModel = new SSReadingViewModel(this, this, getIntent().getExtras().getString(SSConstants.SS_LESSON_INDEX_EXTRA), getIntent().getExtras().getString(SSConstants.SS_READ_INDEX_EXTRA), binding);
-        ((SSReadingSheetAdapter)binding.ssReadingSheetList.getAdapter()).setReadingViewModel(ssReadingViewModel);
+        ((SSReadingSheetAdapter) binding.ssReadingSheetList.getAdapter()).setReadingViewModel(ssReadingViewModel);
 
         binding.ssReadingViewPager.setAdapter(new SSReadingViewAdapter(this, ssReadingViewModel));
         binding.ssReadingViewPager.addOnPageChangeListener(this);
@@ -115,13 +113,13 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         updateColorScheme();
     }
 
-    private void checkIfReaderNeeded(){
+    private void checkIfReaderNeeded() {
         latestReaderArtifactRef.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
             @Override
             public void onSuccess(StorageMetadata storageMetadata) {
                 long lastReaderArtifactCreationTime = prefs.getLong(SSConstants.SS_READER_ARTIFACT_CREATION_TIME, 0);
 
-                if (lastReaderArtifactCreationTime != storageMetadata.getCreationTimeMillis()){
+                if (lastReaderArtifactCreationTime != storageMetadata.getCreationTimeMillis()) {
                     downloadLatestReader(storageMetadata.getUpdatedTimeMillis());
                 }
             }
@@ -133,7 +131,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         });
     }
 
-    private void downloadLatestReader(final long readerArtifactCreationTime){
+    private void downloadLatestReader(final long readerArtifactCreationTime) {
         final File localFile = new File(getFilesDir(), SSConstants.SS_READER_ARTIFACT_NAME);
 
         latestReaderArtifactRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -153,7 +151,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         });
     }
 
-    public void updateColorScheme(){
+    public void updateColorScheme() {
         int primaryColor = Color.parseColor(SSColorTheme.getInstance().getColorPrimary());
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setContentScrimColor(primaryColor);
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setBackgroundColor(primaryColor);
@@ -179,13 +177,13 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.ss_reading_menu_share){
+        if (id == R.id.ss_reading_menu_share) {
             shareApp((String) getTitle());
-        } else if (id == R.id.ss_reading_menu_suggest_edit){
+        } else if (id == R.id.ss_reading_menu_suggest_edit) {
             ssReadingViewModel.promptForEditSuggestion();
-        } else if (id == R.id.ss_reading_menu_display_options){
+        } else if (id == R.id.ss_reading_menu_display_options) {
             ssReadingViewModel.onDisplayOptionsClick();
-        } else if (id == R.id.ss_reading_menu_settings){
+        } else if (id == R.id.ss_reading_menu_settings) {
             onSettingsClick();
         }
 
@@ -198,18 +196,18 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         try {
             ((BitmapDrawable) binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.getDrawable()).getBitmap().recycle();
         } catch (Exception e) {
-            Crashlytics.logException(e);
+            Timber.e(e);
         }
         super.onDestroy();
     }
 
     @Override
-    public void onLogoutEvent(){
+    public void onLogoutEvent() {
         finish();
     }
 
     @Override
-    public void onLessonInfoChanged(SSLessonInfo ssLessonInfo){
+    public void onLessonInfoChanged(SSLessonInfo ssLessonInfo) {
         final SSReadingSheetAdapter adapter = (SSReadingSheetAdapter) binding.ssReadingSheetList.getAdapter();
         adapter.setDays(ssLessonInfo.days);
         ImageLoader imageLoader = ImageLoader.getInstance();
@@ -225,13 +223,13 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
         adapter.notifyDataSetChanged();
     }
 
-    private void setPageTitleAndSubtitle(String title, String subTitle){
+    private void setPageTitleAndSubtitle(String title, String subTitle) {
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setTitle(title);
         binding.ssReadingAppBar.ssCollapsingToolbarSubtitle.setText(subTitle);
     }
 
     @Override
-    public void onReadsDownloaded(List<SSRead> ssReads, List<SSReadHighlights> ssReadHighlights, List<SSReadComments> ssReadComments, int ssReadIndex){
+    public void onReadsDownloaded(List<SSRead> ssReads, List<SSReadHighlights> ssReadHighlights, List<SSReadComments> ssReadComments, int ssReadIndex) {
         SSReadingViewAdapter ssReadingViewAdapter = (SSReadingViewAdapter) binding.ssReadingViewPager.getAdapter();
         ssReadingViewAdapter.setSSReads(ssReads);
         ssReadingViewAdapter.setSSReadComments(ssReadComments);
@@ -243,7 +241,7 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
 
     @Override
     public void onBackPressed() {
-        if (binding.ssReadingSheet.getVisibility() == View.VISIBLE){
+        if (binding.ssReadingSheet.getVisibility() == View.VISIBLE) {
             binding.getViewModel().onMenuClick();
         } else {
             super.onBackPressed();

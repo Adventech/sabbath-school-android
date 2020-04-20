@@ -139,6 +139,13 @@
         <meta-data
             android:name="com.sec.android.support.multiwindow"
             android:value="true" />
+        <!-- Firebase -->
+        <meta-data
+            android:name="firebase_analytics_collection_deactivated"
+            android:value="true" />
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false" />
 
         <service
             android:name="com.cryart.sabbathschool.misc.SSReminderService"

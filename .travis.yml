@@ -22,8 +22,6 @@ before_install:
 - yes | sdkmanager "build-tools;28.0.3"
 
 script:
-- echo "apiKey=$FABRIC_API_KEY" >> app/fabric.properties
-- echo "apiSecret=$FABRIC_API_SECRET" >> app/fabric.properties
 - "./gradlew bundleDebug"
 - if [ "$TRAVIS_BRANCH" = "master" ]; then ./gradlew publishReleaseBundle; else ./gradlew
   bundleDebug; fi
