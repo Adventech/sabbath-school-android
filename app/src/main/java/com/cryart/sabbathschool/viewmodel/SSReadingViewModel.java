@@ -35,7 +35,6 @@ import android.widget.Toast;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.ObservableInt;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsReadingActivityBinding;
 import com.cryart.sabbathschool.misc.SSConstants;
@@ -158,7 +157,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                                 ssLessonLoadingVisibility.set(View.INVISIBLE);
                                 ssLessonCoordinatorVisibility.set(View.INVISIBLE);
                             } catch (Exception e) {
-                                Crashlytics.logException(e);
+                                Timber.e(e);
                             }
                         }
                     }
@@ -518,7 +517,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                     .child(ssReadHighlights.readIndex)
                     .setValue(ssReadHighlights);
 
-            SSEvent.track(SSConstants.SS_EVENT_TEXT_HIGHLIGHTED, new HashMap<String, Object>() {{
+            SSEvent.track(context, SSConstants.SS_EVENT_TEXT_HIGHLIGHTED, new HashMap<String, Object>() {{
                 put(SSConstants.SS_EVENT_PARAM_READ_INDEX, ssReads.get(ssReadingActivityBinding.ssReadingViewPager.getCurrentItem()).index);
             }});
         }
@@ -532,7 +531,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
                     .child(ssReadComments.readIndex)
                     .setValue(ssReadComments);
 
-            SSEvent.track(SSConstants.SS_EVENT_COMMENT_CREATED, new HashMap<String, Object>() {{
+            SSEvent.track(context, SSConstants.SS_EVENT_COMMENT_CREATED, new HashMap<String, Object>() {{
                 put(SSConstants.SS_EVENT_PARAM_READ_INDEX, ssReads.get(ssReadingActivityBinding.ssReadingViewPager.getCurrentItem()).index);
             }});
         }
@@ -557,7 +556,7 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         ssReadingDisplayOptionsView.setSSReadingViewModel(context, this, ssReadingDisplayOptions);
         ssReadingDisplayOptionsView.show(((SSReadingActivity) context).getSupportFragmentManager(), ssReadingDisplayOptionsView.getTag());
 
-        SSEvent.track(SSConstants.SS_EVENT_READ_OPTIONS_OPEN, new HashMap<String, Object>() {{
+        SSEvent.track(context, SSConstants.SS_EVENT_READ_OPTIONS_OPEN, new HashMap<String, Object>() {{
             put(SSConstants.SS_EVENT_PARAM_READ_INDEX, ssReads.get(ssReadingActivityBinding.ssReadingViewPager.getCurrentItem()).index);
         }});
     }

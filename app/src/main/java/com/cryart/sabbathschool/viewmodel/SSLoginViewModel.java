@@ -31,7 +31,6 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableInt;
-import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.misc.SSEvent;
@@ -151,7 +150,6 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
     }
 
     private void loginFailed(String message) {
-        Crashlytics.log(message);
         Timber.e(message);
         Toast.makeText(context, context.getString(R.string.ss_login_failed), Toast.LENGTH_SHORT).show();
         this.ssLoginLoadingVisibility.set(View.INVISIBLE);
@@ -208,7 +206,9 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
                         }
                     }
 
-                    SSEvent.track(SSConstants.SS_EVENT_APP_OPEN);
+                    if (context != null) {
+                        SSEvent.track(context, SSConstants.SS_EVENT_APP_OPEN);
+                    }
 
                     openApp();
                 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,13 +29,11 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSBibleVerses;
 import com.cryart.sabbathschool.model.SSReadingDisplayOptions;
-
 import java.io.File;
+import timber.log.Timber;
 
 import static com.cryart.sabbathschool.view.SSReadingView.readFileFromAssets;
 import static com.cryart.sabbathschool.view.SSReadingView.readFileFromFiles;
@@ -67,13 +65,13 @@ public class SSBibleVersesView extends WebView {
         }
     }
 
-    public void loadVerse(SSBibleVerses bibleVersion, String verse){
+    public void loadVerse(SSBibleVerses bibleVersion, String verse) {
         String baseUrl = SSConstants.SS_READER_APP_BASE_URL;
 
         if (content_app == null) {
             final File indexFile = new File(getContext().getFilesDir() + "/index.html");
 
-            if (indexFile.exists()){
+            if (indexFile.exists()) {
                 baseUrl = "file:///" + getContext().getFilesDir() + "/";
                 content_app = readFileFromFiles(getContext().getFilesDir() + "/index.html");
             } else {
@@ -98,8 +96,8 @@ public class SSBibleVersesView extends WebView {
             content = content.replace("ss-wrapper-medium", "ss-wrapper-" + ssReadingDisplayOptions.size);
 
             loadDataWithBaseURL(baseUrl, content, "text/html", "utf-8", null);
-        } catch (Exception e){
-            Crashlytics.logException(e);
+        } catch (Exception e) {
+            Timber.e(e);
         }
     }
 }

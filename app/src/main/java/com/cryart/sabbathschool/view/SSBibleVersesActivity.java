@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,10 +30,8 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.SSApplication;
 import com.cryart.sabbathschool.adapter.SSBibleVersionsAdapter;
@@ -65,7 +63,7 @@ public class SSBibleVersesActivity extends AppCompatActivity {
         binding.ssBibleVersesHeader.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance().getColorPrimary()));
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-        SSEvent.track(SSConstants.SS_EVENT_BIBLE_OPEN);
+        SSEvent.track(this, SSConstants.SS_EVENT_BIBLE_OPEN);
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.keepSynced(true);

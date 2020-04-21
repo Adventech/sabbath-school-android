@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Adventech.
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,14 +22,13 @@
 
 package com.cryart.sabbathschool.misc;
 
-import com.crashlytics.android.Crashlytics;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import timber.log.Timber;
 
 public class SSUnzip {
     public SSUnzip(String zipFileLoc, String location) {
@@ -70,7 +69,7 @@ public class SSUnzip {
             }
             zipFile.close();
         } catch (Exception e) {
-            Crashlytics.logException(e);
+            Timber.e(e);
         }
     }
 }
