@@ -58,13 +58,13 @@
     <string name="ss_quarterlies_downloading">Getting quarterlies…</string>
     <string name="ss_quarterlies_error">Unknown error occurred. Please try again</string>
     <string name="ss_quarterlies_empty">It looks like there are no quarterlies at the moment</string>
-    <string name="ss_quarterlies_past">Past Quarters</string>
     <string name="ss_quarterly_item_read_text">Open</string>
 
     <string name="ss_lessons_downloading">Opening quarterly…</string>
     <string name="ss_lessons_error">Error occurred while opening quarterly</string>
     <string name="ss_lessons_empty">It looks like there are no lessons at the moment</string>
     <string name="ss_lessons_read">Read</string>
+    <string name="ss_lessons_previous">Previous lessons</string>
 
     <string name="ss_reading_empty">Looks like this lesson is empty. Please check back later</string>
     <string name="ss_reading_offline">You are offline. Reconnect to read this lesson</string>

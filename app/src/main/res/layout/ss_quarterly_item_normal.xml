@@ -42,7 +42,7 @@
             android:id="@+id/sectionTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/ss_quarterlies_past"
+            android:text="@string/ss_lessons_previous"
             android:fontFamily="@font/lato_medium"
             android:textAllCaps="true"
             android:paddingStart="@dimen/spacing_medium"
