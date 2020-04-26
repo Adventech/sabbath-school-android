@@ -79,7 +79,7 @@ class QuarterliesRepository(private val firebaseDatabase: FirebaseDatabase,
     }
 
     suspend fun getQuarterlies(languageCode: String? = null): Resource<List<SSQuarterly>> {
-        var code = ""
+        var code: String
         if (languageCode == null) {
             code = preferences.getString(SSConstants.SS_LAST_LANGUAGE_INDEX, Locale.getDefault().language)!!
             if (code == "iw") {

@@ -177,5 +177,5 @@ apply plugin: 'com.google.gms.google-services'
 
 play {
     serviceAccountCredentials = file("../keys/play_store_key.json")
-    track = "alpha"
+    defaultToAppBundles = true
 }
