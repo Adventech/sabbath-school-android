@@ -7,4 +7,5 @@
 /captures
 keystore.properties
 *.jks
-/fastlane/play_store_key.json
+keys/play_store_key.json
+*.aab
