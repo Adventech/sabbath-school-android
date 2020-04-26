@@ -22,16 +22,20 @@
 
 package com.cryart.sabbathschool.ui.lessons
 
+import android.content.SharedPreferences
+import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.cryart.sabbathschool.data.repository.QuarterliesRepository
 import com.cryart.sabbathschool.extensions.arch.SingleLiveEvent
+import com.cryart.sabbathschool.misc.SSConstants
 import com.cryart.sabbathschool.model.SSQuarterly
 import com.cryart.sabbathschool.viewmodel.ScopedViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class LessonsViewModel @Inject constructor(private val repository: QuarterliesRepository) : ScopedViewModel() {
+class LessonsViewModel @Inject constructor(private val repository: QuarterliesRepository,
+                                           private val preferences: SharedPreferences) : ScopedViewModel() {
 
     private val mutableQuarterlyTypes = MutableLiveData<List<String>>()
     val quarterlyTypesLiveData: LiveData<List<String>> get() = mutableQuarterlyTypes
@@ -55,6 +59,12 @@ class LessonsViewModel @Inject constructor(private val repository: QuarterliesRe
                             .filterNot { it.id == selected.id }
                             .map { it.quarterly_name }
                     mutableQuarterlyTypes.postValue(names.filterNotNull())
+
+                    val lastType = preferences.getString(SSConstants.SS_LAST_QUARTERLY_TYPE, null)
+                            ?: return@launch
+                    if (lastType != names.first()) {
+                        quarterlyTypeSelected(lastType)
+                    }
                 }
             }
         }
@@ -63,5 +73,8 @@ class LessonsViewModel @Inject constructor(private val repository: QuarterliesRe
     fun quarterlyTypeSelected(type: String) {
         val index = lessonTypes.find { it.quarterly_name == type }?.index ?: return
         mutableSelectedType.postValue(Pair(index, type))
+        preferences.edit {
+            putString(SSConstants.SS_LAST_QUARTERLY_TYPE, type)
+        }
     }
 }

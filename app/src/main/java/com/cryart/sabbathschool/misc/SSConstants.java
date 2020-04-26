@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -62,6 +62,7 @@ public class SSConstants {
 
     public static final String SS_LAST_LANGUAGE_INDEX = "ss_last_language_index";
     public static final String SS_LAST_QUARTERLY_INDEX = "ss_last_quarterly_index";
+    public static final String SS_LAST_QUARTERLY_TYPE = "ss_last_quarterly_type";
 
     public static final String SS_USER_NAME_INDEX = "ss_user_name_index";
     public static final String SS_USER_EMAIL_INDEX = "ss_user_email_index";

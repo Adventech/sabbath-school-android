@@ -31,6 +31,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.data.di.ViewModelFactory
 import com.cryart.sabbathschool.databinding.SsLessonsActivityBinding
@@ -75,15 +76,16 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
         binding.viewModel = ssLessonsViewModel
 
         viewModel.quarterlyTypesLiveData.observe(this, Observer { types ->
-            binding.lessonTypeContainer.isVisible = types.isNotEmpty()
-            if (types.isNotEmpty()) {
-                binding.lessonTypeTextView.text = types.first()
-                binding.lessonTypeContainer.setOnClickListener {
-                    val fragment = LessonTypesFragment.newInstance(types) {
-                        viewModel.quarterlyTypeSelected(it)
+            if (binding.ssLessonInfoList.childCount > 0) {
+                updateLessonTypesLabel(types)
+            } else {
+                adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                    override fun onChanged() {
+                        super.onChanged()
+                        adapter.unregisterAdapterDataObserver(this)
+                        updateLessonTypesLabel(types)
                     }
-                    fragment.show(supportFragmentManager, fragment.tag)
-                }
+                })
             }
         })
         viewModel.selectedTypeLiveData.observeNonNull(this) {
@@ -94,6 +96,19 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
             ssLessonsViewModel?.setSsQuarterlyIndex(newIndex)
         }
         viewModel.setQuarterlyIndex(index)
+    }
+
+    private fun updateLessonTypesLabel(types: List<String>) {
+        binding.lessonTypeContainer.isVisible = types.isNotEmpty()
+        if (types.isNotEmpty()) {
+            binding.lessonTypeTextView.text = types.first()
+            binding.lessonTypeContainer.setOnClickListener {
+                val fragment = LessonTypesFragment.newInstance(types) {
+                    viewModel.quarterlyTypeSelected(it)
+                }
+                fragment.show(supportFragmentManager, fragment.tag)
+            }
+        }
     }
 
     private fun updateColorScheme() {
