@@ -1,2 +1,2 @@
-json_key_file ("fastlane/play_store_key.json")
+json_key_file ("keys/play_store_key.json")
 package_name "com.cryart.sabbathschool" # e.g. com.krausefx.app
