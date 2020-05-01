@@ -1,0 +1,3 @@
+- Nuevo! Seleccione diferentes versiones de la lección.
+- Nueva interfaz de selección de idioma.
+- Corrección de errores y mejoras.

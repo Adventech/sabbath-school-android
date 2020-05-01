@@ -1,0 +1,3 @@
+- Yeni! Dersin farklı sürümlerini seçin.
+- Yeni dil seçim arayüzü.
+- Hata düzeltmeleri ve iyileştirmeler.

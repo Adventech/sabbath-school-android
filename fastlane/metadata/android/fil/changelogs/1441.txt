@@ -1,0 +1,3 @@
+- Bago! Pumili ng iba't ibang mga bersyon ng aralin.
+- interface ng pagpili ng bagong wika.
+- Pag-aayos ng bug at pagpapabuti.

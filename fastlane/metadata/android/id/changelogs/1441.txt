@@ -1,0 +1,3 @@
+- Baru! Pilih versi pelajaran yang berbeda.
+- Antarmuka pemilihan bahasa baru.
+- Perbaikan dan peningkatan bug.

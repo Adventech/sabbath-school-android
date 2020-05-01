@@ -1,0 +1,3 @@
+- Új! Válassza ki az óra különböző verzióit.
+- Új nyelvválasztó felület.
+- Hibajavítások és fejlesztések.

@@ -1,0 +1,3 @@
+- New! Select different versions of the lesson.
+- New language selection interface.
+- Bug fixes and improvements.
