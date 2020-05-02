@@ -4,7 +4,7 @@ phraseapp:
   file_format: "xml"
   push:
     sources:
-      - file: "./res/values-<locale_code>/strings.xml"
+      - file: "app/src/main/res/values-<locale_code>/strings.xml"
   pull:
     targets:
-      - file: "./res/values-<locale_code>/strings.xml"
+      - file: "app/src/main/res/values-<locale_code>/strings.xml"
