@@ -1,25 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2019 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
 <resources>
     <string name="ss_app_name">"Liksyon sa Paaralang Sabado"</string>
     <string name="ss_share">"Ibahagi"</string>
@@ -94,4 +73,12 @@
     <string name="ss_settings_reminder_text">"Oras na pag-aralan ang aralin sa Paaralan ng Sabbath"</string>
     <string name="ss_reading_offline">"Ikaw ay offline. Makipag-ugnayan muli upang basahin ang araling ito."</string>
     <string name="ss_reading_offline_retry">"Subukang muli"</string>
+    <string name="ss_about_text">"Ang Misyon ng Adventech ay una at pangunahin - magbigay kaluwalhatian sa ating Lᴏʀᴅ, ang Sinauna sa mga Araw. Kami ay dedikado na gawin ang aming ministeryo sa pamamagitan ng teknolohiya. Ang aming layunin ay upang makiisa sa aming Seventh-Day Adventist Church. Ang aming layunin ay upang ipahayag ang Mabuting Balita sa mundong ito sa pamamagitan ng teknolohiya at mga pagsulong sa komunikasyon. Ang aming layunin ay upang masaksihan ang Ikalawang Pagdating ni Jesus.
+
+Kami ay kinasihan ng halimbawa at pamamaraan ni Jesus, nang Siya ay naglingkod dito sa Lupa. Samakatuwid, kami ay nakatuon upang maihatid ang mataas na antas ng kalidad ng lahat ng aming mga proyekto sa ganap na walang gastos sa pag-ibig at dedikasyon. Nakatuon tayo na magbigay kaluwalhatian sa ating Ama, sapagkat Siya ay karapat-dapat sa pinakamataas na papuri.
+
+Talagang naniniwala kami na pinalaki ng Diyos ang kaalaman sa modernong mundo at nais naming gamitin ito para sa Kanyang kaluwalhatian upang ipahayag ang Kanyang pagbabalik sa hinaharap!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Mga nakaraang aralin"</string>
 </resources>
