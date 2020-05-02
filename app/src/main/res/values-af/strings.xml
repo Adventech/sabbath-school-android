@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2018 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
-
 <resources>
     <string name="ss_app_name">"Sabbatskool"</string>
     <string name="ss_share">"Deel"</string>
@@ -95,4 +73,12 @@
     <string name="ss_settings_reminder_text">"Tyd om die Sabbatskoolles te studeer"</string>
     <string name="ss_reading_offline">"Jy is vanlyn. Heraansluit om hierdie les te lees."</string>
     <string name="ss_reading_offline_retry">"Weer probeer"</string>
+    <string name="ss_about_text">"Missie van Adventech is in die eerste plek - gee eer aan ons Lᴏʀᴅ, die Antieke van Dae. Ons is toegewyd om ons bediening deur middel van tegnologie te doen. Ons doel is om ons Sewende-dag Adventiste Kerk te verenig. Ons doel is om goeie nuus aan hierdie wêreld te verkondig deur middel van tegnologie en vooruitgang in kommunikasie. Ons doel is om Jesus se wederkoms te getuig.
+
+Ons is geïnspireer deur die voorbeeld en metodes van Jesus toe Hy hier op aarde bedien het. Daarom is ons daartoe verbind om 'n hoë graad van gehalte van al ons projekte te lewer teen absoluut geen koste met liefde en toewyding nie. Ons is verbind om ons Vader eer te gee, omdat Hy die hoogste lof verdien.
+
+Ons glo werklik dat God die kennis van die moderne wêreld verhoog het en wil hê dat ons dit moet gebruik om Sy glorie te verkondig om Sy wederkoms gou te verkondig!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Vorige lesse"</string>
 </resources>
