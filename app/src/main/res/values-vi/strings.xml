@@ -1,25 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2019 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
 <resources>
     <string name="ss_app_name">"Bài học Sa-bát"</string>
     <string name="ss_share">"Chia sẻ"</string>
@@ -94,4 +73,12 @@
     <string name="ss_settings_reminder_text">"Thời gian để học bài Sabbath School"</string>
     <string name="ss_reading_offline">"Bạn đang offline. Kết nối lại để đọc bài học này."</string>
     <string name="ss_reading_offline_retry">"Thử lại"</string>
+    <string name="ss_about_text">"Sứ mệnh của Adventech là trên hết và trước hết - hãy mang lại vinh quang cho Lᴏʀᴅ của chúng ta, Ancient of Days. Chúng tôi được dành riêng để làm bộ của chúng tôi thông qua công nghệ. Mục tiêu của chúng tôi là hợp nhất Giáo hội Cơ Đốc Phục Lâm của chúng tôi. Mục tiêu của chúng tôi là loan báo Tin mừng cho thế giới này bằng công nghệ và những tiến bộ trong truyền thông. Mục tiêu của chúng tôi là chứng kiến Chúa Jesus Lần thứ hai đến.
+
+Chúng ta được truyền cảm hứng bởi tấm gương và phương pháp của Chúa Giêsu, khi Ngài khai thác ở đây trên Trái đất. Do đó, chúng tôi cam kết cung cấp mức độ cao về chất lượng của tất cả các dự án của chúng tôi hoàn toàn miễn phí với tình yêu và sự cống hiến. Chúng tôi cam kết ban vinh quang cho Cha của chúng tôi, bởi vì Ngài xứng đáng được ca ngợi cao nhất.
+
+Chúng tôi thực sự tin rằng Chúa đã gia tăng kiến thức về thế giới hiện đại và muốn chúng tôi sử dụng nó cho vinh quang của Ngài để tuyên bố sự trở lại sớm của Ngài!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Bài học trước"</string>
 </resources>
