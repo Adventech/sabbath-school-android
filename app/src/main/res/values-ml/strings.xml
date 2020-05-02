@@ -1,25 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2019 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
 <resources>
     <string name="ss_app_name">"ശബത്ത് സ്കൂൾ"</string>
     <string name="ss_share">"പങ്കിടുക"</string>
@@ -94,4 +73,12 @@
     <string name="ss_settings_reminder_text">"ശബ്ബത്ത് പാഠം പഠിക്കാനുള്ള സമയം"</string>
     <string name="ss_reading_offline">"നിങ്ങൾ ഓഫ്ലൈനിലാണ്. ഈ പാഠം വായിക്കാൻ വീണ്ടും കണക്റ്റുചെയ്യുക."</string>
     <string name="ss_reading_offline_retry">"വീണ്ടും ശ്രമിക്കുക"</string>
+    <string name="ss_about_text">"അഡ്വെഞ്ചെക്കിന്റെ ദൗത്യം ആദ്യത്തേതാണ്, നമ്മുടെ പുരാതന മഹത്വം, പുരാതന നാളുകളിൽ മഹത്വം നൽകുക. സാങ്കേതിക വിദ്യയിലൂടെ ഞങ്ങളുടെ ശുശ്രൂഷ ചെയ്യാൻ ഞങ്ങൾ സമർപ്പിച്ചിരിക്കുന്നു. ഞങ്ങളുടെ ഏഴാം ഡേ അഡ്വെൻട്ടിസ്റ്റ് സഭയെ ഒന്നിപ്പിക്കുക എന്നതാണ് ഞങ്ങളുടെ ലക്ഷ്യം. ആശയവിനിമയത്തിൽ സാങ്കേതികവിദ്യയും പുരോഗതികളും മുഖേന ഈ ലോകത്തിന് സുവാർത്ത അറിയിക്കുക എന്നതാണ് ഞങ്ങളുടെ ലക്ഷ്യം. യേശുവിന്റെ രണ്ടാമത്തെ വരവിനെക്കുറിച്ചു പറയുകയാണ് നമ്മുടെ ലക്ഷ്യം.
+
+ഭൂമിയിലെ ഇവിടെ അവൻ ശുശ്രൂഷ ചെയ്തപ്പോൾ യേശുവിൻറെ മാതൃകയും രീതികളും നമുക്ക് പ്രചോദനം നൽകുന്നു. അതുകൊണ്ടുതന്നെ ഞങ്ങളുടെ എല്ലാ പ്രോജക്റ്റുകളുടേയും ഗുണമേന്മയേറിയ ദാനവും സ്നേഹവും സമർപ്പണവുമൊക്കെയായി ഒരു പ്രത്യേക ചെലവും നൽകാൻ ഞങ്ങൾ പ്രതിജ്ഞാബദ്ധരാണ്. നമ്മുടെ പിതാവിനെ മഹത്ത്വപ്പെടുത്താൻ ഞങ്ങൾ പ്രതിജ്ഞാബദ്ധരാണ്. കാരണം, അവൻ അത്യധികം സ്തുത്യർഹിക്കുന്നവനാണ്.
+
+ആധുനിക ലോകത്തെക്കുറിച്ചുള്ള അറിവ് ദൈവം വർദ്ധിപ്പിച്ചിട്ടുണ്ടെന്നും, അവന്റെ മഹത്വത്തിനായി അവിടുത്തെ പെട്ടെന്നുതന്നെ മടികാണിക്കാൻ പ്രഖ്യാപിക്കണമെന്നും നാം വിശ്വസിക്കുന്നു."</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"മുമ്പത്തെ പാഠങ്ങൾ"</string>
 </resources>
