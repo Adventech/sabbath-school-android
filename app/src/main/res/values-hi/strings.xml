@@ -1,25 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2019 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
 <resources>
     <string name="ss_app_name">"सब्बाथ स्कूल"</string>
     <string name="ss_share">"शेयर"</string>
@@ -94,4 +73,12 @@
     <string name="ss_settings_reminder_text">"सब्बाथ स्कूल के पाठ का अध्ययन करने का समय"</string>
     <string name="ss_reading_offline">"आप ऑफलाइन हैं। इस पाठ को पढ़ने के लिए पुन: कनेक्ट करें।"</string>
     <string name="ss_reading_offline_retry">"पुन: प्रयास करें"</string>
+    <string name="ss_about_text">"Adventech का मिशन सबसे पहले और सबसे महत्वपूर्ण है - हमारे L the, प्राचीन के दिनों को गौरव प्रदान करें। हम प्रौद्योगिकी के माध्यम से अपना मंत्रालय करने के लिए समर्पित हैं। हमारा लक्ष्य हमारे सातवें दिन के एडवेंटिस्ट चर्च को एकजुट करना है। हमारा लक्ष्य संचार में प्रौद्योगिकी और प्रगति के माध्यम से इस दुनिया को गुड न्यूज घोषित करना है। हमारा लक्ष्य यीशु के द्वितीय आगमन का साक्षी है।
+
+हम यीशु के उदाहरण और तरीकों से प्रेरित हैं, जब वह पृथ्वी पर यहाँ था। इसलिए, हम प्रेम और समर्पण के साथ अपनी सभी परियोजनाओं की उच्च स्तर की गुणवत्ता को पूरी तरह से देने के लिए प्रतिबद्ध हैं। हम अपने पिता को महिमा देने के लिए प्रतिबद्ध हैं, क्योंकि वह सबसे अधिक प्रशंसा के योग्य हैं।
+
+हम वास्तव में विश्वास करते हैं कि भगवान ने आधुनिक दुनिया के ज्ञान में वृद्धि की है और हम चाहते हैं कि हम उनकी महिमा के लिए इसका उपयोग उनकी जल्द वापसी की घोषणा करें!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"पिछला पाठ"</string>
 </resources>
