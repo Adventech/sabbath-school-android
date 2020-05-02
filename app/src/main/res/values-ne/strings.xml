@@ -1,25 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2019 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
 <resources>
     <string name="ss_app_name">"सब्बाथ स्कूल"</string>
     <string name="ss_share">"साझेदारी गर्नुहोस्"</string>
@@ -94,4 +73,12 @@
     <string name="ss_settings_reminder_text">"सब्बाथ स्कूलको पाठ पढ्ने समय"</string>
     <string name="ss_reading_offline">"तपाईं अफलाइन हुनुहुन्छ। यो पाठ पढ्न पुनः जोड्नुहोस्।"</string>
     <string name="ss_reading_offline_retry">"पुन: प्रयास गर्नुहोस्"</string>
+    <string name="ss_about_text">"Adventech को मिशन पहिलो र अग्रणी हो - हाम्रो Lᴏʀᴅ, पुरातन दिन को लागि महिमा दिनुहोस्। हामी प्रविधि मार्फत हाम्रो सेवकाईलाई समर्पित छौं। हाम्रो लक्ष्य हाम्रो सातौं दिन एडभेस्टिस्ट चर्च एकताबद्ध हुनु हो। हाम्रो लक्ष्य टेक्नोलोजी र संचार मा प्रगति को माध्यम ले यस दुनिया को सुसमाचार को घोषणा को छ। हाम्रो लक्ष्य येशूलाई दोस्रो आगमन आउँदैछ।
+
+हामी येशूको उदाहरण र तरिकाहरूबाट प्रेरित हुन्छौं, जब उहाँले यहाँ पृथ्वीमा सेवा गर्नुभयो। यसैले, हामी सबै हाम्रो परियोजनाहरु को उच्च स्तर को गुणवत्ता को पूरा र प्रेम र समर्पण संग कुनै लागत मा गुणवत्ता प्रदान गर्न प्रतिबद्ध छ। हामी हाम्रो पितालाई महिमा दिन प्रतिबद्ध छौं, किनभने उहाँ सर्वोच्चको प्रशंसाको योग्य हुनुहुन्छ।
+
+हामी साँच्चै विश्वास गर्छौं कि परमेश्वरले आधुनिक संसारको ज्ञान बढाउनुभयो र उहाँका चाँडै उहाँको पुनरुत्थानको घोषणा गर्न उहाँको महिमाको प्रयोग गर्न चाहन्छ!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"अघिल्लो पाठ"</string>
 </resources>
