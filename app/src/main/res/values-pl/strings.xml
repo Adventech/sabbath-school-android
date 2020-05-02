@@ -73,4 +73,12 @@
     <string name="ss_settings_reminder_text">"Czas na naukę lekcji Szkoła Sobotnia"</string>
     <string name="ss_reading_offline">"Jesteś odłączony od sieci. Połącz się, aby przeczytać tę lekcję."</string>
     <string name="ss_reading_offline_retry">"Spróbuj ponownie"</string>
+    <string name="ss_about_text">"Misją Adventech jest przede wszystkim - oddaj chwałę naszemu Lᴏʀᴅ, Przedwiecznemu. Jesteśmy oddani sprawowaniu naszej posługi poprzez technologię. Naszym celem jest zjednoczenie naszego Kościoła Adwentystów Dnia Siódmego. Naszym celem jest głoszenie Dobrej Nowiny temu światu za pomocą technologii i postępów w komunikacji. Naszym celem jest świadczyć o Powtórnym Przyjściu Jezusa.
+
+Inspiruje nas przykład i metody Jezusa, gdy służył tu na ziemi. Dlatego jesteśmy zobowiązani do dostarczania wysokiej jakości wszystkich naszych projektów bez żadnych kosztów z miłością i poświęceniem. Jesteśmy zobowiązani oddać chwałę naszemu Ojcu, ponieważ On jest godny najwyższego uwielbienia.
+
+Naprawdę wierzymy, że Bóg zwiększył wiedzę o współczesnym świecie i chce, abyśmy użyli go dla Jego chwały, aby głosić Jego szybki powrót!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Poprzednie lekcje"</string>
 </resources>
