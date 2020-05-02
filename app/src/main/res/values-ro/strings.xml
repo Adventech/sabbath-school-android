@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2017 Adventech.
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
-
 <resources>
     <string name="ss_app_name">"Școala de Sabat"</string>
     <string name="ss_share">"Distribuie"</string>
@@ -95,4 +73,12 @@
     <string name="ss_settings_reminder_text">"Este timpul să studiezi lecția Școlii de Sabat"</string>
     <string name="ss_reading_offline">"Ești deconectat. Reconectați pentru a citi această lecție"</string>
     <string name="ss_reading_offline_retry">"Reîncercați"</string>
+    <string name="ss_about_text">"Misiunea Adventech este în primul rând - dăruiește gloria lui Dumnezeu, Îmbătrânitul de zile. Suntem dedicați lucrării noastre prin tehnologie. Scopul nostru este să unim Biserica Adventistă de Ziua a Șaptea. Scopul nostru este de a proclama Vestea Bună acestei lumi prin intermediul tehnologiei și progreselor în comunicare. Scopul nostru este să mărturisim a doua venire a lui Isus.
+
+Suntem inspirați de exemplul și metodele lui Isus, când El a slujit aici pe Pământ. Prin urmare, ne angajăm să oferim un grad ridicat de calitate a tuturor proiectelor noastre, fără nici un cost, cu dragoste și dedicație. Suntem hotărâți să dăm slavă Tatălui nostru, pentru că El este vrednic de cea mai înaltă laudă.
+
+Credem cu adevărat că Dumnezeu a mărit cunoașterea lumii moderne și dorește ca noi să o folosim pentru gloria Lui pentru a proclama revenirea Lui curând!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Lecții anterioare"</string>
 </resources>
