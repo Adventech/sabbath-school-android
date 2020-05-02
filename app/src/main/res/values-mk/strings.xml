@@ -1,25 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2019 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
 <resources>
     <string name="ss_app_name">"Сабат Училиште"</string>
     <string name="ss_share">"Сподели"</string>
@@ -94,4 +73,12 @@
     <string name="ss_settings_reminder_text">"Време е да ја проучуваш часот во саботата"</string>
     <string name="ss_reading_offline">"Вие сте присутен. Повторно поврзи се за да ја прочитате оваа лекција."</string>
     <string name="ss_reading_offline_retry">"Повтори"</string>
+    <string name="ss_about_text">"Мисијата на Adventech е прво и основно - даде слава на нашиот Lᴏʀᴅ, Античка на денови. Ние сме посветени да го извршуваме нашето министерство преку технологија. Нашата цел е да ја обединиме нашата адвентистичка црква од седмиот ден. Нашата цел е да проповедаме добра вест во овој свет со помош на технологија и достигнувања во комуникациите. Нашата цел е да го следиме Исусовото второ доаѓање.
+
+Ние сме инспирирани од примерот и методите на Исус, кога Тој служел овде на Земјата. Затоа, ние сме посветени да испорачаме висок степен на квалитет на сите наши проекти со апсолутно без трошоци со љубов и посветеност. Ние сме посветени да му оддадеме слава на нашиот Отец, зашто тој е достоен за највисоката фалба.
+
+Ние навистина веруваме дека Бог го зголеми познавањето на современиот свет и сака да го искористиме за Неговата слава за да го објавиме неговото брзо враќање!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Претходни лекции"</string>
 </resources>
