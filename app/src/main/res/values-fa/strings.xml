@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
-
 <resources>
     <string name="ss_app_name">"دانشکده سبت"</string>
     <string name="ss_share">"اشتراک گذاری"</string>
@@ -95,4 +73,12 @@
     <string name="ss_settings_reminder_text">"زمان برای مطالعه دانشکده سبت"</string>
     <string name="ss_reading_offline">"شما آفلاین هستید. دوباره به هم متصل به خواندن این درس"</string>
     <string name="ss_reading_offline_retry">"دوباره سعی کنید"</string>
+    <string name="ss_about_text">"ماموریت Adventech در درجه اول است - شکوه و عظمت را به Lᴏʀᴅ ما، باستانی روز. ما اختصاص داده شده به انجام وزارت ما را از طریق فن آوری است. هدف ما این است که برای متحد روز هفتم کلیسای ظهور ما است. هدف ما این است که اعلام خبر خوب به این جهان با استفاده از تکنولوژی و پیشرفت در ارتباطات است. هدف ما این است تا شاهد عیسی دوم آینده.
+
+ما را با مثال و روش عیسی مسیح، زمانی که او بر روی زمین خدمت الهام گرفته است. بنابراین، ما متعهد به ارائه درجه بالایی از کیفیت همه پروژه های ما در مطلقا هیچ هزینه با عشق و فداکاری. ما متعهد به شکوه و عظمت را به پدر ما، چرا که او شایسته بالاترین ستایش است.
+
+ما واقعا بر این باورند که خدا دانش از جهان مدرن افزایش یافته است و می خواهد ما را به استفاده از آن برای جلال او اعلام او به زودی بازگشت!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"دروس قبلی"</string>
 </resources>
