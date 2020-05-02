@@ -1,117 +1,84 @@
-<!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ss_app_name">Escuela Sabática</string>
+    <string name="ss_app_name">"Escuela Sabática"</string>
+    <string name="ss_share">"Compartir"</string>
+    <string name="ss_login_button_google">"Inicia sesión con Google"</string>
+    <string name="ss_login_button_facebook">"Inicia sesión con Facebook"</string>
+    <string name="ss_login_button_anonymous">"Continue anonymously"</string>
+    <string name="ss_menu_anonymous_name">"Anónimo"</string>
+    <string name="ss_menu_sign_out">"Desconectar"</string>
+    <string name="ss_menu_read_now">"Leer Ahora"</string>
+    <string name="ss_menu_share_app">"Compartir aplicación"</string>
+    <string name="ss_menu_share_app_text">"Echa un vistazo, estoy usando esta aplicación de la Escuela Sabática"</string>
+    <string name="ss_my_highlights">"Mis resaltados"</string>
+    <string name="ss_my_notes">"Mis comentarios"</string>
+    <string name="ss_settings">"Ajustes"</string>
+    <string name="ss_about">"Acerca de"</string>
+    <string name="ss_login_failed">"La conexión falló. Por favor, inténtelo de nuevo"</string>
+    <string name="ss_login_anonymously_dialog_positive">"Sí"</string>
+    <string name="ss_login_anonymously_dialog_negative">"No"</string>
+    <string name="ss_login_anonymously_dialog_title">"Iniciar sesión de forma anónima?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Al iniciar la sesión en forma anónima que no será capaz de sincronizar los datos, tales como comentarios y pone de relieve, a través de dispositivos o después de la desinstalación de la aplicación. ¿Seguro que desea continuar?"</string>
+    <string name="ss_quarterlies_filter_languages">"Filtrar Idiomas"</string>
+    <string name="ss_quarterlies_downloading">"Cómo trimestrales…"</string>
+    <string name="ss_quarterlies_error">"Se produjo un error desconocido. Por favor, inténtelo de nuevo"</string>
+    <string name="ss_quarterlies_empty">"Parece que no hay trimestrales en el momento"</string>
+    <string name="ss_quarterly_item_read_text">"Abrir"</string>
+    <string name="ss_lessons_downloading">"Apertura trimestral…"</string>
+    <string name="ss_lessons_error">"Se produjo un error al abrir trimestral"</string>
+    <string name="ss_lessons_empty">"Parece que no hay clases en el momento"</string>
+    <string name="ss_lessons_read">"Leer"</string>
+    <string name="ss_reading_empty">"Parece que esta lección está vacía. Por favor, vuelva más tarde"</string>
+    <string name="ss_reading_error">"Se ha producido un error al abrir la lección"</string>
+    <string name="ss_reading_downloading">"Descargando la lección para fuera de línea"</string>
+    <string name="ss_reading_suggest_edit">"Sugiere edición o corrección"</string>
+    <string name="ss_reading_suggest_edit_hint">"Por favor describa su corrección o sugerencia"</string>
+    <string name="ss_reading_suggest_edit_done">"Gracias! Tu sugerencia será revisado"</string>
+    <string name="ss_reading_comment">"Comentario"</string>
+    <string name="ss_reading_enter_comment">"Escriba su comentario"</string>
+    <string name="ss_reading_copied">"Selección copiada"</string>
+    <string name="ss_reading_share_to">"Compartir selección a:"</string>
 
-    <string name="ss_share">Compartir</string>
-
-    <string name="ss_login_button_google">Inicia sesión con Google</string>
-    <string name="ss_login_button_facebook">Inicia sesión con Facebook</string>
-    <string name="ss_login_button_anonymous">Continue anonymously</string>
-
-    <string name="ss_menu_anonymous_name">Anónimo</string>
-
-    <string name="ss_menu_sign_out">Desconectar</string>
-    <string name="ss_menu_read_now">Leer Ahora</string>
-    <string name="ss_menu_share_app">Compartir aplicación</string>
-    <string name="ss_menu_share_app_text">Echa un vistazo, estoy usando esta aplicación de la Escuela Sabática</string>
-
-    <string name="ss_my_highlights">Mis resaltados</string>
-    <string name="ss_my_notes">Mis comentarios</string>
-    <string name="ss_settings">Ajustes</string>
-    <string name="ss_about">Acerca de</string>
-
-    <string name="ss_login_failed">La conexión falló. Por favor, inténtelo de nuevo</string>
-    <string name="ss_login_anonymously_dialog_positive">Sí</string>
-    <string name="ss_login_anonymously_dialog_negative">No</string>
-    <string name="ss_login_anonymously_dialog_title">Iniciar sesión de forma anónima?</string>
-    <string name="ss_login_anonymously_dialog_description">Al iniciar la sesión en forma anónima que no será capaz de sincronizar los datos, tales como comentarios y pone de relieve, a través de dispositivos o después de la desinstalación de la aplicación. ¿Seguro que desea continuar?</string>
-
-    <string name="ss_quarterlies_filter_languages_prompt_title">Leer en más idiomas</string>
-    <string name="ss_quarterlies_filter_languages_prompt_description">Toque el icono de filtro para ver todos los idiomas disponibles</string>
-
-    <string name="ss_quarterlies_filter_languages">Filtrar Idiomas</string>
-    <string name="ss_quarterlies_downloading">Cómo trimestrales…</string>
-    <string name="ss_quarterlies_error">Se produjo un error desconocido. Por favor, inténtelo de nuevo</string>
-    <string name="ss_quarterlies_empty">Parece que no hay trimestrales en el momento</string>
-    <string name="ss_quarterly_item_read_text">Abrir</string>
-
-    <string name="ss_lessons_downloading">Apertura trimestral…</string>
-    <string name="ss_lessons_error">Se produjo un error al abrir trimestral</string>
-    <string name="ss_lessons_empty">Parece que no hay clases en el momento</string>
-    <string name="ss_lessons_read">Leer</string>
-
-    <string name="ss_reading_empty">Parece que esta lección está vacía. Por favor, vuelva más tarde</string>
-    <string name="ss_reading_offline">Estas desconectado. Vuelva a conectar para leer esta lección</string>
-    <string name="ss_reading_offline_retry">Rever</string>
-    <string name="ss_reading_downloading">Descargando la lección para fuera de línea</string>
-    <string name="ss_reading_error">Se ha producido un error al abrir la lección</string>
-
-    <string name="ss_reading_suggest_edit">Sugiere edición o corrección</string>
-    <string name="ss_reading_suggest_edit_hint">Por favor describa su corrección o sugerencia</string>
-    <string name="ss_reading_suggest_edit_done">Gracias! Tu sugerencia será revisado</string>
-    <string name="ss_reading_comment">Comentario</string>
-    <string name="ss_reading_enter_comment">Escriba su comentario</string>
-    <string name="ss_reading_copied">Selección copiada</string>
-    <string name="ss_reading_share_to">Compartir selección a:</string>
-    <string name="ss_bible">Biblia</string>
-
-    <!--TODO: remove when done-->
-    <string name="ss_coming_soon_header">Próximamente</string>
-    <string name="ss_coming_soon_subheader">Estamos trabajando en esta función en este momento. Manténgase en sintonía, que\'s próximamente</string>
-
-
-    <string name="ss_about_app_version">versión 3.0</string>
-
-    <string name="ss_about_made">Hecho con &#10084; por Adventech</string>
-
-    <string name="ss_settings_display_options">Opciones de visualización</string>
-    <string name="ss_settings_color_theme">Tema de color</string>
-    <string name="ss_settings_color_theme_light">Luz</string>
-    <string name="ss_settings_color_theme_sepia">Sepia</string>
-    <string name="ss_settings_color_theme_dark">Oscuro</string>
-
-    <string name="ss_settings_typeface">Tipo de letra</string>
-
-    <string name="ss_settings_font_size">Tamaño de fuente</string>
-    <string name="ss_settings_font_size_tiny">Minúsculo</string>
-    <string name="ss_settings_font_size_small">Pequeño</string>
-    <string name="ss_settings_font_size_medium">Medio</string>
-    <string name="ss_settings_font_size_large">Grande</string>
-    <string name="ss_settings_font_size_huge">Enorme</string>
-
-    <string name="ss_settings_reminder">Notificación Diaria</string>
-    <string name="ss_settings_reminder_summary">Haga clic para activar el envío de todos los días acerca de la lección de la Escuela Sabática</string>
-    <string name="ss_settings_reminder_time">Tiempo Notificación</string>
-    <string name="ss_settings_reminder_text">Tiempo para estudiar la Escuela Sabática</string>
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Próximamente"</string>
+    <string name="ss_coming_soon_subheader">"Estamos trabajando en esta función en este momento. Manténgase en sintonía, que's próximamente"</string>
+    <string name="ss_about_app_version">"versión 3.0"</string>
+    <string name="ss_about_made">"Hecho con ❤ por Adventech"</string>
+    <string name="ss_settings_display_options">"Opciones de visualización"</string>
+    <string name="ss_settings_color_theme">"Tema de color"</string>
+    <string name="ss_settings_color_theme_light">"Luz"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Oscuro"</string>
+    <string name="ss_settings_typeface">"Tipo de letra"</string>
+    <string name="ss_settings_font_size">"Tamaño de fuente"</string>
+    <string name="ss_settings_font_size_tiny">"Minúsculo"</string>
+    <string name="ss_settings_font_size_small">"Pequeño"</string>
+    <string name="ss_settings_font_size_medium">"Medio"</string>
+    <string name="ss_settings_font_size_large">"Grande"</string>
+    <string name="ss_settings_font_size_huge">"Enorme"</string>
 
     <!-- RATE APP -->
+    <string name="rate_dialog_title">"Tasa de la Escuela Sabática"</string>
+    <string name="rate_dialog_message">"Si te gusta la Escuela Sabática, ¿te importaría tomar un momento para evaluar ella? Gracias por su apoyo!"</string>
+    <string name="rate_dialog_ok">"Sí"</string>
+    <string name="rate_dialog_cancel">"Más tarde"</string>
+    <string name="rate_dialog_no">"No"</string>
+    <string name="ss_settings_website">"Sitio web"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Leer en más idiomas"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Toque el icono de filtro para ver todos los idiomas disponibles"</string>
+    <string name="ss_bible">"Biblia"</string>
+    <string name="ss_settings_reminder">"Notificación Diaria"</string>
+    <string name="ss_settings_reminder_summary">"Haga clic para activar el envío de todos los días acerca de la lección de la Escuela Sabática"</string>
+    <string name="ss_settings_reminder_time">"Tiempo Notificación"</string>
+    <string name="ss_settings_reminder_text">"Tiempo para estudiar la Escuela Sabática"</string>
+    <string name="ss_reading_offline">"Estas desconectado. Vuelva a conectar para leer esta lección"</string>
+    <string name="ss_reading_offline_retry">"Rever"</string>
+    <string name="ss_about_text">"La misión de Adventech es en primer lugar - dar gloria a nuestro Lᴏʀᴅ, el Anciano de los Días. Estamos dedicados a hacer nuestro ministerio a través de la tecnología. Nuestra meta es unir a nuestra Iglesia Adventista del Séptimo Día. Nuestro objetivo es proclamar Buenas Nuevas a este mundo mediante la tecnología y los avances en las comunicaciones. Nuestra meta es ser testigos de la Segunda Venida de Jesús.
 
-    <string name="rate_dialog_title">Tasa de la Escuela Sabática</string>
-    <string name="rate_dialog_message">Si te gusta la Escuela Sabática, ¿te importaría tomar un momento para evaluar ella? Gracias por su apoyo!</string>
-    <string name="rate_dialog_ok">Sí</string>
-    <string name="rate_dialog_cancel">Más tarde</string>
-    <string name="rate_dialog_no">No</string>
+Nos inspiran el ejemplo y los métodos de Jesús, cuando Él ministró aquí en la Tierra. Por lo tanto, estamos comprometidos a entregar alto grado de calidad de todos nuestros proyectos en absoluto sin costo con amor y dedicación. Estamos comprometidos a dar gloria a nuestro Padre, porque Él es digno de la más alta alabanza.
 
-    <string name="ss_settings_website">Sitio web</string>
+Realmente creemos que Dios ha aumentado el conocimiento del mundo moderno y quiere que lo usemos para Su gloria para proclamar Su pronto regreso!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Lecciones anteriores"</string>
 </resources>
