@@ -1,34 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2018 Adventech.
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
-
 <resources>
     <string name="ss_app_name">"안식일 학교"</string>
+
+    <!-- 앱 공유 -->
     <string name="ss_share">"공유"</string>
     <string name="ss_login_button_google">"Google로 로그인"</string>
     <string name="ss_login_button_facebook">"Facebook으로 로그인"</string>
     <string name="ss_login_button_anonymous">"익명으로 로그인"</string>
     <string name="ss_menu_anonymous_name">"익명"</string>
     <string name="ss_menu_sign_out">"로그 아웃"</string>
+
+    <!-- 바로읽기 -->
     <string name="ss_menu_read_now">"본문속으로"</string>
     <string name="ss_menu_share_app">"앱 공유"</string>
     <string name="ss_menu_share_app_text">"Adventech의 안식일 학교 앱을 사용하고 있습니다. 시도해 보세요"</string>
@@ -95,4 +77,12 @@
     <string name="ss_settings_reminder_text">"안식일 학교 교과를 공부할 시간."</string>
     <string name="ss_reading_offline">"지금 접속이 되지 않았습니다. 이 단원을 읽으려면 다시 연결하세요."</string>
     <string name="ss_reading_offline_retry">"다시 시도해 보세요"</string>
+    <string name="ss_about_text">"Adventech의 선교가 최우선입니다 - 고대의 시대 인 L to에게 영광을 돌리십시오. 우리는 기술을 통해 사역을 수행하기 위해 헌신하고 있습니다. 우리의 목표는 제 칠일 안식일 예수 재림 교회를 연합하는 것입니다. 우리의 목표는 커뮤니케이션 및 기술 발전을 통해이 세상에 복음을 선포하는 것입니다. 우리의 목표는 예수님의 재림을 목격하는 것입니다.
+
+우리는 예수님 께서 지상에서 사역하신 예수님의 본보기와 방법에 고무되어 있습니다. 따라서 우리는 사랑과 헌신으로 절대적으로 비용없이 모든 프로젝트의 높은 수준의 품질을 제공하기 위해 노력합니다. 우리는 하나님 아버지 께 영광을 돌리려고 헌신합니다. 그분은 최고의 찬양을 받으시기에 합당한 분이기 때문입니다.
+
+우리는 하나님 께서 현대 세계에 대한 지식을 높여 주셨고, 하나님의 영광을 위해 그것을 사용하여 그분의 곧 돌아 오라는 것을 선포하기를 원합니다!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"이전 레슨"</string>
 </resources>
