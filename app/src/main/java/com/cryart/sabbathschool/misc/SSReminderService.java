@@ -31,11 +31,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
-import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.ui.splash.SplashActivity;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
+import timber.log.Timber;
 
 public class SSReminderService extends JobService {
     @Override
@@ -75,13 +75,13 @@ public class SSReminderService extends JobService {
                             .addAction(0, context.getString(R.string.ss_menu_read_now), _SSPendingContentIntent)
                             .addAction(0, context.getString(R.string.ss_share), _SSPendingShareIntent)
                             .setAutoCancel(true)
-                            .setVibrate(new long[] {1000, 1000})
+                            .setVibrate(new long[]{1000, 1000})
                             .setContentIntent(_SSPendingContentIntent)
                             .setContentText(context.getString(R.string.ss_settings_reminder_text));
 
             _SSNotificationManager.notify(1, _SSNotificationBuilder.build());
         } catch (Exception e) {
-            Crashlytics.log(e.getMessage());
+            Timber.e(e);
         }
 
         return false; // Answers the question: "Is there still work going on?"

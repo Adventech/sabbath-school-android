@@ -1,0 +1,3 @@
+- Novi! Odaberite različite verzije lekcije.
+- Novo sučelje za odabir jezika.
+- ispravci programskih pogrešaka i poboljšanja.

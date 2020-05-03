@@ -1,25 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2019 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
 <resources>
     <string name="ss_app_name">"Biblíulexíur"</string>
     <string name="ss_share">"Deila"</string>
@@ -94,4 +73,12 @@
     <string name="ss_settings_reminder_text">"Tími til að læra hvíldardagskennsluna"</string>
     <string name="ss_reading_offline">"Þú ert ótengdur. Tengdu aftur til að lesa þessa lexíu."</string>
     <string name="ss_reading_offline_retry">"Reyndu aftur"</string>
+    <string name="ss_about_text">"Hlutverk Adventech er fyrst og fremst - gefðu Drottni okkar dýrð, hina fornu daga. Við erum hollur til að sinna þjónustu okkar með tækni. Markmið okkar er að sameina sjöunda daga aðventista kirkjuna okkar. Markmið okkar er að boða fagnaðarerindið fyrir þennan heim með tækni og framförum í samskiptum. Markmið okkar er að verða vitni að endurkomu Jesú.
+
+Við erum innblásin af fordæmi og aðferðum Jesú, þegar hann þjónaði hér á jörðu. Þess vegna erum við skuldbundin til að skila háum gæðaflokki allra verkefna okkar án alls kostnaðar með kærleika og hollustu. Við erum staðráðin í að veita föður okkar vegsemd því að hann er verðugur hinna æðstu lofs.
+
+Við trúum því sannarlega að Guð hafi aukið þekkingu á nútímanum og viljum að við notum það til dýrðar hans til að boða brátt endurkomu hans!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Fyrri kennslustundir"</string>
 </resources>

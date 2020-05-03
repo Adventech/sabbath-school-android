@@ -22,5 +22,10 @@
 
 package com.cryart.sabbathschool.data.model
 
+import com.google.firebase.database.IgnoreExtraProperties
+
+@IgnoreExtraProperties
 data class Language(val code: String,
-                    val name: String)
+                    val name: String) {
+    constructor() : this("", "")
+}

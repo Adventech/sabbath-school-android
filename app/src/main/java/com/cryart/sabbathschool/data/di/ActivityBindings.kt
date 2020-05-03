@@ -22,6 +22,8 @@
 
 package com.cryart.sabbathschool.data.di
 
+import com.cryart.sabbathschool.ui.lessons.SSLessonsActivity
+import com.cryart.sabbathschool.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.ui.splash.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -31,4 +33,10 @@ abstract class ActivityBindings {
 
     @ContributesAndroidInjector
     abstract fun bindSplashActivity(): SplashActivity
+
+    @ContributesAndroidInjector
+    abstract fun bindQuarterliesActivity(): QuarterliesActivity
+
+    @ContributesAndroidInjector
+    abstract fun bindLessonsActivity(): SSLessonsActivity
 }

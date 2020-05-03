@@ -1,0 +1,3 @@
+- Nou! Selectați diferite versiuni ale lecției.
+- Interfață nouă de selectare a limbii.
+- remedieri de erori și îmbunătățiri.

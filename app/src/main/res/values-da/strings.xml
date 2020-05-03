@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2018 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
-
 <resources>
     <string name="ss_app_name">"Bibelstudium"</string>
     <string name="ss_share">"Del"</string>
@@ -95,4 +73,12 @@
     <string name="ss_settings_reminder_text">"Læs dagens bibelstudie"</string>
     <string name="ss_reading_offline">"Du er offline. Forbind igen for at læse dette studie."</string>
     <string name="ss_reading_offline_retry">"Prøve igen"</string>
+    <string name="ss_about_text">"Adventechs mission er først og fremmest - giv ære til vor Lᴏʀᴅ, de gamle dage. Vi er dedikeret til at gøre vores ministerium gennem teknologi. Vores mål er at forene vores syvendedags adventistiske kirke. Vores mål er at proklamere gode nyheder til denne verden ved hjælp af teknologi og fremskridt inden for kommunikation. Vores mål er at vidne Jesu andet komme.
+
+Vi er inspireret af Jesu eksempel og metoder, da han tjente her på jorden. Derfor er vi forpligtet til at levere høj grad af kvalitet af alle vores projekter til absolut ingen omkostninger med kærlighed og engagement. Vi er forpligtet til at give ære til vor Fader, fordi han er den højeste af ros værd.
+
+Vi tror virkelig, at Gud har øget kendskabet til den moderne verden og vil have os til at bruge den til Hans herlighed for at forkynde hans snart tilbagevenden!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Tidligere lektioner"</string>
 </resources>

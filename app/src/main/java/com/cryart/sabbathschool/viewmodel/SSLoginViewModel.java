@@ -31,12 +31,11 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableInt;
-import com.crashlytics.android.Crashlytics;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.misc.SSEvent;
+import com.cryart.sabbathschool.ui.quarterlies.QuarterliesActivity;
 import com.cryart.sabbathschool.view.SSLoginActivity;
-import com.cryart.sabbathschool.view.SSQuarterliesActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -144,14 +143,13 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
 
     private void openApp() {
         Intent launchNextActivity;
-        launchNextActivity = new Intent(context, SSQuarterliesActivity.class);
+        launchNextActivity = new Intent(context, QuarterliesActivity.class);
         launchNextActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(launchNextActivity);
         ((SSLoginActivity) context).finish();
     }
 
     private void loginFailed(String message) {
-        Crashlytics.log(message);
         Timber.e(message);
         Toast.makeText(context, context.getString(R.string.ss_login_failed), Toast.LENGTH_SHORT).show();
         this.ssLoginLoadingVisibility.set(View.INVISIBLE);
@@ -208,7 +206,9 @@ public class SSLoginViewModel implements SSViewModel, FirebaseAuth.AuthStateList
                         }
                     }
 
-                    SSEvent.track(SSConstants.SS_EVENT_APP_OPEN);
+                    if (context != null) {
+                        SSEvent.track(context, SSConstants.SS_EVENT_APP_OPEN);
+                    }
 
                     openApp();
                 }

@@ -1,25 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2019 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
 <resources>
     <string name="ss_app_name">"ໂຮງຮຽນວັນບຸນ"</string>
     <string name="ss_share">"ແບ່ງປັນ"</string>
@@ -95,4 +74,12 @@
     <string name="ss_settings_reminder_text">"ເວລາທີ່ຈະສຶກສາບົດຮຽນຂອງວັນສະບາໂຕ"</string>
     <string name="ss_reading_offline">"ຄຸນຢູ່ໃນລະບົບ ລອງໃຫມ່ອີກຄັ້ງຕໍ່ມາ."</string>
     <string name="ss_reading_offline_retry">"ລອງອີກເທື່ອຫນຶ່ງ"</string>
+    <string name="ss_about_text">"ພາລະກິດຂອງ Adventech ແມ່ນຄັ້ງທໍາອິດແລະສໍາຄັນ - ໃຫ້ລັດສະຫມີພາບຂອງພຣະເຈົ້າຂອງພວກເຮົາ, ວັດຖຸບູຮານຂອງວັນ. ພວກເຮົາກໍາລັງອຸທິດຕົນເພື່ອເຮັດຫນ້າທີ່ຂອງພວກເຮົາຜ່ານເຕັກໂນໂລຢີ. ເປົ້າຫມາຍຂອງພວກເຮົາແມ່ນເພື່ອເປັນສະມາຊິກຂອງຄຣິສຕະຈັກຄຣິສຕະຈັກທີ່ເຈັດວັນ. ເປົ້າຫມາຍຂອງພວກເຮົາແມ່ນເພື່ອປະກາດຂ່າວດີຕໍ່ໂລກນີ້ໂດຍວິທີການເຕັກໂນໂລຢີແລະຄວາມກ້າວຫນ້າໃນການສື່ສານ. ເປົ້າຫມາຍຂອງພວກເຮົາແມ່ນເພື່ອເປັນພະຍານເຖິງການມາຄັ້ງທີສອງຂອງພະເຍຊູ.
+
+ພວກເຮົາໄດ້ຮັບການດົນໃຈໂດຍຕົວຢ່າງແລະວິທີການຂອງພຣະເຢຊູ, ໃນເວລາທີ່ພຣະອົງໄດ້ປະຕິບັດຢູ່ທີ່ນີ້ໃນໂລກ. ດັ່ງນັ້ນ, ພວກເຮົາກໍາລັງມຸ່ງຫມັ້ນທີ່ຈະໃຫ້ມີຄຸນນະພາບສູງຂອງໂຄງການຂອງພວກເຮົາທັງຫມົດໂດຍບໍ່ມີຄ່າໃຊ້ຈ່າຍທີ່ມີຄວາມຮັກແລະການອຸທິດ. ພວກເຮົາຫມັ້ນໃຈທີ່ຈະໃຫ້ລັດສະຫມີພາບແກ່ພຣະບິດາຂອງພວກເຮົາ, ເພາະວ່າພຣະອົງມີຄຸນຄ່າສູງທີ່ສຸດຂອງການສັນລະເສີນ.
+
+ພວກເຮົາມີຄວາມເຊື່ອແທ້ໆວ່າພຣະເຈົ້າໄດ້ເພີ່ມຄວາມຮູ້ກ່ຽວກັບໂລກທີ່ທັນສະໄຫມແລະຕ້ອງການໃຫ້ພວກເຮົານໍາໃຊ້ມັນສໍາລັບລັດສະຫມີພາບຂອງພຣະອົງເພື່ອປະກາດວ່າພຣະອົງຈະກັບມາໄວໆນີ້!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"ບົດຮຽນຜ່ານມາ"</string>
 </resources>

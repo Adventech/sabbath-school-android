@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2017 Adventech.
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
-
 <resources>
     <string name="ss_app_name">"Sekolah Sabat"</string>
     <string name="ss_share">"Bagikan"</string>
@@ -95,4 +73,12 @@
     <string name="ss_settings_reminder_text">"Waktu untuk belajar Sekolah Sabat"</string>
     <string name="ss_reading_offline">"Kamu offline. Hubungkan kembali untuk membaca pelajaran ini"</string>
     <string name="ss_reading_offline_retry">"Coba lagi"</string>
+    <string name="ss_about_text">"Misi dari Adventech yang pertama dan terutama adalah memberikan pujian kepada Tuhan kita. Kami mendedikasikan untuk melakukan pelayanan melalui teknologi. Tujuan kami adalah menyatukan Gereja Masehi Advent Hari Ketujuh. Tujuan kami adalah menyatakan Kabar Baik kepada dunia ini yang berarti teknologi dan kemajuan dalam berkomunikasi. Tujuan kami adalah menjadi saksi kedatangan Yesus yang kedua kali.
+
+Kami terinspirasi oleh contoh dan metode Yesus, ketika Dia melakukan pelayanan di dunia ini. Karena itu, kami berkomitmen untuk memberikan kualitas yang baik untuk semua proyek kami dan yang pasti gratis dan dengan kasih dan dedikasi. Kami berkomitmen untuk memberikan pujian kepada Bapa kita, karena Dia layak mendapatkan pujian tertinggi.
+
+Kami percaya bahwa Tuhan menambahkan pengetahuan tentang dunia modern dan ingin kita untuk menggunakannya untuk kepujianNya untuk menyatakan kedatanganNya kembali!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Pelajaran sebelumnya"</string>
 </resources>

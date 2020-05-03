@@ -249,4 +249,6 @@
     <dimen name="dialogPreferredPadding">24dp</dimen>
     <dimen name="dialogPreferredPaddingLarge">36dp</dimen> <!-- dialogPreferredPadding + 12dp -->
 
+    <dimen name="elevation_bottom_sheet">16dp</dimen>
+    <dimen name="peek_height_bottom_sheet_modal">1000dp</dimen>
 </resources>

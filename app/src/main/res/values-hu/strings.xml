@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2018 Adventech.
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
-
 <resources>
     <string name="ss_app_name">"Szombatiskola"</string>
     <string name="ss_share">"Ossza meg"</string>
@@ -95,4 +73,12 @@
     <string name="ss_settings_reminder_text">"A Szombatiskola tanulmányozásának ideje"</string>
     <string name="ss_reading_offline">"Offline vagy. Újracsatlakoztassa ezt a leckét."</string>
     <string name="ss_reading_offline_retry">"Próbálja újra"</string>
+    <string name="ss_about_text">"Az Adventech küldetése mindenekelőtt - dicsőséget ad az Lᴏʀᴅ, az ókori napoknak. Elkötelezettek vagyunk, hogy a minisztériumunkat a technológia segítségével végezzük. Célunk, hogy egyesítsük a hetednapi adventista egyházunkat. Célunk, hogy a hírújság és a kommunikáció fejlesztése révén hirdessük ezt a világhírét. Célunk Jézus második eljövetele.
+
+Jézus példája és módszerei inspiráltak minket, amikor a Földön szolgált. Ezért elkötelezettek vagyunk, hogy minden projektünk magas színvonalát a szeretet és elkötelezettség nélkül terheljük. Elkötelezettek vagyunk, hogy dicsõséget adunk Atyánknak, mert méltó a dicséret legmagasabb szintjére.
+
+Igazán hiszünk abban, hogy Isten megnövelte a modern világ tudását, és azt akarja, hogy az Ő dicsőségére használjuk, hogy hirdesse hamarosan visszatérését!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Korábbi órák"</string>
 </resources>

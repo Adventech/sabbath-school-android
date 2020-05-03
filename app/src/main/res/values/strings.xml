@@ -1,162 +1,84 @@
-<!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ss_app_name">Sabbath School</string>
+    <string name="ss_app_name">"Sabbath School"</string>
+    <string name="ss_share">"Share"</string>
+    <string name="ss_login_button_google">"Sign in with Google"</string>
+    <string name="ss_login_button_facebook">"Sign in with Facebook"</string>
+    <string name="ss_login_button_anonymous">"Continue without login"</string>
+    <string name="ss_menu_anonymous_name">"Anonymous"</string>
+    <string name="ss_menu_sign_out">"Sign Out"</string>
+    <string name="ss_menu_read_now">"Read Now"</string>
+    <string name="ss_menu_share_app">"Share App"</string>
+    <string name="ss_menu_share_app_text">"I am using this Sabbath School app. Check it out!"</string>
+    <string name="ss_my_highlights">"My Highlights"</string>
+    <string name="ss_my_notes">"My Notes"</string>
+    <string name="ss_settings">"Settings"</string>
+    <string name="ss_about">"About"</string>
+    <string name="ss_login_failed">"Login failed. Please try again"</string>
+    <string name="ss_login_anonymously_dialog_positive">"Yes"</string>
+    <string name="ss_login_anonymously_dialog_negative">"No"</string>
+    <string name="ss_login_anonymously_dialog_title">"Login anonymously?"</string>
+    <string name="ss_login_anonymously_dialog_description">"By logging in anonymously you will not be able to synchronize your data, such as comments and highlights, across devices or after uninstalling application. Are you sure you want to proceed?"</string>
+    <string name="ss_quarterlies_filter_languages">"Filter Languages"</string>
+    <string name="ss_quarterlies_downloading">"Getting quarterlies…"</string>
+    <string name="ss_quarterlies_error">"Unknown error occurred. Please try again"</string>
+    <string name="ss_quarterlies_empty">"It looks like there are no quarterlies at the moment"</string>
+    <string name="ss_quarterly_item_read_text">"Open"</string>
+    <string name="ss_lessons_downloading">"Opening quarterly…"</string>
+    <string name="ss_lessons_error">"Error occurred while opening quarterly"</string>
+    <string name="ss_lessons_empty">"It looks like there are no lessons at the moment"</string>
+    <string name="ss_lessons_read">"Read"</string>
+    <string name="ss_reading_empty">"Looks like this lesson is empty. Please check back later"</string>
+    <string name="ss_reading_error">"Error occurred while opening lesson"</string>
+    <string name="ss_reading_downloading">"Downloading lesson for offline"</string>
+    <string name="ss_reading_suggest_edit">"Suggest edit or correction"</string>
+    <string name="ss_reading_suggest_edit_hint">"Please describe your correction or suggestion"</string>
+    <string name="ss_reading_suggest_edit_done">"Thank you! Your suggestion will be reviewed"</string>
+    <string name="ss_reading_comment">"Comment"</string>
+    <string name="ss_reading_enter_comment">"Enter your comment"</string>
+    <string name="ss_reading_copied">"Selection copied."</string>
+    <string name="ss_reading_share_to">"Share selection to:"</string>
 
-    <string name="ss_share">Share</string>
-
-    <string name="ss_login_button_google">Sign in with Google</string>
-    <string name="ss_login_button_facebook">Sign in with Facebook</string>
-    <string name="ss_login_button_anonymous">Continue without login</string>
-
-    <string name="ss_menu_anonymous_name">Anonymous</string>
-    <string translatable="false" name="ss_menu_anonymous_email">anonymous@adventech.io</string>
-    <string name="ss_menu_sign_out">Sign Out</string>
-    <string name="ss_menu_read_now">Read Now</string>
-    <string name="ss_menu_share_app">Share App</string>
-    <string translatable="false" name="ss_menu_my_highlights">@string/ss_my_highlights</string>
-    <string translatable="false" name="ss_menu_my_notes">@string/ss_my_notes</string>
-    <string translatable="false" name="ss_menu_settings">@string/ss_settings</string>
-    <string translatable="false" name="ss_menu_about">@string/ss_about</string>
-    <string name="ss_menu_share_app_text">I am using this Sabbath School app. Check it out!</string>
-
-    <string name="ss_my_highlights">My Highlights</string>
-    <string name="ss_my_notes">My Notes</string>
-    <string name="ss_settings">Settings</string>
-    <string name="ss_about">About</string>
-
-    <string name="ss_login_failed">Login failed. Please try again</string>
-    <string name="ss_login_anonymously_dialog_positive">Yes</string>
-    <string name="ss_login_anonymously_dialog_negative">No</string>
-    <string name="ss_login_anonymously_dialog_title">Login anonymously?</string>
-    <string name="ss_login_anonymously_dialog_description">By logging in anonymously you will not be able to synchronize your data, such as comments and highlights, across devices or after uninstalling application. Are you sure you want to proceed?</string>
-
-    <string name="ss_quarterlies_filter_languages_prompt_title">Read in more languages</string>
-    <string name="ss_quarterlies_filter_languages_prompt_description">Tap the filter icon to see all available languages</string>
-
-    <string name="ss_quarterlies_filter_languages">Filter Languages</string>
-    <string name="ss_quarterlies_downloading">Getting quarterlies…</string>
-    <string name="ss_quarterlies_error">Unknown error occurred. Please try again</string>
-    <string name="ss_quarterlies_empty">It looks like there are not quarterlies at the moment</string>
-    <string name="ss_quarterly_item_read_text">Open</string>
-
-    <string name="ss_lessons_downloading">Opening quarterly…</string>
-    <string name="ss_lessons_error">Error occurred while opening quarterly</string>
-    <string name="ss_lessons_empty">It looks like there are no lessons at the moment</string>
-    <string name="ss_lessons_read">Read</string>
-
-    <string name="ss_reading_empty">Looks like this lesson is empty. Please check back later</string>
-    <string name="ss_reading_offline">You are offline. Reconnect to read this lesson</string>
-    <string name="ss_reading_offline_retry">Retry</string>
-    <string name="ss_reading_downloading">Downloading lesson for offline</string>
-    <string name="ss_reading_error">Error occurred while opening lesson</string>
-
-    <string name="ss_reading_suggest_edit">Suggest edit or correction</string>
-    <string name="ss_reading_suggest_edit_hint">Please describe your correction or suggestion</string>
-    <string name="ss_reading_suggest_edit_done">Thank you! Your suggestion will be reviewed</string>
-    <string name="ss_reading_comment">Comment</string>
-    <string name="ss_reading_enter_comment">Enter your comment</string>
-    <string name="ss_reading_copied">Selection copied.</string>
-    <string name="ss_reading_share_to">Share selection to:</string>
-
-    <string translatable="false" name="ss_reading_display_options_color_theme">@string/ss_settings_color_theme</string>
-    <string translatable="false" name="ss_reading_display_options_typeface">@string/ss_settings_typeface</string>
-    <string translatable="false" name="ss_reading_display_options_font_size">@string/ss_settings_font_size</string>
-
-    <string translatable="false" name="ss_reading_display_options_theme_light">@string/ss_settings_color_theme_light</string>
-    <string translatable="false" name="ss_reading_display_options_theme_sepia">@string/ss_settings_color_theme_sepia</string>
-    <string translatable="false" name="ss_reading_display_options_theme_dark">@string/ss_settings_color_theme_dark</string>
-
-    <string translatable="false" name="ss_reading_display_options_typeface_andada">@string/ss_settings_typeface_andada</string>
-    <string translatable="false" name="ss_reading_display_options_typeface_lato">@string/ss_settings_typeface_lato</string>
-    <string translatable="false" name="ss_reading_display_options_typeface_pt_serif">@string/ss_settings_typeface_pt_serif</string>
-    <string translatable="false" name="ss_reading_display_options_typeface_pt_sans">@string/ss_settings_typeface_pt_sans</string>
-    <string translatable="false" name="ss_reading_display_options_aa">Aa</string>
-
-    <string name="ss_bible">Bible</string>
-
-    <!--TODO: remove when done-->
-    <string name="ss_coming_soon_header">Coming Soon</string>
-    <string name="ss_coming_soon_subheader">We are working on this feature right now. Stay tuned, it\'s coming soon</string>
-
-
-    <string name="ss_about_app_version">version 3.0</string>
-    <string translatable="false" name="ss_about_facebook">@string/ss_settings_facebook</string>
-    <string translatable="false" name="ss_about_facebook_summary">@string/ss_settings_facebook_summary</string>
-    <string translatable="false" name="ss_about_instagram">@string/ss_settings_instagram</string>
-    <string translatable="false" name="ss_about_instagram_summary">@string/ss_settings_instagram_summary</string>
-    <string translatable="false" name="ss_about_github">@string/ss_settings_github</string>
-    <string translatable="false" name="ss_about_github_summary">@string/ss_settings_github_summary</string>
-
-    <string name="ss_about_made">Made with &#10084; by Adventech</string>
-
-    <string name="ss_settings_display_options">Display options</string>
-    <string name="ss_settings_color_theme">Color theme</string>
-    <string name="ss_settings_color_theme_light">Light</string>
-    <string name="ss_settings_color_theme_sepia">Sepia</string>
-    <string name="ss_settings_color_theme_dark">Dark</string>
-
-    <string name="ss_settings_typeface">Typeface</string>
-    <string translatable="false" name="ss_settings_typeface_andada">Andada</string>
-    <string translatable="false" name="ss_settings_typeface_lato">Lato</string>
-    <string translatable="false" name="ss_settings_typeface_pt_serif">PT Serif</string>
-    <string translatable="false" name="ss_settings_typeface_pt_sans">PT Sans</string>
-
-    <string name="ss_settings_font_size">Font size</string>
-    <string name="ss_settings_font_size_tiny">Tiny</string>
-    <string name="ss_settings_font_size_small">Small</string>
-    <string name="ss_settings_font_size_medium">Medium</string>
-    <string name="ss_settings_font_size_large">Large</string>
-    <string name="ss_settings_font_size_huge">Huge</string>
-
-    <string name="ss_settings_reminder">Daily Reminder</string>
-    <string name="ss_settings_reminder_summary">Check to enable daily Sabbath School lesson study reminder</string>
-    <string name="ss_settings_reminder_time">Reminder Time</string>
-    <string name="ss_settings_reminder_text">Time to study Sabbath School</string>
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Coming Soon"</string>
+    <string name="ss_coming_soon_subheader">"We are working on this feature right now. Stay tuned, it's coming soon"</string>
+    <string name="ss_about_app_version">"version 3.0"</string>
+    <string name="ss_about_made">"Made with ❤ by Adventech"</string>
+    <string name="ss_settings_display_options">"Display options"</string>
+    <string name="ss_settings_color_theme">"Color theme"</string>
+    <string name="ss_settings_color_theme_light">"Light"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Dark"</string>
+    <string name="ss_settings_typeface">"Typeface"</string>
+    <string name="ss_settings_font_size">"Font size"</string>
+    <string name="ss_settings_font_size_tiny">"Tiny"</string>
+    <string name="ss_settings_font_size_small">"Small"</string>
+    <string name="ss_settings_font_size_medium">"Medium"</string>
+    <string name="ss_settings_font_size_large">"Large"</string>
+    <string name="ss_settings_font_size_huge">"Huge"</string>
 
     <!-- RATE APP -->
+    <string name="rate_dialog_title">"Rate Sabbath School"</string>
+    <string name="rate_dialog_message">"If you like Sabbath School, would you mind taking a moment to rate it? Thanks for your support!"</string>
+    <string name="rate_dialog_ok">"Rate It"</string>
+    <string name="rate_dialog_cancel">"Later"</string>
+    <string name="rate_dialog_no">"No"</string>
+    <string name="ss_settings_website">"Website"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Read in more languages"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Tap the filter icon to see all available languages"</string>
+    <string name="ss_bible">"Bible"</string>
+    <string name="ss_settings_reminder">"Daily Reminder"</string>
+    <string name="ss_settings_reminder_summary">"Check to enable daily Sabbath School lesson study reminder"</string>
+    <string name="ss_settings_reminder_time">"Reminder Time"</string>
+    <string name="ss_settings_reminder_text">"Time to study Sabbath School"</string>
+    <string name="ss_reading_offline">"You are offline. Reconnect to read this lesson"</string>
+    <string name="ss_reading_offline_retry">"Retry"</string>
+    <string name="ss_about_text">"Mission of Adventech is first and foremost - give glory to our Lᴏʀᴅ, the Ancient of Days. We are dedicated to do our ministry through technology. Our goal is to unite our Seventh-Day Adventist Church. Our goal is to proclaim Good News to this world by means of technology and advancements in communications. Our goal is to witness Jesus’ Second Coming.
 
-    <string name="rate_dialog_title">Rate Sabbath School</string>
-    <string name="rate_dialog_message">If you like Sabbath School, would you mind taking a moment to rate it? Thanks for your support!</string>
-    <string name="rate_dialog_ok">Rate It</string>
-    <string name="rate_dialog_cancel">Later</string>
-    <string name="rate_dialog_no">No</string>
+We are inspired by the example and methods of Jesus, when He ministered here on Earth. Therefore, we are committed to deliver high degree of quality of all our projects at absolutely no cost with love and dedication. We are committed to give glory to our Father, because He is worthy of the highest of praise.
 
-    <string name="ss_settings_website">Website</string>
-    <string translatable="false" name="ss_settings_website_summary">adventech.io</string>
-    <string translatable="false" name="ss_settings_website_url">http://adventech.io</string>
-    <string translatable="false" name="ss_settings_facebook">Facebook</string>
-    <string translatable="false" name="ss_settings_facebook_summary">facebook.com/shabbatschool</string>
-    <string translatable="false" name="ss_settings_facebook_url">https://facebook.com/shabbatschool</string>
-    <string translatable="false" name="ss_settings_instagram">Instagram</string>
-    <string translatable="false" name="ss_settings_instagram_summary">\@adventech</string>
-    <string translatable="false" name="ss_settings_instagram_url">https://instagram.com/adventech</string>
-    <string translatable="false" name="ss_settings_github">GitHub</string>
-    <string translatable="false" name="ss_settings_github_summary">github.com/Adventech</string>
-    <string translatable="false" name="ss_settings_github_url">https://github.com/Adventech</string>
+We truly believe that God has increased the knowledge of the modern world and wants us to use it for His glory to proclaim His soon return!"</string>
 
-
-    <string translatable="false" name="facebook_app_id">1440555266255436</string>
-    <string translatable="false" name="fb_login_protocol_scheme">1440555266255436</string>
-    <string translatable="false" name="ss_quarterly_cover_transition">ssQuarterlyCoverTransition</string>
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Previous lessons"</string>
 </resources>

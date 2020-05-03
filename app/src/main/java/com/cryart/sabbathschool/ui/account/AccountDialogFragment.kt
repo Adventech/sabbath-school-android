@@ -23,7 +23,6 @@
 package com.cryart.sabbathschool.ui.account
 
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
@@ -35,24 +34,23 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.data.di.ViewModelFactory
-import com.cryart.sabbathschool.extensions.arch.getViewModel
 import com.cryart.sabbathschool.extensions.glide.GlideApp
 import com.cryart.sabbathschool.view.SSAboutActivity
 import com.cryart.sabbathschool.view.SSSettingsActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerAppCompatDialogFragment
 import javax.inject.Inject
 
-class AccountDialogFragment : AppCompatDialogFragment() {
+class AccountDialogFragment : DaggerAppCompatDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: AccountViewModel
+    private val viewModel: AccountViewModel by viewModels { viewModelFactory }
 
     private lateinit var rootView: View
 
@@ -77,15 +75,16 @@ class AccountDialogFragment : AppCompatDialogFragment() {
         return rootView
     }
 
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-
-        viewModel = getViewModel(this, viewModelFactory)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        if (showsDialog) {
+            (requireDialog() as AlertDialog).setView(rootView)
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         viewModel.userInfoLiveData.observe(viewLifecycleOwner, Observer {
             GlideApp.with(this)
@@ -98,14 +97,6 @@ class AccountDialogFragment : AppCompatDialogFragment() {
             userNameTextView.text = it.displayName ?: getString(R.string.ss_menu_anonymous_name)
             userEmailTextView.text = it.email ?: getString(R.string.ss_menu_anonymous_email)
         })
-
-        if (showsDialog) {
-            (requireDialog() as AlertDialog).setView(rootView)
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<View>(R.id.chip_sign_out).setOnClickListener {
             viewModel.logoutClicked()

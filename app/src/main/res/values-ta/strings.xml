@@ -1,25 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2019 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
 <resources>
     <string name="ss_app_name">"ஓய்வுநாட் பள்ளி"</string>
     <string name="ss_share">"பகிர்"</string>
@@ -94,4 +73,12 @@
     <string name="ss_settings_reminder_text">"சப்பாத்தின் பள்ளி பாடம் படிக்க நேரம்"</string>
     <string name="ss_reading_offline">"நீங்கள் ஆஃப்லைனில் இருக்கிறீர்கள். இந்த பாடம் படிக்க மீண்டும் இணைக்க."</string>
     <string name="ss_reading_offline_retry">"மீண்டும் முயற்சி செய்"</string>
+    <string name="ss_about_text">"Adventech மிஷன் முதல் மற்றும் முன்னணி உள்ளது - நம் L glory பெருமை, நாட்கள் பண்டைய. தொழில்நுட்பம் மூலம் எங்கள் ஊழியத்தை செய்ய அர்ப்பணிக்கிறோம். எமது குறிக்கோள் எங்கள் ஏழாவது நாள் அட்வென்டிஸ்ட் சர்ச்சையை ஐக்கியப்படுத்துகிறது. தொழில்நுட்பம் மற்றும் தகவல்தொடர்புகளில் முன்னேற்றங்கள் மூலம் இந்த உலகிற்கு நற்செய்தியை அறிவிப்பதுதான் எங்கள் குறிக்கோள். இயேசுவின் இரண்டாம் வருகைக்குச் சாட்சி கொடுப்பதே நம்முடைய குறிக்கோள்.
+
+இயேசு பூமியில் இங்கு பணிபுரிந்த சமயத்தில், இயேசுவின் முன்மாதிரியும், வழிமுறைகளும் நமக்கு ஊக்கமளிக்கின்றன. எனவே, நம் அனைவரின் திட்டத்திற்கும் உயர்ந்த தரம் வாய்ந்த தரமான அன்பையும் அர்ப்பணிப்புடனான செலவினத்தையும் வழங்குவதற்கு நாங்கள் கடமைப்பட்டுள்ளோம். நம்முடைய பிதாவை மகிமைப்படுத்துவதற்கு நாம் கடமைப்பட்டிருக்கிறோம், ஏனென்றால் அவர் புகழ் மிக உயர்ந்தவராக இருக்கிறார்.
+
+நவீன உலகின் அறிவை கடவுள் அதிகரிக்கிறார் என்று நாம் உண்மையிலேயே நம்புகிறோம், அவருடைய மகிமைக்காக அதை விரைவில் திரும்பப் பிரகடனம் செய்வதற்காக அதை பயன்படுத்த விரும்புகிறோம்!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"முந்தைய பாடங்கள்"</string>
 </resources>

@@ -1,98 +1,84 @@
-<!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in
-  ~ all copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  ~ THE SOFTWARE.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ss_app_name">Ecole du Sabbat</string>
-    <string name="ss_share">Partager</string>
-    <string name="ss_login_button_google">Connectez-vous avec Google</string>
-    <string name="ss_login_button_facebook">Connectez-vous avec Facebook</string>
-    <string name="ss_login_button_anonymous">Continuer anonymement</string>
-    <string name="ss_menu_anonymous_name">Anonyme</string>
-    <string name="ss_menu_sign_out">Se déconnecter</string>
-    <string name="ss_menu_read_now">Lisez maintenant</string>
-    <string name="ss_menu_share_app">Partager App</string>
-    <string name="ss_menu_share_app_text">Vérifiez, je suis en utilisant cette application Ecole du Sabbat</string>
-    <string name="ss_my_highlights">Mes Faits saillants</string>
-    <string name="ss_my_notes">Mes notes</string>
-    <string name="ss_settings">Paramètres</string>
-    <string name="ss_about">Sur</string>
-    <string name="ss_login_failed">Échec de la connexion. Veuillez réessayer</string>
-    <string name="ss_login_anonymously_dialog_positive">Oui</string>
-    <string name="ss_login_anonymously_dialog_negative">Non</string>
-    <string name="ss_login_anonymously_dialog_title">Connexion anonyme?</string>
-    <string name="ss_login_anonymously_dialog_description">En vous connectant anonymement vous ne serez pas en mesure de synchroniser vos données, tels que les commentaires et les faits saillants, à travers les dispositifs ou après la désinstallation de l\'application. Etes-vous sûr de vouloir continuer?</string>
-    <string name="ss_quarterlies_filter_languages_prompt_title">Lire dans plus de langues</string>
-    <string name="ss_quarterlies_filter_languages_prompt_description">Appuyez sur l\'icône de filtre pour afficher toutes les langues disponibles</string>
-    <string name="ss_quarterlies_filter_languages">Filtrer les langues</string>
-    <string name="ss_quarterlies_downloading">Téléchargement trimestrielle…</string>
-    <string name="ss_quarterlies_error">Une erreur inconnue s\'est produite. Veuillez réessayer</string>
-    <string name="ss_quarterlies_empty">On dirait qu\'il n\'y a pas trimestriels au moment</string>
-    <string name="ss_quarterly_item_read_text">Ouvert</string>
-    <string name="ss_lessons_downloading">Téléchargement trimestrielle…</string>
-    <string name="ss_lessons_error">Une erreur est survenue lors de l\'ouverture trimestrielle</string>
-    <string name="ss_lessons_empty">On dirait qu\'il n\'y a pas de leçons à l\'heure actuelle</string>
-    <string name="ss_lessons_read">Lire</string>
-    <string name="ss_reading_empty">On dirait que cette leçon est vide. S\'il vous plaît revenez plus tard</string>
-    <string name="ss_reading_offline">Tu es hors ligne. Rebranchez-vous pour lire cette leçon</string>
-    <string name="ss_reading_offline_retry">Recommencez</string>
-    <string name="ss_reading_downloading">Télécharger la leçon pour hors ligne</string>
-    <string name="ss_reading_error">Une erreur est survenue lors de l\'ouverture leçon</string>
-    <string name="ss_reading_suggest_edit">Proposer de modifier ou de correction</string>
-    <string name="ss_reading_suggest_edit_hint">S\'il vous plaît décrire votre correction ou suggestion</string>
-    <string name="ss_reading_suggest_edit_done">Je vous remercie! Votre suggestion sera examinée</string>
-    <string name="ss_reading_comment">Commentaire</string>
-    <string name="ss_reading_enter_comment">Entrez votre commentaire</string>
-    <string name="ss_reading_copied">Sélection copiée.</string>
-    <string name="ss_reading_share_to">Sélection Partager sur:</string>
-    <string name="ss_bible">Bible</string>
+    <string name="ss_app_name">"Ecole du Sabbat"</string>
+    <string name="ss_share">"Partager"</string>
+    <string name="ss_login_button_google">"Connectez-vous avec Google"</string>
+    <string name="ss_login_button_facebook">"Connectez-vous avec Facebook"</string>
+    <string name="ss_login_button_anonymous">"Continuer anonymement"</string>
+    <string name="ss_menu_anonymous_name">"Anonyme"</string>
+    <string name="ss_menu_sign_out">"Se déconnecter"</string>
+    <string name="ss_menu_read_now">"Lisez maintenant"</string>
+    <string name="ss_menu_share_app">"Partager App"</string>
+    <string name="ss_menu_share_app_text">"Vérifiez, je suis en utilisant cette application Ecole du Sabbat"</string>
+    <string name="ss_my_highlights">"Mes Faits saillants"</string>
+    <string name="ss_my_notes">"Mes notes"</string>
+    <string name="ss_settings">"Paramètres"</string>
+    <string name="ss_about">"Sur"</string>
+    <string name="ss_login_failed">"Échec de la connexion. Veuillez réessayer"</string>
+    <string name="ss_login_anonymously_dialog_positive">"Oui"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Non"</string>
+    <string name="ss_login_anonymously_dialog_title">"Connexion anonyme?"</string>
+    <string name="ss_login_anonymously_dialog_description">"En vous connectant anonymement vous ne serez pas en mesure de synchroniser vos données, tels que les commentaires et les faits saillants, à travers les dispositifs ou après la désinstallation de l'application. Etes-vous sûr de vouloir continuer?"</string>
+    <string name="ss_quarterlies_filter_languages">"Filtrer les langues"</string>
+    <string name="ss_quarterlies_downloading">"Téléchargement trimestrielle…"</string>
+    <string name="ss_quarterlies_error">"Une erreur inconnue s'est produite. Veuillez réessayer"</string>
+    <string name="ss_quarterlies_empty">"On dirait qu'il n'y a pas trimestriels au moment"</string>
+    <string name="ss_quarterly_item_read_text">"Ouvert"</string>
+    <string name="ss_lessons_downloading">"Téléchargement trimestrielle…"</string>
+    <string name="ss_lessons_error">"Une erreur est survenue lors de l'ouverture trimestrielle"</string>
+    <string name="ss_lessons_empty">"On dirait qu'il n'y a pas de leçons à l'heure actuelle"</string>
+    <string name="ss_lessons_read">"Lire"</string>
+    <string name="ss_reading_empty">"On dirait que cette leçon est vide. S'il vous plaît revenez plus tard"</string>
+    <string name="ss_reading_error">"Une erreur est survenue lors de l'ouverture leçon"</string>
+    <string name="ss_reading_downloading">"Télécharger la leçon pour hors ligne"</string>
+    <string name="ss_reading_suggest_edit">"Proposer de modifier ou de correction"</string>
+    <string name="ss_reading_suggest_edit_hint">"S'il vous plaît décrire votre correction ou suggestion"</string>
+    <string name="ss_reading_suggest_edit_done">"Je vous remercie! Votre suggestion sera examinée"</string>
+    <string name="ss_reading_comment">"Commentaire"</string>
+    <string name="ss_reading_enter_comment">"Entrez votre commentaire"</string>
+    <string name="ss_reading_copied">"Sélection copiée."</string>
+    <string name="ss_reading_share_to">"Sélection Partager sur:"</string>
 
     <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">Arrive bientôt</string>
-    <string name="ss_coming_soon_subheader">Nous travaillons sur cette fonctionnalité dès maintenant. Restez à l\'écoute, il est à venir bientôt</string>
-    <string name="ss_about_app_version">version 3.0</string>
-    <string name="ss_about_made">Fabriqué avec &#10084; par Adventech</string>
-    <string name="ss_settings_display_options">Option d\'affichage</string>
-    <string name="ss_settings_color_theme">Thème de couleur</string>
-    <string name="ss_settings_color_theme_light">Lumière</string>
-    <string name="ss_settings_color_theme_sepia">Sépia</string>
-    <string name="ss_settings_color_theme_dark">Foncé</string>
-    <string name="ss_settings_typeface">Typeface</string>
-    <string name="ss_settings_font_size">Taille de police</string>
-    <string name="ss_settings_font_size_tiny">Minuscule</string>
-    <string name="ss_settings_font_size_small">Petit</string>
-    <string name="ss_settings_font_size_medium">Moyen</string>
-    <string name="ss_settings_font_size_large">Grand</string>
-    <string name="ss_settings_font_size_huge">Énorme</string>
-
-    <string name="ss_settings_reminder">Notification Journalière</string>
-    <string name="ss_settings_reminder_summary">Vérifiez pour activer la notification quotidienne propos leçon d\'école du sabbat</string>
-    <string name="ss_settings_reminder_time">Heure de Notification</string>
-    <string name="ss_settings_reminder_text">Le temps d\'étudier l\'école du Sabbat</string>
+    <string name="ss_coming_soon_header">"Arrive bientôt"</string>
+    <string name="ss_coming_soon_subheader">"Nous travaillons sur cette fonctionnalité dès maintenant. Restez à l'écoute, il est à venir bientôt"</string>
+    <string name="ss_about_app_version">"version 3.0"</string>
+    <string name="ss_about_made">"Fabriqué avec ❤ par Adventech"</string>
+    <string name="ss_settings_display_options">"Option d'affichage"</string>
+    <string name="ss_settings_color_theme">"Thème de couleur"</string>
+    <string name="ss_settings_color_theme_light">"Lumière"</string>
+    <string name="ss_settings_color_theme_sepia">"Sépia"</string>
+    <string name="ss_settings_color_theme_dark">"Foncé"</string>
+    <string name="ss_settings_typeface">"Typeface"</string>
+    <string name="ss_settings_font_size">"Taille de police"</string>
+    <string name="ss_settings_font_size_tiny">"Minuscule"</string>
+    <string name="ss_settings_font_size_small">"Petit"</string>
+    <string name="ss_settings_font_size_medium">"Moyen"</string>
+    <string name="ss_settings_font_size_large">"Grand"</string>
+    <string name="ss_settings_font_size_huge">"Énorme"</string>
 
     <!-- RATE APP -->
-    <string name="rate_dialog_title">Taux Ecole du Sabbat</string>
-    <string name="rate_dialog_message">Si vous aimez l\'école du Sabbat, cela vous dérangerait de prendre un moment pour noter? Merci de votre soutien!</string>
-    <string name="rate_dialog_ok">Il Tarif</string>
-    <string name="rate_dialog_cancel">Plus tard</string>
-    <string name="rate_dialog_no">Non</string>
-    <string name="ss_settings_website">Site Internet</string>
+    <string name="rate_dialog_title">"Taux Ecole du Sabbat"</string>
+    <string name="rate_dialog_message">"Si vous aimez l'école du Sabbat, cela vous dérangerait de prendre un moment pour noter? Merci de votre soutien!"</string>
+    <string name="rate_dialog_ok">"Il Tarif"</string>
+    <string name="rate_dialog_cancel">"Plus tard"</string>
+    <string name="rate_dialog_no">"Non"</string>
+    <string name="ss_settings_website">"Site Internet"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Lire dans plus de langues"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Appuyez sur l'icône de filtre pour afficher toutes les langues disponibles"</string>
+    <string name="ss_bible">"Bible"</string>
+    <string name="ss_settings_reminder">"Notification Journalière"</string>
+    <string name="ss_settings_reminder_summary">"Vérifiez pour activer la notification quotidienne propos leçon d'école du sabbat"</string>
+    <string name="ss_settings_reminder_time">"Heure de Notification"</string>
+    <string name="ss_settings_reminder_text">"Le temps d'étudier l'école du Sabbat"</string>
+    <string name="ss_reading_offline">"Tu es hors ligne. Rebranchez-vous pour lire cette leçon"</string>
+    <string name="ss_reading_offline_retry">"Recommencez"</string>
+    <string name="ss_about_text">"La mission d'Adventech est d'abord et avant tout - glorifie notre Lᴏʀᴅ, l'Ancien des Jours. Nous sommes dévoués à faire notre ministère grâce à la technologie. Notre objectif est d'unir notre église adventiste du septième jour. Notre objectif est de proclamer Good News à ce monde grâce à la technologie et aux avancées dans les communications. Notre objectif est de témoigner de la seconde venue de Jésus.
+
+Nous nous inspirons de l'exemple et des méthodes de Jésus, lorsqu'il a servi ici sur terre. Par conséquent, nous nous sommes engagés à offrir un haut degré de qualité de tous nos projets à tout prix sans amour et dévouement. Nous nous engageons à faire la gloire à notre Père, parce qu'il est digne de la plus haute louange.
+
+Nous croyons vraiment que Dieu a augmenté la connaissance du monde moderne et veut que nous l'utilisions pour que sa gloire proclame son prochain retour!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Leçons précédentes"</string>
 </resources>
