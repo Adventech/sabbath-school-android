@@ -1,0 +1,3 @@
+- Novo! Selecione diferentes versões da lição.
+- Nova interface de seleção de idioma.
+- Correções de erros e melhorias.

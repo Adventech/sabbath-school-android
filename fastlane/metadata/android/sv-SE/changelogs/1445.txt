@@ -1,0 +1,3 @@
+- Nytt! Välj olika versioner av lektionen.
+- Nytt språkvalgränssnitt.
+- Bugfixar och förbättringar.

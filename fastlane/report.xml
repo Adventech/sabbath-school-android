@@ -27,22 +27,22 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: Verifying fastlane version" time="0.020318">
+      <testcase classname="fastlane.lanes" name="0: Verifying fastlane version" time="0.02349">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.001996">
+      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.002129">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: google_play_track_version_codes" time="2.176765">
+      <testcase classname="fastlane.lanes" name="2: google_play_track_version_codes" time="2.232868">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: supply" time="59.846602">
+      <testcase classname="fastlane.lanes" name="3: supply" time="32.870693">
         
       </testcase>
     

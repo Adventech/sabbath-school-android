@@ -25,7 +25,7 @@ platform :android do
 
   desc "Upload meta to the Google Play"
   lane :playmeta do
-    versions = google_play_track_version_codes(track: "production")
+    versions = google_play_track_version_codes(track: "beta")
     version_code = versions[0]
 
     supply(
