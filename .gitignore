@@ -9,3 +9,4 @@ keystore.properties
 *.jks
 keys/play_store_key.json
 *.aab
+app/crowdin.properties

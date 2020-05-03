@@ -46,4 +46,31 @@
     <string translatable="false" name="fb_login_protocol_scheme">1440555266255436</string>
     <string translatable="false" name="ss_quarterly_cover_transition">ssQuarterlyCoverTransition</string>
 
+    <string translatable="false" name="ss_menu_anonymous_email">anonymous@adventech.io</string>
+    <string translatable="false" name="ss_menu_my_highlights">@string/ss_my_highlights</string>
+    <string translatable="false" name="ss_menu_my_notes">@string/ss_my_notes</string>
+    <string translatable="false" name="ss_menu_settings">@string/ss_settings</string>
+    <string translatable="false" name="ss_menu_about">@string/ss_about</string>
+
+    <string translatable="false" name="ss_about_facebook">@string/ss_settings_facebook</string>
+    <string translatable="false" name="ss_about_facebook_summary">@string/ss_settings_facebook_summary</string>
+    <string translatable="false" name="ss_about_instagram">@string/ss_settings_instagram</string>
+    <string translatable="false" name="ss_about_instagram_summary">@string/ss_settings_instagram_summary</string>
+    <string translatable="false" name="ss_about_github">@string/ss_settings_github</string>
+    <string translatable="false" name="ss_about_github_summary">@string/ss_settings_github_summary</string>
+
+    <string translatable="false" name="ss_reading_display_options_color_theme">@string/ss_settings_color_theme</string>
+    <string translatable="false" name="ss_reading_display_options_typeface">@string/ss_settings_typeface</string>
+    <string translatable="false" name="ss_reading_display_options_font_size">@string/ss_settings_font_size</string>
+
+    <string translatable="false" name="ss_reading_display_options_theme_light">@string/ss_settings_color_theme_light</string>
+    <string translatable="false" name="ss_reading_display_options_theme_sepia">@string/ss_settings_color_theme_sepia</string>
+    <string translatable="false" name="ss_reading_display_options_theme_dark">@string/ss_settings_color_theme_dark</string>
+
+    <string translatable="false" name="ss_reading_display_options_typeface_andada">@string/ss_settings_typeface_andada</string>
+    <string translatable="false" name="ss_reading_display_options_typeface_lato">@string/ss_settings_typeface_lato</string>
+    <string translatable="false" name="ss_reading_display_options_typeface_pt_serif">@string/ss_settings_typeface_pt_serif</string>
+    <string translatable="false" name="ss_reading_display_options_typeface_pt_sans">@string/ss_settings_typeface_pt_sans</string>
+    <string translatable="false" name="ss_reading_display_options_aa">Aa</string>
+
 </resources>
