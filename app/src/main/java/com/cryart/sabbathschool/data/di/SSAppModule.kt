@@ -26,8 +26,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.cryart.sabbathschool.SSApplication
-import com.cryart.sabbathschool.data.api.RestClient
-import com.cryart.sabbathschool.data.api.SSApi
 import com.cryart.sabbathschool.data.repository.QuarterliesRepository
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
@@ -49,5 +47,5 @@ class SSAppModule {
     @Provides
     @Singleton
     fun provideRepository(firebaseDatabase: FirebaseDatabase, prefs: SharedPreferences): QuarterliesRepository =
-            QuarterliesRepository(firebaseDatabase, RestClient.createService(SSApi::class.java), prefs)
+            QuarterliesRepository(firebaseDatabase, prefs)
 }

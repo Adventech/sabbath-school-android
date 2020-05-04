@@ -23,7 +23,6 @@
 package com.cryart.sabbathschool.data.repository
 
 import android.content.SharedPreferences
-import com.cryart.sabbathschool.data.api.SSApi
 import com.cryart.sabbathschool.data.model.Language
 import com.cryart.sabbathschool.data.model.response.Resource
 import com.cryart.sabbathschool.misc.SSConstants
@@ -32,32 +31,16 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import timber.log.Timber
 import java.util.Locale
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class QuarterliesRepository(private val firebaseDatabase: FirebaseDatabase,
-                            private val ssApi: SSApi,
                             private val preferences: SharedPreferences) {
 
     suspend fun getLanguages(): Resource<List<Language>> {
         // Switch to API when we migrate
         return getLanguagesFirebase()
-    }
-
-    private suspend fun getLanguagesApi(): Resource<List<Language>> {
-        return try {
-            val response = ssApi.listLanguages()
-            if (response.isSuccessful && response.body() != null) {
-                Resource.success(response.body()!!)
-            } else {
-                Resource.error(Throwable())
-            }
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            Resource.error(ex)
-        }
     }
 
     private suspend fun getLanguagesFirebase(): Resource<List<Language>> {
