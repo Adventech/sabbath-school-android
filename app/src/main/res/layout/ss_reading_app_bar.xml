@@ -40,7 +40,7 @@
         app:elevation="@dimen/ss_app_bar_elevation"
         app:expanded="true">
 
-        <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/ss_reading_collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -95,6 +95,6 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
             </androidx.appcompat.widget.Toolbar>
-        </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 </layout>
