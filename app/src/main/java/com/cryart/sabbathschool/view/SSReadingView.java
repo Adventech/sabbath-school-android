@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,19 +44,15 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.view.GestureDetectorCompat;
-
 import com.cryart.sabbathschool.R;
-import com.cryart.sabbathschool.SSApplication;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.model.SSComment;
 import com.cryart.sabbathschool.model.SSRead;
 import com.cryart.sabbathschool.model.SSReadComments;
 import com.cryart.sabbathschool.model.SSReadHighlights;
 import com.cryart.sabbathschool.model.SSReadingDisplayOptions;
-import com.thefinestartist.finestwebview.FinestWebView;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,6 +60,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import timber.log.Timber;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
@@ -300,15 +297,14 @@ public class SSReadingView extends WebView {
         @SuppressWarnings("deprecation")
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            new FinestWebView.Builder(SSApplication.get()).show(url);
+            openExternalLink(view.getContext(), url);
             return true;
         }
 
         @TargetApi(Build.VERSION_CODES.N)
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            new FinestWebView.Builder(SSApplication.get()).show(request.getUrl().toString());
-
+            openExternalLink(view.getContext(), request.getUrl().toString());
             return true;
         }
 
@@ -319,6 +315,20 @@ public class SSReadingView extends WebView {
             updateReadingDisplayOptions();
             updateHighlights();
             updateComments();
+        }
+
+        private void openExternalLink(Context context, String url) {
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder()
+                    .setShowTitle(true)
+                    .enableUrlBarHiding()
+                    .setStartAnimations(context, R.anim.slide_up, android.R.anim.fade_out)
+                    .setExitAnimations(context, android.R.anim.fade_in, R.anim.slide_down);
+            try {
+                CustomTabsIntent intent = builder.build();
+                intent.launchUrl(context, Uri.parse(url));
+            } catch (Exception ex) {
+                Timber.e(ex);
+            }
         }
     }
 
