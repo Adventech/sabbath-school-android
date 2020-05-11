@@ -82,8 +82,7 @@
                     android:maxLines="1"
                     android:textAllCaps="true"
                     android:textColor="@color/colorSecondaryLighter"
-                    android:textSize="@dimen/ss_reading_app_bar_subtitle_size"
-                    android:textStyle="italic" />
+                    android:textSize="@dimen/ss_reading_app_bar_subtitle_size" />
 
             </RelativeLayout>
 
