@@ -136,6 +136,7 @@
     <dimen name="ss_lessons_toolbar_description_margin_top">20dp</dimen>
     <dimen name="ss_lessons_toolbar_description_margin_left">20dp</dimen>
     <dimen name="ss_lessons_toolbar_description_margin_right">40dp</dimen>
+    <dimen name="ss_lessons_toolbar_description_min_height">160dp</dimen>
     <dimen name="ss_lessons_toolbar_read_margin">20dp</dimen>
     <dimen name="ss_lessons_toolbar_read_min_width">140dp</dimen>
     <dimen name="ss_lessons_toolbar_read_border">0dp</dimen>
