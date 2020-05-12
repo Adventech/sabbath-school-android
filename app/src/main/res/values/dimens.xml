@@ -188,7 +188,7 @@
     <dimen name="ss_reading_sheet_item_date_text_size">12sp</dimen>
     
     <dimen name="ss_reading_toolbar_height">340dp</dimen>
-    <dimen name="ss_reading_toolbar_title_margin_bottom">98dp</dimen>
+    <dimen name="ss_reading_toolbar_title_margin_bottom">50dp</dimen>
     <dimen name="ss_reading_toolbar_title_margin_left">20dp</dimen>
     <dimen name="ss_reading_toolbar_date_margin_top">280dp</dimen>
     <dimen name="ss_reading_toolbar_date_margin_left">20dp</dimen>
