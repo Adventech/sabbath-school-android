@@ -44,11 +44,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleGravity="start|top"
+            app:expandedTitleGravity="start|bottom"
             app:expandedTitleMarginBottom="@dimen/ss_lessons_toolbar_title_margin_bottom"
             app:expandedTitleMarginStart="@dimen/ss_lessons_toolbar_title_margin_start"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
-            app:maxLines="2"
             app:collapsedTitleTextAppearance="@style/AppThemeAppBarTextStyle"
             app:expandedTitleTextAppearance="@style/AppThemeAppBarTextStyleExpanded"
             tools:title="Ezra and Nehemiah">
