@@ -48,7 +48,6 @@
             app:expandedTitleMarginBottom="@dimen/ss_lessons_toolbar_title_margin_bottom"
             app:expandedTitleMarginStart="@dimen/ss_lessons_toolbar_title_margin_start"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
-            app:maxLines="2"
             app:collapsedTitleTextAppearance="@style/AppThemeAppBarTextStyle"
             app:expandedTitleTextAppearance="@style/AppThemeAppBarTextStyleExpanded"
             tools:title="Ezra and Nehemiah">
@@ -101,6 +100,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/lato_regular"
                     android:maxLines="8"
+                    android:minHeight="@dimen/ss_lessons_toolbar_description_min_height"
                     android:text="@{viewModel.description}"
                     android:textColor="@android:color/white"
                     tools:text="@tools:sample/lorem/random" />

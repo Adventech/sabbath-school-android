@@ -51,7 +51,7 @@ android {
             minSdkVersion 16
             targetSdkVersion 29
             versionCode versionBuild
-            versionName "3.3." + versionBuild
+            versionName "3.4." + versionBuild
 
             vectorDrawables.useSupportLibrary = true
             testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -115,21 +115,21 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0-beta01'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha05'
+    implementation 'com.google.android.material:material:1.2.0-alpha06'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
     implementation "androidx.constraintlayout:constraintlayout:${versions.const_layout}"
-    implementation 'androidx.core:core-ktx:1.3.0-alpha02'
-    implementation "androidx.activity:activity-ktx:1.2.0-alpha03"
-    implementation "androidx.fragment:fragment-ktx:1.3.0-alpha03"
+    implementation 'androidx.core:core-ktx:1.3.0-rc01'
+    implementation "androidx.activity:activity-ktx:1.2.0-alpha04"
+    implementation "androidx.fragment:fragment-ktx:1.3.0-alpha04"
+    implementation 'androidx.browser:browser:1.2.0'
 
     // Firebase
-    implementation "com.google.android.gms:play-services-auth:17.0.0"
+    implementation "com.google.android.gms:play-services-auth:18.0.0"
     implementation "com.google.firebase:firebase-core:${versions.fb_core}"
     implementation "com.google.firebase:firebase-analytics:${versions.fb_analytics}"
     implementation "com.google.firebase:firebase-auth:${versions.fb_auth}"
     implementation "com.google.firebase:firebase-database:${versions.fb_database}"
-    implementation "com.google.firebase:firebase-database-ktx:${versions.fb_database}"
     implementation "com.google.firebase:firebase-storage:${versions.fb_storage}"
     implementation "com.google.firebase:firebase-storage-ktx:${versions.fb_storage}"
     implementation "com.google.firebase:firebase-messaging:${versions.fb_msg}"
@@ -141,12 +141,11 @@ dependencies {
     implementation "com.github.hotchemi:android-rate:1.0.1"
     implementation "org.apache.commons:commons-lang3:3.7"
     implementation "com.afollestad.material-dialogs:core:0.9.6.0"
-    implementation "net.danlew:android.joda:2.9.4.2"
+    implementation "net.danlew:android.joda:2.10.3"
     implementation "com.facebook.android:facebook-android-sdk:4.23.0"
     implementation "com.mikepenz:iconics-core:2.8.1@aar"
     implementation "com.mikepenz:google-material-typeface:2.2.0.3.original@aar"
     implementation "com.github.pwittchen:reactivenetwork:0.8.0"
-    implementation "com.thefinestartist:finestwebview:1.2.7"
     implementation "net.opacapp:multiline-collapsingtoolbar:1.4.0"
 
     // Glide
