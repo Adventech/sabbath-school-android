@@ -23,6 +23,8 @@ package com.cryart.sabbathschool
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.multidex.MultiDex
 import com.cryart.sabbathschool.data.di.DaggerSSAppComponent
 import com.cryart.sabbathschool.extensions.CrashlyticsTree
 import com.google.firebase.database.FirebaseDatabase
@@ -36,6 +38,11 @@ import net.danlew.android.joda.JodaTimeAndroid
 import timber.log.Timber
 
 class SSApplication : DaggerApplication() {
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -63,6 +70,7 @@ class SSApplication : DaggerApplication() {
                 .defaultDisplayImageOptions(displayImageOptions)
                 .build()
         ImageLoader.getInstance().init(config)
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
