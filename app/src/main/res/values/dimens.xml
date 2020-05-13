@@ -140,7 +140,7 @@
     <dimen name="ss_lessons_toolbar_read_margin">20dp</dimen>
     <dimen name="ss_lessons_toolbar_read_min_width">140dp</dimen>
     <dimen name="ss_lessons_toolbar_read_border">0dp</dimen>
-    <dimen name="ss_lessons_toolbar_read_radius">30dp</dimen>
+    <dimen name="ss_lessons_toolbar_read_radius">20dp</dimen>
 
     <dimen name="ss_lesson_item_content_padding_top">15dp</dimen>
     <dimen name="ss_lesson_item_content_padding_bottom">15dp</dimen>
