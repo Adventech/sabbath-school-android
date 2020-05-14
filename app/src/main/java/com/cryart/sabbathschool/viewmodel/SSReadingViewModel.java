@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.ObservableInt;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -373,11 +374,15 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         ssLessonCoordinatorVisibility = null;
     }
 
+    @Nullable
     private SSReadingView getCurrentSSReadingView() {
-        return ssReadingActivityBinding.ssReadingViewPager
-                .findViewWithTag("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager
-                        .getCurrentItem())
-                .findViewById(R.id.ss_reading_view);
+        View view = ssReadingActivityBinding.ssReadingViewPager
+                .findViewWithTag("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager.getCurrentItem());
+        if (view != null) {
+            return view.findViewById(R.id.ss_reading_view);
+        } else {
+            return null;
+        }
     }
 
     public void onMenuClick() {
@@ -583,38 +588,50 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
 
     public void unHighlightSelection() {
         SSReadingView ssReadingView = getCurrentSSReadingView();
-        ssReadingView.ssReadViewBridge.unHighlightSelection(highlightId);
-        ssReadingView.selectionFinished();
+        if (ssReadingView != null) {
+            ssReadingView.ssReadViewBridge.unHighlightSelection(highlightId);
+            ssReadingView.selectionFinished();
+        }
     }
 
     private void highlightSelection(String color) {
         SSReadingView ssReadingView = getCurrentSSReadingView();
-        ssReadingView.ssReadViewBridge.highlightSelection(color, highlightId);
-        ssReadingView.selectionFinished();
+        if (ssReadingView != null) {
+            ssReadingView.ssReadViewBridge.highlightSelection(color, highlightId);
+            ssReadingView.selectionFinished();
+        }
         highlightId = 0;
     }
 
     public void copy() {
         SSReadingView ssReadingView = getCurrentSSReadingView();
-        ssReadingView.ssReadViewBridge.copy();
-        ssReadingView.selectionFinished();
+        if (ssReadingView != null) {
+            ssReadingView.ssReadViewBridge.copy();
+            ssReadingView.selectionFinished();
+        }
     }
 
     public void paste() {
         SSReadingView ssReadingView = getCurrentSSReadingView();
-        ssReadingView.ssReadViewBridge.paste();
+        if (ssReadingView != null) {
+            ssReadingView.ssReadViewBridge.paste();
+        }
     }
 
     public void share() {
         SSReadingView ssReadingView = getCurrentSSReadingView();
-        ssReadingView.ssReadViewBridge.share();
-        ssReadingView.selectionFinished();
+        if (ssReadingView != null) {
+            ssReadingView.ssReadViewBridge.share();
+            ssReadingView.selectionFinished();
+        }
     }
 
     public void search() {
         SSReadingView ssReadingView = getCurrentSSReadingView();
-        ssReadingView.ssReadViewBridge.search();
-        ssReadingView.selectionFinished();
+        if (ssReadingView != null) {
+            ssReadingView.ssReadViewBridge.search();
+            ssReadingView.selectionFinished();
+        }
     }
 
     public void onSSReadingDisplayOptions(SSReadingDisplayOptions ssReadingDisplayOptions) {
@@ -628,9 +645,10 @@ public class SSReadingViewModel implements SSViewModel, SSReadingView.ContextMen
         editor.apply();
 
         SSReadingView ssReadingView = getCurrentSSReadingView();
-
-        ssReadingView.setReadingDisplayOptions(ssReadingDisplayOptions);
-        ssReadingView.updateReadingDisplayOptions();
+        if (ssReadingView != null) {
+            ssReadingView.setReadingDisplayOptions(ssReadingDisplayOptions);
+            ssReadingView.updateReadingDisplayOptions();
+        }
 
         for (int i = 0; i < this.ssTotalReadsCount; i++) {
             if (i == ssReadingActivityBinding.ssReadingViewPager.getCurrentItem()) continue;
