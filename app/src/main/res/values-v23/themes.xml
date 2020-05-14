@@ -29,4 +29,9 @@
         <item name="android:windowLightStatusBar">@bool/is_light_status</item>
         <item name="android:statusBarColor">?android:attr/windowBackground</item>
     </style>
+
+    <style name="GoogleSignInButtonStyle">
+        <item name="buttonSize">wide</item>
+        <item name="colorScheme">dark</item>
+    </style>
 </resources>

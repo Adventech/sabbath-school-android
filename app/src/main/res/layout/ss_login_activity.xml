@@ -112,10 +112,9 @@
 
                 <com.google.android.gms.common.SignInButton
                     android:id="@+id/ss_login_button_google"
+                    style="@style/GoogleSignInButtonStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:buttonSize="wide"
-                    app:colorScheme="dark" />
+                    android:layout_height="wrap_content" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/ss_login_fb_login_button"

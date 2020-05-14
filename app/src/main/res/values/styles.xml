@@ -111,4 +111,8 @@
         <item name="behavior_peekHeight">@dimen/peek_height_bottom_sheet_modal</item>
         <item name="behavior_skipCollapsed">true</item>
     </style>
+
+    <style name="GoogleSignInButtonStyle">
+        <item name="buttonSize">wide</item>
+    </style>
 </resources>

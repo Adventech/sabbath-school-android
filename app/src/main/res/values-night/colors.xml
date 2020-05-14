@@ -25,4 +25,5 @@
     <color name="list_divider">#1fffffff</color>
     <color name="colorBackground">#212121</color>
     <color name="text_primary">@android:color/white</color>
+    <color name="colorSecondaryDarker">@android:color/white</color>
 </resources>
