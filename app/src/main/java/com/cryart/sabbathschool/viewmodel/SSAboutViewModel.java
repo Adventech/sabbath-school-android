@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.viewmodel;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -51,6 +50,10 @@ public class SSAboutViewModel implements SSViewModel{
 
     public void onGitHubClick(){
         onLinkClick(context.getString(R.string.ss_settings_github_url));
+    }
+
+    public void onAdventechIoClick(){
+        onLinkClick(context.getString(R.string.ss_settings_website_url));
     }
 
     @Override

@@ -31,6 +31,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.DataBindingUtil;
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.databinding.SsAboutActivityBinding;
+import com.cryart.sabbathschool.databinding.SsAboutActivityV2Binding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.misc.SSEvent;
@@ -45,7 +46,7 @@ public class SSAboutActivity extends SSColorSchemeActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SsAboutActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.ss_about_activity);
+        SsAboutActivityV2Binding binding = DataBindingUtil.setContentView(this, R.layout.ss_about_activity_v2);
         setSupportActionBar(binding.ssAppBar.ssToolbar);
         ActionBar ssToolbar = getSupportActionBar();
         if (ssToolbar != null) {
@@ -58,8 +59,13 @@ public class SSAboutActivity extends SSColorSchemeActivity {
 
         int primaryColor = Color.parseColor(SSColorTheme.getInstance().getColorPrimary());
 
-        DrawableCompat.setTint(binding.ssLogo.getDrawable(), primaryColor);
-        binding.ssAppTitle.setTextColor(primaryColor);
+        /*
+            NOTE: to use in layout v1
+
+            DrawableCompat.setTint(binding.ssLogo.getDrawable(), primaryColor);
+            binding.ssAppTitle.setTextColor(primaryColor);
+        */
+        binding.linkTv.setTextColor(primaryColor);
         binding.ssAppBar.ssToolbar.setBackgroundColor(primaryColor);
 
         this.ssFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
