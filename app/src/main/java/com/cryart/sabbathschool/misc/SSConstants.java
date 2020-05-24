@@ -49,6 +49,7 @@ public class SSConstants {
     public static final String SS_COLOR_THEME_LAST_PRIMARY = "SS_COLOR_THEME_LAST_PRIMARY";
     public static final String SS_COLOR_THEME_LAST_PRIMARY_DARK = "SS_COLOR_THEME_LAST_PRIMARY_DARK";
 
+    public static final String SS_REMINDER_JOB_ID = "ss_reminder_job_id";
     public static final String SS_REMINDER_TIME_SETTINGS_FORMAT = "HH:mm";
     public static final String SS_SETTINGS_REMINDER_ENABLED_KEY = "ss_settings_reminder_enabled";
     public static final boolean SS_SETTINGS_REMINDER_ENABLED_DEFAULT_VALUE = true;

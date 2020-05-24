@@ -29,7 +29,7 @@ buildscript {
             'multidex'       : '2.0.1',
             'glide'          : '4.11.0',
             'timber'         : '4.7.1',
-            'const_layout'   : '2.0.0-beta4',
+            'const_layout'   : '2.0.0-beta6',
             'dagger'         : '2.27',
             'fb_analytics'   : '17.4.1',
             'fb_core'        : '17.4.1',
