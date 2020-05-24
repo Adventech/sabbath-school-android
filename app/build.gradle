@@ -102,6 +102,11 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:$versions.mockito"
+    testImplementation "org.mockito:mockito-inline:$versions.mockito"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation 'org.amshove.kluent:kluent-android:1.61'
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutines}"
 
     androidTestImplementation "tools.fastlane:screengrab:1.1.0"
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
