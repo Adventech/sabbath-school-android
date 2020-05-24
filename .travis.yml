@@ -22,7 +22,7 @@ before_install:
 - yes | sdkmanager "build-tools;28.0.3"
 
 script:
-  - "./gradlew test"
+  - "./gradlew bundleDebug"
   - if [ "$TRAVIS_BRANCH" = "master" ]; then ./gradlew publishReleaseBundle --track beta; fi
  #  - if [ "$TRAVIS_BRANCH" = "develop" ]; then ./gradlew publishReleaseBundle --track alpha; fi
 env:
