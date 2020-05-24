@@ -30,7 +30,10 @@ import com.cryart.sabbathschool.data.repository.QuarterliesRepository
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.Dispatchers
+import javax.inject.Named
 import javax.inject.Singleton
+import kotlin.coroutines.CoroutineContext
 
 @Module(includes = [FirebaseModule::class])
 class SSAppModule {
@@ -48,4 +51,9 @@ class SSAppModule {
     @Singleton
     fun provideRepository(firebaseDatabase: FirebaseDatabase, prefs: SharedPreferences): QuarterliesRepository =
             QuarterliesRepository(firebaseDatabase, prefs)
+
+    @Provides
+    @Singleton
+    @Named("backgroundCoroutineContext")
+    fun provideBackgroundCoroutineContext(): CoroutineContext = Dispatchers.IO
 }

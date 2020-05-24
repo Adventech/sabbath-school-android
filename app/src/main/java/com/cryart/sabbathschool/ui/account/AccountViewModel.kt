@@ -27,6 +27,7 @@ import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.cryart.sabbathschool.extensions.arch.asLiveData
 import com.cryart.sabbathschool.misc.SSConstants
 import com.cryart.sabbathschool.model.UserInfo
 import com.google.firebase.auth.FirebaseAuth
@@ -36,7 +37,7 @@ class AccountViewModel @Inject constructor(private val prefs: SharedPreferences,
                                            private val firebaseAuth: FirebaseAuth) : ViewModel() {
 
     private val mutableUserInfo = MutableLiveData<UserInfo>()
-    val userInfoLiveData: LiveData<UserInfo> get() = mutableUserInfo
+    val userInfoLiveData: LiveData<UserInfo> = mutableUserInfo.asLiveData()
 
     init {
         val name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, null)

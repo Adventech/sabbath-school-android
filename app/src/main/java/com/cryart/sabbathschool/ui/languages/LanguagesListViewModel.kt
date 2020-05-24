@@ -25,21 +25,27 @@ package com.cryart.sabbathschool.ui.languages
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cryart.sabbathschool.data.repository.QuarterliesRepository
+import com.cryart.sabbathschool.extensions.arch.asLiveData
 import com.cryart.sabbathschool.misc.SSConstants
-import com.cryart.sabbathschool.viewmodel.ScopedViewModel
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
+import javax.inject.Named
+import kotlin.coroutines.CoroutineContext
 
 class LanguagesListViewModel @Inject constructor(private val repository: QuarterliesRepository,
-                                                 private val preferences: SharedPreferences) : ScopedViewModel() {
+                                                 private val preferences: SharedPreferences,
+                                                 @Named("backgroundCoroutineContext")
+                                                 private val backgroundContext: CoroutineContext) : ViewModel() {
 
     private val mutableLanguages = MutableLiveData<List<LanguageModel>>()
-    val languagesLiveData: LiveData<List<LanguageModel>> get() = mutableLanguages
+    val languagesLiveData: LiveData<List<LanguageModel>> = mutableLanguages.asLiveData()
 
     init {
-        launch {
+        viewModelScope.launch(backgroundContext) {
             val resource = repository.getLanguages()
             if (resource.isSuccessFul) {
                 val selectedLanguage = preferences.getString(
@@ -52,7 +58,7 @@ class LanguagesListViewModel @Inject constructor(private val repository: Quarter
                             getNativeLanguageName(it.code),
                             it.name,
                             it.code == selectedLanguage)
-                }
+                } ?: emptyList()
                 mutableLanguages.postValue(models)
             }
         }
