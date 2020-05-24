@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.ui.account
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -47,9 +48,7 @@ class AccountViewModel @Inject constructor(private val prefs: SharedPreferences,
     }
 
     fun logoutClicked() {
-        prefs.edit()
-                .clear()
-                .apply()
+        prefs.edit { clear() }
         firebaseAuth.signOut()
     }
 }

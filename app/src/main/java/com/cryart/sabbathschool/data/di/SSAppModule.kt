@@ -24,7 +24,7 @@ package com.cryart.sabbathschool.data.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.cryart.sabbathschool.SSApplication
 import com.cryart.sabbathschool.data.repository.QuarterliesRepository
 import com.google.firebase.database.FirebaseDatabase
