@@ -41,6 +41,7 @@ import kotlinx.coroutines.test.setMain
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -51,6 +52,7 @@ import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 
 @RunWith(AndroidJUnit4::class)
+@Ignore
 class QuarterliesViewModelTest {
 
     @get:Rule
