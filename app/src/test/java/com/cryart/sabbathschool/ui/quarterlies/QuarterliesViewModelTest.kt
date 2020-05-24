@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.ui.quarterlies
 
 import android.content.SharedPreferences
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.cryart.sabbathschool.DefaultLocaleRule
 import com.cryart.sabbathschool.data.model.Status
 import com.cryart.sabbathschool.data.model.response.Resource
@@ -40,18 +41,16 @@ import kotlinx.coroutines.test.setMain
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 
-@RunWith(JUnit4::class)
+@RunWith(AndroidJUnit4::class)
 class QuarterliesViewModelTest {
 
     @get:Rule
@@ -125,11 +124,10 @@ class QuarterliesViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    @Ignore
     fun `should update selected language and quarterlies list`() = runBlockingTest {
         // given
         val states = viewModel.viewStatusLiveData.observeFuture()
-        val language = "de"
+        val language = DefaultLocaleRule.de().language
         `when`(mockRepository.getQuarterlies(language)).thenReturn(Resource.success(emptyList()))
 
         // when

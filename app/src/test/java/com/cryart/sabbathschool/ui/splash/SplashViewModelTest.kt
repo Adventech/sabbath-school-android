@@ -23,20 +23,20 @@
 package com.cryart.sabbathschool.ui.splash
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 
-@RunWith(JUnit4::class)
+@RunWith(AndroidJUnit4::class)
 class SplashViewModelTest {
 
     @get:Rule
