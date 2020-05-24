@@ -127,7 +127,7 @@ class QuarterliesViewModelTest {
     fun `should update selected language and quarterlies list`() = runBlockingTest {
         // given
         val states = viewModel.viewStatusLiveData.observeFuture()
-        val language = DefaultLocaleRule.de().language
+        val language = "de"
         `when`(mockRepository.getQuarterlies(language)).thenReturn(Resource.success(emptyList()))
 
         // when
