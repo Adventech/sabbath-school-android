@@ -25,7 +25,6 @@ package com.cryart.sabbathschool.ui.quarterlies
 import android.content.SharedPreferences
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.cryart.sabbathschool.DefaultLocaleRule
 import com.cryart.sabbathschool.data.model.Status
 import com.cryart.sabbathschool.data.model.response.Resource
 import com.cryart.sabbathschool.data.repository.QuarterliesRepository
@@ -41,7 +40,6 @@ import kotlinx.coroutines.test.setMain
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -52,7 +50,6 @@ import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 
 @RunWith(AndroidJUnit4::class)
-@Ignore
 class QuarterliesViewModelTest {
 
     @get:Rule
@@ -60,9 +57,6 @@ class QuarterliesViewModelTest {
 
     @get:Rule
     val mockitoRule: MockitoRule = MockitoJUnit.rule()
-
-    @get:Rule
-    var defaultLocaleRule: DefaultLocaleRule = DefaultLocaleRule.en()
 
     @Mock
     private lateinit var mockRepository: QuarterliesRepository
@@ -84,7 +78,7 @@ class QuarterliesViewModelTest {
 
         val code = "en"
         `when`(mockPreferences.edit()).thenReturn(mockPreferencesEditor)
-        `when`(mockPreferences.getString("ss_last_language_index", defaultLocaleRule.language)).thenReturn(defaultLocaleRule.language)
+        `when`(mockPreferences.getString("ss_last_language_index", code)).thenReturn(code)
         `when`(mockRepository.getQuarterlies(code)).thenReturn(Resource.success(emptyList()))
 
         viewModel = QuarterliesViewModel(mockRepository, mockPreferences, TestCoroutineDispatcher())
@@ -105,7 +99,7 @@ class QuarterliesViewModelTest {
         `when`(mockPreferences.getString("ss_last_quarterly_index", null)).thenReturn(quarterlyIndex)
 
         // when
-        viewModel = QuarterliesViewModel(mockRepository, mockPreferences, TestCoroutineDispatcher())
+        viewModel.viewCreated("en")
 
         // then
         viewModel.lastQuarterlyIndexLiveData.value shouldBeEqualTo quarterlyIndex
@@ -118,7 +112,7 @@ class QuarterliesViewModelTest {
         `when`(mockPreferences.getString("ss_last_quarterly_index", null)).thenReturn(null)
 
         // when
-        viewModel = QuarterliesViewModel(mockRepository, mockPreferences, TestCoroutineDispatcher())
+        viewModel.viewCreated("en")
 
         // then
         viewModel.lastQuarterlyIndexLiveData.value shouldBeEqualTo null
@@ -129,7 +123,7 @@ class QuarterliesViewModelTest {
     fun `should update selected language and quarterlies list`() = runBlockingTest {
         // given
         val states = viewModel.viewStatusLiveData.observeFuture()
-        val language = DefaultLocaleRule.de().language
+        val language = "de"
         `when`(mockRepository.getQuarterlies(language)).thenReturn(Resource.success(emptyList()))
 
         // when
@@ -149,7 +143,7 @@ class QuarterliesViewModelTest {
         // given
         val states = viewModel.viewStatusLiveData.observeFuture()
         val list = viewModel.quarterliesLiveData.observeFuture()
-        val language = DefaultLocaleRule.de().language
+        val language = "de"
         `when`(mockRepository.getQuarterlies(language)).thenReturn(Resource.error(Throwable()))
 
         // when
@@ -173,7 +167,7 @@ class QuarterliesViewModelTest {
                 getQuarterly("two"),
                 getQuarterly("one")
         )
-        val language = DefaultLocaleRule.de().language
+        val language = "de"
         `when`(mockRepository.getQuarterlies(language)).thenReturn(Resource.success(all))
 
         // when

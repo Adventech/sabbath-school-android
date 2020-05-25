@@ -47,6 +47,7 @@ import dagger.android.AndroidInjection
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_DISMISSED
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+import java.util.Locale
 import javax.inject.Inject
 
 class QuarterliesActivity : SSBaseActivity() {
@@ -98,6 +99,8 @@ class QuarterliesActivity : SSBaseActivity() {
             intent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, it)
             startActivity(intent)
         }
+
+        viewModel.viewCreated(Locale.getDefault().language)
     }
 
     private fun setupUi() {

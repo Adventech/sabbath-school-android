@@ -37,7 +37,6 @@ import com.cryart.sabbathschool.model.SSQuarterly
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Named
 import kotlin.coroutines.CoroutineContext
@@ -61,19 +60,16 @@ class QuarterliesViewModel @Inject constructor(private val repository: Quarterli
 
     private var selectedLanguage: String = ""
 
-    init {
+    fun viewCreated(defaultLanguage: String) {
         preferences.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, null)?.let {
             mutableLastQuarterlyIndex.postValue(it)
         }
 
-        selectedLanguage = preferences.getString(
-                SSConstants.SS_LAST_LANGUAGE_INDEX,
-                Locale.getDefault().language)!!
+        selectedLanguage = preferences.getString(SSConstants.SS_LAST_LANGUAGE_INDEX, defaultLanguage)!!
 
         if (selectedLanguage == "iw") {
             selectedLanguage = "he"
         }
-
         if (selectedLanguage == "fil") {
             selectedLanguage = "tl"
         }
