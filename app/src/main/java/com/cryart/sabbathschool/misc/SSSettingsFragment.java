@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,9 @@ package com.cryart.sabbathschool.misc;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-
 import com.cryart.sabbathschool.R;
 import com.cryart.sabbathschool.SSApplication;
+import com.cryart.sabbathschool.misc.jobs.SSReminderJob;
 
 public class SSSettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override
@@ -51,10 +51,10 @@ public class SSSettingsFragment extends PreferenceFragment implements SharedPref
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        switch(s){
+        switch (s) {
             case SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY:
             case SSConstants.SS_SETTINGS_REMINDER_TIME_KEY: {
-                SSReminder.scheduleAlarms(SSApplication.get());
+                SSReminderJob.scheduleAlarm(SSApplication.get());
                 break;
             }
         }

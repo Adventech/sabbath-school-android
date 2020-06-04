@@ -26,16 +26,21 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cryart.sabbathschool.data.repository.QuarterliesRepository
 import com.cryart.sabbathschool.extensions.arch.SingleLiveEvent
 import com.cryart.sabbathschool.misc.SSConstants
 import com.cryart.sabbathschool.model.SSQuarterly
-import com.cryart.sabbathschool.viewmodel.ScopedViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
+import kotlin.coroutines.CoroutineContext
 
 class LessonsViewModel @Inject constructor(private val repository: QuarterliesRepository,
-                                           private val preferences: SharedPreferences) : ScopedViewModel() {
+                                           private val preferences: SharedPreferences,
+                                           @Named("backgroundCoroutineContext")
+                                           private val backgroundContext: CoroutineContext) : ViewModel() {
 
     private val mutableQuarterlyTypes = MutableLiveData<List<String>>()
     val quarterlyTypesLiveData: LiveData<List<String>> get() = mutableQuarterlyTypes
@@ -46,7 +51,7 @@ class LessonsViewModel @Inject constructor(private val repository: QuarterliesRe
     private var lessonTypes: List<SSQuarterly> = emptyList()
 
     fun setQuarterlyIndex(index: String) {
-        launch {
+        viewModelScope.launch(backgroundContext) {
             val resource = repository.getQuarterlies()
             if (resource.isSuccessFul) {
                 val quarterlies = resource.data ?: return@launch

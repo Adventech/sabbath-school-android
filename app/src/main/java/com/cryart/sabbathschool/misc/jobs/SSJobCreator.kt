@@ -20,23 +20,16 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.viewmodel
+package com.cryart.sabbathschool.misc.jobs
 
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlin.coroutines.CoroutineContext
+import com.evernote.android.job.Job
+import com.evernote.android.job.JobCreator
 
-open class ScopedViewModel : ViewModel(), CoroutineScope {
-
-    private val job = Job()
-
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
+class SSJobCreator : JobCreator {
+    override fun create(tag: String): Job? {
+        return when (tag) {
+            SSReminderJob.TAG -> SSReminderJob()
+            else -> null
+        }
     }
-
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.IO
 }
