@@ -66,7 +66,7 @@ class SSApplication : DaggerApplication() {
 
         JodaTimeAndroid.init(this)
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+       // FirebaseDatabase.getInstance().setPersistenceEnabled(true)
 
         val displayImageOptions = DisplayImageOptions.Builder()
                 .displayer(RoundedBitmapDisplayer(20))
