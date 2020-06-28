@@ -34,7 +34,7 @@ buildscript {
             'fb_analytics'   : '17.4.2',
             'fb_core'        : '17.4.2',
             'fb_auth'        : '19.3.1',
-            'fb_database'    : '19.3.0',
+            'fb_database'    : '19.2.1',
             'fb_storage'     : '19.1.1',
             'fb_msg'         : '20.2.0',
             'fb_crashlytics' : '17.0.0',
