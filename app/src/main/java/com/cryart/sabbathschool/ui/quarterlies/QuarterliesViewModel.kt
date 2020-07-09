@@ -35,6 +35,7 @@ import com.cryart.sabbathschool.extensions.arch.asLiveData
 import com.cryart.sabbathschool.misc.SSConstants
 import com.cryart.sabbathschool.model.SSQuarterly
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -83,25 +84,26 @@ class QuarterliesViewModel @Inject constructor(private val repository: Quarterli
         }
         viewModelScope.launch(backgroundContext) {
             mutableViewStatus.postValue(Status.LOADING)
-            val resource = repository.getQuarterlies(code)
-            if (resource.isSuccessFul) {
-                val quarterlies = resource.data ?: emptyList()
-                val filtered = quarterlies
-                        .filter { it.group != null }
-                        .distinctBy { it.group } + quarterlies
-                        .filter { it.group == null }
+            repository.getQuarterlies(code).collect { resource ->
+                if (resource.isSuccessFul) {
+                    val quarterlies = resource.data ?: emptyList()
+                    val filtered = quarterlies
+                            .filter { it.group != null }
+                            .distinctBy { it.group } + quarterlies
+                            .filter { it.group == null }
 
-                mutableQuarterlies.postValue(filtered)
+                    mutableQuarterlies.postValue(filtered)
 
-                val languagePromptSeen = preferences.getBoolean(
-                        SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, false)
-                if (!languagePromptSeen) {
-                    withContext(Dispatchers.Main) {
-                        mutableShowLanguagePrompt.call()
+                    val languagePromptSeen = preferences.getBoolean(
+                            SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, false)
+                    if (!languagePromptSeen) {
+                        withContext(Dispatchers.Main) {
+                            mutableShowLanguagePrompt.call()
+                        }
                     }
                 }
+                mutableViewStatus.postValue(resource.status)
             }
-            mutableViewStatus.postValue(resource.status)
         }
     }
 
