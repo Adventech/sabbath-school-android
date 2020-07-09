@@ -32,6 +32,10 @@ import com.cryart.sabbathschool.model.SSQuarterly
 import com.cryart.sabbathschool.observeFuture
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -79,7 +83,10 @@ class QuarterliesViewModelTest {
         val code = "en"
         `when`(mockPreferences.edit()).thenReturn(mockPreferencesEditor)
         `when`(mockPreferences.getString("ss_last_language_index", code)).thenReturn(code)
-        `when`(mockRepository.getQuarterlies(code)).thenReturn(Resource.success(emptyList()))
+        val flow: Flow<Resource<List<SSQuarterly>>> = callbackFlow {
+            this.sendBlocking(Resource.success(emptyList()))
+        }
+        `when`(mockRepository.getQuarterlies(code)).thenReturn(flow)
 
         viewModel = QuarterliesViewModel(mockRepository, mockPreferences, TestCoroutineDispatcher())
     }
@@ -124,7 +131,11 @@ class QuarterliesViewModelTest {
         // given
         val states = viewModel.viewStatusLiveData.observeFuture()
         val language = "de"
-        `when`(mockRepository.getQuarterlies(language)).thenReturn(Resource.success(emptyList()))
+        val flow: Flow<Resource<List<SSQuarterly>>> = callbackFlow {
+            this.sendBlocking(Resource.success(emptyList()))
+            awaitClose {  }
+        }
+       `when`(mockRepository.getQuarterlies(language)).thenReturn(flow)
 
         // when
         viewModel.languageSelected(language)
@@ -144,7 +155,11 @@ class QuarterliesViewModelTest {
         val states = viewModel.viewStatusLiveData.observeFuture()
         val list = viewModel.quarterliesLiveData.observeFuture()
         val language = "de"
-        `when`(mockRepository.getQuarterlies(language)).thenReturn(Resource.error(Throwable()))
+        val errorFlow: Flow<Resource<List<SSQuarterly>>> = callbackFlow {
+            this.sendBlocking(Resource.error(Throwable()))
+            awaitClose {  }
+        }
+        `when`(mockRepository.getQuarterlies(language)).thenReturn(errorFlow)
 
         // when
         viewModel.languageSelected(language)
@@ -168,7 +183,11 @@ class QuarterliesViewModelTest {
                 getQuarterly("one")
         )
         val language = "de"
-        `when`(mockRepository.getQuarterlies(language)).thenReturn(Resource.success(all))
+
+        val flow: Flow<Resource<List<SSQuarterly>>> = callbackFlow {
+            this.sendBlocking(Resource.success(all))
+        }
+        `when`(mockRepository.getQuarterlies(language)).thenReturn(flow)
 
         // when
         viewModel.languageSelected(language)
