@@ -48,7 +48,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/header_cl"
+                android:id="@+id/about_header"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +57,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/ss_app_bar">
 
                 <ImageView
-                    android:id="@+id/main_title_icon_iv"
+                    android:id="@+id/about_adventech_logo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
@@ -68,26 +68,40 @@
                     app:srcCompat="@drawable/ic_logo_adventech" />
 
                 <TextView
-                    android:id="@+id/subtitle_tv"
+                    android:id="@+id/about_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:text="Adventech"
+                    android:textSize="42sp"
+                    android:textColor="#3B3B3B"
+                    android:fontFamily="@font/lato_bold"
+                    app:layout_constraintTop_toBottomOf="@id/about_adventech_logo"
+                    app:layout_constraintEnd_toEndOf="@id/about_adventech_logo"
+                    app:layout_constraintStart_toStartOf="@id/about_adventech_logo" />
+
+                <TextView
+                    android:id="@+id/about_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_marginBottom="16dp"
-                    android:text="TextView"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/main_title_icon_iv" />
+                    android:text="God's Ministry through Technology"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/lato_regular"
+                    app:layout_constraintEnd_toEndOf="@+id/about_title"
+                    app:layout_constraintStart_toStartOf="@+id/about_title"
+                    app:layout_constraintTop_toBottomOf="@+id/about_title" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/socialmedia_llc"
+                android:id="@+id/about_social_media"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/header_cl">
+                app:layout_constraintTop_toBottomOf="@+id/about_header">
 
                 <ImageButton
                     android:id="@+id/instagram_ib"
@@ -133,53 +147,55 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <TextView
-                android:id="@+id/link_tv"
+                android:id="@+id/about_link"
                 style="@style/SS.TextAppearance.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:onClick="@{() -> viewModel.onAdventechIoClick()}"
                 android:text="@string/ss_settings_website_summary"
+                android:fontFamily="@font/lato_regular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/socialmedia_llc" />
+                app:layout_constraintTop_toBottomOf="@+id/about_social_media" />
 
             <TextView
-                android:id="@+id/text_tv"
+                android:id="@+id/about_message"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:fontFamily="@font/lato_regular"
                 android:text="@string/ss_about_text"
-                android:textSize="@dimen/text_size_body"
-                app:layout_constraintBottom_toTopOf="@+id/end_line_tv"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/about_signature"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/link_tv"
+                app:layout_constraintTop_toBottomOf="@+id/about_link"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/end_line_tv"
+                android:id="@+id/about_signature"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
                 android:layout_marginBottom="32dp"
                 android:text="@string/ss_about_made"
-                android:textSize="@dimen/text_size_body"
+                android:textSize="18sp"
                 android:textStyle="bold"
+                android:fontFamily="@font/lato_bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_tv" />
+                app:layout_constraintTop_toBottomOf="@+id/about_message" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
