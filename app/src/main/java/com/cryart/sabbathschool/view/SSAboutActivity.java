@@ -26,11 +26,11 @@ package com.cryart.sabbathschool.view;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+
 import androidx.appcompat.app.ActionBar;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.DataBindingUtil;
+
 import com.cryart.sabbathschool.R;
-import com.cryart.sabbathschool.databinding.SsAboutActivityBinding;
 import com.cryart.sabbathschool.databinding.SsAboutActivityV2Binding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
@@ -65,7 +65,7 @@ public class SSAboutActivity extends SSColorSchemeActivity {
             DrawableCompat.setTint(binding.ssLogo.getDrawable(), primaryColor);
             binding.ssAppTitle.setTextColor(primaryColor);
         */
-        binding.linkTv.setTextColor(primaryColor);
+        binding.aboutLink.setTextColor(primaryColor);
         binding.ssAppBar.ssToolbar.setBackgroundColor(primaryColor);
 
         this.ssFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
