@@ -59,12 +59,6 @@ public class SSAboutActivity extends SSColorSchemeActivity {
 
         int primaryColor = Color.parseColor(SSColorTheme.getInstance().getColorPrimary());
 
-        /*
-            NOTE: to use in layout v1
-
-            DrawableCompat.setTint(binding.ssLogo.getDrawable(), primaryColor);
-            binding.ssAppTitle.setTextColor(primaryColor);
-        */
         binding.aboutLink.setTextColor(primaryColor);
         binding.ssAppBar.ssToolbar.setBackgroundColor(primaryColor);
 

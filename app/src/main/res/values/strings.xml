@@ -73,12 +73,7 @@
     <string name="ss_settings_reminder_text">"Time to study Sabbath School"</string>
     <string name="ss_reading_offline">"You are offline. Reconnect to read this lesson"</string>
     <string name="ss_reading_offline_retry">"Retry"</string>
-    <string name="ss_about_text">"Mission of Adventech is first and foremost - give glory to our Lᴏʀᴅ, the Ancient of Days. We are dedicated to do our ministry through technology. Our goal is to unite our Seventh-Day Adventist Church. Our goal is to proclaim Good News to this world by means of technology and advancements in communications. Our goal is to witness Jesus’ Second Coming.
-
-We are inspired by the example and methods of Jesus, when He ministered here on Earth. Therefore, we are committed to deliver high degree of quality of all our projects at absolutely no cost with love and dedication. We are committed to give glory to our Father, because He is worthy of the highest of praise.
-
-We truly believe that God has increased the knowledge of the modern world and wants us to use it for His glory to proclaim His soon return!"</string>
-
+    <string name="ss_about_text">"Mission of Adventech is first and foremost - give glory to our Lᴏʀᴅ, the Ancient of Days. We are dedicated to do our ministry through technology. Our goal is to unite our Seventh-Day Adventist Church. Our goal is to proclaim Good News to this world by means of technology and advancements in communications. Our goal is to witness Jesus’ Second Coming.\n\nWe are inspired by the example and methods of Jesus, when He ministered here on Earth. Therefore, we are committed to deliver high degree of quality of all our projects at absolutely no cost with love and dedication. We are committed to give glory to our Father, because He is worthy of the highest of praise.\n\nWe truly believe that God has increased the knowledge of the modern world and wants us to use it for His glory to proclaim His soon return!"</string>
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Previous lessons"</string>
 </resources>
