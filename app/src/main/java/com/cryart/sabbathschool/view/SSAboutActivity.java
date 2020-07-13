@@ -31,7 +31,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.databinding.DataBindingUtil;
 
 import com.cryart.sabbathschool.R;
-import com.cryart.sabbathschool.databinding.SsAboutActivityV2Binding;
+import com.cryart.sabbathschool.databinding.SsAboutActivityBinding;
 import com.cryart.sabbathschool.misc.SSColorTheme;
 import com.cryart.sabbathschool.misc.SSConstants;
 import com.cryart.sabbathschool.misc.SSEvent;
@@ -46,7 +46,7 @@ public class SSAboutActivity extends SSColorSchemeActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SsAboutActivityV2Binding binding = DataBindingUtil.setContentView(this, R.layout.ss_about_activity_v2);
+        SsAboutActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.ss_about_activity);
         setSupportActionBar(binding.ssAppBar.ssToolbar);
         ActionBar ssToolbar = getSupportActionBar();
         if (ssToolbar != null) {
