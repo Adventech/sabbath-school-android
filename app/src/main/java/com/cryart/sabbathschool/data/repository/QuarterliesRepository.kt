@@ -31,6 +31,13 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import java.util.Locale
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -61,7 +68,8 @@ class QuarterliesRepository(private val firebaseDatabase: FirebaseDatabase,
         }
     }
 
-    suspend fun getQuarterlies(languageCode: String? = null): Resource<List<SSQuarterly>> {
+    @ExperimentalCoroutinesApi
+    fun getQuarterlies(languageCode: String? = null) = callbackFlow<Resource<List<SSQuarterly>>> {
         var code: String
         if (languageCode == null) {
             code = preferences.getString(SSConstants.SS_LAST_LANGUAGE_INDEX, Locale.getDefault().language)!!
@@ -75,21 +83,29 @@ class QuarterliesRepository(private val firebaseDatabase: FirebaseDatabase,
             code = languageCode
         }
 
-        return suspendCoroutine { continuation ->
-            firebaseDatabase.getReference(SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE)
-                    .child(code)
-                    .addListenerForSingleValueEvent(object : ValueEventListener {
-                        override fun onCancelled(error: DatabaseError) {
-                            continuation.resume(Resource.error(error.toException()))
-                        }
+        val quarterliesRef = firebaseDatabase.getReference(
+                SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE)
+                .child(code)
 
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            val quarterlies = snapshot.children.mapNotNull {
-                                it.getValue(SSQuarterly::class.java)
-                            }
-                            continuation.resume(Resource.success(quarterlies))
+        val valueEventListener = quarterliesRef.addValueEventListener(
+                object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                        this@callbackFlow.close(error.toException())
+                    }
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val quarterlies = snapshot.children.mapNotNull {
+                            it.getValue(SSQuarterly::class.java)
                         }
-                    })
+                        this@callbackFlow.sendBlocking(Resource.success(quarterlies))
+                    }
+                })
+
+        awaitClose {
+            quarterliesRef.removeEventListener(valueEventListener)
         }
-    }
+    }.flowOn(Dispatchers.IO)
+            .catch {
+                emit(Resource.error(it))
+            }
 }

@@ -22,11 +22,16 @@
 package com.cryart.sabbathschool
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDex
 import com.cryart.sabbathschool.data.di.DaggerSSAppComponent
 import com.cryart.sabbathschool.extensions.CrashlyticsTree
+import com.cryart.sabbathschool.misc.SSConstants
+import com.cryart.sabbathschool.misc.jobs.SSJobCreator
+import com.cryart.sabbathschool.misc.jobs.SSReminderJob
+import com.evernote.android.job.JobManager
 import com.google.firebase.database.FirebaseDatabase
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.ImageLoader
@@ -36,8 +41,12 @@ import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import net.danlew.android.joda.JodaTimeAndroid
 import timber.log.Timber
+import javax.inject.Inject
 
 class SSApplication : DaggerApplication() {
+
+    @Inject
+    lateinit var preferences: SharedPreferences
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
@@ -71,10 +80,24 @@ class SSApplication : DaggerApplication() {
                 .build()
         ImageLoader.getInstance().init(config)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+
+        initReminderService()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerSSAppComponent.factory().create(this)
+    }
+
+    private fun initReminderService() {
+        JobManager.create(this)
+                .addJobCreator(SSJobCreator())
+
+        if (preferences.getBoolean(SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY, true)) {
+            val jobId = preferences.getInt(SSConstants.SS_REMINDER_JOB_ID, -1)
+            if (jobId == -1) {
+                SSReminderJob.scheduleAlarm(this)
+            }
+        }
     }
 
     companion object {

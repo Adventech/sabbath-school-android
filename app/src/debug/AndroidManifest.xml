@@ -141,14 +141,6 @@
             android:name="firebase_crashlytics_collection_enabled"
             android:value="false" />
 
-        <service
-            android:name="com.cryart.sabbathschool.misc.SSReminderService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
-            </intent-filter>
-        </service>
-
         <service android:name="com.cryart.sabbathschool.service.SSNotificationService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

@@ -20,36 +20,16 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.ui.account
+package com.cryart.sabbathschool
 
-import android.content.SharedPreferences
-import androidx.core.content.edit
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.cryart.sabbathschool.extensions.arch.asLiveData
-import com.cryart.sabbathschool.misc.SSConstants
-import com.cryart.sabbathschool.model.UserInfo
-import com.google.firebase.auth.FirebaseAuth
-import javax.inject.Inject
 
-class AccountViewModel @Inject constructor(private val prefs: SharedPreferences,
-                                           private val firebaseAuth: FirebaseAuth) : ViewModel() {
+fun <T> LiveData<T>.observeFuture(): List<T> = mutableListOf<T>().apply {
+    observeForever { add(it) }
 
-    private val mutableUserInfo = MutableLiveData<UserInfo>()
-    val userInfoLiveData: LiveData<UserInfo> = mutableUserInfo.asLiveData()
+    clear()
+}
 
-    init {
-        val name = prefs.getString(SSConstants.SS_USER_NAME_INDEX, null)
-        val email = prefs.getString(SSConstants.SS_USER_EMAIL_INDEX, null)
-        val photo = prefs.getString(SSConstants.SS_USER_PHOTO_INDEX, null)
-
-        val user = UserInfo(name, email, photo)
-        mutableUserInfo.postValue(user)
-    }
-
-    fun logoutClicked() {
-        prefs.edit { clear() }
-        firebaseAuth.signOut()
-    }
+fun <T> LiveData<T>.observeAll(): List<T> = mutableListOf<T>().apply {
+    observeForever { add(it) }
 }

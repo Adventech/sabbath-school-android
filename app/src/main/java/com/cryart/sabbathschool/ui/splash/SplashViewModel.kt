@@ -25,13 +25,14 @@ package com.cryart.sabbathschool.ui.splash
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.cryart.sabbathschool.extensions.arch.SingleLiveEvent
+import com.cryart.sabbathschool.extensions.arch.asLiveData
 import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
 class SplashViewModel @Inject constructor(firebaseAuth: FirebaseAuth) : ViewModel() {
 
     private val mutableIsSignedIn = SingleLiveEvent<Boolean>()
-    val isSignedInLiveData: LiveData<Boolean> get() = mutableIsSignedIn
+    val isSignedInLiveData: LiveData<Boolean> = mutableIsSignedIn.asLiveData()
 
     init {
         mutableIsSignedIn.postValue(firebaseAuth.currentUser != null)

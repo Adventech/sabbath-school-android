@@ -3,6 +3,12 @@ Sabbath School for Android
 
 [![Travis](https://img.shields.io/travis/Adventech/sabbath-school-android.svg)](https://travis-ci.org/Adventech/sabbath-school-android) [![GitHub Stars](https://img.shields.io/github/stars/Adventech/sabbath-school-android.svg)](https://github.com/Adventech/sabbath-school-android/stargazers) [![GitHub Issues](https://img.shields.io/github/issues/Adventech/sabbath-school-android.svg)](https://github.com/Adventech/sabbath-school-android/issues) [![License](https://img.shields.io/github/license/Adventech/sabbath-school-android.svg)](https://github.com/Adventech/sabbath-school-android/blob/master/LICENSE.md)
 
+## Your support is important for us
+
+100% of all contributions and donations will be used for covering existing server costs and supporting new and exciting projects!
+
+<a href="https://www.buymeacoffee.com/adventech" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
 This is Sabbath School for Android by Adventech, a humble attempt to make difference with respect to Sabbath School as an entity of Seventh-day Adventist Church!
 
 ## Screenshots

@@ -26,48 +26,51 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cryart.sabbathschool.data.model.Status
 import com.cryart.sabbathschool.data.repository.QuarterliesRepository
 import com.cryart.sabbathschool.extensions.arch.SingleLiveEvent
+import com.cryart.sabbathschool.extensions.arch.asLiveData
 import com.cryart.sabbathschool.misc.SSConstants
 import com.cryart.sabbathschool.model.SSQuarterly
-import com.cryart.sabbathschool.viewmodel.ScopedViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.Locale
 import javax.inject.Inject
+import javax.inject.Named
+import kotlin.coroutines.CoroutineContext
 
 class QuarterliesViewModel @Inject constructor(private val repository: QuarterliesRepository,
-                                               private val preferences: SharedPreferences) : ScopedViewModel() {
+                                               private val preferences: SharedPreferences,
+                                               @Named("backgroundCoroutineContext")
+                                               private val backgroundContext: CoroutineContext) : ViewModel() {
 
     private val mutableViewStatus = SingleLiveEvent<Status>()
-    val viewStatusLiveData: LiveData<Status> get() = mutableViewStatus
+    val viewStatusLiveData: LiveData<Status> = mutableViewStatus.asLiveData()
 
     private val mutableQuarterlies = MutableLiveData<List<SSQuarterly>>()
-    val quarterliesLiveData: LiveData<List<SSQuarterly>> get() = mutableQuarterlies
+    val quarterliesLiveData: LiveData<List<SSQuarterly>> = mutableQuarterlies.asLiveData()
 
     private val mutableShowLanguagePrompt = SingleLiveEvent<Any>()
-    val showLanguagePromptLiveData: LiveData<Any> get() = mutableShowLanguagePrompt
+    val showLanguagePromptLiveData: LiveData<Any> = mutableShowLanguagePrompt.asLiveData()
 
     private val mutableLastQuarterlyIndex = SingleLiveEvent<String>()
-    val lastQuarterlyIndexLiveData: LiveData<String> get() = mutableLastQuarterlyIndex
+    val lastQuarterlyIndexLiveData: LiveData<String> = mutableLastQuarterlyIndex.asLiveData()
 
     private var selectedLanguage: String = ""
 
-    init {
+    fun viewCreated(defaultLanguage: String) {
         preferences.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, null)?.let {
             mutableLastQuarterlyIndex.postValue(it)
         }
 
-        selectedLanguage = preferences.getString(
-                SSConstants.SS_LAST_LANGUAGE_INDEX,
-                Locale.getDefault().language)!!
+        selectedLanguage = preferences.getString(SSConstants.SS_LAST_LANGUAGE_INDEX, defaultLanguage)!!
 
         if (selectedLanguage == "iw") {
             selectedLanguage = "he"
         }
-
         if (selectedLanguage == "fil") {
             selectedLanguage = "tl"
         }
@@ -79,27 +82,28 @@ class QuarterliesViewModel @Inject constructor(private val repository: Quarterli
         if (code.isEmpty()) {
             return
         }
-        launch {
+        viewModelScope.launch(backgroundContext) {
             mutableViewStatus.postValue(Status.LOADING)
-            val resource = repository.getQuarterlies(code)
-            if (resource.isSuccessFul) {
-                val quarterlies = resource.data ?: emptyList()
-                val filtered = quarterlies
-                        .filter { it.group != null }
-                        .distinctBy { it.group } + quarterlies
-                        .filter { it.group == null }
+            repository.getQuarterlies(code).collect { resource ->
+                if (resource.isSuccessFul) {
+                    val quarterlies = resource.data ?: emptyList()
+                    val filtered = quarterlies
+                            .filter { it.group != null }
+                            .distinctBy { it.group } + quarterlies
+                            .filter { it.group == null }
 
-                mutableQuarterlies.postValue(filtered)
+                    mutableQuarterlies.postValue(filtered)
 
-                val languagePromptSeen = preferences.getBoolean(
-                        SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, false)
-                if (!languagePromptSeen) {
-                    withContext(Dispatchers.Main) {
-                        mutableShowLanguagePrompt.call()
+                    val languagePromptSeen = preferences.getBoolean(
+                            SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, false)
+                    if (!languagePromptSeen) {
+                        withContext(Dispatchers.Main) {
+                            mutableShowLanguagePrompt.call()
+                        }
                     }
                 }
+                mutableViewStatus.postValue(resource.status)
             }
-            mutableViewStatus.postValue(resource.status)
         }
     }
 

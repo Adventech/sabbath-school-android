@@ -54,7 +54,7 @@ android {
             versionName "3.4." + versionBuild
 
             vectorDrawables.useSupportLibrary = true
-            testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
             multiDexEnabled true
 
@@ -102,6 +102,13 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:$versions.mockito"
+    testImplementation "org.mockito:mockito-inline:$versions.mockito"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation 'org.amshove.kluent:kluent-android:1.61'
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutines}"
+    testImplementation 'androidx.test.ext:junit:1.1.1'
+    testImplementation "org.robolectric:robolectric:4.3"
 
     androidTestImplementation "tools.fastlane:screengrab:1.1.0"
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -112,17 +119,18 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}"
 
     implementation "androidx.multidex:multidex:${versions.multidex}"
-    implementation 'androidx.appcompat:appcompat:1.2.0-beta01'
+    implementation 'androidx.appcompat:appcompat:1.2.0-rc01'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha06'
+    implementation 'com.google.android.material:material:1.2.0-beta01'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
     implementation "androidx.constraintlayout:constraintlayout:${versions.const_layout}"
-    implementation 'androidx.core:core-ktx:1.3.0-rc01'
-    implementation "androidx.activity:activity-ktx:1.2.0-alpha04"
-    implementation "androidx.fragment:fragment-ktx:1.3.0-alpha04"
+    implementation 'androidx.core:core-ktx:1.4.0-alpha01'
+    implementation "androidx.activity:activity-ktx:1.2.0-alpha05"
+    implementation "androidx.fragment:fragment-ktx:1.3.0-alpha05"
     implementation 'androidx.browser:browser:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.1.1'
 
     // Firebase
     implementation "com.google.android.gms:play-services-auth:18.0.0"
@@ -134,8 +142,8 @@ dependencies {
     implementation "com.google.firebase:firebase-storage-ktx:${versions.fb_storage}"
     implementation "com.google.firebase:firebase-messaging:${versions.fb_msg}"
     implementation "com.google.firebase:firebase-crashlytics:${versions.fb_crashlytics}"
-    implementation "com.firebase:firebase-jobdispatcher:0.8.5"
 
+    implementation 'com.evernote:android-job:1.4.2'
     implementation "uk.co.samuelwall:material-tap-target-prompt:2.0.1"
     implementation "com.nostra13.universalimageloader:universal-image-loader:1.9.5"
     implementation "com.github.hotchemi:android-rate:1.0.1"

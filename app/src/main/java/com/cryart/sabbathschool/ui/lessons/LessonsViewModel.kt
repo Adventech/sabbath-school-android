@@ -26,16 +26,22 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cryart.sabbathschool.data.repository.QuarterliesRepository
 import com.cryart.sabbathschool.extensions.arch.SingleLiveEvent
 import com.cryart.sabbathschool.misc.SSConstants
 import com.cryart.sabbathschool.model.SSQuarterly
-import com.cryart.sabbathschool.viewmodel.ScopedViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
+import kotlin.coroutines.CoroutineContext
 
 class LessonsViewModel @Inject constructor(private val repository: QuarterliesRepository,
-                                           private val preferences: SharedPreferences) : ScopedViewModel() {
+                                           private val preferences: SharedPreferences,
+                                           @Named("backgroundCoroutineContext")
+                                           private val backgroundContext: CoroutineContext) : ViewModel() {
 
     private val mutableQuarterlyTypes = MutableLiveData<List<String>>()
     val quarterlyTypesLiveData: LiveData<List<String>> get() = mutableQuarterlyTypes
@@ -46,24 +52,25 @@ class LessonsViewModel @Inject constructor(private val repository: QuarterliesRe
     private var lessonTypes: List<SSQuarterly> = emptyList()
 
     fun setQuarterlyIndex(index: String) {
-        launch {
-            val resource = repository.getQuarterlies()
-            if (resource.isSuccessFul) {
-                val quarterlies = resource.data ?: return@launch
-                val selected = quarterlies.find { it.index == index } ?: return@launch
-                lessonTypes = quarterlies.filter {
-                    it.start_date == selected.start_date && it.end_date == selected.end_date
-                }
-                if (lessonTypes.size > 1) {
-                    val names = listOf(selected.quarterly_name) + lessonTypes
-                            .filterNot { it.id == selected.id }
-                            .map { it.quarterly_name }
-                    mutableQuarterlyTypes.postValue(names.filterNotNull())
+        viewModelScope.launch(backgroundContext) {
+            repository.getQuarterlies().collect { resource ->
+                if (resource.isSuccessFul) {
+                    val quarterlies = resource.data ?: return@collect
+                    val selected = quarterlies.find { it.index == index } ?: return@collect
+                    lessonTypes = quarterlies.filter {
+                        it.start_date == selected.start_date && it.end_date == selected.end_date
+                    }
+                    if (lessonTypes.size > 1) {
+                        val names = listOf(selected.quarterly_name) + lessonTypes
+                                .filterNot { it.id == selected.id }
+                                .map { it.quarterly_name }
+                        mutableQuarterlyTypes.postValue(names.filterNotNull())
 
-                    val lastType = preferences.getString(SSConstants.SS_LAST_QUARTERLY_TYPE, null)
-                            ?: return@launch
-                    if (lastType != names.first()) {
-                        quarterlyTypeSelected(lastType)
+                        val lastType = preferences.getString(SSConstants.SS_LAST_QUARTERLY_TYPE, null)
+                                ?: return@collect
+                        if (lastType != names.first()) {
+                            quarterlyTypeSelected(lastType)
+                        }
                     }
                 }
             }
