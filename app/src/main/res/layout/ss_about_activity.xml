@@ -20,11 +20,10 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    >
 
     <data>
         <variable
@@ -32,165 +31,172 @@
             type="com.cryart.sabbathschool.viewmodel.SSAboutViewModel" />
     </data>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/ss_app_bar"
-            layout="@layout/ss_app_bar" />
-
-        <ImageView
-            android:id="@+id/ss_logo"
-            android:layout_width="@dimen/ss_about_app_logo_size"
-            android:layout_height="@dimen/ss_about_app_logo_size"
-            android:layout_marginTop="@dimen/ss_about_app_logo_size"
-            android:layout_gravity="center_horizontal"
-            app:srcCompat="@drawable/ss_logo_color" />
-
-        <TextView
-            android:id="@+id/ss_app_title"
-            android:textColor="@color/colorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ss_about_app_name_margin_top"
-            android:layout_gravity="center|center_horizontal"
-            android:typeface="serif"
-            android:textStyle="bold|italic"
-            android:textSize="@dimen/ss_about_app_name_text_size"
-            android:text="@string/ss_app_name" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ss_about_app_version_margin_top"
-            android:layout_marginBottom="@dimen/ss_about_app_version_margin_bottom"
-            android:layout_gravity="center|center_horizontal"
-            android:textColor="@color/colorSecondary"
-            android:text="@string/ss_about_app_version"/>
-
-        <include layout="@layout/ss_horizontal_line" />
-
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/ss_about_list_padding"
-            android:paddingBottom="@dimen/ss_about_list_padding"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:onClick="@{() -> viewModel.onFacebookClick()}">
+            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <include
+                android:id="@+id/ss_app_bar"
+                layout="@layout/ss_app_bar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/about_header"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ss_app_bar">
+
+                <ImageView
+                    android:id="@+id/about_adventech_logo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/ss_about_list_title_text_size"
-                    android:textColor="@color/colorSecondaryDark"
-                    android:text="@string/ss_about_facebook" />
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_logo_adventech" />
 
                 <TextView
+                    android:id="@+id/about_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="@dimen/ss_about_list_link_text_size"
-                    android:textColor="@color/colorSecondary"
-                    android:text="@string/ss_about_facebook_summary"/>
-
-            </LinearLayout>
-        </FrameLayout>
-
-        <include layout="@layout/ss_horizontal_line" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/ss_about_list_padding"
-            android:paddingBottom="@dimen/ss_about_list_padding"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:onClick="@{() -> viewModel.onInstagramClick()}">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                    android:text="Adventech"
+                    android:textSize="42sp"
+                    android:textColor="#3B3B3B"
+                    android:fontFamily="@font/lato_bold"
+                    app:layout_constraintTop_toBottomOf="@id/about_adventech_logo"
+                    app:layout_constraintEnd_toEndOf="@id/about_adventech_logo"
+                    app:layout_constraintStart_toStartOf="@id/about_adventech_logo" />
 
                 <TextView
+                    android:id="@+id/about_subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/ss_about_list_title_text_size"
-                    android:textColor="@color/colorSecondaryDark"
-                    android:text="@string/ss_about_instagram" />
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="God's Ministry through Technology"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/lato_regular"
+                    app:layout_constraintEnd_toEndOf="@+id/about_title"
+                    app:layout_constraintStart_toStartOf="@+id/about_title"
+                    app:layout_constraintTop_toBottomOf="@+id/about_title" />
 
-                <TextView
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/about_social_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/about_header">
+
+                <ImageButton
+                    android:id="@+id/instagram_ib"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="@dimen/ss_about_list_link_text_size"
-                    android:textColor="@color/colorSecondary"
-                    android:text="@string/ss_about_instagram_summary" />
-            </LinearLayout>
-        </FrameLayout>
+                    android:background="?android:attr/panelBackground"
+                    android:padding="16dp"
+                    android:onClick="@{() -> viewModel.onInstagramClick()}"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/facebook_ib"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_icon_instagram" />
 
-        <include layout="@layout/ss_horizontal_line" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/ss_about_list_padding"
-            android:paddingBottom="@dimen/ss_about_list_padding"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:onClick="@{() -> viewModel.onGitHubClick()}">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
+                <ImageButton
+                    android:id="@+id/facebook_ib"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/ss_about_list_title_text_size"
-                    android:textColor="@color/colorSecondaryDark"
-                    android:text="@string/ss_about_github" />
+                    android:background="?android:attr/panelBackground"
+                    android:padding="16dp"
+                    android:onClick="@{() -> viewModel.onFacebookClick()}"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/github_ib"
+                    app:layout_constraintStart_toEndOf="@+id/instagram_ib"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_icon_facebook" />
 
-                <TextView
+                <ImageButton
+                    android:id="@+id/github_ib"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="@dimen/ss_about_list_link_text_size"
-                    android:textColor="@color/colorSecondary"
-                    android:text="@string/ss_about_github_summary" />
+                    android:adjustViewBounds="true"
+                    android:background="?android:attr/panelBackground"
+                    android:padding="16dp"
+                    android:onClick="@{() -> viewModel.onGitHubClick()}"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/facebook_ib"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_icon_github" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-            </LinearLayout>
-        </FrameLayout>
+            <TextView
+                android:id="@+id/about_link"
+                style="@style/SS.TextAppearance.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:onClick="@{() -> viewModel.onAdventechIoClick()}"
+                android:text="@string/ss_settings_website_summary"
+                android:fontFamily="@font/lato_regular"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/about_social_media" />
 
-        <include layout="@layout/ss_horizontal_line" />
+            <TextView
+                android:id="@+id/about_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:fontFamily="@font/lato_regular"
+                android:text="@string/ss_about_text"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/about_signature"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/about_link"
+                app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|center_horizontal"
-            android:layout_marginTop="@dimen/ss_about_made_margin"
-            android:layout_marginBottom="@dimen/ss_about_made_margin"
-            android:gravity="bottom"
-            android:textColor="@color/colorSecondaryDark"
-            android:text="@string/ss_about_made"
-            android:fontFamily="@font/lato_regular" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/about_signature"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/ss_about_made"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/lato_bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/about_message" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>
