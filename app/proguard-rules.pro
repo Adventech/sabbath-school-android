@@ -56,3 +56,6 @@
     long producerNode;
     long consumerNode;
 }
+
+#Required for firebase db issue
+-keep class org.json.* { *; }
