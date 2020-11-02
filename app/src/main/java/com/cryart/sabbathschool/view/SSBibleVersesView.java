@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.view;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -43,25 +44,25 @@ public class SSBibleVersesView extends WebView {
 
     public SSBibleVersesView(final Context context) {
         super(context);
-        if (!isInEditMode()) {
-            this.setWebViewClient(new WebViewClient());
-            this.getSettings().setJavaScriptEnabled(true);
-        }
+        initWebView();
     }
 
     public SSBibleVersesView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-        if (!isInEditMode()) {
-            this.setWebViewClient(new WebViewClient());
-            this.getSettings().setJavaScriptEnabled(true);
-        }
+        initWebView();
     }
 
     public SSBibleVersesView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
+        initWebView();
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private void initWebView() {
         if (!isInEditMode()) {
-            this.getSettings().setJavaScriptEnabled(true);
             this.setWebViewClient(new WebViewClient());
+            this.getSettings().setJavaScriptEnabled(true);
+            this.getSettings().setAllowFileAccess(true);
         }
     }
 
