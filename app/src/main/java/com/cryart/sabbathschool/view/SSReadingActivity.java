@@ -202,11 +202,6 @@ public class SSReadingActivity extends SSBaseActivity implements SSReadingViewMo
     }
 
     @Override
-    public void onLogoutEvent() {
-        finish();
-    }
-
-    @Override
     public void onLessonInfoChanged(SSLessonInfo ssLessonInfo) {
         final SSReadingSheetAdapter adapter = (SSReadingSheetAdapter) binding.ssReadingSheetList.getAdapter();
         adapter.setDays(ssLessonInfo.days);

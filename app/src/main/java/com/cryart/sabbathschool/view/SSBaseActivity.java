@@ -116,6 +116,4 @@ public abstract class SSBaseActivity extends SSColorSchemeActivity implements Fi
             startActivity(ssLoginActivityIntent);
         }
     }
-
-    public abstract void onLogoutEvent();
 }
