@@ -9,4 +9,5 @@ object BuildPlugins {
     const val NAVIGATION_SAFE_ARGS = "androidx.navigation.safeargs.kotlin"
 
     const val DAGGER_HILT = "dagger.hilt.android.plugin"
+    const val KTLINT = "plugins.ktlint"
 }

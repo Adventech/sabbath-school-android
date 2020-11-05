@@ -28,4 +28,5 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${PluginVersions.KOTLIN}")
     implementation("androidx.navigation:navigation-safe-args-gradle-plugin:${PluginVersions.NAVIGATION}")
     implementation("com.google.dagger:hilt-android-gradle-plugin:${PluginVersions.HILT}")
+    implementation("com.pinterest:ktlint:${PluginVersions.KTLINT}")
 }
