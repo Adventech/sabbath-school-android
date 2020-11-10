@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.SS.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+        <item name="insetForeground">@android:color/transparent</item>
+        <item name="itemIconPadding">@dimen/space</item>
+        <item name="itemHorizontalPadding">@dimen/space</item>
+        <item name="itemTextAppearance">?attr/textAppearanceHeadline6</item>
+        <item name="itemShapeInsetStart">0dp</item>
+        <item name="itemShapeInsetTop">0dp</item>
+        <item name="itemShapeInsetEnd">0dp</item>
+        <item name="itemShapeInsetBottom">0dp</item>
+        <item name="itemTextColor">@color/navigation_item</item>
+    </style>
+
+    <style name="Widget.SS.AppBarLayout" parent="Widget.MaterialComponents.AppBarLayout.Surface" />
+
+    <style name="Widget.SS.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextAppearance">?attr/textAppearanceHeadline6</item>
+        <item name="tabPaddingStart">@dimen/space</item>
+        <item name="tabPaddingEnd">@dimen/space</item>
+        <item name="tabUnboundedRipple">false</item>
+        <item name="tabInlineLabel">true</item>
+        <item name="tabMinWidth">0dp</item>
+    </style>
+
+    <style name="Widget.SS.ActionBar" parent="Widget.MaterialComponents.ActionBar.Surface">
+        <item name="android:theme">@style/ThemeOverlay.SS.Toolbar</item>
+        <item name="elevation">@dimen/elevation_action_bar</item>
+        <item name="titleTextStyle">?attr/textAppearanceHeadline6</item>
+    </style>
+
+    <style name="Widget.SS.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:minWidth">@dimen/btn_min_width</item>
+        <item name="android:paddingLeft">@dimen/space</item>
+        <item name="android:paddingRight">@dimen/space</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="iconPadding">@dimen/space</item>
+        <item name="fontFamily">@font/lato_bold</item>
+        <item name="android:fontFamily">@font/lato_bold</item>
+        <item name="textAllCaps">true</item>
+        <item name="shapeAppearance">@style/ShapeAppearanceOverlay.SS.Rounded</item>
+    </style>
+
+    <style name="Widget.SS.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="fabSize">normal</item>
+    </style>
+
+    <style name="Widget.SS.Chip" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="chipBackgroundColor">?attr/colorSurface</item>
+        <item name="rippleColor">?attr/colorControlHighlight</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody1</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="closeIconTint">?attr/colorOnSurface</item>
+        <item name="chipIconTint">@color/material_on_surface_emphasis_medium</item>
+    </style>
+
+    <style name="Widget.SS.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="behavior_skipCollapsed">true</item>
+        <item name="android:elevation">@dimen/elevation_bottom_sheet</item>
+        <item name="behavior_peekHeight">1000dp</item>
+    </style>
+
+    <style name="Widget.SS.Snackbar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:layout_margin">@dimen/space</item>
+    </style>
+
+    <style name="Widget.SS.Snackbar.TextView" parent="Widget.MaterialComponents.Snackbar.TextView">
+        <item name="android:textAppearance">?attr/textAppearanceBody1</item>
+    </style>
+
+    <style name="MaterialAlertDialog.SS.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textAppearance">?attr/textAppearanceHeadline6</item>
+    </style>
+
+    <style name="MaterialAlertDialog.SS.Body.Text" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:textAppearance">?attr/textAppearanceBody1</item>
+    </style>
+
+    <style name="Widget.SS.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="useCompatPadding">true</item>
+    </style>
+
+    <style name="Widget.SS.ProgressIndicator" parent="Widget.MaterialComponents.ProgressIndicator.Circular.Indeterminate" />
+
+</resources>

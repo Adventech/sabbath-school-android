@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.SS.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/lato_medium</item>
+        <item name="android:fontFamily">@font/lato_medium</item>
+    </style>
+
+    <style name="TextAppearance.SS.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/lato_bold</item>
+        <item name="android:fontFamily">@font/lato_bold</item>
+    </style>
+
+    <style name="TextAppearance.SS.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/lato_regular</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+    </style>
+
+</resources>

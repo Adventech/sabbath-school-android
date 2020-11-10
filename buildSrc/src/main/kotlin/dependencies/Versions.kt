@@ -4,7 +4,7 @@ object Versions {
     const val KOTLIN = "1.4.10"
 
     const val APPCOMPAT = "1.2.0"
-    const val MATERIAL = "1.2.1"
+    const val MATERIAL = "1.3.0-alpha03"
     const val COROUTINES = "1.3.9"
     const val RECYCLER_VIEW = "1.1.0"
     const val NAVIGATION = "2.3.1"

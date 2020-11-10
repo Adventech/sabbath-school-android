@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ShapeAppearance.SS.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">0dp</item>
+    </style>
+
+    <style name="ShapeAppearance.SS.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">0dp</item>
+    </style>
+
+    <style name="ShapeAppearance.SS.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerSize">0dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.SS.Rounded" parent="">
+        <item name="cornerSize">@dimen/btn_radius</item>
+    </style>
+
+</resources>
