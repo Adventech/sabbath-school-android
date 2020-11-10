@@ -1,0 +1,28 @@
+name: workflow
+
+on:
+  push:
+
+jobs:
+  testing:
+    name: Lint and unit test
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Run ktlint
+        run: ./gradlew ktlint
+
+      - name: Run Android lint
+        run: ./gradlew lintDebug
+
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest
