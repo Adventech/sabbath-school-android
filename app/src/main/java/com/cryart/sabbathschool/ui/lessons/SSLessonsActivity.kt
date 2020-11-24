@@ -147,10 +147,6 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
         ssLessonsViewModel?.destroy()
     }
 
-    override fun onLogoutEvent() {
-        finish()
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.ss_lessons_menu_share -> {
@@ -163,9 +159,5 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onBackPressed() {
-        finish()
     }
 }

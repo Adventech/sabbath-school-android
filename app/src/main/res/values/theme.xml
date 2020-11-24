@@ -94,7 +94,7 @@
     <style name="ThemeOverlay.SS.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Light.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
-        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="android:navigationBarColor" tools:ignore="NewApi">?attr/colorSurface</item>
         <item name="bottomSheetStyle">@style/SS.Widget.BottomSheet.Modal</item>
     </style>
 </resources>

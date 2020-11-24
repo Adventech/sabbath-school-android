@@ -138,9 +138,6 @@ class QuarterliesActivity : SSBaseActivity() {
                 .show()
     }
 
-    override fun onLogoutEvent() {
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.ss_quarterlies_menu, menu)
         return super.onCreateOptionsMenu(menu)

@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.view;
 
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -44,6 +45,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.view.GestureDetectorCompat;
 import com.cryart.sabbathschool.R;
@@ -90,33 +92,27 @@ public class SSReadingView extends WebView {
 
     public SSReadingView(final Context context) {
         super(context);
-        if (!isInEditMode()) {
-            gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
-            ssReadViewBridge = new SSReadViewBridge(context);
-            this.setWebViewClient(new SSWebViewClient());
-            this.getSettings().setJavaScriptEnabled(true);
-            this.addJavascriptInterface(ssReadViewBridge, bridgeName);
-        }
+        initWebView(context);
     }
 
     public SSReadingView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-        if (!isInEditMode()) {
-            gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
-            ssReadViewBridge = new SSReadViewBridge(context);
-            this.setWebViewClient(new SSWebViewClient());
-            this.getSettings().setJavaScriptEnabled(true);
-            this.addJavascriptInterface(ssReadViewBridge, bridgeName);
-        }
+        initWebView(context);
     }
 
     public SSReadingView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
+        initWebView(context);
+    }
+
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
+    private void initWebView(@NonNull Context context) {
         if (!isInEditMode()) {
             gestureDetector = new GestureDetectorCompat(context, new SSReadingView.GestureListener());
             ssReadViewBridge = new SSReadViewBridge(context);
             this.setWebViewClient(new SSWebViewClient());
             this.getSettings().setJavaScriptEnabled(true);
+            this.getSettings().setAllowFileAccess(true);
             this.addJavascriptInterface(ssReadViewBridge, bridgeName);
         }
     }
