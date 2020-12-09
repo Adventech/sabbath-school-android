@@ -236,7 +236,7 @@ public class SSReadingView extends WebView {
             }
         }
 
-        String content = ssReaderContent.replaceAll("\\{\\{content\\}\\}", ssRead.content);
+        String content = ssReaderContent.replace("{{content}}", ssRead.content);
 
         content = content.replace("ss-wrapper-light", "ss-wrapper-" + ssReadingDisplayOptions.theme);
         content = content.replace("ss-wrapper-andada", "ss-wrapper-" + ssReadingDisplayOptions.font);
