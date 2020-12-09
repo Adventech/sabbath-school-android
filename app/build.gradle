@@ -182,6 +182,6 @@ dependencies {
 apply plugin: 'com.google.gms.google-services'
 
 play {
-    serviceAccountCredentials = file("../keys/play_store_key.json")
-    defaultToAppBundles = true
+    serviceAccountCredentials.set(file("../keys/play_store_key.json"))
+    defaultToAppBundles.set(true)
 }
