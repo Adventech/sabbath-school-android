@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"Суботня Школа"</string>
+    <string name="ss_share">"Поділитися"</string>
+    <string name="ss_login_button_google">"Увійти через Google"</string>
+    <string name="ss_login_button_facebook">"Увійти через Facebook"</string>
+    <string name="ss_login_button_anonymous">"Продовжити анонімно"</string>
+    <string name="ss_menu_anonymous_name">"Анонім"</string>
+    <string name="ss_menu_sign_out">"Вийти з аккаунта"</string>
+    <string name="ss_menu_read_now">"Читати посібник"</string>
+    <string name="ss_menu_share_app">"Поділитись додатком"</string>
+    <string name="ss_menu_share_app_text">"Я використовую цей додаток для Суботньої Школи"</string>
+    <string name="ss_my_highlights">"Мої позначення"</string>
+    <string name="ss_my_notes">"Мої нотатки"</string>
+    <string name="ss_settings">"Налаштування"</string>
+    <string name="ss_about">"Про додаток"</string>
+    <string name="ss_login_failed">"Помилка при вході. Будь ласка спробуйте ще раз"</string>
+    <string name="ss_login_anonymously_dialog_positive">"Так"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Ні"</string>
+    <string name="ss_login_anonymously_dialog_title">"Увійти анонімно?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Входячи анонімно ви не зможете синхронізувати дані, такі як нотатки та позначення, на різних пристроях або після видалення програми. Ви впевнені, що хочете продовжити?"</string>
+    <string name="ss_quarterlies_filter_languages">"Фільтр за мовою"</string>
+    <string name="ss_quarterlies_downloading">"Завантажую список посібників …"</string>
+    <string name="ss_quarterlies_error">"Виникла невідома помилка. Будь ласка спробуйте ще раз"</string>
+    <string name="ss_quarterlies_empty">"Схоже, що жодного посібника в даний момент не знайдено"</string>
+    <string name="ss_quarterly_item_read_text">"Відкрити"</string>
+    <string name="ss_lessons_downloading">"Відкриваю посібник …"</string>
+    <string name="ss_lessons_error">"Помилка під час відкриття посібника. Будь ласка, спробуйте пізніше"</string>
+    <string name="ss_lessons_empty">"Схоже, що немає уроків в даний момент"</string>
+    <string name="ss_lessons_read">"Читати"</string>
+    <string name="ss_reading_empty">"Схоже, цей урок порожній"</string>
+    <string name="ss_reading_error">"Сталася помилка під час відкриття уроку. Будь ласка, спробуйте пізніше"</string>
+    <string name="ss_reading_downloading">"Завантаження уроку"</string>
+    <string name="ss_reading_suggest_edit">"Запропонувати редагування або виправлення"</string>
+    <string name="ss_reading_suggest_edit_hint">"Будь ласка, опишіть проблему або пропозицію"</string>
+    <string name="ss_reading_suggest_edit_done">"Дякую! Ваша пропозиція буде розглянута"</string>
+    <string name="ss_reading_comment">"Коментар"</string>
+    <string name="ss_reading_enter_comment">"Введіть свій коментар"</string>
+    <string name="ss_reading_copied">"Вибране було скопійовано"</string>
+    <string name="ss_reading_share_to">"Поділитись в:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Незабаром"</string>
+    <string name="ss_coming_soon_subheader">"Ми працюємо над цією функцією прямо зараз. Скоро завершимо, залишайтеся з нами"</string>
+    <string name="ss_about_app_version">"версія 3.0"</string>
+    <string name="ss_about_made">"Зроблено з ❤ - Adventech"</string>
+    <string name="ss_settings_display_options">"Параметри дисплея"</string>
+    <string name="ss_settings_color_theme">"Колірна тема"</string>
+    <string name="ss_settings_color_theme_light">"Світла"</string>
+    <string name="ss_settings_color_theme_sepia">"Сепія"</string>
+    <string name="ss_settings_color_theme_dark">"Темна"</string>
+    <string name="ss_settings_typeface">"Шрифт"</string>
+    <string name="ss_settings_font_size">"Розмір шрифту"</string>
+    <string name="ss_settings_font_size_tiny">"Крихітний"</string>
+    <string name="ss_settings_font_size_small">"Невеликий"</string>
+    <string name="ss_settings_font_size_medium">"Середній"</string>
+    <string name="ss_settings_font_size_large">"Великий"</string>
+    <string name="ss_settings_font_size_huge">"Величезний"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Оцінити Суботню Школу"</string>
+    <string name="rate_dialog_message">"Якщо ви любите Суботню Школу, не могли б ви знайти хвилину, щоб оцінити її? Дякую за вашу підтримку!"</string>
+    <string name="rate_dialog_ok">"Оцінити"</string>
+    <string name="rate_dialog_cancel">"Пізніше"</string>
+    <string name="rate_dialog_no">"Відміна"</string>
+    <string name="ss_settings_website">"Веб-сторінка"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Читайте на інших мовах"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Натисніть на значок фільтра, щоб побачити всі доступні мови"</string>
+    <string name="ss_bible">"Біблія"</string>
+    <string name="ss_settings_reminder">"Щоденні Сповіщення"</string>
+    <string name="ss_settings_reminder_summary">"Влючая щоденні оповіщення про поточний уроці Суботньої Школи"</string>
+    <string name="ss_settings_reminder_time">"Час Сповіщення"</string>
+    <string name="ss_settings_reminder_text">"Час для вивчення суботню школу"</string>
+    <string name="ss_reading_offline">"Схоже ви перебуваєте поза мережею. Під'єднайтесь до інтернету і спробуйте ще раз"</string>
+    <string name="ss_reading_offline_retry">"Спробувати ще раз"</string>
+    <string name="ss_about_text">"Місія Адвентеча - це, перш за все, - слава нашим Legiia, Стародавнім дням. Ми прагнемо зробити наше служіння через технологію. Наша мета - об'єднати Церкву Адвентистів Сьомого Дня. Наша мета - проголосити Добру Новину цьому світу за допомогою технологій та досягнень у галузі комунікацій. Наша мета - свідчити про Друге пришестя Ісуса.
+
+Нас надихнув приклад і методи Ісуса, коли Він служив тут на Землі. Тому ми прагнемо забезпечити високу якість усіх наших проектів абсолютно безкоштовно за допомогою любові та відданості. Ми прагнемо віддати славу нашого Батька, бо Він гідний найвищих похвал.
+
+Ми дійсно віримо в те, що Бог підвищив знання сучасного світу і хоче, щоб ми використовували його для Його слави, щоб проголосити Його швидке повернення!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Попередні уроки"</string>
+</resources>

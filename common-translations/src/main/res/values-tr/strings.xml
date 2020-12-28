@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"Sebt Okulu"</string>
+    <string name="ss_share">"Paylaş"</string>
+    <string name="ss_login_button_google">"Google ile giriş"</string>
+    <string name="ss_login_button_facebook">"Facebook ile giriş"</string>
+    <string name="ss_login_button_anonymous">"Anonim olarak Devam"</string>
+    <string name="ss_menu_anonymous_name">"Anonim"</string>
+    <string name="ss_menu_sign_out">"Oturumu Kapat"</string>
+    <string name="ss_menu_read_now">"Kitapçığı Oku"</string>
+    <string name="ss_menu_share_app">"Uygulamayi paylaş"</string>
+    <string name="ss_menu_share_app_text">"Sebt Okulu uygulaması kullanıyorum"</string>
+    <string name="ss_my_highlights">"Vurguladıklarım"</string>
+    <string name="ss_my_notes">"Notlarım"</string>
+    <string name="ss_settings">"Ayarlar"</string>
+    <string name="ss_about">"Uygulama Hakkında"</string>
+    <string name="ss_login_failed">"Giriş başarısız. Lütfen tekrar deneyin"</string>
+    <string name="ss_login_anonymously_dialog_positive">"Evet"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Hayır"</string>
+    <string name="ss_login_anonymously_dialog_title">"Anonim Girişi yapılsın mı?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Anonim oturum açtığınızda, cihazlar arasında veya uygulamayı kaldırdıktan sonra, yorumlar ve vurgular gibi verilerinizi, eşitlemek mümkün olmayacaktır. Devam etmek istediğinizden emin misiniz?"</string>
+    <string name="ss_quarterlies_filter_languages">" Dil Filtresi"</string>
+    <string name="ss_quarterlies_downloading">"Kitapçıkların listesi yükleniyor …"</string>
+    <string name="ss_quarterlies_error">"Bilinmeyen bir hata oluştu. Lütfen tekrar deneyin"</string>
+    <string name="ss_quarterlies_empty">"Şu anda hiçbir kitapçık bulunamadı"</string>
+    <string name="ss_quarterly_item_read_text">"Aç"</string>
+    <string name="ss_lessons_downloading">"Kitapçık açılıyor …"</string>
+    <string name="ss_lessons_error">"Kitapçık açılırken hata oluştu. Lütfen tekrar deneyin"</string>
+    <string name="ss_lessons_empty">"Şu anda hiçbir ders bulunamadı"</string>
+    <string name="ss_lessons_read">"Oku"</string>
+    <string name="ss_reading_empty">"Bu ders boş  görünüyor"</string>
+    <string name="ss_reading_error">"Ders açılırken hata oluştu. Lütfen tekrar deneyin"</string>
+    <string name="ss_reading_downloading">"Çevrimdışı ders indiriliyor"</string>
+    <string name="ss_reading_suggest_edit">"Hata bildir"</string>
+    <string name="ss_reading_suggest_edit_hint">"Hatayi açıklayin veya bir öneride bulunun lütfen"</string>
+    <string name="ss_reading_suggest_edit_done">"Teşekkür ederiz! Öneriniz gözden geçirilecektir"</string>
+    <string name="ss_reading_comment">"Yorum Yap"</string>
+    <string name="ss_reading_enter_comment">"Yorumunuzu girin"</string>
+    <string name="ss_reading_copied">"Vurguladıklarınız kopyalandı"</string>
+    <string name="ss_reading_share_to">"Paylaş:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Yakında"</string>
+    <string name="ss_coming_soon_subheader">"Şu anda bu fonksiyon üzerinde çalışıyoruz. Ayrılmayin, bitmek üzere"</string>
+    <string name="ss_about_app_version">"Sürüm 3.0"</string>
+    <string name="ss_about_made">"Adventech tarafından ❤ ile yapıldı"</string>
+    <string name="ss_settings_display_options">"Görüntüleme ayarları"</string>
+    <string name="ss_settings_color_theme">"Renk teması"</string>
+    <string name="ss_settings_color_theme_light">"Açık"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepya"</string>
+    <string name="ss_settings_color_theme_dark">"Koyü"</string>
+    <string name="ss_settings_typeface">"Harf karakteri"</string>
+    <string name="ss_settings_font_size">"Yazı Boyutu"</string>
+    <string name="ss_settings_font_size_tiny">"Minik"</string>
+    <string name="ss_settings_font_size_small">"Küçük"</string>
+    <string name="ss_settings_font_size_medium">"Orta"</string>
+    <string name="ss_settings_font_size_large">"Büyük"</string>
+    <string name="ss_settings_font_size_huge">"Kocaman"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Sebt Okulu değerlendirin"</string>
+    <string name="rate_dialog_message">"Eğer Sebt Okulu beğendiyseniz, bunu değerlendirmek için bir dakikanızı ayırabilir misiniz? Desteğiniz için teşekkürler!"</string>
+    <string name="rate_dialog_ok">"Evet"</string>
+    <string name="rate_dialog_cancel">"Sonra"</string>
+    <string name="rate_dialog_no">"Hayır"</string>
+    <string name="ss_settings_website">"Web sitesi"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Başka dillerde okuyun"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Kullanılabilir tüm dilleri görmek için filtre düğmesine dokunun"</string>
+    <string name="ss_bible">"Kutsal Kitab"</string>
+    <string name="ss_settings_reminder">"Günlük Hatırlatma"</string>
+    <string name="ss_settings_reminder_summary">"Günlük Şabat Okulu dersi çalışma hatırlatıcısını etkinleştirmek için kontrol edin"</string>
+    <string name="ss_settings_reminder_time">"Hatırlatıcı Saati"</string>
+    <string name="ss_settings_reminder_text">"Şabat Okulu öğrenim zamanı"</string>
+    <string name="ss_reading_offline">"Çevrimdışısınız. Bu dersi okumak için tekrar bağlantı kurun"</string>
+    <string name="ss_reading_offline_retry">"Yeniden dene"</string>
+    <string name="ss_about_text">"Adventech'in misyonu her şeyden önce - Günümüze Kadar Kaderimize şan olsun. Teknolojiyle bakanlığımızı yapmak için çalışıyoruz. Amacımız Yedinci Gün Adventist Kilisenizi birleştirmektir. Amacımız, iletişim ve teknolojideki gelişmeler sayesinde bu Dünyaya İyi Haber yayınlamaktır. Hedefimiz İsanın Yeniden Gelişi'ne tanık olmaktır.
+
+İsa'nın yeryüzünde görevlendirildiği zaman, İsa'nın örnek ve yöntemlerinden ilham alırız. Bu nedenle, tüm projelerimizin kalitesini sevgi ve özveri ile kesinlikle hiçbir bedelsiz olarak sunmayı taahhüt ediyoruz. Baba'mıza övgüler sunmaya kararlıyız, çünkü övgüye layıktır.
+
+Gerçekten, Tanrı'nın modern dünya bilgisini arttırdığına ve O'nun ihtişamını yakında geri döndüğünü ilan etmesi için onu kullanmamızı istiyoruz!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Önceki dersler"</string>
+</resources>

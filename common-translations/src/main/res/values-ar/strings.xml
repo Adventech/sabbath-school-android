@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">"مدرسة السبت"</string>
+    <string name="ss_share">"شارك"</string>
+    <string name="ss_login_button_google">"تسجيل الدخول بحساب جوجل"</string>
+    <string name="ss_login_button_facebook">"تسجيل الدخول بحساب الفيسبوك"</string>
+    <string name="ss_login_button_anonymous">"تسجيل الدخول كمجهول"</string>
+    <string name="ss_menu_anonymous_name">"مجهول"</string>
+    <string name="ss_menu_sign_out">"تسجيل الخروج "</string>
+    <string name="ss_menu_read_now">"اقرأ الآن"</string>
+    <string name="ss_menu_share_app">"شارك البرنامج"</string>
+    <string name="ss_menu_share_app_text">"تحقق من، وأنا باستخدام هذا التطبيق مدرسة السبت"</string>
+    <string name="ss_my_highlights">"بلدي يسلط الضوء على"</string>
+    <string name="ss_my_notes">"ملاحظاتي"</string>
+    <string name="ss_settings">"الضبط"</string>
+    <string name="ss_about">"حول البرنامج "</string>
+    <string name="ss_login_failed">"خطأ في التسجيل. يرجى المعاودة"</string>
+    <string name="ss_login_anonymously_dialog_positive">"نعم"</string>
+    <string name="ss_login_anonymously_dialog_negative">"لا"</string>
+    <string name="ss_login_anonymously_dialog_title">"التسجيل المجهول؟"</string>
+    <string name="ss_login_anonymously_dialog_description">"بتسجيل دخولك كمجهول لن تتمكن من تزامن بياناتك، كالتعليقات والنقاط البارزة، عبر الأجهزة أو بعد إلغاء التثبيت. هل أنت متأكد من المتابعة؟"</string>
+    <string name="ss_quarterlies_filter_languages">"تصفية اللغات"</string>
+    <string name="ss_quarterlies_downloading">"قائمة الافتتاح الفصلية"</string>
+    <string name="ss_quarterlies_error">"حدث خطأ غير معروف. الرجاء المحاولة مجدداً"</string>
+    <string name="ss_quarterlies_empty">"يبدو أنه لا توجد دروس متاحة الآن"</string>
+    <string name="ss_quarterly_item_read_text">"افتح"</string>
+    <string name="ss_lessons_downloading">"يتم الفتح..."</string>
+    <string name="ss_lessons_error">"حدثت مشكلة في أثناء فتح الدرس"</string>
+    <string name="ss_lessons_empty">"يبدو أنه لا توجد دروس في هذه اللحظة "</string>
+    <string name="ss_lessons_read">"اقرأ"</string>
+    <string name="ss_reading_empty">"يبدو أن هذا الدرس فارغ. الرجاء المعاودة لاحقاً"</string>
+    <string name="ss_reading_error">"حدثت مشكلة في أثناء فتح الدرس"</string>
+    <string name="ss_reading_downloading">"يتم الفتح..."</string>
+    <string name="ss_reading_suggest_edit">"اقترح تعديل أو تصحيح "</string>
+    <string name="ss_reading_suggest_edit_hint">"الرجاء وصف تصحيحك أو تعديلك"</string>
+    <string name="ss_reading_suggest_edit_done">"شكراً! سيتم النظر في اقتراحاك"</string>
+    <string name="ss_reading_comment">"تعليق"</string>
+    <string name="ss_reading_enter_comment">"ادخل تعليقك"</string>
+    <string name="ss_reading_copied">"تم نسخ المقطع"</string>
+    <string name="ss_reading_share_to">"شارك المقطع إلى:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"قريباًً"</string>
+    <string name="ss_coming_soon_subheader">"نحن نعمل على هذه الخاصية الآن. ترّقب، قريباً"</string>
+    <string name="ss_about_app_version">"نسخة ٣.٠"</string>
+    <string name="ss_about_made">"صنع ب ❤ بواسطة أدفنتيك"</string>
+    <string name="ss_settings_display_options">"خيارات العرض"</string>
+    <string name="ss_settings_color_theme">"لون الستايل"</string>
+    <string name="ss_settings_color_theme_light">"فاتح"</string>
+    <string name="ss_settings_color_theme_sepia">"بني داكن"</string>
+    <string name="ss_settings_color_theme_dark">"غامق"</string>
+    <string name="ss_settings_typeface">"محرف"</string>
+    <string name="ss_settings_font_size">"حجم الخط"</string>
+    <string name="ss_settings_font_size_tiny">"صغير جداً"</string>
+    <string name="ss_settings_font_size_small">"صغير"</string>
+    <string name="ss_settings_font_size_medium">"معتدل"</string>
+    <string name="ss_settings_font_size_large">"كبير"</string>
+    <string name="ss_settings_font_size_huge">"ضخم"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"قيّم البرنامج"</string>
+    <string name="rate_dialog_message">"إن كنت قد أحببت البرنامج، فهل ترغب في أخذ بضعة لحظات لتقييمه؟ شكراً على دعمك!"</string>
+    <string name="rate_dialog_ok">"قيّم"</string>
+    <string name="rate_dialog_cancel">"لاحقاً"</string>
+    <string name="rate_dialog_no">"لا"</string>
+    <string name="ss_settings_website">"الموقع الإلكتروني"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"اقرأ بلغات أكثر"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"انقر على الأيقونة لرؤية جميع اللغات المتاحة"</string>
+    <string name="ss_bible">"الكتاب المقدس"</string>
+    <string name="ss_settings_reminder">"التذكير اليومي"</string>
+    <string name="ss_settings_reminder_summary">"اختر لتفعيل التذكير اليومي لدرس مدرسة السبت"</string>
+    <string name="ss_settings_reminder_time">"وقت التذكير"</string>
+    <string name="ss_settings_reminder_text">"الوقت لدراسة مدرسة السبت"</string>
+    <string name="ss_reading_offline">"انت غير متصل. أعد الاتصال بقراءة هذا الدرس"</string>
+    <string name="ss_reading_offline_retry">"أعد المحاولة"</string>
+    <string name="ss_lessons_previous">الدروس السابقة</string>
+    <string name="ss_about_text">مهمة Adventech هي أولاً وقبل كل شيء - أعط المجد لربنا ، أيام الأيام القديمة. نحن ملتزمون بالقيام بوزارتنا من خلال التكنولوجيا. هدفنا هو توحيد كنيستنا السبتية. هدفنا هو الإعلان عن أخبار جيدة لهذا العالم من خلال التكنولوجيا والتقدم في الاتصالات. هدفنا هو رؤية المجيء الثاني ليسوع.  لقد ألهمنا مثال يسوع وأساليبه عندما خدم هنا على الأرض. لذلك ، نحن ملتزمون بتقديم درجة عالية من الجودة لجميع مشاريعنا دون أي تكلفة على الإطلاق مع الحب والتفاني. نحن ملتزمون بإعطاء المجد لأبينا ، لأنه يستحق أعلى الثناء.  نحن نؤمن حقًا أن الله قد زاد معرفة العالم الحديث ويريدنا أن نستخدمه لمجده لإعلان عودته قريبًا!</string>
+</resources>

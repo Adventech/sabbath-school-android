@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"Sabato Mokykla"</string>
+    <string name="ss_share">"Dalintis"</string>
+    <string name="ss_login_button_google">"Prisijunkite naudodami „Google“"</string>
+    <string name="ss_login_button_facebook">"Prisijunkite naudodami „Facebook“"</string>
+    <string name="ss_login_button_anonymous">"Prisijungti anonimiškai"</string>
+    <string name="ss_menu_anonymous_name">"Anoniminis"</string>
+    <string name="ss_menu_sign_out">"Atsijungti"</string>
+    <string name="ss_menu_read_now">"Skaityti dabar"</string>
+    <string name="ss_menu_share_app">"Dalytis programa"</string>
+    <string name="ss_menu_share_app_text">"Patikrinkite naują naudojamą Sabato Mokyklos programą"</string>
+    <string name="ss_my_highlights">"Mano akcentai"</string>
+    <string name="ss_my_notes">"Mano pastabos"</string>
+    <string name="ss_settings">"Nustatymai"</string>
+    <string name="ss_about">"Apie"</string>
+    <string name="ss_login_failed">"Prisijungimas nepavyko. Prašau, pabandykite dar kartą."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Taip"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Ne"</string>
+    <string name="ss_login_anonymously_dialog_title">"Prisijungti anonimiškai?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Jei prisijungsite anonimiškai, negalėsite sinchronizuoti savo duomenų (pvz., Komentarų ir akcentų) įrenginiuose arba pašalinus programą. Ar tikrai norite tęsti?"</string>
+    <string name="ss_quarterlies_filter_languages">"Kalbos"</string>
+    <string name="ss_quarterlies_downloading">"Ketvirtinių kvotų gavimas…"</string>
+    <string name="ss_quarterlies_error">"Įvyko nežinoma klaida. Prašau, pabandykite dar kartą."</string>
+    <string name="ss_quarterlies_empty">"Šiuo metu nėra ketvirčio"</string>
+    <string name="ss_quarterly_item_read_text">"Atviras"</string>
+    <string name="ss_lessons_downloading">"Kas ketvirtį atidaroma…"</string>
+    <string name="ss_lessons_error">"Atidarant ketvirtį įvyko klaida"</string>
+    <string name="ss_lessons_empty">"Šiuo metu nėra ketvirčio"</string>
+    <string name="ss_lessons_read">"Skaityti"</string>
+    <string name="ss_reading_empty">"Mes dirbame šia pamoka. Dar kartą patikrinkite."</string>
+    <string name="ss_reading_error">"Atidarant pamoką įvyko klaida"</string>
+    <string name="ss_reading_downloading">"Pamokos parsisiuntimas neprisijungus skaitymui"</string>
+    <string name="ss_reading_suggest_edit">"Pasiūlyti redaguoti arba pataisyti"</string>
+    <string name="ss_reading_suggest_edit_hint">"Apibūdinkite savo pataisą ar pasiūlymą"</string>
+    <string name="ss_reading_suggest_edit_done">"Ačiū! Jūsų pasiūlymas bus peržiūrėtas."</string>
+    <string name="ss_reading_comment">"Komentuoti"</string>
+    <string name="ss_reading_enter_comment">"Įveskite savo komentarą"</string>
+    <string name="ss_reading_copied">"Pasirinkta kopija"</string>
+    <string name="ss_reading_share_to">"Bendrinkite pasirinkimą:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Netrukus"</string>
+    <string name="ss_coming_soon_subheader">"Šiuo metu dirbame su šia funkcija. Palaukite, netrukus pasirodys."</string>
+    <string name="ss_about_app_version">"3.0 versija"</string>
+    <string name="ss_about_made">"Pagaminta iš „Adventech“"</string>
+    <string name="ss_settings_display_options">"Vaizdo parinktys"</string>
+    <string name="ss_settings_color_theme">"Spalvų tema"</string>
+    <string name="ss_settings_color_theme_light">"Šviesa"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepija"</string>
+    <string name="ss_settings_color_theme_dark">"Tamsus"</string>
+    <string name="ss_settings_typeface">"Šriftas"</string>
+    <string name="ss_settings_font_size">"Šrifto dydis"</string>
+    <string name="ss_settings_font_size_tiny">"Mažas"</string>
+    <string name="ss_settings_font_size_small">"Mažas"</string>
+    <string name="ss_settings_font_size_medium">"Vidutinis"</string>
+    <string name="ss_settings_font_size_large">"Didelis"</string>
+    <string name="ss_settings_font_size_huge">"Didelis"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Įvertink šią aplikaciją"</string>
+    <string name="rate_dialog_message">"Prašome įvertinti šią programą. Ačiū už tavo pagalbą!"</string>
+    <string name="rate_dialog_ok">"Įvertink"</string>
+    <string name="rate_dialog_cancel">"Vėliau"</string>
+    <string name="rate_dialog_no">"Ne"</string>
+    <string name="ss_settings_website">"Interneto svetainė"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Daugiau kalbų"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Norėdami pamatyti turimas kalbas, bakstelėkite filtro piktogramą"</string>
+    <string name="ss_bible">"Biblija"</string>
+    <string name="ss_settings_reminder">"Dienos priminimas"</string>
+    <string name="ss_settings_reminder_summary">"Patikrinkite, ar norite atlikti kasdieninį priminimą apie tyrimą"</string>
+    <string name="ss_settings_reminder_time">"Priminimo laikas"</string>
+    <string name="ss_settings_reminder_text">"Laikas mokytis sabato mokyklos pamokos"</string>
+    <string name="ss_reading_offline">"Tu esi atsijungęs. Jei norite perskaityti šią pamoką, vėl prisijunkite."</string>
+    <string name="ss_reading_offline_retry">"Bandykite dar kartą"</string>
+    <string name="ss_about_text">"Adventecho misija pirmiausia yra svarbiausia - suteikti šlovę mūsų Lᴏʀᴅ, Senųjų Dienų. Mes esame pasiryžę atlikti savo tarnybą per technologijas. Mūsų tikslas - suvienyti mūsų septintosios dienos adventistų bažnyčią. Mūsų tikslas - paskelbti gerą naujieną šiam pasauliui technologijų ir komunikacijos pažangos dėka. Mūsų tikslas yra liudyti Jėzaus antrąjį atėjimą.
+
+Mes įkvėpė Jėzaus pavyzdys ir metodai, kai Jis čia tarnavo Žemėje. Todėl esame pasiryžę užtikrinti aukštą visų mūsų projektų kokybę be jokios naudos su meile ir pasišventimu. Mes esame įsipareigoję duoti šlovę mūsų Tėvui, nes Jis yra vertas aukščiausio šlovės.
+
+Mes tikime, kad Dievas padidino šiuolaikinio pasaulio žinias ir nori, kad mes jį panaudotume, kad Jo šlovė skelbtų Jo greitą sugrįžimą!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Ankstesnės pamokos"</string>
+</resources>

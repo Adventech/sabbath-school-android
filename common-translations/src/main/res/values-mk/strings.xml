@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"Сабат Училиште"</string>
+    <string name="ss_share">"Сподели"</string>
+    <string name="ss_login_button_google">"Пријавете се со Google"</string>
+    <string name="ss_login_button_facebook">"Пријавете се со Фејсбук"</string>
+    <string name="ss_login_button_anonymous">"Пријавете се анонимно"</string>
+    <string name="ss_menu_anonymous_name">"Анонимен"</string>
+    <string name="ss_menu_sign_out">"Одјави се"</string>
+    <string name="ss_menu_read_now">"Прочитајте сега"</string>
+    <string name="ss_menu_share_app">"Сподели апликација"</string>
+    <string name="ss_menu_share_app_text">"Проверете ја новата апликација за Sabbath School што ја користам"</string>
+    <string name="ss_my_highlights">"Мојот Определување"</string>
+    <string name="ss_my_notes">"Мои белешки"</string>
+    <string name="ss_settings">"Подесувања"</string>
+    <string name="ss_about">"За"</string>
+    <string name="ss_login_failed">"Пријавувањето не успеа. Обидете се повторно."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Да"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Не"</string>
+    <string name="ss_login_anonymously_dialog_title">"Најави анонимно?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Ако се најавите анонимно, нема да можете да ги синхронизирате вашите податоци (како што се коментари и нагласува) низ уредите, или по деинсталирањето на апликацијата. Дали сте сигурни дека сакате да продолжите?"</string>
+    <string name="ss_quarterlies_filter_languages">"Јазици"</string>
+    <string name="ss_quarterlies_downloading">"Добивање quarterlies ..."</string>
+    <string name="ss_quarterlies_error">"Се појави непозната грешка. Обидете се повторно."</string>
+    <string name="ss_quarterlies_empty">"Во овој момент нема достапни квартали"</string>
+    <string name="ss_quarterly_item_read_text">"Отвори"</string>
+    <string name="ss_lessons_downloading">"Отворање тримесечно ..."</string>
+    <string name="ss_lessons_error">"Се појави грешка при отварање тримесечно"</string>
+    <string name="ss_lessons_empty">"Во овој момент нема достапни квартали"</string>
+    <string name="ss_lessons_read">"Прочитајте"</string>
+    <string name="ss_reading_empty">"Ние работиме на оваа лекција. Ве молиме проверете наскоро."</string>
+    <string name="ss_reading_error">"Се појави грешка при отворањето лекција"</string>
+    <string name="ss_reading_downloading">"Преземање час за читање од офлајн"</string>
+    <string name="ss_reading_suggest_edit">"Предложете уредување или корекција"</string>
+    <string name="ss_reading_suggest_edit_hint">"Опишете ја вашата исправка или сугестија"</string>
+    <string name="ss_reading_suggest_edit_done">"Ви благодарам! Вашиот предлог ќе биде разгледан."</string>
+    <string name="ss_reading_comment">"Коментар"</string>
+    <string name="ss_reading_enter_comment">"Внесете го вашиот коментар"</string>
+    <string name="ss_reading_copied">"Селекција копирани"</string>
+    <string name="ss_reading_share_to">"Споделете избор на:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Наскоро"</string>
+    <string name="ss_coming_soon_subheader">"Во моментов работиме на оваа функција. Остани наскоро, тоа доаѓа наскоро."</string>
+    <string name="ss_about_app_version">"верзија 3.0"</string>
+    <string name="ss_about_made">"Направени со ❤ од Adventech"</string>
+    <string name="ss_settings_display_options">"Опции за прикажување"</string>
+    <string name="ss_settings_color_theme">"Боја тема"</string>
+    <string name="ss_settings_color_theme_light">"Светлина"</string>
+    <string name="ss_settings_color_theme_sepia">"Сепија"</string>
+    <string name="ss_settings_color_theme_dark">"Темно"</string>
+    <string name="ss_settings_typeface">"Фонт"</string>
+    <string name="ss_settings_font_size">"Големина на фонтот"</string>
+    <string name="ss_settings_font_size_tiny">"Мали"</string>
+    <string name="ss_settings_font_size_small">"Мали"</string>
+    <string name="ss_settings_font_size_medium">"Средно"</string>
+    <string name="ss_settings_font_size_large">"Голем"</string>
+    <string name="ss_settings_font_size_huge">"Огромен"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Оцени ја оваа апликација"</string>
+    <string name="rate_dialog_message">"Ве молам, одвојте момент да ја оценувате оваа апликација. Ви благодариме за вашата поддршка!"</string>
+    <string name="rate_dialog_ok">"Оцени го"</string>
+    <string name="rate_dialog_cancel">"Подоцна"</string>
+    <string name="rate_dialog_no">"Не"</string>
+    <string name="ss_settings_website">"Веб-страница"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Повеќе јазици"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Допрете ја иконата на филтерот за да ги видите достапните јазици"</string>
+    <string name="ss_bible">"Библијата"</string>
+    <string name="ss_settings_reminder">"Дневен потсетник"</string>
+    <string name="ss_settings_reminder_summary">"Проверете за да овозможите дневно потсетување на студијата"</string>
+    <string name="ss_settings_reminder_time">"Време на потсетување"</string>
+    <string name="ss_settings_reminder_text">"Време е да ја проучуваш часот во саботата"</string>
+    <string name="ss_reading_offline">"Вие сте присутен. Повторно поврзи се за да ја прочитате оваа лекција."</string>
+    <string name="ss_reading_offline_retry">"Повтори"</string>
+    <string name="ss_about_text">"Мисијата на Adventech е прво и основно - даде слава на нашиот Lᴏʀᴅ, Античка на денови. Ние сме посветени да го извршуваме нашето министерство преку технологија. Нашата цел е да ја обединиме нашата адвентистичка црква од седмиот ден. Нашата цел е да проповедаме добра вест во овој свет со помош на технологија и достигнувања во комуникациите. Нашата цел е да го следиме Исусовото второ доаѓање.
+
+Ние сме инспирирани од примерот и методите на Исус, кога Тој служел овде на Земјата. Затоа, ние сме посветени да испорачаме висок степен на квалитет на сите наши проекти со апсолутно без трошоци со љубов и посветеност. Ние сме посветени да му оддадеме слава на нашиот Отец, зашто тој е достоен за највисоката фалба.
+
+Ние навистина веруваме дека Бог го зголеми познавањето на современиот свет и сака да го искористиме за Неговата слава за да го објавиме неговото брзо враќање!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Претходни лекции"</string>
+</resources>

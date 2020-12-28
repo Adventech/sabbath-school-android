@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"Liksyon sa Paaralang Sabado"</string>
+    <string name="ss_share">"Ibahagi"</string>
+    <string name="ss_login_button_google">"Mag-sign in gamit ang Google"</string>
+    <string name="ss_login_button_facebook">"Mag-sign in gamit ang Facebook"</string>
+    <string name="ss_login_button_anonymous">"Mag-login nang hindi nagpapakilala"</string>
+    <string name="ss_menu_anonymous_name">"Hindi nagpapakilala"</string>
+    <string name="ss_menu_sign_out">"Maglog-off"</string>
+    <string name="ss_menu_read_now">"Basahin na ngayon"</string>
+    <string name="ss_menu_share_app">"Ibahagi ang App"</string>
+    <string name="ss_menu_share_app_text">"Tingnan ang bagong app ng Sabbath School na ginagamit ko"</string>
+    <string name="ss_my_highlights">"Aking Mga Tampok"</string>
+    <string name="ss_my_notes">"Mga sulatin ko"</string>
+    <string name="ss_settings">"Mga Setting"</string>
+    <string name="ss_about">"Tungkol sa"</string>
+    <string name="ss_login_failed">"Hindi tagumpay ang pag-login. Ulitin mo ulit."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Oo"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Hindi"</string>
+    <string name="ss_login_anonymously_dialog_title">"Mag-login nang hindi nagpapakilala?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Kung nag-login ka nang hindi nagpapakilala, hindi mo ma-synchronize ang iyong data (tulad ng mga komento at mga highlight) sa mga device, o pagkatapos i-uninstall ang app. Sigurado ka bang gusto mong magpatuloy?"</string>
+    <string name="ss_quarterlies_filter_languages">"Mga Wika"</string>
+    <string name="ss_quarterlies_downloading">"Pagkuha ng quarterlies ..."</string>
+    <string name="ss_quarterlies_error">"Ang hindi kilalang error ay naganap. Ulitin mo ulit."</string>
+    <string name="ss_quarterlies_empty">"Walang mga quarterlies na magagamit sa oras na ito"</string>
+    <string name="ss_quarterly_item_read_text">"Buksan"</string>
+    <string name="ss_lessons_downloading">"Buksan ang quarterly ..."</string>
+    <string name="ss_lessons_error">"Naganap ang error habang binubuksan ang quarterly"</string>
+    <string name="ss_lessons_empty">"Walang mga quarterlies na magagamit sa oras na ito"</string>
+    <string name="ss_lessons_read">"Basahin"</string>
+    <string name="ss_reading_empty">"Nagtatrabaho kami sa araling ito. Mangyaring suriin muli sa lalong madaling panahon."</string>
+    <string name="ss_reading_error">"May naganap na error habang binubuksan ang aralin"</string>
+    <string name="ss_reading_downloading">"Nagda-download ng aralin para sa offline na pagbabasa"</string>
+    <string name="ss_reading_suggest_edit">"Magmungkahi ng pag-edit o pagwawasto"</string>
+    <string name="ss_reading_suggest_edit_hint">"Mangyaring ilarawan ang iyong pagwawasto o mungkahi"</string>
+    <string name="ss_reading_suggest_edit_done">"Salamat! Susuriin ang iyong mungkahi."</string>
+    <string name="ss_reading_comment">"Magkomento"</string>
+    <string name="ss_reading_enter_comment">"Ipasok ang iyong komento"</string>
+    <string name="ss_reading_copied">"Pinili kinopya"</string>
+    <string name="ss_reading_share_to">"Ibahagi ang pagpipilian sa:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Malapit na"</string>
+    <string name="ss_coming_soon_subheader">"Kasalukuyan kaming nagtatrabaho sa tampok na ito. Manatiling nakatutok, darating ito sa lalong madaling panahon."</string>
+    <string name="ss_about_app_version">"bersyon 3.0"</string>
+    <string name="ss_about_made">"Ginawa gamit ang ❤ sa Adventech"</string>
+    <string name="ss_settings_display_options">"Mga pagpipilian sa display"</string>
+    <string name="ss_settings_color_theme">"Kulay ng tema"</string>
+    <string name="ss_settings_color_theme_light">"Banayad"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Madilim"</string>
+    <string name="ss_settings_typeface">"Font"</string>
+    <string name="ss_settings_font_size">"Laki ng font"</string>
+    <string name="ss_settings_font_size_tiny">"Napakaliit"</string>
+    <string name="ss_settings_font_size_small">"Maliit"</string>
+    <string name="ss_settings_font_size_medium">"Katamtaman"</string>
+    <string name="ss_settings_font_size_large">"Malaking"</string>
+    <string name="ss_settings_font_size_huge">"Napakalaki"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"I-rate ang app na ito"</string>
+    <string name="rate_dialog_message">"Mangyaring maglaan ng ilang sandali upang i-rate ang app na ito. Salamat sa iyong suporta!"</string>
+    <string name="rate_dialog_ok">"I-rate ito"</string>
+    <string name="rate_dialog_cancel">"Mamaya"</string>
+    <string name="rate_dialog_no">"Hindi"</string>
+    <string name="ss_settings_website">"Website"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Higit pang mga wika"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Tapikin ang icon ng filter upang makita ang mga magagamit na wika"</string>
+    <string name="ss_bible">"Bibliya"</string>
+    <string name="ss_settings_reminder">"Pang-araw-araw na Paalala"</string>
+    <string name="ss_settings_reminder_summary">"Suriin upang paganahin ang araw-araw na pag-aaral ng paalala"</string>
+    <string name="ss_settings_reminder_time">"Paalala sa Oras"</string>
+    <string name="ss_settings_reminder_text">"Oras na pag-aralan ang aralin sa Paaralan ng Sabbath"</string>
+    <string name="ss_reading_offline">"Ikaw ay offline. Makipag-ugnayan muli upang basahin ang araling ito."</string>
+    <string name="ss_reading_offline_retry">"Subukang muli"</string>
+    <string name="ss_about_text">"Ang Misyon ng Adventech ay una at pangunahin - magbigay kaluwalhatian sa ating Lᴏʀᴅ, ang Sinauna sa mga Araw. Kami ay dedikado na gawin ang aming ministeryo sa pamamagitan ng teknolohiya. Ang aming layunin ay upang makiisa sa aming Seventh-Day Adventist Church. Ang aming layunin ay upang ipahayag ang Mabuting Balita sa mundong ito sa pamamagitan ng teknolohiya at mga pagsulong sa komunikasyon. Ang aming layunin ay upang masaksihan ang Ikalawang Pagdating ni Jesus.
+
+Kami ay kinasihan ng halimbawa at pamamaraan ni Jesus, nang Siya ay naglingkod dito sa Lupa. Samakatuwid, kami ay nakatuon upang maihatid ang mataas na antas ng kalidad ng lahat ng aming mga proyekto sa ganap na walang gastos sa pag-ibig at dedikasyon. Nakatuon tayo na magbigay kaluwalhatian sa ating Ama, sapagkat Siya ay karapat-dapat sa pinakamataas na papuri.
+
+Talagang naniniwala kami na pinalaki ng Diyos ang kaalaman sa modernong mundo at nais naming gamitin ito para sa Kanyang kaluwalhatian upang ipahayag ang Kanyang pagbabalik sa hinaharap!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Mga nakaraang aralin"</string>
+</resources>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"안식일 학교"</string>
+
+    <!-- 앱 공유 -->
+    <string name="ss_share">"공유"</string>
+    <string name="ss_login_button_google">"Google로 로그인"</string>
+    <string name="ss_login_button_facebook">"Facebook으로 로그인"</string>
+    <string name="ss_login_button_anonymous">"익명으로 로그인"</string>
+    <string name="ss_menu_anonymous_name">"익명"</string>
+    <string name="ss_menu_sign_out">"로그 아웃"</string>
+
+    <!-- 바로읽기 -->
+    <string name="ss_menu_read_now">"본문속으로"</string>
+    <string name="ss_menu_share_app">"앱 공유"</string>
+    <string name="ss_menu_share_app_text">"Adventech의 안식일 학교 앱을 사용하고 있습니다. 시도해 보세요"</string>
+    <string name="ss_my_highlights">"형광펜"</string>
+    <string name="ss_my_notes">"노트"</string>
+    <string name="ss_settings">"설정"</string>
+    <string name="ss_about">"우리의 사역소개"</string>
+    <string name="ss_login_failed">"로그인 실패하였습니다. 다시 시도하십시오."</string>
+    <string name="ss_login_anonymously_dialog_positive">"예"</string>
+    <string name="ss_login_anonymously_dialog_negative">"아니요"</string>
+    <string name="ss_login_anonymously_dialog_title">"익명으로 로그인 하시겠습니까?"</string>
+    <string name="ss_login_anonymously_dialog_description">"익명으로 로그인하는 경우 기기간에 (또는 댓글이나 형광펜과 같은) 데이터를 동기화하거나 앱을 제거한 후에는 데이터를 동기화 할 수 없습니다. 계속 하시겠습니까?"</string>
+    <string name="ss_quarterlies_filter_languages">"언어선택"</string>
+    <string name="ss_quarterlies_downloading">"분기별 다운로드 ..."</string>
+    <string name="ss_quarterlies_error">"알 수 없는 오류가 발생했습니다. 다시 시도하십시오."</string>
+    <string name="ss_quarterlies_empty">"현재 분기별로 사용할 수 없습니다."</string>
+    <string name="ss_quarterly_item_read_text">"교과책열기"</string>
+    <string name="ss_lessons_downloading">"분기별 열기 ..."</string>
+    <string name="ss_lessons_error">"분기별 열기중 오류가 발생했습니다."</string>
+    <string name="ss_lessons_empty">"현재 분기별로 사용할 수 없습니다."</string>
+    <string name="ss_lessons_read">"본문속으로"</string>
+    <string name="ss_reading_empty">"우리는 지금 준비 중에 있습니다. 곧 다시 확인하십시오."</string>
+    <string name="ss_reading_error">"교과를 여는 중에 오류가 발생했습니다."</string>
+    <string name="ss_reading_downloading">"오프라인일때를 위한 강의 다운로드"</string>
+    <string name="ss_reading_suggest_edit">"수정 또는 수정 제안"</string>
+    <string name="ss_reading_suggest_edit_hint">"귀하의 수정이나 제안을 설명해주십시오."</string>
+    <string name="ss_reading_suggest_edit_done">"고맙습니다! 제안 사항이 검토될 것입니다."</string>
+    <string name="ss_reading_comment">"의견"</string>
+    <string name="ss_reading_enter_comment">"귀하의 의견을 입력하십시오"</string>
+    <string name="ss_reading_copied">"선택 사항 복사됨"</string>
+    <string name="ss_reading_share_to">"선택 항목 공유 :"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"출시 예정"</string>
+    <string name="ss_coming_soon_subheader">"현재 이 기능을 개발 중입니다. 계속 지켜봐주십시오. 곧 나옵니다."</string>
+    <string name="ss_about_app_version">"버전 3.0"</string>
+    <string name="ss_about_made">"❤ Adventech 제작"</string>
+    <string name="ss_settings_display_options">"디스플레이 옵션"</string>
+    <string name="ss_settings_color_theme">"색상 테마"</string>
+    <string name="ss_settings_color_theme_light">"빛"</string>
+    <string name="ss_settings_color_theme_sepia">"sepia색상"</string>
+    <string name="ss_settings_color_theme_dark">"어둡게"</string>
+    <string name="ss_settings_typeface">"글꼴"</string>
+    <string name="ss_settings_font_size">"글자 크기"</string>
+    <string name="ss_settings_font_size_tiny">"아주 작은"</string>
+    <string name="ss_settings_font_size_small">"작은"</string>
+    <string name="ss_settings_font_size_medium">"중간"</string>
+    <string name="ss_settings_font_size_large">"큰"</string>
+    <string name="ss_settings_font_size_huge">"아주 큰"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"안식일 학교를 평가하십시오"</string>
+    <string name="rate_dialog_message">"앱을 평가해 주세요. 지원해 주셔서 감사합니다."</string>
+    <string name="rate_dialog_ok">"평점"</string>
+    <string name="rate_dialog_cancel">"나중에"</string>
+    <string name="rate_dialog_no">"아니요"</string>
+    <string name="ss_settings_website">"웹 사이트"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"기타 언어"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"사용 가능한 언어를 보려면 필터 아이콘을 누르세요."</string>
+    <string name="ss_bible">"성경"</string>
+    <string name="ss_settings_reminder">"일일 알리미"</string>
+    <string name="ss_settings_reminder_summary">"매일 교과공부 알림을 사용하도록 설정하려면 선택하십시오."</string>
+    <string name="ss_settings_reminder_time">"알림 시간"</string>
+    <string name="ss_settings_reminder_text">"안식일 학교 교과를 공부할 시간."</string>
+    <string name="ss_reading_offline">"지금 접속이 되지 않았습니다. 이 단원을 읽으려면 다시 연결하세요."</string>
+    <string name="ss_reading_offline_retry">"다시 시도해 보세요"</string>
+    <string name="ss_about_text">"Adventech의 선교가 최우선입니다 - 고대의 시대 인 L to에게 영광을 돌리십시오. 우리는 기술을 통해 사역을 수행하기 위해 헌신하고 있습니다. 우리의 목표는 제 칠일 안식일 예수 재림 교회를 연합하는 것입니다. 우리의 목표는 커뮤니케이션 및 기술 발전을 통해이 세상에 복음을 선포하는 것입니다. 우리의 목표는 예수님의 재림을 목격하는 것입니다.
+
+우리는 예수님 께서 지상에서 사역하신 예수님의 본보기와 방법에 고무되어 있습니다. 따라서 우리는 사랑과 헌신으로 절대적으로 비용없이 모든 프로젝트의 높은 수준의 품질을 제공하기 위해 노력합니다. 우리는 하나님 아버지 께 영광을 돌리려고 헌신합니다. 그분은 최고의 찬양을 받으시기에 합당한 분이기 때문입니다.
+
+우리는 하나님 께서 현대 세계에 대한 지식을 높여 주셨고, 하나님의 영광을 위해 그것을 사용하여 그분의 곧 돌아 오라는 것을 선포하기를 원합니다!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"이전 레슨"</string>
+</resources>

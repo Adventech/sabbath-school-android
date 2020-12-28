@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"Szombatiskola"</string>
+    <string name="ss_share">"Ossza meg"</string>
+    <string name="ss_login_button_google">"Jelentkezzen be a Google-lal"</string>
+    <string name="ss_login_button_facebook">"Jelentkezzen be a Facebook-on"</string>
+    <string name="ss_login_button_anonymous">"Bejelentkezés névtelenül"</string>
+    <string name="ss_menu_anonymous_name">"Névtelen"</string>
+    <string name="ss_menu_sign_out">"Kijelentkezés"</string>
+    <string name="ss_menu_read_now">"Olvasd Most"</string>
+    <string name="ss_menu_share_app">"App megosztása"</string>
+    <string name="ss_menu_share_app_text">"Nézze meg, én ezt a Szombatiskola használom"</string>
+    <string name="ss_my_highlights">"Fénypontok"</string>
+    <string name="ss_my_notes">"Jegyzeteim"</string>
+    <string name="ss_settings">"Beállítások"</string>
+    <string name="ss_about">"Ról ről"</string>
+    <string name="ss_login_failed">"Bejelentkezés sikertelen. Kérlek próbáld újra."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Igen"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Nem"</string>
+    <string name="ss_login_anonymously_dialog_title">"Névtelen bejelentkezés?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Ha névtelenül jelentkezik be, nem tudja szinkronizálni az adatokat (például a megjegyzéseket és a kiemelkedéseket) az eszközök között, vagy az alkalmazás eltávolítása után. Biztosan folytatja?"</string>
+    <string name="ss_quarterlies_filter_languages">"Nyelvek"</string>
+    <string name="ss_quarterlies_downloading">"Negyedévek beszerzése ..."</string>
+    <string name="ss_quarterlies_error">"Ismeretlen hiba történt. Kérlek próbáld újra."</string>
+    <string name="ss_quarterlies_empty">"Jelenleg nincsenek negyedéves elérhetők"</string>
+    <string name="ss_quarterly_item_read_text">"Nyisd ki"</string>
+    <string name="ss_lessons_downloading">"Negyedéves megnyitása ..."</string>
+    <string name="ss_lessons_error">"Hiba történt negyedéves megnyitáskor"</string>
+    <string name="ss_lessons_empty">"Jelenleg nincsenek negyedéves elérhetők"</string>
+    <string name="ss_lessons_read">"Olvas"</string>
+    <string name="ss_reading_empty">"Erre a leckére dolgozunk. Kérjük, ellenőrizze újra hamarosan."</string>
+    <string name="ss_reading_error">"Hiba történt a lecke megnyitása közben"</string>
+    <string name="ss_reading_downloading">"Lecke letöltése offline olvasásra"</string>
+    <string name="ss_reading_suggest_edit">"Javasoljon szerkesztést vagy javítást"</string>
+    <string name="ss_reading_suggest_edit_hint">"Kérjük, írja le a korrekciót vagy javaslatot"</string>
+    <string name="ss_reading_suggest_edit_done">"Köszönöm! Javaslata felülvizsgálatra kerül."</string>
+    <string name="ss_reading_comment">"Megjegyzés"</string>
+    <string name="ss_reading_enter_comment">"Írja be a megjegyzést"</string>
+    <string name="ss_reading_copied">"A kiválasztás másolt"</string>
+    <string name="ss_reading_share_to">"Ossza meg a következőket:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Hamarosan"</string>
+    <string name="ss_coming_soon_subheader">"Jelenleg ezen a funkción dolgozunk. Maradjon hangosan, hamarosan jön."</string>
+    <string name="ss_about_app_version">"verzió 3.0"</string>
+    <string name="ss_about_made">"Az Adventech által készített ❤"</string>
+    <string name="ss_settings_display_options">"megjelenítési lehetőségek"</string>
+    <string name="ss_settings_color_theme">"Színes téma"</string>
+    <string name="ss_settings_color_theme_light">"Fény"</string>
+    <string name="ss_settings_color_theme_sepia">"Szépia"</string>
+    <string name="ss_settings_color_theme_dark">"Sötét"</string>
+    <string name="ss_settings_typeface">"Betűtípus"</string>
+    <string name="ss_settings_font_size">"Betűméret"</string>
+    <string name="ss_settings_font_size_tiny">"Apró"</string>
+    <string name="ss_settings_font_size_small">"Kicsi"</string>
+    <string name="ss_settings_font_size_medium">"Közepes"</string>
+    <string name="ss_settings_font_size_large">"Nagy"</string>
+    <string name="ss_settings_font_size_huge">"Hatalmas"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Értékelje a Sabbath Iskolát"</string>
+    <string name="rate_dialog_message">"Kérjük, szánjon egy pillanatot az alkalmazás értékeléséhez. Köszönet a támogatásodért!"</string>
+    <string name="rate_dialog_ok">"Értékelje"</string>
+    <string name="rate_dialog_cancel">"A későbbiekben"</string>
+    <string name="rate_dialog_no">"Nem"</string>
+    <string name="ss_settings_website">"Weboldal"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"További nyelvek"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Érintse meg a szűrő ikont a rendelkezésre álló nyelvek megtekintéséhez"</string>
+    <string name="ss_bible">"Biblia"</string>
+    <string name="ss_settings_reminder">"Napi emlékeztető"</string>
+    <string name="ss_settings_reminder_summary">"Ellenőrizze, hogy engedélyezi-e a napi felmérést"</string>
+    <string name="ss_settings_reminder_time">"Emlékeztető idő"</string>
+    <string name="ss_settings_reminder_text">"A Szombatiskola tanulmányozásának ideje"</string>
+    <string name="ss_reading_offline">"Offline vagy. Újracsatlakoztassa ezt a leckét."</string>
+    <string name="ss_reading_offline_retry">"Próbálja újra"</string>
+    <string name="ss_about_text">"Az Adventech küldetése mindenekelőtt - dicsőséget ad az Lᴏʀᴅ, az ókori napoknak. Elkötelezettek vagyunk, hogy a minisztériumunkat a technológia segítségével végezzük. Célunk, hogy egyesítsük a hetednapi adventista egyházunkat. Célunk, hogy a hírújság és a kommunikáció fejlesztése révén hirdessük ezt a világhírét. Célunk Jézus második eljövetele.
+
+Jézus példája és módszerei inspiráltak minket, amikor a Földön szolgált. Ezért elkötelezettek vagyunk, hogy minden projektünk magas színvonalát a szeretet és elkötelezettség nélkül terheljük. Elkötelezettek vagyunk, hogy dicsõséget adunk Atyánknak, mert méltó a dicséret legmagasabb szintjére.
+
+Igazán hiszünk abban, hogy Isten megnövelte a modern világ tudását, és azt akarja, hogy az Ő dicsőségére használjuk, hogy hirdesse hamarosan visszatérését!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Korábbi órák"</string>
+</resources>

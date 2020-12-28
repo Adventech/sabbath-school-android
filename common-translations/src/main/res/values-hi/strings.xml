@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"सब्बाथ स्कूल"</string>
+    <string name="ss_share">"शेयर"</string>
+    <string name="ss_login_button_google">"Google के साथ साइन इन करें"</string>
+    <string name="ss_login_button_facebook">"फ़ेसबुक से साइन इन करें"</string>
+    <string name="ss_login_button_anonymous">"अनाम रूप से लॉगिन करें"</string>
+    <string name="ss_menu_anonymous_name">"गुमनाम"</string>
+    <string name="ss_menu_sign_out">"साइन आउट"</string>
+    <string name="ss_menu_read_now">"अभी पढ़ो"</string>
+    <string name="ss_menu_share_app">"ऐप शेयर करें"</string>
+    <string name="ss_menu_share_app_text">"मेरे द्वारा उपयोग किए जा रहे नए सब्बाथ स्कूल ऐप को देखें"</string>
+    <string name="ss_my_highlights">"मेरे हाइलाइट्स"</string>
+    <string name="ss_my_notes">"मेरी टिप्पणियाँ"</string>
+    <string name="ss_settings">"सेटिंग्स"</string>
+    <string name="ss_about">"के बारे में"</string>
+    <string name="ss_login_failed">"लॉगिन विफल। कृपया पुन: प्रयास करें।"</string>
+    <string name="ss_login_anonymously_dialog_positive">"हाँ"</string>
+    <string name="ss_login_anonymously_dialog_negative">"नहीं"</string>
+    <string name="ss_login_anonymously_dialog_title">"अनाम रूप से लॉगिन करें?"</string>
+    <string name="ss_login_anonymously_dialog_description">"यदि आप गुमनाम रूप से लॉगिन करते हैं, तो आप अपने डेटा (जैसे टिप्पणियां और हाइलाइट्स) को डिवाइस पर या ऐप को अनइंस्टॉल करने के बाद सिंक्रोनाइज़ नहीं कर पाएंगे। क्या आप सुनिश्चित रूप से आगे बढ़ना चाहते हैं?"</string>
+    <string name="ss_quarterlies_filter_languages">"बोली"</string>
+    <string name="ss_quarterlies_downloading">"तिमाही हो रही है ..."</string>
+    <string name="ss_quarterlies_error">"अज्ञात त्रुटि हुई। कृपया पुन: प्रयास करें।"</string>
+    <string name="ss_quarterlies_empty">"इस समय कोई तिमाही उपलब्ध नहीं हैं"</string>
+    <string name="ss_quarterly_item_read_text">"खुला"</string>
+    <string name="ss_lessons_downloading">"त्रैमासिक खुल रहा है ..."</string>
+    <string name="ss_lessons_error">"त्रैमासिक खोलते समय त्रुटि हुई"</string>
+    <string name="ss_lessons_empty">"इस समय कोई तिमाही उपलब्ध नहीं हैं"</string>
+    <string name="ss_lessons_read">"पढ़ना"</string>
+    <string name="ss_reading_empty">"हम इस पाठ पर काम कर रहे हैं। कृपया जल्द ही फिर से जाँच करें।"</string>
+    <string name="ss_reading_error">"पाठ खोलते समय त्रुटि हुई"</string>
+    <string name="ss_reading_downloading">"ऑफ़लाइन पढ़ने के लिए पाठ डाउनलोड करना"</string>
+    <string name="ss_reading_suggest_edit">"संपादित करें या सुधार का सुझाव दें"</string>
+    <string name="ss_reading_suggest_edit_hint">"कृपया अपने सुधार या सुझाव का वर्णन करें"</string>
+    <string name="ss_reading_suggest_edit_done">"धन्यवाद! आपके सुझाव की समीक्षा की जाएगी।"</string>
+    <string name="ss_reading_comment">"टिप्पणी"</string>
+    <string name="ss_reading_enter_comment">"अपनी टिप्पणी दर्ज करें"</string>
+    <string name="ss_reading_copied">"चयन की प्रतिलिपि बनाई गई"</string>
+    <string name="ss_reading_share_to">"इसके लिए चयन साझा करें:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"जल्द आ रहा है"</string>
+    <string name="ss_coming_soon_subheader">"हम वर्तमान में इस सुविधा पर काम कर रहे हैं। बने रहें, यह जल्द ही आ रहा है।"</string>
+    <string name="ss_about_app_version">"संस्करण 3.0"</string>
+    <string name="ss_about_made">"Adventech द्वारा Ad के साथ बनाया गया"</string>
+    <string name="ss_settings_display_options">"प्रदर्शित विकल्प"</string>
+    <string name="ss_settings_color_theme">"रंग विषय"</string>
+    <string name="ss_settings_color_theme_light">"रोशनी"</string>
+    <string name="ss_settings_color_theme_sepia">"एक प्रकार की मछली"</string>
+    <string name="ss_settings_color_theme_dark">"अंधेरा"</string>
+    <string name="ss_settings_typeface">"फ़ॉन्ट"</string>
+    <string name="ss_settings_font_size">"फ़ॉन्ट आकार"</string>
+    <string name="ss_settings_font_size_tiny">"टिनी"</string>
+    <string name="ss_settings_font_size_small">"छोटा"</string>
+    <string name="ss_settings_font_size_medium">"मध्यम"</string>
+    <string name="ss_settings_font_size_large">"विशाल"</string>
+    <string name="ss_settings_font_size_huge">"विशाल"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"इस ऐप्लिकेशन को रेट करे"</string>
+    <string name="rate_dialog_message">"कृपया इस ऐप को रेट करने के लिए कुछ समय दें। आपके समर्थन के लिए धन्यवाद!"</string>
+    <string name="rate_dialog_ok">"इसे रेट करें"</string>
+    <string name="rate_dialog_cancel">"बाद में"</string>
+    <string name="rate_dialog_no">"नहीं"</string>
+    <string name="ss_settings_website">"वेबसाइट"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"और भाषाएँ"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"उपलब्ध भाषाओं को देखने के लिए फ़िल्टर आइकन पर टैप करें"</string>
+    <string name="ss_bible">"बाइबिल"</string>
+    <string name="ss_settings_reminder">"दैनिक अनुस्मारक"</string>
+    <string name="ss_settings_reminder_summary">"दैनिक अध्ययन अनुस्मारक को सक्षम करने के लिए जाँच करें"</string>
+    <string name="ss_settings_reminder_time">"अनुस्मारक समय"</string>
+    <string name="ss_settings_reminder_text">"सब्बाथ स्कूल के पाठ का अध्ययन करने का समय"</string>
+    <string name="ss_reading_offline">"आप ऑफलाइन हैं। इस पाठ को पढ़ने के लिए पुन: कनेक्ट करें।"</string>
+    <string name="ss_reading_offline_retry">"पुन: प्रयास करें"</string>
+    <string name="ss_about_text">"Adventech का मिशन सबसे पहले और सबसे महत्वपूर्ण है - हमारे L the, प्राचीन के दिनों को गौरव प्रदान करें। हम प्रौद्योगिकी के माध्यम से अपना मंत्रालय करने के लिए समर्पित हैं। हमारा लक्ष्य हमारे सातवें दिन के एडवेंटिस्ट चर्च को एकजुट करना है। हमारा लक्ष्य संचार में प्रौद्योगिकी और प्रगति के माध्यम से इस दुनिया को गुड न्यूज घोषित करना है। हमारा लक्ष्य यीशु के द्वितीय आगमन का साक्षी है।
+
+हम यीशु के उदाहरण और तरीकों से प्रेरित हैं, जब वह पृथ्वी पर यहाँ था। इसलिए, हम प्रेम और समर्पण के साथ अपनी सभी परियोजनाओं की उच्च स्तर की गुणवत्ता को पूरी तरह से देने के लिए प्रतिबद्ध हैं। हम अपने पिता को महिमा देने के लिए प्रतिबद्ध हैं, क्योंकि वह सबसे अधिक प्रशंसा के योग्य हैं।
+
+हम वास्तव में विश्वास करते हैं कि भगवान ने आधुनिक दुनिया के ज्ञान में वृद्धि की है और हम चाहते हैं कि हम उनकी महिमा के लिए इसका उपयोग उनकी जल्द वापसी की घोषणा करें!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"पिछला पाठ"</string>
+</resources>

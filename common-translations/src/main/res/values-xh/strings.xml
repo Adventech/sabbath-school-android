@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"Sesikolo Sesabatha"</string>
+    <string name="ss_share">"Yabelana"</string>
+    <string name="ss_login_button_google">"Ngena ngemvume ngeGoogle"</string>
+    <string name="ss_login_button_facebook">"Ngena kwi-Facebook"</string>
+    <string name="ss_login_button_anonymous">"Ngena ngemvume ngegama"</string>
+    <string name="ss_menu_anonymous_name">"Engaziwa"</string>
+    <string name="ss_menu_sign_out">"Phuma"</string>
+    <string name="ss_menu_read_now">"Funda ngoku"</string>
+    <string name="ss_menu_share_app">"Yabelana nge-app"</string>
+    <string name="ss_menu_share_app_text">"Khangela intsha yesicwangciso seSabatha yeSikolo esisebenzisayo"</string>
+    <string name="ss_my_highlights">"Eziphambili"</string>
+    <string name="ss_my_notes">"Amanqaku am"</string>
+    <string name="ss_settings">"Izicwangciso"</string>
+    <string name="ss_about">"Ngomsebenzi"</string>
+    <string name="ss_login_failed">"Ukungena akuphumelelanga. Nceda zama kwakhona"</string>
+    <string name="ss_login_anonymously_dialog_positive">"Ewe"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Hayi"</string>
+    <string name="ss_login_anonymously_dialog_title">"Ukungena ngokungaziwa?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Ukuba ungena ngokungachazwanga, awuyi kukwazi ukuvumelanisa idatha yakho (njengamazwana kunye neengqamaniso) kuwo onke amacebo, okanye emva kokukhipha insiza. Uqinisekile ukuba ufuna ukuqhubeka?"</string>
+    <string name="ss_quarterlies_filter_languages">"Iilwimi"</string>
+    <string name="ss_quarterlies_downloading">"Ukulayisha ..."</string>
+    <string name="ss_quarterlies_error">"Impazamo engaziwayo yenzeke. Nceda zama kwakhona."</string>
+    <string name="ss_quarterlies_empty">"Akukho zifundo ezikhoyo ngeli xesha"</string>
+    <string name="ss_quarterly_item_read_text">"Vula"</string>
+    <string name="ss_lessons_downloading">"Isifundo sokuvula"</string>
+    <string name="ss_lessons_error">"Iphutha lenzekile ngenkathi uvula isifundo"</string>
+    <string name="ss_lessons_empty">"Akukho zifundo ezikhoyo ngeli xesha"</string>
+    <string name="ss_lessons_read">"Funda"</string>
+    <string name="ss_reading_empty">"Sisebenza kule sifundo. Nceda khangela kwakhona kungekudala."</string>
+    <string name="ss_reading_error">"Iphutha lenzekile ngexesha lokuvula isifundo"</string>
+    <string name="ss_reading_downloading">"Ukulanda isifundo ekufundeni okungaxhomeki"</string>
+    <string name="ss_reading_suggest_edit">"Cwangcisa ukuhlela okanye ukulungiswa"</string>
+    <string name="ss_reading_suggest_edit_hint">"Nceda uchaze ukulungiswa okanye isiluleko sakho"</string>
+    <string name="ss_reading_suggest_edit_done">"Enkosi! Isiphakamiso sakho siya kuhlaziywa."</string>
+    <string name="ss_reading_comment">"I ngxelo"</string>
+    <string name="ss_reading_enter_comment">"Faka izimvo zakho"</string>
+    <string name="ss_reading_copied">"Ukhetho lukopishwe"</string>
+    <string name="ss_reading_share_to">"Yabelana ukhetho kwi:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Kuza ngokukhawuleza"</string>
+    <string name="ss_coming_soon_subheader">"Okwamanje sisebenza kule nxalenye. Hlalani nijonge, kuza ngokukhawuleza."</string>
+    <string name="ss_about_app_version">"version 3.0"</string>
+    <string name="ss_about_made">"Yenziwe ngo-❤ ngu-Adventech"</string>
+    <string name="ss_settings_display_options">"Izinketho zokubonisa"</string>
+    <string name="ss_settings_color_theme">"Umbala wombala"</string>
+    <string name="ss_settings_color_theme_light">"KuKhanya"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Mnyama"</string>
+    <string name="ss_settings_typeface">"Ifayile"</string>
+    <string name="ss_settings_font_size">"Isayizi yefonti"</string>
+    <string name="ss_settings_font_size_tiny">"Amancinci"</string>
+    <string name="ss_settings_font_size_small">"Ncinane"</string>
+    <string name="ss_settings_font_size_medium">"Phakathi"</string>
+    <string name="ss_settings_font_size_large">"Omkhulu"</string>
+    <string name="ss_settings_font_size_huge">"Mkhulu"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Linganisa le app"</string>
+    <string name="rate_dialog_message">"Nceda uthathe umzuzu ukulinganisa le app. Enkosi ngenkxaso yakho!"</string>
+    <string name="rate_dialog_ok">"Linganisa"</string>
+    <string name="rate_dialog_cancel">"Kamva"</string>
+    <string name="rate_dialog_no">"Hayi"</string>
+    <string name="ss_settings_website">"Iwebhusayithi"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Ezininzi iilwimi"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Thepha uphawu lwefayile ukujonga iilwimi ezikhoyo"</string>
+    <string name="ss_bible">"IBhayibhile"</string>
+    <string name="ss_settings_reminder">"Isikhumbuzi sosuku ngalunye"</string>
+    <string name="ss_settings_reminder_summary">"Hlola ukunika isikhumbuzo sokufunda rhoqo"</string>
+    <string name="ss_settings_reminder_time">"Isikhumbuzi Isikhathi"</string>
+    <string name="ss_settings_reminder_text">"Ixesha lokufunda isifundo seSabatha"</string>
+    <string name="ss_reading_offline">"Awuxhumekanga. Phinda uxhume kwakhona ukuze ufunde esi sifundo."</string>
+    <string name="ss_reading_offline_retry">"Phinda uzame"</string>
+    <string name="ss_about_text">"Umsebenzi we-Adventech ngowokuqala kunye neyona nto ephambili - udumise uLieithwule wethu, uMandulo weeNyanga. Sizinikezele ukwenza inkonzo yethu ngokusebenzisa iteknoloji. Injongo yethu kukudibanisa iSonto le-Seventh-Day Adventist. Injongo yethu kukuvakalisa iindaba ezilungileyo kweli hlabathi ngokusebenzisa iteknoloji kunye nokuphuhliswa kwezonxibelelwano. Injongo yethu kukubona ukuza kukaYesu kokuQala kwesiBini.
+
+Siphefumlelwe ngumzekelo kunye nezindlela zikaYesu, xa wayekhonza apha eMhlabeni. Ngoko ke, sizibophezele ekunikeni izinga eliphezulu lemilinganiselo yazo zonke iiprojekthi zethu ngaphandle kweendleko ngothando nokuzinikezela. Sizimisele ukuzukisa uBawo wethu, kuba ufanelwe ukuphakama kweyona nto.
+
+Siyakholwa ngokwenene ukuba uThixo ukwandise ulwazi lwehlabathi lanamhlanje kwaye ufuna ukuba silisebenzise ukuzuko lwakhe ukuvakalisa kwakhe kungekudala buyele!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Izifundo zangaphambili"</string>
+</resources>

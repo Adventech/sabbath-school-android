@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"دانشکده سبت"</string>
+    <string name="ss_share">"اشتراک گذاری"</string>
+    <string name="ss_login_button_google">"ورود به سیستم با گوگل"</string>
+    <string name="ss_login_button_facebook">"ورود به سیستم با فیس بوک"</string>
+    <string name="ss_login_button_anonymous">"ورود به عنوان ناشناس"</string>
+    <string name="ss_menu_anonymous_name">"ناشناس"</string>
+    <string name="ss_menu_sign_out">"خروج"</string>
+    <string name="ss_menu_read_now">"الان بخوان"</string>
+    <string name="ss_menu_share_app">"اشتراک گذاری برنامه"</string>
+    <string name="ss_menu_share_app_text">"اتمام، من استفاده از این برنامه مدرسه سبت هستم"</string>
+    <string name="ss_my_highlights">"نکات برجسته من"</string>
+    <string name="ss_my_notes">"نوشته های من"</string>
+    <string name="ss_settings">"تنظیمات"</string>
+    <string name="ss_about">"در باره"</string>
+    <string name="ss_login_failed">"ورود شکست خورده است. لطفا دوباره تلاش کنید"</string>
+    <string name="ss_login_anonymously_dialog_positive">"بله"</string>
+    <string name="ss_login_anonymously_dialog_negative">"خیر"</string>
+    <string name="ss_login_anonymously_dialog_title">"ورود ناشناس؟"</string>
+    <string name="ss_login_anonymously_dialog_description">"با ورود به صورت مخفی شما نمی خواهد قادر به همگام سازی داده های خود را، از جمله نظرات و برجسته، در سراسر دستگاه و یا بعد از پاک کردن نرم افزار. آیا مطمئن هستید که می خواهید ادامه دهید؟"</string>
+    <string name="ss_quarterlies_filter_languages">"فیلتر زبانها"</string>
+    <string name="ss_quarterlies_downloading">"گرفتن فصلنامه ..."</string>
+    <string name="ss_quarterlies_error">"خطای ناشناخته رخ داده است. لطفا دوباره تلاش کنید"</string>
+    <string name="ss_quarterlies_empty">"به نظر میرسد در فصلنامه در حال حاضر وجود ندارد"</string>
+    <string name="ss_quarterly_item_read_text">"باز کن"</string>
+    <string name="ss_lessons_downloading">"باز کردن سه ماهه ..."</string>
+    <string name="ss_lessons_error">"خطا در هنگام باز کردن سه ماهه رخ داده است"</string>
+    <string name="ss_lessons_empty">"به نظر می رسد هیچ درس در حال حاضر وجود دارد"</string>
+    <string name="ss_lessons_read">"خواندن"</string>
+    <string name="ss_reading_empty">"به نظر می رسد مثل این درس خالی است. لطفا بعدا"</string>
+    <string name="ss_reading_error">"خطا در هنگام باز کردن درس رخ داده است"</string>
+    <string name="ss_reading_downloading">"دانلود درس برای آنلاین"</string>
+    <string name="ss_reading_suggest_edit">"پیشنهاد ویرایش یا اصلاح"</string>
+    <string name="ss_reading_suggest_edit_hint">"لطفا اصلاح و یا پیشنهاد خود را توصیف"</string>
+    <string name="ss_reading_suggest_edit_done">"متشکرم! پیشنهاد شما بررسی خواهد شد"</string>
+    <string name="ss_reading_comment">"اظهار نظر"</string>
+    <string name="ss_reading_enter_comment">"نظر خود را وارد کنید"</string>
+    <string name="ss_reading_copied">"انتخاب کپی شده است."</string>
+    <string name="ss_reading_share_to">"به اشتراک انتخاب به:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"به زودی"</string>
+    <string name="ss_coming_soon_subheader">"ما در حال کار بر روی این ویژگی در حال حاضر. در ارتباط باشید، به زودی"</string>
+    <string name="ss_about_app_version">"نسخه 3.0"</string>
+    <string name="ss_about_made">"ساخته شده با ❤ توسط Adventech"</string>
+    <string name="ss_settings_display_options">"گزینه های نمایش"</string>
+    <string name="ss_settings_color_theme">"تم رنگ"</string>
+    <string name="ss_settings_color_theme_light">"سبک"</string>
+    <string name="ss_settings_color_theme_sepia">"رنگ سوبیایی"</string>
+    <string name="ss_settings_color_theme_dark">"تاریک"</string>
+    <string name="ss_settings_typeface">"سبک حروف"</string>
+    <string name="ss_settings_font_size">"اندازه فونت"</string>
+    <string name="ss_settings_font_size_tiny">"کوچک"</string>
+    <string name="ss_settings_font_size_small">"کوچک"</string>
+    <string name="ss_settings_font_size_medium">"متوسط"</string>
+    <string name="ss_settings_font_size_large">"بزرگ"</string>
+    <string name="ss_settings_font_size_huge">"بزرگ"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"دانشکده سبت نرخ"</string>
+    <string name="rate_dialog_message">"اگر دوست دارید دانشکده سبت، به ذهن شما گرفتن یک لحظه به امتیاز دهی هستند؟ از حمایت شما متشکرم!"</string>
+    <string name="rate_dialog_ok">"آن را دوست ندارم"</string>
+    <string name="rate_dialog_cancel">"بعد"</string>
+    <string name="rate_dialog_no">"خیر"</string>
+    <string name="ss_settings_website">"سایت اینترنتی"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"خوانده شده در زبان های بیشتر"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"آیکون فیلتر ضربه بزنید برای دیدن تمام زبان های موجود"</string>
+    <string name="ss_bible">"کتاب مقدس"</string>
+    <string name="ss_settings_reminder">"یادآوری روزانه"</string>
+    <string name="ss_settings_reminder_summary">"برای فعال روزانه مدرسه سبت یادآوری مطالعه درس"</string>
+    <string name="ss_settings_reminder_time">"یادآوری زمان"</string>
+    <string name="ss_settings_reminder_text">"زمان برای مطالعه دانشکده سبت"</string>
+    <string name="ss_reading_offline">"شما آفلاین هستید. دوباره به هم متصل به خواندن این درس"</string>
+    <string name="ss_reading_offline_retry">"دوباره سعی کنید"</string>
+    <string name="ss_about_text">"ماموریت Adventech در درجه اول است - شکوه و عظمت را به Lᴏʀᴅ ما، باستانی روز. ما اختصاص داده شده به انجام وزارت ما را از طریق فن آوری است. هدف ما این است که برای متحد روز هفتم کلیسای ظهور ما است. هدف ما این است که اعلام خبر خوب به این جهان با استفاده از تکنولوژی و پیشرفت در ارتباطات است. هدف ما این است تا شاهد عیسی دوم آینده.
+
+ما را با مثال و روش عیسی مسیح، زمانی که او بر روی زمین خدمت الهام گرفته است. بنابراین، ما متعهد به ارائه درجه بالایی از کیفیت همه پروژه های ما در مطلقا هیچ هزینه با عشق و فداکاری. ما متعهد به شکوه و عظمت را به پدر ما، چرا که او شایسته بالاترین ستایش است.
+
+ما واقعا بر این باورند که خدا دانش از جهان مدرن افزایش یافته است و می خواهد ما را به استفاده از آن برای جلال او اعلام او به زودی بازگشت!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"دروس قبلی"</string>
+</resources>

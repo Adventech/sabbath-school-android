@@ -44,6 +44,7 @@ android {
 dependencies {
 
     implementation(project(BuildModules.DESIGN))
+    implementation(project(BuildModules.TRANSLATIONS))
 
     implementation(Dependencies.KOTLIN)
     implementation(Dependencies.CORE_KTX)

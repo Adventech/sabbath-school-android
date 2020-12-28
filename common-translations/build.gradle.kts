@@ -20,7 +20,6 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
 
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY)
@@ -32,9 +31,4 @@ android {
     defaultConfig {
         minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
     }
-}
-
-dependencies {
-    implementation(Dependencies.KOTLIN)
-    implementation(Dependencies.MATERIAL)
 }

@@ -1,5 +1,6 @@
 include(
     ":app",
-    ":design"
+    ":design",
+    ":common-translations"
 )
 rootProject.buildFileName = "build.gradle.kts"

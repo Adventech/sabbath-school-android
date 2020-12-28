@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"Bài học Sa-bát"</string>
+    <string name="ss_share">"Chia sẻ"</string>
+    <string name="ss_login_button_google">"Đăng nhập bằng Google"</string>
+    <string name="ss_login_button_facebook">"Đăng nhập vao facebook"</string>
+    <string name="ss_login_button_anonymous">"Đăng nhập nặc danh"</string>
+    <string name="ss_menu_anonymous_name">"Vô danh"</string>
+    <string name="ss_menu_sign_out">"Đăng xuất"</string>
+    <string name="ss_menu_read_now">"Đọc ngay"</string>
+    <string name="ss_menu_share_app">"Chia sẻ ứng dụng"</string>
+    <string name="ss_menu_share_app_text">"Kiểm tra ứng dụng Sabbath School mới mà tôi đang sử dụng"</string>
+    <string name="ss_my_highlights">"Điểm nổi bật của tôi"</string>
+    <string name="ss_my_notes">"Ghi chú của tôi"</string>
+    <string name="ss_settings">"Cài đặt"</string>
+    <string name="ss_about">"Trong khoảng"</string>
+    <string name="ss_login_failed">"Đăng nhập thất bại. Vui lòng thử lại."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Vâng"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Không"</string>
+    <string name="ss_login_anonymously_dialog_title">"Đăng nhập nặc danh?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Nếu bạn đăng nhập ẩn danh, bạn sẽ không thể đồng bộ hóa dữ liệu của mình (như nhận xét và nội dung nổi bật) trên các thiết bị hoặc sau khi gỡ cài đặt ứng dụng. Bạn có chắc muốn tiếp tục?"</string>
+    <string name="ss_quarterlies_filter_languages">"Ngôn ngữ"</string>
+    <string name="ss_quarterlies_downloading">"Bắt tứ quý"</string>
+    <string name="ss_quarterlies_error">"Xảy ra lỗi không xác định được. Vui lòng thử lại."</string>
+    <string name="ss_quarterlies_empty">"Không có phần tư có sẵn tại thời điểm này"</string>
+    <string name="ss_quarterly_item_read_text">"Mở"</string>
+    <string name="ss_lessons_downloading">"Khai trương hàng quý"</string>
+    <string name="ss_lessons_error">"Xảy ra lỗi trong khi mở hàng quý"</string>
+    <string name="ss_lessons_empty">"Không có phần tư có sẵn tại thời điểm này"</string>
+    <string name="ss_lessons_read">"Đọc"</string>
+    <string name="ss_reading_empty">"Chúng tôi đang làm việc trên bài học này. Vui lòng kiểm tra lại sớm."</string>
+    <string name="ss_reading_error">"Xảy ra lỗi trong khi mở bài học"</string>
+    <string name="ss_reading_downloading">"Tải xuống bài học để đọc ngoại tuyến"</string>
+    <string name="ss_reading_suggest_edit">"Đề nghị chỉnh sửa hoặc chỉnh sửa"</string>
+    <string name="ss_reading_suggest_edit_hint">"Vui lòng mô tả sự điều chỉnh hoặc đề nghị của bạn"</string>
+    <string name="ss_reading_suggest_edit_done">"Cảm ơn bạn! Đề nghị của bạn sẽ được xem xét."</string>
+    <string name="ss_reading_comment">"Bình luận"</string>
+    <string name="ss_reading_enter_comment">"Nhập bình luận của bạn"</string>
+    <string name="ss_reading_copied">"Lựa chọn sao chép"</string>
+    <string name="ss_reading_share_to">"Chia sẻ lựa chọn để:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Sắp ra mắt"</string>
+    <string name="ss_coming_soon_subheader">"Chúng tôi hiện đang làm việc trên tính năng này. Hãy theo dõi, nó sẽ đến sớm."</string>
+    <string name="ss_about_app_version">"phiên bản 3.0"</string>
+    <string name="ss_about_made">"Được làm bằng bởi Adventech"</string>
+    <string name="ss_settings_display_options">"Tùy chọn hiển thị"</string>
+    <string name="ss_settings_color_theme">"Chủ đề màu"</string>
+    <string name="ss_settings_color_theme_light">"Ánh sáng"</string>
+    <string name="ss_settings_color_theme_sepia">"Nâu đỏ"</string>
+    <string name="ss_settings_color_theme_dark">"Tối"</string>
+    <string name="ss_settings_typeface">"Phông chữ"</string>
+    <string name="ss_settings_font_size">"Cỡ chữ"</string>
+    <string name="ss_settings_font_size_tiny">"Nhỏ bé"</string>
+    <string name="ss_settings_font_size_small">"Nhỏ bé"</string>
+    <string name="ss_settings_font_size_medium">"Trung bình"</string>
+    <string name="ss_settings_font_size_large">"Lớn"</string>
+    <string name="ss_settings_font_size_huge">"Khổng lồ"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Đánh giá ứng dụng này"</string>
+    <string name="rate_dialog_message">"Hãy dành một chút thời gian để đánh giá ứng dụng này. Cảm ơn sự hỗ trợ của bạn!"</string>
+    <string name="rate_dialog_ok">"Đánh giá nó"</string>
+    <string name="rate_dialog_cancel">"Một lát sau"</string>
+    <string name="rate_dialog_no">"Không"</string>
+    <string name="ss_settings_website">"Trang mạng"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Thêm ngôn ngữ"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Nhấn vào biểu tượng bộ lọc để xem các ngôn ngữ có sẵn"</string>
+    <string name="ss_bible">"Kinh thánh"</string>
+    <string name="ss_settings_reminder">"Nhắc nhở hàng ngày"</string>
+    <string name="ss_settings_reminder_summary">"Kiểm tra để bật nhắc nhở học tập hàng ngày"</string>
+    <string name="ss_settings_reminder_time">"Thời gian nhắc nhở"</string>
+    <string name="ss_settings_reminder_text">"Thời gian để học bài Sabbath School"</string>
+    <string name="ss_reading_offline">"Bạn đang offline. Kết nối lại để đọc bài học này."</string>
+    <string name="ss_reading_offline_retry">"Thử lại"</string>
+    <string name="ss_about_text">"Sứ mệnh của Adventech là trên hết và trước hết - hãy mang lại vinh quang cho Lᴏʀᴅ của chúng ta, Ancient of Days. Chúng tôi được dành riêng để làm bộ của chúng tôi thông qua công nghệ. Mục tiêu của chúng tôi là hợp nhất Giáo hội Cơ Đốc Phục Lâm của chúng tôi. Mục tiêu của chúng tôi là loan báo Tin mừng cho thế giới này bằng công nghệ và những tiến bộ trong truyền thông. Mục tiêu của chúng tôi là chứng kiến Chúa Jesus Lần thứ hai đến.
+
+Chúng ta được truyền cảm hứng bởi tấm gương và phương pháp của Chúa Giêsu, khi Ngài khai thác ở đây trên Trái đất. Do đó, chúng tôi cam kết cung cấp mức độ cao về chất lượng của tất cả các dự án của chúng tôi hoàn toàn miễn phí với tình yêu và sự cống hiến. Chúng tôi cam kết ban vinh quang cho Cha của chúng tôi, bởi vì Ngài xứng đáng được ca ngợi cao nhất.
+
+Chúng tôi thực sự tin rằng Chúa đã gia tăng kiến thức về thế giới hiện đại và muốn chúng tôi sử dụng nó cho vinh quang của Ngài để tuyên bố sự trở lại sớm của Ngài!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Bài học trước"</string>
+</resources>

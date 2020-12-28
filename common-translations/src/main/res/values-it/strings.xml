@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"Scuola del Sabato"</string>
+    <string name="ss_share">"Condividere"</string>
+    <string name="ss_login_button_google">"Accedi con Google"</string>
+    <string name="ss_login_button_facebook">"Accedi con Facebook"</string>
+    <string name="ss_login_button_anonymous">"Accedi come Anonimo"</string>
+    <string name="ss_menu_anonymous_name">"Anonimo"</string>
+    <string name="ss_menu_sign_out">"Disconnessione"</string>
+    <string name="ss_menu_read_now">"Leggi ora"</string>
+    <string name="ss_menu_share_app">"Condividi app"</string>
+    <string name="ss_menu_share_app_text">"Dai un'occhiata, sto usando questa app Scuola del Sabato"</string>
+    <string name="ss_my_highlights">"I miei punti salienti"</string>
+    <string name="ss_my_notes">"I miei appunti"</string>
+    <string name="ss_settings">"impostazioni"</string>
+    <string name="ss_about">"Di"</string>
+    <string name="ss_login_failed">"Accesso fallito. Per favore riprova."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Sì"</string>
+    <string name="ss_login_anonymously_dialog_negative">"No"</string>
+    <string name="ss_login_anonymously_dialog_title">"Accedi in modo anonimo?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Se esegui l'accesso in modo anonimo, non sarai in grado di sincronizzare i tuoi dati (come commenti ed evidenziazioni) su tutti i dispositivi o dopo aver disinstallato l'app. Sei sicuro di voler procedere?"</string>
+    <string name="ss_quarterlies_filter_languages">"Le lingue"</string>
+    <string name="ss_quarterlies_downloading">"Ottenere i quarterlies ..."</string>
+    <string name="ss_quarterlies_error">"Errore sconosciuto. Per favore riprova."</string>
+    <string name="ss_quarterlies_empty">"Non ci sono trimestri disponibili in questo momento"</string>
+    <string name="ss_quarterly_item_read_text">"Aperto"</string>
+    <string name="ss_lessons_downloading">"Apertura trimestrale ..."</string>
+    <string name="ss_lessons_error">"Si è verificato un errore durante l'apertura trimestrale"</string>
+    <string name="ss_lessons_empty">"Non ci sono trimestri disponibili in questo momento"</string>
+    <string name="ss_lessons_read">"Leggere"</string>
+    <string name="ss_reading_empty">"Stiamo lavorando a questa lezione. Si prega di controllare di nuovo presto."</string>
+    <string name="ss_reading_error">"Si è verificato un errore durante l'apertura della lezione"</string>
+    <string name="ss_reading_downloading">"Download di lezioni per la lettura offline"</string>
+    <string name="ss_reading_suggest_edit">"Suggerisci modifica o correzione"</string>
+    <string name="ss_reading_suggest_edit_hint">"Per favore descrivi la tua correzione o il tuo suggerimento"</string>
+    <string name="ss_reading_suggest_edit_done">"Grazie! Il tuo suggerimento verrà esaminato."</string>
+    <string name="ss_reading_comment">"Commento"</string>
+    <string name="ss_reading_enter_comment">"Inserisci il tuo commento"</string>
+    <string name="ss_reading_copied">"Selezione copiata"</string>
+    <string name="ss_reading_share_to">"Condividi la selezione a:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Prossimamente"</string>
+    <string name="ss_coming_soon_subheader">"Attualmente stiamo lavorando su questa funzione. Resta sintonizzato, arriverà presto."</string>
+    <string name="ss_about_app_version">"versione 3.0"</string>
+    <string name="ss_about_made">"Realizzato con ❤ da Adventech"</string>
+    <string name="ss_settings_display_options">"Opzioni di visualizzazione"</string>
+    <string name="ss_settings_color_theme">"Tema del colore"</string>
+    <string name="ss_settings_color_theme_light">"Leggero"</string>
+    <string name="ss_settings_color_theme_sepia">"Nero di seppia"</string>
+    <string name="ss_settings_color_theme_dark">"Buio"</string>
+    <string name="ss_settings_typeface">"Font"</string>
+    <string name="ss_settings_font_size">"Dimensione del font"</string>
+    <string name="ss_settings_font_size_tiny">"Minuscolo"</string>
+    <string name="ss_settings_font_size_small">"Piccolo"</string>
+    <string name="ss_settings_font_size_medium">"Medio"</string>
+    <string name="ss_settings_font_size_large">"Grande"</string>
+    <string name="ss_settings_font_size_huge">"Enorme"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Vota Scuola del Sabato"</string>
+    <string name="rate_dialog_message">"Per favore prenditi un momento per valutare l'app. Grazie per il vostro sostegno!"</string>
+    <string name="rate_dialog_ok">"Valutarlo"</string>
+    <string name="rate_dialog_cancel">"Dopo"</string>
+    <string name="rate_dialog_no">"No"</string>
+    <string name="ss_settings_website">"Sito web"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Più lingue"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Tocca l'icona del filtro per vedere le lingue disponibili"</string>
+    <string name="ss_bible">"Bibbia"</string>
+    <string name="ss_settings_reminder">"Promemoria giornaliero"</string>
+    <string name="ss_settings_reminder_summary">"Seleziona per attivare il promemoria di studio giornaliero"</string>
+    <string name="ss_settings_reminder_time">"Tempo di promemoria"</string>
+    <string name="ss_settings_reminder_text">"È tempo di studiare la lezione della Sabbath School"</string>
+    <string name="ss_reading_offline">"Sei offline. Riconnetti per leggere questa lezione."</string>
+    <string name="ss_reading_offline_retry">"Riprova"</string>
+    <string name="ss_about_text">"La missione di Adventech è prima di tutto - dare gloria al nostro Lᴏʀᴅ, l'Antico dei Giorni. Ci dedichiamo a svolgere il nostro ministero attraverso la tecnologia. Il nostro obiettivo è quello di unire la nostra Chiesa avventista del settimo giorno. Il nostro obiettivo è proclamare la Buona Novella a questo mondo attraverso la tecnologia e i progressi nelle comunicazioni. Il nostro obiettivo è testimoniare la seconda venuta di Gesù.
+
+Siamo ispirati dall'esempio e dai metodi di Gesù, quando ha esercitato il ministero qui sulla Terra. Pertanto, ci impegniamo a fornire un alto livello di qualità di tutti i nostri progetti senza alcun costo, con amore e dedizione. Ci impegniamo a dare gloria al nostro Padre, perché Egli è degno della più alta delle lodi.
+
+Crediamo veramente che Dio abbia accresciuto la conoscenza del mondo moderno e ci ha chiesto di usarlo per la Sua gloria per proclamare il Suo ritorno presto!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Lezioni precedenti"</string>
+</resources>

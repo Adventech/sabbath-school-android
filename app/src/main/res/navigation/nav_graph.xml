@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.cryart.sabbathschool.FirstFragment"
-        android:label="@string/first_fragment_label"
+        android:label="First Fragment"
         tools:layout="@layout/fragment_first">
 
         <action
@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.cryart.sabbathschool.SecondFragment"
-        android:label="@string/second_fragment_label"
+        android:label="Second Fragment"
         tools:layout="@layout/fragment_second">
 
         <action

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"ஓய்வுநாட் பள்ளி"</string>
+    <string name="ss_share">"பகிர்"</string>
+    <string name="ss_login_button_google">"Google உடன் உள்நுழைக"</string>
+    <string name="ss_login_button_facebook">"பேஸ்பு கொண்டு உள்நுழையவும்"</string>
+    <string name="ss_login_button_anonymous">"அநாமதேயமாக உள்நுழைக"</string>
+    <string name="ss_menu_anonymous_name">"அநாமதேய"</string>
+    <string name="ss_menu_sign_out">"வெளியேறு"</string>
+    <string name="ss_menu_read_now">"இப்போது படிக்கவும்"</string>
+    <string name="ss_menu_share_app">"பயன்பாட்டைப் பகிரலாம்"</string>
+    <string name="ss_menu_share_app_text">"நான் பயன்படுத்தும் புதிய சப்பாத் பள்ளி பயன்பாட்டை பாருங்கள்"</string>
+    <string name="ss_my_highlights">"என் சிறப்பம்சங்கள்"</string>
+    <string name="ss_my_notes">"என் குறிப்புகள்"</string>
+    <string name="ss_settings">"அமைப்புகள்"</string>
+    <string name="ss_about">"பற்றி"</string>
+    <string name="ss_login_failed">"உள்நுழைவு தோல்வி. தயவுசெய்து மீண்டும் முயற்சி செய்க."</string>
+    <string name="ss_login_anonymously_dialog_positive">"ஆம்"</string>
+    <string name="ss_login_anonymously_dialog_negative">"இல்லை"</string>
+    <string name="ss_login_anonymously_dialog_title">"அநாமதேயமாக உள்நுழையவா?"</string>
+    <string name="ss_login_anonymously_dialog_description">"நீங்கள் அநாமதேயாக உள்நுழைந்தால், சாதனங்கள் முழுவதும் (உங்கள் கருத்துகள் மற்றும் சிறப்பம்சங்கள்) உங்கள் தரவை ஒத்திசைக்க முடியாது அல்லது பயன்பாட்டை நிறுவல் நீக்கிய பிறகு. நீங்கள் தொடர விரும்புகிறீர்களா?"</string>
+    <string name="ss_quarterlies_filter_languages">"மொழிகள்"</string>
+    <string name="ss_quarterlies_downloading">"காலாண்டுகள் பெறுகிறது ..."</string>
+    <string name="ss_quarterlies_error">"தெரியாத பிழை ஏற்பட்டது. தயவுசெய்து மீண்டும் முயற்சி செய்க."</string>
+    <string name="ss_quarterlies_empty">"இந்த நேரத்தில் எந்த காலாவதியும் கிடைக்கவில்லை"</string>
+    <string name="ss_quarterly_item_read_text">"திறந்த"</string>
+    <string name="ss_lessons_downloading">"காலாண்டுத் திறப்பு ..."</string>
+    <string name="ss_lessons_error">"காலாண்டு திறக்கும்போது பிழை ஏற்பட்டது"</string>
+    <string name="ss_lessons_empty">"இந்த நேரத்தில் எந்த காலாவதியும் கிடைக்கவில்லை"</string>
+    <string name="ss_lessons_read">"படிக்க"</string>
+    <string name="ss_reading_empty">"நாம் இந்த பாடம் படித்து வருகிறோம். விரைவில் மீண்டும் சரிபார்க்கவும்."</string>
+    <string name="ss_reading_error">"பாடம் திறக்கும்போது பிழை ஏற்பட்டது"</string>
+    <string name="ss_reading_downloading">"ஆஃப்லைன் வாசிப்புக்கான பாடம் பதிவிறக்குகிறது"</string>
+    <string name="ss_reading_suggest_edit">"திருத்த அல்லது திருத்தம் பரிந்துரை"</string>
+    <string name="ss_reading_suggest_edit_hint">"உங்கள் திருத்தம் அல்லது ஆலோசனையை விவரிக்கவும்"</string>
+    <string name="ss_reading_suggest_edit_done">"நன்றி! உங்கள் பரிந்துரை மதிப்பாய்வு செய்யப்படும்."</string>
+    <string name="ss_reading_comment">"கருத்து"</string>
+    <string name="ss_reading_enter_comment">"உங்கள் கருத்தை உள்ளிடுக"</string>
+    <string name="ss_reading_copied">"தேர்வு நகல்"</string>
+    <string name="ss_reading_share_to">"தேர்வை தேர்வு செய்ய:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"விரைவில் வருகிறேன்"</string>
+    <string name="ss_coming_soon_subheader">"நாங்கள் தற்போது இந்த அம்சத்தில் வேலை செய்கிறோம். காத்திருங்கள், அது விரைவில் வரும்."</string>
+    <string name="ss_about_app_version">"பதிப்பு 3.0"</string>
+    <string name="ss_about_made">"❤ கொண்டு டம்ட் மூலம்"</string>
+    <string name="ss_settings_display_options">"காட்சி விருப்பங்கள்"</string>
+    <string name="ss_settings_color_theme">"வண்ண தீம்"</string>
+    <string name="ss_settings_color_theme_light">"ஒளி"</string>
+    <string name="ss_settings_color_theme_sepia">"செபியா"</string>
+    <string name="ss_settings_color_theme_dark">"டார்க்"</string>
+    <string name="ss_settings_typeface">"எழுத்துரு"</string>
+    <string name="ss_settings_font_size">"எழுத்துரு அளவு"</string>
+    <string name="ss_settings_font_size_tiny">"டைனி"</string>
+    <string name="ss_settings_font_size_small">"சிறிய"</string>
+    <string name="ss_settings_font_size_medium">"நடுத்தர"</string>
+    <string name="ss_settings_font_size_large">"பெரிய"</string>
+    <string name="ss_settings_font_size_huge">"பெரும்"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"இந்த பயன்பாட்டை மதிப்பிடுக"</string>
+    <string name="rate_dialog_message">"இந்த பயன்பாட்டை மதிப்பீடு செய்ய சிறிது நேரம் ஒதுக்குக. உங்கள் ஒத்துழைப்புக்கு நன்றி!"</string>
+    <string name="rate_dialog_ok">"அதை மதிப்பிட"</string>
+    <string name="rate_dialog_cancel">"பின்னர்"</string>
+    <string name="rate_dialog_no">"இல்லை"</string>
+    <string name="ss_settings_website">"இணையதளம்"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"மேலும் மொழிகள்"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"கிடைக்கும் மொழிகளைப் பார்க்க வடிப்பான் ஐகானைத் தட்டவும்"</string>
+    <string name="ss_bible">"பைபிள்"</string>
+    <string name="ss_settings_reminder">"தினசரி நினைவூட்டல்"</string>
+    <string name="ss_settings_reminder_summary">"தினசரி படிப்பு நினைவூட்டலைச் செயல்படுத்த சரிபார்க்கவும்"</string>
+    <string name="ss_settings_reminder_time">"நினைவூட்டல் நேரம்"</string>
+    <string name="ss_settings_reminder_text">"சப்பாத்தின் பள்ளி பாடம் படிக்க நேரம்"</string>
+    <string name="ss_reading_offline">"நீங்கள் ஆஃப்லைனில் இருக்கிறீர்கள். இந்த பாடம் படிக்க மீண்டும் இணைக்க."</string>
+    <string name="ss_reading_offline_retry">"மீண்டும் முயற்சி செய்"</string>
+    <string name="ss_about_text">"Adventech மிஷன் முதல் மற்றும் முன்னணி உள்ளது - நம் L glory பெருமை, நாட்கள் பண்டைய. தொழில்நுட்பம் மூலம் எங்கள் ஊழியத்தை செய்ய அர்ப்பணிக்கிறோம். எமது குறிக்கோள் எங்கள் ஏழாவது நாள் அட்வென்டிஸ்ட் சர்ச்சையை ஐக்கியப்படுத்துகிறது. தொழில்நுட்பம் மற்றும் தகவல்தொடர்புகளில் முன்னேற்றங்கள் மூலம் இந்த உலகிற்கு நற்செய்தியை அறிவிப்பதுதான் எங்கள் குறிக்கோள். இயேசுவின் இரண்டாம் வருகைக்குச் சாட்சி கொடுப்பதே நம்முடைய குறிக்கோள்.
+
+இயேசு பூமியில் இங்கு பணிபுரிந்த சமயத்தில், இயேசுவின் முன்மாதிரியும், வழிமுறைகளும் நமக்கு ஊக்கமளிக்கின்றன. எனவே, நம் அனைவரின் திட்டத்திற்கும் உயர்ந்த தரம் வாய்ந்த தரமான அன்பையும் அர்ப்பணிப்புடனான செலவினத்தையும் வழங்குவதற்கு நாங்கள் கடமைப்பட்டுள்ளோம். நம்முடைய பிதாவை மகிமைப்படுத்துவதற்கு நாம் கடமைப்பட்டிருக்கிறோம், ஏனென்றால் அவர் புகழ் மிக உயர்ந்தவராக இருக்கிறார்.
+
+நவீன உலகின் அறிவை கடவுள் அதிகரிக்கிறார் என்று நாம் உண்மையிலேயே நம்புகிறோம், அவருடைய மகிமைக்காக அதை விரைவில் திரும்பப் பிரகடனம் செய்வதற்காக அதை பயன்படுத்த விரும்புகிறோம்!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"முந்தைய பாடங்கள்"</string>
+</resources>

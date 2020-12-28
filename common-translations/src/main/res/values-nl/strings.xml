@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"Sabbatschool"</string>
+    <string name="ss_share">"Delen"</string>
+    <string name="ss_login_button_google">"Log in met Google"</string>
+    <string name="ss_login_button_facebook">"Meld je aan met facebook"</string>
+    <string name="ss_login_button_anonymous">"Login als anoniem"</string>
+    <string name="ss_menu_anonymous_name">"Anoniem"</string>
+    <string name="ss_menu_sign_out">"Afmelden"</string>
+    <string name="ss_menu_read_now">"Lees nu"</string>
+    <string name="ss_menu_share_app">"Deel app"</string>
+    <string name="ss_menu_share_app_text">"Kijk eens, ik gebruik deze Sabbatschool"</string>
+    <string name="ss_my_highlights">"Mijn hoogtepunten"</string>
+    <string name="ss_my_notes">"Mijn notities"</string>
+    <string name="ss_settings">"instellingen"</string>
+    <string name="ss_about">"Over"</string>
+    <string name="ss_login_failed">"Aanmelden mislukt. Probeer het opnieuw."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Ja"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Nee"</string>
+    <string name="ss_login_anonymously_dialog_title">"Login anoniem?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Als u anoniem inlogt, kunt u uw gegevens (zoals opmerkingen en markeringen) niet op verschillende apparaten synchroniseren of nadat u de app hebt verwijderd. Weet je zeker dat je verder wilt gaan?"</string>
+    <string name="ss_quarterlies_filter_languages">"Talen"</string>
+    <string name="ss_quarterlies_downloading">"Kwartaal krijgen ..."</string>
+    <string name="ss_quarterlies_error">"Er is een onbekende fout opgetreden. Probeer het opnieuw."</string>
+    <string name="ss_quarterlies_empty">"Er zijn op dit moment geen quarterlies beschikbaar"</string>
+    <string name="ss_quarterly_item_read_text">"Open"</string>
+    <string name="ss_lessons_downloading">"Elk kwartaal openen ..."</string>
+    <string name="ss_lessons_error">"Er is een fout opgetreden bij het openen van elk kwartaal"</string>
+    <string name="ss_lessons_empty">"Er zijn op dit moment geen quarterlies beschikbaar"</string>
+    <string name="ss_lessons_read">"Lezen"</string>
+    <string name="ss_reading_empty">"We werken aan deze les. Controleer binnenkort opnieuw."</string>
+    <string name="ss_reading_error">"Fout bij het openen van de les"</string>
+    <string name="ss_reading_downloading">"Les downloaden voor offline lezen"</string>
+    <string name="ss_reading_suggest_edit">"Stel bewerking of correctie voor"</string>
+    <string name="ss_reading_suggest_edit_hint">"Beschrijf alstublieft uw correctie of suggestie"</string>
+    <string name="ss_reading_suggest_edit_done">"Dank je! Uw suggestie zal worden beoordeeld."</string>
+    <string name="ss_reading_comment">"Commentaar"</string>
+    <string name="ss_reading_enter_comment">"Voer je reactie in"</string>
+    <string name="ss_reading_copied">"Selectie gekopieerd"</string>
+    <string name="ss_reading_share_to">"Deel selectie aan:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Binnenkort beschikbaar"</string>
+    <string name="ss_coming_soon_subheader">"We werken momenteel aan deze functie. Blijf op de hoogte, het komt eraan."</string>
+    <string name="ss_about_app_version">"versie 3.0"</string>
+    <string name="ss_about_made">"Gemaakt met ❤ door Adventech"</string>
+    <string name="ss_settings_display_options">"weergaveopties"</string>
+    <string name="ss_settings_color_theme">"Kleur thema"</string>
+    <string name="ss_settings_color_theme_light">"Licht"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Donker"</string>
+    <string name="ss_settings_typeface">"Doopvont"</string>
+    <string name="ss_settings_font_size">"Lettertypegrootte"</string>
+    <string name="ss_settings_font_size_tiny">"Miniem"</string>
+    <string name="ss_settings_font_size_small">"Klein"</string>
+    <string name="ss_settings_font_size_medium">"Medium"</string>
+    <string name="ss_settings_font_size_large">"Groot"</string>
+    <string name="ss_settings_font_size_huge">"Reusachtig"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Beoordeel Sabbatschool"</string>
+    <string name="rate_dialog_message">"Neem even de tijd om de app te beoordelen. Bedankt voor uw steun!"</string>
+    <string name="rate_dialog_ok">"Beoordeel het"</string>
+    <string name="rate_dialog_cancel">"Later"</string>
+    <string name="rate_dialog_no">"Nee"</string>
+    <string name="ss_settings_website">"Website"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Meer talen"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Tik op het filterpictogram om beschikbare talen te bekijken"</string>
+    <string name="ss_bible">"Bijbel"</string>
+    <string name="ss_settings_reminder">"Dagelijkse herinnering"</string>
+    <string name="ss_settings_reminder_summary">"Vink aan om de dagelijkse studiewaarschuwing in te schakelen"</string>
+    <string name="ss_settings_reminder_time">"Herinneringstijd"</string>
+    <string name="ss_settings_reminder_text">"Tijd om de les Sabbatschool te bestuderen"</string>
+    <string name="ss_reading_offline">"Je bent offline. Sluit opnieuw aan om deze les te lezen."</string>
+    <string name="ss_reading_offline_retry">"Opnieuw proberen"</string>
+    <string name="ss_about_text">"Missie van Adventech is in de eerste plaats - geef glorie aan onze Lᴏʀᴅ, de Oude van Dagen. We zijn toegewijd om onze bediening te doen door middel van technologie. Ons doel is om onze Zevende-dags Adventkerk te verenigen. Ons doel is om goed nieuws te verkondigen aan deze wereld door middel van technologie en verbeteringen in communicatie. Ons doel is om getuige te zijn van Jezus 'wederkomst.
+
+We zijn geïnspireerd door het voorbeeld en de methoden van Jezus, toen Hij hier op aarde diende. Daarom doen we er alles aan om hoge kwaliteit van al onze projecten te leveren, zonder enige kosten, met liefde en toewijding. We zijn toegewijd om eer aan onze Vader te geven, omdat Hij de hoogste eer verdient.
+
+We geloven echt dat God de kennis van de moderne wereld heeft vergroot en wil dat we het gebruiken voor Zijn glorie om Zijn snelle terugkeer te verkondigen!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Eerdere lessen"</string>
+</resources>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ss_app_name">"Sabbatschule"</string>
+    <string name="ss_share">"Weiterempfehlen"</string>
+    <string name="ss_login_button_google">"Über Google anmelden"</string>
+    <string name="ss_login_button_facebook">"Über Facebook anmelden"</string>
+    <string name="ss_login_button_anonymous">"Ohne Anmeldung weiter"</string>
+    <string name="ss_menu_anonymous_name">"Anonym"</string>
+    <string name="ss_menu_sign_out">"Ausloggen"</string>
+    <string name="ss_menu_read_now">"Jetzt lesen"</string>
+    <string name="ss_menu_share_app">"App teilen"</string>
+    <string name="ss_menu_share_app_text">"Ich benutze die Sabbatschule App"</string>
+    <string name="ss_my_highlights">"Meine Hervorhebungen"</string>
+    <string name="ss_my_notes">"Meine Notizen"</string>
+    <string name="ss_settings">"Einstellungen"</string>
+    <string name="ss_about">"Impressum"</string>
+    <string name="ss_login_failed">"Anmeldung fehlgeschlagen. Bitte versuche es erneut"</string>
+    <string name="ss_login_anonymously_dialog_positive">"Ja"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Nein"</string>
+    <string name="ss_login_anonymously_dialog_title">"Anonym anmelden?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Mit der anonymen Anmeldung werden Sie nicht in der Lage sein Ihre Daten, wie zum Beispiel Kommentare und Hervorhebungen, auf verschiedenen Geräten zu synchronisieren oder nach einer Deinstallation zu verwenden. Sind Sie sicher, dass Sie fortfahren möchten?"</string>
+    <string name="ss_quarterlies_filter_languages">"Sprachenfilter"</string>
+    <string name="ss_quarterlies_downloading">"Lade die Liste der Lektionen runter..."</string>
+    <string name="ss_quarterlies_error">"Ein unbekannter Fehler ist aufgetreten. Bitte versuche es erneut"</string>
+    <string name="ss_quarterlies_empty">"Zur Zeit wurden keine Lektionen gefunden"</string>
+    <string name="ss_quarterly_item_read_text">"Öffnen"</string>
+    <string name="ss_lessons_downloading">"Lektion wird geöffnet…"</string>
+    <string name="ss_lessons_error">"Fehler beim Öffnen der Lektion. Bitte versuche es erneut"</string>
+    <string name="ss_lessons_empty">"Es wurden keine Lektionen gefunden"</string>
+    <string name="ss_lessons_read">"Lesen"</string>
+    <string name="ss_reading_empty">"Die Lektion ist zur Zeit leer"</string>
+    <string name="ss_reading_error">"Fehler beim Öffnen der Lektion. Bitte versuche es erneut"</string>
+    <string name="ss_reading_downloading">"Laden von Lektion für offline"</string>
+    <string name="ss_reading_suggest_edit">"Fehler oder Vorschlag übermitteln"</string>
+    <string name="ss_reading_suggest_edit_hint">"Bitte beschreiben Sie den Fehler oder Ihren Vorschlag"</string>
+    <string name="ss_reading_suggest_edit_done">"Vielen Dank! Ihr Vorschlag wird überprüft"</string>
+    <string name="ss_reading_comment">"Kommentar"</string>
+    <string name="ss_reading_enter_comment">"Geben Sie Ihren Kommentar ein"</string>
+    <string name="ss_reading_copied">"Auswahl wurde kopiert"</string>
+    <string name="ss_reading_share_to">"Auswahl teilen über:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Demnächst"</string>
+    <string name="ss_coming_soon_subheader">"Zur Zeit arbeiten wir an dieser Funktion. Haben Sie Geduld, bald wird diese verfügbar sein"</string>
+    <string name="ss_about_app_version">"version 3.0"</string>
+    <string name="ss_about_made">"Entwickelt mit ❤ von Adventech"</string>
+    <string name="ss_settings_display_options">"Darstellungsoptionen"</string>
+    <string name="ss_settings_color_theme">"Farbschema"</string>
+    <string name="ss_settings_color_theme_light">"Hell"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Dunkel"</string>
+    <string name="ss_settings_typeface">"Schriftart"</string>
+    <string name="ss_settings_font_size">"Schriftgröße"</string>
+    <string name="ss_settings_font_size_tiny">"Sehr klein"</string>
+    <string name="ss_settings_font_size_small">"Klein"</string>
+    <string name="ss_settings_font_size_medium">"Mittel"</string>
+    <string name="ss_settings_font_size_large">"Groß"</string>
+    <string name="ss_settings_font_size_huge">"Sehr groß"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Sabbatschule-App bewerten"</string>
+    <string name="rate_dialog_message">"Wenn Sie Sabbatschule-App mögen, wären Sie bereit einen Moment Zeit zu nehmen um die App zu bewerten? Danke für Ihre Unterstützung!"</string>
+    <string name="rate_dialog_ok">"Bewerten"</string>
+    <string name="rate_dialog_cancel">"Später"</string>
+    <string name="rate_dialog_no">"Nein"</string>
+    <string name="ss_settings_website">"Webseite"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"In anderen Sprachen lesen"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Tippen Sie auf das Filtersymbol, um alle verfügbaren Sprachen anzuzeigen"</string>
+    <string name="ss_bible">"Bibel"</string>
+    <string name="ss_settings_reminder">"Tägliche Benachrichtigung"</string>
+    <string name="ss_settings_reminder_summary">"Selektieren um täglich über die Sabbatschullektion benachrichtigt zu werden"</string>
+    <string name="ss_settings_reminder_time">"Zeitpunkt der Benachrichtigung"</string>
+    <string name="ss_settings_reminder_text">"Zeit, die Sabbatschule zu studieren"</string>
+    <string name="ss_reading_offline">"Du bist offline. Reconnect, um diese Lektion zu lesen"</string>
+    <string name="ss_reading_offline_retry">"Wiederholen"</string>
+    <string name="ss_about_text">"Mission von Adventech ist in erster Linie - geben Sie Ruhm zu unserem Lᴏʀᴅ, dem Alten der Tage. Wir sind verpflichtet, unseren Dienst durch Technologie zu tun. Unser Ziel ist es, unsere Siebenten-Tags-Adventisten-Kirche zu vereinen. Unser Ziel ist es, Gute Nachrichten auf diese Welt durch Technologie und Fortschritte in der Kommunikation zu verkünden. Unser Ziel ist es, das Zweite Kommen Jesu zu bezeugen.
+
+Wir sind inspiriert von dem Beispiel und den Methoden Jesu, als er hier auf der Erde diente. Deshalb sind wir verpflichtet, ein hohes Maß an Qualität aller unserer Projekte zu absolut keine Kosten mit Liebe und Hingabe zu liefern. Wir sind verpflichtet, unserem Vater Ruhm zu geben, weil er dem höchsten Lob würdig ist.
+
+Wir glauben wirklich, dass Gott die Erkenntnis der modernen Welt erhöht hat und will, dass wir es für seine Herrlichkeit nutzen, um seine baldige Rückkehr zu verkünden!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Vorherige Lektionen"</string>
+</resources>
