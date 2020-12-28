@@ -5,7 +5,6 @@ plugins {
     id(BuildPlugins.ANDROID_APPLICATION)
     id(BuildPlugins.KOTLIN_ANDROID)
     id(BuildPlugins.KOTLIN_KAPT)
-    id(BuildPlugins.KOTLIN_ANDROID_EXTENSIONS)
     id(BuildPlugins.DAGGER_HILT)
     id(BuildPlugins.NAVIGATION_SAFE_ARGS)
 }

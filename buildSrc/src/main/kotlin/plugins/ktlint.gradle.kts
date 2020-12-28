@@ -1,10 +1,11 @@
 
 package plugins
+import dependencies.PluginVersions
 
 val ktlint: Configuration by configurations.creating
 
 dependencies {
-    ktlint("com.pinterest:ktlint:0.39.0")
+    ktlint("com.pinterest:ktlint:${PluginVersions.KTLINT}")
 }
 
 tasks {

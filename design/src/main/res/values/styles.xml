@@ -82,6 +82,4 @@
         <item name="useCompatPadding">true</item>
     </style>
 
-    <style name="Widget.SS.ProgressIndicator" parent="Widget.MaterialComponents.ProgressIndicator.Circular.Indeterminate" />
-
 </resources>

@@ -31,7 +31,6 @@
         <item name="snackbarStyle">@style/Widget.SS.Snackbar</item>
         <item name="snackbarTextViewStyle">@style/Widget.SS.Snackbar.TextView</item>
         <item name="materialCardViewStyle">@style/Widget.SS.CardView</item>
-        <item name="progressIndicatorStyle">@style/Widget.SS.ProgressIndicator</item>
     </style>
 
     <style name="Theme.SS" parent="Base.Theme.SS">
