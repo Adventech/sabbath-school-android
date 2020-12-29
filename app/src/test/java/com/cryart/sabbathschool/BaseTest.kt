@@ -20,40 +20,33 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.ui.splash
+package com.cryart.sabbathschool
 
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
-import com.cryart.sabbathschool.ui.MainActivity
-import com.cryart.sabbathschool.ui.login.LoginActivity
-import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.After
+import org.junit.Before
 
-@AndroidEntryPoint
-class SplashActivity : AppCompatActivity() {
+open class BaseTest {
 
-    private val viewModel: SplashViewModel by viewModels()
+    private val testDispatcher = TestCoroutineDispatcher()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel.isSignedInLiveData.observeNonNull(
-            this,
-            { signedIn ->
-                if (signedIn) {
-                    launchMain()
-                } else {
-                    startActivity(Intent(this, LoginActivity::class.java))
-                }
-
-                finish()
-            }
-        )
+    @Before
+    fun setup() {
+        // Sets the given [dispatcher] as an underlying dispatcher of [Dispatchers.Main].
+        // All consecutive usages of [Dispatchers.Main] will use given [dispatcher] under the hood.
+        Dispatchers.setMain(testDispatcher)
     }
 
-    private fun launchMain() {
-        startActivity(Intent(this, MainActivity::class.java))
+    @After
+    fun tearDown() {
+        // Resets state of the [Dispatchers.Main] to the original main dispatcher.
+        // For example, in Android Main thread dispatcher will be set as [Dispatchers.Main].
+        Dispatchers.resetMain()
+
+        // Clean up the TestCoroutineDispatcher to make sure no other work is running.
+        testDispatcher.cleanupTestCoroutines()
     }
 }

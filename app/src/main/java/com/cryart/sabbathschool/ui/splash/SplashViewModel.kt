@@ -26,13 +26,15 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.google.firebase.auth.FirebaseAuth
 
 class SplashViewModel @ViewModelInject constructor(
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    schedulerProvider: SchedulerProvider
 ) : ViewModel() {
 
-    val isSignedInLiveData: LiveData<Boolean> = liveData {
+    val isSignedInLiveData: LiveData<Boolean> = liveData(schedulerProvider.io) {
         emit(firebaseAuth.currentUser != null)
     }
 }

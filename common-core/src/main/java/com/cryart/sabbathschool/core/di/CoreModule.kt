@@ -20,40 +20,18 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.ui.splash
+package com.cryart.sabbathschool.core.di
 
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
-import com.cryart.sabbathschool.ui.MainActivity
-import com.cryart.sabbathschool.ui.login.LoginActivity
-import dagger.hilt.android.AndroidEntryPoint
+import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-@AndroidEntryPoint
-class SplashActivity : AppCompatActivity() {
+@Module
+@InstallIn(SingletonComponent::class)
+object CoreModule {
 
-    private val viewModel: SplashViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel.isSignedInLiveData.observeNonNull(
-            this,
-            { signedIn ->
-                if (signedIn) {
-                    launchMain()
-                } else {
-                    startActivity(Intent(this, LoginActivity::class.java))
-                }
-
-                finish()
-            }
-        )
-    }
-
-    private fun launchMain() {
-        startActivity(Intent(this, MainActivity::class.java))
-    }
+    @Provides
+    fun provideSchedulers(): SchedulerProvider = SchedulerProvider()
 }

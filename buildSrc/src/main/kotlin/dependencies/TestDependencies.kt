@@ -12,4 +12,5 @@ object TestDependencies {
     const val COROUTINES_TEST = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINES}"
     const val ARCH_CORE = "androidx.arch.core:core-testing:${Versions.ARCH_CORE}"
     const val FRAGMENT_TEST = "androidx.fragment:fragment-testing:${Versions.FRAGMENT_TEST}"
+    const val KLUENT = "org.amshove.kluent:kluent-android:${Versions.KLUENT}"
 }

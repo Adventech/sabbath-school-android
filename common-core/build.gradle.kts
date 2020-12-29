@@ -19,10 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
+import dependencies.Dependencies
 
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY)
+    id(BuildPlugins.KOTLIN_ANDROID)
+    id(BuildPlugins.KOTLIN_KAPT)
+    id(BuildPlugins.DAGGER_HILT)
 }
 
 android {
@@ -31,4 +34,22 @@ android {
     defaultConfig {
         minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+dependencies {
+    implementation(Dependencies.Kotlin.KOTLIN)
+    implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
+    implementation(Dependencies.Kotlin.COROUTINES)
+    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
+    implementation(Dependencies.TIMBER)
+    implementation(Dependencies.HILT)
+    kapt(Dependencies.HILT_COMPILER)
 }

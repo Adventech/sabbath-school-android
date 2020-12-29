@@ -33,7 +33,8 @@ object Versions {
     const val ARCH_CORE = "2.1.0"
     const val JUNIT = "4.13.1"
     const val ROBOELECTRIC = "4.4"
-    const val MOCKK = "1.10.3"
+    const val MOCKK = "1.10.3-jdk8"
     const val ESPRESSO = "3.3.0"
     const val FRAGMENT_TEST = "1.2.5"
+    const val KLUENT = "1.64"
 }

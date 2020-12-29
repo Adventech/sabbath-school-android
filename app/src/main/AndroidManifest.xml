@@ -43,6 +43,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.login.LoginActivity" />
+
         <activity android:name=".ui.MainActivity" />
 
         <!-- Initializers -->

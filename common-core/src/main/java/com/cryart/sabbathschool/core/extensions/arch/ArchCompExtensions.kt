@@ -20,40 +20,19 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.ui.splash
+package com.cryart.sabbathschool.core.extensions.arch
 
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
-import com.cryart.sabbathschool.ui.MainActivity
-import com.cryart.sabbathschool.ui.login.LoginActivity
-import dagger.hilt.android.AndroidEntryPoint
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
-@AndroidEntryPoint
-class SplashActivity : AppCompatActivity() {
-
-    private val viewModel: SplashViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel.isSignedInLiveData.observeNonNull(
-            this,
-            { signedIn ->
-                if (signedIn) {
-                    launchMain()
-                } else {
-                    startActivity(Intent(this, LoginActivity::class.java))
-                }
-
-                finish()
-            }
-        )
-    }
-
-    private fun launchMain() {
-        startActivity(Intent(this, MainActivity::class.java))
-    }
+fun <T> LiveData<T>.observeNonNull(owner: LifecycleOwner, observer: (t: T) -> Unit) {
+    this.observe(
+        owner,
+        {
+            it?.let(observer)
+        }
+    )
 }
+
+fun <T> MutableLiveData<T>.asLiveData() = this as LiveData<T>

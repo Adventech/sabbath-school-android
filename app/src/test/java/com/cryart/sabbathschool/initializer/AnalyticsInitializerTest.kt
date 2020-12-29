@@ -20,40 +20,38 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.ui.splash
+package com.cryart.sabbathschool.initializer
 
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
-import com.cryart.sabbathschool.ui.MainActivity
-import com.cryart.sabbathschool.ui.login.LoginActivity
-import dagger.hilt.android.AndroidEntryPoint
+import com.google.firebase.analytics.FirebaseAnalytics
+import io.mockk.mockk
+import io.mockk.verify
+import org.amshove.kluent.mock
+import org.amshove.kluent.shouldBeEmpty
+import org.junit.Before
+import org.junit.Test
 
-@AndroidEntryPoint
-class SplashActivity : AppCompatActivity() {
+class AnalyticsInitializerTest {
 
-    private val viewModel: SplashViewModel by viewModels()
+    private val mockAnalytics: FirebaseAnalytics = mockk(relaxed = true)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private lateinit var initializer: AnalyticsInitializer
 
-        viewModel.isSignedInLiveData.observeNonNull(
-            this,
-            { signedIn ->
-                if (signedIn) {
-                    launchMain()
-                } else {
-                    startActivity(Intent(this, LoginActivity::class.java))
-                }
-
-                finish()
-            }
-        )
+    @Before
+    fun setUp() {
+        initializer = AnalyticsInitializer(mockAnalytics)
     }
 
-    private fun launchMain() {
-        startActivity(Intent(this, MainActivity::class.java))
+    @Test
+    fun `should have no dependencies`() {
+        initializer.dependencies().shouldBeEmpty()
+    }
+
+    @Test
+    fun `should set version_code user property on create`() {
+        initializer.create(mock())
+
+        verify {
+            mockAnalytics.setUserProperty("version_code", "1")
+        }
     }
 }
