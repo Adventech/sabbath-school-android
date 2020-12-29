@@ -20,10 +20,20 @@
  * THE SOFTWARE.
  */
 
-include(
-    ":app",
-    ":common-core",
-    ":common-design",
-    ":common-translations"
-)
-rootProject.buildFileName = "build.gradle.kts"
+import dependencies.Dependencies
+
+plugins {
+    id(BuildPlugins.ANDROID_LIBRARY)
+}
+
+android {
+    compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
+
+    defaultConfig {
+        minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
+    }
+}
+
+dependencies {
+    implementation(Dependencies.MATERIAL)
+}

@@ -20,10 +20,12 @@
  * THE SOFTWARE.
  */
 
-include(
-    ":app",
-    ":common-core",
-    ":common-design",
-    ":common-translations"
+package com.cryart.sabbathschool.core.extensions.coroutines
+
+import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.Dispatchers
+
+class SchedulerProvider(
+    val io: CoroutineContext = Dispatchers.IO,
+    val main: CoroutineContext = Dispatchers.Main
 )
-rootProject.buildFileName = "build.gradle.kts"

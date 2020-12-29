@@ -20,21 +20,8 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
+package com.cryart.sabbathschool.ui.login
 
-plugins {
-    id(BuildPlugins.ANDROID_LIBRARY)
-}
+import androidx.appcompat.app.AppCompatActivity
 
-android {
-    compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
-
-    defaultConfig {
-        minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
-    }
-}
-
-dependencies {
-    implementation(Dependencies.KOTLIN)
-    implementation(Dependencies.MATERIAL)
-}
+class LoginActivity : AppCompatActivity()

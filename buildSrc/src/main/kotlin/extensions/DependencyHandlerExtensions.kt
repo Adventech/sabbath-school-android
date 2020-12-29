@@ -96,6 +96,7 @@ fun DependencyHandler.addTestsDependencies() {
     testImplementation(TestDependencies.EXT)
     testImplementation(TestDependencies.COROUTINES_TEST)
     testImplementation(TestDependencies.FRAGMENT_TEST)
+    testImplementation(TestDependencies.KLUENT)
 
     androidTestImplementation(TestAndroidDependencies.ESPRESSO)
     androidTestImplementation(TestAndroidDependencies.RUNNER)

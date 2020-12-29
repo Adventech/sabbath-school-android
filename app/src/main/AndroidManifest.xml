@@ -21,6 +21,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.cryart.sabbathschool">
 
     <application
@@ -42,7 +43,35 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.login.LoginActivity" />
+
         <activity android:name=".ui.MainActivity" />
+
+        <!-- Initializers -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+
+            <meta-data
+                android:name="com.cryart.sabbathschool.initializer.TimberInitializer"
+                android:value="androidx.startup" />
+
+            <meta-data
+                android:name="com.cryart.sabbathschool.initializer.AnalyticsInitializer"
+                android:value="androidx.startup" />
+
+        </provider>
+
+        <!-- Firebase -->
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="${enableReporting}" />
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="${enableReporting}" />
+
     </application>
 
 </manifest>

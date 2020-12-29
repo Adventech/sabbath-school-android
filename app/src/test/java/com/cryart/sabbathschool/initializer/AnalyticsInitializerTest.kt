@@ -20,10 +20,38 @@
  * THE SOFTWARE.
  */
 
-include(
-    ":app",
-    ":common-core",
-    ":common-design",
-    ":common-translations"
-)
-rootProject.buildFileName = "build.gradle.kts"
+package com.cryart.sabbathschool.initializer
+
+import com.google.firebase.analytics.FirebaseAnalytics
+import io.mockk.mockk
+import io.mockk.verify
+import org.amshove.kluent.mock
+import org.amshove.kluent.shouldBeEmpty
+import org.junit.Before
+import org.junit.Test
+
+class AnalyticsInitializerTest {
+
+    private val mockAnalytics: FirebaseAnalytics = mockk(relaxed = true)
+
+    private lateinit var initializer: AnalyticsInitializer
+
+    @Before
+    fun setUp() {
+        initializer = AnalyticsInitializer(mockAnalytics)
+    }
+
+    @Test
+    fun `should have no dependencies`() {
+        initializer.dependencies().shouldBeEmpty()
+    }
+
+    @Test
+    fun `should set version_code user property on create`() {
+        initializer.create(mock())
+
+        verify {
+            mockAnalytics.setUserProperty("version_code", any())
+        }
+    }
+}

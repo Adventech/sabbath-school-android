@@ -20,10 +20,30 @@
  * THE SOFTWARE.
  */
 
-include(
-    ":app",
-    ":common-core",
-    ":common-design",
-    ":common-translations"
-)
-rootProject.buildFileName = "build.gradle.kts"
+package com.cryart.sabbathschool.di
+
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+
+@Module
+@InstallIn(SingletonComponent::class)
+object FirebaseModule {
+
+    @Provides
+    fun provideCrashlytics(): FirebaseCrashlytics = Firebase.crashlytics
+
+    @Provides
+    fun provideAnalytics(): FirebaseAnalytics = Firebase.analytics
+
+    @Provides
+    fun provideAuth(): FirebaseAuth = Firebase.auth
+}

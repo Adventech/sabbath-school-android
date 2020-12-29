@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,25 @@
  * THE SOFTWARE.
  */
 
-include(
-    ":app",
-    ":common-core",
-    ":common-design",
-    ":common-translations"
-)
-rootProject.buildFileName = "build.gradle.kts"
+package com.cryart.sabbathschool.extensions
+
+import android.util.Log
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
+import timber.log.Timber
+
+class CrashlyticsTree(
+    private val crashlytics: FirebaseCrashlytics = Firebase.crashlytics
+) : Timber.Tree() {
+
+    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+        if (priority == Log.VERBOSE || priority == Log.DEBUG || priority == Log.INFO) {
+            return
+        }
+
+        t?.message?.let {
+            crashlytics.log(it)
+        } ?: crashlytics.log(message)
+    }
+}

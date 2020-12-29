@@ -20,10 +20,18 @@
  * THE SOFTWARE.
  */
 
-include(
-    ":app",
-    ":common-core",
-    ":common-design",
-    ":common-translations"
-)
-rootProject.buildFileName = "build.gradle.kts"
+package com.cryart.sabbathschool.core.di
+
+import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+
+@Module
+@InstallIn(SingletonComponent::class)
+object CoreModule {
+
+    @Provides
+    fun provideSchedulers(): SchedulerProvider = SchedulerProvider()
+}
