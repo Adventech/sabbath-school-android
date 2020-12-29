@@ -68,6 +68,10 @@
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
     </style>
 
+    <style name="Theme.SS.Splash">
+        <item name="android:windowBackground">@drawable/ss_splash_background</item>
+    </style>
+
     <style name="ThemeOverlay.SS.Toolbar" parent="">
         <item name="colorControlNormal">?attr/colorOnSurface</item>
         <item name="actionMenuTextColor">?attr/colorOnSurface</item>

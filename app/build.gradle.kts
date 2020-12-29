@@ -11,7 +11,6 @@ plugins {
 
 android {
     compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
-    buildToolsVersion(BuildAndroidConfig.BUILD_TOOLS_VERSION)
 
     defaultConfig {
         applicationId = BuildAndroidConfig.APP_ID
@@ -47,6 +46,7 @@ dependencies {
     implementation(project(BuildModules.TRANSLATIONS))
 
     implementation(Dependencies.KOTLIN)
+
     implementation(Dependencies.CORE_KTX)
     implementation(Dependencies.APPCOMPAT)
     implementation(Dependencies.MATERIAL)
@@ -57,10 +57,14 @@ dependencies {
     implementation(Dependencies.LIFECYCLE_VIEWMODEL)
     implementation(Dependencies.LIFECYCLE_EXTENSIONS)
     implementation(Dependencies.RECYCLER_VIEW)
+    implementation(Dependencies.START_UP)
+
     implementation(Dependencies.HILT)
     kapt(Dependencies.HILT_COMPILER)
+
     implementation(Dependencies.COROUTINES)
     implementation(Dependencies.COROUTINES_ANDROID)
+
     implementation(Dependencies.TIMBER)
 
     addTestsDependencies()

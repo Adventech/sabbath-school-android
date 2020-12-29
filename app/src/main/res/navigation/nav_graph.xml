@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.cryart.sabbathschool.FirstFragment"
+        android:name="com.cryart.sabbathschool.ui.FirstFragment"
         android:label="First Fragment"
         tools:layout="@layout/fragment_first">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.cryart.sabbathschool.SecondFragment"
+        android:name="com.cryart.sabbathschool.ui.SecondFragment"
         android:label="Second Fragment"
         tools:layout="@layout/fragment_second">
 

@@ -12,6 +12,7 @@ object Versions {
     const val CORE_KTX = "1.3.2"
     const val FRAGMENT_KTX = "1.2.5"
     const val CONSTRAINT_LAYOUT = "2.0.4"
+    const val START_UP = "1.0.0"
 
     const val HILT = "2.30.1-alpha"
     const val HILT_ANDROIDX = "1.0.0-alpha02"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context=".SecondFragment">
+    tools:context=".ui.SecondFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card1"
