@@ -7,6 +7,8 @@ plugins {
     id(BuildPlugins.KOTLIN_KAPT)
     id(BuildPlugins.DAGGER_HILT)
     id(BuildPlugins.NAVIGATION_SAFE_ARGS)
+    id(BuildPlugins.FIREBASE_CRASHLYTICS)
+    id(BuildPlugins.GOOGLE_SERVICES)
 }
 
 android {
@@ -45,25 +47,34 @@ dependencies {
     implementation(project(BuildModules.DESIGN))
     implementation(project(BuildModules.TRANSLATIONS))
 
-    implementation(Dependencies.KOTLIN)
+    implementation(Dependencies.Kotlin.KOTLIN)
 
-    implementation(Dependencies.CORE_KTX)
-    implementation(Dependencies.APPCOMPAT)
     implementation(Dependencies.MATERIAL)
-    implementation(Dependencies.CONSTRAINT_LAYOUT)
-    implementation(Dependencies.FRAGMENT_KTX)
-    implementation(Dependencies.NAVIGATION_UI)
-    implementation(Dependencies.NAVIGATION_FRAGMENT)
-    implementation(Dependencies.LIFECYCLE_VIEWMODEL)
-    implementation(Dependencies.LIFECYCLE_EXTENSIONS)
-    implementation(Dependencies.RECYCLER_VIEW)
-    implementation(Dependencies.START_UP)
+    implementation(Dependencies.AndroidX.CORE)
+    implementation(Dependencies.AndroidX.APPCOMPAT)
+    implementation(Dependencies.AndroidX.CONSTRAINT_LAYOUT)
+    implementation(Dependencies.AndroidX.FRAGMENT_KTX)
+    implementation(Dependencies.AndroidX.NAVIGATION_UI)
+    implementation(Dependencies.AndroidX.NAVIGATION_FRAGMENT)
+    implementation(Dependencies.AndroidX.LIFECYCLE_VIEWMODEL)
+    implementation(Dependencies.AndroidX.LIFECYCLE_EXTENSIONS)
+    implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
+    implementation(Dependencies.AndroidX.RECYCLER_VIEW)
+    implementation(Dependencies.AndroidX.START_UP)
+    implementation(Dependencies.AndroidX.HILT_VIEWMODEL)
 
     implementation(Dependencies.HILT)
     kapt(Dependencies.HILT_COMPILER)
+    kapt(Dependencies.AndroidX.HILT_COMPILER)
 
-    implementation(Dependencies.COROUTINES)
-    implementation(Dependencies.COROUTINES_ANDROID)
+    implementation(Dependencies.Kotlin.COROUTINES)
+    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
+
+    implementation(platform(Dependencies.Firebase.BOM))
+    implementation(Dependencies.Firebase.CORE)
+    implementation(Dependencies.Firebase.ANALYTICS)
+    implementation(Dependencies.Firebase.AUTH)
+    implementation(Dependencies.Firebase.CRASHLYTICS)
 
     implementation(Dependencies.TIMBER)
 

@@ -12,4 +12,7 @@ object BuildPlugins {
     const val KTLINT = "plugins.ktlint"
 
     const val UPDATE_DEPENDENCIES = "plugins.update-dependencies"
+
+    const val FIREBASE_CRASHLYTICS = "com.google.firebase.crashlytics"
+    const val GOOGLE_SERVICES = "com.google.gms.google-services"
 }

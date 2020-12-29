@@ -20,20 +20,19 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
+package com.cryart.sabbathschool.ui.splash
 
-plugins {
-    id(BuildPlugins.ANDROID_LIBRARY)
-}
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import com.google.firebase.auth.FirebaseAuth
 
-android {
-    compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
+class SplashViewModel @ViewModelInject constructor(
+    private val firebaseAuth: FirebaseAuth
+) : ViewModel() {
 
-    defaultConfig {
-        minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
+    val isSignedInLiveData: LiveData<Boolean> = liveData {
+        emit(firebaseAuth.currentUser != null)
     }
-}
-
-dependencies {
-    implementation(Dependencies.MATERIAL)
 }

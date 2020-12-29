@@ -20,20 +20,30 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
+package com.cryart.sabbathschool.di
 
-plugins {
-    id(BuildPlugins.ANDROID_LIBRARY)
-}
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-android {
-    compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
+@Module
+@InstallIn(SingletonComponent::class)
+object FirebaseModule {
 
-    defaultConfig {
-        minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
-    }
-}
+    @Provides
+    fun provideCrashlytics(): FirebaseCrashlytics = Firebase.crashlytics
 
-dependencies {
-    implementation(Dependencies.MATERIAL)
+    @Provides
+    fun provideAnalytics(): FirebaseAnalytics = Firebase.analytics
+
+    @Provides
+    fun provideAuth(): FirebaseAuth = Firebase.auth
 }
