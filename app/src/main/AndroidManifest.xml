@@ -55,11 +55,11 @@
             tools:node="merge">
 
             <meta-data
-                android:name="${applicationId}.initializer.TimberInitializer"
+                android:name="com.cryart.sabbathschool.initializer.TimberInitializer"
                 android:value="androidx.startup" />
 
             <meta-data
-                android:name="${applicationId}.initializer.AnalyticsInitializer"
+                android:name="com.cryart.sabbathschool.initializer.AnalyticsInitializer"
                 android:value="androidx.startup" />
 
         </provider>

@@ -51,7 +51,7 @@ class AnalyticsInitializerTest {
         initializer.create(mock())
 
         verify {
-            mockAnalytics.setUserProperty("version_code", "1")
+            mockAnalytics.setUserProperty("version_code", any())
         }
     }
 }
