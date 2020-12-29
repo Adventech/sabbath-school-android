@@ -44,6 +44,7 @@ android {
 
 dependencies {
 
+    implementation(project(BuildModules.CORE))
     implementation(project(BuildModules.DESIGN))
     implementation(project(BuildModules.TRANSLATIONS))
 
