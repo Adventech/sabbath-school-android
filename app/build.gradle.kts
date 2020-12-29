@@ -53,12 +53,20 @@ android {
         getByName(BuildType.RELEASE) {
             isMinifyEnabled = false
             proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
+
+            manifestPlaceholders["enableReporting"] = true
+        }
+        getByName(BuildType.DEBUG) {
+
+            manifestPlaceholders["enableReporting"] = false
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
