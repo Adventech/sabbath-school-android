@@ -12,7 +12,7 @@ jobs:
   testing:
     name: Lint and Test Suite [Unit, Instrumented]
 
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Checkout repo
