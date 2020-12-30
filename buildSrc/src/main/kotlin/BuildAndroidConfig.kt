@@ -8,5 +8,5 @@ object BuildAndroidConfig {
     const val VERSION_CODE = 1
     const val VERSION_NAME = "1.0"
 
-    const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
+    const val TEST_INSTRUMENTATION_RUNNER = "com.cryart.sabbathschool.SSAppTestRunner"
 }
