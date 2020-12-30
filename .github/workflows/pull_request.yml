@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
       - modular
-  push:
-    branches:
-      - modular
 
 jobs:
   testing:
