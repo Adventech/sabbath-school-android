@@ -22,7 +22,7 @@
 
 package com.cryart.sabbathschool.ui.login
 
-import androidx.appcompat.app.AppCompatActivity
-import com.cryart.sabbathschool.R
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.ViewModel
 
-class LoginActivity : AppCompatActivity(R.layout.ss_login_activity)
+class LoginViewModel @ViewModelInject constructor() : ViewModel()

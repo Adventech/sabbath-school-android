@@ -119,5 +119,7 @@ dependencies {
 
     implementation(Dependencies.TIMBER)
 
+    implementation(Dependencies.FACEBOOK)
+
     addTestsDependencies()
 }

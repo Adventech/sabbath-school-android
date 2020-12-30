@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -21,13 +22,8 @@
   -->
 
 <resources>
-
-    <!-- LOGIN SCREEN RELATED -->
-    <dimen name="ss_login_app_logo_size">72dp</dimen>
-    <dimen name="ss_login_app_name_font_size">20sp</dimen>
-    <dimen name="ss_login_app_name_margin_top">15dp</dimen>
-    <dimen name="ss_login_loading_size">48dp</dimen>
-    <dimen name="ss_login_button_margin_top">5dp</dimen>
-    <dimen name="ss_login_button_social_height">56dp</dimen>
-    <dimen name="ss_login_button_social_text_size">14sp</dimen>
+    <style name="GoogleSignInButtonStyle">
+        <item name="buttonSize">wide</item>
+        <item name="colorScheme">dark</item>
+    </style>
 </resources>

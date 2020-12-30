@@ -26,6 +26,7 @@ object Versions {
     const val LEAK_CANARY = "2.5"
 
     const val FIREBASE_BOM = "26.2.0"
+    const val FACEBOOK = "8.1.0"
 
     // Tests
     const val ANDROIDX_TEST = "1.3.0"

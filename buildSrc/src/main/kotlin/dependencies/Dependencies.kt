@@ -11,6 +11,8 @@ object Dependencies {
     const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
     const val RETROFIT_CONVERTER = "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
 
+    const val FACEBOOK = "com.facebook.android:facebook-android-sdk:${Versions.FACEBOOK}"
+
     object AndroidX {
         const val CORE = "androidx.core:core-ktx:${Versions.AndroidX.CORE}"
         const val APPCOMPAT = "androidx.appcompat:appcompat:${Versions.AndroidX.APPCOMPAT}"
