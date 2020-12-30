@@ -1,11 +1,16 @@
-name: On Push Workflow
+name: Pull Request Workflow
 
 on:
+  pull_request:
+    branches:
+      - modular
   push:
+    branches:
+      - modular
 
 jobs:
   testing:
-    name: Lint and unit test
+    name: Lint and Test Suite [Unit, Instrumented]
 
     runs-on: ubuntu-latest
 
@@ -31,3 +36,12 @@ jobs:
 
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest
+
+      - name: Execute Instrumentation Tests (gradlew connectedCheck - api 23)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 23
+          target: default
+          arch: x86
+          profile: Nexus 6
+          script: ./gradlew app:connectedCheck --stacktrace
