@@ -68,8 +68,7 @@
             android:textSize="14sp"
             app:backgroundTint="@color/com_facebook_blue"
             app:icon="@drawable/com_facebook_button_icon"
-            app:iconTint="@android:color/white"
-            app:textAllCaps="false" />
+            app:iconTint="@android:color/white" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/anonymous"
@@ -81,8 +80,7 @@
             app:autoSizeMaxTextSize="14sp"
             app:autoSizeMinTextSize="10sp"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            app:textAllCaps="false" />
+            app:autoSizeTextType="uniform" />
 
     </LinearLayout>
 

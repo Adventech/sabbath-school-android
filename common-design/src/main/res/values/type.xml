@@ -40,7 +40,6 @@
 
     <style name="TextAppearance.SS.Button" parent="TextAppearance.AppCompat.Button">
         <item name="android:fontFamily">@font/lato_medium</item>
-        <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
 
