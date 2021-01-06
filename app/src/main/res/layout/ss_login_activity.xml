@@ -49,7 +49,6 @@
         app:layout_constraintVertical_bias="0.95">
 
         <include
-            android:id="@+id/buttons"
             layout="@layout/ss_login_buttons" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,10 +27,16 @@ plugins {
     id(BuildPlugins.ANDROID_APPLICATION)
     id(BuildPlugins.KOTLIN_ANDROID)
     id(BuildPlugins.KOTLIN_KAPT)
+    id(BuildPlugins.KOTLIN_ALLOPEN)
     id(BuildPlugins.DAGGER_HILT)
     id(BuildPlugins.NAVIGATION_SAFE_ARGS)
     id(BuildPlugins.FIREBASE_CRASHLYTICS)
     id(BuildPlugins.GOOGLE_SERVICES)
+}
+
+allOpen {
+    // allows mocking for classes w/o directly opening them for release builds
+    annotation("com.cryart.sabbathschool.core.annotations.OpenClass")
 }
 
 android {
@@ -80,6 +86,10 @@ android {
     hilt {
         enableTransformForLocalTests = true
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -94,6 +104,7 @@ dependencies {
     implementation(Dependencies.AndroidX.CORE)
     implementation(Dependencies.AndroidX.APPCOMPAT)
     implementation(Dependencies.AndroidX.CONSTRAINT_LAYOUT)
+    implementation(Dependencies.AndroidX.ACTIVITY)
     implementation(Dependencies.AndroidX.FRAGMENT_KTX)
     implementation(Dependencies.AndroidX.NAVIGATION_UI)
     implementation(Dependencies.AndroidX.NAVIGATION_FRAGMENT)
@@ -110,6 +121,9 @@ dependencies {
 
     implementation(Dependencies.Kotlin.COROUTINES)
     implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
+    implementation(Dependencies.Kotlin.COROUTINES_PLAY_SERVICES)
+
+    implementation(Dependencies.PLAY_AUTH)
 
     implementation(platform(Dependencies.Firebase.BOM))
     implementation(Dependencies.Firebase.CORE)
