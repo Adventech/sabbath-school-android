@@ -35,6 +35,8 @@ import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding
 import com.cryart.sabbathschool.databinding.SsLoginButtonsBinding
 import com.cryart.sabbathschool.ui.MainActivity
+import com.facebook.CallbackManager
+import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -63,6 +65,8 @@ class LoginActivity : AppCompatActivity() {
         registerForActivityResult(GetSignInDataContract()) { data ->
             viewModel.handleGoogleSignInResult(data)
         }
+
+    private val callbackManager = CallbackManager.Factory.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,7 +108,10 @@ class LoginActivity : AppCompatActivity() {
                 getGoogleSignInLauncher.launch(googleSignInClient)
             }
             facebook.setOnClickListener {
-                // handle fb sign-in
+                LoginManager.getInstance().logInWithReadPermissions(
+                    this@LoginActivity,
+                    listOf("public_profile", "email")
+                )
             }
             anonymous.setOnClickListener {
                 MaterialAlertDialogBuilder(this@LoginActivity)
@@ -119,10 +126,17 @@ class LoginActivity : AppCompatActivity() {
                     .show()
             }
         }
+
+        viewModel.initFacebookAuth(callbackManager)
     }
 
     private fun launchMain() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

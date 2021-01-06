@@ -32,6 +32,11 @@ import com.cryart.sabbathschool.core.extensions.arch.SingleLiveEvent
 import com.cryart.sabbathschool.core.extensions.arch.asLiveData
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.model.ViewState
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginResult
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -42,6 +47,7 @@ import timber.log.Timber
 class LoginViewModel @ViewModelInject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val googleSignIn: GoogleSignInWrapper,
+    private val facebookLoginManager: FacebookLoginManager,
     private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
 
@@ -82,6 +88,42 @@ class LoginViewModel @ViewModelInject constructor(
         try {
             viewModelScope.launch(schedulerProvider.io) {
                 val result = firebaseAuth.signInAnonymously().await()
+                handleAuthResult(result)
+            }
+        } catch (e: Exception) {
+            Timber.e(e)
+            mutableViewState.postValue(ViewState.Error(messageRes = R.string.ss_login_failed))
+        }
+    }
+
+    fun initFacebookAuth(manager: CallbackManager) {
+        facebookLoginManager.registerCallback(
+            manager,
+            object : FacebookCallback<LoginResult> {
+                override fun onSuccess(result: LoginResult) {
+                    handleFacebookAccessToken(result.accessToken)
+                }
+
+                override fun onCancel() {
+                    // No-op
+                }
+
+                override fun onError(error: FacebookException) {
+                    Timber.e(error)
+                    mutableViewState.postValue(
+                        ViewState.Error(messageRes = R.string.ss_login_failed)
+                    )
+                }
+            }
+        )
+    }
+
+    private fun handleFacebookAccessToken(accessToken: AccessToken) {
+        mutableViewState.postValue(ViewState.Loading)
+        try {
+            viewModelScope.launch(schedulerProvider.io) {
+                val credential = facebookLoginManager.getCredential(accessToken.token)
+                val result = firebaseAuth.signInWithCredential(credential).await()
                 handleAuthResult(result)
             }
         } catch (e: Exception) {

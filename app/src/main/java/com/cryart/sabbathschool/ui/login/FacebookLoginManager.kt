@@ -20,22 +20,27 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.di
+package com.cryart.sabbathschool.ui.login
 
-import com.cryart.sabbathschool.ui.login.FacebookLoginManager
-import com.cryart.sabbathschool.ui.login.GoogleSignInWrapper
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import com.cryart.sabbathschool.core.annotations.OpenClass
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.FacebookAuthProvider
 
-@InstallIn(SingletonComponent::class)
-@Module
-object AppModule {
+@OpenClass
+class FacebookLoginManager {
 
-    @Provides
-    fun provideGoogleSignInWrapper() = GoogleSignInWrapper()
+    fun registerCallback(
+        callbackManager: CallbackManager,
+        callback: FacebookCallback<LoginResult>
+    ) {
+        LoginManager.getInstance().registerCallback(callbackManager, callback)
+    }
 
-    @Provides
-    fun provideFacebookLoginManager() = FacebookLoginManager()
+    fun getCredential(token: String): AuthCredential {
+        return FacebookAuthProvider.getCredential(token)
+    }
 }

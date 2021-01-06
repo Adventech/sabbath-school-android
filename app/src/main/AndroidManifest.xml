@@ -24,6 +24,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cryart.sabbathschool">
 
+    <queries>
+        <package android:name="com.facebook.katana" />
+    </queries>
+
     <application
         android:name=".SSApp"
         android:allowBackup="true"
