@@ -29,6 +29,7 @@ object PluginVersions {
 dependencies {
     implementation("com.android.tools.build:gradle:${PluginVersions.GRADLE_ANDROID}")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${PluginVersions.KOTLIN}")
+    implementation("org.jetbrains.kotlin:kotlin-allopen:${PluginVersions.KOTLIN}")
     implementation("androidx.navigation:navigation-safe-args-gradle-plugin:${PluginVersions.NAVIGATION}")
     implementation("com.google.dagger:hilt-android-gradle-plugin:${PluginVersions.HILT}")
     implementation("com.pinterest:ktlint:${PluginVersions.KTLINT}")

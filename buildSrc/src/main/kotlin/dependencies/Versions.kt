@@ -12,7 +12,8 @@ object Versions {
         const val NAVIGATION = "2.3.2"
         const val LIFECYCLE = "2.2.0"
         const val CORE = "1.3.2"
-        const val FRAGMENT = "1.2.5"
+        const val FRAGMENT = "1.3.0-beta02"
+        const val ACTIVITY = "1.2.0-rc01"
         const val CONSTRAINT_LAYOUT = "2.0.4"
         const val START_UP = "1.0.0"
         const val HILT = "1.0.0-alpha02"
@@ -26,6 +27,8 @@ object Versions {
     const val LEAK_CANARY = "2.5"
 
     const val FIREBASE_BOM = "26.2.0"
+    const val FACEBOOK = "8.1.0"
+    const val PLAY_AUTH = "19.0.0"
 
     // Tests
     const val ANDROIDX_TEST = "1.3.0"

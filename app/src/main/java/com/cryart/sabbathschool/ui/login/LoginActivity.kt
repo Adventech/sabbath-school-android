@@ -22,6 +22,125 @@
 
 package com.cryart.sabbathschool.ui.login
 
+import android.content.DialogInterface
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import com.cryart.sabbathschool.R
+import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
+import com.cryart.sabbathschool.core.model.ViewState
+import com.cryart.sabbathschool.databinding.SsLoginActivityBinding
+import com.cryart.sabbathschool.databinding.SsLoginButtonsBinding
+import com.cryart.sabbathschool.ui.MainActivity
+import com.facebook.CallbackManager
+import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
-class LoginActivity : AppCompatActivity()
+@AndroidEntryPoint
+class LoginActivity : AppCompatActivity() {
+
+    private val viewModel: LoginViewModel by viewModels()
+
+    private lateinit var buttonsBinding: SsLoginButtonsBinding
+
+    private val googleSignInClient: GoogleSignInClient by lazy {
+        val gso = GoogleSignInOptions.Builder(
+            GoogleSignInOptions.DEFAULT_SIGN_IN
+        )
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        GoogleSignIn.getClient(this, gso)
+    }
+
+    private val getGoogleSignInLauncher: ActivityResultLauncher<GoogleSignInClient> =
+        registerForActivityResult(GetSignInDataContract()) { data ->
+            viewModel.handleGoogleSignInResult(data)
+        }
+
+    private val callbackManager = CallbackManager.Factory.create()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val binding = SsLoginActivityBinding.inflate(layoutInflater)
+        buttonsBinding = SsLoginButtonsBinding.bind(binding.root)
+        setContentView(binding.root)
+
+        initUi()
+
+        viewModel.viewStateLiveData.observeNonNull(this) { state ->
+            when (state) {
+                is ViewState.Success<*> -> launchMain()
+                ViewState.Loading -> {
+                    buttonsBinding.apply {
+                        progressBar.isVisible = true
+                        container.isVisible = false
+                    }
+                }
+                is ViewState.Error -> {
+                    buttonsBinding.apply {
+                        progressBar.isVisible = false
+                        container.isVisible = true
+                    }
+
+                    val message = state.message ?: state.messageRes?.let {
+                        getString(it)
+                    } ?: return@observeNonNull
+                    Snackbar.make(buttonsBinding.root, message, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(android.R.string.ok) {}
+                        .show()
+                }
+            }
+        }
+    }
+
+    private fun initUi() {
+        buttonsBinding.apply {
+            google.setOnClickListener {
+                getGoogleSignInLauncher.launch(googleSignInClient)
+            }
+            facebook.setOnClickListener {
+                LoginManager.getInstance().logInWithReadPermissions(
+                    this@LoginActivity,
+                    listOf("public_profile", "email")
+                )
+            }
+            anonymous.setOnClickListener {
+                MaterialAlertDialogBuilder(this@LoginActivity)
+                    .setTitle(R.string.ss_login_anonymously_dialog_title)
+                    .setMessage(R.string.ss_login_anonymously_dialog_description)
+                    .setPositiveButton(R.string.ss_login_anonymously_dialog_positive) {
+                        _: DialogInterface?, _: Int ->
+                        viewModel.handleAnonymousLogin()
+                    }
+                    .setNegativeButton(R.string.ss_login_anonymously_dialog_negative, null)
+                    .create()
+                    .show()
+            }
+        }
+
+        viewModel.initFacebookAuth(callbackManager)
+    }
+
+    private fun launchMain() {
+        startActivity(
+            Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+        )
+        finish()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+}
