@@ -131,7 +131,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun launchMain() {
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(
+            Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+        )
         finish()
     }
 

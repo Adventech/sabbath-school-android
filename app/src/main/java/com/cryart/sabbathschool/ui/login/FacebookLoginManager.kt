@@ -30,6 +30,9 @@ import com.facebook.login.LoginResult
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FacebookAuthProvider
 
+/**
+ * Facebook Login wrapper for testing
+ */
 @OpenClass
 class FacebookLoginManager {
 
