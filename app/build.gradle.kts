@@ -97,6 +97,7 @@ dependencies {
     implementation(project(BuildModules.CORE))
     implementation(project(BuildModules.DESIGN))
     implementation(project(BuildModules.TRANSLATIONS))
+    implementation(project(BuildModules.LESSONS))
 
     implementation(Dependencies.Kotlin.KOTLIN)
 
