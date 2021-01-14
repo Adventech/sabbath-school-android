@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,31 +20,22 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.ui.splash
+package com.cryart.sabbathschool.core.extensions.prefs
 
-import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.reminder.DailyReminderManager
-import com.google.firebase.auth.FirebaseAuth
+import android.content.Context
+import com.cryart.sabbathschool.core.model.ReminderTime
 
-class SplashViewModel @ViewModelInject constructor(
-    private val firebaseAuth: FirebaseAuth,
-    dailyReminderManager: DailyReminderManager,
-    ssPrefs: SSPrefs,
-    schedulerProvider: SchedulerProvider
-) : ViewModel() {
+class SSPrefs(private val context: Context) {
 
-    init {
-        if (firebaseAuth.currentUser != null && ssPrefs.getReminderJobId() == null) {
-            dailyReminderManager.scheduleReminder()
-        }
+    fun getReminderTime(): ReminderTime {
+
+        return ReminderTime(6, 30)
     }
 
-    val isSignedInLiveData: LiveData<Boolean> = liveData(schedulerProvider.io) {
-        emit(firebaseAuth.currentUser != null)
+    fun getReminderJobId(): Int? {
+        return null
+    }
+
+    fun setReminderJobId(id: Int?) {
     }
 }

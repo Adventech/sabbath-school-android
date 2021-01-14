@@ -29,6 +29,8 @@ object Versions {
     const val FIREBASE_BOM = "26.2.0"
     const val FACEBOOK = "8.1.0"
     const val PLAY_AUTH = "19.0.0"
+    const val ANDROID_JOB = "1.4.2"
+    const val JODA = "2.10.9"
 
     // Tests
     const val ANDROIDX_TEST = "1.3.0"

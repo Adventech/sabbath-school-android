@@ -118,6 +118,7 @@ fun DependencyHandler.addTestsDependencies() {
     testImplementation(TestDependencies.FRAGMENT_TEST)
     testImplementation(TestDependencies.KLUENT)
     testImplementation(TestDependencies.HILT)
+    testImplementation(TestDependencies.JODA)
     kaptTest(TestDependencies.HILT_COMPILER)
 
     androidTestImplementation(TestAndroidDependencies.ESPRESSO)
