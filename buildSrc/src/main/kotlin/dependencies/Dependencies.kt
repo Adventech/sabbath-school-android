@@ -32,6 +32,7 @@ object Dependencies {
         const val START_UP = "androidx.startup:startup-runtime:${Versions.AndroidX.START_UP}"
         const val HILT_COMPILER = "androidx.hilt:hilt-compiler:${Versions.AndroidX.HILT}"
         const val HILT_VIEWMODEL = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.AndroidX.HILT}"
+        const val PREFERENCE = "androidx.preference:preference-ktx:${Versions.AndroidX.PREFERENCE}"
     }
 
     object Firebase {

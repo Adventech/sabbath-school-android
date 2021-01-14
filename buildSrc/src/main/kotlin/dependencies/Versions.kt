@@ -17,6 +17,7 @@ object Versions {
         const val CONSTRAINT_LAYOUT = "2.0.4"
         const val START_UP = "1.0.0"
         const val HILT = "1.0.0-alpha02"
+        const val PREFERENCE = "1.1.1"
     }
 
     const val HILT = "2.30.1-alpha"

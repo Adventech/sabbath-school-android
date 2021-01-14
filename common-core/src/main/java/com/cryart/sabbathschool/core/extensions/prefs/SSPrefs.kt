@@ -23,19 +23,45 @@
 package com.cryart.sabbathschool.core.extensions.prefs
 
 import android.content.Context
+import androidx.core.content.edit
+import androidx.preference.PreferenceManager
+import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.ReminderTime
 
-class SSPrefs(private val context: Context) {
+class SSPrefs(context: Context) {
+
+    private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     fun getReminderTime(): ReminderTime {
+        val timeStr = sharedPreferences.getString(
+            SSConstants.SS_SETTINGS_REMINDER_TIME_KEY,
+            SSConstants.SS_SETTINGS_REMINDER_TIME_DEFAULT_VALUE
+        )
+        val hour = SSHelper.parseHourFromString(
+            timeStr,
+            SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT
+        )
+        val min = SSHelper.parseMinuteFromString(
+            timeStr,
+            SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT
+        )
 
-        return ReminderTime(6, 30)
+        return ReminderTime(hour, min)
     }
 
     fun getReminderJobId(): Int? {
-        return null
+        val id = sharedPreferences.getInt(SSConstants.SS_REMINDER_JOB_ID, -1)
+        return if (id == -1) {
+            null
+        } else {
+            id
+        }
     }
 
     fun setReminderJobId(id: Int?) {
+        sharedPreferences.edit {
+            putInt(SSConstants.SS_REMINDER_JOB_ID, id ?: -1)
+        }
     }
 }
