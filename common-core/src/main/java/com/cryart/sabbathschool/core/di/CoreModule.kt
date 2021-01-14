@@ -22,10 +22,13 @@
 
 package com.cryart.sabbathschool.core.di
 
+import android.content.Context
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -34,4 +37,7 @@ object CoreModule {
 
     @Provides
     fun provideSchedulers(): SchedulerProvider = SchedulerProvider()
+
+    @Provides
+    fun provideSSPrefs(@ApplicationContext context: Context): SSPrefs = SSPrefs(context)
 }

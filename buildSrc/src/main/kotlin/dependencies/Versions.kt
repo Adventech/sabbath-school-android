@@ -17,6 +17,7 @@ object Versions {
         const val CONSTRAINT_LAYOUT = "2.0.4"
         const val START_UP = "1.0.0"
         const val HILT = "1.0.0-alpha02"
+        const val PREFERENCE = "1.1.1"
     }
 
     const val HILT = "2.30.1-alpha"
@@ -29,6 +30,8 @@ object Versions {
     const val FIREBASE_BOM = "26.2.0"
     const val FACEBOOK = "8.1.0"
     const val PLAY_AUTH = "19.0.0"
+    const val ANDROID_JOB = "1.4.2"
+    const val JODA = "2.10.9"
 
     // Tests
     const val ANDROIDX_TEST = "1.3.0"

@@ -14,6 +14,9 @@ object Dependencies {
     const val FACEBOOK = "com.facebook.android:facebook-android-sdk:${Versions.FACEBOOK}"
     const val PLAY_AUTH = "com.google.android.gms:play-services-auth:${Versions.PLAY_AUTH}"
 
+    const val ANDROID_JOB = "com.evernote:android-job:${Versions.ANDROID_JOB}"
+    const val JODA = "net.danlew:android.joda:${Versions.JODA}"
+
     object AndroidX {
         const val CORE = "androidx.core:core-ktx:${Versions.AndroidX.CORE}"
         const val APPCOMPAT = "androidx.appcompat:appcompat:${Versions.AndroidX.APPCOMPAT}"
@@ -29,6 +32,7 @@ object Dependencies {
         const val START_UP = "androidx.startup:startup-runtime:${Versions.AndroidX.START_UP}"
         const val HILT_COMPILER = "androidx.hilt:hilt-compiler:${Versions.AndroidX.HILT}"
         const val HILT_VIEWMODEL = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.AndroidX.HILT}"
+        const val PREFERENCE = "androidx.preference:preference-ktx:${Versions.AndroidX.PREFERENCE}"
     }
 
     object Firebase {

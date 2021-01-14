@@ -25,9 +25,12 @@ package com.cryart.sabbathschool.ui.splash
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cryart.sabbathschool.BaseTest
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.google.firebase.auth.FirebaseAuth
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.amshove.kluent.mock
 import org.amshove.kluent.shouldBeFalse
@@ -41,8 +44,10 @@ class SplashViewModelTest : BaseTest() {
     @get:Rule
     val instantTaskRule = InstantTaskExecutorRule()
 
-    private val mockFirebaseAuth: FirebaseAuth = mockk()
+    private val mockFirebaseAuth: FirebaseAuth = mockk(relaxed = true)
     private val mockSchedulerProvider: SchedulerProvider = mockk()
+    private val mockDailyReminderManager: DailyReminderManager = mockk()
+    private val mockSsPrefs: SSPrefs = mockk(relaxed = true)
 
     private lateinit var viewModel: SplashViewModel
 
@@ -54,6 +59,8 @@ class SplashViewModelTest : BaseTest() {
 
         viewModel = SplashViewModel(
             mockFirebaseAuth,
+            mockDailyReminderManager,
+            mockSsPrefs,
             mockSchedulerProvider
         )
     }
@@ -74,5 +81,36 @@ class SplashViewModelTest : BaseTest() {
         viewModel.isSignedInLiveData.observeForever {
             it.shouldBeTrue()
         }
+    }
+
+    @Test
+    fun `should schedule alarm when user signed in`() {
+        every { mockFirebaseAuth.currentUser }.returns(mock())
+        every { mockSsPrefs.getReminderJobId() }.returns(null)
+        every { mockDailyReminderManager.scheduleReminder() }.returns(Unit)
+
+        SplashViewModel(
+            mockFirebaseAuth,
+            mockDailyReminderManager,
+            mockSsPrefs,
+            mockSchedulerProvider
+        )
+
+        verify { mockDailyReminderManager.scheduleReminder() }
+    }
+
+    @Test
+    fun `should not schedule alarm when user signed in and jobId exists`() {
+        every { mockFirebaseAuth.currentUser }.returns(mock())
+        every { mockSsPrefs.getReminderJobId() }.returns(1)
+
+        SplashViewModel(
+            mockFirebaseAuth,
+            mockDailyReminderManager,
+            mockSsPrefs,
+            mockSchedulerProvider
+        )
+
+        verify(inverse = true) { mockDailyReminderManager.scheduleReminder() }
     }
 }

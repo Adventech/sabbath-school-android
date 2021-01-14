@@ -47,6 +47,7 @@ android {
 dependencies {
     implementation(Dependencies.Kotlin.KOTLIN)
     implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
+    implementation(Dependencies.AndroidX.PREFERENCE)
     implementation(Dependencies.Kotlin.COROUTINES)
     implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
     implementation(Dependencies.TIMBER)
