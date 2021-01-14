@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,16 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.di
+package com.cryart.sabbathschool.reminder
 
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import com.evernote.android.job.Job
+import com.evernote.android.job.JobCreator
 
-@Module
-@InstallIn(SingletonComponent::class)
-object CoreModule {
-
-    @Provides
-    fun provideSchedulers(): SchedulerProvider = SchedulerProvider()
+class SSJobCreator : JobCreator {
+    override fun create(tag: String): Job? {
+        return when (tag) {
+            SSReminderJob.TAG -> SSReminderJob()
+            else -> null
+        }
+    }
 }

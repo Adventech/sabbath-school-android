@@ -135,6 +135,8 @@ dependencies {
     implementation(Dependencies.TIMBER)
 
     implementation(Dependencies.FACEBOOK)
+    implementation(Dependencies.ANDROID_JOB)
+    implementation(Dependencies.JODA)
 
     addTestsDependencies()
 }

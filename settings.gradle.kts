@@ -19,11 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 include(
     ":app",
-    ":common-core",
-    ":common-design",
-    ":common-translations",
+    ":common:core",
+    ":common:design",
+    ":common:translations",
     ":features:lessons"
 )
 rootProject.buildFileName = "build.gradle.kts"

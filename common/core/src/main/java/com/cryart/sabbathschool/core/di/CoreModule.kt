@@ -20,31 +20,24 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.ui.splash
+package com.cryart.sabbathschool.core.di
 
-import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import android.content.Context
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.reminder.DailyReminderManager
-import com.google.firebase.auth.FirebaseAuth
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 
-class SplashViewModel @ViewModelInject constructor(
-    private val firebaseAuth: FirebaseAuth,
-    dailyReminderManager: DailyReminderManager,
-    ssPrefs: SSPrefs,
-    schedulerProvider: SchedulerProvider
-) : ViewModel() {
+@Module
+@InstallIn(SingletonComponent::class)
+object CoreModule {
 
-    init {
-        if (firebaseAuth.currentUser != null && ssPrefs.getReminderJobId() == null) {
-            dailyReminderManager.scheduleReminder()
-        }
-    }
+    @Provides
+    fun provideSchedulers(): SchedulerProvider = SchedulerProvider()
 
-    val isSignedInLiveData: LiveData<Boolean> = liveData(schedulerProvider.io) {
-        emit(firebaseAuth.currentUser != null)
-    }
+    @Provides
+    fun provideSSPrefs(@ApplicationContext context: Context): SSPrefs = SSPrefs(context)
 }
