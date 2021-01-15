@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +23,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Platform.V24.Theme.SS" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:navigationBarColor">@color/white_70</item>
+        <item name="android:navigationBarColor">@color/nav_color</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
     </style>
 
     <style name="Platform.Theme.SS" parent="Platform.V24.Theme.SS" />
 
     <style name="Base.Theme.SS" parent="Platform.Theme.SS">
-        <item name="colorControlHighlight">@color/on_surface_16</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="fontFamily">@font/lato_regular</item>
         <item name="android:fontFamily">@font/lato_regular</item>
@@ -69,6 +68,7 @@
     </style>
 
     <style name="Theme.SS.Splash">
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowBackground">@drawable/ss_splash_background</item>
     </style>
 
@@ -94,13 +94,14 @@
     </style>
 
     <style name="Base.ThemeOverlay.SS.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.SS.Title.Text</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.SS.Title.Text
+        </item>
         <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialog.SS.Body.Text</item>
         <item name="android:windowAnimationStyle">@style/Animation.SS.MaterialAlertDialog</item>
     </style>
 
     <style name="ThemeOverlay.SS.MaterialAlertDialog" parent="Base.ThemeOverlay.SS.MaterialAlertDialog">
-        <item name="colorSecondary">@color/ss_green_dark </item>
+        <item name="colorSecondary">@color/ss_green_dark</item>
     </style>
 
     <style name="ThemeOverlay.SS.PrimarySecondary" parent="">
