@@ -18,7 +18,7 @@ kotlinDslPluginOptions {
 object PluginVersions {
     const val GRADLE_ANDROID = "4.1.1"
     const val GRADLE_VERSIONS = "0.33.0"
-    const val KOTLIN = "1.4.10"
+    const val KOTLIN = "1.4.21"
     const val KTLINT = "0.40.0"
     const val HILT = "2.29.1-alpha"
     const val NAVIGATION = "2.3.1"
