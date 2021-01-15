@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.di
 
+import android.content.Context
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.cryart.sabbathschool.ui.login.FacebookLoginManager
@@ -30,6 +31,7 @@ import com.evernote.android.job.JobManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
@@ -43,7 +45,10 @@ object AppModule {
     fun provideFacebookLoginManager() = FacebookLoginManager()
 
     @Provides
-    fun provideReminderManager(ssPrefs: SSPrefs): DailyReminderManager {
-        return DailyReminderManager(JobManager.instance(), ssPrefs)
+    fun provideReminderManager(
+        @ApplicationContext context: Context,
+        ssPrefs: SSPrefs
+    ): DailyReminderManager {
+        return DailyReminderManager(JobManager.create(context), ssPrefs)
     }
 }
