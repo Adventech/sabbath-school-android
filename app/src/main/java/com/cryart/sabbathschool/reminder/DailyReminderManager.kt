@@ -74,9 +74,7 @@ class DailyReminderManager(
     }
 
     fun cancelReminder() {
-        ssPrefs.getReminderJobId()?.let {
-            jobManager.cancel(it)
-        }
+        jobManager.cancelAll()
         ssPrefs.setReminderJobId(null)
     }
 }
