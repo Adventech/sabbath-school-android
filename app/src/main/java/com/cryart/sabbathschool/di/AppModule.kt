@@ -25,7 +25,6 @@ package com.cryart.sabbathschool.di
 import android.content.Context
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.reminder.DailyReminderManager
-import com.cryart.sabbathschool.reminder.SSJobCreator
 import com.cryart.sabbathschool.ui.login.FacebookLoginManager
 import com.cryart.sabbathschool.ui.login.GoogleSignInWrapper
 import com.evernote.android.job.JobManager
@@ -50,9 +49,6 @@ object AppModule {
         @ApplicationContext context: Context,
         ssPrefs: SSPrefs
     ): DailyReminderManager {
-        val jobManager = JobManager.create(context)
-        jobManager.addJobCreator(SSJobCreator())
-
-        return DailyReminderManager(jobManager, ssPrefs)
+        return DailyReminderManager(JobManager.create(context), ssPrefs)
     }
 }
