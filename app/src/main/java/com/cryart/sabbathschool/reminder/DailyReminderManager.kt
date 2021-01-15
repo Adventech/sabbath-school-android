@@ -60,8 +60,13 @@ class DailyReminderManager(
             return
         }
 
+        val exact = if (delayMinutes <= 0) {
+            TimeUnit.HOURS.toMillis(24)
+        } else {
+            TimeUnit.MINUTES.toMillis(delayMinutes)
+        }
         val jobId = jobRequestBuilder
-            .setExact(TimeUnit.MINUTES.toMillis(delayMinutes))
+            .setExact(exact)
             .build()
             .schedule()
 
@@ -71,7 +76,7 @@ class DailyReminderManager(
     fun cancelReminder() {
         ssPrefs.getReminderJobId()?.let {
             jobManager.cancel(it)
-            ssPrefs.setReminderJobId(null)
         }
+        ssPrefs.setReminderJobId(null)
     }
 }
