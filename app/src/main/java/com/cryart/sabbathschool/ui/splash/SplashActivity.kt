@@ -27,6 +27,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
+import com.cryart.sabbathschool.ui.LessonsActivity
 import com.cryart.sabbathschool.ui.MainActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +44,7 @@ class SplashActivity : AppCompatActivity() {
             this,
             { signedIn ->
                 if (signedIn) {
-                    launchMain()
+                    launchLessons()
                 } else {
                     startActivity(Intent(this, LoginActivity::class.java))
                 }
@@ -55,5 +56,12 @@ class SplashActivity : AppCompatActivity() {
 
     private fun launchMain() {
         startActivity(Intent(this, MainActivity::class.java))
+    }
+
+    /**
+     *  Open Lessons Activity from Features / Lessons
+     */
+    private fun launchLessons() {
+        startActivity(Intent(this, LessonsActivity::class.java))
     }
 }

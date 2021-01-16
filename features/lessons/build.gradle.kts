@@ -22,8 +22,14 @@
 
 import dependencies.Dependencies
 
+
+
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY)
+    id(BuildPlugins.KOTLIN_ANDROID)
+    id(BuildPlugins.KOTLIN_KAPT)
+    id(BuildPlugins.KOTLIN_ALLOPEN)
+    id(BuildPlugins.DAGGER_HILT)
 }
 
 android {
@@ -32,8 +38,40 @@ android {
     defaultConfig {
         minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+    }
 }
 
 dependencies {
+    implementation(Dependencies.Kotlin.KOTLIN)
+
     implementation(Dependencies.MATERIAL)
+    implementation(Dependencies.AndroidX.CORE)
+    implementation(Dependencies.AndroidX.APPCOMPAT)
+    implementation(Dependencies.AndroidX.CONSTRAINT_LAYOUT)
+    implementation(Dependencies.AndroidX.ACTIVITY)
+    implementation(Dependencies.AndroidX.FRAGMENT_KTX)
+    implementation(Dependencies.AndroidX.NAVIGATION_UI)
+    implementation(Dependencies.AndroidX.NAVIGATION_FRAGMENT)
+    implementation(Dependencies.AndroidX.LIFECYCLE_VIEWMODEL)
+    implementation(Dependencies.AndroidX.LIFECYCLE_EXTENSIONS)
+    implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
+    implementation(Dependencies.AndroidX.RECYCLER_VIEW)
+    implementation(Dependencies.AndroidX.START_UP)
+    implementation(Dependencies.AndroidX.HILT_VIEWMODEL)
+
+    implementation(Dependencies.HILT)
+    kapt(Dependencies.HILT_COMPILER)
+    kapt(Dependencies.AndroidX.HILT_COMPILER)
+
+    implementation(Dependencies.TIMBER)
 }
+

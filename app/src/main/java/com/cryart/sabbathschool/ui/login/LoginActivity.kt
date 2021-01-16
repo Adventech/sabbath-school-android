@@ -34,6 +34,7 @@ import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding
 import com.cryart.sabbathschool.databinding.SsLoginButtonsBinding
+import com.cryart.sabbathschool.ui.LessonsActivity
 import com.cryart.sabbathschool.ui.MainActivity
 import com.facebook.CallbackManager
 import com.facebook.login.LoginManager
@@ -78,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.viewStateLiveData.observeNonNull(this) { state ->
             when (state) {
-                is ViewState.Success<*> -> launchMain()
+                is ViewState.Success<*> -> launchLessons()
                 ViewState.Loading -> {
                     buttonsBinding.apply {
                         progressBar.isVisible = true
@@ -133,6 +134,18 @@ class LoginActivity : AppCompatActivity() {
     private fun launchMain() {
         startActivity(
             Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+        )
+        finish()
+    }
+
+    /**
+     *  Open Lessons Activity from Features / Lessons
+     */
+    private fun launchLessons() {
+        startActivity(
+            Intent(this, LessonsActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
         )
