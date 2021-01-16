@@ -32,7 +32,7 @@ plugins {
     id(BuildPlugins.NAVIGATION_SAFE_ARGS)
     id(BuildPlugins.FIREBASE_CRASHLYTICS)
     id(BuildPlugins.GOOGLE_SERVICES)
-    id("eu.davidea.grabver") version "2.0.2"
+    id(BuildPlugins.GRABVER)
 }
 
 allOpen {

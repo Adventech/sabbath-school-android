@@ -41,4 +41,4 @@ jobs:
           target: default
           arch: x86
           profile: Nexus 6
-          script: ./gradlew app:connectedCheck --stacktrace
+          script: ./gradlew grabverRelease app:connectedCheck --stacktrace
