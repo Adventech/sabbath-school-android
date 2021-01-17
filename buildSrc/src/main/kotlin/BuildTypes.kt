@@ -6,3 +6,7 @@ interface BuildType {
         const val RELEASE = "release"
     }
 }
+
+object KotlinOptions {
+    const val COROUTINES = "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+}

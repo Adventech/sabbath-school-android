@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,37 @@
  * THE SOFTWARE.
  */
 
-include(
-    ":app",
-    ":common:core",
-    ":common:design",
-    ":common:translations",
-    ":features:lessons",
-    ":libraries:test_utils"
-)
-rootProject.buildFileName = "build.gradle.kts"
+import dependencies.Dependencies
+import extensions.addTestsDependencies
+
+plugins {
+    id(BuildPlugins.ANDROID_LIBRARY)
+    id(BuildPlugins.KOTLIN_ANDROID)
+    id(BuildPlugins.KOTLIN_KAPT)
+}
+
+android {
+    compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
+
+    defaultConfig {
+        minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
+    }
+}
+
+dependencies {
+    implementation(Dependencies.Kotlin.KOTLIN)
+    implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
+    implementation(Dependencies.Kotlin.COROUTINES)
+    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
+
+    addTestsDependencies()
+}
