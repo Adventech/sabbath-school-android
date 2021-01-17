@@ -5,8 +5,11 @@ object BuildAndroidConfig {
     const val MIN_SDK_VERSION = 21
     const val TARGET_SDK_VERSION = 30
 
-    const val VERSION_CODE = 1
-    const val VERSION_NAME = "1.0"
-
     const val TEST_INSTRUMENTATION_RUNNER = "com.cryart.sabbathschool.SSAppTestRunner"
+
+    object Version {
+        const val MAJOR = 4
+        const val MINOR = 0
+        const val PATCH = 1
+    }
 }

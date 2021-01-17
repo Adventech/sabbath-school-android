@@ -16,4 +16,6 @@ object BuildPlugins {
 
     const val FIREBASE_CRASHLYTICS = "com.google.firebase.crashlytics"
     const val GOOGLE_SERVICES = "com.google.gms.google-services"
+
+    const val GRABVER = "eu.davidea.grabver"
 }
