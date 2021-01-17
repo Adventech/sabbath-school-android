@@ -25,9 +25,9 @@ package com.cryart.sabbathschool.ui.login
 import android.content.Intent
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cryart.sabbathschool.R
+import com.cryart.sabbathschool.core.extensions.arch.observeFuture
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.model.ViewState
-import com.cryart.sabbathschool.observeFuture
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.facebook.AccessToken
 import com.facebook.FacebookCallback

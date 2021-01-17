@@ -21,6 +21,7 @@
  */
 
 import dependencies.Dependencies
+import extensions.addTestsDependencies
 import extensions.kapt
 
 plugins {
@@ -91,4 +92,6 @@ dependencies {
     implementation(Dependencies.TAP_TARGET)
     implementation("com.mikepenz:iconics-core:2.8.1@aar")
     implementation("com.mikepenz:google-material-typeface:2.2.0.3.original@aar")
+
+    addTestsDependencies()
 }

@@ -36,3 +36,13 @@ fun <T> LiveData<T>.observeNonNull(owner: LifecycleOwner, observer: (t: T) -> Un
 }
 
 fun <T> MutableLiveData<T>.asLiveData() = this as LiveData<T>
+
+fun <T> LiveData<T>.observeFuture(): List<T> = mutableListOf<T>().apply {
+    observeForever { add(it) }
+
+    clear()
+}
+
+fun <T> LiveData<T>.observeAll(): List<T> = mutableListOf<T>().apply {
+    observeForever { add(it) }
+}
