@@ -23,7 +23,16 @@
 package com.cryart.sabbathschool
 
 import android.app.Application
+import com.cryart.sabbathschool.reminder.SSJobCreator
+import com.evernote.android.job.JobManager
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class SSApp : Application()
+class SSApp : Application() {
+
+    override fun onCreate() {
+        JobManager.create(this)
+            .addJobCreator(SSJobCreator())
+        super.onCreate()
+    }
+}

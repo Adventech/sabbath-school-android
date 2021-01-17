@@ -46,7 +46,7 @@ class SSReminderJob : Job() {
 
     private val reminderManager: DailyReminderManager by lazy {
         DailyReminderManager(
-            JobManager.create(context),
+            JobManager.instance(),
             SSPrefs(context)
         )
     }
@@ -56,6 +56,7 @@ class SSReminderJob : Job() {
             Result.FAILURE
         } else {
             showNotification(context.applicationContext)
+            reminderManager.cancelReminder()
             reminderManager.scheduleReminder()
             Result.SUCCESS
         }

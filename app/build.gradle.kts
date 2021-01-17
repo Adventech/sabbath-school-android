@@ -32,11 +32,18 @@ plugins {
     id(BuildPlugins.NAVIGATION_SAFE_ARGS)
     id(BuildPlugins.FIREBASE_CRASHLYTICS)
     id(BuildPlugins.GOOGLE_SERVICES)
+    id(BuildPlugins.GRABVER)
 }
 
 allOpen {
     // allows mocking for classes w/o directly opening them for release builds
     annotation("com.cryart.sabbathschool.core.annotations.OpenClass")
+}
+
+versioning {
+    major = BuildAndroidConfig.Version.MAJOR
+    minor = BuildAndroidConfig.Version.MINOR
+    patch = BuildAndroidConfig.Version.PATCH
 }
 
 android {
@@ -47,8 +54,8 @@ android {
         minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
         targetSdkVersion(BuildAndroidConfig.TARGET_SDK_VERSION)
 
-        versionCode = BuildAndroidConfig.VERSION_CODE
-        versionName = BuildAndroidConfig.VERSION_NAME
+        versionCode = versioning.code
+        versionName = versioning.toString()
 
         testInstrumentationRunner = BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER
 

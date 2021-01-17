@@ -22,6 +22,5 @@
   -->
 
 <resources>
-    <color name="list_divider">#1fffffff</color>
-    <color name="nav_color">@color/black</color>
+    <color name="nav_color">@color/white_70</color>
 </resources>

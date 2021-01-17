@@ -32,6 +32,7 @@ import com.cryart.sabbathschool.core.extensions.arch.SingleLiveEvent
 import com.cryart.sabbathschool.core.extensions.arch.asLiveData
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.model.ViewState
+import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -48,6 +49,7 @@ class LoginViewModel @ViewModelInject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val googleSignIn: GoogleSignInWrapper,
     private val facebookLoginManager: FacebookLoginManager,
+    private val reminderManager: DailyReminderManager,
     private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
 
@@ -75,6 +77,7 @@ class LoginViewModel @ViewModelInject constructor(
 
     private fun handleAuthResult(result: AuthResult) {
         val state = if (result.user != null) {
+            reminderManager.scheduleReminder()
             ViewState.Success(result.user)
         } else {
             ViewState.Error(messageRes = R.string.ss_login_failed)

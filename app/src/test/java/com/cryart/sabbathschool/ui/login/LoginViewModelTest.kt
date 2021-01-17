@@ -28,6 +28,7 @@ import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.observeFuture
+import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.facebook.AccessToken
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -60,6 +61,7 @@ class LoginViewModelTest {
     private val mockFirebaseAuth: FirebaseAuth = mockk()
     private val mockGoogleSignIn: GoogleSignInWrapper = mockk()
     private val mockFacebookLoginManager: FacebookLoginManager = mockk()
+    private val mockReminderManager: DailyReminderManager = mockk()
 
     private val schedulerProvider: SchedulerProvider = SchedulerProvider(
         TestCoroutineDispatcher(), TestCoroutineDispatcher()
@@ -70,11 +72,13 @@ class LoginViewModelTest {
     @Before
     fun setUp() {
         every { mockFacebookLoginManager.registerCallback(any(), any()) }.returns(Unit)
+        every { mockReminderManager.scheduleReminder() }.returns(Unit)
 
         viewModel = LoginViewModel(
             mockFirebaseAuth,
             mockGoogleSignIn,
             mockFacebookLoginManager,
+            mockReminderManager,
             schedulerProvider
         )
     }
@@ -158,6 +162,8 @@ class LoginViewModelTest {
             .returns(Tasks.forResult(mockAuthResult))
 
         viewModel.handleAnonymousLogin()
+
+        verify { mockReminderManager.scheduleReminder() }
 
         viewModel.viewStateLiveData.value shouldBeEqualTo ViewState.Success(mockFirebaseUser)
     }

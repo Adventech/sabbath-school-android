@@ -106,14 +106,12 @@ class DailyReminderManagerTest {
     @Test
     fun `should cancel job and remove id from prefs when cancelReminder is called`() {
         testSubject = DailyReminderManager(mockJobManager, mockSSPrefs, mockRequestBuilder)
-        val jobId = 1
-        every { mockSSPrefs.getReminderJobId() }.returns(jobId)
-        every { mockJobManager.cancel(jobId) }.returns(true)
+        every { mockJobManager.cancelAll() }.returns(1)
 
         testSubject.cancelReminder()
 
         verify {
-            mockJobManager.cancel(jobId)
+            mockJobManager.cancelAll()
             mockSSPrefs.setReminderJobId(null)
         }
     }
