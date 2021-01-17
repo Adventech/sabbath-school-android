@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
@@ -31,12 +32,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.misc.SSColorTheme
+import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
 import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.ext.setEdgeEffect
+import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_DISMISSED
@@ -70,10 +73,9 @@ class QuarterliesActivity : SSBaseActivity() {
         }
         viewModel.showLanguagePromptLiveData.observe(this, { showLanguagesPrompt() })
         viewModel.lastQuarterlyIndexLiveData.observeNonNull(this) {
-            // TODO: Launch SSLessonsActivity
-            /*val intent = Intent(this, SSLessonsActivity::class.java)
+            val intent = Intent(this, SSLessonsActivity::class.java)
             intent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, it)
-            startActivity(intent)*/
+            startActivity(intent)
         }
 
         viewModel.viewCreated()

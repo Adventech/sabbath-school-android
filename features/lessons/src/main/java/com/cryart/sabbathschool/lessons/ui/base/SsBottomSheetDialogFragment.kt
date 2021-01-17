@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,15 +20,21 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons
+package com.cryart.sabbathschool.lessons.ui.base
 
-data class Lesson(
-    val title: String,
-    val start_date: String,
-    val end_date: String,
-    val cover: String,
-    val id: String,
-    val index: String,
-    val path: String,
-    val full_path: String
-)
+import android.os.Bundle
+import android.view.View
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+
+abstract class SsBottomSheetDialogFragment: BottomSheetDialogFragment() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        (requireDialog() as BottomSheetDialog).apply {
+            behavior.disableShapeAnimations()
+            dismissWithAnimation = true
+        }
+    }
+}

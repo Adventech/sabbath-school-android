@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,12 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons
+package com.cryart.sabbathschool.core.extensions.view
 
-import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import com.cryart.sabbathschool.lessons.databinding.ActivityLessonsBinding
-import dagger.hilt.android.AndroidEntryPoint
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 
-@AndroidEntryPoint
-class LessonsActivity : AppCompatActivity() {
-
-    private val viewModel: LessonsViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val binding = ActivityLessonsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-    }
-}
+fun inflateView(@LayoutRes layoutResId: Int, parent: ViewGroup, attachToRoot: Boolean): View =
+        LayoutInflater.from(parent.context).inflate(layoutResId, parent, attachToRoot)
