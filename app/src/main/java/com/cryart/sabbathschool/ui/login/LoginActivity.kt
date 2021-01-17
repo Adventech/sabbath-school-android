@@ -34,7 +34,7 @@ import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding
 import com.cryart.sabbathschool.databinding.SsLoginButtonsBinding
-import com.cryart.sabbathschool.lessons.ui.lessons.LessonsActivity
+import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.facebook.CallbackManager
 import com.facebook.login.LoginManager
@@ -145,7 +145,7 @@ class LoginActivity : AppCompatActivity() {
      */
     private fun launchLessons() {
         startActivity(
-            Intent(this, LessonsActivity::class.java).apply {
+            Intent(this, SSLessonsActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
         )

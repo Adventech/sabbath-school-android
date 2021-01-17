@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/ss_lessons_coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/ss_lessons_app_bar"
+            layout="@layout/ss_lessons_app_bar"
+            bind:viewModel="@{viewModel}" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/ss_color_background"
+            android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/lessonTypeContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:paddingStart="@dimen/ss_lesson_item_content_padding_left"
+                    android:paddingLeft="@dimen/ss_lesson_item_content_padding_left"
+                    android:paddingTop="@dimen/ss_lesson_item_content_padding_top"
+                    android:paddingEnd="@dimen/ss_lesson_item_content_padding_right"
+                    android:paddingRight="@dimen/ss_lesson_item_content_padding_right"
+                    android:paddingBottom="@dimen/ss_lesson_item_content_padding_bottom"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/lessonTypeTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:drawableRightCompat="@drawable/ic_expand_more"
+                        app:drawableEndCompat="@drawable/ic_expand_more"
+                        android:drawablePadding="@dimen/spacing_normal"
+                        android:drawableTint="@color/list_divider"
+                        android:fontFamily="@font/lato_medium"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="@dimen/text_size_body"
+                        tools:text="Easy Reading Version" />
+                </FrameLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ss_lesson_info_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:scrollbars="vertical"
+                    android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/ss_lesson_item" />
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <include
+            layout="@layout/ss_empty_state"
+            bind:emptyStateLabel="@{@string/ss_lessons_empty}"
+            bind:emptyStateVisibility="@{viewModel.ssLessonsEmptyStateVisibility}" />
+
+        <include
+            layout="@layout/ss_error_state"
+            bind:errorStateLabel="@{@string/ss_lessons_error}"
+            bind:errorStateVisibility="@{viewModel.ssLessonsErrorStateVisibility}" />
+
+        <include
+            layout="@layout/ss_progress_bar"
+            bind:progressLabel="@{@string/ss_lessons_downloading}"
+            bind:progressVisibility="@{viewModel.ssLessonsLoadingVisibility}" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

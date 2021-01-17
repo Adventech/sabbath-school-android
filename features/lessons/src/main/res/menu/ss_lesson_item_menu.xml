@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021. Adventech <info@adventech.io>
+  ~ Copyright (c) 2016 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -21,20 +21,12 @@
   ~ THE SOFTWARE.
   -->
 
-<resources>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
-
-    <style name="AppTheme.PopupMenuStyle" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
-        <item name="android:dropDownHorizontalOffset">-4dp</item>
-        <item name="android:dropDownVerticalOffset">4dp</item>
-    </style>
-
-    <style name="AppThemeAppBarTextStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">18sp</item>
-    </style>
-    <style name="AppThemeAppBarTextStyleExpanded" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">30sp</item>
-    </style>
-</resources>
+    <item
+        android:id="@+id/ss_lessons_item_menu_read"
+        android:orderInCategory="100"
+        android:title="@string/ss_lessons_read"
+        app:showAsAction="never" />
+</menu>

@@ -92,6 +92,8 @@ dependencies {
     implementation(Dependencies.TAP_TARGET)
     implementation("com.mikepenz:iconics-core:2.8.1@aar")
     implementation("com.mikepenz:google-material-typeface:2.2.0.3.original@aar")
+    implementation("net.opacapp:multiline-collapsingtoolbar:1.4.0")
+    implementation("com.github.hotchemi:android-rate:1.0.1")
 
     addTestsDependencies()
 }

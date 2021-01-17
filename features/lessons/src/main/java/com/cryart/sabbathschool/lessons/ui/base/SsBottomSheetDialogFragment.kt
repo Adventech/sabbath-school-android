@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,22 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons
+package com.cryart.sabbathschool.lessons.ui.base
 
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import com.cryart.sabbathschool.lessons.databinding.ActivityLessonsBinding
-import dagger.hilt.android.AndroidEntryPoint
+import android.view.View
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-@AndroidEntryPoint
-class LessonsActivity : AppCompatActivity() {
+abstract class SsBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
-    private val viewModel: LessonsViewModel by viewModels()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val binding = ActivityLessonsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        (requireDialog() as BottomSheetDialog).apply {
+            // do we need this?
+            // behavior.disableShapeAnimations()
+            dismissWithAnimation = true
+        }
     }
 }

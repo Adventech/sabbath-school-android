@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,61 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons
 
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.cryart.sabbathschool.core.extensions.arch.SingleLiveEvent
+import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
+import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
-class LessonsViewModel : ViewModel()
+class LessonsViewModel @ViewModelInject constructor(
+    private val repository: QuarterliesRepository,
+    private val ssPrefs: SSPrefs,
+    private val schedulerProvider: SchedulerProvider
+) : ViewModel() {
+
+    private val mutableQuarterlyTypes = MutableLiveData<List<String>>()
+    val quarterlyTypesLiveData: LiveData<List<String>> get() = mutableQuarterlyTypes
+
+    private val mutableSelectedType = SingleLiveEvent<Pair<String, String?>>()
+    val selectedTypeLiveData: LiveData<Pair<String, String?>> get() = mutableSelectedType
+
+    private var lessonTypes: List<SSQuarterly> = emptyList()
+
+    fun setQuarterlyIndex(index: String) {
+        viewModelScope.launch(schedulerProvider.io) {
+            repository.getQuarterlies().collect { resource ->
+                if (resource.isSuccessFul) {
+                    val quarterlies = resource.data ?: return@collect
+                    val selected = quarterlies.find { it.index == index } ?: return@collect
+                    lessonTypes = quarterlies.filter {
+                        it.start_date == selected.start_date && it.end_date == selected.end_date
+                    }
+                    if (lessonTypes.size > 1) {
+                        val names = listOf(selected.quarterly_name) + lessonTypes
+                            .filterNot { it.id == selected.id }
+                            .map { it.quarterly_name }
+                        mutableQuarterlyTypes.postValue(names.filterNotNull())
+
+                        val lastType = ssPrefs.getLastType() ?: return@collect
+                        if (lastType != names.first()) {
+                            quarterlyTypeSelected(lastType)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun quarterlyTypeSelected(type: String) {
+        val index = lessonTypes.find { it.quarterly_name == type }?.index ?: return
+        mutableSelectedType.postValue(Pair(index, type))
+        ssPrefs.setLastType(type)
+    }
+}

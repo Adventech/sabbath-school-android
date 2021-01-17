@@ -94,4 +94,17 @@ class SSPrefs(context: Context) {
             putBoolean(SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, true)
         }
     }
+
+    fun getLastType(): String? {
+        return sharedPreferences.getString(
+            SSConstants.SS_LAST_QUARTERLY_TYPE,
+            null
+        )
+    }
+
+    fun setLastType(type: String) {
+        sharedPreferences.edit {
+            putString(SSConstants.SS_LAST_QUARTERLY_TYPE, type)
+        }
+    }
 }
