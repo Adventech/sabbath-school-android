@@ -29,7 +29,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.lessons.ui.lessons.LessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
-import com.cryart.sabbathschool.ui.LessonsActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
