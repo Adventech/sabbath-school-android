@@ -22,14 +22,13 @@
 package com.cryart.sabbathschool.lessons.ui.lessons
 
 import android.content.Context
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
+import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
-import androidx.core.view.ViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableInt
 import coil.load
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.lessons.data.model.SSQuarterlyInfo
 import com.cryart.sabbathschool.lessons.ui.viewmodel.SSViewModel
@@ -43,24 +42,27 @@ import org.joda.time.Interval
 import org.joda.time.format.DateTimeFormat
 
 class SSLessonsViewModel(
-    context: Context?,
+    private val context: Context,
+    private val ssPrefs: SSPrefs,
     private var dataListener: DataListener?,
-    private var ssQuarterlyIndex: String?
+    private var ssQuarterlyIndex: String
 ) : SSViewModel {
 
     private val mDatabase: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     var ssQuarterlyInfo: SSQuarterlyInfo? = null
 
-    @JvmField
+    val date: String get() = ssQuarterlyInfo?.quarterly?.human_date ?: ""
+    val description: String get() = ssQuarterlyInfo?.quarterly?.description ?: ""
+    val cover: String get() = ssQuarterlyInfo?.quarterly?.cover ?: ""
+    val primaryColor: Int get() = Color.parseColor(
+        ssQuarterlyInfo?.quarterly?.color_primary ?: "#03000000"
+    )
+
     var ssLessonsLoadingVisibility: ObservableInt
-    @JvmField
     var ssLessonsEmptyStateVisibility: ObservableInt
-    @JvmField
     var ssLessonsErrorStateVisibility: ObservableInt
-    @JvmField
     var ssLessonsCoordinatorVisibility: ObservableInt
-    private var shared: SharedPreferences?
 
     init {
         mDatabase.keepSynced(true)
@@ -68,11 +70,10 @@ class SSLessonsViewModel(
         ssLessonsEmptyStateVisibility = ObservableInt(View.INVISIBLE)
         ssLessonsErrorStateVisibility = ObservableInt(View.INVISIBLE)
         ssLessonsCoordinatorVisibility = ObservableInt(View.INVISIBLE)
-        shared = PreferenceManager.getDefaultSharedPreferences(context)
         loadQuarterlyInfo(true)
     }
 
-    fun setSsQuarterlyIndex(ssQuarterlyIndex: String?) {
+    fun setSsQuarterlyIndex(ssQuarterlyIndex: String) {
         this.ssQuarterlyIndex = ssQuarterlyIndex
         loadQuarterlyInfo(false)
     }
@@ -84,19 +85,16 @@ class SSLessonsViewModel(
         ssLessonsEmptyStateVisibility.set(View.INVISIBLE)
         ssLessonsErrorStateVisibility.set(View.INVISIBLE)
         mDatabase.child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
-            .child(ssQuarterlyIndex!!)
+            .child(ssQuarterlyIndex)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     ssQuarterlyInfo = dataSnapshot.getValue(SSQuarterlyInfo::class.java)
-                    if (shared != null) {
-                        val editor = shared!!.edit()
-                        editor.putString(
-                            SSConstants.SS_LAST_QUARTERLY_INDEX,
-                            ssQuarterlyInfo!!.quarterly.index
-                        )
-                        editor.apply()
+                    ssQuarterlyInfo?.let {
+                        ssPrefs.setLastQuarterlyIndex(it.quarterly.index)
+
+                        dataListener?.onQuarterlyChanged(it)
                     }
-                    if (dataListener != null) dataListener!!.onQuarterlyChanged(ssQuarterlyInfo!!)
+
                     ssLessonsLoadingVisibility.set(View.INVISIBLE)
                     ssLessonsEmptyStateVisibility.set(View.INVISIBLE)
                     ssLessonsErrorStateVisibility.set(View.INVISIBLE)
@@ -115,8 +113,6 @@ class SSLessonsViewModel(
     override fun destroy() {
         dataListener = null
         ssQuarterlyInfo = null
-        ssQuarterlyIndex = null
-        shared = null
     }
 
     fun onReadClick() {
@@ -144,22 +140,9 @@ class SSLessonsViewModel(
         }
     }
 
-    fun setDataListener(dataListener: DataListener?) {
+    fun setDataListener(dataListener: DataListener) {
         this.dataListener = dataListener
     }
-
-    val date: String
-        get() = if (ssQuarterlyInfo != null) {
-            ssQuarterlyInfo!!.quarterly.human_date
-        } else ""
-    val description: String
-        get() = if (ssQuarterlyInfo != null) {
-            ssQuarterlyInfo!!.quarterly.description
-        } else ""
-    val cover: String
-        get() = if (ssQuarterlyInfo != null) {
-            ssQuarterlyInfo!!.quarterly.cover
-        } else ""
 
     interface DataListener {
         fun onQuarterlyChanged(ssQuarterlyInfo: SSQuarterlyInfo)
@@ -169,7 +152,6 @@ class SSLessonsViewModel(
         @JvmStatic
         @BindingAdapter("coverUrl")
         fun loadCover(view: ImageView, coverUrl: String?) {
-            ViewCompat.setElevation(view, 15.0f)
             view.load(coverUrl)
         }
     }

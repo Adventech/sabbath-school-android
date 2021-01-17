@@ -83,6 +83,12 @@ class SSPrefs(context: Context) {
         return sharedPreferences.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, null)
     }
 
+    fun setLastQuarterlyIndex(index: String) {
+        sharedPreferences.edit {
+            putString(SSConstants.SS_LAST_QUARTERLY_INDEX, index)
+        }
+    }
+
     fun isLanguagePromptSeen(): Boolean {
         return sharedPreferences.getBoolean(
             SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, false

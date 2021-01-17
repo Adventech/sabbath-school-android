@@ -6,9 +6,11 @@
         <activity
             android:name=".ui.quarterlies.QuarterliesActivity"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.SS.Lessons"/>
+            android:theme="@style/Theme.SS.Lessons" />
 
-        <activity android:name=".ui.lessons.SSLessonsActivity"/>
+        <activity
+            android:name=".ui.lessons.SSLessonsActivity"
+            android:theme="@style/Theme.SS.Lessons" />
     </application>
 
 </manifest>

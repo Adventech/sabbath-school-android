@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2020 Adventech <info@adventech.io>
+  ~ Copyright (c) 2021. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -56,7 +56,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/ss_lessons_toolbar_content_margin_left"
-                android:layout_marginLeft="@dimen/ss_lessons_toolbar_content_margin_left"
                 android:layout_marginTop="@dimen/ss_lessons_toolbar_content_margin_top"
                 android:layout_marginBottom="@dimen/ss_lessons_toolbar_content_margin_bottom"
                 app:layout_collapseMode="parallax"
@@ -72,18 +71,27 @@
                     android:textColor="@android:color/white"
                     tools:text="October - November - December" />
 
-                <ImageView
-                    android:id="@+id/ss_lessons_app_bar_cover"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/ss_quarterly_item_cover_card"
                     android:layout_width="@dimen/ss_lessons_toolbar_cover_width"
                     android:layout_height="@dimen/ss_lessons_toolbar_cover_height"
                     android:layout_below="@+id/ss_lessons_app_bar_date"
                     android:layout_marginTop="@dimen/ss_lessons_toolbar_cover_margin_top"
-                    android:background="@android:drawable/dialog_holo_light_frame"
-                    android:contentDescription="@string/blank"
-                    android:padding="@dimen/ss_lessons_toolbar_cover_padding"
-                    android:scaleType="centerCrop"
                     android:transitionName="@string/ss_quarterly_cover_transition"
-                    app:coverUrl="@{viewModel.cover}" />
+                    app:cardCornerRadius="@dimen/ss_quarterly_item_featured_cover_radius"
+                    app:cardElevation="@dimen/spacing_medium"
+                    app:cardBackgroundColor="@{viewModel.primaryColor}">
+
+                    <ImageView
+                        android:id="@+id/ss_lessons_app_bar_cover"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/blank"
+                        android:scaleType="centerCrop"
+                        app:coverUrl="@{viewModel.cover}"
+                        tools:src="?attr/colorPrimary" />
+
+                </com.google.android.material.card.MaterialCardView>
 
                 <TextView
                     android:id="@+id/ss_lessons_app_bar_description"
@@ -91,12 +99,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ss_lessons_app_bar_date"
                     android:layout_marginStart="@dimen/ss_lessons_toolbar_description_margin_left"
-                    android:layout_marginLeft="@dimen/ss_lessons_toolbar_description_margin_left"
                     android:layout_marginTop="@dimen/ss_lessons_toolbar_description_margin_top"
                     android:layout_marginEnd="@dimen/ss_lessons_toolbar_description_margin_right"
-                    android:layout_marginRight="@dimen/ss_lessons_toolbar_description_margin_right"
-                    android:layout_toEndOf="@+id/ss_lessons_app_bar_cover"
-                    android:layout_toRightOf="@+id/ss_lessons_app_bar_cover"
+                    android:layout_toEndOf="@+id/ss_quarterly_item_cover_card"
                     android:ellipsize="end"
                     android:fontFamily="@font/lato_regular"
                     android:maxLines="8"
@@ -111,8 +116,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ss_lessons_app_bar_description"
                     android:layout_margin="@dimen/ss_lessons_toolbar_read_margin"
-                    android:layout_toEndOf="@+id/ss_lessons_app_bar_cover"
-                    android:layout_toRightOf="@+id/ss_lessons_app_bar_cover"
+                    android:layout_toEndOf="@+id/ss_quarterly_item_cover_card"
                     android:fontFamily="@font/lato_bold"
                     android:minWidth="@dimen/ss_lessons_toolbar_read_min_width"
                     android:onClick="@{() -> viewModel.onReadClick()}"

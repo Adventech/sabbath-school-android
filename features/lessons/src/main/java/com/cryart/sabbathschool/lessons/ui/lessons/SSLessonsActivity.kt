@@ -31,6 +31,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.lessons.R
@@ -40,17 +42,24 @@ import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.lessons.types.LessonTypesFragment
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
-    private val binding: SsLessonsActivityBinding by lazy {
-        SsLessonsActivityBinding.inflate(layoutInflater)
-    }
+
+    @Inject
+    lateinit var ssPrefs: SSPrefs
+
     private var ssLessonsViewModel: SSLessonsViewModel? = null
     private val viewModel: LessonsViewModel by viewModels()
 
+    private val binding: SsLessonsActivityBinding by lazy {
+        SsLessonsActivityBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
 
         AppRate.with(this).setInstallDays(SSConstants.SS_APP_RATE_INSTALL_DAYS).monitor()
         AppRate.showRateDialogIfMeetsConditions(this)
@@ -66,11 +75,11 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
             .setExpandedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
 
         val index = intent.extras?.getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA) ?: return
-        ssLessonsViewModel = SSLessonsViewModel(this, this, index)
+        ssLessonsViewModel = SSLessonsViewModel(this, ssPrefs, this, index)
         binding.executePendingBindings()
         binding.viewModel = ssLessonsViewModel
 
-        viewModel.quarterlyTypesLiveData.observe(
+        viewModel.quarterlyTypesLiveData.observeNonNull(
             this,
             { types ->
                 if (binding.ssLessonInfoList.childCount > 0) {
@@ -121,6 +130,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
             ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
         }
         binding.lessonTypeTextView.setTextColor(primaryColor)
+        binding.ssLessonInfoList.setEdgeEffect(primaryColor)
         updateWindowColorScheme()
     }
 
@@ -143,12 +153,16 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         ssLessonsViewModel?.destroy()
+        super.onDestroy()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            android.R.id.home -> {
+                finishAfterTransition()
+                true
+            }
             R.id.ss_lessons_menu_share -> {
                 shareApp(ssLessonsViewModel?.ssQuarterlyInfo?.quarterly?.title)
                 true

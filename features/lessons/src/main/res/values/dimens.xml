@@ -73,7 +73,7 @@
     <dimen name="ss_quarterly_item_featured_cover_margin_top">35dp</dimen>
     <dimen name="ss_quarterly_item_featured_cover_margin_bottom">20dp</dimen>
     <dimen name="ss_quarterly_item_featured_cover_padding">4dp</dimen>
-    <dimen name="ss_quarterly_item_featured_cover_radius">4dp</dimen>
+    <dimen name="ss_quarterly_item_featured_cover_radius">6dp</dimen>
 
     <dimen name="ss_quarterly_item_featured_title_text_size">25sp</dimen>
     <dimen name="ss_quarterly_item_featured_title_padding_top">5dp</dimen>

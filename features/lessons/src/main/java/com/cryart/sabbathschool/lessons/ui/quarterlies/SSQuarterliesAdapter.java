@@ -32,7 +32,7 @@ import com.cryart.sabbathschool.lessons.R;
 import com.cryart.sabbathschool.lessons.data.model.SSQuarterly;
 import com.cryart.sabbathschool.lessons.databinding.SsQuarterlyItemFeaturedBinding;
 import com.cryart.sabbathschool.lessons.databinding.SsQuarterlyItemNormalBinding;
-import com.cryart.sabbathschool.lessons.ui.viewmodel.SSQuarterlyItemViewModel;
+
 import java.util.Collections;
 import java.util.List;
 
