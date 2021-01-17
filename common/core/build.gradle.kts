@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 import dependencies.Dependencies
+import extensions.addTestsDependencies
 
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY)
@@ -53,4 +54,6 @@ dependencies {
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.HILT)
     kapt(Dependencies.HILT_COMPILER)
+
+    addTestsDependencies()
 }

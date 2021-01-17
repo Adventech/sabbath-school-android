@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2016 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,21 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.model
+package com.cryart.sabbathschool.lessons.data.model;
 
-import androidx.annotation.StringRes
+import com.google.firebase.database.IgnoreExtraProperties;
 
-sealed class ViewState {
+import java.util.List;
 
-    data class Success<out T>(val data: T) : ViewState()
+@IgnoreExtraProperties
+public class SSReadComments {
+    public String readIndex;
+    public List<SSComment> comments;
 
-    object Loading : ViewState()
+    public SSReadComments(){}
 
-    data class Error(
-        val message: String? = null,
-        @StringRes val messageRes: Int? = null
-    ) : ViewState()
+    public SSReadComments(String readIndex, List<SSComment> comments) {
+        this.readIndex = readIndex;
+        this.comments = comments;
+    }
 }

@@ -21,14 +21,12 @@
  */
 
 import dependencies.Dependencies
-
-
+import extensions.kapt
 
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY)
     id(BuildPlugins.KOTLIN_ANDROID)
     id(BuildPlugins.KOTLIN_KAPT)
-    id(BuildPlugins.KOTLIN_ALLOPEN)
     id(BuildPlugins.DAGGER_HILT)
 }
 
@@ -43,22 +41,23 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
 
-    hilt {
-        enableTransformForLocalTests = true
-    }
-
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 
 dependencies {
+
+    implementation(project(BuildModules.CORE))
+    implementation(project(BuildModules.DESIGN))
+    implementation(project(BuildModules.TRANSLATIONS))
+
     implementation(Dependencies.Kotlin.KOTLIN)
 
     implementation(Dependencies.MATERIAL)
@@ -67,19 +66,29 @@ dependencies {
     implementation(Dependencies.AndroidX.CONSTRAINT_LAYOUT)
     implementation(Dependencies.AndroidX.ACTIVITY)
     implementation(Dependencies.AndroidX.FRAGMENT_KTX)
-    implementation(Dependencies.AndroidX.NAVIGATION_UI)
-    implementation(Dependencies.AndroidX.NAVIGATION_FRAGMENT)
     implementation(Dependencies.AndroidX.LIFECYCLE_VIEWMODEL)
     implementation(Dependencies.AndroidX.LIFECYCLE_EXTENSIONS)
     implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
     implementation(Dependencies.AndroidX.RECYCLER_VIEW)
-    implementation(Dependencies.AndroidX.START_UP)
     implementation(Dependencies.AndroidX.HILT_VIEWMODEL)
 
     implementation(Dependencies.HILT)
     kapt(Dependencies.HILT_COMPILER)
     kapt(Dependencies.AndroidX.HILT_COMPILER)
 
-    implementation(Dependencies.TIMBER)
-}
+    implementation(platform(Dependencies.Firebase.BOM))
+    implementation(Dependencies.Firebase.DATABASE)
+    implementation(Dependencies.Firebase.ANALYTICS)
+    implementation(Dependencies.Firebase.AUTH)
 
+    implementation(Dependencies.Kotlin.COROUTINES)
+    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
+    implementation(Dependencies.Kotlin.COROUTINES_PLAY_SERVICES)
+
+    implementation(Dependencies.JODA)
+    implementation(Dependencies.TIMBER)
+    implementation(Dependencies.COIL)
+    implementation(Dependencies.TAP_TARGET)
+    implementation("com.mikepenz:iconics-core:2.8.1@aar")
+    implementation("com.mikepenz:google-material-typeface:2.2.0.3.original@aar")
+}

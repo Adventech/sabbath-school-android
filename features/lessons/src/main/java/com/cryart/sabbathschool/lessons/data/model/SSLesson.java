@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2016 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,31 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.model
+package com.cryart.sabbathschool.lessons.data.model;
 
-import androidx.annotation.StringRes
+import com.google.firebase.database.IgnoreExtraProperties;
 
-sealed class ViewState {
+@IgnoreExtraProperties
+public class SSLesson {
+    public String title;
+    public String start_date;
+    public String end_date;
+    public String cover;
+    public String id;
+    public String index;
+    public String path;
+    public String full_path;
 
-    data class Success<out T>(val data: T) : ViewState()
+    public SSLesson() {}
 
-    object Loading : ViewState()
-
-    data class Error(
-        val message: String? = null,
-        @StringRes val messageRes: Int? = null
-    ) : ViewState()
+    public SSLesson(String title, String start_date, String end_date, String cover, String id, String index, String path, String full_path){
+        this.title = title;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.cover = cover;
+        this.id = id;
+        this.index = index;
+        this.path = path;
+        this.full_path = full_path;
+    }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~ Copyright (c) 2021. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -22,27 +22,5 @@
   -->
 
 <resources>
-
-    <color name="ss_color_secondary">#b4b4b4</color>
-    <color name="ss_color_secondary_light">#cccccc</color>
-    <color name="ss_color_secondary_lighter">#f2f2f2</color>
-    <color name="ss_color_secondary_dark">#616161</color>
-    <color name="ss_color_secondary_darker">#333333</color>
-    <color name="ss_color_overlay">#5b000000</color>
-    <color name="ss_color_display_theme_sepia">#f2dec3</color>
-    <color name="ss_color_display_theme_dark">#484848</color>
-    <color name="ss_green">#16a365</color>
-    <color name="ss_green_dark">#18704A</color>
-    <color name="ss_pink">#ff4081</color>
-    <color name="ss_pink_dark">#c2185b</color>
-    <color name="ss_red_300">#FF5C44</color>
-    <color name="ss_red_600">#E51A19</color>
-
-    <color name="white">#FFFFFF</color>
-    <color name="white_70">#B3FFFFFF</color>
-    <color name="dark_grey">#121212</color>
-    <color name="black">#000000</color>
-    <color name="black_40">#66000000</color>
-    <color name="list_divider">#1f000000</color>
-
+    <color name="list_divider">#1fffffff</color>
 </resources>
