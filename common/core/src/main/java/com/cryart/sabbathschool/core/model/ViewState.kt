@@ -26,7 +26,7 @@ import androidx.annotation.StringRes
 
 sealed class ViewState {
 
-    data class Success<out T>(val date: T) : ViewState()
+    data class Success<out T>(val data: T) : ViewState()
 
     object Loading : ViewState()
 

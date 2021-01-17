@@ -45,5 +45,7 @@
     <color name="black_40">#66000000</color>
     <color name="nav_color">@color/black</color>
 
+    <color name="list_divider">#1f000000</color>
+
 
 </resources>
