@@ -27,13 +27,14 @@ import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-abstract class SsBottomSheetDialogFragment: BottomSheetDialogFragment() {
+abstract class SsBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         (requireDialog() as BottomSheetDialog).apply {
-            behavior.disableShapeAnimations()
+            // do we need this?
+            // behavior.disableShapeAnimations()
             dismissWithAnimation = true
         }
     }

@@ -43,7 +43,9 @@ import hotchemi.android.rate.AppRate
 
 @AndroidEntryPoint
 class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
-    private val binding: SsLessonsActivityBinding by lazy { SsLessonsActivityBinding.inflate(layoutInflater) }
+    private val binding: SsLessonsActivityBinding by lazy {
+        SsLessonsActivityBinding.inflate(layoutInflater)
+    }
     private var ssLessonsViewModel: SSLessonsViewModel? = null
     private val viewModel: LessonsViewModel by viewModels()
 
@@ -58,27 +60,33 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
 
         setSupportActionBar(binding.ssLessonsAppBar.ssLessonsToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setCollapsedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
-        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.setExpandedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
+        binding.ssLessonsAppBar.ssLessonCollapsingToolbar
+            .setCollapsedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
+        binding.ssLessonsAppBar.ssLessonCollapsingToolbar
+            .setExpandedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
 
         val index = intent.extras?.getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA) ?: return
         ssLessonsViewModel = SSLessonsViewModel(this, this, index)
         binding.executePendingBindings()
         binding.viewModel = ssLessonsViewModel
 
-        viewModel.quarterlyTypesLiveData.observe(this, { types ->
-            if (binding.ssLessonInfoList.childCount > 0) {
-                updateLessonTypesLabel(types)
-            } else {
-                adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-                    override fun onChanged() {
-                        super.onChanged()
-                        adapter.unregisterAdapterDataObserver(this)
-                        updateLessonTypesLabel(types)
-                    }
-                })
+        viewModel.quarterlyTypesLiveData.observe(
+            this,
+            { types ->
+                if (binding.ssLessonInfoList.childCount > 0) {
+                    updateLessonTypesLabel(types)
+                } else {
+                    adapter.registerAdapterDataObserver(
+                        object : RecyclerView.AdapterDataObserver() {
+                            override fun onChanged() {
+                                super.onChanged()
+                                adapter.unregisterAdapterDataObserver(this)
+                                updateLessonTypesLabel(types)
+                            }
+                        })
+                }
             }
-        })
+        )
         viewModel.selectedTypeLiveData.observeNonNull(this) {
             val newIndex = it.first
             val type = it.second
@@ -118,7 +126,8 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
 
     override fun onQuarterlyChanged(ssQuarterlyInfo: SSQuarterlyInfo) {
         SSColorTheme.getInstance(this).colorPrimary = ssQuarterlyInfo.quarterly.color_primary
-        SSColorTheme.getInstance(this).colorPrimaryDark = ssQuarterlyInfo.quarterly.color_primary_dark
+        SSColorTheme.getInstance(this).colorPrimaryDark = ssQuarterlyInfo.quarterly
+            .color_primary_dark
         updateColorScheme()
         binding.ssLessonsAppBar.ssLessonCollapsingToolbar.title = ssQuarterlyInfo.quarterly.title
         val adapter = binding.ssLessonInfoList.adapter as? SSLessonsAdapter?

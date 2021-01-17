@@ -36,7 +36,11 @@ class LessonTypesFragment : SsBottomSheetDialogFragment() {
 
     private var onTypeClick: ((String) -> Unit)? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.ss_fragment_lesson_types, container, false)
     }
 
@@ -50,9 +54,11 @@ class LessonTypesFragment : SsBottomSheetDialogFragment() {
         }
         val listView = view.findViewById<RecyclerView>(R.id.typesListView)
         listView.apply {
-            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL).apply {
-                setDrawable(ContextCompat.getDrawable(context, R.drawable.list_divider)!!)
-            })
+            addItemDecoration(
+                DividerItemDecoration(context, RecyclerView.VERTICAL).apply {
+                    setDrawable(ContextCompat.getDrawable(context, R.drawable.list_divider)!!)
+                }
+            )
             adapter = listAdapter
         }
     }

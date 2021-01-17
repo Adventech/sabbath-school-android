@@ -22,27 +22,23 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons
 
-import android.content.SharedPreferences
-import androidx.core.content.edit
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cryart.sabbathschool.core.extensions.arch.SingleLiveEvent
-import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
 import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import javax.inject.Named
-import kotlin.coroutines.CoroutineContext
 
-class LessonsViewModel @Inject constructor(
+class LessonsViewModel @ViewModelInject constructor(
     private val repository: QuarterliesRepository,
-    private val preferences: SharedPreferences,
-    @Named("backgroundCoroutineContext")
-    private val backgroundContext: CoroutineContext
+    private val ssPrefs: SSPrefs,
+    private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
 
     private val mutableQuarterlyTypes = MutableLiveData<List<String>>()
@@ -54,7 +50,7 @@ class LessonsViewModel @Inject constructor(
     private var lessonTypes: List<SSQuarterly> = emptyList()
 
     fun setQuarterlyIndex(index: String) {
-        viewModelScope.launch(backgroundContext) {
+        viewModelScope.launch(schedulerProvider.io) {
             repository.getQuarterlies().collect { resource ->
                 if (resource.isSuccessFul) {
                     val quarterlies = resource.data ?: return@collect
@@ -68,8 +64,7 @@ class LessonsViewModel @Inject constructor(
                             .map { it.quarterly_name }
                         mutableQuarterlyTypes.postValue(names.filterNotNull())
 
-                        val lastType = preferences.getString(SSConstants.SS_LAST_QUARTERLY_TYPE, null)
-                            ?: return@collect
+                        val lastType = ssPrefs.getLastType() ?: return@collect
                         if (lastType != names.first()) {
                             quarterlyTypeSelected(lastType)
                         }
@@ -82,8 +77,6 @@ class LessonsViewModel @Inject constructor(
     fun quarterlyTypeSelected(type: String) {
         val index = lessonTypes.find { it.quarterly_name == type }?.index ?: return
         mutableSelectedType.postValue(Pair(index, type))
-        preferences.edit {
-            putString(SSConstants.SS_LAST_QUARTERLY_TYPE, type)
-        }
+        ssPrefs.setLastType(type)
     }
 }

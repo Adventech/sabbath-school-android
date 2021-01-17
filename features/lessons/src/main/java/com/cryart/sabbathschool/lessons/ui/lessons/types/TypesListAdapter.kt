@@ -29,8 +29,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cryart.sabbathschool.core.extensions.view.inflateView
 import com.cryart.sabbathschool.lessons.R
 
-class TypesListAdapter(private val titles: List<String>,
-                       private val onClick: (String) -> Unit) : RecyclerView.Adapter<TypesListAdapter.TypeHolder>() {
+class TypesListAdapter(
+    private val titles: List<String>,
+    private val onClick: (String) -> Unit
+) : RecyclerView.Adapter<TypesListAdapter.TypeHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TypeHolder {
         return TypeHolder.create(parent)
@@ -57,7 +59,7 @@ class TypesListAdapter(private val titles: List<String>,
 
         companion object {
             fun create(parent: ViewGroup): TypeHolder = TypeHolder(
-                    inflateView(R.layout.ss_lesson_type_item, parent, false)
+                inflateView(R.layout.ss_lesson_type_item, parent, false)
             )
         }
     }

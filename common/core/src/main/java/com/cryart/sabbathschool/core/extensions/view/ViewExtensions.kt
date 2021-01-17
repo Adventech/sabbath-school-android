@@ -28,4 +28,4 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 
 fun inflateView(@LayoutRes layoutResId: Int, parent: ViewGroup, attachToRoot: Boolean): View =
-        LayoutInflater.from(parent.context).inflate(layoutResId, parent, attachToRoot)
+    LayoutInflater.from(parent.context).inflate(layoutResId, parent, attachToRoot)

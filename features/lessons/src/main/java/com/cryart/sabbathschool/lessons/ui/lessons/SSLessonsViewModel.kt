@@ -42,7 +42,12 @@ import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.format.DateTimeFormat
 
-class SSLessonsViewModel(context: Context?, private var dataListener: DataListener?, private var ssQuarterlyIndex: String?) : SSViewModel {
+class SSLessonsViewModel(
+    context: Context?,
+    private var dataListener: DataListener?,
+    private var ssQuarterlyIndex: String?
+) : SSViewModel {
+
     private val mDatabase: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     var ssQuarterlyInfo: SSQuarterlyInfo? = null
@@ -85,7 +90,10 @@ class SSLessonsViewModel(context: Context?, private var dataListener: DataListen
                     ssQuarterlyInfo = dataSnapshot.getValue(SSQuarterlyInfo::class.java)
                     if (shared != null) {
                         val editor = shared!!.edit()
-                        editor.putString(SSConstants.SS_LAST_QUARTERLY_INDEX, ssQuarterlyInfo!!.quarterly.index)
+                        editor.putString(
+                            SSConstants.SS_LAST_QUARTERLY_INDEX,
+                            ssQuarterlyInfo!!.quarterly.index
+                        )
                         editor.apply()
                     }
                     if (dataListener != null) dataListener!!.onQuarterlyChanged(ssQuarterlyInfo!!)
@@ -119,7 +127,10 @@ class SSLessonsViewModel(context: Context?, private var dataListener: DataListen
                 val startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                     .parseLocalDate(ssLesson.start_date).toDateTimeAtStartOfDay()
                 val endDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                    .parseLocalDate(ssLesson.end_date).plusDays(1).toDateTimeAtStartOfDay().plusHours(12)
+                    .parseLocalDate(ssLesson.end_date)
+                    .plusDays(1)
+                    .toDateTimeAtStartOfDay()
+                    .plusHours(12)
                 if (startDate.isBefore(endDate) && Interval(startDate, endDate).contains(today)) {
                     ssLessonIndex = ssLesson.index
                     break
@@ -159,10 +170,6 @@ class SSLessonsViewModel(context: Context?, private var dataListener: DataListen
         @BindingAdapter("coverUrl")
         fun loadCover(view: ImageView, coverUrl: String?) {
             ViewCompat.setElevation(view, 15.0f)
-
-            // TODO: Move to coil
-//        ImageLoader imageLoader = ImageLoader.getInstance();
-//        imageLoader.displayImage(coverUrl, view);
             view.load(coverUrl)
         }
     }
