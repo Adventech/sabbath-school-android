@@ -36,6 +36,7 @@ import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
 import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
+import com.cryart.sabbathschool.lessons.ui.ext.setEdgeEffect
 import dagger.hilt.android.AndroidEntryPoint
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_DISMISSED
@@ -114,6 +115,7 @@ class QuarterliesActivity : SSBaseActivity() {
         val primaryColor = Color.parseColor(SSColorTheme.getInstance(this).colorPrimary)
         binding.appBar.ssToolbar.setBackgroundColor(primaryColor)
         updateWindowColorScheme()
+        binding.ssQuarterliesList.setEdgeEffect(primaryColor)
     }
 
     private fun showLanguagesPrompt() {
