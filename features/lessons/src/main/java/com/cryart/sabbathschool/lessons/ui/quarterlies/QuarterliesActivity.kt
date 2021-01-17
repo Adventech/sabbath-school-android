@@ -29,7 +29,6 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.model.ViewState
@@ -51,7 +50,7 @@ class QuarterliesActivity : SSBaseActivity() {
         SsActivityQuarterliesBinding.inflate(layoutInflater)
     }
 
-    private lateinit var quarterliesAdapter: SSQuarterliesAdapter
+    private val quarterliesAdapter: SSQuarterliesAdapter = SSQuarterliesAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,14 +65,9 @@ class QuarterliesActivity : SSBaseActivity() {
                 ssQuarterliesErrorState.isVisible = state is ViewState.Error
             }
 
-            bindQuarterlies(state)
+            (state as? ViewState.Success<*>)?.let { bindQuarterlies(it) }
         }
-        viewModel.showLanguagePromptLiveData.observe(
-            this,
-            Observer {
-                showLanguagesPrompt()
-            }
-        )
+        viewModel.showLanguagePromptLiveData.observe(this, { showLanguagesPrompt() })
         viewModel.lastQuarterlyIndexLiveData.observeNonNull(this) {
             // TODO: Launch SSLessonsActivity
             /*val intent = Intent(this, SSLessonsActivity::class.java)
@@ -94,28 +88,25 @@ class QuarterliesActivity : SSBaseActivity() {
             setDisplayShowTitleEnabled(true)
         }
 
-        quarterliesAdapter = SSQuarterliesAdapter()
         binding.ssQuarterliesList.adapter = quarterliesAdapter
     }
 
-    private fun bindQuarterlies(state: ViewState) {
-        (state as? ViewState.Success<*>)?.data?.let { data ->
-            val dataList = data as? List<*> ?: return@let
-            val quarterlies = dataList.filterIsInstance<SSQuarterly>()
-                .takeIf { it.size == dataList.size } ?: emptyList()
-            binding.ssQuarterliesEmpty.isVisible = quarterlies.isEmpty()
+    private fun bindQuarterlies(state: ViewState.Success<*>) {
+        val dataList = state.data as? List<*> ?: return
+        val quarterlies = dataList.filterIsInstance<SSQuarterly>()
+            .takeIf { it.size == dataList.size } ?: emptyList()
+        binding.ssQuarterliesEmpty.isVisible = quarterlies.isEmpty()
 
-            if (quarterlies.isNotEmpty()) {
-                SSColorTheme.getInstance(this).colorPrimary = quarterlies.first().color_primary
-                SSColorTheme.getInstance(this).colorPrimaryDark =
-                    quarterlies.first().color_primary_dark
-                updateColorScheme()
-            }
+        if (quarterlies.isNotEmpty()) {
+            SSColorTheme.getInstance(this).colorPrimary = quarterlies.first().color_primary
+            SSColorTheme.getInstance(this).colorPrimaryDark =
+                quarterlies.first().color_primary_dark
+            updateColorScheme()
+        }
 
-            with(quarterliesAdapter) {
-                setQuarterlies(quarterlies)
-                notifyDataSetChanged()
-            }
+        with(quarterliesAdapter) {
+            setQuarterlies(quarterlies)
+            notifyDataSetChanged()
         }
     }
 

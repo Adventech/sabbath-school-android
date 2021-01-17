@@ -37,13 +37,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<SSQuarterly> quarterlies;
+    private List<SSQuarterly> quarterlies = Collections.emptyList();
     private static final int SSQuarterlyViewHolderHero = 0;
     private static final int SSQuarterlyViewHolderNormal = 1;
-
-    public SSQuarterliesAdapter() {
-        this.quarterlies = Collections.emptyList();
-    }
 
     public void setQuarterlies(List<SSQuarterly> quarterlies) {
         this.quarterlies = quarterlies;
