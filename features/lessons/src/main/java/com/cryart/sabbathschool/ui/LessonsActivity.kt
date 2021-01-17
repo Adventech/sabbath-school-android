@@ -3,7 +3,7 @@ package com.cryart.sabbathschool.ui
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.cryart.sabbathschool.databinding.ActivityLessonsBinding
+import com.cryart.sabbathschool.lessons.databinding.ActivityLessonsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
