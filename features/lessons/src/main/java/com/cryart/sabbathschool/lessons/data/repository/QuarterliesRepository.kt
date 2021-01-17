@@ -40,6 +40,7 @@ import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
+import timber.log.Timber
 
 class QuarterliesRepository(
     private val firebaseDatabase: FirebaseDatabase,
@@ -108,6 +109,7 @@ class QuarterliesRepository(
         }
     }.flowOn(Dispatchers.IO)
         .catch {
+            Timber.e(it)
             emit(Resource.error(it))
         }
 }

@@ -5,6 +5,7 @@
     <application>
         <activity
             android:name=".ui.quarterlies.QuarterliesActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.SS.Lessons"/>
     </application>
 </manifest>
