@@ -45,7 +45,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/ss_color_background"
+            android:background="?android:attr/windowBackground"
             android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
             android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
