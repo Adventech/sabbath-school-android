@@ -26,7 +26,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.cryart.sabbathschool.core.extensions.view.inflateView
+import com.cryart.sabbathschool.core.extensions.view.inflate
 import com.cryart.sabbathschool.lessons.R
 
 class TypesListAdapter(
@@ -59,7 +59,7 @@ class TypesListAdapter(
 
         companion object {
             fun create(parent: ViewGroup): TypeHolder = TypeHolder(
-                inflateView(R.layout.ss_lesson_type_item, parent, false)
+                parent.inflate(R.layout.ss_lesson_type_item, false)
             )
         }
     }

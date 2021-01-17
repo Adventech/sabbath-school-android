@@ -108,4 +108,9 @@
         <item name="colorPrimary">?attr/colorSecondary</item>
     </style>
 
+    <style name="Theme.SS.DialogFragment">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
 </resources>

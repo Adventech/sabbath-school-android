@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2020 Adventech <info@adventech.io>
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2021. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -20,9 +21,7 @@
   ~ THE SOFTWARE.
   -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cryart.sabbathschool.test">
 
-    <solid android:color="@color/list_divider" />
-    <size android:height="1dp" />
-</shape>
+</manifest>

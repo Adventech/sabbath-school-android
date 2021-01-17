@@ -82,7 +82,7 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
     }
 
     testOptions {
@@ -102,10 +102,10 @@ android {
 
 dependencies {
 
-    implementation(project(BuildModules.CORE))
-    implementation(project(BuildModules.DESIGN))
-    implementation(project(BuildModules.TRANSLATIONS))
-    implementation(project(BuildModules.LESSONS))
+    implementation(project(BuildModules.Common.CORE))
+    implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.TRANSLATIONS))
+    implementation(project(BuildModules.Features.LESSONS))
 
     implementation(Dependencies.Kotlin.KOTLIN)
 

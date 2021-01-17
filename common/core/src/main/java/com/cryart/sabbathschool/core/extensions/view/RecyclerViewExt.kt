@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,16 @@
  * THE SOFTWARE.
  */
 
-include(
-    ":app",
-    ":common:core",
-    ":common:design",
-    ":common:translations",
-    ":features:lessons",
-    ":libraries:test_utils"
-)
-rootProject.buildFileName = "build.gradle.kts"
+package com.cryart.sabbathschool.core.extensions.view
+
+import android.widget.EdgeEffect
+import androidx.annotation.ColorInt
+import androidx.recyclerview.widget.RecyclerView
+
+fun RecyclerView.setEdgeEffect(@ColorInt color: Int) {
+    this.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
+        override fun createEdgeEffect(view: RecyclerView, direction: Int): EdgeEffect {
+            return EdgeEffect(view.context).apply { setColor(color) }
+        }
+    }
+}

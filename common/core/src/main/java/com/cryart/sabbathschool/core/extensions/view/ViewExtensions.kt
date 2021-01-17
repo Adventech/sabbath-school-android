@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,5 +27,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 
-fun inflateView(@LayoutRes layoutResId: Int, parent: ViewGroup, attachToRoot: Boolean): View =
-    LayoutInflater.from(parent.context).inflate(layoutResId, parent, attachToRoot)
+@Suppress("UNCHECKED_CAST")
+fun <V : View> ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): V {
+    return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot) as V
+}
