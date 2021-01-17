@@ -44,7 +44,7 @@ class SplashActivity : AppCompatActivity() {
             this,
             { signedIn ->
                 if (signedIn) {
-                    launchLessons()
+                    launchMain()
                 } else {
                     startActivity(Intent(this, LoginActivity::class.java))
                 }

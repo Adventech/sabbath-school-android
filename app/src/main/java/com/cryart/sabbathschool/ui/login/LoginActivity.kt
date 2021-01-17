@@ -79,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.viewStateLiveData.observeNonNull(this) { state ->
             when (state) {
-                is ViewState.Success<*> -> launchLessons()
+                is ViewState.Success<*> -> launchMain()
                 ViewState.Loading -> {
                     buttonsBinding.apply {
                         progressBar.isVisible = true
