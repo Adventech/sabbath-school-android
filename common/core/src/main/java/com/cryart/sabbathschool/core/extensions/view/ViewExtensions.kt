@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,14 @@
  * THE SOFTWARE.
  */
 
-include(
-    ":app",
-    ":common:core",
-    ":common:design",
-    ":common:translations",
-    ":features:lessons",
-    ":libraries:test_utils"
-)
-rootProject.buildFileName = "build.gradle.kts"
+package com.cryart.sabbathschool.core.extensions.view
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+
+@Suppress("UNCHECKED_CAST")
+fun <V : View> ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): V {
+    return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot) as V
+}

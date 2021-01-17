@@ -30,13 +30,14 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
+import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
 import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
-import com.cryart.sabbathschool.lessons.ui.ext.setEdgeEffect
+import com.cryart.sabbathschool.lessons.ui.languages.LanguagesListFragment
 import dagger.hilt.android.AndroidEntryPoint
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_DISMISSED
@@ -150,11 +151,10 @@ class QuarterliesActivity : SSBaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (item.itemId == R.id.ss_quarterlies_menu_filter) {
-            // TODO: Show Languages Fragment
-            /*val fragment = LanguagesListFragment.newInstance {
+            val fragment = LanguagesListFragment.newInstance {
                 viewModel.languageSelected(it)
             }
-            fragment.show(supportFragmentManager, fragment.tag)*/
+            fragment.show(supportFragmentManager, fragment.tag)
             true
         } else {
             super.onOptionsItemSelected(item)

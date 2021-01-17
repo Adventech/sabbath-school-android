@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,16 @@
  * THE SOFTWARE.
  */
 
-include(
-    ":app",
-    ":common:core",
-    ":common:design",
-    ":common:translations",
-    ":features:lessons",
-    ":libraries:test_utils"
-)
-rootProject.buildFileName = "build.gradle.kts"
+package com.cryart.sabbathschool.lessons.ui.languages
+
+import com.cryart.sabbathschool.lessons.ui.base.DynamicSearchAdapter
+
+data class LanguageModel(
+    val code: String,
+    val nativeName: String,
+    val name: String,
+    val selected: Boolean
+) : DynamicSearchAdapter.Searchable {
+
+    override fun getSearchCriteria(): String = "$code $name $nativeName"
+}

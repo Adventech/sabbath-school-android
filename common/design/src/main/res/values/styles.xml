@@ -104,4 +104,8 @@
         <item name="useCompatPadding">true</item>
     </style>
 
+    <style name="Widget.SS.SearchView" parent="Widget.AppCompat.SearchView.ActionBar">
+        <item name="searchIcon">@null</item>
+    </style>
+
 </resources>
