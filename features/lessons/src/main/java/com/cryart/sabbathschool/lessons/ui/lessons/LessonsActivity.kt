@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,48 +20,22 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.ui.splash
+package com.cryart.sabbathschool.lessons.ui.lessons
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
-import com.cryart.sabbathschool.lessons.ui.lessons.LessonsActivity
-import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
-import com.cryart.sabbathschool.ui.login.LoginActivity
+import com.cryart.sabbathschool.lessons.databinding.ActivityLessonsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SplashActivity : AppCompatActivity() {
+class LessonsActivity : AppCompatActivity() {
 
-    private val viewModel: SplashViewModel by viewModels()
+    private val viewModel: LessonsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel.isSignedInLiveData.observeNonNull(
-            this,
-            { signedIn ->
-                if (signedIn) {
-                    launchLessons()
-                } else {
-                    startActivity(Intent(this, LoginActivity::class.java))
-                }
-
-                finish()
-            }
-        )
-    }
-
-    private fun launchMain() {
-        startActivity(Intent(this, QuarterliesActivity::class.java))
-    }
-
-    /**
-     *  Open Lessons Activity from Features / Lessons
-     */
-    private fun launchLessons() {
-        startActivity(Intent(this, LessonsActivity::class.java))
+        val binding = ActivityLessonsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 }

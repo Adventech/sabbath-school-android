@@ -8,7 +8,7 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.SS.Lessons"/>
 
-        <activity android:name=".ui.LessonsActivity"/>
+        <activity android:name=".ui.lessons.LessonsActivity"/>
     </application>
 
 </manifest>
