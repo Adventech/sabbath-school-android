@@ -24,8 +24,9 @@ object Versions {
 
     const val TIMBER = "4.7.1"
     const val RETROFIT = "2.9.0"
-    const val COIL = "1.1.0"
+    const val COIL = "1.1.1"
     const val LEAK_CANARY = "2.5"
+    const val TAP_TARGET = "3.0.0"
 
     const val FIREBASE_BOM = "26.2.0"
     const val FACEBOOK = "8.1.0"

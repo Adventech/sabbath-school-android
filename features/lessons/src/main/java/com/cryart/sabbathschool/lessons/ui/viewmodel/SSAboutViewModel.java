@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2016 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,42 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.model
+package com.cryart.sabbathschool.lessons.ui.viewmodel;
 
-import androidx.annotation.StringRes
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 
-sealed class ViewState {
+import com.cryart.sabbathschool.lessons.R;
 
-    data class Success<out T>(val data: T) : ViewState()
+public class SSAboutViewModel implements SSViewModel{
+    private final Context context;
 
-    object Loading : ViewState()
+    public SSAboutViewModel(Context context){
+        this.context = context;
+    }
 
-    data class Error(
-        val message: String? = null,
-        @StringRes val messageRes: Int? = null
-    ) : ViewState()
+    private void onLinkClick(String url){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        context.startActivity(intent);
+    }
+
+    public void onFacebookClick(){
+        onLinkClick(context.getString(R.string.ss_settings_facebook_url));
+    }
+
+    public void onInstagramClick(){
+        onLinkClick(context.getString(R.string.ss_settings_instagram_url));
+    }
+
+    public void onGitHubClick(){
+        onLinkClick(context.getString(R.string.ss_settings_github_url));
+    }
+
+    public void onAdventechIoClick(){
+        onLinkClick(context.getString(R.string.ss_settings_website_url));
+    }
+
+    @Override
+    public void destroy(){}
 }

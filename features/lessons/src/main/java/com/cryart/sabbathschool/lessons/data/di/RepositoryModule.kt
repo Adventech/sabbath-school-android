@@ -20,18 +20,22 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.model
+package com.cryart.sabbathschool.lessons.data.di
 
-import androidx.annotation.StringRes
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-sealed class ViewState {
+@Module
+@InstallIn(SingletonComponent::class)
+object RepositoryModule {
 
-    data class Success<out T>(val data: T) : ViewState()
-
-    object Loading : ViewState()
-
-    data class Error(
-        val message: String? = null,
-        @StringRes val messageRes: Int? = null
-    ) : ViewState()
+    @Provides
+    fun provideRepository(ssPrefs: SSPrefs): QuarterliesRepository =
+        QuarterliesRepository(Firebase.database, ssPrefs)
 }

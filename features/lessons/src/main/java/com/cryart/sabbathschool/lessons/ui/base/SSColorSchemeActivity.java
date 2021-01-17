@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2016 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,28 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.model
+package com.cryart.sabbathschool.lessons.ui.base;
 
-import androidx.annotation.StringRes
 
-sealed class ViewState {
+import android.graphics.Color;
+import android.os.Build;
 
-    data class Success<out T>(val data: T) : ViewState()
+import androidx.appcompat.app.AppCompatActivity;
 
-    object Loading : ViewState()
+import com.cryart.sabbathschool.core.misc.SSColorTheme;
 
-    data class Error(
-        val message: String? = null,
-        @StringRes val messageRes: Int? = null
-    ) : ViewState()
+
+public class SSColorSchemeActivity extends AppCompatActivity {
+    public void updateWindowColorScheme() {
+        updateWindowColorScheme(true);
+    }
+
+    public void updateWindowColorScheme(boolean withStatusBar) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (withStatusBar) {
+                getWindow().setStatusBarColor(Color.parseColor(
+                        SSColorTheme.getInstance(this).getColorPrimaryDark()));
+            }
+        }
+    }
 }

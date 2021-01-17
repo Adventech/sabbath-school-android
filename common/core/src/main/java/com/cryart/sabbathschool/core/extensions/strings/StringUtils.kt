@@ -20,18 +20,16 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.model
+package com.cryart.sabbathschool.core.extensions.strings
 
-import androidx.annotation.StringRes
+import java.util.Locale
 
-sealed class ViewState {
+class StringUtils {
 
-    data class Success<out T>(val data: T) : ViewState()
-
-    object Loading : ViewState()
-
-    data class Error(
-        val message: String? = null,
-        @StringRes val messageRes: Int? = null
-    ) : ViewState()
+    companion object {
+        @JvmStatic
+        fun capitalize(str: String): String {
+            return str.capitalize(Locale.getDefault())
+        }
+    }
 }

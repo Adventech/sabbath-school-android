@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,32 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.model
+package com.cryart.sabbathschool.lessons.data.model.response
 
-import androidx.annotation.StringRes
+import com.cryart.sabbathschool.lessons.data.model.response.Status.ERROR
+import com.cryart.sabbathschool.lessons.data.model.response.Status.LOADING
+import com.cryart.sabbathschool.lessons.data.model.response.Status.SUCCESS
 
-sealed class ViewState {
+class Resource<out T> private constructor(
+    val status: Status = LOADING,
+    val data: T?,
+    val error: Throwable?
+) {
 
-    data class Success<out T>(val data: T) : ViewState()
+    val isSuccessFul: Boolean get() = data != null
 
-    object Loading : ViewState()
+    companion object {
 
-    data class Error(
-        val message: String? = null,
-        @StringRes val messageRes: Int? = null
-    ) : ViewState()
+        fun <T> success(data: T): Resource<T> {
+            return Resource(SUCCESS, data, null)
+        }
+
+        fun <T> error(error: Throwable): Resource<T> {
+            return Resource(ERROR, null, error)
+        }
+
+        fun <T> loading(): Resource<T> {
+            return Resource(LOADING, null, null)
+        }
+    }
 }

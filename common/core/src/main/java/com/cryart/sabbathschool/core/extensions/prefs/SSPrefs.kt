@@ -28,6 +28,7 @@ import androidx.preference.PreferenceManager
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.ReminderTime
+import java.util.Locale
 
 class SSPrefs(context: Context) {
 
@@ -62,6 +63,35 @@ class SSPrefs(context: Context) {
     fun setReminderJobId(id: Int?) {
         sharedPreferences.edit {
             putInt(SSConstants.SS_REMINDER_JOB_ID, id ?: -1)
+        }
+    }
+
+    fun getLanguageCode(): String {
+        return sharedPreferences.getString(
+            SSConstants.SS_LAST_LANGUAGE_INDEX,
+            Locale.getDefault().language
+        )!!
+    }
+
+    fun setLanguageCode(languageCode: String) {
+        sharedPreferences.edit {
+            putString(SSConstants.SS_LAST_LANGUAGE_INDEX, languageCode)
+        }
+    }
+
+    fun getLastQuarterlyIndex(): String? {
+        return sharedPreferences.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, null)
+    }
+
+    fun isLanguagePromptSeen(): Boolean {
+        return sharedPreferences.getBoolean(
+            SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, false
+        )
+    }
+
+    fun setLanguagePromptSeen() {
+        sharedPreferences.edit {
+            putBoolean(SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, true)
         }
     }
 }

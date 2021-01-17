@@ -20,18 +20,16 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.model
+package com.cryart.sabbathschool.lessons.ui.util
 
-import androidx.annotation.StringRes
+import android.widget.ImageView
+import coil.load
 
-sealed class ViewState {
+object ImageUtil {
 
-    data class Success<out T>(val data: T) : ViewState()
-
-    object Loading : ViewState()
-
-    data class Error(
-        val message: String? = null,
-        @StringRes val messageRes: Int? = null
-    ) : ViewState()
+    /**
+     * Temporary method to load images from Java code
+     */
+    @JvmStatic
+    fun load(view: ImageView, url: String) = view.load(url)
 }
