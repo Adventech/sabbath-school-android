@@ -28,7 +28,7 @@
 
         <variable
             name="viewModel"
-            type="com.cryart.sabbathschool.lessons.ui.viewmodel.SSQuarterlyItemViewModel" />
+            type="com.cryart.sabbathschool.lessons.ui.quarterlies.SSQuarterlyItemViewModel" />
 
         <variable
             name="ssQuarterlyCover"
@@ -57,7 +57,8 @@
             android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}"
             android:transitionName="@string/ss_quarterly_cover_transition"
             app:cardCornerRadius="@dimen/ss_quarterly_item_featured_cover_radius"
-            app:cardElevation="@dimen/spacing_normal">
+            app:cardElevation="@dimen/spacing_medium"
+            app:cardBackgroundColor="@{viewModel.colorPrimary}">
 
             <ImageView
                 android:id="@+id/ss_quarterly_item_cover"

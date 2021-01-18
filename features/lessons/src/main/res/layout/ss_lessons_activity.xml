@@ -45,7 +45,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/ss_color_background"
+            android:background="?android:attr/windowBackground"
             android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
             android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -61,10 +61,8 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:paddingStart="@dimen/ss_lesson_item_content_padding_left"
-                    android:paddingLeft="@dimen/ss_lesson_item_content_padding_left"
                     android:paddingTop="@dimen/ss_lesson_item_content_padding_top"
                     android:paddingEnd="@dimen/ss_lesson_item_content_padding_right"
-                    android:paddingRight="@dimen/ss_lesson_item_content_padding_right"
                     android:paddingBottom="@dimen/ss_lesson_item_content_padding_bottom"
                     android:visibility="gone"
                     tools:visibility="visible">
@@ -77,14 +75,14 @@
                         app:drawableRightCompat="@drawable/ic_expand_more"
                         app:drawableEndCompat="@drawable/ic_expand_more"
                         android:drawablePadding="@dimen/spacing_normal"
-                        android:drawableTint="@color/list_divider"
                         android:fontFamily="@font/lato_medium"
                         android:gravity="center"
                         android:maxLines="1"
                         android:textAllCaps="true"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="@dimen/text_size_body"
-                        tools:text="Easy Reading Version" />
+                        tools:text="Easy Reading Version"
+                        app:drawableTint="@color/list_divider" />
                 </FrameLayout>
 
 

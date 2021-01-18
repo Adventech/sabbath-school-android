@@ -28,7 +28,7 @@
 
         <variable
             name="viewModel"
-            type="com.cryart.sabbathschool.lessons.ui.viewmodel.SSQuarterlyItemViewModel" />
+            type="com.cryart.sabbathschool.lessons.ui.quarterlies.SSQuarterlyItemViewModel" />
 
         <variable
             name="ssQuarterlyCover"
