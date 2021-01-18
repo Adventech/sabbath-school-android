@@ -22,15 +22,17 @@
 
 package com.cryart.sabbathschool.ui.splash
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SplashViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SplashViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     dailyReminderManager: DailyReminderManager,
     schedulerProvider: SchedulerProvider

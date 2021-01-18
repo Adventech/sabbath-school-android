@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,11 +32,14 @@ import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class QuarterliesViewModel @ViewModelInject constructor(
+@HiltViewModel
+class QuarterliesViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
     private val ssPrefs: SSPrefs,
     private val schedulerProvider: SchedulerProvider

@@ -71,11 +71,9 @@ dependencies {
     implementation(Dependencies.AndroidX.LIFECYCLE_EXTENSIONS)
     implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
     implementation(Dependencies.AndroidX.RECYCLER_VIEW)
-    implementation(Dependencies.AndroidX.HILT_VIEWMODEL)
 
-    implementation(Dependencies.HILT)
-    kapt(Dependencies.HILT_COMPILER)
-    kapt(Dependencies.AndroidX.HILT_COMPILER)
+    implementation(Dependencies.Hilt.ANDROID)
+    kapt(Dependencies.Hilt.COMPILER)
 
     implementation(platform(Dependencies.Firebase.BOM))
     implementation(Dependencies.Firebase.DATABASE)

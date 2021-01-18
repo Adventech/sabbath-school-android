@@ -90,10 +90,6 @@ android {
         unitTests.isReturnDefaultValues = true
     }
 
-    hilt {
-        enableTransformForLocalTests = true
-    }
-
     buildFeatures {
         viewBinding = true
         dataBinding = true
@@ -122,11 +118,9 @@ dependencies {
     implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
     implementation(Dependencies.AndroidX.RECYCLER_VIEW)
     implementation(Dependencies.AndroidX.START_UP)
-    implementation(Dependencies.AndroidX.HILT_VIEWMODEL)
 
-    implementation(Dependencies.HILT)
-    kapt(Dependencies.HILT_COMPILER)
-    kapt(Dependencies.AndroidX.HILT_COMPILER)
+    implementation(Dependencies.Hilt.ANDROID)
+    kapt(Dependencies.Hilt.COMPILER)
 
     implementation(Dependencies.Kotlin.COROUTINES)
     implementation(Dependencies.Kotlin.COROUTINES_ANDROID)

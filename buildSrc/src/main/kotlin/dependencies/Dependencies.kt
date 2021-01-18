@@ -3,9 +3,6 @@ package dependencies
 object Dependencies {
     const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
 
-    const val HILT = "com.google.dagger:hilt-android:${Versions.HILT}"
-    const val HILT_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
-
     const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
 
     const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
@@ -21,6 +18,11 @@ object Dependencies {
 
     const val TAP_TARGET = "uk.co.samuelwall:material-tap-target-prompt:${Versions.TAP_TARGET}"
 
+    object Hilt {
+        const val ANDROID = "com.google.dagger:hilt-android:${Versions.HILT}"
+        const val COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
+    }
+
     object AndroidX {
         const val CORE = "androidx.core:core-ktx:${Versions.AndroidX.CORE}"
         const val APPCOMPAT = "androidx.appcompat:appcompat:${Versions.AndroidX.APPCOMPAT}"
@@ -34,8 +36,6 @@ object Dependencies {
         const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Versions.AndroidX.FRAGMENT}"
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.AndroidX.CONSTRAINT_LAYOUT}"
         const val START_UP = "androidx.startup:startup-runtime:${Versions.AndroidX.START_UP}"
-        const val HILT_COMPILER = "androidx.hilt:hilt-compiler:${Versions.AndroidX.HILT}"
-        const val HILT_VIEWMODEL = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.AndroidX.HILT}"
         const val PREFERENCE = "androidx.preference:preference-ktx:${Versions.AndroidX.PREFERENCE}"
     }
 

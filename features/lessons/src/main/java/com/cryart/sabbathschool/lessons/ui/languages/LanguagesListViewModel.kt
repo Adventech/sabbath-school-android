@@ -22,16 +22,18 @@
 
 package com.cryart.sabbathschool.lessons.ui.languages
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Locale
+import javax.inject.Inject
 
-class LanguagesListViewModel @ViewModelInject constructor(
+@HiltViewModel
+class LanguagesListViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
     private val ssPrefs: SSPrefs,
     schedulerProvider: SchedulerProvider
