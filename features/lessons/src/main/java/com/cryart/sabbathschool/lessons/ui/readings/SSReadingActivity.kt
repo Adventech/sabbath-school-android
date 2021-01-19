@@ -46,10 +46,12 @@ import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
-import java.io.File
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import timber.log.Timber
+import java.io.File
 
 class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, ViewPager.OnPageChangeListener {
     private val binding: SsReadingActivityBinding by lazy { SsReadingActivityBinding.inflate(layoutInflater) }
@@ -121,10 +123,10 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.ss_reading_menu, menu)
         val menuItem = menu.findItem(R.id.ss_reading_menu_display_options)
-        menuItem.icon = IconicsDrawable(this)
-            .icon(GoogleMaterial.Icon.gmd_text_format)
-            .color(Color.WHITE)
-            .sizeDp(16)
+        menuItem.icon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_text_format).apply {
+            colorInt = Color.WHITE
+            sizeDp = 16
+        }
         return true
     }
 
