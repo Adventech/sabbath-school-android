@@ -29,13 +29,14 @@ import androidx.databinding.BaseObservable;
 import com.cryart.sabbathschool.core.extensions.strings.StringUtils;
 import com.cryart.sabbathschool.core.misc.SSConstants;
 import com.cryart.sabbathschool.lessons.data.model.SSLesson;
+import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity;
 import com.cryart.sabbathschool.lessons.ui.viewmodel.SSViewModel;
 import org.joda.time.format.DateTimeFormat;
 
 public class SSLessonItemViewModel extends BaseObservable implements SSViewModel {
 
     private SSLesson ssLesson;
-    private Context context;
+    private final Context context;
 
     SSLessonItemViewModel(Context context, SSLesson ssLesson) {
         this.ssLesson = ssLesson;
@@ -65,10 +66,9 @@ public class SSLessonItemViewModel extends BaseObservable implements SSViewModel
     }
 
     public void onItemClick() {
-        // TODO: Launch SSReadingActivity
-//        Intent ssReadingIntent = new Intent(context, SSReadingActivity.class);
-//        ssReadingIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, ssLesson.index);
-//        context.startActivity(ssReadingIntent);
+        Intent ssReadingIntent = new Intent(context, SSReadingActivity.class);
+        ssReadingIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, ssLesson.index);
+        context.startActivity(ssReadingIntent);
     }
 
     @Override

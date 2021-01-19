@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~ Copyright (c) 2016 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -20,20 +20,30 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome in lessons"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/ss_reading_menu_display_options"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:title="@string/ss_settings_display_options" />
+
+    <item
+        android:id="@+id/ss_reading_menu_suggest_edit"
+        android:orderInCategory="102"
+        app:showAsAction="never"
+        android:title="@string/ss_reading_suggest_edit" />
+
+    <item
+        android:id="@+id/ss_reading_menu_share"
+        android:orderInCategory="102"
+        app:showAsAction="never"
+        android:title="@string/ss_share" />
+
+    <item
+        android:id="@+id/ss_reading_menu_settings"
+        android:orderInCategory="103"
+        app:showAsAction="never"
+        android:title="@string/ss_settings" />
+</menu>

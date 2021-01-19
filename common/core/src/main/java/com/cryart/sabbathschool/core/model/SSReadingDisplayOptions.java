@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.data.model;
+package com.cryart.sabbathschool.core.model;
 
 public class SSReadingDisplayOptions {
     public static final String SS_THEME_LIGHT = "light";

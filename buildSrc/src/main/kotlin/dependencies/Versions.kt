@@ -18,6 +18,7 @@ object Versions {
         const val START_UP = "1.0.0"
         const val HILT = "1.0.0-alpha02"
         const val PREFERENCE = "1.1.1"
+        const val BROWSER = "1.3.0"
     }
 
     const val HILT = "2.30.1-alpha"

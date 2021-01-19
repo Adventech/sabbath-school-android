@@ -37,6 +37,7 @@ object Dependencies {
         const val HILT_COMPILER = "androidx.hilt:hilt-compiler:${Versions.AndroidX.HILT}"
         const val HILT_VIEWMODEL = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.AndroidX.HILT}"
         const val PREFERENCE = "androidx.preference:preference-ktx:${Versions.AndroidX.PREFERENCE}"
+        const val BROWSER = "androidx.browser:browser:${Versions.AndroidX.BROWSER}"
     }
 
     object Firebase {
