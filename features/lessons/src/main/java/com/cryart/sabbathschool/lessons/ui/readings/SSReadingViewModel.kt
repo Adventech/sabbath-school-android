@@ -466,9 +466,6 @@ class SSReadingViewModel(
         context.startActivity((context as SSReadingActivity?)!!.intent)
     }
 
-    fun onMenuClick() {
-    }
-
     companion object {
         private const val DEFAULT_PING_HOST = "www.google.com"
         private const val DEFAULT_PING_PORT = 80

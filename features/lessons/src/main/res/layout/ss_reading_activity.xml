@@ -55,16 +55,6 @@
             bind:viewModel="@{viewModel}"
             layout="@layout/ss_reading_context_menu"/>
 
-        <LinearLayout
-            android:id="@+id/ss_reading_sheet_overlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            android:clickable="true"
-            android:orientation="horizontal"
-            android:background="@color/ss_color_overlay"
-            android:onClick="@{() -> viewModel.onMenuClick()}" />
-
         <androidx.cardview.widget.CardView
             android:id="@+id/ss_reading_sheet"
             android:layout_height="wrap_content"
