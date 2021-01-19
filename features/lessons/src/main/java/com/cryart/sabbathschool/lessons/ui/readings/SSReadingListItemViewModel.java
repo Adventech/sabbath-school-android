@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.viewmodel;
+package com.cryart.sabbathschool.lessons.ui.readings;
 
 import androidx.databinding.BaseObservable;
 
@@ -30,15 +30,12 @@ import com.cryart.sabbathschool.lessons.data.model.SSDay;
 
 import org.joda.time.format.DateTimeFormat;
 
-// TODO: Add SSReadingViewModel
-public class SSReadingListItemViewModel extends BaseObservable implements SSViewModel {
+public class SSReadingListItemViewModel extends BaseObservable {
     private SSDay ssDay;
-    //  private SSReadingViewModel ssReadingViewModel;
 
-    /*public SSReadingListItemViewModel(SSDay ssDay, SSReadingViewModel ssReadingViewModel) {
+    public SSReadingListItemViewModel(SSDay ssDay) {
         this.ssDay = ssDay;
-        this.ssReadingViewModel = ssReadingViewModel;
-    }*/
+    }
 
     public void setSSDay(SSDay ssDay) {
         this.ssDay = ssDay;
@@ -56,11 +53,6 @@ public class SSReadingListItemViewModel extends BaseObservable implements SSView
     }
 
     public void onItemClick() {
-        //   ssReadingViewModel.onMenuClick();
-    }
-
-    @Override
-    public void destroy() {
 
     }
 }

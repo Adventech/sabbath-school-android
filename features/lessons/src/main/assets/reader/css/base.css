@@ -1,0 +1,240 @@
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+#ss-wrapper, #ss-wrapper-font, #ss-wrapper-size, #ss-wrapper-theme {
+
+}
+
+#ss-wrapper-theme {
+  padding: 20px;
+  transition: all 0.6s ease;
+}
+
+.ss-wrapper-andada {
+  font-family: 'andada', 'Lora', serif;
+}
+
+.ss-wrapper-lato {
+  font-family: 'lato', 'Lato', sans-serif;
+}
+
+.ss-wrapper-pt-serif {
+  font-family: 'pt serif', 'PTSerif', sans-serif;
+}
+
+.ss-wrapper-pt-sans {
+  font-family: 'pt sans', 'PTSans', sans-serif;
+}
+
+.ss-wrapper-tiny {
+  font-size: .8em;
+  line-height: 1.2em;
+}
+
+.ss-wrapper-tiny .textarea {
+  line-height: 1.5em;
+  background-size: 100% 1.5em;
+}
+
+.ss-wrapper-small {
+  font-size: 1em;
+  line-height: 1.4em;
+}
+
+.ss-wrapper-small .textarea {
+  line-height: 1.7em;
+  background-size: 100% 1.7em;
+}
+
+.ss-wrapper-medium {
+  font-size: 1.2em;
+  line-height: 1.5em;
+}
+
+.ss-wrapper-medium .textarea {
+  line-height: 1.8em;
+  background-size: 100% 1.8em;
+}
+
+.ss-wrapper-large {
+  font-size: 1.4em;
+  line-height: 1.6em;
+}
+
+.ss-wrapper-large .textarea {
+  line-height: 1.9em;
+  background-size: 100% 1.9em;
+}
+
+.ss-wrapper-huge {
+  font-size: 1.6em;
+  line-height: 1.7em;
+}
+
+.ss-wrapper-huge .textarea {
+  line-height: 2em;
+  background-size: 100% 2em;
+}
+
+.ss-wrapper-light {
+  background-color: #fdfdfd;
+  color: #222;
+}
+
+.ss-wrapper-sepia {
+  background-color: #fbf0d9;
+  color: #5b4636;
+}
+
+.ss-wrapper-sepia code, .ss-wrapper-sepia blockquote {
+  background-color: #efebe4;
+}
+
+.ss-wrapper-dark {
+  background-color: #212325;
+  color: #949595;
+}
+
+.ss-wrapper-dark code, .ss-wrapper-dark blockquote {
+  background-color: #212325;
+}
+
+.ss-wrapper-sepia a {
+  color: #5b4636;
+}
+
+.ss-wrapper-dark a {
+  border-bottom: 1px solid #ccc;
+  color: #949595;
+}
+
+.ss-wrapper-dark .textarea, .ss-wrapper-dark code {
+  box-shadow: none;
+}
+
+.ss-wrapper-dark .textarea {
+  background-color: #232527;
+  color: #949595;
+  background-image: -webkit-linear-gradient(#434343 1px, rgba(0, 0, 0, 0) 1px);
+}
+
+.ss-wrapper-dark .textarea-border {
+  background: #434343;
+}
+
+.ss-wrapper p {
+  padding: 0 0 10px 0;
+}
+
+.highlight_orange {
+  background-color: #F59569;
+  color: #222 !important;
+  border-radius: 5px;
+  margin: 0 -3px;
+  padding: 0 3px;
+}
+
+.highlight_yellow {
+  background-color: #FFF3A0;
+  color: #222 !important;
+  border-radius: 5px;
+  margin: 0 -3px;
+  padding: 0 3px;
+}
+
+.highlight_green {
+  background-color: #63D724;
+  color: #222 !important;
+  border-radius: 5px;
+  margin: 0 -3px;
+  padding: 0 3px;
+}
+
+.highlight_blue {
+  background-color: #69D2F5;
+  color: #222 !important;
+  border-radius: 5px;
+  margin: 0 -3px;
+  padding: 0 3px;
+}
+
+.highlight_underline {
+  border-bottom: 1px solid #DF381D;
+  padding-bottom: 0.2em;
+}
+
+a {
+  border-bottom: 1px solid #16a365 !important;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+  padding-bottom: 0.2em;
+  color: #222;
+}
+
+blockquote {
+  background: #f9f9f9;
+  border-left: 5px solid #ccc;
+  margin: 0;
+  padding: 0.5em 10px;
+}
+
+blockquote > p {
+  margin: 0 0 10px 0;
+  font-variant: small-caps;
+  font-weight: bold;
+}
+
+code {
+  font-family: inherit;
+  background: #f9f9f9;
+  padding: 20px;
+  display: block;
+  font-weight: bold;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  position: relative;
+  box-shadow: 0 3px 5px 0 rgba(202, 202, 202, 0.75);
+}
+
+.textarea-container {
+  position: relative;
+}
+
+.textarea {
+  font-weight: normal;
+  color: #222;
+  resize: none;
+  width: 100%;
+  display: block;
+  line-height: inherit;
+  border: 0;
+  outline: 0;
+  min-height: 70px;
+  padding: 5px 20px 5px 60px;
+  border-radius: 0 !important;
+  background-color: #faf8fa;
+  background-attachment: local;
+  background-image: -webkit-linear-gradient(#dedede 1px, rgba(0, 0, 0, 0) 1px);
+  height: 70px;
+  box-shadow: 0 3px 5px 0 rgba(202, 202, 202, 0.75);
+}
+
+.textarea-border {
+  position: absolute;
+  height: 70px;
+  width: 1px;
+  background: #ffcacb;
+  top: 0;
+  left: 40px;
+}
+
+h3 {
+  font-variant: small-caps;
+}
+
+sup {
+  font-style: italic;
+}

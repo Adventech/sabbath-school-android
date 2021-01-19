@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/ss_reading_coordinator"
+        android:layout_width="match_parent"
+        android:keepScreenOn="true"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/ss_reading_app_bar"
+            bind:viewModel="@{viewModel}"
+            layout="@layout/ss_reading_app_bar"/>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/ss_reading_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <include
+            android:id="@+id/ssContextMenu"
+            android:visibility="invisible"
+            bind:viewModel="@{viewModel}"
+            layout="@layout/ss_reading_context_menu"/>
+
+        <LinearLayout
+            android:id="@+id/ss_reading_sheet_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:background="@color/ss_color_overlay"
+            android:onClick="@{() -> viewModel.onMenuClick()}" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ss_reading_sheet"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/ss_reading_sheet_margin_left"
+            android:layout_marginRight="@dimen/ss_reading_sheet_margin_right"
+            android:layout_marginStart="@dimen/ss_reading_sheet_margin_left"
+            android:layout_marginEnd="@dimen/ss_reading_sheet_margin_right"
+            android:layout_marginTop="@dimen/ss_reading_sheet_margin_top"
+            android:layout_marginBottom="@dimen/ss_reading_sheet_margin_bottom"
+            android:layout_gravity="bottom"
+            android:clipToPadding="true"
+            android:visibility="invisible">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/ss_reading_sheet_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/ss_reading_sheet_header_padding_top"
+                    android:paddingBottom="@dimen/ss_reading_sheet_header_padding_bottom"
+                    android:paddingStart="@dimen/ss_reading_sheet_header_padding_left"
+                    android:paddingEnd="@dimen/ss_reading_sheet_header_padding_right"
+                    android:paddingLeft="@dimen/ss_reading_sheet_header_padding_left"
+                    android:paddingRight="@dimen/ss_reading_sheet_header_padding_right"
+                    android:background="@color/ss_green_dark">
+
+                    <TextView
+                        android:id="@+id/ss_reading_sheet_header_title"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:ellipsize="end"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/ss_reading_sheet_header_title_text_size"
+                        android:textColor="@android:color/white"
+                        android:maxLines="1"
+                        android:text="@{viewModel.ssLessonInfo.lesson.title}" />
+
+                    <TextView
+                        android:id="@+id/ss_reading_sheet_header_date"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_below="@+id/ss_reading_sheet_header_title"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:ellipsize="end"
+                        android:textSize="@dimen/ss_reading_sheet_header_date_text_size"
+                        android:textColor="@color/ss_color_secondary_lighter"
+                        android:textStyle="italic"
+                        android:maxLines="1"
+                        android:text="@{viewModel.lessonInterval}" />
+
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ss_reading_sheet_list"
+                    android:layout_below="@+id/ss_reading_sheet_header"
+                    android:scrollbars="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <include
+            layout="@layout/ss_offline_state"
+            bind:offlineStateVisibility="@{viewModel.ssLessonOfflineStateVisibility}"
+            bind:offlineStateLabel="@{@string/ss_reading_offline}"
+            bind:viewModel="@{viewModel}" />
+
+        <include
+            layout="@layout/ss_error_state"
+            bind:errorStateVisibility="@{viewModel.ssLessonErrorStateVisibility}"
+            bind:errorStateLabel="@{@string/ss_reading_error}" />
+
+        <include
+            layout="@layout/ss_progress_bar"
+            bind:progressVisibility="@{viewModel.ssLessonLoadingVisibility}"
+            bind:progressLabel="@{@string/ss_reading_downloading}"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

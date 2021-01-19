@@ -31,6 +31,10 @@ plugins {
     id(BuildPlugins.DAGGER_HILT)
 }
 
+repositories {
+    maven("https://dl.bintray.com/andreyberyukhov/FlowReactiveNetwork")
+}
+
 android {
     compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
 
@@ -72,6 +76,7 @@ dependencies {
     implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
     implementation(Dependencies.AndroidX.RECYCLER_VIEW)
     implementation(Dependencies.AndroidX.HILT_VIEWMODEL)
+    implementation(Dependencies.AndroidX.BROWSER)
 
     implementation(Dependencies.HILT)
     kapt(Dependencies.HILT_COMPILER)
@@ -79,6 +84,7 @@ dependencies {
 
     implementation(platform(Dependencies.Firebase.BOM))
     implementation(Dependencies.Firebase.DATABASE)
+    implementation(Dependencies.Firebase.STORAGE)
     implementation(Dependencies.Firebase.ANALYTICS)
     implementation(Dependencies.Firebase.AUTH)
 
@@ -94,6 +100,8 @@ dependencies {
     implementation("com.mikepenz:google-material-typeface:2.2.0.3.original@aar")
     implementation("net.opacapp:multiline-collapsingtoolbar:1.4.0")
     implementation("com.github.hotchemi:android-rate:1.0.1")
+    implementation("com.afollestad.material-dialogs:core:0.9.6.0")
+    implementation("ru.beryukhov:flowreactivenetwork:1.0.2")
 
     addTestsDependencies()
 }
