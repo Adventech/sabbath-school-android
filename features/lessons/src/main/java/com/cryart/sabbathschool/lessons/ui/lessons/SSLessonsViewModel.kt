@@ -22,6 +22,7 @@
 package com.cryart.sabbathschool.lessons.ui.lessons
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
@@ -31,6 +32,7 @@ import coil.load
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.lessons.data.model.SSQuarterlyInfo
+import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.lessons.ui.viewmodel.SSViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -133,10 +135,9 @@ class SSLessonsViewModel(
                 }
             }
 
-            // TODO: Launch SSReadingActivity
-//            Intent ssReadingIntent = new Intent(context, SSReadingActivity.class);
-//            ssReadingIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, ssLessonIndex);
-//            context.startActivity(ssReadingIntent);
+            val ssReadingIntent = Intent(context, SSReadingActivity::class.java)
+            ssReadingIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, ssLessonIndex)
+            context.startActivity(ssReadingIntent)
         }
     }
 

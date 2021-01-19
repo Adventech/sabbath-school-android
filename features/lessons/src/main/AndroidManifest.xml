@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cryart.sabbathschool.lessons">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application>
         <activity
             android:name=".ui.quarterlies.QuarterliesActivity"
@@ -9,8 +10,26 @@
             android:theme="@style/Theme.SS.Lessons" />
 
         <activity
-            android:name=".ui.lessons.SSLessonsActivity"
-            android:theme="@style/Theme.SS.Lessons" />
+                android:name=".ui.lessons.SSLessonsActivity"
+                android:configChanges="orientation|screenSize"
+                android:launchMode="singleTop"
+                android:parentActivityName=".ui.quarterlies.QuarterliesActivity"
+                android:theme="@style/Theme.SS.Lessons">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".ui.quarterlies.QuarterliesActivity" />
+        </activity>
+
+        <activity
+                android:name=".ui.readings.SSReadingActivity"
+                android:configChanges="orientation|screenSize"
+                android:parentActivityName=".ui.lessons.SSLessonsActivity"
+                android:theme="@style/Theme.SS.Lessons"
+                android:windowSoftInputMode="adjustResize">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".ui.lessons.SSLessonsActivity" />
+        </activity>
     </application>
 
 </manifest>

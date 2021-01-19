@@ -56,5 +56,11 @@ dependencies {
     implementation(Dependencies.Hilt.ANDROID)
     kapt(Dependencies.Hilt.COMPILER)
 
+    implementation(platform(Dependencies.Firebase.BOM))
+    implementation(Dependencies.Firebase.CORE)
+    implementation(Dependencies.Firebase.ANALYTICS)
+    implementation(Dependencies.Firebase.AUTH)
+    implementation(Dependencies.Firebase.CRASHLYTICS)
+
     addTestsDependencies()
 }

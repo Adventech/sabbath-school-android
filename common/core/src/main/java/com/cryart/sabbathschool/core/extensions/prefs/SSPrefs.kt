@@ -28,6 +28,7 @@ import androidx.preference.PreferenceManager
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.ReminderTime
+import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import java.util.Locale
 
 class SSPrefs(context: Context) {
@@ -101,16 +102,50 @@ class SSPrefs(context: Context) {
         }
     }
 
-    fun getLastType(): String? {
+    fun getLastQuarterlyType(): String? {
         return sharedPreferences.getString(
             SSConstants.SS_LAST_QUARTERLY_TYPE,
             null
         )
     }
 
-    fun setLastType(type: String) {
+    fun setLastQuarterlyType(type: String) {
         sharedPreferences.edit {
             putString(SSConstants.SS_LAST_QUARTERLY_TYPE, type)
         }
+    }
+
+    fun getLastReaderArtifactCreationTime(): Long {
+        return sharedPreferences.getLong(SSConstants.SS_READER_ARTIFACT_CREATION_TIME, 0)
+    }
+
+    fun setLastReaderArtifactCreationTime(readerArtifactCreationTime: Long) {
+        sharedPreferences.edit {
+            putLong(SSConstants.SS_READER_ARTIFACT_CREATION_TIME, readerArtifactCreationTime)
+        }
+    }
+
+    fun getDisplayOptions(): SSReadingDisplayOptions {
+        return SSReadingDisplayOptions(
+            sharedPreferences.getString(SSConstants.SS_SETTINGS_THEME_KEY, SSReadingDisplayOptions.SS_THEME_LIGHT),
+            sharedPreferences.getString(SSConstants.SS_SETTINGS_SIZE_KEY, SSReadingDisplayOptions.SS_SIZE_MEDIUM),
+            sharedPreferences.getString(SSConstants.SS_SETTINGS_FONT_KEY, SSReadingDisplayOptions.SS_FONT_LATO)
+        )
+    }
+
+    fun setDisplayOptions(ssReadingDisplayOptions: SSReadingDisplayOptions) {
+        sharedPreferences.edit {
+            putString(SSConstants.SS_SETTINGS_THEME_KEY, ssReadingDisplayOptions.theme)
+            putString(SSConstants.SS_SETTINGS_FONT_KEY, ssReadingDisplayOptions.font)
+            putString(SSConstants.SS_SETTINGS_SIZE_KEY, ssReadingDisplayOptions.size)
+        }
+    }
+
+    fun getUserName(default: String): String {
+        return sharedPreferences.getString(SSConstants.SS_USER_NAME_INDEX, default)!!
+    }
+
+    fun getUserEmail(default: String): String {
+        return sharedPreferences.getString(SSConstants.SS_USER_EMAIL_INDEX, default)!!
     }
 }

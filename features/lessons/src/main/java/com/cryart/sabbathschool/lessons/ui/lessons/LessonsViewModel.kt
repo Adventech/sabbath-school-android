@@ -66,7 +66,7 @@ class LessonsViewModel @Inject constructor(
                             .map { it.quarterly_name }
                         mutableQuarterlyTypes.postValue(names.filterNotNull())
 
-                        val lastType = ssPrefs.getLastType() ?: return@collect
+                        val lastType = ssPrefs.getLastQuarterlyType() ?: return@collect
                         if (lastType != names.first()) {
                             quarterlyTypeSelected(lastType)
                         }
@@ -79,6 +79,6 @@ class LessonsViewModel @Inject constructor(
     fun quarterlyTypeSelected(type: String) {
         val index = lessonTypes.find { it.quarterly_name == type }?.index ?: return
         mutableSelectedType.postValue(Pair(index, type))
-        ssPrefs.setLastType(type)
+        ssPrefs.setLastQuarterlyType(type)
     }
 }

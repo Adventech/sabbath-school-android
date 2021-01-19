@@ -37,6 +37,7 @@ object Dependencies {
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.AndroidX.CONSTRAINT_LAYOUT}"
         const val START_UP = "androidx.startup:startup-runtime:${Versions.AndroidX.START_UP}"
         const val PREFERENCE = "androidx.preference:preference-ktx:${Versions.AndroidX.PREFERENCE}"
+        const val BROWSER = "androidx.browser:browser:${Versions.AndroidX.BROWSER}"
     }
 
     object Firebase {
