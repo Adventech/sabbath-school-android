@@ -20,23 +20,29 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.data.di
+package com.cryart.sabbathschool.di
 
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.lessons.data.di.RepositoryModule
 import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
-import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepositoryImpl
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 
+/**
+ * QuarterliesRepository binding to use in tests.
+ *
+ * Hilt will inject a [FakeQuarterliesRepository] instead of a [QuarterliesRepository].
+ *
+ * TODO: Move this to a separate test module for re-use
+ */
 @Module
-@InstallIn(SingletonComponent::class)
-object RepositoryModule {
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [RepositoryModule::class]
+)
+interface FakeRepositoryModule {
 
-    @Provides
-    fun provideRepository(ssPrefs: SSPrefs): QuarterliesRepository =
-        QuarterliesRepositoryImpl(Firebase.database, ssPrefs)
+    @Binds
+    fun bind(impl: FakeQuarterliesRepository): QuarterliesRepository
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,94 +22,14 @@
 
 package com.cryart.sabbathschool.lessons.data.repository
 
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.lessons.data.model.Language
 import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
 import com.cryart.sabbathschool.lessons.data.model.response.Resource
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.channels.sendBlocking
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOn
-import timber.log.Timber
+import kotlinx.coroutines.flow.Flow
 
-class QuarterliesRepository(
-    private val firebaseDatabase: FirebaseDatabase,
-    private val ssPrefs: SSPrefs
-) {
+interface QuarterliesRepository {
 
-    suspend fun getLanguages(): Resource<List<Language>> {
-        // Switch to API when we migrate
-        return getLanguagesFirebase()
-    }
+    suspend fun getLanguages(): Resource<List<Language>>
 
-    private suspend fun getLanguagesFirebase(): Resource<List<Language>> {
-        return suspendCoroutine { continuation ->
-            firebaseDatabase.getReference(SSConstants.SS_FIREBASE_LANGUAGES_DATABASE)
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onCancelled(error: DatabaseError) {
-                        continuation.resume(Resource.error(error.toException()))
-                    }
-
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val languages = snapshot.children.mapNotNull {
-                            it.getValue(Language::class.java)
-                        }
-                        continuation.resume(Resource.success(languages))
-                    }
-                })
-        }
-    }
-
-    @ExperimentalCoroutinesApi
-    fun getQuarterlies(languageCode: String? = null) = callbackFlow<Resource<List<SSQuarterly>>> {
-        var code: String
-        if (languageCode == null) {
-            code = ssPrefs.getLanguageCode()
-            if (code == "iw") {
-                code = "he"
-            }
-            if (code == "fil") {
-                code = "tl"
-            }
-        } else {
-            code = languageCode
-        }
-
-        val quarterliesRef = firebaseDatabase.getReference(
-            SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE
-        )
-            .child(code)
-
-        val valueEventListener = quarterliesRef.addValueEventListener(
-            object : ValueEventListener {
-                override fun onCancelled(error: DatabaseError) {
-                    this@callbackFlow.close(error.toException())
-                }
-
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val quarterlies = snapshot.children.mapNotNull {
-                        it.getValue(SSQuarterly::class.java)
-                    }
-                    this@callbackFlow.sendBlocking(Resource.success(quarterlies))
-                }
-            })
-
-        awaitClose {
-            quarterliesRef.removeEventListener(valueEventListener)
-        }
-    }.flowOn(Dispatchers.IO)
-        .catch {
-            Timber.e(it)
-            emit(Resource.error(it))
-        }
+    fun getQuarterlies(languageCode: String? = null): Flow<Resource<List<SSQuarterly>>>
 }

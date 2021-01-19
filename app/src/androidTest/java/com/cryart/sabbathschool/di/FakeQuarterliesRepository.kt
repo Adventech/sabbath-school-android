@@ -20,23 +20,26 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.data.di
+package com.cryart.sabbathschool.di
 
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.lessons.data.model.Language
+import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
+import com.cryart.sabbathschool.lessons.data.model.response.Resource
 import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
-import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepositoryImpl
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import javax.inject.Inject
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
-@Module
-@InstallIn(SingletonComponent::class)
-object RepositoryModule {
+class FakeQuarterliesRepository @Inject constructor() : QuarterliesRepository {
 
-    @Provides
-    fun provideRepository(ssPrefs: SSPrefs): QuarterliesRepository =
-        QuarterliesRepositoryImpl(Firebase.database, ssPrefs)
+    override suspend fun getLanguages(): Resource<List<Language>> {
+        return Resource.success(emptyList())
+    }
+
+    override fun getQuarterlies(languageCode: String?): Flow<Resource<List<SSQuarterly>>> {
+        return callbackFlow {
+            awaitClose { }
+        }
+    }
 }
