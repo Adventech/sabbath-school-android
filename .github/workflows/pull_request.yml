@@ -13,8 +13,8 @@ jobs:
 
     strategy:
       matrix:
-        api-level: [21, 23, 29]
-        target: [default, google_apis]
+        api-level: [21, 29]
+        target: [google_apis]
 
     steps:
       - name: Checkout repo
