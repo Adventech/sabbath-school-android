@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2017 Adventech.
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,30 +21,32 @@
   -->
 
 <layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        >
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
 
         <androidx.core.widget.NestedScrollView
-            android:id="@+id/ss_reading_view_scroll"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="fill_vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                android:id="@+id/ss_reading_view_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="fill_vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                >
 
-        <com.cryart.sabbathschool.lessons.ui.readings.SSReadingView
-            android:id="@+id/ss_reading_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:isScrollContainer="false" />
+            <com.cryart.sabbathschool.lessons.ui.readings.SSReadingView
+                    android:id="@+id/ss_reading_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:isScrollContainer="false"
+                    />
 
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
-
-
 
 
 </layout>
