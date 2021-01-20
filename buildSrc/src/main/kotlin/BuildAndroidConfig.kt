@@ -9,8 +9,10 @@ object BuildAndroidConfig {
     const val TEST_INSTRUMENTATION_RUNNER = "com.cryart.sabbathschool.SSAppTestRunner"
 
     object Version {
-        const val MAJOR = 4
-        const val MINOR = 0
-        const val PATCH = 1
+        private const val MAJOR = 4
+        private const val MINOR = 0
+        private const val PATCH = 1
+
+        const val name = "$MAJOR.$MINOR.$PATCH"
     }
 }

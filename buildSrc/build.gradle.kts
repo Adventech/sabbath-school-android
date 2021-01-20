@@ -24,7 +24,6 @@ object PluginVersions {
     const val NAVIGATION = "2.3.1"
     const val GOOGLE_SERVICES = "4.3.4"
     const val FIREBASE_CRASHLYTICS_GRADLE = "2.4.1"
-    const val GRABVER = "2.0.2"
 }
 
 dependencies {
@@ -37,5 +36,4 @@ dependencies {
     implementation("com.github.ben-manes:gradle-versions-plugin:${PluginVersions.GRADLE_VERSIONS}")
     implementation("com.google.gms:google-services:${PluginVersions.GOOGLE_SERVICES}")
     implementation("com.google.firebase:firebase-crashlytics-gradle:${PluginVersions.FIREBASE_CRASHLYTICS_GRADLE}")
-    implementation("eu.davidea:grabver:${PluginVersions.GRABVER}")
 }
