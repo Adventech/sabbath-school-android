@@ -53,8 +53,8 @@ dependencies {
     implementation(Dependencies.Kotlin.COROUTINES)
     implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
     implementation(Dependencies.TIMBER)
-    implementation(Dependencies.HILT)
-    kapt(Dependencies.HILT_COMPILER)
+    implementation(Dependencies.Hilt.ANDROID)
+    kapt(Dependencies.Hilt.COMPILER)
 
     implementation(platform(Dependencies.Firebase.BOM))
     implementation(Dependencies.Firebase.CORE)

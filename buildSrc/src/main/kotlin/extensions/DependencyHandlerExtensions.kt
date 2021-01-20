@@ -127,6 +127,8 @@ fun DependencyHandler.addTestsDependencies() {
     androidTestImplementation(TestAndroidDependencies.RULES)
     androidTestImplementation(TestAndroidDependencies.JUNIT)
     androidTestImplementation(TestAndroidDependencies.FRAGMENT_TEST)
+    androidTestImplementation(TestDependencies.COROUTINES_TEST)
+    androidTestImplementation(TestDependencies.ARCH_CORE)
     androidTestImplementation(TestDependencies.HILT)
     kaptAndroidTest(TestDependencies.HILT_COMPILER)
 }

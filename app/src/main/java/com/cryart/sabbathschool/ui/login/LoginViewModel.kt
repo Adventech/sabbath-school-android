@@ -23,7 +23,6 @@
 package com.cryart.sabbathschool.ui.login
 
 import android.content.Intent
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -41,11 +40,14 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 
-class LoginViewModel @ViewModelInject constructor(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val googleSignIn: GoogleSignInWrapper,
     private val facebookLoginManager: FacebookLoginManager,

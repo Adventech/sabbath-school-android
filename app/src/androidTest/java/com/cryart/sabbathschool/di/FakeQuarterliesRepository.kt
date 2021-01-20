@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,31 +20,26 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.ui.splash
+package com.cryart.sabbathschool.di
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
-import com.cryart.sabbathschool.reminder.DailyReminderManager
-import com.google.firebase.auth.FirebaseAuth
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.cryart.sabbathschool.lessons.data.model.Language
+import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
+import com.cryart.sabbathschool.lessons.data.model.response.Resource
+import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
 import javax.inject.Inject
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
-@HiltViewModel
-class SplashViewModel @Inject constructor(
-    private val firebaseAuth: FirebaseAuth,
-    dailyReminderManager: DailyReminderManager,
-    schedulerProvider: SchedulerProvider
-) : ViewModel() {
+class FakeQuarterliesRepository @Inject constructor() : QuarterliesRepository {
 
-    init {
-        if (firebaseAuth.currentUser != null) {
-            dailyReminderManager.scheduleReminder()
-        }
+    override suspend fun getLanguages(): Resource<List<Language>> {
+        return Resource.success(emptyList())
     }
 
-    val isSignedInLiveData: LiveData<Boolean> = liveData(schedulerProvider.io) {
-        emit(firebaseAuth.currentUser != null)
+    override fun getQuarterlies(languageCode: String?): Flow<Resource<List<SSQuarterly>>> {
+        return callbackFlow {
+            awaitClose { }
+        }
     }
 }
