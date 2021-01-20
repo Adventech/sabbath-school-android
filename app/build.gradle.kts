@@ -22,6 +22,8 @@
 
 import dependencies.Dependencies
 import extensions.addTestsDependencies
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     id(BuildPlugins.ANDROID_APPLICATION)
@@ -46,6 +48,8 @@ versioning {
     patch = BuildAndroidConfig.Version.PATCH
 }
 
+val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
+
 android {
     compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
 
@@ -55,17 +59,35 @@ android {
         targetSdkVersion(BuildAndroidConfig.TARGET_SDK_VERSION)
 
         versionCode = versioning.code
-        versionName = versioning.toString()
+        versionName = "${versioning.name}.${versioning.code}"
 
         testInstrumentationRunner = BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER
 
         vectorDrawables.useSupportLibrary = true
     }
 
+    signingConfigs {
+        if (useReleaseKeystore) {
+            val keyProps = Properties().apply {
+                load(FileInputStream(file(BuildAndroidConfig.KEYSTORE_PROPS_FILE)))
+            }
+
+            create(BuildType.RELEASE) {
+                storeFile = file(keyProps.getProperty("release.keystore"))
+                storePassword = keyProps.getProperty("release.keystore.password")
+                keyAlias = keyProps.getProperty("key.alias")
+                keyPassword = keyProps.getProperty("key.password")
+            }
+        }
+    }
+
     buildTypes {
         getByName(BuildType.RELEASE) {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
+            if (useReleaseKeystore) {
+                signingConfig = signingConfigs.getByName(BuildType.RELEASE)
+            }
 
             manifestPlaceholders["enableReporting"] = true
         }

@@ -1,5 +1,6 @@
 object BuildAndroidConfig {
     const val APP_ID = "com.cryart.sabbathschool"
+    const val KEYSTORE_PROPS_FILE = "../release/keystore.properties"
 
     const val COMPILE_SDK_VERSION = 30
     const val MIN_SDK_VERSION = 21
