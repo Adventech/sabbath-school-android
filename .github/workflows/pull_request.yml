@@ -7,14 +7,9 @@ on:
 
 jobs:
   testing:
-    name: Lint and Test Suite [Unit, Instrumented]
+    name: Test Suite [Instrumented]
 
     runs-on: macos-latest
-
-    strategy:
-      matrix:
-        api-level: [21, 29]
-        target: [google_apis]
 
     steps:
       - name: Checkout repo
@@ -30,10 +25,11 @@ jobs:
           FIREBASE_CONFIG: ${{secrets.FIREBASE_CONFIG}}
         run: echo $FIREBASE_CONFIG > app/google-services.json
 
-      - name: Execute Instrumentation Tests (gradlew connectedCheck - api 23)
+      - name: Execute Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: ${{ matrix.api-level }}
-          target: ${{ matrix.target }}
-          arch: x86_64
+          api-level: 26
+          target: default
+          arch: x86
+          profile: Nexus 6
           script: ./gradlew grabverRelease app:connectedCheck --stacktrace
