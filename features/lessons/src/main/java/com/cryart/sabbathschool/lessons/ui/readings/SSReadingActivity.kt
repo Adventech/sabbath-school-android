@@ -23,11 +23,11 @@
 package com.cryart.sabbathschool.lessons.ui.readings
 
 import android.graphics.Color
-import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
@@ -36,9 +36,9 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
+import com.cryart.sabbathschool.core.model.SSRead
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.data.model.SSLessonInfo
-import com.cryart.sabbathschool.lessons.data.model.SSRead
 import com.cryart.sabbathschool.lessons.data.model.SSReadComments
 import com.cryart.sabbathschool.lessons.data.model.SSReadHighlights
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
@@ -74,8 +74,8 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
 
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle)
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setExpandedTitleTextAppearance(R.style.AppThemeAppBarTextStyleExpanded)
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(assets, "fonts/Lato-Bold.ttf"))
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setExpandedTitleTypeface(Typeface.createFromAsset(assets, "fonts/Lato-Bold.ttf"))
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setCollapsedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setExpandedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
         ViewCompat.setNestedScrollingEnabled(binding.ssReadingSheetList, false)
         ssReadingViewModel = SSReadingViewModel(
             this,

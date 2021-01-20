@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2016 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,29 @@
  * THE SOFTWARE.
  */
 
-include(
-    ":app",
-    ":common:core",
-    ":common:design",
-    ":common:translations",
-    ":features:reader",
-    ":features:lessons",
-    ":features:bible",
-    ":libraries:test_utils"
-)
-rootProject.buildFileName = "build.gradle.kts"
+package com.cryart.sabbathschool.core.model;
+
+import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.util.List;
+
+@IgnoreExtraProperties
+public class SSRead {
+    public String id;
+    public String date;
+    public String index;
+    public String title;
+    public String content;
+    public List<SSBibleVerses> bible;
+
+    public SSRead() {}
+
+    public SSRead(String id, String date, String index, String title, String content, List<SSBibleVerses> bible){
+        this.id = id;
+        this.date = date;
+        this.index = index;
+        this.title = title;
+        this.content = content;
+        this.bible = bible;
+    }
+}

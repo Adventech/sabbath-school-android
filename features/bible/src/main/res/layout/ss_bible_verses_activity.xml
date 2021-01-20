@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        >
+
+    <data>
+
+        <variable
+                name="viewModel"
+                type="com.cryart.sabbathschool.bible.ui.SSBibleVersesViewModel"
+                />
+    </data>
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ss_bible_verses_margin"
+            android:layout_marginLeft="@dimen/ss_bible_verses_margin"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:layout_marginEnd="@dimen/ss_bible_verses_margin"
+            android:layout_marginRight="@dimen/ss_bible_verses_margin"
+            android:layout_marginBottom="@dimen/ss_bible_verses_margin"
+            >
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+            <LinearLayout
+                    android:id="@+id/ss_bible_verses_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/ss_green"
+                    android:orientation="horizontal"
+                    >
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:layout_margin="@dimen/ss_bible_verses_title_margin"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/ss_bible"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"
+                        />
+
+                <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        />
+
+                <Spinner
+                        android:id="@+id/ss_reading_bible_version_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|end"
+                        android:drawSelectorOnTop="true"
+                        android:spinnerMode="dropdown"
+                        />
+
+                <com.mikepenz.iconics.view.IconicsImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center|end"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{()->viewModel.onCloseClick()}"
+                        android:paddingStart="@dimen/ss_bible_verses_close_padding"
+                        android:paddingLeft="@dimen/ss_bible_verses_close_padding"
+                        android:paddingEnd="@dimen/ss_bible_verses_close_padding"
+                        android:paddingRight="@dimen/ss_bible_verses_close_padding"
+                        app:iiv_color="@android:color/white"
+                        app:iiv_icon="gmd-close"
+                        app:iiv_size="@dimen/ss_bible_verses_close_icon_size"
+                        />
+            </LinearLayout>
+
+            <com.cryart.sabbathschool.bible.ui.SSBibleVersesView
+                    android:id="@+id/ss_bible_verses_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ss_bible_verses_header"
+                    android:layout_alignParentBottom="true"
+                    />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

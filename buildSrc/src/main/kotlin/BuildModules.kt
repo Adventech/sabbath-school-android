@@ -7,6 +7,8 @@ object BuildModules {
     }
 
     object Features {
+        const val BIBLE = ":features:bible"
+        const val READER = ":features:reader"
         const val LESSONS = ":features:lessons"
     }
 

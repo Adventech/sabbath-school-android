@@ -19,8 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 import dependencies.Dependencies
 import extensions.addTestsDependencies
+import extensions.kapt
 
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY)
@@ -44,24 +46,52 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
     }
+
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
 }
 
 dependencies {
+
+    implementation(project(BuildModules.Common.CORE))
+    implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.TRANSLATIONS))
+    implementation(project(BuildModules.Features.READER))
+
     implementation(Dependencies.Kotlin.KOTLIN)
+
+    implementation(Dependencies.MATERIAL)
+    implementation(Dependencies.AndroidX.CORE)
+    implementation(Dependencies.AndroidX.APPCOMPAT)
+    implementation(Dependencies.AndroidX.CONSTRAINT_LAYOUT)
+    implementation(Dependencies.AndroidX.ACTIVITY)
+    implementation(Dependencies.AndroidX.FRAGMENT_KTX)
+    implementation(Dependencies.AndroidX.LIFECYCLE_VIEWMODEL)
+    implementation(Dependencies.AndroidX.LIFECYCLE_EXTENSIONS)
     implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
-    implementation(Dependencies.AndroidX.PREFERENCE)
-    implementation(Dependencies.Kotlin.COROUTINES)
-    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
-    implementation(Dependencies.TIMBER)
+    implementation(Dependencies.AndroidX.RECYCLER_VIEW)
+    implementation(Dependencies.AndroidX.BROWSER)
+
     implementation(Dependencies.Hilt.ANDROID)
     kapt(Dependencies.Hilt.COMPILER)
 
     implementation(platform(Dependencies.Firebase.BOM))
-    implementation(Dependencies.Firebase.CORE)
+    implementation(Dependencies.Firebase.DATABASE)
+    implementation(Dependencies.Firebase.STORAGE)
     implementation(Dependencies.Firebase.ANALYTICS)
     implementation(Dependencies.Firebase.AUTH)
-    implementation(Dependencies.Firebase.CRASHLYTICS)
-    implementation(Dependencies.Firebase.DATABASE)
+
+    implementation(Dependencies.Kotlin.COROUTINES)
+    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
+    implementation(Dependencies.Kotlin.COROUTINES_PLAY_SERVICES)
+
+    implementation(Dependencies.TIMBER)
+    implementation("com.mikepenz:iconics-core:5.2.4@aar")
+    implementation("com.mikepenz:iconics-views:5.2.4@aar")
+    implementation("com.mikepenz:iconics-typeface-api:5.2.4@aar")
+    implementation("com.mikepenz:google-material-typeface:4.0.0.1-kotlin@aar")
 
     addTestsDependencies()
 }

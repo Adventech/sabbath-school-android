@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2016 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,19 @@
  * THE SOFTWARE.
  */
 
-include(
-    ":app",
-    ":common:core",
-    ":common:design",
-    ":common:translations",
-    ":features:reader",
-    ":features:lessons",
-    ":features:bible",
-    ":libraries:test_utils"
-)
-rootProject.buildFileName = "build.gradle.kts"
+package com.cryart.sabbathschool.bible.ui;
+
+
+import android.content.Context;
+
+public class SSBibleVersesViewModel {
+    private final Context context;
+
+    public SSBibleVersesViewModel(Context context) {
+        this.context = context;
+    }
+
+    public void onCloseClick() {
+        ((SSBibleVersesActivity) context).finish();
+    }
+}

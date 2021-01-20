@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.data.model;
+package com.cryart.sabbathschool.core.model;
 
 
 import com.google.firebase.database.IgnoreExtraProperties;

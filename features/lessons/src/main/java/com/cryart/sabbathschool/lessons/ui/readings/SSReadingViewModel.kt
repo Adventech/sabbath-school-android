@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.lessons.ui.readings
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.View
@@ -33,16 +34,17 @@ import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.ObservableInt
 import com.afollestad.materialdialogs.MaterialDialog
+import com.cryart.sabbathschool.bible.ui.SSBibleVersesActivity
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.strings.StringUtils
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
+import com.cryart.sabbathschool.core.model.SSRead
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.data.model.SSContextMenu
 import com.cryart.sabbathschool.lessons.data.model.SSLessonInfo
-import com.cryart.sabbathschool.lessons.data.model.SSRead
 import com.cryart.sabbathschool.lessons.data.model.SSReadComments
 import com.cryart.sabbathschool.lessons.data.model.SSReadHighlights
 import com.cryart.sabbathschool.lessons.data.model.SSSuggestion
@@ -53,7 +55,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import java.util.ArrayList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
@@ -63,6 +64,7 @@ import org.joda.time.format.DateTimeFormat
 import ru.beryukhov.reactivenetwork.ReactiveNetwork
 import ru.beryukhov.reactivenetwork.internet.observing.InternetObservingSettings
 import timber.log.Timber
+import java.util.ArrayList
 
 class SSReadingViewModel(
     private val context: Context,
@@ -352,11 +354,10 @@ class SSReadingViewModel(
     }
 
     override fun onVerseClicked(verse: String) {
-        // TODO: Add SSBibleVersesActivity
-//        Intent _SSBibleActivityIntent = new Intent(context, SSBibleVersesActivity.class);
-//        _SSBibleActivityIntent.putExtra(SSConstants.SS_READ_INDEX_EXTRA, ssReads.get(ssReadingActivityBinding.ssReadingViewPager.getCurrentItem()).index);
-//        _SSBibleActivityIntent.putExtra(SSConstants.SS_READ_VERSE_EXTRA, verse);
-//        context.startActivity(_SSBibleActivityIntent);
+        val sSBibleActivityIntent = Intent(context, SSBibleVersesActivity::class.java)
+        sSBibleActivityIntent.putExtra(SSConstants.SS_READ_INDEX_EXTRA, ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
+        sSBibleActivityIntent.putExtra(SSConstants.SS_READ_VERSE_EXTRA, verse)
+        context.startActivity(sSBibleActivityIntent)
     }
 
     interface DataListener {

@@ -43,28 +43,20 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.view.GestureDetectorCompat;
-
 import com.cryart.sabbathschool.core.misc.SSConstants;
+import com.cryart.sabbathschool.core.misc.SSHelper;
+import com.cryart.sabbathschool.core.model.SSRead;
+import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.lessons.R;
 import com.cryart.sabbathschool.lessons.data.model.SSComment;
-import com.cryart.sabbathschool.lessons.data.model.SSRead;
 import com.cryart.sabbathschool.lessons.data.model.SSReadComments;
 import com.cryart.sabbathschool.lessons.data.model.SSReadHighlights;
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-
 import timber.log.Timber;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
@@ -82,8 +74,8 @@ public class SSReadingView extends WebView {
 
     public SSReadViewBridge ssReadViewBridge;
 
-    private float LastTouchX;
-    private float LastTouchY;
+    private float lastTouchX;
+    private float lastTouchY;
     private boolean textAreaFocused = false;
     public boolean contextMenuShown = false;
 
@@ -128,7 +120,7 @@ public class SSReadingView extends WebView {
 
     @Override
     public ActionMode startActionMode(ActionMode.Callback callback) {
-        contextMenuCallback.onSelectionStarted(LastTouchX, LastTouchY);
+        contextMenuCallback.onSelectionStarted(lastTouchX, lastTouchY);
         contextMenuShown = true;
         return this.emptyActionMode();
     }
@@ -136,8 +128,8 @@ public class SSReadingView extends WebView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            LastTouchY = event.getY();
-            LastTouchX = event.getX();
+            lastTouchY = event.getY();
+            lastTouchX = event.getX();
         }
         gestureDetector.onTouchEvent(event);
         return super.onTouchEvent(event);
@@ -188,43 +180,6 @@ public class SSReadingView extends WebView {
         contextMenuShown = false;
     }
 
-    public static String readFileFromFiles(String path) {
-        File file = new File(path);
-        try {
-            int length = (int) file.length();
-
-            byte[] bytes = new byte[length];
-
-            try (FileInputStream in = new FileInputStream(file)) {
-                in.read(bytes);
-            }
-
-            return new String(bytes);
-        } catch (Exception e) {
-            Timber.e(e);
-            return "";
-        }
-    }
-
-
-    public static String readFileFromAssets(Context context, String assetPath) {
-        StringBuilder buf = new StringBuilder();
-        try {
-            InputStream json = context.getAssets().open(assetPath);
-            BufferedReader in = new BufferedReader(new InputStreamReader(json, StandardCharsets.UTF_8));
-            String str;
-            while ((str = in.readLine()) != null) {
-                buf.append(str);
-            }
-            in.close();
-            return buf.toString();
-
-        } catch (IOException e) {
-            Timber.e(e);
-            return "";
-        }
-    }
-
     public void loadRead(SSRead ssRead) {
         // We don't want any flickering of themes, right?
         String baseUrl = SSConstants.SS_READER_APP_BASE_URL;
@@ -234,9 +189,9 @@ public class SSReadingView extends WebView {
 
             if (indexFile.exists()) {
                 baseUrl = "file:///" + getContext().getFilesDir() + "/";
-                ssReaderContent = readFileFromFiles(getContext().getFilesDir() + "/index.html");
+                ssReaderContent = SSHelper.readFileFromFiles(getContext().getFilesDir() + "/index.html");
             } else {
-                ssReaderContent = readFileFromAssets(getContext(), SSConstants.SS_READER_APP_ENTRYPOINT);
+                ssReaderContent = SSHelper.readFileFromAssets(getContext(), SSConstants.SS_READER_APP_ENTRYPOINT);
             }
         }
 
@@ -326,7 +281,7 @@ public class SSReadingView extends WebView {
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public void onLongPress(MotionEvent event) {
-            if (contextMenuShown) contextMenuCallback.onSelectionStarted(LastTouchX, LastTouchY);
+            if (contextMenuShown) contextMenuCallback.onSelectionStarted(lastTouchX, lastTouchY);
         }
 
         @Override
@@ -363,10 +318,10 @@ public class SSReadingView extends WebView {
 
         private void openExternalLink(Context context, String url) {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder()
-                    .setShowTitle(true)
-                    .setUrlBarHidingEnabled(true)
-                    .setStartAnimations(context, R.anim.slide_up, android.R.anim.fade_out)
-                    .setExitAnimations(context, android.R.anim.fade_in, R.anim.slide_down);
+                .setShowTitle(true)
+                .setUrlBarHidingEnabled(true)
+                .setStartAnimations(context, R.anim.slide_up, android.R.anim.fade_out)
+                .setExitAnimations(context, android.R.anim.fade_in, R.anim.slide_down);
             try {
                 CustomTabsIntent intent = builder.build();
                 intent.launchUrl(context, Uri.parse(url));
@@ -407,22 +362,22 @@ public class SSReadingView extends WebView {
 
         public void setFont(final String font) {
             ((SSReadingActivity) context).runOnUiThread(() ->
-                    loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setFont('%s');}", font)));
+                loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setFont('%s');}", font)));
         }
 
         public void setSize(final String size) {
             ((SSReadingActivity) context).runOnUiThread(() ->
-                    loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setSize('%s');}", size)));
+                loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setSize('%s');}", size)));
         }
 
         public void setTheme(final String theme) {
             ((SSReadingActivity) context).runOnUiThread(() ->
-                    loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setTheme('%s');}", theme)));
+                loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setTheme('%s');}", theme)));
         }
 
         public void setHighlights(final String highlights) {
             ((SSReadingActivity) context).runOnUiThread(() ->
-                    loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setHighlights('%s');}", highlights)));
+                loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setHighlights('%s');}", highlights)));
         }
 
         public void setComments(List<SSComment> comments) {
@@ -433,12 +388,12 @@ public class SSReadingView extends WebView {
 
         public void setIndividualComment(final String comment, final String elementId) {
             ((SSReadingActivity) context).runOnUiThread(() ->
-                    loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setComment('%s', '%s');}", Base64.encodeToString(comment.getBytes(), Base64.NO_WRAP), elementId)));
+                loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.setComment('%s', '%s');}", Base64.encodeToString(comment.getBytes(), Base64.NO_WRAP), elementId)));
         }
 
         public void copy() {
             ((SSReadingActivity) context).runOnUiThread(() ->
-                    loadUrl("javascript:if(typeof ssReader !== \"undefined\"){ssReader.copy();}"));
+                loadUrl("javascript:if(typeof ssReader !== \"undefined\"){ssReader.copy();}"));
         }
 
         public void paste() {
@@ -451,17 +406,17 @@ public class SSReadingView extends WebView {
             final String buffer = (String) clip.getItemAt(0).coerceToText(context);
 
             ((SSReadingActivity) context).runOnUiThread(() ->
-                    loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.paste('%s');}", Base64.encodeToString(buffer.getBytes(), Base64.NO_WRAP))));
+                loadUrl(String.format("javascript:if(typeof ssReader !== \"undefined\"){ssReader.paste('%s');}", Base64.encodeToString(buffer.getBytes(), Base64.NO_WRAP))));
         }
 
         public void share() {
             ((SSReadingActivity) context).runOnUiThread(() ->
-                    loadUrl("javascript:if(typeof ssReader !== \"undefined\"){ssReader.share();}"));
+                loadUrl("javascript:if(typeof ssReader !== \"undefined\"){ssReader.share();}"));
         }
 
         public void search() {
             ((SSReadingActivity) context).runOnUiThread(() ->
-                    loadUrl("javascript:if(typeof ssReader !== \"undefined\"){ssReader.search();}"));
+                loadUrl("javascript:if(typeof ssReader !== \"undefined\"){ssReader.search();}"));
         }
 
         /**
@@ -517,7 +472,7 @@ public class SSReadingView extends WebView {
             try {
                 ((SSReadingActivity) context).runOnUiThread(() -> {
                     Timber.d(String.valueOf(highlightId));
-                    contextMenuCallback.onSelectionStarted(LastTouchX, LastTouchY, highlightId);
+                    contextMenuCallback.onSelectionStarted(lastTouchX, lastTouchY, highlightId);
                 });
 
             } catch (Exception e) {
