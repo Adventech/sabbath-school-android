@@ -21,7 +21,6 @@
  */
 
 import dependencies.Dependencies
-import extensions.addTestsDependencies
 import extensions.kapt
 
 plugins {
@@ -57,6 +56,7 @@ dependencies {
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
     implementation(project(BuildModules.Common.TRANSLATIONS))
+    implementation(project(BuildModules.Features.LESSONS))
 
     implementation(Dependencies.Kotlin.KOTLIN)
 
@@ -76,4 +76,6 @@ dependencies {
     kapt(Dependencies.Hilt.COMPILER)
 
     implementation(Dependencies.TIMBER)
+
+    implementation(Dependencies.AndroidX.PREFERENCE)
 }
