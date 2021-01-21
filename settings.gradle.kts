@@ -19,7 +19,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 include(
     ":app",
     ":common:core",
@@ -28,6 +27,7 @@ include(
     ":features:reader",
     ":features:lessons",
     ":features:bible",
+    ":features:settings",
     ":libraries:test_utils"
 )
 rootProject.buildFileName = "build.gradle.kts"
