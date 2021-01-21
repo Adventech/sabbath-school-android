@@ -25,14 +25,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         >
 
-    <data>
-
-        <variable
-                name="viewModel"
-                type="com.cryart.sabbathschool.bible.ui.SSBibleVersesViewModel"
-                />
-    </data>
-
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,13 +77,13 @@
                         />
 
                 <com.mikepenz.iconics.view.IconicsImageView
+                        android:id="@+id/bibleCloseIV"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center|end"
                         android:background="?attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
-                        android:onClick="@{()->viewModel.onCloseClick()}"
                         android:paddingStart="@dimen/ss_bible_verses_close_padding"
                         android:paddingLeft="@dimen/ss_bible_verses_close_padding"
                         android:paddingEnd="@dimen/ss_bible_verses_close_padding"
@@ -102,7 +94,7 @@
                         />
             </LinearLayout>
 
-            <com.cryart.sabbathschool.bible.ui.SSBibleVersesView
+            <com.cryart.sabbathschool.reader.view.SSWebView
                     android:id="@+id/ss_bible_verses_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

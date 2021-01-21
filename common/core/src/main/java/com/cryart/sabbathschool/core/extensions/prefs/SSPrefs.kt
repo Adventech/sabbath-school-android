@@ -148,4 +148,14 @@ class SSPrefs(context: Context) {
     fun getUserEmail(default: String): String {
         return sharedPreferences.getString(SSConstants.SS_USER_EMAIL_INDEX, default)!!
     }
+
+    fun getLastBibleUsed(): String? {
+        return sharedPreferences.getString(SSConstants.SS_LAST_BIBLE_VERSION_USED, null)
+    }
+
+    fun setLastBibleUsed(bibleId: String) {
+        sharedPreferences.edit {
+            putString(SSConstants.SS_LAST_BIBLE_VERSION_USED, bibleId)
+        }
+    }
 }

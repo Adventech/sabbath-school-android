@@ -40,7 +40,6 @@ import com.cryart.sabbathschool.core.extensions.strings.StringUtils
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
-import com.cryart.sabbathschool.core.model.SSRead
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.data.model.SSContextMenu
@@ -50,6 +49,7 @@ import com.cryart.sabbathschool.lessons.data.model.SSReadHighlights
 import com.cryart.sabbathschool.lessons.data.model.SSSuggestion
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.options.SSReadingDisplayOptionsView
+import com.cryart.sabbathschool.reader.data.model.SSRead
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -354,6 +354,7 @@ class SSReadingViewModel(
     }
 
     override fun onVerseClicked(verse: String) {
+        // FIXME: Extra click creates extra window
         val sSBibleActivityIntent = Intent(context, SSBibleVersesActivity::class.java)
         sSBibleActivityIntent.putExtra(SSConstants.SS_READ_INDEX_EXTRA, ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
         sSBibleActivityIntent.putExtra(SSConstants.SS_READ_VERSE_EXTRA, verse)
@@ -435,10 +436,9 @@ class SSReadingViewModel(
     }
 
     fun search() {
-        val ssReadingView = currentSSReadingView
-        if (ssReadingView != null) {
-            ssReadingView.ssReadViewBridge.search()
-            ssReadingView.selectionFinished()
+        currentSSReadingView?.apply {
+            ssReadViewBridge.search()
+            selectionFinished()
         }
     }
 
@@ -446,18 +446,13 @@ class SSReadingViewModel(
         this.ssReadingDisplayOptions = ssReadingDisplayOptions
         prefs.setDisplayOptions(ssReadingDisplayOptions)
 
-        val ssReadingView = currentSSReadingView
-        if (ssReadingView != null) {
-            ssReadingView.setReadingDisplayOptions(ssReadingDisplayOptions)
-            ssReadingView.updateReadingDisplayOptions()
-        }
+        currentSSReadingView?.updateReadingDisplayOptions(ssReadingDisplayOptions)
         for (i in 0 until ssTotalReadsCount) {
             if (i == ssReadingActivityBinding.ssReadingViewPager.currentItem) continue
-            if (ssReadingActivityBinding.ssReadingViewPager.findViewWithTag<View?>("ssReadingView_$i") != null) {
-                val _ssReadingView: SSReadingView =
-                    ssReadingActivityBinding.ssReadingViewPager.findViewWithTag<View>("ssReadingView_$i").findViewById(R.id.ss_reading_view)
-                _ssReadingView.setReadingDisplayOptions(ssReadingDisplayOptions)
-                _ssReadingView.updateReadingDisplayOptions()
+            val view = ssReadingActivityBinding.ssReadingViewPager.findViewWithTag<View?>("ssReadingView_$i")
+            if (view != null) {
+                val readingView = view.findViewById<SSReadingView>(R.id.ss_reading_view)
+                readingView.updateReadingDisplayOptions(ssReadingDisplayOptions)
             }
         }
     }

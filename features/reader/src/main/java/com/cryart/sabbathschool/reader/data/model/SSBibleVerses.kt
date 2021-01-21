@@ -19,30 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.reader.data.model
 
-package com.cryart.sabbathschool.core.model;
-
-import com.google.firebase.database.IgnoreExtraProperties;
-
-import java.util.List;
+import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
-public class SSRead {
-    public String id;
-    public String date;
-    public String index;
-    public String title;
-    public String content;
-    public List<SSBibleVerses> bible;
-
-    public SSRead() {}
-
-    public SSRead(String id, String date, String index, String title, String content, List<SSBibleVerses> bible){
-        this.id = id;
-        this.date = date;
-        this.index = index;
-        this.title = title;
-        this.content = content;
-        this.bible = bible;
-    }
-}
+data class SSBibleVerses(
+    val name: String = "",
+    val verses: Map<String, String> = mutableMapOf()
+)

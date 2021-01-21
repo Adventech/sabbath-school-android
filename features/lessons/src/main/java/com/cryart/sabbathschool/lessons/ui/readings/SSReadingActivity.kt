@@ -36,7 +36,7 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
-import com.cryart.sabbathschool.core.model.SSRead
+import com.cryart.sabbathschool.reader.data.model.SSRead
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.data.model.SSLessonInfo
 import com.cryart.sabbathschool.lessons.data.model.SSReadComments

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,24 +21,26 @@
   -->
 
 <layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
 
         <TextView
-            android:id="@android:id/text1"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ss_bible_version_item_height"
-            android:drawablePadding="@dimen/ss_bible_version_item_drawable_padding"
-            android:gravity="center_vertical|start"
-            android:paddingLeft="@dimen/ss_bible_version_item_side_padding"
-            android:paddingRight="@dimen/ss_bible_version_item_side_padding"
-            android:paddingStart="@dimen/ss_bible_version_item_side_padding"
-            android:paddingEnd="@dimen/ss_bible_version_item_side_padding"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/ss_bible_version_item_text_size"/>
+                android:id="@android:id/text1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ss_bible_version_item_height"
+                android:drawablePadding="@dimen/ss_bible_version_item_drawable_padding"
+                android:gravity="center_vertical|start"
+                android:paddingStart="@dimen/ss_bible_version_item_side_padding"
+                android:paddingLeft="@dimen/ss_bible_version_item_side_padding"
+                android:paddingEnd="@dimen/ss_bible_version_item_side_padding"
+                android:paddingRight="@dimen/ss_bible_version_item_side_padding"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/ss_bible_version_item_text_size"
+                />
     </LinearLayout>
 </layout>

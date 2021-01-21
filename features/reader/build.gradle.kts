@@ -48,5 +48,11 @@ android {
 }
 
 dependencies {
+    implementation(project(BuildModules.Common.CORE))
+    implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.TRANSLATIONS))
 
+    implementation(Dependencies.Firebase.DATABASE)
+
+    implementation(Dependencies.TIMBER)
 }

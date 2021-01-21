@@ -33,7 +33,7 @@ import android.view.ViewGroup;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.cryart.sabbathschool.core.misc.SSConstants;
-import com.cryart.sabbathschool.core.model.SSRead;
+import com.cryart.sabbathschool.reader.data.model.SSRead;
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.lessons.R;
 import com.cryart.sabbathschool.lessons.data.model.SSReadComments;
@@ -86,12 +86,11 @@ public class SSReadingViewAdapter extends PagerAdapter {
         );
 
         final SSReadingView ssReadingView = layout.findViewById(R.id.ss_reading_view);
-        ssReadingView.setReadingDisplayOptions(ssReadingDisplayOptions);
         ssReadingView.setContextMenuCallback(ssReadingViewModel);
         ssReadingView.setHighlightsCommentsCallback(ssReadingViewModel);
         ssReadingView.setReadHighlights(ssReadHighlights.get(position));
         ssReadingView.setReadComments(ssReadComments.get(position));
-        ssReadingView.loadRead(ssReads.get(position));
+        ssReadingView.loadContent(ssReads.get(position).getContent(), ssReadingDisplayOptions);
 
         final Handler handler = new Handler();
         handler.postDelayed(() -> {

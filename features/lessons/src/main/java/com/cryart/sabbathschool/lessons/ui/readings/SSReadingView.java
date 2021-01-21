@@ -43,25 +43,26 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.view.GestureDetectorCompat;
-import com.cryart.sabbathschool.core.misc.SSConstants;
-import com.cryart.sabbathschool.core.misc.SSHelper;
-import com.cryart.sabbathschool.core.model.SSRead;
+
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.lessons.R;
 import com.cryart.sabbathschool.lessons.data.model.SSComment;
 import com.cryart.sabbathschool.lessons.data.model.SSReadComments;
 import com.cryart.sabbathschool.lessons.data.model.SSReadHighlights;
-import java.io.File;
+import com.cryart.sabbathschool.reader.view.SSWebView;
+
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+
 import timber.log.Timber;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
-public class SSReadingView extends WebView {
+public class SSReadingView extends SSWebView {
     public static final String SEARCH_PROVIDER = "https://www.google.com/search?q=%s";
     public static final String CLIPBOARD_LABEL = "ss_clipboard_label";
     private static final String bridgeName = "SSBridge";
@@ -69,8 +70,6 @@ public class SSReadingView extends WebView {
     private GestureDetectorCompat gestureDetector;
     private ContextMenuCallback contextMenuCallback;
     private HighlightsCommentsCallback highlightsCommentsCallback;
-    private SSReadingDisplayOptions ssReadingDisplayOptions;
-    private String ssReaderContent;
 
     public SSReadViewBridge ssReadViewBridge;
 
@@ -143,10 +142,6 @@ public class SSReadingView extends WebView {
         this.highlightsCommentsCallback = highlightsCommentsCallback;
     }
 
-    public void setReadingDisplayOptions(SSReadingDisplayOptions ssReadingDisplayOptions) {
-        this.ssReadingDisplayOptions = ssReadingDisplayOptions;
-    }
-
     public void setReadHighlights(SSReadHighlights ssReadHighlights) {
         this.ssReadHighlights = ssReadHighlights;
     }
@@ -155,12 +150,10 @@ public class SSReadingView extends WebView {
         this.ssReadComments = ssReadComments;
     }
 
-    public void updateReadingDisplayOptions() {
-        if (this.ssReadingDisplayOptions != null) {
-            ssReadViewBridge.setTheme(ssReadingDisplayOptions.theme);
-            ssReadViewBridge.setFont(ssReadingDisplayOptions.font);
-            ssReadViewBridge.setSize(ssReadingDisplayOptions.size);
-        }
+    public void updateReadingDisplayOptions(SSReadingDisplayOptions ssReadingDisplayOptions) {
+        ssReadViewBridge.setTheme(ssReadingDisplayOptions.theme);
+        ssReadViewBridge.setFont(ssReadingDisplayOptions.font);
+        ssReadViewBridge.setSize(ssReadingDisplayOptions.size);
     }
 
     public void updateHighlights() {
@@ -178,30 +171,6 @@ public class SSReadingView extends WebView {
     public void selectionFinished() {
         contextMenuCallback.onSelectionFinished();
         contextMenuShown = false;
-    }
-
-    public void loadRead(SSRead ssRead) {
-        // We don't want any flickering of themes, right?
-        String baseUrl = SSConstants.SS_READER_APP_BASE_URL;
-
-        if (ssReaderContent == null) {
-            final File indexFile = new File(getContext().getFilesDir() + "/index.html");
-
-            if (indexFile.exists()) {
-                baseUrl = "file:///" + getContext().getFilesDir() + "/";
-                ssReaderContent = SSHelper.readFileFromFiles(getContext().getFilesDir() + "/index.html");
-            } else {
-                ssReaderContent = SSHelper.readFileFromAssets(getContext(), SSConstants.SS_READER_APP_ENTRYPOINT);
-            }
-        }
-
-        String content = ssReaderContent.replace("{{content}}", ssRead.content);
-
-        content = content.replace("ss-wrapper-light", "ss-wrapper-" + ssReadingDisplayOptions.theme);
-        content = content.replace("ss-wrapper-andada", "ss-wrapper-" + ssReadingDisplayOptions.font);
-        content = content.replace("ss-wrapper-medium", "ss-wrapper-" + ssReadingDisplayOptions.size);
-
-        loadDataWithBaseURL(baseUrl, content, "text/html", "utf-8", null);
     }
 
     public ActionMode emptyActionMode() {
@@ -311,7 +280,6 @@ public class SSReadingView extends WebView {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
 
-            updateReadingDisplayOptions();
             updateHighlights();
             updateComments();
         }
