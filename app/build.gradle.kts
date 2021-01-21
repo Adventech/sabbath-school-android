@@ -34,7 +34,6 @@ plugins {
     id(BuildPlugins.NAVIGATION_SAFE_ARGS)
     id(BuildPlugins.FIREBASE_CRASHLYTICS)
     id(BuildPlugins.GOOGLE_SERVICES)
-    id(BuildPlugins.GRABVER)
 }
 
 allOpen {
@@ -42,13 +41,21 @@ allOpen {
     annotation("com.cryart.sabbathschool.core.annotations.OpenClass")
 }
 
-versioning {
-    major = BuildAndroidConfig.Version.MAJOR
-    minor = BuildAndroidConfig.Version.MINOR
-    patch = BuildAndroidConfig.Version.PATCH
+fun readVersionCode(): Int {
+    val file = file("build_number.properties")
+    return if (file.exists()) {
+        val keyProps = Properties().apply {
+            load(FileInputStream(file))
+        }
+        val buildNumber = keyProps.getProperty("BUILD_NUMBER", "1")
+        1490 + buildNumber.toInt()
+    } else {
+        1
+    }
 }
 
 val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
+val appVersionCode = readVersionCode()
 
 android {
     compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
@@ -58,8 +65,8 @@ android {
         minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
         targetSdkVersion(BuildAndroidConfig.TARGET_SDK_VERSION)
 
-        versionCode = versioning.code
-        versionName = "${versioning.name}.${versioning.code}"
+        versionCode = appVersionCode
+        versionName = "${BuildAndroidConfig.Version.name} ($appVersionCode)"
 
         testInstrumentationRunner = BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER
 
