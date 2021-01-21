@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2020. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,29 +20,39 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.data.model;
+import dependencies.Dependencies
+import extensions.addTestsDependencies
+import extensions.kapt
 
-import com.google.firebase.database.IgnoreExtraProperties;
+plugins {
+    id(BuildPlugins.ANDROID_LIBRARY)
+    id(BuildPlugins.KOTLIN_ANDROID)
+    id(BuildPlugins.KOTLIN_KAPT)
+}
 
-import java.util.List;
+android {
+    compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
 
-@IgnoreExtraProperties
-public class SSRead {
-    public String id;
-    public String date;
-    public String index;
-    public String title;
-    public String content;
-    public List<SSBibleVerses> bible;
-
-    public SSRead() {}
-
-    public SSRead(String id, String date, String index, String title, String content, List<SSBibleVerses> bible){
-        this.id = id;
-        this.date = date;
-        this.index = index;
-        this.title = title;
-        this.content = content;
-        this.bible = bible;
+    defaultConfig {
+        minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
+    }
+}
+
+dependencies {
+    implementation(project(BuildModules.Common.CORE))
+    implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.TRANSLATIONS))
+
+    implementation(Dependencies.Firebase.DATABASE)
+
+    implementation(Dependencies.TIMBER)
 }

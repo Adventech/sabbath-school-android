@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2016 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,15 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.reader.data.model
 
-include(
-    ":app",
-    ":common:core",
-    ":common:design",
-    ":common:translations",
-    ":features:reader",
-    ":features:lessons",
-    ":features:bible",
-    ":libraries:test_utils"
+import com.google.firebase.database.IgnoreExtraProperties
+
+@IgnoreExtraProperties
+data class SSBibleVerses(
+    val name: String = "",
+    val verses: Map<String, String> = mutableMapOf()
 )
-rootProject.buildFileName = "build.gradle.kts"

@@ -33,11 +33,11 @@ import android.view.ViewGroup;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.cryart.sabbathschool.core.misc.SSConstants;
+import com.cryart.sabbathschool.reader.data.model.SSRead;
+import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.lessons.R;
-import com.cryart.sabbathschool.lessons.data.model.SSRead;
 import com.cryart.sabbathschool.lessons.data.model.SSReadComments;
 import com.cryart.sabbathschool.lessons.data.model.SSReadHighlights;
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -80,18 +80,17 @@ public class SSReadingViewAdapter extends PagerAdapter {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.mContext);
         SSReadingDisplayOptions ssReadingDisplayOptions = new SSReadingDisplayOptions(
-                prefs.getString(SSConstants.SS_SETTINGS_THEME_KEY, SSReadingDisplayOptions.SS_THEME_LIGHT),
-                prefs.getString(SSConstants.SS_SETTINGS_SIZE_KEY, SSReadingDisplayOptions.SS_SIZE_MEDIUM),
-                prefs.getString(SSConstants.SS_SETTINGS_FONT_KEY, SSReadingDisplayOptions.SS_FONT_LATO)
+            prefs.getString(SSConstants.SS_SETTINGS_THEME_KEY, SSReadingDisplayOptions.SS_THEME_LIGHT),
+            prefs.getString(SSConstants.SS_SETTINGS_SIZE_KEY, SSReadingDisplayOptions.SS_SIZE_MEDIUM),
+            prefs.getString(SSConstants.SS_SETTINGS_FONT_KEY, SSReadingDisplayOptions.SS_FONT_LATO)
         );
 
         final SSReadingView ssReadingView = layout.findViewById(R.id.ss_reading_view);
-        ssReadingView.setReadingDisplayOptions(ssReadingDisplayOptions);
         ssReadingView.setContextMenuCallback(ssReadingViewModel);
         ssReadingView.setHighlightsCommentsCallback(ssReadingViewModel);
         ssReadingView.setReadHighlights(ssReadHighlights.get(position));
         ssReadingView.setReadComments(ssReadComments.get(position));
-        ssReadingView.loadRead(ssReads.get(position));
+        ssReadingView.loadContent(ssReads.get(position).getContent(), ssReadingDisplayOptions);
 
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
