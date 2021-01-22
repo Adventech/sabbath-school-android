@@ -90,8 +90,9 @@ android {
 
     buildTypes {
         getByName(BuildType.RELEASE) {
+            isShrinkResources = true
             isMinifyEnabled = true
-            proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
+            proguardFiles("proguard-rules.pro")
             if (useReleaseKeystore) {
                 signingConfig = signingConfigs.getByName(BuildType.RELEASE)
             }
