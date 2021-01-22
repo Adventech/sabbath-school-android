@@ -35,13 +35,13 @@ class SSQuarterly(
     val end_date: String = "",
     val cover: String = "",
     val index: String = "",
-    val group: String?,
+    val group: String? = null,
     val path: String = "",
     val full_path: String = "",
     val lang: String = "",
-    val color_primary: String = "",
+    val color_primary: String,
     val color_primary_dark: String = "",
     val quarterly_name: String = "",
 ) {
-    constructor() : this("", group = null)
+    constructor() : this("", color_primary = "")
 }
