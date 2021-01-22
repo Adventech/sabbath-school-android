@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2016 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,29 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.ui.readings
 
-package com.cryart.sabbathschool.lessons.data.model;
+import androidx.databinding.BaseObservable
+import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.lessons.data.model.SSDay
+import org.joda.time.format.DateTimeFormat
+import java.util.Locale
 
-import com.google.firebase.database.IgnoreExtraProperties;
+class SSReadingListItemViewModel(private var ssDay: SSDay) : BaseObservable() {
 
-@IgnoreExtraProperties
-public class SSQuarterly {
-    public String id;
-    public String title;
-    public String description;
-    public String human_date;
-    public String start_date;
-    public String end_date;
-    public String cover;
-    public String index;
-    public String group;
-    public String path;
-    public String full_path;
-    public String lang;
-    public String color_primary;
-    public String color_primary_dark;
-    public String quarterly_name;
+    fun setSSDay(ssDay: SSDay) {
+        this.ssDay = ssDay
+        notifyChange()
+    }
 
-    public SSQuarterly() {}
+    val title: String get() = ssDay.title
+    val date: String
+        get() = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+            .print(
+                DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                    .parseLocalDate(ssDay.date)
+            ).capitalize(Locale.getDefault())
+
+    fun onItemClick() {}
 }
-

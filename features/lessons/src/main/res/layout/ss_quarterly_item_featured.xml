@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:fontFamily="@font/lato_bold"
-                android:maxLines="1"
+                android:maxLines="2"
                 android:paddingStart="@dimen/ss_quarterly_item_featured_date_padding_left"
                 android:paddingEnd="@dimen/ss_quarterly_item_featured_date_padding_right"
                 android:text="@{viewModel.date}"

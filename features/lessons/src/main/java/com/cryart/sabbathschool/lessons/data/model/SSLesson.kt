@@ -19,32 +19,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.model;
+import androidx.annotation.Keep
+import com.google.firebase.database.IgnoreExtraProperties
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
+@Keep
 @IgnoreExtraProperties
-public class SSLesson {
-    public String title;
-    public String start_date;
-    public String end_date;
-    public String cover;
-    public String id;
-    public String index;
-    public String path;
-    public String full_path;
-
-    public SSLesson() {}
-
-    public SSLesson(String title, String start_date, String end_date, String cover, String id, String index, String path, String full_path){
-        this.title = title;
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.cover = cover;
-        this.id = id;
-        this.index = index;
-        this.path = path;
-        this.full_path = full_path;
-    }
+class SSLesson(
+    val title: String,
+    val start_date: String = "",
+    val end_date: String = "",
+    val cover: String = "",
+    val id: String = "",
+    val index: String = "",
+    val path: String = "",
+    val full_path: String = "",
+) {
+    constructor() : this("")
 }

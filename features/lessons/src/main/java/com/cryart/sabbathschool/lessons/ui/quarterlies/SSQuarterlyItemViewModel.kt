@@ -39,7 +39,7 @@ import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.viewmodel.SSViewModel
 import com.google.android.material.button.MaterialButton
 
-class SSQuarterlyItemViewModel(
+internal class SSQuarterlyItemViewModel(
     private var ssQuarterly: SSQuarterly
 ) : BaseObservable(), SSViewModel {
 
@@ -74,11 +74,6 @@ class SSQuarterlyItemViewModel(
     override fun destroy() {}
 
     companion object {
-        @BindingAdapter("backgroundColor")
-        fun setBackgroundColor(view: View, color: String?) {
-            view.setBackgroundColor(Color.parseColor(color))
-        }
-
         @JvmStatic
         @BindingAdapter("fbDefaultColor")
         fun setFbDefaultColor(view: MaterialButton, color: String?) {

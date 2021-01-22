@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2016 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,17 +19,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.data.model
 
-package com.cryart.sabbathschool.core.extensions.strings
+import androidx.annotation.Keep
+import com.google.firebase.database.IgnoreExtraProperties
 
-import java.util.Locale
-
-class StringUtils {
-
-    companion object {
-        @JvmStatic
-        fun capitalize(str: String): String {
-            return str.capitalize(Locale.getDefault())
-        }
-    }
+@Keep
+@IgnoreExtraProperties
+data class SSDay(
+    val title: String,
+    val date: String = "",
+    val id: String = "",
+    val index: String = "",
+    val path: String = "",
+    val full_path: String = "",
+    val read_path: String = "",
+    val full_read_path: String = "",
+) {
+    constructor() : this("")
 }

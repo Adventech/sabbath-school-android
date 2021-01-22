@@ -19,22 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.model;
-
-import com.google.firebase.database.IgnoreExtraProperties;
-
-import java.util.List;
-
-@IgnoreExtraProperties
-public class SSReadComments {
-    public String readIndex;
-    public List<SSComment> comments;
-
-    public SSReadComments(){}
-
-    public SSReadComments(String readIndex, List<SSComment> comments) {
-        this.readIndex = readIndex;
-        this.comments = comments;
-    }
+object SSContextMenu {
+    const val HIGHLIGHT_YELLOW = "yellow"
+    const val HIGHLIGHT_ORANGE = "orange"
+    const val HIGHLIGHT_GREEN = "green"
+    const val HIGHLIGHT_BLUE = "blue"
+    const val UNDERLINE = "underline"
 }
