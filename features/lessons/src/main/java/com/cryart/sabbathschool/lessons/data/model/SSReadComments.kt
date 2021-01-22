@@ -19,22 +19,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.model;
+import androidx.annotation.Keep
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.IgnoreExtraProperties
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
-import java.util.List;
-
+@Keep
 @IgnoreExtraProperties
-public class SSReadComments {
-    public String readIndex;
-    public List<SSComment> comments;
-
-    public SSReadComments(){}
-
-    public SSReadComments(String readIndex, List<SSComment> comments) {
-        this.readIndex = readIndex;
-        this.comments = comments;
-    }
+data class SSReadComments(
+    val readIndex: String,
+    val comments: List<SSComment>
+) {
+    constructor(snapshot: DataSnapshot) : this(
+        snapshot.child("readIndex").getValue(String::class.java) ?: "",
+        snapshot.child("comments").children.mapNotNull {
+            it.getValue(SSComment::class.java)
+        }
+    )
 }

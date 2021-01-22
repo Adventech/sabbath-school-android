@@ -19,29 +19,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.model;
+import androidx.annotation.Keep
+import com.google.firebase.database.IgnoreExtraProperties
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
+@Keep
 @IgnoreExtraProperties
-public class SSQuarterly {
-    public String id;
-    public String title;
-    public String description;
-    public String human_date;
-    public String start_date;
-    public String end_date;
-    public String cover;
-    public String index;
-    public String group;
-    public String path;
-    public String full_path;
-    public String lang;
-    public String color_primary;
-    public String color_primary_dark;
-    public String quarterly_name;
-
-    public SSQuarterly() {}
+class SSQuarterly(
+    val id: String,
+    val title: String = "",
+    val description: String = "",
+    val human_date: String = "",
+    val start_date: String = "",
+    val end_date: String = "",
+    val cover: String = "",
+    val index: String = "",
+    val group: String?,
+    val path: String = "",
+    val full_path: String = "",
+    val lang: String = "",
+    val color_primary: String = "",
+    val color_primary_dark: String = "",
+    val quarterly_name: String = "",
+) {
+    constructor() : this("", group = null)
 }
-

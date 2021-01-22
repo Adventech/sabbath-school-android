@@ -19,61 +19,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.ui.lessons
 
-package com.cryart.sabbathschool.lessons.ui.lessons;
+import android.content.Context
+import android.content.Intent
+import androidx.databinding.BaseObservable
+import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.lessons.data.model.SSLesson
+import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
+import com.cryart.sabbathschool.lessons.ui.viewmodel.SSViewModel
+import org.joda.time.format.DateTimeFormat
+import java.util.Locale
 
-import android.content.Context;
-import android.content.Intent;
-import androidx.databinding.BaseObservable;
+internal class SSLessonItemViewModel(
+    private val context: Context,
+    private var ssLesson: SSLesson
+) : BaseObservable(), SSViewModel {
 
-import com.cryart.sabbathschool.core.extensions.strings.StringUtils;
-import com.cryart.sabbathschool.core.misc.SSConstants;
-import com.cryart.sabbathschool.lessons.data.model.SSLesson;
-import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity;
-import com.cryart.sabbathschool.lessons.ui.viewmodel.SSViewModel;
-import org.joda.time.format.DateTimeFormat;
+    val title: String get() = ssLesson.title
+    val date: String
+        get() {
+            val startDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+                .print(
+                    DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                        .parseLocalDate(ssLesson.start_date)
+                )
 
-public class SSLessonItemViewModel extends BaseObservable implements SSViewModel {
+            val endDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+                .print(
+                    DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                        .parseLocalDate(ssLesson.end_date)
+                )
 
-    private SSLesson ssLesson;
-    private final Context context;
+            return "$startDateOut - $endDateOut".capitalize(Locale.getDefault())
+        }
 
-    SSLessonItemViewModel(Context context, SSLesson ssLesson) {
-        this.ssLesson = ssLesson;
-        this.context = context;
+    fun setSsLesson(ssLesson: SSLesson) {
+        this.ssLesson = ssLesson
+        notifyChange()
     }
 
-    void setSsLesson(SSLesson ssLesson) {
-        this.ssLesson = ssLesson;
-        notifyChange();
+    fun onItemClick() {
+        val ssReadingIntent = Intent(context, SSReadingActivity::class.java)
+        ssReadingIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, ssLesson.index)
+        context.startActivity(ssReadingIntent)
     }
 
-    public String getTitle() {
-        return ssLesson.title;
-    }
-
-    public String getDate() {
-
-        String startDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
-                .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                        .parseLocalDate(ssLesson.start_date));
-
-        String endDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
-                .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                        .parseLocalDate(ssLesson.end_date));
-
-        return StringUtils.capitalize(startDateOut) + " - " + StringUtils.capitalize(endDateOut);
-    }
-
-    public void onItemClick() {
-        Intent ssReadingIntent = new Intent(context, SSReadingActivity.class);
-        ssReadingIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, ssLesson.index);
-        context.startActivity(ssReadingIntent);
-    }
-
-    @Override
-    public void destroy() {
-
-    }
+    override fun destroy() {}
 }
-

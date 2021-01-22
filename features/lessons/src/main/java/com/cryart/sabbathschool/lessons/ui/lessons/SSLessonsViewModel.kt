@@ -25,10 +25,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
-import android.widget.ImageView
-import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableInt
-import coil.load
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.lessons.data.model.SSQuarterlyInfo
@@ -43,7 +40,7 @@ import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.format.DateTimeFormat
 
-class SSLessonsViewModel(
+internal class SSLessonsViewModel(
     private val context: Context,
     private val ssPrefs: SSPrefs,
     private var dataListener: DataListener?,
@@ -57,9 +54,10 @@ class SSLessonsViewModel(
     val date: String get() = ssQuarterlyInfo?.quarterly?.human_date ?: ""
     val description: String get() = ssQuarterlyInfo?.quarterly?.description ?: ""
     val cover: String get() = ssQuarterlyInfo?.quarterly?.cover ?: ""
-    val primaryColor: Int get() = Color.parseColor(
-        ssQuarterlyInfo?.quarterly?.color_primary ?: "#03000000"
-    )
+    val primaryColor: Int
+        get() = Color.parseColor(
+            ssQuarterlyInfo?.quarterly?.color_primary ?: "#03000000"
+        )
 
     var ssLessonsLoadingVisibility: ObservableInt
     var ssLessonsEmptyStateVisibility: ObservableInt
@@ -90,7 +88,8 @@ class SSLessonsViewModel(
             .child(ssQuarterlyIndex)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    ssQuarterlyInfo = dataSnapshot.getValue(SSQuarterlyInfo::class.java)
+                    ssQuarterlyInfo = SSQuarterlyInfo(dataSnapshot)
+
                     ssQuarterlyInfo?.let {
                         ssPrefs.setLastQuarterlyIndex(it.quarterly.index)
 
@@ -118,7 +117,7 @@ class SSLessonsViewModel(
     }
 
     fun onReadClick() {
-        if (ssQuarterlyInfo != null && ssQuarterlyInfo!!.lessons.size > 0) {
+        if (ssQuarterlyInfo?.lessons?.isNotEmpty() == true) {
             val today = DateTime.now()
             var ssLessonIndex = ssQuarterlyInfo!!.lessons[0].index
             for (ssLesson in ssQuarterlyInfo!!.lessons) {
@@ -147,13 +146,5 @@ class SSLessonsViewModel(
 
     interface DataListener {
         fun onQuarterlyChanged(ssQuarterlyInfo: SSQuarterlyInfo)
-    }
-
-    companion object {
-        @JvmStatic
-        @BindingAdapter("coverUrl")
-        fun loadCover(view: ImageView, coverUrl: String?) {
-            view.load(coverUrl)
-        }
     }
 }

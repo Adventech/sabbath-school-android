@@ -19,22 +19,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.model;
+import androidx.annotation.Keep
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.IgnoreExtraProperties
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
-import java.util.List;
-
+@Keep
 @IgnoreExtraProperties
-public class SSLessonInfo {
-    public SSLesson lesson;
-    public List<SSDay> days;
-
-    public SSLessonInfo() {}
-
-    public SSLessonInfo(SSLesson lesson, List<SSDay> days){
-        this.lesson = lesson;
-        this.days = days;
-    }
+data class SSLessonInfo(
+    val lesson: SSLesson,
+    val days: List<SSDay>
+) {
+    constructor(snapshot: DataSnapshot) : this(
+        snapshot.child("lesson").getValue(SSLesson::class.java) ?: SSLesson(),
+        snapshot.child("days").children.mapNotNull {
+            it.getValue(SSDay::class.java)
+        }
+    )
 }

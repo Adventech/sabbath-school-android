@@ -19,20 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.model;
+import androidx.annotation.Keep
+import com.google.firebase.database.IgnoreExtraProperties
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
+@Keep
 @IgnoreExtraProperties
-public class SSReadHighlights {
-    public String readIndex;
-    public String highlights;
-
-    public SSReadHighlights(){}
-
-    public SSReadHighlights(String readIndex, String highlights){
-        this.readIndex = readIndex;
-        this.highlights = highlights;
-    }
+data class SSReadHighlights(
+    val readIndex: String,
+    var highlights: String = ""
+) {
+    constructor() : this("")
 }

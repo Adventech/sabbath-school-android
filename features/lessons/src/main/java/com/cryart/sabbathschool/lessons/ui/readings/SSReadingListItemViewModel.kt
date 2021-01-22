@@ -19,40 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.ui.readings
 
-package com.cryart.sabbathschool.lessons.ui.readings;
+import androidx.databinding.BaseObservable
+import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.lessons.data.model.SSDay
+import org.joda.time.format.DateTimeFormat
+import java.util.Locale
 
-import androidx.databinding.BaseObservable;
+class SSReadingListItemViewModel(private var ssDay: SSDay) : BaseObservable() {
 
-import com.cryart.sabbathschool.core.extensions.strings.StringUtils;
-import com.cryart.sabbathschool.core.misc.SSConstants;
-import com.cryart.sabbathschool.lessons.data.model.SSDay;
-
-import org.joda.time.format.DateTimeFormat;
-
-public class SSReadingListItemViewModel extends BaseObservable {
-    private SSDay ssDay;
-
-    public SSReadingListItemViewModel(SSDay ssDay) {
-        this.ssDay = ssDay;
+    fun setSSDay(ssDay: SSDay) {
+        this.ssDay = ssDay
+        notifyChange()
     }
 
-    public void setSSDay(SSDay ssDay) {
-        this.ssDay = ssDay;
-        notifyChange();
-    }
+    val title: String get() = ssDay.title
+    val date: String
+        get() = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+            .print(
+                DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                    .parseLocalDate(ssDay.date)
+            ).capitalize(Locale.getDefault())
 
-    public String getTitle() {
-        return ssDay.title;
-    }
-
-    public String getDate() {
-        return StringUtils.capitalize(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
-                .print(DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                        .parseLocalDate(ssDay.date)));
-    }
-
-    public void onItemClick() {
-
-    }
+    fun onItemClick() {}
 }

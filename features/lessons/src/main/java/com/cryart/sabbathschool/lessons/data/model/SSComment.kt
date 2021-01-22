@@ -19,20 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.model;
+import androidx.annotation.Keep
+import com.google.firebase.database.IgnoreExtraProperties
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
+@Keep
 @IgnoreExtraProperties
-public class SSComment {
-    public String elementId;
-    public String comment;
-
-    public SSComment(){}
-
-    public SSComment(String elementId, String comment){
-        this.elementId = elementId;
-        this.comment = comment;
-    }
+data class SSComment(
+    val elementId: String,
+    var comment: String
+) {
+    constructor() : this("", "")
 }

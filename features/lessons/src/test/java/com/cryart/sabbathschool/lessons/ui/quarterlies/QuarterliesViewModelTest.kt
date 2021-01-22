@@ -170,6 +170,6 @@ class QuarterliesViewModelTest {
         }
 
     private fun getQuarterly(gr: String): SSQuarterly {
-        return SSQuarterly().apply { group = gr }
+        return SSQuarterly("", group = gr)
     }
 }

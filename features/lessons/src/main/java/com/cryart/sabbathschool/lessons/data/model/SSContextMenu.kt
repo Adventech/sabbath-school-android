@@ -19,14 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.model;
-
-
-public class SSContextMenu {
-    public static final String HIGHLIGHT_YELLOW = "yellow";
-    public static final String HIGHLIGHT_ORANGE = "orange";
-    public static final String HIGHLIGHT_GREEN = "green";
-    public static final String HIGHLIGHT_BLUE = "blue";
-    public static final String UNDERLINE = "underline";
+object SSContextMenu {
+    const val HIGHLIGHT_YELLOW = "yellow"
+    const val HIGHLIGHT_ORANGE = "orange"
+    const val HIGHLIGHT_GREEN = "green"
+    const val HIGHLIGHT_BLUE = "blue"
+    const val UNDERLINE = "underline"
 }
