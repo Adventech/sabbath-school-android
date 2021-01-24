@@ -3,11 +3,12 @@
     package="com.cryart.sabbathschool.settings">
 
     <application>
-        <activity android:name=".SSSettingsActivity"
+        <activity
+            android:name=".SSSettingsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/ss_settings"
             android:theme="@style/Theme.SS"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

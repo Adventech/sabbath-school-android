@@ -28,7 +28,7 @@ import com.cryart.sabbathschool.core.misc.SSColorTheme
 
 open class SSColorSchemeActivity : AppCompatActivity() {
 
-    open fun updateWindowColorScheme(withStatusBar: Boolean = true) {
+    fun updateWindowColorScheme(withStatusBar: Boolean = true) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (withStatusBar) {
                 window.statusBarColor = Color.parseColor(

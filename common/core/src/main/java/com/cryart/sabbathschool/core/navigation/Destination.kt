@@ -22,7 +22,7 @@
 
 package com.cryart.sabbathschool.core.navigation
 
-enum class Destination(val key: String,) {
+enum class Destination(val key: String) {
 
     LOGIN("login"),
     SETTINGS("settings");

@@ -48,7 +48,6 @@ android {
 
     buildFeatures {
         viewBinding = true
-        dataBinding = true
     }
 }
 
@@ -62,14 +61,8 @@ dependencies {
     implementation(Dependencies.MATERIAL)
     implementation(Dependencies.AndroidX.CORE)
     implementation(Dependencies.AndroidX.APPCOMPAT)
-    implementation(Dependencies.AndroidX.CONSTRAINT_LAYOUT)
     implementation(Dependencies.AndroidX.ACTIVITY)
     implementation(Dependencies.AndroidX.FRAGMENT_KTX)
-    implementation(Dependencies.AndroidX.LIFECYCLE_VIEWMODEL)
-    implementation(Dependencies.AndroidX.LIFECYCLE_EXTENSIONS)
-    implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
-    implementation(Dependencies.AndroidX.RECYCLER_VIEW)
-    implementation(Dependencies.AndroidX.BROWSER)
 
     implementation(Dependencies.Hilt.ANDROID)
     kapt(Dependencies.Hilt.COMPILER)

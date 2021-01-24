@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -71,6 +71,10 @@ class SSTimePickerPreference(
     }
 
     override fun getSummary(): String {
-        return SSHelper.parseTimeAndReturnInFormat(value, SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT, DateFormat.getTimeFormat(context))
+        return SSHelper.parseTimeAndReturnInFormat(
+            value,
+            SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT,
+            DateFormat.getTimeFormat(context)
+        )
     }
 }
