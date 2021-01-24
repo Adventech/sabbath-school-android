@@ -19,22 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.model;
+import androidx.annotation.Keep
+import com.google.firebase.database.IgnoreExtraProperties
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
-import java.util.List;
-
+@Keep
 @IgnoreExtraProperties
-public class SSQuarterlyInfo {
-    public SSQuarterly quarterly;
-    public List<SSLesson> lessons;
-
-    public SSQuarterlyInfo() {}
-
-    public SSQuarterlyInfo(SSQuarterly quarterly, List<SSLesson> lessons){
-        this.quarterly = quarterly;
-        this.lessons = lessons;
-    }
+data class SSSuggestion(
+    val name: String,
+    val email: String = "",
+    val suggestion: String = "",
+) {
+    constructor() : this("")
 }

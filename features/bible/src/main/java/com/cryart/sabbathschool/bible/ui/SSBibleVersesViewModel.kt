@@ -58,10 +58,8 @@ class SSBibleVersesViewModel @Inject constructor(
             .child(readIndex)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val ssRead = dataSnapshot.getValue(SSRead::class.java)
-                    if (ssRead != null) {
-                        _verses.postValue(ssRead.bible)
-                    }
+                    val ssRead = SSRead(dataSnapshot)
+                    _verses.postValue(ssRead.bible)
                 }
 
                 override fun onCancelled(error: DatabaseError) {

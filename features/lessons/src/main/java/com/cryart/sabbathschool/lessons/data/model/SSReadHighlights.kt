@@ -19,22 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.model;
+import androidx.annotation.Keep
+import com.google.firebase.database.IgnoreExtraProperties
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
+@Keep
 @IgnoreExtraProperties
-public class SSQuarterlyLanguage {
-    public String code;
-    public String name;
-    public int selected = 0;
-
-    public SSQuarterlyLanguage(){}
-
-    public SSQuarterlyLanguage(String code, String name, int selected){
-        this.code = code;
-        this.name = name;
-        this.selected = selected;
-    }
+data class SSReadHighlights(
+    val readIndex: String,
+    var highlights: String = ""
+) {
+    constructor() : this("")
 }

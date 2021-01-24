@@ -21,8 +21,11 @@
  */
 package com.cryart.sabbathschool.reader.data.model
 
+import androidx.annotation.Keep
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.IgnoreExtraProperties
 
+@Keep
 @IgnoreExtraProperties
 data class SSRead(
     val id: String = "",
@@ -31,4 +34,13 @@ data class SSRead(
     val title: String = "",
     val content: String = "",
     val bible: List<SSBibleVerses> = mutableListOf()
-)
+) {
+    constructor(snapshot: DataSnapshot) : this(
+        snapshot.child("id").getValue(String::class.java) ?: "",
+        snapshot.child("date").getValue(String::class.java) ?: "",
+        snapshot.child("index").getValue(String::class.java) ?: "",
+        snapshot.child("title").getValue(String::class.java) ?: "",
+        snapshot.child("content").getValue(String::class.java) ?: "",
+        snapshot.child("bible").children.mapNotNull { SSBibleVerses(it) }
+    )
+}

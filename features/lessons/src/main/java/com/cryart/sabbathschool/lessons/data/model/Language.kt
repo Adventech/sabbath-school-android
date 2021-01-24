@@ -22,8 +22,10 @@
 
 package com.cryart.sabbathschool.lessons.data.model
 
+import androidx.annotation.Keep
 import com.google.firebase.database.IgnoreExtraProperties
 
+@Keep
 @IgnoreExtraProperties
 data class Language(
     val code: String,

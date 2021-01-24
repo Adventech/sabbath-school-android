@@ -36,7 +36,6 @@ import androidx.databinding.ObservableInt
 import com.afollestad.materialdialogs.MaterialDialog
 import com.cryart.sabbathschool.bible.ui.SSBibleVersesActivity
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.extensions.strings.StringUtils
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
@@ -65,8 +64,9 @@ import ru.beryukhov.reactivenetwork.ReactiveNetwork
 import ru.beryukhov.reactivenetwork.internet.observing.InternetObservingSettings
 import timber.log.Timber
 import java.util.ArrayList
+import java.util.Locale
 
-class SSReadingViewModel(
+internal class SSReadingViewModel(
     private val context: Context,
     private val dataListener: DataListener,
     private val ssLessonIndex: String,
@@ -127,10 +127,11 @@ class SSReadingViewModel(
             .child(ssLessonIndex)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    ssLessonInfo = dataSnapshot.getValue(SSLessonInfo::class.java)
-                    ssTotalReadsCount = ssLessonInfo!!.days.size
+                    ssLessonInfo = SSLessonInfo(dataSnapshot)
 
-                    if (ssLessonInfo?.days?.isNotEmpty()!!) {
+                    ssTotalReadsCount = ssLessonInfo?.days?.size ?: 0
+
+                    if (ssLessonInfo?.days?.isNotEmpty() == true) {
                         dataListener.onLessonInfoChanged(ssLessonInfo!!)
                         val today = DateTime.now().withTimeAtStartOfDay()
                         for ((idx, ssDay) in ssLessonInfo?.days?.withIndex()!!) {
@@ -177,7 +178,7 @@ class SSReadingViewModel(
             .child(dayIndex)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val ssReadHighlights = dataSnapshot.getValue(SSReadHighlights::class.java) ?: SSReadHighlights(dayIndex, "")
+                    val ssReadHighlights = dataSnapshot.getValue(SSReadHighlights::class.java) ?: SSReadHighlights(dayIndex)
                     downloadComments(dayIndex, index, ssReadHighlights)
                 }
 
@@ -193,7 +194,7 @@ class SSReadingViewModel(
             .child(dayIndex)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val ssReadComments = dataSnapshot.getValue(SSReadComments::class.java) ?: SSReadComments(dayIndex, listOf())
+                    val ssReadComments = SSReadComments(dataSnapshot)
                     downloadRead(dayIndex, index, ssReadHighlights, ssReadComments)
                 }
 
@@ -210,8 +211,8 @@ class SSReadingViewModel(
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.value != null) {
                         if (ssReadsLoadedCounter < ssTotalReadsCount && ssReads.size >= index) {
-                            val ssRead = dataSnapshot.getValue(SSRead::class.java)
-                            ssReads.add(index, ssRead!!)
+                            val ssRead = SSRead(dataSnapshot)
+                            ssReads.add(index, ssRead)
                             ssReadHighlights.add(index, _ssReadHighlights)
                             ssReadComments.add(index, _ssReadComments)
                         }
@@ -267,20 +268,17 @@ class SSReadingViewModel(
                         DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                             .parseLocalDate(ssLessonInfo?.lesson?.end_date)
                     )
-                return StringUtils.capitalize(startDateOut) + " - " + StringUtils.capitalize(endDateOut)
+                return "$startDateOut - $endDateOut".capitalize(Locale.getDefault())
             }
             return ""
         }
 
-    @JvmOverloads
     fun formatDate(date: String?, DateFormatOutput: String? = SSConstants.SS_DATE_FORMAT_OUTPUT): String {
-        return StringUtils.capitalize(
-            DateTimeFormat.forPattern(DateFormatOutput)
-                .print(
-                    DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                        .parseLocalDate(date)
-                )
-        )
+        return DateTimeFormat.forPattern(DateFormatOutput)
+            .print(
+                DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                    .parseLocalDate(date)
+            ).capitalize(Locale.getDefault())
     }
 
     fun getDayDate(ssDayIdx: Int): String {

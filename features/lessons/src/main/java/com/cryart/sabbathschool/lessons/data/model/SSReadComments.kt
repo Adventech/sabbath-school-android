@@ -19,32 +19,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.model;
+import androidx.annotation.Keep
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.IgnoreExtraProperties
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
+@Keep
 @IgnoreExtraProperties
-public class SSDay {
-    public String title;
-    public String date;
-    public String id;
-    public String index;
-    public String path;
-    public String full_path;
-    public String read_path;
-    public String full_read_path;
-
-    public SSDay() {}
-
-    public SSDay(String title, String date, String id, String index, String path, String full_path, String read_path, String full_read_path){
-        this.title = title;
-        this.date = date;
-        this.id = id;
-        this.index = index;
-        this.path = path;
-        this.full_path = full_path;
-        this.read_path = read_path;
-        this.full_read_path = full_read_path;
-    }
+data class SSReadComments(
+    val readIndex: String,
+    val comments: List<SSComment>
+) {
+    constructor(snapshot: DataSnapshot) : this(
+        snapshot.child("readIndex").getValue(String::class.java) ?: "",
+        snapshot.child("comments").children.mapNotNull {
+            it.getValue(SSComment::class.java)
+        }
+    )
 }

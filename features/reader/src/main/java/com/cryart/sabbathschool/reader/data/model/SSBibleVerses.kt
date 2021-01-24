@@ -21,10 +21,22 @@
  */
 package com.cryart.sabbathschool.reader.data.model
 
+import androidx.annotation.Keep
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.IgnoreExtraProperties
 
+@Keep
 @IgnoreExtraProperties
 data class SSBibleVerses(
     val name: String = "",
     val verses: Map<String, String> = mutableMapOf()
-)
+) {
+    constructor(snapshot: DataSnapshot) : this(
+        snapshot.child("name").getValue(String::class.java) ?: "",
+        snapshot.child("verses").children.mapNotNull {
+            val key = it.key!!
+            val value = it.getValue(String::class.java) ?: ""
+            key to value
+        }.toMap()
+    )
+}

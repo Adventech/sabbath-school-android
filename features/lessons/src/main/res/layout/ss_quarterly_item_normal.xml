@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:fontFamily="@font/lato_bold"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:text="@{viewModel.date}"
                     android:textAllCaps="true"
                     android:textColor="?android:attr/textColorSecondary"

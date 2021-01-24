@@ -19,14 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.model;
+import androidx.annotation.Keep
+import com.google.firebase.database.DataSnapshot
 
+@Keep
+data class SSQuarterlyInfo(
+    val quarterly: SSQuarterly,
+    val lessons: List<SSLesson>
+) {
 
-public class SSContextMenu {
-    public static final String HIGHLIGHT_YELLOW = "yellow";
-    public static final String HIGHLIGHT_ORANGE = "orange";
-    public static final String HIGHLIGHT_GREEN = "green";
-    public static final String HIGHLIGHT_BLUE = "blue";
-    public static final String UNDERLINE = "underline";
+    constructor(snapshot: DataSnapshot) : this(
+        snapshot.child("quarterly").getValue(SSQuarterly::class.java) ?: SSQuarterly(),
+        snapshot.child("lessons").children.mapNotNull {
+            it.getValue(SSLesson::class.java)
+        }
+    )
 }

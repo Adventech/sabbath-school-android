@@ -158,13 +158,13 @@ public class SSReadingView extends SSWebView {
 
     public void updateHighlights() {
         if (ssReadHighlights != null) {
-            ssReadViewBridge.setHighlights(ssReadHighlights.highlights);
+            ssReadViewBridge.setHighlights(ssReadHighlights.getHighlights());
         }
     }
 
     public void updateComments() {
         if (ssReadComments != null) {
-            ssReadViewBridge.setComments(ssReadComments.comments);
+            ssReadViewBridge.setComments(ssReadComments.getComments());
         }
     }
 
@@ -350,7 +350,7 @@ public class SSReadingView extends SSWebView {
 
         public void setComments(List<SSComment> comments) {
             for (SSComment comment : comments) {
-                setIndividualComment(comment.comment, comment.elementId);
+                setIndividualComment(comment.getComment(), comment.getElementId());
             }
         }
 
@@ -395,7 +395,7 @@ public class SSReadingView extends SSWebView {
         @JavascriptInterface
         public void onReceiveHighlights(String serializedHighlights) {
             try {
-                ssReadHighlights.highlights = serializedHighlights;
+                ssReadHighlights.setHighlights(serializedHighlights);
                 highlightsCommentsCallback.onHighlightsReceived(ssReadHighlights);
             } catch (Exception e) {
                 Timber.e(e);
@@ -419,14 +419,14 @@ public class SSReadingView extends SSWebView {
                 String commentReceived = new String(Base64.decode(comments, Base64.DEFAULT), StandardCharsets.UTF_8);
 
                 boolean found = false;
-                for (SSComment comment : ssReadComments.comments) {
-                    if (comment.elementId.equalsIgnoreCase(inputId)) {
-                        comment.comment = commentReceived;
+                for (SSComment comment : ssReadComments.getComments()) {
+                    if (comment.getElementId().equalsIgnoreCase(inputId)) {
+                        comment.setComment(commentReceived);
                         found = true;
                     }
                 }
                 if (!found) {
-                    ssReadComments.comments.add(new SSComment(inputId, commentReceived));
+                    ssReadComments.getComments().add(new SSComment(inputId, commentReceived));
                 }
                 highlightsCommentsCallback.onCommentsReceived(ssReadComments);
 
