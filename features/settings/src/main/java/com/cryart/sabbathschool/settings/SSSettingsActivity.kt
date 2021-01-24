@@ -28,10 +28,16 @@ import android.view.MenuItem
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
-import com.cryart.sabbathschool.lessons.ui.base.SSColorSchemeActivity
+import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
 import com.cryart.sabbathschool.settings.databinding.SsSettingsActivityBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SSSettingsActivity : SSColorSchemeActivity() {
+
+    @Inject
+    lateinit var dailyReminder: DailyReminder
 
     private val binding: SsSettingsActivityBinding by lazy {
         SsSettingsActivityBinding.inflate(layoutInflater)
@@ -39,16 +45,11 @@ class SSSettingsActivity : SSColorSchemeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
 
-        setSupportActionBar(binding.ssAppBar.ssToolbar)
-        val ssToolbar = supportActionBar
-        if (ssToolbar != null) {
-            ssToolbar.setDisplayShowCustomEnabled(true)
-            ssToolbar.setDisplayShowTitleEnabled(false)
-            ssToolbar.setDisplayHomeAsUpEnabled(true)
-        }
+        setSupportActionBar(binding.ssToolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        binding.ssAppBar.toolbarTitle.text = getString(R.string.ss_settings)
         supportFragmentManager.beginTransaction().replace(
             R.id.ss_settings_frame,
             SSSettingsFragment()
@@ -59,14 +60,14 @@ class SSSettingsActivity : SSColorSchemeActivity() {
     }
 
     private fun updateColorScheme() {
-        binding.ssAppBar.ssToolbar.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance(this).colorPrimary))
+        binding.ssToolbar.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance(this).colorPrimary))
         updateWindowColorScheme()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.home -> {
-                onBackPressed()
+            android.R.id.home -> {
+                finishAfterTransition()
                 return true
             }
         }

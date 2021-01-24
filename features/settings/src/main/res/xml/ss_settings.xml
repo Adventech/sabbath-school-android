@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,84 +20,100 @@
   ~ THE SOFTWARE.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/ss_settings_display_options">
-        <com.cryart.sabbathschool.misc.SSListPreferenceCompat
-            android:key="ss_settings_display_options_theme"
-            android:title="@string/ss_settings_color_theme"
-            android:summary="%s"
-            android:defaultValue="light"
-            android:entries="@array/ss_settings_display_options_theme_entries"
-            android:entryValues="@array/ss_settings_display_options_theme_values" />
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/ss_settings_display_options">
+        <ListPreference
+            app:defaultValue="light"
+            app:entries="@array/ss_settings_display_options_theme_entries"
+            app:entryValues="@array/ss_settings_display_options_theme_values"
+            app:iconSpaceReserved="false"
+            app:key="ss_settings_display_options_theme"
+            app:summary="%s"
+            app:title="@string/ss_settings_color_theme" />
 
-        <com.cryart.sabbathschool.misc.SSListPreferenceCompat
-            android:key="ss_settings_display_options_font"
-            android:title="@string/ss_settings_typeface"
-            android:summary="%s"
-            android:defaultValue="andada"
-            android:entries="@array/ss_settings_display_options_font_entries"
-            android:entryValues="@array/ss_settings_display_options_font_values" />
+        <ListPreference
+            app:defaultValue="andada"
+            app:entries="@array/ss_settings_display_options_font_entries"
+            app:entryValues="@array/ss_settings_display_options_font_values"
+            app:iconSpaceReserved="false"
+            app:key="ss_settings_display_options_font"
+            app:summary="%s"
+            app:title="@string/ss_settings_typeface" />
 
-        <com.cryart.sabbathschool.misc.SSListPreferenceCompat
-            android:key="ss_settings_display_options_size"
-            android:title="@string/ss_settings_font_size"
-            android:summary="%s"
-            android:defaultValue="medium"
-            android:entries="@array/ss_settings_display_options_size_entries"
-            android:entryValues="@array/ss_settings_display_options_size_values" />
+        <ListPreference
+            app:defaultValue="medium"
+            app:entries="@array/ss_settings_display_options_size_entries"
+            app:entryValues="@array/ss_settings_display_options_size_values"
+            app:iconSpaceReserved="false"
+            app:key="ss_settings_display_options_size"
+            app:summary="%s"
+            app:title="@string/ss_settings_font_size" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/ss_settings_reminder">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/ss_settings_reminder">
         <CheckBoxPreference
-            android:key="ss_settings_reminder_enabled"
-            android:title="@string/ss_settings_reminder"
-            android:summary="@string/ss_settings_reminder_summary"
-            android:defaultValue="true" />
+            app:defaultValue="true"
+            app:key="ss_settings_reminder_enabled"
+            app:summary="@string/ss_settings_reminder_summary"
+            app:title="@string/ss_settings_reminder"
+            app:iconSpaceReserved="false" />
 
-        <com.cryart.sabbathschool.misc.SSTimePickerPreference
-            android:key="ss_settings_reminder_time"
-            android:title="@string/ss_settings_reminder_time"
-            android:dependency="ss_settings_reminder_enabled"
-            android:defaultValue="08:00" />
+        <com.cryart.sabbathschool.settings.SSTimePickerPreference
+            app:defaultValue="08:00"
+            app:iconSpaceReserved="false"
+            app:dependency="ss_settings_reminder_enabled"
+            app:key="ss_settings_reminder_time"
+            app:title="@string/ss_settings_reminder_time" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/ss_about">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/ss_about">
 
         <Preference
-            android:title="@string/ss_settings_website"
-            android:summary="@string/ss_settings_website_summary"
-            android:persistent="false"
-            android:selectable="true">
+            app:iconSpaceReserved="false"
+            app:persistent="false"
+            app:selectable="true"
+            app:summary="@string/ss_settings_website_summary"
+            app:title="@string/ss_settings_website">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/ss_settings_website_url" />
         </Preference>
 
         <Preference
-            android:title="@string/ss_settings_facebook"
-            android:summary="@string/ss_settings_facebook_summary"
-            android:persistent="false"
-            android:selectable="true">
+            app:iconSpaceReserved="false"
+            app:persistent="false"
+            app:selectable="true"
+            app:summary="@string/ss_settings_facebook_summary"
+            app:title="@string/ss_settings_facebook">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/ss_settings_facebook_url" />
         </Preference>
 
         <Preference
-            android:title="@string/ss_settings_instagram"
-            android:summary="@string/ss_settings_instagram_summary"
-            android:persistent="false"
-            android:selectable="true">
+            app:iconSpaceReserved="false"
+            app:persistent="false"
+            app:selectable="true"
+            app:summary="@string/ss_settings_instagram_summary"
+            app:title="@string/ss_settings_instagram">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/ss_settings_instagram_url" />
         </Preference>
 
         <Preference
-            android:title="@string/ss_settings_github"
-            android:summary="@string/ss_settings_github_summary"
-            android:persistent="false"
-            android:selectable="true">
+            app:iconSpaceReserved="false"
+            app:persistent="false"
+            app:selectable="true"
+            app:summary="@string/ss_settings_github_summary"
+            app:title="@string/ss_settings_github">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/ss_settings_github_url" />

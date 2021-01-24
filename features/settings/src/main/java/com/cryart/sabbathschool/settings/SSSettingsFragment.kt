@@ -46,7 +46,8 @@ class SSSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnShare
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, string: String?) {
         when (string) {
             SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY, SSConstants.SS_SETTINGS_REMINDER_TIME_KEY -> {
-                // SSReminderJob.scheduleAlarm(app.get())
+                val reminder = (requireActivity() as? SSSettingsActivity)?.dailyReminder
+                reminder?.reSchedule()
             }
         }
     }
