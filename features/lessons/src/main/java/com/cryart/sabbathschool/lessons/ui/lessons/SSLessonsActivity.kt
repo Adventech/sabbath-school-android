@@ -35,6 +35,8 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.core.navigation.AppNavigator
+import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.data.model.SSQuarterlyInfo
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsActivityBinding
@@ -49,6 +51,9 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
 
     @Inject
     lateinit var ssPrefs: SSPrefs
+
+    @Inject
+    lateinit var appNavigator: AppNavigator
 
     private var ssLessonsViewModel: SSLessonsViewModel? = null
     private val viewModel: LessonsViewModel by viewModels()
@@ -168,7 +173,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
                 true
             }
             R.id.ss_lessons_menu_settings -> {
-                onSettingsClick()
+                appNavigator.navigate(this, Destination.SETTINGS)
                 true
             }
             else -> super.onOptionsItemSelected(item)

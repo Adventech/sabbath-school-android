@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,15 +19,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-include(
-    ":app",
-    ":common:core",
-    ":common:design",
-    ":common:translations",
-    ":features:reader",
-    ":features:lessons",
-    ":features:bible",
-    ":features:settings",
-    ":libraries:test_utils"
-)
-rootProject.buildFileName = "build.gradle.kts"
+
+package com.cryart.sabbathschool.di
+
+import com.cryart.sabbathschool.core.navigation.AppNavigator
+import com.cryart.sabbathschool.navigation.AppNavigatorImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+
+@Module
+@InstallIn(SingletonComponent::class)
+interface NavigationModule {
+
+    @Binds
+    fun bind(impl: AppNavigatorImpl): AppNavigator
+}

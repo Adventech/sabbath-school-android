@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,15 +19,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-include(
-    ":app",
-    ":common:core",
-    ":common:design",
-    ":common:translations",
-    ":features:reader",
-    ":features:lessons",
-    ":features:bible",
-    ":features:settings",
-    ":libraries:test_utils"
-)
-rootProject.buildFileName = "build.gradle.kts"
+
+package com.cryart.sabbathschool.core.navigation
+
+import android.app.Activity
+import android.net.Uri
+
+/**
+ * Navigate to different modules
+ */
+interface AppNavigator {
+
+    /**
+     * Navigate to a known [Destination]
+     *
+     * If destination requires auth and current user is not signed in
+     * we will just launch the default LoginActivity screen
+     */
+    fun navigate(activity: Activity, destination: Destination)
+
+    /**
+     * Navigate to a Destination from a deep-link
+     */
+    fun navigate(activity: Activity, deepLink: Uri)
+}

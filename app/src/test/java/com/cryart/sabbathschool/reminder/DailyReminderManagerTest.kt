@@ -116,6 +116,27 @@ class DailyReminderManagerTest {
         }
     }
 
+    @Test
+    fun `should cancel and schedule when reschedule is called`() {
+        val dateTime7am = DateTime(2020, 5, 20, 7, 30)
+        testSubject = DailyReminderManager(
+            mockJobManager,
+            mockSSPrefs,
+            mockRequestBuilder,
+            dateTime7am
+        )
+        every { mockJobManager.cancelAll() }.returns(1)
+        every { mockSSPrefs.getReminderJobId() }.returns(null)
+
+        testSubject.reSchedule()
+
+        verify {
+            mockJobManager.cancelAll()
+            mockSSPrefs.setReminderJobId(null)
+            mockSSPrefs.setReminderJobId(1)
+        }
+    }
+
     companion object {
         private const val MINUTE = 60000L
         private const val HOUR = 60 * MINUTE

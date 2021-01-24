@@ -20,39 +20,35 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.di
+package com.cryart.sabbathschool.settings
 
-import android.content.Context
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.reminder.DailyReminderManager
-import com.cryart.sabbathschool.settings.DailyReminder
-import com.cryart.sabbathschool.ui.login.FacebookLoginManager
-import com.cryart.sabbathschool.ui.login.GoogleSignInWrapper
-import com.evernote.android.job.JobManager
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
+import android.content.SharedPreferences
+import android.os.Bundle
+import androidx.preference.PreferenceFragmentCompat
+import com.cryart.sabbathschool.core.misc.SSConstants
 
-@InstallIn(SingletonComponent::class)
-@Module
-object AppModule {
+class SSSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    @Provides
-    fun provideGoogleSignInWrapper() = GoogleSignInWrapper()
-
-    @Provides
-    fun provideFacebookLoginManager() = FacebookLoginManager()
-
-    @Provides
-    fun provideReminderManager(
-        @ApplicationContext context: Context,
-        ssPrefs: SSPrefs
-    ): DailyReminderManager {
-        return DailyReminderManager(JobManager.create(context), ssPrefs)
+    override fun onResume() {
+        super.onResume()
+        preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
 
-    @Provides
-    fun provideDailyReminder(manager: DailyReminderManager): DailyReminder = manager
+    override fun onPause() {
+        super.onPause()
+        preferenceManager.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        addPreferencesFromResource(R.xml.ss_settings)
+    }
+
+    override fun onSharedPreferenceChanged(p0: SharedPreferences?, string: String?) {
+        when (string) {
+            SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY, SSConstants.SS_SETTINGS_REMINDER_TIME_KEY -> {
+                val reminder = (requireActivity() as? SSSettingsActivity)?.dailyReminder
+                reminder?.reSchedule()
+            }
+        }
+    }
 }

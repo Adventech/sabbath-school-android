@@ -36,6 +36,8 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
+import com.cryart.sabbathschool.core.navigation.AppNavigator
+import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.reader.data.model.SSRead
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.data.model.SSLessonInfo
@@ -50,10 +52,17 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.io.File
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, ViewPager.OnPageChangeListener {
+
+    @Inject
+    lateinit var appNavigator: AppNavigator
+
     private val binding: SsReadingActivityBinding by lazy { SsReadingActivityBinding.inflate(layoutInflater) }
     private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance().reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
     private lateinit var ssReadingViewModel: SSReadingViewModel
@@ -142,7 +151,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
                 ssReadingViewModel.onDisplayOptionsClick()
             }
             R.id.ss_reading_menu_settings -> {
-                onSettingsClick()
+                appNavigator.navigate(this, Destination.SETTINGS)
             }
         }
         return super.onOptionsItemSelected(item)

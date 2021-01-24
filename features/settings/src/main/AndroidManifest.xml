@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cryart.sabbathschool.settings">
+
+    <application>
+        <activity
+            android:name=".SSSettingsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/ss_settings"
+            android:theme="@style/Theme.SS"
+            android:windowSoftInputMode="adjustResize" />
+    </application>
+
+</manifest>

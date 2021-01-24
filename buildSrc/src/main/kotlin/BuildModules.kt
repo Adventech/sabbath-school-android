@@ -10,6 +10,7 @@ object BuildModules {
         const val BIBLE = ":features:bible"
         const val READER = ":features:reader"
         const val LESSONS = ":features:lessons"
+        const val SETTINGS = ":features:settings"
     }
 
     object Libraries {
