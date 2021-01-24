@@ -140,6 +140,7 @@ dependencies {
     implementation(project(BuildModules.Common.TRANSLATIONS))
     implementation(project(BuildModules.Features.LESSONS))
     implementation(project(BuildModules.Features.BIBLE))
+    implementation(project(BuildModules.Features.SETTINGS))
 
     implementation(Dependencies.Kotlin.KOTLIN)
 

@@ -28,6 +28,7 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import coil.size.PixelSize
 import coil.transform.CircleCropTransformation
+import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
 import com.cryart.sabbathschool.lessons.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
@@ -67,10 +68,6 @@ abstract class SSBaseActivity : SSColorSchemeActivity(), AuthStateListener {
         }
     }
 
-    override fun updateWindowColorScheme() {
-        updateWindowColorScheme(true)
-    }
-
     private fun onShareAppClick() {
         shareApp(getString(R.string.ss_menu_share_app_text))
     }
@@ -84,11 +81,6 @@ abstract class SSBaseActivity : SSColorSchemeActivity(), AuthStateListener {
         )
         sendIntent.type = "text/plain"
         startActivity(sendIntent)
-    }
-
-    fun onSettingsClick() {
-        // Intent intent = new Intent(this, SSSettingsActivity.class);
-        //  startActivity(intent);
     }
 
     override fun onAuthStateChanged(firebaseAuth: FirebaseAuth) {

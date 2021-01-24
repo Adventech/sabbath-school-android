@@ -20,39 +20,25 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.di
+package com.cryart.sabbathschool.ui.deepLink
 
-import android.content.Context
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.reminder.DailyReminderManager
-import com.cryart.sabbathschool.settings.DailyReminder
-import com.cryart.sabbathschool.ui.login.FacebookLoginManager
-import com.cryart.sabbathschool.ui.login.GoogleSignInWrapper
-import com.evernote.android.job.JobManager
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.cryart.sabbathschool.core.navigation.AppNavigator
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-@InstallIn(SingletonComponent::class)
-@Module
-object AppModule {
+@AndroidEntryPoint
+class DeepLinkActivity : AppCompatActivity() {
 
-    @Provides
-    fun provideGoogleSignInWrapper() = GoogleSignInWrapper()
+    @Inject
+    lateinit var appNavigator: AppNavigator
 
-    @Provides
-    fun provideFacebookLoginManager() = FacebookLoginManager()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    @Provides
-    fun provideReminderManager(
-        @ApplicationContext context: Context,
-        ssPrefs: SSPrefs
-    ): DailyReminderManager {
-        return DailyReminderManager(JobManager.create(context), ssPrefs)
+        intent.data?.let { appNavigator.navigate(this, it) }
+
+        finish()
     }
-
-    @Provides
-    fun provideDailyReminder(manager: DailyReminderManager): DailyReminder = manager
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +20,19 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.base;
+package com.cryart.sabbathschool.di
 
+import com.cryart.sabbathschool.core.navigation.AppNavigator
+import com.cryart.sabbathschool.navigation.AppNavigatorImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-import android.graphics.Color;
-import android.os.Build;
+@Module
+@InstallIn(SingletonComponent::class)
+interface NavigationModule {
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.cryart.sabbathschool.core.misc.SSColorTheme;
-
-
-public class SSColorSchemeActivity extends AppCompatActivity {
-    public void updateWindowColorScheme() {
-        updateWindowColorScheme(true);
-    }
-
-    public void updateWindowColorScheme(boolean withStatusBar) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (withStatusBar) {
-                getWindow().setStatusBarColor(Color.parseColor(
-                        SSColorTheme.getInstance(this).getColorPrimaryDark()));
-            }
-        }
-    }
+    @Binds
+    fun bind(impl: AppNavigatorImpl): AppNavigator
 }

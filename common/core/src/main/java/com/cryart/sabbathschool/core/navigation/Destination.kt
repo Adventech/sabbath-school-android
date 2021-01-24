@@ -20,39 +20,16 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.di
+package com.cryart.sabbathschool.core.navigation
 
-import android.content.Context
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.reminder.DailyReminderManager
-import com.cryart.sabbathschool.settings.DailyReminder
-import com.cryart.sabbathschool.ui.login.FacebookLoginManager
-import com.cryart.sabbathschool.ui.login.GoogleSignInWrapper
-import com.evernote.android.job.JobManager
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
+enum class Destination(val key: String,) {
 
-@InstallIn(SingletonComponent::class)
-@Module
-object AppModule {
+    LOGIN("login"),
+    SETTINGS("settings");
 
-    @Provides
-    fun provideGoogleSignInWrapper() = GoogleSignInWrapper()
+    companion object {
+        private val map = values().associateBy(Destination::key)
 
-    @Provides
-    fun provideFacebookLoginManager() = FacebookLoginManager()
-
-    @Provides
-    fun provideReminderManager(
-        @ApplicationContext context: Context,
-        ssPrefs: SSPrefs
-    ): DailyReminderManager {
-        return DailyReminderManager(JobManager.create(context), ssPrefs)
+        fun fromKey(type: String) = map[type]
     }
-
-    @Provides
-    fun provideDailyReminder(manager: DailyReminderManager): DailyReminder = manager
 }
