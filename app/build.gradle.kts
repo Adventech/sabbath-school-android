@@ -141,6 +141,7 @@ dependencies {
     implementation(project(BuildModules.Features.LESSONS))
     implementation(project(BuildModules.Features.BIBLE))
     implementation(project(BuildModules.Features.SETTINGS))
+    implementation(project(BuildModules.Features.ACCOUNT))
 
     implementation(Dependencies.Kotlin.KOTLIN)
 

@@ -25,6 +25,8 @@ package com.cryart.sabbathschool.navigation
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import androidx.fragment.app.FragmentActivity
+import com.cryart.sabbathschool.account.AccountDialogFragment
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.settings.SSSettingsActivity
@@ -51,6 +53,11 @@ class AppNavigatorImpl @Inject constructor(
             Intent(activity, loginClass).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
+        } else if (destination == Destination.ACCOUNT) {
+            val fragment = AccountDialogFragment()
+            val fm = (activity as? FragmentActivity)?.supportFragmentManager ?: return
+            fragment.show(fm, fragment.tag)
+            return
         } else {
             Intent(activity, clazz)
         }
@@ -66,6 +73,8 @@ class AppNavigatorImpl @Inject constructor(
 
     private fun getDestinationClass(destination: Destination): Class<*>? {
         return when (destination) {
+            Destination.ABOUT -> null
+            Destination.ACCOUNT -> AccountDialogFragment::class.java
             Destination.LOGIN -> LoginActivity::class.java
             Destination.SETTINGS -> SSSettingsActivity::class.java
             else -> null
