@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,14 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.navigation
+package com.cryart.sabbathschool.account.model
 
-enum class Destination(val key: String) {
+import android.net.Uri
+import androidx.annotation.Keep
 
-    ABOUT("about"),
-    ACCOUNT("account"),
-    LOGIN("login"),
-    SETTINGS("settings");
-
-    companion object {
-        private val map = values().associateBy(Destination::key)
-
-        fun fromKey(type: String) = map[type]
-    }
-}
+@Keep
+data class UserInfo(
+    val displayName: String?,
+    val email: String?,
+    val photo: Uri?
+)

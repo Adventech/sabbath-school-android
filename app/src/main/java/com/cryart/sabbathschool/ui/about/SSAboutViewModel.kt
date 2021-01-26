@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2016 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,19 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.ui.about
 
-package com.cryart.sabbathschool.core.navigation
+import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
+import com.cryart.sabbathschool.R
+import com.cryart.sabbathschool.core.misc.SSColorTheme
 
-enum class Destination(val key: String) {
+class SSAboutViewModel(private val context: Context) {
 
-    ABOUT("about"),
-    ACCOUNT("account"),
-    LOGIN("login"),
-    SETTINGS("settings");
+    val colorPrimary: Int get() = Color.parseColor(SSColorTheme.getInstance(context).colorPrimary)
 
-    companion object {
-        private val map = values().associateBy(Destination::key)
+    fun onFacebookClick() {
+        onLinkClick(context.getString(R.string.ss_settings_facebook_url))
+    }
 
-        fun fromKey(type: String) = map[type]
+    fun onInstagramClick() {
+        onLinkClick(context.getString(R.string.ss_settings_instagram_url))
+    }
+
+    fun onGitHubClick() {
+        onLinkClick(context.getString(R.string.ss_settings_github_url))
+    }
+
+    fun onAdventechIoClick() {
+        onLinkClick(context.getString(R.string.ss_settings_website_url))
+    }
+
+    private fun onLinkClick(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        context.startActivity(intent)
     }
 }

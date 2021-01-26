@@ -56,10 +56,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:scheme="@string/ss_app_scheme" />
+                <data android:scheme="@string/ss_app_scheme" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.about.AboutActivity"
+            android:label="@string/ss_about" />
 
         <activity
             android:name="com.facebook.FacebookActivity"

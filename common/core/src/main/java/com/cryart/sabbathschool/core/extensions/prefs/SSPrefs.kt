@@ -158,4 +158,8 @@ class SSPrefs(context: Context) {
             putString(SSConstants.SS_LAST_BIBLE_VERSION_USED, bibleId)
         }
     }
+
+    fun clear() {
+        sharedPreferences.edit { clear() }
+    }
 }

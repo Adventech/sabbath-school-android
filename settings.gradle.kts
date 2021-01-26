@@ -28,6 +28,7 @@ include(
     ":features:lessons",
     ":features:bible",
     ":features:settings",
+    ":features:account",
     ":libraries:test_utils"
 )
 rootProject.buildFileName = "build.gradle.kts"

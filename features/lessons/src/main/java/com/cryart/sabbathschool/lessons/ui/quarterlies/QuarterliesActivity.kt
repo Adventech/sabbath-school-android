@@ -35,6 +35,8 @@ import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.ViewState
+import com.cryart.sabbathschool.core.navigation.AppNavigator
+import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
 import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
@@ -45,9 +47,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_DISMISSED
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class QuarterliesActivity : SSBaseActivity() {
+
+    @Inject
+    lateinit var appNavigator: AppNavigator
 
     private val viewModel: QuarterliesViewModel by viewModels()
 
@@ -90,6 +96,9 @@ class QuarterliesActivity : SSBaseActivity() {
         supportActionBar?.apply {
             setDisplayShowCustomEnabled(true)
             setDisplayShowTitleEnabled(true)
+        }
+        toolbar.setNavigationOnClickListener {
+            appNavigator.navigate(this, Destination.ACCOUNT)
         }
 
         binding.ssQuarterliesList.adapter = quarterliesAdapter

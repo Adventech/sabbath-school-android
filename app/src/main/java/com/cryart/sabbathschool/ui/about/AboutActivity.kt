@@ -20,18 +20,39 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.navigation
+package com.cryart.sabbathschool.ui.about
 
-enum class Destination(val key: String) {
+import android.os.Bundle
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.cryart.sabbathschool.R
+import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.core.misc.SSEvent
+import com.cryart.sabbathschool.databinding.SsAboutActivityBinding
 
-    ABOUT("about"),
-    ACCOUNT("account"),
-    LOGIN("login"),
-    SETTINGS("settings");
+class AboutActivity : AppCompatActivity() {
 
-    companion object {
-        private val map = values().associateBy(Destination::key)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val binding = DataBindingUtil.setContentView<SsAboutActivityBinding>(
+            this, R.layout.ss_about_activity
+        )
 
-        fun fromKey(type: String) = map[type]
+        setSupportActionBar(binding.ssToolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        binding.viewModel = SSAboutViewModel(this)
+
+        SSEvent.track(this, SSConstants.SS_EVENT_ABOUT_OPEN)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == android.R.id.home) {
+            finishAfterTransition()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
     }
 }

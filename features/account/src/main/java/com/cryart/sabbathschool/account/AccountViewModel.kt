@@ -20,18 +20,32 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.navigation
+package com.cryart.sabbathschool.account
 
-enum class Destination(val key: String) {
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import com.cryart.sabbathschool.account.model.UserInfo
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-    ABOUT("about"),
-    ACCOUNT("account"),
-    LOGIN("login"),
-    SETTINGS("settings");
+@HiltViewModel
+class AccountViewModel @Inject constructor(
+    private val firebaseAuth: FirebaseAuth,
+    private val ssPrefs: SSPrefs
+) : ViewModel() {
 
-    companion object {
-        private val map = values().associateBy(Destination::key)
+    val userInfoLiveData: LiveData<UserInfo> = liveData {
+        val user = firebaseAuth.currentUser ?: return@liveData
+        val name = if (user.displayName.isNullOrEmpty()) null else user.displayName
+        val email = if (user.email.isNullOrEmpty()) null else user.email
+        emit(UserInfo(name, email, user.photoUrl))
+    }
 
-        fun fromKey(type: String) = map[type]
+    fun logoutClicked() {
+        firebaseAuth.signOut()
+        ssPrefs.clear()
     }
 }
