@@ -30,6 +30,7 @@ import com.cryart.sabbathschool.account.AccountDialogFragment
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.settings.SSSettingsActivity
+import com.cryart.sabbathschool.ui.about.AboutActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
@@ -73,7 +74,7 @@ class AppNavigatorImpl @Inject constructor(
 
     private fun getDestinationClass(destination: Destination): Class<*>? {
         return when (destination) {
-            Destination.ABOUT -> null
+            Destination.ABOUT -> AboutActivity::class.java
             Destination.ACCOUNT -> AccountDialogFragment::class.java
             Destination.LOGIN -> LoginActivity::class.java
             Destination.SETTINGS -> SSSettingsActivity::class.java
