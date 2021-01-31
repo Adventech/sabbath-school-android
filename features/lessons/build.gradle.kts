@@ -35,10 +35,6 @@ plugins {
     id(BuildPlugins.DAGGER_HILT)
 }
 
-repositories {
-    maven("https://dl.bintray.com/andreyberyukhov/FlowReactiveNetwork")
-}
-
 android {
     compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
 
@@ -84,7 +80,6 @@ dependencies {
     implementation(AndroidX.LIFECYCLE_EXTENSIONS)
     implementation(AndroidX.LIFECYCLE_LIVEDATA)
     implementation(AndroidX.RECYCLER_VIEW)
-    implementation(AndroidX.BROWSER)
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)

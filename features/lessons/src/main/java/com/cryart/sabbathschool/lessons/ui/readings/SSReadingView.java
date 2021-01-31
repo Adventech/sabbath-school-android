@@ -45,9 +45,9 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.view.GestureDetectorCompat;
 
+import com.cryart.sabbathschool.core.extensions.context.ContextHelper;
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.lessons.R;
 import com.cryart.sabbathschool.lessons.data.model.SSComment;
@@ -265,14 +265,14 @@ public class SSReadingView extends SSWebView {
         @SuppressWarnings("deprecation")
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            openExternalLink(view.getContext(), url);
+            ContextHelper.launchWebUrl(view.getContext(), url);
             return true;
         }
 
         @TargetApi(Build.VERSION_CODES.N)
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            openExternalLink(view.getContext(), request.getUrl().toString());
+            ContextHelper.launchWebUrl(view.getContext(), request.getUrl().toString());
             return true;
         }
 
@@ -282,20 +282,6 @@ public class SSReadingView extends SSWebView {
 
             updateHighlights();
             updateComments();
-        }
-
-        private void openExternalLink(Context context, String url) {
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder()
-                .setShowTitle(true)
-                .setUrlBarHidingEnabled(true)
-                .setStartAnimations(context, R.anim.slide_up, android.R.anim.fade_out)
-                .setExitAnimations(context, android.R.anim.fade_in, R.anim.slide_down);
-            try {
-                CustomTabsIntent intent = builder.build();
-                intent.launchUrl(context, Uri.parse(url));
-            } catch (Exception ex) {
-                Timber.e(ex);
-            }
         }
     }
 
@@ -388,9 +374,9 @@ public class SSReadingView extends SSWebView {
         }
 
         /**
-         * Receiving serizlied ssReadHighlights from webapp
+         * Receiving serialized ssReadHighlights from webapp
          *
-         * @param serializedHighlights
+         * @param serializedHighlights :
          */
         @JavascriptInterface
         public void onReceiveHighlights(String serializedHighlights) {

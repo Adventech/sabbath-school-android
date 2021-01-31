@@ -22,10 +22,9 @@
 package com.cryart.sabbathschool.ui.about
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import com.cryart.sabbathschool.R
+import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 
 class SSAboutViewModel(private val context: Context) {
@@ -33,23 +32,18 @@ class SSAboutViewModel(private val context: Context) {
     val colorPrimary: Int get() = Color.parseColor(SSColorTheme.getInstance(context).colorPrimary)
 
     fun onFacebookClick() {
-        onLinkClick(context.getString(R.string.ss_settings_facebook_url))
+        context.launchWebUrl(context.getString(R.string.ss_settings_facebook_url))
     }
 
     fun onInstagramClick() {
-        onLinkClick(context.getString(R.string.ss_settings_instagram_url))
+        context.launchWebUrl(context.getString(R.string.ss_settings_instagram_url))
     }
 
     fun onGitHubClick() {
-        onLinkClick(context.getString(R.string.ss_settings_github_url))
+        context.launchWebUrl(context.getString(R.string.ss_settings_github_url))
     }
 
     fun onAdventechIoClick() {
-        onLinkClick(context.getString(R.string.ss_settings_website_url))
-    }
-
-    private fun onLinkClick(url: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        context.startActivity(intent)
+        context.launchWebUrl(context.getString(R.string.ss_settings_website_url))
     }
 }
