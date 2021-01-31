@@ -21,6 +21,10 @@
  */
 
 import dependencies.Dependencies
+import dependencies.Dependencies.AndroidX
+import dependencies.Dependencies.Firebase
+import dependencies.Dependencies.Kotlin
+import dependencies.Dependencies.Hilt
 import extensions.addTestsDependencies
 import java.io.FileInputStream
 import java.util.Properties
@@ -143,36 +147,36 @@ dependencies {
     implementation(project(BuildModules.Features.SETTINGS))
     implementation(project(BuildModules.Features.ACCOUNT))
 
-    implementation(Dependencies.Kotlin.KOTLIN)
+    implementation(Kotlin.KOTLIN)
+    implementation(Kotlin.COROUTINES)
+    implementation(Kotlin.COROUTINES_ANDROID)
+    implementation(Kotlin.COROUTINES_PLAY_SERVICES)
 
     implementation(Dependencies.MATERIAL)
-    implementation(Dependencies.AndroidX.CORE)
-    implementation(Dependencies.AndroidX.APPCOMPAT)
-    implementation(Dependencies.AndroidX.CONSTRAINT_LAYOUT)
-    implementation(Dependencies.AndroidX.ACTIVITY)
-    implementation(Dependencies.AndroidX.FRAGMENT_KTX)
-    implementation(Dependencies.AndroidX.NAVIGATION_UI)
-    implementation(Dependencies.AndroidX.NAVIGATION_FRAGMENT)
-    implementation(Dependencies.AndroidX.LIFECYCLE_VIEWMODEL)
-    implementation(Dependencies.AndroidX.LIFECYCLE_EXTENSIONS)
-    implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
-    implementation(Dependencies.AndroidX.RECYCLER_VIEW)
-    implementation(Dependencies.AndroidX.START_UP)
+    implementation(AndroidX.CORE)
+    implementation(AndroidX.APPCOMPAT)
+    implementation(AndroidX.CONSTRAINT_LAYOUT)
+    implementation(AndroidX.ACTIVITY)
+    implementation(AndroidX.FRAGMENT_KTX)
+    implementation(AndroidX.NAVIGATION_UI)
+    implementation(AndroidX.NAVIGATION_FRAGMENT)
+    implementation(AndroidX.LIFECYCLE_VIEWMODEL)
+    implementation(AndroidX.LIFECYCLE_EXTENSIONS)
+    implementation(AndroidX.LIFECYCLE_LIVEDATA)
+    implementation(AndroidX.RECYCLER_VIEW)
+    implementation(AndroidX.START_UP)
 
-    implementation(Dependencies.Hilt.ANDROID)
-    kapt(Dependencies.Hilt.COMPILER)
-
-    implementation(Dependencies.Kotlin.COROUTINES)
-    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
-    implementation(Dependencies.Kotlin.COROUTINES_PLAY_SERVICES)
+    implementation(Hilt.ANDROID)
+    kapt(Hilt.COMPILER)
 
     implementation(Dependencies.PLAY_AUTH)
 
-    implementation(platform(Dependencies.Firebase.BOM))
-    implementation(Dependencies.Firebase.CORE)
-    implementation(Dependencies.Firebase.ANALYTICS)
-    implementation(Dependencies.Firebase.AUTH)
-    implementation(Dependencies.Firebase.CRASHLYTICS)
+    implementation(platform(Firebase.BOM))
+    implementation(Firebase.CORE)
+    implementation(Firebase.ANALYTICS)
+    implementation(Firebase.AUTH)
+    implementation(Firebase.CRASHLYTICS)
+    implementation(Firebase.DATABASE)
 
     implementation(Dependencies.TIMBER)
 
