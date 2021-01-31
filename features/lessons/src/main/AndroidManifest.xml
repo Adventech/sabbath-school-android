@@ -25,7 +25,7 @@
             android:name=".ui.readings.SSReadingActivity"
             android:configChanges="orientation|screenSize"
             android:parentActivityName=".ui.lessons.SSLessonsActivity"
-            android:theme="@style/Theme.SS.Lessons"
+            android:theme="@style/Theme.SS.Full"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

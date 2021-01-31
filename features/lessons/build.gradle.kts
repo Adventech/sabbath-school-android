@@ -21,6 +21,10 @@
  */
 
 import dependencies.Dependencies
+import dependencies.Dependencies.AndroidX
+import dependencies.Dependencies.Firebase
+import dependencies.Dependencies.Kotlin
+import dependencies.Dependencies.Hilt
 import extensions.addTestsDependencies
 import extensions.kapt
 
@@ -65,37 +69,37 @@ dependencies {
     implementation(project(BuildModules.Features.READER))
     implementation(project(BuildModules.Features.BIBLE))
 
-    implementation(Dependencies.Kotlin.KOTLIN)
+    implementation(Kotlin.KOTLIN)
+    implementation(Kotlin.COROUTINES)
+    implementation(Kotlin.COROUTINES_ANDROID)
+    implementation(Kotlin.COROUTINES_PLAY_SERVICES)
 
     implementation(Dependencies.MATERIAL)
-    implementation(Dependencies.AndroidX.CORE)
-    implementation(Dependencies.AndroidX.APPCOMPAT)
-    implementation(Dependencies.AndroidX.CONSTRAINT_LAYOUT)
-    implementation(Dependencies.AndroidX.ACTIVITY)
-    implementation(Dependencies.AndroidX.FRAGMENT_KTX)
-    implementation(Dependencies.AndroidX.LIFECYCLE_VIEWMODEL)
-    implementation(Dependencies.AndroidX.LIFECYCLE_EXTENSIONS)
-    implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
-    implementation(Dependencies.AndroidX.RECYCLER_VIEW)
-    implementation(Dependencies.AndroidX.BROWSER)
+    implementation(AndroidX.CORE)
+    implementation(AndroidX.APPCOMPAT)
+    implementation(AndroidX.CONSTRAINT_LAYOUT)
+    implementation(AndroidX.ACTIVITY)
+    implementation(AndroidX.FRAGMENT_KTX)
+    implementation(AndroidX.LIFECYCLE_VIEWMODEL)
+    implementation(AndroidX.LIFECYCLE_EXTENSIONS)
+    implementation(AndroidX.LIFECYCLE_LIVEDATA)
+    implementation(AndroidX.RECYCLER_VIEW)
+    implementation(AndroidX.BROWSER)
 
-    implementation(Dependencies.Hilt.ANDROID)
-    kapt(Dependencies.Hilt.COMPILER)
+    implementation(Hilt.ANDROID)
+    kapt(Hilt.COMPILER)
 
-    implementation(platform(Dependencies.Firebase.BOM))
-    implementation(Dependencies.Firebase.DATABASE)
-    implementation(Dependencies.Firebase.STORAGE)
-    implementation(Dependencies.Firebase.ANALYTICS)
-    implementation(Dependencies.Firebase.AUTH)
-
-    implementation(Dependencies.Kotlin.COROUTINES)
-    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
-    implementation(Dependencies.Kotlin.COROUTINES_PLAY_SERVICES)
+    implementation(platform(Firebase.BOM))
+    implementation(Firebase.DATABASE)
+    implementation(Firebase.STORAGE)
+    implementation(Firebase.ANALYTICS)
+    implementation(Firebase.AUTH)
 
     implementation(Dependencies.JODA)
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.COIL)
     implementation(Dependencies.TAP_TARGET)
+    implementation(Dependencies.INSETTER)
     implementation("com.mikepenz:iconics-core:5.2.4@aar")
     implementation("com.mikepenz:iconics-views:5.2.4@aar")
     implementation("com.mikepenz:iconics-typeface-api:5.2.4@aar")
