@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,34 +20,32 @@
   ~ THE SOFTWARE.
   -->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.google.android.material.appbar.AppBarLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.google.android.material.appbar.AppBarLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/ss_app_bar_layout"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:elevation="@dimen/ss_app_bar_elevation">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/ss_toolbar"
-            android:background="?attr/colorPrimary"
-            android:layout_height="?attr/actionBarSize"
             android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
+                android:id="@+id/toolbar_title"
                 style="@style/AppThemeAppBarTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/ss_app_name"
                 android:layout_gravity="start"
                 android:fontFamily="@font/lato_bold"
-                android:textColor="?android:attr/textColorPrimary"
-                android:id="@+id/toolbar_title" />
+                android:text="@string/ss_app_name"
+                android:textColor="?android:attr/textColorPrimary" />
 
         </androidx.appcompat.widget.Toolbar>
 

@@ -20,136 +20,120 @@
   ~ THE SOFTWARE.
   -->
 
-<layout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:bind="http://schemas.android.com/apk/res-auto"
-        >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
-                name="viewModel"
-                type="com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel"
-                />
+            name="viewModel"
+            type="com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/ss_reading_coordinator"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:keepScreenOn="true"
-            >
+        android:id="@+id/ss_reading_coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true">
 
         <include
-                android:id="@+id/ss_reading_app_bar"
-                layout="@layout/ss_reading_app_bar"
-                bind:viewModel="@{viewModel}"
-                />
+            android:id="@+id/ss_reading_app_bar"
+            layout="@layout/ss_reading_app_bar"
+            bind:viewModel="@{viewModel}" />
 
         <androidx.viewpager.widget.ViewPager
-                android:id="@+id/ss_reading_view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                />
+            android:id="@+id/ss_reading_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <include
-                android:id="@+id/ssContextMenu"
-                layout="@layout/ss_reading_context_menu"
-                android:visibility="invisible"
-                bind:viewModel="@{viewModel}"
-                />
+            android:id="@+id/ssContextMenu"
+            layout="@layout/ss_reading_context_menu"
+            android:visibility="invisible"
+            bind:viewModel="@{viewModel}" />
 
         <androidx.cardview.widget.CardView
-                android:id="@+id/ss_reading_sheet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="@dimen/ss_reading_sheet_margin_left"
-                android:layout_marginTop="@dimen/ss_reading_sheet_margin_top"
-                android:layout_marginEnd="@dimen/ss_reading_sheet_margin_right"
-                android:layout_marginBottom="@dimen/ss_reading_sheet_margin_bottom"
-                android:clipToPadding="true"
-                android:visibility="invisible"
-                >
+            android:id="@+id/ss_reading_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="@dimen/ss_reading_sheet_margin_left"
+            android:layout_marginTop="@dimen/ss_reading_sheet_margin_top"
+            android:layout_marginEnd="@dimen/ss_reading_sheet_margin_right"
+            android:layout_marginBottom="@dimen/ss_reading_sheet_margin_bottom"
+            android:clipToPadding="true"
+            android:visibility="invisible">
 
             <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
-                        android:id="@+id/ss_reading_sheet_header"
-                        android:layout_width="match_parent"
+                    android:id="@+id/ss_reading_sheet_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/ss_green_dark"
+                    android:paddingStart="@dimen/ss_reading_sheet_header_padding_left"
+                    android:paddingTop="@dimen/ss_reading_sheet_header_padding_top"
+                    android:paddingEnd="@dimen/ss_reading_sheet_header_padding_right"
+                    android:paddingBottom="@dimen/ss_reading_sheet_header_padding_bottom">
+
+                    <TextView
+                        android:id="@+id/ss_reading_sheet_header_title"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/ss_green_dark"
-                        android:paddingStart="@dimen/ss_reading_sheet_header_padding_left"
-                        android:paddingTop="@dimen/ss_reading_sheet_header_padding_top"
-                        android:paddingEnd="@dimen/ss_reading_sheet_header_padding_right"
-                        android:paddingBottom="@dimen/ss_reading_sheet_header_padding_bottom"
-                        >
+                        android:layout_alignParentStart="true"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{viewModel.ssLessonInfo.lesson.title}"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/ss_reading_sheet_header_title_text_size"
+                        android:textStyle="bold" />
 
                     <TextView
-                            android:id="@+id/ss_reading_sheet_header_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:text="@{viewModel.ssLessonInfo.lesson.title}"
-                            android:textAllCaps="true"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/ss_reading_sheet_header_title_text_size"
-                            android:textStyle="bold"
-                            />
-
-                    <TextView
-                            android:id="@+id/ss_reading_sheet_header_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/ss_reading_sheet_header_title"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentLeft="true"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:text="@{viewModel.lessonInterval}"
-                            android:textColor="@color/ss_color_secondary_lighter"
-                            android:textSize="@dimen/ss_reading_sheet_header_date_text_size"
-                            android:textStyle="italic"
-                            />
+                        android:id="@+id/ss_reading_sheet_header_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ss_reading_sheet_header_title"
+                        android:layout_alignParentStart="true"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{viewModel.lessonInterval}"
+                        android:textColor="@color/ss_color_secondary_lighter"
+                        android:textSize="@dimen/ss_reading_sheet_header_date_text_size"
+                        android:textStyle="italic" />
 
                 </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/ss_reading_sheet_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/ss_reading_sheet_header"
-                        android:scrollbars="vertical"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                        />
+                    android:id="@+id/ss_reading_sheet_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ss_reading_sheet_header"
+                    android:scrollbars="vertical"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
         <include
-                layout="@layout/ss_offline_state"
-                bind:offlineStateLabel="@{@string/ss_reading_offline}"
-                bind:offlineStateVisibility="@{viewModel.ssLessonOfflineStateVisibility}"
-                bind:viewModel="@{viewModel}"
-                />
+            layout="@layout/ss_offline_state"
+            bind:offlineStateLabel="@{@string/ss_reading_offline}"
+            bind:offlineStateVisibility="@{viewModel.ssLessonOfflineStateVisibility}"
+            bind:viewModel="@{viewModel}" />
 
         <include
-                layout="@layout/ss_error_state"
-                bind:errorStateLabel="@{@string/ss_reading_error}"
-                bind:errorStateVisibility="@{viewModel.ssLessonErrorStateVisibility}"
-                />
+            layout="@layout/ss_error_state"
+            bind:errorStateLabel="@{@string/ss_reading_error}"
+            bind:errorStateVisibility="@{viewModel.ssLessonErrorStateVisibility}" />
 
         <include
-                layout="@layout/ss_progress_bar"
-                bind:progressLabel="@{@string/ss_reading_downloading}"
-                bind:progressVisibility="@{viewModel.ssLessonLoadingVisibility}"
-                />
+            layout="@layout/ss_progress_bar"
+            bind:progressLabel="@{@string/ss_reading_downloading}"
+            bind:progressVisibility="@{viewModel.ssLessonLoadingVisibility}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

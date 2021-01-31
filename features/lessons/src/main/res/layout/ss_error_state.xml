@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,25 +20,30 @@
   ~ THE SOFTWARE.
   -->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="errorStateVisibility" type="int"/>
-        <variable name="errorStateLabel" type="String"/>
+
+        <variable
+            name="errorStateVisibility"
+            type="int" />
+
+        <variable
+            name="errorStateLabel"
+            type="String" />
     </data>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:visibility="@{errorStateVisibility}">
 
         <com.mikepenz.iconics.view.IconicsImageView
-            android:layout_gravity="center|center_horizontal"
             android:layout_width="@dimen/ss_misc_top_image_size"
             android:layout_height="@dimen/ss_misc_top_image_size"
+            android:layout_gravity="center|center_horizontal"
             android:layout_marginTop="@dimen/ss_misc_top_image_margin_top"
             app:iiv_color="@color/ss_color_secondary_light"
             app:iiv_icon="gmd-warning" />
@@ -48,8 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_horizontal"
-            android:textAlignment="center"
             android:layout_margin="@dimen/ss_misc_subheader_margin"
-            android:text="@{errorStateLabel}" />
+            android:text="@{errorStateLabel}"
+            android:textAlignment="center" />
     </LinearLayout>
 </layout>
