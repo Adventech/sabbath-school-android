@@ -4,8 +4,9 @@
 
     <application>
         <activity
-                android:name=".ui.SSBibleVersesActivity"
-                android:configChanges="orientation|screenSize"
-                android:theme="@style/Theme.SS.BibleVersesTheme" />
+            android:name=".ui.SSBibleVersesActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.SS.BibleVersesTheme"
+            android:label="@string/blank"/>
     </application>
 </manifest>

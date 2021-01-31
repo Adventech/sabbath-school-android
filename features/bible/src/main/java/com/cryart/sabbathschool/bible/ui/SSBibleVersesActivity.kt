@@ -24,7 +24,6 @@ package com.cryart.sabbathschool.bible.ui
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.activity.viewModels
@@ -44,6 +43,7 @@ class SSBibleVersesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        this.setFinishOnTouchOutside(true)
 
         track(this, SSConstants.SS_EVENT_BIBLE_OPEN)
 
@@ -53,7 +53,6 @@ class SSBibleVersesActivity : AppCompatActivity() {
         binding.bibleCloseIV.setOnClickListener {
             finish()
         }
-        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 
         binding.ssBibleVersesHeader.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance(this).colorPrimary))
         binding.ssReadingBibleVersionList.onItemSelectedListener = object : OnItemSelectedListener {
