@@ -32,6 +32,10 @@
         <variable
             name="errorStateLabel"
             type="String" />
+
+        <variable
+            name="viewModel"
+            type="com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel" />
     </data>
 
     <LinearLayout
@@ -39,6 +43,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="@{errorStateVisibility}">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@{viewModel.secondaryColor}"
+            app:showInLightTheme="@{true}" />
 
         <com.mikepenz.iconics.view.IconicsImageView
             android:layout_width="@dimen/ss_misc_top_image_size"

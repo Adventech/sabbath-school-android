@@ -31,7 +31,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
+import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableInt
 import com.afollestad.materialdialogs.MaterialDialog
 import com.cryart.sabbathschool.bible.ui.SSBibleVersesActivity
@@ -104,6 +106,10 @@ internal class SSReadingViewModel(
 
     init {
         loadLessonInfo()
+        checkConnection()
+    }
+
+    private fun checkConnection() {
         val inetOptions = InternetObservingSettings.builder()
             .host(DEFAULT_PING_HOST)
             .port(DEFAULT_PING_PORT)
@@ -111,8 +117,8 @@ internal class SSReadingViewModel(
             .initialInterval(DEFAULT_INITIAL_PING_INTERVAL_IN_MS)
             .interval(DEFAULT_PING_INTERVAL_IN_MS)
             .build()
-        ReactiveNetwork().observeInternetConnectivity(inetOptions).onEach {
-            if (it && ssLessonInfo == null) {
+        ReactiveNetwork().observeInternetConnectivity(inetOptions).onEach { connected ->
+            if (!connected && ssLessonInfo == null) {
                 try {
                     ssLessonOfflineStateVisibility.set(View.VISIBLE)
                     ssLessonErrorStateVisibility.set(View.INVISIBLE)
@@ -474,9 +480,9 @@ internal class SSReadingViewModel(
         }
     }
 
-    fun reloadActivity() {
-        (context as SSReadingActivity?)?.finish()
-        context.startActivity((context as SSReadingActivity?)!!.intent)
+    fun reloadContent() {
+        loadLessonInfo()
+        checkConnection()
     }
 
     companion object {
@@ -485,5 +491,17 @@ internal class SSReadingViewModel(
         private const val DEFAULT_PING_INTERVAL_IN_MS = 2000
         private const val DEFAULT_INITIAL_PING_INTERVAL_IN_MS = 500
         private const val DEFAULT_PING_TIMEOUT_IN_MS = 2000
+
+        /**
+         * Pass true if this view should be visible in light theme
+         * false if it should be visible in dark theme
+         */
+        @JvmStatic
+        @BindingAdapter("showInLightTheme")
+        fun setVisibility(view: View, show: Boolean) {
+            val array = view.context.theme.obtainStyledAttributes(intArrayOf(R.attr.isLightTheme))
+            val isLightTheme = array.getBoolean(0, true)
+            view.isVisible = (show && isLightTheme) || (!show && !isLightTheme)
+        }
     }
 }

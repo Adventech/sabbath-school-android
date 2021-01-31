@@ -128,7 +128,8 @@
         <include
             layout="@layout/ss_error_state"
             bind:errorStateLabel="@{@string/ss_reading_error}"
-            bind:errorStateVisibility="@{viewModel.ssLessonErrorStateVisibility}" />
+            bind:errorStateVisibility="@{viewModel.ssLessonErrorStateVisibility}"
+            bind:viewModel="@{viewModel}" />
 
         <include
             layout="@layout/ss_progress_bar"

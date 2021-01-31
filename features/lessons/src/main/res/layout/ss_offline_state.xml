@@ -44,6 +44,12 @@
         android:orientation="vertical"
         android:visibility="@{offlineStateVisibility}">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@{viewModel.secondaryColor}"
+            app:showInLightTheme="@{true}" />
+
         <com.mikepenz.iconics.view.IconicsImageView
             android:layout_width="@dimen/ss_misc_top_image_size"
             android:layout_height="@dimen/ss_misc_top_image_size"
@@ -60,14 +66,15 @@
             android:text="@{offlineStateLabel}"
             android:textAlignment="center" />
 
-        <Button
-            style="@style/Widget.AppCompat.Button.Borderless"
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_horizontal"
             android:layout_margin="@dimen/ss_login_button_margin_top"
-            android:onClick="@{() -> viewModel.reloadActivity()}"
-            android:text="@string/ss_reading_offline_retry" />
+            android:onClick="@{() -> viewModel.reloadContent()}"
+            android:text="@string/ss_reading_offline_retry"
+            android:textColor="@{viewModel.primaryColor}" />
     </LinearLayout>
 
 </layout>
