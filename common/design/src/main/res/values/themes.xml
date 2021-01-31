@@ -72,6 +72,11 @@
         <item name="android:windowBackground">@drawable/ss_splash_background</item>
     </style>
 
+    <style name="Theme.SS.Full">
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:statusBarColor">@color/color_navigation_full</item>
+    </style>
+
     <style name="ThemeOverlay.SS.Toolbar" parent="">
         <item name="colorControlNormal">?attr/colorOnSurface</item>
         <item name="actionMenuTextColor">?attr/colorOnSurface</item>

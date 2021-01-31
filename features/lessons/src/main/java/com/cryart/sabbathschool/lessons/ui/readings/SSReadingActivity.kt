@@ -38,13 +38,13 @@ import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
-import com.cryart.sabbathschool.reader.data.model.SSRead
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.data.model.SSLessonInfo
 import com.cryart.sabbathschool.lessons.data.model.SSReadComments
 import com.cryart.sabbathschool.lessons.data.model.SSReadHighlights
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
+import com.cryart.sabbathschool.reader.data.model.SSRead
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
@@ -53,6 +53,7 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.Insetter
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -63,29 +64,20 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
     @Inject
     lateinit var appNavigator: AppNavigator
 
+    @Inject
+    lateinit var ssPrefs: SSPrefs
+
     private val binding: SsReadingActivityBinding by lazy { SsReadingActivityBinding.inflate(layoutInflater) }
     private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance().reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
     private lateinit var ssReadingViewModel: SSReadingViewModel
-    private lateinit var prefs: SSPrefs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        prefs = SSPrefs(this)
         checkIfReaderNeeded()
 
-        val adapter = SSReadingSheetAdapter()
-        binding.ssReadingSheetList.adapter = adapter
-        binding.ssReadingSheetList.layoutManager = LinearLayoutManager(this)
-        setSupportActionBar(binding.ssReadingAppBar.ssReadingToolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle)
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setExpandedTitleTextAppearance(R.style.AppThemeAppBarTextStyleExpanded)
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setCollapsedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setExpandedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
-        ViewCompat.setNestedScrollingEnabled(binding.ssReadingSheetList, false)
+        initUI()
         ssReadingViewModel = SSReadingViewModel(
             this,
             this,
@@ -99,9 +91,27 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
         updateColorScheme()
     }
 
+    private fun initUI() {
+        Insetter.setEdgeToEdgeSystemUiFlags(window.decorView, true)
+
+        val adapter = SSReadingSheetAdapter()
+        binding.ssReadingSheetList.adapter = adapter
+        binding.ssReadingSheetList.layoutManager = LinearLayoutManager(this)
+        setSupportActionBar(binding.ssReadingAppBar.ssReadingToolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        with(binding.ssReadingAppBar.ssReadingCollapsingToolbar) {
+            setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle)
+            setExpandedTitleTextAppearance(R.style.AppThemeAppBarTextStyleExpanded)
+            setCollapsedTitleTypeface(ResourcesCompat.getFont(this@SSReadingActivity, R.font.lato_bold))
+            setExpandedTitleTypeface(ResourcesCompat.getFont(this@SSReadingActivity, R.font.lato_bold))
+        }
+        ViewCompat.setNestedScrollingEnabled(binding.ssReadingSheetList, false)
+    }
+
     private fun checkIfReaderNeeded() {
         latestReaderArtifactRef.metadata.addOnSuccessListener { storageMetadata: StorageMetadata ->
-            val lastReaderArtifactCreationTime = prefs.getLastReaderArtifactCreationTime()
+            val lastReaderArtifactCreationTime = ssPrefs.getLastReaderArtifactCreationTime()
             if (lastReaderArtifactCreationTime != storageMetadata.creationTimeMillis) {
                 downloadLatestReader(storageMetadata.updatedTimeMillis)
             }
@@ -114,7 +124,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
         val localFile = File(filesDir, SSConstants.SS_READER_ARTIFACT_NAME)
         latestReaderArtifactRef.getFile(localFile)
             .addOnSuccessListener {
-                prefs.setLastReaderArtifactCreationTime(readerArtifactCreationTime)
+                ssPrefs.setLastReaderArtifactCreationTime(readerArtifactCreationTime)
                 SSUnzip(localFile.path, filesDir.path + "/")
             }.addOnFailureListener {
                 Timber.e(it)
@@ -126,7 +136,6 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setContentScrimColor(primaryColor)
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setBackgroundColor(primaryColor)
         binding.ssReadingSheetHeader.setBackgroundColor(primaryColor)
-        updateWindowColorScheme(false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -167,11 +176,11 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
     }
 
     override fun onLessonInfoChanged(ssLessonInfo: SSLessonInfo) {
-        val adapter = binding.ssReadingSheetList.adapter as SSReadingSheetAdapter?
-        adapter!!.setDays(ssLessonInfo.days)
+        val adapter = binding.ssReadingSheetList.adapter as? SSReadingSheetAdapter
+        adapter?.setDays(ssLessonInfo.days)
         binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.load(ssLessonInfo.lesson.cover)
         binding.invalidateAll()
-        adapter.notifyDataSetChanged()
+        adapter?.notifyDataSetChanged()
     }
 
     private fun setPageTitleAndSubtitle(title: String, subTitle: String) {
@@ -180,19 +189,21 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
     }
 
     override fun onReadsDownloaded(ssReads: List<SSRead>, ssReadHighlights: List<SSReadHighlights>, ssReadComments: List<SSReadComments>, ssReadIndex: Int) {
-        val ssReadingViewAdapter = binding.ssReadingViewPager.adapter as SSReadingViewAdapter?
-        ssReadingViewAdapter!!.setSSReads(ssReads)
-        ssReadingViewAdapter.setSSReadComments(ssReadComments)
-        ssReadingViewAdapter.setSSReadHighlights(ssReadHighlights)
-        ssReadingViewAdapter.notifyDataSetChanged()
+        val ssReadingViewAdapter = binding.ssReadingViewPager.adapter as? SSReadingViewAdapter
+        ssReadingViewAdapter?.let {
+            it.setSSReads(ssReads)
+            it.setSSReadComments(ssReadComments)
+            it.setSSReadHighlights(ssReadHighlights)
+            it.notifyDataSetChanged()
+        }
         binding.ssReadingViewPager.currentItem = ssReadIndex
         setPageTitleAndSubtitle(ssReads[ssReadIndex].title, ssReadingViewModel.formatDate(ssReads[ssReadIndex].date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
     override fun onPageSelected(position: Int) {
-        val ssReadingViewAdapter = binding.ssReadingViewPager.adapter as SSReadingViewAdapter?
-        val ssRead: SSRead = ssReadingViewAdapter!!.ssReads[position]
+        val ssReadingViewAdapter = binding.ssReadingViewPager.adapter as? SSReadingViewAdapter
+        val ssRead = ssReadingViewAdapter?.ssReads?.get(position) ?: return
         setPageTitleAndSubtitle(ssRead.title, ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
     }
 

@@ -25,6 +25,7 @@ package com.cryart.sabbathschool.lessons.ui.readings
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.View
@@ -36,6 +37,7 @@ import androidx.databinding.ObservableInt
 import com.afollestad.materialdialogs.MaterialDialog
 import com.cryart.sabbathschool.bible.ui.SSBibleVersesActivity
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
@@ -93,6 +95,12 @@ internal class SSReadingViewModel(
 
     private val prefs = SSPrefs(context)
     private var ssReadingDisplayOptions = prefs.getDisplayOptions()
+
+    val primaryColor: Int
+        get() = Color.parseColor(SSColorTheme.getInstance(context).colorPrimary)
+
+    val secondaryColor: Int
+        get() = Color.parseColor(SSColorTheme.getInstance(context).colorPrimaryDark)
 
     init {
         loadLessonInfo()
@@ -156,20 +164,31 @@ internal class SSReadingViewModel(
     }
 
     fun promptForEditSuggestion() {
-        if (ssReads.isNotEmpty()) {
-            val name = prefs.getUserName(context.getString(R.string.ss_menu_anonymous_name))
-            val email = prefs.getUserEmail(context.getString(R.string.ss_menu_anonymous_email))
-            MaterialDialog.Builder(context)
-                .title(context.getString(R.string.ss_reading_suggest_edit))
-                .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-                .input(context.getString(R.string.ss_reading_suggest_edit_hint), "") { _, input ->
-                    mDatabase.child(SSConstants.SS_FIREBASE_SUGGESTIONS_DATABASE)
-                        .child(userUuid)
-                        .child(ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
-                        .setValue(SSSuggestion(name, email, input.toString()))
-                    Toast.makeText(context, context.getString(R.string.ss_reading_suggest_edit_done), Toast.LENGTH_LONG).show()
-                }.show()
-        }
+        if (ssReads.isEmpty()) return
+
+        val currentUser = ssFirebaseAuth.currentUser
+        val defaultName = context.getString(R.string.ss_menu_anonymous_name)
+        val defaultEmail = context.getString(R.string.ss_menu_anonymous_email)
+        val name = if (currentUser?.displayName.isNullOrEmpty()) {
+            defaultName
+        } else currentUser?.displayName ?: defaultName
+        val email = if (currentUser?.email.isNullOrEmpty()) {
+            defaultEmail
+        } else currentUser?.email ?: defaultEmail
+
+        MaterialDialog.Builder(context)
+            .title(context.getString(R.string.ss_reading_suggest_edit))
+            .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+            .input(context.getString(R.string.ss_reading_suggest_edit_hint), "") { _, input ->
+                if (input.isNullOrEmpty()) {
+                    return@input
+                }
+                mDatabase.child(SSConstants.SS_FIREBASE_SUGGESTIONS_DATABASE)
+                    .child(userUuid)
+                    .child(ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
+                    .setValue(SSSuggestion(name, email, input.toString()))
+                Toast.makeText(context, context.getString(R.string.ss_reading_suggest_edit_done), Toast.LENGTH_LONG).show()
+            }.show()
     }
 
     private fun downloadHighlights(dayIndex: String, index: Int) {

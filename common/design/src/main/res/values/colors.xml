@@ -44,6 +44,7 @@
     <color name="black">#000000</color>
     <color name="black_40">#66000000</color>
     <color name="nav_color">@color/black</color>
+    <color name="color_navigation_full">@android:color/transparent</color>
 
     <color name="list_divider">#1f000000</color>
 
