@@ -27,14 +27,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cryart.sabbathschool.core.extensions.arch.SingleLiveEvent
+import com.cryart.sabbathschool.core.extensions.arch.asLiveData
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
 import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class LessonsViewModel @Inject constructor(
@@ -44,33 +45,31 @@ class LessonsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val mutableQuarterlyTypes = MutableLiveData<List<String>>()
-    val quarterlyTypesLiveData: LiveData<List<String>> get() = mutableQuarterlyTypes
+    val quarterlyTypesLiveData: LiveData<List<String>> = mutableQuarterlyTypes.asLiveData()
 
     private val mutableSelectedType = SingleLiveEvent<Pair<String, String?>>()
-    val selectedTypeLiveData: LiveData<Pair<String, String?>> get() = mutableSelectedType
+    val selectedTypeLiveData: LiveData<Pair<String, String?>> = mutableSelectedType.asLiveData()
 
     private var lessonTypes: List<SSQuarterly> = emptyList()
 
-    fun setQuarterlyIndex(index: String) {
-        viewModelScope.launch(schedulerProvider.io) {
-            repository.getQuarterlies().collect { resource ->
-                if (resource.isSuccessFul) {
-                    val quarterlies = resource.data ?: return@collect
-                    val selected = quarterlies.find { it.index == index } ?: return@collect
-                    lessonTypes = quarterlies.filter {
-                        it.start_date == selected.start_date && it.end_date == selected.end_date
-                    }
-                    if (lessonTypes.size > 1) {
-                        val names = listOf(selected.quarterly_name) + lessonTypes
-                            .filterNot { it.id == selected.id }
-                            .map { it.quarterly_name }
-                        mutableQuarterlyTypes.postValue(names.filterNotNull())
+    fun setQuarterlyIndex(index: String) = viewModelScope.launch(schedulerProvider.io) {
+        repository.getQuarterlies().collect { resource ->
+            val quarterlies = resource.data ?: return@collect
+            val selected = quarterlies.find { it.index == index } ?: return@collect
+            if (selected.group.isNullOrEmpty()) return@collect
 
-                        val lastType = ssPrefs.getLastQuarterlyType() ?: return@collect
-                        if (lastType != names.first()) {
-                            quarterlyTypeSelected(lastType)
-                        }
-                    }
+            lessonTypes = quarterlies.filter {
+                it.start_date == selected.start_date && it.end_date == selected.end_date
+            }
+            if (lessonTypes.isNotEmpty()) {
+                val names = listOf(selected.quarterly_name) + lessonTypes
+                    .filterNot { it.id == selected.id }
+                    .map { it.quarterly_name }
+                mutableQuarterlyTypes.postValue(names)
+
+                val lastType = ssPrefs.getLastQuarterlyType() ?: return@collect
+                if (lastType != names.first()) {
+                    quarterlyTypeSelected(lastType)
                 }
             }
         }
