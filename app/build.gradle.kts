@@ -186,3 +186,8 @@ dependencies {
 
     addTestsDependencies()
 }
+
+val googleServices = file("google-services.json")
+if (!googleServices.exists()) {
+    com.google.common.io.Files.copy(file("stage-google-services.json"), googleServices)
+}
