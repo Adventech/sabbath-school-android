@@ -20,6 +20,10 @@
  * THE SOFTWARE.
  */
 import dependencies.Dependencies
+import dependencies.Dependencies.AndroidX
+import dependencies.Dependencies.Firebase
+import dependencies.Dependencies.Kotlin
+import dependencies.Dependencies.Hilt
 import extensions.addTestsDependencies
 
 plugins {
@@ -47,21 +51,22 @@ android {
 }
 
 dependencies {
-    implementation(Dependencies.Kotlin.KOTLIN)
-    implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
-    implementation(Dependencies.AndroidX.PREFERENCE)
-    implementation(Dependencies.Kotlin.COROUTINES)
-    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
+    implementation(AndroidX.LIFECYCLE_LIVEDATA)
+    implementation(AndroidX.PREFERENCE)
+    implementation(AndroidX.BROWSER)
+    implementation(Kotlin.KOTLIN)
+    implementation(Kotlin.COROUTINES)
+    implementation(Kotlin.COROUTINES_ANDROID)
+    implementation(Hilt.ANDROID)
+    kapt(Hilt.COMPILER)
     implementation(Dependencies.TIMBER)
-    implementation(Dependencies.Hilt.ANDROID)
-    kapt(Dependencies.Hilt.COMPILER)
 
-    implementation(platform(Dependencies.Firebase.BOM))
-    implementation(Dependencies.Firebase.CORE)
-    implementation(Dependencies.Firebase.ANALYTICS)
-    implementation(Dependencies.Firebase.AUTH)
-    implementation(Dependencies.Firebase.CRASHLYTICS)
-    implementation(Dependencies.Firebase.DATABASE)
+    implementation(platform(Firebase.BOM))
+    implementation(Firebase.CORE)
+    implementation(Firebase.ANALYTICS)
+    implementation(Firebase.AUTH)
+    implementation(Firebase.CRASHLYTICS)
+    implementation(Firebase.DATABASE)
 
     addTestsDependencies()
 }

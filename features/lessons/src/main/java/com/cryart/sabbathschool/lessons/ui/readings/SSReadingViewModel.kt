@@ -31,10 +31,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
+import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableInt
 import com.afollestad.materialdialogs.MaterialDialog
 import com.cryart.sabbathschool.bible.ui.SSBibleVersesActivity
+import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
@@ -94,8 +98,18 @@ internal class SSReadingViewModel(
     private val prefs = SSPrefs(context)
     private var ssReadingDisplayOptions = prefs.getDisplayOptions()
 
+    val primaryColor: Int
+        get() = context.colorPrimary
+
+    val secondaryColor: Int
+        get() = context.colorPrimaryDark
+
     init {
         loadLessonInfo()
+        checkConnection()
+    }
+
+    private fun checkConnection() {
         val inetOptions = InternetObservingSettings.builder()
             .host(DEFAULT_PING_HOST)
             .port(DEFAULT_PING_PORT)
@@ -103,8 +117,8 @@ internal class SSReadingViewModel(
             .initialInterval(DEFAULT_INITIAL_PING_INTERVAL_IN_MS)
             .interval(DEFAULT_PING_INTERVAL_IN_MS)
             .build()
-        ReactiveNetwork().observeInternetConnectivity(inetOptions).onEach {
-            if (it && ssLessonInfo == null) {
+        ReactiveNetwork().observeInternetConnectivity(inetOptions).onEach { connected ->
+            if (!connected && ssLessonInfo == null) {
                 try {
                     ssLessonOfflineStateVisibility.set(View.VISIBLE)
                     ssLessonErrorStateVisibility.set(View.INVISIBLE)
@@ -156,20 +170,31 @@ internal class SSReadingViewModel(
     }
 
     fun promptForEditSuggestion() {
-        if (ssReads.isNotEmpty()) {
-            val name = prefs.getUserName(context.getString(R.string.ss_menu_anonymous_name))
-            val email = prefs.getUserEmail(context.getString(R.string.ss_menu_anonymous_email))
-            MaterialDialog.Builder(context)
-                .title(context.getString(R.string.ss_reading_suggest_edit))
-                .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-                .input(context.getString(R.string.ss_reading_suggest_edit_hint), "") { _, input ->
-                    mDatabase.child(SSConstants.SS_FIREBASE_SUGGESTIONS_DATABASE)
-                        .child(userUuid)
-                        .child(ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
-                        .setValue(SSSuggestion(name, email, input.toString()))
-                    Toast.makeText(context, context.getString(R.string.ss_reading_suggest_edit_done), Toast.LENGTH_LONG).show()
-                }.show()
-        }
+        if (ssReads.isEmpty()) return
+
+        val currentUser = ssFirebaseAuth.currentUser
+        val defaultName = context.getString(R.string.ss_menu_anonymous_name)
+        val defaultEmail = context.getString(R.string.ss_menu_anonymous_email)
+        val name = if (currentUser?.displayName.isNullOrEmpty()) {
+            defaultName
+        } else currentUser?.displayName ?: defaultName
+        val email = if (currentUser?.email.isNullOrEmpty()) {
+            defaultEmail
+        } else currentUser?.email ?: defaultEmail
+
+        MaterialDialog.Builder(context)
+            .title(context.getString(R.string.ss_reading_suggest_edit))
+            .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+            .input(context.getString(R.string.ss_reading_suggest_edit_hint), "") { _, input ->
+                if (input.isNullOrEmpty()) {
+                    return@input
+                }
+                mDatabase.child(SSConstants.SS_FIREBASE_SUGGESTIONS_DATABASE)
+                    .child(userUuid)
+                    .child(ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
+                    .setValue(SSSuggestion(name, email, input.toString()))
+                Toast.makeText(context, context.getString(R.string.ss_reading_suggest_edit_done), Toast.LENGTH_LONG).show()
+            }.show()
     }
 
     private fun downloadHighlights(dayIndex: String, index: Int) {
@@ -455,9 +480,9 @@ internal class SSReadingViewModel(
         }
     }
 
-    fun reloadActivity() {
-        (context as SSReadingActivity?)?.finish()
-        context.startActivity((context as SSReadingActivity?)!!.intent)
+    fun reloadContent() {
+        loadLessonInfo()
+        checkConnection()
     }
 
     companion object {
@@ -466,5 +491,17 @@ internal class SSReadingViewModel(
         private const val DEFAULT_PING_INTERVAL_IN_MS = 2000
         private const val DEFAULT_INITIAL_PING_INTERVAL_IN_MS = 500
         private const val DEFAULT_PING_TIMEOUT_IN_MS = 2000
+
+        /**
+         * Pass true if this view should be visible in light theme
+         * false if it should be visible in dark theme
+         */
+        @JvmStatic
+        @BindingAdapter("showInLightTheme")
+        fun setVisibility(view: View, show: Boolean) {
+            val array = view.context.theme.obtainStyledAttributes(intArrayOf(R.attr.isLightTheme))
+            val isLightTheme = array.getBoolean(0, true)
+            view.isVisible = (show && isLightTheme) || (!show && !isLightTheme)
+        }
     }
 }

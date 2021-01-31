@@ -33,6 +33,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -40,9 +41,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SSBibleVersesViewModel @Inject constructor(
-    private val preferences: SSPrefs
+    private val preferences: SSPrefs,
+    database: FirebaseDatabase
 ) : ViewModel() {
-    private val db = FirebaseDatabase.getInstance().reference.apply { keepSynced(true) }
+    private val reference = database.reference.apply { keepSynced(true) }
 
     private val _verses = MutableLiveData<List<SSBibleVerses>>()
     val verses = _verses.asLiveData()
@@ -54,7 +56,7 @@ class SSBibleVersesViewModel @Inject constructor(
     fun getDisplayOptions() = preferences.getDisplayOptions()
 
     fun requestVerses(readIndex: String) = viewModelScope.launch {
-        db.child(SSConstants.SS_FIREBASE_READS_DATABASE)
+        reference.child(SSConstants.SS_FIREBASE_READS_DATABASE)
             .child(readIndex)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {

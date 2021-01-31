@@ -21,36 +21,26 @@
  */
 package com.cryart.sabbathschool.bible.ui
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import androidx.databinding.DataBindingUtil
 import com.cryart.sabbathschool.bible.R
-import com.cryart.sabbathschool.bible.databinding.SsBibleVersionItemBinding
-import com.cryart.sabbathschool.bible.databinding.SsBibleVersionItemHeaderBinding
+import com.cryart.sabbathschool.core.extensions.view.inflate
 import com.cryart.sabbathschool.reader.data.model.SSBibleVerses
 
-class SSBibleVersionsAdapter(private var ssBibleVerses: List<SSBibleVerses>) : BaseAdapter() {
-    override fun getCount(): Int {
-        return ssBibleVerses.size
-    }
+class SSBibleVersionsAdapter(private val ssBibleVerses: List<SSBibleVerses>) : BaseAdapter() {
 
-    override fun getItem(position: Int): SSBibleVerses {
-        return ssBibleVerses[position]
-    }
+    override fun getCount(): Int = ssBibleVerses.size
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
+    override fun getItem(position: Int): SSBibleVerses = ssBibleVerses[position]
+
+    override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getView(position: Int, _view: View?, parent: ViewGroup): View {
         var view: View? = _view
         if (view == null) {
-            val binding: SsBibleVersionItemHeaderBinding =
-                DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.ss_bible_version_item_header, parent, false)
-            view = binding.root
+            view = parent.inflate(R.layout.ss_bible_version_item_header)
         }
         val textView = view.findViewById<TextView>(android.R.id.text1)
         textView.text = getItem(position).name
@@ -60,8 +50,7 @@ class SSBibleVersionsAdapter(private var ssBibleVerses: List<SSBibleVerses>) : B
     override fun getDropDownView(position: Int, _view: View?, parent: ViewGroup): View {
         var view: View? = _view
         if (view == null) {
-            val binding: SsBibleVersionItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.ss_bible_version_item, parent, false)
-            view = binding.root
+            view = parent.inflate(R.layout.ss_bible_version_item)
         }
         val textView = view.findViewById<TextView>(android.R.id.text1)
         textView.text = getItem(position).name

@@ -23,8 +23,11 @@
 package com.cryart.sabbathschool
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import com.cryart.sabbathschool.reminder.SSJobCreator
 import com.evernote.android.job.JobManager
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -34,5 +37,8 @@ class SSApp : Application() {
         JobManager.create(this)
             .addJobCreator(SSJobCreator())
         super.onCreate()
+
+        Firebase.database.setPersistenceEnabled(true)
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
 }

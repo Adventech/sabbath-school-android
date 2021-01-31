@@ -2,21 +2,14 @@ package dependencies
 
 object Dependencies {
     const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
-
     const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
-
-    const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
-    const val RETROFIT_CONVERTER = "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
-
     const val FACEBOOK = "com.facebook.android:facebook-android-sdk:${Versions.FACEBOOK}"
     const val PLAY_AUTH = "com.google.android.gms:play-services-auth:${Versions.PLAY_AUTH}"
-
     const val ANDROID_JOB = "com.evernote:android-job:${Versions.ANDROID_JOB}"
     const val JODA = "net.danlew:android.joda:${Versions.JODA}"
-
     const val COIL = "io.coil-kt:coil:${Versions.COIL}"
-
     const val TAP_TARGET = "uk.co.samuelwall:material-tap-target-prompt:${Versions.TAP_TARGET}"
+    const val INSETTER = "dev.chrisbanes:insetter-ktx:${Versions.INSETTER}"
 
     object Hilt {
         const val ANDROID = "com.google.dagger:hilt-android:${Versions.HILT}"

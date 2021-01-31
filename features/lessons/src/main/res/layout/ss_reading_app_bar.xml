@@ -20,88 +20,79 @@
   ~ THE SOFTWARE.
   -->
 
-<layout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
-                name="viewModel"
-                type="com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel"
-                />
+            name="viewModel"
+            type="com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel" />
     </data>
 
     <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/ss_reading_app_bar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ss_reading_toolbar_height"
-            android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            android:visibility="@{viewModel.ssLessonCoordinatorVisibility}"
-            app:elevation="@dimen/ss_app_bar_elevation"
-            app:expanded="true"
-            >
+        android:id="@+id/ss_reading_app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ss_reading_toolbar_height"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:visibility="@{viewModel.ssLessonCoordinatorVisibility}"
+        app:elevation="@dimen/ss_app_bar_elevation"
+        app:expanded="true">
 
         <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
-                android:id="@+id/ss_reading_collapsing_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleGravity="start|bottom"
-                app:expandedTitleMarginBottom="@dimen/ss_reading_toolbar_title_margin_bottom"
-                app:expandedTitleMarginStart="@dimen/ss_reading_toolbar_title_margin_left"
-                app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
-                app:maxLines="2"
-                app:toolbarId="@+id/ss_reading_toolbar"
-                >
+            android:id="@+id/ss_reading_collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@{viewModel.primaryColor}"
+            app:expandedTitleGravity="start|bottom"
+            app:expandedTitleMarginBottom="@dimen/ss_reading_toolbar_title_margin_bottom"
+            app:expandedTitleMarginStart="@dimen/ss_reading_toolbar_title_margin_left"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
+            app:maxLines="2"
+            app:statusBarScrim="@{viewModel.secondaryColor}"
+            app:toolbarId="@+id/ss_reading_toolbar">
 
             <ImageView
-                    android:id="@+id/ss_collapsing_toolbar_backdrop"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/blank"
-                    android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"
-                    app:layout_collapseMode="parallax"
-                    />
+                android:id="@+id/ss_collapsing_toolbar_backdrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/blank"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax" />
 
             <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ss_reading_toolbar_date_margin_top"
-                    android:fitsSystemWindows="true"
-                    app:layout_collapseMode="parallax"
-                    app:layout_collapseParallaxMultiplier="0.4"
-                    >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ss_reading_toolbar_date_margin_top"
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.4">
 
                 <TextView
-                        android:id="@+id/ss_collapsing_toolbar_subtitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="@dimen/ss_reading_toolbar_date_margin_left"
-                        android:layout_marginTop="@dimen/ss_reading_toolbar_date_margin_left"
-                        android:fitsSystemWindows="true"
-                        android:fontFamily="@font/lato_bold"
-                        android:maxLines="1"
-                        android:textAllCaps="true"
-                        android:textColor="@color/ss_color_secondary_lighter"
-                        android:textSize="@dimen/ss_reading_app_bar_subtitle_size"
-                        />
+                    android:id="@+id/ss_collapsing_toolbar_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="@dimen/ss_reading_toolbar_date_margin_left"
+                    android:layout_marginTop="@dimen/ss_reading_toolbar_date_margin_left"
+                    android:fitsSystemWindows="true"
+                    android:fontFamily="@font/lato_bold"
+                    android:maxLines="1"
+                    android:textAllCaps="true"
+                    android:textColor="@color/ss_color_secondary_lighter"
+                    android:textSize="@dimen/ss_reading_app_bar_subtitle_size" />
 
             </RelativeLayout>
 
             <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/ss_reading_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/AppTheme.PopupOverlay"
-                    >
-
-            </androidx.appcompat.widget.Toolbar>
+                android:id="@+id/ss_reading_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
         </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 </layout>

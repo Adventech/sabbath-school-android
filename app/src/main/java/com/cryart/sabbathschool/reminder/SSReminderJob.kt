@@ -27,13 +27,12 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.cryart.sabbathschool.R
+import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.ui.splash.SplashActivity
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobManager
@@ -81,7 +80,7 @@ class SSReminderJob : Job() {
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_notification)
             .setContentTitle(context.getString(R.string.ss_app_name))
-            .setColor(Color.parseColor(SSColorTheme.getInstance(context).colorPrimary))
+            .setColor(context.colorPrimary)
             .addAction(0, context.getString(R.string.ss_menu_read_now), pendingIntent)
             .setAutoCancel(true)
             .setVibrate(longArrayOf(1000, 1000))

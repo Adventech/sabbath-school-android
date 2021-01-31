@@ -43,13 +43,13 @@
             android:id="@+id/ss_lesson_collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:collapsedTitleTextAppearance="@style/AppThemeAppBarTextStyle"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleGravity="start|bottom"
             app:expandedTitleMarginBottom="@dimen/ss_lessons_toolbar_title_margin_bottom"
             app:expandedTitleMarginStart="@dimen/ss_lessons_toolbar_title_margin_start"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
-            app:collapsedTitleTextAppearance="@style/AppThemeAppBarTextStyle"
             app:expandedTitleTextAppearance="@style/AppThemeAppBarTextStyleExpanded"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
             tools:title="Ezra and Nehemiah">
 
             <RelativeLayout
@@ -78,9 +78,9 @@
                     android:layout_below="@+id/ss_lessons_app_bar_date"
                     android:layout_marginTop="@dimen/ss_lessons_toolbar_cover_margin_top"
                     android:transitionName="@string/ss_quarterly_cover_transition"
+                    app:cardBackgroundColor="@{viewModel.primaryColor}"
                     app:cardCornerRadius="@dimen/ss_quarterly_item_featured_cover_radius"
-                    app:cardElevation="@dimen/spacing_medium"
-                    app:cardBackgroundColor="@{viewModel.primaryColor}">
+                    app:cardElevation="@dimen/spacing_medium">
 
                     <ImageView
                         android:id="@+id/ss_lessons_app_bar_cover"

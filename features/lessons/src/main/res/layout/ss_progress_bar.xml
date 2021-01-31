@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,12 +20,17 @@
   ~ THE SOFTWARE.
   -->
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="progressVisibility" type="int"/>
-        <variable name="progressLabel" type="String"/>
+
+        <variable
+            name="progressVisibility"
+            type="int" />
+
+        <variable
+            name="progressLabel"
+            type="String" />
     </data>
 
     <RelativeLayout
@@ -38,19 +42,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/ss_quarterlies_loading"
-            android:text="@{progressLabel}"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:text="@{progressLabel}" />
 
         <ProgressBar
             android:id="@+id/ss_quarterlies_loading"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_centerInParent="true"
-            android:indeterminateBehavior="repeat"
-            android:indeterminate="true"
-            android:layout_width="match_parent"
             android:layout_margin="20dp"
-            android:layout_height="wrap_content"
-            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"/>
+            android:indeterminate="true"
+            android:indeterminateBehavior="repeat" />
     </RelativeLayout>
 </layout>

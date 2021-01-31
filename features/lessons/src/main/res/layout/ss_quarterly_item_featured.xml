@@ -56,9 +56,9 @@
             android:layout_marginBottom="@dimen/ss_quarterly_item_featured_cover_margin_bottom"
             android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}"
             android:transitionName="@string/ss_quarterly_cover_transition"
+            app:cardBackgroundColor="@{viewModel.colorPrimary}"
             app:cardCornerRadius="@dimen/ss_quarterly_item_featured_cover_radius"
-            app:cardElevation="@dimen/spacing_medium"
-            app:cardBackgroundColor="@{viewModel.colorPrimary}">
+            app:cardElevation="@dimen/spacing_medium">
 
             <ImageView
                 android:id="@+id/ss_quarterly_item_cover"
