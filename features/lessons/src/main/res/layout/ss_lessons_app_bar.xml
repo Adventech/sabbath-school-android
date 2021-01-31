@@ -89,6 +89,7 @@
                         android:contentDescription="@string/blank"
                         android:scaleType="centerCrop"
                         app:coverUrl="@{viewModel.cover}"
+                        app:primaryColor="@{viewModel.primaryColor}"
                         tools:src="?attr/colorPrimary" />
 
                 </com.google.android.material.card.MaterialCardView>

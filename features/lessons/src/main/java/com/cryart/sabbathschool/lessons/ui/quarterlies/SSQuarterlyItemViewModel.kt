@@ -21,17 +21,21 @@
  */
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.BaseObservable
 import androidx.databinding.BindingAdapter
 import coil.load
+import com.cryart.sabbathschool.core.extensions.view.tint
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
@@ -81,9 +85,24 @@ internal class SSQuarterlyItemViewModel(
         }
 
         @JvmStatic
-        @BindingAdapter("coverUrl")
-        fun loadCover(view: ImageView, coverUrl: String?) {
-            coverUrl?.let { view.load(it) }
+        @BindingAdapter(value = ["coverUrl", "primaryColor"])
+        fun loadCover(view: ImageView, coverUrl: String?, primaryColor: Int?) {
+            coverUrl?.let { url ->
+                view.load(url) {
+                    crossfade(true)
+                    primaryColor?.let {
+                        val drawable = placeholderDrawable(view.context, it)
+                        placeholder(drawable)
+                        error(drawable)
+                    }
+                }
+            }
+        }
+
+        private fun placeholderDrawable(context: Context, color: Int): Drawable? {
+            val drawable = ContextCompat.getDrawable(context, R.drawable.bg_cover)
+            drawable?.tint(color)
+            return drawable
         }
     }
 }
