@@ -32,8 +32,8 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import coil.load
+import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
 import com.cryart.sabbathschool.core.navigation.AppNavigator
@@ -132,7 +132,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
     }
 
     private fun updateColorScheme() {
-        val primaryColor = Color.parseColor(SSColorTheme.getInstance(this).colorPrimary)
+        val primaryColor = this.colorPrimary
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setContentScrimColor(primaryColor)
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setBackgroundColor(primaryColor)
         binding.ssReadingSheetHeader.setBackgroundColor(primaryColor)

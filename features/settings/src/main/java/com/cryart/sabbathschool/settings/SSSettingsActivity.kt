@@ -22,10 +22,9 @@
 
 package com.cryart.sabbathschool.settings
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
-import com.cryart.sabbathschool.core.misc.SSColorTheme
+import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
@@ -60,7 +59,7 @@ class SSSettingsActivity : SSColorSchemeActivity() {
     }
 
     private fun updateColorScheme() {
-        binding.ssToolbar.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance(this).colorPrimary))
+        binding.ssToolbar.setBackgroundColor(this.colorPrimary)
         updateWindowColorScheme()
     }
 

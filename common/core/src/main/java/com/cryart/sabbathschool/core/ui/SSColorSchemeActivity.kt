@@ -21,19 +21,16 @@
  */
 package com.cryart.sabbathschool.core.ui
 
-import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
-import com.cryart.sabbathschool.core.misc.SSColorTheme
+import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 
 open class SSColorSchemeActivity : AppCompatActivity() {
 
     fun updateWindowColorScheme(withStatusBar: Boolean = true) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (withStatusBar) {
-                window.statusBarColor = Color.parseColor(
-                    SSColorTheme.getInstance(this).colorPrimaryDark
-                )
+                window.statusBarColor = this.colorPrimaryDark
             }
         }
     }

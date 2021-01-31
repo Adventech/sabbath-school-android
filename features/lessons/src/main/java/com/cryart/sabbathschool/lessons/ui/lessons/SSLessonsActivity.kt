@@ -22,7 +22,6 @@
 package com.cryart.sabbathschool.lessons.ui.lessons
 
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -31,6 +30,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
+import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
 import com.cryart.sabbathschool.core.misc.SSColorTheme
@@ -125,8 +126,8 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
     }
 
     private fun updateColorScheme() {
-        val primaryColor = Color.parseColor(SSColorTheme.getInstance(this).colorPrimary)
-        val primaryDarkColor = Color.parseColor(SSColorTheme.getInstance(this).colorPrimaryDark)
+        val primaryColor = this.colorPrimary
+        val primaryDarkColor = this.colorPrimaryDark
 
         binding.ssLessonsAppBar.apply {
             ssLessonsToolbar.setBackgroundColor(primaryColor)

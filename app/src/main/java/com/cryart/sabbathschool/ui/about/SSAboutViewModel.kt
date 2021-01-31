@@ -22,14 +22,13 @@
 package com.cryart.sabbathschool.ui.about
 
 import android.content.Context
-import android.graphics.Color
 import com.cryart.sabbathschool.R
+import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
-import com.cryart.sabbathschool.core.misc.SSColorTheme
 
 class SSAboutViewModel(private val context: Context) {
 
-    val colorPrimary: Int get() = Color.parseColor(SSColorTheme.getInstance(context).colorPrimary)
+    val colorPrimary: Int get() = context.colorPrimary
 
     fun onFacebookClick() {
         context.launchWebUrl(context.getString(R.string.ss_settings_facebook_url))

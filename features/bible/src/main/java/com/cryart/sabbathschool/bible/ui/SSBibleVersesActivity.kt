@@ -21,7 +21,6 @@
  */
 package com.cryart.sabbathschool.bible.ui
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -29,7 +28,7 @@ import android.widget.AdapterView.OnItemSelectedListener
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.cryart.sabbathschool.bible.databinding.SsBibleVersesActivityBinding
-import com.cryart.sabbathschool.core.misc.SSColorTheme
+import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent.track
 import com.cryart.sabbathschool.reader.data.model.SSBibleVerses
@@ -54,7 +53,7 @@ class SSBibleVersesActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.ssBibleVersesHeader.setBackgroundColor(Color.parseColor(SSColorTheme.getInstance(this).colorPrimary))
+        binding.ssBibleVersesHeader.setBackgroundColor(this.colorPrimary)
         binding.ssReadingBibleVersionList.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
                 val ssBibleVerses = adapterView.getItemAtPosition(i) as SSBibleVerses

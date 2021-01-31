@@ -63,6 +63,7 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorError">@color/ss_red_600</item>
         <item name="colorOnError">@color/white</item>
+        <item name="android:colorEdgeEffect">@color/color_navigation_full</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
     </style>
@@ -70,6 +71,10 @@
     <style name="Theme.SS.Splash">
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowBackground">@drawable/ss_splash_background</item>
+    </style>
+
+    <style name="Theme.SS.Primary">
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
 
     <style name="Theme.SS.Full">

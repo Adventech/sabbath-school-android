@@ -23,7 +23,6 @@
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -31,6 +30,7 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
+import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -124,7 +124,7 @@ class QuarterliesActivity : SSBaseActivity() {
     }
 
     private fun updateColorScheme() {
-        val primaryColor = Color.parseColor(SSColorTheme.getInstance(this).colorPrimary)
+        val primaryColor = this.colorPrimary
         binding.appBar.ssToolbar.setBackgroundColor(primaryColor)
         updateWindowColorScheme()
         binding.ssQuarterliesList.setEdgeEffect(primaryColor)
@@ -135,17 +135,9 @@ class QuarterliesActivity : SSBaseActivity() {
             .setTarget(R.id.ss_quarterlies_menu_filter)
             .setPrimaryText(getString(R.string.ss_quarterlies_filter_languages_prompt_title))
             .setCaptureTouchEventOutsidePrompt(true)
-            .setIconDrawableColourFilter(
-                Color.parseColor(
-                    SSColorTheme.getInstance(this).colorPrimary
-                )
-            )
+            .setIconDrawableColourFilter(this.colorPrimary)
             .setIconDrawable(ContextCompat.getDrawable(this, R.drawable.ic_translate))
-            .setBackgroundColour(
-                Color.parseColor(
-                    SSColorTheme.getInstance(this).colorPrimary
-                )
-            )
+            .setBackgroundColour(this.colorPrimary)
             .setSecondaryText(R.string.ss_quarterlies_filter_languages_prompt_description)
             .setPromptStateChangeListener { _, state ->
                 if (state == STATE_DISMISSED || state == STATE_FOCAL_PRESSED) {

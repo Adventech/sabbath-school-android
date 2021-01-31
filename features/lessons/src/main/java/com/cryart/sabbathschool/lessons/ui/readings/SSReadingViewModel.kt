@@ -25,7 +25,6 @@ package com.cryart.sabbathschool.lessons.ui.readings
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.View
@@ -36,8 +35,9 @@ import androidx.core.widget.NestedScrollView
 import androidx.databinding.ObservableInt
 import com.afollestad.materialdialogs.MaterialDialog
 import com.cryart.sabbathschool.bible.ui.SSBibleVersesActivity
+import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
@@ -97,10 +97,10 @@ internal class SSReadingViewModel(
     private var ssReadingDisplayOptions = prefs.getDisplayOptions()
 
     val primaryColor: Int
-        get() = Color.parseColor(SSColorTheme.getInstance(context).colorPrimary)
+        get() = context.colorPrimary
 
     val secondaryColor: Int
-        get() = Color.parseColor(SSColorTheme.getInstance(context).colorPrimaryDark)
+        get() = context.colorPrimaryDark
 
     init {
         loadLessonInfo()

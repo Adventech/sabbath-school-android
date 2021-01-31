@@ -8,6 +8,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="colorPrimary">@color/ss_green</item>
+        <item name="android:colorEdgeEffect">@color/color_navigation_full</item>
         <item name="fontFamily">@font/lato_regular</item>
         <item name="android:fontFamily">@font/lato_regular</item>
         <item name="listPopupWindowStyle">@style/Widget.MaterialComponents.ListPopupWindow</item>
