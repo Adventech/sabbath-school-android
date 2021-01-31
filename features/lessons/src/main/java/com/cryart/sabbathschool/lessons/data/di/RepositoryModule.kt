@@ -25,8 +25,7 @@ package com.cryart.sabbathschool.lessons.data.di
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
 import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepositoryImpl
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,6 +36,6 @@ import dagger.hilt.components.SingletonComponent
 object RepositoryModule {
 
     @Provides
-    fun provideRepository(ssPrefs: SSPrefs): QuarterliesRepository =
-        QuarterliesRepositoryImpl(Firebase.database, ssPrefs)
+    fun provideRepository(database: FirebaseDatabase, ssPrefs: SSPrefs): QuarterliesRepository =
+        QuarterliesRepositoryImpl(database, ssPrefs)
 }

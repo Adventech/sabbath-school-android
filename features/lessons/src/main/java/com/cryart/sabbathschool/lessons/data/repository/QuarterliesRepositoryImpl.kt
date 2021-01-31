@@ -31,9 +31,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -42,6 +39,9 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
+import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class QuarterliesRepositoryImpl @Inject constructor(
     private val firebaseDatabase: FirebaseDatabase,
@@ -53,22 +53,20 @@ class QuarterliesRepositoryImpl @Inject constructor(
         return getLanguagesFirebase()
     }
 
-    private suspend fun getLanguagesFirebase(): Resource<List<Language>> {
-        return suspendCoroutine { continuation ->
-            firebaseDatabase.getReference(SSConstants.SS_FIREBASE_LANGUAGES_DATABASE)
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onCancelled(error: DatabaseError) {
-                        continuation.resume(Resource.error(error.toException()))
-                    }
+    private suspend fun getLanguagesFirebase(): Resource<List<Language>> = suspendCoroutine { continuation ->
+        firebaseDatabase.getReference(SSConstants.SS_FIREBASE_LANGUAGES_DATABASE)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    continuation.resume(Resource.error(error.toException()))
+                }
 
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val languages = snapshot.children.mapNotNull {
-                            it.getValue(Language::class.java)
-                        }
-                        continuation.resume(Resource.success(languages))
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val languages = snapshot.children.mapNotNull {
+                        it.getValue(Language::class.java)
                     }
-                })
-        }
+                    continuation.resume(Resource.success(languages))
+                }
+            })
     }
 
     @ExperimentalCoroutinesApi
