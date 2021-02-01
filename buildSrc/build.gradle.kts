@@ -21,9 +21,8 @@ object PluginVersions {
     const val GRADLE_VERSIONS = "0.33.0"
     const val KOTLIN = "1.4.21"
     const val KTLINT = "0.40.0"
-    const val HILT = "2.31-alpha"
-    const val NAVIGATION = "2.3.1"
-    const val GOOGLE_SERVICES = "4.3.4"
+    const val HILT = "2.31.2-alpha"
+    const val GOOGLE_SERVICES = "4.3.5"
     const val FIREBASE_CRASHLYTICS_GRADLE = "2.4.1"
 }
 
@@ -31,7 +30,6 @@ dependencies {
     implementation("com.android.tools.build:gradle:${PluginVersions.GRADLE_ANDROID}")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${PluginVersions.KOTLIN}")
     implementation("org.jetbrains.kotlin:kotlin-allopen:${PluginVersions.KOTLIN}")
-    implementation("androidx.navigation:navigation-safe-args-gradle-plugin:${PluginVersions.NAVIGATION}")
     implementation("com.google.dagger:hilt-android-gradle-plugin:${PluginVersions.HILT}")
     implementation("com.pinterest:ktlint:${PluginVersions.KTLINT}")
     implementation("com.github.ben-manes:gradle-versions-plugin:${PluginVersions.GRADLE_VERSIONS}")

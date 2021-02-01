@@ -35,7 +35,6 @@ plugins {
     id(BuildPlugins.KOTLIN_KAPT)
     id(BuildPlugins.KOTLIN_ALLOPEN)
     id(BuildPlugins.DAGGER_HILT)
-    id(BuildPlugins.NAVIGATION_SAFE_ARGS)
     id(BuildPlugins.FIREBASE_CRASHLYTICS)
     id(BuildPlugins.GOOGLE_SERVICES)
 }
@@ -158,8 +157,6 @@ dependencies {
     implementation(AndroidX.CONSTRAINT_LAYOUT)
     implementation(AndroidX.ACTIVITY)
     implementation(AndroidX.FRAGMENT_KTX)
-    implementation(AndroidX.NAVIGATION_UI)
-    implementation(AndroidX.NAVIGATION_FRAGMENT)
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
     implementation(AndroidX.LIFECYCLE_EXTENSIONS)
     implementation(AndroidX.LIFECYCLE_LIVEDATA)

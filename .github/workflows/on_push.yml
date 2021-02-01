@@ -38,20 +38,31 @@ jobs:
         run: ./gradlew testDebugUnitTest
 
       - name: Generate build number
-        if: github.ref == 'refs/heads/modular'
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master'
         run: echo "BUILD_NUMBER=${{github.run_number}}" > app/build_number.properties
 
       - name: Build Release
-        if: github.ref == 'refs/heads/modular'
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master'
         run: ./gradlew app:bundleRelease --stacktrace
 
-      - name: Publish to Play Store
-        if: github.ref == 'refs/heads/modular'
+      - name: Publish to Internal track
+        if: github.ref == 'refs/heads/develop'
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJson: release/play-account.json
           packageName: com.cryart.sabbathschool
           track: internal
+          whatsNewDirectory: distribution/whatsnew
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          mappingFile: app/build/outputs/mapping/release/mapping.txt
+
+      - name: Publish to Alpha track
+        if: github.ref == 'refs/heads/master'
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: release/play-account.json
+          packageName: com.cryart.sabbathschool
+          track: alpha
           whatsNewDirectory: distribution/whatsnew
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           mappingFile: app/build/outputs/mapping/release/mapping.txt
