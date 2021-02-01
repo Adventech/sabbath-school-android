@@ -25,7 +25,6 @@ package com.cryart.sabbathschool.initializer
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.mockk.mockk
 import io.mockk.verify
-import org.amshove.kluent.mock
 import org.amshove.kluent.shouldBeEmpty
 import org.junit.Before
 import org.junit.Test
@@ -48,7 +47,7 @@ class AnalyticsInitializerTest {
 
     @Test
     fun `should set version_code user property on create`() {
-        initializer.create(mock())
+        initializer.create(mockk())
 
         verify {
             mockAnalytics.setUserProperty("version_code", any())

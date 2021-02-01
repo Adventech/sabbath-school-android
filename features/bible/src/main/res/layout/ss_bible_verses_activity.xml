@@ -19,66 +19,74 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/ss_bible_verses_header"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/ss_bible_verses_content_margin"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginBottom="@dimen/ss_bible_verses_content_margin">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/ss_bible_verses_header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|center"
-            android:layout_margin="@dimen/ss_bible_verses_title_margin"
-            android:text="@string/ss_bible"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            app:fontFamily="@font/lato_regular" />
+            android:background="?attr/colorPrimary"
+            android:orientation="horizontal">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:layout_margin="@dimen/ss_bible_verses_title_margin"
+                android:text="@string/ss_bible"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                app:fontFamily="@font/lato_regular" />
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/ss_reading_bible_version_list"
-            android:layout_width="wrap_content"
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/ss_reading_bible_version_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:drawSelectorOnTop="true"
+                android:spinnerMode="dropdown" />
+
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:id="@+id/bibleCloseIV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|end"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="@dimen/ss_bible_verses_close_padding"
+                android:paddingLeft="@dimen/ss_bible_verses_close_padding"
+                android:paddingEnd="@dimen/ss_bible_verses_close_padding"
+                android:paddingRight="@dimen/ss_bible_verses_close_padding"
+                app:iiv_color="@android:color/white"
+                app:iiv_icon="gmd-close"
+                app:iiv_size="@dimen/ss_bible_verses_close_icon_size" />
+        </LinearLayout>
+
+        <com.cryart.sabbathschool.reader.view.SSWebView
+            android:id="@+id/ss_bible_verses_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|end"
-            android:drawSelectorOnTop="true"
-            android:spinnerMode="dropdown" />
+            android:layout_below="@+id/ss_bible_verses_header"
+            android:layout_alignParentBottom="true" />
 
-        <com.mikepenz.iconics.view.IconicsImageView
-            android:id="@+id/bibleCloseIV"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|end"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:paddingStart="@dimen/ss_bible_verses_close_padding"
-            android:paddingLeft="@dimen/ss_bible_verses_close_padding"
-            android:paddingEnd="@dimen/ss_bible_verses_close_padding"
-            android:paddingRight="@dimen/ss_bible_verses_close_padding"
-            app:iiv_color="@android:color/white"
-            app:iiv_icon="gmd-close"
-            app:iiv_size="@dimen/ss_bible_verses_close_icon_size" />
-    </LinearLayout>
-
-    <com.cryart.sabbathschool.reader.view.SSWebView
-        android:id="@+id/ss_bible_verses_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ss_bible_verses_header"
-        android:layout_alignParentBottom="true" />
-
-</RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>

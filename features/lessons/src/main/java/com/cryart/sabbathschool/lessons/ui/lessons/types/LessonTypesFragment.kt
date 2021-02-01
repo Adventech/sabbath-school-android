@@ -29,6 +29,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.base.SsBottomSheetDialogFragment
 
@@ -54,6 +56,7 @@ class LessonTypesFragment : SsBottomSheetDialogFragment() {
         }
         val listView = view.findViewById<RecyclerView>(R.id.typesListView)
         listView.apply {
+            setEdgeEffect(context.colorPrimary)
             addItemDecoration(
                 DividerItemDecoration(context, RecyclerView.VERTICAL).apply {
                     setDrawable(ContextCompat.getDrawable(context, R.drawable.list_divider)!!)

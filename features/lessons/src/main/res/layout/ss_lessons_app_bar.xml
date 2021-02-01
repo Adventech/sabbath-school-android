@@ -118,7 +118,6 @@
                     android:layout_below="@+id/ss_lessons_app_bar_description"
                     android:layout_margin="@dimen/ss_lessons_toolbar_read_margin"
                     android:layout_toEndOf="@+id/ss_quarterly_item_cover_card"
-                    android:fontFamily="@font/lato_bold"
                     android:minWidth="@dimen/ss_lessons_toolbar_read_min_width"
                     android:onClick="@{() -> viewModel.onReadClick()}"
                     android:text="@string/ss_lessons_read"

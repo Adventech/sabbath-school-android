@@ -31,8 +31,6 @@
     <dimen name="btn_min_width">140dp</dimen>
     <dimen name="btn_radius">20dp</dimen>
 
-    <dimen name="padding_bottom_prediction">88dp</dimen>
-
     <dimen name="elevation_bottom_sheet">8dp</dimen>
     <dimen name="elevation_popup">16dp</dimen>
     <dimen name="elevation_swipe_refresh_layout">4dp</dimen>

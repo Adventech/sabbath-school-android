@@ -37,14 +37,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/ss_quarterly_item_featured_height">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            app:backgroundColor="@{viewModel.colorPrimary}" />
-
+        android:layout_height="@dimen/ss_quarterly_item_featured_height"
+        app:backgroundColor="@{viewModel.colorPrimary}">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/ss_quarterly_item_cover_card"
@@ -119,12 +113,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/ss_quarterly_item_featured_read_margin_left"
                 android:layout_marginBottom="@dimen/ss_quarterly_item_featured_read_margin_bottom"
-                android:fontFamily="@font/lato_bold"
                 android:minWidth="@dimen/ss_quarterly_item_featured_read_min_width"
                 android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}"
                 android:text="@string/ss_quarterly_item_read_text"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/ss_quarterly_item_featured_read_text_size"
                 app:cornerRadius="@dimen/ss_quarterly_item_featured_read_radius"
                 app:fbDefaultColor="@{viewModel.colorPrimaryDark}" />
 

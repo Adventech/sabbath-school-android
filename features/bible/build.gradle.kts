@@ -78,7 +78,6 @@ dependencies {
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
     implementation(AndroidX.LIFECYCLE_EXTENSIONS)
     implementation(AndroidX.LIFECYCLE_LIVEDATA)
-    implementation(AndroidX.RECYCLER_VIEW)
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)

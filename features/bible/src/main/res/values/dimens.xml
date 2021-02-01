@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="ss_bible_verses_content_margin">20dp</dimen>
     <dimen name="ss_bible_verses_title_margin">20dp</dimen>
     <dimen name="ss_bible_verses_close_padding">24dp</dimen>
     <dimen name="ss_bible_verses_close_icon_size">14dp</dimen>

@@ -42,16 +42,14 @@ class SSBibleVersesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        this.setFinishOnTouchOutside(true)
 
         track(this, SSConstants.SS_EVENT_BIBLE_OPEN)
 
         val verse = intent.extras!!.getString(SSConstants.SS_READ_VERSE_EXTRA)
         val readIndex = intent.extras!!.getString(SSConstants.SS_READ_INDEX_EXTRA)!!
 
-        binding.bibleCloseIV.setOnClickListener {
-            finish()
-        }
+        binding.bibleCloseIV.setOnClickListener { finish() }
+        binding.root.setOnClickListener { finish() }
 
         binding.ssBibleVersesHeader.setBackgroundColor(this.colorPrimary)
         binding.ssReadingBibleVersionList.onItemSelectedListener = object : OnItemSelectedListener {

@@ -94,7 +94,6 @@
     <dimen name="ss_quarterly_item_featured_read_margin_bottom">20dp</dimen>
     <dimen name="ss_quarterly_item_featured_read_margin_left">10dp</dimen>
     <dimen name="ss_quarterly_item_featured_read_radius">20dp</dimen>
-    <dimen name="ss_quarterly_item_featured_read_text_size">15sp</dimen>
 
     <dimen name="ss_quarterly_item_normal_padding">5dp</dimen>
     <dimen name="ss_quarterly_item_normal_margin_top">0dp</dimen>

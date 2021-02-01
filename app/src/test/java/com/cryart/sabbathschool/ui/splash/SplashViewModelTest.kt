@@ -31,7 +31,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.test.TestCoroutineDispatcher
-import org.amshove.kluent.mock
 import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldBeTrue
 import org.junit.Before
@@ -74,7 +73,7 @@ class SplashViewModelTest : BaseTest() {
 
     @Test
     fun `should emit true when user signed in`() {
-        every { mockFirebaseAuth.currentUser }.returns(mock())
+        every { mockFirebaseAuth.currentUser }.returns(mockk())
 
         viewModel.isSignedInLiveData.observeForever {
             it.shouldBeTrue()
@@ -83,7 +82,7 @@ class SplashViewModelTest : BaseTest() {
 
     @Test
     fun `should schedule reminder when user is signed in`() {
-        every { mockFirebaseAuth.currentUser }.returns(mock())
+        every { mockFirebaseAuth.currentUser }.returns(mockk())
 
         SplashViewModel(
             mockFirebaseAuth,
