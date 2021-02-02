@@ -9,7 +9,6 @@ object Dependencies {
     const val JODA = "net.danlew:android.joda:${Versions.JODA}"
     const val COIL = "io.coil-kt:coil:${Versions.COIL}"
     const val TAP_TARGET = "uk.co.samuelwall:material-tap-target-prompt:${Versions.TAP_TARGET}"
-    const val INSETTER = "dev.chrisbanes:insetter-ktx:${Versions.INSETTER}"
 
     object Hilt {
         const val ANDROID = "com.google.dagger:hilt-android:${Versions.HILT}"

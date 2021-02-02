@@ -19,46 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.lessons.ui.readings.options
 
-package com.cryart.sabbathschool.lessons.ui.readings.options;
+import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import com.cryart.sabbathschool.lessons.R
+import com.cryart.sabbathschool.lessons.databinding.SsReadingDisplayOptionsBinding
+import com.cryart.sabbathschool.lessons.ui.base.SsBottomSheetDialogFragment
+import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+class SSReadingDisplayOptionsView : SsBottomSheetDialogFragment() {
+    private var binding: SsReadingDisplayOptionsBinding? = null
 
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-
-import com.cryart.sabbathschool.lessons.R;
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
-import com.cryart.sabbathschool.lessons.databinding.SsReadingDisplayOptionsBinding;
-import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-
-import org.jetbrains.annotations.NotNull;
-
-public class SSReadingDisplayOptionsView extends BottomSheetDialogFragment {
-    private SsReadingDisplayOptionsBinding binding;
-
-    public void setSSReadingViewModel(Context context, SSReadingViewModel ssReadingViewModel, SSReadingDisplayOptions ssReadingDisplayOptions) {
-        this.binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.ss_reading_display_options, null, false);
-        binding.setViewModel(new SSReadingDisplayOptionsViewModel(binding, ssReadingViewModel, ssReadingDisplayOptions));
+    fun setSSReadingViewModel(
+        context: Context,
+        ssReadingViewModel: SSReadingViewModel,
+        ssReadingDisplayOptions: SSReadingDisplayOptions
+    ) {
+        binding = DataBindingUtil.inflate(
+            LayoutInflater.from(context),
+            R.layout.ss_reading_display_options, null, false
+        )
+        binding?.viewModel = SSReadingDisplayOptionsViewModel(binding, ssReadingViewModel, ssReadingDisplayOptions)
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         if (binding == null) {
-            this.binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.ss_reading_display_options, null, false);
+            binding = DataBindingUtil.inflate(
+                LayoutInflater.from(context),
+                R.layout.ss_reading_display_options, null, false
+            )
         }
-        return binding.getRoot();
+        return binding?.root
     }
 }

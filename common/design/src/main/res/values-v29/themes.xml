@@ -31,4 +31,9 @@
 
     <style name="Platform.Theme.SS" parent="Platform.V29.Theme.SS" />
 
+    <style name="Theme.SS.Full">
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/color_navigation_full</item>
+    </style>
+
 </resources>

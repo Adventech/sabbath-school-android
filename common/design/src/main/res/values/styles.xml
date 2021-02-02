@@ -61,7 +61,7 @@
         <item name="iconPadding">@dimen/space</item>
         <item name="fontFamily">@font/lato_bold</item>
         <item name="android:fontFamily">@font/lato_bold</item>
-        <item name="textAllCaps">false</item>
+        <item name="textAllCaps">true</item>
         <item name="android:textAppearance">@style/TextAppearance.SS.Button</item>
         <item name="shapeAppearance">@style/ShapeAppearanceOverlay.SS.Rounded</item>
     </style>

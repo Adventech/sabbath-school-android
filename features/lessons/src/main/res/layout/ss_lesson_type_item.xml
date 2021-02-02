@@ -20,14 +20,15 @@
   ~ THE SOFTWARE.
   -->
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/titleView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
-    android:fontFamily="@font/lato_medium"
     android:padding="@dimen/spacing_medium"
     android:textColor="?android:attr/textColorPrimary"
     android:textSize="@dimen/text_size_medium"
+    app:fontFamily="@font/lato_medium"
     tools:text="@tools:sample/lorem" />

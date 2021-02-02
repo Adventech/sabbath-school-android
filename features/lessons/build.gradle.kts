@@ -94,7 +94,6 @@ dependencies {
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.COIL)
     implementation(Dependencies.TAP_TARGET)
-    implementation(Dependencies.INSETTER)
     implementation("com.mikepenz:iconics-core:5.2.4@aar")
     implementation("com.mikepenz:iconics-views:5.2.4@aar")
     implementation("com.mikepenz:iconics-typeface-api:5.2.4@aar")

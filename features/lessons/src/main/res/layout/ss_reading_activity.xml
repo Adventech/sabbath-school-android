@@ -22,7 +22,8 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -114,7 +115,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ss_reading_sheet_header"
                     android:scrollbars="vertical"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    tools:listitem="@layout/ss_reading_item" />
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

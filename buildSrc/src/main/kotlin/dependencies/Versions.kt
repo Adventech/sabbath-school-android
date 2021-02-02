@@ -25,7 +25,6 @@ object Versions {
     const val COIL = "1.1.1"
     const val LEAK_CANARY = "2.5"
     const val TAP_TARGET = "3.1.0"
-    const val INSETTER = "0.3.1"
 
     const val FIREBASE_BOM = "26.4.0"
     const val FACEBOOK = "8.1.0"

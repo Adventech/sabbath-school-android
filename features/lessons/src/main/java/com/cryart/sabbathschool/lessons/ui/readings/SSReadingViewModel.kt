@@ -70,7 +70,7 @@ import timber.log.Timber
 import java.util.ArrayList
 import java.util.Locale
 
-internal class SSReadingViewModel(
+class SSReadingViewModel(
     private val context: Context,
     private val dataListener: DataListener,
     private val ssLessonIndex: String,
