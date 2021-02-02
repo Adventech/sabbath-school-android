@@ -41,10 +41,10 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -58,19 +58,17 @@ class LoginViewModel @Inject constructor(
     private val mutableViewState = SingleLiveEvent<ViewState>()
     val viewStateLiveData: LiveData<ViewState> = mutableViewState.asLiveData()
 
-    fun handleGoogleSignInResult(data: Intent?) {
+    fun handleGoogleSignInResult(data: Intent?) = viewModelScope.launch(schedulerProvider.io) {
         mutableViewState.postValue(ViewState.Loading)
 
         try {
             val task = googleSignIn.getSignedInAccountFromIntent(data)
             val account = task.getResult(ApiException::class.java)
 
-            val token = account?.idToken ?: return
+            val token = account?.idToken ?: return@launch
             val credential = googleSignIn.getCredential(token)
-            viewModelScope.launch(schedulerProvider.io) {
-                val result = firebaseAuth.signInWithCredential(credential).await()
-                handleAuthResult(result)
-            }
+            val result = firebaseAuth.signInWithCredential(credential).await()
+            handleAuthResult(result)
         } catch (e: Exception) {
             Timber.e(e)
             mutableViewState.postValue(ViewState.Error(messageRes = R.string.ss_login_failed))
@@ -87,14 +85,11 @@ class LoginViewModel @Inject constructor(
         mutableViewState.postValue(state)
     }
 
-    fun handleAnonymousLogin() {
-        mutableViewState.postValue(ViewState.Loading)
-
+    fun handleAnonymousLogin() = viewModelScope.launch(schedulerProvider.io) {
         try {
-            viewModelScope.launch(schedulerProvider.io) {
-                val result = firebaseAuth.signInAnonymously().await()
-                handleAuthResult(result)
-            }
+            mutableViewState.postValue(ViewState.Loading)
+            val result = firebaseAuth.signInAnonymously().await()
+            handleAuthResult(result)
         } catch (e: Exception) {
             Timber.e(e)
             mutableViewState.postValue(ViewState.Error(messageRes = R.string.ss_login_failed))
@@ -123,14 +118,12 @@ class LoginViewModel @Inject constructor(
         )
     }
 
-    private fun handleFacebookAccessToken(accessToken: AccessToken) {
-        mutableViewState.postValue(ViewState.Loading)
+    private fun handleFacebookAccessToken(accessToken: AccessToken) = viewModelScope.launch(schedulerProvider.io) {
         try {
-            viewModelScope.launch(schedulerProvider.io) {
-                val credential = facebookLoginManager.getCredential(accessToken.token)
-                val result = firebaseAuth.signInWithCredential(credential).await()
-                handleAuthResult(result)
-            }
+            mutableViewState.postValue(ViewState.Loading)
+            val credential = facebookLoginManager.getCredential(accessToken.token)
+            val result = firebaseAuth.signInWithCredential(credential).await()
+            handleAuthResult(result)
         } catch (e: Exception) {
             Timber.e(e)
             mutableViewState.postValue(ViewState.Error(messageRes = R.string.ss_login_failed))
