@@ -24,12 +24,13 @@ package com.cryart.sabbathschool.lessons.ui.readings
 
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import coil.load
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
@@ -53,7 +54,6 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.insetter.Insetter
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -92,11 +92,15 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
     }
 
     private fun initUI() {
-        Insetter.setEdgeToEdgeSystemUiFlags(window.decorView, true)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setDecorFitsSystemWindows(false)
+        } else {
+            @Suppress("DEPRECATION")
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        }
 
         val adapter = SSReadingSheetAdapter()
         binding.ssReadingSheetList.adapter = adapter
-        binding.ssReadingSheetList.layoutManager = LinearLayoutManager(this)
         setSupportActionBar(binding.ssReadingAppBar.ssReadingToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -149,21 +153,25 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.ss_reading_menu_share -> {
                 shareApp(title as String?)
+                true
             }
             R.id.ss_reading_menu_suggest_edit -> {
                 ssReadingViewModel.promptForEditSuggestion()
+                true
             }
             R.id.ss_reading_menu_display_options -> {
                 ssReadingViewModel.onDisplayOptionsClick()
+                true
             }
             R.id.ss_reading_menu_settings -> {
                 appNavigator.navigate(this, Destination.SETTINGS)
+                true
             }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroy() {
