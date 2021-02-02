@@ -74,27 +74,26 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/ss_quarterly_featured_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/lato_bold"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:paddingStart="@dimen/ss_quarterly_item_featured_date_padding_left"
                 android:paddingEnd="@dimen/ss_quarterly_item_featured_date_padding_right"
                 android:text="@{viewModel.date}"
                 android:textAllCaps="true"
-                android:textColor="@android:color/white"
+                android:textColor="@color/white_70"
                 android:textSize="@dimen/ss_quarterly_item_featured_date_text_size"
+                app:fontFamily="@font/lato_bold"
                 tools:text="Quarterly Title" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/ss_quarterly_item_featured_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/lato_bold"
                 android:maxLines="3"
                 android:paddingStart="@dimen/ss_quarterly_item_featured_title_padding_left"
                 android:paddingTop="@dimen/ss_quarterly_item_featured_title_padding_top"
@@ -103,8 +102,7 @@
                 android:text="@{viewModel.title}"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/ss_quarterly_item_featured_title_text_size"
-                android:textStyle="bold"
-                android:typeface="sans"
+                app:fontFamily="@font/lato_bold"
                 tools:text="Quarterly Name" />
 
             <com.google.android.material.button.MaterialButton

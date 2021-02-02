@@ -45,6 +45,17 @@
     <color name="nav_color">@color/black</color>
     <color name="color_navigation_full">@android:color/transparent</color>
 
-    <color name="list_divider">#1f000000</color>
+    <color name="list_divider">#80D7D7D7</color>
+    <color name="ss_gray_1">#EFEFEF</color>
+    <color name="ss_gray_2">#8F8E94</color>
+    <color name="ss_gray_3">#606060</color>
+    <color name="ss_gray_4">#383838</color>
+    <color name="ss_gray_5">#3B3F3F</color>
+    <color name="ss_gray_6">#FAFAFA</color>
+    <color name="ss_grey_7">#E2E2E5</color>
+
+    <color name="text_primary">@color/ss_gray_3</color>
+    <color name="text_secondary">@color/ss_gray_2</color>
+    <color name="text_secondary_50">#808F8E94</color>
 
 </resources>

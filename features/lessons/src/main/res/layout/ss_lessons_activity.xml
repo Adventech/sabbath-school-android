@@ -67,13 +67,12 @@
                     android:visibility="gone"
                     tools:visibility="visible">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/lessonTypeTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:drawablePadding="@dimen/spacing_normal"
-                        android:fontFamily="@font/lato_medium"
                         android:gravity="center"
                         android:maxLines="1"
                         android:textAllCaps="true"
@@ -82,9 +81,11 @@
                         app:drawableEndCompat="@drawable/ic_expand_more"
                         app:drawableRightCompat="@drawable/ic_expand_more"
                         app:drawableTint="@color/list_divider"
+                        app:fontFamily="@font/lato_medium"
                         tools:text="Easy Reading Version" />
                 </FrameLayout>
 
+                <include layout="@layout/ss_horizontal_line" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/ss_lesson_info_list"

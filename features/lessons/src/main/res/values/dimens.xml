@@ -141,16 +141,17 @@
     <dimen name="ss_lessons_toolbar_read_min_width">140dp</dimen>
     <dimen name="ss_lessons_toolbar_read_border">0dp</dimen>
     <dimen name="ss_lessons_toolbar_read_radius">20dp</dimen>
+    <dimen name="ss_lessons_toolbar_date_text_size">13sp</dimen>
+    <dimen name="ss_lessons_toolbar_description_text_size">15sp</dimen>
 
-    <dimen name="ss_lesson_item_content_padding_top">15dp</dimen>
-    <dimen name="ss_lesson_item_content_padding_bottom">15dp</dimen>
+    <dimen name="ss_lesson_item_content_padding_top">12dp</dimen>
+    <dimen name="ss_lesson_item_content_padding_bottom">12dp</dimen>
     <dimen name="ss_lesson_item_content_padding_left">20dp</dimen>
     <dimen name="ss_lesson_item_content_padding_right">20dp</dimen>
-    <dimen name="ss_lesson_item_index_text_size">26sp</dimen>
-    <dimen name="ss_lesson_item_index_margin_right">20dp</dimen>
+    <dimen name="ss_lesson_item_index_text_size">20sp</dimen>
+    <dimen name="ss_lesson_item_index_margin_start">20dp</dimen>
     <dimen name="ss_lesson_item_title_text_size">17sp</dimen>
-    <dimen name="ss_lesson_item_date_margin_top">3dp</dimen>
-    <dimen name="ss_lesson_item_date_text_size">12sp</dimen>
+    <dimen name="ss_lesson_item_date_text_size">14sp</dimen>
     <dimen name="ss_lesson_item_menu_width">64dp</dimen>
     <dimen name="ss_lesson_item_menu_icon_size">12dp</dimen>
 

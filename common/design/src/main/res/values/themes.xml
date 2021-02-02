@@ -35,6 +35,8 @@
         <item name="android:fontFamily">@font/lato_regular</item>
         <item name="textAppearanceHeadline4">@style/TextAppearance.SS.Headline4</item>
         <item name="textAppearanceHeadline6">@style/TextAppearance.SS.Headline6</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
         <item name="textAppearanceBody1">@style/TextAppearance.SS.Body1</item>
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.SS.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.SS.MediumComponent</item>

@@ -24,6 +24,9 @@ package com.cryart.sabbathschool.core.extensions.view
 
 import android.widget.EdgeEffect
 import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 
 fun RecyclerView.setEdgeEffect(@ColorInt color: Int) {
@@ -32,4 +35,13 @@ fun RecyclerView.setEdgeEffect(@ColorInt color: Int) {
             return EdgeEffect(view.context).apply { setColor(color) }
         }
     }
+}
+
+fun RecyclerView.dividers(@DrawableRes dividerRes: Int) {
+    addItemDecoration(
+        DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
+            val divider = ContextCompat.getDrawable(context, dividerRes) ?: return@apply
+            setDrawable(divider)
+        }
+    )
 }

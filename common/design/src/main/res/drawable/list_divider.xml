@@ -24,5 +24,5 @@
     android:shape="rectangle">
 
     <solid android:color="@color/list_divider" />
-    <size android:height="1dp" />
+    <size android:height="0.5dp" />
 </shape>

@@ -33,6 +33,7 @@ import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.extensions.view.dividers
 import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -70,8 +71,11 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
         AppRate.with(this).setInstallDays(SSConstants.SS_APP_RATE_INSTALL_DAYS).monitor()
         AppRate.showRateDialogIfMeetsConditions(this)
 
-        val adapter = SSLessonsAdapter()
-        binding.ssLessonInfoList.adapter = adapter
+        val listAdapter = SSLessonsAdapter()
+        binding.ssLessonInfoList.apply {
+            dividers(R.drawable.list_divider)
+            adapter = listAdapter
+        }
 
         setSupportActionBar(binding.ssLessonsAppBar.ssLessonsToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -91,11 +95,11 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
                 if (binding.ssLessonInfoList.childCount > 0) {
                     updateLessonTypesLabel(types)
                 } else {
-                    adapter.registerAdapterDataObserver(
+                    listAdapter.registerAdapterDataObserver(
                         object : RecyclerView.AdapterDataObserver() {
                             override fun onChanged() {
                                 super.onChanged()
-                                adapter.unregisterAdapterDataObserver(this)
+                                listAdapter.unregisterAdapterDataObserver(this)
                                 updateLessonTypesLabel(types)
                             }
                         })

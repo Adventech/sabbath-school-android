@@ -21,6 +21,7 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -30,75 +31,73 @@
             type="com.cryart.sabbathschool.lessons.ui.lessons.SSLessonItemViewModel" />
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ss_lesson_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:onClick="@{() -> viewModel.onItemClick()}"
+        android:paddingStart="@dimen/ss_lesson_item_content_padding_left"
+        android:paddingTop="@dimen/ss_lesson_item_content_padding_top"
+        android:paddingEnd="@dimen/ss_lesson_item_content_padding_right"
+        android:paddingBottom="@dimen/ss_lesson_item_content_padding_bottom">
 
-        <RelativeLayout
-            android:id="@+id/ss_lesson_item_content"
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLine"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="@{() -> viewModel.onItemClick()}"
-            android:paddingStart="@dimen/ss_lesson_item_content_padding_left"
-            android:paddingLeft="@dimen/ss_lesson_item_content_padding_left"
-            android:paddingTop="@dimen/ss_lesson_item_content_padding_top"
-            android:paddingEnd="@dimen/ss_lesson_item_content_padding_right"
-            android:paddingRight="@dimen/ss_lesson_item_content_padding_right"
-            android:paddingBottom="@dimen/ss_lesson_item_content_padding_bottom">
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
 
-            <TextView
-                android:id="@+id/ss_lesson_item_index"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/ss_lesson_item_index_margin_right"
-                android:layout_marginRight="@dimen/ss_lesson_item_index_margin_right"
-                android:fontFamily="@font/lato_bold"
-                android:gravity="center"
-                android:maxEms="1"
-                android:maxLines="1"
-                android:minEms="1"
-                android:textColor="?android:attr/textColorSecondary"
-                android:textSize="@dimen/ss_lesson_item_index_text_size"
-                tools:text="1" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ss_lesson_item_index"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxEms="1"
+            android:maxLines="1"
+            android:minEms="1"
+            android:textColor="@color/text_secondary_50"
+            android:textSize="@dimen/ss_lesson_item_index_text_size"
+            app:fontFamily="@font/lato_bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1" />
 
-            <TextView
-                android:id="@+id/ss_lesson_item_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/ss_lesson_item_index"
-                android:layout_toEndOf="@+id/ss_lesson_item_index"
-                android:layout_toRightOf="@+id/ss_lesson_item_index"
-                android:ellipsize="end"
-                android:fontFamily="@font/lato_medium"
-                android:maxLines="1"
-                android:text="@{viewModel.title}"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="@dimen/ss_lesson_item_title_text_size"
-                tools:text="Lesson Title" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ss_lesson_item_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ss_lesson_item_index_margin_start"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.title}"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="@dimen/ss_lesson_item_title_text_size"
+            app:fontFamily="@font/lato_medium"
+            app:layout_constraintBottom_toTopOf="@id/guideLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ss_lesson_item_index"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Lesson Title" />
 
-            <TextView
-                android:id="@+id/ss_lesson_item_normal_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ss_lesson_item_title"
-                android:layout_marginTop="@dimen/ss_lesson_item_date_margin_top"
-                android:layout_toEndOf="@+id/ss_lesson_item_index"
-                android:layout_toRightOf="@+id/ss_lesson_item_index"
-                android:ellipsize="end"
-                android:fontFamily="@font/lato_regular"
-                android:maxLines="1"
-                android:text="@{viewModel.date}"
-                android:textColor="?android:attr/textColorSecondary"
-                android:textSize="@dimen/ss_lesson_item_date_text_size"
-                tools:text="Lesson Title" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ss_lesson_item_normal_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ss_lesson_item_index_margin_start"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.date}"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="@dimen/ss_lesson_item_date_text_size"
+            app:fontFamily="@font/lato_regular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ss_lesson_item_index"
+            app:layout_constraintTop_toBottomOf="@id/guideLine"
+            tools:text="@tools:sample/lorem" />
 
-        </RelativeLayout>
-
-        <include layout="@layout/ss_horizontal_line" />
-
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

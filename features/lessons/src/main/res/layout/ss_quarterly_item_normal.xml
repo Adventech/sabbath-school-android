@@ -39,11 +39,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/sectionTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lato_medium"
             android:paddingStart="@dimen/spacing_medium"
             android:paddingTop="@dimen/spacing_list"
             android:paddingEnd="@dimen/spacing_medium"
@@ -51,6 +50,7 @@
             android:text="@string/ss_lessons_previous"
             android:textAllCaps="true"
             android:textColor="?android:attr/textColorSecondary"
+            app:fontFamily="@font/lato_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -99,30 +99,30 @@
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/ss_quarterly_item_normal_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:fontFamily="@font/lato_bold"
                     android:maxLines="2"
                     android:text="@{viewModel.date}"
                     android:textAllCaps="true"
                     android:textColor="?android:attr/textColorSecondary"
                     android:textSize="@dimen/ss_quarterly_item_normal_date_text_size"
+                    app:fontFamily="@font/lato_bold"
                     tools:text="Quarterly Date" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/ss_quarterly_item_normal_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/ss_quarterly_item_normal_title_margin_top"
                     android:ellipsize="end"
-                    android:fontFamily="@font/lato_bold"
                     android:maxLines="2"
                     android:text="@{viewModel.title}"
                     android:textColor="?android:attr/textColorPrimary"
                     android:textSize="@dimen/ss_quarterly_item_normal_title_text_size"
+                    app:fontFamily="@font/lato_bold"
                     tools:text="Quarterly Name" />
 
             </LinearLayout>

@@ -61,14 +61,15 @@
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.8">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/ss_lessons_app_bar_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lato_regular"
                     android:text="@{viewModel.date}"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/white_70"
+                    android:textSize="@dimen/ss_lessons_toolbar_date_text_size"
+                    app:fontFamily="@font/lato_bold"
                     tools:text="October - November - December" />
 
                 <com.google.android.material.card.MaterialCardView
@@ -94,7 +95,7 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/ss_lessons_app_bar_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -104,11 +105,12 @@
                     android:layout_marginEnd="@dimen/ss_lessons_toolbar_description_margin_right"
                     android:layout_toEndOf="@+id/ss_quarterly_item_cover_card"
                     android:ellipsize="end"
-                    android:fontFamily="@font/lato_regular"
                     android:maxLines="8"
                     android:minHeight="@dimen/ss_lessons_toolbar_description_min_height"
                     android:text="@{viewModel.description}"
                     android:textColor="@android:color/white"
+                    android:textSize="@dimen/ss_lessons_toolbar_description_text_size"
+                    app:fontFamily="@font/lato_medium"
                     tools:text="@tools:sample/lorem/random" />
 
                 <com.google.android.material.button.MaterialButton
