@@ -45,8 +45,8 @@ class SSBibleVersesActivity : AppCompatActivity() {
 
         track(this, SSConstants.SS_EVENT_BIBLE_OPEN)
 
-        val verse = intent.extras!!.getString(SSConstants.SS_READ_VERSE_EXTRA)
-        val readIndex = intent.extras!!.getString(SSConstants.SS_READ_INDEX_EXTRA)!!
+        val verse = intent.extras?.getString(SSConstants.SS_READ_VERSE_EXTRA)
+        val readIndex = intent.extras?.getString(SSConstants.SS_READ_INDEX_EXTRA) ?: return
 
         binding.bibleCloseIV.setOnClickListener { finish() }
         binding.root.setOnClickListener { finish() }
@@ -54,9 +54,10 @@ class SSBibleVersesActivity : AppCompatActivity() {
         binding.ssBibleVersesHeader.setBackgroundColor(this.colorPrimary)
         binding.ssReadingBibleVersionList.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
-                val ssBibleVerses = adapterView.getItemAtPosition(i) as SSBibleVerses
+                val ssBibleVerses = adapterView.getItemAtPosition(i) as? SSBibleVerses ?: return
                 viewModel.setLastBibleUsed(ssBibleVerses.name)
-                binding.ssBibleVersesView.loadContent(ssBibleVerses.verses[verse]!!, viewModel.getDisplayOptions())
+                val data = ssBibleVerses.verses.getOrDefault(verse, "")
+                binding.ssBibleVersesView.loadContent(data, viewModel.getDisplayOptions())
             }
 
             override fun onNothingSelected(arg0: AdapterView<*>?) {}
