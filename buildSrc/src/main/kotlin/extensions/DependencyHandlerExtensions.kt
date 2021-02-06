@@ -62,6 +62,16 @@ fun DependencyHandler.kapt(dependencyNotation: String): Dependency? =
     add("kapt", dependencyNotation)
 
 /**
+ * Adds a dependency to the `kaptTest` configuration.
+ *
+ * @param dependencyNotation name of dependency to add at specific configuration
+ *
+ * @return the dependency
+ */
+fun DependencyHandler.kaptTest(dependencyNotation: String): Dependency? =
+    add("kaptTest", dependencyNotation)
+
+/**
  * Adds a dependency to the `testImplementation` configuration.
  *
  * @param dependencyNotation name of dependency to add at specific configuration
@@ -83,6 +93,16 @@ fun DependencyHandler.androidTestImplementation(dependencyNotation: String): Dep
     add("androidTestImplementation", dependencyNotation)
 
 /**
+ * Adds a dependency to the `kaptAndroidTest` configuration.
+ *
+ * @param dependencyNotation name of dependency to add at specific configuration
+ *
+ * @return the dependency
+ */
+fun DependencyHandler.kaptAndroidTest(dependencyNotation: String): Dependency? =
+    add("kaptAndroidTest", dependencyNotation)
+
+/**
  * Adds all the tests dependencies to specific configuration.
  */
 fun DependencyHandler.addTestsDependencies() {
@@ -96,10 +116,19 @@ fun DependencyHandler.addTestsDependencies() {
     testImplementation(TestDependencies.EXT)
     testImplementation(TestDependencies.COROUTINES_TEST)
     testImplementation(TestDependencies.FRAGMENT_TEST)
+    testImplementation(TestDependencies.KLUENT)
+    testImplementation(TestDependencies.HILT)
+    testImplementation(TestDependencies.JODA)
+    kaptTest(TestDependencies.HILT_COMPILER)
 
     androidTestImplementation(TestAndroidDependencies.ESPRESSO)
+    androidTestImplementation(TestAndroidDependencies.ESPRESSO_INTENTS)
     androidTestImplementation(TestAndroidDependencies.RUNNER)
     androidTestImplementation(TestAndroidDependencies.RULES)
     androidTestImplementation(TestAndroidDependencies.JUNIT)
     androidTestImplementation(TestAndroidDependencies.FRAGMENT_TEST)
+    androidTestImplementation(TestDependencies.COROUTINES_TEST)
+    androidTestImplementation(TestDependencies.ARCH_CORE)
+    androidTestImplementation(TestDependencies.HILT)
+    kaptAndroidTest(TestDependencies.HILT_COMPILER)
 }

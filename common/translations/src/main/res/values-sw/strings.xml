@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">"Mwongozo wa kujifunza Biblia"</string>
+    <string name="ss_share">"Shiriki"</string>
+    <string name="ss_login_button_google">"Ingia na Google"</string>
+    <string name="ss_login_button_facebook">"Ingia na Facebook"</string>
+    <string name="ss_login_button_anonymous">"Ingia Anonymously"</string>
+    <string name="ss_menu_anonymous_name">"Mtu asiyejulikana"</string>
+    <string name="ss_menu_sign_out">"Toka"</string>
+    <string name="ss_menu_read_now">"Soma Sasa"</string>
+    <string name="ss_menu_share_app">"Shiriki Programu"</string>
+    <string name="ss_menu_share_app_text">"Angalia programu mpya ya Shule ya Sabato ambayo ninayotumia"</string>
+    <string name="ss_my_highlights">"Mambo Yangu muhimu"</string>
+    <string name="ss_my_notes">"Vidokezo vyangu"</string>
+    <string name="ss_settings">"Mipangilio"</string>
+    <string name="ss_about">"Kuhusu"</string>
+    <string name="ss_login_failed">"Imeshindikana kujiandikisha kuingia. Tafadhali jaribu tena."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Ndiyo"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Hapana"</string>
+    <string name="ss_login_anonymously_dialog_title">"Ingia bila kujulikana?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Ukiingia bila kujulikana, huwezi kuunganisha data zako (kama maoni na mambo muhimu) kwenye vifaa, au baada ya kufuta programu. Una uhakika unataka kuendelea?"</string>
+    <string name="ss_quarterlies_filter_languages">"Lugha"</string>
+    <string name="ss_quarterlies_downloading">"Kupata robo ya ..."</string>
+    <string name="ss_quarterlies_error">"Kosa isiyojulikana ilitokea. Tafadhali jaribu tena."</string>
+    <string name="ss_quarterlies_empty">"Hakuna robo tatu zinazopatikana kwa wakati huu"</string>
+    <string name="ss_quarterly_item_read_text">"Fungua"</string>
+    <string name="ss_lessons_downloading">"Inafungua kila mwezi ..."</string>
+    <string name="ss_lessons_error">"Hitilafu ilitokea wakati wa ufunguzi wa kila robo"</string>
+    <string name="ss_lessons_empty">"Hakuna robo tatu zinazopatikana kwa wakati huu"</string>
+    <string name="ss_lessons_read">"Soma"</string>
+    <string name="ss_reading_empty">"Tunafanya kazi kwenye somo hili. Tafadhali angalia tena hivi karibuni."</string>
+    <string name="ss_reading_error">"Hitilafu ilitokea wakati wa kufungua somo"</string>
+    <string name="ss_reading_downloading">"Inapakua somo kwa kusoma nje ya mtandao"</string>
+    <string name="ss_reading_suggest_edit">"Uzani kupanga au kukonzedwa"</string>
+    <string name="ss_reading_suggest_edit_hint">"Tafadhali eleza marekebisho yako au maoni"</string>
+    <string name="ss_reading_suggest_edit_done">"Asante! Maoni yako yatarekebishwa."</string>
+    <string name="ss_reading_comment">"Maoni"</string>
+    <string name="ss_reading_enter_comment">"Ingiza maoni yako"</string>
+    <string name="ss_reading_copied">"Uchaguzi ulikopiwa"</string>
+    <string name="ss_reading_share_to">"Shiriki uteuzi kwa:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Kuja Hivi karibuni"</string>
+    <string name="ss_coming_soon_subheader">"Kwa sasa tunafanya kazi kwenye kipengele hiki. Endelea kuzingatia, inakuja hivi karibuni."</string>
+    <string name="ss_about_app_version">"toleo 3.0"</string>
+    <string name="ss_about_made">"Imefanywa na ❤ na Adventech"</string>
+    <string name="ss_settings_display_options">"Chaguo za kuonyesha"</string>
+    <string name="ss_settings_color_theme">"Mandhari ya rangi"</string>
+    <string name="ss_settings_color_theme_light">"Mwanga"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Giza"</string>
+    <string name="ss_settings_typeface">"Font"</string>
+    <string name="ss_settings_font_size">"Ukubwa wa herufi"</string>
+    <string name="ss_settings_font_size_tiny">"Kidogo"</string>
+    <string name="ss_settings_font_size_small">"Ndogo"</string>
+    <string name="ss_settings_font_size_medium">"Kati"</string>
+    <string name="ss_settings_font_size_large">"Kubwa"</string>
+    <string name="ss_settings_font_size_huge">"Kubwa"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Linganisha programu hii"</string>
+    <string name="rate_dialog_message">"Tafadhali pata muda kupima programu hii. Asante kwa msaada wako!"</string>
+    <string name="rate_dialog_ok">"Kiwango"</string>
+    <string name="rate_dialog_cancel">"Baadae"</string>
+    <string name="rate_dialog_no">"Hapana"</string>
+    <string name="ss_settings_website">"Tovuti"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Lugha zaidi"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Gonga icon ya chujio ili uone lugha zilizopo"</string>
+    <string name="ss_bible">"Biblia"</string>
+    <string name="ss_settings_reminder">"Kumbukumbu la kila siku"</string>
+    <string name="ss_settings_reminder_summary">"Angalia ili kuwezesha kumbukumbu ya kila siku ya uchunguzi"</string>
+    <string name="ss_settings_reminder_time">"Muda wa Kumbukumbu"</string>
+    <string name="ss_settings_reminder_text">"Muda wa kujifunza somo la Shule ya Sabato"</string>
+    <string name="ss_reading_offline">"Huko nje ya mtandao. Unganisha tena kusoma somo hili."</string>
+    <string name="ss_reading_offline_retry">"Jaribu tena"</string>
+    <string name="ss_about_text">"Ujumbe wa Adventech ni wa kwanza na wa kwanza - tukufu utukufu wetu wetu, Mzee wa Kale. Tumejitolea kufanya huduma yetu kupitia teknolojia. Lengo letu ni kuunganisha Kanisa la Adventist yetu ya Saba. Lengo letu ni kutangaza Habari njema kwa ulimwengu huu kupitia teknolojia na maendeleo katika mawasiliano. Lengo letu ni kushuhudia Ujaji wa pili wa Yesu.
+
+Tunaongozwa na mfano na mbinu za Yesu, wakati alipokuwa akihudhuria hapa duniani. Kwa hiyo, sisi ni nia ya kutoa kiwango cha juu cha ubora wa miradi yetu yote bila gharama yoyote kwa upendo na kujitolea. Tumejitolea kumtukuza Baba yetu, kwa sababu Yeye anastahili sifa kubwa zaidi.
+
+Tunaamini kweli kwamba Mungu ameongeza ujuzi wa dunia ya kisasa na anataka tuutumie kwa utukufu wake ili tangaza Utumishi wake wa hivi karibuni!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Masomo ya awali"</string>
+</resources>

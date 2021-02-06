@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">"Субботняя Школа"</string>
+    <string name="ss_share">"Поделиться"</string>
+    <string name="ss_login_button_google">"Войти через Google"</string>
+    <string name="ss_login_button_facebook">"Войти через Facebook"</string>
+    <string name="ss_login_button_anonymous">"Продолжить анонимно"</string>
+    <string name="ss_menu_anonymous_name">"Аноним"</string>
+    <string name="ss_menu_sign_out">"Выход"</string>
+    <string name="ss_menu_read_now">"Читать урочник"</string>
+    <string name="ss_menu_share_app">"Поделиться программой"</string>
+    <string name="ss_menu_share_app_text">"Я использую Субботнюю Школу"</string>
+    <string name="ss_my_highlights">"Мои выделения"</string>
+    <string name="ss_my_notes">"Мои заметки"</string>
+    <string name="ss_settings">"Настройки"</string>
+    <string name="ss_about">"О программе"</string>
+    <string name="ss_login_failed">"Ошибка при входе. Попробуйте снова"</string>
+    <string name="ss_login_anonymously_dialog_positive">"Да"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Нет"</string>
+    <string name="ss_login_anonymously_dialog_title">"Войти анонимно?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Входя анонимно вы не сможете синхронизировать данные, такие как комментарии и выделения, на разных устройствах или после удаления приложения. Вы уверены, что хотите продолжить?"</string>
+    <string name="ss_quarterlies_filter_languages">"Фильтр по языку"</string>
+    <string name="ss_quarterlies_downloading">"Загружаю список урочников…"</string>
+    <string name="ss_quarterlies_error">"Произошла неизвестная ошибка. Пожалуйста, попробуйте еще раз"</string>
+    <string name="ss_quarterlies_empty">"Похоже, что ни одного урочника не найдено в данный момент"</string>
+    <string name="ss_quarterly_item_read_text">"Открыть"</string>
+    <string name="ss_lessons_downloading">"Открываем урочник…"</string>
+    <string name="ss_lessons_error">"Произошла ошибка при открытии урочника. Пожалуйста, попробуйте еще раз"</string>
+    <string name="ss_lessons_empty">"Похоже, что ни одного урока не найдено в данный момент"</string>
+    <string name="ss_lessons_read">"Читать"</string>
+    <string name="ss_reading_empty">"Похоже на то, что урок пуст"</string>
+    <string name="ss_reading_error">"Произошла ошибка при открытии урока. Пожалуйста, попробуйте еще раз"</string>
+    <string name="ss_reading_downloading">"Загружется урок для режима оффлайн"</string>
+    <string name="ss_reading_suggest_edit">"Сообщить об ошибке"</string>
+    <string name="ss_reading_suggest_edit_hint">"Пожалуйста, опишите ошибку или предложение"</string>
+    <string name="ss_reading_suggest_edit_done">"Спасибо! Ваше предложение будет рассмотрено"</string>
+    <string name="ss_reading_comment">"Комментарий"</string>
+    <string name="ss_reading_enter_comment">"Введите свой комментарий"</string>
+    <string name="ss_reading_copied">"Выделения скопировано"</string>
+    <string name="ss_reading_share_to">"Поделиться в:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Скоро"</string>
+    <string name="ss_coming_soon_subheader">"Мы работаем над этой функцией прямо сейчас. Скоро завершим, оставайтесь с нами"</string>
+    <string name="ss_about_app_version">"версия 3.0"</string>
+    <string name="ss_about_made">"Сделано с ❤ - Adventech"</string>
+    <string name="ss_settings_display_options">"Настройки просмотра"</string>
+    <string name="ss_settings_color_theme">"Цветовая схема"</string>
+    <string name="ss_settings_color_theme_light">"Светлая"</string>
+    <string name="ss_settings_color_theme_sepia">"Сепия"</string>
+    <string name="ss_settings_color_theme_dark">"Темная"</string>
+    <string name="ss_settings_typeface">"Шрифт"</string>
+    <string name="ss_settings_font_size">"Размер шрифта"</string>
+    <string name="ss_settings_font_size_tiny">"Крошечный"</string>
+    <string name="ss_settings_font_size_small">"Маленький"</string>
+    <string name="ss_settings_font_size_medium">"Средний"</string>
+    <string name="ss_settings_font_size_large">"Большой"</string>
+    <string name="ss_settings_font_size_huge">"Гигантский"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Оцените Субботнюю Школу"</string>
+    <string name="rate_dialog_message">"Если вам нравится Субботняя Школа, не могли бы вы уделить минуту и оценить приложение? Спасибо!"</string>
+    <string name="rate_dialog_ok">"Да"</string>
+    <string name="rate_dialog_cancel">"Позже"</string>
+    <string name="rate_dialog_no">"Нет"</string>
+    <string name="ss_settings_website">"Вебсайт"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Читать на других языках"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Нажмите кнопку фильтр, чтобы увидеть доступные языки"</string>
+    <string name="ss_bible">"Библия"</string>
+    <string name="ss_settings_reminder">"Напоминания"</string>
+    <string name="ss_settings_reminder_summary">"Влючить ежедневные напоминания об уроке Субботней Школы"</string>
+    <string name="ss_settings_reminder_time">"Время Напоминания"</string>
+    <string name="ss_settings_reminder_text">"Время для изучения Субботней Школы"</string>
+    <string name="ss_reading_offline">"Ошибка соединения. Подключитесь к сети и попробуйте снова"</string>
+    <string name="ss_reading_offline_retry">"Попробовать снова"</string>
+    <string name="ss_about_text">"Миссия Adventech в первую очередь - воздать славу нашему Господу, Ветхому Днями. Мы посвящаем себя служению через технологии. Наша цель - объединить нашу церковь Адвентистов седьмого дня. Наша цель - провозгласить добрую весть в этом мире с помощью технологий и достижений в области телекоммуникаций. Наша цель - засвидетельствовать второе пришествие Иисуса.
+
+Мы вдохновлены примером и методами Иисуса, когда Он служил здесь на Земле. Поэтому мы стремимся обеспечить высокий уровень качества всех наших проектов абсолютно бесплатно, с любовью и самоотверженностью. Мы полны решимости воздать славу нашему Отцу, потому что Он достоин высочайшей хвалы.
+
+Мы искренне верим, что Бог увеличил знание современного мира и хочет, чтобы мы использовали его для Его славы, чтобы провозгласить Его скорое возвращение!
+"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Предыдущие уроки"</string>
+</resources>

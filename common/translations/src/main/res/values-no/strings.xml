@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">"Sabbatsskole"</string>
+    <string name="ss_share">"Dele"</string>
+    <string name="ss_login_button_google">"Logg på med Google"</string>
+    <string name="ss_login_button_facebook">"Logg inn med Facebook"</string>
+    <string name="ss_login_button_anonymous">"Logg inn som anonym"</string>
+    <string name="ss_menu_anonymous_name">"Anonym"</string>
+    <string name="ss_menu_sign_out">"Logg ut"</string>
+    <string name="ss_menu_read_now">"Les nå"</string>
+    <string name="ss_menu_share_app">"Del App"</string>
+    <string name="ss_menu_share_app_text">"Sjekk ut, jeg bruker denne sabbatsskolen app"</string>
+    <string name="ss_my_highlights">"Mine høydepunkter"</string>
+    <string name="ss_my_notes">"Mine notater"</string>
+    <string name="ss_settings">"innstillinger"</string>
+    <string name="ss_about">"Handle om"</string>
+    <string name="ss_login_failed">"Innlogging feilet. Vær så snill, prøv på nytt"</string>
+    <string name="ss_login_anonymously_dialog_positive">"Ja"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Nei"</string>
+    <string name="ss_login_anonymously_dialog_title">"Logg inn anonymt?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Ved å logge inn anonymt vil du ikke kunne synkronisere dataene dine, for eksempel kommentarer og høydepunkter, på tvers av enheter eller etter avinstallering av programmet. Er du sikker på at du vil fortsette?"</string>
+    <string name="ss_quarterlies_filter_languages">"Filtrer språk"</string>
+    <string name="ss_quarterlies_downloading">"Å få kvartaler ..."</string>
+    <string name="ss_quarterlies_error">"Ukjent feil oppstod. Vær så snill, prøv på nytt"</string>
+    <string name="ss_quarterlies_empty">"Det ser ut til at det ikke finnes kvartaler i øyeblikket"</string>
+    <string name="ss_quarterly_item_read_text">"Åpen"</string>
+    <string name="ss_lessons_downloading">"Åpner kvartalsvis ..."</string>
+    <string name="ss_lessons_error">"Feil oppstod under åpning kvartalsvis"</string>
+    <string name="ss_lessons_empty">"Det ser ut til at det ikke er noen leksjoner for øyeblikket"</string>
+    <string name="ss_lessons_read">"Lese"</string>
+    <string name="ss_reading_empty">"Ser ut som denne leksjonen er tom. Vennligst sjekk tilbake senere"</string>
+    <string name="ss_reading_error">"Feil oppstod under åpning av leksjon"</string>
+    <string name="ss_reading_downloading">"Laster ned leksjon for offline"</string>
+    <string name="ss_reading_suggest_edit">"Foreslå redigering eller korreksjon"</string>
+    <string name="ss_reading_suggest_edit_hint">"Vennligst beskriv din rettelse eller forslag"</string>
+    <string name="ss_reading_suggest_edit_done">"Takk skal du ha! Ditt forslag vil bli vurdert"</string>
+    <string name="ss_reading_comment">"Kommentar"</string>
+    <string name="ss_reading_enter_comment">"Skriv inn din kommentar"</string>
+    <string name="ss_reading_copied">"Valget er kopiert."</string>
+    <string name="ss_reading_share_to">"Del utvalg til:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Kommer snart"</string>
+    <string name="ss_coming_soon_subheader">"Vi jobber med denne funksjonen akkurat nå. Hold deg oppdatert, det kommer snart"</string>
+    <string name="ss_about_app_version">"Versjon 3.0"</string>
+    <string name="ss_about_made">"Laget med ❤ av Adventech"</string>
+    <string name="ss_settings_display_options">"Skjermalternativer"</string>
+    <string name="ss_settings_color_theme">"Farge tema"</string>
+    <string name="ss_settings_color_theme_light">"Lett"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Mørk"</string>
+    <string name="ss_settings_typeface">"skriftsnitt"</string>
+    <string name="ss_settings_font_size">"Skriftstørrelse"</string>
+    <string name="ss_settings_font_size_tiny">"Bittelite"</string>
+    <string name="ss_settings_font_size_small">"Liten"</string>
+    <string name="ss_settings_font_size_medium">"Middels"</string>
+    <string name="ss_settings_font_size_large">"Stor"</string>
+    <string name="ss_settings_font_size_huge">"Enorm"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Vurder sabbatsskolen"</string>
+    <string name="rate_dialog_message">"Hvis du liker sabbatsskolen, vil du ha et øyeblikk å vurdere det? Takk for støtten!"</string>
+    <string name="rate_dialog_ok">"Rangere det"</string>
+    <string name="rate_dialog_cancel">"Seinere"</string>
+    <string name="rate_dialog_no">"Nei"</string>
+    <string name="ss_settings_website">"Nettsted"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Les på flere språk"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Trykk på filterikonet for å se alle tilgjengelige språk"</string>
+    <string name="ss_bible">"Bibel"</string>
+    <string name="ss_settings_reminder">"Daglig påminnelse"</string>
+    <string name="ss_settings_reminder_summary">"Sjekk for å aktivere daglig sabbatsskole leksjon studie påminnelse"</string>
+    <string name="ss_settings_reminder_time">"Påminnelsestid"</string>
+    <string name="ss_settings_reminder_text">"Tid til å studere sabbatsskolen"</string>
+    <string name="ss_reading_offline">"Du er frakoblet. Koble til igjen for å lese denne leksjonen"</string>
+    <string name="ss_reading_offline_retry">"Prøv på nytt"</string>
+    <string name="ss_about_text">"Adventechs mål er å gjøre Adventistkirkens Bibelstudium tilgengelig og gratis på alle verdens språk.  Vår bønn er at denne appen kan lede deg inn i en dypere relasjon med Jesus Kristus. "</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Tidligere leksjoner"</string>
+</resources>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">"Wili Vola VakaSigatabu"</string>
+    <string name="ss_share">"veiwasei"</string>
+    <string name="ss_login_button_google">"Curu ena mona livaliva"</string>
+    <string name="ss_login_button_facebook">"Curu  ena volamata"</string>
+    <string name="ss_login_button_anonymous">"Curu ka sega ni vakatakila na yacana"</string>
+    <string name="ss_menu_anonymous_name">"Sega ni vakatakila na yacana"</string>
+    <string name="ss_menu_sign_out">"Suka lesu"</string>
+    <string name="ss_menu_read_now">"Wilika oqo"</string>
+    <string name="ss_menu_share_app">"Wasea na parokaramu"</string>
+    <string name="ss_menu_share_app_text">"Raica na parokaramu ni wili Vola vakasigatabu au vakayagataka tiko"</string>
+    <string name="ss_my_highlights">"Veika bibi e yaco"</string>
+    <string name="ss_my_notes">"Noqu vakasama"</string>
+    <string name="ss_settings">"Veika bibi me raici"</string>
+    <string name="ss_about">"Me nanumi"</string>
+    <string name="ss_login_failed">"Leqa na veitaratara, qai tovolea tale mai"</string>
+    <string name="ss_login_anonymously_dialog_positive">"Io"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Sega"</string>
+    <string name="ss_login_anonymously_dialog_title">"Curu sega ni kilai"</string>
+    <string name="ss_login_anonymously_dialog_description">"Vakadinadina (veika e vakaraitaki se tukuni)"</string>
+    <string name="ss_quarterlies_filter_languages">"Vosa"</string>
+    <string name="ss_quarterlies_downloading">"Taura ena veivula tolu"</string>
+    <string name="ss_quarterlies_error">"Sega ni macala na ka e yaco, qai tovolea tale mai"</string>
+    <string name="ss_quarterlies_empty">"Sega ni dua na ka e macala mai ena vulatolu oqo"</string>
+    <string name="ss_quarterly_item_read_text">"Dolava"</string>
+    <string name="ss_lessons_downloading">"Dolavi vakavulatolu"</string>
+    <string name="ss_lessons_error">"Leqa yaco ena gauna e dolavi kina vakavula tolu"</string>
+    <string name="ss_lessons_empty">"Sega ni dua na ka e macala mai ena vulatolu oqo"</string>
+    <string name="ss_lessons_read">"Wilika oqo"</string>
+    <string name="ss_reading_empty">"Sa raici tiki na lesoni oqo qai tovolea tale mai"</string>
+    <string name="ss_reading_error">"Leqa ena gauna e dolavi tiko kina"</string>
+    <string name="ss_reading_downloading">"Wilika na lesoni ena taudaku ni mona livaliva"</string>
+    <string name="ss_reading_suggest_edit">"Vakatutu me veisau se vakadodonutaki"</string>
+    <string name="ss_reading_suggest_edit_hint">"Vakamatataka na veisu kei na vakatutu"</string>
+    <string name="ss_reading_suggest_edit_done">"Vinaka vakalevu na nomuni vakatutut ena qai raici"</string>
+    <string name="ss_reading_comment">"Dua na nanuma"</string>
+    <string name="ss_reading_enter_comment">"Vakacuruma na nomu nanuma"</string>
+    <string name="ss_reading_copied">"Tarai ira kece na digitaki"</string>
+    <string name="ss_reading_share_to">"Wasea vei ira na digitaki"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Vakarau yaco mai"</string>
+    <string name="ss_coming_soon_subheader">"Keitou sa cakacaka tiko kina sara ga oqo, qai veitaratara mai, sega ni dede sana yaco yani"</string>
+    <string name="ss_about_app_version">"Vakatutu naba tolu"</string>
+    <string name="ss_about_made">"Vakarautaka na Adventech"</string>
+    <string name="ss_settings_display_options">"Veika mo digidigi mai kina"</string>
+    <string name="ss_settings_color_theme">"Roka ni uto ni vakasama"</string>
+    <string name="ss_settings_color_theme_light">"Rarama"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Butobuto"</string>
+    <string name="ss_settings_typeface">"Vakarau cava"</string>
+    <string name="ss_settings_font_size">"Vakarau ni matanivola"</string>
+    <string name="ss_settings_font_size_tiny">"Ka lailai"</string>
+    <string name="ss_settings_font_size_small">"Lailai sara"</string>
+    <string name="ss_settings_font_size_medium">"Veimama"</string>
+    <string name="ss_settings_font_size_large">"Ka levu sara"</string>
+    <string name="ss_settings_font_size_huge">"Vakaitamera"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Vakarautaka na Adventech"</string>
+    <string name="rate_dialog_message">"Vakarautaka na Adventech, vinaka na veitokoni"</string>
+    <string name="rate_dialog_ok">"Vakarautaka"</string>
+    <string name="rate_dialog_cancel">"Ena gauna e muri"</string>
+    <string name="rate_dialog_no">"Sega"</string>
+    <string name="ss_settings_website">"Mona livaliva"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Duidui vosa"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Tabaka na na tikina  tavuloni mo raica kina na veivosa eso"</string>
+    <string name="ss_bible">"Vola Tabu"</string>
+    <string name="ss_settings_reminder">"Veivakananumi ena veisiga"</string>
+    <string name="ss_settings_reminder_summary">"Nanuma na veika ena caka ena veisiga"</string>
+    <string name="ss_settings_reminder_time">"Gauna ni veivakananumi"</string>
+    <string name="ss_settings_reminder_text">"Gauna ni vuli lesoni  ni Wili Vola Vakasigatabu"</string>
+    <string name="ss_reading_offline">"Sega ni sema tiko. Semati iko mo wilika na lesoni"</string>
+    <string name="ss_reading_offline_retry">"Tovolea tale"</string>
+    <string name="ss_about_text">"Nai naki ni apele me rawa ni vakarawarawataka noda raica na lesoni ni wili vola na lewe ni lotu e vuravura taucoko."</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Lesoni e liu"</string>
+</resources>

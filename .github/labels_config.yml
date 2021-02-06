@@ -1,0 +1,26 @@
+ci:
+  - '.github/*'
+core:
+  - 'common/core/*'
+design:
+  - 'common/design/*'
+translations:
+  - 'common/translations/*'
+account:
+  - 'features/account/*'
+bible:
+  - 'features/bible/*'
+lessons:
+  - 'features/lessons/*'
+reader:
+  - 'features/reader/*'
+settings:
+  - 'features/settings/*'
+dependencies:
+  - 'buildSrc/src/main/kotlin/dependencies/*'
+test:
+  - any: ['*/src/test/*','*/src/androidTest/*']
+gradle:
+  - all: ['*.gradle.kts']
+layouts:
+  - any: ['*.xml']

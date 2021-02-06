@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cryart.sabbathschool.bible">
+
+    <application>
+        <activity
+            android:name=".ui.SSBibleVersesActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.SS.BibleVersesTheme"
+            android:label="@string/blank"/>
+    </application>
+</manifest>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">"Sekolah Sabat"</string>
+    <string name="ss_share">"Kongsikan"</string>
+    <string name="ss_login_button_google">"Daftar Masuk dengan Google"</string>
+    <string name="ss_login_button_facebook">"Daftar Masuk dengan Facebook"</string>
+    <string name="ss_login_button_anonymous">"Daftar Masuk Tanpa Nama"</string>
+    <string name="ss_menu_anonymous_name">"Tanpa Nama"</string>
+    <string name="ss_menu_sign_out">"Daftar Keluar"</string>
+    <string name="ss_menu_read_now">"Baca Sekarang"</string>
+    <string name="ss_menu_share_app">"Kongsikan Aplikasi"</string>
+    <string name="ss_menu_share_app_text">"Lihat Aplikasi Sekolah Sabat yang saya gunakan"</string>
+    <string name="ss_my_highlights">"Sorotan Saya"</string>
+    <string name="ss_my_notes">"Nota Saya"</string>
+    <string name="ss_settings">"Aturan"</string>
+    <string name="ss_about">"Mengenai"</string>
+    <string name="ss_login_failed">"Daftar masuk gagal. Sila cuba lagi."</string>
+    <string name="ss_login_anonymously_dialog_positive">"Ya"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Tidak"</string>
+    <string name="ss_login_anonymously_dialog_title">"Daftar tanpa Nama"</string>
+    <string name="ss_login_anonymously_dialog_description">"Jikalau anda mendaftar masuk tanpa nama, anda tidak akan dapat  menyegerakkan data anda (seperti komen, dan sorotan) di peranti yang lain, atau selepas anda memadam aplikasi ini. Adakah anda ingin teruskan?"</string>
+    <string name="ss_quarterlies_filter_languages">"Bahasa"</string>
+    <string name="ss_quarterlies_downloading">"Mendapatkan pelajaran..."</string>
+    <string name="ss_quarterlies_error">"Ralat yang tidak diketahui. Cuba lagi."</string>
+    <string name="ss_quarterlies_empty">"Tidak ada pelajaran pada masa ini"</string>
+    <string name="ss_quarterly_item_read_text">"Buka"</string>
+    <string name="ss_lessons_downloading">"Membuka pelajaran..."</string>
+    <string name="ss_lessons_error">"Ralat berlaku sementara membuka pelajaran"</string>
+    <string name="ss_lessons_empty">"Tidak ada pelajaran pada masa ini"</string>
+    <string name="ss_lessons_read">"Baca"</string>
+    <string name="ss_reading_empty">"Pelaran sedang disiapkan, sila kembali lagi."</string>
+    <string name="ss_reading_error">"Ralat berlaku sementara membuka pelajaran"</string>
+    <string name="ss_reading_downloading">"Muat turun pelajaran untuk bacaan di luar talian"</string>
+    <string name="ss_reading_suggest_edit">"Cadangkan pembetulan"</string>
+    <string name="ss_reading_suggest_edit_hint">"Sila jelaskan pembetulan atau cadangan anda"</string>
+    <string name="ss_reading_suggest_edit_done">"Terima Kasih! Cadangan anda akan diperiksa."</string>
+    <string name="ss_reading_comment">"Komen"</string>
+    <string name="ss_reading_enter_comment">"Masukkan komen anda"</string>
+    <string name="ss_reading_copied">"Pilihan disalin"</string>
+    <string name="ss_reading_share_to">"Kongsikan pilihan ke:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"Akan Datang"</string>
+    <string name="ss_coming_soon_subheader">"Kami sedang mengusahakan bahagian ini. Sila kembali lagi."</string>
+    <string name="ss_about_app_version">"versi 3.0"</string>
+    <string name="ss_about_made">"Dibuat dengan ❤ oleh Adventech"</string>
+    <string name="ss_settings_display_options">"Aturan Paparan"</string>
+    <string name="ss_settings_color_theme">"Tema Warna"</string>
+    <string name="ss_settings_color_theme_light">"Terang"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Gelap"</string>
+    <string name="ss_settings_typeface">"Huruf"</string>
+    <string name="ss_settings_font_size">"Saiz huruf"</string>
+    <string name="ss_settings_font_size_tiny">"Sangat Kecil"</string>
+    <string name="ss_settings_font_size_small">"Kecil"</string>
+    <string name="ss_settings_font_size_medium">"Sederhana"</string>
+    <string name="ss_settings_font_size_large">"Besar"</string>
+    <string name="ss_settings_font_size_huge">"Sangat Besar"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Taksirkan Aplikasi Sekolah Sabat"</string>
+    <string name="rate_dialog_message">"Sila ambil masa untuk memberikan taksiran kepada Aplikasi Sekolah Sabat. Terima kasih atas kerjasama anda!"</string>
+    <string name="rate_dialog_ok">"Taksirkan"</string>
+    <string name="rate_dialog_cancel">"Kemudian"</string>
+    <string name="rate_dialog_no">"Tidak"</string>
+    <string name="ss_settings_website">"Laman Web"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Bahasa Lain"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Klik ikon penapis untuk melihat pilihan bahasa yang ada"</string>
+    <string name="ss_bible">"Alkitab"</string>
+    <string name="ss_settings_reminder">"Pemberitahuan Harian"</string>
+    <string name="ss_settings_reminder_summary">"Tandakan untuk membolehkan pemberitahuan harian"</string>
+    <string name="ss_settings_reminder_time">"Masa Pemberitahuan"</string>
+    <string name="ss_settings_reminder_text">"Masa untuk belajar Pelajaran Sekolah Sabat"</string>
+    <string name="ss_reading_offline">"Anda di luar talian. Sambungkan talian untuk membaca pelajaran ini."</string>
+    <string name="ss_reading_offline_retry">"Cuba lagi"</string>
+    <string name="ss_about_text">"Misi Adventech yang pertama dan utama - memberikan kemuliaan kepada TUHAN kita. Kami berdedikasi untuk melakukan pelayanan melalui teknologi. Matlamat kami adalah untuk menyatukan Gereja Advent Seventh-Day. Matlamat kami adalah untuk mengisytiharkan Berita Baik ke seluruh dunia ini melalui teknologi dan kemajuan dalam komunikasi. Matlamat kami adalah untuk melihat KedatanganYesus yang Kedua kali.
+
+Kami diilhamkan oleh contoh dan kaedah Yesus, ketika Dia melayani di Bumi. Oleh itu, kami komited untuk memberikan kualiti yang tertinggi kepada semua projek kami tanpa sebarang kos  dan diberikan dengan cinta dan dedikasi. Kami berkomitmen untuk memberi kemuliaan kepada Bapa kita, kerana Dia layak mendapat pujian yang tertinggi.
+
+Kami benar-benar percaya bahawa Tuhan telah meningkatkan pengetahuan tentang dunia moden dan inginkan kita untuk menggunakannya untuk kemuliaan-Nya untuk menyatakan kedatanganNya yang kedua kali yang tidak lama lagi!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Pelajaran sebelumnya"</string>
+</resources>

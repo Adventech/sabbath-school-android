@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+
+    <color name="ss_color_secondary">#b4b4b4</color>
+    <color name="ss_color_secondary_light">#cccccc</color>
+    <color name="ss_color_secondary_lighter">#f2f2f2</color>
+    <color name="ss_color_secondary_dark">#616161</color>
+    <color name="ss_color_overlay">#5b000000</color>
+    <color name="ss_color_display_theme_sepia">#f2dec3</color>
+    <color name="ss_color_display_theme_dark">#484848</color>
+    <color name="ss_green">#16a365</color>
+    <color name="ss_green_dark">#18704A</color>
+    <color name="ss_pink">#ff4081</color>
+    <color name="ss_pink_dark">#c2185b</color>
+    <color name="ss_red_300">#FF5C44</color>
+    <color name="ss_red_600">#E51A19</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="white_70">#B3FFFFFF</color>
+    <color name="dark_grey">#121212</color>
+    <color name="black">#000000</color>
+    <color name="black_40">#66000000</color>
+    <color name="nav_color">@color/black</color>
+    <color name="color_navigation_full">@android:color/transparent</color>
+
+    <color name="list_divider">#80D7D7D7</color>
+    <color name="ss_gray_1">#EFEFEF</color>
+    <color name="ss_gray_2">#8F8E94</color>
+    <color name="ss_gray_3">#606060</color>
+    <color name="ss_gray_4">#383838</color>
+    <color name="ss_gray_5">#3B3F3F</color>
+    <color name="ss_gray_6">#FAFAFA</color>
+    <color name="ss_grey_7">#E2E2E5</color>
+
+    <color name="text_primary">@color/ss_gray_3</color>
+    <color name="text_secondary">@color/ss_gray_2</color>
+    <color name="text_secondary_50">#808F8E94</color>
+
+</resources>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">"安息日学校"</string>
+    <string name="ss_share">"共享"</string>
+    <string name="ss_login_button_google">"用Google登入"</string>
+    <string name="ss_login_button_facebook">"用Facebook登入"</string>
+    <string name="ss_login_button_anonymous">"匿名登录"</string>
+    <string name="ss_menu_anonymous_name">"匿名"</string>
+    <string name="ss_menu_sign_out">"登出"</string>
+    <string name="ss_menu_read_now">"现在读"</string>
+    <string name="ss_menu_share_app">"共享应用程式"</string>
+    <string name="ss_menu_share_app_text">"检查一下，我正在使用这个安息日学校的应用程序"</string>
+    <string name="ss_my_highlights">"强调"</string>
+    <string name="ss_my_notes">"笔记"</string>
+    <string name="ss_settings">"设置"</string>
+    <string name="ss_about">"关于"</string>
+    <string name="ss_login_failed">"登录失败，请再次尝试。"</string>
+    <string name="ss_login_anonymously_dialog_positive">"是"</string>
+    <string name="ss_login_anonymously_dialog_negative">"没有"</string>
+    <string name="ss_login_anonymously_dialog_title">"匿名登录？"</string>
+    <string name="ss_login_anonymously_dialog_description">"如果您以匿名方式登录，则无法在设备之间或卸载应用程序之后同步数据（如注释和突出显示）。 你确定你要继续吗？"</string>
+    <string name="ss_quarterlies_filter_languages">"过滤语言"</string>
+    <string name="ss_quarterlies_downloading">"得到季刊"</string>
+    <string name="ss_quarterlies_error">"出现未知错误。请再试一次"</string>
+    <string name="ss_quarterlies_empty">"现在似乎没有四分之一"</string>
+    <string name="ss_quarterly_item_read_text">"打开"</string>
+    <string name="ss_lessons_downloading">"打开季刊"</string>
+    <string name="ss_lessons_error">"打开季刊时发生错误"</string>
+    <string name="ss_lessons_empty">"看来现在没有任何课程"</string>
+    <string name="ss_lessons_read">"阅读"</string>
+    <string name="ss_reading_empty">"看来这课是空的。请稍后再回来"</string>
+    <string name="ss_reading_error">"打开课程时发生错误"</string>
+    <string name="ss_reading_downloading">"下载课程"</string>
+    <string name="ss_reading_suggest_edit">"建议修改或更正"</string>
+    <string name="ss_reading_suggest_edit_hint">"请描述您的更正或建议"</string>
+    <string name="ss_reading_suggest_edit_done">"谢谢！ 我们会审查您的建议。"</string>
+    <string name="ss_reading_comment">"评论"</string>
+    <string name="ss_reading_enter_comment">"输入评论"</string>
+    <string name="ss_reading_copied">"选择复制。"</string>
+    <string name="ss_reading_share_to">"共享选择："</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"快来了"</string>
+    <string name="ss_coming_soon_subheader">"我们正在研究这个功能。 请继续关注，即将到来。"</string>
+    <string name="ss_about_app_version">"版本3.0"</string>
+    <string name="ss_about_made">"用Adventech的❤做出来"</string>
+    <string name="ss_settings_display_options">"显示选项"</string>
+    <string name="ss_settings_color_theme">"颜色主题"</string>
+    <string name="ss_settings_color_theme_light">"光"</string>
+    <string name="ss_settings_color_theme_sepia">"乌贼"</string>
+    <string name="ss_settings_color_theme_dark">"黑暗"</string>
+    <string name="ss_settings_typeface">"字体"</string>
+    <string name="ss_settings_font_size">"字体大小"</string>
+    <string name="ss_settings_font_size_tiny">"很小"</string>
+    <string name="ss_settings_font_size_small">"小"</string>
+    <string name="ss_settings_font_size_medium">"中"</string>
+    <string name="ss_settings_font_size_large">"大"</string>
+    <string name="ss_settings_font_size_huge">"巨大"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"为这个应用软件评分"</string>
+    <string name="rate_dialog_message">"如果你喜欢这个程序，你会介意评级吗？ 感谢您的支持！"</string>
+    <string name="rate_dialog_ok">"评分"</string>
+    <string name="rate_dialog_cancel">"后来"</string>
+    <string name="rate_dialog_no">"不"</string>
+    <string name="ss_settings_website">"网站"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"用其他语言阅读"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"点击滤图标查看所有可用的语言"</string>
+    <string name="ss_bible">"圣经"</string>
+    <string name="ss_settings_reminder">"每日提醒"</string>
+    <string name="ss_settings_reminder_summary">"启用每日安息日学校课程提醒"</string>
+    <string name="ss_settings_reminder_time">"提醒时间"</string>
+    <string name="ss_settings_reminder_text">"现在是学习安息日学校的时候了"</string>
+    <string name="ss_reading_offline">"你离线了 请重新连接以阅读本课程。"</string>
+    <string name="ss_reading_offline_retry">"重试"</string>
+    <string name="ss_about_text">"亚历山大的使命首先是荣耀我们的天，古代的天。我们致力于通过技术来做我们的事工。我们的目标是团结我们的基督复临安息日会。我们的目标是通过技术和通信进步宣传好消息给这个世界。我们的目标是见证耶稣的第二次来临。
+
+当他在地球上投身时，我们受到耶稣的榜样和方法的启发。因此，我们致力于通过爱与奉献，绝对没有任何成本提供我们所有项目的高品质。我们致力于荣耀我们的父，因为他值得赞美的最高。
+
+我们真的相信神已经增加了现代世界的知识，并希望我们用他的荣耀来宣告他即将回归！"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"上一课"</string>
+</resources>

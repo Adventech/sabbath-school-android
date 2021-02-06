@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">"ໂຮງຮຽນວັນບຸນ"</string>
+    <string name="ss_share">"ແບ່ງປັນ"</string>
+    <string name="ss_login_button_google">"ເຂົ້າສູ່ລະບົບດ້ວຍ Google"</string>
+    <string name="ss_login_button_facebook">"ເຂົ້າສູ່ລະບົບໂດຍເຟສບຸກ"</string>
+    <string name="ss_login_button_anonymous">"ເຂົ້າສູ່ລະບົບໂດຍບໍ່ລະບຸຊື່"</string>
+    <string name="ss_menu_anonymous_name">"ຊື່ສັດ"</string>
+    <string name="ss_menu_sign_out">"ອອກ​ຈາກ​ລະ​ບົບ"</string>
+    <string name="ss_menu_read_now">"ອ່ານແລ້ວ"</string>
+    <string name="ss_menu_share_app">"ແບ່ງປັນແອັບພລິເຄຊັນນີ້"</string>
+    <string name="ss_menu_share_app_text">"ກວດສອບບັນຫາໃຫມ່ຂອງໂຮງຮຽນວັນເສົາທີ່ຂ້ອຍໃຊ້"</string>
+    <string name="ss_my_highlights">"ຈຸດເດັ່ນຂອງຂ້ອຍ"</string>
+    <string name="ss_my_notes">"ຫມາຍເຫດຂອງຂ້ອຍ"</string>
+    <string name="ss_settings">"Settings"</string>
+    <string name="ss_about">"ກ່ຽວກັບ"</string>
+    <string name="ss_login_failed">"ເຂົ້າສູ່ລະບົບລົ້ມເຫລວ. ກະລຸນາລອງອີກເທື່ອຫນຶ່ງ."</string>
+    <string name="ss_login_anonymously_dialog_positive">"ແມ່ນແລ້ວ"</string>
+    <string name="ss_login_anonymously_dialog_negative">"ບໍ່ມີ"</string>
+    <string name="ss_login_anonymously_dialog_title">"ເຂົ້າສູ່ລະບົບໂດຍບໍ່ລະບຸ?"</string>
+    <string name="ss_login_anonymously_dialog_description">"ຖ້າທ່ານເຂົ້າສູ່ລະບົບໂດຍບໍ່ລະບຸຊື່, ທ່ານຈະບໍ່ສາມາດ synchronize ຂໍ້ມູນຂອງທ່ານ (ເຊັ່ນຄວາມຄິດເຫັນແລະຈຸດເດັ່ນ) ໃນອຸປະກອນຕ່າງໆ, ຫຼືຫຼັງຈາກຖອນການຕິດຕັ້ງແອັບຯ. ທ່ານແນ່ໃຈວ່າທ່ານຕ້ອງການດໍາເນີນການ?"</string>
+    <string name="ss_quarterlies_filter_languages">"ພາສາ"</string>
+    <string name="ss_quarterlies_downloading">"ການເປີດ"</string>
+    <string name="ss_quarterlies_error">"ເກີດຄວາມຜິດພາດທີ່ບໍ່ຮູ້ຕົວ. ກະລຸນາລອງອີກເທື່ອຫນຶ່ງ."</string>
+    <string name="ss_quarterlies_empty">"ບໍ່ມີການແຂ່ງຂັນທີ່ມີຢູ່ໃນເວລານີ້"</string>
+    <string name="ss_quarterly_item_read_text">"ເປີດ"</string>
+    <string name="ss_lessons_downloading">"ເປີດຕົວໄຕມາດ ..."</string>
+    <string name="ss_lessons_error">"ຂໍ້ຜິດພາດເກີດຂຶ້ນໃນຂະນະທີ່ເປີດ"</string>
+    <string name="ss_lessons_empty">"ບໍ່ມີການແຂ່ງຂັນທີ່ມີຢູ່ໃນເວລານີ້"</string>
+    <string name="ss_lessons_read">"ອ່ານ"</string>
+    <string name="ss_reading_empty">"ພວກເຮົາກໍາລັງເຮັດບົດຮຽນນີ້. ກະລຸນາກວດເບິ່ງອີກເທື່ອຫນຶ່ງ."</string>
+    <string name="ss_reading_error">"ຂໍ້ຜິດພາດເກີດຂຶ້ນໃນຂະນະທີ່ເປີດບົດຮຽນ"</string>
+    <string name="ss_reading_downloading">"ດາວໂຫລດບົດຮຽນສໍາລັບການອ່ານອອບໄລນ໌"</string>
+    <string name="ss_reading_suggest_edit">"ແນະນໍາແກ້ໄຂຫຼືແກ້ໄຂ"</string>
+    <string name="ss_reading_suggest_edit_hint">"ກະລຸນາອະທິບາຍການແກ້ໄຂຫຼືຄໍາແນະນໍາຂອງທ່ານ"</string>
+    <string name="ss_reading_suggest_edit_done">"ຂອບ​ໃຈ! ຄໍາແນະນໍາຂອງທ່ານຈະໄດ້ຮັບການທົບທວນຄືນ."</string>
+    <string name="ss_reading_comment">"ຂໍ້ສັງເກດ"</string>
+    <string name="ss_reading_enter_comment">"ກະລຸນາໃສ່ຄວາມຄິດເຫັນຂອງທ່ານ"</string>
+    <string name="ss_reading_copied">"ການຄັດເລືອກຄັດເລືອກ"</string>
+    <string name="ss_reading_share_to">"ແບ່ງປັນໃຫ້ກັບ:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"ມາໃນໄວໆນີ້"</string>
+    <string name="ss_coming_soon_subheader">"ພວກເຮົາກໍາລັງເຮັດວຽກຢູ່ໃນຄຸນະລັກສະນະນີ້. ເຂົ້າໃຈ, ມັນຈະມາໃນໄວໆນີ້."</string>
+    <string name="ss_about_app_version">"ຮຸ່ນ 3.0"</string>
+    <string name="ss_about_made">"Made with by Adventech"</string>
+    <string name="ss_settings_display_options">"ຕົວເລືອກສະແດງ"</string>
+    <string name="ss_settings_color_theme">"ຫົວເລື່ອງ"</string>
+    <string name="ss_settings_color_theme_light">"ແສງສະຫວ່າງ"</string>
+    <string name="ss_settings_color_theme_sepia">"ສີນ້ໍາຕານດໍາ
+    "</string>
+    <string name="ss_settings_color_theme_dark">"ມືດ"</string>
+    <string name="ss_settings_typeface">"ລັກສະນະຕົວຫນັງສື"</string>
+    <string name="ss_settings_font_size">"ຂະຫນາດຕົວຫນັງສື"</string>
+    <string name="ss_settings_font_size_tiny">"ນ້ອຽ"</string>
+    <string name="ss_settings_font_size_small">"ນ້ອຍ"</string>
+    <string name="ss_settings_font_size_medium">"ກາງ"</string>
+    <string name="ss_settings_font_size_large">"ກຶດ"</string>
+    <string name="ss_settings_font_size_huge">"ໂຕ"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"ໃຫ້ຜະລິດແນນ"</string>
+    <string name="rate_dialog_message">"ກະລຸນາໃຊ້ເວລາເພື່ອໃຫ້ການປະເມີນຜົນກັບໃບຄໍາຮ້ອງນີ້. ຂໍຂອບໃຈ"</string>
+    <string name="rate_dialog_ok">"ອັດຕານີ້"</string>
+    <string name="rate_dialog_cancel">"ຕໍ່ມາ"</string>
+    <string name="rate_dialog_no">"ບໍ່ມີ"</string>
+    <string name="ss_settings_website">"ເວັບໄຊທ໌"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"ຫລາຍພາສາ"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"ແຕະໄອຄອນກອງເພື່ອເບິ່ງພາສາທີ່ມີຢູ່"</string>
+    <string name="ss_bible">"ພະຄໍາພີ"</string>
+    <string name="ss_settings_reminder">"ເຕືອນ"</string>
+    <string name="ss_settings_reminder_summary">"ກວດສອບການເຮັດໃຫ້ການເຕືອນການສຶກສາປະຈໍາວັນ"</string>
+    <string name="ss_settings_reminder_time">"ເວລາເຕືອນ"</string>
+    <string name="ss_settings_reminder_text">"ເວລາທີ່ຈະສຶກສາບົດຮຽນຂອງວັນສະບາໂຕ"</string>
+    <string name="ss_reading_offline">"ຄຸນຢູ່ໃນລະບົບ ລອງໃຫມ່ອີກຄັ້ງຕໍ່ມາ."</string>
+    <string name="ss_reading_offline_retry">"ລອງອີກເທື່ອຫນຶ່ງ"</string>
+    <string name="ss_about_text">"ພາລະກິດຂອງ Adventech ແມ່ນຄັ້ງທໍາອິດແລະສໍາຄັນ - ໃຫ້ລັດສະຫມີພາບຂອງພຣະເຈົ້າຂອງພວກເຮົາ, ວັດຖຸບູຮານຂອງວັນ. ພວກເຮົາກໍາລັງອຸທິດຕົນເພື່ອເຮັດຫນ້າທີ່ຂອງພວກເຮົາຜ່ານເຕັກໂນໂລຢີ. ເປົ້າຫມາຍຂອງພວກເຮົາແມ່ນເພື່ອເປັນສະມາຊິກຂອງຄຣິສຕະຈັກຄຣິສຕະຈັກທີ່ເຈັດວັນ. ເປົ້າຫມາຍຂອງພວກເຮົາແມ່ນເພື່ອປະກາດຂ່າວດີຕໍ່ໂລກນີ້ໂດຍວິທີການເຕັກໂນໂລຢີແລະຄວາມກ້າວຫນ້າໃນການສື່ສານ. ເປົ້າຫມາຍຂອງພວກເຮົາແມ່ນເພື່ອເປັນພະຍານເຖິງການມາຄັ້ງທີສອງຂອງພະເຍຊູ.
+
+ພວກເຮົາໄດ້ຮັບການດົນໃຈໂດຍຕົວຢ່າງແລະວິທີການຂອງພຣະເຢຊູ, ໃນເວລາທີ່ພຣະອົງໄດ້ປະຕິບັດຢູ່ທີ່ນີ້ໃນໂລກ. ດັ່ງນັ້ນ, ພວກເຮົາກໍາລັງມຸ່ງຫມັ້ນທີ່ຈະໃຫ້ມີຄຸນນະພາບສູງຂອງໂຄງການຂອງພວກເຮົາທັງຫມົດໂດຍບໍ່ມີຄ່າໃຊ້ຈ່າຍທີ່ມີຄວາມຮັກແລະການອຸທິດ. ພວກເຮົາຫມັ້ນໃຈທີ່ຈະໃຫ້ລັດສະຫມີພາບແກ່ພຣະບິດາຂອງພວກເຮົາ, ເພາະວ່າພຣະອົງມີຄຸນຄ່າສູງທີ່ສຸດຂອງການສັນລະເສີນ.
+
+ພວກເຮົາມີຄວາມເຊື່ອແທ້ໆວ່າພຣະເຈົ້າໄດ້ເພີ່ມຄວາມຮູ້ກ່ຽວກັບໂລກທີ່ທັນສະໄຫມແລະຕ້ອງການໃຫ້ພວກເຮົານໍາໃຊ້ມັນສໍາລັບລັດສະຫມີພາບຂອງພຣະອົງເພື່ອປະກາດວ່າພຣະອົງຈະກັບມາໄວໆນີ້!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"ບົດຮຽນຜ່ານມາ"</string>
+</resources>

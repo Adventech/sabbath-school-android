@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Platform.V24.Theme.SS" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:navigationBarColor">@color/nav_color</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+    </style>
+
+    <style name="Platform.Theme.SS" parent="Platform.V24.Theme.SS" />
+
+    <style name="Base.Theme.SS" parent="Platform.Theme.SS">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="fontFamily">@font/lato_regular</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.SS.Headline4</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.SS.Headline6</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.SS.Body1</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.SS.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.SS.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.SS.LargeComponent</item>
+        <item name="listPreferredItemHeightSmall">@dimen/height_row</item>
+        <item name="navigationViewStyle">@style/Widget.SS.NavigationView</item>
+        <item name="appBarLayoutStyle">@style/Widget.SS.AppBarLayout</item>
+        <item name="tabStyle">@style/Widget.SS.TabLayout</item>
+        <item name="materialButtonStyle">@style/Widget.SS.Button</item>
+        <item name="floatingActionButtonStyle">@style/Widget.SS.FloatingActionButton</item>
+        <item name="chipStyle">@style/Widget.SS.Chip</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.SS.BottomSheetDialog</item>
+        <item name="listPopupWindowStyle">@style/Widget.MaterialComponents.ListPopupWindow</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.SS.MaterialAlertDialog</item>
+        <item name="snackbarStyle">@style/Widget.SS.Snackbar</item>
+        <item name="snackbarTextViewStyle">@style/Widget.SS.Snackbar.TextView</item>
+        <item name="materialCardViewStyle">@style/Widget.SS.CardView</item>
+    </style>
+
+    <style name="Theme.SS" parent="Base.Theme.SS">
+        <item name="colorPrimary">@color/ss_green</item>
+        <item name="colorPrimaryVariant">@color/ss_green_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/ss_pink</item>
+        <item name="colorSecondaryVariant">@color/ss_pink_dark</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorError">@color/ss_red_600</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="android:colorEdgeEffect">@color/color_navigation_full</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+    </style>
+
+    <style name="Theme.SS.Splash">
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@drawable/ss_splash_background</item>
+    </style>
+
+    <style name="Theme.SS.Primary">
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+
+    <style name="Theme.SS.Full">
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:statusBarColor">@color/color_navigation_full</item>
+        <item name="android:navigationBarColor">@color/black</item>
+    </style>
+
+    <style name="ThemeOverlay.SS.Toolbar" parent="">
+        <item name="colorControlNormal">?attr/colorOnSurface</item>
+        <item name="actionMenuTextColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="Base.ThemeOverlay.SS.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.DayNight.BottomSheetDialog">
+        <item name="colorControlHighlight">@color/on_surface_32</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="bottomSheetStyle">@style/Widget.SS.BottomSheet.Modal</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+    </style>
+
+    <style name="ThemeOverlay.SS.BottomSheetDialog" parent="Base.ThemeOverlay.SS.BottomSheetDialog">
+        <item name="colorPrimary">@color/ss_green</item>
+        <item name="colorPrimaryVariant">@color/ss_green_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/ss_pink</item>
+        <item name="colorSecondaryVariant">@color/ss_pink_dark</item>
+        <item name="colorOnSecondary">@color/black</item>
+    </style>
+
+    <style name="Base.ThemeOverlay.SS.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.SS.Title.Text
+        </item>
+        <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialog.SS.Body.Text</item>
+        <item name="android:windowAnimationStyle">@style/Animation.SS.MaterialAlertDialog</item>
+    </style>
+
+    <style name="ThemeOverlay.SS.MaterialAlertDialog" parent="Base.ThemeOverlay.SS.MaterialAlertDialog">
+        <item name="colorSecondary">@color/ss_green_dark</item>
+    </style>
+
+    <style name="ThemeOverlay.SS.PrimarySecondary" parent="">
+        <item name="colorPrimary">?attr/colorSecondary</item>
+    </style>
+
+    <style name="Theme.SS.DialogFragment">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+</resources>

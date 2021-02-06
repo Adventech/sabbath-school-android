@@ -1,0 +1,18 @@
+input,
+textarea,
+select,
+button,
+label {
+    margin: 0;
+    line-height: normal;
+    font-family: inherit;
+    font-size: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;;
+}
+
+::-moz-focus-inner {
+    padding: 0 !important;
+    border: 0 !important;
+}

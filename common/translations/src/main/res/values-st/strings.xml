@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">"Sekolo sa Sabatha"</string>
+    <string name="ss_share">"Kopanela"</string>
+    <string name="ss_login_button_google">"Kenana le Google"</string>
+    <string name="ss_login_button_facebook">"Kena ka Facebook"</string>
+    <string name="ss_login_button_anonymous">"Ho kena Inonymously"</string>
+    <string name="ss_menu_anonymous_name">"E sa tsejoe"</string>
+    <string name="ss_menu_sign_out">"Tsoaha"</string>
+    <string name="ss_menu_read_now">"Bala Hona Joale"</string>
+    <string name="ss_menu_share_app">"Kopanela App"</string>
+    <string name="ss_menu_share_app_text">"Sheba lenaneo le lecha la Sekolo sa Sabatha leo ke le sebelisang"</string>
+    <string name="ss_my_highlights">"Lintlha-khōlō tsa ka"</string>
+    <string name="ss_my_notes">"My Notes"</string>
+    <string name="ss_settings">"Lisebelisoa"</string>
+    <string name="ss_about">"Hoo e ka bang"</string>
+    <string name="ss_login_failed">"Ho kena ho hlolehile. Ka kopo leka hape."</string>
+    <string name="ss_login_anonymously_dialog_positive">"E."</string>
+    <string name="ss_login_anonymously_dialog_negative">"Che"</string>
+    <string name="ss_login_anonymously_dialog_title">"Ho kena ka lebitso le sa tsejoe?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Haeba o kena ka lebitso, o ke ke oa khona ho lumellana le lintlha tsa hau (tse kang maikutlo le lintlha-khōlō) hohle lisebelisoa, kapa ka mor'a ho tlosa lisebelisoa. Na u netefatsa hore u batla ho tsoela pele?"</string>
+    <string name="ss_quarterlies_filter_languages">"Lipuo"</string>
+    <string name="ss_quarterlies_downloading">"Ho qeta kotara ..."</string>
+    <string name="ss_quarterlies_error">"Phoso e sa tsejoeng e etsahala. Ka kopo leka hape."</string>
+    <string name="ss_quarterlies_empty">"Ha ho na li-quarterly tse fumanehang ka nako ena"</string>
+    <string name="ss_quarterly_item_read_text">"Bula"</string>
+    <string name="ss_lessons_downloading">"Ho bula libeke tse robeli ..."</string>
+    <string name="ss_lessons_error">"Phoso e hlahile ha e ntse e buloa ka kotloloho"</string>
+    <string name="ss_lessons_empty">"Ha ho na li-quarterly tse fumanehang ka nako ena"</string>
+    <string name="ss_lessons_read">"Bala"</string>
+    <string name="ss_reading_empty">"Re sebetsa thutong ena. Ka kopo, hlahloba hape."</string>
+    <string name="ss_reading_error">"Phoso e etsahetse ha a ntse a bula thuto"</string>
+    <string name="ss_reading_downloading">"Ho lata thuto bakeng sa ho bala ntle ho naha"</string>
+    <string name="ss_reading_suggest_edit">"Etsa tlhahiso ea ho hlophisa kapa ho lokisa"</string>
+    <string name="ss_reading_suggest_edit_hint">"Ka kopo hlalosa khalemelo kapa tlhahiso ea hau"</string>
+    <string name="ss_reading_suggest_edit_done">"Kea leboha! Tlhahiso ea hau e tla hlahlojoa."</string>
+    <string name="ss_reading_comment">"Maikutlo"</string>
+    <string name="ss_reading_enter_comment">"Kenya maikutlo a hau"</string>
+    <string name="ss_reading_copied">"Selection e kopitsoe"</string>
+    <string name="ss_reading_share_to">"Kopanela khetho ho:"</string>
+
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"E fihla haufinyane"</string>
+    <string name="ss_coming_soon_subheader">"Hona joale re sebetsa tšobetsing ena. Lula u talimile, o tla kapele."</string>
+    <string name="ss_about_app_version">"version 3.0"</string>
+    <string name="ss_about_made">"E entsoe ka ❤ ka Adventech"</string>
+    <string name="ss_settings_display_options">"Hlahisa dikgetho"</string>
+    <string name="ss_settings_color_theme">"Mohlooho oa mebala"</string>
+    <string name="ss_settings_color_theme_light">"Leseli"</string>
+    <string name="ss_settings_color_theme_sepia">"Sepia"</string>
+    <string name="ss_settings_color_theme_dark">"Lefifi"</string>
+    <string name="ss_settings_typeface">"Font"</string>
+    <string name="ss_settings_font_size">"Boholo ba pola"</string>
+    <string name="ss_settings_font_size_tiny">"Tse nyane"</string>
+    <string name="ss_settings_font_size_small">"Nyenyane"</string>
+    <string name="ss_settings_font_size_medium">"Bohareng"</string>
+    <string name="ss_settings_font_size_large">"E kholo"</string>
+    <string name="ss_settings_font_size_huge">"Boholo"</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Sheba lenaneo lena"</string>
+    <string name="rate_dialog_message">"Ka kopo nka nako ho lekanya lenaneo lena. Ke leboha tšehetso ea hau!"</string>
+    <string name="rate_dialog_ok">"E lekanye"</string>
+    <string name="rate_dialog_cancel">"Hamorao"</string>
+    <string name="rate_dialog_no">"Che"</string>
+    <string name="ss_settings_website">"Websaeteng"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Lipuo tse ling"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Tlanya letšoao la sefofane ho bona lipuo tse teng"</string>
+    <string name="ss_bible">"Bibele"</string>
+    <string name="ss_settings_reminder">"Khopotso ea Letsatsi le Letsatsi"</string>
+    <string name="ss_settings_reminder_summary">"Hlahloba ho nolofalletsa khopotso ea letsatsi le letsatsi"</string>
+    <string name="ss_settings_reminder_time">"Nako ea Khopotso"</string>
+    <string name="ss_settings_reminder_text">"Nako ea ho ithuta thuto ea Sekolo sa Sabatha"</string>
+    <string name="ss_reading_offline">"Ha u offline. Kopana hape ho bala thuto ena."</string>
+    <string name="ss_reading_offline_retry">"Leka hape"</string>
+    <string name="ss_about_text">"Mission of Adventech ke eona ea pele le ea bohlokoa - fanang ka khanya ho Litimise oa rona, Moholo-holo oa Matsatsi. Re inehetse ho etsa tšebeletso ea rona ka thekenoloji. Sepheo sa rona ke ho kopanya Kereke ea Seventh-Day Adventist. Sepheo sa rona ke ho phatlalatsa Litaba Tse Molemo lefatšeng lena ka theknoloji le tsoelo-pele ea puisano. Pakane ea rona ke ho bona ho tla ha Jesu habeli.
+
+Re bululetsoe ke mohlala le mekhoa ea Jesu, ha a sebeletsa mona lefatšeng. Ka lebaka lena, re ikemiselitse ho fana ka boleng bo phahameng ba merero eohle ea rona ntle ho tefo ka lerato le boinehelo. Re ikemiselitse ho tlotlisa Ntate oa rona, hobane O lokeloa ke thoriso e phahameng ka ho fetisisa.
+
+Re lumela kannete hore Molimo o ekelitse tsebo ea lefats'e la kajeno ebile o batla hore re e sebelise ho tlotlisa ha hae ho phatlalatsa hore o khutla kapele!"</string>
+
+    <!-- Previous lessons -->
+    <string name="ss_lessons_previous">"Lithuto tse fetileng"</string>
+</resources>
