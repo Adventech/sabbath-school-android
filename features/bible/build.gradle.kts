@@ -89,7 +89,7 @@ dependencies {
     implementation(Firebase.AUTH)
 
     implementation(Dependencies.TIMBER)
-    implementation("com.mikepenz:iconics-core:5.2.4@aar")
+    implementation("com.mikepenz:iconics-core:5.2.6@aar")
     implementation("com.mikepenz:iconics-views:5.2.4@aar")
     implementation("com.mikepenz:iconics-typeface-api:5.2.4@aar")
     implementation("com.mikepenz:google-material-typeface:4.0.0.1-kotlin@aar")
