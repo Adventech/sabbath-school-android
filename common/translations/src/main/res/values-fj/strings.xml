@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Veimama"</string>
     <string name="ss_settings_font_size_large">"Ka levu sara"</string>
     <string name="ss_settings_font_size_huge">"Vakaitamera"</string>
+    <string name="ss_settings_version">"Kena ilavelave"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Vakarautaka na Adventech"</string>

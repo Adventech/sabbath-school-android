@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Μεσαία"</string>
     <string name="ss_settings_font_size_large">"Μεγάλη"</string>
     <string name="ss_settings_font_size_huge">"Τεράστια"</string>
+    <string name="ss_settings_version">"Εκδοχή"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Βαθμολόγηστε την εφαρμογή"</string>

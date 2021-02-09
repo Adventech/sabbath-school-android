@@ -78,7 +78,7 @@
     <string name="ss_settings_font_size_medium">"Mediu"</string>
     <string name="ss_settings_font_size_large">"Mare"</string>
     <string name="ss_settings_font_size_huge">"Imens"</string>
-
+    <string name="ss_settings_version">"Versiune"</string>
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Evaluați Școala de Sabat"</string>
     <string name="rate_dialog_message">"Vă rugăm să vă luați o clipă pentru a evalua aplicația Școala Sabat. Mulțumesc pentru sprijin!"</string>
@@ -103,4 +103,5 @@ Credem cu adevărat că Dumnezeu a mărit cunoașterea lumii moderne și doreșt
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Lecții anterioare"</string>
+
 </resources>

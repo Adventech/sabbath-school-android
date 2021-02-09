@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"ഇടത്തരം"</string>
     <string name="ss_settings_font_size_large">"വലിയ"</string>
     <string name="ss_settings_font_size_huge">"വൻ"</string>
+    <string name="ss_settings_version">"പതിപ്പ്"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"ഈ അപ്ലിക്കേഷൻ റേറ്റുചെയ്യുക"</string>

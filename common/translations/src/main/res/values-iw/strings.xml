@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"בינוני"</string>
     <string name="ss_settings_font_size_large">"גָדוֹל"</string>
     <string name="ss_settings_font_size_huge">"עָצוּם"</string>
+    <string name="ss_settings_version">"גִרְסָה"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"דרג ספר שבת"</string>

@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Kati"</string>
     <string name="ss_settings_font_size_large">"Kubwa"</string>
     <string name="ss_settings_font_size_huge">"Kubwa"</string>
+    <string name="ss_settings_version">"Toleo"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Linganisha programu hii"</string>

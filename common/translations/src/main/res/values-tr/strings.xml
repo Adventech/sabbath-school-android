@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Orta"</string>
     <string name="ss_settings_font_size_large">"Büyük"</string>
     <string name="ss_settings_font_size_huge">"Kocaman"</string>
+    <string name="ss_settings_version">"Sürüm"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Sebt Okulu değerlendirin"</string>

@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"กลาง"</string>
     <string name="ss_settings_font_size_large">"ใหญ่"</string>
     <string name="ss_settings_font_size_huge">"ใหญ่"</string>
+    <string name="ss_settings_version">"เวอร์ชัน"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"ให้คะแนนแอพ"</string>

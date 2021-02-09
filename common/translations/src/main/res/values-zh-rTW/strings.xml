@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"中"</string>
     <string name="ss_settings_font_size_large">"大"</string>
     <string name="ss_settings_font_size_huge">"巨大"</string>
+    <string name="ss_settings_version">"版"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"為這個應用軟件評分"</string>

@@ -78,7 +78,7 @@
     <string name="ss_settings_font_size_medium">"Keskmine"</string>
     <string name="ss_settings_font_size_large">"Suur"</string>
     <string name="ss_settings_font_size_huge">"Hiiglaslik"</string>
-
+    <string name="ss_settings_version">"Versioon"</string>
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Hinda hingamispäevakooli õppetükke"</string>
     <string name="rate_dialog_message">"Palun võtke hetk, et hinnata hingamispäevakooli õppetükkide äppi. Täname teie toetuse eest!"</string>

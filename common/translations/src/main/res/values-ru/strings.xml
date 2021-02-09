@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Средний"</string>
     <string name="ss_settings_font_size_large">"Большой"</string>
     <string name="ss_settings_font_size_huge">"Гигантский"</string>
+    <string name="ss_settings_version">"Версия"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Оцените Субботнюю Школу"</string>

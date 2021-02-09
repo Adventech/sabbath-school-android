@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"متوسط"</string>
     <string name="ss_settings_font_size_large">"بزرگ"</string>
     <string name="ss_settings_font_size_huge">"بزرگ"</string>
+    <string name="ss_settings_version">"نسخه"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"دانشکده سبت نرخ"</string>

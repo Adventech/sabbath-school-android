@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Mittel"</string>
     <string name="ss_settings_font_size_large">"Groß"</string>
     <string name="ss_settings_font_size_huge">"Sehr groß"</string>
+    <string name="ss_settings_version">"Ausführung"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Sabbatschule-App bewerten"</string>

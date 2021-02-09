@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Phakathi"</string>
     <string name="ss_settings_font_size_large">"Okukhulu"</string>
     <string name="ss_settings_font_size_huge">"Okukhulu"</string>
+    <string name="ss_settings_version">"Inguqulo"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Linganisa lolu hlelo lokusebenza"</string>

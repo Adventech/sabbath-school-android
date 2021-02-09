@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Srednji"</string>
     <string name="ss_settings_font_size_large">"Veliki"</string>
     <string name="ss_settings_font_size_huge">"Ogroman"</string>
+    <string name="ss_settings_version">"Verzija"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Ocijeni ovu aplikaciju"</string>

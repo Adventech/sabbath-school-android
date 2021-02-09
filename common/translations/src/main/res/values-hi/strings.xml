@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"मध्यम"</string>
     <string name="ss_settings_font_size_large">"विशाल"</string>
     <string name="ss_settings_font_size_huge">"विशाल"</string>
+    <string name="ss_settings_version">"संस्करण"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"इस ऐप्लिकेशन को रेट करे"</string>

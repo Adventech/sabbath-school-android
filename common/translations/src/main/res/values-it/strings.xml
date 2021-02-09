@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Medio"</string>
     <string name="ss_settings_font_size_large">"Grande"</string>
     <string name="ss_settings_font_size_huge">"Enorme"</string>
+    <string name="ss_settings_version">"Versione"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Vota Scuola del Sabato"</string>

@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Trung bình"</string>
     <string name="ss_settings_font_size_large">"Lớn"</string>
     <string name="ss_settings_font_size_huge">"Khổng lồ"</string>
+    <string name="ss_settings_version">"Phiên bản"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Đánh giá ứng dụng này"</string>

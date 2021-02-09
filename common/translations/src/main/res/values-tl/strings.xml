@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Katamtaman"</string>
     <string name="ss_settings_font_size_large">"Malaking"</string>
     <string name="ss_settings_font_size_huge">"Napakalaki"</string>
+    <string name="ss_settings_version">"Bersyon"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"I-rate ang app na ito"</string>

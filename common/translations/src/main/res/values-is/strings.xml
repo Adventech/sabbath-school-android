@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Miðlungs"</string>
     <string name="ss_settings_font_size_large">"Stórt"</string>
     <string name="ss_settings_font_size_huge">"Björt"</string>
+    <string name="ss_settings_version">"Útgáfa"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Meta þessa app"</string>

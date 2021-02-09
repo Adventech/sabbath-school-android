@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Közepes"</string>
     <string name="ss_settings_font_size_large">"Nagy"</string>
     <string name="ss_settings_font_size_huge">"Hatalmas"</string>
+    <string name="ss_settings_version">"Változat"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Értékelje a Sabbath Iskolát"</string>

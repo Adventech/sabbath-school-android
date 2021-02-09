@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Vidutinis"</string>
     <string name="ss_settings_font_size_large">"Didelis"</string>
     <string name="ss_settings_font_size_huge">"Didelis"</string>
+    <string name="ss_settings_version">"Versija"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Įvertink šią aplikaciją"</string>
