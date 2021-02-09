@@ -36,6 +36,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableInt
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.input.input
 import com.cryart.sabbathschool.bible.ui.SSBibleVersesActivity
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
@@ -182,11 +183,14 @@ class SSReadingViewModel(
             defaultEmail
         } else currentUser?.email ?: defaultEmail
 
-        MaterialDialog.Builder(context)
-            .title(context.getString(R.string.ss_reading_suggest_edit))
-            .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-            .input(context.getString(R.string.ss_reading_suggest_edit_hint), "") { _, input ->
-                if (input.isNullOrEmpty()) {
+        MaterialDialog(context).show {
+            title(res = R.string.ss_reading_suggest_edit)
+            input(
+                hintRes = R.string.ss_reading_suggest_edit_hint,
+                inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES,
+                allowEmpty = true
+            ) { _, input ->
+                if (input.isEmpty()) {
                     return@input
                 }
                 mDatabase.child(SSConstants.SS_FIREBASE_SUGGESTIONS_DATABASE)
@@ -194,7 +198,8 @@ class SSReadingViewModel(
                     .child(ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
                     .setValue(SSSuggestion(name, email, input.toString()))
                 Toast.makeText(context, context.getString(R.string.ss_reading_suggest_edit_done), Toast.LENGTH_LONG).show()
-            }.show()
+            }
+        }
     }
 
     private fun downloadHighlights(dayIndex: String, index: Int) {

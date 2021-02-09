@@ -19,9 +19,9 @@ kotlinDslPluginOptions {
 object PluginVersions {
     const val GRADLE_ANDROID = "4.1.2"
     const val GRADLE_VERSIONS = "0.33.0"
-    const val KOTLIN = "1.4.21"
+    const val KOTLIN = "1.4.30"
     const val KTLINT = "0.40.0"
-    const val HILT = "2.31.2-alpha"
+    const val HILT = "2.32-alpha"
     const val GOOGLE_SERVICES = "4.3.5"
     const val FIREBASE_CRASHLYTICS_GRADLE = "2.4.1"
 }

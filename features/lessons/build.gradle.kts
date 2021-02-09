@@ -25,6 +25,7 @@ import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
+import dependencies.Dependencies.Iconics
 import extensions.addTestsDependencies
 import extensions.kapt
 
@@ -94,13 +95,13 @@ dependencies {
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.COIL)
     implementation(Dependencies.TAP_TARGET)
-    implementation("com.mikepenz:iconics-core:5.2.4@aar")
-    implementation("com.mikepenz:iconics-views:5.2.4@aar")
-    implementation("com.mikepenz:iconics-typeface-api:5.2.4@aar")
-    implementation("com.mikepenz:google-material-typeface:4.0.0.1-kotlin@aar")
+    implementation(Iconics.CORE)
+    implementation(Iconics.VIEWS)
+    implementation(Iconics.TYPEFACE)
+    implementation(Iconics.MATERIAL_TYPEFACE)
     implementation("net.opacapp:multiline-collapsingtoolbar:27.1.1")
     implementation("com.github.hotchemi:android-rate:1.0.1")
-    implementation("com.afollestad.material-dialogs:core:0.9.6.0")
+    implementation("com.afollestad.material-dialogs:input:3.3.0")
     implementation("ru.beryukhov:flowreactivenetwork:1.0.2")
 
     addTestsDependencies()

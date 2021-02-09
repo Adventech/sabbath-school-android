@@ -27,24 +27,25 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginHorizontal="@dimen/ss_bible_verses_content_margin"
-        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginTop="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/ss_bible_verses_content_margin">
 
         <LinearLayout
             android:id="@+id/ss_bible_verses_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center"
-                android:layout_margin="@dimen/ss_bible_verses_title_margin"
+                android:paddingHorizontal="@dimen/ss_bible_verses_title_margin"
                 android:text="@string/ss_bible"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
