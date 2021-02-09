@@ -19,12 +19,13 @@ object Versions {
         const val BROWSER = "1.3.0"
     }
 
-    const val HILT = "2.31.2-alpha"
+    const val HILT = "2.32-alpha"
 
     const val TIMBER = "4.7.1"
     const val COIL = "1.1.1"
     const val LEAK_CANARY = "2.5"
     const val TAP_TARGET = "3.1.0"
+    const val ICONICS = "5.2.6@aar"
 
     const val FIREBASE_BOM = "26.4.0"
     const val FACEBOOK = "8.1.0"

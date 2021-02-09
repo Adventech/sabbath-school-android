@@ -21,6 +21,8 @@
  */
 
 import dependencies.Dependencies
+import dependencies.Dependencies.AndroidX
+import dependencies.Dependencies.Hilt
 import extensions.kapt
 
 plugins {
@@ -59,15 +61,14 @@ dependencies {
     implementation(Dependencies.Kotlin.KOTLIN)
 
     implementation(Dependencies.MATERIAL)
-    implementation(Dependencies.AndroidX.CORE)
-    implementation(Dependencies.AndroidX.APPCOMPAT)
-    implementation(Dependencies.AndroidX.ACTIVITY)
-    implementation(Dependencies.AndroidX.FRAGMENT_KTX)
+    implementation(AndroidX.CORE)
+    implementation(AndroidX.APPCOMPAT)
+    implementation(AndroidX.ACTIVITY)
+    implementation(AndroidX.FRAGMENT_KTX)
+    implementation(AndroidX.PREFERENCE)
 
-    implementation(Dependencies.Hilt.ANDROID)
-    kapt(Dependencies.Hilt.COMPILER)
+    implementation(Hilt.ANDROID)
+    kapt(Hilt.COMPILER)
 
     implementation(Dependencies.TIMBER)
-
-    implementation(Dependencies.AndroidX.PREFERENCE)
 }
