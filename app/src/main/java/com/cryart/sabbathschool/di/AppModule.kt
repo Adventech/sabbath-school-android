@@ -23,7 +23,9 @@
 package com.cryart.sabbathschool.di
 
 import android.content.Context
+import com.cryart.sabbathschool.BuildConfig
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.cryart.sabbathschool.settings.DailyReminder
 import com.cryart.sabbathschool.ui.login.FacebookLoginManager
@@ -55,4 +57,7 @@ object AppModule {
 
     @Provides
     fun provideDailyReminder(manager: DailyReminderManager): DailyReminder = manager
+
+    @Provides
+    fun provideAppConfig() = AppConfig(BuildConfig.VERSION_NAME)
 }

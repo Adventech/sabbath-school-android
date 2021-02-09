@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"معتدل"</string>
     <string name="ss_settings_font_size_large">"كبير"</string>
     <string name="ss_settings_font_size_huge">"ضخم"</string>
+    <string name="ss_settings_version">الإصدار</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"قيّم البرنامج"</string>

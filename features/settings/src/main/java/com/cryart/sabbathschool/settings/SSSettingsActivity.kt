@@ -27,6 +27,7 @@ import android.view.MenuItem
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
+import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
 import com.cryart.sabbathschool.settings.databinding.SsSettingsActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +38,9 @@ class SSSettingsActivity : SSColorSchemeActivity() {
 
     @Inject
     lateinit var dailyReminder: DailyReminder
+
+    @Inject
+    lateinit var appConfig: AppConfig
 
     private val binding: SsSettingsActivityBinding by lazy {
         SsSettingsActivityBinding.inflate(layoutInflater)
@@ -51,7 +55,7 @@ class SSSettingsActivity : SSColorSchemeActivity() {
 
         supportFragmentManager.beginTransaction().replace(
             R.id.ss_settings_frame,
-            SSSettingsFragment()
+            SSSettingsFragment.newInstance(appConfig)
         ).commit()
 
         SSEvent.track(this, SSConstants.SS_EVENT_SETTINGS_OPEN)
@@ -64,12 +68,12 @@ class SSSettingsActivity : SSColorSchemeActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             android.R.id.home -> {
                 finishAfterTransition()
                 return true
             }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 }

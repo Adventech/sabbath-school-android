@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Medium"</string>
     <string name="ss_settings_font_size_large">"Stor"</string>
     <string name="ss_settings_font_size_huge">"Kæmpe stor"</string>
+    <string name="ss_settings_version">Version</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Feedback"</string>
