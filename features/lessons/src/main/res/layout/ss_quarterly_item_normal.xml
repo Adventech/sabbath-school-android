@@ -97,6 +97,7 @@
                 android:layout_alignBottom="@+id/ss_quarterly_item_normal_cover_card"
                 android:layout_toEndOf="@+id/ss_quarterly_item_normal_cover_card"
                 android:gravity="center_vertical"
+                android:layout_marginEnd="@dimen/ss_quarterly_item_normal_cover_margin_right"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
