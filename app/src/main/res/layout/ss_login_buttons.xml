@@ -57,7 +57,6 @@
             android:layout_marginHorizontal="@dimen/spacing_micro"
             android:text="@string/ss_login_button_facebook"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
             app:backgroundTint="@color/com_facebook_blue"
             app:cornerRadius="4dp"
             app:icon="@drawable/com_facebook_button_icon"
@@ -73,7 +72,6 @@
             android:layout_marginVertical="@dimen/spacing_medium"
             android:text="@string/common_signin_button_text_long"
             android:textColor="@color/ss_gray_3"
-            android:textSize="14sp"
             app:backgroundTint="@color/white"
             app:cornerRadius="4dp"
             app:icon="@drawable/ic_google_logo"
@@ -90,10 +88,6 @@
             android:text="@string/ss_login_button_anonymous"
             android:textAppearance="@style/TextAppearance.SS.Button"
             android:textColor="?android:attr/textColorPrimary"
-            app:autoSizeMaxTextSize="14sp"
-            app:autoSizeMinTextSize="10sp"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
             app:textAllCaps="false" />
 
     </LinearLayout>

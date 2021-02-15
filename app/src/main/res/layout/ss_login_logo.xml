@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,9 +20,9 @@
   ~ THE SOFTWARE.
   -->
 
-<merge xmlns:tools="http://schemas.android.com/tools"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/ss_login_activity">
 
     <ImageView
@@ -38,7 +37,7 @@
         app:srcCompat="@drawable/ss_logo"
         app:tint="?attr/colorPrimary" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/ss_login_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,6 +47,7 @@
         android:textAppearance="?attr/textAppearanceHeadline6"
         android:textColor="?attr/colorPrimary"
         android:textSize="@dimen/ss_login_app_name_font_size"
+        app:fontFamily="@font/lato_bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
