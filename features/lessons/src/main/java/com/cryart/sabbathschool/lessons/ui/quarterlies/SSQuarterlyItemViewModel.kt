@@ -89,6 +89,7 @@ internal class SSQuarterlyItemViewModel(
         fun loadCover(view: ImageView, coverUrl: String?, primaryColor: Int?) {
             coverUrl?.let { url ->
                 view.load(url) {
+                    allowHardware(false)
                     crossfade(true)
                     primaryColor?.let {
                         val drawable = placeholderDrawable(view.context, it)

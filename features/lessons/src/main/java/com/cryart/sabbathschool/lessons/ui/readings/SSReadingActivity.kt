@@ -176,7 +176,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
 
     override fun onDestroy() {
         try {
-            (binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.drawable as BitmapDrawable).bitmap.recycle()
+            (binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.drawable as? BitmapDrawable)?.bitmap?.recycle()
         } catch (e: Exception) {
             Timber.e(e)
         }
