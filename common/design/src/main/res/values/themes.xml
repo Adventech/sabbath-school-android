@@ -96,7 +96,6 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="bottomSheetStyle">@style/Widget.SS.BottomSheet.Modal</item>
         <item name="android:windowIsFloating">false</item>
-        <item name="android:navigationBarColor">?colorSurface</item>
     </style>
 
     <style name="ThemeOverlay.SS.BottomSheetDialog" parent="Base.ThemeOverlay.SS.BottomSheetDialog">
@@ -106,6 +105,8 @@
         <item name="colorSecondary">@color/ss_pink</item>
         <item name="colorSecondaryVariant">@color/ss_pink_dark</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
     </style>
 
     <style name="Base.ThemeOverlay.SS.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
