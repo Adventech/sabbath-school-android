@@ -5,6 +5,7 @@ object Versions {
     const val COROUTINES = "1.4.2"
 
     const val MATERIAL = "1.3.0"
+    const val DESUGAR = "1.1.1"
 
     object AndroidX {
         const val APPCOMPAT = "1.2.0"

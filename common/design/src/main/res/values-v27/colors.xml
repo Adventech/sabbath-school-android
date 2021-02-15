@@ -23,4 +23,5 @@
 
 <resources>
     <color name="nav_color">@color/white_70</color>
+    <color name="bottom_sheet_nav_color">@color/white</color>
 </resources>
