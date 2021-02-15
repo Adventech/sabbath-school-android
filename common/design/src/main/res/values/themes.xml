@@ -96,7 +96,7 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="bottomSheetStyle">@style/Widget.SS.BottomSheet.Modal</item>
         <item name="android:windowIsFloating">false</item>
-        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:navigationBarColor">@color/bottom_sheet_nav_color</item>
     </style>
 
     <style name="ThemeOverlay.SS.BottomSheetDialog" parent="Base.ThemeOverlay.SS.BottomSheetDialog">

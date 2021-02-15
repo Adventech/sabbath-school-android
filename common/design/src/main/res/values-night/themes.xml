@@ -50,6 +50,7 @@
         <item name="android:colorBackground">@color/dark_grey</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
     </style>
 
     <style name="ThemeOverlay.SS.MaterialAlertDialog" parent="Base.ThemeOverlay.SS.MaterialAlertDialog">
