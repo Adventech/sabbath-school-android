@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.base
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
@@ -32,9 +31,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 abstract class SsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     init {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            setStyle(DialogFragment.STYLE_NORMAL, R.style.ThemeOverlay_SS_BottomSheetDialog)
-        }
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.ThemeOverlay_SS_BottomSheetDialog)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
