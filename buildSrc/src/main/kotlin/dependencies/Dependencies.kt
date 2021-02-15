@@ -1,6 +1,7 @@
 package dependencies
 
 object Dependencies {
+    const val DESUGAR = "com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}"
     const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
     const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
     const val FACEBOOK = "com.facebook.android:facebook-android-sdk:${Versions.FACEBOOK}"
