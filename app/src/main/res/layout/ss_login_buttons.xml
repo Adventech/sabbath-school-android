@@ -50,26 +50,34 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.7">
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/google"
-            style="@style/GoogleSignInButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/facebook"
             android:layout_width="match_parent"
             android:layout_height="@dimen/ss_login_button_social_height"
-            android:layout_marginStart="@dimen/spacing_micro"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:layout_marginEnd="@dimen/spacing_micro"
-            android:layout_marginBottom="@dimen/spacing_medium"
+            android:layout_marginHorizontal="@dimen/spacing_micro"
             android:text="@string/ss_login_button_facebook"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
             app:backgroundTint="@color/com_facebook_blue"
+            app:cornerRadius="4dp"
             app:icon="@drawable/com_facebook_button_icon"
+            app:iconGravity="textStart"
             app:iconTint="@android:color/white"
+            app:textAllCaps="false" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/google"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ss_login_button_social_height"
+            android:layout_marginHorizontal="@dimen/spacing_micro"
+            android:layout_marginVertical="@dimen/spacing_medium"
+            android:text="@string/common_signin_button_text_long"
+            android:textColor="@color/ss_gray_3"
+            app:backgroundTint="@color/white"
+            app:cornerRadius="4dp"
+            app:icon="@drawable/ic_google_logo"
+            app:iconGravity="textStart"
+            app:iconSize="16dp"
+            app:iconTint="@null"
             app:textAllCaps="false" />
 
         <com.google.android.material.button.MaterialButton
@@ -79,10 +87,7 @@
             android:layout_height="@dimen/ss_login_button_social_height"
             android:text="@string/ss_login_button_anonymous"
             android:textAppearance="@style/TextAppearance.SS.Button"
-            app:autoSizeMaxTextSize="14sp"
-            app:autoSizeMinTextSize="10sp"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
+            android:textColor="?android:attr/textColorPrimary"
             app:textAllCaps="false" />
 
     </LinearLayout>
