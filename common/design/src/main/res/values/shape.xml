@@ -28,7 +28,7 @@
     </style>
 
     <style name="ShapeAppearance.SS.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
-        <item name="cornerSize">0dp</item>
+        <item name="cornerSize">@dimen/space_medium</item>
     </style>
 
     <style name="ShapeAppearance.SS.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
