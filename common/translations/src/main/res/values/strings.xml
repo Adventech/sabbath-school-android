@@ -80,6 +80,7 @@
     <string name="ss_settings_font_size_large">"Large"</string>
     <string name="ss_settings_font_size_huge">"Huge"</string>
     <string name="ss_settings_version">Version</string>
+    <string name="ss_settings_version_with_param_string">Version: %1$S</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Rate Sabbath School"</string>

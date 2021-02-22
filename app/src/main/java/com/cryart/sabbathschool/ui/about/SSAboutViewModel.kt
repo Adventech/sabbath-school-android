@@ -31,7 +31,7 @@ class SSAboutViewModel(private val context: Context) {
 
     val colorPrimary: Int get() = context.colorPrimary
 
-    val versionInfo: String get() = "${context.getString(R.string.ss_settings_version)}: ${BuildConfig.VERSION_NAME}"
+    val versionInfo: String get() = context.getString(R.string.ss_settings_version_with_param_string, BuildConfig.VERSION_NAME)
 
     fun onFacebookClick() {
         context.launchWebUrl(context.getString(R.string.ss_settings_facebook_url))

@@ -100,4 +100,5 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Tidligere leksjoner"</string>
+    <string name="ss_settings_version_with_param_string">Versjon: %1$S</string>
 </resources>

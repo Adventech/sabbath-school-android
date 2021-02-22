@@ -104,4 +104,5 @@ Igazán hiszünk abban, hogy Isten megnövelte a modern világ tudását, és az
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Korábbi órák"</string>
+    <string name="ss_settings_version_with_param_string">Változat: %1$S</string>
 </resources>

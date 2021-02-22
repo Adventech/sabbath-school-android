@@ -104,4 +104,5 @@ Wir glauben wirklich, dass Gott die Erkenntnis der modernen Welt erhöht hat und
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Vorherige Lektionen"</string>
+    <string name="ss_settings_version_with_param_string">Ausführung: %1$S</string>
 </resources>

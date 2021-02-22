@@ -105,5 +105,6 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"ບົດຮຽນຜ່ານມາ"</string>
+    <string name="ss_settings_version_with_param_string">ຮຸ່ນ: %1$S</string>
 
 </resources>

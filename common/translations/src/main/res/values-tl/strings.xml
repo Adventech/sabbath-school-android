@@ -104,4 +104,5 @@ Talagang naniniwala kami na pinalaki ng Diyos ang kaalaman sa modernong mundo at
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Mga nakaraang aralin"</string>
+    <string name="ss_settings_version_with_param_string">Bersyon: %1$S</string>
 </resources>

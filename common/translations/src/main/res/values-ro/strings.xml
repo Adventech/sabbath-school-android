@@ -103,5 +103,6 @@ Credem cu adevărat că Dumnezeu a mărit cunoașterea lumii moderne și doreșt
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Lecții anterioare"</string>
+    <string name="ss_settings_version_with_param_string">Versiune: %1$S</string>
 
 </resources>

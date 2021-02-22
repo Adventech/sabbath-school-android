@@ -108,4 +108,5 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"이전 레슨"</string>
+    <string name="ss_settings_version_with_param_string">버전: %1$S</string>
 </resources>
