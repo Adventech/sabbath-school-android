@@ -78,7 +78,7 @@
     <string name="ss_settings_font_size_medium">"Medio"</string>
     <string name="ss_settings_font_size_large">"Grande"</string>
     <string name="ss_settings_font_size_huge">"Enorme"</string>
-
+    <string name="ss_settings_version">"Versión"</string>
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Tasa de la Escuela Sabática"</string>
     <string name="rate_dialog_message">"Si te gusta la Escuela Sabática, ¿te importaría tomar un momento para evaluar ella? Gracias por su apoyo!"</string>
@@ -103,4 +103,5 @@ Realmente creemos que Dios ha aumentado el conocimiento del mundo moderno y quie
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Lecciones anteriores"</string>
+    <string name="ss_settings_version_with_param_string">Versión: %1$S</string>
 </resources>

@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Sederhana"</string>
     <string name="ss_settings_font_size_large">"Besar"</string>
     <string name="ss_settings_font_size_huge">"Sangat Besar"</string>
+    <string name="ss_settings_version">"Versi"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Taksirkan Aplikasi Sekolah Sabat"</string>
@@ -103,4 +104,5 @@ Kami benar-benar percaya bahawa Tuhan telah meningkatkan pengetahuan tentang dun
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Pelajaran sebelumnya"</string>
+    <string name="ss_settings_version_with_param_string">Versi: %1$S</string>
 </resources>

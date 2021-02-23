@@ -24,8 +24,11 @@ package com.cryart.sabbathschool.settings
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.core.os.bundleOf
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.core.model.AppConfig
 
 class SSSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -41,6 +44,10 @@ class SSSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnShare
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.ss_settings)
+
+        val aboutPref = findPreference<Preference>(getString(R.string.ss_settings_version_key))
+        val config = arguments?.getParcelable<AppConfig>(ARG_CONFIG)
+        aboutPref?.summary = config?.version
     }
 
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, string: String?) {
@@ -49,6 +56,14 @@ class SSSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnShare
                 val reminder = (requireActivity() as? SSSettingsActivity)?.dailyReminder
                 reminder?.reSchedule()
             }
+        }
+    }
+
+    companion object {
+        private const val ARG_CONFIG = "key:config"
+
+        fun newInstance(config: AppConfig): SSSettingsFragment = SSSettingsFragment().apply {
+            arguments = bundleOf(ARG_CONFIG to config)
         }
     }
 }

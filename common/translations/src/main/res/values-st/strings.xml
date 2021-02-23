@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Bohareng"</string>
     <string name="ss_settings_font_size_large">"E kholo"</string>
     <string name="ss_settings_font_size_huge">"Boholo"</string>
+    <string name="ss_settings_version">"Mofuta"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Sheba lenaneo lena"</string>
@@ -103,4 +104,5 @@ Re lumela kannete hore Molimo o ekelitse tsebo ea lefats'e la kajeno ebile o bat
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Lithuto tse fetileng"</string>
+    <string name="ss_settings_version_with_param_string">Mofuta: %1$S</string>
 </resources>
