@@ -94,10 +94,8 @@ public class SSReadingViewAdapter extends PagerAdapter {
 
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
-            if (ssReadingView != null) {
-                ssReadingView.updateHighlights();
-                ssReadingView.updateComments();
-            }
+            ssReadingView.updateHighlights();
+            ssReadingView.updateComments();
         }, 800);
 
         layout.setTag("ssReadingView_" + position);

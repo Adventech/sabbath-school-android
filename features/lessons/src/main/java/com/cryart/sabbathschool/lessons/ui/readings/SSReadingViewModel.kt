@@ -29,7 +29,6 @@ import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
@@ -324,12 +323,11 @@ class SSReadingViewModel(
 
     override fun onSelectionStarted(posX: Float, posY: Float) {
         var y = posY
-        val view: LinearLayout = ssReadingActivityBinding.ssReadingViewPager
+        val scrollView: NestedScrollView = ssReadingActivityBinding.ssReadingViewPager
             .findViewWithTag("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager.currentItem)
-        val scrollView: NestedScrollView = view.findViewById(R.id.ss_reading_view_scroll)
         y = y - scrollView.scrollY + ssReadingActivityBinding.ssReadingViewPager.top
         val metrics = DisplayMetrics()
-        (context as Activity?)!!.windowManager.defaultDisplay.getMetrics(metrics)
+        (context as? Activity)?.windowManager?.defaultDisplay?.getMetrics(metrics)
         val params = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.layoutParams as ViewGroup.MarginLayoutParams
         val contextMenuWidth = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.width
         val contextMenuHeight = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.height
