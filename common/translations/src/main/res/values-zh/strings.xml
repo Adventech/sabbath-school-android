@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"中"</string>
     <string name="ss_settings_font_size_large">"大"</string>
     <string name="ss_settings_font_size_huge">"巨大"</string>
+    <string name="ss_settings_version">"版"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"为这个应用软件评分"</string>
@@ -103,4 +104,5 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"上一课"</string>
+    <string name="ss_settings_version_with_param_string">版: %1$S</string>
 </resources>

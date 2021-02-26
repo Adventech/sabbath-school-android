@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"กลาง"</string>
     <string name="ss_settings_font_size_large">"ใหญ่"</string>
     <string name="ss_settings_font_size_huge">"ใหญ่"</string>
+    <string name="ss_settings_version">"เวอร์ชัน"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"ให้คะแนนแอพ"</string>
@@ -103,4 +104,5 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"บทเรียนก่อนหน้า"</string>
+    <string name="ss_settings_version_with_param_string">เวอร์ชัน: %1$S</string>
 </resources>

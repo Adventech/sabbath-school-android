@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Közepes"</string>
     <string name="ss_settings_font_size_large">"Nagy"</string>
     <string name="ss_settings_font_size_huge">"Hatalmas"</string>
+    <string name="ss_settings_version">"Változat"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Értékelje a Sabbath Iskolát"</string>
@@ -103,4 +104,5 @@ Igazán hiszünk abban, hogy Isten megnövelte a modern világ tudását, és az
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Korábbi órák"</string>
+    <string name="ss_settings_version_with_param_string">Változat: %1$S</string>
 </resources>

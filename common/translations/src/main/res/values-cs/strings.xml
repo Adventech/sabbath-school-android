@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Střední"</string>
     <string name="ss_settings_font_size_large">"Velký"</string>
     <string name="ss_settings_font_size_huge">"Obrovský"</string>
+    <string name="ss_settings_version">Verze</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Ohodnoť aplikaci Sobotní škola"</string>
@@ -103,4 +104,5 @@ Opravdu věříme, že Bůh rozmnožil poznání moderního světa a chce, abych
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Předchozí lekce"</string>
+    <string name="ss_settings_version_with_param_string">Verze: %1$S</string>
 </resources>

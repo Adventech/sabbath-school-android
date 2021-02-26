@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,33 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cryart.sabbathschool.ui.about
 
-import android.content.Context
-import com.cryart.sabbathschool.BuildConfig
-import com.cryart.sabbathschool.R
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
-import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
+package com.cryart.sabbathschool.core.model
 
-class SSAboutViewModel(private val context: Context) {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-    val colorPrimary: Int get() = context.colorPrimary
-
-    val versionInfo: String get() = context.getString(R.string.ss_settings_version_with_param_string, BuildConfig.VERSION_NAME)
-
-    fun onFacebookClick() {
-        context.launchWebUrl(context.getString(R.string.ss_settings_facebook_url))
-    }
-
-    fun onInstagramClick() {
-        context.launchWebUrl(context.getString(R.string.ss_settings_instagram_url))
-    }
-
-    fun onGitHubClick() {
-        context.launchWebUrl(context.getString(R.string.ss_settings_github_url))
-    }
-
-    fun onAdventechIoClick() {
-        context.launchWebUrl(context.getString(R.string.ss_settings_website_url))
-    }
-}
+@Parcelize
+data class AppConfig(val version: String) : Parcelable

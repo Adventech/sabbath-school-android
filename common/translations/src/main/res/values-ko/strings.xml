@@ -82,6 +82,7 @@
     <string name="ss_settings_font_size_medium">"중간"</string>
     <string name="ss_settings_font_size_large">"큰"</string>
     <string name="ss_settings_font_size_huge">"아주 큰"</string>
+    <string name="ss_settings_version">"버전"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"안식일 학교를 평가하십시오"</string>
@@ -107,4 +108,5 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"이전 레슨"</string>
+    <string name="ss_settings_version_with_param_string">버전: %1$S</string>
 </resources>
