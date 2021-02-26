@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"நடுத்தர"</string>
     <string name="ss_settings_font_size_large">"பெரிய"</string>
     <string name="ss_settings_font_size_huge">"பெரும்"</string>
+    <string name="ss_settings_version">"பதிப்பு"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"இந்த பயன்பாட்டை மதிப்பிடுக"</string>
@@ -103,4 +104,5 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"முந்தைய பாடங்கள்"</string>
+    <string name="ss_settings_version_with_param_string">பதிப்பு: %1$S</string>
 </resources>

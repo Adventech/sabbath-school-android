@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Phakathi"</string>
     <string name="ss_settings_font_size_large">"Okukhulu"</string>
     <string name="ss_settings_font_size_huge">"Okukhulu"</string>
+    <string name="ss_settings_version">"Inguqulo"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Linganisa lolu hlelo lokusebenza"</string>
@@ -103,4 +104,5 @@ Siyakholwa ngempela ukuthi uNkulunkulu ukwandise ulwazi lwezwe lwanamuhla futhi 
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Izifundo ezedlule"</string>
+    <string name="ss_settings_version_with_param_string">Inguqulo: %1$S</string>
 </resources>

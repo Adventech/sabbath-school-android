@@ -29,13 +29,13 @@ import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableInt
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.input.input
 import com.cryart.sabbathschool.bible.ui.SSBibleVersesActivity
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
@@ -182,11 +182,14 @@ class SSReadingViewModel(
             defaultEmail
         } else currentUser?.email ?: defaultEmail
 
-        MaterialDialog.Builder(context)
-            .title(context.getString(R.string.ss_reading_suggest_edit))
-            .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-            .input(context.getString(R.string.ss_reading_suggest_edit_hint), "") { _, input ->
-                if (input.isNullOrEmpty()) {
+        MaterialDialog(context).show {
+            title(res = R.string.ss_reading_suggest_edit)
+            input(
+                hintRes = R.string.ss_reading_suggest_edit_hint,
+                inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES,
+                allowEmpty = true
+            ) { _, input ->
+                if (input.isEmpty()) {
                     return@input
                 }
                 mDatabase.child(SSConstants.SS_FIREBASE_SUGGESTIONS_DATABASE)
@@ -194,7 +197,8 @@ class SSReadingViewModel(
                     .child(ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
                     .setValue(SSSuggestion(name, email, input.toString()))
                 Toast.makeText(context, context.getString(R.string.ss_reading_suggest_edit_done), Toast.LENGTH_LONG).show()
-            }.show()
+            }
+        }
     }
 
     private fun downloadHighlights(dayIndex: String, index: Int) {
@@ -319,12 +323,11 @@ class SSReadingViewModel(
 
     override fun onSelectionStarted(posX: Float, posY: Float) {
         var y = posY
-        val view: LinearLayout = ssReadingActivityBinding.ssReadingViewPager
+        val scrollView: NestedScrollView = ssReadingActivityBinding.ssReadingViewPager
             .findViewWithTag("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager.currentItem)
-        val scrollView: NestedScrollView = view.findViewById(R.id.ss_reading_view_scroll)
         y = y - scrollView.scrollY + ssReadingActivityBinding.ssReadingViewPager.top
         val metrics = DisplayMetrics()
-        (context as Activity?)!!.windowManager.defaultDisplay.getMetrics(metrics)
+        (context as? Activity)?.windowManager?.defaultDisplay?.getMetrics(metrics)
         val params = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.layoutParams as ViewGroup.MarginLayoutParams
         val contextMenuWidth = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.width
         val contextMenuHeight = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.height

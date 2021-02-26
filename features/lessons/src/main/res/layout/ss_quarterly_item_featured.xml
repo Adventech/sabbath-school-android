@@ -32,7 +32,7 @@
 
         <variable
             name="ssQuarterlyCover"
-            type="android.widget.ImageView" />
+            type="android.view.View" />
     </data>
 
     <RelativeLayout

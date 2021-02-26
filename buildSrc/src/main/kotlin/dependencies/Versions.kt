@@ -1,10 +1,11 @@
 package dependencies
 
 object Versions {
-    const val KOTLIN = "1.4.21-2"
+    const val KOTLIN = "1.4.30"
     const val COROUTINES = "1.4.2"
 
-    const val MATERIAL = "1.3.0-rc01"
+    const val MATERIAL = "1.3.0"
+    const val DESUGAR = "1.1.1"
 
     object AndroidX {
         const val APPCOMPAT = "1.2.0"
@@ -19,12 +20,13 @@ object Versions {
         const val BROWSER = "1.3.0"
     }
 
-    const val HILT = "2.31.2-alpha"
+    const val HILT = "2.32-alpha"
 
     const val TIMBER = "4.7.1"
     const val COIL = "1.1.1"
     const val LEAK_CANARY = "2.5"
     const val TAP_TARGET = "3.1.0"
+    const val ICONICS = "5.2.6@aar"
 
     const val FIREBASE_BOM = "26.4.0"
     const val FACEBOOK = "8.1.0"
@@ -37,7 +39,7 @@ object Versions {
     const val EXT = "1.1.2"
     const val ARCH_CORE = "2.1.0"
     const val JUNIT = "4.13.1"
-    const val ROBOELECTRIC = "4.5"
+    const val ROBOELECTRIC = "4.5.1"
     const val MOCKK = "1.10.5"
     const val ESPRESSO = "3.3.0"
     const val FRAGMENT_TEST = "1.2.5"

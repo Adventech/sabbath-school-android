@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Stredná"</string>
     <string name="ss_settings_font_size_large">"Veľký"</string>
     <string name="ss_settings_font_size_huge">"Obrovský"</string>
+    <string name="ss_settings_version">"Verzia"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Hodnoťte Sobotná škola"</string>
@@ -103,4 +104,5 @@ Naozaj veríme, že Boh rozšíril poznanie moderného sveta a chce, aby sme ho 
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Predchádzajúce hodiny"</string>
+    <string name="ss_settings_version_with_param_string">Verzia: %1$S</string>
 </resources>

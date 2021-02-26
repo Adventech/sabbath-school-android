@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Medio"</string>
     <string name="ss_settings_font_size_large">"Grande"</string>
     <string name="ss_settings_font_size_huge">"Enorme"</string>
+    <string name="ss_settings_version">"Versione"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Vota Scuola del Sabato"</string>
@@ -103,4 +104,5 @@ Crediamo veramente che Dio abbia accresciuto la conoscenza del mondo moderno e c
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Lezioni precedenti"</string>
+    <string name="ss_settings_version_with_param_string">Versione: %1$S</string>
 </resources>

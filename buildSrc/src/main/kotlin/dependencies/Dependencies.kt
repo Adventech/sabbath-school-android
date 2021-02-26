@@ -1,6 +1,7 @@
 package dependencies
 
 object Dependencies {
+    const val DESUGAR = "com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}"
     const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
     const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
     const val FACEBOOK = "com.facebook.android:facebook-android-sdk:${Versions.FACEBOOK}"
@@ -48,4 +49,10 @@ object Dependencies {
         const val COROUTINES_PLAY_SERVICES = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.COROUTINES}"
     }
 
+    object Iconics {
+        const val CORE = "com.mikepenz:iconics-core:${Versions.ICONICS}"
+        const val VIEWS = "com.mikepenz:iconics-views:${Versions.ICONICS}"
+        const val TYPEFACE = "com.mikepenz:iconics-typeface-api:${Versions.ICONICS}"
+        const val MATERIAL_TYPEFACE = "com.mikepenz:google-material-typeface:4.0.0.1-kotlin@aar"
+    }
 }

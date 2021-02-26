@@ -25,6 +25,7 @@ import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
+import dependencies.Dependencies.Iconics
 import extensions.addTestsDependencies
 import extensions.kapt
 
@@ -53,7 +54,6 @@ android {
 
     buildFeatures {
         viewBinding = true
-        dataBinding = true
     }
 }
 
@@ -67,7 +67,6 @@ dependencies {
     implementation(Kotlin.KOTLIN)
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
-    implementation(Kotlin.COROUTINES_PLAY_SERVICES)
 
     implementation(Dependencies.MATERIAL)
     implementation(AndroidX.CORE)
@@ -84,15 +83,9 @@ dependencies {
 
     implementation(platform(Firebase.BOM))
     implementation(Firebase.DATABASE)
-    implementation(Firebase.STORAGE)
-    implementation(Firebase.ANALYTICS)
-    implementation(Firebase.AUTH)
 
     implementation(Dependencies.TIMBER)
-    implementation("com.mikepenz:iconics-core:5.2.4@aar")
-    implementation("com.mikepenz:iconics-views:5.2.4@aar")
-    implementation("com.mikepenz:iconics-typeface-api:5.2.4@aar")
-    implementation("com.mikepenz:google-material-typeface:4.0.0.1-kotlin@aar")
+    implementation(Iconics.VIEWS)
 
     addTestsDependencies()
 }

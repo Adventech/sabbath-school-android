@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Middels"</string>
     <string name="ss_settings_font_size_large">"Stor"</string>
     <string name="ss_settings_font_size_huge">"Enorm"</string>
+    <string name="ss_settings_version">"Versjon"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Vurder sabbatsskolen"</string>
@@ -99,4 +100,5 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Tidligere leksjoner"</string>
+    <string name="ss_settings_version_with_param_string">Versjon: %1$S</string>
 </resources>

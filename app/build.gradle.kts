@@ -109,6 +109,7 @@ android {
     }
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -137,6 +138,7 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring(Dependencies.DESUGAR)
 
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))

@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Medium"</string>
     <string name="ss_settings_font_size_large">"Groot"</string>
     <string name="ss_settings_font_size_huge">"Reusachtig"</string>
+    <string name="ss_settings_version">"Versie"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Beoordeel Sabbatschool"</string>
@@ -103,4 +104,5 @@ We geloven echt dat God de kennis van de moderne wereld heeft vergroot en wil da
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Eerdere lessen"</string>
+    <string name="ss_settings_version_with_param_string">Versie: %1$S</string>
 </resources>

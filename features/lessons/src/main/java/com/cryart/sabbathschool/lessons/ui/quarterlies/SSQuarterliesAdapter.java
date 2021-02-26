@@ -60,7 +60,7 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 SsQuarterlyItemFeaturedBinding binding = DataBindingUtil.inflate(
                         LayoutInflater.from(parent.getContext()),
                         R.layout.ss_quarterly_item_featured, parent, false);
-                binding.setSsQuarterlyCover(binding.ssQuarterlyItemCover);
+                binding.setSsQuarterlyCover(binding.ssQuarterlyItemCoverCard);
                 viewHolder = new SSQuarterlyViewHolderFeatured(binding);
                 break;
             }
@@ -70,7 +70,7 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 SsQuarterlyItemNormalBinding binding = DataBindingUtil.inflate(
                         LayoutInflater.from(parent.getContext()),
                         R.layout.ss_quarterly_item_normal, parent, false);
-                binding.setSsQuarterlyCover(binding.ssQuarterlyItemNormalCover);
+                binding.setSsQuarterlyCover(binding.ssQuarterlyItemNormalCoverCard);
                 viewHolder = new SSQuarterlyViewHolderNormal(binding);
                 break;
             }

@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Średni"</string>
     <string name="ss_settings_font_size_large">"Duży"</string>
     <string name="ss_settings_font_size_huge">"Olbrzymi"</string>
+    <string name="ss_settings_version">"Wersja"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Oceń Aplikację Szkoły Sobotniej"</string>
@@ -103,4 +104,5 @@ Naprawdę wierzymy, że Bóg zwiększył wiedzę o współczesnym świecie i chc
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Poprzednie lekcje"</string>
+    <string name="ss_settings_version_with_param_string">Wersja: %1$S</string>
 </resources>

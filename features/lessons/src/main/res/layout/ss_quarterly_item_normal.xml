@@ -32,7 +32,7 @@
 
         <variable
             name="ssQuarterlyCover"
-            type="android.widget.ImageView" />
+            type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -76,6 +76,7 @@
                 android:layout_marginBottom="@dimen/ss_quarterly_item_normal_cover_margin_top"
                 android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}"
                 android:transitionName="@string/ss_quarterly_cover_transition"
+                app:cardBackgroundColor="@{viewModel.colorPrimary}"
                 app:cardCornerRadius="@dimen/ss_quarterly_item_featured_cover_radius"
                 app:cardElevation="@dimen/spacing_normal">
 
@@ -97,6 +98,7 @@
                 android:layout_alignBottom="@+id/ss_quarterly_item_normal_cover_card"
                 android:layout_toEndOf="@+id/ss_quarterly_item_normal_cover_card"
                 android:gravity="center_vertical"
+                android:layout_marginEnd="@dimen/ss_quarterly_item_normal_cover_margin_right"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView

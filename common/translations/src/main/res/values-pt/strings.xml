@@ -78,6 +78,7 @@
     <string name="ss_settings_font_size_medium">"Médio"</string>
     <string name="ss_settings_font_size_large">"Grande"</string>
     <string name="ss_settings_font_size_huge">"Enorme"</string>
+    <string name="ss_settings_version">"Versão"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"Taxa de Escola Sabatina"</string>
@@ -103,4 +104,5 @@ Nós realmente acreditamos que Deus aumentou o conhecimento do mundo moderno e q
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Lições anteriores"</string>
+    <string name="ss_settings_version_with_param_string">Versão: %1$S</string>
 </resources>

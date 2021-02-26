@@ -79,6 +79,7 @@
     <string name="ss_settings_font_size_medium">"ກາງ"</string>
     <string name="ss_settings_font_size_large">"ກຶດ"</string>
     <string name="ss_settings_font_size_huge">"ໂຕ"</string>
+    <string name="ss_settings_version">"ຮຸ່ນ"</string>
 
     <!-- RATE APP -->
     <string name="rate_dialog_title">"ໃຫ້ຜະລິດແນນ"</string>
@@ -104,4 +105,6 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"ບົດຮຽນຜ່ານມາ"</string>
+    <string name="ss_settings_version_with_param_string">ຮຸ່ນ: %1$S</string>
+
 </resources>
