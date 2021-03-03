@@ -37,7 +37,8 @@
         android:theme="@style/AppTheme.AppBarOverlay"
         android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
         app:elevation="@dimen/ss_app_bar_elevation"
-        app:expanded="true">
+        app:expanded="true"
+        tools:background="?attr/colorAccent">
 
         <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
             android:id="@+id/ss_lesson_collapsing_toolbar"
@@ -50,26 +51,30 @@
             app:expandedTitleMarginStart="@dimen/ss_lessons_toolbar_title_margin_start"
             app:expandedTitleTextAppearance="@style/AppThemeAppBarTextStyleExpanded"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
-            tools:title="Ezra and Nehemiah">
+            tools:title="Making Friends for God: The Joy of Sharing in His Mission">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ss_lessons_toolbar_content_margin_left"
                 android:layout_marginTop="@dimen/ss_lessons_toolbar_content_margin_top"
                 android:layout_marginBottom="@dimen/ss_lessons_toolbar_content_margin_bottom"
+                android:animateLayoutChanges="true"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.8">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/ss_lessons_app_bar_date"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/ss_lessons_toolbar_content_margin_left"
                     android:text="@{viewModel.date}"
                     android:textAllCaps="true"
                     android:textColor="@color/white_70"
                     android:textSize="@dimen/ss_lessons_toolbar_date_text_size"
                     app:fontFamily="@font/lato_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="October - November - December" />
 
                 <com.google.android.material.card.MaterialCardView
@@ -81,7 +86,10 @@
                     android:transitionName="@string/ss_quarterly_cover_transition"
                     app:cardBackgroundColor="@{viewModel.primaryColor}"
                     app:cardCornerRadius="@dimen/ss_quarterly_item_featured_cover_radius"
-                    app:cardElevation="@dimen/spacing_medium">
+                    app:cardElevation="@dimen/spacing_medium"
+                    app:layout_constraintEnd_toStartOf="@id/ss_lessons_app_bar_description"
+                    app:layout_constraintStart_toStartOf="@id/ss_lessons_app_bar_date"
+                    app:layout_constraintTop_toBottomOf="@id/ss_lessons_app_bar_date">
 
                     <ImageView
                         android:id="@+id/ss_lessons_app_bar_cover"
@@ -97,9 +105,8 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/ss_lessons_app_bar_description"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/ss_lessons_app_bar_date"
                     android:layout_marginStart="@dimen/ss_lessons_toolbar_description_margin_left"
                     android:layout_marginTop="@dimen/ss_lessons_toolbar_description_margin_top"
                     android:layout_marginEnd="@dimen/ss_lessons_toolbar_description_margin_right"
@@ -111,21 +118,25 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/ss_lessons_toolbar_description_text_size"
                     app:fontFamily="@font/lato_medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ss_quarterly_item_cover_card"
+                    app:layout_constraintTop_toBottomOf="@id/ss_lessons_app_bar_date"
                     tools:text="@tools:sample/lorem/random" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/ss_lessons_app_bar_read"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/ss_lessons_app_bar_description"
-                    android:layout_margin="@dimen/ss_lessons_toolbar_read_margin"
+                    android:layout_marginVertical="@dimen/ss_lessons_toolbar_read_margin"
                     android:layout_toEndOf="@+id/ss_quarterly_item_cover_card"
                     android:minWidth="@dimen/ss_lessons_toolbar_read_min_width"
                     android:onClick="@{() -> viewModel.onReadClick()}"
                     android:text="@string/ss_lessons_read"
                     android:textColor="@android:color/white"
-                    app:cornerRadius="@dimen/ss_lessons_toolbar_read_radius" />
-            </RelativeLayout>
+                    app:cornerRadius="@dimen/ss_lessons_toolbar_read_radius"
+                    app:layout_constraintStart_toStartOf="@id/ss_lessons_app_bar_description"
+                    app:layout_constraintTop_toBottomOf="@id/ss_lessons_app_bar_description" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/ss_lessons_toolbar"
