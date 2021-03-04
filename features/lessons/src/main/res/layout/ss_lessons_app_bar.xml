@@ -37,7 +37,8 @@
         android:theme="@style/AppTheme.AppBarOverlay"
         android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
         app:elevation="@dimen/ss_app_bar_elevation"
-        app:expanded="true">
+        app:expanded="true"
+        tools:background="?attr/colorAccent">
 
         <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
             android:id="@+id/ss_lesson_collapsing_toolbar"
@@ -50,82 +51,12 @@
             app:expandedTitleMarginStart="@dimen/ss_lessons_toolbar_title_margin_start"
             app:expandedTitleTextAppearance="@style/AppThemeAppBarTextStyleExpanded"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
-            tools:title="Ezra and Nehemiah">
+            tools:title="Making Friends for God: The Joy of Sharing in His Mission">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ss_lessons_toolbar_content_margin_left"
-                android:layout_marginTop="@dimen/ss_lessons_toolbar_content_margin_top"
-                android:layout_marginBottom="@dimen/ss_lessons_toolbar_content_margin_bottom"
-                app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.8">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/ss_lessons_app_bar_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.date}"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white_70"
-                    android:textSize="@dimen/ss_lessons_toolbar_date_text_size"
-                    app:fontFamily="@font/lato_bold"
-                    tools:text="October - November - December" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/ss_quarterly_item_cover_card"
-                    android:layout_width="@dimen/ss_lessons_toolbar_cover_width"
-                    android:layout_height="@dimen/ss_lessons_toolbar_cover_height"
-                    android:layout_below="@+id/ss_lessons_app_bar_date"
-                    android:layout_marginTop="@dimen/ss_lessons_toolbar_cover_margin_top"
-                    android:transitionName="@string/ss_quarterly_cover_transition"
-                    app:cardBackgroundColor="@{viewModel.primaryColor}"
-                    app:cardCornerRadius="@dimen/ss_quarterly_item_featured_cover_radius"
-                    app:cardElevation="@dimen/spacing_medium">
-
-                    <ImageView
-                        android:id="@+id/ss_lessons_app_bar_cover"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/blank"
-                        android:scaleType="centerCrop"
-                        app:coverUrl="@{viewModel.cover}"
-                        app:primaryColor="@{viewModel.primaryColor}"
-                        tools:src="?attr/colorPrimary" />
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/ss_lessons_app_bar_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ss_lessons_app_bar_date"
-                    android:layout_marginStart="@dimen/ss_lessons_toolbar_description_margin_left"
-                    android:layout_marginTop="@dimen/ss_lessons_toolbar_description_margin_top"
-                    android:layout_marginEnd="@dimen/ss_lessons_toolbar_description_margin_right"
-                    android:layout_toEndOf="@+id/ss_quarterly_item_cover_card"
-                    android:ellipsize="end"
-                    android:maxLines="8"
-                    android:minHeight="@dimen/ss_lessons_toolbar_description_min_height"
-                    android:text="@{viewModel.description}"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/ss_lessons_toolbar_description_text_size"
-                    app:fontFamily="@font/lato_medium"
-                    tools:text="@tools:sample/lorem/random" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/ss_lessons_app_bar_read"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ss_lessons_app_bar_description"
-                    android:layout_margin="@dimen/ss_lessons_toolbar_read_margin"
-                    android:layout_toEndOf="@+id/ss_quarterly_item_cover_card"
-                    android:minWidth="@dimen/ss_lessons_toolbar_read_min_width"
-                    android:onClick="@{() -> viewModel.onReadClick()}"
-                    android:text="@string/ss_lessons_read"
-                    android:textColor="@android:color/white"
-                    app:cornerRadius="@dimen/ss_lessons_toolbar_read_radius" />
-            </RelativeLayout>
+            <include
+                android:id="@+id/content"
+                layout="@layout/ss_include_lessons_app_bar_content"
+                app:viewModel="@{viewModel}" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/ss_lessons_toolbar"

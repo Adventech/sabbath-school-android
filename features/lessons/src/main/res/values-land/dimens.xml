@@ -22,20 +22,7 @@
   -->
 
 <resources>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
-
-    <style name="AppTheme.PopupMenuStyle" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
-        <item name="android:dropDownHorizontalOffset">-4dp</item>
-        <item name="android:dropDownVerticalOffset">4dp</item>
-    </style>
-
-    <style name="AppThemeAppBarTextStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">18sp</item>
-    </style>
-
-    <style name="AppThemeAppBarTextStyleExpanded" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">30sp</item>
-    </style>
+    <dimen name="ss_lessons_toolbar_content_margin_top">140dp</dimen>
+    <dimen name="ss_lessons_toolbar_content_margin_bottom">0dp</dimen>
+    <dimen name="ss_lessons_toolbar_title_margin_bottom">280dp</dimen>
 </resources>

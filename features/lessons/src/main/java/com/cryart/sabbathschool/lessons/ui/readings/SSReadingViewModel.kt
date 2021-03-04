@@ -396,10 +396,12 @@ class SSReadingViewModel(
         val ssReadingDisplayOptionsView = SSReadingDisplayOptionsView()
         ssReadingDisplayOptionsView.setSSReadingViewModel(context, this, ssReadingDisplayOptions)
         ssReadingDisplayOptionsView.show((context as SSReadingActivity?)!!.supportFragmentManager, ssReadingDisplayOptionsView.tag)
+
+        val index = ssReads.getOrNull(ssReadingActivityBinding.ssReadingViewPager.currentItem) ?: return
         SSEvent.track(
             context,
             SSConstants.SS_EVENT_READ_OPTIONS_OPEN,
-            hashMapOf(SSConstants.SS_EVENT_PARAM_READ_INDEX to ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
+            hashMapOf(SSConstants.SS_EVENT_PARAM_READ_INDEX to index)
         )
     }
 
