@@ -30,7 +30,7 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/ss_bible_verses_content_margin"
         android:layout_marginTop="@dimen/spacing_large"
-        android:layout_marginBottom="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/ss_bible_verses_content_margin_bottom"
         app:cardCornerRadius="@dimen/spacing_normal">
 
         <RelativeLayout
