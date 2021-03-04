@@ -127,7 +127,7 @@
     <dimen name="ss_lessons_toolbar_title_margin_start">30dp</dimen>
     <dimen name="ss_lessons_toolbar_title_margin_bottom">312dp</dimen>
     <dimen name="ss_lessons_toolbar_content_margin_left">30dp</dimen>
-    <dimen name="ss_lessons_toolbar_content_margin_top">150dp</dimen>
+    <dimen name="ss_lessons_toolbar_content_margin_top">164dp</dimen>
     <dimen name="ss_lessons_toolbar_content_margin_bottom">20dp</dimen>
     <dimen name="ss_lessons_toolbar_cover_height">@dimen/ss_quarterly_item_featured_cover_height</dimen>
     <dimen name="ss_lessons_toolbar_cover_width">@dimen/ss_quarterly_item_featured_cover_width</dimen>
