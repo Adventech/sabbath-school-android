@@ -205,7 +205,8 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
             it.notifyDataSetChanged()
         }
         binding.ssReadingViewPager.currentItem = ssReadIndex
-        setPageTitleAndSubtitle(ssReads[ssReadIndex].title, ssReadingViewModel.formatDate(ssReads[ssReadIndex].date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
+        val ssRead = ssReads.getOrNull(ssReadIndex) ?: return
+        setPageTitleAndSubtitle(ssRead.title, ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
