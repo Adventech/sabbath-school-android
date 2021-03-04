@@ -23,4 +23,5 @@
 
 <resources>
     <dimen name="ss_bible_verses_content_margin_bottom">16dp</dimen>
+    <dimen name="ss_bible_verses_content_margin">64dp</dimen>
 </resources>

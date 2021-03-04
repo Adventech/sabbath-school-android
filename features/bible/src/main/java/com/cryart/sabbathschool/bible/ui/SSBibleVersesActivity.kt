@@ -53,7 +53,7 @@ class SSBibleVersesActivity : AppCompatActivity() {
 
         binding.ssBibleVersesHeader.setBackgroundColor(this.colorPrimary)
         binding.ssReadingBibleVersionList.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
+            override fun onItemSelected(adapterView: AdapterView<*>, view: View?, i: Int, l: Long) {
                 val ssBibleVerses = adapterView.getItemAtPosition(i) as? SSBibleVerses ?: return
                 viewModel.setLastBibleUsed(ssBibleVerses.name)
                 val data = ssBibleVerses.verses.getOrDefault(verse, "")
