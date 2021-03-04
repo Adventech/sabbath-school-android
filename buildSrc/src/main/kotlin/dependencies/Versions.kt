@@ -1,7 +1,7 @@
 package dependencies
 
 object Versions {
-    const val KOTLIN = "1.4.30"
+    const val KOTLIN = "1.4.31"
     const val COROUTINES = "1.4.2"
 
     const val MATERIAL = "1.3.0"
