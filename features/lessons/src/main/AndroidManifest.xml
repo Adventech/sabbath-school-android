@@ -22,7 +22,7 @@
 
         <activity
             android:name=".ui.readings.SSReadingActivity"
-            android:configChanges="orientation|screenSize"
+            android:label="@string/blank"
             android:parentActivityName=".ui.lessons.SSLessonsActivity"
             android:theme="@style/Theme.SS.Full">
             <meta-data

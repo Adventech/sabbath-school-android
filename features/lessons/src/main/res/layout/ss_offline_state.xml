@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_horizontal"
-            android:layout_margin="@dimen/ss_login_button_margin_top"
+            android:layout_margin="@dimen/spacing_micro"
             android:onClick="@{() -> viewModel.reloadContent()}"
             android:text="@string/ss_reading_offline_retry"
             android:textColor="@{viewModel.primaryColor}" />
