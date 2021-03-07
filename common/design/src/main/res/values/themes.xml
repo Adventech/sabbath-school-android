@@ -52,6 +52,7 @@
         <item name="snackbarTextViewStyle">@style/Widget.SS.Snackbar.TextView</item>
         <item name="materialCardViewStyle">@style/Widget.SS.CardView</item>
         <item name="android:colorEdgeEffect">@color/black_40</item>
+        <item name="textInputStyle">@style/Widget.SS.TextInput</item>
     </style>
 
     <style name="Theme.SS" parent="Base.Theme.SS">

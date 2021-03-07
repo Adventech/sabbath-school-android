@@ -25,7 +25,6 @@ package com.cryart.sabbathschool.lessons.ui.readings
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.GradientDrawable
 import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.View
@@ -36,7 +35,6 @@ import androidx.core.widget.NestedScrollView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableInt
 import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.input.getInputLayout
 import com.afollestad.materialdialogs.input.input
 import com.cryart.sabbathschool.bible.ui.SSBibleVersesActivity
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
@@ -46,7 +44,6 @@ import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions.*
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.data.model.SSContextMenu
 import com.cryart.sabbathschool.lessons.data.model.SSLessonInfo
@@ -200,11 +197,6 @@ class SSReadingViewModel(
                     .child(ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
                     .setValue(SSSuggestion(name, email, input.toString()))
                 Toast.makeText(context, context.getString(R.string.ss_reading_suggest_edit_done), Toast.LENGTH_LONG).show()
-            }
-            setOnShowListener {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                    this.getInputLayout().boxBackgroundColor = (view.background as GradientDrawable).color?.defaultColor!!
-                }
             }
         }
     }
