@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -89,8 +90,11 @@ internal class SSQuarterlyItemViewModel(
         fun loadCover(view: ImageView, coverUrl: String?, primaryColor: Int?) {
             coverUrl?.let { url ->
                 view.load(url) {
-                    allowHardware(Build.VERSION.SDK_INT > Build.VERSION_CODES.O)
-                    crossfade(true)
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+                        allowHardware(true)
+                        crossfade(true)
+                    }
+                    bitmapConfig(Bitmap.Config.ARGB_8888)
                     primaryColor?.let {
                         val drawable = placeholderDrawable(view.context, it)
                         placeholder(drawable)

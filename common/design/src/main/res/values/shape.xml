@@ -24,7 +24,7 @@
 <resources>
 
     <style name="ShapeAppearance.SS.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerSize">0dp</item>
+        <item name="cornerSize">6dp</item>
     </style>
 
     <style name="ShapeAppearance.SS.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">

@@ -137,7 +137,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
             ssLessonsToolbar.setBackgroundColor(primaryColor)
             ssLessonCollapsingToolbar.setContentScrimColor(primaryColor)
             ssLessonCollapsingToolbar.setBackgroundColor(primaryColor)
-            ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
+            content.ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
         }
         binding.lessonTypeTextView.setTextColor(primaryColor)
         binding.ssLessonInfoList.setEdgeEffect(primaryColor)

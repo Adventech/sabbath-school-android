@@ -24,13 +24,11 @@ package com.cryart.sabbathschool.lessons.ui.readings
 
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.ViewCompat
 import androidx.viewpager.widget.ViewPager
 import coil.load
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
@@ -68,8 +66,11 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
     lateinit var ssPrefs: SSPrefs
 
     private val binding: SsReadingActivityBinding by lazy { SsReadingActivityBinding.inflate(layoutInflater) }
-    private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance().reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
+    private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance()
+        .reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
     private lateinit var ssReadingViewModel: SSReadingViewModel
+
+    private var currentLessonIndex: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,12 +79,16 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
         checkIfReaderNeeded()
 
         initUI()
-        ssReadingViewModel = SSReadingViewModel(
-            this,
-            this,
-            intent.extras?.getString(SSConstants.SS_LESSON_INDEX_EXTRA)!!,
-            binding
-        )
+        if (!this::ssReadingViewModel.isInitialized) {
+            ssReadingViewModel = SSReadingViewModel(
+                this,
+                this,
+                intent.extras?.getString(SSConstants.SS_LESSON_INDEX_EXTRA)!!,
+                binding,
+                ssPrefs
+            )
+        }
+        currentLessonIndex = savedInstanceState?.getInt(ARG_POSITION)
         binding.ssReadingViewPager.adapter = SSReadingViewAdapter(this, ssReadingViewModel)
         binding.ssReadingViewPager.addOnPageChangeListener(this)
         binding.executePendingBindings()
@@ -92,15 +97,9 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
     }
 
     private fun initUI() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false)
-        } else {
-            @Suppress("DEPRECATION")
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        }
+        @Suppress("DEPRECATION")
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 
-        val adapter = SSReadingSheetAdapter()
-        binding.ssReadingSheetList.adapter = adapter
         setSupportActionBar(binding.ssReadingAppBar.ssReadingToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -110,7 +109,10 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
             setCollapsedTitleTypeface(ResourcesCompat.getFont(this@SSReadingActivity, R.font.lato_bold))
             setExpandedTitleTypeface(ResourcesCompat.getFont(this@SSReadingActivity, R.font.lato_bold))
         }
-        ViewCompat.setNestedScrollingEnabled(binding.ssReadingSheetList, false)
+
+        currentLessonIndex?.let {
+            binding.ssReadingViewPager.currentItem = it
+        }
     }
 
     private fun checkIfReaderNeeded() {
@@ -139,7 +141,6 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
         val primaryColor = this.colorPrimary
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setContentScrimColor(primaryColor)
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setBackgroundColor(primaryColor)
-        binding.ssReadingSheetHeader.setBackgroundColor(primaryColor)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -184,19 +185,22 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
     }
 
     override fun onLessonInfoChanged(ssLessonInfo: SSLessonInfo) {
-        val adapter = binding.ssReadingSheetList.adapter as? SSReadingSheetAdapter
-        adapter?.setDays(ssLessonInfo.days)
         binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.load(ssLessonInfo.lesson.cover)
-        binding.invalidateAll()
-        adapter?.notifyDataSetChanged()
     }
 
     private fun setPageTitleAndSubtitle(title: String, subTitle: String) {
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.title = title
-        binding.ssReadingAppBar.ssCollapsingToolbarSubtitle.text = subTitle
+        binding.ssReadingAppBar.apply {
+            ssReadingCollapsingToolbar.title = title
+            ssCollapsingToolbarSubtitle.text = subTitle
+        }
     }
 
-    override fun onReadsDownloaded(ssReads: List<SSRead>, ssReadHighlights: List<SSReadHighlights>, ssReadComments: List<SSReadComments>, ssReadIndex: Int) {
+    override fun onReadsDownloaded(
+        ssReads: List<SSRead>,
+        ssReadHighlights: List<SSReadHighlights>,
+        ssReadComments: List<SSReadComments>,
+        ssReadIndex: Int
+    ) {
         val ssReadingViewAdapter = binding.ssReadingViewPager.adapter as? SSReadingViewAdapter
         ssReadingViewAdapter?.let {
             it.setSSReads(ssReads)
@@ -204,8 +208,12 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
             it.setSSReadHighlights(ssReadHighlights)
             it.notifyDataSetChanged()
         }
-        binding.ssReadingViewPager.currentItem = ssReadIndex
-        setPageTitleAndSubtitle(ssReads[ssReadIndex].title, ssReadingViewModel.formatDate(ssReads[ssReadIndex].date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
+        val index = currentLessonIndex ?: ssReadIndex
+        binding.ssReadingViewPager.currentItem = index
+        val ssRead = ssReads.getOrNull(index) ?: return
+        setPageTitleAndSubtitle(ssRead.title, ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
+
+        currentLessonIndex = null
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
@@ -216,4 +224,14 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
     }
 
     override fun onPageScrollStateChanged(state: Int) {}
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        val position = binding.ssReadingViewPager.currentItem
+        outState.putInt(ARG_POSITION, position)
+        super.onSaveInstanceState(outState)
+    }
+
+    companion object {
+        private const val ARG_POSITION = "arg:lesson_index"
+    }
 }

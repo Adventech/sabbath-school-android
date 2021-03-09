@@ -34,6 +34,7 @@
     <style name="AppThemeAppBarTextStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">18sp</item>
     </style>
+
     <style name="AppThemeAppBarTextStyleExpanded" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">30sp</item>
     </style>

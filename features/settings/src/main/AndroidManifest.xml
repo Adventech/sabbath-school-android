@@ -5,7 +5,6 @@
     <application>
         <activity
             android:name=".SSSettingsActivity"
-            android:configChanges="orientation|screenSize"
             android:label="@string/ss_settings"
             android:theme="@style/Theme.SS.Primary"
             android:windowSoftInputMode="adjustResize" />

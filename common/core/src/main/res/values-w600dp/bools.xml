@@ -22,17 +22,5 @@
   -->
 
 <resources>
-
-    <style name="Platform.V29.Theme.SS" parent="Platform.V24.Theme.SS">
-        <item name="android:enforceStatusBarContrast">false</item>
-        <item name="colorControlHighlight">@color/on_surface_16</item>
-    </style>
-
-    <style name="Platform.Theme.SS" parent="Platform.V29.Theme.SS" />
-
-    <style name="Theme.SS.Full">
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:statusBarColor">@color/color_navigation_full</item>
-    </style>
-
+    <bool name="portrait_only">false</bool>
 </resources>

@@ -21,11 +21,21 @@
  */
 package com.cryart.sabbathschool.core.ui
 
+import android.content.pm.ActivityInfo
 import android.os.Build
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.cryart.sabbathschool.core.R
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 
 open class SSColorSchemeActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (resources.getBoolean(R.bool.portrait_only)) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
+    }
 
     fun updateWindowColorScheme(withStatusBar: Boolean = true) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

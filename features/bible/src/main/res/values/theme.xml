@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.SS.BibleVersesTheme">
+    <style name="Theme.SS.BibleVersesTheme" parent="Theme.SS.Full">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:windowNoTitle">true</item>
@@ -8,7 +8,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsFloating">@bool/ss_bible_window_floating</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="colorControlNormal">@android:color/white</item>
         <item name="colorPrimary">@color/ss_green</item>

@@ -27,16 +27,6 @@
     <dimen name="ss_misc_top_image_margin_top">150dp</dimen>
     <dimen name="ss_misc_subheader_margin">20dp</dimen>
 
-    <!-- LOGIN SCREEN RELATED -->
-
-    <dimen name="ss_login_app_logo_size">72dp</dimen>
-    <dimen name="ss_login_app_name_font_size">20sp</dimen>
-    <dimen name="ss_login_app_name_margin_top">15dp</dimen>
-    <dimen name="ss_login_loading_size">48dp</dimen>
-    <dimen name="ss_login_button_margin_top">5dp</dimen>
-    <dimen name="ss_login_button_social_height">56dp</dimen>
-    <dimen name="ss_login_button_social_text_size">14sp</dimen>
-
     <!-- QUARTERLIES SCREEN RELATED -->
 
     <dimen name="ss_quarterlies_language_filter_holder_padding_left">18dp</dimen>
@@ -127,7 +117,7 @@
     <dimen name="ss_lessons_toolbar_title_margin_start">30dp</dimen>
     <dimen name="ss_lessons_toolbar_title_margin_bottom">312dp</dimen>
     <dimen name="ss_lessons_toolbar_content_margin_left">30dp</dimen>
-    <dimen name="ss_lessons_toolbar_content_margin_top">140dp</dimen>
+    <dimen name="ss_lessons_toolbar_content_margin_top">164dp</dimen>
     <dimen name="ss_lessons_toolbar_content_margin_bottom">20dp</dimen>
     <dimen name="ss_lessons_toolbar_cover_height">@dimen/ss_quarterly_item_featured_cover_height</dimen>
     <dimen name="ss_lessons_toolbar_cover_width">@dimen/ss_quarterly_item_featured_cover_width</dimen>

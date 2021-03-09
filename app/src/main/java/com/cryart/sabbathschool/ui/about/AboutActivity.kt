@@ -24,14 +24,14 @@ package com.cryart.sabbathschool.ui.about
 
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
+import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
 import com.cryart.sabbathschool.databinding.SsAboutActivityBinding
 
-class AboutActivity : AppCompatActivity() {
+class AboutActivity : SSColorSchemeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

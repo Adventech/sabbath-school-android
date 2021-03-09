@@ -74,7 +74,8 @@ class SSReadingViewModel(
     private val context: Context,
     private val dataListener: DataListener,
     private val ssLessonIndex: String,
-    private val ssReadingActivityBinding: SsReadingActivityBinding
+    private val ssReadingActivityBinding: SsReadingActivityBinding,
+    private val prefs: SSPrefs
 ) : SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback {
     private val ssFirebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val userUuid = ssFirebaseAuth.currentUser?.uid!!
@@ -95,7 +96,6 @@ class SSReadingViewModel(
     val ssLessonErrorStateVisibility = ObservableInt(View.INVISIBLE)
     val ssLessonCoordinatorVisibility = ObservableInt(View.INVISIBLE)
 
-    private val prefs = SSPrefs(context)
     private var ssReadingDisplayOptions = prefs.getDisplayOptions()
 
     val primaryColor: Int
@@ -284,36 +284,12 @@ class SSReadingViewModel(
     val cover: String
         get() = ssLessonInfo?.lesson?.cover ?: ""
 
-    val lessonInterval: String
-        get() {
-            if (ssLessonInfo != null) {
-                val startDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
-                    .print(
-                        DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                            .parseLocalDate(ssLessonInfo?.lesson?.start_date)
-                    )
-                val endDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
-                    .print(
-                        DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                            .parseLocalDate(ssLessonInfo?.lesson?.end_date)
-                    )
-                return "$startDateOut - $endDateOut".capitalize(Locale.getDefault())
-            }
-            return ""
-        }
-
     fun formatDate(date: String?, DateFormatOutput: String? = SSConstants.SS_DATE_FORMAT_OUTPUT): String {
         return DateTimeFormat.forPattern(DateFormatOutput)
             .print(
                 DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                     .parseLocalDate(date)
             ).capitalize(Locale.getDefault())
-    }
-
-    fun getDayDate(ssDayIdx: Int): String {
-        return if (ssLessonInfo != null && ssLessonInfo?.days?.size!! > ssDayIdx) {
-            formatDate(ssLessonInfo?.days?.get(ssDayIdx)?.date)
-        } else ""
     }
 
     override fun onSelectionStarted(x: Float, y: Float, highlightId: Int) {
@@ -396,10 +372,12 @@ class SSReadingViewModel(
         val ssReadingDisplayOptionsView = SSReadingDisplayOptionsView()
         ssReadingDisplayOptionsView.setSSReadingViewModel(context, this, ssReadingDisplayOptions)
         ssReadingDisplayOptionsView.show((context as SSReadingActivity?)!!.supportFragmentManager, ssReadingDisplayOptionsView.tag)
+
+        val index = ssReads.getOrNull(ssReadingActivityBinding.ssReadingViewPager.currentItem) ?: return
         SSEvent.track(
             context,
             SSConstants.SS_EVENT_READ_OPTIONS_OPEN,
-            hashMapOf(SSConstants.SS_EVENT_PARAM_READ_INDEX to ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
+            hashMapOf(SSConstants.SS_EVENT_PARAM_READ_INDEX to index)
         )
     }
 

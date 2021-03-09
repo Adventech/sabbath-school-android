@@ -52,7 +52,8 @@
                     android:id="@+id/ss_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:layout_scrollFlags="scroll|enterAlways" />
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:navigationIcon="@drawable/ic_arrow_back" />
             </com.google.android.material.appbar.AppBarLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -195,9 +196,9 @@
                 android:id="@+id/about_signature"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:gravity="center"
+                android:paddingHorizontal="@dimen/spacing_large"
                 android:text="@string/ss_about_made"
                 android:textSize="18sp"
                 app:fontFamily="@font/lato_bold"
