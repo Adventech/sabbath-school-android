@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -108,5 +107,7 @@
     <style name="Widget.SS.SearchView" parent="Widget.AppCompat.SearchView.ActionBar">
         <item name="searchIcon">@null</item>
     </style>
+
+    <style name="Widget.SS.TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
 
 </resources>
