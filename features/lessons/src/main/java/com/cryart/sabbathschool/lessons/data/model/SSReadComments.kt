@@ -31,8 +31,8 @@ data class SSReadComments(
     val readIndex: String,
     val comments: List<SSComment>
 ) {
-    constructor(snapshot: DataSnapshot) : this(
-        snapshot.child("readIndex").getValue(String::class.java) ?: "",
+    constructor(snapshot: DataSnapshot, dayIndex: String) : this(
+        snapshot.child("readIndex").getValue(String::class.java) ?: dayIndex,
         snapshot.child("comments").children.mapNotNull {
             it.getValue(SSComment::class.java)
         }

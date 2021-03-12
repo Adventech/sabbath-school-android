@@ -223,7 +223,7 @@ class SSReadingViewModel(
             .child(dayIndex)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val ssReadComments = SSReadComments(dataSnapshot)
+                    val ssReadComments = SSReadComments(dataSnapshot, dayIndex)
                     downloadRead(dayIndex, index, ssReadHighlights, ssReadComments)
                 }
 
