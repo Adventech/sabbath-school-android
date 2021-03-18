@@ -79,11 +79,17 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
         checkIfReaderNeeded()
 
         initUI()
+        val lessonIndex = intent.extras?.getString(SSConstants.SS_LESSON_INDEX_EXTRA)
+        if (lessonIndex.isNullOrEmpty()) {
+            finish()
+            return
+        }
+
         if (!this::ssReadingViewModel.isInitialized) {
             ssReadingViewModel = SSReadingViewModel(
                 this,
                 this,
-                intent.extras?.getString(SSConstants.SS_LESSON_INDEX_EXTRA)!!,
+                lessonIndex,
                 binding,
                 ssPrefs
             )

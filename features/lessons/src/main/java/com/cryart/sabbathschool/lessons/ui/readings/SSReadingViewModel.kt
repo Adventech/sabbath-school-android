@@ -78,11 +78,11 @@ class SSReadingViewModel(
     private val prefs: SSPrefs
 ) : SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback {
     private val ssFirebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val userUuid = ssFirebaseAuth.currentUser?.uid!!
+    private val userUuid = ssFirebaseAuth.currentUser?.uid ?: ""
     private val mDatabase = FirebaseDatabase.getInstance().reference.apply {
         keepSynced(true)
     }
-    var ssLessonInfo: SSLessonInfo? = null
+    private var ssLessonInfo: SSLessonInfo? = null
     private var ssReadIndexInt = 0
     private val ssReads: ArrayList<SSRead> = arrayListOf()
     private val ssReadHighlights: ArrayList<SSReadHighlights> = arrayListOf()
