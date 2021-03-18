@@ -58,7 +58,9 @@ class QuarterliesViewModel @Inject constructor(
 
     fun viewCreated() {
         ssPrefs.getLastQuarterlyIndex()?.let {
-            mutableLastQuarterlyIndex.postValue(it)
+            if (mutableLastQuarterlyIndex.value.isNullOrEmpty()) {
+                mutableLastQuarterlyIndex.postValue(it)
+            }
         }
 
         selectedLanguage = ssPrefs.getLanguageCode()

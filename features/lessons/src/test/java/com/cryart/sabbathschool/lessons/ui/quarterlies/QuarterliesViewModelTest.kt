@@ -39,6 +39,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
+import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Rule
@@ -91,6 +92,24 @@ class QuarterliesViewModelTest {
 
         // then
         viewModel.lastQuarterlyIndexLiveData.value shouldBeEqualTo null
+    }
+
+    @Test
+    fun `should only post last quarterly index once if it exists on viewCreated`() {
+        // given
+        val quarterlyIndex = "en-2020-02-13"
+        every { mockSSPrefs.getLastQuarterlyIndex() }.returns(quarterlyIndex)
+        val indices = viewModel.lastQuarterlyIndexLiveData.observeFuture()
+
+        // when
+        with(viewModel) {
+            viewCreated()
+            viewCreated()
+            viewCreated()
+        }
+
+        // then
+        indices.size shouldBe 1
     }
 
     @Test
