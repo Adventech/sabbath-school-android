@@ -49,10 +49,14 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
     implementation(AndroidX.LIFECYCLE_LIVEDATA)
+    implementation(AndroidX.LIFECYCLE_COMMON)
     implementation(AndroidX.PREFERENCE)
     implementation(AndroidX.BROWSER)
     implementation(Kotlin.KOTLIN)
