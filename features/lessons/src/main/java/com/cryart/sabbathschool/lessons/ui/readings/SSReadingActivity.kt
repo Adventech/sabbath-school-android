@@ -156,7 +156,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
             colorInt = Color.WHITE
             sizeDp = 16
         }
-        return true
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -175,6 +175,10 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
             }
             R.id.ss_reading_menu_settings -> {
                 appNavigator.navigate(this, Destination.SETTINGS)
+                true
+            }
+            R.id.ss_reading_debug -> {
+                appNavigator.navigate(this, Destination.READ)
                 true
             }
             else -> super.onOptionsItemSelected(item)
