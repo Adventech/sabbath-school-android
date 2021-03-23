@@ -29,6 +29,7 @@ import androidx.fragment.app.FragmentActivity
 import com.cryart.sabbathschool.account.AccountDialogFragment
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
+import com.cryart.sabbathschool.readings.ReadingActivity
 import com.cryart.sabbathschool.settings.SSSettingsActivity
 import com.cryart.sabbathschool.ui.about.AboutActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
@@ -78,6 +79,7 @@ class AppNavigatorImpl @Inject constructor(
             Destination.ACCOUNT -> AccountDialogFragment::class.java
             Destination.LOGIN -> LoginActivity::class.java
             Destination.SETTINGS -> SSSettingsActivity::class.java
+            Destination.READ -> ReadingActivity::class.java
             else -> null
         }
     }

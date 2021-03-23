@@ -147,6 +147,7 @@ dependencies {
     implementation(project(BuildModules.Features.BIBLE))
     implementation(project(BuildModules.Features.SETTINGS))
     implementation(project(BuildModules.Features.ACCOUNT))
+    implementation(project(BuildModules.Features.READINGS))
 
     implementation(Kotlin.KOTLIN)
     implementation(Kotlin.COROUTINES)
