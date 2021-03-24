@@ -22,8 +22,11 @@
 
 package com.cryart.sabbathschool.readings.components
 
+import androidx.lifecycle.LifecycleOwner
+import kotlinx.coroutines.flow.Flow
+
 interface BaseComponent<T> {
     fun show()
     fun hide()
-    fun setData(data: T)
+    fun collect(flow: Flow<T>, owner: LifecycleOwner)
 }

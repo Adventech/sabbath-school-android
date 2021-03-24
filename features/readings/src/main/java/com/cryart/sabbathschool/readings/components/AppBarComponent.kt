@@ -27,13 +27,16 @@ import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.LifecycleOwner
 import coil.load
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
+import com.cryart.sabbathschool.core.extensions.coroutines.observeOnLifecycle
 import com.cryart.sabbathschool.core.extensions.view.tint
 import com.cryart.sabbathschool.readings.R
 import com.cryart.sabbathschool.readings.components.model.AppBarData
 import com.cryart.sabbathschool.readings.databinding.ComponentReadingAppBarBinding
+import kotlinx.coroutines.flow.Flow
 
 class AppBarComponent(
     private val binding: ComponentReadingAppBarBinding
@@ -63,17 +66,19 @@ class AppBarComponent(
         binding.appBar.isVisible = false
     }
 
-    override fun setData(data: AppBarData) {
-        binding.apply {
-            backdrop.apply {
-                val drawable = placeholderDrawable(context)
-                load(data.image) {
-                    placeholder(drawable)
-                    error(drawable)
+    override fun collect(flow: Flow<AppBarData>, owner: LifecycleOwner) {
+        flow.observeOnLifecycle(owner) { data ->
+            binding.apply {
+                backdrop.apply {
+                    val drawable = placeholderDrawable(context)
+                    load(data.image) {
+                        placeholder(drawable)
+                        error(drawable)
+                    }
                 }
+                collapsingToolbar.title = data.title
+                subtitle.text = data.date
             }
-            collapsingToolbar.title = data.title
-            subtitle.text = data.date
         }
     }
 }
