@@ -25,28 +25,26 @@ package com.cryart.sabbathschool.readings
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.lifecycleScope
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import androidx.activity.viewModels
+import com.cryart.sabbathschool.core.extensions.coroutines.observeOnLifecycle
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
 import com.cryart.sabbathschool.readings.components.AppBarComponent
-import com.cryart.sabbathschool.readings.components.model.AppBarData
+import com.cryart.sabbathschool.readings.components.ViewPagerComponent
 import com.cryart.sabbathschool.readings.databinding.ActivityReadingBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ReadingActivity : SSColorSchemeActivity() {
 
-    @Inject
-    lateinit var ssPrefs: SSPrefs
-
+    private val viewModel by viewModels<ReadingViewModel>()
     private val binding by viewBinding(ActivityReadingBinding::inflate)
 
     private val appBarComponent: AppBarComponent by lazy {
         AppBarComponent(binding.appBar)
+    }
+    private val viewPagerComponent: ViewPagerComponent by lazy {
+        ViewPagerComponent(this, binding.viewPager, viewModel::onPageSelected)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +52,10 @@ class ReadingActivity : SSColorSchemeActivity() {
         setContentView(binding.root)
 
         initUI()
+
+        observeItems()
+
+        viewModel.loadData()
     }
 
     private fun initUI() {
@@ -62,19 +64,6 @@ class ReadingActivity : SSColorSchemeActivity() {
 
         setSupportActionBar(binding.appBar.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        appBarComponent.show()
-
-        // Test data
-        lifecycleScope.launch {
-            delay(2000)
-            appBarComponent.show()
-            val data = AppBarData(
-                "https://sabbath-school-stage.adventech.io/api/v1/images/global/2021-01/13/cover.png",
-                "Divine \"Magnet\"", date = "MONDAY. 22 March"
-            )
-            appBarComponent.setData(data)
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -85,5 +74,30 @@ class ReadingActivity : SSColorSchemeActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun observeItems() {
+        viewModel.uiStateFlow.observeOnLifecycle(this) { state ->
+            when (state) {
+                is ReadUiState.Error -> {
+                    // Show error state
+                    appBarComponent.hide()
+                    viewPagerComponent.hide()
+                }
+                ReadUiState.Loading -> {
+                    // Show loading state
+                    appBarComponent.hide()
+                    viewPagerComponent.hide()
+                    // Hide error state
+                }
+                ReadUiState.Success -> {
+                    // Hide loading and error state
+                    appBarComponent.show()
+                    viewPagerComponent.show()
+                }
+            }
+        }
+        appBarComponent.collect(viewModel.appBarDataFlow, this)
+        viewPagerComponent.collect(viewModel.readDaysFlow, this)
     }
 }

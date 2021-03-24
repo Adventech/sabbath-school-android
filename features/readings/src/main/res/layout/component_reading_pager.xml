@@ -19,19 +19,14 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ReadingActivity">
-
-    <include
-        android:id="@+id/appBar"
-        layout="@layout/component_reading_app_bar" />
-
-    <include
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
-        layout="@layout/component_reading_pager" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/activity_reading" />
+</merge>

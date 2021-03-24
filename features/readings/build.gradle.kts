@@ -32,6 +32,7 @@ plugins {
     id(BuildPlugins.ANDROID_LIBRARY)
     id(BuildPlugins.KOTLIN_ANDROID)
     id(BuildPlugins.KOTLIN_KAPT)
+    id(BuildPlugins.KOTLIN_PARCELIZE)
     id(BuildPlugins.DAGGER_HILT)
 }
 
