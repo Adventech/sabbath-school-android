@@ -178,7 +178,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
                 true
             }
             R.id.ss_reading_debug -> {
-                appNavigator.navigate(this, Destination.READ)
+                appNavigator.navigate(this, Destination.READ, intent.extras)
                 true
             }
             else -> super.onOptionsItemSelected(item)

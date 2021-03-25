@@ -23,7 +23,7 @@
 package com.cryart.sabbathschool.di
 
 import app.ss.lessons.data.di.RepositoryModule
-import app.ss.lessons.data.repository.QuarterliesRepository
+import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent

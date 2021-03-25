@@ -24,6 +24,10 @@ package com.cryart.sabbathschool.readings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.lessons.data.model.SSLessonInfo
+import app.ss.lessons.data.repository.lessons.LessonsRepository
+import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.readings.components.model.AppBarData
 import com.cryart.sabbathschool.readings.components.model.ReadingDay
 import com.cryart.sabbathschool.readings.components.model.ReadingDaysData
@@ -33,10 +37,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
-class ReadingViewModel @Inject constructor() : ViewModel() {
+class ReadingViewModel @Inject constructor(
+    private val lessonsRepository: LessonsRepository,
+    private val schedulerProvider: SchedulerProvider
+) : ViewModel() {
 
     private val _uiStateFlow = MutableStateFlow<ReadUiState>(ReadUiState.Loading)
     val uiStateFlow: Flow<ReadUiState> get() = _uiStateFlow
@@ -47,27 +57,53 @@ class ReadingViewModel @Inject constructor() : ViewModel() {
     private val _readDaysFlow = MutableStateFlow<ReadingDaysData?>(null)
     val readDaysFlow: Flow<ReadingDaysData> get() = _readDaysFlow.mapNotNull { it }
 
-    fun onPageSelected(position: Int) {
-    }
+    private var lessonInfo: SSLessonInfo? = null
 
-    fun loadData() = viewModelScope.launch {
-        delay(2000)
+    fun loadData(lessonIndex: String) = viewModelScope.launch(schedulerProvider.io) {
+        val resource = lessonsRepository.getLessonInfo(lessonIndex)
+        val lessonInfo = resource.data ?: return@launch
+
         _uiStateFlow.emit(ReadUiState.Success)
 
-        val data = AppBarData(
-            "https://sabbath-school-stage.adventech.io/api/v1/images/global/2021-01/13/cover.png",
-            "Divine \"Magnet\"", date = "MONDAY. 22 March"
-        )
+        displayLessonInfo(lessonInfo)
+    }
 
-        val days = mutableListOf<ReadingDay>()
-        for (i in 1..7) {
-            days.add(ReadingDay("$i", "12", "path"))
-        }
-        _readDaysFlow.emit(ReadingDaysData(days))
+    private suspend fun displayLessonInfo(lessonInfo: SSLessonInfo) {
+        this.lessonInfo = lessonInfo
 
-        for (i in 1..10) {
-            delay(3000)
-            _appBarDataFlow.emit(data.copy(date = "Monday. ${20 + i} March"))
+        _appBarDataFlow.emit(AppBarData.Cover(lessonInfo.lesson.cover))
+
+        val days = lessonInfo.days.map {
+            ReadingDay(it.id, it.index, formatDate(it.date), it.title)
         }
+        _readDaysFlow.emit(ReadingDaysData.Days(days))
+
+        val today = DateTime.now().withTimeAtStartOfDay()
+        for ((idx, ssDay) in lessonInfo.days.withIndex()) {
+            val startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                .parseLocalDate(ssDay.date).toDateTimeAtStartOfDay()
+            if (startDate.isEqual(today)) {
+                delay(500)
+                _readDaysFlow.emit(ReadingDaysData.Position(idx))
+                return
+            }
+        }
+    }
+
+    private fun formatDate(date: String): String {
+        return DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT_DAY)
+            .print(
+                DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                    .parseLocalDate(date)
+            ).capitalize(Locale.getDefault())
+    }
+
+    fun onPageSelected(position: Int) = viewModelScope.launch {
+        val data = lessonInfo ?: return@launch
+
+        val lesson = data.days.getOrNull(position) ?: return@launch
+        _appBarDataFlow.emit(AppBarData.Title(lesson.title, formatDate(lesson.date)))
+
+        _readDaysFlow.emit(ReadingDaysData.Position(position))
     }
 }

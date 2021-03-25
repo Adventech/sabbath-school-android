@@ -29,7 +29,7 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.ViewState
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.response.Resource
-import app.ss.lessons.data.repository.QuarterliesRepository
+import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

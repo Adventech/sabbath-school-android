@@ -29,6 +29,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.addRepeatingJob
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
+import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
 import com.cryart.sabbathschool.readings.components.AppBarComponent
 import com.cryart.sabbathschool.readings.components.ViewPagerComponent
@@ -53,11 +54,17 @@ class ReadingActivity : SSColorSchemeActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val lessonIndex = intent.extras?.getString(SSConstants.SS_LESSON_INDEX_EXTRA)
+        if (lessonIndex.isNullOrEmpty()) {
+            finish()
+            return
+        }
+
         initUI()
 
         observeItems()
 
-        viewModel.loadData()
+        viewModel.loadData(lessonIndex)
     }
 
     private fun initUI() {

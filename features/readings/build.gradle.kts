@@ -61,6 +61,7 @@ dependencies {
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
     implementation(project(BuildModules.Common.TRANSLATIONS))
+    implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Features.READER))
     implementation(project(BuildModules.Features.BIBLE))
 
@@ -91,7 +92,7 @@ dependencies {
     implementation(Firebase.AUTH)
 
     implementation(Dependencies.TIMBER)
-
+    implementation(Dependencies.JODA)
     implementation(Dependencies.COIL)
 
     implementation("net.opacapp:multiline-collapsingtoolbar:27.1.1")

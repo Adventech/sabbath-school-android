@@ -29,5 +29,6 @@ import kotlinx.parcelize.Parcelize
 data class ReadingDay(
     val id: String,
     val index: String,
-    val path: String,
+    val date: String,
+    val title: String
 ) : Parcelable

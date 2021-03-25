@@ -71,18 +71,22 @@ class AppBarComponent(
     override fun collect(flow: Flow<AppBarData>, owner: LifecycleOwner) {
         owner.addRepeatingJob(Lifecycle.State.STARTED) {
             flow.collect { data ->
-                binding.apply {
-                    data.image?.let { image ->
-                        backdrop.apply {
+                when (data) {
+                    is AppBarData.Cover -> {
+                        binding.backdrop.apply {
                             val drawable = placeholderDrawable(context)
-                            load(image) {
+                            load(data.image) {
                                 placeholder(drawable)
                                 error(drawable)
                             }
                         }
                     }
-                    collapsingToolbar.title = data.title
-                    subtitle.text = data.date
+                    is AppBarData.Title -> {
+                        binding.apply {
+                            collapsingToolbar.title = data.title
+                            subtitle.text = data.subTitle
+                        }
+                    }
                 }
             }
         }

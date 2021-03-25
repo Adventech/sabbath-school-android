@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.readings.components.model
 
-data class ReadingDaysData(
-    val days: List<ReadingDay>
-)
+sealed class ReadingDaysData {
+    data class Days(val days: List<ReadingDay>) : ReadingDaysData()
+    data class Position(val index: Int) : ReadingDaysData()
+}

@@ -22,9 +22,11 @@
 
 package app.ss.lessons.data.di
 
+import app.ss.lessons.data.repository.lessons.LessonsRepository
+import app.ss.lessons.data.repository.lessons.LessonsRepositoryImpl
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import app.ss.lessons.data.repository.QuarterliesRepository
-import app.ss.lessons.data.repository.QuarterliesRepositoryImpl
+import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import app.ss.lessons.data.repository.quarterly.QuarterliesRepositoryImpl
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
@@ -38,4 +40,8 @@ object RepositoryModule {
     @Provides
     fun provideRepository(database: FirebaseDatabase, ssPrefs: SSPrefs): QuarterliesRepository =
         QuarterliesRepositoryImpl(database, ssPrefs)
+
+    @Provides
+    fun provideLessonsRepository(database: FirebaseDatabase): LessonsRepository =
+        LessonsRepositoryImpl(database)
 }

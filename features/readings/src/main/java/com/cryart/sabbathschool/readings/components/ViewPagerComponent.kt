@@ -65,7 +65,14 @@ class ViewPagerComponent(
     override fun collect(flow: Flow<ReadingDaysData>, owner: LifecycleOwner) {
         owner.addRepeatingJob(Lifecycle.State.STARTED) {
             flow.collect { data ->
-                pagerAdapter.days = data.days
+                when (data) {
+                    is ReadingDaysData.Days -> {
+                        pagerAdapter.days = data.days
+                    }
+                    is ReadingDaysData.Position -> {
+                        binding.viewPager.setCurrentItem(data.index, false)
+                    }
+                }
             }
         }
     }

@@ -31,7 +31,7 @@ import com.cryart.sabbathschool.core.extensions.arch.asLiveData
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.repository.QuarterliesRepository
+import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

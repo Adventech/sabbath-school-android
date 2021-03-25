@@ -20,16 +20,12 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository
+package app.ss.lessons.data.repository.lessons
 
-import app.ss.lessons.data.model.Language
-import app.ss.lessons.data.model.SSQuarterly
+import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.response.Resource
-import kotlinx.coroutines.flow.Flow
 
-interface QuarterliesRepository {
+interface LessonsRepository {
 
-    suspend fun getLanguages(): Resource<List<Language>>
-
-    fun getQuarterlies(languageCode: String? = null): Flow<Resource<List<SSQuarterly>>>
+    suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo>
 }

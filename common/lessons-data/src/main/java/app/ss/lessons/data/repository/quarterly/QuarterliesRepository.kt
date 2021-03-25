@@ -20,26 +20,16 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.di
+package app.ss.lessons.data.repository.quarterly
 
 import app.ss.lessons.data.model.Language
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.response.Resource
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
-import javax.inject.Inject
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 
-class FakeQuarterliesRepository @Inject constructor() : QuarterliesRepository {
+interface QuarterliesRepository {
 
-    override suspend fun getLanguages(): Resource<List<Language>> {
-        return Resource.success(emptyList())
-    }
+    suspend fun getLanguages(): Resource<List<Language>>
 
-    override fun getQuarterlies(languageCode: String?): Flow<Resource<List<SSQuarterly>>> {
-        return callbackFlow {
-            awaitClose { }
-        }
-    }
+    fun getQuarterlies(languageCode: String? = null): Flow<Resource<List<SSQuarterly>>>
 }

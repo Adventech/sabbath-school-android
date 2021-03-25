@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository
+package app.ss.lessons.data.repository.quarterly
 
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -38,13 +38,10 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-@Singleton
-class QuarterliesRepositoryImpl @Inject constructor(
+internal class QuarterliesRepositoryImpl(
     private val firebaseDatabase: FirebaseDatabase,
     private val ssPrefs: SSPrefs
 ) : QuarterliesRepository {
