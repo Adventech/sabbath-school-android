@@ -24,6 +24,7 @@ include(
     ":common:core",
     ":common:design",
     ":common:translations",
+    ":common:lessons-data",
     ":features:reader",
     ":features:lessons",
     ":features:bible",

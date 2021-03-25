@@ -22,10 +22,10 @@
 
 package com.cryart.sabbathschool.di
 
-import com.cryart.sabbathschool.lessons.data.model.Language
-import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
-import com.cryart.sabbathschool.lessons.data.model.response.Resource
-import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
+import app.ss.lessons.data.model.Language
+import app.ss.lessons.data.model.SSQuarterly
+import app.ss.lessons.data.response.Resource
+import app.ss.lessons.data.repository.QuarterliesRepository
 import javax.inject.Inject
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

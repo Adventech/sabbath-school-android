@@ -20,19 +20,18 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.data.repository
+package app.ss.lessons.data.repository
 
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.lessons.data.model.Language
-import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
-import com.cryart.sabbathschool.lessons.data.model.response.Resource
+import app.ss.lessons.data.model.Language
+import app.ss.lessons.data.model.SSQuarterly
+import app.ss.lessons.data.response.Resource
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.callbackFlow
@@ -40,9 +39,11 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+@Singleton
 class QuarterliesRepositoryImpl @Inject constructor(
     private val firebaseDatabase: FirebaseDatabase,
     private val ssPrefs: SSPrefs
@@ -69,7 +70,6 @@ class QuarterliesRepositoryImpl @Inject constructor(
             })
     }
 
-    @ExperimentalCoroutinesApi
     override fun getQuarterlies(languageCode: String?) = callbackFlow<Resource<List<SSQuarterly>>> {
         var code: String
         if (languageCode == null) {

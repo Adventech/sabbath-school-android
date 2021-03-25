@@ -27,9 +27,9 @@ import com.cryart.sabbathschool.core.extensions.arch.observeFuture
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.ViewState
-import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
-import com.cryart.sabbathschool.lessons.data.model.response.Resource
-import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
+import app.ss.lessons.data.model.SSQuarterly
+import app.ss.lessons.data.response.Resource
+import app.ss.lessons.data.repository.QuarterliesRepository
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

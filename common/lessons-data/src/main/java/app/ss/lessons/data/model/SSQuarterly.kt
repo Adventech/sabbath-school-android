@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,23 +19,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package app.ss.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.di
+import androidx.annotation.Keep
+import com.google.firebase.database.IgnoreExtraProperties
 
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
-import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepositoryImpl
-import com.google.firebase.database.FirebaseDatabase
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-
-@Module
-@InstallIn(SingletonComponent::class)
-object RepositoryModule {
-
-    @Provides
-    fun provideRepository(database: FirebaseDatabase, ssPrefs: SSPrefs): QuarterliesRepository =
-        QuarterliesRepositoryImpl(database, ssPrefs)
+@Keep
+@IgnoreExtraProperties
+class SSQuarterly(
+    val id: String,
+    val title: String = "",
+    val description: String = "",
+    val human_date: String = "",
+    val start_date: String = "",
+    val end_date: String = "",
+    val cover: String = "",
+    val index: String = "",
+    val group: String? = null,
+    val path: String = "",
+    val full_path: String = "",
+    val lang: String = "",
+    val color_primary: String,
+    val color_primary_dark: String = "",
+    val quarterly_name: String = "",
+) {
+    constructor() : this("", color_primary = "")
 }

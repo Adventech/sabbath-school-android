@@ -19,22 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cryart.sabbathschool.lessons.data.model
+package app.ss.lessons.data.model
 
-import androidx.annotation.Keep
-import com.google.firebase.database.IgnoreExtraProperties
-
-@Keep
-@IgnoreExtraProperties
-class SSLesson(
-    val title: String,
-    val start_date: String = "",
-    val end_date: String = "",
-    val cover: String = "",
-    val id: String = "",
-    val index: String = "",
-    val path: String = "",
-    val full_path: String = "",
-) {
-    constructor() : this("")
+object SSContextMenu {
+    const val HIGHLIGHT_YELLOW = "yellow"
+    const val HIGHLIGHT_ORANGE = "orange"
+    const val HIGHLIGHT_GREEN = "green"
+    const val HIGHLIGHT_BLUE = "blue"
+    const val UNDERLINE = "underline"
 }

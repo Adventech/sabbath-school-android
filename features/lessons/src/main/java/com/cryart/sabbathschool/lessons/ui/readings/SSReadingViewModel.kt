@@ -45,11 +45,11 @@ import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.data.model.SSContextMenu
-import com.cryart.sabbathschool.lessons.data.model.SSLessonInfo
-import com.cryart.sabbathschool.lessons.data.model.SSReadComments
-import com.cryart.sabbathschool.lessons.data.model.SSReadHighlights
-import com.cryart.sabbathschool.lessons.data.model.SSSuggestion
+import app.ss.lessons.data.model.SSContextMenu
+import app.ss.lessons.data.model.SSLessonInfo
+import app.ss.lessons.data.model.SSReadComments
+import app.ss.lessons.data.model.SSReadHighlights
+import app.ss.lessons.data.model.SSSuggestion
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.options.SSReadingDisplayOptionsView
 import com.cryart.sabbathschool.reader.data.model.SSRead

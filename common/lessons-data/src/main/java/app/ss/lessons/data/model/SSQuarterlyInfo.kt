@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,12 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cryart.sabbathschool.lessons.data.model
+package app.ss.lessons.data.model
 
-object SSContextMenu {
-    const val HIGHLIGHT_YELLOW = "yellow"
-    const val HIGHLIGHT_ORANGE = "orange"
-    const val HIGHLIGHT_GREEN = "green"
-    const val HIGHLIGHT_BLUE = "blue"
-    const val UNDERLINE = "underline"
+import androidx.annotation.Keep
+import com.google.firebase.database.DataSnapshot
+
+@Keep
+data class SSQuarterlyInfo(
+    val quarterly: SSQuarterly,
+    val lessons: List<SSLesson>
+) {
+
+    constructor(snapshot: DataSnapshot) : this(
+        snapshot.child("quarterly").getValue(SSQuarterly::class.java) ?: SSQuarterly(),
+        snapshot.child("lessons").children.mapNotNull {
+            it.getValue(SSLesson::class.java)
+        }
+    )
 }

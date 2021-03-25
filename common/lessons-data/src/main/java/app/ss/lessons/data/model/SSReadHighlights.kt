@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2016 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,11 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package app.ss.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.model.response
+import androidx.annotation.Keep
+import com.google.firebase.database.IgnoreExtraProperties
 
-enum class Status {
-    LOADING,
-    SUCCESS,
-    ERROR
+@Keep
+@IgnoreExtraProperties
+data class SSReadHighlights(
+    val readIndex: String,
+    var highlights: String = ""
+) {
+    constructor() : this("")
 }

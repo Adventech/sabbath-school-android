@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,16 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cryart.sabbathschool.lessons.data.model
 
-import androidx.annotation.Keep
-import com.google.firebase.database.IgnoreExtraProperties
+package app.ss.lessons.data.repository
 
-@Keep
-@IgnoreExtraProperties
-data class SSReadHighlights(
-    val readIndex: String,
-    var highlights: String = ""
-) {
-    constructor() : this("")
+import app.ss.lessons.data.model.Language
+import app.ss.lessons.data.model.SSQuarterly
+import app.ss.lessons.data.response.Resource
+import kotlinx.coroutines.flow.Flow
+
+interface QuarterliesRepository {
+
+    suspend fun getLanguages(): Resource<List<Language>>
+
+    fun getQuarterlies(languageCode: String? = null): Flow<Resource<List<SSQuarterly>>>
 }

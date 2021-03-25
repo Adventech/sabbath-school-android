@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,16 +19,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cryart.sabbathschool.lessons.data.model
 
-import androidx.annotation.Keep
-import com.google.firebase.database.IgnoreExtraProperties
+package app.ss.lessons.data.response
 
-@Keep
-@IgnoreExtraProperties
-data class SSComment(
-    val elementId: String,
-    var comment: String
+import app.ss.lessons.data.response.Status.ERROR
+import app.ss.lessons.data.response.Status.LOADING
+import app.ss.lessons.data.response.Status.SUCCESS
+
+class Resource<out T> private constructor(
+    val status: Status = LOADING,
+    val data: T?,
+    val error: Throwable?
 ) {
-    constructor() : this("", "")
+
+    val isSuccessFul: Boolean get() = data != null
+
+    companion object {
+
+        fun <T> success(data: T): Resource<T> {
+            return Resource(SUCCESS, data, null)
+        }
+
+        fun <T> error(error: Throwable): Resource<T> {
+            return Resource(ERROR, null, error)
+        }
+
+        fun <T> loading(): Resource<T> {
+            return Resource(LOADING, null, null)
+        }
+    }
 }

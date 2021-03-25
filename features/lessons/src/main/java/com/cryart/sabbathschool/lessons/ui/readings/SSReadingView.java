@@ -50,9 +50,9 @@ import androidx.core.view.GestureDetectorCompat;
 import com.cryart.sabbathschool.core.extensions.context.ContextHelper;
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.lessons.R;
-import com.cryart.sabbathschool.lessons.data.model.SSComment;
-import com.cryart.sabbathschool.lessons.data.model.SSReadComments;
-import com.cryart.sabbathschool.lessons.data.model.SSReadHighlights;
+import app.ss.lessons.data.model.SSComment;
+import app.ss.lessons.data.model.SSReadComments;
+import app.ss.lessons.data.model.SSReadHighlights;
 import com.cryart.sabbathschool.reader.view.SSWebView;
 
 import java.nio.charset.StandardCharsets;

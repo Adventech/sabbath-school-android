@@ -19,17 +19,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package app.ss.lessons.data.model
 
-package com.cryart.sabbathschool.lessons.data.repository
+import androidx.annotation.Keep
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.IgnoreExtraProperties
 
-import com.cryart.sabbathschool.lessons.data.model.Language
-import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
-import com.cryart.sabbathschool.lessons.data.model.response.Resource
-import kotlinx.coroutines.flow.Flow
-
-interface QuarterliesRepository {
-
-    suspend fun getLanguages(): Resource<List<Language>>
-
-    fun getQuarterlies(languageCode: String? = null): Flow<Resource<List<SSQuarterly>>>
+@Keep
+@IgnoreExtraProperties
+data class SSLessonInfo(
+    val lesson: SSLesson,
+    val days: List<SSDay>
+) {
+    constructor(snapshot: DataSnapshot) : this(
+        snapshot.child("lesson").getValue(SSLesson::class.java) ?: SSLesson(),
+        snapshot.child("days").children.mapNotNull {
+            it.getValue(SSDay::class.java)
+        }
+    )
 }

@@ -26,9 +26,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.lessons.BaseTest
-import com.cryart.sabbathschool.lessons.data.model.Language
-import com.cryart.sabbathschool.lessons.data.model.response.Resource
-import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
+import app.ss.lessons.data.model.Language
+import app.ss.lessons.data.response.Resource
+import app.ss.lessons.data.repository.QuarterliesRepository
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

@@ -19,20 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 import dependencies.Dependencies
-import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
-import dependencies.Dependencies.Iconics
 import extensions.addTestsDependencies
-import extensions.kapt
 
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY)
     id(BuildPlugins.KOTLIN_ANDROID)
     id(BuildPlugins.KOTLIN_KAPT)
+    id(BuildPlugins.KOTLIN_PARCELIZE)
     id(BuildPlugins.DAGGER_HILT)
 }
 
@@ -51,59 +48,24 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
     }
-
-    buildFeatures {
-        viewBinding = true
-        dataBinding = true
-    }
 }
 
 dependencies {
-
     implementation(project(BuildModules.Common.CORE))
-    implementation(project(BuildModules.Common.DESIGN))
-    implementation(project(BuildModules.Common.TRANSLATIONS))
-    implementation(project(BuildModules.Common.LESSONS_DATA))
-    implementation(project(BuildModules.Features.READER))
-    implementation(project(BuildModules.Features.BIBLE))
 
     implementation(Kotlin.KOTLIN)
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
-    implementation(Kotlin.COROUTINES_PLAY_SERVICES)
-
-    implementation(Dependencies.MATERIAL)
-    implementation(AndroidX.CORE)
-    implementation(AndroidX.APPCOMPAT)
-    implementation(AndroidX.CONSTRAINT_LAYOUT)
-    implementation(AndroidX.ACTIVITY)
-    implementation(AndroidX.FRAGMENT_KTX)
-    implementation(AndroidX.LIFECYCLE_VIEWMODEL)
-    implementation(AndroidX.LIFECYCLE_EXTENSIONS)
-    implementation(AndroidX.LIFECYCLE_LIVEDATA)
-    implementation(AndroidX.RECYCLER_VIEW)
-
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
+    implementation(Dependencies.TIMBER)
 
     implementation(platform(Firebase.BOM))
-    implementation(Firebase.DATABASE)
-    implementation(Firebase.STORAGE)
+    implementation(Firebase.CORE)
     implementation(Firebase.ANALYTICS)
     implementation(Firebase.AUTH)
-
-    implementation(Dependencies.JODA)
-    implementation(Dependencies.TIMBER)
-    implementation(Dependencies.COIL)
-    implementation(Dependencies.TAP_TARGET)
-    implementation(Iconics.CORE)
-    implementation(Iconics.VIEWS)
-    implementation(Iconics.TYPEFACE)
-    implementation(Iconics.MATERIAL_TYPEFACE)
-    implementation("net.opacapp:multiline-collapsingtoolbar:27.1.1")
-    implementation("com.github.hotchemi:android-rate:1.0.1")
-    implementation("com.afollestad.material-dialogs:input:3.3.0")
-    implementation("ru.beryukhov:flowreactivenetwork:1.0.2")
+    implementation(Firebase.CRASHLYTICS)
+    implementation(Firebase.DATABASE)
 
     addTestsDependencies()
 }

@@ -22,8 +22,8 @@
 
 package com.cryart.sabbathschool.di
 
-import com.cryart.sabbathschool.lessons.data.di.RepositoryModule
-import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
+import app.ss.lessons.data.di.RepositoryModule
+import app.ss.lessons.data.repository.QuarterliesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent

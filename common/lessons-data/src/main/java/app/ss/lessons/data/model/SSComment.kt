@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2016 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,17 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-package com.cryart.sabbathschool.lessons.data.model
+package app.ss.lessons.data.model
 
 import androidx.annotation.Keep
 import com.google.firebase.database.IgnoreExtraProperties
 
 @Keep
 @IgnoreExtraProperties
-data class Language(
-    val code: String,
-    val name: String
+data class SSComment(
+    val elementId: String,
+    var comment: String
 ) {
     constructor() : this("", "")
 }

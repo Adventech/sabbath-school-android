@@ -25,7 +25,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.databinding.BaseObservable
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.lessons.data.model.SSLesson
+import app.ss.lessons.data.model.SSLesson
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.lessons.ui.viewmodel.SSViewModel
 import org.joda.time.format.DateTimeFormat

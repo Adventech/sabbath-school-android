@@ -143,6 +143,7 @@ dependencies {
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
     implementation(project(BuildModules.Common.TRANSLATIONS))
+    implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Features.LESSONS))
     implementation(project(BuildModules.Features.BIBLE))
     implementation(project(BuildModules.Features.SETTINGS))

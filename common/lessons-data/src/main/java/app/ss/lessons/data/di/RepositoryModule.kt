@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,22 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cryart.sabbathschool.lessons.data.model
 
-import androidx.annotation.Keep
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.IgnoreExtraProperties
+package app.ss.lessons.data.di
 
-@Keep
-@IgnoreExtraProperties
-data class SSReadComments(
-    val readIndex: String,
-    val comments: List<SSComment>
-) {
-    constructor(snapshot: DataSnapshot, dayIndex: String) : this(
-        snapshot.child("readIndex").getValue(String::class.java) ?: dayIndex,
-        snapshot.child("comments").children.mapNotNull {
-            it.getValue(SSComment::class.java)
-        }
-    )
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import app.ss.lessons.data.repository.QuarterliesRepository
+import app.ss.lessons.data.repository.QuarterliesRepositoryImpl
+import com.google.firebase.database.FirebaseDatabase
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+
+@Module
+@InstallIn(SingletonComponent::class)
+object RepositoryModule {
+
+    @Provides
+    fun provideRepository(database: FirebaseDatabase, ssPrefs: SSPrefs): QuarterliesRepository =
+        QuarterliesRepositoryImpl(database, ssPrefs)
 }

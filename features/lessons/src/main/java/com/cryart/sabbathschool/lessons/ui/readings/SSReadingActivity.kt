@@ -38,9 +38,9 @@ import com.cryart.sabbathschool.core.misc.SSUnzip
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.data.model.SSLessonInfo
-import com.cryart.sabbathschool.lessons.data.model.SSReadComments
-import com.cryart.sabbathschool.lessons.data.model.SSReadHighlights
+import app.ss.lessons.data.model.SSLessonInfo
+import app.ss.lessons.data.model.SSReadComments
+import app.ss.lessons.data.model.SSReadHighlights
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.reader.data.model.SSRead
