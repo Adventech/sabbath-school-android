@@ -24,13 +24,15 @@ package com.cryart.sabbathschool.readings.components
 
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.addRepeatingJob
 import androidx.viewpager2.widget.ViewPager2
-import com.cryart.sabbathschool.core.extensions.coroutines.observeOnLifecycle
 import com.cryart.sabbathschool.readings.components.model.ReadingDaysData
 import com.cryart.sabbathschool.readings.databinding.ComponentReadingPagerBinding
 import com.cryart.sabbathschool.readings.days.ReadingDaysPagerAdapter
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 
 class ViewPagerComponent(
     activity: FragmentActivity,
@@ -61,8 +63,10 @@ class ViewPagerComponent(
     }
 
     override fun collect(flow: Flow<ReadingDaysData>, owner: LifecycleOwner) {
-        flow.observeOnLifecycle(owner) { data ->
-            pagerAdapter.days = data.days
+        owner.addRepeatingJob(Lifecycle.State.STARTED) {
+            flow.collect { data ->
+                pagerAdapter.days = data.days
+            }
         }
     }
 }

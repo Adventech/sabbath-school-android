@@ -26,13 +26,15 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
-import com.cryart.sabbathschool.core.extensions.coroutines.observeOnLifecycle
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.addRepeatingJob
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
 import com.cryart.sabbathschool.readings.components.AppBarComponent
 import com.cryart.sabbathschool.readings.components.ViewPagerComponent
 import com.cryart.sabbathschool.readings.databinding.ActivityReadingBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class ReadingActivity : SSColorSchemeActivity() {
@@ -77,23 +79,25 @@ class ReadingActivity : SSColorSchemeActivity() {
     }
 
     private fun observeItems() {
-        viewModel.uiStateFlow.observeOnLifecycle(this) { state ->
-            when (state) {
-                is ReadUiState.Error -> {
-                    // Show error state
-                    appBarComponent.hide()
-                    viewPagerComponent.hide()
-                }
-                ReadUiState.Loading -> {
-                    // Show loading state
-                    appBarComponent.hide()
-                    viewPagerComponent.hide()
-                    // Hide error state
-                }
-                ReadUiState.Success -> {
-                    // Hide loading and error state
-                    appBarComponent.show()
-                    viewPagerComponent.show()
+        addRepeatingJob(Lifecycle.State.STARTED) {
+            viewModel.uiStateFlow.collect { state ->
+                when (state) {
+                    is ReadUiState.Error -> {
+                        // Show error state
+                        appBarComponent.hide()
+                        viewPagerComponent.hide()
+                    }
+                    ReadUiState.Loading -> {
+                        // Show loading state
+                        appBarComponent.hide()
+                        viewPagerComponent.hide()
+                        // Hide error state
+                    }
+                    ReadUiState.Success -> {
+                        // Hide loading and error state
+                        appBarComponent.show()
+                        viewPagerComponent.show()
+                    }
                 }
             }
         }

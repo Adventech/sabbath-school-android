@@ -23,7 +23,7 @@
 package com.cryart.sabbathschool.readings.components.model
 
 data class AppBarData(
-    val image: String,
+    val image: String? = null,
     val title: String,
     val date: String
 )
