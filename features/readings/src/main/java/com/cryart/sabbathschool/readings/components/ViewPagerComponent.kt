@@ -27,6 +27,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager2.widget.ViewPager2
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
+import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.cryart.sabbathschool.readings.components.model.ReadingDaysData
 import com.cryart.sabbathschool.readings.databinding.ComponentReadingPagerBinding
 import com.cryart.sabbathschool.readings.days.ReadingDaysPagerAdapter
@@ -54,13 +55,11 @@ class ViewPagerComponent(
         }
     }
 
-    override fun show() {
-        binding.viewPager.isVisible = true
-    }
-
-    override fun hide() {
-        binding.viewPager.isVisible = false
-    }
+    override var isVisible: Boolean
+        get() = binding.viewPager.isVisible
+        set(value) {
+            binding.viewPager.fadeTo(value)
+        }
 
     override fun collect(flow: Flow<ReadingDaysData>, owner: LifecycleOwner) {
         flow.collectIn(owner) { data ->

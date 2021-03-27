@@ -85,24 +85,8 @@ class ReadingActivity : SSColorSchemeActivity() {
 
     private fun observeItems() {
         viewModel.uiStateFlow.collectIn(this) { state ->
-            when (state) {
-                is ReadUiState.Error -> {
-                    // Show error state
-                    appBarComponent.hide()
-                    viewPagerComponent.hide()
-                }
-                ReadUiState.Loading -> {
-                    // Show loading state
-                    appBarComponent.hide()
-                    viewPagerComponent.hide()
-                    // Hide error state
-                }
-                ReadUiState.Success -> {
-                    // Hide loading and error state
-                    appBarComponent.show()
-                    viewPagerComponent.show()
-                }
-            }
+            appBarComponent.isVisible = state == ReadUiState.Success
+            viewPagerComponent.isVisible = state == ReadUiState.Success
         }
         appBarComponent.collect(viewModel.appBarDataFlow, this)
         viewPagerComponent.collect(viewModel.readDaysFlow, this)

@@ -32,6 +32,7 @@ import coil.load
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
+import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.cryart.sabbathschool.core.extensions.view.tint
 import com.cryart.sabbathschool.readings.R
 import com.cryart.sabbathschool.readings.components.model.AppBarData
@@ -58,13 +59,11 @@ class AppBarComponent(
         return drawable
     }
 
-    override fun show() {
-        binding.appBar.isVisible = true
-    }
-
-    override fun hide() {
-        binding.appBar.isVisible = false
-    }
+    override var isVisible: Boolean
+        get() = binding.appBar.isVisible
+        set(value) {
+            binding.appBar.fadeTo(value)
+        }
 
     override fun collect(flow: Flow<AppBarData>, owner: LifecycleOwner) {
         flow.collectIn(owner) { data ->
