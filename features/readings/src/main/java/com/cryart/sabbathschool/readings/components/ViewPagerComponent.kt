@@ -40,6 +40,8 @@ class ViewPagerComponent(
 
     private val pagerAdapter = ReadingDaysPagerAdapter(activity)
 
+    val currPage: Int get() = binding.viewPager.currentItem
+
     init {
         binding.viewPager.apply {
             adapter = pagerAdapter
@@ -64,9 +66,9 @@ class ViewPagerComponent(
         flow.collectIn(owner) { data ->
             when (data) {
                 is ReadingDaysData.Days -> {
-                    pagerAdapter.days = data.days
-                }
-                is ReadingDaysData.Position -> {
+                    if (data.days != pagerAdapter.days) {
+                        pagerAdapter.days = data.days
+                    }
                     binding.viewPager.setCurrentItem(data.index, false)
                 }
                 ReadingDaysData.Empty -> {

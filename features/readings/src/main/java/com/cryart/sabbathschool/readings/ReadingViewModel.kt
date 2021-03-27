@@ -32,7 +32,6 @@ import com.cryart.sabbathschool.readings.components.model.AppBarData
 import com.cryart.sabbathschool.readings.components.model.ReadingDay
 import com.cryart.sabbathschool.readings.components.model.ReadingDaysData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -56,8 +55,6 @@ class ReadingViewModel @Inject constructor(
     private val _readDaysFlow = MutableStateFlow<ReadingDaysData>(ReadingDaysData.Empty)
     val readDaysFlow: StateFlow<ReadingDaysData> get() = _readDaysFlow
 
-    private var lessonInfo: SSLessonInfo? = null
-
     fun loadData(lessonIndex: String) = viewModelScope.launch(schedulerProvider.io) {
         val resource = lessonsRepository.getLessonInfo(lessonIndex)
         val lessonInfo = resource.data ?: return@launch
@@ -67,26 +64,25 @@ class ReadingViewModel @Inject constructor(
         displayLessonInfo(lessonInfo)
     }
 
-    private suspend fun displayLessonInfo(lessonInfo: SSLessonInfo) {
-        this.lessonInfo = lessonInfo
-
-        _appBarDataFlow.emit(AppBarData.Cover(lessonInfo.lesson.cover))
+    private fun displayLessonInfo(lessonInfo: SSLessonInfo) {
+        _appBarDataFlow.value = AppBarData.Cover(lessonInfo.lesson.cover)
 
         val days = lessonInfo.days.map {
             ReadingDay(it.id, it.index, formatDate(it.date), it.title)
         }
-        _readDaysFlow.emit(ReadingDaysData.Days(days))
 
+        var index = 0
         val today = DateTime.now().withTimeAtStartOfDay()
         for ((idx, ssDay) in lessonInfo.days.withIndex()) {
             val startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                 .parseLocalDate(ssDay.date).toDateTimeAtStartOfDay()
             if (startDate.isEqual(today)) {
-                delay(500)
-                _readDaysFlow.emit(ReadingDaysData.Position(idx))
-                return
+                index = idx
+                break
             }
         }
+
+        _readDaysFlow.value = ReadingDaysData.Days(days, index)
     }
 
     private fun formatDate(date: String): String {
@@ -97,12 +93,18 @@ class ReadingViewModel @Inject constructor(
             ).capitalize(Locale.getDefault())
     }
 
-    fun onPageSelected(position: Int) = viewModelScope.launch {
-        val data = lessonInfo ?: return@launch
+    fun onPageSelected(position: Int) {
+        val data = _readDaysFlow.value
+        if (data is ReadingDaysData.Days) {
+            val lesson = data.days.getOrNull(position) ?: return
+            _appBarDataFlow.value = AppBarData.Title(lesson.title, lesson.date)
+        }
+    }
 
-        val lesson = data.days.getOrNull(position) ?: return@launch
-        _appBarDataFlow.emit(AppBarData.Title(lesson.title, formatDate(lesson.date)))
-
-        _readDaysFlow.emit(ReadingDaysData.Position(position))
+    fun saveSelectedPage(position: Int) {
+        val data = _readDaysFlow.value
+        if (data is ReadingDaysData.Days) {
+            _readDaysFlow.value = data.copy(index = position)
+        }
     }
 }

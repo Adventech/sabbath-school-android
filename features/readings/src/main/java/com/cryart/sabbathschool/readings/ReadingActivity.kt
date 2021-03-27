@@ -107,4 +107,9 @@ class ReadingActivity : SSColorSchemeActivity() {
         appBarComponent.collect(viewModel.appBarDataFlow, this)
         viewPagerComponent.collect(viewModel.readDaysFlow, this)
     }
+
+    override fun onStop() {
+        viewModel.saveSelectedPage(viewPagerComponent.currPage)
+        super.onStop()
+    }
 }
