@@ -55,8 +55,8 @@ android {
 }
 
 dependencies {
-    implementation(AndroidX.LIFECYCLE_LIVEDATA)
     implementation(AndroidX.LIFECYCLE_COMMON)
+    implementation(AndroidX.LIFECYCLE_KTX)
     implementation(AndroidX.PREFERENCE)
     implementation(AndroidX.BROWSER)
     implementation(Kotlin.KOTLIN)

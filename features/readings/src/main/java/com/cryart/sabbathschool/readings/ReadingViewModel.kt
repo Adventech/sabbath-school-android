@@ -33,9 +33,8 @@ import com.cryart.sabbathschool.readings.components.model.ReadingDay
 import com.cryart.sabbathschool.readings.components.model.ReadingDaysData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -49,13 +48,13 @@ class ReadingViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiStateFlow = MutableStateFlow<ReadUiState>(ReadUiState.Loading)
-    val uiStateFlow: Flow<ReadUiState> get() = _uiStateFlow
+    val uiStateFlow: StateFlow<ReadUiState> get() = _uiStateFlow
 
-    private val _appBarDataFlow = MutableStateFlow<AppBarData?>(null)
-    val appBarDataFlow: Flow<AppBarData> get() = _appBarDataFlow.mapNotNull { it }
+    private val _appBarDataFlow = MutableStateFlow<AppBarData>(AppBarData.Empty)
+    val appBarDataFlow: StateFlow<AppBarData> get() = _appBarDataFlow
 
-    private val _readDaysFlow = MutableStateFlow<ReadingDaysData?>(null)
-    val readDaysFlow: Flow<ReadingDaysData> get() = _readDaysFlow.mapNotNull { it }
+    private val _readDaysFlow = MutableStateFlow<ReadingDaysData>(ReadingDaysData.Empty)
+    val readDaysFlow: StateFlow<ReadingDaysData> get() = _readDaysFlow
 
     private var lessonInfo: SSLessonInfo? = null
 

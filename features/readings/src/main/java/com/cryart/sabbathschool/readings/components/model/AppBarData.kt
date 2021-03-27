@@ -25,4 +25,5 @@ package com.cryart.sabbathschool.readings.components.model
 sealed class AppBarData {
     data class Cover(val image: String) : AppBarData()
     data class Title(val title: String, val subTitle: String) : AppBarData()
+    object Empty : AppBarData()
 }
