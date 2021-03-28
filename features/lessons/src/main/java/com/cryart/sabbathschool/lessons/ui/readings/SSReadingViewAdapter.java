@@ -33,7 +33,7 @@ import android.view.ViewGroup;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.cryart.sabbathschool.core.misc.SSConstants;
-import com.cryart.sabbathschool.reader.data.model.SSRead;
+import app.ss.lessons.data.model.SSRead;
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.lessons.R;
 import app.ss.lessons.data.model.SSReadComments;

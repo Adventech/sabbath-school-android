@@ -36,7 +36,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableInt
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
-import com.cryart.sabbathschool.bible.ui.SSBibleVersesActivity
+import com.cryart.sabbathschool.bible.SSBibleVersesActivity
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
@@ -52,7 +52,7 @@ import app.ss.lessons.data.model.SSReadHighlights
 import app.ss.lessons.data.model.SSSuggestion
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.options.SSReadingDisplayOptionsView
-import com.cryart.sabbathschool.reader.data.model.SSRead
+import app.ss.lessons.data.model.SSRead
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

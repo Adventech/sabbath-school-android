@@ -53,7 +53,7 @@ import com.cryart.sabbathschool.lessons.R;
 import app.ss.lessons.data.model.SSComment;
 import app.ss.lessons.data.model.SSReadComments;
 import app.ss.lessons.data.model.SSReadHighlights;
-import com.cryart.sabbathschool.reader.view.SSWebView;
+import com.cryart.sabbathschool.reader.SSWebView;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;

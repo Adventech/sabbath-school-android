@@ -1,4 +1,4 @@
-package com.cryart.sabbathschool.reader.view
+package com.cryart.sabbathschool.reader
 
 import android.annotation.SuppressLint
 import android.content.Context

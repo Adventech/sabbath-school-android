@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cryart.sabbathschool.reader.data.model
+package app.ss.lessons.data.model
 
 import androidx.annotation.Keep
 import com.google.firebase.database.DataSnapshot

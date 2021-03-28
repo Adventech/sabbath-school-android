@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cryart.sabbathschool.bible.ui
+package com.cryart.sabbathschool.bible
 
 import android.os.Bundle
 import android.view.View
@@ -31,7 +31,7 @@ import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent.track
 import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
-import com.cryart.sabbathschool.reader.data.model.SSBibleVerses
+import app.ss.lessons.data.model.SSBibleVerses
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

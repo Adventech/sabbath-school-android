@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,15 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cryart.sabbathschool.bible.ui
+package com.cryart.sabbathschool.bible
 
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import com.cryart.sabbathschool.bible.R
 import com.cryart.sabbathschool.core.extensions.view.inflate
-import com.cryart.sabbathschool.reader.data.model.SSBibleVerses
+import app.ss.lessons.data.model.SSBibleVerses
 
 class SSBibleVersionsAdapter(private val ssBibleVerses: List<SSBibleVerses>) : BaseAdapter() {
 
