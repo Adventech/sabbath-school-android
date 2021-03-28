@@ -35,8 +35,12 @@ import com.cryart.sabbathschool.readings.components.model.ErrorData
 import com.cryart.sabbathschool.readings.components.model.ReadingDay
 import com.cryart.sabbathschool.readings.components.model.ReadingDaysData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -51,8 +55,8 @@ class ReadingViewModel @Inject constructor(
 
     private val log by timber()
 
-    private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
-    val uiStateFlow: StateFlow<UiState> get() = _uiState
+    private val _uiState = BroadcastChannel<UiState>(Channel.BUFFERED)
+    val uiStateFlow: Flow<UiState> get() = _uiState.asFlow()
 
     private val _appBarData = MutableStateFlow<AppBarData>(AppBarData.Empty)
     val appBarDataFlow: StateFlow<AppBarData> get() = _appBarData
@@ -65,6 +69,7 @@ class ReadingViewModel @Inject constructor(
 
     fun loadData(lessonIndex: String) = viewModelScope.launch(schedulerProvider.io) {
         val resource = try {
+            _uiState.send(UiState.Loading)
             lessonsRepository.getLessonInfo(lessonIndex)
         } catch (er: Throwable) {
             log.e(er)
@@ -75,33 +80,35 @@ class ReadingViewModel @Inject constructor(
         if (lessonInfo != null) {
             displayLessonInfo(lessonInfo)
         } else {
-            _uiState.emit(UiState.Error)
+            _uiState.send(UiState.Error)
             _errorData.emit(ErrorData.Data(errorRes = R.string.ss_reading_error))
         }
     }
 
-    private fun displayLessonInfo(lessonInfo: SSLessonInfo) {
+    private fun displayLessonInfo(lessonInfo: SSLessonInfo) = viewModelScope.launch {
         val days = lessonInfo.days.map {
             ReadingDay(it.id, it.index, formatDate(it.date), it.title)
         }
 
         if (days.isEmpty()) {
-            _uiState.value = UiState.Error
+            _uiState.send(UiState.Error)
             _errorData.value = ErrorData.Data(errorRes = R.string.ss_reading_empty)
-            return
+            return@launch
         }
 
-        _uiState.value = UiState.Success
+        _uiState.send(UiState.Success)
         _appBarData.value = AppBarData.Cover(lessonInfo.lesson.cover)
 
-        var index = 0
-        val today = DateTime.now().withTimeAtStartOfDay()
-        for ((idx, ssDay) in lessonInfo.days.withIndex()) {
-            val startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                .parseLocalDate(ssDay.date).toDateTimeAtStartOfDay()
-            if (startDate.isEqual(today)) {
-                index = idx
-                break
+        var index = (_readDays.value as? ReadingDaysData.Days)?.index ?: 0
+        if (index == 0) {
+            val today = DateTime.now().withTimeAtStartOfDay()
+            for ((idx, ssDay) in lessonInfo.days.withIndex()) {
+                val startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                    .parseLocalDate(ssDay.date).toDateTimeAtStartOfDay()
+                if (startDate.isEqual(today)) {
+                    index = idx
+                    break
+                }
             }
         }
 
