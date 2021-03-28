@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.readings.components
 
-import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager2.widget.ViewPager2
@@ -55,14 +54,11 @@ class ViewPagerComponent(
         }
     }
 
-    override var isVisible: Boolean
-        get() = binding.viewPager.isVisible
-        set(value) {
-            binding.viewPager.fadeTo(value)
+    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<ReadingDaysData>, owner: LifecycleOwner) {
+        visibilityFlow.collectIn(owner) { visible ->
+            binding.viewPager.fadeTo(visible)
         }
-
-    override fun collect(flow: Flow<ReadingDaysData>, owner: LifecycleOwner) {
-        flow.collectIn(owner) { data ->
+        dataFlow.collectIn(owner) { data ->
             when (data) {
                 is ReadingDaysData.Days -> {
                     if (data.days != pagerAdapter.days) {

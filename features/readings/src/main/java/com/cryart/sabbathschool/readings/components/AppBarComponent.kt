@@ -26,7 +26,6 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import coil.load
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
@@ -59,14 +58,12 @@ class AppBarComponent(
         return drawable
     }
 
-    override var isVisible: Boolean
-        get() = binding.appBar.isVisible
-        set(value) {
-            binding.appBar.fadeTo(value)
+    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<AppBarData>, owner: LifecycleOwner) {
+        visibilityFlow.collectIn(owner) { visible ->
+            binding.appBar.fadeTo(visible)
         }
 
-    override fun collect(flow: Flow<AppBarData>, owner: LifecycleOwner) {
-        flow.collectIn(owner) { data ->
+        dataFlow.collectIn(owner) { data ->
             when (data) {
                 is AppBarData.Cover -> {
                     binding.backdrop.apply {

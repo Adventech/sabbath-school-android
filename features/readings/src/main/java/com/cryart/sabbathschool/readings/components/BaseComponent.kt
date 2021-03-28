@@ -26,6 +26,5 @@ import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.flow.Flow
 
 interface BaseComponent<T> {
-    var isVisible: Boolean
-    fun collect(flow: Flow<T>, owner: LifecycleOwner)
+    fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<T>, owner: LifecycleOwner)
 }

@@ -26,14 +26,15 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
 import com.cryart.sabbathschool.readings.components.AppBarComponent
+import com.cryart.sabbathschool.readings.components.LessonLoadingComponent
 import com.cryart.sabbathschool.readings.components.ViewPagerComponent
 import com.cryart.sabbathschool.readings.databinding.ActivityReadingBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
 class ReadingActivity : SSColorSchemeActivity() {
@@ -46,6 +47,9 @@ class ReadingActivity : SSColorSchemeActivity() {
     }
     private val viewPagerComponent: ViewPagerComponent by lazy {
         ViewPagerComponent(this, binding.viewPager, viewModel::onPageSelected)
+    }
+    private val loadingComponent: LessonLoadingComponent by lazy {
+        LessonLoadingComponent(binding.loadingView)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,12 +88,14 @@ class ReadingActivity : SSColorSchemeActivity() {
     }
 
     private fun observeItems() {
-        viewModel.uiStateFlow.collectIn(this) { state ->
-            appBarComponent.isVisible = state == ReadUiState.Success
-            viewPagerComponent.isVisible = state == ReadUiState.Success
-        }
-        appBarComponent.collect(viewModel.appBarDataFlow, this)
-        viewPagerComponent.collect(viewModel.readDaysFlow, this)
+        // Visible when Success
+        val successFlow = viewModel.uiStateFlow.map { it == ReadUiState.Success }
+        // Visible when Loading
+        val loadingFlow = viewModel.uiStateFlow.map { it == ReadUiState.Loading }
+
+        appBarComponent.collect(successFlow, viewModel.appBarDataFlow, this)
+        viewPagerComponent.collect(successFlow, viewModel.readDaysFlow, this)
+        loadingComponent.collect(loadingFlow, this)
     }
 
     override fun onStop() {
