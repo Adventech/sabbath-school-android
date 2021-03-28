@@ -23,7 +23,6 @@
 package com.cryart.sabbathschool.readings.components
 
 import androidx.lifecycle.LifecycleOwner
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.cryart.sabbathschool.readings.databinding.ComponentLessonLoadingBinding
@@ -33,22 +32,14 @@ class LessonLoadingComponent(
     private val binding: ComponentLessonLoadingBinding
 ) : VisibilityComponent {
 
-    init {
-        binding.backdrop.apply {
-            setBackgroundColor(context.colorPrimary)
-        }
-    }
-
     override fun collect(flow: Flow<Boolean>, owner: LifecycleOwner) {
         flow.collectIn(owner) { visible ->
-            binding.apply {
-                loadingView.fadeTo(visible)
-                shimmerLayout.apply {
-                    if (visible && !isShimmerStarted) {
-                        startShimmer()
-                    } else if (!visible && isShimmerStarted) {
-                        stopShimmer()
-                    }
+            binding.loadingView.apply {
+                fadeTo(visible)
+                if (visible && !isShimmerStarted) {
+                    startShimmer()
+                } else if (!visible && isShimmerStarted) {
+                    stopShimmer()
                 }
             }
         }

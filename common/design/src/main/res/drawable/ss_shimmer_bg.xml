@@ -23,7 +23,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <solid android:color="@color/ss_gray_2" />
+    <solid android:color="@color/ss_grey_shimmer" />
 
     <corners
         android:radius="@dimen/spacing_medium"/>

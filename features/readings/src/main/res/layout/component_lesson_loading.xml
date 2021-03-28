@@ -20,136 +20,103 @@
   ~ THE SOFTWARE.
   -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
+    <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/loadingView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:attr/windowBackground">
 
-        <View
-            android:id="@+id/backdrop"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ss_reading_toolbar_height"
-            tools:background="?attr/colorPrimary" />
-
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmerLayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <View
+                android:id="@+id/backdrop"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/ss_reading_toolbar_height"
+                android:background="@color/ss_grey_shimmer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <View
-                    android:id="@+id/app_bar_line"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/ss_reading_toolbar_height"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <View
+                android:id="@+id/title1"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/ss_shimmer_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/backdrop" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/ss_shimmer_bg"
-                    app:layout_constraintBottom_toTopOf="@id/date"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+            <View
+                android:id="@+id/title2"
+                android:layout_width="200dp"
+                android:layout_height="24dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="16dp"
+                android:background="@drawable/ss_shimmer_bg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title1" />
 
-                <View
-                    android:id="@+id/date"
-                    android:layout_width="100dp"
-                    android:layout_height="20dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginBottom="@dimen/ss_reading_toolbar_title_margin_bottom"
-                    android:background="@drawable/ss_shimmer_bg"
-                    app:layout_constraintBottom_toTopOf="@id/app_bar_line"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-
-                <View
-                    android:id="@+id/title1"
-                    android:layout_width="0dp"
-                    android:layout_height="24dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="50dp"
-                    android:background="@drawable/ss_shimmer_bg"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/app_bar_line" />
-
-                <View
-                    android:id="@+id/title2"
-                    android:layout_width="200dp"
-                    android:layout_height="24dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="16dp"
-                    android:background="@drawable/ss_shimmer_bg"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title1" />
-
-                <View
-                    android:id="@+id/title3"
-                    android:layout_width="300dp"
-                    android:layout_height="24dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="16dp"
-                    android:background="@drawable/ss_shimmer_bg"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title2" />
+            <View
+                android:id="@+id/title3"
+                android:layout_width="300dp"
+                android:layout_height="24dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="16dp"
+                android:background="@drawable/ss_shimmer_bg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title2" />
 
 
-                <View
-                    android:id="@+id/body1"
-                    android:layout_width="0dp"
-                    android:layout_height="16dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="40dp"
-                    android:background="@drawable/ss_shimmer_bg"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title3" />
+            <View
+                android:id="@+id/body1"
+                android:layout_width="0dp"
+                android:layout_height="16dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/ss_shimmer_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title3" />
 
-                <View
-                    android:id="@+id/body2"
-                    android:layout_width="0dp"
-                    android:layout_height="16dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="12dp"
-                    android:background="@drawable/ss_shimmer_bg"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/body1" />
+            <View
+                android:id="@+id/body2"
+                android:layout_width="0dp"
+                android:layout_height="16dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="12dp"
+                android:background="@drawable/ss_shimmer_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/body1" />
 
-                <View
-                    android:id="@+id/body3"
-                    android:layout_width="0dp"
-                    android:layout_height="16dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="12dp"
-                    android:background="@drawable/ss_shimmer_bg"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/body2" />
+            <View
+                android:id="@+id/body3"
+                android:layout_width="0dp"
+                android:layout_height="16dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="12dp"
+                android:background="@drawable/ss_shimmer_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/body2" />
 
-                <View
-                    android:id="@+id/body4"
-                    android:layout_width="180dp"
-                    android:layout_height="16dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="12dp"
-                    android:background="@drawable/ss_shimmer_bg"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/body3" />
+            <View
+                android:id="@+id/body4"
+                android:layout_width="180dp"
+                android:layout_height="16dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="12dp"
+                android:background="@drawable/ss_shimmer_bg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/body3" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.facebook.shimmer.ShimmerFrameLayout>
-    </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </merge>
