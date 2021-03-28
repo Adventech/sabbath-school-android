@@ -22,6 +22,11 @@ object Versions {
         const val BROWSER = "1.3.0"
     }
 
+    object Facebook {
+        const val SDK = "9.1.0"
+        const val SHIMMER = "0.5.0"
+    }
+
     const val HILT = "2.33-beta"
 
     const val TIMBER = "4.7.1"
@@ -30,7 +35,6 @@ object Versions {
     const val ICONICS = "5.2.8@aar"
 
     const val FIREBASE_BOM = "26.7.0"
-    const val FACEBOOK = "9.1.0"
     const val PLAY_AUTH = "19.0.0"
     const val ANDROID_JOB = "1.4.2"
     const val JODA = "2.10.9"

@@ -20,22 +20,12 @@
   ~ THE SOFTWARE.
   -->
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ReadingActivity">
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
 
-    <include
-        android:id="@+id/appBar"
-        layout="@layout/component_reading_app_bar" />
+    <solid android:color="@color/ss_gray_2" />
 
-    <include
-        android:id="@+id/viewPager"
-        layout="@layout/component_reading_pager" />
+    <corners
+        android:radius="@dimen/spacing_medium"/>
 
-    <include
-        android:id="@+id/loadingView"
-        layout="@layout/component_lesson_loading" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</shape>
