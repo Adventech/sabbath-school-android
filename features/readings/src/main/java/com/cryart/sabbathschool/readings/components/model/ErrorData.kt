@@ -20,10 +20,16 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.readings
+package com.cryart.sabbathschool.readings.components.model
 
-sealed class ReadUiState {
-    object Success : ReadUiState()
-    object Loading : ReadUiState()
-    object Error : ReadUiState()
+import com.cryart.sabbathschool.readings.R
+
+sealed class ErrorData {
+    data class Data(
+        val iconRes: Int = R.drawable.ic_round_warning,
+        val errorRes: Int? = null,
+        val error: String? = null
+    ) : ErrorData()
+
+    object Empty : ErrorData()
 }

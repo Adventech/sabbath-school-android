@@ -20,26 +20,22 @@
   ~ THE SOFTWARE.
   -->
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ReadingActivity">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include
-        android:id="@+id/appBar"
-        layout="@layout/component_reading_app_bar" />
+    <item>
+        <shape android:shape="oval">
+            <size
+                android:width="24dp"
+                android:height="24dp" />
+            <solid android:color="@color/scrim" />
 
-    <include
-        android:id="@+id/viewPager"
-        layout="@layout/component_reading_pager" />
+        </shape>
+    </item>
 
-    <include
-        android:id="@+id/errorView"
-        layout="@layout/component_lesson_error" />
+    <item>
+        <inset
+            android:drawable="@drawable/ic_close_white"
+            android:inset="6dp" />
+    </item>
 
-    <include
-        android:id="@+id/loadingView"
-        layout="@layout/component_lesson_loading" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layer-list>

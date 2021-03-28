@@ -26,9 +26,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.repository.lessons.LessonsRepository
+import app.ss.lessons.data.response.Resource
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.logger.timber
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.readings.components.model.AppBarData
+import com.cryart.sabbathschool.readings.components.model.ErrorData
 import com.cryart.sabbathschool.readings.components.model.ReadingDay
 import com.cryart.sabbathschool.readings.components.model.ReadingDaysData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,30 +49,50 @@ class ReadingViewModel @Inject constructor(
     private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
 
-    private val _uiStateFlow = MutableStateFlow<ReadUiState>(ReadUiState.Loading)
-    val uiStateFlow: StateFlow<ReadUiState> get() = _uiStateFlow
+    private val log by timber()
 
-    private val _appBarDataFlow = MutableStateFlow<AppBarData>(AppBarData.Empty)
-    val appBarDataFlow: StateFlow<AppBarData> get() = _appBarDataFlow
+    private val _uiState = MutableStateFlow<ReadUiState>(ReadUiState.Loading)
+    val uiStateFlow: StateFlow<ReadUiState> get() = _uiState
 
-    private val _readDaysFlow = MutableStateFlow<ReadingDaysData>(ReadingDaysData.Empty)
-    val readDaysFlow: StateFlow<ReadingDaysData> get() = _readDaysFlow
+    private val _appBarData = MutableStateFlow<AppBarData>(AppBarData.Empty)
+    val appBarDataFlow: StateFlow<AppBarData> get() = _appBarData
+
+    private val _readDays = MutableStateFlow<ReadingDaysData>(ReadingDaysData.Empty)
+    val readDaysFlow: StateFlow<ReadingDaysData> get() = _readDays
+
+    private val _errorData = MutableStateFlow<ErrorData>(ErrorData.Empty)
+    val errorDataFlow: StateFlow<ErrorData> get() = _errorData
 
     fun loadData(lessonIndex: String) = viewModelScope.launch(schedulerProvider.io) {
-        val resource = lessonsRepository.getLessonInfo(lessonIndex)
-        val lessonInfo = resource.data ?: return@launch
+        val resource = try {
+            lessonsRepository.getLessonInfo(lessonIndex)
+        } catch (er: Throwable) {
+            log.e(er)
+            Resource.error(er)
+        }
 
-        _uiStateFlow.emit(ReadUiState.Success)
-
-        displayLessonInfo(lessonInfo)
+        val lessonInfo = resource.data
+        if (lessonInfo != null) {
+            displayLessonInfo(lessonInfo)
+        } else {
+            _uiState.emit(ReadUiState.Error)
+            _errorData.emit(ErrorData.Data(errorRes = R.string.ss_reading_error))
+        }
     }
 
     private fun displayLessonInfo(lessonInfo: SSLessonInfo) {
-        _appBarDataFlow.value = AppBarData.Cover(lessonInfo.lesson.cover)
-
         val days = lessonInfo.days.map {
             ReadingDay(it.id, it.index, formatDate(it.date), it.title)
         }
+
+        if (days.isEmpty()) {
+            _uiState.value = ReadUiState.Error
+            _errorData.value = ErrorData.Data(errorRes = R.string.ss_reading_empty)
+            return
+        }
+
+        _uiState.value = ReadUiState.Success
+        _appBarData.value = AppBarData.Cover(lessonInfo.lesson.cover)
 
         var index = 0
         val today = DateTime.now().withTimeAtStartOfDay()
@@ -82,7 +105,7 @@ class ReadingViewModel @Inject constructor(
             }
         }
 
-        _readDaysFlow.value = ReadingDaysData.Days(days, index)
+        _readDays.value = ReadingDaysData.Days(days, index)
     }
 
     private fun formatDate(date: String): String {
@@ -94,17 +117,17 @@ class ReadingViewModel @Inject constructor(
     }
 
     fun onPageSelected(position: Int) {
-        val data = _readDaysFlow.value
+        val data = _readDays.value
         if (data is ReadingDaysData.Days) {
             val lesson = data.days.getOrNull(position) ?: return
-            _appBarDataFlow.value = AppBarData.Title(lesson.title, lesson.date)
+            _appBarData.value = AppBarData.Title(lesson.title, lesson.date)
         }
     }
 
     fun saveSelectedPage(position: Int) {
-        val data = _readDaysFlow.value
+        val data = _readDays.value
         if (data is ReadingDaysData.Days) {
-            _readDaysFlow.value = data.copy(index = position)
+            _readDays.value = data.copy(index = position)
         }
     }
 }

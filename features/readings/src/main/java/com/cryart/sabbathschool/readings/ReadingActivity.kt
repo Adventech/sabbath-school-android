@@ -30,6 +30,7 @@ import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
 import com.cryart.sabbathschool.readings.components.AppBarComponent
+import com.cryart.sabbathschool.readings.components.LessonErrorComponent
 import com.cryart.sabbathschool.readings.components.LessonLoadingComponent
 import com.cryart.sabbathschool.readings.components.ViewPagerComponent
 import com.cryart.sabbathschool.readings.databinding.ActivityReadingBinding
@@ -50,6 +51,9 @@ class ReadingActivity : SSColorSchemeActivity() {
     }
     private val loadingComponent: LessonLoadingComponent by lazy {
         LessonLoadingComponent(binding.loadingView)
+    }
+    private val errorComponent: LessonErrorComponent by lazy {
+        LessonErrorComponent(binding.errorView, this::finish)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,11 +92,14 @@ class ReadingActivity : SSColorSchemeActivity() {
     }
 
     private fun observeItems() {
+        // Visible when Error
+        val errorFlow = viewModel.uiStateFlow.map { it == ReadUiState.Error }
         // Visible when Success
         val successFlow = viewModel.uiStateFlow.map { it == ReadUiState.Success }
         // Visible when Loading
         val loadingFlow = viewModel.uiStateFlow.map { it == ReadUiState.Loading }
 
+        errorComponent.collect(errorFlow, viewModel.errorDataFlow, this)
         appBarComponent.collect(successFlow, viewModel.appBarDataFlow, this)
         viewPagerComponent.collect(successFlow, viewModel.readDaysFlow, this)
         loadingComponent.collect(loadingFlow, this)
