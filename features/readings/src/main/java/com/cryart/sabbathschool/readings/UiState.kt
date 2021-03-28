@@ -22,8 +22,8 @@
 
 package com.cryart.sabbathschool.readings
 
-sealed class ReadUiState {
-    object Success : ReadUiState()
-    object Loading : ReadUiState()
-    object Error : ReadUiState()
+enum class UiState {
+    Success,
+    Loading,
+    Error,
 }

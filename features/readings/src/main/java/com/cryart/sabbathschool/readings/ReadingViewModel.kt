@@ -51,8 +51,8 @@ class ReadingViewModel @Inject constructor(
 
     private val log by timber()
 
-    private val _uiState = MutableStateFlow<ReadUiState>(ReadUiState.Loading)
-    val uiStateFlow: StateFlow<ReadUiState> get() = _uiState
+    private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
+    val uiStateFlow: StateFlow<UiState> get() = _uiState
 
     private val _appBarData = MutableStateFlow<AppBarData>(AppBarData.Empty)
     val appBarDataFlow: StateFlow<AppBarData> get() = _appBarData
@@ -75,7 +75,7 @@ class ReadingViewModel @Inject constructor(
         if (lessonInfo != null) {
             displayLessonInfo(lessonInfo)
         } else {
-            _uiState.emit(ReadUiState.Error)
+            _uiState.emit(UiState.Error)
             _errorData.emit(ErrorData.Data(errorRes = R.string.ss_reading_error))
         }
     }
@@ -86,12 +86,12 @@ class ReadingViewModel @Inject constructor(
         }
 
         if (days.isEmpty()) {
-            _uiState.value = ReadUiState.Error
+            _uiState.value = UiState.Error
             _errorData.value = ErrorData.Data(errorRes = R.string.ss_reading_empty)
             return
         }
 
-        _uiState.value = ReadUiState.Success
+        _uiState.value = UiState.Success
         _appBarData.value = AppBarData.Cover(lessonInfo.lesson.cover)
 
         var index = 0

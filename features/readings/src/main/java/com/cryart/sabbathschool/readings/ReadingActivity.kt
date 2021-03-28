@@ -93,11 +93,11 @@ class ReadingActivity : SSColorSchemeActivity() {
 
     private fun observeItems() {
         // Visible when Error
-        val errorFlow = viewModel.uiStateFlow.map { it == ReadUiState.Error }
+        val errorFlow = viewModel.uiStateFlow.map { it == UiState.Error }
         // Visible when Success
-        val successFlow = viewModel.uiStateFlow.map { it == ReadUiState.Success }
+        val successFlow = viewModel.uiStateFlow.map { it == UiState.Success }
         // Visible when Loading
-        val loadingFlow = viewModel.uiStateFlow.map { it == ReadUiState.Loading }
+        val loadingFlow = viewModel.uiStateFlow.map { it == UiState.Loading }
 
         errorComponent.collect(errorFlow, viewModel.errorDataFlow, this)
         appBarComponent.collect(successFlow, viewModel.appBarDataFlow, this)
