@@ -23,7 +23,9 @@
 package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.model.SSLessonInfo
+import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.response.Resource
+import com.cryart.sabbathschool.core.extensions.logger.timber
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -38,6 +40,8 @@ internal class LessonsRepositoryImpl constructor(
     firebaseDatabase: FirebaseDatabase
 ) : LessonsRepository {
 
+    private val logger by timber()
+
     private val firebaseRef = firebaseDatabase.reference.apply { keepSynced(true) }
 
     override suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo> = suspendCoroutine { continuation ->
@@ -51,7 +55,24 @@ internal class LessonsRepositoryImpl constructor(
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Timber.e(error.toException())
+                    logger.e(error.toException())
+                    continuation.resumeWithException(error.toException())
+                }
+            })
+    }
+
+    override suspend fun getDayRead(dayIndex: String): Resource<SSRead> = suspendCoroutine { continuation ->
+        firebaseRef
+            .child(SSConstants.SS_FIREBASE_READS_DATABASE)
+            .child(dayIndex)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val ssRead = SSRead(dataSnapshot)
+                    continuation.resume(Resource.success(ssRead))
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    logger.e(error.toException())
                     continuation.resumeWithException(error.toException())
                 }
             })
