@@ -57,11 +57,24 @@ abstract class SSBaseFragment<VB : ViewBinding>(@LayoutRes contentLayoutId: Int)
 
         if (!wasViewCreated) {
             onInit()
+            onPostInit()
         }
+
+        onBindViewModel()
     }
 
     @CallSuper
     protected open fun onInit() {
+        // Stub
+    }
+
+    @CallSuper
+    protected open fun onPostInit() {
+        // Stub
+    }
+
+    @CallSuper
+    protected open fun onBindViewModel() {
         // Stub
     }
 }

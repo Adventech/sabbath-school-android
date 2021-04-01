@@ -53,7 +53,7 @@ class ReadingViewModel @Inject constructor(
     private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
 
-    private val log by timber()
+    private val logger by timber()
 
     private val _uiState = BroadcastChannel<UiState>(Channel.BUFFERED)
     val uiStateFlow: Flow<UiState> get() = _uiState.asFlow()
@@ -72,7 +72,7 @@ class ReadingViewModel @Inject constructor(
             _uiState.send(UiState.Loading)
             lessonsRepository.getLessonInfo(lessonIndex)
         } catch (er: Throwable) {
-            log.e(er)
+            logger.e(er)
             Resource.error(er)
         }
 

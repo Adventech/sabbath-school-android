@@ -44,6 +44,7 @@ class ViewPagerComponent(
 
     init {
         binding.viewPager.apply {
+            offscreenPageLimit = 4
             adapter = pagerAdapter
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
