@@ -67,7 +67,7 @@ class ReadingViewModel @Inject constructor(
     private val _errorData = MutableStateFlow<ErrorData>(ErrorData.Empty)
     val errorDataFlow: StateFlow<ErrorData> get() = _errorData
 
-    fun loadData(lessonIndex: String) = viewModelScope.launch(schedulerProvider.io) {
+    fun loadData(lessonIndex: String) = viewModelScope.launch(schedulerProvider.default) {
         val resource = try {
             _uiState.send(UiState.Loading)
             lessonsRepository.getLessonInfo(lessonIndex)
@@ -85,7 +85,7 @@ class ReadingViewModel @Inject constructor(
         }
     }
 
-    private fun displayLessonInfo(lessonInfo: SSLessonInfo) = viewModelScope.launch {
+    private fun displayLessonInfo(lessonInfo: SSLessonInfo) = viewModelScope.launch(schedulerProvider.default) {
         val days = lessonInfo.days.map {
             ReadingDay(it.id, it.index, formatDate(it.date), it.title)
         }

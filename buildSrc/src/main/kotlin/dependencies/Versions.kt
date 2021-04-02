@@ -49,4 +49,5 @@ object Versions {
     const val ESPRESSO = "3.3.0"
     const val FRAGMENT_TEST = "1.3.0"
     const val KLUENT = "1.65"
+    const val TURBINE = "0.4.1"
 }
