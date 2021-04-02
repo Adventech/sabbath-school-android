@@ -186,6 +186,7 @@ dependencies {
     implementation(Dependencies.JODA)
 
     addTestsDependencies()
+    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }
 
 val googleServices = file("google-services.json")

@@ -21,7 +21,7 @@
  */
 
 import dependencies.Dependencies
-import extensions.addTestsDependencies
+import dependencies.TestDependencies
 
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY)
@@ -47,10 +47,12 @@ android {
 }
 
 dependencies {
+    implementation(project(BuildModules.Common.CORE))
+
     implementation(Dependencies.Kotlin.KOTLIN)
-    implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
     implementation(Dependencies.Kotlin.COROUTINES)
     implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
 
-    addTestsDependencies()
+    implementation(TestDependencies.JUNIT)
+    implementation(TestDependencies.COROUTINES_TEST)
 }

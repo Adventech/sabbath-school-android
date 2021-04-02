@@ -23,7 +23,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cryart.sabbathschool.readings">
 
-    <application>
+    <application
+        android:theme="@style/Theme.SS">
         <activity
             android:name=".ReadingActivity"
             android:label="@string/blank"

@@ -22,10 +22,11 @@
 
 package com.cryart.sabbathschool.core.extensions.coroutines
 
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
 class SchedulerProvider(
-    val io: CoroutineContext = Dispatchers.IO,
-    val main: CoroutineContext = Dispatchers.Main
+    val io: CoroutineDispatcher = Dispatchers.IO,
+    val main: CoroutineDispatcher = Dispatchers.Main,
+    val default: CoroutineDispatcher = Dispatchers.Default
 )

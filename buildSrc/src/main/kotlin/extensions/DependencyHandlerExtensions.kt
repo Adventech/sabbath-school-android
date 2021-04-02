@@ -20,6 +20,7 @@ import dependencies.TestAndroidDependencies
 import dependencies.TestDependencies
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.project
 
 /**
  * Adds a dependency to the `debugImplementation` configuration.
@@ -119,6 +120,7 @@ fun DependencyHandler.addTestsDependencies() {
     testImplementation(TestDependencies.KLUENT)
     testImplementation(TestDependencies.HILT)
     testImplementation(TestDependencies.JODA)
+    testImplementation(TestDependencies.TURBINE)
     kaptTest(TestDependencies.HILT_COMPILER)
 
     androidTestImplementation(TestAndroidDependencies.ESPRESSO)

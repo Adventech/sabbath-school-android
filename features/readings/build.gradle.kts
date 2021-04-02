@@ -27,6 +27,7 @@ import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
 import extensions.addTestsDependencies
 import extensions.kapt
+import extensions.testImplementation
 
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY)
@@ -99,4 +100,5 @@ dependencies {
     implementation("net.opacapp:multiline-collapsingtoolbar:27.1.1")
 
     addTestsDependencies()
+    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }

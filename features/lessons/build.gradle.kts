@@ -106,4 +106,5 @@ dependencies {
     implementation("ru.beryukhov:flowreactivenetwork:1.0.2")
 
     addTestsDependencies()
+    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }

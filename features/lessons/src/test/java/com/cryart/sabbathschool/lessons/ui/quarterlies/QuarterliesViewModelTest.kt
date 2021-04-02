@@ -23,13 +23,13 @@
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.ss.lessons.data.model.SSQuarterly
+import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import app.ss.lessons.data.response.Resource
 import com.cryart.sabbathschool.core.extensions.arch.observeFuture
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.ViewState
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.response.Resource
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -37,7 +37,6 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeEqualTo
@@ -49,6 +48,9 @@ class QuarterliesViewModelTest {
 
     @get:Rule
     val instantTaskRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    var coroutinesTestRule = CoroutineTestRule()
 
     private val mockRepository: QuarterliesRepository = mockk(relaxed = true)
     private val mockSSPrefs: SSPrefs = mockk()
@@ -62,10 +64,7 @@ class QuarterliesViewModelTest {
         viewModel = QuarterliesViewModel(
             mockRepository,
             mockSSPrefs,
-            SchedulerProvider(
-                TestCoroutineDispatcher(),
-                TestCoroutineDispatcher()
-            )
+            coroutinesTestRule.dispatcherProvider
         )
     }
 
