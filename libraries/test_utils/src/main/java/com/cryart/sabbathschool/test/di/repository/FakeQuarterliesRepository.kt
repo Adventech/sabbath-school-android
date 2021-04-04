@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.di
+package com.cryart.sabbathschool.test.di.repository
 
 import app.ss.lessons.data.model.Language
 import app.ss.lessons.data.model.SSQuarterly
