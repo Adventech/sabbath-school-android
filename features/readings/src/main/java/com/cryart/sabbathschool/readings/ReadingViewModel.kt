@@ -35,12 +35,12 @@ import com.cryart.sabbathschool.readings.components.model.ErrorData
 import com.cryart.sabbathschool.readings.components.model.ReadingDay
 import com.cryart.sabbathschool.readings.components.model.ReadingDaysData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -55,21 +55,21 @@ class ReadingViewModel @Inject constructor(
 
     private val logger by timber()
 
-    private val _uiState = BroadcastChannel<UiState>(Channel.BUFFERED)
-    val uiStateFlow: Flow<UiState> get() = _uiState.asFlow()
+    private val _uiState = MutableSharedFlow<UiState>()
+    val uiStateFlow: SharedFlow<UiState> get() = _uiState.asSharedFlow()
 
     private val _appBarData = MutableStateFlow<AppBarData>(AppBarData.Empty)
-    val appBarDataFlow: StateFlow<AppBarData> get() = _appBarData
+    val appBarDataFlow: StateFlow<AppBarData> get() = _appBarData.asStateFlow()
 
     private val _readDays = MutableStateFlow<ReadingDaysData>(ReadingDaysData.Empty)
-    val readDaysFlow: StateFlow<ReadingDaysData> get() = _readDays
+    val readDaysFlow: StateFlow<ReadingDaysData> get() = _readDays.asStateFlow()
 
     private val _errorData = MutableStateFlow<ErrorData>(ErrorData.Empty)
-    val errorDataFlow: StateFlow<ErrorData> get() = _errorData
+    val errorDataFlow: StateFlow<ErrorData> get() = _errorData.asStateFlow()
 
     fun loadData(lessonIndex: String) = viewModelScope.launch(schedulerProvider.default) {
         val resource = try {
-            _uiState.send(UiState.Loading)
+            _uiState.emit(UiState.Loading)
             lessonsRepository.getLessonInfo(lessonIndex)
         } catch (er: Throwable) {
             logger.e(er)
@@ -80,7 +80,7 @@ class ReadingViewModel @Inject constructor(
         if (lessonInfo != null) {
             displayLessonInfo(lessonInfo)
         } else {
-            _uiState.send(UiState.Error)
+            _uiState.emit(UiState.Error)
             _errorData.emit(ErrorData.Data(errorRes = R.string.ss_reading_error))
         }
     }
@@ -91,12 +91,12 @@ class ReadingViewModel @Inject constructor(
         }
 
         if (days.isEmpty()) {
-            _uiState.send(UiState.Error)
+            _uiState.emit(UiState.Error)
             _errorData.value = ErrorData.Data(errorRes = R.string.ss_reading_empty)
             return@launch
         }
 
-        _uiState.send(UiState.Success)
+        _uiState.emit(UiState.Success)
         _appBarData.value = AppBarData.Cover(lessonInfo.lesson.cover)
 
         var index = (_readDays.value as? ReadingDaysData.Days)?.index ?: 0
@@ -116,11 +116,16 @@ class ReadingViewModel @Inject constructor(
     }
 
     private fun formatDate(date: String): String {
-        return DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT_DAY)
-            .print(
-                DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                    .parseLocalDate(date)
-            ).capitalize(Locale.getDefault())
+        return try {
+            DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT_DAY)
+                .print(
+                    DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                        .parseLocalDate(date)
+                ).capitalize(Locale.getDefault())
+        } catch (ex: IllegalArgumentException) {
+            logger.e(ex)
+            return ""
+        }
     }
 
     fun onPageSelected(position: Int) {
@@ -133,7 +138,7 @@ class ReadingViewModel @Inject constructor(
 
     fun saveSelectedPage(position: Int) {
         val data = _readDays.value
-        if (data is ReadingDaysData.Days) {
+        if (data is ReadingDaysData.Days && data.days.size > position) {
             _readDays.value = data.copy(index = position)
         }
     }
