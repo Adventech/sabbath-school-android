@@ -187,6 +187,7 @@ dependencies {
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))
+    androidTestImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }
 
 val googleServices = file("google-services.json")

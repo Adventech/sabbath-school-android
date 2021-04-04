@@ -42,6 +42,8 @@ android {
 
     defaultConfig {
         minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
+
+        testInstrumentationRunner = BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER
     }
 
     compileOptions {
@@ -51,6 +53,10 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
+    }
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+        unitTests.isReturnDefaultValues = true
     }
 
     buildFeatures {
