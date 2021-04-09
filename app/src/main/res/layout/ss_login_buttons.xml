@@ -57,7 +57,7 @@
             android:textColor="@android:color/white"
             app:backgroundTint="@color/com_facebook_blue"
             app:cornerRadius="@dimen/spacing_micro"
-            app:icon="@drawable/com_facebook_button_icon"
+            app:icon="@drawable/ic_fb_logo"
             app:iconGravity="textStart"
             app:iconTint="@android:color/white"
             app:textAllCaps="false" />
