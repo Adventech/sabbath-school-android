@@ -27,18 +27,19 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import app.ss.lessons.data.model.SSBibleVerses
 import com.cryart.sabbathschool.bible.databinding.SsBibleVersesActivityBinding
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent.track
-import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
-import app.ss.lessons.data.model.SSBibleVerses
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SSBibleVersesActivity : AppCompatActivity() {
-    private val binding: SsBibleVersesActivityBinding by lazy { SsBibleVersesActivityBinding.inflate(layoutInflater) }
-    private val viewModel: SSBibleVersesViewModel by viewModels()
+
+    private val viewModel by viewModels<SSBibleVersesViewModel>()
+    private val binding by viewBinding(SsBibleVersesActivityBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
