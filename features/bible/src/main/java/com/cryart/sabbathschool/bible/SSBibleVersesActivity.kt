@@ -26,6 +26,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.cryart.sabbathschool.bible.databinding.SsBibleVersesActivityBinding
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -35,7 +36,7 @@ import app.ss.lessons.data.model.SSBibleVerses
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SSBibleVersesActivity : SSColorSchemeActivity() {
+class SSBibleVersesActivity : AppCompatActivity() {
     private val binding: SsBibleVersesActivityBinding by lazy { SsBibleVersesActivityBinding.inflate(layoutInflater) }
     private val viewModel: SSBibleVersesViewModel by viewModels()
 
