@@ -28,7 +28,7 @@ import android.view.View
 import androidx.activity.viewModels
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.model.UiState
+import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
 import com.cryart.sabbathschool.readings.components.AppBarComponent
 import com.cryart.sabbathschool.readings.components.LessonErrorComponent
@@ -94,11 +94,11 @@ class ReadingActivity : SSColorSchemeActivity() {
 
     private fun observeItems() {
         // Visible when Error
-        val errorFlow = viewModel.uiStateFlow.map { it == UiState.Error }
+        val errorFlow = viewModel.uiStateFlow.map { it == Status.ERROR }
         // Visible when Success
-        val successFlow = viewModel.uiStateFlow.map { it == UiState.Success }
+        val successFlow = viewModel.uiStateFlow.map { it == Status.SUCCESS }
         // Visible when Loading
-        val loadingFlow = viewModel.uiStateFlow.map { it == UiState.Loading }
+        val loadingFlow = viewModel.uiStateFlow.map { it == Status.LOADING }
 
         errorComponent.collect(errorFlow, viewModel.errorDataFlow, this)
         appBarComponent.collect(successFlow, viewModel.appBarDataFlow, this)

@@ -22,9 +22,10 @@
 
 package com.cryart.sabbathschool.core.response
 
-import com.cryart.sabbathschool.core.response.Status.ERROR
-import com.cryart.sabbathschool.core.response.Status.LOADING
-import com.cryart.sabbathschool.core.response.Status.SUCCESS
+import com.cryart.sabbathschool.core.model.Status
+import com.cryart.sabbathschool.core.model.Status.ERROR
+import com.cryart.sabbathschool.core.model.Status.LOADING
+import com.cryart.sabbathschool.core.model.Status.SUCCESS
 
 class Resource<out T> private constructor(
     val status: Status = LOADING,

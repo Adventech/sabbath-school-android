@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.response
+package com.cryart.sabbathschool.core.model
 
 enum class Status {
     LOADING,

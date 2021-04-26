@@ -26,11 +26,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.repository.lessons.LessonsRepository
-import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.logger.timber
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.model.UiState
+import com.cryart.sabbathschool.core.model.Status
+import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.readings.components.model.AppBarData
 import com.cryart.sabbathschool.readings.components.model.ErrorData
 import com.cryart.sabbathschool.readings.components.model.ReadingDay
@@ -56,8 +56,8 @@ class ReadingViewModel @Inject constructor(
 
     private val logger by timber()
 
-    private val _uiState = MutableSharedFlow<UiState>()
-    val uiStateFlow: SharedFlow<UiState> get() = _uiState.asSharedFlow()
+    private val _uiState = MutableSharedFlow<Status>()
+    val uiStateFlow: SharedFlow<Status> get() = _uiState.asSharedFlow()
 
     private val _appBarData = MutableStateFlow<AppBarData>(AppBarData.Empty)
     val appBarDataFlow: StateFlow<AppBarData> get() = _appBarData.asStateFlow()
@@ -70,7 +70,7 @@ class ReadingViewModel @Inject constructor(
 
     fun loadData(lessonIndex: String) = viewModelScope.launch(schedulerProvider.default) {
         val resource = try {
-            _uiState.emit(UiState.Loading)
+            _uiState.emit(Status.LOADING)
             lessonsRepository.getLessonInfo(lessonIndex)
         } catch (er: Throwable) {
             logger.e(er)
@@ -81,7 +81,7 @@ class ReadingViewModel @Inject constructor(
         if (lessonInfo != null) {
             displayLessonInfo(lessonInfo)
         } else {
-            _uiState.emit(UiState.Error)
+            _uiState.emit(Status.ERROR)
             _errorData.emit(ErrorData.Data(errorRes = R.string.ss_reading_error))
         }
     }
@@ -92,12 +92,12 @@ class ReadingViewModel @Inject constructor(
         }
 
         if (days.isEmpty()) {
-            _uiState.emit(UiState.Error)
+            _uiState.emit(Status.ERROR)
             _errorData.value = ErrorData.Data(errorRes = R.string.ss_reading_empty)
             return@launch
         }
 
-        _uiState.emit(UiState.Success)
+        _uiState.emit(Status.SUCCESS)
         _appBarData.value = AppBarData.Cover(lessonInfo.lesson.cover)
 
         var index = (_readDays.value as? ReadingDaysData.Days)?.index ?: 0

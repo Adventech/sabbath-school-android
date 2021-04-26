@@ -7,7 +7,7 @@ import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.model.UiState
+import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.readings.components.model.AppBarData
 import com.cryart.sabbathschool.readings.components.model.ErrorData
 import com.cryart.sabbathschool.readings.components.model.ReadingDaysData
@@ -48,8 +48,8 @@ class ReadingViewModelTest {
         viewModel.uiStateFlow.test {
             viewModel.loadData(lessonIndex)
 
-            expectItem() shouldBeEqualTo UiState.Loading
-            expectItem() shouldBeEqualTo UiState.Error
+            expectItem() shouldBeEqualTo Status.LOADING
+            expectItem() shouldBeEqualTo Status.ERROR
         }
     }
 
@@ -64,8 +64,8 @@ class ReadingViewModelTest {
         viewModel.uiStateFlow.test {
             viewModel.loadData(lessonIndex)
 
-            expectItem() shouldBeEqualTo UiState.Loading
-            expectItem() shouldBeEqualTo UiState.Error
+            expectItem() shouldBeEqualTo Status.LOADING
+            expectItem() shouldBeEqualTo Status.ERROR
         }
     }
 
@@ -99,8 +99,8 @@ class ReadingViewModelTest {
         viewModel.uiStateFlow.test {
             viewModel.loadData(lessonIndex)
 
-            expectItem() shouldBeEqualTo UiState.Loading
-            expectItem() shouldBeEqualTo UiState.Success
+            expectItem() shouldBeEqualTo Status.LOADING
+            expectItem() shouldBeEqualTo Status.SUCCESS
         }
     }
 
@@ -118,8 +118,8 @@ class ReadingViewModelTest {
         viewModel.uiStateFlow.test {
             viewModel.loadData(lessonIndex)
 
-            expectItem() shouldBeEqualTo UiState.Loading
-            expectItem() shouldBeEqualTo UiState.Success
+            expectItem() shouldBeEqualTo Status.LOADING
+            expectItem() shouldBeEqualTo Status.SUCCESS
         }
     }
 
@@ -137,8 +137,8 @@ class ReadingViewModelTest {
         viewModel.uiStateFlow.test {
             viewModel.loadData(lessonIndex)
 
-            expectItem() shouldBeEqualTo UiState.Loading
-            expectItem() shouldBeEqualTo UiState.Success
+            expectItem() shouldBeEqualTo Status.LOADING
+            expectItem() shouldBeEqualTo Status.SUCCESS
         }
     }
 
