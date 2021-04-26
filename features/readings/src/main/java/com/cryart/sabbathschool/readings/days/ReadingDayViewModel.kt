@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
 import app.ss.lessons.data.repository.lessons.LessonsRepository
-import app.ss.lessons.data.response.Resource
+import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.logger.timber
 import com.cryart.sabbathschool.readings.components.model.ReadingDay

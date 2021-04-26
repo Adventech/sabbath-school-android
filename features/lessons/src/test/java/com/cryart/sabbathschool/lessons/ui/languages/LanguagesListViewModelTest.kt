@@ -25,7 +25,7 @@ package com.cryart.sabbathschool.lessons.ui.languages
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.ss.lessons.data.model.Language
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
-import app.ss.lessons.data.response.Resource
+import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
 import io.mockk.coEvery

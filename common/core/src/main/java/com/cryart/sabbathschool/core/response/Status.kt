@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2020 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,10 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.readings
+package com.cryart.sabbathschool.core.response
 
-enum class UiState {
-    Success,
-    Loading,
-    Error,
+enum class Status {
+    LOADING,
+    SUCCESS,
+    ERROR
 }

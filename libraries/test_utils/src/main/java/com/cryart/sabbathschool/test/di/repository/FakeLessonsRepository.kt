@@ -5,7 +5,7 @@ import app.ss.lessons.data.model.SSLesson
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.repository.lessons.LessonsRepository
-import app.ss.lessons.data.response.Resource
+import com.cryart.sabbathschool.core.response.Resource
 import javax.inject.Inject
 
 class FakeLessonsRepository @Inject constructor() : LessonsRepository {

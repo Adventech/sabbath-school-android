@@ -24,7 +24,7 @@ package com.cryart.sabbathschool.test.di.repository
 
 import app.ss.lessons.data.model.Language
 import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.response.Resource
+import com.cryart.sabbathschool.core.response.Resource
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import javax.inject.Inject
 import kotlinx.coroutines.channels.awaitClose

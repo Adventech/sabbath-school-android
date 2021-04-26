@@ -24,7 +24,7 @@ package app.ss.lessons.data.repository.quarterly
 
 import app.ss.lessons.data.model.Language
 import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.response.Resource
+import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface QuarterliesRepository {

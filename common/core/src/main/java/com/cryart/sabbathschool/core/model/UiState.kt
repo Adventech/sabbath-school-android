@@ -20,32 +20,10 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.response
+package com.cryart.sabbathschool.core.model
 
-import app.ss.lessons.data.response.Status.ERROR
-import app.ss.lessons.data.response.Status.LOADING
-import app.ss.lessons.data.response.Status.SUCCESS
-
-class Resource<out T> private constructor(
-    val status: Status = LOADING,
-    val data: T?,
-    val error: Throwable?
-) {
-
-    val isSuccessFul: Boolean get() = data != null
-
-    companion object {
-
-        fun <T> success(data: T): Resource<T> {
-            return Resource(SUCCESS, data, null)
-        }
-
-        fun <T> error(error: Throwable): Resource<T> {
-            return Resource(ERROR, null, error)
-        }
-
-        fun <T> loading(): Resource<T> {
-            return Resource(LOADING, null, null)
-        }
-    }
+enum class UiState {
+    Success,
+    Loading,
+    Error,
 }

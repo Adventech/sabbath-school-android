@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,32 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.response
+package com.cryart.sabbathschool.core.response
 
-enum class Status {
-    LOADING,
-    SUCCESS,
-    ERROR
+import com.cryart.sabbathschool.core.response.Status.ERROR
+import com.cryart.sabbathschool.core.response.Status.LOADING
+import com.cryart.sabbathschool.core.response.Status.SUCCESS
+
+class Resource<out T> private constructor(
+    val status: Status = LOADING,
+    val data: T?,
+    val error: Throwable?
+) {
+
+    val isSuccessFul: Boolean get() = data != null
+
+    companion object {
+
+        fun <T> success(data: T): Resource<T> {
+            return Resource(SUCCESS, data, null)
+        }
+
+        fun <T> error(error: Throwable): Resource<T> {
+            return Resource(ERROR, null, error)
+        }
+
+        fun <T> loading(): Resource<T> {
+            return Resource(LOADING, null, null)
+        }
+    }
 }

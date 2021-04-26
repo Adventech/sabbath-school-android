@@ -24,7 +24,7 @@ package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
-import app.ss.lessons.data.response.Resource
+import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.core.extensions.logger.timber
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.google.firebase.database.DataSnapshot
