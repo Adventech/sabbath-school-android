@@ -44,6 +44,7 @@ import app.ss.lessons.data.model.SSReadHighlights
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import app.ss.lessons.data.model.SSRead
+import com.cryart.sabbathschool.lessons.BuildConfig
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
@@ -156,6 +157,8 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
             colorInt = Color.WHITE
             sizeDp = 16
         }
+        // Enable new Read screen in Debug
+        menu.findItem(R.id.ss_reading_debug).isVisible = BuildConfig.DEBUG
         return super.onCreateOptionsMenu(menu)
     }
 

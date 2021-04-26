@@ -51,6 +51,7 @@
         android:id="@+id/ss_reading_debug"
         android:orderInCategory="104"
         android:title="DEBUG"
+        android:visible="false"
         app:showAsAction="never"
         tools:ignore="HardcodedText" />
 </menu>
