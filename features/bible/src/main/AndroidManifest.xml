@@ -4,7 +4,7 @@
 
     <application>
         <activity
-            android:name=".ui.SSBibleVersesActivity"
+            android:name=".SSBibleVersesActivity"
             android:theme="@style/Theme.SS.BibleVersesTheme"
             android:label="@string/blank"/>
     </application>

@@ -27,6 +27,6 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/ss_logo_splash" />
     </item>
 </layer-list>

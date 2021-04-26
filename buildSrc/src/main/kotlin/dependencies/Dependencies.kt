@@ -4,7 +4,6 @@ object Dependencies {
     const val DESUGAR = "com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}"
     const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
     const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
-    const val FACEBOOK = "com.facebook.android:facebook-android-sdk:${Versions.FACEBOOK}"
     const val PLAY_AUTH = "com.google.android.gms:play-services-auth:${Versions.PLAY_AUTH}"
     const val ANDROID_JOB = "com.evernote:android-job:${Versions.ANDROID_JOB}"
     const val JODA = "net.danlew:android.joda:${Versions.JODA}"
@@ -20,9 +19,11 @@ object Dependencies {
         const val CORE = "androidx.core:core-ktx:${Versions.AndroidX.CORE}"
         const val APPCOMPAT = "androidx.appcompat:appcompat:${Versions.AndroidX.APPCOMPAT}"
         const val RECYCLER_VIEW = "androidx.recyclerview:recyclerview:${Versions.AndroidX.RECYCLER_VIEW}"
+        const val LIFECYCLE_COMMON = "androidx.lifecycle:lifecycle-common-java8:${Versions.AndroidX.LIFECYCLE}"
         const val LIFECYCLE_EXTENSIONS = "androidx.lifecycle:lifecycle-extensions:${Versions.AndroidX.LIFECYCLE_EXT}"
         const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.LIFECYCLE}"
         const val LIFECYCLE_LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.AndroidX.LIFECYCLE}"
+        const val LIFECYCLE_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.AndroidX.LIFECYCLE_KTX}"
         const val ACTIVITY = "androidx.activity:activity-ktx:${Versions.AndroidX.ACTIVITY}"
         const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Versions.AndroidX.FRAGMENT}"
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.AndroidX.CONSTRAINT_LAYOUT}"
@@ -54,5 +55,10 @@ object Dependencies {
         const val VIEWS = "com.mikepenz:iconics-views:${Versions.ICONICS}"
         const val TYPEFACE = "com.mikepenz:iconics-typeface-api:${Versions.ICONICS}"
         const val MATERIAL_TYPEFACE = "com.mikepenz:google-material-typeface:4.0.0.1-kotlin@aar"
+    }
+
+    object Facebook {
+        const val SDK = "com.facebook.android:facebook-android-sdk:${Versions.Facebook.SDK}"
+        const val SHIMMER = "com.facebook.shimmer:shimmer:${Versions.Facebook.SHIMMER}"
     }
 }

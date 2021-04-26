@@ -11,6 +11,7 @@ object Versions {
         const val APPCOMPAT = "1.2.0"
         const val RECYCLER_VIEW = "1.1.0"
         const val LIFECYCLE = "2.3.0"
+        const val LIFECYCLE_KTX = "2.4.0-alpha01"
         const val LIFECYCLE_EXT = "2.2.0"
         const val CORE = "1.3.2"
         const val FRAGMENT = "1.3.0"
@@ -21,6 +22,11 @@ object Versions {
         const val BROWSER = "1.3.0"
     }
 
+    object Facebook {
+        const val SDK = "9.1.0"
+        const val SHIMMER = "0.5.0"
+    }
+
     const val HILT = "2.33-beta"
 
     const val TIMBER = "4.7.1"
@@ -29,7 +35,6 @@ object Versions {
     const val ICONICS = "5.2.8@aar"
 
     const val FIREBASE_BOM = "26.7.0"
-    const val FACEBOOK = "9.1.0"
     const val PLAY_AUTH = "19.0.0"
     const val ANDROID_JOB = "1.4.2"
     const val JODA = "2.10.9"
@@ -44,4 +49,5 @@ object Versions {
     const val ESPRESSO = "3.3.0"
     const val FRAGMENT_TEST = "1.3.0"
     const val KLUENT = "1.65"
+    const val TURBINE = "0.4.1"
 }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,28 +21,37 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/ss_reading_menu_display_options"
         android:orderInCategory="100"
-        app:showAsAction="always"
-        android:title="@string/ss_settings_display_options" />
+        android:title="@string/ss_settings_display_options"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/ss_reading_menu_suggest_edit"
         android:orderInCategory="102"
-        app:showAsAction="never"
-        android:title="@string/ss_reading_suggest_edit" />
+        android:title="@string/ss_reading_suggest_edit"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/ss_reading_menu_share"
         android:orderInCategory="102"
-        app:showAsAction="never"
-        android:title="@string/ss_share" />
+        android:title="@string/ss_share"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/ss_reading_menu_settings"
         android:orderInCategory="103"
+        android:title="@string/ss_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/ss_reading_debug"
+        android:orderInCategory="104"
+        android:title="DEBUG"
+        android:visible="false"
         app:showAsAction="never"
-        android:title="@string/ss_settings" />
+        tools:ignore="HardcodedText" />
 </menu>

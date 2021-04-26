@@ -25,10 +25,12 @@ package com.cryart.sabbathschool.navigation
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import com.cryart.sabbathschool.account.AccountDialogFragment
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
+import com.cryart.sabbathschool.readings.ReadingActivity
 import com.cryart.sabbathschool.settings.SSSettingsActivity
 import com.cryart.sabbathschool.ui.about.AboutActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
@@ -46,7 +48,7 @@ class AppNavigatorImpl @Inject constructor(
 
     private val isSignedIn: Boolean get() = firebaseAuth.currentUser != null
 
-    override fun navigate(activity: Activity, destination: Destination) {
+    override fun navigate(activity: Activity, destination: Destination, extras: Bundle?) {
         val clazz = getDestinationClass(destination) ?: return
         val loginClass = LoginActivity::class.java
 
@@ -61,6 +63,9 @@ class AppNavigatorImpl @Inject constructor(
             return
         } else {
             Intent(activity, clazz)
+        }
+        extras?.let {
+            intent.putExtras(it)
         }
         activity.startActivity(intent)
     }
@@ -78,6 +83,7 @@ class AppNavigatorImpl @Inject constructor(
             Destination.ACCOUNT -> AccountDialogFragment::class.java
             Destination.LOGIN -> LoginActivity::class.java
             Destination.SETTINGS -> SSSettingsActivity::class.java
+            Destination.READ -> ReadingActivity::class.java
             else -> null
         }
     }

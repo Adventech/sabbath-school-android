@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ss_reading_toolbar_height"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        android:visibility="gone"
+        app:elevation="0dp"
+        app:expanded="true"
+        tools:visibility="visible">
+
+        <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:collapsedTitleTextAppearance="@style/AppThemeAppBarTextStyle"
+            app:expandedTitleGravity="start|bottom"
+            app:expandedTitleMarginBottom="@dimen/ss_reading_toolbar_title_margin_bottom"
+            app:expandedTitleMarginStart="@dimen/ss_reading_toolbar_title_margin_left"
+            app:expandedTitleTextAppearance="@style/AppThemeAppBarTextStyleExpanded"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
+            app:maxLines="2"
+            app:toolbarId="@+id/toolbar"
+            tools:contentScrim="?attr/colorPrimary"
+            tools:title="@string/ss_app_name">
+
+            <ImageView
+                android:id="@+id/backdrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/blank"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                tools:src="?attr/colorPrimary" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ss_reading_toolbar_date_margin"
+                android:layout_marginTop="@dimen/ss_reading_toolbar_date_margin_top"
+                android:fitsSystemWindows="true"
+                android:maxLines="1"
+                android:paddingTop="@dimen/ss_reading_toolbar_date_margin"
+                android:textAllCaps="true"
+                android:textColor="@color/ss_color_secondary_lighter"
+                android:textSize="@dimen/ss_reading_app_bar_subtitle_size"
+                app:fontFamily="@font/lato_bold"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.4"
+                tools:text="@tools:sample/lorem" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
+        </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+</merge>

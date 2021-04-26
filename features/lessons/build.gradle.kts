@@ -63,6 +63,7 @@ dependencies {
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
     implementation(project(BuildModules.Common.TRANSLATIONS))
+    implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Features.READER))
     implementation(project(BuildModules.Features.BIBLE))
 
@@ -105,4 +106,5 @@ dependencies {
     implementation("ru.beryukhov:flowreactivenetwork:1.0.2")
 
     addTestsDependencies()
+    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }

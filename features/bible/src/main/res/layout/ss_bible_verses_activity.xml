@@ -87,7 +87,7 @@
                     app:iiv_size="@dimen/ss_bible_verses_close_icon_size" />
             </LinearLayout>
 
-            <com.cryart.sabbathschool.reader.view.SSWebView
+            <com.cryart.sabbathschool.reader.SSWebView
                 android:id="@+id/ss_bible_verses_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

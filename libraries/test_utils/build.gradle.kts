@@ -21,12 +21,14 @@
  */
 
 import dependencies.Dependencies
-import extensions.addTestsDependencies
+import dependencies.TestDependencies
+import extensions.kapt
 
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY)
     id(BuildPlugins.KOTLIN_ANDROID)
     id(BuildPlugins.KOTLIN_KAPT)
+    id(BuildPlugins.DAGGER_HILT)
 }
 
 android {
@@ -47,10 +49,17 @@ android {
 }
 
 dependencies {
+    implementation(project(BuildModules.Common.CORE))
+    implementation(project(BuildModules.Common.LESSONS_DATA))
+
     implementation(Dependencies.Kotlin.KOTLIN)
-    implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
     implementation(Dependencies.Kotlin.COROUTINES)
     implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
 
-    addTestsDependencies()
+    implementation(Dependencies.Hilt.ANDROID)
+    implementation(TestDependencies.HILT)
+    kapt(Dependencies.Hilt.COMPILER)
+
+    implementation(TestDependencies.JUNIT)
+    implementation(TestDependencies.COROUTINES_TEST)
 }

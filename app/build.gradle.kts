@@ -143,10 +143,12 @@ dependencies {
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
     implementation(project(BuildModules.Common.TRANSLATIONS))
+    implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Features.LESSONS))
     implementation(project(BuildModules.Features.BIBLE))
     implementation(project(BuildModules.Features.SETTINGS))
     implementation(project(BuildModules.Features.ACCOUNT))
+    implementation(project(BuildModules.Features.READINGS))
 
     implementation(Kotlin.KOTLIN)
     implementation(Kotlin.COROUTINES)
@@ -179,11 +181,13 @@ dependencies {
 
     implementation(Dependencies.TIMBER)
 
-    implementation(Dependencies.FACEBOOK)
+    implementation(Dependencies.Facebook.SDK)
     implementation(Dependencies.ANDROID_JOB)
     implementation(Dependencies.JODA)
 
     addTestsDependencies()
+    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
+    androidTestImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }
 
 val googleServices = file("google-services.json")

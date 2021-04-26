@@ -46,13 +46,25 @@ public class SSReadingDisplayOptions {
     public String size;
     public String font;
 
-    public SSReadingDisplayOptions(){
+    public SSReadingDisplayOptions() {
         this(SS_THEME_LIGHT, SS_SIZE_MEDIUM, SS_FONT_ANDADA);
     }
 
-    public SSReadingDisplayOptions(String theme, String size, String font){
+    public SSReadingDisplayOptions(String theme, String size, String font) {
         this.theme = theme;
         this.size = size;
         this.font = font;
+    }
+
+    public String getRGB() {
+        switch (theme) {
+            case SS_THEME_LIGHT:
+                return SS_THEME_LIGHT_RGB;
+            case SS_THEME_DARK:
+                return SS_THEME_DARK_RGB;
+            case SS_THEME_SEPIA:
+                return SS_THEME_SEPIA_RGB;
+        }
+        return "";
     }
 }

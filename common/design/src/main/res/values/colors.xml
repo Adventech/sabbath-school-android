@@ -43,6 +43,7 @@
     <color name="black">#000000</color>
     <color name="black_40">#66000000</color>
     <color name="color_navigation_full">@android:color/transparent</color>
+    <color name="scrim">#99323232</color>
 
     <color name="list_divider">#80D7D7D7</color>
     <color name="ss_gray_1">#EFEFEF</color>
@@ -52,6 +53,7 @@
     <color name="ss_gray_5">#3B3F3F</color>
     <color name="ss_gray_6">#FAFAFA</color>
     <color name="ss_grey_7">#E2E2E5</color>
+    <color name="ss_grey_shimmer">@color/ss_gray_2</color>
 
     <color name="text_primary">@color/ss_gray_3</color>
     <color name="text_secondary">@color/ss_gray_2</color>

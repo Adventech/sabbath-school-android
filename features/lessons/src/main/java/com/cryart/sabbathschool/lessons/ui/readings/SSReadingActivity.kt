@@ -38,12 +38,13 @@ import com.cryart.sabbathschool.core.misc.SSUnzip
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.data.model.SSLessonInfo
-import com.cryart.sabbathschool.lessons.data.model.SSReadComments
-import com.cryart.sabbathschool.lessons.data.model.SSReadHighlights
+import app.ss.lessons.data.model.SSLessonInfo
+import app.ss.lessons.data.model.SSReadComments
+import app.ss.lessons.data.model.SSReadHighlights
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
-import com.cryart.sabbathschool.reader.data.model.SSRead
+import app.ss.lessons.data.model.SSRead
+import com.cryart.sabbathschool.lessons.BuildConfig
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
@@ -156,7 +157,9 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
             colorInt = Color.WHITE
             sizeDp = 16
         }
-        return true
+        // Enable new Read screen in Debug
+        menu.findItem(R.id.ss_reading_debug).isVisible = BuildConfig.DEBUG
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -175,6 +178,10 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
             }
             R.id.ss_reading_menu_settings -> {
                 appNavigator.navigate(this, Destination.SETTINGS)
+                true
+            }
+            R.id.ss_reading_debug -> {
+                appNavigator.navigate(this, Destination.READ, intent.extras)
                 true
             }
             else -> super.onOptionsItemSelected(item)
