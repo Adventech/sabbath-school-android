@@ -56,20 +56,16 @@
     </style>
 
     <style name="Theme.SS" parent="Base.Theme.SS">
-        <item name="colorPrimary">@color/ss_green</item>
-        <item name="colorPrimaryVariant">@color/ss_green_dark</item>
+        <item name="colorPrimary">@color/ss_theme_primary</item>
+        <item name="colorPrimaryVariant">@color/ss_theme_primary_variant</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/ss_pink</item>
-        <item name="colorSecondaryVariant">@color/ss_pink_dark</item>
+        <item name="colorSecondary">@color/ss_theme_secondary</item>
+        <item name="colorSecondaryVariant">@color/ss_theme_secondary_variant</item>
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorError">@color/ss_red_600</item>
         <item name="colorOnError">@color/white</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
-    </style>
-
-    <style name="Theme.SS.Splash">
-        <item name="android:windowBackground">@drawable/ss_splash_background</item>
     </style>
 
     <style name="Theme.SS.Primary">
@@ -95,11 +91,11 @@
     </style>
 
     <style name="ThemeOverlay.SS.BottomSheetDialog" parent="Base.ThemeOverlay.SS.BottomSheetDialog">
-        <item name="colorPrimary">@color/ss_green</item>
-        <item name="colorPrimaryVariant">@color/ss_green_dark</item>
+        <item name="colorPrimary">@color/ss_theme_primary</item>
+        <item name="colorPrimaryVariant">@color/ss_theme_primary_variant</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/ss_pink</item>
-        <item name="colorSecondaryVariant">@color/ss_pink_dark</item>
+        <item name="colorSecondary">@color/ss_theme_secondary</item>
+        <item name="colorSecondaryVariant">@color/ss_theme_secondary_variant</item>
         <item name="colorOnSecondary">@color/black</item>
     </style>
 
@@ -111,7 +107,7 @@
     </style>
 
     <style name="ThemeOverlay.SS.MaterialAlertDialog" parent="Base.ThemeOverlay.SS.MaterialAlertDialog">
-        <item name="colorSecondary">@color/ss_green_dark</item>
+        <item name="colorSecondary">@color/ss_theme_primary_variant</item>
     </style>
 
     <style name="ThemeOverlay.SS.PrimarySecondary" parent="">

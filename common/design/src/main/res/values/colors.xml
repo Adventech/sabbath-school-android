@@ -30,12 +30,15 @@
     <color name="ss_color_overlay">#5b000000</color>
     <color name="ss_color_display_theme_sepia">#f2dec3</color>
     <color name="ss_color_display_theme_dark">#484848</color>
-    <color name="ss_green">#16a365</color>
-    <color name="ss_green_dark">#18704A</color>
-    <color name="ss_pink">#ff4081</color>
-    <color name="ss_pink_dark">#c2185b</color>
+    <color name="ss_blue">#385bb2</color>
+    <color name="ss_blue_dark">#27407d</color>
     <color name="ss_red_300">#FF5C44</color>
     <color name="ss_red_600">#E51A19</color>
+
+    <color name="ss_theme_primary">@color/ss_blue</color>
+    <color name="ss_theme_primary_variant">@color/ss_blue_dark</color>
+    <color name="ss_theme_secondary">@color/ss_blue</color>
+    <color name="ss_theme_secondary_variant">@color/ss_blue</color>
 
     <color name="white">#FFFFFF</color>
     <color name="white_70">#B3FFFFFF</color>
