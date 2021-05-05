@@ -44,6 +44,7 @@ import app.ss.lessons.data.model.SSReadHighlights
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import app.ss.lessons.data.model.SSRead
+import com.cryart.design.theme
 import com.cryart.sabbathschool.lessons.BuildConfig
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
@@ -148,6 +149,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
         val primaryColor = this.colorPrimary
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setContentScrimColor(primaryColor)
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setBackgroundColor(primaryColor)
+        binding.ssProgressBar.ssQuarterliesLoading.theme(primaryColor)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

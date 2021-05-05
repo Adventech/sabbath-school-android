@@ -29,16 +29,18 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import app.ss.lessons.data.model.SSQuarterly
+import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
+import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
-import app.ss.lessons.data.model.SSQuarterly
 import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.languages.LanguagesListFragment
@@ -55,11 +57,9 @@ class QuarterliesActivity : SSBaseActivity() {
     @Inject
     lateinit var appNavigator: AppNavigator
 
-    private val viewModel: QuarterliesViewModel by viewModels()
+    private val viewModel by viewModels<QuarterliesViewModel>()
 
-    private val binding: SsActivityQuarterliesBinding by lazy {
-        SsActivityQuarterliesBinding.inflate(layoutInflater)
-    }
+    private val binding by viewBinding(SsActivityQuarterliesBinding::inflate)
 
     private val quarterliesAdapter: SSQuarterliesAdapter = SSQuarterliesAdapter()
 
@@ -128,6 +128,7 @@ class QuarterliesActivity : SSBaseActivity() {
         binding.appBar.ssToolbar.setBackgroundColor(primaryColor)
         updateWindowColorScheme()
         binding.ssQuarterliesList.setEdgeEffect(primaryColor)
+        binding.ssQuarterliesLoading.theme(primaryColor)
     }
 
     private fun showLanguagesPrompt() {
