@@ -30,15 +30,11 @@
             type="com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel" />
     </data>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/ss_reading_coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:keepScreenOn="true">
 
         <include
@@ -77,5 +73,4 @@
             bind:progressVisibility="@{viewModel.ssLessonLoadingVisibility}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    </FrameLayout>
 </layout>

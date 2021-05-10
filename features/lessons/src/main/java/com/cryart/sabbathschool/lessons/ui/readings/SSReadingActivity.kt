@@ -27,9 +27,14 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.viewpager.widget.ViewPager
+import app.ss.lessons.data.model.SSLessonInfo
+import app.ss.lessons.data.model.SSRead
+import app.ss.lessons.data.model.SSReadComments
+import app.ss.lessons.data.model.SSReadHighlights
 import coil.load
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
@@ -37,15 +42,11 @@ import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
+import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
-import app.ss.lessons.data.model.SSLessonInfo
-import app.ss.lessons.data.model.SSReadComments
-import app.ss.lessons.data.model.SSReadHighlights
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
-import app.ss.lessons.data.model.SSRead
 import com.cryart.design.theme
-import com.cryart.sabbathschool.lessons.BuildConfig
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
@@ -105,11 +106,15 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
     }
 
     private fun initUI() {
-        @Suppress("DEPRECATION")
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-
         setSupportActionBar(binding.ssReadingAppBar.ssReadingToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        with(binding.ssReadingViewPager) {
+            val insetAnimator = KeyboardInsetsChangeAnimator(this)
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            ViewCompat.setWindowInsetsAnimationCallback(this, insetAnimator)
+            ViewCompat.setOnApplyWindowInsetsListener(this, insetAnimator)
+        }
 
         with(binding.ssReadingAppBar.ssReadingCollapsingToolbar) {
             setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle)
