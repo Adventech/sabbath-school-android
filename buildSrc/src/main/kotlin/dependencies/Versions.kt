@@ -27,14 +27,14 @@ object Versions {
         const val SHIMMER = "0.5.0"
     }
 
-    const val HILT = "2.33-beta"
+    const val HILT = "2.35.1"
 
     const val TIMBER = "4.7.1"
     const val COIL = "1.1.1"
     const val TAP_TARGET = "3.1.0"
     const val ICONICS = "5.2.8@aar"
 
-    const val FIREBASE_BOM = "26.7.0"
+    const val FIREBASE_BOM = "27.1.0"
     const val PLAY_AUTH = "19.0.0"
     const val ANDROID_JOB = "1.4.2"
     const val JODA = "2.10.9"
