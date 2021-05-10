@@ -243,4 +243,9 @@
 
     <dimen name="elevation_bottom_sheet">16dp</dimen>
     <dimen name="peek_height_bottom_sheet_modal">1000dp</dimen>
+
+    <!--SSPM PROMPT-->
+    <dimen name="sspm_logo_size">72dp</dimen>
+    <dimen name="gc_sspm_logo_height">100dp</dimen>
+    <dimen name="gc_sspm_logo_width">200dp</dimen>
 </resources>

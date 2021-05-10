@@ -26,17 +26,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import com.cryart.sabbathschool.core.extensions.arch.SingleLiveEvent
 import com.cryart.sabbathschool.core.extensions.arch.asLiveData
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.ViewState
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 @HiltViewModel
 class QuarterliesViewModel @Inject constructor(
@@ -54,11 +57,14 @@ class QuarterliesViewModel @Inject constructor(
     private val mutableLastQuarterlyIndex = SingleLiveEvent<String>()
     val lastQuarterlyIndexLiveData: LiveData<String> = mutableLastQuarterlyIndex.asLiveData()
 
+    private val _appReBranding = MutableSharedFlow<Boolean>()
+    val appReBrandingFlow: SharedFlow<Boolean> get() = _appReBranding.asSharedFlow()
+
     private var selectedLanguage: String = ""
 
     fun viewCreated() {
         ssPrefs.getLastQuarterlyIndex()?.let {
-            if (mutableLastQuarterlyIndex.value.isNullOrEmpty()) {
+            if (mutableLastQuarterlyIndex.value.isNullOrEmpty() && ssPrefs.isAppReBrandingPromptShown()) {
                 mutableLastQuarterlyIndex.postValue(it)
             }
         }
@@ -91,11 +97,12 @@ class QuarterliesViewModel @Inject constructor(
 
                     mutableViewState.postValue(ViewState.Success(filtered))
 
-                    val languagePromptSeen = ssPrefs.isLanguagePromptSeen()
-                    if (!languagePromptSeen) {
+                    if (!ssPrefs.isLanguagePromptSeen()) {
                         withContext(schedulerProvider.main) {
                             mutableShowLanguagePrompt.call()
                         }
+                    } else {
+                        _appReBranding.emit(!ssPrefs.isAppReBrandingPromptShown())
                     }
                 } else {
                     mutableViewState.postValue(ViewState.Error())
@@ -111,5 +118,9 @@ class QuarterliesViewModel @Inject constructor(
 
     fun languagesPromptSeen() {
         ssPrefs.setLanguagePromptSeen()
+    }
+
+    fun reBrandingPromptSeen() {
+        ssPrefs.setAppReBrandingShown()
     }
 }

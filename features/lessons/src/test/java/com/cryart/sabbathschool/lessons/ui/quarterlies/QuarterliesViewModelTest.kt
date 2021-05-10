@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import com.cryart.sabbathschool.core.response.Resource
@@ -30,6 +31,7 @@ import com.cryart.sabbathschool.core.extensions.arch.observeFuture
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
+import com.cryart.sabbathschool.test.coroutines.runBlockingTest
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -40,10 +42,15 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.test.runBlockingTest
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeFalse
+import org.amshove.kluent.shouldBeNull
+import org.amshove.kluent.shouldBeTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 class QuarterliesViewModelTest {
 
     @get:Rule
@@ -73,6 +80,7 @@ class QuarterliesViewModelTest {
         // given
         val quarterlyIndex = "en-2020-02-13"
         every { mockSSPrefs.getLastQuarterlyIndex() }.returns(quarterlyIndex)
+        every { mockSSPrefs.isAppReBrandingPromptShown() }.returns(true)
 
         // when
         viewModel.viewCreated()
@@ -90,7 +98,21 @@ class QuarterliesViewModelTest {
         viewModel.viewCreated()
 
         // then
-        viewModel.lastQuarterlyIndexLiveData.value shouldBeEqualTo null
+        viewModel.lastQuarterlyIndexLiveData.value.shouldBeNull()
+    }
+
+    @Test
+    fun `should not post last quarterly index if it exists on viewCreated and branding prompt not seen`() {
+        // given
+        val quarterlyIndex = "en-2020-02-13"
+        every { mockSSPrefs.getLastQuarterlyIndex() }.returns(quarterlyIndex)
+        every { mockSSPrefs.isAppReBrandingPromptShown() }.returns(false)
+
+        // when
+        viewModel.viewCreated()
+
+        // then
+        viewModel.lastQuarterlyIndexLiveData.value.shouldBeNull()
     }
 
     @Test
@@ -98,6 +120,7 @@ class QuarterliesViewModelTest {
         // given
         val quarterlyIndex = "en-2020-02-13"
         every { mockSSPrefs.getLastQuarterlyIndex() }.returns(quarterlyIndex)
+        every { mockSSPrefs.isAppReBrandingPromptShown() }.returns(true)
         val indices = viewModel.lastQuarterlyIndexLiveData.observeFuture()
 
         // when
@@ -123,6 +146,7 @@ class QuarterliesViewModelTest {
         every { mockRepository.getQuarterlies(language) }.returns(flow)
         every { mockSSPrefs.setLanguageCode(language) }.returns(Unit)
         every { mockSSPrefs.isLanguagePromptSeen() }.returns(true)
+        every { mockSSPrefs.isAppReBrandingPromptShown() }.returns(true)
 
         // when
         viewModel.languageSelected(language)
@@ -133,6 +157,66 @@ class QuarterliesViewModelTest {
             ViewState.Loading,
             ViewState.Success(emptyList<SSQuarterly>())
         )
+    }
+
+    @Test
+    fun `should emit true for branding prompt flow when not yet seen`() = coroutinesTestRule.runBlockingTest {
+        val language = "de"
+        val flow: Flow<Resource<List<SSQuarterly>>> = callbackFlow {
+            sendBlocking(Resource.success(emptyList()))
+            awaitClose { }
+        }
+        every { mockRepository.getQuarterlies(language) }.returns(flow)
+        every { mockSSPrefs.getLanguageCode() }.returns(language)
+        every { mockSSPrefs.setLanguageCode(language) }.returns(Unit)
+        every { mockSSPrefs.getLastQuarterlyIndex() }.returns(null)
+        every { mockSSPrefs.isLanguagePromptSeen() }.returns(true)
+        every { mockSSPrefs.isAppReBrandingPromptShown() }.returns(false)
+
+        viewModel.appReBrandingFlow.test {
+            viewModel.viewCreated()
+
+            expectItem().shouldBeTrue()
+        }
+    }
+
+    @Test
+    fun `should emit false for branding prompt flow when prompt was seen`() = coroutinesTestRule.runBlockingTest {
+        val language = "de"
+        val flow: Flow<Resource<List<SSQuarterly>>> = callbackFlow {
+            sendBlocking(Resource.success(emptyList()))
+            awaitClose { }
+        }
+        every { mockRepository.getQuarterlies(language) }.returns(flow)
+        every { mockSSPrefs.getLanguageCode() }.returns(language)
+        every { mockSSPrefs.setLanguageCode(language) }.returns(Unit)
+        every { mockSSPrefs.getLastQuarterlyIndex() }.returns(null)
+        every { mockSSPrefs.isLanguagePromptSeen() }.returns(true)
+        every { mockSSPrefs.isAppReBrandingPromptShown() }.returns(true)
+
+        viewModel.appReBrandingFlow.test {
+            viewModel.viewCreated()
+
+            expectItem().shouldBeFalse()
+        }
+    }
+
+    @Test
+    fun `should set branding prompt as seen`() {
+        every { mockSSPrefs.setAppReBrandingShown() }.returns(Unit)
+
+        viewModel.reBrandingPromptSeen()
+
+        verify { mockSSPrefs.setAppReBrandingShown() }
+    }
+
+    @Test
+    fun `should set languages prompt as seen`() {
+        every { mockSSPrefs.setLanguagePromptSeen() }.returns(Unit)
+
+        viewModel.languagesPromptSeen()
+
+        verify { mockSSPrefs.setLanguagePromptSeen() }
     }
 
     @Test
@@ -179,6 +263,7 @@ class QuarterliesViewModelTest {
             every { mockRepository.getQuarterlies(language) }.returns(flow)
             every { mockSSPrefs.setLanguageCode(language) }.returns(Unit)
             every { mockSSPrefs.isLanguagePromptSeen() }.returns(true)
+            every { mockSSPrefs.isAppReBrandingPromptShown() }.returns(true)
 
             // when
             viewModel.languageSelected(language)

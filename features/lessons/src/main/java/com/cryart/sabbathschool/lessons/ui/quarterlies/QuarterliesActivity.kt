@@ -26,13 +26,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import app.ss.lessons.data.model.SSQuarterly
 import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSColorTheme
@@ -45,6 +48,7 @@ import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.languages.LanguagesListFragment
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_DISMISSED
@@ -62,6 +66,8 @@ class QuarterliesActivity : SSBaseActivity() {
     private val binding by viewBinding(SsActivityQuarterliesBinding::inflate)
 
     private val quarterliesAdapter: SSQuarterliesAdapter = SSQuarterliesAdapter()
+
+    private var brandingAlertDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +90,12 @@ class QuarterliesActivity : SSBaseActivity() {
             intent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, it)
             startActivity(intent)
         }
+        viewModel.appReBrandingFlow
+            .collectIn(this) { show ->
+                if (show) {
+                    showAppReBrandingPrompt()
+                }
+            }
 
         viewModel.viewCreated()
     }
@@ -146,6 +158,21 @@ class QuarterliesActivity : SSBaseActivity() {
                 }
             }
             .show()
+    }
+
+    private fun showAppReBrandingPrompt() {
+        val view = layoutInflater.inflate(R.layout.ss_prompt_app_re_branding, null)
+        view.findViewById<View>(R.id.btn_ok).setOnClickListener {
+            brandingAlertDialog?.dismiss()
+            brandingAlertDialog = null
+            viewModel.reBrandingPromptSeen()
+        }
+
+        brandingAlertDialog = MaterialAlertDialogBuilder(this)
+            .setView(view)
+            .setCancelable(false)
+            .create()
+        brandingAlertDialog?.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
