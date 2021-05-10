@@ -151,6 +151,14 @@ class SSPrefs(context: Context) {
         }
     }
 
+    fun isAppReBrandingPromptShown(): Boolean = sharedPreferences.getBoolean(
+        SSConstants.SS_APP_RE_BRANDING_PROMPT_SEEN, false
+    )
+
+    fun setAppReBrandingShown() = sharedPreferences.edit {
+        putBoolean(SSConstants.SS_APP_RE_BRANDING_PROMPT_SEEN, true)
+    }
+
     fun clear() {
         sharedPreferences.edit { clear() }
     }

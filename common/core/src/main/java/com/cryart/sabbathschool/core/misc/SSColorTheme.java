@@ -30,8 +30,8 @@ import android.preference.PreferenceManager;
 import timber.log.Timber;
 
 public class SSColorTheme {
-    private final static String COLOR_PRIMARY_FALLBACK = "#16a365";
-    private final static String COLOR_PRIMARY_DARK_FALLBACK = "#18704A";
+    private final static String COLOR_PRIMARY_FALLBACK = "#385bb2";
+    private final static String COLOR_PRIMARY_DARK_FALLBACK = "#27407d";
 
     private static final Object lock = new Object();
     private static SSColorTheme INSTANCE;

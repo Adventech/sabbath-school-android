@@ -67,6 +67,7 @@
             bind:viewModel="@{viewModel}" />
 
         <include
+            android:id="@+id/ss_progress_bar"
             layout="@layout/ss_progress_bar"
             bind:progressLabel="@{@string/ss_reading_downloading}"
             bind:progressVisibility="@{viewModel.ssLessonLoadingVisibility}" />

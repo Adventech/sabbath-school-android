@@ -41,7 +41,7 @@
             android:layout_margin="@dimen/ss_reading_display_options_subtitle_margin"
             android:gravity="start|top"
             android:text="@string/ss_reading_display_options_color_theme"
-            android:textColor="@color/ss_green_dark"
+            android:textColor="?attr/colorPrimaryVariant"
             android:textStyle="bold" />
 
         <include layout="@layout/ss_horizontal_line" />
@@ -130,7 +130,7 @@
             android:layout_margin="@dimen/ss_reading_display_options_subtitle_margin"
             android:gravity="start|top"
             android:text="@string/ss_reading_display_options_typeface"
-            android:textColor="@color/ss_green_dark"
+            android:textColor="?attr/colorPrimaryVariant"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -230,7 +230,7 @@
             android:layout_margin="@dimen/ss_reading_display_options_subtitle_margin"
             android:gravity="start|top"
             android:text="@string/ss_reading_display_options_font_size"
-            android:textColor="@color/ss_green_dark"
+            android:textColor="?attr/colorPrimaryVariant"
             android:textStyle="bold" />
 
         <LinearLayout
