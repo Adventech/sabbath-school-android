@@ -34,6 +34,12 @@ import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableInt
+import app.ss.lessons.data.model.SSContextMenu
+import app.ss.lessons.data.model.SSLessonInfo
+import app.ss.lessons.data.model.SSRead
+import app.ss.lessons.data.model.SSReadComments
+import app.ss.lessons.data.model.SSReadHighlights
+import app.ss.lessons.data.model.SSSuggestion
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.cryart.sabbathschool.bible.SSBibleVersesActivity
@@ -45,14 +51,8 @@ import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.lessons.R
-import app.ss.lessons.data.model.SSContextMenu
-import app.ss.lessons.data.model.SSLessonInfo
-import app.ss.lessons.data.model.SSReadComments
-import app.ss.lessons.data.model.SSReadHighlights
-import app.ss.lessons.data.model.SSSuggestion
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.options.SSReadingDisplayOptionsView
-import app.ss.lessons.data.model.SSRead
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -149,9 +149,8 @@ class SSReadingViewModel(
                         dataListener.onLessonInfoChanged(ssLessonInfo!!)
                         val today = DateTime.now().withTimeAtStartOfDay()
                         for ((idx, ssDay) in ssLessonInfo?.days?.withIndex()!!) {
-                            val startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                                .parseLocalDate(ssDay.date).toDateTimeAtStartOfDay()
-                            if (startDate.isEqual(today) && ssReadIndexInt < 6) {
+                            val startDate = parseDate(ssDay.date)
+                            if (startDate?.isEqual(today) == true && ssReadIndexInt < 6) {
                                 ssReadIndexInt = idx
                             }
                             downloadHighlights(ssDay.index, idx)
@@ -167,6 +166,16 @@ class SSReadingViewModel(
                     ssLessonCoordinatorVisibility.set(View.INVISIBLE)
                 }
             })
+    }
+
+    private fun parseDate(date: String): DateTime? {
+        return try {
+            DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                .parseLocalDate(date).toDateTimeAtStartOfDay()
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            null
+        }
     }
 
     fun promptForEditSuggestion() {
@@ -285,11 +294,16 @@ class SSReadingViewModel(
         get() = ssLessonInfo?.lesson?.cover ?: ""
 
     fun formatDate(date: String?, DateFormatOutput: String? = SSConstants.SS_DATE_FORMAT_OUTPUT): String {
-        return DateTimeFormat.forPattern(DateFormatOutput)
-            .print(
-                DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                    .parseLocalDate(date)
-            ).capitalize(Locale.getDefault())
+        return try {
+            DateTimeFormat.forPattern(DateFormatOutput)
+                .print(
+                    DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                        .parseLocalDate(date)
+                ).capitalize(Locale.getDefault())
+        } catch (ex: IllegalArgumentException) {
+            Timber.e(ex)
+            return ""
+        }
     }
 
     override fun onSelectionStarted(x: Float, y: Float, highlightId: Int) {
