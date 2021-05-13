@@ -30,4 +30,7 @@
     <dimen name="ss_login_button_social_height">56dp</dimen>
     <dimen name="ss_login_button_social_width">270dp</dimen>
     <dimen name="ss_login_button_social_text_size">14sp</dimen>
+
+    <dimen name="gc_sspm_about_logo_height">120dp</dimen>
+    <dimen name="gc_sspm_about_logo_width">240dp</dimen>
 </resources>
