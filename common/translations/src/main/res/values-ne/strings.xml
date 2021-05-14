@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"साइन आउट गर्नुहोस्"</string>
     <string name="ss_menu_read_now">"अहिले पढ्नुहोस्"</string>
     <string name="ss_menu_share_app">"अनुप्रयोग साझेदारी गर्नुहोस्"</string>
-    <string name="ss_menu_share_app_text">"मैले प्रयोग गर्दै नयाँ Sabbath स्कूल एप जाँच गर्नुहोस्"</string>
+    <string name="ss_menu_share_app_text">"मैले प्रयोग गर्दै नयाँ Sabbath स्कूल एप जाँच गर्नुहोस् - %1$s"</string>
     <string name="ss_my_highlights">"मेरो हाइलाइटहरू"</string>
     <string name="ss_my_notes">"मेरो नोटहरू"</string>
     <string name="ss_settings">"सेटिङ्हरू"</string>
@@ -104,6 +104,6 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"अघिल्लो पाठ"</string>
-    <string name="ss_settings_version_with_param_string">संस्करण: %1$S</string>
+    <string name="ss_settings_version_with_param_string">संस्करण: %1$s</string>
 
 </resources>

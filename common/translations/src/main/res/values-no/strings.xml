@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Logg ut"</string>
     <string name="ss_menu_read_now">"Les nå"</string>
     <string name="ss_menu_share_app">"Del App"</string>
-    <string name="ss_menu_share_app_text">"Sjekk ut, jeg bruker denne sabbatsskolen app"</string>
+    <string name="ss_menu_share_app_text">"Sjekk ut, jeg bruker denne sabbatsskolen app - %1$s"</string>
     <string name="ss_my_highlights">"Mine høydepunkter"</string>
     <string name="ss_my_notes">"Mine notater"</string>
     <string name="ss_settings">"innstillinger"</string>
@@ -100,5 +100,5 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Tidligere leksjoner"</string>
-    <string name="ss_settings_version_with_param_string">Versjon: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Versjon: %1$s</string>
 </resources>

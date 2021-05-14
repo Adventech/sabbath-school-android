@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Útskrá"</string>
     <string name="ss_menu_read_now">"Lesa núna"</string>
     <string name="ss_menu_share_app">"Deila app"</string>
-    <string name="ss_menu_share_app_text">"Skoðaðu nýju hvíldarskólaforritið sem ég er að nota"</string>
+    <string name="ss_menu_share_app_text">"Skoðaðu nýju hvíldarskólaforritið sem ég er að nota - %1$s"</string>
     <string name="ss_my_highlights">"Hápunktur minn"</string>
     <string name="ss_my_notes">"Minn skýringar"</string>
     <string name="ss_settings">"Stillingar"</string>
@@ -104,5 +104,5 @@ Við trúum því sannarlega að Guð hafi aukið þekkingu á nútímanum og vi
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Fyrri kennslustundir"</string>
-    <string name="ss_settings_version_with_param_string">Útgáfa: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Útgáfa: %1$s</string>
 </resources>

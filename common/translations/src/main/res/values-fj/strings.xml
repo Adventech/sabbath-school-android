@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Suka lesu"</string>
     <string name="ss_menu_read_now">"Wilika oqo"</string>
     <string name="ss_menu_share_app">"Wasea na parokaramu"</string>
-    <string name="ss_menu_share_app_text">"Raica na parokaramu ni wili Vola vakasigatabu au vakayagataka tiko"</string>
+    <string name="ss_menu_share_app_text">"Raica na parokaramu ni wili Vola vakasigatabu au vakayagataka tiko - %1$s"</string>
     <string name="ss_my_highlights">"Veika bibi e yaco"</string>
     <string name="ss_my_notes">"Noqu vakasama"</string>
     <string name="ss_settings">"Veika bibi me raici"</string>
@@ -100,5 +100,5 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Lesoni e liu"</string>
-    <string name="ss_settings_version_with_param_string">Kena ilavelave: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Kena ilavelave: %1$s</string>
 </resources>

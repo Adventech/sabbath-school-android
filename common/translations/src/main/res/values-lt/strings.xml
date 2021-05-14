@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Atsijungti"</string>
     <string name="ss_menu_read_now">"Skaityti dabar"</string>
     <string name="ss_menu_share_app">"Dalytis programa"</string>
-    <string name="ss_menu_share_app_text">"Patikrinkite naują naudojamą Sabato Mokyklos programą"</string>
+    <string name="ss_menu_share_app_text">"Patikrinkite naują naudojamą Sabato Mokyklos programą - %1$s"</string>
     <string name="ss_my_highlights">"Mano akcentai"</string>
     <string name="ss_my_notes">"Mano pastabos"</string>
     <string name="ss_settings">"Nustatymai"</string>
@@ -104,5 +104,5 @@ Mes tikime, kad Dievas padidino šiuolaikinio pasaulio žinias ir nori, kad mes 
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Ankstesnės pamokos"</string>
-    <string name="ss_settings_version_with_param_string">Versija: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Versija: %1$s</string>
 </resources>

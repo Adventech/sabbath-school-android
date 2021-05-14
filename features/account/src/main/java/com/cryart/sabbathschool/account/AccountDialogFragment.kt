@@ -31,6 +31,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.core.app.ShareCompat
 import androidx.fragment.app.viewModels
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -97,21 +98,14 @@ class AccountDialogFragment : AppCompatDialogFragment() {
             }
 
             navShare.setOnClickListener {
-                val sendIntent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(
-                        Intent.EXTRA_TEXT,
-                        String.format(
-                            "%s - %s",
-                            getString(R.string.ss_menu_share_app_text),
-                            SSConstants.SS_APP_PLAY_STORE_LINK
-                        )
-                    )
-                    type = "text/plain"
+                val shareIntent = ShareCompat.IntentBuilder(requireContext())
+                    .setType("text/plain")
+                    .setText(getString(R.string.ss_menu_share_app_text, SSConstants.SS_APP_PLAY_STORE_LINK))
+                    .intent
+                if (shareIntent.resolveActivity(requireActivity().packageManager) != null) {
+                    startActivity(Intent.createChooser(shareIntent, getString(R.string.ss_menu_share_app)))
                 }
-                if (sendIntent.resolveActivity(requireActivity().packageManager) != null) {
-                    startActivity(Intent.createChooser(sendIntent, getString(R.string.ss_menu_share_app)))
-                }
+
                 dismiss()
             }
 

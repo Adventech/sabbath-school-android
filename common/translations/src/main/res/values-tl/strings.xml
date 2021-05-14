@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Maglog-off"</string>
     <string name="ss_menu_read_now">"Basahin na ngayon"</string>
     <string name="ss_menu_share_app">"Ibahagi ang App"</string>
-    <string name="ss_menu_share_app_text">"Tingnan ang bagong app ng Sabbath School na ginagamit ko"</string>
+    <string name="ss_menu_share_app_text">"Tingnan ang bagong app ng Sabbath School na ginagamit ko - %1$s"</string>
     <string name="ss_my_highlights">"Aking Mga Tampok"</string>
     <string name="ss_my_notes">"Mga sulatin ko"</string>
     <string name="ss_settings">"Mga Setting"</string>
@@ -104,5 +104,5 @@ Talagang naniniwala kami na pinalaki ng Diyos ang kaalaman sa modernong mundo at
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Mga nakaraang aralin"</string>
-    <string name="ss_settings_version_with_param_string">Bersyon: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Bersyon: %1$s</string>
 </resources>

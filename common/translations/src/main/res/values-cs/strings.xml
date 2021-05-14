@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Odhlásit se"</string>
     <string name="ss_menu_read_now">"Přečtěte si teď"</string>
     <string name="ss_menu_share_app">"Sdílet aplikaci"</string>
-    <string name="ss_menu_share_app_text">"Podívejte se na aplikaci Sobotní škola, kterou používám"</string>
+    <string name="ss_menu_share_app_text">"Podívejte se na aplikaci Sobotní škola, kterou používám - %1$s"</string>
     <string name="ss_my_highlights">"Moje zvýraznění"</string>
     <string name="ss_my_notes">"Moje poznámky"</string>
     <string name="ss_settings">"Nastavení"</string>
@@ -104,5 +104,5 @@ Opravdu věříme, že Bůh rozmnožil poznání moderního světa a chce, abych
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Předchozí lekce"</string>
-    <string name="ss_settings_version_with_param_string">Verze: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Verze: %1$s</string>
 </resources>

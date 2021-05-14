@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Afmelden"</string>
     <string name="ss_menu_read_now">"Lees nu"</string>
     <string name="ss_menu_share_app">"Deel app"</string>
-    <string name="ss_menu_share_app_text">"Kijk eens, ik gebruik deze Sabbatschool"</string>
+    <string name="ss_menu_share_app_text">"Kijk eens, ik gebruik deze Sabbatschool - %1$s"</string>
     <string name="ss_my_highlights">"Mijn hoogtepunten"</string>
     <string name="ss_my_notes">"Mijn notities"</string>
     <string name="ss_settings">"instellingen"</string>
@@ -104,5 +104,5 @@ We geloven echt dat God de kennis van de moderne wereld heeft vergroot en wil da
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Eerdere lessen"</string>
-    <string name="ss_settings_version_with_param_string">Versie: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Versie: %1$s</string>
 </resources>

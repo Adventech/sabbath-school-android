@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Toka"</string>
     <string name="ss_menu_read_now">"Soma Sasa"</string>
     <string name="ss_menu_share_app">"Shiriki Programu"</string>
-    <string name="ss_menu_share_app_text">"Angalia programu mpya ya Shule ya Sabato ambayo ninayotumia"</string>
+    <string name="ss_menu_share_app_text">"Angalia programu mpya ya Shule ya Sabato ambayo ninayotumia - %1$s"</string>
     <string name="ss_my_highlights">"Mambo Yangu muhimu"</string>
     <string name="ss_my_notes">"Vidokezo vyangu"</string>
     <string name="ss_settings">"Mipangilio"</string>
@@ -104,5 +104,5 @@ Tunaamini kweli kwamba Mungu ameongeza ujuzi wa dunia ya kisasa na anataka tuutu
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Masomo ya awali"</string>
-    <string name="ss_settings_version_with_param_string">Toleo: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Toleo: %1$s</string>
 </resources>

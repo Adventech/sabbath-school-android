@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Αποσύνδεση"</string>
     <string name="ss_menu_read_now">"Διάβασε"</string>
     <string name="ss_menu_share_app">"Κοινοποίησε την εφαρμογή"</string>
-    <string name="ss_menu_share_app_text">"Δείτε τη νέα εφαρμογή για την Σχολή Σαββάτου που χρησιμοποιώ"</string>
+    <string name="ss_menu_share_app_text">"Δείτε τη νέα εφαρμογή για την Σχολή Σαββάτου που χρησιμοποιώ - %1$s"</string>
     <string name="ss_my_highlights">"Υπογραμμισμένα"</string>
     <string name="ss_my_notes">"Οι σημειώσεις μου"</string>
     <string name="ss_settings">"Ρυθμίσεις"</string>
@@ -104,5 +104,5 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Προηγούμενα μαθήματα"</string>
-    <string name="ss_settings_version_with_param_string">Εκδοχή: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Εκδοχή: %1$s</string>
 </resources>
