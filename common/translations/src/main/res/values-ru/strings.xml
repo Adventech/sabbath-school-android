@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Выход"</string>
     <string name="ss_menu_read_now">"Читать урочник"</string>
     <string name="ss_menu_share_app">"Поделиться программой"</string>
-    <string name="ss_menu_share_app_text">"Я использую Субботнюю Школу"</string>
+    <string name="ss_menu_share_app_text">"Я использую Субботнюю Школу - %1$s"</string>
     <string name="ss_my_highlights">"Мои выделения"</string>
     <string name="ss_my_notes">"Мои заметки"</string>
     <string name="ss_settings">"Настройки"</string>
@@ -105,5 +105,5 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Предыдущие уроки"</string>
-    <string name="ss_settings_version_with_param_string">Версия: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Версия: %1$s</string>
 </resources>

@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Ieșiți din cont"</string>
     <string name="ss_menu_read_now">"Citește acum"</string>
     <string name="ss_menu_share_app">"Partajare App"</string>
-    <string name="ss_menu_share_app_text">"Vezi ce aplicație de Scoală de Sabat AZS folosesc"</string>
+    <string name="ss_menu_share_app_text">"Vezi ce aplicație de Scoală de Sabat AZS folosesc - %1$s"</string>
     <string name="ss_my_highlights">"Evidențierile mele"</string>
     <string name="ss_my_notes">"Notițele mele"</string>
     <string name="ss_settings">"Setări"</string>
@@ -103,6 +103,6 @@ Credem cu adevărat că Dumnezeu a mărit cunoașterea lumii moderne și doreșt
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Lecții anterioare"</string>
-    <string name="ss_settings_version_with_param_string">Versiune: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Versiune: %1$s</string>
 
 </resources>

@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Teken uit"</string>
     <string name="ss_menu_read_now">"Lees nou"</string>
     <string name="ss_menu_share_app">"Deel App"</string>
-    <string name="ss_menu_share_app_text">"Kyk na die nuwe Sabbatskool-program wat ek gebruik"</string>
+    <string name="ss_menu_share_app_text">"Kyk na die nuwe Sabbatskool-program wat ek gebruik - %1$s"</string>
     <string name="ss_my_highlights">"My hoogtepunte"</string>
     <string name="ss_my_notes">"My notas"</string>
     <string name="ss_settings">"Instellings"</string>
@@ -104,5 +104,5 @@ Ons glo werklik dat God die kennis van die moderne wÃªreld verhoog het en wil hÃ
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Vorige lesse"</string>
-    <string name="ss_settings_version_with_param_string">Weergawe: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Weergawe: %1$s</string>
 </resources>

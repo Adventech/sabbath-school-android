@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Oturumu Kapat"</string>
     <string name="ss_menu_read_now">"Kitapçığı Oku"</string>
     <string name="ss_menu_share_app">"Uygulamayi paylaş"</string>
-    <string name="ss_menu_share_app_text">"Sebt Okulu uygulaması kullanıyorum"</string>
+    <string name="ss_menu_share_app_text">"Sebt Okulu uygulaması kullanıyorum - %1$s"</string>
     <string name="ss_my_highlights">"Vurguladıklarım"</string>
     <string name="ss_my_notes">"Notlarım"</string>
     <string name="ss_settings">"Ayarlar"</string>
@@ -104,5 +104,5 @@ Gerçekten, Tanrı'nın modern dünya bilgisini arttırdığına ve O'nun ihtiş
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Önceki dersler"</string>
-    <string name="ss_settings_version_with_param_string">Sürüm: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Sürüm: %1$s</string>
 </resources>

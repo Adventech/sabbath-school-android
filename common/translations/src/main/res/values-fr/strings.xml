@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Se déconnecter"</string>
     <string name="ss_menu_read_now">"Lisez maintenant"</string>
     <string name="ss_menu_share_app">"Partager App"</string>
-    <string name="ss_menu_share_app_text">"Vérifiez, je suis en utilisant cette application Ecole du Sabbat"</string>
+    <string name="ss_menu_share_app_text">"Vérifiez, je suis en utilisant cette application Ecole du Sabbat - %1$s"</string>
     <string name="ss_my_highlights">"Mes Faits saillants"</string>
     <string name="ss_my_notes">"Mes notes"</string>
     <string name="ss_settings">"Paramètres"</string>
@@ -104,5 +104,5 @@ Nous croyons vraiment que Dieu a augmenté la connaissance du monde moderne et v
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Leçons précédentes"</string>
-    <string name="ss_settings_version_with_param_string">Version: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Version: %1$s</string>
 </resources>

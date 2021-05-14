@@ -35,7 +35,7 @@
     <string name="ss_menu_share_app">"このアプリを共有"</string>
 
     <!-- Incomplete　”Check out" -->
-    <string name="ss_menu_share_app_text">"この安息日学校アプリを使っています。"</string>
+    <string name="ss_menu_share_app_text">"この安息日学校アプリを使っています。- %1$s"</string>
     <string name="ss_my_highlights">"ハイライト"</string>
     <string name="ss_my_notes">"ノート"</string>
     <string name="ss_settings">"設定"</string>
@@ -112,5 +112,5 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"前のレッスン"</string>
-    <string name="ss_settings_version_with_param_string">バージョン: %1$S</string>
+    <string name="ss_settings_version_with_param_string">バージョン: %1$s</string>
 </resources>

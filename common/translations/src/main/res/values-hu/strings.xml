@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Kijelentkezés"</string>
     <string name="ss_menu_read_now">"Olvasd Most"</string>
     <string name="ss_menu_share_app">"App megosztása"</string>
-    <string name="ss_menu_share_app_text">"Nézze meg, én ezt a Szombatiskola használom"</string>
+    <string name="ss_menu_share_app_text">"Nézze meg, én ezt a Szombatiskola használom - %1$s"</string>
     <string name="ss_my_highlights">"Fénypontok"</string>
     <string name="ss_my_notes">"Jegyzeteim"</string>
     <string name="ss_settings">"Beállítások"</string>
@@ -104,5 +104,5 @@ Igazán hiszünk abban, hogy Isten megnövelte a modern világ tudását, és az
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Korábbi órák"</string>
-    <string name="ss_settings_version_with_param_string">Változat: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Változat: %1$s</string>
 </resources>

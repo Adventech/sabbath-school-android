@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"تسجيل الخروج "</string>
     <string name="ss_menu_read_now">"اقرأ الآن"</string>
     <string name="ss_menu_share_app">"شارك البرنامج"</string>
-    <string name="ss_menu_share_app_text">"تحقق من، وأنا باستخدام هذا التطبيق مدرسة السبت"</string>
+    <string name="ss_menu_share_app_text">" تحقق من، وأنا باستخدام هذا التطبيق مدرسة السبت- %1$s"</string>
     <string name="ss_my_highlights">"بلدي يسلط الضوء على"</string>
     <string name="ss_my_notes">"ملاحظاتي"</string>
     <string name="ss_settings">"الضبط"</string>
@@ -98,5 +98,5 @@
     <string name="ss_reading_offline_retry">"أعد المحاولة"</string>
     <string name="ss_lessons_previous">الدروس السابقة</string>
     <string name="ss_about_text">مهمة Adventech هي أولاً وقبل كل شيء - أعط المجد لربنا ، أيام الأيام القديمة. نحن ملتزمون بالقيام بوزارتنا من خلال التكنولوجيا. هدفنا هو توحيد كنيستنا السبتية. هدفنا هو الإعلان عن أخبار جيدة لهذا العالم من خلال التكنولوجيا والتقدم في الاتصالات. هدفنا هو رؤية المجيء الثاني ليسوع.  لقد ألهمنا مثال يسوع وأساليبه عندما خدم هنا على الأرض. لذلك ، نحن ملتزمون بتقديم درجة عالية من الجودة لجميع مشاريعنا دون أي تكلفة على الإطلاق مع الحب والتفاني. نحن ملتزمون بإعطاء المجد لأبينا ، لأنه يستحق أعلى الثناء.  نحن نؤمن حقًا أن الله قد زاد معرفة العالم الحديث ويريدنا أن نستخدمه لمجده لإعلان عودته قريبًا!</string>
-    <string name="ss_settings_version_with_param_string">الإصدار: %1$S</string>
+    <string name="ss_settings_version_with_param_string">الإصدار: %1$s</string>
 </resources>

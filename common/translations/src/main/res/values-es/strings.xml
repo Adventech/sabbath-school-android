@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Desconectar"</string>
     <string name="ss_menu_read_now">"Leer Ahora"</string>
     <string name="ss_menu_share_app">"Compartir aplicación"</string>
-    <string name="ss_menu_share_app_text">"Echa un vistazo, estoy usando esta aplicación de la Escuela Sabática"</string>
+    <string name="ss_menu_share_app_text">"Echa un vistazo, estoy usando esta aplicación de la Escuela Sabática - %1$s"</string>
     <string name="ss_my_highlights">"Mis resaltados"</string>
     <string name="ss_my_notes">"Mis comentarios"</string>
     <string name="ss_settings">"Ajustes"</string>
@@ -103,5 +103,5 @@ Realmente creemos que Dios ha aumentado el conocimiento del mundo moderno y quie
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Lecciones anteriores"</string>
-    <string name="ss_settings_version_with_param_string">Versión: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Versión: %1$s</string>
 </resources>

@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"ອອກ​ຈາກ​ລະ​ບົບ"</string>
     <string name="ss_menu_read_now">"ອ່ານແລ້ວ"</string>
     <string name="ss_menu_share_app">"ແບ່ງປັນແອັບພລິເຄຊັນນີ້"</string>
-    <string name="ss_menu_share_app_text">"ກວດສອບບັນຫາໃຫມ່ຂອງໂຮງຮຽນວັນເສົາທີ່ຂ້ອຍໃຊ້"</string>
+    <string name="ss_menu_share_app_text">"ກວດສອບບັນຫາໃຫມ່ຂອງໂຮງຮຽນວັນເສົາທີ່ຂ້ອຍໃຊ້ - %1$s"</string>
     <string name="ss_my_highlights">"ຈຸດເດັ່ນຂອງຂ້ອຍ"</string>
     <string name="ss_my_notes">"ຫມາຍເຫດຂອງຂ້ອຍ"</string>
     <string name="ss_settings">"Settings"</string>
@@ -105,6 +105,6 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"ບົດຮຽນຜ່ານມາ"</string>
-    <string name="ss_settings_version_with_param_string">ຮຸ່ນ: %1$S</string>
+    <string name="ss_settings_version_with_param_string">ຮຸ່ນ: %1$s</string>
 
 </resources>

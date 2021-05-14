@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Tsoaha"</string>
     <string name="ss_menu_read_now">"Bala Hona Joale"</string>
     <string name="ss_menu_share_app">"Kopanela App"</string>
-    <string name="ss_menu_share_app_text">"Sheba lenaneo le lecha la Sekolo sa Sabatha leo ke le sebelisang"</string>
+    <string name="ss_menu_share_app_text">"Sheba lenaneo le lecha la Sekolo sa Sabatha leo ke le sebelisang - %1$s"</string>
     <string name="ss_my_highlights">"Lintlha-khōlō tsa ka"</string>
     <string name="ss_my_notes">"My Notes"</string>
     <string name="ss_settings">"Lisebelisoa"</string>
@@ -104,5 +104,5 @@ Re lumela kannete hore Molimo o ekelitse tsebo ea lefats'e la kajeno ebile o bat
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Lithuto tse fetileng"</string>
-    <string name="ss_settings_version_with_param_string">Mofuta: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Mofuta: %1$s</string>
 </resources>

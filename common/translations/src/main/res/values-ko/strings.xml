@@ -35,7 +35,7 @@
     <!-- 바로읽기 -->
     <string name="ss_menu_read_now">"본문속으로"</string>
     <string name="ss_menu_share_app">"앱 공유"</string>
-    <string name="ss_menu_share_app_text">"Adventech의 안식일 학교 앱을 사용하고 있습니다. 시도해 보세요"</string>
+    <string name="ss_menu_share_app_text">"Adventech의 안식일 학교 앱을 사용하고 있습니다. 시도해 보세요 - %1$s"</string>
     <string name="ss_my_highlights">"형광펜"</string>
     <string name="ss_my_notes">"노트"</string>
     <string name="ss_settings">"설정"</string>
@@ -108,5 +108,5 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"이전 레슨"</string>
-    <string name="ss_settings_version_with_param_string">버전: %1$S</string>
+    <string name="ss_settings_version_with_param_string">버전: %1$s</string>
 </resources>

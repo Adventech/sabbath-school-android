@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Đăng xuất"</string>
     <string name="ss_menu_read_now">"Đọc ngay"</string>
     <string name="ss_menu_share_app">"Chia sẻ ứng dụng"</string>
-    <string name="ss_menu_share_app_text">"Kiểm tra ứng dụng Sabbath School mới mà tôi đang sử dụng"</string>
+    <string name="ss_menu_share_app_text">"Kiểm tra ứng dụng Sabbath School mới mà tôi đang sử dụng - %1$s"</string>
     <string name="ss_my_highlights">"Điểm nổi bật của tôi"</string>
     <string name="ss_my_notes">"Ghi chú của tôi"</string>
     <string name="ss_settings">"Cài đặt"</string>
@@ -104,5 +104,5 @@ Chúng tôi thực sự tin rằng Chúa đã gia tăng kiến thức về thế
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Bài học trước"</string>
-    <string name="ss_settings_version_with_param_string">Phiên bản: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Phiên bản: %1$s</string>
 </resources>

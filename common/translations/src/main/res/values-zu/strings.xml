@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Sayinela ukuphuma"</string>
     <string name="ss_menu_read_now">"Funda Manje"</string>
     <string name="ss_menu_share_app">"Yabelana ngohlelo lokusebenza"</string>
-    <string name="ss_menu_share_app_text">"Bheka uhlelo lokusebenza olusha lweSonto leSabatha engilisebenzisa"</string>
+    <string name="ss_menu_share_app_text">"Bheka uhlelo lokusebenza olusha lweSonto leSabatha engilisebenzisa - %1$s"</string>
     <string name="ss_my_highlights">"Amaphuzu ami amakhulu"</string>
     <string name="ss_my_notes">"Amanothi ami"</string>
     <string name="ss_settings">"Izilungiselelo"</string>
@@ -104,5 +104,5 @@ Siyakholwa ngempela ukuthi uNkulunkulu ukwandise ulwazi lwezwe lwanamuhla futhi 
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Izifundo ezedlule"</string>
-    <string name="ss_settings_version_with_param_string">Inguqulo: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Inguqulo: %1$s</string>
 </resources>

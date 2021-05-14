@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Logga ut"</string>
     <string name="ss_menu_read_now">"Läs nu"</string>
     <string name="ss_menu_share_app">"Dela app"</string>
-    <string name="ss_menu_share_app_text">"Kolla, jag använder den här Sabbatsskolan"</string>
+    <string name="ss_menu_share_app_text">"Kolla, jag använder den här Sabbatsskolan - %1$s"</string>
     <string name="ss_my_highlights">"Mina höjdpunkter"</string>
     <string name="ss_my_notes">"Mina anteckningar"</string>
     <string name="ss_settings">"inställningar"</string>
@@ -104,5 +104,5 @@ Vi tror verkligen att Gud har ökat den moderna världens kunskap och vill att v
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Tidigare lektioner"</string>
-    <string name="ss_settings_version_with_param_string">Version: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Version: %1$s</string>
 </resources>
