@@ -29,6 +29,7 @@ import android.view.MenuItem
 import androidx.core.app.ShareCompat
 import androidx.databinding.DataBindingUtil
 import com.cryart.sabbathschool.R
+import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
@@ -42,8 +43,12 @@ class AboutActivity : SSColorSchemeActivity() {
             this, R.layout.ss_about_activity
         )
 
-        setSupportActionBar(binding.ssToolbar)
+        with(binding.ssToolbar) {
+            setSupportActionBar(this)
+            setBackgroundColor(colorPrimary)
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        updateWindowColorScheme()
 
         binding.viewModel = SSAboutViewModel(this)
 
@@ -59,13 +64,7 @@ class AboutActivity : SSColorSchemeActivity() {
             R.id.ss_action_share -> {
                 val shareIntent = ShareCompat.IntentBuilder(this)
                     .setType("text/plain")
-                    .setText(
-                        String.format(
-                            "%s - %s",
-                            getString(R.string.ss_menu_share_app_text),
-                            SSConstants.SS_APP_PLAY_STORE_LINK
-                        )
-                    )
+                    .setText(getString(R.string.ss_menu_share_app_text, SSConstants.SS_APP_PLAY_STORE_LINK))
                     .intent
                 if (shareIntent.resolveActivity(packageManager) != null) {
                     startActivity(Intent.createChooser(shareIntent, getString(R.string.ss_menu_share_app)))
