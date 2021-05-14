@@ -26,7 +26,7 @@
         android:paddingVertical="@dimen/spacing_normal"
         android:text="@string/gc_sspm_title"
         android:textAppearance="?attr/textAppearanceHeadline5"
-        android:textColor="#3B3B3B"
+        android:textColor="?android:attr/textColorPrimary"
         app:fontFamily="@font/lato_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

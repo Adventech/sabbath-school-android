@@ -82,6 +82,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_logo_adventech"
+                        app:tint="@color/ss_gc_logo_tint"
                         tools:ignore="HardcodedText" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -89,7 +90,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Adventech"
-                        android:textColor="#3B3B3B"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:textSize="40sp"
                         app:fontFamily="@font/lato_bold"
                         app:layout_constraintEnd_toEndOf="@id/about_adventech_logo"
