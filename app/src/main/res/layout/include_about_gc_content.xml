@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/ss_gc_logo_tint" />
+        app:tint="@color/ss_logo_tint" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/content"

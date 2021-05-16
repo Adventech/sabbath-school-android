@@ -82,7 +82,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_logo_adventech"
-                        app:tint="@color/ss_gc_logo_tint"
+                        app:tint="@color/ss_logo_tint"
                         tools:ignore="HardcodedText" />
 
                     <androidx.appcompat.widget.AppCompatTextView
