@@ -31,7 +31,6 @@
             android:textAppearance="?attr/textAppearanceBody1"
             android:textColor="?android:attr/textColorPrimary"
             android:letterSpacing="0.01"
-            android:justificationMode="inter_word"
             app:fontFamily="@font/lato_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

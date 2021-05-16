@@ -18,21 +18,6 @@
         app:tint="@color/ss_gc_logo_tint" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingHorizontal="@dimen/spacing_large"
-        android:paddingVertical="@dimen/spacing_normal"
-        android:text="@string/gc_sspm_title"
-        android:textAppearance="?attr/textAppearanceHeadline5"
-        android:textColor="?android:attr/textColorPrimary"
-        app:fontFamily="@font/lato_bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gc_logo" />
-
-    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,6 +29,6 @@
         app:fontFamily="@font/lato_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        app:layout_constraintTop_toBottomOf="@id/gc_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
