@@ -48,7 +48,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/content"
-            app:tint="@color/ss_gc_logo_tint" />
+            app:tint="@color/ss_logo_tint" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_ok"

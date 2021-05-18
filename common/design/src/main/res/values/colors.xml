@@ -57,7 +57,7 @@
     <color name="ss_gray_6">#FAFAFA</color>
     <color name="ss_grey_7">#E2E2E5</color>
     <color name="ss_grey_shimmer">@color/ss_gray_2</color>
-    <color name="ss_gc_logo_tint">@color/black</color>
+    <color name="ss_logo_tint">@color/black</color>
 
     <color name="text_primary">@color/ss_gray_3</color>
     <color name="text_secondary">@color/ss_gray_2</color>
