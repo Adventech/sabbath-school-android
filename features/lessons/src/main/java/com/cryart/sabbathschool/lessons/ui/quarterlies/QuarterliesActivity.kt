@@ -28,7 +28,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import app.ss.lessons.data.model.SSQuarterly
@@ -66,8 +65,6 @@ class QuarterliesActivity : SSBaseActivity() {
     private val binding by viewBinding(SsActivityQuarterliesBinding::inflate)
 
     private val quarterliesAdapter: SSQuarterliesAdapter = SSQuarterliesAdapter()
-
-    private var brandingAlertDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -162,15 +159,18 @@ class QuarterliesActivity : SSBaseActivity() {
 
     private fun showAppReBrandingPrompt() {
         val view = layoutInflater.inflate(R.layout.ss_prompt_app_re_branding, null)
-        view.findViewById<View>(R.id.btn_ok).setOnClickListener {
-            brandingAlertDialog?.dismiss()
-            brandingAlertDialog = null
-        }
 
-        brandingAlertDialog = MaterialAlertDialogBuilder(this)
+        val brandingAlertDialog = MaterialAlertDialogBuilder(this)
             .setView(view)
             .create()
-        brandingAlertDialog?.show()
+
+        val closeListener = View.OnClickListener {
+            brandingAlertDialog.dismiss()
+        }
+        view.findViewById<View>(R.id.btn_close).setOnClickListener(closeListener)
+        view.findViewById<View>(R.id.btn_ok).setOnClickListener(closeListener)
+
+        brandingAlertDialog.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
