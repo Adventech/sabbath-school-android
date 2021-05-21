@@ -102,7 +102,7 @@ class QuarterliesViewModel @Inject constructor(
                             mutableShowLanguagePrompt.call()
                         }
                     } else {
-                        _appReBranding.emit(!ssPrefs.isAppReBrandingPromptShown())
+                        handleBrandingPrompt()
                     }
                 } else {
                     mutableViewState.postValue(ViewState.Error())
@@ -120,7 +120,10 @@ class QuarterliesViewModel @Inject constructor(
         ssPrefs.setLanguagePromptSeen()
     }
 
-    fun reBrandingPromptSeen() {
-        ssPrefs.setAppReBrandingShown()
+    private suspend fun handleBrandingPrompt() {
+        if (!ssPrefs.isAppReBrandingPromptShown()) {
+            ssPrefs.setAppReBrandingShown()
+            _appReBranding.emit(true)
+        }
     }
 }

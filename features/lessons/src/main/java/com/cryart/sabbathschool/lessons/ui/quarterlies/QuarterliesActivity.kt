@@ -26,9 +26,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import app.ss.lessons.data.model.SSQuarterly
@@ -45,6 +43,7 @@ import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
+import com.cryart.sabbathschool.lessons.databinding.SsPromptAppReBrandingBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.languages.LanguagesListFragment
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
@@ -66,8 +65,6 @@ class QuarterliesActivity : SSBaseActivity() {
     private val binding by viewBinding(SsActivityQuarterliesBinding::inflate)
 
     private val quarterliesAdapter: SSQuarterliesAdapter = SSQuarterliesAdapter()
-
-    private var brandingAlertDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -161,18 +158,17 @@ class QuarterliesActivity : SSBaseActivity() {
     }
 
     private fun showAppReBrandingPrompt() {
-        val view = layoutInflater.inflate(R.layout.ss_prompt_app_re_branding, null)
-        view.findViewById<View>(R.id.btn_ok).setOnClickListener {
-            brandingAlertDialog?.dismiss()
-            brandingAlertDialog = null
-            viewModel.reBrandingPromptSeen()
+        val binding = SsPromptAppReBrandingBinding.inflate(layoutInflater)
+
+        val alertDialog = MaterialAlertDialogBuilder(this)
+            .setView(binding.root)
+            .create()
+
+        binding.btnClose.setOnClickListener {
+            alertDialog.dismiss()
         }
 
-        brandingAlertDialog = MaterialAlertDialogBuilder(this)
-            .setView(view)
-            .setCancelable(false)
-            .create()
-        brandingAlertDialog?.show()
+        alertDialog.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
