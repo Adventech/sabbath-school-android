@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.ui.splash
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
 import com.google.firebase.auth.FirebaseAuth
@@ -45,15 +46,18 @@ class SplashViewModelTest {
 
     private val mockFirebaseAuth: FirebaseAuth = mockk(relaxed = true)
     private val mockDailyReminderManager: DailyReminderManager = mockk()
+    private val mockSSPrefs: SSPrefs = mockk()
 
     private lateinit var viewModel: SplashViewModel
 
     @Before
     fun setUp() {
         every { mockDailyReminderManager.scheduleReminder() }.returns(Unit)
+        every { mockSSPrefs.reminderEnabled() }.returns(true)
 
         viewModel = SplashViewModel(
             mockFirebaseAuth,
+            mockSSPrefs,
             mockDailyReminderManager,
             coroutinesTestRule.dispatcherProvider
         )
@@ -83,10 +87,26 @@ class SplashViewModelTest {
 
         SplashViewModel(
             mockFirebaseAuth,
+            mockSSPrefs,
             mockDailyReminderManager,
             coroutinesTestRule.dispatcherProvider
         )
 
         verify { mockDailyReminderManager.scheduleReminder() }
+    }
+
+    @Test
+    fun `should not schedule reminder when user is signed in and reminder is disabled`() {
+        every { mockFirebaseAuth.currentUser }.returns(mockk())
+        every { mockSSPrefs.reminderEnabled() }.returns(false)
+
+        SplashViewModel(
+            mockFirebaseAuth,
+            mockSSPrefs,
+            mockDailyReminderManager,
+            coroutinesTestRule.dispatcherProvider
+        )
+
+        verify(inverse = false) { mockDailyReminderManager.scheduleReminder() }
     }
 }

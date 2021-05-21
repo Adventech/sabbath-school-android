@@ -35,6 +35,10 @@ class SSPrefs(context: Context) {
 
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
+    fun reminderEnabled(): Boolean = sharedPreferences.getBoolean(
+        SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY, true
+    )
+
     fun getReminderTime(): ReminderTime {
         val timeStr = sharedPreferences.getString(
             SSConstants.SS_SETTINGS_REMINDER_TIME_KEY,
