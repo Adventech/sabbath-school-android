@@ -42,7 +42,6 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.test.runBlockingTest
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeEqualTo
-import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldBeNull
 import org.amshove.kluent.shouldBeTrue
 import org.junit.Before
@@ -172,42 +171,15 @@ class QuarterliesViewModelTest {
         every { mockSSPrefs.getLastQuarterlyIndex() }.returns(null)
         every { mockSSPrefs.isLanguagePromptSeen() }.returns(true)
         every { mockSSPrefs.isAppReBrandingPromptShown() }.returns(false)
+        every { mockSSPrefs.setAppReBrandingShown() }.returns(Unit)
 
         viewModel.appReBrandingFlow.test {
             viewModel.viewCreated()
 
             expectItem().shouldBeTrue()
+
+            verify { mockSSPrefs.setAppReBrandingShown() }
         }
-    }
-
-    @Test
-    fun `should emit false for branding prompt flow when prompt was seen`() = coroutinesTestRule.runBlockingTest {
-        val language = "de"
-        val flow: Flow<Resource<List<SSQuarterly>>> = callbackFlow {
-            sendBlocking(Resource.success(emptyList()))
-            awaitClose { }
-        }
-        every { mockRepository.getQuarterlies(language) }.returns(flow)
-        every { mockSSPrefs.getLanguageCode() }.returns(language)
-        every { mockSSPrefs.setLanguageCode(language) }.returns(Unit)
-        every { mockSSPrefs.getLastQuarterlyIndex() }.returns(null)
-        every { mockSSPrefs.isLanguagePromptSeen() }.returns(true)
-        every { mockSSPrefs.isAppReBrandingPromptShown() }.returns(true)
-
-        viewModel.appReBrandingFlow.test {
-            viewModel.viewCreated()
-
-            expectItem().shouldBeFalse()
-        }
-    }
-
-    @Test
-    fun `should set branding prompt as seen`() {
-        every { mockSSPrefs.setAppReBrandingShown() }.returns(Unit)
-
-        viewModel.reBrandingPromptSeen()
-
-        verify { mockSSPrefs.setAppReBrandingShown() }
     }
 
     @Test

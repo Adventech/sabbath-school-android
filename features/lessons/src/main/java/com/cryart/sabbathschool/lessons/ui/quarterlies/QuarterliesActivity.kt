@@ -165,12 +165,10 @@ class QuarterliesActivity : SSBaseActivity() {
         view.findViewById<View>(R.id.btn_ok).setOnClickListener {
             brandingAlertDialog?.dismiss()
             brandingAlertDialog = null
-            viewModel.reBrandingPromptSeen()
         }
 
         brandingAlertDialog = MaterialAlertDialogBuilder(this)
             .setView(view)
-            .setCancelable(false)
             .create()
         brandingAlertDialog?.show()
     }
