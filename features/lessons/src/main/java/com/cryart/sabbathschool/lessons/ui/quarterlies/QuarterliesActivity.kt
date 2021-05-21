@@ -26,7 +26,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -161,17 +160,15 @@ class QuarterliesActivity : SSBaseActivity() {
     private fun showAppReBrandingPrompt() {
         val binding = SsPromptAppReBrandingBinding.inflate(layoutInflater)
 
-        val brandingAlertDialog = MaterialAlertDialogBuilder(this)
+        val alertDialog = MaterialAlertDialogBuilder(this)
             .setView(binding.root)
             .create()
 
-        val closeListener = View.OnClickListener {
-            brandingAlertDialog.dismiss()
+        binding.btnClose.setOnClickListener {
+            alertDialog.dismiss()
         }
-        binding.btnClose.setOnClickListener(closeListener)
-        binding.btnOk.setOnClickListener(closeListener)
 
-        brandingAlertDialog.show()
+        alertDialog.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
