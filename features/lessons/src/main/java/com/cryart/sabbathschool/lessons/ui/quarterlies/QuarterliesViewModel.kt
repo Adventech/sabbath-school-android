@@ -102,7 +102,7 @@ class QuarterliesViewModel @Inject constructor(
                             mutableShowLanguagePrompt.call()
                         }
                     } else {
-                        handleBandingPrompt()
+                        handleBrandingPrompt()
                     }
                 } else {
                     mutableViewState.postValue(ViewState.Error())
@@ -120,7 +120,7 @@ class QuarterliesViewModel @Inject constructor(
         ssPrefs.setLanguagePromptSeen()
     }
 
-    private suspend fun handleBandingPrompt() {
+    private suspend fun handleBrandingPrompt() {
         if (!ssPrefs.isAppReBrandingPromptShown()) {
             ssPrefs.setAppReBrandingShown()
             _appReBranding.emit(true)

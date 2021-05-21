@@ -44,6 +44,7 @@ import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
+import com.cryart.sabbathschool.lessons.databinding.SsPromptAppReBrandingBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.languages.LanguagesListFragment
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
@@ -158,17 +159,17 @@ class QuarterliesActivity : SSBaseActivity() {
     }
 
     private fun showAppReBrandingPrompt() {
-        val view = layoutInflater.inflate(R.layout.ss_prompt_app_re_branding, null)
+        val binding = SsPromptAppReBrandingBinding.inflate(layoutInflater)
 
         val brandingAlertDialog = MaterialAlertDialogBuilder(this)
-            .setView(view)
+            .setView(binding.root)
             .create()
 
         val closeListener = View.OnClickListener {
             brandingAlertDialog.dismiss()
         }
-        view.findViewById<View>(R.id.btn_close).setOnClickListener(closeListener)
-        view.findViewById<View>(R.id.btn_ok).setOnClickListener(closeListener)
+        binding.btnClose.setOnClickListener(closeListener)
+        binding.btnOk.setOnClickListener(closeListener)
 
         brandingAlertDialog.show()
     }
