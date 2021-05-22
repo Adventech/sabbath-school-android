@@ -27,15 +27,14 @@
 
     <ImageView
         android:id="@+id/ss_login_app_logo"
-        android:layout_width="@dimen/ss_login_app_logo_size"
-        android:layout_height="@dimen/ss_login_app_logo_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/blank"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_sspm"
-        app:tint="?attr/colorPrimary" />
+        app:srcCompat="@drawable/ic_logo_sspm_scaled" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/ss_login_app_name"
@@ -45,7 +44,7 @@
         android:layout_marginTop="@dimen/ss_login_app_name_margin_top"
         android:text="@string/ss_app_name"
         android:textAppearance="?attr/textAppearanceHeadline6"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="?attr/colorOnBackground"
         android:textSize="@dimen/ss_login_app_name_font_size"
         app:fontFamily="@font/lato_bold"
         app:layout_constraintBottom_toBottomOf="parent"

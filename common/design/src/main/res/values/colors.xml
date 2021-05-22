@@ -39,6 +39,7 @@
     <color name="ss_theme_primary_variant">@color/ss_blue_dark</color>
     <color name="ss_theme_secondary">@color/ss_blue</color>
     <color name="ss_theme_secondary_variant">@color/ss_blue</color>
+    <color name="ss_theme_color_on_background">@color/ss_blue</color>
 
     <color name="white">#FFFFFF</color>
     <color name="white_70">#B3FFFFFF</color>

@@ -18,7 +18,7 @@
                 android:layout_width="@dimen/sspm_logo_size"
                 android:layout_height="@dimen/sspm_logo_size"
                 android:contentDescription="@string/sspm_logo_content_description"
-                android:src="@drawable/logo_sspm"
+                android:src="@drawable/ic_logo_sspm_scaled"
                 app:layout_constraintBottom_toTopOf="@id/content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

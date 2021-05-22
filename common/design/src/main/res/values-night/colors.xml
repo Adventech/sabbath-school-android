@@ -26,4 +26,5 @@
     <color name="list_divider">#1fffffff</color>
     <color name="text_primary">@color/white_70</color>
     <color name="ss_logo_tint">@color/white</color>
+    <color name="ss_theme_color_on_background">@color/white</color>
 </resources>
