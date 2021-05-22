@@ -22,7 +22,7 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Platform.V24.Theme.SS" parent="Theme.MaterialComponents.DayNight.NoActionBar"/>
+    <style name="Platform.V24.Theme.SS" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
 
     <style name="Platform.Theme.SS" parent="Platform.V24.Theme.SS" />
 
@@ -64,6 +64,7 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorError">@color/ss_red_600</item>
         <item name="colorOnError">@color/white</item>
+        <item name="colorOnBackground">@color/ss_theme_color_on_background</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
     </style>
