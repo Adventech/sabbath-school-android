@@ -35,6 +35,10 @@ class SSPrefs(context: Context) {
 
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
+    fun reminderEnabled(): Boolean = sharedPreferences.getBoolean(
+        SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY, true
+    )
+
     fun getReminderTime(): ReminderTime {
         val timeStr = sharedPreferences.getString(
             SSConstants.SS_SETTINGS_REMINDER_TIME_KEY,
@@ -149,6 +153,14 @@ class SSPrefs(context: Context) {
         sharedPreferences.edit {
             putString(SSConstants.SS_LAST_BIBLE_VERSION_USED, bibleId)
         }
+    }
+
+    fun isAppReBrandingPromptShown(): Boolean = sharedPreferences.getBoolean(
+        SSConstants.SS_APP_RE_BRANDING_PROMPT_SEEN, false
+    )
+
+    fun setAppReBrandingShown() = sharedPreferences.edit {
+        putBoolean(SSConstants.SS_APP_RE_BRANDING_PROMPT_SEEN, true)
     }
 
     fun clear() {

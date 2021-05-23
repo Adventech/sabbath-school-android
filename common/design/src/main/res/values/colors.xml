@@ -30,12 +30,16 @@
     <color name="ss_color_overlay">#5b000000</color>
     <color name="ss_color_display_theme_sepia">#f2dec3</color>
     <color name="ss_color_display_theme_dark">#484848</color>
-    <color name="ss_green">#16a365</color>
-    <color name="ss_green_dark">#18704A</color>
-    <color name="ss_pink">#ff4081</color>
-    <color name="ss_pink_dark">#c2185b</color>
+    <color name="ss_blue">#2E5797</color>
+    <color name="ss_blue_dark">#27407d</color>
     <color name="ss_red_300">#FF5C44</color>
     <color name="ss_red_600">#E51A19</color>
+
+    <color name="ss_theme_primary">@color/ss_blue</color>
+    <color name="ss_theme_primary_variant">@color/ss_blue_dark</color>
+    <color name="ss_theme_secondary">@color/ss_blue</color>
+    <color name="ss_theme_secondary_variant">@color/ss_blue</color>
+    <color name="ss_theme_color_on_background">@color/ss_blue</color>
 
     <color name="white">#FFFFFF</color>
     <color name="white_70">#B3FFFFFF</color>
@@ -43,6 +47,7 @@
     <color name="black">#000000</color>
     <color name="black_40">#66000000</color>
     <color name="color_navigation_full">@android:color/transparent</color>
+    <color name="scrim">#99323232</color>
 
     <color name="list_divider">#80D7D7D7</color>
     <color name="ss_gray_1">#EFEFEF</color>
@@ -52,6 +57,8 @@
     <color name="ss_gray_5">#3B3F3F</color>
     <color name="ss_gray_6">#FAFAFA</color>
     <color name="ss_grey_7">#E2E2E5</color>
+    <color name="ss_grey_shimmer">@color/ss_gray_2</color>
+    <color name="ss_logo_tint">@color/black</color>
 
     <color name="text_primary">@color/ss_gray_3</color>
     <color name="text_secondary">@color/ss_gray_2</color>

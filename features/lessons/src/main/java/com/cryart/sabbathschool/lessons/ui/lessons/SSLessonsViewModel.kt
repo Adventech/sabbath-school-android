@@ -28,7 +28,7 @@ import android.view.View
 import androidx.databinding.ObservableInt
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.lessons.data.model.SSQuarterlyInfo
+import app.ss.lessons.data.model.SSQuarterlyInfo
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.lessons.ui.viewmodel.SSViewModel
 import com.google.firebase.database.DataSnapshot

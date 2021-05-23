@@ -223,7 +223,7 @@
     <dimen name="spacing_normal">8dp</dimen>
     <dimen name="spacing_micro">4dp</dimen>
     <dimen name="spacing_medium">16dp</dimen>
-    <dimen name="spacing_medium_large">20dp</dimen>
+    <dimen name="spacing_medium_large">24dp</dimen>
     <dimen name="spacing_large">32dp</dimen>
     <dimen name="spacing_list">12dp</dimen>
     <dimen name="spacing_xlarge">48dp</dimen>
@@ -243,4 +243,9 @@
 
     <dimen name="elevation_bottom_sheet">16dp</dimen>
     <dimen name="peek_height_bottom_sheet_modal">1000dp</dimen>
+
+    <!--SSPM PROMPT-->
+    <dimen name="sspm_logo_size">72dp</dimen>
+    <dimen name="gc_sspm_logo_height">80dp</dimen>
+    <dimen name="gc_sspm_logo_width">160dp</dimen>
 </resources>

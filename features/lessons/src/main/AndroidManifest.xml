@@ -23,6 +23,7 @@
         <activity
             android:name=".ui.readings.SSReadingActivity"
             android:label="@string/blank"
+            android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".ui.lessons.SSLessonsActivity"
             android:theme="@style/Theme.SS.Full">
             <meta-data

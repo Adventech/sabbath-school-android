@@ -33,11 +33,11 @@ import android.view.ViewGroup;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.cryart.sabbathschool.core.misc.SSConstants;
-import com.cryart.sabbathschool.reader.data.model.SSRead;
+import app.ss.lessons.data.model.SSRead;
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.lessons.R;
-import com.cryart.sabbathschool.lessons.data.model.SSReadComments;
-import com.cryart.sabbathschool.lessons.data.model.SSReadHighlights;
+import app.ss.lessons.data.model.SSReadComments;
+import app.ss.lessons.data.model.SSReadHighlights;
 
 import org.jetbrains.annotations.NotNull;
 

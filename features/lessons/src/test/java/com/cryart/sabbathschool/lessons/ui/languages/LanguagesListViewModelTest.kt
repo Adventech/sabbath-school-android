@@ -23,26 +23,27 @@
 package com.cryart.sabbathschool.lessons.ui.languages
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import app.ss.lessons.data.model.Language
+import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.lessons.BaseTest
-import com.cryart.sabbathschool.lessons.data.model.Language
-import com.cryart.sabbathschool.lessons.data.model.response.Resource
-import com.cryart.sabbathschool.lessons.data.repository.QuarterliesRepository
+import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class LanguagesListViewModelTest : BaseTest() {
+class LanguagesListViewModelTest {
 
     @get:Rule
     val instantTaskRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    var coroutinesTestRule = CoroutineTestRule()
 
     private val mockRepository: QuarterliesRepository = mockk()
     private val mockSSPrefs: SSPrefs = mockk()
@@ -50,15 +51,11 @@ class LanguagesListViewModelTest : BaseTest() {
     private lateinit var viewModel: LanguagesListViewModel
 
     @Before
-    override fun setup() {
-        super.setup()
+    fun setup() {
         viewModel = LanguagesListViewModel(
             mockRepository,
             mockSSPrefs,
-            SchedulerProvider(
-                TestCoroutineDispatcher(),
-                TestCoroutineDispatcher()
-            )
+            coroutinesTestRule.dispatcherProvider
         )
     }
 

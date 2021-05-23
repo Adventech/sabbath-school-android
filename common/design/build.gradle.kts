@@ -24,6 +24,7 @@ import dependencies.Dependencies
 
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY)
+    id(BuildPlugins.KOTLIN_ANDROID)
 }
 
 android {
@@ -31,6 +32,13 @@ android {
 
     defaultConfig {
         minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
+    }
+    sourceSets {
+        getByName("main") {
+            java {
+                srcDirs("src/main/kotlin")
+            }
+        }
     }
 }
 

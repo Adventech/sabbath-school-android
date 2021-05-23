@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Logi välja"</string>
     <string name="ss_menu_read_now">"Lugemine"</string>
     <string name="ss_menu_share_app">"Jaga äppi"</string>
-    <string name="ss_menu_share_app_text">"Vaata ka seda hingamispäevakooli õppetüki äppi, mida kasutan"</string>
+    <string name="ss_menu_share_app_text">"Vaata ka seda hingamispäevakooli õppetüki äppi, mida kasutan - %1$s"</string>
     <string name="ss_my_highlights">"Minu rõhutused"</string>
     <string name="ss_my_notes">"Minu märkmed"</string>
     <string name="ss_settings">"Seaded"</string>
@@ -42,11 +42,11 @@
     <string name="ss_login_anonymously_dialog_title">"Logi sisse anonüümselt?"</string>
     <string name="ss_login_anonymously_dialog_description">"Anonüümsena sisse logides ei saa sünkroonida andmeid (nt kommentaare ja esiletõstmisi) kõikides seadmetes või pärast programmi eemaldamist. Kas soovite jätkata?"</string>
     <string name="ss_quarterlies_filter_languages">"Keeltevalik"</string>
-    <string name="ss_quarterlies_downloading">"Õppetükkide laadimine..."</string>
+    <string name="ss_quarterlies_downloading">"Õppetükkide laadimine…"</string>
     <string name="ss_quarterlies_error">"Tundmatu viga. Palun proovige uuesti."</string>
     <string name="ss_quarterlies_empty">"Õppetükid pole hetkel saadaval"</string>
     <string name="ss_quarterly_item_read_text">"Avatud"</string>
-    <string name="ss_lessons_downloading">"Õppetüki avamine..."</string>
+    <string name="ss_lessons_downloading">"Õppetüki avamine…"</string>
     <string name="ss_lessons_error">"Õppetüki avamisel ilmes viga"</string>
     <string name="ss_lessons_empty">"Õppetükid pole hetkel saadaval"</string>
     <string name="ss_lessons_read">"Loe"</string>
@@ -103,5 +103,5 @@ Me usume, et Jumal on andnud tänapäeva maailmale nii palju teadmisi ning  me t
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Eelmised tunnid"</string>
-    <string name="ss_settings_version_with_param_string">Versioon: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Versioon: %1$s</string>
 </resources>

@@ -29,7 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import com.cryart.sabbathschool.lessons.R;
-import com.cryart.sabbathschool.lessons.data.model.SSQuarterly;
+import app.ss.lessons.data.model.SSQuarterly;
 import com.cryart.sabbathschool.lessons.databinding.SsQuarterlyItemFeaturedBinding;
 import com.cryart.sabbathschool.lessons.databinding.SsQuarterlyItemNormalBinding;
 

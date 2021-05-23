@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.core.navigation
 
 import android.app.Activity
 import android.net.Uri
+import android.os.Bundle
 
 /**
  * Navigate to different modules
@@ -36,7 +37,7 @@ interface AppNavigator {
      * If destination requires auth and current user is not signed in
      * we will just launch the default LoginActivity screen
      */
-    fun navigate(activity: Activity, destination: Destination)
+    fun navigate(activity: Activity, destination: Destination, extras: Bundle? = null)
 
     /**
      * Navigate to a Destination from a deep-link

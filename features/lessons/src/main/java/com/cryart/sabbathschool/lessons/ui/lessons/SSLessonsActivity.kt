@@ -29,18 +29,20 @@ import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import app.ss.lessons.data.model.SSQuarterlyInfo
+import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.dividers
 import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
+import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.data.model.SSQuarterlyInfo
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.lessons.types.LessonTypesFragment
@@ -58,11 +60,11 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
     lateinit var appNavigator: AppNavigator
 
     private var ssLessonsViewModel: SSLessonsViewModel? = null
-    private val viewModel: LessonsViewModel by viewModels()
+    private val viewModel by viewModels<LessonsViewModel>()
 
-    private val binding: SsLessonsActivityBinding by lazy {
-        SsLessonsActivityBinding.inflate(layoutInflater)
-    }
+    private val binding by viewBinding(SsLessonsActivityBinding::inflate)
+
+    private val listAdapter = SSLessonsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,18 +73,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
         AppRate.with(this).setInstallDays(SSConstants.SS_APP_RATE_INSTALL_DAYS).monitor()
         AppRate.showRateDialogIfMeetsConditions(this)
 
-        val listAdapter = SSLessonsAdapter()
-        binding.ssLessonInfoList.apply {
-            dividers(R.drawable.list_divider)
-            adapter = listAdapter
-        }
-
-        setSupportActionBar(binding.ssLessonsAppBar.ssLessonsToolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.ssLessonsAppBar.ssLessonCollapsingToolbar
-            .setCollapsedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
-        binding.ssLessonsAppBar.ssLessonCollapsingToolbar
-            .setExpandedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
+        initUI()
 
         val index = intent.extras?.getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA) ?: return
         ssLessonsViewModel = SSLessonsViewModel(this, ssPrefs, this, index)
@@ -129,6 +120,22 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
         }
     }
 
+    private fun initUI() {
+        setSupportActionBar(binding.ssLessonsAppBar.ssLessonsToolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding.ssLessonsAppBar.ssLessonCollapsingToolbar
+            .setCollapsedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
+        binding.ssLessonsAppBar.ssLessonCollapsingToolbar
+            .setExpandedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
+
+        binding.ssLessonInfoList.apply {
+            dividers(R.drawable.list_divider)
+            adapter = listAdapter
+        }
+
+        binding.ssProgressBar.ssQuarterliesLoading.theme(colorPrimary)
+    }
+
     private fun updateColorScheme() {
         val primaryColor = this.colorPrimary
         val primaryDarkColor = this.colorPrimaryDark
@@ -141,6 +148,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
         }
         binding.lessonTypeTextView.setTextColor(primaryColor)
         binding.ssLessonInfoList.setEdgeEffect(primaryColor)
+        binding.ssProgressBar.ssQuarterliesLoading.theme(primaryColor)
         updateWindowColorScheme()
     }
 

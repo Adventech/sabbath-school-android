@@ -31,7 +31,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import com.cryart.sabbathschool.lessons.R;
-import com.cryart.sabbathschool.lessons.data.model.SSLesson;
+import app.ss.lessons.data.model.SSLesson;
 import com.cryart.sabbathschool.lessons.databinding.SsLessonItemBinding;
 
 import java.util.Collections;

@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Disconnessione"</string>
     <string name="ss_menu_read_now">"Leggi ora"</string>
     <string name="ss_menu_share_app">"Condividi app"</string>
-    <string name="ss_menu_share_app_text">"Dai un'occhiata, sto usando questa app Scuola del Sabato"</string>
+    <string name="ss_menu_share_app_text">"Dai un'occhiata, sto usando questa app Scuola del Sabato - %1$s"</string>
     <string name="ss_my_highlights">"I miei punti salienti"</string>
     <string name="ss_my_notes">"I miei appunti"</string>
     <string name="ss_settings">"impostazioni"</string>
@@ -104,5 +104,5 @@ Crediamo veramente che Dio abbia accresciuto la conoscenza del mondo moderno e c
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Lezioni precedenti"</string>
-    <string name="ss_settings_version_with_param_string">Versione: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Versione: %1$s</string>
 </resources>

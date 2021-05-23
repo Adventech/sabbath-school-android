@@ -22,11 +22,9 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel" />
@@ -36,6 +34,7 @@
         android:id="@+id/ss_reading_coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:keepScreenOn="true">
 
         <include
@@ -68,6 +67,7 @@
             bind:viewModel="@{viewModel}" />
 
         <include
+            android:id="@+id/ss_progress_bar"
             layout="@layout/ss_progress_bar"
             bind:progressLabel="@{@string/ss_reading_downloading}"
             bind:progressVisibility="@{viewModel.ssLessonLoadingVisibility}" />

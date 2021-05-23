@@ -16,4 +16,5 @@ object TestDependencies {
     const val HILT = "com.google.dagger:hilt-android-testing:${Versions.HILT}"
     const val HILT_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
     const val JODA = "joda-time:joda-time:${Versions.JODA}"
+    const val TURBINE = "app.cash.turbine:turbine:${Versions.TURBINE}"
 }

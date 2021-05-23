@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Odjavi se"</string>
     <string name="ss_menu_read_now">"Čitaj sad"</string>
     <string name="ss_menu_share_app">"Podijelite aplikaciju"</string>
-    <string name="ss_menu_share_app_text">"Pogledajte novu subotnju školu koju koristim"</string>
+    <string name="ss_menu_share_app_text">"Pogledajte novu subotnju školu koju koristim - %1$s"</string>
     <string name="ss_my_highlights">"Moji vrhunci"</string>
     <string name="ss_my_notes">"Moje napomene"</string>
     <string name="ss_settings">"Postavke"</string>
@@ -42,11 +42,11 @@
     <string name="ss_login_anonymously_dialog_title">"Prijavite se anonimno?"</string>
     <string name="ss_login_anonymously_dialog_description">"Ako se prijavite anonimno, nećete moći sinkronizirati podatke (kao što su komentari i istaknuti događaji) na svim uređajima ili nakon deinstaliranja aplikacije. Jeste li sigurni da želite nastaviti?"</string>
     <string name="ss_quarterlies_filter_languages">"Jezici"</string>
-    <string name="ss_quarterlies_downloading">"Dobivanje tromjesečja ..."</string>
+    <string name="ss_quarterlies_downloading">"Dobivanje tromjesečja …"</string>
     <string name="ss_quarterlies_error">"Došlo je do nepoznate pogreške. Molim te pokušaj ponovno."</string>
     <string name="ss_quarterlies_empty">"U ovom trenutku nema dostupnih kvartala"</string>
     <string name="ss_quarterly_item_read_text">"Otvorena"</string>
-    <string name="ss_lessons_downloading">"Otvaranje kvartalno ..."</string>
+    <string name="ss_lessons_downloading">"Otvaranje kvartalno …"</string>
     <string name="ss_lessons_error">"Došlo je do pogreške tijekom otvaranja kvartalno"</string>
     <string name="ss_lessons_empty">"U ovom trenutku nema dostupnih kvartala"</string>
     <string name="ss_lessons_read">"Čitati"</string>
@@ -104,5 +104,5 @@ Mi doista vjerujemo da je Bog povećao znanje o suvremenom svijetu i želi da ga
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Prethodne lekcije"</string>
-    <string name="ss_settings_version_with_param_string">Verzija: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Verzija: %1$s</string>
 </resources>

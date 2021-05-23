@@ -111,6 +111,7 @@
             bind:errorStateVisibility="@{viewModel.ssLessonsErrorStateVisibility}" />
 
         <include
+            android:id="@+id/ss_progress_bar"
             layout="@layout/ss_progress_bar"
             bind:progressLabel="@{@string/ss_lessons_downloading}"
             bind:progressVisibility="@{viewModel.ssLessonsLoadingVisibility}" />

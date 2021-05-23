@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"வெளியேறு"</string>
     <string name="ss_menu_read_now">"இப்போது படிக்கவும்"</string>
     <string name="ss_menu_share_app">"பயன்பாட்டைப் பகிரலாம்"</string>
-    <string name="ss_menu_share_app_text">"நான் பயன்படுத்தும் புதிய சப்பாத் பள்ளி பயன்பாட்டை பாருங்கள்"</string>
+    <string name="ss_menu_share_app_text">"நான் பயன்படுத்தும் புதிய சப்பாத் பள்ளி பயன்பாட்டை பாருங்கள் - %1$s"</string>
     <string name="ss_my_highlights">"என் சிறப்பம்சங்கள்"</string>
     <string name="ss_my_notes">"என் குறிப்புகள்"</string>
     <string name="ss_settings">"அமைப்புகள்"</string>
@@ -104,5 +104,5 @@
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"முந்தைய பாடங்கள்"</string>
-    <string name="ss_settings_version_with_param_string">பதிப்பு: %1$S</string>
+    <string name="ss_settings_version_with_param_string">பதிப்பு: %1$s</string>
 </resources>

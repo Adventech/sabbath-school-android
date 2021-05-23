@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Ausloggen"</string>
     <string name="ss_menu_read_now">"Jetzt lesen"</string>
     <string name="ss_menu_share_app">"App teilen"</string>
-    <string name="ss_menu_share_app_text">"Ich benutze die Sabbatschule App"</string>
+    <string name="ss_menu_share_app_text">"Ich benutze die Sabbatschule App - %1$s"</string>
     <string name="ss_my_highlights">"Meine Hervorhebungen"</string>
     <string name="ss_my_notes">"Meine Notizen"</string>
     <string name="ss_settings">"Einstellungen"</string>
@@ -104,5 +104,5 @@ Wir glauben wirklich, dass Gott die Erkenntnis der modernen Welt erhöht hat und
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Vorherige Lektionen"</string>
-    <string name="ss_settings_version_with_param_string">Ausführung: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Ausführung: %1$s</string>
 </resources>

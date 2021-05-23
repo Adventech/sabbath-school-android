@@ -100,9 +100,8 @@
             android:layout_centerHorizontal="true"
             android:text="@string/ss_quarterlies_downloading" />
 
-        <ProgressBar
+        <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/ss_quarterlies_loading"
-            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

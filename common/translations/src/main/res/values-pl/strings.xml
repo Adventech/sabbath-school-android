@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Wyloguj się"</string>
     <string name="ss_menu_read_now">"Czytaj teraz"</string>
     <string name="ss_menu_share_app">"Udostępnij aplikacje"</string>
-    <string name="ss_menu_share_app_text">"Sprawdź, korzystam z aplikacji Szkoła Sobotnia"</string>
+    <string name="ss_menu_share_app_text">"Sprawdź, korzystam z aplikacji Szkoła Sobotnia - %1$s"</string>
     <string name="ss_my_highlights">"Moje najważniejsze wydarzenia"</string>
     <string name="ss_my_notes">"Moje notatki"</string>
     <string name="ss_settings">"Ustawienia"</string>
@@ -104,5 +104,5 @@ Naprawdę wierzymy, że Bóg zwiększył wiedzę o współczesnym świecie i chc
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Poprzednie lekcje"</string>
-    <string name="ss_settings_version_with_param_string">Wersja: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Wersja: %1$s</string>
 </resources>

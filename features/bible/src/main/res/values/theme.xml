@@ -11,7 +11,7 @@
         <item name="android:windowIsFloating">@bool/ss_bible_window_floating</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="colorControlNormal">@android:color/white</item>
-        <item name="colorPrimary">@color/ss_green</item>
+        <item name="colorPrimary">@color/ss_theme_primary</item>
         <item name="android:colorEdgeEffect">@color/color_navigation_full</item>
         <item name="fontFamily">@font/lato_regular</item>
         <item name="android:fontFamily">@font/lato_regular</item>

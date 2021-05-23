@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Log ud"</string>
     <string name="ss_menu_read_now">"Læs nu"</string>
     <string name="ss_menu_share_app">"Del App"</string>
-    <string name="ss_menu_share_app_text">"Se her! Jeg bruger denne bibelstudie app."</string>
+    <string name="ss_menu_share_app_text">"Se her! Jeg bruger denne bibelstudie app - %1$s"</string>
     <string name="ss_my_highlights">"Mine highligts"</string>
     <string name="ss_my_notes">"Mine noter"</string>
     <string name="ss_settings">"Indstillinger"</string>
@@ -104,5 +104,5 @@ Vi tror virkelig, at Gud har øget kendskabet til den moderne verden og vil have
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Tidligere lektioner"</string>
-    <string name="ss_settings_version_with_param_string">Version: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Version: %1$s</string>
 </resources>

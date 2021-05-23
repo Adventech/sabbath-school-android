@@ -62,7 +62,8 @@
 
         <activity
             android:name=".ui.about.AboutActivity"
-            android:label="@string/ss_about" />
+            android:label="@string/ss_about"
+            android:theme="@style/Theme.SS.Primary"/>
 
         <activity
             android:name="com.facebook.FacebookActivity"

@@ -31,7 +31,7 @@
     <string name="ss_menu_sign_out">"Daftar Keluar"</string>
     <string name="ss_menu_read_now">"Baca Sekarang"</string>
     <string name="ss_menu_share_app">"Kongsikan Aplikasi"</string>
-    <string name="ss_menu_share_app_text">"Lihat Aplikasi Sekolah Sabat yang saya gunakan"</string>
+    <string name="ss_menu_share_app_text">"Lihat Aplikasi Sekolah Sabat yang saya gunakan - %1$s"</string>
     <string name="ss_my_highlights">"Sorotan Saya"</string>
     <string name="ss_my_notes">"Nota Saya"</string>
     <string name="ss_settings">"Aturan"</string>
@@ -104,5 +104,5 @@ Kami benar-benar percaya bahawa Tuhan telah meningkatkan pengetahuan tentang dun
 
     <!-- Previous lessons -->
     <string name="ss_lessons_previous">"Pelajaran sebelumnya"</string>
-    <string name="ss_settings_version_with_param_string">Versi: %1$S</string>
+    <string name="ss_settings_version_with_param_string">Versi: %1$s</string>
 </resources>

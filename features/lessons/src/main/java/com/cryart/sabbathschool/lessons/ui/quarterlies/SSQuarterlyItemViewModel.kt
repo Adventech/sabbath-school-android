@@ -39,7 +39,7 @@ import coil.load
 import com.cryart.sabbathschool.core.extensions.view.tint
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
+import app.ss.lessons.data.model.SSQuarterly
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.viewmodel.SSViewModel
 import com.google.android.material.button.MaterialButton

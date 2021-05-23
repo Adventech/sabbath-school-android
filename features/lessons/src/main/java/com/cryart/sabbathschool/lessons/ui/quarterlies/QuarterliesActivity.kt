@@ -29,20 +29,25 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import app.ss.lessons.data.model.SSQuarterly
+import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
+import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.data.model.SSQuarterly
 import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
+import com.cryart.sabbathschool.lessons.databinding.SsPromptAppReBrandingBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.languages.LanguagesListFragment
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_DISMISSED
@@ -55,11 +60,9 @@ class QuarterliesActivity : SSBaseActivity() {
     @Inject
     lateinit var appNavigator: AppNavigator
 
-    private val viewModel: QuarterliesViewModel by viewModels()
+    private val viewModel by viewModels<QuarterliesViewModel>()
 
-    private val binding: SsActivityQuarterliesBinding by lazy {
-        SsActivityQuarterliesBinding.inflate(layoutInflater)
-    }
+    private val binding by viewBinding(SsActivityQuarterliesBinding::inflate)
 
     private val quarterliesAdapter: SSQuarterliesAdapter = SSQuarterliesAdapter()
 
@@ -84,6 +87,12 @@ class QuarterliesActivity : SSBaseActivity() {
             intent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, it)
             startActivity(intent)
         }
+        viewModel.appReBrandingFlow
+            .collectIn(this) { show ->
+                if (show) {
+                    showAppReBrandingPrompt()
+                }
+            }
 
         viewModel.viewCreated()
     }
@@ -128,6 +137,7 @@ class QuarterliesActivity : SSBaseActivity() {
         binding.appBar.ssToolbar.setBackgroundColor(primaryColor)
         updateWindowColorScheme()
         binding.ssQuarterliesList.setEdgeEffect(primaryColor)
+        binding.ssQuarterliesLoading.theme(primaryColor)
     }
 
     private fun showLanguagesPrompt() {
@@ -145,6 +155,20 @@ class QuarterliesActivity : SSBaseActivity() {
                 }
             }
             .show()
+    }
+
+    private fun showAppReBrandingPrompt() {
+        val binding = SsPromptAppReBrandingBinding.inflate(layoutInflater)
+
+        val alertDialog = MaterialAlertDialogBuilder(this)
+            .setView(binding.root)
+            .create()
+
+        binding.btnClose.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        alertDialog.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

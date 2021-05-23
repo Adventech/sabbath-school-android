@@ -80,7 +80,7 @@ public class SSSeekBar extends AppCompatSeekBar {
 
     private void initPaint() {
         mPaint = new Paint();
-        mPaint.setColor((getResources().getColor(R.color.ss_pink)));
+        mPaint.setColor((getResources().getColor(R.color.ss_theme_secondary)));
         mPaint.setStrokeCap(Paint.Cap.SQUARE);
         mPaint.setStrokeWidth(getPxFromDp(STROKE_WIDTH_IN_DP));
         mPaint.setAntiAlias(true);

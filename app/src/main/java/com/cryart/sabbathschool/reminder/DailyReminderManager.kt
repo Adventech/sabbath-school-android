@@ -26,10 +26,10 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.settings.DailyReminder
 import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
-import java.util.concurrent.TimeUnit
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 class DailyReminderManager constructor(
     private val jobManager: JobManager,
@@ -81,6 +81,8 @@ class DailyReminderManager constructor(
 
     override fun reSchedule() {
         cancelReminder()
-        scheduleReminder()
+        if (ssPrefs.reminderEnabled()) {
+            scheduleReminder()
+        }
     }
 }
