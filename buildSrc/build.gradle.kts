@@ -6,7 +6,6 @@ plugins {
 
 repositories {
     google()
-    jcenter()
     mavenCentral()
     maven("https://plugins.gradle.org/m2/")
     maven("https://dl.bintray.com/andreyberyukhov/FlowReactiveNetwork")
