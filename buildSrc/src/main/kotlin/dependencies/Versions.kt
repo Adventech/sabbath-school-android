@@ -12,7 +12,7 @@ object Versions {
         const val LIFECYCLE = "2.3.0"
         const val LIFECYCLE_KTX = "2.4.0-alpha01"
         const val LIFECYCLE_EXT = "2.2.0"
-        const val CORE = "1.5.0-beta03"
+        const val CORE = "1.5.0"
         const val FRAGMENT = "1.3.0"
         const val ACTIVITY = "1.2.0"
         const val CONSTRAINT_LAYOUT = "2.0.4"
