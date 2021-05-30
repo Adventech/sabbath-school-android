@@ -22,7 +22,7 @@ object Versions {
     }
 
     object Facebook {
-        const val SDK = "9.1.0"
+        const val SDK = "9.1.1"
         const val SHIMMER = "0.5.0"
     }
 
