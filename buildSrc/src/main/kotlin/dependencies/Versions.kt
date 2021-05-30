@@ -29,7 +29,7 @@ object Versions {
     const val HILT = "2.36"
 
     const val TIMBER = "4.7.1"
-    const val COIL = "1.1.1"
+    const val COIL = "1.2.1"
     const val TAP_TARGET = "3.1.0"
     const val ICONICS = "5.2.8@aar"
 
