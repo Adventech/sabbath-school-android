@@ -33,7 +33,7 @@ object Versions {
     const val TAP_TARGET = "3.2.0"
     const val ICONICS = "5.2.8@aar"
 
-    const val FIREBASE_BOM = "27.1.0"
+    const val FIREBASE_BOM = "28.0.1"
     const val PLAY_AUTH = "19.0.0"
     const val ANDROID_JOB = "1.4.2"
     const val JODA = "2.10.9"
