@@ -30,7 +30,7 @@ object Versions {
 
     const val TIMBER = "4.7.1"
     const val COIL = "1.2.1"
-    const val TAP_TARGET = "3.1.0"
+    const val TAP_TARGET = "3.2.0"
     const val ICONICS = "5.2.8@aar"
 
     const val FIREBASE_BOM = "27.1.0"
