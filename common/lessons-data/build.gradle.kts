@@ -26,10 +26,10 @@ import dependencies.Dependencies.Hilt
 import extensions.addTestsDependencies
 
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY)
-    id(BuildPlugins.KOTLIN_ANDROID)
-    id(BuildPlugins.KOTLIN_KAPT)
-    id(BuildPlugins.KOTLIN_PARCELIZE)
+    id(BuildPlugins.Android.LIBRARY)
+    id(BuildPlugins.Kotlin.ANDROID)
+    id(BuildPlugins.Kotlin.KAPT)
+    id(BuildPlugins.Kotlin.PARCELIZE)
     id(BuildPlugins.DAGGER_HILT)
 }
 
@@ -53,7 +53,6 @@ android {
 dependencies {
     implementation(project(BuildModules.Common.CORE))
 
-    implementation(Kotlin.KOTLIN)
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
     implementation(Hilt.ANDROID)

@@ -30,9 +30,9 @@ import extensions.addTestsDependencies
 import extensions.kapt
 
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY)
-    id(BuildPlugins.KOTLIN_ANDROID)
-    id(BuildPlugins.KOTLIN_KAPT)
+    id(BuildPlugins.Android.LIBRARY)
+    id(BuildPlugins.Kotlin.ANDROID)
+    id(BuildPlugins.Kotlin.KAPT)
     id(BuildPlugins.DAGGER_HILT)
 }
 
@@ -65,7 +65,6 @@ dependencies {
     implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Features.READER))
 
-    implementation(Kotlin.KOTLIN)
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
 
