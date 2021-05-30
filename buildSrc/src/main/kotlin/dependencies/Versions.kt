@@ -26,7 +26,7 @@ object Versions {
         const val SHIMMER = "0.5.0"
     }
 
-    const val HILT = "2.35.1"
+    const val HILT = "2.36"
 
     const val TIMBER = "4.7.1"
     const val COIL = "1.1.1"
