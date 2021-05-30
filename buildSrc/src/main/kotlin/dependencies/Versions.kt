@@ -1,7 +1,6 @@
 package dependencies
 
 object Versions {
-    const val KOTLIN = "1.4.31"
     const val COROUTINES = "1.4.3"
 
     const val MATERIAL = "1.3.0"
@@ -49,5 +48,5 @@ object Versions {
     const val ESPRESSO = "3.3.0"
     const val FRAGMENT_TEST = "1.3.0"
     const val KLUENT = "1.65"
-    const val TURBINE = "0.4.1"
+    const val TURBINE = "0.5.1"
 }

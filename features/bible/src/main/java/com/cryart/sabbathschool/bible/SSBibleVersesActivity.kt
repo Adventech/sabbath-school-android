@@ -58,7 +58,7 @@ class SSBibleVersesActivity : AppCompatActivity() {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View?, i: Int, l: Long) {
                 val ssBibleVerses = adapterView.getItemAtPosition(i) as? SSBibleVerses ?: return
                 viewModel.setLastBibleUsed(ssBibleVerses.name)
-                val data = ssBibleVerses.verses.getOrDefault(verse, "")
+                val data = ssBibleVerses.verses[verse] ?: ""
                 binding.ssBibleVersesView.loadContent(data, viewModel.getDisplayOptions())
             }
 
