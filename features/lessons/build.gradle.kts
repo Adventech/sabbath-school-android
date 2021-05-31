@@ -23,16 +23,16 @@
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Firebase
-import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.Iconics
+import dependencies.Dependencies.Kotlin
 import extensions.addTestsDependencies
 import extensions.kapt
 
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY)
-    id(BuildPlugins.KOTLIN_ANDROID)
-    id(BuildPlugins.KOTLIN_KAPT)
+    id(BuildPlugins.Android.LIBRARY)
+    id(BuildPlugins.Kotlin.ANDROID)
+    id(BuildPlugins.Kotlin.KAPT)
     id(BuildPlugins.DAGGER_HILT)
 }
 
@@ -67,7 +67,6 @@ dependencies {
     implementation(project(BuildModules.Features.READER))
     implementation(project(BuildModules.Features.BIBLE))
 
-    implementation(Kotlin.KOTLIN)
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
     implementation(Kotlin.COROUTINES_PLAY_SERVICES)

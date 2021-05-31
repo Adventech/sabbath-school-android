@@ -30,18 +30,12 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    id(BuildPlugins.ANDROID_APPLICATION)
-    id(BuildPlugins.KOTLIN_ANDROID)
-    id(BuildPlugins.KOTLIN_KAPT)
-    id(BuildPlugins.KOTLIN_ALLOPEN)
+    id(BuildPlugins.Android.APPLICATION)
+    id(BuildPlugins.Kotlin.ANDROID)
+    id(BuildPlugins.Kotlin.KAPT)
     id(BuildPlugins.DAGGER_HILT)
-    id(BuildPlugins.FIREBASE_CRASHLYTICS)
-    id(BuildPlugins.GOOGLE_SERVICES)
-}
-
-allOpen {
-    // allows mocking for classes w/o directly opening them for release builds
-    annotation("com.cryart.sabbathschool.core.annotations.OpenClass")
+    id(BuildPlugins.Google.CRASHLYTICS)
+    id(BuildPlugins.Google.SERVICES)
 }
 
 fun readVersionCode(): Int {
@@ -150,7 +144,6 @@ dependencies {
     implementation(project(BuildModules.Features.ACCOUNT))
     implementation(project(BuildModules.Features.READINGS))
 
-    implementation(Kotlin.KOTLIN)
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
     implementation(Kotlin.COROUTINES_PLAY_SERVICES)
