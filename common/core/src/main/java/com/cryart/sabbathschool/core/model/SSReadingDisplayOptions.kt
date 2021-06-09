@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2021 Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,52 +19,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.core.model
 
-package com.cryart.sabbathschool.core.model;
+data class SSReadingDisplayOptions @JvmOverloads constructor(
+    var theme: String = SS_THEME_LIGHT,
+    var size: String = SS_SIZE_MEDIUM,
+    var font: String = SS_FONT_ANDADA
+) {
 
-public class SSReadingDisplayOptions {
-    public static final String SS_THEME_LIGHT = "light";
-    public static final String SS_THEME_SEPIA = "sepia";
-    public static final String SS_THEME_DARK = "dark";
-
-    public static final String SS_THEME_LIGHT_RGB = "#ffffff";
-    public static final String SS_THEME_SEPIA_RGB = "#fbf0d9";
-    public static final String SS_THEME_DARK_RGB = "#212325";
-
-    public static final String SS_SIZE_TINY = "tiny";
-    public static final String SS_SIZE_SMALL = "small";
-    public static final String SS_SIZE_MEDIUM = "medium";
-    public static final String SS_SIZE_LARGE = "large";
-    public static final String SS_SIZE_HUGE = "huge";
-
-    public static final String SS_FONT_ANDADA = "andada";
-    public static final String SS_FONT_LATO = "lato";
-    public static final String SS_FONT_PT_SERIF = "pt-serif";
-    public static final String SS_FONT_PT_SANS = "pt-sans";
-
-    public String theme;
-    public String size;
-    public String font;
-
-    public SSReadingDisplayOptions() {
-        this(SS_THEME_LIGHT, SS_SIZE_MEDIUM, SS_FONT_ANDADA);
-    }
-
-    public SSReadingDisplayOptions(String theme, String size, String font) {
-        this.theme = theme;
-        this.size = size;
-        this.font = font;
-    }
-
-    public String getRGB() {
-        switch (theme) {
-            case SS_THEME_LIGHT:
-                return SS_THEME_LIGHT_RGB;
-            case SS_THEME_DARK:
-                return SS_THEME_DARK_RGB;
-            case SS_THEME_SEPIA:
-                return SS_THEME_SEPIA_RGB;
+    val themeColor: String
+        get() {
+            return when (theme) {
+                SS_THEME_LIGHT -> SS_THEME_LIGHT_HEX
+                SS_THEME_DARK -> SS_THEME_DARK_HEX
+                SS_THEME_SEPIA -> SS_THEME_SEPIA_HEX
+                else -> ""
+            }
         }
-        return "";
+
+    companion object {
+        const val SS_THEME_LIGHT = "light"
+        const val SS_THEME_SEPIA = "sepia"
+        const val SS_THEME_DARK = "dark"
+        const val SS_THEME_LIGHT_HEX = "#ffffff"
+        const val SS_THEME_SEPIA_HEX = "#fbf0d9"
+        const val SS_THEME_DARK_HEX = "#212325"
+        const val SS_SIZE_TINY = "tiny"
+        const val SS_SIZE_SMALL = "small"
+        const val SS_SIZE_MEDIUM = "medium"
+        const val SS_SIZE_LARGE = "large"
+        const val SS_SIZE_HUGE = "huge"
+        const val SS_FONT_ANDADA = "andada"
+        const val SS_FONT_LATO = "lato"
+        const val SS_FONT_PT_SERIF = "pt-serif"
+        const val SS_FONT_PT_SANS = "pt-sans"
     }
 }

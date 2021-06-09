@@ -85,7 +85,7 @@ public class SSReadingDisplayOptionsViewModel {
     }
 
     public void updateWidget() {
-        switch (ssReadingDisplayOptions.size) {
+        switch (ssReadingDisplayOptions.getSize()) {
             case SSReadingDisplayOptions.SS_SIZE_TINY: {
                 binding.ssReadingMenuDisplayOptionsSize.setProgress(0);
                 break;
@@ -162,17 +162,17 @@ public class SSReadingDisplayOptionsViewModel {
     }
 
     private void setTheme(String theme) {
-        ssReadingDisplayOptions.theme = theme;
+        ssReadingDisplayOptions.setTheme(theme);
         relaySSReadingDisplayOptions();
     }
 
     private void setSize(String size) {
-        ssReadingDisplayOptions.size = size;
+        ssReadingDisplayOptions.setSize(size);
         relaySSReadingDisplayOptions();
     }
 
     private void setFont(String font) {
-        ssReadingDisplayOptions.font = font;
+        ssReadingDisplayOptions.setFont(font);
         relaySSReadingDisplayOptions();
     }
 
