@@ -76,7 +76,7 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:textAllCaps="true"
-                        android:textColor="?attr/colorPrimary"
+                        android:textColor="?attr/colorSecondary"
                         android:textSize="@dimen/text_size_body"
                         app:drawableEndCompat="@drawable/ic_expand_more"
                         app:drawableRightCompat="@drawable/ic_expand_more"

@@ -34,6 +34,7 @@ import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
+import com.cryart.sabbathschool.core.extensions.context.colorPrimaryTint
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.dividers
 import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
@@ -146,7 +147,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
             ssLessonCollapsingToolbar.setBackgroundColor(primaryColor)
             content.ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
         }
-        binding.lessonTypeTextView.setTextColor(primaryColor)
+        binding.lessonTypeTextView.setTextColor(this.colorPrimaryTint)
         binding.ssLessonInfoList.setEdgeEffect(primaryColor)
         binding.ssProgressBar.ssQuarterliesLoading.theme(primaryColor)
         updateWindowColorScheme()

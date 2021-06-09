@@ -39,6 +39,7 @@
     <color name="ss_theme_primary_variant">@color/ss_blue_dark</color>
     <color name="ss_theme_secondary">@color/ss_blue</color>
     <color name="ss_theme_secondary_variant">@color/ss_blue</color>
+    <color name="ss_theme_color_background">@color/white</color>
     <color name="ss_theme_color_on_background">@color/ss_blue</color>
 
     <color name="white">#FFFFFF</color>
@@ -54,7 +55,7 @@
     <color name="ss_gray_2">#8F8E94</color>
     <color name="ss_gray_3">#606060</color>
     <color name="ss_gray_4">#383838</color>
-    <color name="ss_gray_5">#3B3F3F</color>
+    <color name="ss_gray_5">#1A1A1A</color>
     <color name="ss_gray_6">#FAFAFA</color>
     <color name="ss_grey_7">#E2E2E5</color>
     <color name="ss_grey_shimmer">@color/ss_gray_2</color>
