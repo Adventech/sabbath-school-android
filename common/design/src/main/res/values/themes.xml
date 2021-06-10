@@ -53,6 +53,7 @@
         <item name="materialCardViewStyle">@style/Widget.SS.CardView</item>
         <item name="android:colorEdgeEffect">@color/black_40</item>
         <item name="textInputStyle">@style/Widget.SS.TextInput</item>
+        <item name="popupTheme">@style/Theme.SS.PopupOverlay</item>
     </style>
 
     <style name="Theme.SS" parent="Base.Theme.SS">
@@ -120,4 +121,6 @@
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
     </style>
+
+    <style name="Theme.SS.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 </resources>
