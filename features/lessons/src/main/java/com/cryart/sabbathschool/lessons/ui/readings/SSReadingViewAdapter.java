@@ -32,6 +32,7 @@ import android.view.ViewGroup;
 
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.cryart.sabbathschool.core.extensions.context.ContextHelper;
 import com.cryart.sabbathschool.core.misc.SSConstants;
 import app.ss.lessons.data.model.SSRead;
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
@@ -79,8 +80,9 @@ public class SSReadingViewAdapter extends PagerAdapter {
         collection.addView(layout);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.mContext);
+        String theme = ContextHelper.isDarkTheme(mContext) ? SSReadingDisplayOptions.SS_THEME_DARK : SSReadingDisplayOptions.SS_THEME_LIGHT;
         SSReadingDisplayOptions ssReadingDisplayOptions = new SSReadingDisplayOptions(
-            prefs.getString(SSConstants.SS_SETTINGS_THEME_KEY, SSReadingDisplayOptions.SS_THEME_LIGHT),
+            prefs.getString(SSConstants.SS_SETTINGS_THEME_KEY, theme),
             prefs.getString(SSConstants.SS_SETTINGS_SIZE_KEY, SSReadingDisplayOptions.SS_SIZE_MEDIUM),
             prefs.getString(SSConstants.SS_SETTINGS_FONT_KEY, SSReadingDisplayOptions.SS_FONT_LATO)
         );
