@@ -45,6 +45,7 @@ import com.afollestad.materialdialogs.input.input
 import com.cryart.sabbathschool.bible.SSBibleVersesActivity
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
+import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
@@ -494,8 +495,7 @@ class SSReadingViewModel(
         @JvmStatic
         @BindingAdapter("showInLightTheme")
         fun setVisibility(view: View, show: Boolean) {
-            val array = view.context.theme.obtainStyledAttributes(intArrayOf(R.attr.isLightTheme))
-            val isLightTheme = array.getBoolean(0, true)
+            val isLightTheme = !view.context.isDarkTheme()
             view.isVisible = (show && isLightTheme) || (!show && !isLightTheme)
         }
     }

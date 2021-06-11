@@ -50,7 +50,7 @@ class ReadDayFragment : SSBaseFragment<FragmentDayBinding>(R.layout.fragment_day
     override fun onInit() {
         super.onInit()
         val options = ssPrefs.getDisplayOptions()
-        view?.setBackgroundColor(Color.parseColor(options.rgb))
+        view?.setBackgroundColor(Color.parseColor(options.themeColor))
         readingViewComponent = ReadingViewComponent(options, viewBinding.readingView)
     }
 

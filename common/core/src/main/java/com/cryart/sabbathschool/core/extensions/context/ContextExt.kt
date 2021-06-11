@@ -56,6 +56,11 @@ fun Context.isDarkTheme(): Boolean {
 
 val Context.colorPrimaryDark get() = Color.parseColor(SSColorTheme.getInstance(this).colorPrimaryDark)
 
+fun Context.isDarkTheme(): Boolean {
+    return resources.configuration.uiMode and
+        Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+}
+
 fun Context.launchWebUrl(url: String): Boolean {
     return launchWebUrl(url.toWebUri())
 }
@@ -98,4 +103,7 @@ object ContextHelper {
     fun launchWebUrl(context: Context, url: String) {
         context.launchWebUrl(url)
     }
+
+    @JvmStatic
+    fun isDarkTheme(context: Context): Boolean = context.isDarkTheme()
 }

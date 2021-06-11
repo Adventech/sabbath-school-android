@@ -25,13 +25,14 @@ package com.cryart.sabbathschool.core.extensions.prefs
 import android.content.Context
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.ReminderTime
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import java.util.Locale
 
-class SSPrefsImpl(context: Context) : SSPrefs {
+class SSPrefsImpl(private val context: Context) : SSPrefs {
 
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -65,9 +66,9 @@ class SSPrefsImpl(context: Context) : SSPrefs {
         }
     }
 
-    override fun setReminderJobId(id: Int?) {
+    override fun setReminderJobId(jobId: Int?) {
         sharedPreferences.edit {
-            putInt(SSConstants.SS_REMINDER_JOB_ID, id ?: -1)
+            putInt(SSConstants.SS_REMINDER_JOB_ID, jobId ?: -1)
         }
     }
 
@@ -130,10 +131,15 @@ class SSPrefsImpl(context: Context) : SSPrefs {
     }
 
     override fun getDisplayOptions(): SSReadingDisplayOptions {
+        val defaultTheme = if (context.isDarkTheme()) {
+            SSReadingDisplayOptions.SS_THEME_DARK
+        } else {
+            SSReadingDisplayOptions.SS_THEME_LIGHT
+        }
         return SSReadingDisplayOptions(
-            sharedPreferences.getString(SSConstants.SS_SETTINGS_THEME_KEY, SSReadingDisplayOptions.SS_THEME_LIGHT),
-            sharedPreferences.getString(SSConstants.SS_SETTINGS_SIZE_KEY, SSReadingDisplayOptions.SS_SIZE_MEDIUM),
-            sharedPreferences.getString(SSConstants.SS_SETTINGS_FONT_KEY, SSReadingDisplayOptions.SS_FONT_LATO)
+            sharedPreferences.getString(SSConstants.SS_SETTINGS_THEME_KEY, defaultTheme)!!,
+            sharedPreferences.getString(SSConstants.SS_SETTINGS_SIZE_KEY, SSReadingDisplayOptions.SS_SIZE_MEDIUM)!!,
+            sharedPreferences.getString(SSConstants.SS_SETTINGS_FONT_KEY, SSReadingDisplayOptions.SS_FONT_LATO)!!
         )
     }
 
