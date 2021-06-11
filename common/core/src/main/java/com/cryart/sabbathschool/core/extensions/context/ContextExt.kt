@@ -49,11 +49,6 @@ val Context.colorPrimaryTint
         colorPrimary
     }
 
-fun Context.isDarkTheme(): Boolean {
-    return resources.configuration.uiMode and
-        Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-}
-
 val Context.colorPrimaryDark get() = Color.parseColor(SSColorTheme.getInstance(this).colorPrimaryDark)
 
 fun Context.isDarkTheme(): Boolean {
