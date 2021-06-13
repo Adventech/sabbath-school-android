@@ -30,7 +30,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
-import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
+import com.cryart.design.setEdgeEffect
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.base.SsBottomSheetDialogFragment
 

@@ -30,14 +30,14 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import app.ss.lessons.data.model.SSQuarterlyInfo
+import com.cryart.design.dividers
+import com.cryart.design.setEdgeEffect
 import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryTint
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.extensions.view.dividers
-import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -130,7 +130,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
             .setExpandedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
 
         binding.ssLessonInfoList.apply {
-            dividers(R.drawable.list_divider)
+            dividers()
             adapter = listAdapter
         }
 
