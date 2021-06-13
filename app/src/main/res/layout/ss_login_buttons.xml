@@ -57,6 +57,7 @@
             app:backgroundTint="@color/com_facebook_blue"
             app:cornerRadius="@dimen/spacing_micro"
             app:icon="@drawable/ic_fb_logo"
+            app:iconSize="20dp"
             app:iconGravity="textStart"
             app:iconTint="@android:color/white"
             app:textAllCaps="false" />
@@ -72,7 +73,7 @@
             app:cornerRadius="@dimen/spacing_micro"
             app:icon="@drawable/ic_google_logo"
             app:iconGravity="textStart"
-            app:iconSize="16dp"
+            app:iconSize="20dp"
             app:iconTint="@null"
             app:textAllCaps="false" />
 
