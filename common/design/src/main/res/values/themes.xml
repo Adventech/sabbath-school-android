@@ -86,20 +86,11 @@
         <item name="actionMenuTextColor">?attr/colorOnSurface</item>
     </style>
 
-    <style name="Base.ThemeOverlay.SS.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.DayNight.BottomSheetDialog">
+    <style name="ThemeOverlay.SS.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="colorControlHighlight">@color/on_surface_32</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="bottomSheetStyle">@style/Widget.SS.BottomSheet.Modal</item>
         <item name="android:windowIsFloating">false</item>
-    </style>
-
-    <style name="ThemeOverlay.SS.BottomSheetDialog" parent="Base.ThemeOverlay.SS.BottomSheetDialog">
-        <item name="colorPrimary">@color/ss_theme_primary</item>
-        <item name="colorPrimaryVariant">@color/ss_theme_primary_variant</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/ss_theme_secondary</item>
-        <item name="colorSecondaryVariant">@color/ss_theme_secondary_variant</item>
-        <item name="colorOnSecondary">@color/black</item>
     </style>
 
     <style name="Base.ThemeOverlay.SS.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
