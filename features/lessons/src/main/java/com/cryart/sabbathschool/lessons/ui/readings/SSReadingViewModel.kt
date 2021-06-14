@@ -34,6 +34,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableInt
+import androidx.fragment.app.FragmentActivity
 import app.ss.lessons.data.model.SSContextMenu
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
@@ -384,9 +385,9 @@ class SSReadingViewModel(
     }
 
     fun onDisplayOptionsClick() {
-        val ssReadingDisplayOptionsView = SSReadingDisplayOptionsView()
-        ssReadingDisplayOptionsView.setSSReadingViewModel(context, this, ssReadingDisplayOptions)
-        ssReadingDisplayOptionsView.show((context as SSReadingActivity?)!!.supportFragmentManager, ssReadingDisplayOptionsView.tag)
+        val ssReadingDisplayOptionsView = SSReadingDisplayOptionsView.create(this, ssReadingDisplayOptions)
+        val fragmentManager = (context as? FragmentActivity)?.supportFragmentManager ?: return
+        ssReadingDisplayOptionsView.show(fragmentManager, ssReadingDisplayOptionsView.tag)
 
         val index = ssReads.getOrNull(ssReadingActivityBinding.ssReadingViewPager.currentItem) ?: return
         SSEvent.track(

@@ -21,7 +21,6 @@
  */
 package com.cryart.sabbathschool.lessons.ui.readings.options
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -34,31 +33,31 @@ import com.cryart.sabbathschool.lessons.ui.base.SsBottomSheetDialogFragment
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel
 
 class SSReadingDisplayOptionsView : SsBottomSheetDialogFragment() {
-    private var binding: SsReadingDisplayOptionsBinding? = null
 
-    fun setSSReadingViewModel(
-        context: Context,
-        ssReadingViewModel: SSReadingViewModel,
-        ssReadingDisplayOptions: SSReadingDisplayOptions
-    ) {
-        binding = DataBindingUtil.inflate(
-            LayoutInflater.from(context),
-            R.layout.ss_reading_display_options, null, false
-        )
-        binding?.viewModel = SSReadingDisplayOptionsViewModel(binding, ssReadingViewModel, ssReadingDisplayOptions)
-    }
+    private lateinit var ssReadingViewModel: SSReadingViewModel
+    private lateinit var ssReadingDisplayOptions: SSReadingDisplayOptions
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        if (binding == null) {
-            binding = DataBindingUtil.inflate(
-                LayoutInflater.from(context),
-                R.layout.ss_reading_display_options, null, false
-            )
+    ): View {
+        val binding: SsReadingDisplayOptionsBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.ss_reading_display_options, null, false
+        )
+        binding.viewModel = SSReadingDisplayOptionsViewModel(binding, ssReadingViewModel, ssReadingDisplayOptions)
+
+        return binding.root
+    }
+
+    companion object {
+        fun create(
+            ssReadingViewModel: SSReadingViewModel,
+            ssReadingDisplayOptions: SSReadingDisplayOptions
+        ): SSReadingDisplayOptionsView = SSReadingDisplayOptionsView().apply {
+            this.ssReadingViewModel = ssReadingViewModel
+            this.ssReadingDisplayOptions = ssReadingDisplayOptions
         }
-        return binding?.root
     }
 }
