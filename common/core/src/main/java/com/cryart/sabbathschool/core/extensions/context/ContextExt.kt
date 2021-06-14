@@ -38,6 +38,17 @@ import timber.log.Timber
  */
 val Context.colorPrimary get() = Color.parseColor(SSColorTheme.getInstance(this).colorPrimary)
 
+/**
+ * Returns a white color tint in dark-mode
+ * or the saved [colorPrimary] in light-mode
+ */
+val Context.colorPrimaryTint
+    get() = if (isDarkTheme()) {
+        Color.WHITE
+    } else {
+        colorPrimary
+    }
+
 val Context.colorPrimaryDark get() = Color.parseColor(SSColorTheme.getInstance(this).colorPrimaryDark)
 
 fun Context.isDarkTheme(): Boolean {

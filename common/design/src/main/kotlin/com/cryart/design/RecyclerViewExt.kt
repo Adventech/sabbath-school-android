@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.extensions.view
+package com.cryart.design
 
 import android.widget.EdgeEffect
 import androidx.annotation.ColorInt
@@ -37,9 +37,12 @@ fun RecyclerView.setEdgeEffect(@ColorInt color: Int) {
     }
 }
 
-fun RecyclerView.dividers(@DrawableRes dividerRes: Int) {
+fun RecyclerView.dividers(
+    @DrawableRes dividerRes: Int = R.drawable.list_divider,
+    orientation: Int = DividerItemDecoration.VERTICAL
+) {
     addItemDecoration(
-        DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
+        DividerItemDecoration(context, orientation).apply {
             val divider = ContextCompat.getDrawable(context, dividerRes) ?: return@apply
             setDrawable(divider)
         }

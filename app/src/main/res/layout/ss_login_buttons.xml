@@ -57,6 +57,7 @@
             app:backgroundTint="@color/com_facebook_blue"
             app:cornerRadius="@dimen/spacing_micro"
             app:icon="@drawable/ic_fb_logo"
+            app:iconSize="20dp"
             app:iconGravity="textStart"
             app:iconTint="@android:color/white"
             app:textAllCaps="false" />
@@ -65,14 +66,14 @@
             android:id="@+id/google"
             android:layout_width="@dimen/ss_login_button_social_width"
             android:layout_height="@dimen/ss_login_button_social_height"
-            android:layout_marginVertical="@dimen/spacing_medium"
+            android:layout_marginVertical="@dimen/spacing_micro"
             android:text="@string/common_signin_button_text_long"
             android:textColor="@color/ss_gray_3"
             app:backgroundTint="@color/white"
             app:cornerRadius="@dimen/spacing_micro"
             app:icon="@drawable/ic_google_logo"
             app:iconGravity="textStart"
-            app:iconSize="16dp"
+            app:iconSize="20dp"
             app:iconTint="@null"
             app:textAllCaps="false" />
 
