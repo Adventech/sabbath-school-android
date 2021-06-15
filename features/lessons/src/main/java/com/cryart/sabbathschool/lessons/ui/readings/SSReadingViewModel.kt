@@ -385,7 +385,7 @@ class SSReadingViewModel(
     }
 
     fun onDisplayOptionsClick() {
-        val ssReadingDisplayOptionsView = SSReadingDisplayOptionsView.create(this, ssReadingDisplayOptions)
+        val ssReadingDisplayOptionsView = SSReadingDisplayOptionsView()
         val fragmentManager = (context as? FragmentActivity)?.supportFragmentManager ?: return
         ssReadingDisplayOptionsView.show(fragmentManager, ssReadingDisplayOptionsView.tag)
 

@@ -47,6 +47,7 @@ import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.design.theme
+import com.cryart.sabbathschool.lessons.ui.readings.options.SSReadingDisplayOptionsView
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
@@ -60,7 +61,11 @@ import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, ViewPager.OnPageChangeListener {
+class SSReadingActivity :
+    SSBaseActivity(),
+    SSReadingViewModel.DataListener,
+    ViewPager.OnPageChangeListener,
+    SSReadingDisplayOptionsView.ReadingDisplayOptions {
 
     @Inject
     lateinit var appNavigator: AppNavigator
@@ -250,6 +255,8 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
         outState.putInt(ARG_POSITION, position)
         super.onSaveInstanceState(outState)
     }
+
+    override fun getReadingViewModel(): SSReadingViewModel = ssReadingViewModel
 
     companion object {
         private const val ARG_POSITION = "arg:lesson_index"

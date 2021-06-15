@@ -21,21 +21,36 @@
  */
 package com.cryart.sabbathschool.lessons.ui.readings.options
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingDisplayOptionsBinding
 import com.cryart.sabbathschool.lessons.ui.base.SsBottomSheetDialogFragment
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SSReadingDisplayOptionsView : SsBottomSheetDialogFragment() {
 
-    private lateinit var ssReadingViewModel: SSReadingViewModel
-    private lateinit var ssReadingDisplayOptions: SSReadingDisplayOptions
+    interface ReadingDisplayOptions {
+        fun getReadingViewModel(): SSReadingViewModel
+    }
+
+    @Inject
+    lateinit var ssPrefs: SSPrefs
+
+    private lateinit var readingDisplayOptions: ReadingDisplayOptions
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        readingDisplayOptions = context as ReadingDisplayOptions
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,18 +61,12 @@ class SSReadingDisplayOptionsView : SsBottomSheetDialogFragment() {
             inflater,
             R.layout.ss_reading_display_options, null, false
         )
-        binding.viewModel = SSReadingDisplayOptionsViewModel(binding, ssReadingViewModel, ssReadingDisplayOptions)
+        binding.viewModel = SSReadingDisplayOptionsViewModel(
+            binding,
+            readingDisplayOptions.getReadingViewModel(),
+            ssPrefs.getDisplayOptions()
+        )
 
         return binding.root
-    }
-
-    companion object {
-        fun create(
-            ssReadingViewModel: SSReadingViewModel,
-            ssReadingDisplayOptions: SSReadingDisplayOptions
-        ): SSReadingDisplayOptionsView = SSReadingDisplayOptionsView().apply {
-            this.ssReadingViewModel = ssReadingViewModel
-            this.ssReadingDisplayOptions = ssReadingDisplayOptions
-        }
     }
 }
