@@ -19,6 +19,7 @@ object Versions {
         const val START_UP = "1.0.0"
         const val PREFERENCE = "1.1.1"
         const val BROWSER = "1.3.0"
+        const val DATASTORE_PREFS = "1.0.0-beta01"
     }
 
     object Facebook {

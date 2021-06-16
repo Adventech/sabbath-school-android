@@ -24,15 +24,34 @@ package com.cryart.sabbathschool.core.extensions.prefs
 
 import android.content.Context
 import androidx.core.content.edit
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.preference.PreferenceManager
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.ReminderTime
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.util.Locale
 
-class SSPrefsImpl(private val context: Context) : SSPrefs {
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "ss_prefs")
+
+class SSPrefsImpl(
+    private val context: Context,
+    private val dataStore: DataStore<Preferences> = context.dataStore,
+    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
+) : SSPrefs {
 
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -130,24 +149,72 @@ class SSPrefsImpl(private val context: Context) : SSPrefs {
         }
     }
 
-    override fun getDisplayOptions(): SSReadingDisplayOptions {
-        val defaultTheme = if (context.isDarkTheme()) {
+    /**
+     * By pre-loading the [SSReadingDisplayOptions] in [displayOptionsFlow]
+     * Later synchronous reads may be faster or may avoid a disk I/O operation
+     * altogether if the initial read has completed.
+     */
+    override fun getDisplayOptions(callback: (SSReadingDisplayOptions) -> Unit) {
+        coroutineScope.launch {
+            val settings = dataStore.data.first()
+            val theme = settings[stringPreferencesKey(SSConstants.SS_SETTINGS_THEME_KEY)] ?: defaultTheme()
+            val size = settings[stringPreferencesKey(SSConstants.SS_SETTINGS_SIZE_KEY)] ?: SSReadingDisplayOptions.SS_SIZE_MEDIUM
+            val font = settings[stringPreferencesKey(SSConstants.SS_SETTINGS_FONT_KEY)] ?: SSReadingDisplayOptions.SS_FONT_LATO
+
+            callback(SSReadingDisplayOptions(theme, size, font))
+        }
+    }
+
+    override fun displayOptionsFlow(): Flow<SSReadingDisplayOptions> {
+        val themeFlow = getThemeFlow()
+
+        val sizePrefKey = stringPreferencesKey(SSConstants.SS_SETTINGS_SIZE_KEY)
+        val sizeFlow = dataStore.data.map { preferences ->
+            preferences[sizePrefKey] ?: SSReadingDisplayOptions.SS_SIZE_MEDIUM
+        }
+
+        val fontPrefKey = stringPreferencesKey(SSConstants.SS_SETTINGS_FONT_KEY)
+        val fontFlow = dataStore.data.map { preferences ->
+            preferences[fontPrefKey] ?: SSReadingDisplayOptions.SS_FONT_LATO
+        }
+
+        return combine(themeFlow, sizeFlow, fontFlow) { theme, size, font ->
+            SSReadingDisplayOptions(theme, size, font)
+        }.distinctUntilChanged()
+    }
+
+    private fun getThemeFlow(): Flow<String> {
+        val prefKey = stringPreferencesKey(SSConstants.SS_SETTINGS_THEME_KEY)
+        return dataStore.data.map { preferences ->
+            preferences[prefKey] ?: defaultTheme()
+        }
+    }
+
+    private fun defaultTheme(): String {
+        return if (context.isDarkTheme()) {
             SSReadingDisplayOptions.SS_THEME_DARK
         } else {
             SSReadingDisplayOptions.SS_THEME_LIGHT
         }
-        return SSReadingDisplayOptions(
-            sharedPreferences.getString(SSConstants.SS_SETTINGS_THEME_KEY, defaultTheme)!!,
-            sharedPreferences.getString(SSConstants.SS_SETTINGS_SIZE_KEY, SSReadingDisplayOptions.SS_SIZE_MEDIUM)!!,
-            sharedPreferences.getString(SSConstants.SS_SETTINGS_FONT_KEY, SSReadingDisplayOptions.SS_FONT_LATO)!!
-        )
     }
 
     override fun setDisplayOptions(ssReadingDisplayOptions: SSReadingDisplayOptions) {
-        sharedPreferences.edit {
-            putString(SSConstants.SS_SETTINGS_THEME_KEY, ssReadingDisplayOptions.theme)
-            putString(SSConstants.SS_SETTINGS_FONT_KEY, ssReadingDisplayOptions.font)
-            putString(SSConstants.SS_SETTINGS_SIZE_KEY, ssReadingDisplayOptions.size)
+        coroutineScope.launch {
+            dataStore.edit { settings ->
+                val themePrefKey = stringPreferencesKey(SSConstants.SS_SETTINGS_THEME_KEY)
+                val fontPrefKey = stringPreferencesKey(SSConstants.SS_SETTINGS_FONT_KEY)
+                val sizePrefKey = stringPreferencesKey(SSConstants.SS_SETTINGS_SIZE_KEY)
+
+                if (settings[themePrefKey] != ssReadingDisplayOptions.theme) {
+                    settings[themePrefKey] = ssReadingDisplayOptions.theme
+                }
+                if (settings[fontPrefKey] != ssReadingDisplayOptions.font) {
+                    settings[fontPrefKey] = ssReadingDisplayOptions.font
+                }
+                if (settings[sizePrefKey] != ssReadingDisplayOptions.size) {
+                    settings[sizePrefKey] = ssReadingDisplayOptions.size
+                }
+            }
         }
     }
 

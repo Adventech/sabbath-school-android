@@ -24,10 +24,13 @@ package com.cryart.sabbathschool.core.extensions.prefs
 
 import com.cryart.sabbathschool.core.model.ReminderTime
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import kotlinx.coroutines.flow.Flow
 
 interface SSPrefs {
     fun clear()
-    fun getDisplayOptions(): SSReadingDisplayOptions
+    fun getDisplayOptions(callback: (SSReadingDisplayOptions) -> Unit)
+    fun displayOptionsFlow(): Flow<SSReadingDisplayOptions>
+    fun setDisplayOptions(ssReadingDisplayOptions: SSReadingDisplayOptions)
     fun getReminderTime(): ReminderTime
     fun getReminderJobId(): Int?
     fun getLanguageCode(): String
@@ -44,7 +47,6 @@ interface SSPrefs {
     fun setLastQuarterlyIndex(index: String)
     fun setLanguageCode(languageCode: String)
     fun setLastReaderArtifactCreationTime(readerArtifactCreationTime: Long)
-    fun setDisplayOptions(ssReadingDisplayOptions: SSReadingDisplayOptions)
     fun setLanguagePromptSeen()
     fun setAppReBrandingShown()
 }

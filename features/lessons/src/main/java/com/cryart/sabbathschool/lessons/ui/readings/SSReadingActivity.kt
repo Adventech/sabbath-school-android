@@ -36,7 +36,9 @@ import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
 import coil.load
+import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
@@ -46,8 +48,6 @@ import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
-import com.cryart.design.theme
-import com.cryart.sabbathschool.lessons.ui.readings.options.SSReadingDisplayOptionsView
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
@@ -64,8 +64,7 @@ import javax.inject.Inject
 class SSReadingActivity :
     SSBaseActivity(),
     SSReadingViewModel.DataListener,
-    ViewPager.OnPageChangeListener,
-    SSReadingDisplayOptionsView.ReadingDisplayOptions {
+    ViewPager.OnPageChangeListener {
 
     @Inject
     lateinit var appNavigator: AppNavigator
@@ -77,6 +76,9 @@ class SSReadingActivity :
     private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance()
         .reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
     private lateinit var ssReadingViewModel: SSReadingViewModel
+    private val readingViewAdapter: SSReadingViewAdapter by lazy {
+        SSReadingViewAdapter(this, ssReadingViewModel)
+    }
 
     private var currentLessonIndex: Int? = null
 
@@ -98,16 +100,17 @@ class SSReadingActivity :
                 this,
                 this,
                 lessonIndex,
-                binding,
-                ssPrefs
+                binding
             )
         }
         currentLessonIndex = savedInstanceState?.getInt(ARG_POSITION)
-        binding.ssReadingViewPager.adapter = SSReadingViewAdapter(this, ssReadingViewModel)
+        binding.ssReadingViewPager.adapter = readingViewAdapter
         binding.ssReadingViewPager.addOnPageChangeListener(this)
         binding.executePendingBindings()
         binding.viewModel = ssReadingViewModel
         updateColorScheme()
+
+        observeData()
     }
 
     private fun initUI() {
@@ -256,7 +259,12 @@ class SSReadingActivity :
         super.onSaveInstanceState(outState)
     }
 
-    override fun getReadingViewModel(): SSReadingViewModel = ssReadingViewModel
+    private fun observeData() {
+        ssPrefs.displayOptionsFlow().collectIn(this) { displayOptions ->
+            readingViewAdapter.setSsReadingDisplayOptions(displayOptions)
+            ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
+        }
+    }
 
     companion object {
         private const val ARG_POSITION = "arg:lesson_index"

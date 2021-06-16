@@ -47,7 +47,6 @@ import com.cryart.sabbathschool.bible.SSBibleVersesActivity
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
@@ -77,7 +76,6 @@ class SSReadingViewModel(
     private val dataListener: DataListener,
     private val ssLessonIndex: String,
     private val ssReadingActivityBinding: SsReadingActivityBinding,
-    private val prefs: SSPrefs
 ) : SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback {
     private val ssFirebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val userUuid = ssFirebaseAuth.currentUser?.uid ?: ""
@@ -97,8 +95,6 @@ class SSReadingViewModel(
     val ssLessonOfflineStateVisibility = ObservableInt(View.INVISIBLE)
     val ssLessonErrorStateVisibility = ObservableInt(View.INVISIBLE)
     val ssLessonCoordinatorVisibility = ObservableInt(View.INVISIBLE)
-
-    private var ssReadingDisplayOptions = prefs.getDisplayOptions()
 
     val primaryColor: Int
         get() = context.colorPrimary
@@ -463,9 +459,6 @@ class SSReadingViewModel(
     }
 
     fun onSSReadingDisplayOptions(ssReadingDisplayOptions: SSReadingDisplayOptions) {
-        this.ssReadingDisplayOptions = ssReadingDisplayOptions
-        prefs.setDisplayOptions(ssReadingDisplayOptions)
-
         currentSSReadingView?.updateReadingDisplayOptions(ssReadingDisplayOptions)
         for (i in 0 until ssTotalReadsCount) {
             if (i == ssReadingActivityBinding.ssReadingViewPager.currentItem) continue

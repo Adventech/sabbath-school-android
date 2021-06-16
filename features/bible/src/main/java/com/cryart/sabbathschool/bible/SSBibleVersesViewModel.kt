@@ -24,11 +24,12 @@ package com.cryart.sabbathschool.bible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.lessons.data.model.SSBibleVerses
+import app.ss.lessons.data.model.SSRead
 import com.cryart.sabbathschool.core.extensions.arch.asLiveData
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
-import app.ss.lessons.data.model.SSBibleVerses
-import app.ss.lessons.data.model.SSRead
+import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -48,11 +49,21 @@ class SSBibleVersesViewModel @Inject constructor(
     private val _verses = MutableLiveData<List<SSBibleVerses>>()
     val verses = _verses.asLiveData()
 
+    private lateinit var displayOptions: SSReadingDisplayOptions
+
     fun getLastBibleUsed() = preferences.getLastBibleUsed()
 
     fun setLastBibleUsed(bibleId: String) = preferences.setLastBibleUsed(bibleId)
 
-    fun getDisplayOptions() = preferences.getDisplayOptions()
+    fun getDisplayOptions(): SSReadingDisplayOptions {
+        return displayOptions
+    }
+
+    init {
+        preferences.getDisplayOptions { options ->
+            this.displayOptions = options
+        }
+    }
 
     fun requestVerses(readIndex: String) = viewModelScope.launch {
         reference.child(SSConstants.SS_FIREBASE_READS_DATABASE)

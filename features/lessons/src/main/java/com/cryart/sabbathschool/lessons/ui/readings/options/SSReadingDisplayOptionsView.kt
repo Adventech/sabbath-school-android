@@ -21,7 +21,6 @@
  */
 package com.cryart.sabbathschool.lessons.ui.readings.options
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,26 +30,14 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingDisplayOptionsBinding
 import com.cryart.sabbathschool.lessons.ui.base.SsBottomSheetDialogFragment
-import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SSReadingDisplayOptionsView : SsBottomSheetDialogFragment() {
 
-    interface ReadingDisplayOptions {
-        fun getReadingViewModel(): SSReadingViewModel
-    }
-
     @Inject
     lateinit var ssPrefs: SSPrefs
-
-    private lateinit var readingDisplayOptions: ReadingDisplayOptions
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        readingDisplayOptions = context as ReadingDisplayOptions
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,8 +50,7 @@ class SSReadingDisplayOptionsView : SsBottomSheetDialogFragment() {
         )
         binding.viewModel = SSReadingDisplayOptionsViewModel(
             binding,
-            readingDisplayOptions.getReadingViewModel(),
-            ssPrefs.getDisplayOptions()
+            ssPrefs
         )
 
         return binding.root

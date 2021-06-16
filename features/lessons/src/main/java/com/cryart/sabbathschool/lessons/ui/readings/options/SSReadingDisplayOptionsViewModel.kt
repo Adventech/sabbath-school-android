@@ -24,18 +24,20 @@ package com.cryart.sabbathschool.lessons.ui.readings.options
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.core.view.children
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.lessons.databinding.SsReadingDisplayOptionsBinding
-import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel
 
 class SSReadingDisplayOptionsViewModel(
     private val binding: SsReadingDisplayOptionsBinding,
-    private val ssReadingViewModel: SSReadingViewModel,
-    private val ssReadingDisplayOptions: SSReadingDisplayOptions
+    private val ssPrefs: SSPrefs
 ) {
 
+    private var ssReadingDisplayOptions: SSReadingDisplayOptions? = null
+
     init {
-        updateWidget()
+        ssPrefs.getDisplayOptions { options -> updateWidget(options) }
+
         binding.ssReadingMenuDisplayOptionsSize.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 when (i) {
@@ -62,7 +64,9 @@ class SSReadingDisplayOptionsViewModel(
         })
     }
 
-    private fun updateWidget() {
+    private fun updateWidget(ssReadingDisplayOptions: SSReadingDisplayOptions) {
+        this.ssReadingDisplayOptions = ssReadingDisplayOptions
+
         when (ssReadingDisplayOptions.size) {
             SSReadingDisplayOptions.SS_SIZE_TINY -> {
                 binding.ssReadingMenuDisplayOptionsSize.progress = 0
@@ -134,7 +138,7 @@ class SSReadingDisplayOptionsViewModel(
     }
 
     private fun setTheme(theme: String) {
-        ssReadingDisplayOptions.theme = theme
+        ssReadingDisplayOptions?.theme = theme
         relaySSReadingDisplayOptions()
 
         updateThemeDisplay(theme)
@@ -153,12 +157,12 @@ class SSReadingDisplayOptionsViewModel(
     }
 
     private fun setSize(size: String) {
-        ssReadingDisplayOptions.size = size
+        ssReadingDisplayOptions?.size = size
         relaySSReadingDisplayOptions()
     }
 
     private fun setFont(font: String) {
-        ssReadingDisplayOptions.font = font
+        ssReadingDisplayOptions?.font = font
         relaySSReadingDisplayOptions()
 
         updateFontDisplay(font)
@@ -178,6 +182,6 @@ class SSReadingDisplayOptionsViewModel(
     }
 
     private fun relaySSReadingDisplayOptions() {
-        ssReadingViewModel.onSSReadingDisplayOptions(ssReadingDisplayOptions)
+        ssReadingDisplayOptions?.let { options -> ssPrefs.setDisplayOptions(options) }
     }
 }
