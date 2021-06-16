@@ -30,6 +30,7 @@ object Dependencies {
         const val START_UP = "androidx.startup:startup-runtime:${Versions.AndroidX.START_UP}"
         const val PREFERENCE = "androidx.preference:preference-ktx:${Versions.AndroidX.PREFERENCE}"
         const val BROWSER = "androidx.browser:browser:${Versions.AndroidX.BROWSER}"
+        const val DATASTORE_PREFS = "androidx.datastore:datastore-preferences:${Versions.AndroidX.DATASTORE_PREFS}"
     }
 
     object Firebase {

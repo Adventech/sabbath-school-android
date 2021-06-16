@@ -59,6 +59,7 @@ dependencies {
     implementation(AndroidX.LIFECYCLE_KTX)
     implementation(AndroidX.PREFERENCE)
     implementation(AndroidX.BROWSER)
+    implementation(AndroidX.DATASTORE_PREFS)
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
     implementation(Hilt.ANDROID)
