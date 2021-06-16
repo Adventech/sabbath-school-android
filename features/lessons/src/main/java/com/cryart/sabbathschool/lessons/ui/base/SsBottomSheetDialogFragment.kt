@@ -24,15 +24,10 @@ package com.cryart.sabbathschool.lessons.ui.base
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.DialogFragment
-import com.cryart.sabbathschool.lessons.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 abstract class SsBottomSheetDialogFragment : BottomSheetDialogFragment() {
-    init {
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.ThemeOverlay_SS_BottomSheetDialog)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

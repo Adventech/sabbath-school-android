@@ -23,27 +23,24 @@
 package com.cryart.sabbathschool.lessons.ui.readings;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.cryart.sabbathschool.core.extensions.context.ContextHelper;
-import com.cryart.sabbathschool.core.misc.SSConstants;
-import app.ss.lessons.data.model.SSRead;
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.lessons.R;
-import app.ss.lessons.data.model.SSReadComments;
-import app.ss.lessons.data.model.SSReadHighlights;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
+
+import app.ss.lessons.data.model.SSRead;
+import app.ss.lessons.data.model.SSReadComments;
+import app.ss.lessons.data.model.SSReadHighlights;
 
 public class SSReadingViewAdapter extends PagerAdapter {
     private final Context mContext;
@@ -52,8 +49,10 @@ public class SSReadingViewAdapter extends PagerAdapter {
     public List<SSReadHighlights> ssReadHighlights;
     public List<SSReadComments> ssReadComments;
 
+    private SSReadingDisplayOptions ssReadingDisplayOptions;
+
     public SSReadingViewAdapter(Context context, SSReadingViewModel ssReadingViewModel) {
-        mContext = context;
+        this.mContext = context;
         this.ssReads = Collections.emptyList();
         this.ssReadComments = Collections.emptyList();
         this.ssReadHighlights = Collections.emptyList();
@@ -72,20 +71,16 @@ public class SSReadingViewAdapter extends PagerAdapter {
         this.ssReadComments = ssReadComments;
     }
 
+    public void setSsReadingDisplayOptions(SSReadingDisplayOptions ssReadingDisplayOptions) {
+        this.ssReadingDisplayOptions = ssReadingDisplayOptions;
+    }
+
     @Override
     @NotNull
     public Object instantiateItem(@NotNull ViewGroup collection, int position) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.ss_reading_view, collection, false);
         collection.addView(layout);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.mContext);
-        String theme = ContextHelper.isDarkTheme(mContext) ? SSReadingDisplayOptions.SS_THEME_DARK : SSReadingDisplayOptions.SS_THEME_LIGHT;
-        SSReadingDisplayOptions ssReadingDisplayOptions = new SSReadingDisplayOptions(
-            prefs.getString(SSConstants.SS_SETTINGS_THEME_KEY, theme),
-            prefs.getString(SSConstants.SS_SETTINGS_SIZE_KEY, SSReadingDisplayOptions.SS_SIZE_MEDIUM),
-            prefs.getString(SSConstants.SS_SETTINGS_FONT_KEY, SSReadingDisplayOptions.SS_FONT_LATO)
-        );
 
         final SSReadingView ssReadingView = layout.findViewById(R.id.ss_reading_view);
         ssReadingView.setContextMenuCallback(ssReadingViewModel);

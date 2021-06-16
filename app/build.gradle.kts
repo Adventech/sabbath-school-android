@@ -159,6 +159,7 @@ dependencies {
     implementation(AndroidX.LIFECYCLE_LIVEDATA)
     implementation(AndroidX.RECYCLER_VIEW)
     implementation(AndroidX.START_UP)
+    implementation(AndroidX.DATASTORE_PREFS)
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)

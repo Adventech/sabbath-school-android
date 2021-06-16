@@ -27,6 +27,7 @@
     <color name="text_primary">@color/ss_gray_1</color>
     <color name="ss_logo_tint">@color/white</color>
 
+    <color name="ss_theme_primary_variant">@color/white</color>
     <color name="ss_theme_secondary">@color/white</color>
     <color name="ss_theme_secondary_variant">@color/white</color>
     <color name="ss_theme_color_background">@color/black</color>
