@@ -93,12 +93,12 @@ html, body {
 }
 
 .ss-wrapper-dark {
-  background-color: #212325;
-  color: #949595;
+  background-color: #000000;
+  color: #adadad;
 }
 
 .ss-wrapper-dark code, .ss-wrapper-dark blockquote {
-  background-color: #212325;
+  background-color: #000000;
 }
 
 .ss-wrapper-sepia a {
@@ -106,8 +106,8 @@ html, body {
 }
 
 .ss-wrapper-dark a {
-  border-bottom: 1px solid #ccc;
-  color: #949595;
+  border-bottom: 1px solid #ccc !important;
+  color: #adadad;
 }
 
 .ss-wrapper-dark .textarea, .ss-wrapper-dark code {
@@ -115,8 +115,8 @@ html, body {
 }
 
 .ss-wrapper-dark .textarea {
-  background-color: #232527;
-  color: #949595;
+  background-color: #121212;
+  color: #adadad;
   background-image: -webkit-linear-gradient(#434343 1px, rgba(0, 0, 0, 0) 1px);
 }
 
@@ -165,13 +165,21 @@ html, body {
   padding-bottom: 0.2em;
 }
 
+a.highlight_underline {
+  border-bottom: 2px solid #005EC7;
+}
+
 a {
-  border-bottom: 1px solid #16a365 !important;
+  border-bottom: 1px solid #005EC7;
   cursor: pointer;
   font-weight: bold;
   text-decoration: none;
   padding-bottom: 0.2em;
   color: #222;
+}
+
+a:not(.verse) {
+  word-break: break-all;
 }
 
 blockquote {
@@ -237,4 +245,109 @@ h3 {
 
 sup {
   font-style: italic;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  padding: 0;
+  display: block;
+  overflow: auto;
+  width: 100% !important;
+  margin: 15px 0;
+}
+table tr {
+  border-top: 1px solid #cccccc;
+  background-color: white;
+  margin: 0;
+  padding: 0;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+table tr th {
+  font-weight: bold;
+  border: 1px solid #cccccc;
+  text-align: left;
+  margin: 0;
+  padding: 6px 13px;
+}
+
+table tr td {
+  border: 1px solid #cccccc;
+  text-align: left;
+  margin: 0;
+  padding: 6px 13px;
+}
+
+table tr th :first-child, table tr td :first-child {
+  margin-top: 0;
+}
+
+table tr th :last-child, table tr td :last-child {
+  margin-bottom: 0;
+}
+
+.ss-donation-appeal {
+  display: block !important;
+}
+
+.ss-donation-appeal-title {
+  background-image: linear-gradient(90deg, #8F8F8F 0%, #C8C8C8 100%);
+  padding: 2px 6px;
+  border-radius: 3px;
+  position: relative;
+}
+
+.ss-wrapper-dark .ss-donation-appeal-title {
+  background: #505050;
+}
+
+.ss-donation-appeal-title.ss-donation-appeal-title-expanded {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.ss-donation-appeal-title.ss-donation-appeal-title-expanded .ss-donation-appeal-icon {
+  transform: translate(-50%,-50%) rotate(180deg);
+}
+
+.ss-donation-appeal-title p {
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+.ss-wrapper-dark .ss-donation-appeal-title p {
+  background: #505050;
+  color: #c0c2c2;
+}
+
+.ss-donation-appeal-icon {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  height: 20px;
+  width: 20px;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='white' d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z'/%3E%3C/svg%3E%0A");
+}
+
+.ss-donation-appeal-text {
+  display: none;
+  padding: 6px;
+  background-color: #F8F8F8;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.ss-wrapper-dark .ss-donation-appeal-text {
+  background-color: #38383a;
+}
+
+.ss-wrapper-sepia .ss-donation-appeal-text {
+  background-color: #ffe0a7;
 }
