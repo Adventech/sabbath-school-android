@@ -73,16 +73,10 @@ dependencies {
     implementation(AndroidX.APPCOMPAT)
     implementation(AndroidX.CONSTRAINT_LAYOUT)
     implementation(AndroidX.ACTIVITY)
-    implementation(AndroidX.FRAGMENT_KTX)
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
-    implementation(AndroidX.LIFECYCLE_EXTENSIONS)
-    implementation(AndroidX.LIFECYCLE_LIVEDATA)
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
-
-    implementation(platform(Firebase.BOM))
-    implementation(Firebase.DATABASE)
 
     implementation(Dependencies.TIMBER)
     implementation(Iconics.VIEWS)
