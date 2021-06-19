@@ -21,6 +21,8 @@
  */
 package com.cryart.sabbathschool.core.model
 
+import android.graphics.Color
+
 data class SSReadingDisplayOptions @JvmOverloads constructor(
     var theme: String = SS_THEME_LIGHT,
     var size: String = SS_SIZE_MEDIUM,
@@ -37,13 +39,15 @@ data class SSReadingDisplayOptions @JvmOverloads constructor(
             }
         }
 
+    val colorTheme: Int get() = Color.parseColor(themeColor)
+
     companion object {
         const val SS_THEME_LIGHT = "light"
         const val SS_THEME_SEPIA = "sepia"
         const val SS_THEME_DARK = "dark"
         const val SS_THEME_LIGHT_HEX = "#ffffff"
         const val SS_THEME_SEPIA_HEX = "#fbf0d9"
-        const val SS_THEME_DARK_HEX = "#212325"
+        const val SS_THEME_DARK_HEX = "#000000"
         const val SS_SIZE_TINY = "tiny"
         const val SS_SIZE_SMALL = "small"
         const val SS_SIZE_MEDIUM = "medium"
