@@ -74,4 +74,6 @@ dependencies {
     implementation(Firebase.DATABASE)
 
     addTestsDependencies()
+    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
+    androidTestImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }
