@@ -24,7 +24,6 @@ package com.cryart.sabbathschool.lessons.ui.readings
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.View
@@ -35,6 +34,8 @@ import androidx.core.widget.NestedScrollView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableInt
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import app.ss.lessons.data.model.SSContextMenu
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
@@ -47,6 +48,7 @@ import com.cryart.sabbathschool.bible.SSBibleVersesActivity
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
+import com.cryart.sabbathschool.core.extensions.coroutines.debounceUntilLast
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
@@ -61,6 +63,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.joda.time.DateTime
@@ -106,6 +109,18 @@ class SSReadingViewModel(
         loadLessonInfo()
         checkConnection()
     }
+
+    private val verseClickWithDebounce: (verse: String) -> Unit =
+        debounceUntilLast(
+            scope = ViewTreeLifecycleOwner.get(ssReadingActivityBinding.root)?.lifecycleScope ?: MainScope()
+        ) { verse ->
+            val intent = SSBibleVersesActivity.launchIntent(
+                context,
+                verse,
+                ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index
+            )
+            context.startActivity(intent)
+        }
 
     private fun checkConnection() {
         val inetOptions = InternetObservingSettings.builder()
@@ -367,13 +382,7 @@ class SSReadingViewModel(
         )
     }
 
-    override fun onVerseClicked(verse: String) {
-        // FIXME: Extra click creates extra window
-        val sSBibleActivityIntent = Intent(context, SSBibleVersesActivity::class.java)
-        sSBibleActivityIntent.putExtra(SSConstants.SS_READ_INDEX_EXTRA, ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
-        sSBibleActivityIntent.putExtra(SSConstants.SS_READ_VERSE_EXTRA, verse)
-        context.startActivity(sSBibleActivityIntent)
-    }
+    override fun onVerseClicked(verse: String) = verseClickWithDebounce(verse)
 
     interface DataListener {
         fun onLessonInfoChanged(ssLessonInfo: SSLessonInfo)

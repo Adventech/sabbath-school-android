@@ -28,10 +28,8 @@ class SSPrefsImplTest {
 
     @get:Rule
     var coroutinesTestRule = CoroutineTestRule()
-
     private val mockDataStore: DataStore<Preferences> = mockk(relaxed = true)
     private val mockSharedPreferences: SharedPreferences = mockk()
-
     private lateinit var impl: SSPrefsImpl
 
     @Before
@@ -51,7 +49,6 @@ class SSPrefsImplTest {
             emit(emptyPreferences())
         }
         every { mockDataStore.data }.returns(testFlow)
-
         impl.displayOptionsFlow().test {
             expectItem() shouldBeEqualTo SSReadingDisplayOptions("light", "medium", "lato")
             expectComplete()
@@ -61,7 +58,6 @@ class SSPrefsImplTest {
     @Test
     fun `default value returned when exception is thrown during synchronous read`() = coroutinesTestRule.runBlockingTest {
         every { mockDataStore.data }.answers { error("IO error") }
-
         impl.getDisplayOptions { options ->
             options shouldBeEqualTo SSReadingDisplayOptions("light", "medium", "lato")
         }
@@ -71,9 +67,7 @@ class SSPrefsImplTest {
     fun `clear sharedPreferences`() = coroutinesTestRule.runBlockingTest {
         val mockEditor: SharedPreferences.Editor = mockk(relaxed = true)
         every { mockSharedPreferences.edit() }.returns(mockEditor)
-
         impl.clear()
-
         verify {
             mockSharedPreferences.edit()
             mockEditor.clear()

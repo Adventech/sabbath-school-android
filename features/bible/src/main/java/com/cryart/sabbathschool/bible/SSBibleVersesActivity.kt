@@ -21,6 +21,8 @@
  */
 package com.cryart.sabbathschool.bible
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -30,6 +32,7 @@ import androidx.appcompat.app.AppCompatActivity
 import app.ss.lessons.data.model.SSBibleVerses
 import com.cryart.sabbathschool.bible.databinding.SsBibleVersesActivityBinding
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent.track
@@ -48,7 +51,6 @@ class SSBibleVersesActivity : AppCompatActivity() {
         track(this, SSConstants.SS_EVENT_BIBLE_OPEN)
 
         val verse = intent.extras?.getString(SSConstants.SS_READ_VERSE_EXTRA)
-        val readIndex = intent.extras?.getString(SSConstants.SS_READ_INDEX_EXTRA) ?: return
 
         binding.bibleCloseIV.setOnClickListener { finish() }
         binding.root.setOnClickListener { finish() }
@@ -59,18 +61,22 @@ class SSBibleVersesActivity : AppCompatActivity() {
                 val ssBibleVerses = adapterView.getItemAtPosition(i) as? SSBibleVerses ?: return
                 viewModel.setLastBibleUsed(ssBibleVerses.name)
                 val data = ssBibleVerses.verses[verse] ?: ""
-                binding.ssBibleVersesView.loadContent(data, viewModel.getDisplayOptions())
+                viewModel.displayOptions { options ->
+                    runOnUiThread {
+                        binding.ssBibleVersesView.loadContent(data, options)
+                    }
+                }
             }
 
             override fun onNothingSelected(arg0: AdapterView<*>?) {}
         }
 
-        viewModel.verses.observe(this) {
-            binding.ssReadingBibleVersionList.adapter = SSBibleVersionsAdapter(it)
+        viewModel.bibleVersesFlow.collectIn(this) { verses ->
+            binding.ssReadingBibleVersionList.adapter = SSBibleVersionsAdapter(verses)
             val lastBibleVersionUsed = viewModel.getLastBibleUsed()
             var pos = 0
             if (lastBibleVersionUsed != null) {
-                pos = it.indexOfFirst { verse -> verse.name.equals(lastBibleVersionUsed, ignoreCase = true) }
+                pos = verses.indexOfFirst { verse -> verse.name.equals(lastBibleVersionUsed, ignoreCase = true) }
                 if (pos == -1) {
                     pos = 0
                 }
@@ -78,6 +84,22 @@ class SSBibleVersesActivity : AppCompatActivity() {
             binding.ssReadingBibleVersionList.setSelection(pos)
         }
 
-        viewModel.requestVerses(readIndex)
+        viewModel.displayOptions { options ->
+            binding.ssBibleVersesView.setBackgroundColor(options.colorTheme)
+        }
+    }
+
+    companion object {
+        fun launchIntent(
+            context: Context,
+            verse: String,
+            readIndex: String
+        ): Intent = Intent(
+            context,
+            SSBibleVersesActivity::class.java
+        ).apply {
+            putExtra(SSConstants.SS_READ_INDEX_EXTRA, readIndex)
+            putExtra(SSConstants.SS_READ_VERSE_EXTRA, verse)
+        }
     }
 }
