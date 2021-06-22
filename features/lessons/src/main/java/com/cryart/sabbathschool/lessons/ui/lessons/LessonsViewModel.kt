@@ -61,7 +61,7 @@ class LessonsViewModel @Inject constructor(
             lessonTypes = quarterlies.filter {
                 it.start_date == selected.start_date && it.end_date == selected.end_date
             }
-            if (lessonTypes.isNotEmpty()) {
+            if (lessonTypes.size > 1) {
                 val names = listOf(selected.quarterly_name) + lessonTypes
                     .filterNot { it.id == selected.id }
                     .map { it.quarterly_name }
