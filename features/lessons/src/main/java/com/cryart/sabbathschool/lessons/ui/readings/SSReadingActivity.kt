@@ -31,6 +31,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewTreeLifecycleOwner
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
@@ -108,6 +109,7 @@ class SSReadingActivity :
         }
         currentLessonIndex = savedInstanceState?.getInt(ARG_POSITION)
         binding.ssReadingViewPager.apply {
+            offscreenPageLimit = 4
             adapter = readingViewAdapter
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
@@ -241,11 +243,24 @@ class SSReadingActivity :
         ssReadComments: List<SSReadComments>,
         ssReadIndex: Int
     ) {
-        readingViewAdapter.setContent(ssReads, ssReadHighlights, ssReadComments)
         val index = currentLessonIndex ?: ssReadIndex
-        binding.ssReadingViewPager.currentItem = index
-        val ssRead = ssReads.getOrNull(index) ?: return
-        setPageTitleAndSubtitle(ssRead.title, ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
+        val observer = object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                super.onChanged()
+                binding.ssReadingViewPager.currentItem = index
+                ssReads.getOrNull(index)?.let { read ->
+                    setPageTitleAndSubtitle(
+                        read.title,
+                        ssReadingViewModel.formatDate(read.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY)
+                    )
+                }
+            }
+        }
+        with(readingViewAdapter) {
+            registerAdapterDataObserver(observer)
+            setContent(ssReads, ssReadHighlights, ssReadComments)
+            unregisterAdapterDataObserver(observer)
+        }
 
         currentLessonIndex = null
     }
