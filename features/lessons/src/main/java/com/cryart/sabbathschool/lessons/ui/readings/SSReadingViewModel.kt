@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.lessons.ui.readings
 
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.View
@@ -324,18 +325,23 @@ class SSReadingViewModel(
         this.highlightId = highlightId
     }
 
+    @SuppressWarnings("deprecation")
     override fun onSelectionStarted(posX: Float, posY: Float) {
-        var y = posY
         val scrollView: NestedScrollView = ssReadingActivityBinding.ssReadingViewPager
             .findViewWithTag("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager.currentItem)
-        y = y - scrollView.scrollY + ssReadingActivityBinding.ssReadingViewPager.top
+        val y = posY - scrollView.scrollY + ssReadingActivityBinding.ssReadingViewPager.top
+
         val metrics = DisplayMetrics()
-        (context as? Activity)?.windowManager?.defaultDisplay?.getMetrics(metrics)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            context.display?.getRealMetrics(metrics)
+        } else {
+            (context as? Activity)?.windowManager?.defaultDisplay?.getMetrics(metrics)
+        }
         val params = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.layoutParams as ViewGroup.MarginLayoutParams
         val contextMenuWidth = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.width
         val contextMenuHeight = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.height
         val screenWidth: Int = metrics.widthPixels
-        val margin: Int = SSHelper.convertDpToPixels(context, 20)
+        val margin: Int = SSHelper.convertDpToPixels(context, 50)
         val jumpMargin: Int = SSHelper.convertDpToPixels(context, 60)
         var contextMenuX = posX.toInt() - contextMenuWidth / 2
         var contextMenuY = scrollView.top + y.toInt() - contextMenuHeight - margin
