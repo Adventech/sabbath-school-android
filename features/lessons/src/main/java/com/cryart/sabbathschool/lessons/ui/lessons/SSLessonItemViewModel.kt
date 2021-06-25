@@ -24,12 +24,11 @@ package com.cryart.sabbathschool.lessons.ui.lessons
 import android.content.Context
 import android.content.Intent
 import androidx.databinding.BaseObservable
-import com.cryart.sabbathschool.core.misc.SSConstants
 import app.ss.lessons.data.model.SSLesson
+import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.lessons.ui.viewmodel.SSViewModel
 import org.joda.time.format.DateTimeFormat
-import java.util.Locale
 
 internal class SSLessonItemViewModel(
     private val context: Context,
@@ -51,7 +50,7 @@ internal class SSLessonItemViewModel(
                         .parseLocalDate(ssLesson.end_date)
                 )
 
-            return "$startDateOut - $endDateOut".capitalize(Locale.getDefault())
+            return "$startDateOut - $endDateOut".replaceFirstChar { it.uppercase() }
         }
 
     fun setSsLesson(ssLesson: SSLesson) {

@@ -45,7 +45,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -122,7 +121,7 @@ class ReadingViewModel @Inject constructor(
                 .print(
                     DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                         .parseLocalDate(date)
-                ).capitalize(Locale.getDefault())
+                ).replaceFirstChar { it.uppercase() }
         } catch (ex: IllegalArgumentException) {
             logger.e(ex)
             return ""

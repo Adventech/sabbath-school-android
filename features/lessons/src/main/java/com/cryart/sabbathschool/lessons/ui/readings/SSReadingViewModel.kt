@@ -73,7 +73,6 @@ import ru.beryukhov.reactivenetwork.ReactiveNetwork
 import ru.beryukhov.reactivenetwork.internet.observing.InternetObservingSettings
 import timber.log.Timber
 import java.util.ArrayList
-import java.util.Locale
 
 class SSReadingViewModel(
     private val context: Context,
@@ -313,7 +312,7 @@ class SSReadingViewModel(
                 .print(
                     DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                         .parseLocalDate(date)
-                ).capitalize(Locale.getDefault())
+                ).replaceFirstChar { it.uppercase() }
         } catch (ex: IllegalArgumentException) {
             Timber.e(ex)
             return ""
