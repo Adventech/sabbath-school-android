@@ -56,12 +56,10 @@ class LessonsViewModel @Inject constructor(
         repository.getQuarterlies().collect { resource ->
             val quarterlies = resource.data ?: return@collect
             val selected = quarterlies.find { it.index == index } ?: return@collect
-            if (selected.group.isNullOrEmpty()) return@collect
 
-            lessonTypes = quarterlies.filter {
-                it.start_date == selected.start_date && it.end_date == selected.end_date
-            }
-            if (lessonTypes.isNotEmpty()) {
+            lessonTypes = quarterlies.filter { it.group == selected.group }
+
+            if (lessonTypes.size > 1) {
                 val names = listOf(selected.quarterly_name) + lessonTypes
                     .filterNot { it.id == selected.id }
                     .map { it.quarterly_name }

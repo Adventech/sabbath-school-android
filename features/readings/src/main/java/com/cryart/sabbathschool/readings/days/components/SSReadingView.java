@@ -158,9 +158,9 @@ public class SSReadingView extends SSWebView {
     }
 
     public void updateReadingDisplayOptions(SSReadingDisplayOptions ssReadingDisplayOptions) {
-        ssReadViewBridge.setTheme(ssReadingDisplayOptions.theme);
-        ssReadViewBridge.setFont(ssReadingDisplayOptions.font);
-        ssReadViewBridge.setSize(ssReadingDisplayOptions.size);
+        ssReadViewBridge.setTheme(ssReadingDisplayOptions.getTheme());
+        ssReadViewBridge.setFont(ssReadingDisplayOptions.getFont());
+        ssReadViewBridge.setSize(ssReadingDisplayOptions.getSize());
     }
 
     public void updateHighlights() {

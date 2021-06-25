@@ -27,10 +27,10 @@ import dependencies.Dependencies.Hilt
 import extensions.addTestsDependencies
 
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY)
-    id(BuildPlugins.KOTLIN_ANDROID)
-    id(BuildPlugins.KOTLIN_KAPT)
-    id(BuildPlugins.KOTLIN_PARCELIZE)
+    id(BuildPlugins.Android.LIBRARY)
+    id(BuildPlugins.Kotlin.ANDROID)
+    id(BuildPlugins.Kotlin.KAPT)
+    id(BuildPlugins.Kotlin.PARCELIZE)
     id(BuildPlugins.DAGGER_HILT)
 }
 
@@ -59,7 +59,7 @@ dependencies {
     implementation(AndroidX.LIFECYCLE_KTX)
     implementation(AndroidX.PREFERENCE)
     implementation(AndroidX.BROWSER)
-    implementation(Kotlin.KOTLIN)
+    implementation(AndroidX.DATASTORE_PREFS)
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
     implementation(Hilt.ANDROID)
@@ -74,4 +74,6 @@ dependencies {
     implementation(Firebase.DATABASE)
 
     addTestsDependencies()
+    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
+    androidTestImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }

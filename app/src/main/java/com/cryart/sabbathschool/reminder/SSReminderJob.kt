@@ -32,7 +32,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefsImpl
 import com.cryart.sabbathschool.ui.splash.SplashActivity
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobManager
@@ -46,7 +46,7 @@ class SSReminderJob : Job() {
     private val reminderManager: DailyReminderManager by lazy {
         DailyReminderManager(
             JobManager.instance(),
-            SSPrefs(context)
+            SSPrefsImpl(context)
         )
     }
 

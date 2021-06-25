@@ -36,7 +36,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.test.runBlockingTest
@@ -139,7 +138,7 @@ class QuarterliesViewModelTest {
         val states = viewModel.viewStateLiveData.observeFuture()
         val language = "de"
         val flow: Flow<Resource<List<SSQuarterly>>> = callbackFlow {
-            sendBlocking(Resource.success(emptyList()))
+            trySend(Resource.success(emptyList()))
             awaitClose { }
         }
         every { mockRepository.getQuarterlies(language) }.returns(flow)
@@ -162,7 +161,7 @@ class QuarterliesViewModelTest {
     fun `should emit true for branding prompt flow when not yet seen`() = coroutinesTestRule.runBlockingTest {
         val language = "de"
         val flow: Flow<Resource<List<SSQuarterly>>> = callbackFlow {
-            sendBlocking(Resource.success(emptyList()))
+            trySend(Resource.success(emptyList()))
             awaitClose { }
         }
         every { mockRepository.getQuarterlies(language) }.returns(flow)
@@ -198,7 +197,7 @@ class QuarterliesViewModelTest {
             val states = viewModel.viewStateLiveData.observeFuture()
             val language = "de"
             val errorFlow: Flow<Resource<List<SSQuarterly>>> = callbackFlow {
-                sendBlocking(Resource.error(Throwable()))
+                trySend(Resource.error(Throwable()))
                 awaitClose { }
             }
             every { mockRepository.getQuarterlies(language) }.returns(errorFlow)
@@ -229,7 +228,7 @@ class QuarterliesViewModelTest {
             val language = "de"
 
             val flow: Flow<Resource<List<SSQuarterly>>> = callbackFlow {
-                sendBlocking(Resource.success(all))
+                trySend(Resource.success(all))
                 awaitClose { }
             }
             every { mockRepository.getQuarterlies(language) }.returns(flow)

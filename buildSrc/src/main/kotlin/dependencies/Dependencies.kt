@@ -30,6 +30,7 @@ object Dependencies {
         const val START_UP = "androidx.startup:startup-runtime:${Versions.AndroidX.START_UP}"
         const val PREFERENCE = "androidx.preference:preference-ktx:${Versions.AndroidX.PREFERENCE}"
         const val BROWSER = "androidx.browser:browser:${Versions.AndroidX.BROWSER}"
+        const val DATASTORE_PREFS = "androidx.datastore:datastore-preferences:${Versions.AndroidX.DATASTORE_PREFS}"
     }
 
     object Firebase {
@@ -44,7 +45,6 @@ object Dependencies {
     }
 
     object Kotlin {
-        const val KOTLIN = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.KOTLIN}"
         const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}"
         const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}"
         const val COROUTINES_PLAY_SERVICES = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.COROUTINES}"

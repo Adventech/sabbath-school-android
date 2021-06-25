@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.core.extensions.context
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
@@ -37,7 +38,23 @@ import timber.log.Timber
  */
 val Context.colorPrimary get() = Color.parseColor(SSColorTheme.getInstance(this).colorPrimary)
 
+/**
+ * Returns a white color tint in dark-mode
+ * or the saved [colorPrimary] in light-mode
+ */
+val Context.colorPrimaryTint
+    get() = if (isDarkTheme()) {
+        Color.WHITE
+    } else {
+        colorPrimary
+    }
+
 val Context.colorPrimaryDark get() = Color.parseColor(SSColorTheme.getInstance(this).colorPrimaryDark)
+
+fun Context.isDarkTheme(): Boolean {
+    return resources.configuration.uiMode and
+        Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+}
 
 fun Context.launchWebUrl(url: String): Boolean {
     return launchWebUrl(url.toWebUri())
@@ -81,4 +98,7 @@ object ContextHelper {
     fun launchWebUrl(context: Context, url: String) {
         context.launchWebUrl(url)
     }
+
+    @JvmStatic
+    fun isDarkTheme(context: Context): Boolean = context.isDarkTheme()
 }

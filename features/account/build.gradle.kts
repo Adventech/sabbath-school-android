@@ -24,9 +24,9 @@ import dependencies.Dependencies
 import extensions.kapt
 
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY)
-    id(BuildPlugins.KOTLIN_ANDROID)
-    id(BuildPlugins.KOTLIN_KAPT)
+    id(BuildPlugins.Android.LIBRARY)
+    id(BuildPlugins.Kotlin.ANDROID)
+    id(BuildPlugins.Kotlin.KAPT)
     id(BuildPlugins.DAGGER_HILT)
 }
 
@@ -55,8 +55,6 @@ dependencies {
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
     implementation(project(BuildModules.Common.TRANSLATIONS))
-
-    implementation(Dependencies.Kotlin.KOTLIN)
 
     implementation(Dependencies.MATERIAL)
     implementation(Dependencies.AndroidX.CORE)

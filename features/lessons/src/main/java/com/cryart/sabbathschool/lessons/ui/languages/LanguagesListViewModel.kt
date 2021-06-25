@@ -61,6 +61,6 @@ class LanguagesListViewModel @Inject constructor(
     private fun getNativeLanguageName(code: String): String {
         val loc = Locale(code)
         val name = loc.getDisplayLanguage(loc)
-        return name.substring(0, 1).toUpperCase(Locale.getDefault()) + name.substring(1)
+        return name.replaceFirstChar { it.uppercase() }
     }
 }

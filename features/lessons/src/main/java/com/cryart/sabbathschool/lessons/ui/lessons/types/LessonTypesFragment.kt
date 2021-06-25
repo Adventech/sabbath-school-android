@@ -26,11 +26,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
+import com.cryart.design.dividers
+import com.cryart.design.setEdgeEffect
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
-import com.cryart.sabbathschool.core.extensions.view.setEdgeEffect
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.base.SsBottomSheetDialogFragment
 
@@ -57,11 +57,7 @@ class LessonTypesFragment : SsBottomSheetDialogFragment() {
         val listView = view.findViewById<RecyclerView>(R.id.typesListView)
         listView.apply {
             setEdgeEffect(context.colorPrimary)
-            addItemDecoration(
-                DividerItemDecoration(context, RecyclerView.VERTICAL).apply {
-                    setDrawable(ContextCompat.getDrawable(context, R.drawable.list_divider)!!)
-                }
-            )
+            dividers()
             adapter = listAdapter
         }
     }
@@ -71,9 +67,7 @@ class LessonTypesFragment : SsBottomSheetDialogFragment() {
 
         fun newInstance(types: List<String>, onClick: (String) -> Unit): LessonTypesFragment {
             return LessonTypesFragment().apply {
-                arguments = Bundle().apply {
-                    putStringArrayList(ARG_TYPES, ArrayList(types))
-                }
+                arguments = bundleOf(ARG_TYPES to ArrayList(types))
                 onTypeClick = onClick
             }
         }

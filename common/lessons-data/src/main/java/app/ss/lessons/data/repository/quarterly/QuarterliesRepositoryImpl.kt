@@ -33,7 +33,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
@@ -96,7 +95,7 @@ internal class QuarterliesRepositoryImpl(
                     val quarterlies = snapshot.children.mapNotNull {
                         it.getValue(SSQuarterly::class.java)
                     }
-                    this@callbackFlow.sendBlocking(Resource.success(quarterlies))
+                    this@callbackFlow.trySend(Resource.success(quarterlies))
                 }
             })
 

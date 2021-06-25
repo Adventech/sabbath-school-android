@@ -24,8 +24,6 @@
 <resources>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
-
     <style name="AppTheme.PopupMenuStyle" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
         <item name="android:dropDownHorizontalOffset">-4dp</item>
         <item name="android:dropDownVerticalOffset">4dp</item>

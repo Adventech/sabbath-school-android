@@ -32,8 +32,6 @@
         <item name="android:fontFamily">@font/lato_regular</item>
         <item name="textAppearanceHeadline4">@style/TextAppearance.SS.Headline4</item>
         <item name="textAppearanceHeadline6">@style/TextAppearance.SS.Headline6</item>
-        <item name="android:textColorPrimary">@color/text_primary</item>
-        <item name="android:textColorSecondary">@color/text_secondary</item>
         <item name="textAppearanceBody1">@style/TextAppearance.SS.Body1</item>
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.SS.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.SS.MediumComponent</item>
@@ -53,9 +51,12 @@
         <item name="materialCardViewStyle">@style/Widget.SS.CardView</item>
         <item name="android:colorEdgeEffect">@color/black_40</item>
         <item name="textInputStyle">@style/Widget.SS.TextInput</item>
+        <item name="popupTheme">@style/Theme.SS.PopupOverlay</item>
     </style>
 
     <style name="Theme.SS" parent="Base.Theme.SS">
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
         <item name="colorPrimary">@color/ss_theme_primary</item>
         <item name="colorPrimaryVariant">@color/ss_theme_primary_variant</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -64,6 +65,7 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorError">@color/ss_red_600</item>
         <item name="colorOnError">@color/white</item>
+        <item name="colorSurface">@color/ss_theme_color_background</item>
         <item name="colorOnBackground">@color/ss_theme_color_on_background</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
@@ -84,20 +86,11 @@
         <item name="actionMenuTextColor">?attr/colorOnSurface</item>
     </style>
 
-    <style name="Base.ThemeOverlay.SS.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.DayNight.BottomSheetDialog">
+    <style name="ThemeOverlay.SS.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="colorControlHighlight">@color/on_surface_32</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="bottomSheetStyle">@style/Widget.SS.BottomSheet.Modal</item>
         <item name="android:windowIsFloating">false</item>
-    </style>
-
-    <style name="ThemeOverlay.SS.BottomSheetDialog" parent="Base.ThemeOverlay.SS.BottomSheetDialog">
-        <item name="colorPrimary">@color/ss_theme_primary</item>
-        <item name="colorPrimaryVariant">@color/ss_theme_primary_variant</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/ss_theme_secondary</item>
-        <item name="colorSecondaryVariant">@color/ss_theme_secondary_variant</item>
-        <item name="colorOnSecondary">@color/black</item>
     </style>
 
     <style name="Base.ThemeOverlay.SS.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
@@ -120,4 +113,6 @@
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
     </style>
+
+    <style name="Theme.SS.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 </resources>

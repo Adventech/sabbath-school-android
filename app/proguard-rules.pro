@@ -15,18 +15,6 @@
 
 # Dagger
 -dontwarn com.google.errorprone.annotations.*
-# https://github.com/google/dagger/issues/2291
--keep class dagger.hilt.android.internal.modules.HiltWrapper_ActivityModule
--keep class dagger.hilt.android.internal.managers.HiltWrapper_ActivityRetainedComponentManager_LifecycleModule
--keep class dagger.hilt.android.internal.managers.HiltWrapper_ActivityRetainedComponentManager_ActivityRetainedLifecycleEntryPoint
--keep class dagger.hilt.android.internal.managers.HiltWrapper_ActivityRetainedComponentManager_ActivityRetainedComponentBuilderEntryPoint
-
--keep class dagger.hilt.android.internal.lifecycle.HiltWrapper_DefaultViewModelFactories_ActivityEntryPoint
--keep class dagger.hilt.android.internal.lifecycle.HiltWrapper_DefaultViewModelFactories_ActivityModule
--keep class dagger.hilt.android.internal.lifecycle.HiltWrapper_DefaultViewModelFactories_FragmentEntryPoint
-
--keep class dagger.hilt.android.internal.lifecycle.HiltWrapper_HiltViewModelFactory_ViewModelModule
--keep class dagger.hilt.android.internal.lifecycle.HiltWrapper_HiltViewModelFactory_ViewModelFactoriesEntryPoint
 
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application

@@ -1,8 +1,7 @@
 package dependencies
 
 object Versions {
-    const val KOTLIN = "1.4.31"
-    const val COROUTINES = "1.4.3"
+    const val COROUTINES = "1.5.0"
 
     const val MATERIAL = "1.3.0"
     const val DESUGAR = "1.1.1"
@@ -10,31 +9,32 @@ object Versions {
     object AndroidX {
         const val APPCOMPAT = "1.2.0"
         const val RECYCLER_VIEW = "1.1.0"
-        const val LIFECYCLE = "2.3.0"
+        const val LIFECYCLE = "2.3.1"
         const val LIFECYCLE_KTX = "2.4.0-alpha01"
         const val LIFECYCLE_EXT = "2.2.0"
-        const val CORE = "1.5.0-beta03"
+        const val CORE = "1.5.0"
         const val FRAGMENT = "1.3.0"
         const val ACTIVITY = "1.2.0"
         const val CONSTRAINT_LAYOUT = "2.0.4"
         const val START_UP = "1.0.0"
         const val PREFERENCE = "1.1.1"
         const val BROWSER = "1.3.0"
+        const val DATASTORE_PREFS = "1.0.0-beta01"
     }
 
     object Facebook {
-        const val SDK = "9.1.0"
+        const val SDK = "11.0.0"
         const val SHIMMER = "0.5.0"
     }
 
-    const val HILT = "2.35.1"
+    const val HILT = "2.37"
 
     const val TIMBER = "4.7.1"
-    const val COIL = "1.1.1"
-    const val TAP_TARGET = "3.1.0"
+    const val COIL = "1.2.2"
+    const val TAP_TARGET = "3.2.0"
     const val ICONICS = "5.2.8@aar"
 
-    const val FIREBASE_BOM = "27.1.0"
+    const val FIREBASE_BOM = "28.1.0"
     const val PLAY_AUTH = "19.0.0"
     const val ANDROID_JOB = "1.4.2"
     const val JODA = "2.10.9"
@@ -48,6 +48,6 @@ object Versions {
     const val MOCKK = "1.11.0"
     const val ESPRESSO = "3.3.0"
     const val FRAGMENT_TEST = "1.3.0"
-    const val KLUENT = "1.65"
-    const val TURBINE = "0.4.1"
+    const val KLUENT = "1.67"
+    const val TURBINE = "0.5.2"
 }

@@ -21,44 +21,38 @@
  */
 package com.cryart.sabbathschool.lessons.ui.readings.options
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingDisplayOptionsBinding
 import com.cryart.sabbathschool.lessons.ui.base.SsBottomSheetDialogFragment
-import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SSReadingDisplayOptionsView : SsBottomSheetDialogFragment() {
-    private var binding: SsReadingDisplayOptionsBinding? = null
 
-    fun setSSReadingViewModel(
-        context: Context,
-        ssReadingViewModel: SSReadingViewModel,
-        ssReadingDisplayOptions: SSReadingDisplayOptions
-    ) {
-        binding = DataBindingUtil.inflate(
-            LayoutInflater.from(context),
-            R.layout.ss_reading_display_options, null, false
-        )
-        binding?.viewModel = SSReadingDisplayOptionsViewModel(binding, ssReadingViewModel, ssReadingDisplayOptions)
-    }
+    @Inject
+    lateinit var ssPrefs: SSPrefs
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        if (binding == null) {
-            binding = DataBindingUtil.inflate(
-                LayoutInflater.from(context),
-                R.layout.ss_reading_display_options, null, false
-            )
-        }
-        return binding?.root
+    ): View {
+        val binding: SsReadingDisplayOptionsBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.ss_reading_display_options, null, false
+        )
+        binding.viewModel = SSReadingDisplayOptionsViewModel(
+            binding,
+            ssPrefs
+        )
+
+        return binding.root
     }
 }

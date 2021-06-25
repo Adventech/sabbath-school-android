@@ -23,6 +23,7 @@ package app.ss.lessons.data.model
 
 import androidx.annotation.Keep
 import com.google.firebase.database.IgnoreExtraProperties
+import java.util.UUID
 
 @Keep
 @IgnoreExtraProperties
@@ -35,7 +36,7 @@ class SSQuarterly(
     val end_date: String = "",
     val cover: String = "",
     val index: String = "",
-    val group: String? = null,
+    val group: String = UUID.randomUUID().toString(), // Allows us to easily group quarterlies while maintaining order from api
     val path: String = "",
     val full_path: String = "",
     val lang: String = "",

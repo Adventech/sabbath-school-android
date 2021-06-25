@@ -30,14 +30,19 @@ import android.view.MenuItem
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.viewpager.widget.ViewPager
+import androidx.lifecycle.ViewTreeLifecycleOwner
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
 import coil.load
+import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
 import com.cryart.sabbathschool.core.navigation.AppNavigator
@@ -46,7 +51,6 @@ import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
-import com.cryart.design.theme
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
@@ -60,7 +64,9 @@ import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, ViewPager.OnPageChangeListener {
+class SSReadingActivity :
+    SSBaseActivity(),
+    SSReadingViewModel.DataListener {
 
     @Inject
     lateinit var appNavigator: AppNavigator
@@ -68,10 +74,14 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
     @Inject
     lateinit var ssPrefs: SSPrefs
 
-    private val binding: SsReadingActivityBinding by lazy { SsReadingActivityBinding.inflate(layoutInflater) }
+    private val binding: SsReadingActivityBinding by viewBinding(SsReadingActivityBinding::inflate)
     private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance()
         .reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
     private lateinit var ssReadingViewModel: SSReadingViewModel
+
+    private val readingViewAdapter: ReadingViewPagerAdapter by lazy {
+        ReadingViewPagerAdapter(ssReadingViewModel)
+    }
 
     private var currentLessonIndex: Int? = null
 
@@ -88,21 +98,33 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
             return
         }
 
+        ViewTreeLifecycleOwner.set(binding.root, this)
         if (!this::ssReadingViewModel.isInitialized) {
             ssReadingViewModel = SSReadingViewModel(
                 this,
                 this,
                 lessonIndex,
-                binding,
-                ssPrefs
+                binding
             )
         }
         currentLessonIndex = savedInstanceState?.getInt(ARG_POSITION)
-        binding.ssReadingViewPager.adapter = SSReadingViewAdapter(this, ssReadingViewModel)
-        binding.ssReadingViewPager.addOnPageChangeListener(this)
+        binding.ssReadingViewPager.apply {
+            offscreenPageLimit = 4
+            adapter = readingViewAdapter
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+
+                    val ssRead = readingViewAdapter.getReadAt(position) ?: return
+                    setPageTitleAndSubtitle(ssRead.title, ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
+                }
+            })
+        }
         binding.executePendingBindings()
         binding.viewModel = ssReadingViewModel
         updateColorScheme()
+
+        observeData()
     }
 
     private fun initUI() {
@@ -221,34 +243,39 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Vie
         ssReadComments: List<SSReadComments>,
         ssReadIndex: Int
     ) {
-        val ssReadingViewAdapter = binding.ssReadingViewPager.adapter as? SSReadingViewAdapter
-        ssReadingViewAdapter?.let {
-            it.setSSReads(ssReads)
-            it.setSSReadComments(ssReadComments)
-            it.setSSReadHighlights(ssReadHighlights)
-            it.notifyDataSetChanged()
-        }
         val index = currentLessonIndex ?: ssReadIndex
-        binding.ssReadingViewPager.currentItem = index
-        val ssRead = ssReads.getOrNull(index) ?: return
-        setPageTitleAndSubtitle(ssRead.title, ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
+        val observer = object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                super.onChanged()
+                binding.ssReadingViewPager.currentItem = index
+                ssReads.getOrNull(index)?.let { read ->
+                    setPageTitleAndSubtitle(
+                        read.title,
+                        ssReadingViewModel.formatDate(read.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY)
+                    )
+                }
+            }
+        }
+        with(readingViewAdapter) {
+            registerAdapterDataObserver(observer)
+            setContent(ssReads, ssReadHighlights, ssReadComments)
+            unregisterAdapterDataObserver(observer)
+        }
 
         currentLessonIndex = null
     }
-
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-    override fun onPageSelected(position: Int) {
-        val ssReadingViewAdapter = binding.ssReadingViewPager.adapter as? SSReadingViewAdapter
-        val ssRead = ssReadingViewAdapter?.ssReads?.get(position) ?: return
-        setPageTitleAndSubtitle(ssRead.title, ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
-    }
-
-    override fun onPageScrollStateChanged(state: Int) {}
 
     override fun onSaveInstanceState(outState: Bundle) {
         val position = binding.ssReadingViewPager.currentItem
         outState.putInt(ARG_POSITION, position)
         super.onSaveInstanceState(outState)
+    }
+
+    private fun observeData() {
+        ssPrefs.displayOptionsFlow().collectIn(this) { displayOptions ->
+            readingViewAdapter.readingOptions = displayOptions
+            ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
+        }
     }
 
     companion object {

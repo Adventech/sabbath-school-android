@@ -90,10 +90,7 @@ class QuarterliesViewModel @Inject constructor(
             repository.getQuarterlies(code).collect { resource ->
                 if (resource.isSuccessFul) {
                     val quarterlies = resource.data ?: emptyList()
-                    val filtered = quarterlies
-                        .filter { it.group != null }
-                        .distinctBy { it.group } + quarterlies
-                        .filter { it.group == null }
+                    val filtered = quarterlies.distinctBy { it.group }
 
                     mutableViewState.postValue(ViewState.Success(filtered))
 

@@ -24,7 +24,7 @@ package com.cryart.sabbathschool.lessons.ui.readings
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
+import android.os.Build
 import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.View
@@ -34,6 +34,9 @@ import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableInt
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import app.ss.lessons.data.model.SSContextMenu
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
@@ -45,7 +48,8 @@ import com.afollestad.materialdialogs.input.input
 import com.cryart.sabbathschool.bible.SSBibleVersesActivity
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
+import com.cryart.sabbathschool.core.extensions.coroutines.debounceUntilLast
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
@@ -60,6 +64,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.joda.time.DateTime
@@ -68,14 +73,12 @@ import ru.beryukhov.reactivenetwork.ReactiveNetwork
 import ru.beryukhov.reactivenetwork.internet.observing.InternetObservingSettings
 import timber.log.Timber
 import java.util.ArrayList
-import java.util.Locale
 
 class SSReadingViewModel(
     private val context: Context,
     private val dataListener: DataListener,
     private val ssLessonIndex: String,
     private val ssReadingActivityBinding: SsReadingActivityBinding,
-    private val prefs: SSPrefs
 ) : SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback {
     private val ssFirebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val userUuid = ssFirebaseAuth.currentUser?.uid ?: ""
@@ -96,8 +99,6 @@ class SSReadingViewModel(
     val ssLessonErrorStateVisibility = ObservableInt(View.INVISIBLE)
     val ssLessonCoordinatorVisibility = ObservableInt(View.INVISIBLE)
 
-    private var ssReadingDisplayOptions = prefs.getDisplayOptions()
-
     val primaryColor: Int
         get() = context.colorPrimary
 
@@ -108,6 +109,18 @@ class SSReadingViewModel(
         loadLessonInfo()
         checkConnection()
     }
+
+    private val verseClickWithDebounce: (verse: String) -> Unit =
+        debounceUntilLast(
+            scope = ViewTreeLifecycleOwner.get(ssReadingActivityBinding.root)?.lifecycleScope ?: MainScope()
+        ) { verse ->
+            val intent = SSBibleVersesActivity.launchIntent(
+                context,
+                verse,
+                ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index
+            )
+            context.startActivity(intent)
+        }
 
     private fun checkConnection() {
         val inetOptions = InternetObservingSettings.builder()
@@ -299,7 +312,7 @@ class SSReadingViewModel(
                 .print(
                     DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                         .parseLocalDate(date)
-                ).capitalize(Locale.getDefault())
+                ).replaceFirstChar { it.uppercase() }
         } catch (ex: IllegalArgumentException) {
             Timber.e(ex)
             return ""
@@ -311,18 +324,23 @@ class SSReadingViewModel(
         this.highlightId = highlightId
     }
 
+    @SuppressWarnings("deprecation")
     override fun onSelectionStarted(posX: Float, posY: Float) {
-        var y = posY
         val scrollView: NestedScrollView = ssReadingActivityBinding.ssReadingViewPager
             .findViewWithTag("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager.currentItem)
-        y = y - scrollView.scrollY + ssReadingActivityBinding.ssReadingViewPager.top
+        val y = posY - scrollView.scrollY + ssReadingActivityBinding.ssReadingViewPager.top
+
         val metrics = DisplayMetrics()
-        (context as? Activity)?.windowManager?.defaultDisplay?.getMetrics(metrics)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            context.display?.getRealMetrics(metrics)
+        } else {
+            (context as? Activity)?.windowManager?.defaultDisplay?.getMetrics(metrics)
+        }
         val params = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.layoutParams as ViewGroup.MarginLayoutParams
         val contextMenuWidth = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.width
         val contextMenuHeight = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.height
         val screenWidth: Int = metrics.widthPixels
-        val margin: Int = SSHelper.convertDpToPixels(context, 20)
+        val margin: Int = SSHelper.convertDpToPixels(context, 50)
         val jumpMargin: Int = SSHelper.convertDpToPixels(context, 60)
         var contextMenuX = posX.toInt() - contextMenuWidth / 2
         var contextMenuY = scrollView.top + y.toInt() - contextMenuHeight - margin
@@ -369,13 +387,7 @@ class SSReadingViewModel(
         )
     }
 
-    override fun onVerseClicked(verse: String) {
-        // FIXME: Extra click creates extra window
-        val sSBibleActivityIntent = Intent(context, SSBibleVersesActivity::class.java)
-        sSBibleActivityIntent.putExtra(SSConstants.SS_READ_INDEX_EXTRA, ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
-        sSBibleActivityIntent.putExtra(SSConstants.SS_READ_VERSE_EXTRA, verse)
-        context.startActivity(sSBibleActivityIntent)
-    }
+    override fun onVerseClicked(verse: String) = verseClickWithDebounce(verse)
 
     interface DataListener {
         fun onLessonInfoChanged(ssLessonInfo: SSLessonInfo)
@@ -384,8 +396,8 @@ class SSReadingViewModel(
 
     fun onDisplayOptionsClick() {
         val ssReadingDisplayOptionsView = SSReadingDisplayOptionsView()
-        ssReadingDisplayOptionsView.setSSReadingViewModel(context, this, ssReadingDisplayOptions)
-        ssReadingDisplayOptionsView.show((context as SSReadingActivity?)!!.supportFragmentManager, ssReadingDisplayOptionsView.tag)
+        val fragmentManager = (context as? FragmentActivity)?.supportFragmentManager ?: return
+        ssReadingDisplayOptionsView.show(fragmentManager, ssReadingDisplayOptionsView.tag)
 
         val index = ssReads.getOrNull(ssReadingActivityBinding.ssReadingViewPager.currentItem) ?: return
         SSEvent.track(
@@ -461,9 +473,6 @@ class SSReadingViewModel(
     }
 
     fun onSSReadingDisplayOptions(ssReadingDisplayOptions: SSReadingDisplayOptions) {
-        this.ssReadingDisplayOptions = ssReadingDisplayOptions
-        prefs.setDisplayOptions(ssReadingDisplayOptions)
-
         currentSSReadingView?.updateReadingDisplayOptions(ssReadingDisplayOptions)
         for (i in 0 until ssTotalReadsCount) {
             if (i == ssReadingActivityBinding.ssReadingViewPager.currentItem) continue
@@ -494,8 +503,7 @@ class SSReadingViewModel(
         @JvmStatic
         @BindingAdapter("showInLightTheme")
         fun setVisibility(view: View, show: Boolean) {
-            val array = view.context.theme.obtainStyledAttributes(intArrayOf(R.attr.isLightTheme))
-            val isLightTheme = array.getBoolean(0, true)
+            val isLightTheme = !view.context.isDarkTheme()
             view.isVisible = (show && isLightTheme) || (!show && !isLightTheme)
         }
     }

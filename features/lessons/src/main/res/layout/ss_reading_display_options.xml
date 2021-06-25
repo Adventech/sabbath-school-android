@@ -20,7 +20,8 @@
   ~ THE SOFTWARE.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -32,206 +33,135 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?android:attr/windowBackground"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/ss_reading_display_options_subtitle_margin"
-            android:gravity="start|top"
-            android:text="@string/ss_reading_display_options_color_theme"
-            android:textColor="?attr/colorPrimaryVariant"
-            android:textStyle="bold" />
-
-        <include layout="@layout/ss_horizontal_line" />
+        android:divider="@color/list_divider"
+        android:orientation="vertical"
+        android:showDividers="middle">
 
         <LinearLayout
+            android:id="@+id/themeContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:clickable="true"
+            android:divider="@color/list_divider"
             android:focusable="true"
+            android:showDividers="middle"
             android:weightSum="3">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/themeLight"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
                 android:onClick="@{() -> viewModel.setThemeLight()}"
                 android:paddingTop="@dimen/ss_reading_display_options_button_padding"
-                android:paddingBottom="@dimen/ss_reading_display_options_button_padding">
+                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+                android:text="@string/ss_reading_display_options_theme_light"
+                android:textAlignment="center"
+                android:textColor="@color/selector_primary_variant"
+                app:fontFamily="@font/lato_regular" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/ss_reading_display_options_theme_light"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black" />
-
-            </FrameLayout>
-
-            <FrameLayout
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/themeSepia"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/ss_color_display_theme_sepia"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
                 android:onClick="@{() -> viewModel.setThemeSepia()}"
                 android:paddingTop="@dimen/ss_reading_display_options_button_padding"
-                android:paddingBottom="@dimen/ss_reading_display_options_button_padding">
+                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+                android:text="@string/ss_reading_display_options_theme_sepia"
+                android:textAlignment="center"
+                android:textColor="@color/selector_primary_variant"
+                app:fontFamily="@font/lato_regular" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/ss_reading_display_options_theme_sepia"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/themeDark"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/ss_color_display_theme_dark"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
                 android:onClick="@{() -> viewModel.setThemeDark()}"
                 android:paddingTop="@dimen/ss_reading_display_options_button_padding"
-                android:paddingBottom="@dimen/ss_reading_display_options_button_padding">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/ss_reading_display_options_theme_dark"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/white" />
-
-            </FrameLayout>
+                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+                android:text="@string/ss_reading_display_options_theme_dark"
+                android:textAlignment="center"
+                android:textColor="@color/selector_primary_variant"
+                app:fontFamily="@font/lato_regular" />
 
         </LinearLayout>
 
-        <include layout="@layout/ss_horizontal_line" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/ss_reading_display_options_subtitle_margin"
-            android:gravity="start|top"
-            android:text="@string/ss_reading_display_options_typeface"
-            android:textColor="?attr/colorPrimaryVariant"
-            android:textStyle="bold" />
-
         <LinearLayout
+            android:id="@+id/fontContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:weightSum="4">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/fontAndada"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="@{() -> viewModel.setFontAndada()}">
+                android:gravity="center"
+                android:onClick="@{() -> viewModel.setFontAndada()}"
+                android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+                android:text="@string/ss_reading_display_options_typeface_andada"
+                android:textAlignment="center"
+                android:textColor="@color/selector_primary_variant"
+                app:fontFamily="@font/andada_regular" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/andada_regular"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/ss_reading_display_options_button_padding"
-                    android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
-                    android:text="@string/ss_reading_display_options_typeface_andada"
-                    android:textAlignment="center" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/fontLato"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="@{() -> viewModel.setFontLato()}">
+                android:gravity="center"
+                android:onClick="@{() -> viewModel.setFontLato()}"
+                android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+                android:text="@string/ss_reading_display_options_typeface_lato"
+                android:textAlignment="center"
+                android:textColor="@color/selector_primary_variant"
+                app:fontFamily="@font/lato_regular" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/lato_regular"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/ss_reading_display_options_button_padding"
-                    android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
-                    android:text="@string/ss_reading_display_options_typeface_lato"
-                    android:textAlignment="center" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/fontSerif"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="@{() -> viewModel.setFontPTSerif()}">
+                android:gravity="center"
+                android:onClick="@{() -> viewModel.setFontPTSerif()}"
+                android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+                android:text="@string/ss_reading_display_options_typeface_pt_serif"
+                android:textAlignment="center"
+                android:textColor="@color/selector_primary_variant"
+                app:fontFamily="@font/pt_serif_regular" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/pt_serif_regular"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/ss_reading_display_options_button_padding"
-                    android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
-                    android:text="@string/ss_reading_display_options_typeface_pt_serif"
-                    android:textAlignment="center" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/fontSans"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="@{() -> viewModel.setFontPTSans()}">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/pt_sans_regular"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/ss_reading_display_options_button_padding"
-                    android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
-                    android:text="@string/ss_reading_display_options_typeface_pt_sans"
-                    android:textAlignment="center" />
-
-            </FrameLayout>
+                android:gravity="center"
+                android:onClick="@{() -> viewModel.setFontPTSans()}"
+                android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+                android:text="@string/ss_reading_display_options_typeface_pt_sans"
+                android:textAlignment="center"
+                android:textColor="@color/selector_primary_variant"
+                app:fontFamily="@font/pt_sans_regular" />
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/ss_reading_display_options_subtitle_margin"
-            android:gravity="start|top"
-            android:text="@string/ss_reading_display_options_font_size"
-            android:textColor="?attr/colorPrimaryVariant"
-            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"

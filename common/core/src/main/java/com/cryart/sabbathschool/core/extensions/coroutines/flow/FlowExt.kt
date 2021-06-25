@@ -27,9 +27,12 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.addRepeatingJob
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -74,3 +77,15 @@ fun <T> Flow<T>.collectIn(
  * Shorthand for map(...).distinctUntilChanged()
  */
 fun <T, V> Flow<T>.mapDistinct(mapper: suspend (T) -> V): Flow<V> = map(mapper).distinctUntilChanged()
+
+/**
+ * Use in [ViewModel] to avoid passing 5000
+ */
+fun <T> Flow<T>.stateIn(
+    scope: CoroutineScope,
+    initialValue: T
+): StateFlow<T> = stateIn(
+    scope = scope,
+    started = SharingStarted.WhileSubscribed(5000),
+    initialValue = initialValue
+)

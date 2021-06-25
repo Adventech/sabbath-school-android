@@ -30,10 +30,10 @@ import extensions.kapt
 import extensions.testImplementation
 
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY)
-    id(BuildPlugins.KOTLIN_ANDROID)
-    id(BuildPlugins.KOTLIN_KAPT)
-    id(BuildPlugins.KOTLIN_PARCELIZE)
+    id(BuildPlugins.Android.LIBRARY)
+    id(BuildPlugins.Kotlin.ANDROID)
+    id(BuildPlugins.Kotlin.KAPT)
+    id(BuildPlugins.Kotlin.PARCELIZE)
     id(BuildPlugins.DAGGER_HILT)
 }
 
@@ -72,7 +72,6 @@ dependencies {
     implementation(project(BuildModules.Features.READER))
     implementation(project(BuildModules.Features.BIBLE))
 
-    implementation(Kotlin.KOTLIN)
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
     implementation(Kotlin.COROUTINES_PLAY_SERVICES)
