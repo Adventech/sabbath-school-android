@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -22,58 +21,58 @@
   -->
 
 <resources>
-    <string name="blank"/>
+    <string name="blank" />
 
-    <string translatable="false" name="ss_settings_typeface_andada">Andada</string>
-    <string translatable="false" name="ss_settings_typeface_lato">Lato</string>
-    <string translatable="false" name="ss_settings_typeface_pt_serif">PT Serif</string>
-    <string translatable="false" name="ss_settings_typeface_pt_sans">PT Sans</string>
+    <string name="ss_settings_typeface_andada" translatable="false">Andada</string>
+    <string name="ss_settings_typeface_lato" translatable="false">Lato</string>
+    <string name="ss_settings_typeface_pt_serif" translatable="false">PT Serif</string>
+    <string name="ss_settings_typeface_pt_sans" translatable="false">PT Sans</string>
 
-    <string translatable="false" name="ss_settings_website_summary">adventech.io</string>
-    <string translatable="false" name="ss_settings_website_url">http://adventech.io</string>
-    <string translatable="false" name="ss_settings_facebook">Facebook</string>
-    <string translatable="false" name="ss_settings_facebook_summary">facebook.com/shabbatschool</string>
-    <string translatable="false" name="ss_settings_facebook_url">https://facebook.com/shabbatschool</string>
-    <string translatable="false" name="ss_settings_instagram">Instagram</string>
-    <string translatable="false" name="ss_settings_instagram_summary">\@adventech</string>
-    <string translatable="false" name="ss_settings_instagram_url">https://instagram.com/adventech</string>
-    <string translatable="false" name="ss_settings_github">GitHub</string>
-    <string translatable="false" name="ss_settings_github_summary">github.com/Adventech</string>
-    <string translatable="false" name="ss_settings_github_url">https://github.com/Adventech</string>
-    <string translatable="false" name="ss_settings_version_key">ss_key_version</string>
-    <string translatable="false" name="ss_app_host">sabbath-school.adventech.io</string>
-    <string translatable="false" name="ss_app_playstore_url">https://play.google.com/store/apps/details?id=com.cryart.sabbathschool</string>
-    <string translatable="false" name="ss_app_scheme">ss_app</string>
+    <string name="ss_settings_website_summary" translatable="false">adventech.io</string>
+    <string name="ss_settings_website_url" translatable="false">http://adventech.io</string>
+    <string name="ss_settings_facebook" translatable="false">Facebook</string>
+    <string name="ss_settings_facebook_summary" translatable="false">facebook.com/shabbatschool</string>
+    <string name="ss_settings_facebook_url" translatable="false">https://facebook.com/shabbatschool</string>
+    <string name="ss_settings_instagram" translatable="false">Instagram</string>
+    <string name="ss_settings_instagram_summary" translatable="false">\@adventech</string>
+    <string name="ss_settings_instagram_url" translatable="false">https://instagram.com/adventech</string>
+    <string name="ss_settings_github" translatable="false">GitHub</string>
+    <string name="ss_settings_github_summary" translatable="false">github.com/Adventech</string>
+    <string name="ss_settings_github_url" translatable="false">https://github.com/Adventech</string>
+    <string name="ss_settings_version_key" translatable="false">ss_key_version</string>
+    <string name="ss_app_host" translatable="false">sabbath-school.adventech.io</string>
+    <string name="ss_app_playstore_url" translatable="false">https://play.google.com/store/apps/details?id=com.cryart.sabbathschool</string>
+    <string name="ss_app_scheme" translatable="false">ss_app</string>
 
-    <string translatable="false" name="facebook_app_id">1440555266255436</string>
-    <string translatable="false" name="fb_login_protocol_scheme">1440555266255436</string>
-    <string translatable="false" name="ss_quarterly_cover_transition">ssQuarterlyCoverTransition</string>
+    <string name="facebook_app_id" translatable="false">1440555266255436</string>
+    <string name="fb_login_protocol_scheme" translatable="false">1440555266255436</string>
+    <string name="ss_quarterly_cover_transition" translatable="false">ssQuarterlyCoverTransition</string>
 
-    <string translatable="false" name="ss_menu_anonymous_email">anonymous@adventech.io</string>
-    <string translatable="false" name="ss_menu_my_highlights">@string/ss_my_highlights</string>
-    <string translatable="false" name="ss_menu_my_notes">@string/ss_my_notes</string>
-    <string translatable="false" name="ss_menu_settings">@string/ss_settings</string>
-    <string translatable="false" name="ss_menu_about">@string/ss_about</string>
+    <string name="ss_menu_anonymous_email" translatable="false">anonymous@adventech.io</string>
+    <string name="ss_menu_my_highlights" translatable="false">@string/ss_my_highlights</string>
+    <string name="ss_menu_my_notes" translatable="false">@string/ss_my_notes</string>
+    <string name="ss_menu_settings" translatable="false">@string/ss_settings</string>
+    <string name="ss_menu_about" translatable="false">@string/ss_about</string>
 
-    <string translatable="false" name="ss_about_facebook">@string/ss_settings_facebook</string>
-    <string translatable="false" name="ss_about_facebook_summary">@string/ss_settings_facebook_summary</string>
-    <string translatable="false" name="ss_about_instagram">@string/ss_settings_instagram</string>
-    <string translatable="false" name="ss_about_instagram_summary">@string/ss_settings_instagram_summary</string>
-    <string translatable="false" name="ss_about_github">@string/ss_settings_github</string>
-    <string translatable="false" name="ss_about_github_summary">@string/ss_settings_github_summary</string>
+    <string name="ss_about_facebook" translatable="false">@string/ss_settings_facebook</string>
+    <string name="ss_about_facebook_summary" translatable="false">@string/ss_settings_facebook_summary</string>
+    <string name="ss_about_instagram" translatable="false">@string/ss_settings_instagram</string>
+    <string name="ss_about_instagram_summary" translatable="false">@string/ss_settings_instagram_summary</string>
+    <string name="ss_about_github" translatable="false">@string/ss_settings_github</string>
+    <string name="ss_about_github_summary" translatable="false">@string/ss_settings_github_summary</string>
 
-    <string translatable="false" name="ss_reading_display_options_color_theme">@string/ss_settings_color_theme</string>
-    <string translatable="false" name="ss_reading_display_options_typeface">@string/ss_settings_typeface</string>
-    <string translatable="false" name="ss_reading_display_options_font_size">@string/ss_settings_font_size</string>
+    <string name="ss_reading_display_options_color_theme" translatable="false">@string/ss_settings_color_theme</string>
+    <string name="ss_reading_display_options_typeface" translatable="false">@string/ss_settings_typeface</string>
+    <string name="ss_reading_display_options_font_size" translatable="false">@string/ss_settings_font_size</string>
 
-    <string translatable="false" name="ss_reading_display_options_theme_light">@string/ss_settings_color_theme_light</string>
-    <string translatable="false" name="ss_reading_display_options_theme_sepia">@string/ss_settings_color_theme_sepia</string>
-    <string translatable="false" name="ss_reading_display_options_theme_dark">@string/ss_settings_color_theme_dark</string>
+    <string name="ss_reading_display_options_theme_light" translatable="false">@string/ss_settings_color_theme_light</string>
+    <string name="ss_reading_display_options_theme_sepia" translatable="false">@string/ss_settings_color_theme_sepia</string>
+    <string name="ss_reading_display_options_theme_dark" translatable="false">@string/ss_settings_color_theme_dark</string>
 
-    <string translatable="false" name="ss_reading_display_options_typeface_andada">@string/ss_settings_typeface_andada</string>
-    <string translatable="false" name="ss_reading_display_options_typeface_lato">@string/ss_settings_typeface_lato</string>
-    <string translatable="false" name="ss_reading_display_options_typeface_pt_serif">@string/ss_settings_typeface_pt_serif</string>
-    <string translatable="false" name="ss_reading_display_options_typeface_pt_sans">@string/ss_settings_typeface_pt_sans</string>
-    <string translatable="false" name="ss_reading_display_options_aa">Aa</string>
+    <string name="ss_reading_display_options_typeface_andada" translatable="false">@string/ss_settings_typeface_andada</string>
+    <string name="ss_reading_display_options_typeface_lato" translatable="false">@string/ss_settings_typeface_lato</string>
+    <string name="ss_reading_display_options_typeface_pt_serif" translatable="false">@string/ss_settings_typeface_pt_serif</string>
+    <string name="ss_reading_display_options_typeface_pt_sans" translatable="false">@string/ss_settings_typeface_pt_sans</string>
+    <string name="ss_reading_display_options_aa" translatable="false">Aa</string>
 
 </resources>
