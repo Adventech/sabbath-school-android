@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -109,8 +108,5 @@
 私たちは、イエスが地上でここで奉仕したときの模範と方法に触発されています。 したがって、我々は愛と献身をもって絶対に無償で、すべてのプロジェクトの質の高いレベルを提供することに努めています。 私たちは父に栄光を与えることを約束しています。なぜなら、彼は最高の賞賛に値するからです。
 
 私たちは真に神が現代世界の知識を増やし、私たちが彼の栄光のためにそれを使用してすぐに彼の復帰を宣言することを望んでいると本当に信じています！"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"前のレッスン"</string>
     <string name="ss_settings_version_with_param_string">バージョン: %1$s</string>
 </resources>

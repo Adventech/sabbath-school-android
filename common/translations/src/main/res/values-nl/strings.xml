@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,8 +100,5 @@
 We zijn geïnspireerd door het voorbeeld en de methoden van Jezus, toen Hij hier op aarde diende. Daarom doen we er alles aan om hoge kwaliteit van al onze projecten te leveren, zonder enige kosten, met liefde en toewijding. We zijn toegewijd om eer aan onze Vader te geven, omdat Hij de hoogste eer verdient.
 
 We geloven echt dat God de kennis van de moderne wereld heeft vergroot en wil dat we het gebruiken voor Zijn glorie om Zijn snelle terugkeer te verkondigen!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Eerdere lessen"</string>
     <string name="ss_settings_version_with_param_string">Versie: %1$s</string>
 </resources>

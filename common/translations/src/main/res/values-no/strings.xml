@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -97,8 +96,5 @@
     <string name="ss_reading_offline">"Du er frakoblet. Koble til igjen for å lese denne leksjonen"</string>
     <string name="ss_reading_offline_retry">"Prøv på nytt"</string>
     <string name="ss_about_text">"Adventechs mål er å gjøre Adventistkirkens Bibelstudium tilgengelig og gratis på alle verdens språk.  Vår bønn er at denne appen kan lede deg inn i en dypere relasjon med Jesus Kristus. "</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Tidligere leksjoner"</string>
     <string name="ss_settings_version_with_param_string">Versjon: %1$s</string>
 </resources>

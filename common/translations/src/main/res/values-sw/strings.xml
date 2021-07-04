@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,8 +100,5 @@
 Tunaongozwa na mfano na mbinu za Yesu, wakati alipokuwa akihudhuria hapa duniani. Kwa hiyo, sisi ni nia ya kutoa kiwango cha juu cha ubora wa miradi yetu yote bila gharama yoyote kwa upendo na kujitolea. Tumejitolea kumtukuza Baba yetu, kwa sababu Yeye anastahili sifa kubwa zaidi.
 
 Tunaamini kweli kwamba Mungu ameongeza ujuzi wa dunia ya kisasa na anataka tuutumie kwa utukufu wake ili tangaza Utumishi wake wa hivi karibuni!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Masomo ya awali"</string>
     <string name="ss_settings_version_with_param_string">Toleo: %1$s</string>
 </resources>

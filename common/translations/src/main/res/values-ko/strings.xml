@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -105,8 +104,5 @@
 우리는 예수님 께서 지상에서 사역하신 예수님의 본보기와 방법에 고무되어 있습니다. 따라서 우리는 사랑과 헌신으로 절대적으로 비용없이 모든 프로젝트의 높은 수준의 품질을 제공하기 위해 노력합니다. 우리는 하나님 아버지 께 영광을 돌리려고 헌신합니다. 그분은 최고의 찬양을 받으시기에 합당한 분이기 때문입니다.
 
 우리는 하나님 께서 현대 세계에 대한 지식을 높여 주셨고, 하나님의 영광을 위해 그것을 사용하여 그분의 곧 돌아 오라는 것을 선포하기를 원합니다!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"이전 레슨"</string>
     <string name="ss_settings_version_with_param_string">버전: %1$s</string>
 </resources>

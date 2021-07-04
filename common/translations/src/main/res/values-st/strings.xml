@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,8 +100,5 @@
 Re bululetsoe ke mohlala le mekhoa ea Jesu, ha a sebeletsa mona lefatšeng. Ka lebaka lena, re ikemiselitse ho fana ka boleng bo phahameng ba merero eohle ea rona ntle ho tefo ka lerato le boinehelo. Re ikemiselitse ho tlotlisa Ntate oa rona, hobane O lokeloa ke thoriso e phahameng ka ho fetisisa.
 
 Re lumela kannete hore Molimo o ekelitse tsebo ea lefats'e la kajeno ebile o batla hore re e sebelise ho tlotlisa ha hae ho phatlalatsa hore o khutla kapele!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Lithuto tse fetileng"</string>
     <string name="ss_settings_version_with_param_string">Mofuta: %1$s</string>
 </resources>

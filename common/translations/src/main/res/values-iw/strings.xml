@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,8 +100,5 @@
 אנו מקבלים השראה מהדוגמה והשיטות של ישו, כאשר הוא כיהן כאן על כדור הארץ. לכן, אנו מחויבים לספק רמה גבוהה של איכות של כל הפרויקטים שלנו ללא שום עלות עם אהבה ומסירות. אנו מחויבים לתת כבוד לאבא שלנו, כי הוא ראוי לשבח הגבוה ביותר.
 
 אנחנו באמת מאמינים כי אלוהים הגדיל את הידע של העולם המודרני ורוצה אותנו להשתמש בו לתהילה שלו להכריז בקרוב שלו לחזור!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"שיעורים קודמים"</string>
     <string name="ss_settings_version_with_param_string">גִרְסָה: %1$s</string>
 </resources>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,8 +100,5 @@
 当他在地球上投身时，我们受到耶稣的榜样和方法的启发。因此，我们致力于通过爱与奉献，绝对没有任何成本提供我们所有项目的高品质。我们致力于荣耀我们的父，因为他值得赞美的最高。
 
 我们真的相信神已经增加了现代世界的知识，并希望我们用他的荣耀来宣告他即将回归！"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"上一课"</string>
     <string name="ss_settings_version_with_param_string">版: %1$s</string>
 </resources>

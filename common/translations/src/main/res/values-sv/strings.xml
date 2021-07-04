@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,8 +100,5 @@
 Jesus metod och exempel när han tjänade här på jorden är vår förebild. Därför är vi fast beslutna att leverera med hög kvalitet på alla våra projekt till absolut ingen kostnad, med kärlek och engagemang. Vi är fast beslutna att lovprisa vår Far, för att han är värd den högsta ära.
 
 Vi tror verkligen att Gud har ökat den moderna världens kunskap och vill att vi ska använda den till hans ära för att förkunna hans snara återkomst!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Tidigare lektioner"</string>
     <string name="ss_settings_version_with_param_string">Version: %1$s</string>
 </resources>

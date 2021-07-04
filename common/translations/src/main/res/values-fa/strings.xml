@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -102,7 +101,5 @@
 
 ما واقعا بر این باورند که خدا دانش از جهان مدرن افزایش یافته است و می خواهد ما را به استفاده از آن برای جلال او اعلام او به زودی بازگشت!"</string>
 
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"دروس قبلی"</string>
     <string name="ss_settings_version_with_param_string">نسخه: %1$s</string>
 </resources>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -97,8 +96,5 @@
     <string name="ss_reading_offline">"Sega ni sema tiko. Semati iko mo wilika na lesoni"</string>
     <string name="ss_reading_offline_retry">"Tovolea tale"</string>
     <string name="ss_about_text">"Nai naki ni apele me rawa ni vakarawarawataka noda raica na lesoni ni wili vola na lewe ni lotu e vuravura taucoko."</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Lesoni e liu"</string>
     <string name="ss_settings_version_with_param_string">Kena ilavelave: %1$s</string>
 </resources>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,7 +100,5 @@ Juhindume Jeesuse eeskujust ja meetoditest, kui ta teenis siin maa peal. Seetõt
 
 Me usume, et Jumal on andnud tänapäeva maailmale nii palju teadmisi ning  me tahame läbi selle tuua au Temale ning kuulutada Tema peatset tagasitulekut!"</string>
 
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Eelmised tunnid"</string>
     <string name="ss_settings_version_with_param_string">Versioon: %1$s</string>
 </resources>

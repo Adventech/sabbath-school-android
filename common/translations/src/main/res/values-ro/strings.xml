@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -100,9 +99,6 @@
 Suntem inspirați de exemplul și metodele lui Isus, când El a slujit aici pe Pământ. Prin urmare, ne angajăm să oferim un grad ridicat de calitate a tuturor proiectelor noastre, fără nici un cost, cu dragoste și dedicație. Suntem hotărâți să dăm slavă Tatălui nostru, pentru că El este vrednic de cea mai înaltă laudă.
 
 Credem cu adevărat că Dumnezeu a mărit cunoașterea lumii moderne și dorește ca noi să o folosim pentru gloria Lui pentru a proclama revenirea Lui curând!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Lecții anterioare"</string>
     <string name="ss_settings_version_with_param_string">Versiune: %1$s</string>
 
 </resources>

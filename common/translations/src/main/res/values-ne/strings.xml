@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,9 +100,6 @@
 हामी येशूको उदाहरण र तरिकाहरूबाट प्रेरित हुन्छौं, जब उहाँले यहाँ पृथ्वीमा सेवा गर्नुभयो। यसैले, हामी सबै हाम्रो परियोजनाहरु को उच्च स्तर को गुणवत्ता को पूरा र प्रेम र समर्पण संग कुनै लागत मा गुणवत्ता प्रदान गर्न प्रतिबद्ध छ। हामी हाम्रो पितालाई महिमा दिन प्रतिबद्ध छौं, किनभने उहाँ सर्वोच्चको प्रशंसाको योग्य हुनुहुन्छ।
 
 हामी साँच्चै विश्वास गर्छौं कि परमेश्वरले आधुनिक संसारको ज्ञान बढाउनुभयो र उहाँका चाँडै उहाँको पुनरुत्थानको घोषणा गर्न उहाँको महिमाको प्रयोग गर्न चाहन्छ!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"अघिल्लो पाठ"</string>
     <string name="ss_settings_version_with_param_string">संस्करण: %1$s</string>
 
 </resources>

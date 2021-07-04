@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,8 +100,5 @@
 Sme inšpirovaní príkladom a metódami Ježiša, keď tu slúžil na Zemi. Preto sme sa zaviazali dodávať vysokú kvalitu všetkých našich projektov bez lásky a oddanosti. Sme odhodlaní dať slávu nášmu Otcovi, pretože je hoden najvyššej chvály.
 
 Naozaj veríme, že Boh rozšíril poznanie moderného sveta a chce, aby sme ho použili na Jeho slávu, aby sme hlásili Jeho skoro návrat!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Predchádzajúce hodiny"</string>
     <string name="ss_settings_version_with_param_string">Verzia: %1$s</string>
 </resources>
