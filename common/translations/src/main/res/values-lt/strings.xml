@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,8 +100,5 @@
 Mes įkvėpė Jėzaus pavyzdys ir metodai, kai Jis čia tarnavo Žemėje. Todėl esame pasiryžę užtikrinti aukštą visų mūsų projektų kokybę be jokios naudos su meile ir pasišventimu. Mes esame įsipareigoję duoti šlovę mūsų Tėvui, nes Jis yra vertas aukščiausio šlovės.
 
 Mes tikime, kad Dievas padidino šiuolaikinio pasaulio žinias ir nori, kad mes jį panaudotume, kad Jo šlovė skelbtų Jo greitą sugrįžimą!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Ankstesnės pamokos"</string>
     <string name="ss_settings_version_with_param_string">Versija: %1$s</string>
 </resources>

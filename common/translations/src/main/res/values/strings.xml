@@ -99,8 +99,6 @@
     <string name="ss_reading_offline">"You are offline. Reconnect to read this lesson"</string>
     <string name="ss_reading_offline_retry">"Retry"</string>
     <string name="ss_about_text">"Adventech is a non-profit organization in Canada that is dedicated to the use of technology for ministry. As dedicated Seventh-day Adventists, the mission of Adventech is first and foremost to give glory to God. We also aim through our ministry to bring unity to the worldwide Seventh-day Adventist Church. Our primary goal is to proclaim the everlasting gospel by means of technology and advancements in communications, and to do our part in preparing the world for the second coming of Jesus."</string>
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Previous lessons"</string>
 
     <string name="sspm_logo_content_description" translatable="false">Sabbath School Personal Ministries Logo</string>
     <string name="sspm_re_branding_message" translatable="false">Welcome to the official app of the General Conference Sabbath School and Personal Ministries Department. Still powered by Adventech, the app will soon receive new improvements in content and features while remaining simple and easy to use.\nIt’s never been easier to study and share God’s Word!</string>

@@ -35,102 +35,77 @@
             type="android.view.View" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
+        android:id="@+id/card_view_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/sectionTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/spacing_medium"
-            android:paddingTop="@dimen/spacing_list"
-            android:paddingEnd="@dimen/spacing_medium"
-            android:paddingBottom="@dimen/spacing_list"
-            android:text="@string/ss_lessons_previous"
-            android:textAllCaps="true"
-            android:textColor="?android:attr/textColorSecondary"
-            app:fontFamily="@font/lato_medium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <RelativeLayout
-            android:id="@+id/card_view_wrapper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/ss_quarterly_item_normal_cover_card"
+            android:layout_width="@dimen/ss_quarterly_item_normal_cover_width"
+            android:layout_height="@dimen/ss_quarterly_item_normal_cover_height"
+            android:layout_marginStart="@dimen/ss_quarterly_item_normal_cover_margin_left"
+            android:layout_marginTop="@dimen/ss_quarterly_item_normal_cover_margin_top"
+            android:layout_marginEnd="@dimen/ss_quarterly_item_normal_cover_margin_right"
+            android:layout_marginBottom="@dimen/ss_quarterly_item_normal_cover_margin_top"
             android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sectionTitle">
+            android:transitionName="@string/ss_quarterly_cover_transition"
+            app:cardBackgroundColor="@{viewModel.colorPrimary}"
+            app:cardCornerRadius="@dimen/ss_quarterly_item_featured_cover_radius"
+            app:cardElevation="@dimen/spacing_normal">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/ss_quarterly_item_normal_cover_card"
-                android:layout_width="@dimen/ss_quarterly_item_normal_cover_width"
-                android:layout_height="@dimen/ss_quarterly_item_normal_cover_height"
-                android:layout_marginStart="@dimen/ss_quarterly_item_normal_cover_margin_left"
-                android:layout_marginTop="@dimen/ss_quarterly_item_normal_cover_margin_top"
-                android:layout_marginEnd="@dimen/ss_quarterly_item_normal_cover_margin_right"
-                android:layout_marginBottom="@dimen/ss_quarterly_item_normal_cover_margin_top"
-                android:onClick="@{() -> viewModel.onReadClick(ssQuarterlyCover)}"
-                android:transitionName="@string/ss_quarterly_cover_transition"
-                app:cardBackgroundColor="@{viewModel.colorPrimary}"
-                app:cardCornerRadius="@dimen/ss_quarterly_item_featured_cover_radius"
-                app:cardElevation="@dimen/spacing_normal">
+            <ImageView
+                android:id="@+id/ss_quarterly_item_normal_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/blank"
+                android:scaleType="centerCrop"
+                app:coverUrl="@{viewModel.cover}"
+                app:primaryColor="@{viewModel.colorPrimary}"
+                tools:src="?attr/colorPrimary" />
+        </com.google.android.material.card.MaterialCardView>
 
-                <ImageView
-                    android:id="@+id/ss_quarterly_item_normal_cover"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/blank"
-                    android:scaleType="centerCrop"
-                    app:coverUrl="@{viewModel.cover}"
-                    app:primaryColor="@{viewModel.colorPrimary}"
-                    tools:src="?attr/colorPrimary" />
-            </com.google.android.material.card.MaterialCardView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ss_quarterly_item_normal_cover_card"
+            android:layout_alignBottom="@+id/ss_quarterly_item_normal_cover_card"
+            android:layout_marginEnd="@dimen/ss_quarterly_item_normal_cover_margin_right"
+            android:layout_toEndOf="@+id/ss_quarterly_item_normal_cover_card"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ss_quarterly_item_normal_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{viewModel.date}"
+                android:textAllCaps="true"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="@dimen/ss_quarterly_item_normal_date_text_size"
+                app:fontFamily="@font/lato_bold"
+                tools:text="Quarterly Date" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ss_quarterly_item_normal_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/ss_quarterly_item_normal_cover_card"
-                android:layout_alignBottom="@+id/ss_quarterly_item_normal_cover_card"
-                android:layout_toEndOf="@+id/ss_quarterly_item_normal_cover_card"
-                android:gravity="center_vertical"
-                android:layout_marginEnd="@dimen/ss_quarterly_item_normal_cover_margin_right"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/ss_quarterly_item_normal_title_margin_top"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{viewModel.title}"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="@dimen/ss_quarterly_item_normal_title_text_size"
+                app:fontFamily="@font/lato_bold"
+                tools:text="Quarterly Name" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/ss_quarterly_item_normal_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:text="@{viewModel.date}"
-                    android:textAllCaps="true"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="@dimen/ss_quarterly_item_normal_date_text_size"
-                    app:fontFamily="@font/lato_bold"
-                    tools:text="Quarterly Date" />
+        </LinearLayout>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/ss_quarterly_item_normal_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ss_quarterly_item_normal_title_margin_top"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:text="@{viewModel.title}"
-                    android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="@dimen/ss_quarterly_item_normal_title_text_size"
-                    app:fontFamily="@font/lato_bold"
-                    tools:text="Quarterly Name" />
-
-            </LinearLayout>
-
-            <include layout="@layout/ss_horizontal_line" />
-        </RelativeLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <include layout="@layout/ss_horizontal_line" />
+    </RelativeLayout>
 
 </layout>

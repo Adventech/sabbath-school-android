@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,8 +100,5 @@
 Kami ay kinasihan ng halimbawa at pamamaraan ni Jesus, nang Siya ay naglingkod dito sa Lupa. Samakatuwid, kami ay nakatuon upang maihatid ang mataas na antas ng kalidad ng lahat ng aming mga proyekto sa ganap na walang gastos sa pag-ibig at dedikasyon. Nakatuon tayo na magbigay kaluwalhatian sa ating Ama, sapagkat Siya ay karapat-dapat sa pinakamataas na papuri.
 
 Talagang naniniwala kami na pinalaki ng Diyos ang kaalaman sa modernong mundo at nais naming gamitin ito para sa Kanyang kaluwalhatian upang ipahayag ang Kanyang pagbabalik sa hinaharap!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Mga nakaraang aralin"</string>
     <string name="ss_settings_version_with_param_string">Bersyon: %1$s</string>
 </resources>

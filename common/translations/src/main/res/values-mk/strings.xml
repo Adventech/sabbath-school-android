@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,8 +100,5 @@
 Ние сме инспирирани од примерот и методите на Исус, кога Тој служел овде на Земјата. Затоа, ние сме посветени да испорачаме висок степен на квалитет на сите наши проекти со апсолутно без трошоци со љубов и посветеност. Ние сме посветени да му оддадеме слава на нашиот Отец, зашто тој е достоен за највисоката фалба.
 
 Ние навистина веруваме дека Бог го зголеми познавањето на современиот свет и сака да го искористиме за Неговата слава за да го објавиме неговото брзо враќање!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Претходни лекции"</string>
     <string name="ss_settings_version_with_param_string">Верзија: %1$s</string>
 </resources>

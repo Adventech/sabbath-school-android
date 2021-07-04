@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,80 +20,79 @@
   ~ THE SOFTWARE.
   -->
 <resources>
-<string name="ss_app_name">"မြန်မာလူကြီးတန်း"</string>
-<string name="ss_share">"ဝေစု"</string>
-<string name="ss_login_button_google">"Google ဖြင့်မှတ်ပုံတင်ရန်"</string>
-<string name="ss_login_button_facebook">"Facebook ကိုသုံးပါ"</string>
-<string name="ss_login_button_anonymous">"အမည်ဝှက်"</string>
-<string name="ss_menu_anonymous_name">"အမည်မသိ"</string>
-<string name="ss_menu_sign_out">"ဆိုင်းအောက်"</string>
-<string name="ss_menu_read_now">"ဖတ်"</string>
-<string name="ss_menu_share_app">"ဝေစု"</string>
-<string name="ss_menu_share_app_text">"ငါကို အသုံးပြု. တာသစ်ကိုဥပုသျနေ့ကျောင်း app ကိုထုတ်စစ်ဆေး - %1$s"</string>
-<string name="ss_my_highlights">"ငါ့အပျေါလှငျ"</string>
-<string name="ss_my_notes">"အကြှနျုပျ၏မှတ်စုများ"</string>
-<string name="ss_settings">"ပိုမိုနှစ်ကြိုက်ခြင်း"</string>
-<string name="ss_about">"အကွောငျး"</string>
-<string name="ss_login_failed">"လော့ဂ်အင်မအောင်မြင်ပါ။ ထပ်ကြိုးစားပါ။"</string>
-<string name="ss_login_anonymously_dialog_positive">"ဟုတ်ကဲ့"</string>
-<string name="ss_login_anonymously_dialog_negative">"အဘယ်သူမျှမ"</string>
-<string name="ss_login_anonymously_dialog_title">"အမည်ဝှက် Login?"</string>
-<string name="ss_login_anonymously_dialog_description">"သငျသညျအမည်ဝှက် login လျှင်, သင် devices တွေကိုဖြတ်ပြီး (ထိုကဲ့သို့သောမှတ်ချက်နှင့်ပျေါလှငျကဲ့သို့) သင့်ရဲ့ဒေတာတွေကိုတပြိုင်တည်းအလုပ်လုပ်နိုင်လိမ့်မည်မဟုတ်, ဒါမှမဟုတ် app ကို uninstall လုပ်ပြီးနောက်။ သငျသညျဆက်လက်ဆောင်ရွက်လိုသောသေချာလား?"</string>
-<string name="ss_quarterlies_filter_languages">"ဘာသာစကားများ"</string>
-<string name="ss_quarterlies_downloading">"သုံးလတစ်ကြိမ်ရယူခြင်း ..."</string>
-<string name="ss_quarterlies_error">"အမည်မသိအမှားဖြစ်ပွားခဲ့သည်။ ထပ်ကြိုးစားပါ။"</string>
-<string name="ss_quarterlies_empty">"ဤအချိန်တွင်ရရှိနိုင်မျှသုံးလတစ်ကြိမ်ရှိပါတယ်"</string>
-<string name="ss_quarterly_item_read_text">"ဖွင့်လှစ်"</string>
-<string name="ss_lessons_downloading">"သုံးလတစ်ကြိမ်ဖွင့်လှစ် ..."</string>
-<string name="ss_lessons_error">"သုံးလတစ်ကြိမ်ဖွင့်လှစ်နေစဉ်အမှားဖြစ်ပွားခဲ့သည်"</string>
-<string name="ss_lessons_empty">"ဤအချိန်တွင်ရရှိနိုင်မျှသုံးလတစ်ကြိမ်ရှိပါတယ်"</string>
-<string name="ss_lessons_read">"ဖတ်"</string>
-<string name="ss_reading_empty">"ငါတို့သည်ဤသင်ခန်းစာတွင်လုပ်ကိုင်နေကြသည်။ မကြာမီနောက်တဖန်စစ်ဆေးပါ။"</string>
-<string name="ss_reading_error">"သင်ခန်းစာဖွင့်လှစ်နေစဉ်အမှားဖြစ်ပွားခဲ့သည်"</string>
-<string name="ss_reading_downloading">"အော့ဖ်လိုင်းစာဖတ်ခြင်းများအတွက်သင်ခန်းစာဒေါင်းလုဒ်လုပ်ခြင်း"</string>
-<string name="ss_reading_suggest_edit">"ပြင်ဆင်ရန်သို့မဟုတ်ဆုံးမခြင်းအကြံပြုရန်"</string>
-<string name="ss_reading_suggest_edit_hint">"သင့်ရဲ့ဆုံးမပဲ့ပြင်သို့မဟုတ်အကြံပြုချက်ကိုဖော်ပြရန် ကျေးဇူးပြု."</string>
-<string name="ss_reading_suggest_edit_done">"ကျေးဇူးတင်ပါတယ်! သင့်ရဲ့အကြံပြုချက်ပြန်လည်သုံးသပ်ပါလိမ့်မည်။"</string>
-<string name="ss_reading_comment">"မှတ်ချက်"</string>
-<string name="ss_reading_enter_comment">"သင့်ရဲ့မှတ်ချက်"</string>
-<string name="ss_reading_copied">"ရွေးချယ်ရေးကူးယူ"</string>
-<string name="ss_reading_share_to">"ဝေမျှမယ်ရွေးချယ်ရေးမှ:"</string>
+    <string name="ss_app_name">"မြန်မာလူကြီးတန်း"</string>
+    <string name="ss_share">"ဝေစု"</string>
+    <string name="ss_login_button_google">"Google ဖြင့်မှတ်ပုံတင်ရန်"</string>
+    <string name="ss_login_button_facebook">"Facebook ကိုသုံးပါ"</string>
+    <string name="ss_login_button_anonymous">"အမည်ဝှက်"</string>
+    <string name="ss_menu_anonymous_name">"အမည်မသိ"</string>
+    <string name="ss_menu_sign_out">"ဆိုင်းအောက်"</string>
+    <string name="ss_menu_read_now">"ဖတ်"</string>
+    <string name="ss_menu_share_app">"ဝေစု"</string>
+    <string name="ss_menu_share_app_text">"ငါကို အသုံးပြု. တာသစ်ကိုဥပုသျနေ့ကျောင်း app ကိုထုတ်စစ်ဆေး - %1$s"</string>
+    <string name="ss_my_highlights">"ငါ့အပျေါလှငျ"</string>
+    <string name="ss_my_notes">"အကြှနျုပျ၏မှတ်စုများ"</string>
+    <string name="ss_settings">"ပိုမိုနှစ်ကြိုက်ခြင်း"</string>
+    <string name="ss_about">"အကွောငျး"</string>
+    <string name="ss_login_failed">"လော့ဂ်အင်မအောင်မြင်ပါ။ ထပ်ကြိုးစားပါ။"</string>
+    <string name="ss_login_anonymously_dialog_positive">"ဟုတ်ကဲ့"</string>
+    <string name="ss_login_anonymously_dialog_negative">"အဘယ်သူမျှမ"</string>
+    <string name="ss_login_anonymously_dialog_title">"အမည်ဝှက် Login?"</string>
+    <string name="ss_login_anonymously_dialog_description">"သငျသညျအမည်ဝှက် login လျှင်, သင် devices တွေကိုဖြတ်ပြီး (ထိုကဲ့သို့သောမှတ်ချက်နှင့်ပျေါလှငျကဲ့သို့) သင့်ရဲ့ဒေတာတွေကိုတပြိုင်တည်းအလုပ်လုပ်နိုင်လိမ့်မည်မဟုတ်, ဒါမှမဟုတ် app ကို uninstall လုပ်ပြီးနောက်။ သငျသညျဆက်လက်ဆောင်ရွက်လိုသောသေချာလား?"</string>
+    <string name="ss_quarterlies_filter_languages">"ဘာသာစကားများ"</string>
+    <string name="ss_quarterlies_downloading">"သုံးလတစ်ကြိမ်ရယူခြင်း ..."</string>
+    <string name="ss_quarterlies_error">"အမည်မသိအမှားဖြစ်ပွားခဲ့သည်။ ထပ်ကြိုးစားပါ။"</string>
+    <string name="ss_quarterlies_empty">"ဤအချိန်တွင်ရရှိနိုင်မျှသုံးလတစ်ကြိမ်ရှိပါတယ်"</string>
+    <string name="ss_quarterly_item_read_text">"ဖွင့်လှစ်"</string>
+    <string name="ss_lessons_downloading">"သုံးလတစ်ကြိမ်ဖွင့်လှစ် ..."</string>
+    <string name="ss_lessons_error">"သုံးလတစ်ကြိမ်ဖွင့်လှစ်နေစဉ်အမှားဖြစ်ပွားခဲ့သည်"</string>
+    <string name="ss_lessons_empty">"ဤအချိန်တွင်ရရှိနိုင်မျှသုံးလတစ်ကြိမ်ရှိပါတယ်"</string>
+    <string name="ss_lessons_read">"ဖတ်"</string>
+    <string name="ss_reading_empty">"ငါတို့သည်ဤသင်ခန်းစာတွင်လုပ်ကိုင်နေကြသည်။ မကြာမီနောက်တဖန်စစ်ဆေးပါ။"</string>
+    <string name="ss_reading_error">"သင်ခန်းစာဖွင့်လှစ်နေစဉ်အမှားဖြစ်ပွားခဲ့သည်"</string>
+    <string name="ss_reading_downloading">"အော့ဖ်လိုင်းစာဖတ်ခြင်းများအတွက်သင်ခန်းစာဒေါင်းလုဒ်လုပ်ခြင်း"</string>
+    <string name="ss_reading_suggest_edit">"ပြင်ဆင်ရန်သို့မဟုတ်ဆုံးမခြင်းအကြံပြုရန်"</string>
+    <string name="ss_reading_suggest_edit_hint">"သင့်ရဲ့ဆုံးမပဲ့ပြင်သို့မဟုတ်အကြံပြုချက်ကိုဖော်ပြရန် ကျေးဇူးပြု."</string>
+    <string name="ss_reading_suggest_edit_done">"ကျေးဇူးတင်ပါတယ်! သင့်ရဲ့အကြံပြုချက်ပြန်လည်သုံးသပ်ပါလိမ့်မည်။"</string>
+    <string name="ss_reading_comment">"မှတ်ချက်"</string>
+    <string name="ss_reading_enter_comment">"သင့်ရဲ့မှတ်ချက်"</string>
+    <string name="ss_reading_copied">"ရွေးချယ်ရေးကူးယူ"</string>
+    <string name="ss_reading_share_to">"ဝေမျှမယ်ရွေးချယ်ရေးမှ:"</string>
 
-<!-- TODO: remove when done -->
-<string name="ss_coming_soon_header">"မကြာမှီလာမည်"</string>
-<string name="ss_coming_soon_subheader">"ကျနော်တို့လက်ရှိပေါ်မှာအလုပ်လုပ်နေကြသည်။ ဖမ်းယူနားဆင်နေပါသောကြောင့်မကြာမီလာမယ့်ပါတယ်။"</string>
-<string name="ss_about_app_version">"ဗားရှင်း 3.0"</string>
-<string name="ss_about_made">"Adventech အားဖြင့်❤နှင့်ဖွဲ့"</string>
-<string name="ss_settings_display_options">"ကြည့်ရန်ဦးစားပေး"</string>
-<string name="ss_settings_color_theme">"အရောင်ဆောင်ပုဒ်"</string>
-<string name="ss_settings_color_theme_light">"အလင်း"</string>
-<string name="ss_settings_color_theme_sepia">"နီညိုရောင်"</string>
-<string name="ss_settings_color_theme_dark">"မှောငျမိုကျသော"</string>
-<string name="ss_settings_typeface">"font"</string>
-<string name="ss_settings_font_size">"စာလုံးအရွယ်အစား"</string>
-<string name="ss_settings_font_size_tiny">"သေးငယ်သော"</string>
-<string name="ss_settings_font_size_small">"သေးငယ်သော"</string>
-<string name="ss_settings_font_size_medium">"အလယ်အလတ်"</string>
-<string name="ss_settings_font_size_large">"အကြီးစား"</string>
-<string name="ss_settings_font_size_huge">"ကြီးမားသော"</string>
+    <!-- TODO: remove when done -->
+    <string name="ss_coming_soon_header">"မကြာမှီလာမည်"</string>
+    <string name="ss_coming_soon_subheader">"ကျနော်တို့လက်ရှိပေါ်မှာအလုပ်လုပ်နေကြသည်။ ဖမ်းယူနားဆင်နေပါသောကြောင့်မကြာမီလာမယ့်ပါတယ်။"</string>
+    <string name="ss_about_app_version">"ဗားရှင်း 3.0"</string>
+    <string name="ss_about_made">"Adventech အားဖြင့်❤နှင့်ဖွဲ့"</string>
+    <string name="ss_settings_display_options">"ကြည့်ရန်ဦးစားပေး"</string>
+    <string name="ss_settings_color_theme">"အရောင်ဆောင်ပုဒ်"</string>
+    <string name="ss_settings_color_theme_light">"အလင်း"</string>
+    <string name="ss_settings_color_theme_sepia">"နီညိုရောင်"</string>
+    <string name="ss_settings_color_theme_dark">"မှောငျမိုကျသော"</string>
+    <string name="ss_settings_typeface">"font"</string>
+    <string name="ss_settings_font_size">"စာလုံးအရွယ်အစား"</string>
+    <string name="ss_settings_font_size_tiny">"သေးငယ်သော"</string>
+    <string name="ss_settings_font_size_small">"သေးငယ်သော"</string>
+    <string name="ss_settings_font_size_medium">"အလယ်အလတ်"</string>
+    <string name="ss_settings_font_size_large">"အကြီးစား"</string>
+    <string name="ss_settings_font_size_huge">"ကြီးမားသော"</string>
     <string name="ss_settings_version">"ဗားရှင်း"</string>
-<!-- RATE APP -->
-<string name="rate_dialog_title">"ဒီဆော့ဖ်ဝဲကိုအမှတ်ပေးကြည့်ပါ"</string>
-<string name="rate_dialog_message">"ဒီ app ကိုအဆင့်သတ်မှတ်ရန်ခဏယူပေးပါ။ မင်းရဲ့ထောက်ခံအားပေးမှုအတွက်ကျေးဇူးတင်ပါတယ်!"</string>
-<string name="rate_dialog_ok">"ဒါဟာအဆင့်သတ်မှတ်ရန်"</string>
-<string name="rate_dialog_cancel">"နောက်ပိုင်းတွင်"</string>
-<string name="rate_dialog_no">"အဘယ်သူမျှမ"</string>
-<string name="ss_settings_website">"ဝက်ဘ်ဆိုက်"</string>
-<string name="ss_quarterlies_filter_languages_prompt_title">"ပိုများသောဘာသာစကားများ"</string>
-<string name="ss_quarterlies_filter_languages_prompt_description">"ရရှိနိုင်ဘာသာစကားများကိုမြင်ရဖို့ filter ကို icon ကိုထိပုတ်ပါ"</string>
-<string name="ss_bible">"သမ်မာကမျြး"</string>
-<string name="ss_settings_reminder">"နေ့စဉ်သတိပေးချက်"</string>
-<string name="ss_settings_reminder_summary">"နေ့စဉ်လေ့လာမှုသတိပေးခကျြကို enable လုပ်ဖို့ Check"</string>
-<string name="ss_settings_reminder_time">"သတိပေးချက်အချိန်"</string>
-<string name="ss_settings_reminder_text">"ဥပုသ်ကျောင်းသင်ခန်းစာလေ့လာဖို့အချိန်"</string>
-<string name="ss_reading_offline">"သငျသညျအော့ဖ်လိုင်းဖြစ်ကြသည်။ ဤသင်ခန်းစာဖတ်ရှုဖို့ပြန်လည်ချိတ်ဆက်။"</string>
-<string name="ss_reading_offline_retry">"ပြန်ကြိုးစားမည်"</string>
-    <string name="ss_lessons_previous">ယခင်သင်ခန်းစာများ</string>
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"ဒီဆော့ဖ်ဝဲကိုအမှတ်ပေးကြည့်ပါ"</string>
+    <string name="rate_dialog_message">"ဒီ app ကိုအဆင့်သတ်မှတ်ရန်ခဏယူပေးပါ။ မင်းရဲ့ထောက်ခံအားပေးမှုအတွက်ကျေးဇူးတင်ပါတယ်!"</string>
+    <string name="rate_dialog_ok">"ဒါဟာအဆင့်သတ်မှတ်ရန်"</string>
+    <string name="rate_dialog_cancel">"နောက်ပိုင်းတွင်"</string>
+    <string name="rate_dialog_no">"အဘယ်သူမျှမ"</string>
+    <string name="ss_settings_website">"ဝက်ဘ်ဆိုက်"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"ပိုများသောဘာသာစကားများ"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"ရရှိနိုင်ဘာသာစကားများကိုမြင်ရဖို့ filter ကို icon ကိုထိပုတ်ပါ"</string>
+    <string name="ss_bible">"သမ်မာကမျြး"</string>
+    <string name="ss_settings_reminder">"နေ့စဉ်သတိပေးချက်"</string>
+    <string name="ss_settings_reminder_summary">"နေ့စဉ်လေ့လာမှုသတိပေးခကျြကို enable လုပ်ဖို့ Check"</string>
+    <string name="ss_settings_reminder_time">"သတိပေးချက်အချိန်"</string>
+    <string name="ss_settings_reminder_text">"ဥပုသ်ကျောင်းသင်ခန်းစာလေ့လာဖို့အချိန်"</string>
+    <string name="ss_reading_offline">"သငျသညျအော့ဖ်လိုင်းဖြစ်ကြသည်။ ဤသင်ခန်းစာဖတ်ရှုဖို့ပြန်လည်ချိတ်ဆက်။"</string>
+    <string name="ss_reading_offline_retry">"ပြန်ကြိုးစားမည်"</string>
     <string name="ss_about_text">Adventech ၏မစ်ရှင်သည်ပထမဆုံးနှင့်အ ဦး ဆုံးဖြစ်သည်။ ကျွန်ုပ်တို့သည်နည်းပညာဖြင့်ကျွန်ုပ်တို့၏ဓမ္မအမှုကိုဆောင်ရွက်ရန်စိတ်အားထက်သန်ကြသည်။ ကျွန်ုပ်တို့၏ရည်မှန်းချက်မှာကျွန်ုပ်တို့၏သတ္တမနေ့ဥပုသ်အသင်းအားစည်းလုံးရန်ဖြစ်သည်။ ကျွန်ုပ်တို့၏ရည်မှန်းချက်မှာနည်းပညာနှင့်ဆက်သွယ်မှုများတွင်တိုးတက်ခြင်းအားဖြင့်ဤလောကသို့သတင်းကောင်းကိုကြေညာရန်ဖြစ်သည်။ ကျွန်ုပ်တို့၏ရည်မှန်းချက်မှာယေရှု၏ဒုတိယအကြိမ်ကြွလာခြင်းဖြစ်သည်။  သခင်ယေရှု၏စံနမူနာနှင့်နည်းလမ်းများအားဖြင့်သူသည်ကမ္ဘာပေါ်တွင်သူအမှုဆောင်ချိန်၌ကျွန်ုပ်တို့မှုတ်သွင်းခံခဲ့ရသည် ထို့ကြောင့်ကျွန်ုပ်တို့သည်ကျွန်ုပ်တို့၏စီမံကိန်းများအားလုံး၏အရည်အသွေးမြင့်မားပြီးချစ်ခြင်းမေတ္တာနှင့်အပ်နှံခြင်းဖြင့်လုံးဝကုန်ကျစရိတ်မပေးနိုင်ပါ။ ကျွန်ုပ်တို့သည်ကျွန်ုပ်တို့၏အဖကိုဂုဏ်တင်ရန်ကတိကဝတ်ပြုထားသည်၊ အကြောင်းမှာသူသည်အမြင့်ဆုံးသောချီးမွမ်းခြင်းနှင့်ထိုက်တန်သောကြောင့်ဖြစ်သည်။  ဘုရားသခင်သည်ခေတ်သစ်ကမ္ဘာ၏အသိပညာကိုတိုးမြှင့်ပေးခဲ့ပြီးသူ၏မကြာမီပြန်လာမည်ကိုကြေညာရန်သူ၏ဘုန်းတော်အတွက်အသုံးပြုစေလိုသည်ကိုကျွန်ုပ်တို့အမှန်တကယ်ယုံကြည်သည်။</string>
     <string name="ss_settings_version_with_param_string">ဗားရှင်း: %1$s</string>
 

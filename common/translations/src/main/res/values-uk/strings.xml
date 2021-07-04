@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,8 +100,5 @@
 Нас надихнув приклад і методи Ісуса, коли Він служив тут на Землі. Тому ми прагнемо забезпечити високу якість усіх наших проектів абсолютно безкоштовно за допомогою любові та відданості. Ми прагнемо віддати славу нашому Батькові, бо Він гідний найвищих похвал.
 
 Ми дійсно віримо в те, що Бог підвищив знання сучасного світу і хоче, щоб ми використовували його для Його слави, щоб проголосити Його швидке повернення!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Попередні уроки"</string>
     <string name="ss_settings_version_with_param_string">Версія: %1$s</string>
 </resources>

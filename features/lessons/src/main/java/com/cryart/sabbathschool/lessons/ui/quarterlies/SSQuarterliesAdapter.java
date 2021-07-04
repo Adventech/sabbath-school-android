@@ -135,8 +135,6 @@ public class SSQuarterliesAdapter extends RecyclerView.Adapter<RecyclerView.View
             } else {
                 binding.getViewModel().setSsQuarterly(quarterly);
             }
-
-            binding.sectionTitle.setVisibility(getAdapterPosition() == 1 ? View.VISIBLE : View.GONE);
         }
     }
 }

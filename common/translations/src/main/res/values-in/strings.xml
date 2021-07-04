@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,8 +100,5 @@
 Kami terinspirasi oleh contoh dan metode Yesus, ketika Dia melakukan pelayanan di dunia ini. Karena itu, kami berkomitmen untuk memberikan kualitas yang baik untuk semua proyek kami dan yang pasti gratis dan dengan kasih dan dedikasi. Kami berkomitmen untuk memberikan pujian kepada Bapa kita, karena Dia layak mendapatkan pujian tertinggi.
 
 Kami percaya bahwa Tuhan menambahkan pengetahuan tentang dunia modern dan ingin kita untuk menggunakannya untuk kepujianNya untuk menyatakan kedatanganNya kembali!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Pelajaran sebelumnya"</string>
     <string name="ss_settings_version_with_param_string">Versi: %1$s</string>
 </resources>

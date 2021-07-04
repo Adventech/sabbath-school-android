@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,8 +100,5 @@
 Chúng ta được truyền cảm hứng bởi tấm gương và phương pháp của Chúa Giêsu, khi Ngài khai thác ở đây trên Trái đất. Do đó, chúng tôi cam kết cung cấp mức độ cao về chất lượng của tất cả các dự án của chúng tôi hoàn toàn miễn phí với tình yêu và sự cống hiến. Chúng tôi cam kết ban vinh quang cho Cha của chúng tôi, bởi vì Ngài xứng đáng được ca ngợi cao nhất.
 
 Chúng tôi thực sự tin rằng Chúa đã gia tăng kiến thức về thế giới hiện đại và muốn chúng tôi sử dụng nó cho vinh quang của Ngài để tuyên bố sự trở lại sớm của Ngài!"</string>
-
-    <!-- Previous lessons -->
-    <string name="ss_lessons_previous">"Bài học trước"</string>
     <string name="ss_settings_version_with_param_string">Phiên bản: %1$s</string>
 </resources>

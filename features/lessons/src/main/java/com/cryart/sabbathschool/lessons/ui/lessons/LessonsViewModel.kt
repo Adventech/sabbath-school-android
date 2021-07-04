@@ -52,6 +52,11 @@ class LessonsViewModel @Inject constructor(
 
     private var lessonTypes: List<SSQuarterly> = emptyList()
 
+    init {
+        // cache DisplayOptions for read screen launch
+        ssPrefs.getDisplayOptions { }
+    }
+
     fun setQuarterlyIndex(index: String) = viewModelScope.launch(schedulerProvider.io) {
         repository.getQuarterlies().collect { resource ->
             val quarterlies = resource.data ?: return@collect
