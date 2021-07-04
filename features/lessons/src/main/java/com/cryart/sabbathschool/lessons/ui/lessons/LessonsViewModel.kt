@@ -54,7 +54,7 @@ class LessonsViewModel @Inject constructor(
 
     init {
         // cache DisplayOptions for read screen launch
-        ssPrefs.getDisplayOptions {  }
+        ssPrefs.getDisplayOptions { }
     }
 
     fun setQuarterlyIndex(index: String) = viewModelScope.launch(schedulerProvider.io) {
