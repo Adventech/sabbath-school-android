@@ -1,10 +1,12 @@
 package com.cryart.sabbathschool.lessons.ui.readings
 
+import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
+import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.view.inflate
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.lessons.R
@@ -14,7 +16,7 @@ class ReadingViewPagerAdapter(
     private val readingViewModel: SSReadingViewModel
 ) : RecyclerView.Adapter<ReadingViewHolder>() {
 
-    lateinit var readingOptions: SSReadingDisplayOptions
+    var readingOptions: SSReadingDisplayOptions? = null
 
     private var ssReads: List<SSRead> = emptyList()
     private var ssReadHighlights: List<SSReadHighlights> = emptyList()
@@ -41,10 +43,23 @@ class ReadingViewPagerAdapter(
             ssReads[position],
             ssReadHighlights[position],
             ssReadComments[position],
-            readingOptions,
+            readingOptions ?: defaultDisplayOptions(holder.itemView.context),
             readingViewModel
         )
         holder.itemView.tag = "ssReadingView_$position"
+    }
+
+    private fun defaultDisplayOptions(context: Context): SSReadingDisplayOptions {
+        val theme = if (context.isDarkTheme()) {
+            SSReadingDisplayOptions.SS_THEME_DARK
+        } else {
+            SSReadingDisplayOptions.SS_THEME_LIGHT
+        }
+        return SSReadingDisplayOptions(
+            theme,
+            SSReadingDisplayOptions.SS_SIZE_MEDIUM,
+            SSReadingDisplayOptions.SS_FONT_LATO
+        )
     }
 
     override fun getItemCount(): Int = ssReads.size
