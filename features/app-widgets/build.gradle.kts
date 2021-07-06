@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,11 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 import dependencies.Dependencies
-import dependencies.Dependencies.Firebase
-import dependencies.Dependencies.Kotlin
+import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Hilt
+import dependencies.Dependencies.Kotlin
 import extensions.addTestsDependencies
+import extensions.kapt
 
 plugins {
     id(BuildPlugins.Android.LIBRARY)
@@ -38,6 +40,8 @@ android {
 
     defaultConfig {
         minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
+
+        testInstrumentationRunner = BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER
     }
 
     compileOptions {
@@ -52,20 +56,23 @@ android {
 
 dependencies {
     implementation(project(BuildModules.Common.CORE))
+    implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.LESSONS_DATA))
+    implementation(project(BuildModules.Common.TRANSLATIONS))
 
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
+    implementation(Kotlin.COROUTINES_PLAY_SERVICES)
+
+    implementation(Dependencies.MATERIAL)
+    implementation(AndroidX.CORE)
+
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
-    implementation(Dependencies.TIMBER)
-    implementation(Dependencies.JODA)
 
-    implementation(platform(Firebase.BOM))
-    implementation(Firebase.CORE)
-    implementation(Firebase.ANALYTICS)
-    implementation(Firebase.AUTH)
-    implementation(Firebase.CRASHLYTICS)
-    implementation(Firebase.DATABASE)
+    implementation(Dependencies.TIMBER)
+    implementation(Dependencies.COIL)
 
     addTestsDependencies()
+    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }

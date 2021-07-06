@@ -27,7 +27,7 @@ import java.util.UUID
 
 @Keep
 @IgnoreExtraProperties
-class SSQuarterly(
+data class SSQuarterly(
     val id: String,
     val title: String = "",
     val description: String = "",
