@@ -1,19 +1,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_widget">
 
     <ImageView
+        android:id="@+id/widget_logo"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="-24dp"
-        android:layout_marginEnd="-20dp"
+        android:background="@drawable/bg_widget"
         android:contentDescription="@string/blank"
-        android:src="@drawable/ic_logo_sspm_scaled"
-        app:tint="@color/text_secondary" />
+        android:src="@drawable/logo_widget"
+        android:translationX="24dp"
+        android:translationY="-24dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:id="@+id/widget_lesson_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lato_medium"
+            android:fontFamily="@font/lato_regular"
             android:textColor="@color/text_secondary"
             android:textSize="@dimen/text_size_body"
             tools:text="Sunday, June 27" />
@@ -35,7 +35,7 @@
             android:id="@+id/widget_lesson_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/spacing_list"
+            android:layout_marginVertical="@dimen/spacing_normal"
             android:ellipsize="end"
             android:fontFamily="@font/lato_bold"
             android:maxLines="3"
