@@ -3,7 +3,9 @@
     package="app.ss.widgets">
 
     <application>
-        <receiver android:name=".today.TodayAppWidget">
+        <receiver
+            android:name=".today.TodayAppWidget"
+            android:label="Today">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -11,6 +13,17 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/today_app_widget_info" />
+        </receiver>
+        <receiver
+            android:name=".today.TodayImgAppWidget"
+            android:label="Today Image">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/today_img_app_widget_info" />
         </receiver>
     </application>
 

@@ -17,7 +17,7 @@ internal class WidgetDataProviderImpl constructor(
         return try {
             val model = repository.getTodayRead().data
             model?.let {
-                TodayWidgetModel(it.index, it.lessonIndex, it.title, it.date)
+                TodayWidgetModel(it.index, it.lessonIndex, it.title, it.date, it.cover)
             }
         } catch (ex: Exception) {
             Timber.e(ex)

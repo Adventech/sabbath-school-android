@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * Implementation of Today App Widget functionality.
  */
 @AndroidEntryPoint
-internal class TodayAppWidget : BaseWidgetProvider<TodayWidgetModel>() {
+class TodayAppWidget : BaseWidgetProvider<TodayWidgetModel>() {
 
     override val type: WidgetType
         get() = WidgetType.TODAY

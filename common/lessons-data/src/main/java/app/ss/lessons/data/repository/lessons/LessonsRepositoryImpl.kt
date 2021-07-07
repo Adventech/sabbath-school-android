@@ -116,7 +116,8 @@ internal class LessonsRepositoryImpl constructor(
                                 day.index,
                                 lessonInfo.lesson.index,
                                 day.title,
-                                formatDate(day.date)
+                                formatDate(day.date),
+                                lessonInfo.lesson.cover
                             )
 
                             callback(model)

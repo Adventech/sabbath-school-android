@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import app.ss.widgets.model.WidgetType
 import app.ss.widgets.today.TodayAppWidget
+import app.ss.widgets.today.TodayImgAppWidget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -41,7 +42,7 @@ abstract class BaseWidgetProvider<M> : AppWidgetProvider() {
             val mgr = AppWidgetManager.getInstance(context)
             val clazz = when (type) {
                 WidgetType.TODAY -> TodayAppWidget::class.java
-                WidgetType.TODAY_IMG -> return
+                WidgetType.TODAY_IMG -> TodayImgAppWidget::class.java
             }
             val cn = ComponentName(context, clazz)
             val ids = mgr.getAppWidgetIds(cn)
@@ -58,8 +59,8 @@ abstract class BaseWidgetProvider<M> : AppWidgetProvider() {
     ) {
         coroutineScope.launch {
             val model = when (type) {
-                WidgetType.TODAY -> dataProvider.getTodayModel()
-                WidgetType.TODAY_IMG -> return@launch
+                WidgetType.TODAY,
+                WidgetType.TODAY_IMG -> dataProvider.getTodayModel()
             }
 
             withContext(Dispatchers.Main) {
