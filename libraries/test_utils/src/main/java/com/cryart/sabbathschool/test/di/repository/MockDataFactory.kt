@@ -48,6 +48,7 @@ object MockDataFactory {
         "index",
         "lessonIndex",
         "Worn and Weary",
-        "Sunday, June 27"
+        "Sunday, June 27",
+        "cover"
     )
 }
