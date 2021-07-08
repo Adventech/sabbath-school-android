@@ -21,6 +21,8 @@
  */
 package com.cryart.sabbathschool.lessons.ui.lessons
 
+import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.Menu
@@ -76,7 +78,12 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
 
         initUI()
 
-        val index = intent.extras?.getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA) ?: return
+        val index = intent.extras?.getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA) ?: ssPrefs.getLastQuarterlyIndex()
+        if (index == null) {
+            finish()
+            return
+        }
+
         ssLessonsViewModel = SSLessonsViewModel(this, ssPrefs, this, index)
         binding.executePendingBindings()
         binding.viewModel = ssLessonsViewModel
@@ -191,6 +198,19 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    companion object {
+
+        fun launchIntent(
+            context: Context,
+            lessonIndex: String
+        ): Intent = Intent(
+            context,
+            SSLessonsActivity::class.java
+        ).apply {
+            putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, lessonIndex)
         }
     }
 }

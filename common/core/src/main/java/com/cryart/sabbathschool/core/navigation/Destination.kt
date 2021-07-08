@@ -22,6 +22,9 @@
 
 package com.cryart.sabbathschool.core.navigation
 
+import android.net.Uri
+import androidx.core.net.toUri
+
 enum class Destination(val key: String) {
 
     ABOUT("about"),
@@ -35,4 +38,21 @@ enum class Destination(val key: String) {
 
         fun fromKey(type: String) = map[type]
     }
+}
+
+private const val SCHEME = "ss_app://"
+
+/**
+ * Builds a navigation [Uri] from a [Destination]
+ *
+ * Example:
+ * Passing [Destination.READ] with extras [Pair("lesson_index", "index")]
+ * will return `ss_app://read?lesson_index=index`
+ *
+ */
+fun Destination.toUri(vararg extras: Pair<String, String> = emptyArray()): Uri {
+    val query = extras.joinToString(separator = "?", prefix = "?") { pair ->
+        "${pair.first}=${pair.second}"
+    }
+    return "$SCHEME$key$query".toUri()
 }
