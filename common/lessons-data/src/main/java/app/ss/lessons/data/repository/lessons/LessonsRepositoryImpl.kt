@@ -69,7 +69,7 @@ internal class LessonsRepositoryImpl constructor(
     }
 
     override suspend fun getTodayRead(): Resource<TodayModel?> {
-        val index = ssPrefs.getLastQuarterlyIndex() ?: findQuarterlyIndex() ?: return Resource.error(Throwable("Invalid Quarterly Index"))
+        val index = findQuarterlyIndex() ?: return Resource.success(null)
 
         return suspendCoroutine { continuation ->
             firebaseDatabase.getReference(
