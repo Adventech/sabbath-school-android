@@ -75,13 +75,14 @@ class AppNavigatorImpl @Inject constructor(
         }
 
         if (destination == Destination.READ) {
-            val builder = TaskStackBuilder.create(activity)
-            builder.addNextIntent(QuarterliesActivity.launchIntent(activity, false))
-            ssPrefs.getLastQuarterlyIndex()?.let { index ->
-                builder.addNextIntent(SSLessonsActivity.launchIntent(activity, index))
+            with(TaskStackBuilder.create(activity)) {
+                addNextIntent(QuarterliesActivity.launchIntent(activity, false))
+                ssPrefs.getLastQuarterlyIndex()?.let { index ->
+                    addNextIntent(SSLessonsActivity.launchIntent(activity, index))
+                }
+                addNextIntentWithParentStack(intent)
+                startActivities()
             }
-            builder.addNextIntentWithParentStack(intent)
-            builder.startActivities()
         } else {
             activity.startActivity(intent)
         }
