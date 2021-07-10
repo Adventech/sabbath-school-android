@@ -22,6 +22,8 @@
 
 package app.ss.lessons.data.repository.lessons
 
+import app.ss.lessons.data.extensions.ValueEvent
+import app.ss.lessons.data.extensions.singleEvent
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
@@ -33,17 +35,11 @@ import com.cryart.sabbathschool.core.misc.DateHelper.formatDate
 import com.cryart.sabbathschool.core.misc.DateHelper.parseDate
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import org.joda.time.DateTime
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 internal class LessonsRepositoryImpl constructor(
-    private val firebaseDatabase: FirebaseDatabase,
+    firebaseDatabase: FirebaseDatabase,
     private val ssPrefs: SSPrefs
 ) : LessonsRepository {
 
@@ -51,89 +47,74 @@ internal class LessonsRepositoryImpl constructor(
 
     private val firebaseRef = firebaseDatabase.reference.apply { keepSynced(true) }
 
-    override suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo> = suspendCoroutine { continuation ->
-        firebaseRef
+    override suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo> {
+        val event = firebaseRef
             .child(SSConstants.SS_FIREBASE_LESSON_INFO_DATABASE)
             .child(lessonIndex)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val data = SSLessonInfo(snapshot)
-                    continuation.resume(Resource.success(data))
-                }
+            .singleEvent()
 
-                override fun onCancelled(error: DatabaseError) {
-                    logger.e(error.toException())
-                    continuation.resumeWithException(error.toException())
-                }
-            })
+        return when (event) {
+            is ValueEvent.Cancelled -> Resource.error(event.error)
+            is ValueEvent.DataChange -> Resource.success(SSLessonInfo(event.snapshot))
+        }
     }
 
     override suspend fun getTodayRead(): Resource<TodayModel?> {
         val index = findQuarterlyIndex() ?: return Resource.success(null)
 
-        return suspendCoroutine { continuation ->
-            firebaseDatabase.getReference(
-                SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE
-            )
-                .child(index)
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val quarterlyInfo = SSQuarterlyInfo(snapshot)
+        val event = firebaseRef
+            .child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
+            .child(index)
+            .singleEvent()
 
-                        quarterlyInfo.lessons.forEach { lesson ->
-                            val startDate = parseDate(lesson.start_date)
-                            val endDate = parseDate(lesson.end_date)
+        return when (event) {
+            is ValueEvent.Cancelled -> Resource.error(event.error)
+            is ValueEvent.DataChange -> {
+                val quarterlyInfo = SSQuarterlyInfo(event.snapshot)
 
-                            if (startDate?.isBeforeNow == true && endDate?.isAfterNow == true) {
-                                findTodayRead(lesson.index) { model ->
-                                    continuation.resume(Resource.success(model))
-                                }
-                            }
-                        }
-                    }
+                val todayModel = quarterlyInfo.lessons.find { lesson ->
+                    val startDate = parseDate(lesson.start_date)
+                    val endDate = parseDate(lesson.end_date)
 
-                    override fun onCancelled(error: DatabaseError) {
-                        logger.e(error.toException())
-                        continuation.resumeWithException(error.toException())
-                    }
-                })
+                    val today = DateTime.now().withTimeAtStartOfDay()
+                    startDate?.isBeforeNow == true && (endDate?.isAfterNow == true || today.isEqual(endDate))
+                }?.let { findTodayRead(it.index) }
+
+                Resource.success(todayModel)
+            }
         }
     }
 
-    private fun findTodayRead(lessonIndex: String, callback: (TodayModel?) -> Unit) {
-        firebaseDatabase
-            .getReference(SSConstants.SS_FIREBASE_LESSON_INFO_DATABASE)
+    private suspend fun findTodayRead(lessonIndex: String): TodayModel? {
+        val event = firebaseRef
+            .child(SSConstants.SS_FIREBASE_LESSON_INFO_DATABASE)
             .child(lessonIndex)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val lessonInfo = SSLessonInfo(snapshot)
-                    val today = DateTime.now().withTimeAtStartOfDay()
+            .singleEvent()
 
-                    lessonInfo.days.forEach { day ->
-                        val date = parseDate(day.date)
-                        if (date?.isEqual(today) == true) {
-                            val model = TodayModel(
-                                day.index,
-                                lessonInfo.lesson.index,
-                                day.title,
-                                formatDate(day.date),
-                                lessonInfo.lesson.cover
-                            )
+        return when (event) {
+            is ValueEvent.Cancelled -> null
+            is ValueEvent.DataChange -> {
+                val lessonInfo = SSLessonInfo(event.snapshot)
+                val today = DateTime.now().withTimeAtStartOfDay()
 
-                            callback(model)
-                            return@forEach
-                        }
-                    }
+                val todayModel = lessonInfo.days.find { day ->
+                    val date = parseDate(day.date)
+                    date?.isEqual(today) == true
+                }?.let { day ->
+                    TodayModel(
+                        day.index,
+                        lessonInfo.lesson.index,
+                        day.title,
+                        formatDate(day.date),
+                        lessonInfo.lesson.cover
+                    )
                 }
-
-                override fun onCancelled(error: DatabaseError) {
-                    logger.e(error.toException())
-                    callback(null)
-                }
-            })
+                todayModel
+            }
+        }
     }
 
-    private suspend fun findQuarterlyIndex(): String? = suspendCoroutine { continuation ->
+    private suspend fun findQuarterlyIndex(): String? {
         var code = ssPrefs.getLanguageCode()
         if (code == "iw") {
             code = "he"
@@ -142,41 +123,32 @@ internal class LessonsRepositoryImpl constructor(
             code = "tl"
         }
 
-        firebaseDatabase.getReference(
-            SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE
-        )
+        val event = firebaseRef
+            .child(SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE)
             .child(code)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val quarterlies = snapshot.children.mapNotNull {
-                        it.getValue(SSQuarterly::class.java)
-                    }
-                    val quarterly = quarterlies.firstOrNull()
+            .singleEvent()
 
-                    continuation.resume(quarterly?.index)
+        return when (event) {
+            is ValueEvent.Cancelled -> null
+            is ValueEvent.DataChange -> {
+                val quarterlies = event.snapshot.children.mapNotNull {
+                    it.getValue(SSQuarterly::class.java)
                 }
-
-                override fun onCancelled(error: DatabaseError) {
-                    logger.e(error.toException())
-                    continuation.resumeWithException(error.toException())
-                }
-            })
+                val quarterly = quarterlies.firstOrNull()
+                quarterly?.index
+            }
+        }
     }
 
-    override suspend fun getDayRead(dayIndex: String): Resource<SSRead> = suspendCoroutine { continuation ->
-        firebaseRef
+    override suspend fun getDayRead(dayIndex: String): Resource<SSRead> {
+        val event = firebaseRef
             .child(SSConstants.SS_FIREBASE_READS_DATABASE)
             .child(dayIndex)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val ssRead = SSRead(dataSnapshot)
-                    continuation.resume(Resource.success(ssRead))
-                }
+            .singleEvent()
 
-                override fun onCancelled(error: DatabaseError) {
-                    logger.e(error.toException())
-                    continuation.resumeWithException(error.toException())
-                }
-            })
+        return when (event) {
+            is ValueEvent.Cancelled -> Resource.error(event.error)
+            is ValueEvent.DataChange -> Resource.success(SSRead(event.snapshot))
+        }
     }
 }
