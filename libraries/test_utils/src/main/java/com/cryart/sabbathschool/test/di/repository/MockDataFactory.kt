@@ -5,7 +5,7 @@ import app.ss.lessons.data.model.SSDay
 import app.ss.lessons.data.model.SSLesson
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
-import app.ss.lessons.data.model.TodayModel
+import app.ss.lessons.data.model.TodayData
 
 /**
  * Mock data for UI tests
@@ -44,7 +44,7 @@ object MockDataFactory {
         content = "Look at what John wrote here. In a few simple words"
     )
 
-    fun todayModel(): TodayModel = TodayModel(
+    fun todayModel(): TodayData = TodayData(
         "index",
         "lessonIndex",
         "Worn and Weary",

@@ -28,7 +28,7 @@ import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.lessons.data.model.SSRead
-import app.ss.lessons.data.model.TodayModel
+import app.ss.lessons.data.model.TodayData
 import com.cryart.sabbathschool.core.extensions.logger.timber
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.DateHelper.formatDate
@@ -59,7 +59,7 @@ internal class LessonsRepositoryImpl constructor(
         }
     }
 
-    override suspend fun getTodayRead(): Resource<TodayModel?> {
+    override suspend fun getTodayRead(): Resource<TodayData?> {
         val index = findQuarterlyIndex() ?: return Resource.success(null)
 
         val event = firebaseRef
@@ -85,7 +85,7 @@ internal class LessonsRepositoryImpl constructor(
         }
     }
 
-    private suspend fun findTodayRead(lessonIndex: String): TodayModel? {
+    private suspend fun findTodayRead(lessonIndex: String): TodayData? {
         val event = firebaseRef
             .child(SSConstants.SS_FIREBASE_LESSON_INFO_DATABASE)
             .child(lessonIndex)
@@ -101,7 +101,7 @@ internal class LessonsRepositoryImpl constructor(
                     val date = parseDate(day.date)
                     date?.isEqual(today) == true
                 }?.let { day ->
-                    TodayModel(
+                    TodayData(
                         day.index,
                         lessonInfo.lesson.index,
                         day.title,

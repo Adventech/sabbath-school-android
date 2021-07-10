@@ -1,6 +1,6 @@
 package app.ss.lessons.data.model
 
-data class TodayModel(
+data class TodayData(
     val index: String,
     val lessonIndex: String,
     val title: String,

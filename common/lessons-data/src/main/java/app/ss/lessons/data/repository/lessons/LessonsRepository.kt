@@ -24,14 +24,14 @@ package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
-import app.ss.lessons.data.model.TodayModel
+import app.ss.lessons.data.model.TodayData
 import com.cryart.sabbathschool.core.response.Resource
 
 interface LessonsRepository {
 
     suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo>
 
-    suspend fun getTodayRead(): Resource<TodayModel?>
+    suspend fun getTodayRead(): Resource<TodayData?>
 
     suspend fun getDayRead(dayIndex: String): Resource<SSRead>
 }
