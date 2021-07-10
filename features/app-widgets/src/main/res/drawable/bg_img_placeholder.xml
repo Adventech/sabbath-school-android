@@ -2,7 +2,9 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
+    <!-- todo: figure out rounded corners
     <corners android:radius="@dimen/ss_widget_corner_radius" />
+    -->
 
     <solid android:color="@color/ss_blue_dark" />
 </shape>

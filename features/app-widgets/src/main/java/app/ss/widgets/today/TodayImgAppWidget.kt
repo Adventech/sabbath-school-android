@@ -13,7 +13,6 @@ import app.ss.widgets.model.TodayWidgetModel
 import app.ss.widgets.model.WidgetType
 import coil.imageLoader
 import coil.request.ImageRequest
-import coil.transform.RoundedCornersTransformation
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
@@ -48,7 +47,7 @@ class TodayImgAppWidget : BaseWidgetProvider<TodayWidgetModel>() {
             .data(model?.cover)
             .error(R.drawable.bg_img_placeholder)
             .placeholder(R.drawable.bg_img_placeholder)
-            .transformations(RoundedCornersTransformation(20f))
+            // .transformations(RoundedCornersTransformation(20f))
             .target(
                 RemoteViewsTarget { drawable ->
                     val bitmap = (drawable as? BitmapDrawable)?.bitmap
