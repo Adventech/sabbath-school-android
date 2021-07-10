@@ -22,41 +22,28 @@
 
 package com.cryart.sabbathschool.core.navigation
 
-import android.net.Uri
-import androidx.core.net.toUri
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.amshove.kluent.shouldBeEqualTo
+import org.junit.Test
+import org.junit.runner.RunWith
 
-enum class Destination(val key: String) {
+@RunWith(AndroidJUnit4::class)
+class DestinationTest {
 
-    ABOUT("about"),
-    ACCOUNT("account"),
-    LOGIN("login"),
-    SETTINGS("settings"),
-    READ("read");
+    @Test
+    fun `destination with params`() {
+        val uri = Destination.READ.toUri(
+            "key1" to "val1",
+            "key2" to "val2"
+        )
 
-    companion object {
-        private val map = values().associateBy(Destination::key)
-
-        fun fromKey(type: String) = map[type]
+        uri.toString() shouldBeEqualTo "ss_app://read?key1=val1&key2=val2"
     }
-}
 
-private const val SCHEME = "ss_app://"
+    @Test
+    fun `destination without params`() {
+        val uri = Destination.READ.toUri()
 
-/**
- * Builds a navigation [Uri] from a [Destination]
- *
- * Example:
- * Passing [Destination.READ] with extras [Pair("lesson_index", "index")]
- * will return `ss_app://read?lesson_index=index`
- *
- */
-fun Destination.toUri(vararg extras: Pair<String, String> = emptyArray()): Uri {
-    val query = if (extras.isNotEmpty()) {
-        extras.joinToString(separator = "&", prefix = "?") { pair ->
-            "${pair.first}=${pair.second}"
-        }
-    } else {
-        ""
+        uri.toString() shouldBeEqualTo "ss_app://read"
     }
-    return "$SCHEME$key$query".toUri()
 }
