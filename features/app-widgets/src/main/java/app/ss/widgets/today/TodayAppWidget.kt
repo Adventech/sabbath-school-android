@@ -30,8 +30,8 @@ class TodayAppWidget : BaseWidgetProvider<TodayWidgetModel>() {
         model: TodayWidgetModel?
     ) {
         val views = RemoteViews(context.packageName, R.layout.today_app_widget)
-        views.setTextViewText(R.id.widget_lesson_date, model?.date ?: "----")
-        views.setTextViewText(R.id.widget_lesson_title, model?.title ?: "----")
+        views.setTextViewText(R.id.widget_lesson_date, model?.date ?: context.getString(R.string.ss_widget_error_label))
+        views.setTextViewText(R.id.widget_lesson_title, model?.title ?: context.getString(R.string.ss_widget_error_label))
 
         val pendingIntent: PendingIntent? = model?.let {
             Intent().apply {
