@@ -10,5 +10,6 @@
     android:text="@string/ss_lessons_read"
     android:textAppearance="@style/TextAppearance.AppCompat.Button"
     android:textColor="@color/white"
+    android:textSize="@dimen/text_size_small"
     android:textStyle="bold"
     tools:layout_gravity="center" />
