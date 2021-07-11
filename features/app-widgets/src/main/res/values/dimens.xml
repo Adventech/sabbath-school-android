@@ -3,4 +3,6 @@
     <dimen name="ss_widget_corner_radius">20dp</dimen>
     <dimen name="ss_text_size_widget_body">15sp</dimen>
     <dimen name="ss_text_size_widget_title">18sp</dimen>
+    <dimen name="ss_widget_book_cover_width">64dp</dimen>
+    <dimen name="ss_widget_book_cover_height">100dp</dimen>
 </resources>

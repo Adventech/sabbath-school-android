@@ -24,9 +24,10 @@ package app.ss.widgets.model
 
 import android.net.Uri
 
-internal data class TodayWidgetModel(
-    val title: String,
-    val date: String,
+internal data class WeekLessonWidgetModel(
+    val quarterlyTitle: String,
+    val lessonTitle: String,
     val cover: String,
-    val uri: Uri
+    val days: List<WeekDayWidgetModel>,
+    val uri: Uri?
 )

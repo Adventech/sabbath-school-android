@@ -24,9 +24,9 @@ package app.ss.widgets.model
 
 import android.net.Uri
 
-internal data class TodayWidgetModel(
+internal data class WeekDayWidgetModel(
     val title: String,
     val date: String,
-    val cover: String,
-    val uri: Uri
+    val uri: Uri,
+    val today: Boolean
 )

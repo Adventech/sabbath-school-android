@@ -84,7 +84,7 @@ class SSReadingActivity :
         ReadingViewPagerAdapter(ssReadingViewModel)
     }
 
-    private var currentLessonIndex: Int? = null
+    private var currentReadPosition: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,7 +108,11 @@ class SSReadingActivity :
                 binding
             )
         }
-        currentLessonIndex = savedInstanceState?.getInt(ARG_POSITION)
+
+        // Read position passed in intent extras
+        val extraPosition = intent.extras?.getString(SSConstants.SS_READ_POSITION_EXTRA)
+        currentReadPosition = savedInstanceState?.getInt(SSConstants.SS_READ_POSITION_EXTRA) ?: extraPosition?.toIntOrNull()
+
         binding.ssReadingViewPager.apply {
             offscreenPageLimit = 4
             adapter = readingViewAdapter
@@ -146,7 +150,7 @@ class SSReadingActivity :
             setExpandedTitleTypeface(ResourcesCompat.getFont(this@SSReadingActivity, R.font.lato_bold))
         }
 
-        currentLessonIndex?.let {
+        currentReadPosition?.let {
             binding.ssReadingViewPager.currentItem = it
         }
     }
@@ -244,7 +248,7 @@ class SSReadingActivity :
         ssReadComments: List<SSReadComments>,
         ssReadIndex: Int
     ) {
-        val index = currentLessonIndex ?: ssReadIndex
+        val index = currentReadPosition ?: ssReadIndex
         val observer = object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
                 super.onChanged()
@@ -263,12 +267,12 @@ class SSReadingActivity :
             unregisterAdapterDataObserver(observer)
         }
 
-        currentLessonIndex = null
+        currentReadPosition = null
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         val position = binding.ssReadingViewPager.currentItem
-        outState.putInt(ARG_POSITION, position)
+        outState.putInt(SSConstants.SS_READ_POSITION_EXTRA, position)
         super.onSaveInstanceState(outState)
     }
 
@@ -277,9 +281,5 @@ class SSReadingActivity :
             readingViewAdapter.readingOptions = displayOptions
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
         }
-    }
-
-    companion object {
-        private const val ARG_POSITION = "arg:lesson_index"
     }
 }

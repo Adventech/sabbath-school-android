@@ -1,25 +1,21 @@
 package app.ss.widgets.today
 
-import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
-import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.widget.RemoteViews
 import app.ss.widgets.BaseWidgetProvider
 import app.ss.widgets.R
+import app.ss.widgets.clickIntent
 import app.ss.widgets.extensions.RemoteViewsTarget
 import app.ss.widgets.model.TodayWidgetModel
 import app.ss.widgets.model.WidgetType
 import coil.imageLoader
 import coil.request.ImageRequest
-import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.navigation.Destination
-import com.cryart.sabbathschool.core.navigation.toUri
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TodayImgAppWidget : BaseWidgetProvider<TodayWidgetModel>() {
+internal class TodayImgAppWidget : BaseWidgetProvider<TodayWidgetModel>() {
 
     override val type: WidgetType
         get() = WidgetType.TODAY_IMG
@@ -34,14 +30,7 @@ class TodayImgAppWidget : BaseWidgetProvider<TodayWidgetModel>() {
         views.setTextViewText(R.id.widget_lesson_date, model?.date ?: context.getString(R.string.ss_widget_error_label))
         views.setTextViewText(R.id.widget_lesson_title, model?.title ?: context.getString(R.string.ss_widget_error_label))
 
-        val pendingIntent: PendingIntent? = model?.let {
-            Intent().apply {
-                data = Destination.READ.toUri(SSConstants.SS_LESSON_INDEX_EXTRA to model.lessonIndex)
-            }.let { intent ->
-                PendingIntent.getActivity(context, 0, intent, 0)
-            }
-        }
-        views.setOnClickPendingIntent(R.id.widget_root, pendingIntent)
+        views.setOnClickPendingIntent(R.id.widget_root, model?.uri?.clickIntent(context))
 
         val request = ImageRequest.Builder(context)
             .data(model?.cover)
