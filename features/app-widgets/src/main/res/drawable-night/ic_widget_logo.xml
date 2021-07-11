@@ -1,0 +1,77 @@
+<!--
+  ~ Copyright (c) 2021. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="172dp"
+    android:height="172dp"
+    android:viewportWidth="172"
+    android:viewportHeight="172">
+    <group>
+        <clip-path android:pathData="m72.754,59.123c-1.412,1.911 -2.643,4.158 -3.664,6.661h-4.76c2.333,-2.737 5.191,-5.014 8.424,-6.661z" />
+        <path
+            android:fillColor="#33FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="m54.33,49.123h28.424v26.661h-28.424z" />
+    </group>
+    <group>
+        <clip-path android:pathData="m82.989,56.447v9.338h-9.246c2.339,-4.917 5.605,-8.368 9.246,-9.338z" />
+        <path
+            android:fillColor="#33FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="m63.743,46.447h29.246v29.338h-29.246z" />
+    </group>
+    <group>
+        <clip-path android:pathData="m108.778,69.977c0.38,0.668 0.732,1.353 1.053,2.052 1.047,2.257 1.799,4.673 2.193,7.21h-7.888c-0.135,-1.744 -0.36,-3.434 -0.658,-5.068h-4.314c0.335,1.628 0.591,3.32 0.748,5.068h-12.73v-5.068h-4.194v5.068h-12.728c0.156,-1.748 0.412,-3.44 0.747,-5.068h-4.314c-0.298,1.634 -0.523,3.324 -0.66,5.068h-7.886c0.271,-1.752 0.722,-3.444 1.312,-5.068h-4.429c-0.504,1.638 -0.889,3.33 -1.121,5.068h-29.65v-5.068h-13.044v-4.194z" />
+        <path
+            android:fillColor="#33FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="m1.217,59.977h120.807v29.262h-120.807z" />
+    </group>
+    <group>
+        <clip-path android:pathData="m97.417,59.123c3.233,1.648 6.091,3.925 8.424,6.661h-4.758c-1.021,-2.503 -2.253,-4.75 -3.666,-6.661z" />
+        <path
+            android:fillColor="#33FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="m87.417,49.123h28.424v26.661h-28.424z" />
+    </group>
+    <group>
+        <clip-path android:pathData="m87.183,56.447c3.641,0.971 6.907,4.421 9.246,9.338h-9.246z" />
+        <path
+            android:fillColor="#33FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="m77.183,46.447h29.246v29.338h-29.246z" />
+    </group>
+    <group>
+        <clip-path android:pathData="m69.936,36c4.415,0 8.502,1.047 11.597,3.313 1.497,1.093 2.715,2.508 3.597,4.164 0.882,-1.656 2.1,-3.071 3.597,-4.164 3.101,-2.267 7.182,-3.313 11.597,-3.313h44.161c0.793,0 1.515,0.721 1.515,1.515v87.846c0,0.792 -0.721,1.513 -1.515,1.513h-44.161c-3.688,0 -7.047,0.498 -9.421,1.704 -2.371,1.208 -3.816,2.93 -4.258,6.059 -0.012,0.788 -0.728,1.326 -1.515,1.326 -0.788,0 -1.497,-0.538 -1.515,-1.326 -0.444,-3.129 -1.887,-4.851 -4.26,-6.059 -2.371,-1.206 -5.733,-1.704 -9.419,-1.704h-44.161c-0.794,0 -1.515,-0.721 -1.515,-1.513v-24.281h-13.044v-4.192h97.561c-0.41,0.715 -0.86,1.405 -1.33,2.08 -0.054,0.076 -0.111,0.151 -0.165,0.227 -2.548,3.582 -5.92,6.538 -9.865,8.547 1.411,-1.909 2.641,-4.155 3.662,-6.659h-4.664c-2.338,4.913 -5.595,8.366 -9.234,9.336v-9.336h-4.192v9.336c-3.639,-0.971 -6.896,-4.424 -9.234,-9.336h-4.664c1.021,2.504 2.251,4.75 3.662,6.659 -3.227,-1.644 -6.067,-3.927 -8.394,-6.659h-5.289c5.667,8.326 15.206,13.813 26.015,13.813 17.348,0 31.463,-14.115 31.463,-31.463 0,-17.35 -14.114,-31.462 -31.463,-31.462 -10.813,0 -20.366,5.484 -26.034,13.815h-34.792v-28.27c0.006,-0.638 0.502,-1.484 1.515,-1.515z" />
+        <path
+            android:fillColor="#33FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="m1.216,26h154.784v119.963h-154.784z" />
+    </group>
+    <group>
+        <clip-path android:pathData="m112.356,83.432c0,0.723 -0.034,1.437 -0.097,2.144 -0.195,2.479 -0.715,4.867 -1.531,7.118h-7.242c0.298,-1.632 0.508,-3.33 0.647,-5.068h-4.22c-0.159,1.742 -0.402,3.44 -0.738,5.068h-11.993v-5.068h-4.194v5.068h-11.991c-0.336,-1.628 -0.579,-3.326 -0.737,-5.068h-4.22c0.136,1.738 0.35,3.436 0.647,5.068h-7.242c-0.589,-1.622 -1.01,-3.323 -1.284,-5.068h-4.243c0.233,1.736 0.593,3.432 1.099,5.068h-30.757v-5.068h-24.261v-4.194z" />
+        <path
+            android:fillColor="#33FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="m-10,73.432h132.356v29.262h-132.356z" />
+    </group>
+</vector>
