@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -30,11 +31,11 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import app.ss.lessons.data.model.SSQuarterly
+import com.cryart.design.setEdgeEffect
 import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
-import com.cryart.design.setEdgeEffect
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -82,9 +83,8 @@ class QuarterliesActivity : SSBaseActivity() {
             (state as? ViewState.Success<*>)?.let { bindQuarterlies(it) }
         }
         viewModel.showLanguagePromptLiveData.observe(this, { showLanguagesPrompt() })
-        viewModel.lastQuarterlyIndexLiveData.observeNonNull(this) {
-            val intent = Intent(this, SSLessonsActivity::class.java)
-            intent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, it)
+        viewModel.lastQuarterlyIndexLiveData.observeNonNull(this) { index ->
+            val intent = SSLessonsActivity.launchIntent(this, index)
             startActivity(intent)
         }
         viewModel.appReBrandingFlow
@@ -185,6 +185,17 @@ class QuarterliesActivity : SSBaseActivity() {
             true
         } else {
             super.onOptionsItemSelected(item)
+        }
+    }
+
+    companion object {
+        fun launchIntent(
+            context: Context,
+            launchDefault: Boolean = true
+        ): Intent = Intent(
+            context, QuarterliesActivity::class.java
+        ).apply {
+            putExtra(SSConstants.SS_QUARTERLY_SCREEN_LAUNCH_EXTRA, launchDefault)
         }
     }
 }

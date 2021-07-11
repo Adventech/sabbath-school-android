@@ -26,8 +26,10 @@ import android.app.Activity
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
+import com.cryart.sabbathschool.core.navigation.toUri
 import com.cryart.sabbathschool.settings.SSSettingsActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -49,6 +51,7 @@ import org.robolectric.android.controller.ActivityController
 class AppNavigatorImplTest {
 
     private val mockFirebaseAuth: FirebaseAuth = mockk()
+    private val mockSSPrefs: SSPrefs = mockk()
 
     private lateinit var controller: ActivityController<AppCompatActivity>
     private lateinit var activity: Activity
@@ -59,7 +62,10 @@ class AppNavigatorImplTest {
     fun setup() {
         controller = Robolectric.buildActivity(AppCompatActivity::class.java)
         activity = controller.create().start().resume().get()
-        navigator = AppNavigatorImpl(mockFirebaseAuth)
+
+        every { mockSSPrefs.getLastQuarterlyIndex() }.returns("index")
+
+        navigator = AppNavigatorImpl(mockFirebaseAuth, mockSSPrefs)
     }
 
     @After
@@ -111,10 +117,7 @@ class AppNavigatorImplTest {
     fun `should navigate to settings destination via deep-link`() {
         every { mockFirebaseAuth.currentUser }.returns(mockk())
 
-        val uri = Uri.Builder()
-            .scheme("ss_app")
-            .authority("settings")
-            .build()
+        val uri = Destination.SETTINGS.toUri()
         navigator.navigate(activity, uri)
 
         val shadow = Shadows.shadowOf(activity)
@@ -122,6 +125,19 @@ class AppNavigatorImplTest {
 
         val clazz = intent.component?.className
         clazz shouldBeEqualTo SSSettingsActivity::class.qualifiedName
+    }
+
+    @Test
+    fun `should add extras from deep-link into intent extras`() {
+        every { mockFirebaseAuth.currentUser }.returns(mockk())
+
+        val uri = Destination.READ.toUri("key" to "value")
+        navigator.navigate(activity, uri)
+
+        val shadow = Shadows.shadowOf(activity)
+        val intent = shadow.nextStartedActivity
+
+        intent.getStringExtra("key") shouldBeEqualTo "value"
     }
 
     @Test

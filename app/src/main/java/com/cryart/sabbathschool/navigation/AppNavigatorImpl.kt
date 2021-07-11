@@ -26,11 +26,16 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.core.app.TaskStackBuilder
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentActivity
 import com.cryart.sabbathschool.account.AccountDialogFragment
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
-import com.cryart.sabbathschool.readings.ReadingActivity
+import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
+import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
+import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.settings.SSSettingsActivity
 import com.cryart.sabbathschool.ui.about.AboutActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
@@ -43,7 +48,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class AppNavigatorImpl @Inject constructor(
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    private val ssPrefs: SSPrefs
 ) : AppNavigator {
 
     private val isSignedIn: Boolean get() = firebaseAuth.currentUser != null
@@ -67,14 +73,26 @@ class AppNavigatorImpl @Inject constructor(
         extras?.let {
             intent.putExtras(it)
         }
-        activity.startActivity(intent)
+
+        if (destination == Destination.READ) {
+            with(TaskStackBuilder.create(activity)) {
+                addNextIntent(QuarterliesActivity.launchIntent(activity, false))
+                ssPrefs.getLastQuarterlyIndex()?.let { index ->
+                    addNextIntent(SSLessonsActivity.launchIntent(activity, index))
+                }
+                addNextIntentWithParentStack(intent)
+                startActivities()
+            }
+        } else {
+            activity.startActivity(intent)
+        }
     }
 
     override fun navigate(activity: Activity, deepLink: Uri) {
-        val host = deepLink.authority ?: return
+        val host = deepLink.host ?: return
         val destination = Destination.fromKey(host) ?: return
 
-        navigate(activity, destination)
+        navigate(activity, destination, getExtras(deepLink))
     }
 
     private fun getDestinationClass(destination: Destination): Class<*>? {
@@ -83,8 +101,16 @@ class AppNavigatorImpl @Inject constructor(
             Destination.ACCOUNT -> AccountDialogFragment::class.java
             Destination.LOGIN -> LoginActivity::class.java
             Destination.SETTINGS -> SSSettingsActivity::class.java
-            Destination.READ -> ReadingActivity::class.java
+            Destination.READ -> SSReadingActivity::class.java
             else -> null
         }
+    }
+
+    private fun getExtras(uri: Uri): Bundle {
+        val pairs = uri.queryParameterNames.map { key ->
+            key to uri.getQueryParameter(key)
+        }.toTypedArray()
+
+        return bundleOf(*pairs)
     }
 }

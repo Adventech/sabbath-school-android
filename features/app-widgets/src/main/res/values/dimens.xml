@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ss_widget_corner_radius">20dp</dimen>
+    <dimen name="ss_text_size_widget_body">15sp</dimen>
+    <dimen name="ss_text_size_widget_title">18sp</dimen>
+</resources>

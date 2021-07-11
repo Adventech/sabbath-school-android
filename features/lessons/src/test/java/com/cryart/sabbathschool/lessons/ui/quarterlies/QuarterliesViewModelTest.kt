@@ -23,12 +23,14 @@
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.core.extensions.arch.observeFuture
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
 import com.cryart.sabbathschool.test.coroutines.runBlockingTest
@@ -59,17 +61,20 @@ class QuarterliesViewModelTest {
 
     private val mockRepository: QuarterliesRepository = mockk(relaxed = true)
     private val mockSSPrefs: SSPrefs = mockk()
+    private val mockSavedStateHandle: SavedStateHandle = mockk()
 
     private lateinit var viewModel: QuarterliesViewModel
 
     @Before
     fun setup() {
         every { mockSSPrefs.getLanguageCode() }.returns("en")
+        every { mockSavedStateHandle.get<Boolean>(SSConstants.SS_QUARTERLY_SCREEN_LAUNCH_EXTRA) }.returns(true)
 
         viewModel = QuarterliesViewModel(
             mockRepository,
             mockSSPrefs,
-            coroutinesTestRule.dispatcherProvider
+            coroutinesTestRule.dispatcherProvider,
+            mockSavedStateHandle
         )
     }
 
@@ -105,6 +110,18 @@ class QuarterliesViewModelTest {
         val quarterlyIndex = "en-2020-02-13"
         every { mockSSPrefs.getLastQuarterlyIndex() }.returns(quarterlyIndex)
         every { mockSSPrefs.isAppReBrandingPromptShown() }.returns(false)
+
+        // when
+        viewModel.viewCreated()
+
+        // then
+        viewModel.lastQuarterlyIndexLiveData.value.shouldBeNull()
+    }
+
+    @Test
+    fun `should not post any last quarterly index if launch mode is not default`() {
+        // given
+        every { mockSavedStateHandle.get<Boolean>(SSConstants.SS_QUARTERLY_SCREEN_LAUNCH_EXTRA) }.returns(false)
 
         // when
         viewModel.viewCreated()

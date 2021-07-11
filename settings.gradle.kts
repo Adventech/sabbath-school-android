@@ -25,6 +25,7 @@ include(
     ":common:design",
     ":common:translations",
     ":common:lessons-data",
+    ":features:app-widgets",
     ":features:reader",
     ":features:lessons",
     ":features:bible",

@@ -43,6 +43,7 @@ import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
+import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
 import com.cryart.sabbathschool.core.navigation.AppNavigator
@@ -116,7 +117,7 @@ class SSReadingActivity :
                     super.onPageSelected(position)
 
                     val ssRead = readingViewAdapter.getReadAt(position) ?: return
-                    setPageTitleAndSubtitle(ssRead.title, ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
+                    setPageTitleAndSubtitle(ssRead.title, DateHelper.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
                 }
             })
         }
@@ -251,7 +252,7 @@ class SSReadingActivity :
                 ssReads.getOrNull(index)?.let { read ->
                     setPageTitleAndSubtitle(
                         read.title,
-                        ssReadingViewModel.formatDate(read.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY)
+                        DateHelper.formatDate(read.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY)
                     )
                 }
             }
