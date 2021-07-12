@@ -56,11 +56,11 @@
         android:id="@+id/widget_logo"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_medium"
         android:layout_marginBottom="@dimen/spacing_medium"
         android:contentDescription="@string/blank"
         android:scaleType="centerInside"
         android:src="@drawable/ic_widget_logo"
-        android:translationY="-4dp" />
+        android:translationY="-18dp" />
 
 </LinearLayout>
