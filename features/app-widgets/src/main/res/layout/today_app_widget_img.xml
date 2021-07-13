@@ -34,6 +34,7 @@
             android:id="@+id/widget_lesson_date"
             style="@style/AppWidget.Text.Secondary"
             android:textColor="@color/white"
+            android:textSize="@dimen/text_size_medium"
             tools:text="Sunday, June 27" />
 
         <TextView
@@ -42,6 +43,7 @@
             android:layout_marginVertical="@dimen/spacing_normal"
             android:maxLines="3"
             android:textColor="@color/white"
+            android:textSize="@dimen/text_size_large"
             tools:text="Worn and Weary" />
 
         <include
