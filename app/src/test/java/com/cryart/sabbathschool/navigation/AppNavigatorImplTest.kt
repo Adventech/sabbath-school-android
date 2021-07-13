@@ -27,9 +27,12 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
+import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
+import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.settings.SSSettingsActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -151,5 +154,53 @@ class AppNavigatorImplTest {
         val intent = shadow.nextStartedActivity
 
         intent.shouldBeNull()
+    }
+
+    @Test
+    fun `should navigate to login when not authenticated - web-link`() {
+        every { mockFirebaseAuth.currentUser }.returns(null)
+
+        val uri = Uri.parse("https://sabbath-school.adventech.io/en/2021-03")
+
+        navigator.navigate(activity, uri)
+
+        val shadow = Shadows.shadowOf(activity)
+        val intent = shadow.nextStartedActivity
+
+        val clazz = intent.component?.className
+        clazz shouldBeEqualTo LoginActivity::class.qualifiedName
+    }
+
+    @Test
+    fun `should navigate to lessons screen - web-link`() {
+        every { mockFirebaseAuth.currentUser }.returns(mockk())
+
+        val uri = Uri.parse("https://sabbath-school.adventech.io/en/2021-03")
+        navigator.navigate(activity, uri)
+
+        val shadow = Shadows.shadowOf(activity)
+        val intent = shadow.nextStartedActivity
+
+        val clazz = intent.component?.className
+        clazz shouldBeEqualTo SSLessonsActivity::class.qualifiedName
+
+        intent.getStringExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA) shouldBeEqualTo "en-2021-03"
+    }
+
+    @Test
+    fun `should navigate to read screen - web-link`() {
+        every { mockFirebaseAuth.currentUser }.returns(mockk())
+
+        val uri = Uri.parse("https://sabbath-school.adventech.io/en/2021-03/03/07-friday-further-thought/")
+        navigator.navigate(activity, uri)
+
+        val shadow = Shadows.shadowOf(activity)
+        val intent = shadow.nextStartedActivity
+
+        val clazz = intent.component?.className
+        clazz shouldBeEqualTo SSReadingActivity::class.qualifiedName
+
+        intent.getStringExtra(SSConstants.SS_LESSON_INDEX_EXTRA) shouldBeEqualTo "en-2021-03-03"
+        intent.getStringExtra(SSConstants.SS_READ_POSITION_EXTRA) shouldBeEqualTo "6"
     }
 }
