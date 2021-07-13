@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+
+    <style name="AppWidget.Text" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+        <item name="android:text">@string/ss_widget_error_label</item>
+    </style>
+
+    <style name="AppWidget.Text.Primary">
+        <item name="android:fontFamily">@font/lato_bold</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/ss_text_size_widget_title</item>
+    </style>
+
+    <style name="AppWidget.Text.Secondary">
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textSize">@dimen/ss_text_size_widget_body</item>
+    </style>
+
+    <style name="DayContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">@dimen/spacing_medium</item>
+        <item name="android:paddingEnd">@dimen/spacing_medium</item>
+        <item name="android:paddingTop">@dimen/spacing_list</item>
+        <item name="android:paddingBottom">@dimen/spacing_list</item>
+    </style>
+
+    <style name="DayContainer.Divider" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:layout_marginStart">@dimen/spacing_medium</item>
+        <item name="android:layout_marginEnd">@dimen/spacing_medium</item>
+    </style>
+
+    <style name="DayContainer.Date" parent="AppWidget.Text.Secondary">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/spacing_normal</item>
+        <item name="android:gravity">end</item>
+    </style>
+
+    <style name="DayContainer.Title" parent="AppWidget.Text.Secondary">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+</resources>

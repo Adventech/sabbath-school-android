@@ -23,26 +23,16 @@
 
         <TextView
             android:id="@+id/widget_lesson_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/lato_regular"
-            android:text="@string/ss_widget_error_label"
+            style="@style/AppWidget.Text.Secondary"
             android:textColor="@color/white_70"
-            android:textSize="@dimen/ss_text_size_widget_body"
             tools:text="Sunday, June 27" />
 
         <TextView
             android:id="@+id/widget_lesson_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/AppWidget.Text.Primary"
             android:layout_marginVertical="@dimen/spacing_normal"
-            android:ellipsize="end"
-            android:fontFamily="@font/lato_bold"
             android:maxLines="3"
-            android:text="@string/ss_widget_error_label"
             android:textColor="@color/white"
-            android:textSize="@dimen/ss_text_size_widget_title"
-            android:textStyle="bold"
             tools:text="Worn and Weary" />
 
         <include

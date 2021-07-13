@@ -20,21 +20,13 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.lessons
+package app.ss.lessons.data.model
 
-import app.ss.lessons.data.model.SSLessonInfo
-import app.ss.lessons.data.model.SSRead
-import app.ss.lessons.data.model.TodayData
-import app.ss.lessons.data.model.WeekData
-import com.cryart.sabbathschool.core.response.Resource
-
-interface LessonsRepository {
-
-    suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo>
-
-    suspend fun getTodayRead(): Resource<TodayData>
-
-    suspend fun getDayRead(dayIndex: String): Resource<SSRead>
-
-    suspend fun getWeekData(): Resource<WeekData>
-}
+data class WeekData(
+    val quarterlyIndex: String,
+    val quarterlyTitle: String,
+    val lessonIndex: String,
+    val lessonTitle: String,
+    val cover: String,
+    val days: List<WeekDay>
+)
