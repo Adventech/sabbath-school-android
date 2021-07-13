@@ -98,6 +98,20 @@ internal class LessonsRepositoryImpl constructor(
     }
 
     private suspend fun getQuarterlyInfo(): Resource<SSQuarterlyInfo> {
+        val index = ssPrefs.getLastQuarterlyIndex() ?: getDefaultQuarterlyIndex() ?: return Resource.error(Throwable("Invalid Quarterly Index"))
+
+        val event = firebaseRef
+            .child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
+            .child(index)
+            .singleEvent()
+
+        return when (event) {
+            is ValueEvent.Cancelled -> Resource.error(event.error)
+            is ValueEvent.DataChange -> Resource.success(SSQuarterlyInfo(event.snapshot))
+        }
+    }
+
+    private suspend fun getDefaultQuarterlyIndex(): String? {
         var code = ssPrefs.getLanguageCode()
         if (code == "iw") {
             code = "he"
@@ -111,7 +125,7 @@ internal class LessonsRepositoryImpl constructor(
             .child(code)
             .singleEvent()
 
-        val quarterlyIndex = when (quarterlyEvent) {
+        return when (quarterlyEvent) {
             is ValueEvent.Cancelled -> null
             is ValueEvent.DataChange -> {
                 val quarterlies = quarterlyEvent.snapshot.children.mapNotNull {
@@ -120,18 +134,6 @@ internal class LessonsRepositoryImpl constructor(
                 val quarterly = quarterlies.firstOrNull()
                 quarterly?.index
             }
-        }
-
-        val index = quarterlyIndex ?: return Resource.error(Throwable("Invalid Quarterly Index"))
-
-        val event = firebaseRef
-            .child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
-            .child(index)
-            .singleEvent()
-
-        return when (event) {
-            is ValueEvent.Cancelled -> Resource.error(event.error)
-            is ValueEvent.DataChange -> Resource.success(SSQuarterlyInfo(event.snapshot))
         }
     }
 

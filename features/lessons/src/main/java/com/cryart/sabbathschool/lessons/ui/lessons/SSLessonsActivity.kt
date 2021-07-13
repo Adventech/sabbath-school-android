@@ -32,6 +32,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import app.ss.lessons.data.model.SSQuarterlyInfo
+import app.ss.widgets.AppWidgetHelper
 import com.cryart.design.dividers
 import com.cryart.design.setEdgeEffect
 import com.cryart.design.theme
@@ -62,6 +63,9 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
     @Inject
     lateinit var appNavigator: AppNavigator
 
+    @Inject
+    lateinit var appWidgetHelper: AppWidgetHelper
+
     private var ssLessonsViewModel: SSLessonsViewModel? = null
     private val viewModel by viewModels<LessonsViewModel>()
 
@@ -84,7 +88,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
             return
         }
 
-        ssLessonsViewModel = SSLessonsViewModel(this, ssPrefs, this, index)
+        ssLessonsViewModel = SSLessonsViewModel(this, ssPrefs, this, index, appWidgetHelper)
         binding.executePendingBindings()
         binding.viewModel = ssLessonsViewModel
 
