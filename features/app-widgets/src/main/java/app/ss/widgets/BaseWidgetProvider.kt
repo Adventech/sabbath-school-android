@@ -77,7 +77,7 @@ abstract class BaseWidgetProvider<M> : AppWidgetProvider() {
     }
 
     companion object {
-        private const val REFRESH_ACTION = "app.ss.appwidget.action.REFRESH"
+        internal const val REFRESH_ACTION = "app.ss.appwidget.action.REFRESH"
     }
 }
 

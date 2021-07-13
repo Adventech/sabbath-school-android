@@ -64,6 +64,7 @@ dependencies {
     implementation(project(BuildModules.Common.DESIGN))
     implementation(project(BuildModules.Common.TRANSLATIONS))
     implementation(project(BuildModules.Common.LESSONS_DATA))
+    implementation(project(BuildModules.Features.APP_WIDGETS))
     implementation(project(BuildModules.Features.READER))
     implementation(project(BuildModules.Features.BIBLE))
 

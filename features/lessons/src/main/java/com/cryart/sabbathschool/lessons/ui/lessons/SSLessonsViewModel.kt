@@ -29,6 +29,7 @@ import androidx.databinding.ObservableInt
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import app.ss.lessons.data.model.SSQuarterlyInfo
+import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.lessons.ui.viewmodel.SSViewModel
 import com.google.firebase.database.DataSnapshot
@@ -44,7 +45,8 @@ internal class SSLessonsViewModel(
     private val context: Context,
     private val ssPrefs: SSPrefs,
     private var dataListener: DataListener?,
-    private var ssQuarterlyIndex: String
+    private var ssQuarterlyIndex: String,
+    private val appWidgetHelper: AppWidgetHelper
 ) : SSViewModel {
 
     private val mDatabase: DatabaseReference = FirebaseDatabase.getInstance().reference
@@ -92,6 +94,7 @@ internal class SSLessonsViewModel(
 
                     ssQuarterlyInfo?.let {
                         ssPrefs.setLastQuarterlyIndex(it.quarterly.index)
+                        appWidgetHelper.refreshAll()
 
                         dataListener?.onQuarterlyChanged(it)
                     }
