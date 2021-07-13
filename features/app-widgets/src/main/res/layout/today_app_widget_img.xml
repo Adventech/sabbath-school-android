@@ -2,20 +2,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:layout_gravity="center"
+    tools:layout_height="300dp"
+    tools:layout_width="350dp">
 
     <ImageView
         android:id="@+id/widget_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_img_placeholder"
+        android:layout_margin="@dimen/ss_widget_img_border"
         android:contentDescription="@string/blank"
-        android:scaleType="fitXY" />
+        android:scaleType="centerCrop" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_img_widget_border" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/ss_widget_img_border"
         android:background="@drawable/bg_widget_content"
         android:gravity="bottom"
         android:orientation="vertical"
@@ -24,7 +33,7 @@
         <TextView
             android:id="@+id/widget_lesson_date"
             style="@style/AppWidget.Text.Secondary"
-            android:textColor="@color/white_70"
+            android:textColor="@color/white"
             tools:text="Sunday, June 27" />
 
         <TextView
