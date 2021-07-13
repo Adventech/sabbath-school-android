@@ -29,9 +29,10 @@ enum class Destination(val key: String) {
 
     ABOUT("about"),
     ACCOUNT("account"),
+    LESSONS("lessons"),
     LOGIN("login"),
-    SETTINGS("settings"),
-    READ("read");
+    READ("read"),
+    SETTINGS("settings");
 
     companion object {
         private val map = values().associateBy(Destination::key)
