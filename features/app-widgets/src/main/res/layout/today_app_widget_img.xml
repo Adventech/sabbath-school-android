@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/ss_widget_img_border"
+        android:background="@drawable/bg_img_placeholder"
         android:contentDescription="@string/blank"
         android:scaleType="centerCrop" />
 
