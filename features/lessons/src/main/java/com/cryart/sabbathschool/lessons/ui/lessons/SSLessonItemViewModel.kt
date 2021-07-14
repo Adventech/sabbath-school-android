@@ -22,7 +22,6 @@
 package com.cryart.sabbathschool.lessons.ui.lessons
 
 import android.content.Context
-import android.content.Intent
 import androidx.databinding.BaseObservable
 import app.ss.lessons.data.model.SSLesson
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -59,8 +58,7 @@ internal class SSLessonItemViewModel(
     }
 
     fun onItemClick() {
-        val ssReadingIntent = Intent(context, SSReadingActivity::class.java)
-        ssReadingIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, ssLesson.index)
+        val ssReadingIntent = SSReadingActivity.launchIntent(context, ssLesson.index)
         context.startActivity(ssReadingIntent)
     }
 

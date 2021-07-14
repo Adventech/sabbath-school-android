@@ -22,6 +22,8 @@
 
 package com.cryart.sabbathschool.lessons.ui.readings
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -280,6 +282,19 @@ class SSReadingActivity :
         ssPrefs.displayOptionsFlow().collectIn(this) { displayOptions ->
             readingViewAdapter.readingOptions = displayOptions
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
+        }
+    }
+
+    companion object {
+        fun launchIntent(
+            context: Context,
+            lessonIndex: String,
+            readPosition: String? = null
+        ): Intent = Intent(context, SSReadingActivity::class.java).apply {
+            putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, lessonIndex)
+            readPosition?.let {
+                putExtra(SSConstants.SS_READ_POSITION_EXTRA, readPosition)
+            }
         }
     }
 }

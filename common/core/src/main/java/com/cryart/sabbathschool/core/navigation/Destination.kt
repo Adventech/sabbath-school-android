@@ -32,6 +32,7 @@ enum class Destination(val key: String) {
     LESSONS("lessons"),
     LOGIN("login"),
     READ("read"),
+    READ_WEB("sabbath-school.adventech.io"),
     SETTINGS("settings");
 
     companion object {
