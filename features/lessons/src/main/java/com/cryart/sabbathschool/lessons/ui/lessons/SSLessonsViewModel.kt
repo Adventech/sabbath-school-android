@@ -22,14 +22,13 @@
 package com.cryart.sabbathschool.lessons.ui.lessons
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import androidx.databinding.ObservableInt
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.SSConstants
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.widgets.AppWidgetHelper
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.lessons.ui.viewmodel.SSViewModel
 import com.google.firebase.database.DataSnapshot
@@ -137,8 +136,7 @@ internal class SSLessonsViewModel(
                 }
             }
 
-            val ssReadingIntent = Intent(context, SSReadingActivity::class.java)
-            ssReadingIntent.putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, ssLessonIndex)
+            val ssReadingIntent = SSReadingActivity.launchIntent(context, ssLessonIndex)
             context.startActivity(ssReadingIntent)
         }
     }

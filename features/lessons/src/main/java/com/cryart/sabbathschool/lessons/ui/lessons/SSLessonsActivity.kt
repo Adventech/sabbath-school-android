@@ -209,12 +209,12 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
 
         fun launchIntent(
             context: Context,
-            lessonIndex: String
+            quarterlyIndex: String
         ): Intent = Intent(
             context,
             SSLessonsActivity::class.java
         ).apply {
-            putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, lessonIndex)
+            putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, quarterlyIndex)
         }
     }
 }
