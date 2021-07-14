@@ -32,6 +32,7 @@ import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
+import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.settings.SSSettingsActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
@@ -202,5 +203,19 @@ class AppNavigatorImplTest {
 
         intent.getStringExtra(SSConstants.SS_LESSON_INDEX_EXTRA) shouldBeEqualTo "en-2021-03-03"
         intent.getStringExtra(SSConstants.SS_READ_POSITION_EXTRA) shouldBeEqualTo "6"
+    }
+
+    @Test
+    fun `should launch normal flow for invalid web-link`() {
+        every { mockFirebaseAuth.currentUser }.returns(mockk())
+
+        val uri = Uri.parse("https://sabbath-school.adventech.io/03/07-friday-further-thought/")
+        navigator.navigate(activity, uri)
+
+        val shadow = Shadows.shadowOf(activity)
+        val intent = shadow.nextStartedActivity
+
+        val clazz = intent.component?.className
+        clazz shouldBeEqualTo QuarterliesActivity::class.qualifiedName
     }
 }

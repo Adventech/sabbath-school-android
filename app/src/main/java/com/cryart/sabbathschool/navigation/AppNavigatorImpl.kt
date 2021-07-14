@@ -127,7 +127,7 @@ class AppNavigatorImpl @Inject constructor(
      * Navigate to either [SSLessonsActivity] or [SSReadingActivity]
      * depending on the uri from web (sabbath-school.adventech.io) received.
      *
-     * If no quarterly index is found in the Uri we abort navigation.
+     * If no quarterly index is found in the Uri we launch normal flow.
      *
      * Example links:
      * [1] https://sabbath-school.adventech.io/en/2021-03
@@ -151,13 +151,11 @@ class AppNavigatorImpl @Inject constructor(
         val taskBuilder = TaskStackBuilder.create(activity)
         taskBuilder.addNextIntent(QuarterliesActivity.launchIntent(activity, false))
 
-        if (segments.size >= 2) {
+        if (uri.path?.matches(WEB_LINK_REGEX.toRegex()) == true && segments.size >= 2) {
             quarterlyIndex = "${segments.first()}-${segments[1]}"
-            logger.d("QUARTERLY_INDEX: $quarterlyIndex")
 
             if (segments.size > 2) {
                 lessonIndex = "$quarterlyIndex-${segments[2]}"
-                logger.d("LESSON_INDEX: $lessonIndex")
 
                 val readPosition = if (segments.size > 3) {
                     val dayNumber = segments[3].filter { it.isDigit() }
@@ -166,20 +164,32 @@ class AppNavigatorImpl @Inject constructor(
                 } else {
                     null
                 }
-                logger.d("READ_POSITION: $readPosition")
 
                 taskBuilder.addNextIntent(SSLessonsActivity.launchIntent(activity, quarterlyIndex))
                 endIntent = SSReadingActivity.launchIntent(activity, lessonIndex, readPosition)
             } else {
                 endIntent = SSLessonsActivity.launchIntent(activity, quarterlyIndex)
             }
-        } else {
-            return
-        }
 
-        with(taskBuilder) {
-            addNextIntentWithParentStack(endIntent)
-            startActivities()
+            with(taskBuilder) {
+                addNextIntentWithParentStack(endIntent)
+                startActivities()
+            }
+        } else {
+            launchNormalFlow(activity)
         }
+    }
+
+    private fun launchNormalFlow(activity: Activity) {
+        val intent = QuarterliesActivity.launchIntent(activity).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        activity.startActivity(intent)
+    }
+
+    companion object {
+        private const val WEB_LINK_REGEX =
+            "(^\\/[a-z]{2,}\\/?\$)|(^\\/[a-z]{2,}\\/\\d{4}-\\d{2}(-[a-z]{2})?\\/?\$)|(^\\/[a-z]{2,}\\/\\d{4}-\\d{2}(-[a-z]{2})?\\/\\d{2}\\/?\$)|" +
+                "(^\\/[a-z]{2,}\\/\\d{4}-\\d{2}(-[a-z]{2})?\\/\\d{2}\\/\\d{2}(-.+)?\\/?\$)"
     }
 }
