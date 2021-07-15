@@ -29,6 +29,7 @@ enum class Destination(val key: String) {
 
     ABOUT("about"),
     ACCOUNT("account"),
+    LESSONS("lessons"),
     LOGIN("login"),
     READ("read"),
     READ_WEB("sabbath-school.adventech.io"),

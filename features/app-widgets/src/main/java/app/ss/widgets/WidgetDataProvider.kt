@@ -59,7 +59,9 @@ internal class WidgetDataProviderImpl constructor(
                 data.lessonTitle,
                 data.cover,
                 days,
-                days.find { it.today }?.uri
+                Destination.LESSONS.toUri(
+                    SSConstants.SS_QUARTERLY_INDEX_EXTRA to data.quarterlyIndex
+                )
             )
         } catch (ex: Exception) {
             logger.e(ex)

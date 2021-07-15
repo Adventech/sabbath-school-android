@@ -77,17 +77,27 @@ class AppNavigatorImpl @Inject constructor(
             intent.putExtras(it)
         }
 
-        if (destination == Destination.READ) {
-            with(TaskStackBuilder.create(activity)) {
-                addNextIntent(QuarterliesActivity.launchIntent(activity, false))
-                ssPrefs.getLastQuarterlyIndex()?.let { index ->
-                    addNextIntent(SSLessonsActivity.launchIntent(activity, index))
+        when (destination) {
+            Destination.LESSONS -> {
+                with(TaskStackBuilder.create(activity)) {
+                    addNextIntent(QuarterliesActivity.launchIntent(activity, false))
+                    addNextIntentWithParentStack(intent)
+                    startActivities()
                 }
-                addNextIntentWithParentStack(intent)
-                startActivities()
             }
-        } else {
-            activity.startActivity(intent)
+            Destination.READ -> {
+                with(TaskStackBuilder.create(activity)) {
+                    addNextIntent(QuarterliesActivity.launchIntent(activity, false))
+                    ssPrefs.getLastQuarterlyIndex()?.let { index ->
+                        addNextIntent(SSLessonsActivity.launchIntent(activity, index))
+                    }
+                    addNextIntentWithParentStack(intent)
+                    startActivities()
+                }
+            }
+            else -> {
+                activity.startActivity(intent)
+            }
         }
     }
 
@@ -108,6 +118,7 @@ class AppNavigatorImpl @Inject constructor(
         return when (destination) {
             Destination.ABOUT -> AboutActivity::class.java
             Destination.ACCOUNT -> AccountDialogFragment::class.java
+            Destination.LESSONS -> SSLessonsActivity::class.java
             Destination.LOGIN -> LoginActivity::class.java
             Destination.SETTINGS -> SSSettingsActivity::class.java
             Destination.READ -> SSReadingActivity::class.java

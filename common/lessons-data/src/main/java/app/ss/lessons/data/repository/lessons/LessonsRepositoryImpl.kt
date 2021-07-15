@@ -98,7 +98,9 @@ internal class LessonsRepositoryImpl constructor(
     }
 
     private suspend fun getQuarterlyInfo(): Resource<SSQuarterlyInfo> {
-        val index = ssPrefs.getLastQuarterlyIndex() ?: getDefaultQuarterlyIndex() ?: return Resource.error(Throwable("Invalid Quarterly Index"))
+        val index = getLastQuarterlyInfoIfCurrent()?.let {
+            return Resource.success(it)
+        } ?: getDefaultQuarterlyIndex() ?: return Resource.error(Throwable("Invalid Quarterly Index"))
 
         val event = firebaseRef
             .child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
@@ -108,6 +110,28 @@ internal class LessonsRepositoryImpl constructor(
         return when (event) {
             is ValueEvent.Cancelled -> Resource.error(event.error)
             is ValueEvent.DataChange -> Resource.success(SSQuarterlyInfo(event.snapshot))
+        }
+    }
+
+    private suspend fun getLastQuarterlyInfoIfCurrent(): SSQuarterlyInfo? {
+        val index = ssPrefs.getLastQuarterlyIndex() ?: return null
+
+        val event = firebaseRef
+            .child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
+            .child(index)
+            .singleEvent()
+
+        return when (event) {
+            is ValueEvent.Cancelled -> null
+            is ValueEvent.DataChange -> {
+                val info = SSQuarterlyInfo(event.snapshot)
+                val today = DateTime.now().withTimeAtStartOfDay()
+                if (today.isBefore(parseDate(info.quarterly.end_date))) {
+                    info
+                } else {
+                    null
+                }
+            }
         }
     }
 
