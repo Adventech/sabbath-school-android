@@ -16,6 +16,8 @@ reader:
   - 'features/reader/*'
 settings:
   - 'features/settings/*'
+app-widgets:
+  - 'features/app-widgets/*'
 dependencies:
   - 'buildSrc/src/main/kotlin/dependencies/*'
 test:
