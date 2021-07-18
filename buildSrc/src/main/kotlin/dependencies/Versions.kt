@@ -38,6 +38,7 @@ object Versions {
     const val PLAY_AUTH = "19.0.0"
     const val ANDROID_JOB = "1.4.2"
     const val JODA = "2.10.9.1"
+    const val JODA_TIME = "2.10.10"
 
     // Tests
     const val ANDROIDX_TEST = "1.4.0"
