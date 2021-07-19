@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.lessons.ui.lessons
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -40,6 +41,8 @@ import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryTint
+import com.cryart.sabbathschool.core.extensions.context.shareContent
+import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSColorTheme
@@ -49,13 +52,14 @@ import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
+import com.cryart.sabbathschool.lessons.ui.base.ShareableScreen
 import com.cryart.sabbathschool.lessons.ui.lessons.types.LessonTypesFragment
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
+class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, ShareableScreen {
 
     @Inject
     lateinit var ssPrefs: SSPrefs
@@ -194,7 +198,11 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
                 true
             }
             R.id.ss_lessons_menu_share -> {
-                shareApp(ssLessonsViewModel?.ssQuarterlyInfo?.quarterly?.title)
+                val message = ssLessonsViewModel?.quarterlyTitle ?: ""
+                shareContent(
+                    "$message\n${getShareWebUri()}",
+                    getString(R.string.ss_menu_share_app)
+                )
                 true
             }
             R.id.ss_lessons_menu_settings -> {
@@ -203,6 +211,10 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun getShareWebUri(): Uri {
+        return "${getString(R.string.ss_app_host)}/${ssLessonsViewModel?.quarterlyShareIndex ?: ""}".toWebUri()
     }
 
     companion object {

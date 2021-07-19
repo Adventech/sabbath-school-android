@@ -26,6 +26,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -42,6 +43,8 @@ import app.ss.lessons.data.model.SSReadHighlights
 import coil.load
 import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.context.shareContent
+import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
@@ -54,6 +57,7 @@ import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
+import com.cryart.sabbathschool.lessons.ui.base.ShareableScreen
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
@@ -67,9 +71,7 @@ import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SSReadingActivity :
-    SSBaseActivity(),
-    SSReadingViewModel.DataListener {
+class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, ShareableScreen {
 
     @Inject
     lateinit var appNavigator: AppNavigator
@@ -201,7 +203,13 @@ class SSReadingActivity :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.ss_reading_menu_share -> {
-                shareApp(title as String?)
+                val position = binding.ssReadingViewPager.currentItem
+                val readTitle = readingViewAdapter.getReadAt(position)?.title ?: ""
+                val message = "${ssReadingViewModel.lessonTitle} - $readTitle"
+                shareContent(
+                    "$message\n${getShareWebUri()}",
+                    getString(R.string.ss_menu_share_app)
+                )
                 true
             }
             R.id.ss_reading_menu_suggest_edit -> {
@@ -283,6 +291,13 @@ class SSReadingActivity :
             readingViewAdapter.readingOptions = displayOptions
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
         }
+    }
+
+    override fun getShareWebUri(): Uri {
+        val position = binding.ssReadingViewPager.currentItem
+        val readIndex = readingViewAdapter.getReadAt(position)?.shareIndex()
+
+        return "${getString(R.string.ss_app_host)}/${readIndex ?: ""}".toWebUri()
     }
 
     companion object {

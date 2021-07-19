@@ -37,4 +37,16 @@ data class SSLessonInfo(
             it.getValue(SSDay::class.java)
         }
     )
+
+    /**
+     * Convert a Lesson Index of "en-2021-03-04"
+     * To "en/2021-03/04"
+     */
+    fun shareIndex(): String = lesson.index.mapIndexed { index, c ->
+        if ((c == '-' && index < 4) || (c == '-' && index > 7)) {
+            '/'
+        } else {
+            c
+        }
+    }.joinToString("") { it.toString() }
 }

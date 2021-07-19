@@ -51,6 +51,8 @@ internal class SSLessonsViewModel(
     private val mDatabase: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     var ssQuarterlyInfo: SSQuarterlyInfo? = null
+    val quarterlyShareIndex: String get() = ssQuarterlyInfo?.shareIndex() ?: ""
+    val quarterlyTitle: String get() = ssQuarterlyInfo?.quarterly?.title ?: ""
 
     val date: String get() = ssQuarterlyInfo?.quarterly?.human_date ?: ""
     val description: String get() = ssQuarterlyInfo?.quarterly?.description ?: ""
