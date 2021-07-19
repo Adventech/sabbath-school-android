@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
@@ -31,6 +32,7 @@ import com.cryart.sabbathschool.core.extensions.arch.SingleLiveEvent
 import com.cryart.sabbathschool.core.extensions.arch.asLiveData
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -45,7 +47,8 @@ import javax.inject.Inject
 class QuarterliesViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
     private val ssPrefs: SSPrefs,
-    private val schedulerProvider: SchedulerProvider
+    private val schedulerProvider: SchedulerProvider,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val mutableViewState = MutableLiveData<ViewState>()
@@ -63,9 +66,11 @@ class QuarterliesViewModel @Inject constructor(
     private var selectedLanguage: String = ""
 
     fun viewCreated() {
-        ssPrefs.getLastQuarterlyIndex()?.let {
-            if (mutableLastQuarterlyIndex.value.isNullOrEmpty() && ssPrefs.isAppReBrandingPromptShown()) {
-                mutableLastQuarterlyIndex.postValue(it)
+        if (savedStateHandle.get<Boolean>(SSConstants.SS_QUARTERLY_SCREEN_LAUNCH_EXTRA) == true) {
+            ssPrefs.getLastQuarterlyIndex()?.let {
+                if (mutableLastQuarterlyIndex.value.isNullOrEmpty() && ssPrefs.isAppReBrandingPromptShown()) {
+                    mutableLastQuarterlyIndex.postValue(it)
+                }
             }
         }
 

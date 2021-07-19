@@ -26,7 +26,7 @@ import com.google.firebase.database.IgnoreExtraProperties
 
 @Keep
 @IgnoreExtraProperties
-class SSLesson(
+data class SSLesson(
     val title: String,
     val start_date: String = "",
     val end_date: String = "",

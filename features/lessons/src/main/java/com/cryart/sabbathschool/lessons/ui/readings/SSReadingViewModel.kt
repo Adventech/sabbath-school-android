@@ -50,6 +50,7 @@ import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.coroutines.debounceUntilLast
+import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
@@ -68,7 +69,6 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 import ru.beryukhov.reactivenetwork.ReactiveNetwork
 import ru.beryukhov.reactivenetwork.internet.observing.InternetObservingSettings
 import timber.log.Timber
@@ -162,7 +162,7 @@ class SSReadingViewModel(
                         dataListener.onLessonInfoChanged(ssLessonInfo!!)
                         val today = DateTime.now().withTimeAtStartOfDay()
                         for ((idx, ssDay) in ssLessonInfo?.days?.withIndex()!!) {
-                            val startDate = parseDate(ssDay.date)
+                            val startDate = DateHelper.parseDate(ssDay.date)
                             if (startDate?.isEqual(today) == true && ssReadIndexInt < 6) {
                                 ssReadIndexInt = idx
                             }
@@ -179,16 +179,6 @@ class SSReadingViewModel(
                     ssLessonCoordinatorVisibility.set(View.INVISIBLE)
                 }
             })
-    }
-
-    private fun parseDate(date: String): DateTime? {
-        return try {
-            DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                .parseLocalDate(date).toDateTimeAtStartOfDay()
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            null
-        }
     }
 
     fun promptForEditSuggestion() {
@@ -305,19 +295,6 @@ class SSReadingViewModel(
 
     val cover: String
         get() = ssLessonInfo?.lesson?.cover ?: ""
-
-    fun formatDate(date: String?, DateFormatOutput: String? = SSConstants.SS_DATE_FORMAT_OUTPUT): String {
-        return try {
-            DateTimeFormat.forPattern(DateFormatOutput)
-                .print(
-                    DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                        .parseLocalDate(date)
-                ).replaceFirstChar { it.uppercase() }
-        } catch (ex: IllegalArgumentException) {
-            Timber.e(ex)
-            return ""
-        }
-    }
 
     override fun onSelectionStarted(x: Float, y: Float, highlightId: Int) {
         onSelectionStarted(x, y)

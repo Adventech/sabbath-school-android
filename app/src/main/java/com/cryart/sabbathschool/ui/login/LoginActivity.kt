@@ -117,8 +117,7 @@ class LoginActivity : AppCompatActivity() {
                 MaterialAlertDialogBuilder(this@LoginActivity)
                     .setTitle(R.string.ss_login_anonymously_dialog_title)
                     .setMessage(R.string.ss_login_anonymously_dialog_description)
-                    .setPositiveButton(R.string.ss_login_anonymously_dialog_positive) {
-                        _: DialogInterface?, _: Int ->
+                    .setPositiveButton(R.string.ss_login_anonymously_dialog_positive) { _: DialogInterface?, _: Int ->
                         viewModel.handleAnonymousLogin()
                     }
                     .setNegativeButton(R.string.ss_login_anonymously_dialog_negative, null)
@@ -131,11 +130,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun launchMain() {
-        startActivity(
-            Intent(this, QuarterliesActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            }
-        )
+        val intent = QuarterliesActivity.launchIntent(this).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        startActivity(intent)
         finish()
     }
 

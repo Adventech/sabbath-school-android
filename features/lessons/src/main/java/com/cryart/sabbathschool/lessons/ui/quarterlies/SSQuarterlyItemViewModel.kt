@@ -22,7 +22,6 @@
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import android.content.Context
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -35,11 +34,10 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.BaseObservable
 import androidx.databinding.BindingAdapter
+import app.ss.lessons.data.model.SSQuarterly
 import coil.load
 import com.cryart.sabbathschool.core.extensions.view.tint
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.lessons.R
-import app.ss.lessons.data.model.SSQuarterly
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.viewmodel.SSViewModel
 import com.google.android.material.button.MaterialButton
@@ -62,18 +60,13 @@ internal class SSQuarterlyItemViewModel(
 
     fun onReadClick(view: View) {
         val context = view.context
-        val ssLessonsIntent = Intent(context, SSLessonsActivity::class.java)
-        ssLessonsIntent.putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, ssQuarterly.index)
+        val ssLessonsIntent = SSLessonsActivity.launchIntent(context, ssQuarterly.index)
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
             (context as AppCompatActivity),
             view,
             context.getString(R.string.ss_quarterly_cover_transition)
         )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            context.startActivity(ssLessonsIntent, options.toBundle())
-        } else {
-            context.startActivity(ssLessonsIntent)
-        }
+        context.startActivity(ssLessonsIntent, options.toBundle())
     }
 
     override fun destroy() {}

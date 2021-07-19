@@ -21,6 +21,8 @@
  */
 package com.cryart.sabbathschool.lessons.ui.lessons
 
+import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.Menu
@@ -30,6 +32,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import app.ss.lessons.data.model.SSQuarterlyInfo
+import app.ss.widgets.AppWidgetHelper
 import com.cryart.design.dividers
 import com.cryart.design.setEdgeEffect
 import com.cryart.design.theme
@@ -60,6 +63,9 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
     @Inject
     lateinit var appNavigator: AppNavigator
 
+    @Inject
+    lateinit var appWidgetHelper: AppWidgetHelper
+
     private var ssLessonsViewModel: SSLessonsViewModel? = null
     private val viewModel by viewModels<LessonsViewModel>()
 
@@ -76,8 +82,13 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
 
         initUI()
 
-        val index = intent.extras?.getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA) ?: return
-        ssLessonsViewModel = SSLessonsViewModel(this, ssPrefs, this, index)
+        val index = intent.extras?.getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA) ?: ssPrefs.getLastQuarterlyIndex()
+        if (index == null) {
+            finish()
+            return
+        }
+
+        ssLessonsViewModel = SSLessonsViewModel(this, ssPrefs, this, index, appWidgetHelper)
         binding.executePendingBindings()
         binding.viewModel = ssLessonsViewModel
 
@@ -191,6 +202,19 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    companion object {
+
+        fun launchIntent(
+            context: Context,
+            quarterlyIndex: String
+        ): Intent = Intent(
+            context,
+            SSLessonsActivity::class.java
+        ).apply {
+            putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, quarterlyIndex)
         }
     }
 }

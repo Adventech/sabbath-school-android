@@ -22,6 +22,8 @@
 
 package com.cryart.sabbathschool.lessons.ui.readings
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -43,6 +45,7 @@ import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
+import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
 import com.cryart.sabbathschool.core.navigation.AppNavigator
@@ -83,7 +86,7 @@ class SSReadingActivity :
         ReadingViewPagerAdapter(ssReadingViewModel)
     }
 
-    private var currentLessonIndex: Int? = null
+    private var currentReadPosition: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +110,11 @@ class SSReadingActivity :
                 binding
             )
         }
-        currentLessonIndex = savedInstanceState?.getInt(ARG_POSITION)
+
+        // Read position passed in intent extras
+        val extraPosition = intent.extras?.getString(SSConstants.SS_READ_POSITION_EXTRA)
+        currentReadPosition = savedInstanceState?.getInt(SSConstants.SS_READ_POSITION_EXTRA) ?: extraPosition?.toIntOrNull()
+
         binding.ssReadingViewPager.apply {
             offscreenPageLimit = 4
             adapter = readingViewAdapter
@@ -116,7 +123,7 @@ class SSReadingActivity :
                     super.onPageSelected(position)
 
                     val ssRead = readingViewAdapter.getReadAt(position) ?: return
-                    setPageTitleAndSubtitle(ssRead.title, ssReadingViewModel.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
+                    setPageTitleAndSubtitle(ssRead.title, DateHelper.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
                 }
             })
         }
@@ -145,7 +152,7 @@ class SSReadingActivity :
             setExpandedTitleTypeface(ResourcesCompat.getFont(this@SSReadingActivity, R.font.lato_bold))
         }
 
-        currentLessonIndex?.let {
+        currentReadPosition?.let {
             binding.ssReadingViewPager.currentItem = it
         }
     }
@@ -243,7 +250,7 @@ class SSReadingActivity :
         ssReadComments: List<SSReadComments>,
         ssReadIndex: Int
     ) {
-        val index = currentLessonIndex ?: ssReadIndex
+        val index = currentReadPosition ?: ssReadIndex
         val observer = object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
                 super.onChanged()
@@ -251,7 +258,7 @@ class SSReadingActivity :
                 ssReads.getOrNull(index)?.let { read ->
                     setPageTitleAndSubtitle(
                         read.title,
-                        ssReadingViewModel.formatDate(read.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY)
+                        DateHelper.formatDate(read.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY)
                     )
                 }
             }
@@ -262,12 +269,12 @@ class SSReadingActivity :
             unregisterAdapterDataObserver(observer)
         }
 
-        currentLessonIndex = null
+        currentReadPosition = null
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         val position = binding.ssReadingViewPager.currentItem
-        outState.putInt(ARG_POSITION, position)
+        outState.putInt(SSConstants.SS_READ_POSITION_EXTRA, position)
         super.onSaveInstanceState(outState)
     }
 
@@ -279,6 +286,15 @@ class SSReadingActivity :
     }
 
     companion object {
-        private const val ARG_POSITION = "arg:lesson_index"
+        fun launchIntent(
+            context: Context,
+            lessonIndex: String,
+            readPosition: String? = null
+        ): Intent = Intent(context, SSReadingActivity::class.java).apply {
+            putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, lessonIndex)
+            readPosition?.let {
+                putExtra(SSConstants.SS_READ_POSITION_EXTRA, readPosition)
+            }
+        }
     }
 }

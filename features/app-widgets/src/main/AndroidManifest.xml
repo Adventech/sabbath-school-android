@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="app.ss.widgets">
+
+    <application>
+        <receiver
+            android:name=".today.TodayAppWidget"
+            android:label="Today's Lesson">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/today_app_widget_info" />
+        </receiver>
+        <receiver
+            android:name=".today.TodayImgAppWidget"
+            android:label="Today's Lesson">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/today_img_app_widget_info" />
+        </receiver>
+        <receiver
+            android:name=".week.WeekLessonWidget"
+            android:label="This Week's Lesson">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/week_lesson_widget_info" />
+        </receiver>
+    </application>
+
+</manifest>

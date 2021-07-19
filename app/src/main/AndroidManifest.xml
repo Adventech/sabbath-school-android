@@ -72,6 +72,21 @@
 
                 <data android:scheme="@string/ss_app_scheme" />
             </intent-filter>
+
+            <intent-filter
+                android:autoVerify="true"
+                tools:targetApi="m">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="@string/ss_app_host"
+                    android:scheme="https" />
+
+                <data android:scheme="http" />
+            </intent-filter>
         </activity>
 
         <activity

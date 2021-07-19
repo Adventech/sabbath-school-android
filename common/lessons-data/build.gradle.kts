@@ -58,6 +58,7 @@ dependencies {
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
     implementation(Dependencies.TIMBER)
+    implementation(Dependencies.JODA)
 
     implementation(platform(Firebase.BOM))
     implementation(Firebase.CORE)
