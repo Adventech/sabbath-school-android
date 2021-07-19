@@ -214,7 +214,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
     }
 
     override fun getShareWebUri(): Uri {
-        return "${getString(R.string.ss_app_host)}/${ssLessonsViewModel?.ssQuarterlyInfo?.shareIndex() ?: ""}".toWebUri()
+        return "${getString(R.string.ss_app_host)}/${ssLessonsViewModel?.quarterlyShareIndex ?: ""}".toWebUri()
     }
 
     companion object {

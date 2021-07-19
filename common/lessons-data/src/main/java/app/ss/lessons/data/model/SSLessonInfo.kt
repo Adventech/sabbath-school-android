@@ -39,7 +39,7 @@ data class SSLessonInfo(
     )
 
     /**
-     * Replace a Lesson Index of "en-2021-03-04"
+     * Convert a Lesson Index of "en-2021-03-04"
      * To "en/2021-03/04"
      */
     fun shareIndex(): String = lesson.index.mapIndexed { index, c ->
