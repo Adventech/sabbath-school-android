@@ -94,6 +94,7 @@ class SSReadingViewModel(
     private var ssReadsLoadedCounter = 0
     private var ssReadsDownloaded = false
     private var highlightId = 0
+    val lessonTitle: String get() = ssLessonInfo?.lesson?.title ?: ""
     val ssLessonLoadingVisibility = ObservableInt(View.INVISIBLE)
     val ssLessonOfflineStateVisibility = ObservableInt(View.INVISIBLE)
     val ssLessonErrorStateVisibility = ObservableInt(View.INVISIBLE)

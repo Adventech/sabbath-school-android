@@ -43,4 +43,16 @@ data class SSRead(
         snapshot.child("content").getValue(String::class.java) ?: "",
         snapshot.child("bible").children.mapNotNull { SSBibleVerses(it) }
     )
+
+    /**
+     * Convert a Read index of "en-2021-03-04-02"
+     * To "en/2021-03/04/02"
+     */
+    fun shareIndex(): String = index.mapIndexed { index, c ->
+        if ((c == '-' && index < 4) || (c == '-' && index > 7)) {
+            '/'
+        } else {
+            c
+        }
+    }.joinToString("") { it.toString() }
 }

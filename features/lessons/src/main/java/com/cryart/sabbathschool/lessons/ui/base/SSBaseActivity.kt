@@ -21,14 +21,14 @@
  */
 package com.cryart.sabbathschool.lessons.ui.base
 
-import android.content.Intent
+import android.app.assist.AssistContent
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import coil.imageLoader
 import coil.request.ImageRequest
 import coil.size.PixelSize
 import coil.transform.CircleCropTransformation
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
 import com.cryart.sabbathschool.lessons.R
 import com.google.firebase.auth.FirebaseAuth
@@ -58,15 +58,10 @@ abstract class SSBaseActivity : SSColorSchemeActivity() {
         } ?: ssToolbar.setNavigationIcon(R.drawable.ic_account_circle_white)
     }
 
-    fun shareApp(message: String?) {
-        val sendIntent = Intent().apply {
-            action = Intent.ACTION_SEND
-            type = "text/plain"
-            putExtra(
-                Intent.EXTRA_TEXT,
-                String.format("%s - %s", message, SSConstants.SS_APP_PLAY_STORE_LINK)
-            )
+    override fun onProvideAssistContent(outContent: AssistContent) {
+        super.onProvideAssistContent(outContent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            outContent.webUri = (this as? ShareableScreen)?.getShareWebUri()
         }
-        startActivity(sendIntent)
     }
 }

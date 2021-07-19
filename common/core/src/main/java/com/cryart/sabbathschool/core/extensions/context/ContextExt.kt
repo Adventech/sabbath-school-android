@@ -28,6 +28,7 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.app.ShareCompat
 import androidx.core.net.toUri
 import com.cryart.sabbathschool.core.R
 import com.cryart.sabbathschool.core.misc.SSColorTheme
@@ -98,7 +99,14 @@ object ContextHelper {
     fun launchWebUrl(context: Context, url: String) {
         context.launchWebUrl(url)
     }
+}
 
-    @JvmStatic
-    fun isDarkTheme(context: Context): Boolean = context.isDarkTheme()
+fun Context.shareContent(content: String, chooser: String = "") {
+    val shareIntent = ShareCompat.IntentBuilder(this)
+        .setType("text/plain")
+        .setText(content)
+        .intent
+    if (shareIntent.resolveActivity(packageManager) != null) {
+        startActivity(Intent.createChooser(shareIntent, chooser))
+    }
 }

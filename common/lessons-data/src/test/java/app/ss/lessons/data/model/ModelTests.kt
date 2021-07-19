@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,30 +19,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package app.ss.lessons.data.model
 
-import androidx.annotation.Keep
-import com.google.firebase.database.IgnoreExtraProperties
-import java.util.UUID
+import org.amshove.kluent.shouldBeEqualTo
+import org.junit.Test
 
-@Keep
-@IgnoreExtraProperties
-data class SSQuarterly(
-    val id: String,
-    val title: String = "",
-    val description: String = "",
-    val human_date: String = "",
-    val start_date: String = "",
-    val end_date: String = "",
-    val cover: String = "",
-    val index: String = "",
-    val group: String = UUID.randomUUID().toString(), // Allows us to easily group quarterlies while maintaining order from api
-    val path: String = "",
-    val full_path: String = "",
-    val lang: String = "",
-    val color_primary: String = "",
-    val color_primary_dark: String = "",
-    val quarterly_name: String = "",
-) {
-    constructor() : this("", color_primary = "")
+class ModelTests {
+
+    @Test
+    fun `should format quarterly info share index`() {
+        val quarterly = SSQuarterly(
+            id = "en-2021-03",
+            index = "en-2021-03",
+        )
+        val quarterlyInfo = SSQuarterlyInfo(quarterly, emptyList())
+
+        quarterlyInfo.shareIndex() shouldBeEqualTo "en/2021-03"
+    }
+
+    @Test
+    fun `should format lesson info share index`() {
+        val lesson = SSLesson(
+            title = "",
+            index = "en-2021-03-04",
+        )
+
+        val lessonInfo = SSLessonInfo(lesson, emptyList())
+
+        lessonInfo.shareIndex() shouldBeEqualTo "en/2021-03/04"
+    }
+
+    @Test
+    fun `should format Read share index`() {
+        val read = SSRead(
+            id = "",
+            index = "en-2021-03-04-02",
+        )
+
+        read.shareIndex() shouldBeEqualTo "en/2021-03/04/02"
+    }
 }
