@@ -12,6 +12,8 @@ bible:
   - 'features/bible/*'
 lessons:
   - 'features/lessons/*'
+lessons-data:
+  - 'common/lessons-data/*'
 reader:
   - 'features/reader/*'
 settings:
