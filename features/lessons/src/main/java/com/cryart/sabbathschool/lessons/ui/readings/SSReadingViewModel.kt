@@ -95,6 +95,7 @@ class SSReadingViewModel(
     private var ssReadsDownloaded = false
     private var highlightId = 0
     val lessonTitle: String get() = ssLessonInfo?.lesson?.title ?: ""
+    val lessonShareIndex: String get() = ssLessonInfo?.shareIndex() ?: ""
     val ssLessonLoadingVisibility = ObservableInt(View.INVISIBLE)
     val ssLessonOfflineStateVisibility = ObservableInt(View.INVISIBLE)
     val ssLessonErrorStateVisibility = ObservableInt(View.INVISIBLE)

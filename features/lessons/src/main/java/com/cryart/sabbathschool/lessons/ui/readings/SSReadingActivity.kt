@@ -295,7 +295,8 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
 
     override fun getShareWebUri(): Uri {
         val position = binding.ssReadingViewPager.currentItem
-        val readIndex = readingViewAdapter.getReadAt(position)?.shareIndex()
+        val read = readingViewAdapter.getReadAt(position)
+        val readIndex = read?.shareIndex(ssReadingViewModel.lessonShareIndex, position + 1)
 
         return "${getString(R.string.ss_app_host)}/${readIndex ?: ""}".toWebUri()
     }

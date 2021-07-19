@@ -45,14 +45,22 @@ data class SSRead(
     )
 
     /**
-     * Convert a Read index of "en-2021-03-04-02"
-     * To "en/2021-03/04/02"
+     * Convert a Read index of
+     * "en-2021-03-04-02" to "en/2021-03/04/02"
+     *
+     * Or
+     * "en-2021-03-04-teacher-comments" to "en/2021-03/04/09-teacher-comments"
+     *
+     * @param lessonShareIndex : Should already be formatted from [SSLessonInfo.shareIndex]
+     * @param day : Day 1 - 9
      */
-    fun shareIndex(): String = index.mapIndexed { index, c ->
-        if ((c == '-' && index < 4) || (c == '-' && index > 7)) {
-            '/'
+    fun shareIndex(lessonShareIndex: String, day: Int): String {
+        val dayStr = "$day".padStart(2, '0')
+        val readPath = if (day > 7) {
+            "$dayStr-${title.replace(' ', '-').lowercase()}"
         } else {
-            c
+            dayStr
         }
-    }.joinToString("") { it.toString() }
+        return "$lessonShareIndex/$readPath"
+    }
 }

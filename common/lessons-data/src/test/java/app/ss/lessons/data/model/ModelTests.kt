@@ -57,6 +57,17 @@ class ModelTests {
             index = "en-2021-03-04-02",
         )
 
-        read.shareIndex() shouldBeEqualTo "en/2021-03/04/02"
+        read.shareIndex("en/2021-03/04", 2) shouldBeEqualTo "en/2021-03/04/02"
+    }
+
+    @Test
+    fun `should format Read share index additional day`() {
+        val read = SSRead(
+            id = "",
+            index = "en-2021-03-04-teacher-comments",
+            title = "Teacher Comments"
+        )
+
+        read.shareIndex("en/2021-03/04", 9) shouldBeEqualTo "en/2021-03/04/09-teacher-comments"
     }
 }
