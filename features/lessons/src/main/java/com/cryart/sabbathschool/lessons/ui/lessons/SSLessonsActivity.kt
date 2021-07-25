@@ -102,7 +102,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
             return
         }
 
-        ssLessonsViewModel = SSLessonsViewModel(this, ssPrefs, this, index, appWidgetHelper)
+        ssLessonsViewModel = SSLessonsViewModel(ssPrefs, this, index, appWidgetHelper)
         binding.executePendingBindings()
         binding.viewModel = ssLessonsViewModel
 

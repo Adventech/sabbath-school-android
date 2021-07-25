@@ -27,15 +27,31 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.lifecycle.LifecycleOwner
 import app.ss.lessons.data.model.SSQuarterlyInfo
+import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsQuarterlyInfoBinding
 import com.cryart.sabbathschool.lessons.ui.base.loadCover
+import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import kotlinx.coroutines.flow.Flow
+import org.joda.time.DateTime
+import org.joda.time.Interval
 
 class QuarterlyInfoComponent(
     lifecycleOwner: LifecycleOwner,
     private val binding: SsLessonsQuarterlyInfoBinding
 ) : BaseComponent<SSQuarterlyInfo>(lifecycleOwner) {
+
+    private var todayLessonIndex: String? = null
+
+    init {
+        binding.ssLessonsAppBarRead.setOnClickListener { view ->
+            todayLessonIndex?.let { index ->
+                val context = view.context
+                val ssReadingIntent = SSReadingActivity.launchIntent(context, index)
+                context.startActivity(ssReadingIntent)
+            }
+        }
+    }
 
     override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<SSQuarterlyInfo>) {
     }
@@ -53,5 +69,12 @@ class QuarterlyInfoComponent(
             ssLessonsAppBarDescription.text = quarterlyInfo.quarterly.description
             ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(colorPrimaryDark)
         }
+
+        val today = DateTime.now().withTimeAtStartOfDay()
+        todayLessonIndex = quarterlyInfo.lessons.find { lesson ->
+            val startDate = DateHelper.parseDate(lesson.start_date)
+            val endDate = DateHelper.parseDate(lesson.end_date)
+            Interval(startDate, endDate?.plusDays(1)).contains(today)
+        }?.index ?: quarterlyInfo.lessons.firstOrNull()?.index
     }
 }

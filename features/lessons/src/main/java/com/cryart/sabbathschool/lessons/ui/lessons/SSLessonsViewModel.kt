@@ -21,27 +21,20 @@
  */
 package com.cryart.sabbathschool.lessons.ui.lessons
 
-import android.content.Context
-import android.graphics.Color
 import android.view.View
 import androidx.databinding.ObservableInt
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.lessons.ui.viewmodel.SSViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import org.joda.time.DateTime
-import org.joda.time.Interval
-import org.joda.time.format.DateTimeFormat
 
 internal class SSLessonsViewModel(
-    private val context: Context,
     private val ssPrefs: SSPrefs,
     private var dataListener: DataListener?,
     private var ssQuarterlyIndex: String,
@@ -53,14 +46,6 @@ internal class SSLessonsViewModel(
     var ssQuarterlyInfo: SSQuarterlyInfo? = null
     val quarterlyShareIndex: String get() = ssQuarterlyInfo?.shareIndex() ?: ""
     val quarterlyTitle: String get() = ssQuarterlyInfo?.quarterly?.title ?: ""
-
-    val date: String get() = ssQuarterlyInfo?.quarterly?.human_date ?: ""
-    val description: String get() = ssQuarterlyInfo?.quarterly?.description ?: ""
-    val cover: String get() = ssQuarterlyInfo?.quarterly?.cover ?: ""
-    val primaryColor: Int
-        get() = Color.parseColor(
-            ssQuarterlyInfo?.quarterly?.color_primary ?: "#03000000"
-        )
 
     var ssLessonsLoadingVisibility: ObservableInt
     var ssLessonsEmptyStateVisibility: ObservableInt
@@ -118,29 +103,6 @@ internal class SSLessonsViewModel(
     override fun destroy() {
         dataListener = null
         ssQuarterlyInfo = null
-    }
-
-    fun onReadClick() {
-        if (ssQuarterlyInfo?.lessons?.isNotEmpty() == true) {
-            val today = DateTime.now()
-            var ssLessonIndex = ssQuarterlyInfo!!.lessons[0].index
-            for (ssLesson in ssQuarterlyInfo!!.lessons) {
-                val startDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                    .parseLocalDate(ssLesson.start_date).toDateTimeAtStartOfDay()
-                val endDate = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                    .parseLocalDate(ssLesson.end_date)
-                    .plusDays(1)
-                    .toDateTimeAtStartOfDay()
-                    .plusHours(12)
-                if (startDate.isBefore(endDate) && Interval(startDate, endDate).contains(today)) {
-                    ssLessonIndex = ssLesson.index
-                    break
-                }
-            }
-
-            val ssReadingIntent = SSReadingActivity.launchIntent(context, ssLessonIndex)
-            context.startActivity(ssReadingIntent)
-        }
     }
 
     fun setDataListener(dataListener: DataListener) {
