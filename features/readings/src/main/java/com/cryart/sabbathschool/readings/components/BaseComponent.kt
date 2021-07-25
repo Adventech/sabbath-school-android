@@ -25,6 +25,6 @@ package com.cryart.sabbathschool.readings.components
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.flow.Flow
 
-interface BaseComponent<T> {
-    fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<T>, owner: LifecycleOwner)
+abstract class BaseComponent<T>(val owner: LifecycleOwner) {
+    abstract fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<T>)
 }

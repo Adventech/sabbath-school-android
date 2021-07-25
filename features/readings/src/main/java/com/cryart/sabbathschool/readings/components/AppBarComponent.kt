@@ -39,8 +39,9 @@ import com.cryart.sabbathschool.readings.databinding.ComponentReadingAppBarBindi
 import kotlinx.coroutines.flow.Flow
 
 class AppBarComponent(
+    lifecycleOwner: LifecycleOwner,
     private val binding: ComponentReadingAppBarBinding
-) : BaseComponent<AppBarData> {
+) : BaseComponent<AppBarData>(lifecycleOwner) {
 
     init {
         binding.collapsingToolbar.apply {
@@ -58,7 +59,7 @@ class AppBarComponent(
         return drawable
     }
 
-    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<AppBarData>, owner: LifecycleOwner) {
+    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<AppBarData>) {
         visibilityFlow.collectIn(owner) { visible ->
             binding.appBar.fadeTo(visible)
         }

@@ -29,10 +29,11 @@ import com.cryart.sabbathschool.readings.databinding.ComponentLessonLoadingBindi
 import kotlinx.coroutines.flow.Flow
 
 class LessonLoadingComponent(
+    lifecycleOwner: LifecycleOwner,
     private val binding: ComponentLessonLoadingBinding
-) : VisibilityComponent {
+) : VisibilityComponent(lifecycleOwner) {
 
-    override fun collect(flow: Flow<Boolean>, owner: LifecycleOwner) {
+    override fun collect(flow: Flow<Boolean>) {
         flow.collectIn(owner) { visible ->
             binding.loadingView.apply {
                 fadeTo(visible)

@@ -33,10 +33,11 @@ import com.cryart.sabbathschool.readings.days.ReadingDaysPagerAdapter
 import kotlinx.coroutines.flow.Flow
 
 class ViewPagerComponent(
+    lifecycleOwner: LifecycleOwner,
     activity: FragmentActivity,
     private val binding: ComponentReadingPagerBinding,
     pageSelected: (Int) -> Unit
-) : BaseComponent<ReadingDaysData> {
+) : BaseComponent<ReadingDaysData>(lifecycleOwner) {
 
     private val pagerAdapter = ReadingDaysPagerAdapter(activity)
 
@@ -55,7 +56,7 @@ class ViewPagerComponent(
         }
     }
 
-    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<ReadingDaysData>, owner: LifecycleOwner) {
+    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<ReadingDaysData>) {
         visibilityFlow.collectIn(owner) { visible ->
             binding.viewPager.fadeTo(visible)
         }

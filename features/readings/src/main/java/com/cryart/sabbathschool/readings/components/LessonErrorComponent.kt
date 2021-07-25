@@ -31,9 +31,10 @@ import com.cryart.sabbathschool.readings.databinding.ComponentLessonErrorBinding
 import kotlinx.coroutines.flow.Flow
 
 class LessonErrorComponent(
+    lifecycleOwner: LifecycleOwner,
     private val binding: ComponentLessonErrorBinding,
     val onClose: () -> Unit
-) : BaseComponent<ErrorData> {
+) : BaseComponent<ErrorData>(lifecycleOwner) {
 
     init {
         binding.backdrop.apply {
@@ -44,7 +45,7 @@ class LessonErrorComponent(
         }
     }
 
-    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<ErrorData>, owner: LifecycleOwner) {
+    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<ErrorData>) {
         visibilityFlow.collectIn(owner) { visible ->
             binding.errorView.fadeTo(visible)
         }

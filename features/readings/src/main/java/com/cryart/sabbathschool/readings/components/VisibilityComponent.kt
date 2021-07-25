@@ -25,6 +25,6 @@ package com.cryart.sabbathschool.readings.components
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.flow.Flow
 
-interface VisibilityComponent {
-    fun collect(flow: Flow<Boolean>, owner: LifecycleOwner)
+abstract class VisibilityComponent(val owner: LifecycleOwner) {
+    abstract fun collect(flow: Flow<Boolean>)
 }

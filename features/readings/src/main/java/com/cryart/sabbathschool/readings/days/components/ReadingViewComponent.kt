@@ -11,9 +11,10 @@ import com.cryart.sabbathschool.readings.databinding.ComponentReadingViewBinding
 import kotlinx.coroutines.flow.Flow
 
 class ReadingViewComponent(
+    lifecycleOwner: LifecycleOwner,
     private val options: SSReadingDisplayOptions,
     private val binding: ComponentReadingViewBinding
-) : BaseComponent<ReadingData>, SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback {
+) : BaseComponent<ReadingData>(lifecycleOwner), SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback {
 
     private val logger by timber()
 
@@ -24,7 +25,7 @@ class ReadingViewComponent(
         }
     }
 
-    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<ReadingData>, owner: LifecycleOwner) {
+    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<ReadingData>) {
         dataFlow.collectIn(owner) { data ->
             when (data) {
                 is ReadingData.Content -> {
