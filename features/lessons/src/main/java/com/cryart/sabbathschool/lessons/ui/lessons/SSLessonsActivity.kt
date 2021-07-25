@@ -51,6 +51,7 @@ import com.cryart.sabbathschool.core.extensions.view.doOnApplyWindowInsets
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
@@ -61,6 +62,7 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfoCompo
 import com.cryart.sabbathschool.lessons.ui.lessons.types.LessonTypesFragment
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -172,6 +174,10 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
         }
 
         binding.ssProgressBar.ssQuarterliesLoading.theme(colorPrimary)
+
+        val visibilityFlow = viewModel.quarterlyInfoFlow.map { it.status == Status.SUCCESS }
+        val dataFlow = viewModel.quarterlyInfoFlow.map { it.data }
+        quarterlyInfoComponent.collect(visibilityFlow, dataFlow)
     }
 
     private fun updateColorScheme() {
@@ -187,7 +193,6 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
         SSColorTheme.getInstance(this).colorPrimaryDark = ssQuarterlyInfo.quarterly
             .color_primary_dark
         updateColorScheme()
-        quarterlyInfoComponent.setQuarterlyInfo(ssQuarterlyInfo)
         val adapter = binding.ssLessonInfoList.adapter as? SSLessonsAdapter
         adapter?.setLessons(ssQuarterlyInfo.lessons)
         adapter?.notifyDataSetChanged()

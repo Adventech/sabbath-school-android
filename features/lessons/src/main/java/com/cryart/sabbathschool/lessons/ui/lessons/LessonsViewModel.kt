@@ -26,13 +26,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.lessons.data.model.SSQuarterly
+import app.ss.lessons.data.model.SSQuarterlyInfo
+import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import com.cryart.sabbathschool.core.extensions.arch.SingleLiveEvent
 import com.cryart.sabbathschool.core.extensions.arch.asLiveData
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import com.cryart.sabbathschool.core.response.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,6 +48,9 @@ class LessonsViewModel @Inject constructor(
     private val ssPrefs: SSPrefs,
     private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
+
+    private val _quarterlyInfoData = MutableStateFlow<Resource<SSQuarterlyInfo>>(Resource.loading())
+    val quarterlyInfoFlow: StateFlow<Resource<SSQuarterlyInfo>> get() = _quarterlyInfoData.asStateFlow()
 
     private val mutableQuarterlyTypes = MutableLiveData<List<String>>()
     val quarterlyTypesLiveData: LiveData<List<String>> = mutableQuarterlyTypes.asLiveData()
@@ -58,6 +66,8 @@ class LessonsViewModel @Inject constructor(
     }
 
     fun setQuarterlyIndex(index: String) = viewModelScope.launch(schedulerProvider.io) {
+        loadQuarterlyInfo(index)
+
         repository.getQuarterlies().collect { resource ->
             val quarterlies = resource.data ?: return@collect
             val selected = quarterlies.find { it.index == index } ?: return@collect
@@ -82,5 +92,12 @@ class LessonsViewModel @Inject constructor(
         val index = lessonTypes.find { it.quarterly_name == type }?.index ?: return
         mutableSelectedType.postValue(Pair(index, type))
         ssPrefs.setLastQuarterlyType(type)
+
+        loadQuarterlyInfo(index)
+    }
+
+    private fun loadQuarterlyInfo(index: String) = viewModelScope.launch(schedulerProvider.io) {
+        val resource = repository.getQuarterlyInfo(index)
+        _quarterlyInfoData.emit(resource)
     }
 }

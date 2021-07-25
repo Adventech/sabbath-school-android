@@ -27,6 +27,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.lifecycle.LifecycleOwner
 import app.ss.lessons.data.model.SSQuarterlyInfo
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsQuarterlyInfoBinding
@@ -39,7 +40,7 @@ import org.joda.time.Interval
 class QuarterlyInfoComponent(
     lifecycleOwner: LifecycleOwner,
     private val binding: SsLessonsQuarterlyInfoBinding
-) : BaseComponent<SSQuarterlyInfo>(lifecycleOwner) {
+) : BaseComponent<SSQuarterlyInfo?>(lifecycleOwner) {
 
     private var todayLessonIndex: String? = null
 
@@ -53,11 +54,14 @@ class QuarterlyInfoComponent(
         }
     }
 
-    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<SSQuarterlyInfo>) {
+    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<SSQuarterlyInfo?>) {
+        dataFlow.collectIn(owner) { data ->
+            data?.let { setQuarterlyInfo(it) }
+        }
     }
 
     @SuppressLint("Range")
-    fun setQuarterlyInfo(quarterlyInfo: SSQuarterlyInfo) {
+    private fun setQuarterlyInfo(quarterlyInfo: SSQuarterlyInfo) {
         val colorPrimary = Color.parseColor(quarterlyInfo.quarterly.color_primary)
         val colorPrimaryDark = Color.parseColor(quarterlyInfo.quarterly.color_primary_dark)
 

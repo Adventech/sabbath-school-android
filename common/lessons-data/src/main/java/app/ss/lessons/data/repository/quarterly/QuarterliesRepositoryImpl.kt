@@ -22,10 +22,13 @@
 
 package app.ss.lessons.data.repository.quarterly
 
+import app.ss.lessons.data.extensions.ValueEvent
+import app.ss.lessons.data.extensions.singleEvent
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import app.ss.lessons.data.model.Language
 import app.ss.lessons.data.model.SSQuarterly
+import app.ss.lessons.data.model.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.response.Resource
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -107,4 +110,16 @@ internal class QuarterliesRepositoryImpl(
             Timber.e(it)
             emit(Resource.error(it))
         }
+
+    override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {
+        val event = firebaseDatabase.reference
+            .child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
+            .child(index)
+            .singleEvent()
+
+        return when (event) {
+            is ValueEvent.Cancelled -> Resource.error(event.error)
+            is ValueEvent.DataChange -> Resource.success(SSQuarterlyInfo(event.snapshot))
+        }
+    }
 }
