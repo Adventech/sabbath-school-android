@@ -87,15 +87,9 @@
 
                 <include layout="@layout/ss_horizontal_line" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <include
                     android:id="@+id/ss_lesson_info_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clipToPadding="false"
-                    android:scrollbars="vertical"
-                    android:visibility="@{viewModel.ssLessonsCoordinatorVisibility}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/ss_lesson_item" />
+                    layout="@layout/ss_lessons_list" />
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

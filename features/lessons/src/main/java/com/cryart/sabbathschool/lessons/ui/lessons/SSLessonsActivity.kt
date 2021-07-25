@@ -35,11 +35,8 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updateMargins
 import androidx.core.widget.NestedScrollView
-import androidx.recyclerview.widget.RecyclerView
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.widgets.AppWidgetHelper
-import com.cryart.design.dividers
-import com.cryart.design.setEdgeEffect
 import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
@@ -58,10 +55,12 @@ import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.base.ShareableScreen
+import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsListComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfoComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.types.LessonTypesFragment
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
@@ -87,7 +86,9 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
         QuarterlyInfoComponent(this, binding.appBarContent)
     }
 
-    private val listAdapter = SSLessonsAdapter()
+    private val lessonsListComponent: LessonsListComponent by lazy {
+        LessonsListComponent(this, binding.ssLessonInfoList)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,7 +112,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
         viewModel.quarterlyTypesLiveData.observeNonNull(
             this,
             { types ->
-                if (binding.ssLessonInfoList.childCount > 0) {
+                /*if (binding.ssLessonInfoList.childCount > 0) {
                     updateLessonTypesLabel(types)
                 } else {
                     listAdapter.registerAdapterDataObserver(
@@ -122,7 +123,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
                                 updateLessonTypesLabel(types)
                             }
                         })
-                }
+                }*/
             }
         )
         viewModel.selectedTypeLiveData.observeNonNull(this) {
@@ -168,23 +169,21 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
             Timber.d("SCROLL: $scrollY, H: ${binding.appBarContent.root.height}")
         }
 
-        binding.ssLessonInfoList.apply {
-            dividers()
-            adapter = listAdapter
-        }
-
         binding.ssProgressBar.ssQuarterliesLoading.theme(colorPrimary)
 
         val visibilityFlow = viewModel.quarterlyInfoFlow.map { it.status == Status.SUCCESS }
         val dataFlow = viewModel.quarterlyInfoFlow.map { it.data }
         quarterlyInfoComponent.collect(visibilityFlow, dataFlow)
+
+        val lessonsListFlow = dataFlow.map { it?.lessons ?: emptyList() }
+        lessonsListComponent.collect(emptyFlow(), lessonsListFlow)
     }
 
     private fun updateColorScheme() {
         val primaryColor = this.colorPrimary
 
         binding.lessonTypeTextView.setTextColor(this.colorPrimaryTint)
-        binding.ssLessonInfoList.setEdgeEffect(primaryColor)
+        // binding.ssLessonInfoList.setEdgeEffect(primaryColor)
         binding.ssProgressBar.ssQuarterliesLoading.theme(primaryColor)
     }
 
@@ -193,9 +192,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
         SSColorTheme.getInstance(this).colorPrimaryDark = ssQuarterlyInfo.quarterly
             .color_primary_dark
         updateColorScheme()
-        val adapter = binding.ssLessonInfoList.adapter as? SSLessonsAdapter
-        adapter?.setLessons(ssQuarterlyInfo.lessons)
-        adapter?.notifyDataSetChanged()
+
         binding.invalidateAll()
         binding.executePendingBindings()
     }
