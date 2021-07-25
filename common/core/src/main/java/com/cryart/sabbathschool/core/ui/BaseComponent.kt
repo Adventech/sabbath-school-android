@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.readings.components
+package com.cryart.sabbathschool.core.ui
 
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.flow.Flow

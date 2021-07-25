@@ -6,7 +6,7 @@ import app.ss.lessons.data.model.SSReadHighlights
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.logger.timber
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
-import com.cryart.sabbathschool.readings.components.BaseComponent
+import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.readings.databinding.ComponentReadingViewBinding
 import kotlinx.coroutines.flow.Flow
 

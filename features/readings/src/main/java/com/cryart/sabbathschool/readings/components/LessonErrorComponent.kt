@@ -26,6 +26,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
+import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.readings.components.model.ErrorData
 import com.cryart.sabbathschool.readings.databinding.ComponentLessonErrorBinding
 import kotlinx.coroutines.flow.Flow

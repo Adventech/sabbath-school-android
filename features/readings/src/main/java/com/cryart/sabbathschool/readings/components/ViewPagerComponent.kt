@@ -27,6 +27,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager2.widget.ViewPager2
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
+import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.readings.components.model.ReadingDaysData
 import com.cryart.sabbathschool.readings.databinding.ComponentReadingPagerBinding
 import com.cryart.sabbathschool.readings.days.ReadingDaysPagerAdapter
