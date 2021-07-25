@@ -23,14 +23,18 @@ package com.cryart.sabbathschool.lessons.ui.lessons
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
 import androidx.activity.viewModels
-import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updateMargins
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.widgets.AppWidgetHelper
@@ -39,11 +43,11 @@ import com.cryart.design.setEdgeEffect
 import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
-import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryTint
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.extensions.view.doOnApplyWindowInsets
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -53,9 +57,11 @@ import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.base.ShareableScreen
+import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfoComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.types.LessonTypesFragment
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -74,6 +80,10 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
     private val viewModel by viewModels<LessonsViewModel>()
 
     private val binding by viewBinding(SsLessonsActivityBinding::inflate)
+
+    private val quarterlyInfoComponent: QuarterlyInfoComponent by lazy {
+        QuarterlyInfoComponent(this, binding.appBarContent)
+    }
 
     private val listAdapter = SSLessonsAdapter()
 
@@ -137,12 +147,24 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
     }
 
     private fun initUI() {
-        setSupportActionBar(binding.ssLessonsAppBar.ssLessonsToolbar)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        setSupportActionBar(binding.ssLessonsToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.ssLessonsAppBar.ssLessonCollapsingToolbar
-            .setCollapsedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
-        binding.ssLessonsAppBar.ssLessonCollapsingToolbar
-            .setExpandedTitleTypeface(ResourcesCompat.getFont(this, R.font.lato_bold))
+
+        binding.ssLessonsToolbar.apply {
+            fitsSystemWindows = false
+            doOnApplyWindowInsets { insetView, windowInsets, _, initialMargins ->
+                insetView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                    updateMargins(top = initialMargins.top + windowInsets.getInsets(systemBars()).top)
+                }
+            }
+        }
+
+        binding.scrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int,
+            scrollY: Int, _: Int, _: Int ->
+            // TODO: Toolbar background on Scroll
+            Timber.d("SCROLL: $scrollY, H: ${binding.appBarContent.root.height}")
+        }
 
         binding.ssLessonInfoList.apply {
             dividers()
@@ -154,18 +176,10 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
 
     private fun updateColorScheme() {
         val primaryColor = this.colorPrimary
-        val primaryDarkColor = this.colorPrimaryDark
 
-        binding.ssLessonsAppBar.apply {
-            ssLessonsToolbar.setBackgroundColor(primaryColor)
-            ssLessonCollapsingToolbar.setContentScrimColor(primaryColor)
-            ssLessonCollapsingToolbar.setBackgroundColor(primaryColor)
-            content.ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
-        }
         binding.lessonTypeTextView.setTextColor(this.colorPrimaryTint)
         binding.ssLessonInfoList.setEdgeEffect(primaryColor)
         binding.ssProgressBar.ssQuarterliesLoading.theme(primaryColor)
-        updateWindowColorScheme()
     }
 
     override fun onQuarterlyChanged(ssQuarterlyInfo: SSQuarterlyInfo) {
@@ -173,8 +187,8 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
         SSColorTheme.getInstance(this).colorPrimaryDark = ssQuarterlyInfo.quarterly
             .color_primary_dark
         updateColorScheme()
-        binding.ssLessonsAppBar.ssLessonCollapsingToolbar.title = ssQuarterlyInfo.quarterly.title
-        val adapter = binding.ssLessonInfoList.adapter as? SSLessonsAdapter?
+        quarterlyInfoComponent.setQuarterlyInfo(ssQuarterlyInfo)
+        val adapter = binding.ssLessonInfoList.adapter as? SSLessonsAdapter
         adapter?.setLessons(ssQuarterlyInfo.lessons)
         adapter?.notifyDataSetChanged()
         binding.invalidateAll()

@@ -37,12 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/ss_lessons_app_bar"
-            layout="@layout/ss_lessons_app_bar"
-            bind:viewModel="@{viewModel}" />
-
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?android:attr/windowBackground"
@@ -54,6 +50,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
+                <include
+                    android:id="@+id/app_bar_content"
+                    layout="@layout/ss_lessons_quarterly_info" />
 
                 <FrameLayout
                     android:id="@+id/lessonTypeContainer"
@@ -99,6 +99,13 @@
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/ss_lessons_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll"
+            app:navigationIcon="@drawable/ic_nav_arrow_back" />
 
         <include
             layout="@layout/ss_empty_state"
