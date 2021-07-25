@@ -214,7 +214,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
                 true
             }
             R.id.ss_lessons_menu_share -> {
-                val message = ssLessonsViewModel?.quarterlyTitle ?: ""
+                val message = viewModel.quarterlyTitle
                 shareContent(
                     "$message\n${getShareWebUri()}",
                     getString(R.string.ss_menu_share_app)
@@ -230,7 +230,7 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
     }
 
     override fun getShareWebUri(): Uri {
-        return "${getString(R.string.ss_app_host)}/${ssLessonsViewModel?.quarterlyShareIndex ?: ""}".toWebUri()
+        return "${getString(R.string.ss_app_host)}/${viewModel.quarterlyShareIndex}".toWebUri()
     }
 
     companion object {

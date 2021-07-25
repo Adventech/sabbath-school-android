@@ -52,6 +52,10 @@ class LessonsViewModel @Inject constructor(
     private val _quarterlyInfoData = MutableStateFlow<Resource<SSQuarterlyInfo>>(Resource.loading())
     val quarterlyInfoFlow: StateFlow<Resource<SSQuarterlyInfo>> get() = _quarterlyInfoData.asStateFlow()
 
+    private val ssQuarterlyInfo: SSQuarterlyInfo? get() = _quarterlyInfoData.value.data
+    val quarterlyShareIndex: String get() = ssQuarterlyInfo?.shareIndex() ?: ""
+    val quarterlyTitle: String get() = ssQuarterlyInfo?.quarterly?.title ?: ""
+
     private val mutableQuarterlyTypes = MutableLiveData<List<String>>()
     val quarterlyTypesLiveData: LiveData<List<String>> = mutableQuarterlyTypes.asLiveData()
 
