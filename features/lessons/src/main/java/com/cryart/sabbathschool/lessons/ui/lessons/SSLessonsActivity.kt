@@ -31,22 +31,13 @@ import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
-import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updateMargins
 import androidx.core.widget.NestedScrollView
-import app.ss.lessons.data.model.SSQuarterlyInfo
-import app.ss.widgets.AppWidgetHelper
-import com.cryart.design.theme
-import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
-import com.cryart.sabbathschool.core.extensions.context.colorPrimaryTint
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.doOnApplyWindowInsets
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
-import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.navigation.AppNavigator
@@ -55,9 +46,9 @@ import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.base.ShareableScreen
+import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonTypeComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsListComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfoComponent
-import com.cryart.sabbathschool.lessons.ui.lessons.types.LessonTypesFragment
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
 import kotlinx.coroutines.flow.emptyFlow
@@ -66,24 +57,26 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, ShareableScreen {
-
-    @Inject
-    lateinit var ssPrefs: SSPrefs
+class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
 
     @Inject
     lateinit var appNavigator: AppNavigator
 
-    @Inject
-    lateinit var appWidgetHelper: AppWidgetHelper
-
-    private var ssLessonsViewModel: SSLessonsViewModel? = null
     private val viewModel by viewModels<LessonsViewModel>()
 
     private val binding by viewBinding(SsLessonsActivityBinding::inflate)
 
     private val quarterlyInfoComponent: QuarterlyInfoComponent by lazy {
         QuarterlyInfoComponent(this, binding.appBarContent)
+    }
+
+    private val lessonTypeComponent: LessonTypeComponent by lazy {
+        LessonTypeComponent(
+            this,
+            binding.lessonTypeContainer,
+            supportFragmentManager,
+            viewModel::quarterlyTypeSelected
+        )
     }
 
     private val lessonsListComponent: LessonsListComponent by lazy {
@@ -98,55 +91,6 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
         AppRate.showRateDialogIfMeetsConditions(this)
 
         initUI()
-
-        val index = intent.extras?.getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA) ?: ssPrefs.getLastQuarterlyIndex()
-        if (index == null) {
-            finish()
-            return
-        }
-
-        ssLessonsViewModel = SSLessonsViewModel(ssPrefs, this, index, appWidgetHelper)
-        binding.executePendingBindings()
-        binding.viewModel = ssLessonsViewModel
-
-        viewModel.quarterlyTypesLiveData.observeNonNull(
-            this,
-            { types ->
-                /*if (binding.ssLessonInfoList.childCount > 0) {
-                    updateLessonTypesLabel(types)
-                } else {
-                    listAdapter.registerAdapterDataObserver(
-                        object : RecyclerView.AdapterDataObserver() {
-                            override fun onChanged() {
-                                super.onChanged()
-                                listAdapter.unregisterAdapterDataObserver(this)
-                                updateLessonTypesLabel(types)
-                            }
-                        })
-                }*/
-            }
-        )
-        viewModel.selectedTypeLiveData.observeNonNull(this) {
-            val newIndex = it.first
-            val type = it.second
-
-            binding.lessonTypeTextView.text = type
-            ssLessonsViewModel?.setSsQuarterlyIndex(newIndex)
-        }
-        viewModel.setQuarterlyIndex(index)
-    }
-
-    private fun updateLessonTypesLabel(types: List<String>) {
-        binding.lessonTypeContainer.isVisible = types.isNotEmpty()
-        if (types.isNotEmpty()) {
-            binding.lessonTypeTextView.text = types.first()
-            binding.lessonTypeContainer.setOnClickListener {
-                val fragment = LessonTypesFragment.newInstance(types) {
-                    viewModel.quarterlyTypeSelected(it)
-                }
-                fragment.show(supportFragmentManager, fragment.tag)
-            }
-        }
     }
 
     private fun initUI() {
@@ -169,42 +113,19 @@ class SSLessonsActivity : SSBaseActivity(), SSLessonsViewModel.DataListener, Sha
             Timber.d("SCROLL: $scrollY, H: ${binding.appBarContent.root.height}")
         }
 
-        binding.ssProgressBar.ssQuarterliesLoading.theme(colorPrimary)
-
         val visibilityFlow = viewModel.quarterlyInfoFlow.map { it.status == Status.SUCCESS }
         val dataFlow = viewModel.quarterlyInfoFlow.map { it.data }
         quarterlyInfoComponent.collect(visibilityFlow, dataFlow)
+
+        lessonTypeComponent.collect(emptyFlow(), viewModel.lessonTypesFlow)
 
         val lessonsListFlow = dataFlow.map { it?.lessons ?: emptyList() }
         lessonsListComponent.collect(emptyFlow(), lessonsListFlow)
     }
 
-    private fun updateColorScheme() {
-        val primaryColor = this.colorPrimary
-
-        binding.lessonTypeTextView.setTextColor(this.colorPrimaryTint)
-        // binding.ssLessonInfoList.setEdgeEffect(primaryColor)
-        binding.ssProgressBar.ssQuarterliesLoading.theme(primaryColor)
-    }
-
-    override fun onQuarterlyChanged(ssQuarterlyInfo: SSQuarterlyInfo) {
-        SSColorTheme.getInstance(this).colorPrimary = ssQuarterlyInfo.quarterly.color_primary
-        SSColorTheme.getInstance(this).colorPrimaryDark = ssQuarterlyInfo.quarterly
-            .color_primary_dark
-        updateColorScheme()
-
-        binding.invalidateAll()
-        binding.executePendingBindings()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.ss_lessons_menu, menu)
         return true
-    }
-
-    override fun onDestroy() {
-        ssLessonsViewModel?.destroy()
-        super.onDestroy()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -29,6 +29,7 @@ import androidx.lifecycle.LifecycleOwner
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.misc.DateHelper
+import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsQuarterlyInfoBinding
 import com.cryart.sabbathschool.lessons.ui.base.loadCover
@@ -62,16 +63,21 @@ class QuarterlyInfoComponent(
 
     @SuppressLint("Range")
     private fun setQuarterlyInfo(quarterlyInfo: SSQuarterlyInfo) {
-        val colorPrimary = Color.parseColor(quarterlyInfo.quarterly.color_primary)
-        val colorPrimaryDark = Color.parseColor(quarterlyInfo.quarterly.color_primary_dark)
+        val primaryColor = Color.parseColor(quarterlyInfo.quarterly.color_primary)
+        val primaryDarkColor = Color.parseColor(quarterlyInfo.quarterly.color_primary_dark)
+
+        with(SSColorTheme.getInstance(binding.root.context)) {
+            colorPrimary = quarterlyInfo.quarterly.color_primary
+            colorPrimaryDark = quarterlyInfo.quarterly.color_primary_dark
+        }
 
         binding.apply {
-            appBarContent.setBackgroundColor(colorPrimary)
-            ssLessonsAppBarCover.loadCover(quarterlyInfo.quarterly.cover, colorPrimaryDark)
+            appBarContent.setBackgroundColor(primaryColor)
+            ssLessonsAppBarCover.loadCover(quarterlyInfo.quarterly.cover, primaryDarkColor)
             ssLessonsAppBarTitle.text = quarterlyInfo.quarterly.title
             ssLessonsAppBarDate.text = quarterlyInfo.quarterly.human_date
             ssLessonsAppBarDescription.text = quarterlyInfo.quarterly.description
-            ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(colorPrimaryDark)
+            ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
         }
 
         val today = DateTime.now().withTimeAtStartOfDay()
