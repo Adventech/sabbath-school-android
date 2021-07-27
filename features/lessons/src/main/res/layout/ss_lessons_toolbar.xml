@@ -24,33 +24,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
-        android:id="@+id/lessonTypeContainer"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/ss_lessons_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:paddingStart="@dimen/ss_lesson_item_content_padding_left"
-        android:paddingTop="@dimen/ss_lesson_item_content_padding_top"
-        android:paddingEnd="@dimen/ss_lesson_item_content_padding_right"
-        android:paddingBottom="@dimen/ss_lesson_item_content_padding_bottom"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:layout_height="?attr/actionBarSize"
+        android:stateListAnimator="@animator/animator_raise_flat"
+        app:layout_scrollFlags="scroll">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/lessonTypeTextView"
-            android:layout_width="wrap_content"
+            android:id="@+id/ss_lessons_toolbar_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:drawablePadding="@dimen/spacing_normal"
-            android:gravity="center"
+            android:alpha="0"
+            android:ellipsize="end"
             android:maxLines="1"
-            android:textAllCaps="true"
-            android:textColor="?attr/colorSecondary"
-            android:textSize="@dimen/text_size_body"
-            app:drawableEndCompat="@drawable/ic_expand_more"
-            app:drawableRightCompat="@drawable/ic_expand_more"
-            app:drawableTint="?attr/colorControlNormal"
-            app:fontFamily="@font/lato_medium"
-            tools:text="Easy Reading Version" />
-    </FrameLayout>
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            app:fontFamily="@font/lato_bold"
+            tools:alpha="1"
+            tools:text="Rest In Christ" />
+    </androidx.appcompat.widget.Toolbar>
 </merge>

@@ -27,19 +27,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat.Type.systemBars
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updateMargins
 import androidx.core.widget.NestedScrollView
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
-import com.cryart.sabbathschool.core.extensions.view.doOnApplyWindowInsets
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
@@ -49,11 +43,11 @@ import com.cryart.sabbathschool.lessons.ui.base.ShareableScreen
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonTypeComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsListComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfoComponent
+import com.cryart.sabbathschool.lessons.ui.lessons.components.ToolbarComponent
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -66,10 +60,12 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
 
     private val binding by viewBinding(SsLessonsActivityBinding::inflate)
 
+    private val toolbarComponent: ToolbarComponent by lazy {
+        ToolbarComponent(this, binding.ssLessonsToolbar)
+    }
     private val quarterlyInfoComponent: QuarterlyInfoComponent by lazy {
         QuarterlyInfoComponent(this, binding.appBarContent)
     }
-
     private val lessonTypeComponent: LessonTypeComponent by lazy {
         LessonTypeComponent(
             this,
@@ -78,7 +74,6 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
             viewModel::quarterlyTypeSelected
         )
     }
-
     private val lessonsListComponent: LessonsListComponent by lazy {
         LessonsListComponent(this, binding.ssLessonInfoList)
     }
@@ -91,41 +86,37 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
         AppRate.showRateDialogIfMeetsConditions(this)
 
         initUI()
+        collectData()
     }
 
     private fun initUI() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        setSupportActionBar(binding.ssLessonsToolbar)
+        setSupportActionBar(binding.ssLessonsToolbar.ssLessonsToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        binding.ssLessonsToolbar.apply {
-            fitsSystemWindows = false
-            doOnApplyWindowInsets { insetView, windowInsets, _, initialMargins ->
-                insetView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                    updateMargins(top = initialMargins.top + windowInsets.getInsets(systemBars()).top)
-                }
-            }
-        }
 
         binding.scrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int,
             scrollY: Int, _: Int, _: Int ->
-            // TODO: Toolbar background on Scroll
-            Timber.d("SCROLL: $scrollY, H: ${binding.appBarContent.root.height}")
+            val contentHeight = binding.appBarContent.root.height
+            toolbarComponent.onContentScroll(scrollY, contentHeight, this)
         }
+    }
 
-        val visibilityFlow = viewModel.quarterlyInfoFlow.map { it.status == Status.SUCCESS }
+    private fun collectData() {
         val dataFlow = viewModel.quarterlyInfoFlow.map { it.data }
-        quarterlyInfoComponent.collect(visibilityFlow, dataFlow)
+
+        toolbarComponent.collect(emptyFlow(), dataFlow.map { it?.quarterly?.title })
+
+        quarterlyInfoComponent.collect(emptyFlow(), dataFlow)
 
         lessonTypeComponent.collect(emptyFlow(), viewModel.lessonTypesFlow)
 
-        val lessonsListFlow = dataFlow.map { it?.lessons ?: emptyList() }
-        lessonsListComponent.collect(emptyFlow(), lessonsListFlow)
+        val lessonsFlow = dataFlow.map { it?.lessons ?: emptyList() }
+        lessonsListComponent.collect(emptyFlow(), lessonsFlow)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.ss_lessons_menu, menu)
-        return true
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

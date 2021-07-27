@@ -56,12 +56,9 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <androidx.appcompat.widget.Toolbar
+    <include
         android:id="@+id/ss_lessons_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_scrollFlags="scroll"
-        app:navigationIcon="@drawable/ic_nav_arrow_back" />
+        layout="@layout/ss_lessons_toolbar" />
 
     <!--<include
         layout="@layout/ss_empty_state"
