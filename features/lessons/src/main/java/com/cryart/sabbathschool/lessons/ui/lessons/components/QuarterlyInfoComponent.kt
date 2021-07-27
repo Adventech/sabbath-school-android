@@ -25,15 +25,19 @@ package com.cryart.sabbathschool.lessons.ui.lessons.components
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.view.LayoutInflater
+import androidx.core.text.parseAsHtml
 import androidx.lifecycle.LifecycleOwner
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.ui.BaseComponent
+import com.cryart.sabbathschool.lessons.databinding.SsLessonDescriptionBinding
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsQuarterlyInfoBinding
 import com.cryart.sabbathschool.lessons.ui.base.loadCover
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.flow.Flow
 import org.joda.time.DateTime
 import org.joda.time.Interval
@@ -77,6 +81,9 @@ class QuarterlyInfoComponent(
             ssLessonsAppBarTitle.text = quarterlyInfo.quarterly.title
             ssLessonsAppBarDate.text = quarterlyInfo.quarterly.human_date
             ssLessonsAppBarDescription.text = quarterlyInfo.quarterly.description
+            ssLessonsAppBarDescription.setOnClickListener {
+                showDescription(quarterlyInfo.quarterly.title, quarterlyInfo.quarterly.description)
+            }
             ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
         }
 
@@ -86,5 +93,19 @@ class QuarterlyInfoComponent(
             val endDate = DateHelper.parseDate(lesson.end_date)
             Interval(startDate, endDate?.plusDays(1)).contains(today)
         }?.index ?: quarterlyInfo.lessons.firstOrNull()?.index
+    }
+
+    private fun showDescription(title: String, description: String) {
+        val context = binding.root.context
+        val binding = SsLessonDescriptionBinding.inflate(LayoutInflater.from(context))
+        val dialog = BottomSheetDialog(context)
+
+        binding.txtContent.text = description.parseAsHtml()
+        binding.toolbar.title = title
+        binding.toolbar.setNavigationOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.setContentView(binding.root)
+        dialog.show()
     }
 }

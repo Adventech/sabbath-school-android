@@ -101,6 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
             android:ellipsize="end"
+            android:foreground="?attr/selectableItemBackground"
             android:maxLines="3"
             android:textColor="@android:color/white"
             android:textSize="@dimen/ss_lessons_toolbar_description_text_size"
