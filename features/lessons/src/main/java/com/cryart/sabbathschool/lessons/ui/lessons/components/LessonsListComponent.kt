@@ -32,7 +32,7 @@ import com.cryart.design.dividers
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.inflate
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.ui.BaseComponent
+import com.cryart.sabbathschool.core.ui.BaseDataComponent
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonItemBinding
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsListBinding
@@ -43,7 +43,7 @@ import org.joda.time.format.DateTimeFormat
 class LessonsListComponent constructor(
     lifecycleOwner: LifecycleOwner,
     binding: SsLessonsListBinding
-) : BaseComponent<List<SSLesson>>(lifecycleOwner) {
+) : BaseDataComponent<List<SSLesson>>(lifecycleOwner) {
 
     private val listAdapter = LessonsListAdapter()
 
@@ -54,7 +54,7 @@ class LessonsListComponent constructor(
         }
     }
 
-    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<List<SSLesson>>) {
+    override fun collect(dataFlow: Flow<List<SSLesson>>) {
         dataFlow.collectIn(owner) { data ->
             listAdapter.submitList(data)
         }

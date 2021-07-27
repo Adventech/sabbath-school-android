@@ -34,7 +34,7 @@ import com.cryart.sabbathschool.core.extensions.activity.setLightStatusBar
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.doOnApplyWindowInsets
-import com.cryart.sabbathschool.core.ui.BaseComponent
+import com.cryart.sabbathschool.core.ui.BaseDataComponent
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsToolbarBinding
 import kotlinx.coroutines.flow.Flow
@@ -42,7 +42,7 @@ import kotlinx.coroutines.flow.Flow
 class ToolbarComponent constructor(
     lifecycleOwner: LifecycleOwner,
     private val binding: SsLessonsToolbarBinding
-) : BaseComponent<String?>(lifecycleOwner) {
+) : BaseDataComponent<String?>(lifecycleOwner) {
 
     init {
         binding.ssLessonsToolbar.apply {
@@ -57,7 +57,7 @@ class ToolbarComponent constructor(
 
     private val solidColor = ContextCompat.getColor(binding.root.context, R.color.ss_theme_color_background)
 
-    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<String?>) {
+    override fun collect(dataFlow: Flow<String?>) {
         dataFlow.collectIn(owner) { title ->
             binding.ssLessonsToolbarTitle.text = title
         }

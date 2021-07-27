@@ -28,3 +28,7 @@ import kotlinx.coroutines.flow.Flow
 abstract class BaseComponent<T>(val owner: LifecycleOwner) {
     abstract fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<T>)
 }
+
+abstract class BaseDataComponent<T>(val owner: LifecycleOwner) {
+    abstract fun collect(dataFlow: Flow<T>)
+}

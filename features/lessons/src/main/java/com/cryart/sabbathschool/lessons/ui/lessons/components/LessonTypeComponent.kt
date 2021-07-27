@@ -28,7 +28,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
-import com.cryart.sabbathschool.core.ui.BaseComponent
+import com.cryart.sabbathschool.core.ui.BaseDataComponent
 import com.cryart.sabbathschool.lessons.databinding.SsLessonTypeBinding
 import com.cryart.sabbathschool.lessons.ui.lessons.types.LessonTypesFragment
 import kotlinx.coroutines.flow.Flow
@@ -44,9 +44,9 @@ class LessonTypeComponent constructor(
     private val binding: SsLessonTypeBinding,
     private val fragmentManager: FragmentManager,
     private val typeSelected: (String) -> Unit
-) : BaseComponent<LessonTypeModel?>(lifecycleOwner) {
+) : BaseDataComponent<LessonTypeModel?>(lifecycleOwner) {
 
-    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<LessonTypeModel?>) {
+    override fun collect(dataFlow: Flow<LessonTypeModel?>) {
         dataFlow.collectIn(owner) { data ->
             binding.lessonTypeContainer.fadeTo(data != null)
 

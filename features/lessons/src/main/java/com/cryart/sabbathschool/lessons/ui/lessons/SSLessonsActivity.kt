@@ -46,7 +46,6 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfoCompo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.ToolbarComponent
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -104,14 +103,14 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
     private fun collectData() {
         val dataFlow = viewModel.quarterlyInfoFlow.map { it.data }
 
-        toolbarComponent.collect(emptyFlow(), dataFlow.map { it?.quarterly?.title })
+        toolbarComponent.collect(dataFlow.map { it?.quarterly?.title })
 
-        quarterlyInfoComponent.collect(emptyFlow(), dataFlow)
+        quarterlyInfoComponent.collect(dataFlow)
 
-        lessonTypeComponent.collect(emptyFlow(), viewModel.lessonTypesFlow)
+        lessonTypeComponent.collect(viewModel.lessonTypesFlow)
 
         val lessonsFlow = dataFlow.map { it?.lessons ?: emptyList() }
-        lessonsListComponent.collect(emptyFlow(), lessonsFlow)
+        lessonsListComponent.collect(lessonsFlow)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
