@@ -25,10 +25,14 @@ package com.cryart.sabbathschool.lessons.ui.lessons.components
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import androidx.core.text.parseAsHtml
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import app.ss.lessons.data.model.SSQuarterlyInfo
+import com.cryart.design.color.withAlpha
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSColorTheme
@@ -67,8 +71,9 @@ class QuarterlyInfoComponent(
 
     @SuppressLint("Range")
     private fun setQuarterlyInfo(quarterlyInfo: SSQuarterlyInfo) {
-        val primaryColor = Color.parseColor(quarterlyInfo.quarterly.color_primary)
-        val primaryDarkColor = Color.parseColor(quarterlyInfo.quarterly.color_primary_dark)
+        val quarterly = quarterlyInfo.quarterly
+        val primaryColor = Color.parseColor(quarterly.color_primary)
+        val primaryDarkColor = Color.parseColor(quarterly.color_primary_dark)
 
         with(SSColorTheme.getInstance(binding.root.context)) {
             colorPrimary = quarterlyInfo.quarterly.color_primary
@@ -77,12 +82,32 @@ class QuarterlyInfoComponent(
 
         binding.apply {
             appBarContent.setBackgroundColor(primaryColor)
-            ssLessonsAppBarCover.loadCover(quarterlyInfo.quarterly.cover, primaryDarkColor)
-            ssLessonsAppBarTitle.text = quarterlyInfo.quarterly.title
-            ssLessonsAppBarDate.text = quarterlyInfo.quarterly.human_date
-            ssLessonsAppBarDescription.text = quarterlyInfo.quarterly.description
+            quarterly.splash?.let { splash ->
+                ssQuarterlyItemCoverCard.isInvisible = true
+                ssQuarterlySplash.isVisible = true
+                ssQuarterlySplash.loadCover(splash, primaryColor)
+
+                val background = GradientDrawable(
+                    GradientDrawable.Orientation.BOTTOM_TOP,
+                    intArrayOf(
+                        primaryDarkColor,
+                        primaryColor,
+                        Color.WHITE.withAlpha(20),
+                        Color.TRANSPARENT
+                    )
+                )
+                ssQuarterlySplashGradient.background = background
+            } ?: run {
+                ssQuarterlySplashGradient.isVisible = false
+                ssQuarterlySplash.isVisible = false
+                ssQuarterlyItemCoverCard.isVisible = true
+                ssLessonsAppBarCover.loadCover(quarterly.cover, primaryDarkColor)
+            }
+            ssLessonsAppBarTitle.text = quarterly.title
+            ssLessonsAppBarDate.text = quarterly.human_date
+            ssLessonsAppBarDescription.text = quarterly.description
             ssLessonsAppBarDescription.setOnClickListener {
-                showDescription(quarterlyInfo.quarterly.title, quarterlyInfo.quarterly.description)
+                showDescription(quarterly.title, quarterly.description)
             }
             ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
         }

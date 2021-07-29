@@ -25,11 +25,11 @@ package com.cryart.sabbathschool.lessons.ui.lessons.components
 import android.app.Activity
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.ColorUtils
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updateMargins
 import androidx.lifecycle.LifecycleOwner
+import com.cryart.design.color.withAlpha
 import com.cryart.sabbathschool.core.extensions.activity.setLightStatusBar
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
@@ -69,7 +69,7 @@ class ToolbarComponent constructor(
         val colorAlpha = (viewAlpha * MAX_ALPHA).toInt()
         val isSolid = colorAlpha >= MIN_SOLID_ALPHA
 
-        val backgroundColor = ColorUtils.setAlphaComponent(solidColor, colorAlpha.coerceIn(0, MAX_ALPHA))
+        val backgroundColor = solidColor.withAlpha(colorAlpha.coerceIn(0, MAX_ALPHA))
         with(binding.ssLessonsToolbar) {
             setBackgroundColor(backgroundColor)
             isActivated = isSolid
