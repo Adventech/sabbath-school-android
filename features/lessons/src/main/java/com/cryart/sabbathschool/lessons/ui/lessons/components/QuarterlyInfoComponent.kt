@@ -34,9 +34,10 @@ import androidx.lifecycle.LifecycleOwner
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import com.cryart.design.color.withAlpha
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
+import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSColorTheme
-import com.cryart.sabbathschool.core.ui.BaseDataComponent
+import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.lessons.databinding.SsLessonDescriptionBinding
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsQuarterlyInfoBinding
 import com.cryart.sabbathschool.lessons.ui.base.loadCover
@@ -49,7 +50,7 @@ import org.joda.time.Interval
 class QuarterlyInfoComponent(
     lifecycleOwner: LifecycleOwner,
     private val binding: SsLessonsQuarterlyInfoBinding
-) : BaseDataComponent<SSQuarterlyInfo?>(lifecycleOwner) {
+) : BaseComponent<SSQuarterlyInfo?>(lifecycleOwner) {
 
     private var todayLessonIndex: String? = null
 
@@ -63,7 +64,11 @@ class QuarterlyInfoComponent(
         }
     }
 
-    override fun collect(dataFlow: Flow<SSQuarterlyInfo?>) {
+    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<SSQuarterlyInfo?>) {
+        visibilityFlow.collectIn(owner) { visible ->
+            binding.root.fadeTo(visible)
+        }
+
         dataFlow.collectIn(owner) { data ->
             data?.let { setQuarterlyInfo(it) }
         }
@@ -81,7 +86,6 @@ class QuarterlyInfoComponent(
         }
 
         binding.apply {
-            appBarContent.setBackgroundColor(primaryColor)
             quarterly.splash?.let { splash ->
                 ssQuarterlyItemCoverCard.isInvisible = true
                 ssQuarterlySplash.isVisible = true
@@ -98,6 +102,7 @@ class QuarterlyInfoComponent(
                 )
                 ssQuarterlySplashGradient.background = background
             } ?: run {
+                appBarContent.setBackgroundColor(primaryColor)
                 ssQuarterlySplashGradient.isVisible = false
                 ssQuarterlySplash.isVisible = false
                 ssQuarterlyItemCoverCard.isVisible = true

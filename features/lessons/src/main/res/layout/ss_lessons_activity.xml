@@ -60,20 +60,13 @@
         android:id="@+id/ss_lessons_toolbar"
         layout="@layout/ss_lessons_toolbar" />
 
-    <!--<include
-        layout="@layout/ss_empty_state"
-        bind:emptyStateLabel="@{@string/ss_lessons_empty}"
-        bind:emptyStateVisibility="@{viewModel.ssLessonsEmptyStateVisibility}" />
 
     <include
-        layout="@layout/ss_error_state"
-        bind:errorStateLabel="@{@string/ss_lessons_error}"
-        bind:errorStateVisibility="@{viewModel.ssLessonsErrorStateVisibility}" />
+        android:id="@+id/ss_lessons_error"
+        layout="@layout/ss_lessons_error" />
 
     <include
-        android:id="@+id/ss_progress_bar"
-        layout="@layout/ss_progress_bar"
-        bind:progressLabel="@{@string/ss_lessons_downloading}"
-        bind:progressVisibility="@{viewModel.ssLessonsLoadingVisibility}" />-->
+        android:id="@+id/ss_lessons_progress"
+        layout="@layout/ss_lessons_progress" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -34,6 +34,7 @@ import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
@@ -43,6 +44,7 @@ import com.cryart.sabbathschool.lessons.ui.base.ShareableScreen
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonTypeComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsListComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfoComponent
+import com.cryart.sabbathschool.lessons.ui.base.StatusComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.ToolbarComponent
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
@@ -59,6 +61,12 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
 
     private val binding by viewBinding(SsLessonsActivityBinding::inflate)
 
+    private val loadingComponent: StatusComponent by lazy {
+        StatusComponent(this, binding.ssLessonsProgress)
+    }
+    private val errorComponent: StatusComponent by lazy {
+        StatusComponent(this, binding.ssLessonsError)
+    }
     private val toolbarComponent: ToolbarComponent by lazy {
         ToolbarComponent(this, binding.ssLessonsToolbar)
     }
@@ -101,16 +109,27 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
     }
 
     private fun collectData() {
-        val dataFlow = viewModel.quarterlyInfoFlow.map { it.data }
+        val quarterlyInfoFlow = viewModel.quarterlyInfoFlow
+        val dataFlow = quarterlyInfoFlow.map { it.data }
+        val statusFlow = quarterlyInfoFlow.map { it.status }
 
-        toolbarComponent.collect(dataFlow.map { it?.quarterly?.title })
-
-        quarterlyInfoComponent.collect(dataFlow)
-
+        loadingComponent.collect(
+            statusFlow.map { it == Status.LOADING }
+        )
+        errorComponent.collect(
+            statusFlow.map { it == Status.ERROR }
+        )
+        toolbarComponent.collect(
+            dataFlow.map { it?.quarterly?.title }
+        )
+        quarterlyInfoComponent.collect(
+            statusFlow.map { it == Status.SUCCESS },
+            dataFlow
+        )
         lessonTypeComponent.collect(viewModel.lessonTypesFlow)
-
-        val lessonsFlow = dataFlow.map { it?.lessons ?: emptyList() }
-        lessonsListComponent.collect(lessonsFlow)
+        lessonsListComponent.collect(
+            dataFlow.map { it?.lessons ?: emptyList() }
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

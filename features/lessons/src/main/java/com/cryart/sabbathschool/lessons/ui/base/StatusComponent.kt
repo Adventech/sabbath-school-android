@@ -20,11 +20,32 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.readings.components
+package com.cryart.sabbathschool.lessons.ui.base
 
 import androidx.lifecycle.LifecycleOwner
+import androidx.viewbinding.ViewBinding
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
+import com.cryart.sabbathschool.core.extensions.view.fadeTo
+import com.cryart.sabbathschool.core.ui.VisibilityComponent
+import com.facebook.shimmer.ShimmerFrameLayout
 import kotlinx.coroutines.flow.Flow
 
-abstract class VisibilityComponent(val owner: LifecycleOwner) {
-    abstract fun collect(flow: Flow<Boolean>)
+class StatusComponent(
+    lifecycleOwner: LifecycleOwner,
+    private val binding: ViewBinding
+) : VisibilityComponent(lifecycleOwner) {
+
+    override fun collect(visibilityFlow: Flow<Boolean>) {
+        visibilityFlow.collectIn(owner) { visible ->
+            binding.root.fadeTo(visible)
+
+            (binding.root as? ShimmerFrameLayout)?.let { layout ->
+                if (visible) {
+                    layout.startShimmer()
+                } else {
+                    layout.stopShimmer()
+                }
+            }
+        }
+    }
 }

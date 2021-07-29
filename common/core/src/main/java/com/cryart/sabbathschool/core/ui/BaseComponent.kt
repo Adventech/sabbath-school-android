@@ -32,3 +32,7 @@ abstract class BaseComponent<T>(val owner: LifecycleOwner) {
 abstract class BaseDataComponent<T>(val owner: LifecycleOwner) {
     abstract fun collect(dataFlow: Flow<T>)
 }
+
+abstract class VisibilityComponent(val owner: LifecycleOwner) {
+    abstract fun collect(visibilityFlow: Flow<Boolean>)
+}
