@@ -140,7 +140,7 @@ class QuarterlyInfoComponent(
             ssLessonsAppBarDescription.text = quarterly.description
             ssLessonsAppBarDescription.setOnClickListener {
                 // TODO: [Android] Individual Lesson full introduction read
-                //showDescription(quarterly.title, quarterly.description)
+                // showDescription(quarterly.title, quarterly.description)
             }
             ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
         }
