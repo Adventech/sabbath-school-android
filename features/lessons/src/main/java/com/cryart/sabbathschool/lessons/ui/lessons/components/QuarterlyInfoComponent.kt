@@ -26,7 +26,9 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.view.Gravity
 import android.view.LayoutInflater
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.text.parseAsHtml
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -38,6 +40,7 @@ import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.ui.BaseComponent
+import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonDescriptionBinding
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsQuarterlyInfoBinding
 import com.cryart.sabbathschool.lessons.ui.base.loadCover
@@ -85,20 +88,44 @@ class QuarterlyInfoComponent(
             colorPrimaryDark = quarterlyInfo.quarterly.color_primary_dark
         }
 
+        val isLargeScreen = binding.root.resources.getBoolean(R.bool.is_large_screen)
+
         binding.apply {
             quarterly.splash?.let { splash ->
-                ssQuarterlyItemCoverCard.isInvisible = true
+                if (isLargeScreen) {
+                    ssQuarterlyItemCoverCard.isVisible = false
+                    ssLessonsAppBarTitle.gravity = Gravity.CENTER
+                    ssLessonsAppBarDate.gravity = Gravity.CENTER
+                    ConstraintSet().apply {
+                        clone(appBarContent)
+                        connect(
+                            R.id.ss_lessons_app_bar_read,
+                            ConstraintSet.END,
+                            ConstraintSet.PARENT_ID,
+                            ConstraintSet.END,
+                            0
+                        )
+                        applyTo(appBarContent)
+                    }
+                } else {
+                    ssQuarterlyItemCoverCard.isInvisible = true
+                }
                 ssQuarterlySplash.isVisible = true
                 ssQuarterlySplash.loadCover(splash, primaryColor)
 
+                val array = arrayListOf(
+                    primaryDarkColor,
+                    primaryColor,
+                    Color.BLACK.withAlpha(40),
+                    Color.TRANSPARENT
+                )
                 val background = GradientDrawable(
                     GradientDrawable.Orientation.BOTTOM_TOP,
-                    intArrayOf(
-                        primaryDarkColor,
-                        primaryColor,
-                        Color.WHITE.withAlpha(20),
-                        Color.TRANSPARENT
-                    )
+                    if (isLargeScreen) {
+                        array.drop(1)
+                    } else {
+                        array
+                    }.toIntArray()
                 )
                 ssQuarterlySplashGradient.background = background
             } ?: run {
@@ -112,7 +139,8 @@ class QuarterlyInfoComponent(
             ssLessonsAppBarDate.text = quarterly.human_date
             ssLessonsAppBarDescription.text = quarterly.description
             ssLessonsAppBarDescription.setOnClickListener {
-                showDescription(quarterly.title, quarterly.description)
+                // TODO: [Android] Individual Lesson full introduction read
+                //showDescription(quarterly.title, quarterly.description)
             }
             ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
         }
