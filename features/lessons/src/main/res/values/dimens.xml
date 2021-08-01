@@ -114,19 +114,10 @@
     <dimen name="ss_quarterly_item_normal_description_text_size">13sp</dimen>
 
     <!-- LESSONS SCREEN RELATED -->
-    <dimen name="ss_lessons_toolbar_title_margin_start">30dp</dimen>
-    <dimen name="ss_lessons_toolbar_title_margin_bottom">312dp</dimen>
-    <dimen name="ss_lessons_toolbar_content_margin_left">30dp</dimen>
-    <dimen name="ss_lessons_toolbar_content_margin_top">164dp</dimen>
-    <dimen name="ss_lessons_toolbar_content_margin_bottom">20dp</dimen>
-    <dimen name="ss_lessons_toolbar_cover_height">@dimen/ss_quarterly_item_featured_cover_height</dimen>
-    <dimen name="ss_lessons_toolbar_cover_width">@dimen/ss_quarterly_item_featured_cover_width</dimen>
+    <dimen name="ss_lessons_toolbar_cover_height">210dp</dimen>
+    <dimen name="ss_lessons_toolbar_cover_width">145dp</dimen>
     <dimen name="ss_lessons_toolbar_cover_margin_top">20dp</dimen>
     <dimen name="ss_lessons_toolbar_cover_padding">@dimen/ss_quarterly_item_featured_cover_padding</dimen>
-    <dimen name="ss_lessons_toolbar_description_margin_top">20dp</dimen>
-    <dimen name="ss_lessons_toolbar_description_margin_left">20dp</dimen>
-    <dimen name="ss_lessons_toolbar_description_margin_right">40dp</dimen>
-    <dimen name="ss_lessons_toolbar_description_min_height">160dp</dimen>
     <dimen name="ss_lessons_toolbar_read_margin">20dp</dimen>
     <dimen name="ss_lessons_toolbar_read_min_width">140dp</dimen>
     <dimen name="ss_lessons_toolbar_read_border">0dp</dimen>

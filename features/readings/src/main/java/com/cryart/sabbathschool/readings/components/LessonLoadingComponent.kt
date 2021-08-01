@@ -25,15 +25,17 @@ package com.cryart.sabbathschool.readings.components
 import androidx.lifecycle.LifecycleOwner
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
+import com.cryart.sabbathschool.core.ui.VisibilityComponent
 import com.cryart.sabbathschool.readings.databinding.ComponentLessonLoadingBinding
 import kotlinx.coroutines.flow.Flow
 
 class LessonLoadingComponent(
+    lifecycleOwner: LifecycleOwner,
     private val binding: ComponentLessonLoadingBinding
-) : VisibilityComponent {
+) : VisibilityComponent(lifecycleOwner) {
 
-    override fun collect(flow: Flow<Boolean>, owner: LifecycleOwner) {
-        flow.collectIn(owner) { visible ->
+    override fun collect(visibilityFlow: Flow<Boolean>) {
+        visibilityFlow.collectIn(owner) { visible ->
             binding.loadingView.apply {
                 fadeTo(visible)
                 if (visible && !isShimmerStarted) {

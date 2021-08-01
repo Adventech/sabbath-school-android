@@ -20,11 +20,19 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.readings.components
+package com.cryart.sabbathschool.core.ui
 
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.flow.Flow
 
-interface VisibilityComponent {
-    fun collect(flow: Flow<Boolean>, owner: LifecycleOwner)
+abstract class BaseComponent<T>(val owner: LifecycleOwner) {
+    abstract fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<T>)
+}
+
+abstract class BaseDataComponent<T>(val owner: LifecycleOwner) {
+    abstract fun collect(dataFlow: Flow<T>)
+}
+
+abstract class VisibilityComponent(val owner: LifecycleOwner) {
+    abstract fun collect(visibilityFlow: Flow<Boolean>)
 }

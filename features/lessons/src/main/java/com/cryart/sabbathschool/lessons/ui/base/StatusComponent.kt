@@ -20,19 +20,32 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.quarterly
+package com.cryart.sabbathschool.lessons.ui.base
 
-import app.ss.lessons.data.model.Language
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.model.SSQuarterlyInfo
-import com.cryart.sabbathschool.core.response.Resource
+import androidx.lifecycle.LifecycleOwner
+import androidx.viewbinding.ViewBinding
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
+import com.cryart.sabbathschool.core.extensions.view.fadeTo
+import com.cryart.sabbathschool.core.ui.VisibilityComponent
+import com.facebook.shimmer.ShimmerFrameLayout
 import kotlinx.coroutines.flow.Flow
 
-interface QuarterliesRepository {
+class StatusComponent(
+    lifecycleOwner: LifecycleOwner,
+    private val binding: ViewBinding
+) : VisibilityComponent(lifecycleOwner) {
 
-    suspend fun getLanguages(): Resource<List<Language>>
+    override fun collect(visibilityFlow: Flow<Boolean>) {
+        visibilityFlow.collectIn(owner) { visible ->
+            binding.root.fadeTo(visible)
 
-    fun getQuarterlies(languageCode: String? = null): Flow<Resource<List<SSQuarterly>>>
-
-    suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo>
+            (binding.root as? ShimmerFrameLayout)?.let { layout ->
+                if (visible) {
+                    layout.startShimmer()
+                } else {
+                    layout.stopShimmer()
+                }
+            }
+        }
+    }
 }

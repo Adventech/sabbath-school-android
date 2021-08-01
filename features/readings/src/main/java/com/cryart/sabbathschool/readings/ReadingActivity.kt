@@ -45,16 +45,16 @@ class ReadingActivity : SSColorSchemeActivity() {
     private val binding by viewBinding(ActivityReadingBinding::inflate)
 
     private val appBarComponent: AppBarComponent by lazy {
-        AppBarComponent(binding.appBar)
+        AppBarComponent(this, binding.appBar)
     }
     private val viewPagerComponent: ViewPagerComponent by lazy {
-        ViewPagerComponent(this, binding.viewPager, viewModel::onPageSelected)
+        ViewPagerComponent(this, this, binding.viewPager, viewModel::onPageSelected)
     }
     private val loadingComponent: LessonLoadingComponent by lazy {
-        LessonLoadingComponent(binding.loadingView)
+        LessonLoadingComponent(this, binding.loadingView)
     }
     private val errorComponent: LessonErrorComponent by lazy {
-        LessonErrorComponent(binding.errorView, this::finish)
+        LessonErrorComponent(this, binding.errorView, this::finish)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,10 +100,10 @@ class ReadingActivity : SSColorSchemeActivity() {
         // Visible when Loading
         val loadingFlow = viewModel.uiStateFlow.map { it == Status.LOADING }
 
-        errorComponent.collect(errorFlow, viewModel.errorDataFlow, this)
-        appBarComponent.collect(successFlow, viewModel.appBarDataFlow, this)
-        viewPagerComponent.collect(successFlow, viewModel.readDaysFlow, this)
-        loadingComponent.collect(loadingFlow, this)
+        errorComponent.collect(errorFlow, viewModel.errorDataFlow)
+        appBarComponent.collect(successFlow, viewModel.appBarDataFlow)
+        viewPagerComponent.collect(successFlow, viewModel.readDaysFlow)
+        loadingComponent.collect(loadingFlow)
     }
 
     override fun onStop() {

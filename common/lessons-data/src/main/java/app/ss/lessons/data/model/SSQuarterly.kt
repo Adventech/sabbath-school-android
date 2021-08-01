@@ -35,6 +35,7 @@ data class SSQuarterly(
     val start_date: String = "",
     val end_date: String = "",
     val cover: String = "",
+    val splash: String? = null,
     val index: String = "",
     val group: String = UUID.randomUUID().toString(), // Allows us to easily group quarterlies while maintaining order from api
     val path: String = "",
@@ -44,5 +45,5 @@ data class SSQuarterly(
     val color_primary_dark: String = "",
     val quarterly_name: String = "",
 ) {
-    constructor() : this("", color_primary = "")
+    constructor() : this("")
 }

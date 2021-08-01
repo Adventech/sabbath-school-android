@@ -20,19 +20,10 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.quarterly
+package com.cryart.design.color
 
-import app.ss.lessons.data.model.Language
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.model.SSQuarterlyInfo
-import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
+import androidx.annotation.ColorInt
+import androidx.core.graphics.ColorUtils
 
-interface QuarterliesRepository {
-
-    suspend fun getLanguages(): Resource<List<Language>>
-
-    fun getQuarterlies(languageCode: String? = null): Flow<Resource<List<SSQuarterly>>>
-
-    suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo>
-}
+@ColorInt
+fun Int.withAlpha(alpha: Int) = ColorUtils.setAlphaComponent(this, alpha)

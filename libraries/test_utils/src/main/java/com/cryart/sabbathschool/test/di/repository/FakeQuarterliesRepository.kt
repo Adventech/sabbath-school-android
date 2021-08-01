@@ -24,12 +24,13 @@ package com.cryart.sabbathschool.test.di.repository
 
 import app.ss.lessons.data.model.Language
 import app.ss.lessons.data.model.SSQuarterly
-import com.cryart.sabbathschool.core.response.Resource
+import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
-import javax.inject.Inject
+import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import javax.inject.Inject
 
 class FakeQuarterliesRepository @Inject constructor() : QuarterliesRepository {
 
@@ -41,5 +42,17 @@ class FakeQuarterliesRepository @Inject constructor() : QuarterliesRepository {
         return callbackFlow {
             awaitClose { }
         }
+    }
+
+    override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {
+        return Resource.success(
+            SSQuarterlyInfo(
+                SSQuarterly(
+                    id = "id",
+                    index = index
+                ),
+                emptyList()
+            )
+        )
     }
 }

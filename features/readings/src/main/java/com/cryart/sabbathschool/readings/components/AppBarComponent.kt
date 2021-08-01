@@ -33,14 +33,16 @@ import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.cryart.sabbathschool.core.extensions.view.tint
+import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.readings.R
 import com.cryart.sabbathschool.readings.components.model.AppBarData
 import com.cryart.sabbathschool.readings.databinding.ComponentReadingAppBarBinding
 import kotlinx.coroutines.flow.Flow
 
 class AppBarComponent(
+    lifecycleOwner: LifecycleOwner,
     private val binding: ComponentReadingAppBarBinding
-) : BaseComponent<AppBarData> {
+) : BaseComponent<AppBarData>(lifecycleOwner) {
 
     init {
         binding.collapsingToolbar.apply {
@@ -58,7 +60,7 @@ class AppBarComponent(
         return drawable
     }
 
-    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<AppBarData>, owner: LifecycleOwner) {
+    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<AppBarData>) {
         visibilityFlow.collectIn(owner) { visible ->
             binding.appBar.fadeTo(visible)
         }

@@ -104,6 +104,7 @@ dependencies {
     implementation("com.github.hotchemi:android-rate:1.0.1")
     implementation("com.afollestad.material-dialogs:input:3.3.0")
     implementation("ru.beryukhov:flowreactivenetwork:1.0.2")
+    implementation(Dependencies.Facebook.SHIMMER)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))

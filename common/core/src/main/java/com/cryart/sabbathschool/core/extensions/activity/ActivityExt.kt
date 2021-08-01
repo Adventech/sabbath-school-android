@@ -20,19 +20,11 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.quarterly
+package com.cryart.sabbathschool.core.extensions.activity
 
-import app.ss.lessons.data.model.Language
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.model.SSQuarterlyInfo
-import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
+import android.app.Activity
+import androidx.core.view.WindowCompat
 
-interface QuarterliesRepository {
-
-    suspend fun getLanguages(): Resource<List<Language>>
-
-    fun getQuarterlies(languageCode: String? = null): Flow<Resource<List<SSQuarterly>>>
-
-    suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo>
+fun Activity.setLightStatusBar(light: Boolean) {
+    WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = light
 }
