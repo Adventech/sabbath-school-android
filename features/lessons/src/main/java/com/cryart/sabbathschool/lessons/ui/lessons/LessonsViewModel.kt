@@ -69,7 +69,8 @@ class LessonsViewModel @Inject constructor(
 
         val index = savedStateHandle.get<String>(SSConstants.SS_QUARTERLY_INDEX_EXTRA) ?: ssPrefs.getLastQuarterlyIndex()
         if (index?.isNotEmpty() == true) {
-            setQuarterlyIndex(index)
+            // Grouping is disabled for now
+            // setQuarterlyIndex(index)
             loadQuarterlyInfo(index)
         }
     }
@@ -79,7 +80,7 @@ class LessonsViewModel @Inject constructor(
             val quarterlies = resource.data ?: return@collect
             val selected = quarterlies.find { it.index == index } ?: return@collect
 
-            lessonTypes = quarterlies.filter { it.group == selected.group }
+            lessonTypes = quarterlies.filter { it.quarterly_group == selected.quarterly_group }
 
             if (lessonTypes.size > 1) {
                 val names = listOf(selected.quarterly_name) + lessonTypes

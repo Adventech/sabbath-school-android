@@ -95,9 +95,8 @@ class QuarterliesViewModel @Inject constructor(
             repository.getQuarterlies(code).collect { resource ->
                 if (resource.isSuccessFul) {
                     val quarterlies = resource.data ?: emptyList()
-                    val filtered = quarterlies.distinctBy { it.group }
 
-                    mutableViewState.postValue(ViewState.Success(filtered))
+                    mutableViewState.postValue(ViewState.Success(quarterlies))
 
                     if (!ssPrefs.isLanguagePromptSeen()) {
                         withContext(schedulerProvider.main) {
