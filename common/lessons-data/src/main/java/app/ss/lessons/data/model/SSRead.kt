@@ -43,4 +43,24 @@ data class SSRead(
         snapshot.child("content").getValue(String::class.java) ?: "",
         snapshot.child("bible").children.mapNotNull { SSBibleVerses(it) }
     )
+
+    /**
+     * Convert a Read index of
+     * "en-2021-03-04-02" to "en/2021-03/04/02"
+     *
+     * Or
+     * "en-2021-03-04-teacher-comments" to "en/2021-03/04/09-teacher-comments"
+     *
+     * @param lessonShareIndex : Should already be formatted from [SSLessonInfo.shareIndex]
+     * @param day : Day 1 - 9
+     */
+    fun shareIndex(lessonShareIndex: String, day: Int): String {
+        val dayStr = "$day".padStart(2, '0')
+        val readPath = if (day > 7) {
+            "$dayStr-${title.replace(' ', '-').lowercase()}"
+        } else {
+            dayStr
+        }
+        return "$lessonShareIndex/$readPath"
+    }
 }

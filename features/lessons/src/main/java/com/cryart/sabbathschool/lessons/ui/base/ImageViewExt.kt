@@ -20,11 +20,35 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.readings.components
+package com.cryart.sabbathschool.lessons.ui.base
 
-import androidx.lifecycle.LifecycleOwner
-import kotlinx.coroutines.flow.Flow
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.os.Build
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
+import coil.load
+import com.cryart.sabbathschool.core.extensions.view.tint
+import com.cryart.sabbathschool.lessons.R
 
-interface BaseComponent<T> {
-    fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<T>, owner: LifecycleOwner)
+fun ImageView.loadCover(coverUrl: String?, primaryColor: Int? = null) {
+    load(coverUrl) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+            allowHardware(true)
+            crossfade(true)
+        }
+        bitmapConfig(Bitmap.Config.ARGB_8888)
+        primaryColor?.let {
+            val drawable = placeholderDrawable(context, it)
+            placeholder(drawable)
+            error(drawable)
+        }
+    }
+}
+
+private fun placeholderDrawable(context: Context, color: Int): Drawable? {
+    val drawable = ContextCompat.getDrawable(context, R.drawable.bg_cover)
+    drawable?.tint(color)
+    return drawable
 }

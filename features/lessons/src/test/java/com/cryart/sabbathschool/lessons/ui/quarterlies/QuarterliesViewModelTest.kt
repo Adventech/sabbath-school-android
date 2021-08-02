@@ -231,36 +231,4 @@ class QuarterliesViewModelTest {
                 ViewState.Error()
             )
         }
-
-    @Test
-    fun `should filter out quarterlies with same group showing only the first one`() =
-        runBlockingTest {
-            // given
-            val all = listOf(
-                getQuarterly("one"),
-                getQuarterly("three"),
-                getQuarterly("two"),
-                getQuarterly("one")
-            )
-            val language = "de"
-
-            val flow: Flow<Resource<List<SSQuarterly>>> = callbackFlow {
-                trySend(Resource.success(all))
-                awaitClose { }
-            }
-            every { mockRepository.getQuarterlies(language) }.returns(flow)
-            every { mockSSPrefs.setLanguageCode(language) }.returns(Unit)
-            every { mockSSPrefs.isLanguagePromptSeen() }.returns(true)
-            every { mockSSPrefs.isAppReBrandingPromptShown() }.returns(true)
-
-            // when
-            viewModel.languageSelected(language)
-
-            // then
-            viewModel.viewStateLiveData.value shouldBeEqualTo ViewState.Success(all.dropLast(1))
-        }
-
-    private fun getQuarterly(gr: String): SSQuarterly {
-        return SSQuarterly("", group = gr, color_primary = "")
-    }
 }

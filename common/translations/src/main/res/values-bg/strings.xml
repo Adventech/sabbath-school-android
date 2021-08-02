@@ -31,6 +31,7 @@
     <string name="ss_menu_read_now">"Прочетете сега"</string>
     <string name="ss_menu_share_app">"Споделяне на приложението"</string>
     <string name="ss_menu_share_app_text">"Разгледайте, използвам това приложение \"Съботно училище\" - %1$s"</string>
+    <string name="ss_more">Повече</string>
     <string name="ss_my_highlights">"Моите акценти"</string>
     <string name="ss_my_notes">"Моите бележки"</string>
     <string name="ss_settings">"Настройки"</string>

@@ -34,6 +34,7 @@ plugins {
     id(BuildPlugins.Kotlin.ANDROID)
     id(BuildPlugins.Kotlin.KAPT)
     id(BuildPlugins.DAGGER_HILT)
+    id(BuildPlugins.Kotlin.PARCELIZE)
 }
 
 android {
@@ -104,6 +105,8 @@ dependencies {
     implementation("com.github.hotchemi:android-rate:1.0.1")
     implementation("com.afollestad.material-dialogs:input:3.3.0")
     implementation("ru.beryukhov:flowreactivenetwork:1.0.2")
+    implementation(Dependencies.Facebook.SHIMMER)
+    implementation(Dependencies.MarkWorm.core)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))

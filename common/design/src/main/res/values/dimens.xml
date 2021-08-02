@@ -23,6 +23,8 @@
 
 <resources>
 
+    <dimen name="app_bar_divider_height">0dp</dimen>
+
     <dimen name="space">16dp</dimen>
     <dimen name="space_medium">12dp</dimen>
     <dimen name="space_small">8dp</dimen>

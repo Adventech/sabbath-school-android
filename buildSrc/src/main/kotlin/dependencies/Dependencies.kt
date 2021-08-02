@@ -61,4 +61,8 @@ object Dependencies {
         const val SDK = "com.facebook.android:facebook-android-sdk:${Versions.Facebook.SDK}"
         const val SHIMMER = "com.facebook.shimmer:shimmer:${Versions.Facebook.SHIMMER}"
     }
+
+    object MarkWorm {
+        const val core = "io.noties.markwon:core:${Versions.MARK_WORM}"
+    }
 }

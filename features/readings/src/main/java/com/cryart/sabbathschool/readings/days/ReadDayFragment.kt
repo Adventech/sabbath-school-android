@@ -52,7 +52,7 @@ class ReadDayFragment : SSBaseFragment<FragmentDayBinding>(R.layout.fragment_day
 
         ssPrefs.getDisplayOptions { options ->
             view?.setBackgroundColor(Color.parseColor(options.themeColor))
-            readingViewComponent = ReadingViewComponent(options, viewBinding.readingView)
+            readingViewComponent = ReadingViewComponent(viewLifecycleOwner, options, viewBinding.readingView)
         }
     }
 
@@ -64,7 +64,7 @@ class ReadDayFragment : SSBaseFragment<FragmentDayBinding>(R.layout.fragment_day
 
     override fun onBindViewModel() {
         super.onBindViewModel()
-        readingViewComponent?.collect(emptyFlow(), viewModel.readDataFlow, this)
+        readingViewComponent?.collect(emptyFlow(), viewModel.readDataFlow)
     }
 
     companion object {

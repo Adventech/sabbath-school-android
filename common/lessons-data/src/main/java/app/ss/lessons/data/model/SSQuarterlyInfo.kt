@@ -36,4 +36,10 @@ data class SSQuarterlyInfo(
             it.getValue(SSLesson::class.java)
         }
     )
+
+    /**
+     * Convert a Quarterly index of "en-2021-03"
+     * To "en/2021-03"
+     */
+    fun shareIndex(): String = quarterly.index.replaceFirst("-", "/")
 }

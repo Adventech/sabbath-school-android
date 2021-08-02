@@ -21,6 +21,7 @@
  */
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
@@ -55,13 +56,24 @@ internal class SSQuarterlyItemViewModel(
     val date: String get() = ssQuarterly.human_date
     val cover: String get() = ssQuarterly.cover
     val description: String get() = ssQuarterly.description
-    val colorPrimary: Int get() = Color.parseColor(ssQuarterly.color_primary)
+    val colorPrimary: Int @SuppressLint("Range")
+    get() = Color.parseColor(ssQuarterly.color_primary)
     val colorPrimaryDark: String get() = ssQuarterly.color_primary_dark
 
     fun onReadClick(view: View) {
         val context = view.context
         val ssLessonsIntent = SSLessonsActivity.launchIntent(context, ssQuarterly.index)
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+        val options = ssQuarterly.splash?.let {
+            val array = IntArray(2)
+            view.getLocationOnScreen(array)
+            ActivityOptionsCompat.makeScaleUpAnimation(
+                view,
+                array.first(),
+                array.last(),
+                view.width,
+                view.height
+            )
+        } ?: ActivityOptionsCompat.makeSceneTransitionAnimation(
             (context as AppCompatActivity),
             view,
             context.getString(R.string.ss_quarterly_cover_transition)

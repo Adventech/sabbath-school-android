@@ -44,7 +44,7 @@ class AppBarComponentTest {
             LinearLayout(activity)
         )
 
-        component = AppBarComponent(binding)
+        component = AppBarComponent(mockLifecycleOwner, binding)
     }
 
     @Test
@@ -53,7 +53,7 @@ class AppBarComponentTest {
         lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START)
         every { mockLifecycleOwner.lifecycle }.returns(lifecycle)
 
-        component.collect(flowOf(false), emptyFlow(), mockLifecycleOwner)
+        component.collect(flowOf(false), emptyFlow())
 
         binding.appBar.isVisible.shouldBeFalse()
     }
@@ -64,7 +64,7 @@ class AppBarComponentTest {
         lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START)
         every { mockLifecycleOwner.lifecycle }.returns(lifecycle)
 
-        component.collect(flowOf(true), emptyFlow(), mockLifecycleOwner)
+        component.collect(flowOf(true), emptyFlow())
 
         binding.appBar.isVisible.shouldBeTrue()
     }
@@ -77,7 +77,7 @@ class AppBarComponentTest {
 
         binding.appBar.isVisible = false
 
-        component.collect(flowOf(true), emptyFlow(), mockLifecycleOwner)
+        component.collect(flowOf(true), emptyFlow())
 
         binding.appBar.isVisible.shouldBeFalse()
     }
@@ -91,7 +91,7 @@ class AppBarComponentTest {
         binding.collapsingToolbar.title = ""
         binding.subtitle.text = ""
 
-        component.collect(emptyFlow(), flowOf(AppBarData.Title("Title", "Sub-Title")), mockLifecycleOwner)
+        component.collect(emptyFlow(), flowOf(AppBarData.Title("Title", "Sub-Title")))
 
         binding.collapsingToolbar.title shouldBeEqualTo "Title"
         binding.subtitle.text shouldBeEqualTo "Sub-Title"
@@ -106,7 +106,7 @@ class AppBarComponentTest {
         binding.collapsingToolbar.title = ""
         binding.subtitle.text = ""
 
-        component.collect(emptyFlow(), flowOf(AppBarData.Title("Title", "Sub-Title")), mockLifecycleOwner)
+        component.collect(emptyFlow(), flowOf(AppBarData.Title("Title", "Sub-Title")))
 
         binding.collapsingToolbar.title shouldBeEqualTo ""
         binding.subtitle.text shouldBeEqualTo ""
