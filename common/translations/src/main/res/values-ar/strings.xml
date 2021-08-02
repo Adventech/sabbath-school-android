@@ -32,6 +32,7 @@
     <string name="ss_menu_read_now">"اقرأ الآن"</string>
     <string name="ss_menu_share_app">"شارك البرنامج"</string>
     <string name="ss_menu_share_app_text">" تحقق من، وأنا باستخدام هذا التطبيق مدرسة السبت- %1$s"</string>
+    <string name="ss_more">أكثر من</string>
     <string name="ss_my_highlights">"بلدي يسلط الضوء على"</string>
     <string name="ss_my_notes">"ملاحظاتي"</string>
     <string name="ss_settings">"الضبط"</string>

@@ -31,6 +31,7 @@
     <string name="ss_menu_read_now">"Διάβασε"</string>
     <string name="ss_menu_share_app">"Κοινοποίησε την εφαρμογή"</string>
     <string name="ss_menu_share_app_text">"Δείτε τη νέα εφαρμογή για την Σχολή Σαββάτου που χρησιμοποιώ - %1$s"</string>
+    <string name="ss_more">Περισσότερο</string>
     <string name="ss_my_highlights">"Υπογραμμισμένα"</string>
     <string name="ss_my_notes">"Οι σημειώσεις μου"</string>
     <string name="ss_settings">"Ρυθμίσεις"</string>

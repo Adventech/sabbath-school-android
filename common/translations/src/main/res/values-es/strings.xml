@@ -31,6 +31,7 @@
     <string name="ss_menu_read_now">"Leer Ahora"</string>
     <string name="ss_menu_share_app">"Compartir aplicación"</string>
     <string name="ss_menu_share_app_text">"Echa un vistazo, estoy usando esta aplicación de la Escuela Sabática - %1$s"</string>
+    <string name="ss_more">Más</string>
     <string name="ss_my_highlights">"Mis resaltados"</string>
     <string name="ss_my_notes">"Mis comentarios"</string>
     <string name="ss_settings">"Ajustes"</string>
