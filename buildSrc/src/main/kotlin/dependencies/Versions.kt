@@ -39,6 +39,7 @@ object Versions {
     const val ANDROID_JOB = "1.4.2"
     const val JODA = "2.10.9.1"
     const val JODA_TIME = "2.10.10"
+    const val MARK_WORM = "4.6.2"
 
     // Tests
     const val ANDROIDX_TEST = "1.4.0"

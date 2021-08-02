@@ -27,11 +27,10 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
-import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.text.parseAsHtml
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import com.cryart.design.color.withAlpha
@@ -41,17 +40,18 @@ import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.databinding.SsLessonDescriptionBinding
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsQuarterlyInfoBinding
 import com.cryart.sabbathschool.lessons.ui.base.loadCover
+import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
+import com.cryart.sabbathschool.lessons.ui.lessons.intro.showLessonIntro
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.flow.Flow
 import org.joda.time.DateTime
 import org.joda.time.Interval
 
 class QuarterlyInfoComponent(
     lifecycleOwner: LifecycleOwner,
+    private val fragmentManager: FragmentManager,
     private val binding: SsLessonsQuarterlyInfoBinding
 ) : BaseComponent<SSQuarterlyInfo?>(lifecycleOwner) {
 
@@ -80,6 +80,10 @@ class QuarterlyInfoComponent(
     @SuppressLint("Range")
     private fun setQuarterlyInfo(quarterlyInfo: SSQuarterlyInfo) {
         val quarterly = quarterlyInfo.quarterly
+        val introModel = LessonIntroModel(
+            quarterly.title,
+            quarterly.introduction ?: quarterly.description
+        )
         val primaryColor = Color.parseColor(quarterly.color_primary)
         val primaryDarkColor = Color.parseColor(quarterly.color_primary_dark)
 
@@ -139,8 +143,7 @@ class QuarterlyInfoComponent(
             ssLessonsAppBarDate.text = quarterly.human_date
             ssLessonsAppBarDescription.text = quarterly.description
             ssLessonsAppBarDescription.setOnClickListener {
-                // TODO: [Android] Individual Lesson full introduction read
-                // showDescription(quarterly.title, quarterly.description)
+                fragmentManager.showLessonIntro(introModel)
             }
             ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
         }
@@ -151,19 +154,5 @@ class QuarterlyInfoComponent(
             val endDate = DateHelper.parseDate(lesson.end_date)
             Interval(startDate, endDate?.plusDays(1)).contains(today)
         }?.index ?: quarterlyInfo.lessons.firstOrNull()?.index
-    }
-
-    private fun showDescription(title: String, description: String) {
-        val context = binding.root.context
-        val binding = SsLessonDescriptionBinding.inflate(LayoutInflater.from(context))
-        val dialog = BottomSheetDialog(context)
-
-        binding.txtContent.text = description.parseAsHtml()
-        binding.toolbar.title = title
-        binding.toolbar.setNavigationOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.setContentView(binding.root)
-        dialog.show()
     }
 }

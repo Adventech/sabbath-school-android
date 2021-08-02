@@ -71,7 +71,7 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
         ToolbarComponent(this, binding.ssLessonsToolbar)
     }
     private val quarterlyInfoComponent: QuarterlyInfoComponent by lazy {
-        QuarterlyInfoComponent(this, binding.appBarContent)
+        QuarterlyInfoComponent(this, supportFragmentManager, binding.appBarContent)
     }
     private val lessonTypeComponent: LessonTypeComponent by lazy {
         LessonTypeComponent(
