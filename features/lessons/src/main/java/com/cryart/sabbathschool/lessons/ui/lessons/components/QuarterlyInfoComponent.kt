@@ -35,6 +35,7 @@ import androidx.lifecycle.LifecycleOwner
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import com.cryart.design.color.withAlpha
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
+import com.cryart.sabbathschool.core.extensions.view.addMoreEllipses
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSColorTheme
@@ -142,6 +143,11 @@ class QuarterlyInfoComponent(
             ssLessonsAppBarTitle.text = quarterly.title
             ssLessonsAppBarDate.text = quarterly.human_date
             ssLessonsAppBarDescription.text = quarterly.description
+            ssLessonsAppBarDescription.addMoreEllipses(
+                3,
+                R.string.ss_more,
+                R.color.text_link
+            )
             ssLessonsAppBarDescription.setOnClickListener {
                 fragmentManager.showLessonIntro(introModel)
             }
