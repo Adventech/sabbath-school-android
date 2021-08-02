@@ -31,6 +31,7 @@
     <string name="ss_menu_read_now">"Lisez maintenant"</string>
     <string name="ss_menu_share_app">"Partager App"</string>
     <string name="ss_menu_share_app_text">"Vérifiez, je suis en utilisant cette application Ecole du Sabbat - %1$s"</string>
+    <string name="ss_more">Plus</string>
     <string name="ss_my_highlights">"Mes Faits saillants"</string>
     <string name="ss_my_notes">"Mes notes"</string>
     <string name="ss_settings">"Paramètres"</string>

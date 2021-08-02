@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,32 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package app.ss.lessons.data.model
 
-import androidx.annotation.Keep
-import com.google.firebase.database.IgnoreExtraProperties
-import java.util.UUID
+package com.cryart.sabbathschool.lessons.ui.lessons.intro
 
-@Keep
-@IgnoreExtraProperties
-data class SSQuarterly(
-    val id: String,
-    val title: String = "",
-    val description: String = "",
-    val introduction: String? = null,
-    val human_date: String = "",
-    val start_date: String = "",
-    val end_date: String = "",
-    val cover: String = "",
-    val splash: String? = null,
-    val index: String = "",
-    val group: String = UUID.randomUUID().toString(), // Allows us to easily group quarterlies while maintaining order from api
-    val path: String = "",
-    val full_path: String = "",
-    val lang: String = "",
-    val color_primary: String = "",
-    val color_primary_dark: String = "",
-    val quarterly_name: String = "",
-) {
-    constructor() : this("")
-}
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class LessonIntroModel(
+    val title: String,
+    val introduction: String
+) : Parcelable

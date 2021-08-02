@@ -32,6 +32,7 @@
     <string name="ss_menu_read_now">"Olvasd Most"</string>
     <string name="ss_menu_share_app">"App megosztása"</string>
     <string name="ss_menu_share_app_text">"Nézze meg, én ezt a Szombatiskola használom - %1$s"</string>
+    <string name="ss_more">Több</string>
     <string name="ss_my_highlights">"Fénypontok"</string>
     <string name="ss_my_notes">"Jegyzeteim"</string>
     <string name="ss_settings">"Beállítások"</string>

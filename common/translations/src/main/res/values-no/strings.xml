@@ -97,4 +97,5 @@
     <string name="ss_reading_offline_retry">"Prøv på nytt"</string>
     <string name="ss_about_text">"Adventechs mål er å gjøre Adventistkirkens Bibelstudium tilgengelig og gratis på alle verdens språk.  Vår bønn er at denne appen kan lede deg inn i en dypere relasjon med Jesus Kristus. "</string>
     <string name="ss_settings_version_with_param_string">Versjon: %1$s</string>
+    <string name="ss_more">Mer</string>
 </resources>
