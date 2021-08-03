@@ -22,17 +22,23 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons.intro
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.core.widget.NestedScrollView
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updateMargins
 import androidx.fragment.app.FragmentManager
+import com.cryart.sabbathschool.core.extensions.view.doOnApplyWindowInsets
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsFragmentLessonIntroBinding
 import com.cryart.sabbathschool.lessons.ui.base.SsBottomSheetDialogFragment
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.noties.markwon.Markwon
 
 class LessonIntroFragment : SsBottomSheetDialogFragment() {
@@ -48,12 +54,13 @@ class LessonIntroFragment : SsBottomSheetDialogFragment() {
         val model = arguments?.getParcelable<LessonIntroModel>(ARG_MODEL) ?: return
 
         binding.toolbar.apply {
+            doOnApplyWindowInsets { insetView, windowInsets, _, initialMargins ->
+                insetView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                    updateMargins(top = initialMargins.top + windowInsets.getInsets(systemBars()).top)
+                }
+            }
             title = model.title
             setNavigationOnClickListener { dismiss() }
-        }
-        binding.scrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int,
-            scrollY: Int, _: Int, _: Int ->
-            binding.toolbar.isActivated = scrollY > 0
         }
 
         Markwon.create(requireContext()).setMarkdown(
@@ -61,6 +68,18 @@ class LessonIntroFragment : SsBottomSheetDialogFragment() {
             model.introduction
         )
     }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
+        object : BottomSheetDialog(requireContext(), theme) {
+            override fun onAttachedToWindow() {
+                super.onAttachedToWindow()
+                window?.let {
+                    WindowCompat.setDecorFitsSystemWindows(it, false)
+                }
+                findViewById<View>(com.google.android.material.R.id.container)?.fitsSystemWindows = false
+                findViewById<View>(com.google.android.material.R.id.coordinator)?.fitsSystemWindows = false
+            }
+        }
 }
 
 private const val ARG_MODEL = "arg:model"
