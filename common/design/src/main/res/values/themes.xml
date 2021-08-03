@@ -100,6 +100,7 @@
         <item name="bottomSheetStyle">@style/Widget.SS.BottomSheet.Modal</item>
         <item name="textAppearanceHeadline6">@style/TextAppearance.SS.Headline6</item>
         <item name="android:windowIsFloating">false</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.SS.LargeComponent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">#80000000</item>
     </style>
