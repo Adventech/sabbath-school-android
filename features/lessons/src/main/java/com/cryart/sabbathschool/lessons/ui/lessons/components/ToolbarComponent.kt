@@ -67,8 +67,9 @@ class ToolbarComponent constructor(
     }
 
     fun onContentScroll(scrollY: Int, anchorHeight: Int, activity: Activity, menuColor: (Int) -> Unit) {
+        val height = anchorHeight - binding.ssLessonsToolbar.height
         val scrollValue = scrollY.coerceAtLeast(0).toDouble()
-        val viewAlpha = (scrollValue / anchorHeight).coerceAtLeast(0.0)
+        val viewAlpha = (scrollValue / height).coerceAtLeast(0.0)
         val colorAlpha = (viewAlpha * MAX_ALPHA).toInt()
         val isSolid = colorAlpha >= MIN_SOLID_ALPHA
 
