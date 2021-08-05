@@ -21,14 +21,16 @@
   -->
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/ss_lessons_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:attr/windowBackground"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,9 +38,10 @@
 
             <View
                 android:id="@+id/backdrop"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/ss_reading_toolbar_height"
-                android:background="@color/ss_grey_shimmer"
+                android:layout_width="@dimen/ss_lessons_toolbar_cover_width"
+                android:layout_height="@dimen/ss_lessons_toolbar_cover_height"
+                android:layout_marginTop="80dp"
+                android:background="@drawable/ss_shimmer_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -46,9 +49,9 @@
             <View
                 android:id="@+id/title1"
                 android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="50dp"
+                android:layout_height="20dp"
+                android:layout_marginHorizontal="48dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/ss_shimmer_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -56,31 +59,32 @@
 
             <View
                 android:id="@+id/title2"
-                android:layout_width="200dp"
-                android:layout_height="24dp"
+                android:layout_width="120dp"
+                android:layout_height="12dp"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="16dp"
+                android:layout_marginVertical="8dp"
                 android:background="@drawable/ss_shimmer_bg"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title1" />
 
             <View
                 android:id="@+id/title3"
-                android:layout_width="300dp"
-                android:layout_height="24dp"
+                android:layout_width="340dp"
+                android:layout_height="8dp"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="16dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/ss_shimmer_bg"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title2" />
 
-
             <View
                 android:id="@+id/body1"
-                android:layout_width="0dp"
-                android:layout_height="16dp"
+                android:layout_width="340dp"
+                android:layout_height="8dp"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginVertical="4dp"
                 android:background="@drawable/ss_shimmer_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -88,35 +92,60 @@
 
             <View
                 android:id="@+id/body2"
-                android:layout_width="0dp"
-                android:layout_height="16dp"
+                android:layout_width="180dp"
+                android:layout_height="8dp"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="12dp"
+                android:layout_marginVertical="4dp"
                 android:background="@drawable/ss_shimmer_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/body1" />
 
             <View
-                android:id="@+id/body3"
+                android:id="@+id/top_divider"
                 android:layout_width="0dp"
-                android:layout_height="16dp"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="12dp"
-                android:background="@drawable/ss_shimmer_bg"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:background="@color/list_divider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/body2" />
 
-            <View
-                android:id="@+id/body4"
-                android:layout_width="180dp"
-                android:layout_height="16dp"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="12dp"
-                android:background="@drawable/ss_shimmer_bg"
+            <include
+                android:id="@+id/line1"
+                layout="@layout/include_shimmer_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/body3" />
+                app:layout_constraintTop_toBottomOf="@id/top_divider" />
+
+            <include
+                android:id="@+id/line2"
+                layout="@layout/include_shimmer_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line1" />
+
+            <include
+                android:id="@+id/line3"
+                layout="@layout/include_shimmer_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line2" />
+
+            <include
+                android:id="@+id/line4"
+                layout="@layout/include_shimmer_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line3" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
