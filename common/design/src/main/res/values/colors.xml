@@ -65,7 +65,7 @@
     <color name="text_secondary">@color/ss_gray_2</color>
     <color name="text_secondary_50">#808F8E94</color>
     <color name="text_markdown">#222222</color>
-    <color name="text_link">#CC2E5797</color>
+    <color name="text_link">#94BDFD</color>
 
     <color name="com_facebook_blue">#3B529A</color>
 
