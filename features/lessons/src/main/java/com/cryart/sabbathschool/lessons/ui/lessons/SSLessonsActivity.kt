@@ -41,7 +41,6 @@ import com.cryart.sabbathschool.lessons.databinding.SsLessonsActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.base.ShareableScreen
 import com.cryart.sabbathschool.lessons.ui.base.StatusComponent
-import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonTypeComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsListComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfoComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.ToolbarComponent
@@ -67,14 +66,6 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
     }
     private val quarterlyInfoComponent: QuarterlyInfoComponent by lazy {
         QuarterlyInfoComponent(this, supportFragmentManager, binding.appBarContent)
-    }
-    private val lessonTypeComponent: LessonTypeComponent by lazy {
-        LessonTypeComponent(
-            this,
-            binding.lessonTypeContainer,
-            supportFragmentManager,
-            viewModel::quarterlyTypeSelected
-        )
     }
     private val lessonsListComponent: LessonsListComponent by lazy {
         LessonsListComponent(this, binding.ssLessonInfoList)
@@ -126,7 +117,6 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
             statusFlow.map { it == Status.SUCCESS },
             dataFlow
         )
-        lessonTypeComponent.collect(viewModel.lessonTypesFlow)
         lessonsListComponent.collect(
             dataFlow.map { it?.lessons ?: emptyList() }
         )
