@@ -161,4 +161,11 @@ class QuarterlyInfoComponent(
             Interval(startDate, endDate?.plusDays(1)).contains(today)
         }?.index ?: quarterlyInfo.lessons.firstOrNull()?.index
     }
+
+    fun onContentScroll(scrollY: Int) {
+        if (binding.ssQuarterlySplash.isVisible) {
+            val translation = scrollY * 0.5f
+            binding.ssQuarterlySplash.translationY = translation
+        }
+    }
 }

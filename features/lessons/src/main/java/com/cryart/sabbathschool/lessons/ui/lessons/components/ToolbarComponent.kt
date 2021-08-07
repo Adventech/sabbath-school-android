@@ -23,8 +23,10 @@
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
 import android.app.Activity
+import android.graphics.Color
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updateMargins
@@ -34,6 +36,7 @@ import com.cryart.sabbathschool.core.extensions.activity.setLightStatusBar
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.doOnApplyWindowInsets
+import com.cryart.sabbathschool.core.extensions.view.tint
 import com.cryart.sabbathschool.core.ui.BaseDataComponent
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsToolbarBinding
@@ -63,9 +66,10 @@ class ToolbarComponent constructor(
         }
     }
 
-    fun onContentScroll(scrollY: Int, anchorHeight: Int, activity: Activity) {
+    fun onContentScroll(scrollY: Int, anchorHeight: Int, activity: Activity, menuColor: (Int) -> Unit) {
+        val height = anchorHeight - binding.ssLessonsToolbar.height
         val scrollValue = scrollY.coerceAtLeast(0).toDouble()
-        val viewAlpha = (scrollValue / anchorHeight).coerceAtLeast(0.0)
+        val viewAlpha = (scrollValue / height).coerceAtLeast(0.0)
         val colorAlpha = (viewAlpha * MAX_ALPHA).toInt()
         val isSolid = colorAlpha >= MIN_SOLID_ALPHA
 
@@ -84,10 +88,18 @@ class ToolbarComponent constructor(
 
         with(activity) {
             window?.statusBarColor = backgroundColor
-            if (!isDarkTheme()) {
+            if (isDarkTheme().not()) {
                 setLightStatusBar(isSolid)
+                val iconTint = iconInt(viewAlpha)
+                binding.ssLessonsToolbar.navigationIcon?.tint(iconTint)
+                menuColor(iconTint)
             }
         }
+    }
+
+    private fun iconInt(alpha: Double): Int {
+        val ratio = alpha.coerceAtMost(1.0).toFloat()
+        return ColorUtils.blendARGB(Color.WHITE, Color.BLACK, ratio)
     }
 
     companion object {

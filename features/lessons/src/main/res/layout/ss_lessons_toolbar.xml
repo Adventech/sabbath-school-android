@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:stateListAnimator="@animator/animator_raise_flat"
-        app:layout_scrollFlags="scroll">
+        app:navigationIcon="@drawable/ic_round_arrow_back">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/ss_lessons_toolbar_title"

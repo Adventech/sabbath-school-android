@@ -25,20 +25,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/ss_theme_color_background">
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/ss_theme_color_background"
-        android:stateListAnimator="@animator/animator_raise_flat"
         app:navigationIcon="@drawable/ic_close" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_divider_height"
+        android:layout_height="1dp"
         android:background="@drawable/list_divider" />
 
     <androidx.core.widget.NestedScrollView
