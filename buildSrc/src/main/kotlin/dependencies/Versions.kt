@@ -8,7 +8,7 @@ object Versions {
     const val DESUGAR = "1.1.1"
 
     object AndroidX {
-        const val APPCOMPAT = "1.2.0"
+        const val APPCOMPAT = "1.3.1"
         const val RECYCLER_VIEW = "1.2.1"
         const val LIFECYCLE = "2.3.1"
         const val LIFECYCLE_KTX = "2.4.0-alpha01"
