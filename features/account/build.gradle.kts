@@ -74,6 +74,6 @@ dependencies {
     implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
     implementation(Dependencies.Kotlin.COROUTINES_PLAY_SERVICES)
 
-    implementation(Dependencies.COIL)
+    implementation(Dependencies.Coil.core)
     implementation(Dependencies.TIMBER)
 }

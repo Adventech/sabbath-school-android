@@ -95,7 +95,7 @@ dependencies {
 
     implementation(Dependencies.JODA)
     implementation(Dependencies.TIMBER)
-    implementation(Dependencies.COIL)
+    implementation(Dependencies.Coil.core)
     implementation(Dependencies.TAP_TARGET)
     implementation(Iconics.CORE)
     implementation(Iconics.VIEWS)

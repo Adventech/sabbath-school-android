@@ -21,6 +21,8 @@
  */
 
 import dependencies.Dependencies
+import dependencies.Dependencies.Compose
+import dependencies.Versions
 
 plugins {
     id(BuildPlugins.Android.LIBRARY)
@@ -40,8 +42,19 @@ android {
             }
         }
     }
+
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.COMPOSE
+    }
 }
 
 dependencies {
     implementation(Dependencies.MATERIAL)
+
+    implementation(Compose.ui)
+    implementation(Compose.material)
+    implementation(Compose.tooling)
 }
