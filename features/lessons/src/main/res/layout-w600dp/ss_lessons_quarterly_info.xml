@@ -25,8 +25,7 @@
     android:id="@+id/app_bar_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:background="?attr/colorPrimary"
-    tools:showIn="@layout/ss_lessons_activity">
+    tools:background="?attr/colorPrimary">
 
     <ImageView
         android:id="@+id/ss_quarterly_splash"
@@ -123,6 +122,16 @@
         app:layout_constraintTop_toBottomOf="@id/ss_lessons_app_bar_date"
         tools:text="@tools:sample/lorem/random" />
 
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/quarterly_features_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ss_lessons_app_bar_description"
+        tools:layout_height="32dp" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/ss_lessons_app_bar_read"
         android:layout_width="wrap_content"
@@ -134,6 +143,6 @@
         app:cornerRadius="@dimen/ss_lessons_toolbar_read_radius"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/ss_quarterly_item_cover_card"
-        app:layout_constraintTop_toBottomOf="@id/ss_lessons_app_bar_description" />
+        app:layout_constraintTop_toBottomOf="@id/quarterly_features_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

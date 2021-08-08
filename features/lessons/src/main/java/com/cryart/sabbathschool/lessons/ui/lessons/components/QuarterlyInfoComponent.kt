@@ -27,11 +27,13 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
+import androidx.compose.ui.platform.ComposeView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
+import app.ss.lessons.data.model.Feature
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import com.cryart.design.color.withAlpha
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
@@ -43,6 +45,7 @@ import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsQuarterlyInfoBinding
 import com.cryart.sabbathschool.lessons.ui.base.loadCover
+import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.showLessonIntro
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
@@ -152,6 +155,7 @@ class QuarterlyInfoComponent(
                 fragmentManager.showLessonIntro(introModel)
             }
             ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
+            showFeatures(quarterlyFeaturesView, quarterly.features)
         }
 
         val today = DateTime.now().withTimeAtStartOfDay()
@@ -160,6 +164,13 @@ class QuarterlyInfoComponent(
             val endDate = DateHelper.parseDate(lesson.end_date)
             Interval(startDate, endDate?.plusDays(1)).contains(today)
         }?.index ?: quarterlyInfo.lessons.firstOrNull()?.index
+    }
+
+    private fun showFeatures(view: ComposeView, features: List<Feature>) {
+        view.setContent {
+            QuarterlyFeaturesRow(features = features)
+        }
+        view.isVisible = features.isNotEmpty()
     }
 
     fun onContentScroll(scrollY: Int) {

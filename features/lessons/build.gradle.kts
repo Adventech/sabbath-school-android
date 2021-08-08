@@ -22,10 +22,13 @@
 
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
+import dependencies.Dependencies.Coil
+import dependencies.Dependencies.Compose
 import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.Iconics
 import dependencies.Dependencies.Kotlin
+import dependencies.Versions
 import extensions.addTestsDependencies
 import extensions.kapt
 
@@ -52,10 +55,14 @@ android {
         jvmTarget = JavaOptions.version.toString()
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.COMPOSE
+    }
 
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        compose = true
     }
 }
 
@@ -95,7 +102,8 @@ dependencies {
 
     implementation(Dependencies.JODA)
     implementation(Dependencies.TIMBER)
-    implementation(Dependencies.Coil.core)
+    implementation(Coil.core)
+    implementation(Coil.compose)
     implementation(Dependencies.TAP_TARGET)
     implementation(Iconics.CORE)
     implementation(Iconics.VIEWS)
@@ -107,6 +115,10 @@ dependencies {
     implementation("ru.beryukhov:flowreactivenetwork:1.0.2")
     implementation(Dependencies.Facebook.SHIMMER)
     implementation(Dependencies.MarkWorm.core)
+
+    implementation(Compose.ui)
+    implementation(Compose.material)
+    implementation(Compose.tooling)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))
