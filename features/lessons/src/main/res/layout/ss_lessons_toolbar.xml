@@ -20,27 +20,24 @@
   ~ THE SOFTWARE.
   -->
 
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ss_lessons_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:stateListAnimator="@animator/animator_raise_flat"
+    app:navigationIcon="@drawable/ic_round_arrow_back">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/ss_lessons_toolbar"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/ss_lessons_toolbar_title"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:stateListAnimator="@animator/animator_raise_flat"
-        app:navigationIcon="@drawable/ic_round_arrow_back">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/ss_lessons_toolbar_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            app:fontFamily="@font/lato_bold"
-            tools:alpha="1"
-            tools:text="Rest In Christ" />
-    </androidx.appcompat.widget.Toolbar>
-</merge>
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        app:fontFamily="@font/lato_bold"
+        tools:alpha="1"
+        tools:text="Rest In Christ" />
+</androidx.appcompat.widget.Toolbar>
