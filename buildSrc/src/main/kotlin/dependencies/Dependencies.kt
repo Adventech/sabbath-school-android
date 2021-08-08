@@ -75,4 +75,11 @@ object Dependencies {
         const val core = "io.coil-kt:coil:${Versions.COIL}"
         const val compose = "io.coil-kt:coil-compose:${Versions.COIL}"
     }
+
+    object Square {
+        object Moshi {
+            const val kotlin = "com.squareup.moshi:moshi-kotlin:${Versions.MOSHI}"
+            const val codegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.MOSHI}"
+        }
+    }
 }

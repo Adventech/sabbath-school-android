@@ -8,11 +8,15 @@ import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.TodayData
 import app.ss.lessons.data.model.WeekData
 import app.ss.lessons.data.model.WeekDay
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 /**
  * Mock data for UI tests
  */
 object MockDataFactory {
+
+    const val QUARTERLY_INDEX = ""
 
     val versions = listOf(
         "NASB", "NKJV", "KJV"
@@ -20,6 +24,7 @@ object MockDataFactory {
     val verses = mapOf(
         "1John14" to "<h2>1 John 1:4</h2><sup>4</sup> These things we write, so that our joy may be made complete."
     )
+
     private val bibleVerses: List<SSBibleVerses> = versions.map { version ->
         SSBibleVerses(
             name = version,

@@ -20,33 +20,31 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.test.di.repository
+package com.cryart.sabbathschool.test.di
 
-import app.ss.lessons.data.model.Language
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.model.SSQuarterlyInfo
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
-import com.cryart.sabbathschool.core.response.Resource
+import android.content.Context
 import com.cryart.sabbathschool.test.di.mock.QuarterlyMockData
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import javax.inject.Inject
+import com.cryart.sabbathschool.test.di.mock.QuarterlyMockDataImpl
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 
-class FakeQuarterliesRepository @Inject constructor(
-    private val mockData: QuarterlyMockData
-) : QuarterliesRepository {
+@Module
+@InstallIn(SingletonComponent::class)
+object MockModule {
 
-    override suspend fun getLanguages(): Resource<List<Language>> {
-        return Resource.success(emptyList())
-    }
+    private val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
 
-    override fun getQuarterlies(languageCode: String?): Flow<Resource<List<SSQuarterly>>> {
-        return flowOf(Resource.success(mockData.getQuarterlies()))
-    }
-
-    override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {
-        return mockData.getQuarterlyInfo(index)?.let {
-            Resource.success(it)
-        } ?: Resource.error(Throwable())
-    }
+    @Provides
+    fun provideQuarterlyMockData(
+        @ApplicationContext context: Context
+    ): QuarterlyMockData = QuarterlyMockDataImpl(
+        moshi, context
+    )
 }
