@@ -71,7 +71,7 @@ fun QuarterlyFeaturesRow(
                     ),
                 colorFilter = ColorFilter.tint(
                     Color.White.copy(
-                        alpha = 0.6f // confirm alpha value
+                        alpha = 0.5f
                     )
                 )
             )

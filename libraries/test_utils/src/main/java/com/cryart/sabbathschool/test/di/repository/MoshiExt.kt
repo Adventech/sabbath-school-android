@@ -30,16 +30,18 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import timber.log.Timber
 import java.io.BufferedReader
+import java.io.IOException
 import java.io.InputStreamReader
 import java.io.Reader
 import java.io.StringWriter
 import java.lang.reflect.Type
+import java.nio.charset.StandardCharsets
 
 internal inline fun <reified T> Moshi.fromRawRes(
     context: Context,
-    @RawRes resId: Int
+    filePath: String
 ): List<T> {
-    val json = context.getJson(resId)
+    val json = context.jsonFromAssets(filePath)
     val listDataType: Type = Types.newParameterizedType(List::class.java, T::class.java)
     val adapter: JsonAdapter<List<T>> = adapter(listDataType)
     return adapter.fromJson(json) ?: emptyList()
@@ -68,4 +70,21 @@ internal fun Context.getJson(@RawRes resId: Int): String {
         }
     }
     return ""
+}
+
+internal fun Context.jsonFromAssets(assetPath: String): String {
+    val buf = StringBuilder()
+    return try {
+        val json = assets.open(assetPath)
+        val `in` = BufferedReader(InputStreamReader(json, StandardCharsets.UTF_8))
+        var str: String?
+        while (`in`.readLine().also { str = it } != null) {
+            buf.append(str)
+        }
+        `in`.close()
+        buf.toString()
+    } catch (e: IOException) {
+        Timber.e(e)
+        ""
+    }
 }

@@ -25,7 +25,6 @@ package com.cryart.sabbathschool.test.di.mock
 import android.content.Context
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
-import com.cryart.sabbathschool.test.R
 import com.cryart.sabbathschool.test.di.repository.fromRawRes
 import com.squareup.moshi.Moshi
 
@@ -43,7 +42,7 @@ class QuarterlyMockDataImpl(
 
     override fun getQuarterlies(): List<SSQuarterly> {
         if (_quarterlies.isEmpty()) {
-            _quarterlies = moshi.fromRawRes(context, R.raw.quarterlies)
+            _quarterlies = moshi.fromRawRes(context, "quarterlies.json")
         }
         return _quarterlies
     }
