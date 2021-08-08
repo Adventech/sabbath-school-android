@@ -192,7 +192,7 @@ class QuarterliesViewModelTest {
         viewModel.appReBrandingFlow.test {
             viewModel.viewCreated()
 
-            expectItem().shouldBeTrue()
+            awaitItem().shouldBeTrue()
 
             verify { mockSSPrefs.setAppReBrandingShown() }
         }

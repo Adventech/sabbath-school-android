@@ -50,8 +50,8 @@ class SSPrefsImplTest {
         }
         every { mockDataStore.data }.returns(testFlow)
         impl.displayOptionsFlow().test {
-            expectItem() shouldBeEqualTo SSReadingDisplayOptions("light", "medium", "lato")
-            expectComplete()
+            awaitItem() shouldBeEqualTo SSReadingDisplayOptions("light", "medium", "lato")
+            awaitComplete()
         }
     }
 
