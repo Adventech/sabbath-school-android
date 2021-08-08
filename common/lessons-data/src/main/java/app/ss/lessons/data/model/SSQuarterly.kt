@@ -43,7 +43,9 @@ data class SSQuarterly(
     val color_primary: String = "",
     val color_primary_dark: String = "",
     val quarterly_name: String = "",
-    val quarterly_group: QuarterlyGroup? = null
+    val quarterly_group: QuarterlyGroup? = null,
+    val features: List<Feature> = emptyList(),
+    val credits: List<Credit> = emptyList()
 ) {
     constructor() : this("")
 }

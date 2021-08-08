@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +20,16 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
+package app.ss.lessons.data.model
 
-plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-}
+import androidx.annotation.Keep
 
-android {
-    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
-
-    defaultConfig {
-        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
-    }
-    sourceSets {
-        getByName("main") {
-            java {
-                srcDirs("src/main/kotlin")
-            }
-        }
-    }
-}
-
-dependencies {
-    implementation(Dependencies.MATERIAL)
+@Keep
+data class Feature(
+    val name: String,
+    val title: String = "",
+    val description: String = "",
+    val image: String = ""
+) {
+    constructor() : this("")
 }

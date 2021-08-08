@@ -27,7 +27,6 @@ import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
-import com.cryart.sabbathschool.core.extensions.logger.timber
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.response.Resource
@@ -45,6 +44,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,8 +52,6 @@ class ReadingViewModel @Inject constructor(
     private val lessonsRepository: LessonsRepository,
     private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
-
-    private val logger by timber()
 
     private val _uiState = MutableSharedFlow<Status>()
     val uiStateFlow: SharedFlow<Status> get() = _uiState.asSharedFlow()
@@ -72,7 +70,7 @@ class ReadingViewModel @Inject constructor(
             _uiState.emit(Status.LOADING)
             lessonsRepository.getLessonInfo(lessonIndex)
         } catch (er: Throwable) {
-            logger.e(er)
+            Timber.e(er)
             Resource.error(er)
         }
 
@@ -123,7 +121,7 @@ class ReadingViewModel @Inject constructor(
                         .parseLocalDate(date)
                 ).replaceFirstChar { it.uppercase() }
         } catch (ex: IllegalArgumentException) {
-            logger.e(ex)
+            Timber.e(ex)
             return ""
         }
     }

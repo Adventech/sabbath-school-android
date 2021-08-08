@@ -27,7 +27,7 @@ object Versions {
         const val SHIMMER = "0.5.0"
     }
 
-    const val HILT = "2.38.1"
+    const val HILT = "2.38.1" // Also update [build.gradle.kts]
 
     const val TIMBER = "4.7.1"
     const val COIL = "1.3.1"

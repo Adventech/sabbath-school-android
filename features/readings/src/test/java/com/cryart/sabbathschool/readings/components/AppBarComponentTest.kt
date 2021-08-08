@@ -41,7 +41,8 @@ class AppBarComponentTest {
 
         binding = ComponentReadingAppBarBinding.inflate(
             activity.layoutInflater,
-            LinearLayout(activity)
+            LinearLayout(activity),
+            false
         )
 
         component = AppBarComponent(mockLifecycleOwner, binding)
