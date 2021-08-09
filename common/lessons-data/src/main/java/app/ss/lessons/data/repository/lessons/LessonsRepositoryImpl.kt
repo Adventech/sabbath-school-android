@@ -153,7 +153,7 @@ internal class LessonsRepositoryImpl constructor(
             is ValueEvent.Cancelled -> null
             is ValueEvent.DataChange -> {
                 val quarterlies = quarterlyEvent.snapshot.children.mapNotNull {
-                    it.getValue(SSQuarterly::class.java)
+                    SSQuarterly(it)
                 }
                 val quarterly = quarterlies.firstOrNull()
                 quarterly?.index

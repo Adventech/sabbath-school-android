@@ -22,6 +22,7 @@
 package app.ss.lessons.data.model
 
 import androidx.annotation.Keep
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.IgnoreExtraProperties
 
 @Keep
@@ -47,5 +48,26 @@ data class SSQuarterly(
     val features: List<Feature> = emptyList(),
     val credits: List<Credit> = emptyList()
 ) {
-    constructor() : this("")
+
+    constructor(snapshot: DataSnapshot) : this(
+        snapshot.child("id").getValue(String::class.java) ?: "",
+        snapshot.child("title").getValue(String::class.java) ?: "",
+        snapshot.child("description").getValue(String::class.java) ?: "",
+        snapshot.child("introduction").getValue(String::class.java),
+        snapshot.child("human_date").getValue(String::class.java) ?: "",
+        snapshot.child("start_date").getValue(String::class.java) ?: "",
+        snapshot.child("end_date").getValue(String::class.java) ?: "",
+        snapshot.child("cover").getValue(String::class.java) ?: "",
+        snapshot.child("splash").getValue(String::class.java),
+        snapshot.child("index").getValue(String::class.java) ?: "",
+        snapshot.child("path").getValue(String::class.java) ?: "",
+        snapshot.child("full_path").getValue(String::class.java) ?: "",
+        snapshot.child("lang").getValue(String::class.java) ?: "",
+        snapshot.child("color_primary").getValue(String::class.java) ?: "",
+        snapshot.child("color_primary_dark").getValue(String::class.java) ?: "",
+        snapshot.child("quarterly_name").getValue(String::class.java) ?: "",
+        snapshot.child("quarterly_group").getValue(QuarterlyGroup::class.java),
+        snapshot.child("features").children.mapNotNull { it.getValue(Feature::class.java) },
+        snapshot.child("credits").children.mapNotNull { it.getValue(Credit::class.java) }
+    )
 }

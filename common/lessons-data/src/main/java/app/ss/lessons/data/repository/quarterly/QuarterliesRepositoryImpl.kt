@@ -96,7 +96,7 @@ internal class QuarterliesRepositoryImpl(
 
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val quarterlies = snapshot.children.mapNotNull {
-                        it.getValue(SSQuarterly::class.java)
+                        SSQuarterly(it)
                     }
                     this@callbackFlow.trySend(Resource.success(quarterlies))
                 }
