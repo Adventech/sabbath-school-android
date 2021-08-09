@@ -23,8 +23,10 @@
 package app.ss.lessons.data.model
 
 import androidx.annotation.Keep
+import com.google.firebase.database.IgnoreExtraProperties
 
 @Keep
+@IgnoreExtraProperties
 data class Credit(
     val name: String,
     val value: String

@@ -23,8 +23,10 @@
 package app.ss.lessons.data.model
 
 import androidx.annotation.Keep
+import com.google.firebase.database.IgnoreExtraProperties
 
 @Keep
+@IgnoreExtraProperties
 data class QuarterlyGroup(
     val name: String,
     val order: Int = Int.MAX_VALUE

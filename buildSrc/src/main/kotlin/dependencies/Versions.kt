@@ -5,7 +5,6 @@ object Versions {
     const val COMPOSE = "1.0.0"
 
     const val MATERIAL = "1.4.0"
-    const val DESUGAR = "1.1.1"
 
     object AndroidX {
         const val APPCOMPAT = "1.3.1"
