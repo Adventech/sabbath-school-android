@@ -103,7 +103,6 @@ android {
     }
 
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaOptions.version
         targetCompatibility = JavaOptions.version
     }
@@ -132,8 +131,6 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring(Dependencies.DESUGAR)
-
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
     implementation(project(BuildModules.Common.TRANSLATIONS))
@@ -168,7 +165,6 @@ dependencies {
     implementation(Dependencies.PLAY_AUTH)
 
     implementation(platform(Firebase.BOM))
-    implementation(Firebase.CORE)
     implementation(Firebase.ANALYTICS)
     implementation(Firebase.AUTH)
     implementation(Firebase.CRASHLYTICS)

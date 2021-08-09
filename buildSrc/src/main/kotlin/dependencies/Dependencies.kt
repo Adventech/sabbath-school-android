@@ -1,7 +1,6 @@
 package dependencies
 
 object Dependencies {
-    const val DESUGAR = "com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}"
     const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
     const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
     const val PLAY_AUTH = "com.google.android.gms:play-services-auth:${Versions.PLAY_AUTH}"
@@ -35,7 +34,6 @@ object Dependencies {
 
     object Firebase {
         const val BOM = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
-        const val CORE = "com.google.firebase:firebase-core"
         const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val AUTH = "com.google.firebase:firebase-auth-ktx"
         const val DATABASE = "com.google.firebase:firebase-database-ktx"
