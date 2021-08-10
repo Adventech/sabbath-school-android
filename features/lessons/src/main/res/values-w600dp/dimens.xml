@@ -21,5 +21,6 @@
   -->
 
 <resources>
-    <bool name="is_large_screen">false</bool>
+    <dimen name="ss_lessons_toolbar_cover_height">235dp</dimen>
+    <dimen name="ss_lessons_toolbar_cover_width">165dp</dimen>
 </resources>
