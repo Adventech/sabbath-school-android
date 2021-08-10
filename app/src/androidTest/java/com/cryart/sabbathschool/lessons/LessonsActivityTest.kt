@@ -27,6 +27,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.intent.Intents
@@ -41,7 +42,6 @@ import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.CoreMatchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -73,9 +73,9 @@ class LessonsActivityTest {
     @Test
     fun verify_quarterly_info_is_displayed() = launch {
         // onView(allOf(withText("Rest In Christ"))).check(matches(isDisplayed()))
-        onView(withId(R.id.ss_quarterly_item_cover_card)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.ss_quarterly_item_cover_card)).check(doesNotExist())
         onView(withText("READ")).check(matches(isDisplayed()))
-        onView(withText("July · August · September 2021"))
+        onView(withText("July · August · September 2021")).check(matches(isDisplayed()))
         onView(withId(R.id.ss_lessons_app_bar_description)).check(
             matches(
                 isTextInLines(3)
@@ -86,7 +86,7 @@ class LessonsActivityTest {
     @Test
     fun verify_non_splash_quarterly_info_is_displayed() = launch(index = "en-2021-03-er") {
         onView(withId(R.id.ss_quarterly_item_cover_card)).check(matches(isDisplayed()))
-        onView(withId(R.id.ss_quarterly_splash)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.ss_quarterly_splash)).check(doesNotExist())
     }
 
     @Test
