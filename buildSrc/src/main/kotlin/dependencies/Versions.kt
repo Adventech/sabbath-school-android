@@ -2,11 +2,12 @@ package dependencies
 
 object Versions {
     const val COROUTINES = "1.5.1"
+    const val COMPOSE = "1.0.1"
 
     const val MATERIAL = "1.4.0"
 
     object AndroidX {
-        const val APPCOMPAT = "1.2.0"
+        const val APPCOMPAT = "1.3.1"
         const val RECYCLER_VIEW = "1.2.1"
         const val LIFECYCLE = "2.3.1"
         const val LIFECYCLE_KTX = "2.4.0-alpha01"
@@ -39,6 +40,7 @@ object Versions {
     const val JODA = "2.10.9.1"
     const val JODA_TIME = "2.10.10"
     const val MARK_WORM = "4.6.2"
+    const val MOSHI = "1.12.0"
 
     // Tests
     const val ANDROIDX_TEST = "1.4.0"

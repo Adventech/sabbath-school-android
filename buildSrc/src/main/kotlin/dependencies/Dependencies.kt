@@ -6,7 +6,6 @@ object Dependencies {
     const val PLAY_AUTH = "com.google.android.gms:play-services-auth:${Versions.PLAY_AUTH}"
     const val ANDROID_JOB = "com.evernote:android-job:${Versions.ANDROID_JOB}"
     const val JODA = "net.danlew:android.joda:${Versions.JODA}"
-    const val COIL = "io.coil-kt:coil:${Versions.COIL}"
     const val TAP_TARGET = "uk.co.samuelwall:material-tap-target-prompt:${Versions.TAP_TARGET}"
 
     object Hilt {
@@ -62,5 +61,23 @@ object Dependencies {
 
     object MarkWorm {
         const val core = "io.noties.markwon:core:${Versions.MARK_WORM}"
+    }
+
+    object Compose {
+        const val ui = "androidx.compose.ui:ui:${Versions.COMPOSE}"
+        const val material = "androidx.compose.material:material:${Versions.COMPOSE}"
+        const val tooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
+    }
+
+    object Coil {
+        const val core = "io.coil-kt:coil:${Versions.COIL}"
+        const val compose = "io.coil-kt:coil-compose:${Versions.COIL}"
+    }
+
+    object Square {
+        object Moshi {
+            const val kotlin = "com.squareup.moshi:moshi-kotlin:${Versions.MOSHI}"
+            const val codegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.MOSHI}"
+        }
     }
 }

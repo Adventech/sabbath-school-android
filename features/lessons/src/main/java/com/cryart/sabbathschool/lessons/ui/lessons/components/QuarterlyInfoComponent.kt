@@ -26,12 +26,15 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.view.Gravity
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.view.isInvisible
+import android.view.View
+import android.view.ViewStub
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
+import app.ss.lessons.data.model.Feature
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import com.cryart.design.color.withAlpha
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
@@ -43,9 +46,11 @@ import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsQuarterlyInfoBinding
 import com.cryart.sabbathschool.lessons.ui.base.loadCover
+import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.showLessonIntro
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
+import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.flow.Flow
 import org.joda.time.DateTime
 import org.joda.time.Interval
@@ -56,25 +61,31 @@ class QuarterlyInfoComponent(
     private val binding: SsLessonsQuarterlyInfoBinding
 ) : BaseComponent<SSQuarterlyInfo?>(lifecycleOwner) {
 
-    private var todayLessonIndex: String? = null
-
-    init {
-        binding.ssLessonsAppBarRead.setOnClickListener { view ->
-            todayLessonIndex?.let { index ->
-                val context = view.context
-                val ssReadingIntent = SSReadingActivity.launchIntent(context, index)
-                context.startActivity(ssReadingIntent)
-            }
-        }
-    }
-
     override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<SSQuarterlyInfo?>) {
         visibilityFlow.collectIn(owner) { visible ->
             binding.root.fadeTo(visible)
         }
 
         dataFlow.collectIn(owner) { data ->
-            data?.let { setQuarterlyInfo(it) }
+            data?.let { quarterlyInfo ->
+                setQuarterlyInfo(quarterlyInfo)
+
+                val today = DateTime.now().withTimeAtStartOfDay()
+                val todayLessonIndex = quarterlyInfo.lessons.find { lesson ->
+                    val startDate = DateHelper.parseDate(lesson.start_date)
+                    val endDate = DateHelper.parseDate(lesson.end_date)
+                    Interval(startDate, endDate?.plusDays(1)).contains(today)
+                }?.index ?: quarterlyInfo.lessons.firstOrNull()?.index
+
+                binding.root.findViewById<View?>(R.id.ss_lessons_app_bar_read)
+                    ?.setOnClickListener { view ->
+                        todayLessonIndex?.let { index ->
+                            val context = view.context
+                            val ssReadingIntent = SSReadingActivity.launchIntent(context, index)
+                            context.startActivity(ssReadingIntent)
+                        }
+                    }
+            }
         }
     }
 
@@ -93,30 +104,16 @@ class QuarterlyInfoComponent(
             colorPrimaryDark = quarterlyInfo.quarterly.color_primary_dark
         }
 
-        val isLargeScreen = binding.root.resources.getBoolean(R.bool.is_large_screen)
+        val viewStub: ViewStub? = binding.root.findViewById(R.id.viewStub)
+        viewStub?.layoutResource = quarterly.splash?.let {
+            R.layout.ss_lessons_quarterly_info_splash_stub
+        } ?: R.layout.ss_lessons_quarterly_info_stub
+        viewStub?.inflate()
 
-        binding.apply {
-            quarterly.splash?.let { splash ->
-                if (isLargeScreen) {
-                    ssQuarterlyItemCoverCard.isVisible = false
-                    ssLessonsAppBarTitle.gravity = Gravity.CENTER
-                    ssLessonsAppBarDate.gravity = Gravity.CENTER
-                    ConstraintSet().apply {
-                        clone(appBarContent)
-                        connect(
-                            R.id.ss_lessons_app_bar_read,
-                            ConstraintSet.END,
-                            ConstraintSet.PARENT_ID,
-                            ConstraintSet.END,
-                            0
-                        )
-                        applyTo(appBarContent)
-                    }
-                } else {
-                    ssQuarterlyItemCoverCard.isInvisible = true
-                }
-                ssQuarterlySplash.isVisible = true
-                ssQuarterlySplash.loadCover(splash, primaryColor)
+        binding.root.apply {
+            quarterly.splash?.let { url ->
+                findViewById<ImageView?>(R.id.ss_quarterly_splash)
+                    ?.loadCover(url, primaryColor)
 
                 val array = arrayListOf(
                     primaryDarkColor,
@@ -126,46 +123,49 @@ class QuarterlyInfoComponent(
                 )
                 val background = GradientDrawable(
                     GradientDrawable.Orientation.BOTTOM_TOP,
-                    if (isLargeScreen) {
-                        array.drop(1)
-                    } else {
-                        array
-                    }.toIntArray()
+                    array.toIntArray()
                 )
-                ssQuarterlySplashGradient.background = background
+                findViewById<View?>(R.id.ss_quarterly_splash_gradient)?.background = background
             } ?: run {
-                appBarContent.setBackgroundColor(primaryColor)
-                ssQuarterlySplashGradient.isVisible = false
-                ssQuarterlySplash.isVisible = false
-                ssQuarterlyItemCoverCard.isVisible = true
-                ssLessonsAppBarCover.loadCover(quarterly.cover, primaryDarkColor)
+                setBackgroundColor(primaryColor)
+                findViewById<ImageView?>(R.id.ss_lessons_app_bar_cover)
+                    ?.loadCover(quarterly.cover, primaryDarkColor)
             }
-            ssLessonsAppBarTitle.text = quarterly.title
-            ssLessonsAppBarDate.text = quarterly.human_date
-            ssLessonsAppBarDescription.text = quarterly.description
-            ssLessonsAppBarDescription.addMoreEllipses(
-                3,
-                R.string.ss_more,
-                R.color.text_link
-            )
-            ssLessonsAppBarDescription.setOnClickListener {
-                fragmentManager.showLessonIntro(introModel)
-            }
-            ssLessonsAppBarRead.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
-        }
 
-        val today = DateTime.now().withTimeAtStartOfDay()
-        todayLessonIndex = quarterlyInfo.lessons.find { lesson ->
-            val startDate = DateHelper.parseDate(lesson.start_date)
-            val endDate = DateHelper.parseDate(lesson.end_date)
-            Interval(startDate, endDate?.plusDays(1)).contains(today)
-        }?.index ?: quarterlyInfo.lessons.firstOrNull()?.index
+            findViewById<TextView>(R.id.ss_lessons_app_bar_title)
+                ?.text = quarterly.title
+
+            findViewById<TextView>(R.id.ss_lessons_app_bar_date)
+                ?.text = quarterly.human_date
+
+            findViewById<TextView>(R.id.ss_lessons_app_bar_description)?.apply {
+                text = quarterly.description
+                addMoreEllipses(
+                    3,
+                    R.string.ss_more,
+                    R.color.text_link
+                )
+                setOnClickListener {
+                    fragmentManager.showLessonIntro(introModel)
+                }
+            }
+
+            findViewById<MaterialButton>(R.id.ss_lessons_app_bar_read)
+                ?.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
+
+            findViewById<ComposeView?>(R.id.quarterly_features_view)
+                ?.let { view -> showFeatures(view, quarterly.features) }
+        }
+    }
+
+    private fun showFeatures(view: ComposeView, features: List<Feature>) {
+        view.setContent {
+            QuarterlyFeaturesRow(features = features)
+        }
+        view.isVisible = features.isNotEmpty()
     }
 
     fun onContentScroll(scrollY: Int) {
-        if (binding.ssQuarterlySplash.isVisible) {
-            val translation = scrollY * 0.5f
-            binding.ssQuarterlySplash.translationY = translation
-        }
+        binding.root.findViewById<View?>(R.id.ss_quarterly_splash)?.translationY = scrollY * 0.5f
     }
 }

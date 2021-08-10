@@ -21,6 +21,7 @@
  */
 
 import dependencies.Dependencies
+import dependencies.Dependencies.Square.Moshi
 import dependencies.TestDependencies
 import extensions.kapt
 
@@ -58,6 +59,11 @@ dependencies {
     implementation(Dependencies.Hilt.ANDROID)
     implementation(TestDependencies.HILT)
     kapt(Dependencies.Hilt.COMPILER)
+
+    implementation(Dependencies.TIMBER)
+
+    implementation(Moshi.kotlin)
+    kapt(Moshi.codegen)
 
     implementation(TestDependencies.JUNIT)
     implementation(TestDependencies.COROUTINES_TEST)

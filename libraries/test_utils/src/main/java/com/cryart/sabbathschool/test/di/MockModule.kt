@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,41 +20,31 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
-import dependencies.Dependencies.Compose
-import dependencies.Versions
+package com.cryart.sabbathschool.test.di
 
-plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-}
+import android.content.Context
+import com.cryart.sabbathschool.test.di.mock.QuarterlyMockData
+import com.cryart.sabbathschool.test.di.mock.QuarterlyMockDataImpl
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 
-android {
-    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
+@Module
+@InstallIn(SingletonComponent::class)
+object MockModule {
 
-    defaultConfig {
-        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
-    }
-    sourceSets {
-        getByName("main") {
-            java {
-                srcDirs("src/main/kotlin")
-            }
-        }
-    }
+    private val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
 
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
-    }
-}
-
-dependencies {
-    implementation(Dependencies.MATERIAL)
-
-    implementation(Compose.ui)
-    implementation(Compose.material)
-    implementation(Compose.tooling)
+    @Provides
+    fun provideQuarterlyMockData(
+        @ApplicationContext context: Context
+    ): QuarterlyMockData = QuarterlyMockDataImpl(
+        moshi, context
+    )
 }

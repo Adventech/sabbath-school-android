@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,41 +20,14 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
-import dependencies.Dependencies.Compose
-import dependencies.Versions
+package com.cryart.design.theme
 
-plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-}
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Shapes
+import androidx.compose.ui.unit.dp
 
-android {
-    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
-
-    defaultConfig {
-        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
-    }
-    sourceSets {
-        getByName("main") {
-            java {
-                srcDirs("src/main/kotlin")
-            }
-        }
-    }
-
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
-    }
-}
-
-dependencies {
-    implementation(Dependencies.MATERIAL)
-
-    implementation(Compose.ui)
-    implementation(Compose.material)
-    implementation(Compose.tooling)
-}
+val Shapes = Shapes(
+    small = RoundedCornerShape(4.dp),
+    medium = RoundedCornerShape(8.dp),
+    large = RoundedCornerShape(12.dp)
+)

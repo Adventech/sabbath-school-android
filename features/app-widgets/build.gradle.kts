@@ -71,7 +71,7 @@ dependencies {
     kapt(Hilt.COMPILER)
 
     implementation(Dependencies.TIMBER)
-    implementation(Dependencies.COIL)
+    implementation(Dependencies.Coil.core)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))

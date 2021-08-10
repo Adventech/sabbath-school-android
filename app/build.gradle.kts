@@ -25,6 +25,7 @@ import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
+import dependencies.Versions
 import extensions.addTestsDependencies
 import java.io.FileInputStream
 import java.util.Properties
@@ -117,9 +118,14 @@ android {
         unitTests.isReturnDefaultValues = true
     }
 
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.COMPOSE
+    }
+
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        compose = true
     }
 
     packagingOptions {
@@ -175,6 +181,8 @@ dependencies {
     implementation(Dependencies.Facebook.SDK)
     implementation(Dependencies.ANDROID_JOB)
     implementation(Dependencies.JODA)
+
+    implementation(Dependencies.Compose.tooling)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))

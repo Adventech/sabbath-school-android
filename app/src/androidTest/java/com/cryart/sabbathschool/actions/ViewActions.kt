@@ -19,34 +19,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.actions
 
-package com.cryart.sabbathschool.test.di.repository
+import android.view.View
+import android.widget.TextView
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
+import org.hamcrest.Description
+import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
 
-import app.ss.lessons.data.model.Language
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.model.SSQuarterlyInfo
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
-import com.cryart.sabbathschool.core.response.Resource
-import com.cryart.sabbathschool.test.di.mock.QuarterlyMockData
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import javax.inject.Inject
+fun clickChildViewWithId(id: Int): ViewAction {
+    return object : ViewAction {
+        override fun getConstraints(): Matcher<View>? {
+            return null
+        }
 
-class FakeQuarterliesRepository @Inject constructor(
-    private val mockData: QuarterlyMockData
-) : QuarterliesRepository {
+        override fun getDescription(): String {
+            return "Click on a child view with specified id."
+        }
 
-    override suspend fun getLanguages(): Resource<List<Language>> {
-        return Resource.success(emptyList())
+        override fun perform(uiController: UiController, view: View) {
+            val v = view.findViewById<View>(id)
+            v.performClick()
+        }
     }
+}
 
-    override fun getQuarterlies(languageCode: String?): Flow<Resource<List<SSQuarterly>>> {
-        return flowOf(Resource.success(mockData.getQuarterlies()))
-    }
+fun isTextInLines(lines: Int): TypeSafeMatcher<View> {
+    return object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description) {
+            description.appendText("isTextInLines")
+        }
 
-    override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {
-        return mockData.getQuarterlyInfo(index)?.let {
-            Resource.success(it)
-        } ?: Resource.error(Throwable())
+        override fun matchesSafely(item: View): Boolean {
+            return (item as TextView).lineCount == lines
+        }
     }
 }

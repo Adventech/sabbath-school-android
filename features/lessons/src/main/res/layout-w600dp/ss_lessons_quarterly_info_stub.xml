@@ -19,35 +19,13 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/app_bar_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:background="?attr/colorPrimary"
-    tools:showIn="@layout/ss_lessons_activity">
-
-    <ImageView
-        android:id="@+id/ss_quarterly_splash"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:contentDescription="@string/blank"
-        android:scaleType="centerCrop"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/ss_quarterly_splash_gradient"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ss_lessons_app_bar_title" />
+    tools:background="?attr/colorPrimary">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/ss_quarterly_item_cover_card"
@@ -55,14 +33,13 @@
         android:layout_height="@dimen/ss_lessons_toolbar_cover_height"
         android:layout_marginStart="@dimen/spacing_large"
         android:layout_marginTop="80dp"
-        android:layout_marginBottom="@dimen/spacing_medium"
+        android:layout_marginBottom="@dimen/spacing_large"
         android:transitionName="@string/ss_quarterly_cover_transition"
         app:cardCornerRadius="@dimen/ss_quarterly_item_featured_cover_radius"
         app:cardElevation="@dimen/spacing_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/ss_lessons_app_bar_cover"
@@ -123,17 +100,31 @@
         app:layout_constraintTop_toBottomOf="@id/ss_lessons_app_bar_date"
         tools:text="@tools:sample/lorem/random" />
 
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/quarterly_features_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toTopOf="@id/ss_lessons_app_bar_read"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.9"
+        app:layout_constraintStart_toEndOf="@id/ss_quarterly_item_cover_card"
+        app:layout_constraintTop_toBottomOf="@id/ss_lessons_app_bar_description"
+        tools:background="#fafa"
+        tools:layout_height="20dp" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/ss_lessons_app_bar_read"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/spacing_medium"
         android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginBottom="40dp"
         android:minWidth="@dimen/ss_lessons_toolbar_read_min_width"
         android:text="@string/ss_lessons_read"
         app:cornerRadius="@dimen/ss_lessons_toolbar_read_radius"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@id/ss_quarterly_item_cover_card"
-        app:layout_constraintTop_toBottomOf="@id/ss_lessons_app_bar_description" />
-
+        app:layout_constraintTop_toBottomOf="@id/quarterly_features_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

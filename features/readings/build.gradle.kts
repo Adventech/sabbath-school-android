@@ -99,7 +99,7 @@ dependencies {
 
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.JODA)
-    implementation(Dependencies.COIL)
+    implementation(Dependencies.Coil.core)
     implementation(Dependencies.Facebook.SHIMMER)
 
     implementation("net.opacapp:multiline-collapsingtoolbar:27.1.1")

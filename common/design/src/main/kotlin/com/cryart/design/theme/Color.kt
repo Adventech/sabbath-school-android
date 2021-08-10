@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,41 +20,38 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
-import dependencies.Dependencies.Compose
-import dependencies.Versions
+package com.cryart.design.theme
 
-plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-}
+import androidx.compose.ui.graphics.Color
 
-android {
-    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
+val BaseBlue = Color(0xFF2E5797)
+val BaseGrey1 = Color(0xFFEFEFEF)
+val BaseGrey2 = Color(0xFF8F8E94)
+val BaseGrey3 = Color(0xFF606060)
+val BaseGrey4 = Color(0xFF383838)
+val BaseGrey5 = Color(0xFF1A1A1A)
+val BaseRed = Color(0xFFF1706B)
 
-    defaultConfig {
-        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
+data class Colors(
+    val Primary: Color = BaseBlue,
+    val PrimaryVariant: Color = BaseBlue,
+    val Secondary: Color = BaseBlue,
+    val Background: Color = Color.White,
+    val Surface: Color = Color.White,
+    val OnPrimary: Color = Color.White,
+    val OnSecondary: Color = Color.White,
+    val OnBackground: Color = BaseGrey3,
+    val OnSurface: Color = BaseGrey3,
+    val Error: Color = BaseRed,
+) {
+    companion object {
+        fun darkModeColors(): Colors = Colors(
+            Primary = Color.White,
+            Background = Color.Black,
+            Surface = Color.Black,
+            OnBackground = BaseGrey1,
+            OnSurface = BaseGrey1,
+            OnPrimary = BaseBlue
+        )
     }
-    sourceSets {
-        getByName("main") {
-            java {
-                srcDirs("src/main/kotlin")
-            }
-        }
-    }
-
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
-    }
-}
-
-dependencies {
-    implementation(Dependencies.MATERIAL)
-
-    implementation(Compose.ui)
-    implementation(Compose.material)
-    implementation(Compose.tooling)
 }

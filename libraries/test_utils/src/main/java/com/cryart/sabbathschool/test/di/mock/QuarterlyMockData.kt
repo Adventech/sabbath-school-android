@@ -20,33 +20,41 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.test.di.repository
+package com.cryart.sabbathschool.test.di.mock
 
-import app.ss.lessons.data.model.Language
+import android.content.Context
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
-import com.cryart.sabbathschool.core.response.Resource
-import com.cryart.sabbathschool.test.di.mock.QuarterlyMockData
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import javax.inject.Inject
+import com.cryart.sabbathschool.test.di.repository.fromJson
+import com.squareup.moshi.Moshi
 
-class FakeQuarterliesRepository @Inject constructor(
-    private val mockData: QuarterlyMockData
-) : QuarterliesRepository {
+interface QuarterlyMockData {
+    fun getQuarterlies(): List<SSQuarterly>
+    fun getQuarterlyInfo(index: String): SSQuarterlyInfo?
+}
 
-    override suspend fun getLanguages(): Resource<List<Language>> {
-        return Resource.success(emptyList())
+class QuarterlyMockDataImpl(
+    private val moshi: Moshi,
+    private val context: Context
+) : QuarterlyMockData {
+
+    private var _quarterlies: List<SSQuarterly> = emptyList()
+
+    override fun getQuarterlies(): List<SSQuarterly> {
+        if (_quarterlies.isEmpty()) {
+            _quarterlies = moshi.fromJson(context, FILE_QUARTERLIES)
+        }
+        return _quarterlies
     }
 
-    override fun getQuarterlies(languageCode: String?): Flow<Resource<List<SSQuarterly>>> {
-        return flowOf(Resource.success(mockData.getQuarterlies()))
+    override fun getQuarterlyInfo(index: String): SSQuarterlyInfo? {
+        return getQuarterlies().find { it.index == index }?.let { quarterly ->
+            SSQuarterlyInfo(quarterly, moshi.fromJson(context, FILE_LESSONS))
+        }
     }
 
-    override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {
-        return mockData.getQuarterlyInfo(index)?.let {
-            Resource.success(it)
-        } ?: Resource.error(Throwable())
+    companion object {
+        private const val FILE_QUARTERLIES = "quarterlies.json"
+        private const val FILE_LESSONS = "lessons.json"
     }
 }
