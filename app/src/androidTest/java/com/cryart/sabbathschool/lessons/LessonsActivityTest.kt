@@ -41,6 +41,7 @@ import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.hamcrest.CoreMatchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -72,6 +73,7 @@ class LessonsActivityTest {
     @Test
     fun verify_quarterly_info_is_displayed() = launch {
         // onView(allOf(withText("Rest In Christ"))).check(matches(isDisplayed()))
+        onView(withId(R.id.ss_quarterly_item_cover_card)).check(matches(not(isDisplayed())))
         onView(withText("READ")).check(matches(isDisplayed()))
         onView(withText("July · August · September 2021"))
         onView(withId(R.id.ss_lessons_app_bar_description)).check(
@@ -79,6 +81,12 @@ class LessonsActivityTest {
                 isTextInLines(3)
             )
         )
+    }
+
+    @Test
+    fun verify_non_splash_quarterly_info_is_displayed() = launch(index = "en-2021-03-er") {
+        onView(withId(R.id.ss_quarterly_item_cover_card)).check(matches(isDisplayed()))
+        onView(withId(R.id.ss_quarterly_splash)).check(matches(not(isDisplayed())))
     }
 
     @Test
