@@ -6,6 +6,7 @@ import app.ss.lessons.data.model.TodayData
 import app.ss.lessons.data.model.WeekData
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import com.cryart.sabbathschool.core.response.Resource
+import com.cryart.sabbathschool.test.di.mock.MockDataFactory
 import javax.inject.Inject
 
 class FakeLessonsRepository @Inject constructor() : LessonsRepository {
