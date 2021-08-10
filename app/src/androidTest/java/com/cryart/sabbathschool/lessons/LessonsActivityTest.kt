@@ -22,17 +22,26 @@
 
 package com.cryart.sabbathschool.lessons
 
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.cryart.sabbathschool.actions.clickChildViewWithId
+import com.cryart.sabbathschool.actions.isTextInLines
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
+import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -50,11 +59,45 @@ class LessonsActivityTest {
     @Before
     fun setup() {
         hiltRule.inject()
+
+        Intents.init()
+    }
+
+    @After
+    fun cleanUp() {
+        Intents.release()
+        scenario?.close()
     }
 
     @Test
-    fun launchLessonsScreen() = launch {
-        onView(withText("Rest in Christ")).check(matches(isDisplayed()))
+    fun verify_quarterly_info_is_displayed() = launch {
+        // onView(allOf(withText("Rest In Christ"))).check(matches(isDisplayed()))
+        onView(withText("READ")).check(matches(isDisplayed()))
+        onView(withText("July · August · September 2021"))
+        onView(withId(R.id.ss_lessons_app_bar_description)).check(
+            matches(
+                isTextInLines(3)
+            )
+        )
+    }
+
+    @Test
+    fun launch_Read_screen_from_Read_button_click() = launch {
+        onView(withText("READ")).perform(click())
+
+        Intents.intended(IntentMatchers.hasComponent(SSReadingActivity::class.java.name))
+    }
+
+    @Test
+    fun launch_Read_screen_from_Lessons_list_item_click() = launch {
+        onView(withId(R.id.ss_lesson_info_list)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                clickChildViewWithId(R.id.ss_lesson_item)
+            )
+        )
+
+        Intents.intended(IntentMatchers.hasComponent(SSReadingActivity::class.java.name))
     }
 
     private fun launch(

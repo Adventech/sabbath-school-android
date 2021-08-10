@@ -123,8 +123,9 @@ fun DependencyHandler.addTestsDependencies() {
     testImplementation(TestDependencies.TURBINE)
     kaptTest(TestDependencies.HILT_COMPILER)
 
-    androidTestImplementation(TestAndroidDependencies.ESPRESSO)
-    androidTestImplementation(TestAndroidDependencies.ESPRESSO_INTENTS)
+    androidTestImplementation(TestAndroidDependencies.Espresso.core)
+    androidTestImplementation(TestAndroidDependencies.Espresso.contrib)
+    androidTestImplementation(TestAndroidDependencies.Espresso.intents)
     androidTestImplementation(TestAndroidDependencies.RUNNER)
     androidTestImplementation(TestAndroidDependencies.RULES)
     androidTestImplementation(TestAndroidDependencies.JUNIT)
@@ -132,5 +133,7 @@ fun DependencyHandler.addTestsDependencies() {
     androidTestImplementation(TestDependencies.COROUTINES_TEST)
     androidTestImplementation(TestDependencies.ARCH_CORE)
     androidTestImplementation(TestDependencies.HILT)
+    androidTestImplementation(TestAndroidDependencies.Compose.junit)
+    debugImplementation(TestAndroidDependencies.Compose.manifest)
     kaptAndroidTest(TestDependencies.HILT_COMPILER)
 }

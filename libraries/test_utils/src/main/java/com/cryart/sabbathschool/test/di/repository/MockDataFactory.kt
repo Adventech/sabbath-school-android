@@ -8,8 +8,6 @@ import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.TodayData
 import app.ss.lessons.data.model.WeekData
 import app.ss.lessons.data.model.WeekDay
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 /**
  * Mock data for UI tests

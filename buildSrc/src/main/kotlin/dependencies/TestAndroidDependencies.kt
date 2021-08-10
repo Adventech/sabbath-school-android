@@ -2,10 +2,19 @@
 package dependencies
 
 object TestAndroidDependencies {
-    const val ESPRESSO = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO}"
-    const val ESPRESSO_INTENTS = "androidx.test.espresso:espresso-intents:${Versions.ESPRESSO}"
     const val RUNNER = "androidx.test:runner:${Versions.ANDROIDX_TEST}"
     const val RULES = "androidx.test:rules:${Versions.ANDROIDX_TEST}"
     const val JUNIT = "androidx.test.ext:junit:${Versions.EXT}"
     const val FRAGMENT_TEST = "androidx.fragment:fragment-testing:${Versions.FRAGMENT_TEST}"
+
+    object Espresso {
+        const val core = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO}"
+        const val contrib = "androidx.test.espresso:espresso-contrib:${Versions.ESPRESSO}"
+        const val intents = "androidx.test.espresso:espresso-intents:${Versions.ESPRESSO}"
+    }
+
+    object Compose {
+        const val junit = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE}"
+        const val manifest = "androidx.compose.ui:ui-test-manifest:${Versions.COMPOSE}"
+    }
 }

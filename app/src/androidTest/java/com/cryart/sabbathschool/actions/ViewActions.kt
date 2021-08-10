@@ -19,42 +19,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.actions
 
-package com.cryart.sabbathschool.test.di.mock
+import android.view.View
+import android.widget.TextView
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
+import org.hamcrest.Description
+import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
 
-import android.content.Context
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.model.SSQuarterlyInfo
-import com.cryart.sabbathschool.test.di.repository.fromJson
-import com.squareup.moshi.Moshi
+fun clickChildViewWithId(id: Int): ViewAction {
+    return object : ViewAction {
+        override fun getConstraints(): Matcher<View>? {
+            return null
+        }
 
-interface QuarterlyMockData {
-    fun getQuarterlies(): List<SSQuarterly>
-    fun getQuarterlyInfo(index: String): SSQuarterlyInfo?
+        override fun getDescription(): String {
+            return "Click on a child view with specified id."
+        }
+
+        override fun perform(uiController: UiController, view: View) {
+            val v = view.findViewById<View>(id)
+            v.performClick()
+        }
+    }
 }
 
-class QuarterlyMockDataImpl(
-    private val moshi: Moshi,
-    private val context: Context
-) : QuarterlyMockData {
-
-    private var _quarterlies: List<SSQuarterly> = emptyList()
-
-    override fun getQuarterlies(): List<SSQuarterly> {
-        if (_quarterlies.isEmpty()) {
-            _quarterlies = moshi.fromJson(context, FILE_QUARTERLIES)
+fun isTextInLines(lines: Int): TypeSafeMatcher<View> {
+    return object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description) {
+            description.appendText("isTextInLines")
         }
-        return _quarterlies
-    }
 
-    override fun getQuarterlyInfo(index: String): SSQuarterlyInfo? {
-        return getQuarterlies().find { it.index == index }?.let { quarterly ->
-            SSQuarterlyInfo(quarterly, moshi.fromJson(context, FILE_LESSONS))
+        override fun matchesSafely(item: View): Boolean {
+            return (item as TextView).lineCount == lines
         }
-    }
-
-    companion object {
-        private const val FILE_QUARTERLIES = "quarterlies.json"
-        private const val FILE_LESSONS = "lessons.json"
     }
 }

@@ -22,9 +22,7 @@
 
 package com.cryart.sabbathschool.test.di.repository
 
-import android.annotation.SuppressLint
 import android.content.Context
-import androidx.annotation.RawRes
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -32,51 +30,28 @@ import timber.log.Timber
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
-import java.io.Reader
-import java.io.StringWriter
 import java.lang.reflect.Type
 import java.nio.charset.StandardCharsets
 
-internal inline fun <reified T> Moshi.fromRawRes(
+internal inline fun <reified T> Moshi.fromJson(
     context: Context,
     filePath: String
 ): List<T> {
-    val json = context.jsonFromAssets(filePath)
+    val json = context.jsonFromResources(filePath)
     val listDataType: Type = Types.newParameterizedType(List::class.java, T::class.java)
     val adapter: JsonAdapter<List<T>> = adapter(listDataType)
     return adapter.fromJson(json) ?: emptyList()
 }
 
-@SuppressLint("LongLogTag")
-internal fun Context.getJson(@RawRes resId: Int): String {
-    val resourceReader = resources.openRawResource(resId)
-    val writer = StringWriter()
-
-    try {
-        val reader = BufferedReader(InputStreamReader(resourceReader, "UTF-8") as Reader)
-        var line: String? = reader.readLine()
-        while (line != null) {
-            writer.write(line)
-            line = reader.readLine()
-        }
-        return writer.toString()
-    } catch (e: Exception) {
-        Timber.e(e)
-    } finally {
-        try {
-            resourceReader.close()
-        } catch (e: Exception) {
-            Timber.e(e, "Unhandled exception while using JSONResourceReader")
-        }
-    }
-    return ""
-}
-
-internal fun Context.jsonFromAssets(assetPath: String): String {
+/**
+ * Read from json files located under [test/resources] or [androidTest/resources]
+ * of the calling test
+ */
+internal fun Context.jsonFromResources(assetPath: String): String {
     val buf = StringBuilder()
     return try {
-        val json = assets.open(assetPath)
-        val `in` = BufferedReader(InputStreamReader(json, StandardCharsets.UTF_8))
+        val stream = classLoader.getResourceAsStream(assetPath)
+        val `in` = BufferedReader(InputStreamReader(stream, StandardCharsets.UTF_8))
         var str: String?
         while (`in`.readLine().also { str = it } != null) {
             buf.append(str)
