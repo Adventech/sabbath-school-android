@@ -55,24 +55,11 @@ fun QuarterlyFeaturesRow(
             )
     ) {
         features.forEach { feature ->
-            Image(
-                painter = rememberImagePainter(
-                    data = feature.image,
-                    builder = {
-                        crossfade(true)
-                    }
-                ),
-                contentDescription = feature.title,
-                contentScale = ContentScale.Inside,
-                modifier = Modifier
-                    .size(
-                        width = ImageWidth,
-                        height = ImageHeight
-                    ),
-                colorFilter = ColorFilter.tint(
-                    Color.White.copy(
-                        alpha = 0.5f
-                    )
+            FeatureImage(
+                feature = feature,
+                modifier = Modifier.size(
+                    width = ImageWidth,
+                    height = ImageHeight
                 )
             )
 
@@ -83,6 +70,26 @@ fun QuarterlyFeaturesRow(
 
 private val ImageWidth = Spacing16
 private val ImageHeight = Spacing12
+
+@Composable
+fun FeatureImage(
+    feature: Feature,
+    modifier: Modifier,
+    tint: Color = Color.White.copy(alpha = 0.5f)
+) {
+    Image(
+        painter = rememberImagePainter(
+            data = feature.image,
+            builder = {
+                crossfade(true)
+            }
+        ),
+        contentDescription = feature.title,
+        contentScale = ContentScale.Inside,
+        modifier = modifier,
+        colorFilter = ColorFilter.tint(tint)
+    )
+}
 
 @Preview(
     name = "Features",

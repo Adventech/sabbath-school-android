@@ -46,6 +46,10 @@
             <include
                 android:id="@+id/ss_lesson_info_list"
                 layout="@layout/ss_lessons_list" />
+
+            <include
+                android:id="@+id/composeView"
+                layout="@layout/ss_compose_component" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

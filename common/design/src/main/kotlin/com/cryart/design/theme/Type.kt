@@ -94,8 +94,8 @@ val LabelMedium = textStyle(
     fontWeight = FontWeight.Medium,
 )
 val LabelSmall = textStyle(
-    textSize = TextSize.Size10,
-    fontWeight = FontWeight.Medium,
+    textSize = TextSize.Size15,
+    fontWeight = FontWeight.Normal,
 )
 val BodyMedium1 = textStyle(
     textSize = TextSize.Size13,
@@ -107,5 +107,5 @@ val Title = textStyle(
     fontWeight = FontWeight.Bold,
 )
 val TitleSmall = Title.copy(
-    fontSize = TextSize.Size16.fontSize
+    fontSize = TextSize.Size15.fontSize
 )

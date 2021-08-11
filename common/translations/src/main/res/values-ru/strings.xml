@@ -103,4 +103,5 @@
 "</string>
     <string name="ss_settings_version_with_param_string">Версия: %1$s</string>
     <string name="ss_more">Дополнительно</string>
+    <string name="ss_copyright">%1$s Генеральная конференция адвентистов седьмого дня®</string>
 </resources>
