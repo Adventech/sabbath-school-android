@@ -41,6 +41,8 @@ import com.cryart.sabbathschool.lessons.databinding.SsLessonsActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.base.ShareableScreen
 import com.cryart.sabbathschool.lessons.ui.base.StatusComponent
+import com.cryart.sabbathschool.lessons.ui.lessons.components.FooterComponent
+import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooter
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsListComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfoComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.ToolbarComponent
@@ -119,6 +121,15 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
         )
         lessonsListComponent.collect(
             dataFlow.map { it?.lessons ?: emptyList() }
+        )
+
+        FooterComponent(
+            binding.composeView,
+            dataFlow.map {
+                val credits = it?.quarterly?.credits ?: emptyList()
+                val features = it?.quarterly?.features ?: emptyList()
+                LessonsFooter(credits, features)
+            }
         )
     }
 

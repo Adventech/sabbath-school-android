@@ -25,8 +25,12 @@ package com.cryart.sabbathschool.lessons
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
+import app.ss.lessons.data.model.Credit
 import app.ss.lessons.data.model.Feature
 import com.cryart.design.theme.SSTheme
+import com.cryart.sabbathschool.lessons.ui.lessons.components.CreditFooterItem
+import com.cryart.sabbathschool.lessons.ui.lessons.components.FeatureFooterItem
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
 import org.junit.Rule
 import org.junit.Test
@@ -62,5 +66,55 @@ class LessonsActivityComposeTest {
 
         composeTestRule.onNodeWithContentDescription("title-1").assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("title-2").assertIsDisplayed()
+    }
+
+    @Test
+    fun check_feature_footer_item_is_displayed() {
+        val feature = Feature(
+            name = "egw-quotes",
+            title = "Ellen G. White Quotes",
+            description = "Enhance your study with additional selected quotes from Ellen G. White writings",
+            image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_inside_story.png"
+        )
+
+        composeTestRule.setContent {
+            SSTheme {
+                FeatureFooterItem(
+                    feature = feature
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithContentDescription(feature.title)
+            .assertIsDisplayed()
+        composeTestRule
+            .onNodeWithText(feature.title)
+            .assertIsDisplayed()
+        composeTestRule
+            .onNodeWithText(feature.description)
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun check_credit_footer_item_is_displayed() {
+        val credit = Credit(
+            "Editor", "Clifford R. Goldstein"
+        )
+        composeTestRule.setContent {
+            SSTheme {
+                CreditFooterItem(
+                    credit = credit
+                )
+            }
+        }
+
+        composeTestRule
+            .onNodeWithText(credit.name)
+            .assertIsDisplayed()
+
+        composeTestRule
+            .onNodeWithText(credit.value)
+            .assertIsDisplayed()
     }
 }
