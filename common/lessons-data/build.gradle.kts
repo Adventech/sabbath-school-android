@@ -34,18 +34,18 @@ plugins {
 }
 
 android {
-    compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
+    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
 
     defaultConfig {
-        minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
+        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaOptions.version
+        targetCompatibility = JavaOptions.version
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaOptions.version.toString()
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
     }
 }
@@ -61,10 +61,6 @@ dependencies {
     implementation(Dependencies.JODA)
 
     implementation(platform(Firebase.BOM))
-    implementation(Firebase.CORE)
-    implementation(Firebase.ANALYTICS)
-    implementation(Firebase.AUTH)
-    implementation(Firebase.CRASHLYTICS)
     implementation(Firebase.DATABASE)
 
     addTestsDependencies()

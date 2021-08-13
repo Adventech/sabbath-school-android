@@ -31,7 +31,7 @@ data class SSQuarterlyInfo(
 ) {
 
     constructor(snapshot: DataSnapshot) : this(
-        snapshot.child("quarterly").getValue(SSQuarterly::class.java) ?: SSQuarterly(),
+        SSQuarterly(snapshot.child("quarterly")),
         snapshot.child("lessons").children.mapNotNull {
             it.getValue(SSLesson::class.java)
         }

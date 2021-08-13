@@ -30,7 +30,6 @@ import androidx.core.app.TaskStackBuilder
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentActivity
 import com.cryart.sabbathschool.account.AccountDialogFragment
-import com.cryart.sabbathschool.core.extensions.logger.timber
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
@@ -52,8 +51,6 @@ class AppNavigatorImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val ssPrefs: SSPrefs
 ) : AppNavigator {
-
-    private val logger by timber()
 
     private val isSignedIn: Boolean get() = firebaseAuth.currentUser != null
 
@@ -102,8 +99,6 @@ class AppNavigatorImpl @Inject constructor(
     }
 
     override fun navigate(activity: Activity, deepLink: Uri) {
-        logger.d("URI: $deepLink")
-
         val host = deepLink.host ?: return
         val destination = Destination.fromKey(host) ?: return
 
@@ -145,8 +140,6 @@ class AppNavigatorImpl @Inject constructor(
      * [2] https://sabbath-school.adventech.io/en/2021-03/03/07-friday-further-thought/
      */
     private fun navigateFromWeb(activity: Activity, uri: Uri) {
-        logger.d("PATHS: ${uri.pathSegments}")
-
         if (!isSignedIn) {
             val intent = Intent(activity, LoginActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

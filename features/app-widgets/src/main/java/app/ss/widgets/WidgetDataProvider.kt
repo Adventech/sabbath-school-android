@@ -4,10 +4,10 @@ import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.widgets.model.TodayWidgetModel
 import app.ss.widgets.model.WeekDayWidgetModel
 import app.ss.widgets.model.WeekLessonWidgetModel
-import com.cryart.sabbathschool.core.extensions.logger.timber
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
+import timber.log.Timber
 
 internal interface WidgetDataProvider {
 
@@ -20,8 +20,6 @@ internal class WidgetDataProviderImpl constructor(
     private val repository: LessonsRepository,
 ) : WidgetDataProvider {
 
-    private val logger by timber()
-
     override suspend fun getTodayModel(): TodayWidgetModel? {
         return try {
             val data = repository.getTodayRead().data ?: return null
@@ -33,7 +31,7 @@ internal class WidgetDataProviderImpl constructor(
                 Destination.READ.toUri(SSConstants.SS_LESSON_INDEX_EXTRA to data.lessonIndex)
             )
         } catch (ex: Exception) {
-            logger.e(ex)
+            Timber.e(ex)
             null
         }
     }
@@ -64,7 +62,7 @@ internal class WidgetDataProviderImpl constructor(
                 )
             )
         } catch (ex: Exception) {
-            logger.e(ex)
+            Timber.e(ex)
             null
         }
     }

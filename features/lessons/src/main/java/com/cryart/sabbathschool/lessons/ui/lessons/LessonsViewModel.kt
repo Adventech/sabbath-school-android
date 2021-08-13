@@ -25,21 +25,17 @@ package com.cryart.sabbathschool.lessons.ui.lessons
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.widgets.AppWidgetHelper
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
-import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonTypeModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,82 +43,34 @@ class LessonsViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
     private val ssPrefs: SSPrefs,
     private val appWidgetHelper: AppWidgetHelper,
-    private val schedulerProvider: SchedulerProvider,
-    savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _quarterlyInfoData = MutableStateFlow<Resource<SSQuarterlyInfo>>(Resource.loading())
-    val quarterlyInfoFlow: StateFlow<Resource<SSQuarterlyInfo>> get() = _quarterlyInfoData.asStateFlow()
+    private val quarterlyIndex: String?
+        get() = savedStateHandle.get<String>(
+            SSConstants.SS_QUARTERLY_INDEX_EXTRA
+        ) ?: ssPrefs.getLastQuarterlyIndex()
 
-    private val _quarterlyTypes = MutableStateFlow<LessonTypeModel?>(null)
-    val lessonTypesFlow: StateFlow<LessonTypeModel?> get() = _quarterlyTypes.asStateFlow()
+    val quarterlyInfoFlow: StateFlow<Resource<SSQuarterlyInfo>> = flowOf(quarterlyIndex)
+        .map { index ->
+            val resource = index?.let {
+                repository.getQuarterlyInfo(index)
+            } ?: Resource.error(Throwable())
 
-    private val ssQuarterlyInfo: SSQuarterlyInfo? get() = _quarterlyInfoData.value.data
+            if (resource.isSuccessFul) {
+                appWidgetHelper.refreshAll()
+                ssPrefs.setLastQuarterlyIndex(index!!)
+            }
+            resource
+        }
+        .stateIn(viewModelScope, Resource.loading())
+
+    private val ssQuarterlyInfo: SSQuarterlyInfo? get() = quarterlyInfoFlow.value.data
     val quarterlyShareIndex: String get() = ssQuarterlyInfo?.shareIndex() ?: ""
     val quarterlyTitle: String get() = ssQuarterlyInfo?.quarterly?.title ?: ""
-
-    private var lessonTypes: List<SSQuarterly> = emptyList()
 
     init {
         // cache DisplayOptions for read screen launch
         ssPrefs.getDisplayOptions { }
-
-        val index = savedStateHandle.get<String>(SSConstants.SS_QUARTERLY_INDEX_EXTRA) ?: ssPrefs.getLastQuarterlyIndex()
-        if (index?.isNotEmpty() == true) {
-            // Grouping is disabled for now
-            // setQuarterlyIndex(index)
-            loadQuarterlyInfo(index)
-        }
-    }
-
-    private fun setQuarterlyIndex(index: String) = viewModelScope.launch(schedulerProvider.io) {
-        repository.getQuarterlies().collect { resource ->
-            val quarterlies = resource.data ?: return@collect
-            val selected = quarterlies.find { it.index == index } ?: return@collect
-
-            lessonTypes = quarterlies.filter { it.quarterly_group == selected.quarterly_group }
-
-            if (lessonTypes.size > 1) {
-                val names = listOf(selected.quarterly_name) + lessonTypes
-                    .filterNot { it.id == selected.id }
-                    .map { it.quarterly_name }
-
-                val model = LessonTypeModel(selected.quarterly_name, selected.color_primary, names)
-                _quarterlyTypes.emit(model)
-
-                val lastType = ssPrefs.getLastQuarterlyType() ?: return@collect
-                if (lastType != names.first()) {
-                    quarterlyTypeSelected(lastType)
-                }
-            }
-        }
-    }
-
-    fun quarterlyTypeSelected(type: String) {
-        val selected = lessonTypes.find { it.quarterly_name == type } ?: return
-        ssPrefs.setLastQuarterlyType(type)
-
-        loadQuarterlyInfo(selected.index)
-
-        _quarterlyTypes.value?.let { model ->
-            viewModelScope.launch {
-                _quarterlyTypes.emit(
-                    model.copy(
-                        selected = selected.quarterly_name,
-                        selectedPrimaryColor = selected.color_primary
-                    )
-                )
-            }
-        }
-    }
-
-    private fun loadQuarterlyInfo(index: String) = viewModelScope.launch(schedulerProvider.io) {
-        val resource = repository.getQuarterlyInfo(index)
-        _quarterlyInfoData.emit(resource)
-
-        if (resource.isSuccessFul) {
-            ssPrefs.setLastQuarterlyIndex(index)
-            appWidgetHelper.refreshAll()
-        }
     }
 }

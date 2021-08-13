@@ -32,30 +32,26 @@ import androidx.core.view.WindowCompat
 import androidx.core.widget.NestedScrollView
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
+import com.cryart.sabbathschool.core.extensions.view.tint
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
-import com.cryart.sabbathschool.core.navigation.AppNavigator
-import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.base.ShareableScreen
-import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonTypeComponent
+import com.cryart.sabbathschool.lessons.ui.base.StatusComponent
+import com.cryart.sabbathschool.lessons.ui.lessons.components.FooterComponent
+import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooter
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsListComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfoComponent
-import com.cryart.sabbathschool.lessons.ui.base.StatusComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.ToolbarComponent
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
-
-    @Inject
-    lateinit var appNavigator: AppNavigator
 
     private val viewModel by viewModels<LessonsViewModel>()
 
@@ -73,17 +69,11 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
     private val quarterlyInfoComponent: QuarterlyInfoComponent by lazy {
         QuarterlyInfoComponent(this, supportFragmentManager, binding.appBarContent)
     }
-    private val lessonTypeComponent: LessonTypeComponent by lazy {
-        LessonTypeComponent(
-            this,
-            binding.lessonTypeContainer,
-            supportFragmentManager,
-            viewModel::quarterlyTypeSelected
-        )
-    }
     private val lessonsListComponent: LessonsListComponent by lazy {
         LessonsListComponent(this, binding.ssLessonInfoList)
     }
+
+    private var shareMenuItem: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,7 +94,10 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
         binding.scrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int,
             scrollY: Int, _: Int, _: Int ->
             val contentHeight = binding.appBarContent.root.height
-            toolbarComponent.onContentScroll(scrollY, contentHeight, this)
+            toolbarComponent.onContentScroll(scrollY, contentHeight, this) { color ->
+                shareMenuItem?.icon?.tint(color)
+            }
+            quarterlyInfoComponent.onContentScroll(scrollY)
         }
     }
 
@@ -126,14 +119,23 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
             statusFlow.map { it == Status.SUCCESS },
             dataFlow
         )
-        lessonTypeComponent.collect(viewModel.lessonTypesFlow)
         lessonsListComponent.collect(
             dataFlow.map { it?.lessons ?: emptyList() }
+        )
+
+        FooterComponent(
+            binding.composeView,
+            dataFlow.map {
+                val credits = it?.quarterly?.credits ?: emptyList()
+                val features = it?.quarterly?.features ?: emptyList()
+                LessonsFooter(credits, features)
+            }
         )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.ss_lessons_menu, menu)
+        shareMenuItem = menu.findItem(R.id.ss_lessons_menu_share)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -149,10 +151,6 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
                     "$message\n${getShareWebUri()}",
                     getString(R.string.ss_menu_share_app)
                 )
-                true
-            }
-            R.id.ss_lessons_menu_settings -> {
-                appNavigator.navigate(this, Destination.SETTINGS)
                 true
             }
             else -> super.onOptionsItemSelected(item)

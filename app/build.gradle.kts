@@ -25,6 +25,7 @@ import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
+import dependencies.Versions
 import extensions.addTestsDependencies
 import java.io.FileInputStream
 import java.util.Properties
@@ -55,12 +56,12 @@ val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
 val appVersionCode = readVersionCode()
 
 android {
-    compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
+    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
 
     defaultConfig {
         applicationId = BuildAndroidConfig.APP_ID
-        minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
-        targetSdkVersion(BuildAndroidConfig.TARGET_SDK_VERSION)
+        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
+        targetSdk = BuildAndroidConfig.TARGET_SDK_VERSION
 
         versionCode = appVersionCode
         versionName = "${BuildAndroidConfig.Version.name} ($appVersionCode)"
@@ -103,13 +104,12 @@ android {
     }
 
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaOptions.version
+        targetCompatibility = JavaOptions.version
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaOptions.version.toString()
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
     }
 
@@ -118,22 +118,25 @@ android {
         unitTests.isReturnDefaultValues = true
     }
 
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.COMPOSE
+    }
+
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        compose = true
     }
 
     packagingOptions {
         // Multiple dependency bring these files in. Exclude them to enable
         // our test APK to build (has no effect on our AARs)
-        excludes += "/META-INF/AL2.0"
-        excludes += "/META-INF/LGPL2.1"
+        resources.excludes += "/META-INF/AL2.0"
+        resources.excludes += "/META-INF/LGPL2.1"
     }
 }
 
 dependencies {
-    coreLibraryDesugaring(Dependencies.DESUGAR)
-
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
     implementation(project(BuildModules.Common.TRANSLATIONS))
@@ -168,7 +171,6 @@ dependencies {
     implementation(Dependencies.PLAY_AUTH)
 
     implementation(platform(Firebase.BOM))
-    implementation(Firebase.CORE)
     implementation(Firebase.ANALYTICS)
     implementation(Firebase.AUTH)
     implementation(Firebase.CRASHLYTICS)
@@ -179,6 +181,8 @@ dependencies {
     implementation(Dependencies.Facebook.SDK)
     implementation(Dependencies.ANDROID_JOB)
     implementation(Dependencies.JODA)
+
+    implementation(Dependencies.Compose.tooling)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))

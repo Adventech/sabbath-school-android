@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2020 Adventech <info@adventech.io>
+  ~ Copyright (c) 2021. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -20,15 +20,7 @@
   ~ THE SOFTWARE.
   -->
 
-<androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/titleView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:padding="@dimen/spacing_medium"
-    android:textColor="?android:attr/textColorPrimary"
-    android:textSize="@dimen/text_size_medium"
-    app:fontFamily="@font/lato_medium"
-    tools:text="@tools:sample/lorem" />
+<resources>
+    <dimen name="ss_lessons_toolbar_cover_height">235dp</dimen>
+    <dimen name="ss_lessons_toolbar_cover_width">165dp</dimen>
+</resources>

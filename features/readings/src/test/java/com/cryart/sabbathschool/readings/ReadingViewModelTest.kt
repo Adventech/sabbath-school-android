@@ -48,8 +48,8 @@ class ReadingViewModelTest {
         viewModel.uiStateFlow.test {
             viewModel.loadData(lessonIndex)
 
-            expectItem() shouldBeEqualTo Status.LOADING
-            expectItem() shouldBeEqualTo Status.ERROR
+            awaitItem() shouldBeEqualTo Status.LOADING
+            awaitItem() shouldBeEqualTo Status.ERROR
         }
     }
 
@@ -64,8 +64,8 @@ class ReadingViewModelTest {
         viewModel.uiStateFlow.test {
             viewModel.loadData(lessonIndex)
 
-            expectItem() shouldBeEqualTo Status.LOADING
-            expectItem() shouldBeEqualTo Status.ERROR
+            awaitItem() shouldBeEqualTo Status.LOADING
+            awaitItem() shouldBeEqualTo Status.ERROR
         }
     }
 
@@ -80,8 +80,8 @@ class ReadingViewModelTest {
         viewModel.errorDataFlow.test {
             viewModel.loadData(lessonIndex)
 
-            expectItem() shouldBeEqualTo ErrorData.Empty
-            expectItem() shouldBeEqualTo ErrorData.Data(errorRes = R.string.ss_reading_empty)
+            awaitItem() shouldBeEqualTo ErrorData.Empty
+            awaitItem() shouldBeEqualTo ErrorData.Data(errorRes = R.string.ss_reading_empty)
         }
     }
 
@@ -99,8 +99,8 @@ class ReadingViewModelTest {
         viewModel.uiStateFlow.test {
             viewModel.loadData(lessonIndex)
 
-            expectItem() shouldBeEqualTo Status.LOADING
-            expectItem() shouldBeEqualTo Status.SUCCESS
+            awaitItem() shouldBeEqualTo Status.LOADING
+            awaitItem() shouldBeEqualTo Status.SUCCESS
         }
     }
 
@@ -118,8 +118,8 @@ class ReadingViewModelTest {
         viewModel.uiStateFlow.test {
             viewModel.loadData(lessonIndex)
 
-            expectItem() shouldBeEqualTo Status.LOADING
-            expectItem() shouldBeEqualTo Status.SUCCESS
+            awaitItem() shouldBeEqualTo Status.LOADING
+            awaitItem() shouldBeEqualTo Status.SUCCESS
         }
     }
 
@@ -137,8 +137,8 @@ class ReadingViewModelTest {
         viewModel.uiStateFlow.test {
             viewModel.loadData(lessonIndex)
 
-            expectItem() shouldBeEqualTo Status.LOADING
-            expectItem() shouldBeEqualTo Status.SUCCESS
+            awaitItem() shouldBeEqualTo Status.LOADING
+            awaitItem() shouldBeEqualTo Status.SUCCESS
         }
     }
 
@@ -156,8 +156,8 @@ class ReadingViewModelTest {
         viewModel.appBarDataFlow.test {
             viewModel.loadData(lessonIndex)
 
-            expectItem() shouldBeEqualTo AppBarData.Empty
-            expectItem() shouldBeEqualTo AppBarData.Cover("cover_url")
+            awaitItem() shouldBeEqualTo AppBarData.Empty
+            awaitItem() shouldBeEqualTo AppBarData.Cover("cover_url")
         }
     }
 
@@ -176,9 +176,9 @@ class ReadingViewModelTest {
             viewModel.loadData(lessonIndex)
             viewModel.onPageSelected(0)
 
-            expectItem() shouldBeEqualTo AppBarData.Empty
-            expectItem() shouldBeEqualTo AppBarData.Cover("cover_url")
-            expectItem() shouldBeEqualTo AppBarData.Title("Day Title", "Saturday. 3 April")
+            awaitItem() shouldBeEqualTo AppBarData.Empty
+            awaitItem() shouldBeEqualTo AppBarData.Cover("cover_url")
+            awaitItem() shouldBeEqualTo AppBarData.Title("Day Title", "Saturday. 3 April")
         }
     }
 
@@ -204,8 +204,8 @@ class ReadingViewModelTest {
         viewModel.readDaysFlow.test {
             viewModel.loadData(lessonIndex)
 
-            expectItem() shouldBeEqualTo ReadingDaysData.Empty
-            (expectItem() as ReadingDaysData.Days).index shouldBeEqualTo 1
+            awaitItem() shouldBeEqualTo ReadingDaysData.Empty
+            (awaitItem() as ReadingDaysData.Days).index shouldBeEqualTo 1
         }
     }
 
@@ -232,9 +232,9 @@ class ReadingViewModelTest {
             viewModel.loadData(lessonIndex)
             viewModel.saveSelectedPage(2)
 
-            expectItem() shouldBeEqualTo ReadingDaysData.Empty
-            (expectItem() as ReadingDaysData.Days).index shouldBeEqualTo 1
-            (expectItem() as ReadingDaysData.Days).index shouldBeEqualTo 2
+            awaitItem() shouldBeEqualTo ReadingDaysData.Empty
+            (awaitItem() as ReadingDaysData.Days).index shouldBeEqualTo 1
+            (awaitItem() as ReadingDaysData.Days).index shouldBeEqualTo 2
         }
     }
 }

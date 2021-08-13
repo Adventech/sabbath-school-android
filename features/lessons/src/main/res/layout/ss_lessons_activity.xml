@@ -44,14 +44,12 @@
                 layout="@layout/ss_lessons_quarterly_info" />
 
             <include
-                android:id="@+id/lessonTypeContainer"
-                layout="@layout/ss_lesson_type" />
-
-            <include layout="@layout/ss_horizontal_line" />
-
-            <include
                 android:id="@+id/ss_lesson_info_list"
                 layout="@layout/ss_lessons_list" />
+
+            <include
+                android:id="@+id/composeView"
+                layout="@layout/ss_compose_component" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

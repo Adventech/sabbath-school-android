@@ -1,3 +1,4 @@
+import org.gradle.api.JavaVersion
 
 interface BuildType {
 
@@ -9,4 +10,8 @@ interface BuildType {
 
 object KotlinOptions {
     const val COROUTINES = "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+}
+
+object JavaOptions {
+    val version = JavaVersion.VERSION_11
 }

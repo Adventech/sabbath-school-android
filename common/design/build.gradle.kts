@@ -21,6 +21,8 @@
  */
 
 import dependencies.Dependencies
+import dependencies.Dependencies.Compose
+import dependencies.Versions
 
 plugins {
     id(BuildPlugins.Android.LIBRARY)
@@ -28,10 +30,10 @@ plugins {
 }
 
 android {
-    compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
+    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
 
     defaultConfig {
-        minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
+        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
     sourceSets {
         getByName("main") {
@@ -40,8 +42,19 @@ android {
             }
         }
     }
+
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.COMPOSE
+    }
 }
 
 dependencies {
     implementation(Dependencies.MATERIAL)
+
+    implementation(Compose.ui)
+    implementation(Compose.material)
+    implementation(Compose.tooling)
 }

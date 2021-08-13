@@ -1,13 +1,11 @@
 package dependencies
 
 object Dependencies {
-    const val DESUGAR = "com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}"
     const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
     const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
     const val PLAY_AUTH = "com.google.android.gms:play-services-auth:${Versions.PLAY_AUTH}"
     const val ANDROID_JOB = "com.evernote:android-job:${Versions.ANDROID_JOB}"
     const val JODA = "net.danlew:android.joda:${Versions.JODA}"
-    const val COIL = "io.coil-kt:coil:${Versions.COIL}"
     const val TAP_TARGET = "uk.co.samuelwall:material-tap-target-prompt:${Versions.TAP_TARGET}"
 
     object Hilt {
@@ -35,7 +33,6 @@ object Dependencies {
 
     object Firebase {
         const val BOM = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
-        const val CORE = "com.google.firebase:firebase-core"
         const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val AUTH = "com.google.firebase:firebase-auth-ktx"
         const val DATABASE = "com.google.firebase:firebase-database-ktx"
@@ -64,5 +61,23 @@ object Dependencies {
 
     object MarkWorm {
         const val core = "io.noties.markwon:core:${Versions.MARK_WORM}"
+    }
+
+    object Compose {
+        const val ui = "androidx.compose.ui:ui:${Versions.COMPOSE}"
+        const val material = "androidx.compose.material:material:${Versions.COMPOSE}"
+        const val tooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
+    }
+
+    object Coil {
+        const val core = "io.coil-kt:coil:${Versions.COIL}"
+        const val compose = "io.coil-kt:coil-compose:${Versions.COIL}"
+    }
+
+    object Square {
+        object Moshi {
+            const val kotlin = "com.squareup.moshi:moshi-kotlin:${Versions.MOSHI}"
+            const val codegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.MOSHI}"
+        }
     }
 }

@@ -2,12 +2,12 @@ package dependencies
 
 object Versions {
     const val COROUTINES = "1.5.1"
+    const val COMPOSE = "1.0.1"
 
     const val MATERIAL = "1.4.0"
-    const val DESUGAR = "1.1.1"
 
     object AndroidX {
-        const val APPCOMPAT = "1.2.0"
+        const val APPCOMPAT = "1.3.1"
         const val RECYCLER_VIEW = "1.2.1"
         const val LIFECYCLE = "2.3.1"
         const val LIFECYCLE_KTX = "2.4.0-alpha01"
@@ -27,7 +27,7 @@ object Versions {
         const val SHIMMER = "0.5.0"
     }
 
-    const val HILT = "2.38.1"
+    const val HILT = "2.38.1" // Also update [build.gradle.kts]
 
     const val TIMBER = "4.7.1"
     const val COIL = "1.3.1"
@@ -40,6 +40,7 @@ object Versions {
     const val JODA = "2.10.9.1"
     const val JODA_TIME = "2.10.10"
     const val MARK_WORM = "4.6.2"
+    const val MOSHI = "1.12.0"
 
     // Tests
     const val ANDROIDX_TEST = "1.4.0"
