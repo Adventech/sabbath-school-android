@@ -26,13 +26,12 @@ import app.ss.lessons.data.model.Language
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
 
 interface QuarterliesRepository {
 
     suspend fun getLanguages(): Resource<List<Language>>
 
-    fun getQuarterlies(languageCode: String? = null): Flow<Resource<List<SSQuarterly>>>
+    suspend fun getQuarterlies(languageCode: String? = null): Resource<List<SSQuarterly>>
 
     suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo>
 }

@@ -28,6 +28,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import com.cryart.sabbathschool.core.extensions.arch.SingleLiveEvent
 import com.cryart.sabbathschool.core.extensions.arch.asLiveData
@@ -36,13 +37,14 @@ import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.ViewState
+import com.cryart.sabbathschool.core.response.Resource
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -71,6 +73,11 @@ class QuarterliesViewModel @Inject constructor(
 
     private val _appReBranding = MutableSharedFlow<Boolean>()
     val appReBrandingFlow: SharedFlow<Boolean> get() = _appReBranding.asSharedFlow()
+
+    val quarterliesFlow: SharedFlow<Resource<List<SSQuarterly>>>
+        get() = ssPrefs.getLanguageCodeFlow()
+            .map { code -> repository.getQuarterlies(code) }
+            .stateIn(viewModelScope, Resource.loading())
 
     private var selectedLanguage: String = ""
 
@@ -101,22 +108,21 @@ class QuarterliesViewModel @Inject constructor(
         }
         viewModelScope.launch(schedulerProvider.io) {
             mutableViewState.postValue(ViewState.Loading)
-            repository.getQuarterlies(code).collect { resource ->
-                if (resource.isSuccessFul) {
-                    val quarterlies = resource.data ?: emptyList()
+            val resource = repository.getQuarterlies(code)
+            if (resource.isSuccessFul) {
+                val quarterlies = resource.data ?: emptyList()
 
-                    mutableViewState.postValue(ViewState.Success(quarterlies))
+                mutableViewState.postValue(ViewState.Success(quarterlies))
 
-                    if (!ssPrefs.isLanguagePromptSeen()) {
-                        withContext(schedulerProvider.main) {
-                            mutableShowLanguagePrompt.call()
-                        }
-                    } else {
-                        handleBrandingPrompt()
+                if (!ssPrefs.isLanguagePromptSeen()) {
+                    withContext(schedulerProvider.main) {
+                        mutableShowLanguagePrompt.call()
                     }
                 } else {
-                    mutableViewState.postValue(ViewState.Error())
+                    handleBrandingPrompt()
                 }
+            } else {
+                mutableViewState.postValue(ViewState.Error())
             }
         }
     }

@@ -116,15 +116,37 @@ class SSPrefsImpl(
     }
 
     override fun getLanguageCode(): String {
-        return sharedPreferences.getString(
+        val code = sharedPreferences.getString(
             SSConstants.SS_LAST_LANGUAGE_INDEX,
             Locale.getDefault().language
         )!!
+        return mapLanguageCode(code)
     }
+
+    override fun getLanguageCodeFlow(): Flow<String> = preferencesFlow()
+        .map { preferences ->
+            val code = preferences[stringPreferencesKey(SSConstants.SS_LAST_LANGUAGE_INDEX)] ?: getLanguageCode()
+            mapLanguageCode(code)
+        }
+        .distinctUntilChanged()
 
     override fun setLanguageCode(languageCode: String) {
         sharedPreferences.edit {
             putString(SSConstants.SS_LAST_LANGUAGE_INDEX, languageCode)
+        }
+
+        coroutineScope.launch {
+            dataStore.edit { settings ->
+                settings[stringPreferencesKey(SSConstants.SS_LAST_LANGUAGE_INDEX)] = languageCode
+            }
+        }
+    }
+
+    private fun mapLanguageCode(code: String): String {
+        return when (code) {
+            "iw" -> "he"
+            "fil" -> "tl"
+            else -> code
         }
     }
 

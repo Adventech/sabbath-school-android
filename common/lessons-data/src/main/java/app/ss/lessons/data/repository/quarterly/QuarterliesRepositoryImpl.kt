@@ -24,22 +24,16 @@ package app.ss.lessons.data.repository.quarterly
 
 import app.ss.lessons.data.extensions.ValueEvent
 import app.ss.lessons.data.extensions.singleEvent
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.SSConstants
 import app.ss.lessons.data.model.Language
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOn
-import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -69,47 +63,24 @@ internal class QuarterliesRepositoryImpl(
             })
     }
 
-    override fun getQuarterlies(languageCode: String?) = callbackFlow<Resource<List<SSQuarterly>>> {
-        var code: String
-        if (languageCode == null) {
-            code = ssPrefs.getLanguageCode()
-            if (code == "iw") {
-                code = "he"
-            }
-            if (code == "fil") {
-                code = "tl"
-            }
-        } else {
-            code = languageCode
-        }
+    override suspend fun getQuarterlies(languageCode: String?): Resource<List<SSQuarterly>> {
+        val code = languageCode ?: ssPrefs.getLanguageCode()
 
-        val quarterliesRef = firebaseDatabase.getReference(
-            SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE
-        )
+        val event = firebaseDatabase
+            .getReference(SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE)
             .child(code)
+            .singleEvent()
 
-        val valueEventListener = quarterliesRef.addValueEventListener(
-            object : ValueEventListener {
-                override fun onCancelled(error: DatabaseError) {
-                    this@callbackFlow.close(error.toException())
+        return when (event) {
+            is ValueEvent.Cancelled -> Resource.error(event.error)
+            is ValueEvent.DataChange -> {
+                val quarterlies = event.snapshot.children.mapNotNull {
+                    SSQuarterly(it)
                 }
-
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val quarterlies = snapshot.children.mapNotNull {
-                        SSQuarterly(it)
-                    }
-                    this@callbackFlow.trySend(Resource.success(quarterlies))
-                }
-            })
-
-        awaitClose {
-            quarterliesRef.removeEventListener(valueEventListener)
+                Resource.success(quarterlies)
+            }
         }
-    }.flowOn(Dispatchers.IO)
-        .catch {
-            Timber.e(it)
-            emit(Resource.error(it))
-        }
+    }
 
     override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {
         val event = firebaseDatabase.reference

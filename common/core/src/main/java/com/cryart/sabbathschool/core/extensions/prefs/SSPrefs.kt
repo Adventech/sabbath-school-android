@@ -34,6 +34,8 @@ interface SSPrefs {
     fun getReminderTime(): ReminderTime
     fun getReminderJobId(): Int?
     fun getLanguageCode(): String
+    fun getLanguageCodeFlow(): Flow<String>
+    fun setLanguageCode(languageCode: String)
     fun getLastBibleUsed(): String?
     fun getLastQuarterlyType(): String?
     fun getLastQuarterlyIndex(): String?
@@ -45,7 +47,6 @@ interface SSPrefs {
     fun setLastBibleUsed(bibleId: String)
     fun setLastQuarterlyType(type: String)
     fun setLastQuarterlyIndex(index: String)
-    fun setLanguageCode(languageCode: String)
     fun setLastReaderArtifactCreationTime(readerArtifactCreationTime: Long)
     fun setLanguagePromptSeen()
     fun setAppReBrandingShown()

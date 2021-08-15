@@ -28,8 +28,6 @@ import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.test.di.mock.QuarterlyMockData
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class FakeQuarterliesRepository @Inject constructor(
@@ -40,8 +38,8 @@ class FakeQuarterliesRepository @Inject constructor(
         return Resource.success(emptyList())
     }
 
-    override fun getQuarterlies(languageCode: String?): Flow<Resource<List<SSQuarterly>>> {
-        return flowOf(Resource.success(mockData.getQuarterlies()))
+    override suspend fun getQuarterlies(languageCode: String?): Resource<List<SSQuarterly>> {
+        return Resource.success(mockData.getQuarterlies())
     }
 
     override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {
