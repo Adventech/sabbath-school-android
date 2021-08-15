@@ -28,6 +28,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.lessons.data.model.QuarterlyGroup
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import com.cryart.sabbathschool.core.extensions.arch.SingleLiveEvent
@@ -38,6 +39,7 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.core.response.Resource
+import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -74,12 +76,38 @@ class QuarterliesViewModel @Inject constructor(
     private val _appReBranding = MutableSharedFlow<Boolean>()
     val appReBrandingFlow: SharedFlow<Boolean> get() = _appReBranding.asSharedFlow()
 
-    val quarterliesFlow: SharedFlow<Resource<List<SSQuarterly>>>
+    val quarterliesFlow: SharedFlow<Resource<GroupedQuarterlies>>
         get() = ssPrefs.getLanguageCodeFlow()
-            .map { code -> repository.getQuarterlies(code) }
+            .map(repository::getQuarterlies)
+            .map(this::groupQuarterlies)
             .stateIn(viewModelScope, Resource.loading())
 
-    private var selectedLanguage: String = ""
+    @Suppress("UNCHECKED_CAST")
+    private fun groupQuarterlies(resource: Resource<List<SSQuarterly>>): Resource<GroupedQuarterlies> {
+        val data = resource.data ?: run {
+            return resource.error?.let { error -> Resource.error(error) } ?: Resource.loading()
+        }
+        val grouped = data
+            .groupBy { it.quarterly_group }
+            .toSortedMap(compareBy { it?.order })
+
+        val groupType = when {
+            grouped.keys.size == 1 -> {
+                GroupedQuarterlies.TypeList(grouped[grouped.firstKey()] ?: emptyList())
+            }
+            grouped.keys.size > 1 -> {
+                val filtered = grouped.filterKeys { it != null } as Map<QuarterlyGroup, List<SSQuarterly>>
+                if (filtered.keys.size > 1) {
+                    GroupedQuarterlies.TypeMap(filtered)
+                } else {
+                    GroupedQuarterlies.TypeList(filtered[filtered.keys.first()] ?: emptyList())
+                }
+            }
+            else -> GroupedQuarterlies.Empty
+        }
+
+        return Resource.success(groupType)
+    }
 
     fun viewCreated() {
         if (savedStateHandle.get<Boolean>(SSConstants.SS_QUARTERLY_SCREEN_LAUNCH_EXTRA) == true) {
@@ -90,15 +118,7 @@ class QuarterliesViewModel @Inject constructor(
             }
         }
 
-        selectedLanguage = ssPrefs.getLanguageCode()
-
-        if (selectedLanguage == "iw") {
-            selectedLanguage = "he"
-        }
-        if (selectedLanguage == "fil") {
-            selectedLanguage = "tl"
-        }
-
+        val selectedLanguage = ssPrefs.getLanguageCode()
         updateQuarterlies(selectedLanguage)
     }
 
