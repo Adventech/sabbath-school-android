@@ -34,6 +34,7 @@ import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
 import com.cryart.sabbathschool.test.coroutines.runBlockingTest
+import com.google.firebase.auth.FirebaseAuth
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -60,6 +61,7 @@ class QuarterliesViewModelTest {
     var coroutinesTestRule = CoroutineTestRule()
 
     private val mockRepository: QuarterliesRepository = mockk(relaxed = true)
+    private val mockFirebaseAuth: FirebaseAuth = mockk()
     private val mockSSPrefs: SSPrefs = mockk()
     private val mockSavedStateHandle: SavedStateHandle = mockk()
 
@@ -73,6 +75,7 @@ class QuarterliesViewModelTest {
         viewModel = QuarterliesViewModel(
             mockRepository,
             mockSSPrefs,
+            mockFirebaseAuth,
             coroutinesTestRule.dispatcherProvider,
             mockSavedStateHandle
         )

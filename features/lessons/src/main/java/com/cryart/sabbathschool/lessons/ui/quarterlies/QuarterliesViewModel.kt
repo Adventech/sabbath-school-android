@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -31,14 +32,17 @@ import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import com.cryart.sabbathschool.core.extensions.arch.SingleLiveEvent
 import com.cryart.sabbathschool.core.extensions.arch.asLiveData
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.ViewState
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -47,12 +51,17 @@ import javax.inject.Inject
 class QuarterliesViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
     private val ssPrefs: SSPrefs,
+    private val firebaseAuth: FirebaseAuth,
     private val schedulerProvider: SchedulerProvider,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val mutableViewState = MutableLiveData<ViewState>()
     val viewStateLiveData: LiveData<ViewState> = mutableViewState.asLiveData()
+
+    val photoUrlFlow: SharedFlow<Uri?>
+        get() = flowOf(firebaseAuth.currentUser?.photoUrl)
+            .stateIn(viewModelScope, null)
 
     private val mutableShowLanguagePrompt = SingleLiveEvent<Any>()
     val showLanguagePromptLiveData: LiveData<Any> = mutableShowLanguagePrompt.asLiveData()

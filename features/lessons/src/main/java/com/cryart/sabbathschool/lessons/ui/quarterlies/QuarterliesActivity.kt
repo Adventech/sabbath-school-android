@@ -31,8 +31,6 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import app.ss.lessons.data.model.SSQuarterly
-import com.cryart.design.setEdgeEffect
-import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
@@ -41,13 +39,13 @@ import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.core.navigation.AppNavigator
-import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
 import com.cryart.sabbathschool.lessons.databinding.SsPromptAppReBrandingBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.languages.LanguagesListFragment
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
+import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesAppbarComponent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
@@ -67,6 +65,10 @@ class QuarterliesActivity : SSBaseActivity() {
 
     private val quarterliesAdapter: SSQuarterliesAdapter = SSQuarterliesAdapter()
 
+    private val appbarComponent: QuarterliesAppbarComponent by lazy {
+        QuarterliesAppbarComponent(this, binding.appBar, appNavigator)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -82,6 +84,9 @@ class QuarterliesActivity : SSBaseActivity() {
 
             (state as? ViewState.Success<*>)?.let { bindQuarterlies(it) }
         }
+
+        appbarComponent.collect(viewModel.photoUrlFlow)
+
         viewModel.showLanguagePromptLiveData.observe(this, { showLanguagesPrompt() })
         viewModel.lastQuarterlyIndexLiveData.observeNonNull(this) { index ->
             val intent = SSLessonsActivity.launchIntent(this, index)
@@ -98,18 +103,6 @@ class QuarterliesActivity : SSBaseActivity() {
     }
 
     private fun setupUi() {
-        val toolbar = binding.appBar.ssToolbar
-        setSupportActionBar(toolbar)
-        setupAccountToolbar(toolbar)
-        updateColorScheme()
-        supportActionBar?.apply {
-            setDisplayShowCustomEnabled(true)
-            setDisplayShowTitleEnabled(true)
-        }
-        toolbar.setNavigationOnClickListener {
-            appNavigator.navigate(this, Destination.ACCOUNT)
-        }
-
         binding.ssQuarterliesList.adapter = quarterliesAdapter
     }
 
@@ -123,21 +116,12 @@ class QuarterliesActivity : SSBaseActivity() {
             SSColorTheme.getInstance(this).colorPrimary = quarterlies.first().color_primary
             SSColorTheme.getInstance(this).colorPrimaryDark =
                 quarterlies.first().color_primary_dark
-            updateColorScheme()
         }
 
         with(quarterliesAdapter) {
             setQuarterlies(quarterlies)
             notifyDataSetChanged()
         }
-    }
-
-    private fun updateColorScheme() {
-        val primaryColor = this.colorPrimary
-        binding.appBar.ssToolbar.setBackgroundColor(primaryColor)
-        updateWindowColorScheme()
-        binding.ssQuarterliesList.setEdgeEffect(primaryColor)
-        binding.ssQuarterliesLoading.theme(primaryColor)
     }
 
     private fun showLanguagesPrompt() {

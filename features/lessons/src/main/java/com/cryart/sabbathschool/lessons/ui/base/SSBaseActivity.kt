@@ -23,40 +23,9 @@ package com.cryart.sabbathschool.lessons.ui.base
 
 import android.app.assist.AssistContent
 import android.os.Build
-import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
-import coil.imageLoader
-import coil.request.ImageRequest
-import coil.size.PixelSize
-import coil.transform.CircleCropTransformation
 import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
-import com.cryart.sabbathschool.lessons.R
-import com.google.firebase.auth.FirebaseAuth
 
 abstract class SSBaseActivity : SSColorSchemeActivity() {
-
-    private var ssFirebaseAuth: FirebaseAuth? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        ssFirebaseAuth = FirebaseAuth.getInstance()
-    }
-
-    protected fun setupAccountToolbar(ssToolbar: Toolbar) {
-        val size = resources.getDimensionPixelSize(R.dimen.spacing_large)
-        val photo = ssFirebaseAuth?.currentUser?.photoUrl
-        photo?.let { url ->
-            val request = ImageRequest.Builder(this)
-                .size(PixelSize(size, size))
-                .transformations(CircleCropTransformation())
-                .data(url)
-                .target {
-                    ssToolbar.navigationIcon = it
-                }
-                .build()
-            imageLoader.enqueue(request)
-        } ?: ssToolbar.setNavigationIcon(R.drawable.ic_account_circle_white)
-    }
 
     override fun onProvideAssistContent(outContent: AssistContent) {
         super.onProvideAssistContent(outContent)

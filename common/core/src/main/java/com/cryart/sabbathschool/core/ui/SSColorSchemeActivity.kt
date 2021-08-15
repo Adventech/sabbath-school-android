@@ -21,8 +21,8 @@
  */
 package com.cryart.sabbathschool.core.ui
 
+import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
-import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.cryart.sabbathschool.core.R
@@ -30,6 +30,7 @@ import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 
 open class SSColorSchemeActivity : AppCompatActivity() {
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (resources.getBoolean(R.bool.portrait_only)) {
@@ -38,10 +39,8 @@ open class SSColorSchemeActivity : AppCompatActivity() {
     }
 
     fun updateWindowColorScheme(withStatusBar: Boolean = true) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (withStatusBar) {
-                window.statusBarColor = this.colorPrimaryDark
-            }
+        if (withStatusBar) {
+            window.statusBarColor = this.colorPrimaryDark
         }
     }
 }
