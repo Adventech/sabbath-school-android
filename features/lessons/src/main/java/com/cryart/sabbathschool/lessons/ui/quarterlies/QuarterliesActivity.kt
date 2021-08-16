@@ -30,12 +30,10 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import app.ss.lessons.data.model.SSQuarterly
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
-import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.core.navigation.AppNavigator
@@ -45,9 +43,12 @@ import com.cryart.sabbathschool.lessons.databinding.SsPromptAppReBrandingBinding
 import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.languages.LanguagesListFragment
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
+import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesAppbarComponent
+import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListComponent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.map
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_DISMISSED
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
@@ -63,29 +64,29 @@ class QuarterliesActivity : SSBaseActivity() {
 
     private val binding by viewBinding(SsActivityQuarterliesBinding::inflate)
 
-    private val quarterliesAdapter: SSQuarterliesAdapter = SSQuarterliesAdapter()
-
     private val appbarComponent: QuarterliesAppbarComponent by lazy {
         QuarterliesAppbarComponent(this, binding.appBar, appNavigator)
+    }
+    private val listComponent: QuarterlyListComponent by lazy {
+        QuarterlyListComponent(this, binding.ssQuarterliesList)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setupUi()
-
         viewModel.viewStateLiveData.observeNonNull(this) { state ->
             binding.apply {
                 ssQuarterliesProgressBar.isVisible = state == ViewState.Loading
-                ssQuarterliesList.isVisible = state is ViewState.Success<*>
                 ssQuarterliesErrorState.isVisible = state is ViewState.Error
             }
-
-            (state as? ViewState.Success<*>)?.let { bindQuarterlies(it) }
         }
 
         appbarComponent.collect(viewModel.photoUrlFlow)
+
+        listComponent.collect(
+            viewModel.quarterliesFlow.map { it.data ?: GroupedQuarterlies.Empty }
+        )
 
         viewModel.showLanguagePromptLiveData.observe(this, { showLanguagesPrompt() })
         viewModel.lastQuarterlyIndexLiveData.observeNonNull(this) { index ->
@@ -100,28 +101,6 @@ class QuarterliesActivity : SSBaseActivity() {
             }
 
         viewModel.viewCreated()
-    }
-
-    private fun setupUi() {
-        binding.ssQuarterliesList.adapter = quarterliesAdapter
-    }
-
-    private fun bindQuarterlies(state: ViewState.Success<*>) {
-        val dataList = state.data as? List<*> ?: return
-        val quarterlies = dataList.filterIsInstance<SSQuarterly>()
-            .takeIf { it.size == dataList.size } ?: emptyList()
-        binding.ssQuarterliesEmpty.isVisible = quarterlies.isEmpty()
-
-        if (quarterlies.isNotEmpty()) {
-            SSColorTheme.getInstance(this).colorPrimary = quarterlies.first().color_primary
-            SSColorTheme.getInstance(this).colorPrimaryDark =
-                quarterlies.first().color_primary_dark
-        }
-
-        with(quarterliesAdapter) {
-            setQuarterlies(quarterlies)
-            notifyDataSetChanged()
-        }
     }
 
     private fun showLanguagesPrompt() {

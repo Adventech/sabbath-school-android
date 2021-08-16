@@ -22,33 +22,11 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies.components
 
-import androidx.compose.ui.platform.ComposeView
 import app.ss.lessons.data.model.QuarterlyGroup
 import app.ss.lessons.data.model.SSQuarterly
-import com.cryart.design.theme.SSTheme
-import kotlinx.coroutines.flow.Flow
 
 sealed interface GroupedQuarterlies {
     data class TypeList(val data: List<SSQuarterly>) : GroupedQuarterlies
     data class TypeMap(val data: Map<QuarterlyGroup, List<SSQuarterly>>) : GroupedQuarterlies
     object Empty : GroupedQuarterlies
-}
-
-class QuarterliesListComponent(
-    private val dataFlow: Flow<GroupedQuarterlies>,
-    private val composeView: ComposeView
-) {
-    init {
-
-        /*when (data) {
-            is GroupedQuarterlies.TypeList -> Timber.d("DATA IS LIST: ${data.data.size}")
-            is GroupedQuarterlies.TypeMap -> Timber.d("DATA IS MAP: ${data.data.keys.size}")
-            GroupedQuarterlies.Empty -> Timber.d("DATA IS EMPTY:")
-        }*/
-
-        composeView.setContent {
-            SSTheme {
-            }
-        }
-    }
 }
