@@ -60,6 +60,12 @@ class LessonsViewModel @Inject constructor(
             if (resource.isSuccessFul) {
                 appWidgetHelper.refreshAll()
                 ssPrefs.setLastQuarterlyIndex(index!!)
+                resource.data?.let {
+                    ssPrefs.setThemeColor(
+                        it.quarterly.color_primary,
+                        it.quarterly.color_primary_dark
+                    )
+                }
             }
             resource
         }

@@ -50,4 +50,5 @@ interface SSPrefs {
     fun setLastReaderArtifactCreationTime(readerArtifactCreationTime: Long)
     fun setLanguagePromptSeen()
     fun setAppReBrandingShown()
+    fun setThemeColor(primary: String, primaryDark: String)
 }

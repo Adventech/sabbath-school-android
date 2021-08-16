@@ -268,6 +268,13 @@ class SSPrefsImpl(
         putBoolean(SSConstants.SS_APP_RE_BRANDING_PROMPT_SEEN, true)
     }
 
+    override fun setThemeColor(primary: String, primaryDark: String) {
+        sharedPreferences.edit {
+            putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY, primary)
+            putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY_DARK, primaryDark)
+        }
+    }
+
     override fun clear() {
         sharedPreferences.edit { clear() }
         coroutineScope.launch {
