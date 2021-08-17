@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -37,6 +36,7 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies
+import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesAppbarData
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -56,19 +56,27 @@ class QuarterliesViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val photoUrlFlow: SharedFlow<Uri?>
-        get() = flowOf(firebaseAuth.currentUser?.photoUrl)
-            .stateIn(viewModelScope, null)
+    private val quarterlyGroup: QuarterlyGroup?
+        get() = savedStateHandle.get(SSConstants.SS_QUARTERLY_GROUP)
+
+    val photoUrlFlow: SharedFlow<QuarterliesAppbarData>
+        get() = flowOf(QuarterliesAppbarData.Photo(firebaseAuth.currentUser?.photoUrl))
+            .stateIn(viewModelScope, QuarterliesAppbarData.Empty)
+
+    val groupTitleFlow: SharedFlow<QuarterliesAppbarData>
+        get() = flowOf(
+            QuarterliesAppbarData.Title(quarterlyGroup?.name)
+        ).stateIn(viewModelScope, QuarterliesAppbarData.Empty)
 
     private val mutableLastQuarterlyIndex = SingleLiveEvent<String>()
-    val lastQuarterlyIndexLiveData: LiveData<String> = mutableLastQuarterlyIndex.asLiveData()
+    val lastQuarterlyIndexLiveData: LiveData<String> get() = mutableLastQuarterlyIndex.asLiveData()
 
     private val _appReBranding = MutableSharedFlow<Boolean>()
     val appReBrandingFlow: SharedFlow<Boolean> get() = _appReBranding.asSharedFlow()
 
     val quarterliesFlow: StateFlow<Resource<GroupedQuarterlies>>
         get() = ssPrefs.getLanguageCodeFlow()
-            .map(repository::getQuarterlies)
+            .map { language -> repository.getQuarterlies(language, quarterlyGroup) }
             .map(this::groupQuarterlies)
             .stateIn(viewModelScope, Resource.loading())
 

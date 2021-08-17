@@ -139,7 +139,9 @@ private class QuarterlyViewHolder(
             title = title,
             items = items,
             lastIndex
-        )
+        ) {
+            callbacks.onSeeAllClick(group)
+        }
     }
 
     companion object {

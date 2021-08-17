@@ -11,6 +11,11 @@
             android:theme="@style/Theme.SS" />
 
         <activity
+            android:name=".ui.quarterlies.list.QuarterliesListActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.SS" />
+
+        <activity
             android:name=".ui.lessons.SSLessonsActivity"
             android:label="@string/blank"
             android:launchMode="singleTop"

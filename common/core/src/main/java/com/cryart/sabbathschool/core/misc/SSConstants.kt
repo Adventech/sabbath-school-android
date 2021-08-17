@@ -38,6 +38,7 @@ object SSConstants {
     const val SS_FIREBASE_SUGGESTIONS_DATABASE = "suggestions"
     const val SS_QUARTERLY_INDEX_EXTRA = "SS_QUARTERLY_INDEX"
     const val SS_QUARTERLY_SCREEN_LAUNCH_EXTRA = "quarterly_screen_launch_type"
+    const val SS_QUARTERLY_GROUP = "quarterly_group"
     const val SS_LESSON_INDEX_EXTRA = "SS_LESSON_INDEX"
     const val SS_READ_INDEX_EXTRA = "SS_READ_INDEX"
     const val SS_READ_POSITION_EXTRA = "SS_READ_POSITION"

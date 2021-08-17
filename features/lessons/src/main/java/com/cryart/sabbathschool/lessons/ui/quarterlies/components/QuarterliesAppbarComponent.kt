@@ -36,34 +36,53 @@ import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsQuarterliesAppBarBinding
 import kotlinx.coroutines.flow.Flow
 
+sealed interface QuarterliesAppbarData {
+    data class Photo(val uri: Uri?) : QuarterliesAppbarData
+    data class Title(val title: String?) : QuarterliesAppbarData
+    object Empty : QuarterliesAppbarData
+}
+
 class QuarterliesAppbarComponent(
     private val activity: AppCompatActivity,
     private val binding: SsQuarterliesAppBarBinding,
-    private val appNavigator: AppNavigator
-) : BaseDataComponent<Uri?>(activity) {
+    private val appNavigator: AppNavigator? = null
+) : BaseDataComponent<QuarterliesAppbarData>(activity) {
 
     init {
         activity.setSupportActionBar(binding.ssToolbar)
-        binding.ssToolbar.setNavigationOnClickListener {
-            appNavigator.navigate(activity, Destination.ACCOUNT)
+        binding.ssToolbar.apply {
+            appNavigator?.let {
+                setNavigationIcon(R.drawable.ic_account_circle)
+                setNavigationOnClickListener {
+                    appNavigator.navigate(activity, Destination.ACCOUNT)
+                }
+            } ?: run {
+                activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            }
         }
     }
 
-    override fun collect(dataFlow: Flow<Uri?>) {
-        dataFlow.collectIn(owner) { url ->
-            url?.let {
-                val size = activity.resources.getDimensionPixelSize(R.dimen.spacing_large)
-                val request = ImageRequest.Builder(activity)
-                    .size(PixelSize(size, size))
-                    .transformations(CircleCropTransformation())
-                    .data(url)
-                    .error(R.drawable.ic_account_circle)
-                    .placeholder(R.drawable.ic_account_circle)
-                    .target {
-                        binding.ssToolbar.navigationIcon = it
-                    }
-                    .build()
-                activity.imageLoader.enqueue(request)
+    override fun collect(dataFlow: Flow<QuarterliesAppbarData>) {
+        dataFlow.collectIn(owner) { data ->
+            when (data) {
+                QuarterliesAppbarData.Empty -> {}
+                is QuarterliesAppbarData.Photo -> {
+                    val size = activity.resources.getDimensionPixelSize(R.dimen.spacing_large)
+                    val request = ImageRequest.Builder(activity)
+                        .size(PixelSize(size, size))
+                        .transformations(CircleCropTransformation())
+                        .data(data.uri)
+                        .error(R.drawable.ic_account_circle)
+                        .placeholder(R.drawable.ic_account_circle)
+                        .target {
+                            binding.ssToolbar.navigationIcon = it
+                        }
+                        .build()
+                    activity.imageLoader.enqueue(request)
+                }
+                is QuarterliesAppbarData.Title -> {
+                    binding.ssToolbarLayout.title = data.title
+                }
             }
         }
     }

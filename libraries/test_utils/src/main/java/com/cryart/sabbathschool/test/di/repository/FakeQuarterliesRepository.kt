@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.test.di.repository
 
 import app.ss.lessons.data.model.Language
+import app.ss.lessons.data.model.QuarterlyGroup
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
@@ -38,7 +39,7 @@ class FakeQuarterliesRepository @Inject constructor(
         return Resource.success(emptyList())
     }
 
-    override suspend fun getQuarterlies(languageCode: String?): Resource<List<SSQuarterly>> {
+    override suspend fun getQuarterlies(languageCode: String?, group: QuarterlyGroup?): Resource<List<SSQuarterly>> {
         return Resource.success(mockData.getQuarterlies())
     }
 

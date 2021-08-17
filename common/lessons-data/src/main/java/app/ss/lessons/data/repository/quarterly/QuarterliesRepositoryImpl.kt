@@ -25,6 +25,7 @@ package app.ss.lessons.data.repository.quarterly
 import app.ss.lessons.data.extensions.ValueEvent
 import app.ss.lessons.data.extensions.singleEvent
 import app.ss.lessons.data.model.Language
+import app.ss.lessons.data.model.QuarterlyGroup
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
@@ -63,7 +64,7 @@ internal class QuarterliesRepositoryImpl(
             })
     }
 
-    override suspend fun getQuarterlies(languageCode: String?): Resource<List<SSQuarterly>> {
+    override suspend fun getQuarterlies(languageCode: String?, group: QuarterlyGroup?): Resource<List<SSQuarterly>> {
         val code = languageCode ?: ssPrefs.getLanguageCode()
 
         val event = firebaseDatabase
@@ -77,7 +78,10 @@ internal class QuarterliesRepositoryImpl(
                 val quarterlies = event.snapshot.children.mapNotNull {
                     SSQuarterly(it)
                 }
-                Resource.success(quarterlies)
+                val result = group?.let {
+                    quarterlies.filter { it.quarterly_group == group }
+                } ?: quarterlies
+                Resource.success(result)
             }
         }
     }

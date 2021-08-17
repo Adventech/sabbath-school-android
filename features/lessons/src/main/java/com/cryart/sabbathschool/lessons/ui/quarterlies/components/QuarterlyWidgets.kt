@@ -289,7 +289,8 @@ fun GroupedQuarterliesColumn(
     title: String,
     items: List<QuarterlySpec>,
     lastIndex: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    seeAllClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -317,7 +318,7 @@ fun GroupedQuarterliesColumn(
             )
 
             TextButton(
-                onClick = { },
+                onClick = seeAllClick,
             ) {
                 Text(
                     text = "See All",
