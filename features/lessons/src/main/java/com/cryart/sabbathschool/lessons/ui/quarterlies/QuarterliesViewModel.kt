@@ -23,12 +23,15 @@
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.QuarterlyGroup
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import com.cryart.sabbathschool.core.extensions.arch.SingleLiveEvent
+import com.cryart.sabbathschool.core.extensions.arch.asLiveData
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -57,8 +60,8 @@ class QuarterliesViewModel @Inject constructor(
         get() = flowOf(firebaseAuth.currentUser?.photoUrl)
             .stateIn(viewModelScope, null)
 
-    private val _lastQuarterlyIndex = MutableSharedFlow<String>()
-    val lastQuarterlyIndexFlow: SharedFlow<String> get() = _lastQuarterlyIndex.asSharedFlow()
+    private val mutableLastQuarterlyIndex = SingleLiveEvent<String>()
+    val lastQuarterlyIndexLiveData: LiveData<String> = mutableLastQuarterlyIndex.asLiveData()
 
     private val _appReBranding = MutableSharedFlow<Boolean>()
     val appReBrandingFlow: SharedFlow<Boolean> get() = _appReBranding.asSharedFlow()
@@ -104,10 +107,8 @@ class QuarterliesViewModel @Inject constructor(
     fun viewCreated() {
         if (savedStateHandle.get<Boolean>(SSConstants.SS_QUARTERLY_SCREEN_LAUNCH_EXTRA) == true) {
             ssPrefs.getLastQuarterlyIndex()?.let {
-                if (ssPrefs.isAppReBrandingPromptShown()) {
-                    viewModelScope.launch {
-                        _lastQuarterlyIndex.emit(it)
-                    }
+                if (mutableLastQuarterlyIndex.value.isNullOrEmpty() && ssPrefs.isAppReBrandingPromptShown()) {
+                    mutableLastQuarterlyIndex.postValue(it)
                 }
             }
         }
