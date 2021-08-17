@@ -38,6 +38,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -229,6 +230,7 @@ fun QuarterlyColumn(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
+                .sizeIn(minHeight = TitleMinHeight)
                 .padding(horizontal = Spacing16),
             text = spec.title,
             style = TitleSmall.copy(
@@ -240,6 +242,8 @@ fun QuarterlyColumn(
         )
     }
 }
+
+private val TitleMinHeight = 40.dp
 
 @Preview(
     name = "Quarterly Column",
