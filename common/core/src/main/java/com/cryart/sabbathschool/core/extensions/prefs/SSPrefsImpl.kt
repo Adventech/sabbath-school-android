@@ -160,18 +160,6 @@ class SSPrefsImpl(
         }
     }
 
-    override fun isLanguagePromptSeen(): Boolean {
-        return sharedPreferences.getBoolean(
-            SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, false
-        )
-    }
-
-    override fun setLanguagePromptSeen() {
-        sharedPreferences.edit {
-            putBoolean(SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, true)
-        }
-    }
-
     override fun getLastQuarterlyType(): String? {
         return sharedPreferences.getString(
             SSConstants.SS_LAST_QUARTERLY_TYPE,

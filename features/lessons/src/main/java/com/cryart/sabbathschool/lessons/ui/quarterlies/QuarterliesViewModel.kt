@@ -23,32 +23,26 @@
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.QuarterlyGroup
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
-import com.cryart.sabbathschool.core.extensions.arch.SingleLiveEvent
-import com.cryart.sabbathschool.core.extensions.arch.asLiveData
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -56,27 +50,20 @@ class QuarterliesViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
     private val ssPrefs: SSPrefs,
     private val firebaseAuth: FirebaseAuth,
-    private val schedulerProvider: SchedulerProvider,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
-    private val mutableViewState = MutableLiveData<ViewState>()
-    val viewStateLiveData: LiveData<ViewState> = mutableViewState.asLiveData()
 
     val photoUrlFlow: SharedFlow<Uri?>
         get() = flowOf(firebaseAuth.currentUser?.photoUrl)
             .stateIn(viewModelScope, null)
 
-    private val mutableShowLanguagePrompt = SingleLiveEvent<Any>()
-    val showLanguagePromptLiveData: LiveData<Any> = mutableShowLanguagePrompt.asLiveData()
-
-    private val mutableLastQuarterlyIndex = SingleLiveEvent<String>()
-    val lastQuarterlyIndexLiveData: LiveData<String> = mutableLastQuarterlyIndex.asLiveData()
+    private val _lastQuarterlyIndex = MutableSharedFlow<String>()
+    val lastQuarterlyIndexFlow: SharedFlow<String> get() = _lastQuarterlyIndex.asSharedFlow()
 
     private val _appReBranding = MutableSharedFlow<Boolean>()
     val appReBrandingFlow: SharedFlow<Boolean> get() = _appReBranding.asSharedFlow()
 
-    val quarterliesFlow: SharedFlow<Resource<GroupedQuarterlies>>
+    val quarterliesFlow: StateFlow<Resource<GroupedQuarterlies>>
         get() = ssPrefs.getLanguageCodeFlow()
             .map(repository::getQuarterlies)
             .map(this::groupQuarterlies)
@@ -109,60 +96,33 @@ class QuarterliesViewModel @Inject constructor(
             else -> GroupedQuarterlies.Empty
         }
 
+        handleBrandingPrompt()
+
         return Resource.success(groupType)
     }
 
     fun viewCreated() {
         if (savedStateHandle.get<Boolean>(SSConstants.SS_QUARTERLY_SCREEN_LAUNCH_EXTRA) == true) {
             ssPrefs.getLastQuarterlyIndex()?.let {
-                if (mutableLastQuarterlyIndex.value.isNullOrEmpty() && ssPrefs.isAppReBrandingPromptShown()) {
-                    mutableLastQuarterlyIndex.postValue(it)
-                }
-            }
-        }
-
-        val selectedLanguage = ssPrefs.getLanguageCode()
-        updateQuarterlies(selectedLanguage)
-    }
-
-    private fun updateQuarterlies(code: String) {
-        if (code.isEmpty()) {
-            return
-        }
-        viewModelScope.launch(schedulerProvider.io) {
-            mutableViewState.postValue(ViewState.Loading)
-            val resource = repository.getQuarterlies(code)
-            if (resource.isSuccessFul) {
-                val quarterlies = resource.data ?: emptyList()
-
-                mutableViewState.postValue(ViewState.Success(quarterlies))
-
-                if (!ssPrefs.isLanguagePromptSeen()) {
-                    withContext(schedulerProvider.main) {
-                        mutableShowLanguagePrompt.call()
+                if (ssPrefs.isAppReBrandingPromptShown()) {
+                    viewModelScope.launch {
+                        _lastQuarterlyIndex.emit(it)
                     }
-                } else {
-                    handleBrandingPrompt()
                 }
-            } else {
-                mutableViewState.postValue(ViewState.Error())
             }
         }
     }
 
     fun languageSelected(languageCode: String) {
         ssPrefs.setLanguageCode(languageCode)
-        updateQuarterlies(languageCode)
     }
 
-    fun languagesPromptSeen() {
-        ssPrefs.setLanguagePromptSeen()
-    }
-
-    private suspend fun handleBrandingPrompt() {
-        if (!ssPrefs.isAppReBrandingPromptShown()) {
+    private fun handleBrandingPrompt() {
+        if (ssPrefs.isAppReBrandingPromptShown().not()) {
             ssPrefs.setAppReBrandingShown()
-            _appReBranding.emit(true)
+            viewModelScope.launch {
+                _appReBranding.emit(true)
+            }
         }
     }
 }

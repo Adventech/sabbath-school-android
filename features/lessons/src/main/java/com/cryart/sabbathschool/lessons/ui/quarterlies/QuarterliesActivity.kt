@@ -28,14 +28,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.model.ViewState
+import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
@@ -48,10 +45,8 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesApp
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListComponent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.map
-import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
-import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_DISMISSED
-import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -75,10 +70,17 @@ class QuarterliesActivity : SSBaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        viewModel.viewStateLiveData.observeNonNull(this) { state ->
+        collectData()
+
+        viewModel.viewCreated()
+    }
+
+    private fun collectData() {
+        val stateFlow = viewModel.quarterliesFlow.map { it.status }
+        stateFlow.collectIn(this) { status ->
             binding.apply {
-                ssQuarterliesProgressBar.isVisible = state == ViewState.Loading
-                ssQuarterliesErrorState.isVisible = state is ViewState.Error
+                ssQuarterliesProgressBar.isVisible = status == Status.LOADING
+                ssQuarterliesErrorState.isVisible = status == Status.ERROR
             }
         }
 
@@ -88,36 +90,18 @@ class QuarterliesActivity : SSBaseActivity() {
             viewModel.quarterliesFlow.map { it.data ?: GroupedQuarterlies.Empty }
         )
 
-        viewModel.showLanguagePromptLiveData.observe(this, { showLanguagesPrompt() })
-        viewModel.lastQuarterlyIndexLiveData.observeNonNull(this) { index ->
-            val intent = SSLessonsActivity.launchIntent(this, index)
-            startActivity(intent)
-        }
+        viewModel.lastQuarterlyIndexFlow
+            .collectIn(this) { index ->
+                this.cancel()
+                val intent = SSLessonsActivity.launchIntent(this@QuarterliesActivity, index)
+                startActivity(intent)
+            }
         viewModel.appReBrandingFlow
             .collectIn(this) { show ->
                 if (show) {
                     showAppReBrandingPrompt()
                 }
             }
-
-        viewModel.viewCreated()
-    }
-
-    private fun showLanguagesPrompt() {
-        MaterialTapTargetPrompt.Builder(this)
-            .setTarget(R.id.ss_quarterlies_menu_filter)
-            .setPrimaryText(getString(R.string.ss_quarterlies_filter_languages_prompt_title))
-            .setCaptureTouchEventOutsidePrompt(true)
-            .setIconDrawableColourFilter(this.colorPrimary)
-            .setIconDrawable(ContextCompat.getDrawable(this, R.drawable.ic_translate))
-            .setBackgroundColour(this.colorPrimary)
-            .setSecondaryText(R.string.ss_quarterlies_filter_languages_prompt_description)
-            .setPromptStateChangeListener { _, state ->
-                if (state == STATE_DISMISSED || state == STATE_FOCAL_PRESSED) {
-                    viewModel.languagesPromptSeen()
-                }
-            }
-            .show()
     }
 
     private fun showAppReBrandingPrompt() {

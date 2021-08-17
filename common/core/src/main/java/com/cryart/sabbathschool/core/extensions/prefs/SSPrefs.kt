@@ -42,13 +42,11 @@ interface SSPrefs {
     fun getLastReaderArtifactCreationTime(): Long
     fun reminderEnabled(): Boolean
     fun isAppReBrandingPromptShown(): Boolean
-    fun isLanguagePromptSeen(): Boolean
     fun setReminderJobId(jobId: Int?)
     fun setLastBibleUsed(bibleId: String)
     fun setLastQuarterlyType(type: String)
     fun setLastQuarterlyIndex(index: String)
     fun setLastReaderArtifactCreationTime(readerArtifactCreationTime: Long)
-    fun setLanguagePromptSeen()
     fun setAppReBrandingShown()
     fun setThemeColor(primary: String, primaryDark: String)
 }
