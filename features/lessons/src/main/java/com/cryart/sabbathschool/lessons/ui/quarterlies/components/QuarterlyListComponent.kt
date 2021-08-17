@@ -25,15 +25,14 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies.components
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.compose.foundation.clickable
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import app.ss.lessons.data.model.QuarterlyGroup
 import app.ss.lessons.data.model.SSQuarterly
-import com.cryart.design.theme.SSTheme
+import com.cryart.design.ext.ComposeRecyclerViewAdapter
+import com.cryart.design.ext.ComposeViewHolder
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.inflate
 import com.cryart.sabbathschool.core.ui.BaseDataComponent
@@ -57,7 +56,7 @@ class QuarterlyListComponent(
     callbacks: QuarterlyListCallbacks
 ) : BaseDataComponent<GroupedQuarterlies>(lifecycleOwner) {
 
-    private val listAdapter = ComposeListAdapter(callbacks)
+    private val listAdapter = QuarterliesListAdapter(callbacks)
 
     init {
         binding.ssQuarterliesList.adapter = listAdapter
@@ -70,9 +69,9 @@ class QuarterlyListComponent(
     }
 }
 
-private class ComposeListAdapter(
+private class QuarterliesListAdapter(
     private val callbacks: QuarterlyListCallbacks
-) : RecyclerView.Adapter<ComposeHolder>() {
+) : ComposeRecyclerViewAdapter<QuarterlyViewHolder>() {
 
     var quarterlies: GroupedQuarterlies? = null
         @SuppressLint("NotifyDataSetChanged")
@@ -81,15 +80,11 @@ private class ComposeListAdapter(
             notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComposeHolder {
-        return ComposeHolder.create(parent = parent, callbacks = callbacks)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuarterlyViewHolder {
+        return QuarterlyViewHolder.create(parent = parent, callbacks = callbacks)
     }
 
-    override fun onViewRecycled(holder: ComposeHolder) {
-        holder.composeView.disposeComposition()
-    }
-
-    override fun onBindViewHolder(holder: ComposeHolder, position: Int) {
+    override fun onBindViewHolder(holder: QuarterlyViewHolder, position: Int) {
         when (quarterlies) {
             is GroupedQuarterlies.TypeList -> {
                 val item = (quarterlies as? GroupedQuarterlies.TypeList)?.data?.getOrNull(position) ?: return
@@ -114,16 +109,10 @@ private class ComposeListAdapter(
     }
 }
 
-private class ComposeHolder(
-    val composeView: ComposeView,
+private class QuarterlyViewHolder(
+    view: ComposeView,
     private val callbacks: QuarterlyListCallbacks
-) : RecyclerView.ViewHolder(composeView) {
-
-    init {
-        composeView.setViewCompositionStrategy(
-            ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
-        )
-    }
+) : ComposeViewHolder(view) {
 
     fun bind(item: SSQuarterly) = compose {
         QuarterlyRow(
@@ -153,19 +142,11 @@ private class ComposeHolder(
         )
     }
 
-    private fun compose(content: @Composable () -> Unit) {
-        composeView.setContent {
-            SSTheme {
-                content()
-            }
-        }
-    }
-
     companion object {
         fun create(
             parent: ViewGroup,
             callbacks: QuarterlyListCallbacks
-        ): ComposeHolder = ComposeHolder(
+        ): QuarterlyViewHolder = QuarterlyViewHolder(
             parent.inflate(R.layout.ss_compose_component),
             callbacks
         )
