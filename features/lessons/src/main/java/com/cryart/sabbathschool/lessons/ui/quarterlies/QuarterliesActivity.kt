@@ -30,6 +30,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import app.ss.lessons.data.model.QuarterlyGroup
+import com.cryart.sabbathschool.core.extensions.activity.startIntentWithScene
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
@@ -94,7 +95,7 @@ class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
 
         viewModel.lastQuarterlyIndexLiveData.observeNonNull(this) { index ->
             val intent = SSLessonsActivity.launchIntent(this, index)
-            startActivity(intent)
+            startIntentWithScene(intent)
         }
         viewModel.appReBrandingFlow
             .collectIn(this) { show ->
@@ -137,7 +138,7 @@ class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
 
     override fun onReadClick(index: String) {
         val lessonsIntent = SSLessonsActivity.launchIntent(this, index)
-        startActivity(lessonsIntent)
+        startIntentWithScene(lessonsIntent)
     }
 
     override fun onSeeAllClick(group: QuarterlyGroup) {

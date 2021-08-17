@@ -30,6 +30,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.WindowCompat
 import androidx.core.widget.NestedScrollView
+import com.cryart.sabbathschool.core.extensions.activity.slideEnter
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.view.tint
@@ -76,6 +77,7 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
     private var shareMenuItem: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        slideEnter()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 

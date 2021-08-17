@@ -40,4 +40,8 @@
         <item name="fontFamily">@font/lato_bold</item>
         <item name="android:fontFamily">@font/lato_bold</item>
     </style>
+
+    <style name="Theme.SS.Lessons" parent="Theme.SS.Full">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 </resources>
