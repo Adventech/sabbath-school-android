@@ -40,7 +40,11 @@ import com.cryart.sabbathschool.core.ui.BaseDataComponent
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsQuarterliesListBinding
 import kotlinx.coroutines.flow.Flow
-import timber.log.Timber
+
+interface QuarterlyListCallbacks {
+    fun onReadClick(index: String)
+    fun onSeeAllClick(group: QuarterlyGroup)
+}
 
 /**
  * When this issue is closed we can remove [RecyclerView]
@@ -49,10 +53,11 @@ import timber.log.Timber
  */
 class QuarterlyListComponent(
     lifecycleOwner: LifecycleOwner,
-    binding: SsQuarterliesListBinding
+    binding: SsQuarterliesListBinding,
+    callbacks: QuarterlyListCallbacks
 ) : BaseDataComponent<GroupedQuarterlies>(lifecycleOwner) {
 
-    private val listAdapter = ComposeListAdapter()
+    private val listAdapter = ComposeListAdapter(callbacks)
 
     init {
         binding.ssQuarterliesList.adapter = listAdapter
@@ -65,7 +70,9 @@ class QuarterlyListComponent(
     }
 }
 
-private class ComposeListAdapter : RecyclerView.Adapter<ComposeHolder>() {
+private class ComposeListAdapter(
+    private val callbacks: QuarterlyListCallbacks
+) : RecyclerView.Adapter<ComposeHolder>() {
 
     var quarterlies: GroupedQuarterlies? = null
         @SuppressLint("NotifyDataSetChanged")
@@ -75,7 +82,7 @@ private class ComposeListAdapter : RecyclerView.Adapter<ComposeHolder>() {
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComposeHolder {
-        return ComposeHolder.create(parent = parent)
+        return ComposeHolder.create(parent = parent, callbacks = callbacks)
     }
 
     override fun onViewRecycled(holder: ComposeHolder) {
@@ -107,7 +114,10 @@ private class ComposeListAdapter : RecyclerView.Adapter<ComposeHolder>() {
     }
 }
 
-private class ComposeHolder(val composeView: ComposeView) : RecyclerView.ViewHolder(composeView) {
+private class ComposeHolder(
+    val composeView: ComposeView,
+    private val callbacks: QuarterlyListCallbacks
+) : RecyclerView.ViewHolder(composeView) {
 
     init {
         composeView.setViewCompositionStrategy(
@@ -120,7 +130,7 @@ private class ComposeHolder(val composeView: ComposeView) : RecyclerView.ViewHol
             spec = item.spec(QuarterlySpec.Type.NORMAL),
             modifier = Modifier
                 .clickable {
-                    Timber.d("Clicked: ${item.title}")
+                    callbacks.onReadClick(item.index)
                 }
         )
     }
@@ -131,7 +141,7 @@ private class ComposeHolder(val composeView: ComposeView) : RecyclerView.ViewHol
             quarterly.spec(
                 QuarterlySpec.Type.LARGE,
                 onClick = {
-                    Timber.d("Clicked: ${quarterly.title}")
+                    callbacks.onReadClick(quarterly.index)
                 }
             )
         }
@@ -152,8 +162,12 @@ private class ComposeHolder(val composeView: ComposeView) : RecyclerView.ViewHol
     }
 
     companion object {
-        fun create(parent: ViewGroup): ComposeHolder = ComposeHolder(
-            parent.inflate(R.layout.ss_compose_component)
+        fun create(
+            parent: ViewGroup,
+            callbacks: QuarterlyListCallbacks
+        ): ComposeHolder = ComposeHolder(
+            parent.inflate(R.layout.ss_compose_component),
+            callbacks
         )
     }
 }

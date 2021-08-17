@@ -29,6 +29,8 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import app.ss.lessons.data.model.QuarterlyGroup
+import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -42,15 +44,15 @@ import com.cryart.sabbathschool.lessons.ui.languages.LanguagesListFragment
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesAppbarComponent
+import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListCallbacks
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListComponent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class QuarterliesActivity : SSBaseActivity() {
+class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
 
     @Inject
     lateinit var appNavigator: AppNavigator
@@ -63,7 +65,7 @@ class QuarterliesActivity : SSBaseActivity() {
         QuarterliesAppbarComponent(this, binding.appBar, appNavigator)
     }
     private val listComponent: QuarterlyListComponent by lazy {
-        QuarterlyListComponent(this, binding.ssQuarterliesList)
+        QuarterlyListComponent(this, binding.ssQuarterliesList, this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,12 +92,10 @@ class QuarterliesActivity : SSBaseActivity() {
             viewModel.quarterliesFlow.map { it.data ?: GroupedQuarterlies.Empty }
         )
 
-        viewModel.lastQuarterlyIndexFlow
-            .collectIn(this) { index ->
-                this.cancel()
-                val intent = SSLessonsActivity.launchIntent(this@QuarterliesActivity, index)
-                startActivity(intent)
-            }
+        viewModel.lastQuarterlyIndexLiveData.observeNonNull(this) { index ->
+            val intent = SSLessonsActivity.launchIntent(this, index)
+            startActivity(intent)
+        }
         viewModel.appReBrandingFlow
             .collectIn(this) { show ->
                 if (show) {
@@ -133,6 +133,14 @@ class QuarterliesActivity : SSBaseActivity() {
         } else {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onReadClick(index: String) {
+        val lessonsIntent = SSLessonsActivity.launchIntent(this, index)
+        startActivity(lessonsIntent)
+    }
+
+    override fun onSeeAllClick(group: QuarterlyGroup) {
     }
 
     companion object {
