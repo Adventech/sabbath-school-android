@@ -22,11 +22,37 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies.components
 
+import androidx.recyclerview.widget.DiffUtil
 import app.ss.lessons.data.model.QuarterlyGroup
 import app.ss.lessons.data.model.SSQuarterly
 
 sealed interface GroupedQuarterlies {
     data class TypeList(val data: List<SSQuarterly>) : GroupedQuarterlies
-    data class TypeMap(val data: Map<QuarterlyGroup, List<SSQuarterly>>) : GroupedQuarterlies
+    data class TypeGroup(val data: List<QuarterliesGroup>) : GroupedQuarterlies
     object Empty : GroupedQuarterlies
+}
+
+data class QuarterliesGroup(
+    val group: QuarterlyGroup,
+    val quarterlies: List<SSQuarterly>
+)
+
+internal val QuarterliesDiff = object : DiffUtil.ItemCallback<SSQuarterly>() {
+    override fun areItemsTheSame(oldItem: SSQuarterly, newItem: SSQuarterly): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: SSQuarterly, newItem: SSQuarterly): Boolean {
+        return oldItem == newItem
+    }
+}
+
+internal val GroupedQuarterliesDiff = object : DiffUtil.ItemCallback<QuarterliesGroup>() {
+    override fun areItemsTheSame(oldItem: QuarterliesGroup, newItem: QuarterliesGroup): Boolean {
+        return oldItem.group.name == newItem.group.name
+    }
+
+    override fun areContentsTheSame(oldItem: QuarterliesGroup, newItem: QuarterliesGroup): Boolean {
+        return newItem == newItem
+    }
 }

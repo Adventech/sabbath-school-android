@@ -22,16 +22,14 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies.components
 
-import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import app.ss.lessons.data.model.QuarterlyGroup
 import app.ss.lessons.data.model.SSQuarterly
-import com.cryart.design.ext.ComposeRecyclerViewAdapter
+import com.cryart.design.ext.ComposeListAdapter
 import com.cryart.design.ext.ComposeViewHolder
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.inflate
@@ -52,67 +50,55 @@ interface QuarterlyListCallbacks {
  */
 class QuarterlyListComponent(
     lifecycleOwner: LifecycleOwner,
-    binding: SsQuarterliesListBinding,
+    private val binding: SsQuarterliesListBinding,
     callbacks: QuarterlyListCallbacks
 ) : BaseDataComponent<GroupedQuarterlies>(lifecycleOwner) {
 
     private val listAdapter = QuarterliesListAdapter(callbacks)
-
-    init {
-        binding.ssQuarterliesList.adapter = listAdapter
-    }
+    private val groupListAdapter = QuarterliesGroupListAdapter(callbacks)
 
     override fun collect(dataFlow: Flow<GroupedQuarterlies>) {
         dataFlow.collectIn(owner) { data ->
-            listAdapter.quarterlies = data
+            when (data) {
+                GroupedQuarterlies.Empty -> {
+                    listAdapter.submitList(emptyList())
+                    groupListAdapter.submitList(emptyList())
+                }
+                is GroupedQuarterlies.TypeGroup -> {
+                    if (binding.ssQuarterliesList.adapter != groupListAdapter) {
+                        binding.ssQuarterliesList.adapter = groupListAdapter
+                    }
+                    groupListAdapter.submitList(data.data)
+                }
+                is GroupedQuarterlies.TypeList -> {
+                    if (binding.ssQuarterliesList.adapter != listAdapter) {
+                        binding.ssQuarterliesList.adapter = listAdapter
+                    }
+                    listAdapter.submitList(data.data)
+                }
+            }
         }
     }
 }
 
 private class QuarterliesListAdapter(
     private val callbacks: QuarterlyListCallbacks
-) : ComposeRecyclerViewAdapter<QuarterlyViewHolder>() {
-
-    var quarterlies: GroupedQuarterlies? = null
-        @SuppressLint("NotifyDataSetChanged")
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+) : ComposeListAdapter<SSQuarterly, QuarterlyViewHolder>(QuarterliesDiff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuarterlyViewHolder {
-        return QuarterlyViewHolder.create(parent = parent, callbacks = callbacks)
+        return QuarterlyViewHolder(parent = parent, callbacks = callbacks)
     }
 
     override fun onBindViewHolder(holder: QuarterlyViewHolder, position: Int) {
-        when (quarterlies) {
-            is GroupedQuarterlies.TypeList -> {
-                val item = (quarterlies as? GroupedQuarterlies.TypeList)?.data?.getOrNull(position) ?: return
-                holder.bind(item)
-            }
-            is GroupedQuarterlies.TypeMap -> {
-                val data = (quarterlies as? GroupedQuarterlies.TypeMap)?.data ?: return
-                val key = data.keys.elementAt(position)
-                val lastIndex = position == itemCount - 1
-                holder.bind(key, data[key] ?: emptyList(), lastIndex)
-            }
-            else -> return
-        }
-    }
-
-    override fun getItemCount(): Int {
-        return when (quarterlies) {
-            is GroupedQuarterlies.TypeList -> (quarterlies as? GroupedQuarterlies.TypeList)?.data?.size ?: 0
-            is GroupedQuarterlies.TypeMap -> (quarterlies as? GroupedQuarterlies.TypeMap)?.data?.keys?.size ?: 0
-            else -> 0
-        }
+        val item = getItem(position)
+        holder.bind(item)
     }
 }
 
 private class QuarterlyViewHolder(
-    view: ComposeView,
+    parent: ViewGroup,
     private val callbacks: QuarterlyListCallbacks
-) : ComposeViewHolder(view) {
+) : ComposeViewHolder(parent.inflate(R.layout.ss_compose_component)) {
 
     fun bind(item: SSQuarterly) = compose {
         QuarterlyRow(
@@ -123,10 +109,29 @@ private class QuarterlyViewHolder(
                 }
         )
     }
+}
 
-    fun bind(group: QuarterlyGroup, data: List<SSQuarterly>, lastIndex: Boolean = false) = compose {
-        val title = group.name
-        val items = data.map { quarterly ->
+private class QuarterliesGroupListAdapter(
+    private val callbacks: QuarterlyListCallbacks
+) : ComposeListAdapter<QuarterliesGroup, QuarterliesGroupViewHolder>(GroupedQuarterliesDiff) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuarterliesGroupViewHolder {
+        return QuarterliesGroupViewHolder(parent = parent, callbacks = callbacks)
+    }
+
+    override fun onBindViewHolder(holder: QuarterliesGroupViewHolder, position: Int) {
+        val item = getItem(position)
+        holder.bind(item, position == itemCount - 1)
+    }
+}
+
+private class QuarterliesGroupViewHolder(
+    parent: ViewGroup,
+    private val callbacks: QuarterlyListCallbacks
+) : ComposeViewHolder(parent.inflate(R.layout.ss_compose_component)) {
+
+    fun bind(item: QuarterliesGroup, lastIndex: Boolean = false) = compose {
+        val items = item.quarterlies.map { quarterly ->
             quarterly.spec(
                 QuarterlySpec.Type.LARGE,
                 onClick = {
@@ -136,21 +141,11 @@ private class QuarterlyViewHolder(
         }
 
         GroupedQuarterliesColumn(
-            title = title,
+            title = item.group.name,
             items = items,
             lastIndex
         ) {
-            callbacks.onSeeAllClick(group)
+            callbacks.onSeeAllClick(item.group)
         }
-    }
-
-    companion object {
-        fun create(
-            parent: ViewGroup,
-            callbacks: QuarterlyListCallbacks
-        ): QuarterlyViewHolder = QuarterlyViewHolder(
-            parent.inflate(R.layout.ss_compose_component),
-            callbacks
-        )
     }
 }

@@ -40,14 +40,6 @@ abstract class ComposeListAdapter<T, VH : ComposeViewHolder>(
     }
 }
 
-abstract class ComposeRecyclerViewAdapter<VH : ComposeViewHolder> : RecyclerView.Adapter<VH>() {
-
-    override fun onViewRecycled(holder: VH) {
-        holder.composeView.disposeComposition()
-        super.onViewRecycled(holder)
-    }
-}
-
 abstract class ComposeViewHolder(
     val composeView: ComposeView
 ) : RecyclerView.ViewHolder(composeView) {
