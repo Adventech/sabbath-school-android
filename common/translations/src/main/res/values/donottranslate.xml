@@ -21,7 +21,7 @@
   -->
 
 <resources>
-    <string name="blank" />
+    <string name="blank" translatable="false" />
 
     <string name="ss_settings_typeface_andada" translatable="false">Andada</string>
     <string name="ss_settings_typeface_lato" translatable="false">Lato</string>
