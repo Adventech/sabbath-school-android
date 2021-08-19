@@ -40,7 +40,7 @@ class FakeQuarterliesRepository @Inject constructor(
     }
 
     override suspend fun getQuarterlies(languageCode: String?, group: QuarterlyGroup?): Resource<List<SSQuarterly>> {
-        return Resource.success(mockData.getQuarterlies())
+        return Resource.success(mockData.getQuarterlies(group))
     }
 
     override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {

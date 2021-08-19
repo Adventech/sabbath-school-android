@@ -86,9 +86,6 @@ class QuarterliesViewModel @Inject constructor(
         val data = resource.data ?: run {
             return resource.error?.let { error -> Resource.error(error) } ?: Resource.loading()
         }
-        data.firstOrNull()?.let {
-            ssPrefs.setThemeColor(it.color_primary, it.color_primary_dark)
-        }
         val grouped = data
             .groupBy { it.quarterly_group }
             .toSortedMap(compareBy { it?.order })
