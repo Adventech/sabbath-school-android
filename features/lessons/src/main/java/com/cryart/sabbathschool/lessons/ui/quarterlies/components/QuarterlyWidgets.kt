@@ -68,15 +68,16 @@ import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.BodyMedium1
+import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.LabelSmall
 import com.cryart.design.theme.OffWhite
 import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.Spacing20
 import com.cryart.design.theme.Spacing4
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.Title
 import com.cryart.design.theme.TitleSmall
 import com.cryart.design.theme.iconTint
+import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.theme.navTitle
 import com.cryart.design.theme.parse
 import com.cryart.sabbathschool.lessons.R
@@ -101,12 +102,25 @@ data class QuarterlySpec(
     val type: Type = Type.NORMAL,
     val onClick: () -> Unit = {}
 ) {
-    enum class Type(
-        val width: Dp,
-        val height: Dp
-    ) {
-        NORMAL(130.dp, 165.dp),
-        LARGE(170.dp, 268.dp);
+    enum class Type {
+        NORMAL,
+        LARGE;
+
+        fun width(largeScreen: Boolean): Dp = when {
+            largeScreen && this == NORMAL -> 150.dp
+            largeScreen && this == LARGE -> 198.dp
+            this == NORMAL -> 98.dp
+            this == LARGE -> 148.dp
+            else -> Dp.Unspecified
+        }
+
+        fun height(largeScreen: Boolean): Dp = when {
+            largeScreen && this == NORMAL -> 198.dp
+            largeScreen && this == LARGE -> 276.dp
+            this == NORMAL -> 146.dp
+            this == LARGE -> 226.dp
+            else -> Dp.Unspecified
+        }
     }
 }
 
@@ -117,29 +131,14 @@ private fun CoverBox(
     color: Color,
     content: @Composable () -> Unit
 ) {
-    val paddingVertical: Dp
-    val paddingHorizontal: Dp
-    when (type) {
-        QuarterlySpec.Type.NORMAL -> {
-            paddingVertical = Spacing8
-            paddingHorizontal = Spacing16
-        }
-        QuarterlySpec.Type.LARGE -> {
-            paddingVertical = Spacing16
-            paddingHorizontal = Spacing8
-        }
-    }
-
+    val isLargeScreen = isLargeScreen()
     Box(
         modifier = modifier
             .size(
-                type.width,
-                type.height
+                type.width(isLargeScreen),
+                type.height(isLargeScreen)
             )
-            .padding(
-                horizontal = paddingHorizontal,
-                vertical = paddingVertical
-            )
+            .padding(Dimens.grid_1)
     ) {
         Surface(
             modifier = Modifier
@@ -159,12 +158,18 @@ fun QuarterlyRow(
 ) {
     Row(
         modifier = modifier
+            .padding(
+                vertical = Dimens.grid_2,
+                horizontal = Dimens.grid_4
+            )
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
     ) {
 
         QuarterlyCover(spec)
+
+        Spacer(modifier = Modifier.width(Dimens.grid_4))
 
         Column(
             modifier = Modifier.padding(
@@ -180,7 +185,7 @@ fun QuarterlyRow(
                 overflow = TextOverflow.Ellipsis
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(Dimens.grid_1))
 
             Text(
                 text = spec.title,
@@ -229,11 +234,13 @@ fun QuarterlyColumn(
     ) {
         QuarterlyCover(spec)
 
+        Spacer(modifier = Modifier.height(Dimens.grid_2))
+
         Text(
             modifier = Modifier
                 .fillMaxWidth()
                 .sizeIn(minHeight = TitleMinHeight)
-                .padding(horizontal = Spacing16),
+                .padding(horizontal = Dimens.grid_2),
             text = spec.title,
             style = TitleSmall.copy(
                 color = navTitle(),
@@ -277,11 +284,11 @@ private fun QuarterlyCover(spec: QuarterlySpec) {
                 data = spec.cover,
                 builder = {
                     crossfade(true)
-                    transformations(RoundedCornersTransformation(20f))
+                    transformations(RoundedCornersTransformation(18f))
                 }
             ),
             contentDescription = spec.title,
-            contentScale = ContentScale.FillBounds
+            contentScale = ContentScale.Fit
         )
     }
 }
@@ -302,7 +309,8 @@ fun GroupedQuarterliesColumn(
             )
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -315,7 +323,8 @@ fun GroupedQuarterliesColumn(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(
-                    horizontal = Spacing20
+                    start = Dimens.grid_6,
+                    end = Dimens.grid_2
                 )
             )
 
@@ -336,13 +345,13 @@ fun GroupedQuarterliesColumn(
                 )
             }
         }
-        Spacer(modifier = Modifier.height(Spacing8))
+        Spacer(modifier = Modifier.height(Dimens.grid_2))
 
         LazyRow(
             contentPadding = PaddingValues(
-                horizontal = Spacing8,
-                vertical = Spacing4
-            )
+                horizontal = Dimens.grid_4,
+            ),
+            horizontalArrangement = Arrangement.spacedBy(Dimens.grid_4)
         ) {
             items(items) { item ->
                 QuarterlyColumn(
@@ -353,7 +362,7 @@ fun GroupedQuarterliesColumn(
             }
         }
 
-        Spacer(modifier = Modifier.height(Spacing16))
+        Spacer(modifier = Modifier.height(Dimens.grid_4))
     }
 }
 
@@ -368,7 +377,7 @@ private fun Modifier.groupBackground(
             Brush.verticalGradient(
                 colors = listOf(
                     Color.White,
-                    OffWhite.copy(alpha = 0.3f)
+                    OffWhite.copy(alpha = 0.2f)
                 )
             )
         )
