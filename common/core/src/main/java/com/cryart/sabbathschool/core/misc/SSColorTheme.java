@@ -38,11 +38,10 @@ public class SSColorTheme {
 
     private String colorPrimary;
     private String colorPrimaryDark;
-    private SharedPreferences sharedPreferences;
 
     private SSColorTheme(Context context) {
         try {
-            this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
             this.colorPrimary = sharedPreferences.getString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY, null);
             this.colorPrimaryDark = sharedPreferences.getString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY_DARK, null);
         } catch (Exception e) {
@@ -65,29 +64,5 @@ public class SSColorTheme {
 
     public String getColorPrimaryDark() {
         return (this.colorPrimaryDark != null) ? this.colorPrimaryDark : COLOR_PRIMARY_DARK_FALLBACK;
-    }
-
-    public void setColorPrimary(String colorPrimary) {
-        try {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY, colorPrimary);
-            editor.apply();
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-
-        this.colorPrimary = colorPrimary;
-    }
-
-    public void setColorPrimaryDark(String colorPrimaryDark) {
-        try {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY_DARK, colorPrimaryDark);
-            editor.apply();
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-
-        this.colorPrimaryDark = colorPrimaryDark;
     }
 }

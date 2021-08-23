@@ -22,23 +22,18 @@
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?android:attr/windowBackground">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <include
         android:id="@+id/ss_quarterlies_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:scrollbars="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/ss_quarterly_item_normal" />
+        layout="@layout/ss_quarterlies_list"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <include
         android:id="@+id/app_bar"
-        layout="@layout/ss_app_bar" />
+        layout="@layout/ss_quarterlies_app_bar" />
 
     <LinearLayout
         android:id="@+id/ss_quarterlies_empty"

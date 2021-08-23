@@ -33,6 +33,7 @@
     <dimen name="ss_quarterlies_language_filter_holder_padding_right">15dp</dimen>
     <dimen name="ss_quarterlies_language_filter_holder_padding_top">10dp</dimen>
     <dimen name="ss_quarterlies_language_filter_holder_padding_bottom">10dp</dimen>
+    <dimen name="ss_quarterlies_toolbar_height">140dp</dimen>
 
     <dimen name="ss_language_menu_margin_left">20dp</dimen>
     <dimen name="ss_language_menu_margin_right">20dp</dimen>

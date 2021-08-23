@@ -99,4 +99,5 @@
     <string name="ss_settings_version_with_param_string">Versjon: %1$s</string>
     <string name="ss_more">Mer</string>
     <string name="ss_copyright">%1$s Generalkonferanse for syvendedags adventister®</string>
+    <string name="ss_see_all">Se alle</string>
 </resources>

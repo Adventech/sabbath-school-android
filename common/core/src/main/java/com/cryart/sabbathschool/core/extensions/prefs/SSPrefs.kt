@@ -34,19 +34,19 @@ interface SSPrefs {
     fun getReminderTime(): ReminderTime
     fun getReminderJobId(): Int?
     fun getLanguageCode(): String
+    fun getLanguageCodeFlow(): Flow<String>
+    fun setLanguageCode(languageCode: String)
     fun getLastBibleUsed(): String?
     fun getLastQuarterlyType(): String?
     fun getLastQuarterlyIndex(): String?
     fun getLastReaderArtifactCreationTime(): Long
     fun reminderEnabled(): Boolean
     fun isAppReBrandingPromptShown(): Boolean
-    fun isLanguagePromptSeen(): Boolean
     fun setReminderJobId(jobId: Int?)
     fun setLastBibleUsed(bibleId: String)
     fun setLastQuarterlyType(type: String)
     fun setLastQuarterlyIndex(index: String)
-    fun setLanguageCode(languageCode: String)
     fun setLastReaderArtifactCreationTime(readerArtifactCreationTime: Long)
-    fun setLanguagePromptSeen()
     fun setAppReBrandingShown()
+    fun setThemeColor(primary: String, primaryDark: String)
 }

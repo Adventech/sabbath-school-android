@@ -97,5 +97,6 @@
     <string name="ss_settings_version_with_param_string">ဗားရှင်း: %1$s</string>
     <string name="ss_more">နောက်ထပ်</string>
     <string name="ss_copyright">%1$s သတ္တမနေ့ဥပုသ်စောင့်သူများ၏အထွေထွေညီလာခံ®</string>
+    <string name="ss_see_all">အားလုံးကြည့်ပါ</string>
 
 </resources>

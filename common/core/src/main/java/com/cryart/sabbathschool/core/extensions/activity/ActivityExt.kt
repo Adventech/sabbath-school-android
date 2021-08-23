@@ -23,8 +23,34 @@
 package com.cryart.sabbathschool.core.extensions.activity
 
 import android.app.Activity
+import android.app.ActivityOptions
+import android.content.Intent
+import android.transition.Slide
+import android.view.Gravity
+import android.view.Window
 import androidx.core.view.WindowCompat
 
 fun Activity.setLightStatusBar(light: Boolean) {
     WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = light
+}
+
+fun Activity.slideEnter() {
+    with(window) {
+        requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+        enterTransition = Slide(Gravity.END)
+    }
+}
+
+fun Activity.slideExit() {
+    with(window) {
+        requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+        exitTransition = Slide(Gravity.START)
+    }
+}
+
+fun Activity.startIntentWithScene(intent: Intent) {
+    startActivity(
+        intent,
+        ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+    )
 }

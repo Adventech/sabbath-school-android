@@ -30,7 +30,7 @@
 
     <application
         android:name=".SSApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/ss_app_name"
         android:roundIcon="@mipmap/ic_launcher_round"

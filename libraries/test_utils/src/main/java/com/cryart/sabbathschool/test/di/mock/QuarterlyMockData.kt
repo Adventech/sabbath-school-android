@@ -23,13 +23,14 @@
 package com.cryart.sabbathschool.test.di.mock
 
 import android.content.Context
+import app.ss.lessons.data.model.QuarterlyGroup
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import com.cryart.sabbathschool.test.di.repository.fromJson
 import com.squareup.moshi.Moshi
 
 interface QuarterlyMockData {
-    fun getQuarterlies(): List<SSQuarterly>
+    fun getQuarterlies(group: QuarterlyGroup? = null): List<SSQuarterly>
     fun getQuarterlyInfo(index: String): SSQuarterlyInfo?
 }
 
@@ -40,11 +41,11 @@ class QuarterlyMockDataImpl(
 
     private var _quarterlies: List<SSQuarterly> = emptyList()
 
-    override fun getQuarterlies(): List<SSQuarterly> {
+    override fun getQuarterlies(group: QuarterlyGroup?): List<SSQuarterly> {
         if (_quarterlies.isEmpty()) {
             _quarterlies = moshi.fromJson(context, FILE_QUARTERLIES)
         }
-        return _quarterlies
+        return group?.let { _quarterlies.filter { it.quarterly_group == group } } ?: _quarterlies
     }
 
     override fun getQuarterlyInfo(index: String): SSQuarterlyInfo? {

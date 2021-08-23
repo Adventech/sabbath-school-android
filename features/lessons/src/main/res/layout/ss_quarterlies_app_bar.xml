@@ -20,33 +20,31 @@
   ~ THE SOFTWARE.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ss_app_bar_layout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/ss_quarterlies_toolbar_height">
 
-    <com.google.android.material.appbar.AppBarLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/ss_app_bar_layout"
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/ss_toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:elevation="@dimen/ss_app_bar_elevation">
+        android:layout_height="match_parent"
+        app:collapsedTitleTextAppearance="@style/AppThemeAppBarTextStyle"
+        app:expandedTitleGravity="start|bottom"
+        app:expandedTitleMarginStart="@dimen/ss_reading_toolbar_title_margin_left"
+        app:expandedTitleTextAppearance="@style/AppThemeAppBarTextStyleExpanded"
+        app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
+        app:maxLines="2"
+        app:title="@string/ss_app_name">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/ss_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways">
+            android:background="?attr/colorSurface"
+            app:layout_collapseMode="pin" />
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-            <TextView
-                android:id="@+id/toolbar_title"
-                style="@style/AppThemeAppBarTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:fontFamily="@font/lato_bold"
-                android:text="@string/ss_app_name"
-                android:textColor="?android:attr/textColorPrimary" />
 
-        </androidx.appcompat.widget.Toolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
-</layout>
+</com.google.android.material.appbar.AppBarLayout>

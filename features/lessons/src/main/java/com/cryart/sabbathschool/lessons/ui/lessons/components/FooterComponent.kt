@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +29,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -68,7 +68,9 @@ class FooterComponent(
     init {
         binding.composeView.setContent {
             SSTheme {
-                FooterList(dataFlow = dataFlow)
+                Surface(color = footerBackground()) {
+                    FooterList(dataFlow = dataFlow)
+                }
             }
         }
     }
@@ -88,7 +90,6 @@ fun FooterList(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(footerBackground())
             .padding(
                 start = horizontalPadding,
                 top = topPadding,
