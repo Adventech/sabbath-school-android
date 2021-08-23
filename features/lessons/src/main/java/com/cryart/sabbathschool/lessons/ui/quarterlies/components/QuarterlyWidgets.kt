@@ -72,7 +72,6 @@ import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.LabelSmall
 import com.cryart.design.theme.OffWhite
 import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.Spacing4
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.Title
 import com.cryart.design.theme.TitleSmall
@@ -230,7 +229,7 @@ fun QuarterlyColumn(
     Column(
         modifier = modifier
             .width(IntrinsicSize.Min)
-            .padding(bottom = Spacing4)
+            .padding(bottom = Dimens.grid_1)
     ) {
         QuarterlyCover(spec)
 
@@ -240,7 +239,7 @@ fun QuarterlyColumn(
             modifier = Modifier
                 .fillMaxWidth()
                 .sizeIn(minHeight = TitleMinHeight)
-                .padding(horizontal = Dimens.grid_2),
+                .padding(horizontal = Dimens.grid_1),
             text = spec.title,
             style = TitleSmall.copy(
                 color = navTitle(),
@@ -323,7 +322,7 @@ fun GroupedQuarterliesColumn(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(
-                    start = Dimens.grid_6,
+                    start = Dimens.grid_5,
                     end = Dimens.grid_2
                 )
             )
