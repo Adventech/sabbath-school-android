@@ -53,6 +53,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.ss.lessons.data.model.SSBibleVerses
@@ -109,7 +110,7 @@ fun HeaderRow(
     bibleVerses: List<SSBibleVerses>,
     lastBibleUsed: String?,
     modifier: Modifier = Modifier,
-    callbacks: HeaderComponent.Callbacks,
+    callbacks: HeaderComponent.Callbacks? = null,
 ) {
 
     Row(
@@ -120,7 +121,7 @@ fun HeaderRow(
 
         IconButton(
             onClick = {
-                callbacks.onClose()
+                callbacks?.onClose()
             }
         ) {
             Icon(Icons.Rounded.Close, contentDescription = "Close")
@@ -140,7 +141,7 @@ fun HeaderRow(
 private fun BibleVersionsMenu(
     bibleVerses: List<SSBibleVerses>,
     lastBibleUsed: String?,
-    callbacks: HeaderComponent.Callbacks,
+    callbacks: HeaderComponent.Callbacks? = null,
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selected by remember {
@@ -162,6 +163,7 @@ private fun BibleVersionsMenu(
                 .align(Alignment.CenterEnd)
                 .padding(Dimens.grid_2)
                 .clickable { expanded = true }
+                .testTag("drop-down")
         ) {
             Text(
                 selected,
@@ -183,12 +185,14 @@ private fun BibleVersionsMenu(
                         val version = verse.name
                         selected = version
                         expanded = false
-                        callbacks.versionSelected(version)
-                    }
+                        callbacks?.versionSelected(version)
+                    },
+                    modifier = Modifier
+                        .testTag("DropdownMenuItem-${verse.name}")
                 ) {
                     Text(
                         verse.name,
-                        style = LabelMedium
+                        style = LabelMedium,
                     )
                 }
             }
