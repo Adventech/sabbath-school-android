@@ -80,7 +80,7 @@ class HeaderComponent(
         composeView.setContent {
             SSTheme {
                 val displayOptions = displayOptionsFlow.collectAsState(
-                    initial = SSReadingDisplayOptions.create(isSystemInDarkTheme())
+                    initial = SSReadingDisplayOptions(isSystemInDarkTheme())
                 ).value
                 val bibleVerses = bibleVersesFlow.collectAsState(
                     initial = emptyList()

@@ -29,6 +29,8 @@ data class SSReadingDisplayOptions @JvmOverloads constructor(
     var font: String = SS_FONT_ANDADA
 ) {
 
+    constructor(isDark: Boolean) : this(if (isDark) SS_THEME_DARK else SS_THEME_LIGHT)
+
     val themeColor: String
         get() {
             return when (theme) {
@@ -57,11 +59,5 @@ data class SSReadingDisplayOptions @JvmOverloads constructor(
         const val SS_FONT_LATO = "lato"
         const val SS_FONT_PT_SERIF = "pt-serif"
         const val SS_FONT_PT_SANS = "pt-sans"
-
-        fun create(isDark: Boolean = true): SSReadingDisplayOptions {
-            return SSReadingDisplayOptions(
-                if (isDark) SS_THEME_DARK else SS_THEME_LIGHT,
-            )
-        }
     }
 }
