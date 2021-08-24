@@ -24,17 +24,17 @@ package com.cryart.sabbathschool.settings
 
 import android.os.Bundle
 import android.view.MenuItem
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.model.AppConfig
-import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
+import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import com.cryart.sabbathschool.settings.databinding.SsSettingsActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SSSettingsActivity : SSColorSchemeActivity() {
+class SSSettingsActivity : SSBaseActivity() {
 
     @Inject
     lateinit var dailyReminder: DailyReminder
@@ -42,9 +42,7 @@ class SSSettingsActivity : SSColorSchemeActivity() {
     @Inject
     lateinit var appConfig: AppConfig
 
-    private val binding: SsSettingsActivityBinding by lazy {
-        SsSettingsActivityBinding.inflate(layoutInflater)
-    }
+    private val binding by viewBinding(SsSettingsActivityBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,12 +57,6 @@ class SSSettingsActivity : SSColorSchemeActivity() {
         ).commit()
 
         SSEvent.track(this, SSConstants.SS_EVENT_SETTINGS_OPEN)
-        updateColorScheme()
-    }
-
-    private fun updateColorScheme() {
-        binding.ssToolbar.setBackgroundColor(this.colorPrimary)
-        updateWindowColorScheme()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

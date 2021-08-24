@@ -6,7 +6,6 @@
         <activity
             android:name=".SSSettingsActivity"
             android:label="@string/ss_settings"
-            android:theme="@style/Theme.SS.Primary"
             android:windowSoftInputMode="adjustResize" />
     </application>
 
