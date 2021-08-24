@@ -88,7 +88,11 @@ class HeaderComponent(
                 ).value
 
                 val backgroundColor = Color.parse(displayOptions.themeColor)
-                val contentColor = contentColorFor(backgroundColor = backgroundColor)
+                val contentColor = if (displayOptions.theme == SSReadingDisplayOptions.SS_THEME_DARK) {
+                    Color.White
+                } else {
+                    contentColorFor(backgroundColor = backgroundColor)
+                }
 
                 Surface(
                     color = backgroundColor,
