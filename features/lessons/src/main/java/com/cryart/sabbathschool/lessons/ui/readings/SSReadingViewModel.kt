@@ -46,8 +46,6 @@ import app.ss.lessons.data.model.SSSuggestion
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.cryart.sabbathschool.bible.SSBibleVersesActivity
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
-import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.coroutines.debounceUntilLast
 import com.cryart.sabbathschool.core.misc.DateHelper
@@ -100,12 +98,6 @@ class SSReadingViewModel(
     val ssLessonOfflineStateVisibility = ObservableInt(View.INVISIBLE)
     val ssLessonErrorStateVisibility = ObservableInt(View.INVISIBLE)
     val ssLessonCoordinatorVisibility = ObservableInt(View.INVISIBLE)
-
-    val primaryColor: Int
-        get() = context.colorPrimary
-
-    val secondaryColor: Int
-        get() = context.colorPrimaryDark
 
     init {
         loadLessonInfo()

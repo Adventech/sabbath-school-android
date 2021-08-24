@@ -25,21 +25,12 @@ package com.cryart.sabbathschool.core.extensions.context
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Color
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
 import androidx.core.net.toUri
 import com.cryart.sabbathschool.core.R
-import com.cryart.sabbathschool.core.misc.SSColorTheme
 import timber.log.Timber
-
-/**
- * Returns current color primary saved in prefs
- */
-val Context.colorPrimary get() = Color.parseColor(SSColorTheme.getInstance(this).colorPrimary)
-
-val Context.colorPrimaryDark get() = Color.parseColor(SSColorTheme.getInstance(this).colorPrimaryDark)
 
 fun Context.isDarkTheme(): Boolean {
     return resources.configuration.uiMode and

@@ -109,7 +109,6 @@ dependencies {
     implementation(Iconics.VIEWS)
     implementation(Iconics.TYPEFACE)
     implementation(Iconics.MATERIAL_TYPEFACE)
-    implementation("net.opacapp:multiline-collapsingtoolbar:27.1.1")
     implementation("com.github.hotchemi:android-rate:1.0.1")
     implementation("com.afollestad.material-dialogs:input:3.3.0")
     implementation("ru.beryukhov:flowreactivenetwork:1.0.4")

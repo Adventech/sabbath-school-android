@@ -47,7 +47,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@{viewModel.secondaryColor}"
+            android:background="?attr/colorPrimary"
             app:showInLightTheme="@{true}" />
 
         <com.mikepenz.iconics.view.IconicsImageView
@@ -74,7 +74,7 @@
             android:layout_margin="@dimen/spacing_micro"
             android:onClick="@{() -> viewModel.reloadContent()}"
             android:text="@string/ss_reading_offline_retry"
-            android:textColor="@{viewModel.primaryColor}" />
+            android:textColor="?attr/colorPrimary" />
     </LinearLayout>
 
 </layout>

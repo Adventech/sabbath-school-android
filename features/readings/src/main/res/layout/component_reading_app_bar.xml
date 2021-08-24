@@ -32,7 +32,7 @@
     app:expanded="true"
     tools:visibility="visible">
 
-    <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
+    <com.google.android.material.appbar.CollapsingToolbarLayout
         android:id="@+id/collapsing_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -81,5 +81,5 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_collapseMode="pin" />
-    </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
 </com.google.android.material.appbar.AppBarLayout>
