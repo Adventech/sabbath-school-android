@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.lessons.ui.readings
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -39,7 +40,6 @@ import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
 import coil.load
-import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
@@ -48,6 +48,7 @@ import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
+import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.ui.SSBaseActivity
@@ -80,6 +81,8 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
     private val readingViewAdapter: ReadingViewPagerAdapter by lazy {
         ReadingViewPagerAdapter(ssReadingViewModel)
     }
+
+    private var appbarChangeListener: AppbarOffsetChangeListener? = null
 
     private var currentReadPosition: Int? = null
 
@@ -144,15 +147,29 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
         }
 
         binding.ssReadingAppBar.apply {
-            if (isDarkTheme().not()) {
-                ssReadingAppBarLayout.addOnOffsetChangedListener(
-                    AppBarOffsetChangeListener(
-                        this@SSReadingActivity,
-                        ssReadingCollapsingToolbar,
-                        ssReadingToolbar,
-                    )
-                )
+            appbarChangeListener = AppbarOffsetChangeListener(
+                this@SSReadingActivity,
+                ssReadingCollapsingToolbar,
+                ssReadingToolbar,
+            ).also {
+                ssReadingAppBarLayout.addOnOffsetChangedListener(it)
             }
+        }
+    }
+
+    private fun updateColorScheme(displayOptions: SSReadingDisplayOptions) {
+        val color = displayOptions.colorTheme
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.apply {
+            setContentScrimColor(color)
+            setStatusBarScrimColor(color)
+            setBackgroundColor(color)
+
+            setCollapsedTitleTextColor(
+                when (displayOptions.theme) {
+                    SSReadingDisplayOptions.SS_THEME_DARK -> Color.WHITE
+                    else -> Color.BLACK
+                }
+            )
         }
     }
 
@@ -274,6 +291,8 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
     private fun observeData() {
         ssPrefs.displayOptionsFlow().collectIn(this) { displayOptions ->
             readingViewAdapter.readingOptions = displayOptions
+            appbarChangeListener?.readingOptions = displayOptions
+            updateColorScheme(displayOptions)
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
         }
     }

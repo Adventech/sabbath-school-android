@@ -28,10 +28,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import com.cryart.sabbathschool.core.extensions.activity.setLightStatusBar
 import com.cryart.sabbathschool.core.extensions.view.tint
+import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 
-class AppBarOffsetChangeListener(
+class AppbarOffsetChangeListener(
     private val activity: Activity,
     private val collapsingToolbar: CollapsingToolbarLayout,
     private val toolbar: Toolbar,
@@ -39,20 +40,33 @@ class AppBarOffsetChangeListener(
 
     private var isCollapsed: Boolean = false
 
+    var readingOptions: SSReadingDisplayOptions? = null
+        set(value) {
+            field = value
+            themeContent(isCollapsed)
+        }
+
     override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
         val collapsed = collapsingToolbar.height + verticalOffset < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)
-        themeContent(collapsed)
-    }
-
-    private fun themeContent(collapsed: Boolean) {
         if (isCollapsed == collapsed) {
             return
         }
         isCollapsed = collapsed
+        themeContent(collapsed)
+    }
 
-        val color = if (collapsed) Color.BLACK else Color.WHITE
+    private fun themeContent(collapsed: Boolean) {
+        val color = when {
+            readingOptions?.theme == SSReadingDisplayOptions.SS_THEME_DARK || !collapsed -> Color.WHITE
+            else -> Color.BLACK
+        }
 
-        activity.setLightStatusBar(collapsed)
+        if (readingOptions?.theme != SSReadingDisplayOptions.SS_THEME_DARK) {
+            activity.setLightStatusBar(collapsed)
+        } else {
+            activity.setLightStatusBar(false)
+        }
+
         toolbar.navigationIcon?.tint(color)
         toolbar.overflowIcon?.tint(color)
 
