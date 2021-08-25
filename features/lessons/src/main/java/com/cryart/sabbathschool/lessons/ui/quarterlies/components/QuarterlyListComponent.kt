@@ -31,6 +31,7 @@ import app.ss.lessons.data.model.QuarterlyGroup
 import app.ss.lessons.data.model.SSQuarterly
 import com.cryart.design.ext.ComposeListAdapter
 import com.cryart.design.ext.ComposeViewHolder
+import com.cryart.design.ext.thenIf
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.inflate
 import com.cryart.sabbathschool.core.ui.BaseDataComponent
@@ -104,9 +105,11 @@ private class QuarterlyViewHolder(
         QuarterlyRow(
             spec = item.spec(QuarterlySpec.Type.NORMAL),
             modifier = Modifier
-                .clickable {
-                    callbacks.onReadClick(item.index)
-                }
+                .thenIf(item.isPlaceholder.not()) {
+                    clickable {
+                        callbacks.onReadClick(item.index)
+                    }
+                },
         )
     }
 }

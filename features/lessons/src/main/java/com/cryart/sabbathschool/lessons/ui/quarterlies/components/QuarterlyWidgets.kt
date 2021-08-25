@@ -80,6 +80,9 @@ import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.theme.navTitle
 import com.cryart.design.theme.parse
 import com.cryart.sabbathschool.lessons.R
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.material.placeholder
+import com.google.accompanist.placeholder.material.shimmer
 
 fun SSQuarterly.spec(
     type: QuarterlySpec.Type,
@@ -89,6 +92,7 @@ fun SSQuarterly.spec(
     human_date,
     cover,
     Color.parse(color_primary),
+    isPlaceholder = isPlaceholder,
     type,
     onClick
 )
@@ -98,6 +102,7 @@ data class QuarterlySpec(
     val date: String,
     val cover: String,
     val color: Color,
+    val isPlaceholder: Boolean = false,
     val type: Type = Type.NORMAL,
     val onClick: () -> Unit = {}
 ) {
@@ -155,6 +160,11 @@ fun QuarterlyRow(
     spec: QuarterlySpec,
     modifier: Modifier = Modifier
 ) {
+    val loadingModifier = Modifier.placeholder(
+        visible = spec.isPlaceholder,
+        highlight = PlaceholderHighlight.shimmer(),
+    )
+
     Row(
         modifier = modifier
             .padding(
@@ -166,7 +176,11 @@ fun QuarterlyRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
 
-        QuarterlyCover(spec)
+        QuarterlyCover(
+            spec,
+            modifier = Modifier
+                .then(loadingModifier)
+        )
 
         Spacer(modifier = Modifier.width(Dimens.grid_4))
 
@@ -181,7 +195,9 @@ fun QuarterlyRow(
                     fontWeight = FontWeight.Bold,
                 ),
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .then(loadingModifier)
             )
 
             Spacer(modifier = Modifier.height(Dimens.grid_1))
@@ -192,7 +208,9 @@ fun QuarterlyRow(
                     color = MaterialTheme.colors.onSurface
                 ),
                 maxLines = 3,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .then(loadingModifier)
             )
         }
 
@@ -213,6 +231,7 @@ fun QuarterlyRowPreview() {
             "July · August · September 2021",
             "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
             Color.Cyan,
+            false,
             QuarterlySpec.Type.NORMAL
         ),
         modifier = Modifier.padding(6.dp)
@@ -266,6 +285,7 @@ fun QuarterlyColumnPreview() {
             "July · August · September 2021",
             "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
             Color.Magenta,
+            false,
             QuarterlySpec.Type.LARGE
         ),
         modifier = Modifier.padding(6.dp)
@@ -273,10 +293,14 @@ fun QuarterlyColumnPreview() {
 }
 
 @Composable
-private fun QuarterlyCover(spec: QuarterlySpec) {
+private fun QuarterlyCover(
+    spec: QuarterlySpec,
+    modifier: Modifier = Modifier
+) {
     CoverBox(
         type = spec.type,
-        color = spec.color
+        color = spec.color,
+        modifier = modifier
     ) {
         Image(
             painter = rememberImagePainter(
