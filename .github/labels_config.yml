@@ -20,6 +20,8 @@ settings:
   - 'features/settings/*'
 app-widgets:
   - 'features/app-widgets/*'
+media:
+  - 'features/media/*'
 dependencies:
   - 'buildSrc/src/main/kotlin/dependencies/*'
 test:
