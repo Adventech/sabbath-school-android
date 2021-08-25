@@ -26,6 +26,7 @@ import app.ss.media.BuildConfig
 import app.ss.media.api.SSMediaApi
 import app.ss.media.repository.SSMediaRepository
 import app.ss.media.repository.SSMediaRepositoryImpl
+import com.cryart.sabbathschool.core.misc.SSConstants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -64,7 +65,7 @@ object MediaModule {
     @Singleton
     fun provideMediaApi(): SSMediaApi =
         Retrofit.Builder()
-            .baseUrl(BuildConfig.SS_API_BASE_URL)
+            .baseUrl(SSConstants.SS_API_BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(okHttpClient)
             .build()

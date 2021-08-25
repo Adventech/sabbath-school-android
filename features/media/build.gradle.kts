@@ -46,8 +46,6 @@ android {
 
     defaultConfig {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
-
-        buildConfigField("String", "SS_API_BASE_URL", "\"https://sabbath-school.adventech.io/\"")
     }
 
     sourceSets {
