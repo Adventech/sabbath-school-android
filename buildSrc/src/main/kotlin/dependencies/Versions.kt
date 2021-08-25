@@ -40,7 +40,12 @@ object Versions {
     const val JODA = "2.10.9.1"
     const val JODA_TIME = "2.10.10"
     const val MARK_WORM = "4.6.2"
-    const val MOSHI = "1.12.0"
+
+    object Square {
+        const val moshi = "1.12.0"
+        const val okhttp3 = "4.9.1"
+        const val retrofit = "2.9.0"
+    }
 
     // Tests
     const val ANDROIDX_TEST = "1.4.0"

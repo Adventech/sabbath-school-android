@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,11 @@ import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Compose
-import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Hilt
-import dependencies.Dependencies.Iconics
 import dependencies.Dependencies.Kotlin
+import dependencies.Dependencies.Square.Moshi
+import dependencies.Dependencies.Square.Okhttp
+import dependencies.Dependencies.Square.Retrofit
 import dependencies.Versions
 import extensions.addTestsDependencies
 import extensions.kapt
@@ -45,6 +46,16 @@ android {
 
     defaultConfig {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
+
+        buildConfigField("String", "SS_API_BASE_URL", "\"https://sabbath-school.adventech.io/\"")
+    }
+
+    sourceSets {
+        getByName("main") {
+            java {
+                srcDirs("src/main/kotlin")
+            }
+        }
     }
 
     compileOptions {
@@ -70,16 +81,9 @@ dependencies {
 
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
-    implementation(project(BuildModules.Common.TRANSLATIONS))
-    implementation(project(BuildModules.Common.LESSONS_DATA))
-    implementation(project(BuildModules.Features.APP_WIDGETS))
-    implementation(project(BuildModules.Features.BIBLE))
-    implementation(project(BuildModules.Features.READER))
-    implementation(project(BuildModules.Features.MEDIA))
 
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
-    implementation(Kotlin.COROUTINES_PLAY_SERVICES)
 
     implementation(Dependencies.MATERIAL)
     implementation(AndroidX.CORE)
@@ -90,36 +94,27 @@ dependencies {
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
     implementation(AndroidX.LIFECYCLE_EXTENSIONS)
     implementation(AndroidX.LIFECYCLE_LIVEDATA)
-    implementation(AndroidX.RECYCLER_VIEW)
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
 
-    implementation(platform(Firebase.BOM))
-    implementation(Firebase.DATABASE)
-    implementation(Firebase.STORAGE)
-    implementation(Firebase.ANALYTICS)
-    implementation(Firebase.AUTH)
-
-    implementation(Dependencies.JODA)
     implementation(Dependencies.TIMBER)
     implementation(Coil.core)
     implementation(Coil.compose)
-    implementation(Dependencies.TAP_TARGET)
-    implementation(Iconics.CORE)
-    implementation(Iconics.VIEWS)
-    implementation(Iconics.TYPEFACE)
-    implementation(Iconics.MATERIAL_TYPEFACE)
-    implementation("net.opacapp:multiline-collapsingtoolbar:27.1.1")
-    implementation("com.github.hotchemi:android-rate:1.0.1")
-    implementation("com.afollestad.material-dialogs:input:3.3.0")
-    implementation("ru.beryukhov:flowreactivenetwork:1.0.2")
     implementation(Dependencies.Facebook.SHIMMER)
-    implementation(Dependencies.MarkWorm.core)
 
     implementation(Compose.ui)
     implementation(Compose.material)
     implementation(Compose.tooling)
+
+    implementation(Moshi.kotlin)
+    kapt(Moshi.codegen)
+
+    implementation(Okhttp.okhttp)
+    implementation(Okhttp.logging)
+
+    implementation(Retrofit.retrofit2)
+    implementation(Retrofit.moshiConverter)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))

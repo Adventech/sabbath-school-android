@@ -76,8 +76,16 @@ object Dependencies {
 
     object Square {
         object Moshi {
-            const val kotlin = "com.squareup.moshi:moshi-kotlin:${Versions.MOSHI}"
-            const val codegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.MOSHI}"
+            const val kotlin = "com.squareup.moshi:moshi-kotlin:${Versions.Square.moshi}"
+            const val codegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.Square.moshi}"
+        }
+        object Okhttp {
+            const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.Square.okhttp3}"
+            const val logging = "com.squareup.okhttp3:logging-interceptor:${Versions.Square.okhttp3}"
+        }
+        object Retrofit {
+            const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.Square.retrofit}"
+            const val moshiConverter = "com.squareup.retrofit2:converter-moshi:${Versions.Square.retrofit}"
         }
     }
 }

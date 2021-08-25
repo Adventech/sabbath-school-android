@@ -25,13 +25,14 @@ include(
     ":common:design",
     ":common:translations",
     ":common:lessons-data",
-    ":features:app-widgets",
-    ":features:reader",
-    ":features:lessons",
-    ":features:bible",
-    ":features:settings",
     ":features:account",
+    ":features:app-widgets",
+    ":features:bible",
+    ":features:lessons",
+    ":features:media",
+    ":features:reader",
     ":features:readings",
+    ":features:settings",
     ":libraries:test_utils"
 )
 rootProject.buildFileName = "build.gradle.kts"

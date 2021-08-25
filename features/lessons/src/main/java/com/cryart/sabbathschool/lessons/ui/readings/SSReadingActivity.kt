@@ -30,6 +30,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -87,6 +88,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
     private val readingViewAdapter: ReadingViewPagerAdapter by lazy {
         ReadingViewPagerAdapter(ssReadingViewModel)
     }
+    private val viewModel by viewModels<ReadingsViewModel>()
 
     private var currentReadPosition: Int? = null
 
