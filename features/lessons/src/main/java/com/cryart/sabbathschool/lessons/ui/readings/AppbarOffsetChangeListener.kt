@@ -32,6 +32,10 @@ import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 
+/**
+ * Adding this OffsetChangeListener breaks AppBarLayout scrolling on Samsung devices
+ * specifically Note 9 with Android 8.1.
+ */
 class AppbarOffsetChangeListener(
     private val activity: Activity,
     private val collapsingToolbar: CollapsingToolbarLayout,

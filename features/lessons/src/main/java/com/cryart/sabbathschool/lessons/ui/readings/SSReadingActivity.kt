@@ -40,6 +40,8 @@ import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
 import coil.load
+import com.cryart.design.theme
+import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
@@ -127,6 +129,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
         }
         binding.executePendingBindings()
         binding.viewModel = ssReadingViewModel
+        updateColorScheme()
 
         observeData()
     }
@@ -146,7 +149,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
             binding.ssReadingViewPager.currentItem = it
         }
 
-        binding.ssReadingAppBar.apply {
+        /*binding.ssReadingAppBar.apply {
             appbarChangeListener = AppbarOffsetChangeListener(
                 this@SSReadingActivity,
                 ssReadingCollapsingToolbar,
@@ -154,7 +157,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
             ).also {
                 ssReadingAppBarLayout.addOnOffsetChangedListener(it)
             }
-        }
+        }*/
     }
 
     private fun updateColorScheme(displayOptions: SSReadingDisplayOptions) {
@@ -182,6 +185,13 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
         }.addOnFailureListener {
             Timber.e(it.fillInStackTrace())
         }
+    }
+
+    private fun updateColorScheme() {
+        val primaryColor = this.colorPrimary
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setContentScrimColor(primaryColor)
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setBackgroundColor(primaryColor)
+        binding.ssProgressBar.ssQuarterliesLoading.theme(primaryColor)
     }
 
     private fun downloadLatestReader(readerArtifactCreationTime: Long) {
@@ -292,7 +302,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
         ssPrefs.displayOptionsFlow().collectIn(this) { displayOptions ->
             readingViewAdapter.readingOptions = displayOptions
             appbarChangeListener?.readingOptions = displayOptions
-            updateColorScheme(displayOptions)
+            // updateColorScheme(displayOptions)
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
         }
     }
