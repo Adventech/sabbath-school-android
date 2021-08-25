@@ -41,8 +41,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -100,7 +102,7 @@ class HeaderComponent(
                 ) {
                     HeaderRow(
                         bibleVerses = bibleVerses,
-                        lastBibleUsed = lastBibleUsed,
+                        lastBibleUsed = lastBibleUsed ?: "",
                         callbacks = callbacks,
                     )
                 }
@@ -112,7 +114,7 @@ class HeaderComponent(
 @Composable
 fun HeaderRow(
     bibleVerses: List<SSBibleVerses>,
-    lastBibleUsed: String?,
+    lastBibleUsed: String,
     modifier: Modifier = Modifier,
     callbacks: HeaderComponent.Callbacks? = null,
 ) {
@@ -144,15 +146,11 @@ fun HeaderRow(
 @Composable
 private fun BibleVersionsMenu(
     bibleVerses: List<SSBibleVerses>,
-    lastBibleUsed: String?,
+    lastBibleUsed: String,
     callbacks: HeaderComponent.Callbacks? = null,
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var selected by remember {
-        mutableStateOf(
-            lastBibleUsed ?: bibleVerses.firstOrNull()?.name ?: ""
-        )
-    }
+    var selected by remember { mutableStateOf(lastBibleUsed) }
     val iconRotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f
     )
@@ -198,9 +196,25 @@ private fun BibleVersionsMenu(
                         verse.name,
                         style = LabelMedium,
                     )
+                    if (verse.name == selected) {
+                        Spacer(modifier = Modifier.weight(1f))
+                        Icon(
+                            Icons.Rounded.Check,
+                            contentDescription = "Selected",
+                        )
+                    }
                 }
             }
         }
+    }
+
+    if (selected.isEmpty() && bibleVerses.isNotEmpty()) {
+        LaunchedEffect(
+            key1 = Any(),
+            block = {
+                selected = bibleVerses.first().name
+            }
+        )
     }
 }
 
