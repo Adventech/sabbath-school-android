@@ -72,7 +72,6 @@ class QuarterliesListActivity : SSBaseActivity(), QuarterlyListCallbacks {
         val stateFlow = viewModel.quarterliesFlow.map { it.status }
         stateFlow.collectIn(this) { status ->
             binding.apply {
-                ssQuarterliesProgressBar.isVisible = status == Status.LOADING
                 ssQuarterliesErrorState.isVisible = status == Status.ERROR
             }
         }
