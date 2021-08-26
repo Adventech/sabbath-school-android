@@ -453,6 +453,9 @@ class SSReadingViewModel(
 
     fun onSSReadingDisplayOptions(ssReadingDisplayOptions: SSReadingDisplayOptions) {
         currentSSReadingView?.updateReadingDisplayOptions(ssReadingDisplayOptions)
+        val parent = currentSSReadingView?.parent as? ViewGroup
+        parent?.setBackgroundColor(ssReadingDisplayOptions.colorTheme)
+
         for (i in 0 until ssTotalReadsCount) {
             if (i == ssReadingActivityBinding.ssReadingViewPager.currentItem) continue
             val view = ssReadingActivityBinding.ssReadingViewPager.findViewWithTag<View?>("ssReadingView_$i")

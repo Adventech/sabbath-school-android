@@ -22,7 +22,9 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ss_reading_view_scroll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingBottom="@dimen/spacing_huge">
 
     <com.cryart.sabbathschool.lessons.ui.readings.SSReadingView
         android:id="@+id/ss_reading_view"
