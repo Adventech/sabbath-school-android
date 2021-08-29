@@ -34,28 +34,17 @@ import com.cryart.sabbathschool.core.R
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import timber.log.Timber
 
+fun Context.isDarkTheme(): Boolean {
+    return resources.configuration.uiMode and
+        Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+}
+
 /**
  * Returns current color primary saved in prefs
  */
 val Context.colorPrimary get() = Color.parseColor(SSColorTheme.getInstance(this).colorPrimary)
 
-/**
- * Returns a white color tint in dark-mode
- * or the saved [colorPrimary] in light-mode
- */
-val Context.colorPrimaryTint
-    get() = if (isDarkTheme()) {
-        Color.WHITE
-    } else {
-        colorPrimary
-    }
-
 val Context.colorPrimaryDark get() = Color.parseColor(SSColorTheme.getInstance(this).colorPrimaryDark)
-
-fun Context.isDarkTheme(): Boolean {
-    return resources.configuration.uiMode and
-        Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-}
 
 fun Context.launchWebUrl(url: String): Boolean {
     return launchWebUrl(url.toWebUri())

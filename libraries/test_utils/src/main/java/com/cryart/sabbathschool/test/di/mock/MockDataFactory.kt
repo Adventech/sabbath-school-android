@@ -39,11 +39,11 @@ object MockDataFactory {
     val versions = listOf(
         "NASB", "NKJV", "KJV"
     )
-    val verses = mapOf(
+    private val verses = mapOf(
         "1John14" to "<h2>1 John 1:4</h2><sup>4</sup> These things we write, so that our joy may be made complete."
     )
 
-    private val bibleVerses: List<SSBibleVerses> = versions.map { version ->
+    val bibleVerses: List<SSBibleVerses> = versions.map { version ->
         SSBibleVerses(
             name = version,
             verses = verses

@@ -24,14 +24,10 @@ package com.cryart.sabbathschool.bible
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import app.ss.lessons.data.model.SSBibleVerses
+import com.cryart.sabbathschool.bible.components.HeaderComponent
 import com.cryart.sabbathschool.bible.databinding.SsBibleVersesActivityBinding
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -39,7 +35,7 @@ import com.cryart.sabbathschool.core.misc.SSEvent.track
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SSBibleVersesActivity : AppCompatActivity() {
+class SSBibleVersesActivity : AppCompatActivity(), HeaderComponent.Callbacks {
 
     private val viewModel by viewModels<SSBibleVersesViewModel>()
     private val binding by viewBinding(SsBibleVersesActivityBinding::inflate)
@@ -50,43 +46,33 @@ class SSBibleVersesActivity : AppCompatActivity() {
 
         track(this, SSConstants.SS_EVENT_BIBLE_OPEN)
 
-        val verse = intent.extras?.getString(SSConstants.SS_READ_VERSE_EXTRA)
+        binding.root.setOnClickListener { onClose() }
 
-        binding.bibleCloseIV.setOnClickListener { finish() }
-        binding.root.setOnClickListener { finish() }
+        HeaderComponent(
+            binding.ssBibleVersesHeader,
+            viewModel.readingOptionsFlow,
+            viewModel.bibleVersesFlow,
+            viewModel.getLastBibleUsed(),
+            this
+        )
 
-        binding.ssBibleVersesHeader.setBackgroundColor(this.colorPrimary)
-        binding.ssReadingBibleVersionList.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(adapterView: AdapterView<*>, view: View?, i: Int, l: Long) {
-                val ssBibleVerses = adapterView.getItemAtPosition(i) as? SSBibleVerses ?: return
-                viewModel.setLastBibleUsed(ssBibleVerses.name)
-                val data = ssBibleVerses.verses[verse] ?: ""
-                viewModel.displayOptions { options ->
-                    runOnUiThread {
-                        binding.ssBibleVersesView.loadContent(data, options)
-                    }
+        viewModel.versesContentFlow.collectIn(this) { content ->
+            viewModel.displayOptions { options ->
+                runOnUiThread {
+                    binding.ssBibleVersesView.loadContent(content, options)
                 }
             }
-
-            override fun onNothingSelected(arg0: AdapterView<*>?) {}
-        }
-
-        viewModel.bibleVersesFlow.collectIn(this) { verses ->
-            binding.ssReadingBibleVersionList.adapter = SSBibleVersionsAdapter(verses)
-            val lastBibleVersionUsed = viewModel.getLastBibleUsed()
-            var pos = 0
-            if (lastBibleVersionUsed != null) {
-                pos = verses.indexOfFirst { verse -> verse.name.equals(lastBibleVersionUsed, ignoreCase = true) }
-                if (pos == -1) {
-                    pos = 0
-                }
-            }
-            binding.ssReadingBibleVersionList.setSelection(pos)
         }
 
         viewModel.displayOptions { options ->
             binding.ssBibleVersesView.setBackgroundColor(options.colorTheme)
         }
+    }
+
+    override fun onClose() = finish()
+
+    override fun versionSelected(version: String) {
+        viewModel.versionSelected(version)
     }
 
     companion object {

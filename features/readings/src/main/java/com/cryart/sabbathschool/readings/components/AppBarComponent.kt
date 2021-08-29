@@ -25,14 +25,10 @@ package com.cryart.sabbathschool.readings.components
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LifecycleOwner
 import coil.load
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
-import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
-import com.cryart.sabbathschool.core.extensions.view.tint
 import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.readings.R
 import com.cryart.sabbathschool.readings.components.model.AppBarData
@@ -44,20 +40,8 @@ class AppBarComponent(
     private val binding: ComponentReadingAppBarBinding
 ) : BaseComponent<AppBarData>(lifecycleOwner) {
 
-    init {
-        binding.collapsingToolbar.apply {
-            setBackgroundColor(context.colorPrimary)
-            setContentScrimColor(context.colorPrimary)
-            setStatusBarScrimColor(context.colorPrimaryDark)
-            setCollapsedTitleTypeface(ResourcesCompat.getFont(context, R.font.lato_bold))
-            setExpandedTitleTypeface(ResourcesCompat.getFont(context, R.font.lato_bold))
-        }
-    }
-
     private fun placeholderDrawable(context: Context): Drawable? {
-        val drawable = ContextCompat.getDrawable(context, R.drawable.bg_cover)
-        drawable?.tint(context.colorPrimary)
-        return drawable
+        return ContextCompat.getDrawable(context, R.drawable.bg_cover)
     }
 
     override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<AppBarData>) {

@@ -19,12 +19,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.cryart.sabbathschool.core.ui
 
-package com.cryart.sabbathschool.lessons.ui.base
+import android.annotation.SuppressLint
+import android.app.assist.AssistContent
+import android.content.pm.ActivityInfo
+import android.os.Build
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.cryart.sabbathschool.core.R
 
-import android.net.Uri
+abstract class SSBaseActivity : AppCompatActivity() {
 
-interface ShareableScreen {
+    @SuppressLint("SourceLockedOrientationActivity")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (resources.getBoolean(R.bool.portrait_only)) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
+    }
 
-    fun getShareWebUri(): Uri
+    override fun onProvideAssistContent(outContent: AssistContent) {
+        super.onProvideAssistContent(outContent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            outContent.webUri = (this as? ShareableScreen)?.getShareWebUri()
+        }
+    }
 }

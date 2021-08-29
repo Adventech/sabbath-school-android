@@ -77,8 +77,7 @@
 
         <activity
             android:name=".ui.about.AboutActivity"
-            android:label="@string/ss_about"
-            android:theme="@style/Theme.SS.Primary" />
+            android:label="@string/ss_about" />
 
         <activity
             android:name="com.facebook.FacebookActivity"

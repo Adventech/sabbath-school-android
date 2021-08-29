@@ -36,7 +36,7 @@ import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
-import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
+import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesViewModel
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies

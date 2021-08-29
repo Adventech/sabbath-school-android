@@ -23,7 +23,6 @@
 package com.cryart.sabbathschool.readings.components
 
 import androidx.lifecycle.LifecycleOwner
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.cryart.sabbathschool.core.ui.BaseComponent
@@ -38,9 +37,6 @@ class LessonErrorComponent(
 ) : BaseComponent<ErrorData>(lifecycleOwner) {
 
     init {
-        binding.backdrop.apply {
-            setBackgroundColor(context.colorPrimary)
-        }
         binding.navClose.setOnClickListener {
             onClose()
         }

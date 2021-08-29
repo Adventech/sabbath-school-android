@@ -22,10 +22,11 @@
 
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Firebase
+import dependencies.Dependencies.Compose
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.Iconics
+import dependencies.Versions
 import extensions.addTestsDependencies
 import extensions.kapt
 
@@ -51,9 +52,13 @@ android {
         jvmTarget = JavaOptions.version.toString()
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.COMPOSE
+    }
 
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 }
 
@@ -80,6 +85,10 @@ dependencies {
 
     implementation(Dependencies.TIMBER)
     implementation(Iconics.VIEWS)
+
+    implementation(Compose.ui)
+    implementation(Compose.material)
+    implementation(Compose.tooling)
 
     addTestsDependencies()
 }

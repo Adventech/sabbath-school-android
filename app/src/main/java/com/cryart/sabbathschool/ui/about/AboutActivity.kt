@@ -29,13 +29,12 @@ import android.view.MenuItem
 import androidx.core.app.ShareCompat
 import androidx.databinding.DataBindingUtil
 import com.cryart.sabbathschool.R
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
-import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
+import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import com.cryart.sabbathschool.databinding.SsAboutActivityBinding
 
-class AboutActivity : SSColorSchemeActivity() {
+class AboutActivity : SSBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,10 +44,8 @@ class AboutActivity : SSColorSchemeActivity() {
 
         with(binding.ssToolbar) {
             setSupportActionBar(this)
-            setBackgroundColor(colorPrimary)
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        updateWindowColorScheme()
 
         binding.viewModel = SSAboutViewModel(this)
 

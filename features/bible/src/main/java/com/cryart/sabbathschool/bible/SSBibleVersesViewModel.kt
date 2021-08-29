@@ -31,10 +31,15 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -42,7 +47,7 @@ import javax.inject.Inject
 class SSBibleVersesViewModel @Inject constructor(
     private val preferences: SSPrefs,
     private val lessonsRepository: LessonsRepository,
-    val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     val bibleVersesFlow: StateFlow<List<SSBibleVerses>> = flowOf(
@@ -50,7 +55,10 @@ class SSBibleVersesViewModel @Inject constructor(
     ).map { readIndex ->
         readIndex?.let {
             val data = lessonsRepository.getDayRead(readIndex)
-            data.data?.bible ?: emptyList()
+            val bibleVerses = data.data?.bible ?: emptyList()
+            val version = preferences.getLastBibleUsed() ?: bibleVerses.firstOrNull()?.name ?: ""
+            versionSelected(version, bibleVerses)
+            bibleVerses
         } ?: emptyList()
     }
         .catch { Timber.e(it) }
@@ -59,9 +67,21 @@ class SSBibleVersesViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
+    private val _versesContent = MutableSharedFlow<String>()
+    val versesContentFlow: SharedFlow<String> get() = _versesContent.asSharedFlow()
+
+    val readingOptionsFlow: Flow<SSReadingDisplayOptions> get() = preferences.displayOptionsFlow()
+
     fun getLastBibleUsed() = preferences.getLastBibleUsed()
 
-    fun setLastBibleUsed(bibleId: String) = preferences.setLastBibleUsed(bibleId)
-
     fun displayOptions(callback: (SSReadingDisplayOptions) -> Unit) = preferences.getDisplayOptions(callback)
+
+    fun versionSelected(version: String, list: List<SSBibleVerses> = bibleVersesFlow.value) {
+        val bibleVerses = list.find { it.name == version } ?: return
+        val verse = savedStateHandle.get<String>(SSConstants.SS_READ_VERSE_EXTRA)
+        preferences.setLastBibleUsed(bibleVerses.name)
+        viewModelScope.launch {
+            _versesContent.emit(bibleVerses.verses[verse] ?: "")
+        }
+    }
 }

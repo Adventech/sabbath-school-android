@@ -77,6 +77,7 @@ class ReadingViewHolder(
         readingViewModel: SSReadingViewModel
     ) {
 
+        binding.ssReadingViewScroll.setBackgroundColor(readingOptions.colorTheme)
         binding.ssReadingView.apply {
             setBackgroundColor(readingOptions.colorTheme)
             setContextMenuCallback(readingViewModel)
