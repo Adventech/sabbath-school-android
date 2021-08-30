@@ -29,7 +29,7 @@ import androidx.activity.viewModels
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
-import com.cryart.sabbathschool.core.ui.SSColorSchemeActivity
+import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import com.cryart.sabbathschool.readings.components.AppBarComponent
 import com.cryart.sabbathschool.readings.components.LessonErrorComponent
 import com.cryart.sabbathschool.readings.components.LessonLoadingComponent
@@ -39,7 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
-class ReadingActivity : SSColorSchemeActivity() {
+class ReadingActivity : SSBaseActivity() {
 
     private val viewModel by viewModels<ReadingViewModel>()
     private val binding by viewBinding(ActivityReadingBinding::inflate)

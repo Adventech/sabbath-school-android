@@ -21,6 +21,7 @@
  */
 
 import dependencies.Dependencies
+import dependencies.Dependencies.Accompanist
 import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Compose
@@ -109,16 +110,17 @@ dependencies {
     implementation(Iconics.VIEWS)
     implementation(Iconics.TYPEFACE)
     implementation(Iconics.MATERIAL_TYPEFACE)
-    implementation("net.opacapp:multiline-collapsingtoolbar:27.1.1")
     implementation("com.github.hotchemi:android-rate:1.0.1")
     implementation("com.afollestad.material-dialogs:input:3.3.0")
-    implementation("ru.beryukhov:flowreactivenetwork:1.0.2")
+    implementation("ru.beryukhov:flowreactivenetwork:1.0.4")
     implementation(Dependencies.Facebook.SHIMMER)
     implementation(Dependencies.MarkWorm.core)
 
     implementation(Compose.ui)
     implementation(Compose.material)
     implementation(Compose.tooling)
+
+    implementation(Accompanist.placeholder)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))

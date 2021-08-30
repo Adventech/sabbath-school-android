@@ -30,6 +30,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.WindowCompat
 import androidx.core.widget.NestedScrollView
+import com.cryart.sabbathschool.core.extensions.activity.slideEnter
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.view.tint
@@ -38,8 +39,8 @@ import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsActivityBinding
-import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
-import com.cryart.sabbathschool.lessons.ui.base.ShareableScreen
+import com.cryart.sabbathschool.core.ui.SSBaseActivity
+import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.lessons.ui.base.StatusComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.FooterComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooter
@@ -76,6 +77,7 @@ class SSLessonsActivity : SSBaseActivity(), ShareableScreen {
     private var shareMenuItem: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        slideEnter()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 

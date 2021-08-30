@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,29 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package com.cryart.sabbathschool.core.ui
 
-import android.content.pm.ActivityInfo
-import android.os.Build
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.cryart.sabbathschool.core.R
-import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
+import android.net.Uri
 
-open class SSColorSchemeActivity : AppCompatActivity() {
+interface ShareableScreen {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (resources.getBoolean(R.bool.portrait_only)) {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        }
-    }
-
-    fun updateWindowColorScheme(withStatusBar: Boolean = true) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (withStatusBar) {
-                window.statusBarColor = this.colorPrimaryDark
-            }
-        }
-    }
+    fun getShareWebUri(): Uri
 }

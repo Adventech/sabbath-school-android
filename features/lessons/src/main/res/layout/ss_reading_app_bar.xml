@@ -37,18 +37,19 @@
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay"
         android:visibility="@{viewModel.ssLessonCoordinatorVisibility}"
-        app:elevation="@dimen/ss_app_bar_elevation"
         app:expanded="true">
 
-        <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/ss_reading_collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:collapsedTitleTextAppearance="@style/AppThemeAppBarTextStyle"
             app:contentScrim="@{viewModel.primaryColor}"
             app:expandedTitleGravity="start|bottom"
             app:expandedTitleMarginBottom="@dimen/ss_reading_toolbar_title_margin_bottom"
             app:expandedTitleMarginStart="@dimen/ss_reading_toolbar_title_margin_left"
+            app:expandedTitleTextAppearance="@style/AppThemeAppBarTextStyleExpanded"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
             app:maxLines="2"
             app:statusBarScrim="@{viewModel.secondaryColor}"
@@ -76,8 +77,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="@dimen/ss_reading_toolbar_date_margin_left"
-                    android:layout_marginTop="@dimen/ss_reading_toolbar_date_margin_left"
+                    android:layout_marginStart="@dimen/ss_reading_toolbar_title_margin_left"
+                    android:layout_marginTop="@dimen/spacing_medium_large"
                     android:fitsSystemWindows="true"
                     android:fontFamily="@font/lato_bold"
                     android:maxLines="1"
@@ -92,6 +93,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin" />
-        </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 </layout>

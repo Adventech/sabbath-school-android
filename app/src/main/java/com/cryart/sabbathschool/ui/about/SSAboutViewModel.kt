@@ -24,12 +24,9 @@ package com.cryart.sabbathschool.ui.about
 import android.content.Context
 import com.cryart.sabbathschool.BuildConfig
 import com.cryart.sabbathschool.R
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 
 class SSAboutViewModel(private val context: Context) {
-
-    val colorPrimary: Int get() = context.colorPrimary
 
     val versionInfo: String get() = context.getString(R.string.ss_settings_version_with_param_string, BuildConfig.VERSION_NAME)
 

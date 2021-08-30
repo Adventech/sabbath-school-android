@@ -22,6 +22,8 @@
 
 package com.cryart.design.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import kotlin.math.max
 import kotlin.math.min
@@ -33,6 +35,7 @@ val BaseGrey3 = Color(0xFF606060)
 val BaseGrey4 = Color(0xFF383838)
 val BaseGrey5 = Color(0xFF1A1A1A)
 val BaseRed = Color(0xFFF1706B)
+val OffWhite = Color(0xFFE2E2E5)
 
 data class Colors(
     val Primary: Color = BaseBlue,
@@ -62,6 +65,9 @@ fun Color.darker(componentDelta: Float = 0.1f): Color = makeColor(-1 * component
 
 fun Color.lighter(componentDelta: Float = 0.1f): Color = makeColor(componentDelta)
 
+fun Color.Companion.parse(colorString: String): Color =
+    Color(color = android.graphics.Color.parseColor(colorString))
+
 /**
  * Create a new [Color] modifying each component
  * by componentDelta, making it either lighter or darker
@@ -76,3 +82,9 @@ fun Color.makeColor(componentDelta: Float): Color = Color(
 private fun Float.add(toComponent: Float): Float {
     return max(0f, min(1f, toComponent + this))
 }
+
+@Composable
+fun navTitle(): Color = if (isSystemInDarkTheme()) Color.White else Color.Black
+
+@Composable
+fun iconTint(): Color = if (isSystemInDarkTheme()) Color.White else BaseGrey2.lighter(0.2f)

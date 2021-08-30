@@ -22,14 +22,17 @@
 
 package app.ss.lessons.data.model
 
+import android.os.Parcelable
 import androidx.annotation.Keep
 import com.google.firebase.database.IgnoreExtraProperties
+import kotlinx.parcelize.Parcelize
 
 @Keep
+@Parcelize
 @IgnoreExtraProperties
 data class QuarterlyGroup(
     val name: String,
     val order: Int = Int.MAX_VALUE
-) {
+) : Parcelable {
     constructor() : this("")
 }

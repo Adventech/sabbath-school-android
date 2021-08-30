@@ -8,14 +8,19 @@
         <activity
             android:name=".ui.quarterlies.QuarterliesActivity"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.SS.Primary" />
+            android:theme="@style/Theme.SS" />
+
+        <activity
+            android:name=".ui.quarterlies.list.QuarterliesListActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.SS" />
 
         <activity
             android:name=".ui.lessons.SSLessonsActivity"
             android:label="@string/blank"
             android:launchMode="singleTop"
             android:parentActivityName=".ui.quarterlies.QuarterliesActivity"
-            android:theme="@style/Theme.SS.Full">
+            android:theme="@style/Theme.SS.Lessons">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.quarterlies.QuarterliesActivity" />

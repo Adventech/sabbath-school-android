@@ -103,4 +103,5 @@
     <string name="ss_settings_version_with_param_string">เวอร์ชัน: %1$s</string>
     <string name="ss_more">มากกว่า</string>
     <string name="ss_copyright">%1$s การประชุมใหญ่สามัญของมิชชั่นวันที่เจ็ด®</string>
+    <string name="ss_see_all">ดูทั้งหมด</string>
 </resources>

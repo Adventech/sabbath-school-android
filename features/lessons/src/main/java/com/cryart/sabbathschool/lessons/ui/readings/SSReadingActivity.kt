@@ -30,7 +30,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewTreeLifecycleOwner
@@ -51,20 +50,17 @@ import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
+import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
+import com.cryart.sabbathschool.core.ui.SSBaseActivity
+import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
-import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
-import com.cryart.sabbathschool.lessons.ui.base.ShareableScreen
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeDp
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.io.File
@@ -79,7 +75,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
     @Inject
     lateinit var ssPrefs: SSPrefs
 
-    private val binding: SsReadingActivityBinding by viewBinding(SsReadingActivityBinding::inflate)
+    private val binding by viewBinding(SsReadingActivityBinding::inflate)
     private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance()
         .reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
     private lateinit var ssReadingViewModel: SSReadingViewModel
@@ -87,6 +83,8 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
     private val readingViewAdapter: ReadingViewPagerAdapter by lazy {
         ReadingViewPagerAdapter(ssReadingViewModel)
     }
+
+    private var appbarChangeListener: AppbarOffsetChangeListener? = null
 
     private var currentReadPosition: Int? = null
 
@@ -147,15 +145,34 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
             ViewCompat.setOnApplyWindowInsetsListener(this, insetAnimator)
         }
 
-        with(binding.ssReadingAppBar.ssReadingCollapsingToolbar) {
-            setCollapsedTitleTextAppearance(R.style.AppThemeAppBarTextStyle)
-            setExpandedTitleTextAppearance(R.style.AppThemeAppBarTextStyleExpanded)
-            setCollapsedTitleTypeface(ResourcesCompat.getFont(this@SSReadingActivity, R.font.lato_bold))
-            setExpandedTitleTypeface(ResourcesCompat.getFont(this@SSReadingActivity, R.font.lato_bold))
-        }
-
         currentReadPosition?.let {
             binding.ssReadingViewPager.currentItem = it
+        }
+
+        /*binding.ssReadingAppBar.apply {
+            appbarChangeListener = AppbarOffsetChangeListener(
+                this@SSReadingActivity,
+                ssReadingCollapsingToolbar,
+                ssReadingToolbar,
+            ).also {
+                ssReadingAppBarLayout.addOnOffsetChangedListener(it)
+            }
+        }*/
+    }
+
+    private fun updateColorScheme(displayOptions: SSReadingDisplayOptions) {
+        val color = displayOptions.colorTheme
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.apply {
+            setContentScrimColor(color)
+            setStatusBarScrimColor(color)
+            setBackgroundColor(color)
+
+            setCollapsedTitleTextColor(
+                when (displayOptions.theme) {
+                    SSReadingDisplayOptions.SS_THEME_DARK -> Color.WHITE
+                    else -> Color.BLACK
+                }
+            )
         }
     }
 
@@ -170,6 +187,13 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
         }
     }
 
+    private fun updateColorScheme() {
+        val primaryColor = this.colorPrimary
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setContentScrimColor(primaryColor)
+        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setBackgroundColor(primaryColor)
+        binding.ssProgressBar.ssQuarterliesLoading.theme(primaryColor)
+    }
+
     private fun downloadLatestReader(readerArtifactCreationTime: Long) {
         val localFile = File(filesDir, SSConstants.SS_READER_ARTIFACT_NAME)
         latestReaderArtifactRef.getFile(localFile)
@@ -181,20 +205,8 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
             }
     }
 
-    private fun updateColorScheme() {
-        val primaryColor = this.colorPrimary
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setContentScrimColor(primaryColor)
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setBackgroundColor(primaryColor)
-        binding.ssProgressBar.ssQuarterliesLoading.theme(primaryColor)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.ss_reading_menu, menu)
-        val menuItem = menu.findItem(R.id.ss_reading_menu_display_options)
-        menuItem.icon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_text_format).apply {
-            colorInt = Color.WHITE
-            sizeDp = 16
-        }
         // Enable new Read screen in Debug
         menu.findItem(R.id.ss_reading_debug).isVisible = BuildConfig.DEBUG
         return super.onCreateOptionsMenu(menu)
@@ -289,6 +301,8 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
     private fun observeData() {
         ssPrefs.displayOptionsFlow().collectIn(this) { displayOptions ->
             readingViewAdapter.readingOptions = displayOptions
+            appbarChangeListener?.readingOptions = displayOptions
+            // updateColorScheme(displayOptions)
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
         }
     }

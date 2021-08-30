@@ -20,11 +20,14 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.base
+package com.cryart.design.ext
 
-import android.net.Uri
+import androidx.compose.ui.Modifier
 
-interface ShareableScreen {
-
-    fun getShareWebUri(): Uri
-}
+/**
+ * Conditionally applies the [builder] block if [condition].
+ */
+inline fun Modifier.thenIf(
+    condition: Boolean,
+    builder: Modifier.() -> Modifier,
+) = if (condition) builder() else this

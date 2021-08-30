@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2021. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -31,9 +30,17 @@
 
     <style name="AppThemeAppBarTextStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/lato_bold</item>
+        <item name="android:fontFamily">@font/lato_bold</item>
     </style>
 
     <style name="AppThemeAppBarTextStyleExpanded" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">30sp</item>
+        <item name="fontFamily">@font/lato_bold</item>
+        <item name="android:fontFamily">@font/lato_bold</item>
+    </style>
+
+    <style name="Theme.SS.Lessons" parent="Theme.SS.Full">
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 </resources>

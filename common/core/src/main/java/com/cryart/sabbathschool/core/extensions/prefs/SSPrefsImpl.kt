@@ -116,15 +116,37 @@ class SSPrefsImpl(
     }
 
     override fun getLanguageCode(): String {
-        return sharedPreferences.getString(
+        val code = sharedPreferences.getString(
             SSConstants.SS_LAST_LANGUAGE_INDEX,
             Locale.getDefault().language
         )!!
+        return mapLanguageCode(code)
     }
+
+    override fun getLanguageCodeFlow(): Flow<String> = preferencesFlow()
+        .map { preferences ->
+            val code = preferences[stringPreferencesKey(SSConstants.SS_LAST_LANGUAGE_INDEX)] ?: getLanguageCode()
+            mapLanguageCode(code)
+        }
+        .distinctUntilChanged()
 
     override fun setLanguageCode(languageCode: String) {
         sharedPreferences.edit {
             putString(SSConstants.SS_LAST_LANGUAGE_INDEX, languageCode)
+        }
+
+        coroutineScope.launch {
+            dataStore.edit { settings ->
+                settings[stringPreferencesKey(SSConstants.SS_LAST_LANGUAGE_INDEX)] = languageCode
+            }
+        }
+    }
+
+    private fun mapLanguageCode(code: String): String {
+        return when (code) {
+            "iw" -> "he"
+            "fil" -> "tl"
+            else -> code
         }
     }
 
@@ -135,18 +157,6 @@ class SSPrefsImpl(
     override fun setLastQuarterlyIndex(index: String) {
         sharedPreferences.edit {
             putString(SSConstants.SS_LAST_QUARTERLY_INDEX, index)
-        }
-    }
-
-    override fun isLanguagePromptSeen(): Boolean {
-        return sharedPreferences.getBoolean(
-            SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, false
-        )
-    }
-
-    override fun setLanguagePromptSeen() {
-        sharedPreferences.edit {
-            putBoolean(SSConstants.SS_LANGUAGE_FILTER_PROMPT_SEEN, true)
         }
     }
 
@@ -244,6 +254,13 @@ class SSPrefsImpl(
 
     override fun setAppReBrandingShown() = sharedPreferences.edit {
         putBoolean(SSConstants.SS_APP_RE_BRANDING_PROMPT_SEEN, true)
+    }
+
+    override fun setThemeColor(primary: String, primaryDark: String) {
+        sharedPreferences.edit {
+            putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY, primary)
+            putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY_DARK, primaryDark)
+        }
     }
 
     override fun clear() {

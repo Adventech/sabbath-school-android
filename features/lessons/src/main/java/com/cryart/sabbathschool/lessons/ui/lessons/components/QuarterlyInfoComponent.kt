@@ -41,7 +41,6 @@ import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.addMoreEllipses
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.cryart.sabbathschool.core.misc.DateHelper
-import com.cryart.sabbathschool.core.misc.SSColorTheme
 import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsQuarterlyInfoBinding
@@ -98,11 +97,6 @@ class QuarterlyInfoComponent(
         )
         val primaryColor = Color.parseColor(quarterly.color_primary)
         val primaryDarkColor = Color.parseColor(quarterly.color_primary_dark)
-
-        with(SSColorTheme.getInstance(binding.root.context)) {
-            colorPrimary = quarterlyInfo.quarterly.color_primary
-            colorPrimaryDark = quarterlyInfo.quarterly.color_primary_dark
-        }
 
         val viewStub: ViewStub? = binding.root.findViewById(R.id.viewStub)
         viewStub?.layoutResource = quarterly.splash?.let {
