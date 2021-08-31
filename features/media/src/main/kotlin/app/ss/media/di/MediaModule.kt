@@ -22,6 +22,8 @@
 
 package app.ss.media.di
 
+import android.app.Application
+import android.content.Context
 import app.ss.media.BuildConfig
 import app.ss.media.api.SSMediaApi
 import app.ss.media.repository.SSMediaRepository
@@ -32,7 +34,9 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -48,22 +52,34 @@ object MediaModule {
         .add(KotlinJsonAdapterFactory())
         .build()
 
-    private val okHttpClient: OkHttpClient =
-        OkHttpClient.Builder()
-            .connectTimeout(1, TimeUnit.MINUTES)
-            .readTimeout(1, TimeUnit.MINUTES)
-            .addInterceptor(
-                HttpLoggingInterceptor().apply {
-                    level = if (BuildConfig.DEBUG)
-                        HttpLoggingInterceptor.Level.BODY else
-                        HttpLoggingInterceptor.Level.NONE
-                }
-            )
-            .build()
+    private fun okHttpCache(context: Context): Cache {
+        val app = context.applicationContext as Application
+        return Cache(app.cacheDir, (10 * 1024 * 1024))
+    }
 
     @Provides
     @Singleton
-    fun provideMediaApi(): SSMediaApi =
+    fun provideOkhttpClient(
+        @ApplicationContext context: Context
+    ): OkHttpClient = OkHttpClient.Builder()
+        .cache(okHttpCache(context))
+        .connectTimeout(1, TimeUnit.MINUTES)
+        .readTimeout(1, TimeUnit.MINUTES)
+        .addInterceptor(
+            HttpLoggingInterceptor().apply {
+                level = if (BuildConfig.DEBUG)
+                    HttpLoggingInterceptor.Level.BODY else
+                    HttpLoggingInterceptor.Level.NONE
+            }
+        )
+        .retryOnConnectionFailure(true)
+        .build()
+
+    @Provides
+    @Singleton
+    fun provideMediaApi(
+        okHttpClient: OkHttpClient
+    ): SSMediaApi =
         Retrofit.Builder()
             .baseUrl(SSConstants.SS_API_BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))

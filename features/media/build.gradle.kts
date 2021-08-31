@@ -108,7 +108,7 @@ dependencies {
     implementation(Moshi.kotlin)
     kapt(Moshi.codegen)
 
-    implementation(Okhttp.okhttp)
+    api(Okhttp.okhttp)
     implementation(Okhttp.logging)
 
     implementation(Retrofit.retrofit2)
