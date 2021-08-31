@@ -30,6 +30,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -37,9 +40,14 @@ import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
+import coil.load
+import com.cryart.design.theme
+import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
