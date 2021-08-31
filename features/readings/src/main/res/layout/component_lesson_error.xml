@@ -34,10 +34,10 @@
         android:id="@+id/backdrop"
         android:layout_width="0dp"
         android:layout_height="@dimen/ss_reading_toolbar_height"
+        android:background="?attr/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:background="?attr/colorPrimary">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/errorIcon"

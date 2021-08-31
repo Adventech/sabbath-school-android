@@ -2,12 +2,4 @@
 <resources>
     <dimen name="ss_bible_verses_content_margin">16dp</dimen>
     <dimen name="ss_bible_verses_content_margin_bottom">32dp</dimen>
-    <dimen name="ss_bible_verses_title_margin">16dp</dimen>
-    <dimen name="ss_bible_verses_close_padding">24dp</dimen>
-    <dimen name="ss_bible_verses_close_icon_size">14dp</dimen>
-    <dimen name="ss_bible_version_item_height">48dp</dimen>
-    <dimen name="ss_bible_version_item_drawable_padding">8dp</dimen>
-    <dimen name="ss_bible_version_item_side_padding">16dp</dimen>
-    <dimen name="ss_bible_version_item_text_size">16sp</dimen>
-    <dimen name="ss_bible_version_item_min_width">120dp</dimen>
 </resources>

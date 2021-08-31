@@ -38,6 +38,7 @@ import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesAppbarData
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroup
+import com.cryart.sabbathschool.lessons.ui.quarterlies.components.placeHolderQuarterlies
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -79,7 +80,7 @@ class QuarterliesViewModel @Inject constructor(
         get() = ssPrefs.getLanguageCodeFlow()
             .map { language -> repository.getQuarterlies(language, quarterlyGroup) }
             .map(this::groupQuarterlies)
-            .stateIn(viewModelScope, Resource.loading())
+            .stateIn(viewModelScope, Resource.success(GroupedQuarterlies.TypeList(placeHolderQuarterlies())))
 
     @Suppress("UNCHECKED_CAST")
     private fun groupQuarterlies(resource: Resource<List<SSQuarterly>>): Resource<GroupedQuarterlies> {

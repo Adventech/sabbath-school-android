@@ -40,7 +40,7 @@ import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
 import com.cryart.sabbathschool.lessons.databinding.SsPromptAppReBrandingBinding
-import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
+import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.languages.LanguagesListFragment
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies
@@ -83,7 +83,6 @@ class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
         val stateFlow = viewModel.quarterliesFlow.map { it.status }
         stateFlow.collectIn(this) { status ->
             binding.apply {
-                ssQuarterliesProgressBar.isVisible = status == Status.LOADING
                 ssQuarterliesErrorState.isVisible = status == Status.ERROR
             }
         }

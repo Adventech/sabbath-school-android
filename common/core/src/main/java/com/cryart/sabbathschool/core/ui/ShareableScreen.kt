@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.base
+package com.cryart.sabbathschool.core.ui
 
 import android.net.Uri
 

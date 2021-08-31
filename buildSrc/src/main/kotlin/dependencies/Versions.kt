@@ -3,8 +3,8 @@ package dependencies
 object Versions {
     const val COROUTINES = "1.5.1"
     const val COMPOSE = "1.0.1"
-
     const val MATERIAL = "1.4.0"
+    const val ACCOMPANIST = "0.17.0"
 
     object AndroidX {
         const val APPCOMPAT = "1.3.1"

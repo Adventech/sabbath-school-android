@@ -39,8 +39,8 @@ import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsActivityBinding
-import com.cryart.sabbathschool.lessons.ui.base.SSBaseActivity
-import com.cryart.sabbathschool.lessons.ui.base.ShareableScreen
+import com.cryart.sabbathschool.core.ui.SSBaseActivity
+import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.lessons.ui.base.StatusComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.FooterComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooter

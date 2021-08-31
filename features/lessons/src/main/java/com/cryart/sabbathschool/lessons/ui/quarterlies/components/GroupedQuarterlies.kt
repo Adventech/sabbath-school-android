@@ -56,3 +56,22 @@ internal val GroupedQuarterliesDiff = object : DiffUtil.ItemCallback<Quarterlies
         return newItem == newItem
     }
 }
+
+private const val PLACEHOLDER_ID = "PLACEHOLDER_QUARTERLY"
+
+internal val SSQuarterly.isPlaceholder: Boolean get() = id.startsWith(PLACEHOLDER_ID)
+
+internal fun placeHolderQuarterlies(): List<SSQuarterly> {
+    val placeHolders = mutableListOf<SSQuarterly>()
+    for (i in 0 until 10) {
+        placeHolders.add(
+            SSQuarterly(
+                "${PLACEHOLDER_ID}_$i",
+                title = "Quarterly placeholder",
+                human_date = "Some * date * here",
+                color_primary = "#2E5797"
+            )
+        )
+    }
+    return placeHolders
+}

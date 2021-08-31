@@ -69,6 +69,10 @@ object Dependencies {
         const val tooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
     }
 
+    object Accompanist {
+        const val placeholder = "com.google.accompanist:accompanist-placeholder-material:${Versions.ACCOMPANIST}"
+    }
+
     object Coil {
         const val core = "io.coil-kt:coil:${Versions.COIL}"
         const val compose = "io.coil-kt:coil-compose:${Versions.COIL}"

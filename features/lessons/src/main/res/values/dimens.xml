@@ -175,7 +175,6 @@
     <dimen name="ss_reading_toolbar_title_margin_bottom">50dp</dimen>
     <dimen name="ss_reading_toolbar_title_margin_left">20dp</dimen>
     <dimen name="ss_reading_toolbar_date_margin_top">280dp</dimen>
-    <dimen name="ss_reading_toolbar_date_margin_left">20dp</dimen>
 
     <dimen name="ss_reading_context_controls_padding">10dp</dimen>
     <dimen name="ss_reading_context_highlight_button_padding">13dp</dimen>

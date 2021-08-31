@@ -102,8 +102,6 @@ dependencies {
     implementation(Dependencies.Coil.core)
     implementation(Dependencies.Facebook.SHIMMER)
 
-    implementation("net.opacapp:multiline-collapsingtoolbar:27.1.1")
-
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }

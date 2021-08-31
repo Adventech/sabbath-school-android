@@ -71,10 +71,6 @@
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
     </style>
 
-    <style name="Theme.SS.Primary">
-        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
-    </style>
-
     <style name="Theme.SS.Full">
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
