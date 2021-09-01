@@ -64,14 +64,13 @@ android {
     kotlinOptions {
         jvmTarget = JavaOptions.version.toString()
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
+        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OPT_IN
     }
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.COMPOSE
     }
 
     buildFeatures {
-        viewBinding = true
-        dataBinding = true
         compose = true
     }
 }
@@ -106,6 +105,8 @@ dependencies {
     implementation(Compose.ui)
     implementation(Compose.material)
     implementation(Compose.tooling)
+    implementation(Compose.icons)
+    implementation(Compose.iconsExtended)
 
     implementation(Moshi.kotlin)
     kapt(Moshi.codegen)

@@ -10,6 +10,7 @@ interface BuildType {
 
 object KotlinOptions {
     const val COROUTINES = "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+    const val OPT_IN = "-Xopt-in=kotlin.RequiresOptIn"
 }
 
 object JavaOptions {
