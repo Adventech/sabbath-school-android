@@ -60,6 +60,7 @@ import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
+import com.cryart.sabbathschool.lessons.ui.readings.components.MiniPlayerComponent
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
@@ -162,6 +163,8 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
                 ssReadingAppBarLayout.addOnOffsetChangedListener(it)
             }
         }*/
+
+        MiniPlayerComponent(binding.ssPlayerView, playbackViewModel.playbackConnection)
     }
 
     private fun updateColorScheme(displayOptions: SSReadingDisplayOptions) {
@@ -312,10 +315,6 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
             appbarChangeListener?.readingOptions = displayOptions
             // updateColorScheme(displayOptions)
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
-        }
-
-        playbackViewModel.playingAudioFlow.collectIn(this) { audioFile ->
-            Timber.i("Playing: $audioFile")
         }
     }
 

@@ -97,6 +97,11 @@ val LabelSmall = textStyle(
     textSize = TextSize.Size15,
     fontWeight = FontWeight.Normal,
 )
+val Body = textStyle(
+    textSize = TextSize.Size13,
+    fontWeight = FontWeight.Normal,
+    color = BaseGrey2
+)
 val BodyMedium1 = textStyle(
     textSize = TextSize.Size13,
     fontWeight = FontWeight.SemiBold,
