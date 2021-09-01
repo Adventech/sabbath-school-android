@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import app.ss.media.playback.AudioFocusHelper
 import app.ss.media.playback.AudioQueueManager
@@ -18,6 +19,7 @@ import app.ss.media.R
 import app.ss.media.playback.model.AudioFile
 import app.ss.media.playback.model.toMediaMetadata
 import app.ss.media.playback.extensions.createDefaultPlaybackState
+import app.ss.media.playback.extensions.getBitmap
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.extensions.position
 import app.ss.media.playback.extensions.repeatMode
@@ -324,20 +326,20 @@ internal class SSAudioPlayerImpl(
     private fun setMetaData(audio: AudioFile) {
         val player = this
         launch {
-            val mediaMetadata = audio.toMediaMetadata(metadataBuilder).apply {
-                /*val drawable = context.bookCoverFromKey(audio.book)
-                val artwork = drawable?.toBitmap(COVER_IMAGE_SIZE, COVER_IMAGE_SIZE)
-                if (artwork != null) {
-                    putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, artwork)
-                }*/
-            }
+            val mediaMetadata = audio.toMediaMetadata(metadataBuilder)
 
             mediaSession.setMetadata(mediaMetadata.build())
+            metaDataChangedCallback(player)
+
+            val bitmap = context.getBitmap(audio.image.toUri(), COVER_IMAGE_SIZE)
+            val updatedMetadata = mediaMetadata.apply { putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap) }.build()
+
+            mediaSession.setMetadata(updatedMetadata)
             metaDataChangedCallback(player)
         }
     }
 }
 
-const val COVER_IMAGE_SIZE = 300 // px
+private const val COVER_IMAGE_SIZE = 300 // px
 
 operator fun Bundle?.plus(other: Bundle?) = this.apply { (this ?: Bundle()).putAll(other ?: Bundle()) }
