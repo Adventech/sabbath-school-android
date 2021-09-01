@@ -20,6 +20,7 @@ object Versions {
         const val PREFERENCE = "1.1.1"
         const val BROWSER = "1.3.0"
         const val DATASTORE_PREFS = "1.0.0"
+        const val MEDIA = "1.4.1"
     }
 
     object Facebook {
@@ -40,6 +41,7 @@ object Versions {
     const val JODA = "2.10.9.1"
     const val JODA_TIME = "2.10.10"
     const val MARK_WORM = "4.6.2"
+    const val exoplayer = "2.15.0"
 
     object Square {
         const val moshi = "1.12.0"

@@ -99,3 +99,8 @@ fun Context.shareContent(content: String, chooser: String = "") {
         startActivity(Intent.createChooser(shareIntent, chooser))
     }
 }
+
+@SuppressWarnings("unchecked")
+fun <T> Context.systemService(name: String): T {
+    return getSystemService(name) as T
+}

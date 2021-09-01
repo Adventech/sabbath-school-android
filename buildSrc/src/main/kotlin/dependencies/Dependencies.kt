@@ -29,6 +29,7 @@ object Dependencies {
         const val PREFERENCE = "androidx.preference:preference-ktx:${Versions.AndroidX.PREFERENCE}"
         const val BROWSER = "androidx.browser:browser:${Versions.AndroidX.BROWSER}"
         const val DATASTORE_PREFS = "androidx.datastore:datastore-preferences:${Versions.AndroidX.DATASTORE_PREFS}"
+        const val MEDIA = "androidx.media:media:${Versions.AndroidX.MEDIA}"
     }
 
     object Firebase {
@@ -91,5 +92,12 @@ object Dependencies {
             const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.Square.retrofit}"
             const val moshiConverter = "com.squareup.retrofit2:converter-moshi:${Versions.Square.retrofit}"
         }
+    }
+
+    object ExoPlayer {
+        const val core = "com.google.android.exoplayer:exoplayer-core:${Versions.exoplayer}"
+        const val ui = "com.google.android.exoplayer:exoplayer-ui:${Versions.exoplayer}"
+        const val okhttp = "com.google.android.exoplayer:extension-okhttp:${Versions.exoplayer}"
+        const val mediaSession = "com.google.android.exoplayer:extension-mediasession:${Versions.exoplayer}"
     }
 }

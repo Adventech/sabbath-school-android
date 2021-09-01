@@ -24,6 +24,7 @@ import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Compose
+import dependencies.Dependencies.ExoPlayer
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Square.Moshi
@@ -79,6 +80,7 @@ dependencies {
 
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.TRANSLATIONS))
 
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
@@ -92,6 +94,7 @@ dependencies {
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
     implementation(AndroidX.LIFECYCLE_EXTENSIONS)
     implementation(AndroidX.LIFECYCLE_LIVEDATA)
+    api(AndroidX.MEDIA)
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
@@ -99,7 +102,6 @@ dependencies {
     implementation(Dependencies.TIMBER)
     implementation(Coil.core)
     implementation(Coil.compose)
-    implementation(Dependencies.Facebook.SHIMMER)
 
     implementation(Compose.ui)
     implementation(Compose.material)
@@ -113,6 +115,11 @@ dependencies {
 
     implementation(Retrofit.retrofit2)
     implementation(Retrofit.moshiConverter)
+
+    implementation(ExoPlayer.core)
+    implementation(ExoPlayer.ui)
+    implementation(ExoPlayer.okhttp)
+    implementation(ExoPlayer.mediaSession)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))
