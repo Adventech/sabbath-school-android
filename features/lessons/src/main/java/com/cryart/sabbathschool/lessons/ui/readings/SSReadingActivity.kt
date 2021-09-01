@@ -40,6 +40,7 @@ import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
+import app.ss.media.playback.PlaybackViewModel
 import coil.load
 import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
@@ -85,6 +86,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
         ReadingViewPagerAdapter(ssReadingViewModel)
     }
     private val viewModel by viewModels<ReadingsViewModel>()
+    private val playbackViewModel by viewModels<PlaybackViewModel>()
 
     private var appbarChangeListener: AppbarOffsetChangeListener? = null
 
@@ -216,6 +218,10 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.ss_reading_menu_audio -> {
+                playbackViewModel.playPause()
+                true
+            }
             R.id.ss_reading_menu_share -> {
                 val position = binding.ssReadingViewPager.currentItem
                 val readTitle = readingViewAdapter.getReadAt(position)?.title ?: ""
@@ -306,6 +312,10 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
             appbarChangeListener?.readingOptions = displayOptions
             // updateColorScheme(displayOptions)
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
+        }
+
+        playbackViewModel.playingAudioFlow.collectIn(this) { audioFile ->
+            Timber.i("Playing: $audioFile")
         }
     }
 

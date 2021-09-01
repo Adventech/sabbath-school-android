@@ -1,0 +1,34 @@
+<!--
+  ~ Copyright (c) 2021. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="102"
+    android:viewportHeight="94">
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="nonZero"
+        android:pathData="M4.023,74.553L6.66,74.553C7.441,74.553 7.881,74.064 7.881,73.332L7.881,45.793C7.881,22.648 25.312,7.609 50.85,7.609C76.338,7.609 93.818,22.648 93.818,45.793L93.818,73.332C93.818,74.064 94.258,74.553 95.039,74.553L97.676,74.553C99.775,74.553 101.338,73.186 101.338,71.184L101.338,43.986C101.338,18.059 80.879,0.041 52.51,0.041L49.189,0.041C20.82,0.041 0.361,18.059 0.361,43.986L0.361,71.184C0.361,73.186 1.875,74.553 4.023,74.553ZM18.086,93.889L22.676,93.889C28.633,93.889 32.002,90.715 32.002,85.1L32.002,64.006C32.002,58.391 28.633,55.217 22.676,55.217L18.086,55.217C14.766,55.217 12.959,56.975 12.959,60.197L12.959,88.908C12.959,92.18 14.766,93.889 18.086,93.889ZM79.072,93.889L83.662,93.889C86.982,93.889 88.838,92.18 88.838,88.908L88.838,60.197C88.838,56.975 86.982,55.217 83.662,55.217L79.072,55.217C73.115,55.217 69.746,58.391 69.746,64.006L69.746,85.1C69.746,90.715 73.115,93.889 79.072,93.889Z"
+        android:strokeWidth="1"
+        android:strokeColor="#FFFFFF" />
+</vector>

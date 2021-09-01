@@ -23,6 +23,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/ss_reading_menu_audio"
+        android:orderInCategory="100"
+        android:title="@string/ss_settings_display_options"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_audio_icon_navbar"/>
+
     <item
         android:id="@+id/ss_reading_menu_display_options"
         android:orderInCategory="100"
