@@ -314,6 +314,11 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
         }
 
+        viewModel.audioAvailableFlow.collectIn(this) { available ->
+            val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
+            menu.findItem(R.id.ss_reading_menu_audio)?.isVisible = available
+        }
+
         playbackViewModel.playingAudioFlow.collectIn(this) { audioFile ->
             Timber.i("Playing: $audioFile")
         }
