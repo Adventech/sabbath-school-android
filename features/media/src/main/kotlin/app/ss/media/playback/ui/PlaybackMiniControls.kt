@@ -39,9 +39,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.HourglassBottom
-import androidx.compose.material.icons.rounded.Pause
-import androidx.compose.material.icons.rounded.PlayArrow
-import androidx.compose.material.icons.rounded.Replay10
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -51,11 +48,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.media.R
 import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
@@ -85,9 +84,9 @@ import com.cryart.design.theme.lighter
 import kotlinx.coroutines.launch
 
 private object PlaybackMiniControlsDefaults {
-    val height = 56.dp
+    val height = 60.dp
     val maxWidth = 600.dp
-    val playPauseSize = 42.dp
+    val playPauseSize = 30.dp
     val replaySize = 30.dp
     val cancelSize = 20.dp
 }
@@ -159,7 +158,7 @@ fun PlaybackMiniControls(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(0.dp),
+                        horizontalArrangement = Arrangement.spacedBy(Dimens.grid_1),
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .height(height)
@@ -176,6 +175,7 @@ fun PlaybackMiniControls(
                                 playbackConnection.transportControls?.rewind()
                             }
                         )
+
                         PlaybackPlayPause(
                             playbackState = playbackState,
                             contentColor = contentColor,
@@ -278,7 +278,7 @@ private fun NowPlayingColumn(
 ) {
     Column(
         modifier = Modifier
-            .padding(vertical = Dimens.grid_1)
+            .padding(vertical = Dimens.grid_2)
             .fillMaxWidth()
             .then(modifier),
     ) {
@@ -338,7 +338,7 @@ private fun PlaybackReplay(
         modifier = Modifier.size(size)
     ) {
         Icon(
-            Icons.Rounded.Replay10,
+            painterResource(id = R.drawable.ic_audio_icon_backward),
             contentDescription = "Rewind",
             tint = contentColor,
             modifier = Modifier.size(size)
@@ -357,15 +357,14 @@ private fun PlaybackPlayPause(
         onClick = onPlayPause,
         modifier = Modifier.size(size),
     ) {
+        val painter = when {
+            playbackState.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
+            playbackState.isPlayEnabled -> painterResource(id = R.drawable.ic_audio_icon_play)
+            playbackState.isError -> rememberVectorPainter(Icons.Rounded.ErrorOutline)
+            else -> rememberVectorPainter(Icons.Rounded.HourglassBottom)
+        }
         Icon(
-            painter = rememberVectorPainter(
-                when {
-                    playbackState.isError -> Icons.Rounded.ErrorOutline
-                    playbackState.isPlaying -> Icons.Rounded.Pause
-                    playbackState.isPlayEnabled -> Icons.Rounded.PlayArrow
-                    else -> Icons.Rounded.HourglassBottom
-                }
-            ),
+            painter = painter,
             modifier = Modifier.size(size),
             contentDescription = "Play/Pause",
             tint = contentColor
