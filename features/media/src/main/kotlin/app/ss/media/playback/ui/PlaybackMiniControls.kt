@@ -51,7 +51,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -79,7 +78,8 @@ import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Body
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.LabelMedium
-import com.cryart.design.theme.SSTheme
+import com.cryart.design.theme.Spacing12
+import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.theme.lighter
 import kotlinx.coroutines.launch
@@ -159,7 +159,7 @@ fun PlaybackMiniControls(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(Dimens.grid_1),
+                        horizontalArrangement = Arrangement.spacedBy(playbackButtonSpacing()),
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .height(height)
@@ -213,6 +213,15 @@ private fun playbackMiniContentColor(): Color =
     } else {
         Color.Black
     }
+
+@Composable
+private fun playbackButtonSpacing(): Dp {
+    return if (isLargeScreen()) {
+        Spacing12
+    } else {
+        Spacing8
+    }
+}
 
 @Composable
 private fun PlaybackProgress(
@@ -304,27 +313,6 @@ private fun NowPlayingColumn(
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
-    }
-}
-
-@Preview(
-    name = "Now Playing Column"
-)
-@Composable
-private fun NowPlayingColumnPreview() {
-    SSTheme {
-        Surface(color = playbackMiniBackgroundColor()) {
-            NowPlayingColumn(
-                audio = AudioFile(
-                    "",
-                    title = "Worn and Weary",
-                    artist = "Adult Bible Study Guides"
-                ),
-                modifier = Modifier
-                    .height(48.dp)
-                    .padding(horizontal = 8.dp)
-            )
-        }
     }
 }
 
