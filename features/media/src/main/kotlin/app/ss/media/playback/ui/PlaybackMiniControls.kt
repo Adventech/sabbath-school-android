@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -278,9 +280,9 @@ private fun NowPlayingColumn(
 ) {
     Column(
         modifier = Modifier
-            .padding(vertical = Dimens.grid_2)
-            .fillMaxWidth()
+            .fillMaxSize()
             .then(modifier),
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             audio.title,
@@ -292,7 +294,7 @@ private fun NowPlayingColumn(
             )
         )
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(2.dp))
 
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             Text(
