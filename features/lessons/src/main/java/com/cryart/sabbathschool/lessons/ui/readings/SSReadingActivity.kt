@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.lessons.ui.readings
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -303,6 +304,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
         currentReadPosition = null
     }
 
+    @SuppressLint("MissingSuperCall")
     override fun onSaveInstanceState(outState: Bundle) {
         val position = binding.ssReadingViewPager.currentItem
         outState.putInt(SSConstants.SS_READ_POSITION_EXTRA, position)
@@ -317,8 +319,9 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
         }
 
-        playbackViewModel.playingAudioFlow.collectIn(this) { audioFile ->
-            Timber.i("Playing: $audioFile")
+        viewModel.audioAvailableFlow.collectIn(this) { available ->
+            val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
+            menu.findItem(R.id.ss_reading_menu_audio)?.isVisible = available
         }
     }
 
