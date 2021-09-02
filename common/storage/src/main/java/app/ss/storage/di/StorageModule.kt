@@ -20,45 +20,25 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.model
+package app.ss.storage.di
 
-import android.net.Uri
-import androidx.annotation.Keep
-import app.ss.media.playback.model.AudioFile
-import app.ss.storage.db.entity.AudioFileEntity
-import com.squareup.moshi.JsonClass
+import android.content.Context
+import app.ss.storage.db.SabbathSchoolDatabase
+import app.ss.storage.db.dao.AudioDao
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class SSAudio(
-    val id: String,
-    val artist: String,
-    val image: String,
-    val imageRatio: String,
-    val src: String,
-    val target: String,
-    val targetIndex: String,
-    val title: String
-)
+@Module
+@InstallIn(SingletonComponent::class)
+object StorageModule {
 
-fun SSAudio.toEntity(): AudioFileEntity = AudioFileEntity(
-    id,
-    artist,
-    image,
-    imageRatio,
-    src,
-    target,
-    targetIndex,
-    title,
-)
-
-fun AudioFileEntity.toAudio(): AudioFile = AudioFile(
-    id = id,
-    artist = artist,
-    image = image,
-    imageRatio = imageRatio,
-    source = Uri.parse(src),
-    target = target,
-    targetIndex = targetIndex,
-    title = title,
-)
+    @Provides
+    @Singleton
+    fun provideAudioDao(
+        @ApplicationContext context: Context,
+    ): AudioDao = SabbathSchoolDatabase.getInstance(context).audioDao()
+}

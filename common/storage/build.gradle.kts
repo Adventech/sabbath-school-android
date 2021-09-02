@@ -20,45 +20,43 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.model
+import dependencies.Dependencies.Hilt
+import dependencies.Dependencies.AndroidX.Room
 
-import android.net.Uri
-import androidx.annotation.Keep
-import app.ss.media.playback.model.AudioFile
-import app.ss.storage.db.entity.AudioFileEntity
-import com.squareup.moshi.JsonClass
+plugins {
+    id(BuildPlugins.Android.LIBRARY)
+    id(BuildPlugins.Kotlin.ANDROID)
+    id(BuildPlugins.Kotlin.KAPT)
+    id(BuildPlugins.DAGGER_HILT)
+}
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class SSAudio(
-    val id: String,
-    val artist: String,
-    val image: String,
-    val imageRatio: String,
-    val src: String,
-    val target: String,
-    val targetIndex: String,
-    val title: String
-)
+android {
+    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
 
-fun SSAudio.toEntity(): AudioFileEntity = AudioFileEntity(
-    id,
-    artist,
-    image,
-    imageRatio,
-    src,
-    target,
-    targetIndex,
-    title,
-)
+    defaultConfig {
+        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
 
-fun AudioFileEntity.toAudio(): AudioFile = AudioFile(
-    id = id,
-    artist = artist,
-    image = image,
-    imageRatio = imageRatio,
-    source = Uri.parse(src),
-    target = target,
-    targetIndex = targetIndex,
-    title = title,
-)
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["room.schemaLocation"] = "$projectDir/schemas"
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaOptions.version
+        targetCompatibility = JavaOptions.version
+    }
+    kotlinOptions {
+        jvmTarget = JavaOptions.version.toString()
+    }
+}
+
+dependencies {
+    implementation(Hilt.ANDROID)
+    kapt(Hilt.COMPILER)
+
+    implementation(Room.runtime)
+    implementation(Room.ktx)
+    kapt(Room.compiler)
+}

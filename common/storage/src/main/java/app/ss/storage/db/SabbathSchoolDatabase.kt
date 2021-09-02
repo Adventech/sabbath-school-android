@@ -20,45 +20,40 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.model
+package app.ss.storage.db
 
-import android.net.Uri
-import androidx.annotation.Keep
-import app.ss.media.playback.model.AudioFile
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.entity.AudioFileEntity
-import com.squareup.moshi.JsonClass
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class SSAudio(
-    val id: String,
-    val artist: String,
-    val image: String,
-    val imageRatio: String,
-    val src: String,
-    val target: String,
-    val targetIndex: String,
-    val title: String
+@Database(
+    entities = [
+        AudioFileEntity::class
+    ],
+    version = 1,
+    exportSchema = true
 )
+internal abstract class SabbathSchoolDatabase : RoomDatabase() {
 
-fun SSAudio.toEntity(): AudioFileEntity = AudioFileEntity(
-    id,
-    artist,
-    image,
-    imageRatio,
-    src,
-    target,
-    targetIndex,
-    title,
-)
+    abstract fun audioDao(): AudioDao
 
-fun AudioFileEntity.toAudio(): AudioFile = AudioFile(
-    id = id,
-    artist = artist,
-    image = image,
-    imageRatio = imageRatio,
-    source = Uri.parse(src),
-    target = target,
-    targetIndex = targetIndex,
-    title = title,
-)
+    companion object {
+        private const val DATABASE_NAME = "sabbath_school_db"
+
+        @Volatile
+        private var INSTANCE: SabbathSchoolDatabase? = null
+
+        fun getInstance(context: Context): SabbathSchoolDatabase =
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
+            }
+
+        private fun buildDatabase(context: Context): SabbathSchoolDatabase =
+            Room.databaseBuilder(context, SabbathSchoolDatabase::class.java, DATABASE_NAME)
+                .fallbackToDestructiveMigration()
+                .build()
+    }
+}
