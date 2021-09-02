@@ -165,7 +165,11 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
             }
         }*/
 
-        MiniPlayerComponent(binding.ssPlayerView, playbackViewModel.playbackConnection)
+        MiniPlayerComponent(
+            binding.ssPlayerView,
+            playbackViewModel.playbackConnection,
+            ssPrefs.displayOptionsFlow()
+        )
     }
 
     private fun updateColorScheme(displayOptions: SSReadingDisplayOptions) {
