@@ -25,6 +25,7 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel" />
@@ -71,6 +72,12 @@
             layout="@layout/ss_progress_bar"
             bind:progressLabel="@{@string/ss_reading_downloading}"
             bind:progressVisibility="@{viewModel.ssLessonLoadingVisibility}" />
+
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/ss_player_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

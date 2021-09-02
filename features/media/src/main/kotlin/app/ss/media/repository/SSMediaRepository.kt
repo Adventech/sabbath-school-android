@@ -32,10 +32,12 @@ import app.ss.storage.db.dao.AudioDao
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 interface SSMediaRepository {
     suspend fun getAudio(lessonIndex: String): Resource<List<SSAudio>>
     suspend fun findAudioFile(id: String): AudioFile?
+    suspend fun updateDuration(id: String, duration: Long)
 }
 
 internal class SSMediaRepositoryImpl(
@@ -71,6 +73,11 @@ internal class SSMediaRepositoryImpl(
 
     override suspend fun findAudioFile(id: String): AudioFile? = withContext(schedulerProvider.io) {
         audioDao.findBy(id)?.toAudio()
+    }
+
+    override suspend fun updateDuration(id: String, duration: Long) = withContext(schedulerProvider.io) {
+        Timber.i("Updating duration...$duration")
+        audioDao.update(duration, id)
     }
 }
 

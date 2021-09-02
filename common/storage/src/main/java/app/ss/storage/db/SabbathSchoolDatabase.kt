@@ -33,7 +33,7 @@ import app.ss.storage.db.entity.AudioFileEntity
     entities = [
         AudioFileEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 internal abstract class SabbathSchoolDatabase : RoomDatabase() {
