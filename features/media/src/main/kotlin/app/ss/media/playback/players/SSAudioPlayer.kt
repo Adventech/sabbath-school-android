@@ -9,22 +9,22 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import app.ss.media.R
 import app.ss.media.playback.AudioFocusHelper
 import app.ss.media.playback.AudioQueueManager
 import app.ss.media.playback.BY_UI_KEY
 import app.ss.media.playback.REPEAT_ALL
 import app.ss.media.playback.REPEAT_ONE
-import app.ss.media.playback.model.toMediaId
-import app.ss.media.R
-import app.ss.media.playback.model.AudioFile
-import app.ss.media.playback.model.toMediaMetadata
 import app.ss.media.playback.extensions.createDefaultPlaybackState
 import app.ss.media.playback.extensions.getBitmap
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.extensions.position
 import app.ss.media.playback.extensions.repeatMode
 import app.ss.media.playback.extensions.shuffleMode
-import app.ss.media.playback.repository.AudioRepository
+import app.ss.media.playback.model.AudioFile
+import app.ss.media.playback.model.toMediaId
+import app.ss.media.playback.model.toMediaMetadata
+import app.ss.media.repository.SSMediaRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -43,7 +43,7 @@ const val DEFAULT_FORWARD_REWIND = 10 * 1000
 interface SSAudioPlayer {
     fun getSession(): MediaSessionCompat
     fun playAudio(extras: Bundle = bundleOf(BY_UI_KEY to true))
-    suspend fun playAudio(id: String,)
+    suspend fun playAudio(id: String)
     suspend fun playAudio(audio: AudioFile)
     fun seekTo(position: Long)
     fun fastForward()
@@ -66,7 +66,7 @@ internal class SSAudioPlayerImpl(
     private val audioPlayer: AudioPlayer,
     private val audioFocusHelper: AudioFocusHelper,
     private val queueManager: AudioQueueManager,
-    private val repository: AudioRepository,
+    private val repository: SSMediaRepository,
 ) : SSAudioPlayer, CoroutineScope by MainScope() {
 
     private var isInitialized: Boolean = false

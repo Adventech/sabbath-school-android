@@ -25,14 +25,23 @@ package app.ss.media.repository
 import app.ss.media.api.SSMediaApi
 import app.ss.media.model.SSAudio
 import app.ss.media.model.request.SSMediaRequest
+import app.ss.media.model.toAudio
+import app.ss.media.model.toEntity
+import app.ss.media.playback.model.AudioFile
+import app.ss.storage.db.dao.AudioDao
+import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.response.Resource
+import kotlinx.coroutines.withContext
 
 interface SSMediaRepository {
     suspend fun getAudio(lessonIndex: String): Resource<List<SSAudio>>
+    suspend fun findAudioFile(id: String): AudioFile?
 }
 
 internal class SSMediaRepositoryImpl(
-    private val mediaApi: SSMediaApi
+    private val mediaApi: SSMediaApi,
+    private val audioDao: AudioDao,
+    private val schedulerProvider: SchedulerProvider
 ) : SSMediaRepository {
 
     override suspend fun getAudio(
@@ -44,12 +53,24 @@ internal class SSMediaRepositoryImpl(
             val response = mediaApi.getAudio(request.language, request.quarterlyId)
 
             val audios = response.body() ?: emptyList()
+            if (audios.isNotEmpty()) {
+                withContext(schedulerProvider.io) {
+                    audioDao.insertAll(
+                        audios.map { it.toEntity() }
+                    )
+                }
+            }
+
             val lessonAudios = audios.filter { it.targetIndex.startsWith(lessonIndex) }
 
             Resource.success(lessonAudios)
         } catch (ex: Throwable) {
             Resource.error(ex)
         }
+    }
+
+    override suspend fun findAudioFile(id: String): AudioFile? = withContext(schedulerProvider.io) {
+        audioDao.findBy(id)?.toAudio()
     }
 }
 
