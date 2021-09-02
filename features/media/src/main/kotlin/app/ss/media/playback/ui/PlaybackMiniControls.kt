@@ -75,7 +75,6 @@ import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey2
-import com.cryart.design.theme.BaseGrey3
 import com.cryart.design.theme.Body
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.LabelMedium
@@ -88,7 +87,7 @@ private object PlaybackMiniControlsDefaults {
     val height = 56.dp
     val maxWidth = 600.dp
     val playPauseSize = 42.dp
-    val replaySize = 32.dp
+    val replaySize = 30.dp
     val cancelSize = 20.dp
 }
 
@@ -212,11 +211,13 @@ private fun playbackMiniContentColor(): Color =
 
 @Composable
 private fun playbackProgressColor(): Color =
-    if (isSystemInDarkTheme()) {
-        BaseGrey3
-    } else {
-        BaseGrey1
-    }
+    (
+        if (isSystemInDarkTheme()) {
+            Color.White
+        } else {
+            Color.Black
+        }
+        ).lighter()
 
 @Composable
 private fun PlaybackProgress(
