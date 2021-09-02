@@ -38,7 +38,9 @@ const val QUEUE_CURRENT_INDEX = "queue_current_index"
 const val QUEUE_HAS_PREVIOUS = "queue_has_previous"
 const val QUEUE_HAS_NEXT = "queue_has_next"
 
-const val DEFAULT_FORWARD_REWIND = 10 * 1000
+private const val DEFAULT_FORWARD = 30 * 1000
+private const val DEFAULT_REWIND = 15 * 1000
+private const val COVER_IMAGE_SIZE = 300 // px
 
 interface SSAudioPlayer {
     fun getSession(): MediaSessionCompat
@@ -236,19 +238,18 @@ internal class SSAudioPlayerImpl(
     }
 
     override fun fastForward() {
-        val forwardTo = mediaSession.position() + DEFAULT_FORWARD_REWIND
+        val forwardTo = mediaSession.position() + DEFAULT_FORWARD
         queueManager.currentAudio?.apply {
-            /*val duration = durationMillis()
             if (forwardTo > duration) {
                 seekTo(duration)
             } else {
                 seekTo(forwardTo)
-            }*/
+            }
         }
     }
 
     override fun rewind() {
-        val rewindTo = mediaSession.position() - DEFAULT_FORWARD_REWIND
+        val rewindTo = mediaSession.position() - DEFAULT_REWIND
         if (rewindTo < 0) {
             seekTo(0)
         } else {
@@ -362,7 +363,5 @@ internal class SSAudioPlayerImpl(
         }
     }
 }
-
-private const val COVER_IMAGE_SIZE = 300 // px
 
 operator fun Bundle?.plus(other: Bundle?) = this.apply { (this ?: Bundle()).putAll(other ?: Bundle()) }
