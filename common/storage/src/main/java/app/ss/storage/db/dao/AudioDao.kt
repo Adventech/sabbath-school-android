@@ -31,4 +31,7 @@ interface AudioDao : BaseDao<AudioFileEntity> {
 
     @Query("SELECT * FROM audios WHERE id = :id")
     fun findBy(id: String): AudioFileEntity?
+
+    @Query("UPDATE audios SET duration = :duration WHERE id = :forId")
+    fun update(duration: Long, forId: String)
 }

@@ -98,7 +98,9 @@ internal class SSAudioPlayerImpl(
         audioPlayer.onPrepared {
             preparedCallback(this@SSAudioPlayerImpl)
             launch {
-                if (!mediaSession.isPlaying()) audioPlayer.seekTo(mediaSession.position())
+                if (!mediaSession.isPlaying()) {
+                    audioPlayer.seekTo(mediaSession.position())
+                }
                 playAudio()
             }
         }
@@ -131,6 +133,8 @@ internal class SSAudioPlayerImpl(
             isPlayingCallback(playing, byUi)
         }
         audioPlayer.onReady {
+            updateAudioDuration()
+
             if (!audioPlayer.isPlaying()) {
                 Timber.d("Player ready but not currently playing, requesting to play")
                 audioPlayer.play()
@@ -149,6 +153,22 @@ internal class SSAudioPlayerImpl(
         }
     }
 
+    private fun updateAudioDuration() {
+        queueManager.currentAudio?.let { audio ->
+            val duration = audioPlayer.duration()
+            if (duration > 0 && audio.duration != duration) {
+                launch {
+                    repository.updateDuration(queueManager.currentAudioId, duration)
+                    val updatedAudio = audio.copy(
+                        duration = duration
+                    )
+                    queueManager.currentAudio = updatedAudio
+                    setMetaData(updatedAudio)
+                }
+            }
+        }
+    }
+
     override fun getSession(): MediaSessionCompat = mediaSession
 
     override fun playAudio(extras: Bundle) {
@@ -159,6 +179,7 @@ internal class SSAudioPlayerImpl(
 
         launch {
             repository.findAudioFile(queueManager.currentAudioId)?.let { audio ->
+                queueManager.currentAudio = audio
                 audioPlayer.setSource(audio.source, false)
 
                 isInitialized = true
@@ -178,12 +199,14 @@ internal class SSAudioPlayerImpl(
                 }
                 return
             }
+            queueManager.currentAudio = audio
             playAudio(audio)
         }
     }
 
     override suspend fun playAudio(audio: AudioFile) {
         queueManager.setCurrentAudioId(audio.id)
+        queueManager.currentAudio = audio
         isInitialized = false
 
         updatePlaybackState {

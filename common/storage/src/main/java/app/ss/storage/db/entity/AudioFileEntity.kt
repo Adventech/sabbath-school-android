@@ -34,5 +34,6 @@ data class AudioFileEntity(
     val src: String,
     val target: String,
     val targetIndex: String,
-    val title: String
+    val title: String,
+    val duration: Long = 0
 )

@@ -42,14 +42,14 @@ data class SSAudio(
 )
 
 fun SSAudio.toEntity(): AudioFileEntity = AudioFileEntity(
-    id,
-    artist,
-    image,
-    imageRatio,
-    src,
-    target,
-    targetIndex,
-    title,
+    id = id,
+    artist = artist,
+    image = image,
+    imageRatio = imageRatio,
+    src = src,
+    target = target,
+    targetIndex = targetIndex,
+    title = title,
 )
 
 fun AudioFileEntity.toAudio(): AudioFile = AudioFile(

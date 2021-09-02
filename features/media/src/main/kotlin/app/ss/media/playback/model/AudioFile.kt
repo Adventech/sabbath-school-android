@@ -35,7 +35,8 @@ data class AudioFile(
     val image: String = "",
     val imageRatio: String = "",
     val target: String = "",
-    val targetIndex: String = ""
+    val targetIndex: String = "",
+    val duration: Long = 0
 )
 
 val AudioFile.isUnKnown: Boolean get() = title == UNTITLED
