@@ -55,6 +55,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
@@ -95,7 +96,8 @@ private object PlaybackMiniControlsDefaults {
 @Composable
 fun PlaybackMiniControls(
     modifier: Modifier = Modifier,
-    playbackConnection: PlaybackConnection
+    playbackConnection: PlaybackConnection,
+    readerContentColor: Color,
 ) {
     val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState).collectAsState(NONE_PLAYBACK_STATE)
     val nowPlaying by rememberFlowWithLifecycle(playbackConnection.nowPlaying).collectAsState(NONE_PLAYING)
@@ -111,6 +113,7 @@ fun PlaybackMiniControls(
             playbackState = playbackState,
             nowPlaying = nowPlaying,
             playbackConnection = playbackConnection,
+            readerContentColor = readerContentColor
         )
     }
 }
@@ -124,6 +127,7 @@ fun PlaybackMiniControls(
     height: Dp = PlaybackMiniControlsDefaults.height,
     playbackConnection: PlaybackConnection = LocalPlaybackConnection.current,
     playbackSheetState: BottomSheetState = LocalPlaybackSheetState.current,
+    readerContentColor: Color,
 ) {
     val coroutine = rememberCoroutineScope()
     val expand = { coroutine.launch { playbackSheetState.expand() } }
@@ -184,7 +188,7 @@ fun PlaybackMiniControls(
                     }
                     PlaybackProgress(
                         playbackState = playbackState,
-                        color = playbackProgressColor(),
+                        color = readerContentColor,
                         playbackConnection = playbackConnection
                     )
                 }
@@ -208,16 +212,6 @@ private fun playbackMiniContentColor(): Color =
     } else {
         Color.Black
     }
-
-@Composable
-private fun playbackProgressColor(): Color =
-    (
-        if (isSystemInDarkTheme()) {
-            Color.White
-        } else {
-            Color.Black
-        }
-        ).lighter()
 
 @Composable
 private fun PlaybackProgress(
@@ -272,8 +266,7 @@ private fun RowScope.NowPlayingColumn(
         NowPlayingColumn(
             audio = nowPlaying.toAudio(),
             modifier = Modifier
-                .weight(1f)
-                .padding(bottom = 2.dp),
+                .weight(1f),
         )
     }
 }
@@ -294,7 +287,8 @@ private fun NowPlayingColumn(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             style = LabelMedium.copy(
-                color = MaterialTheme.colors.onSurface
+                color = MaterialTheme.colors.onSurface,
+                fontSize = 15.sp
             )
         )
 
@@ -308,6 +302,7 @@ private fun NowPlayingColumn(
                 style = Body
             )
         }
+        Spacer(modifier = Modifier.height(4.dp))
     }
 }
 
