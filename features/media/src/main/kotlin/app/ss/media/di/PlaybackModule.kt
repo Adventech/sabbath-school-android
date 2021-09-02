@@ -34,10 +34,8 @@ import app.ss.media.playback.players.AudioPlayer
 import app.ss.media.playback.players.AudioPlayerImpl
 import app.ss.media.playback.players.SSAudioPlayer
 import app.ss.media.playback.players.SSAudioPlayerImpl
-import app.ss.media.playback.repository.AudioRepository
-import app.ss.media.playback.repository.AudioRepositoryImpl
 import app.ss.media.playback.service.MusicService
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import app.ss.media.repository.SSMediaRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -73,21 +71,13 @@ object PlaybackModule {
     fun provideSSPlayer(
         @ApplicationContext context: Context,
         player: AudioPlayer,
-        repository: AudioRepository
+        repository: SSMediaRepository
     ): SSAudioPlayer = SSAudioPlayerImpl(
         context,
         player,
         audioFocusHelper = AudioFocusHelperImpl(context),
         queueManager = AudioQueueManagerImpl(repository),
         repository = repository
-    )
-
-    @Provides
-    @Singleton
-    fun provideAudioRepository(
-        schedulerProvider: SchedulerProvider
-    ): AudioRepository = AudioRepositoryImpl(
-        schedulerProvider
     )
 
     @Provides

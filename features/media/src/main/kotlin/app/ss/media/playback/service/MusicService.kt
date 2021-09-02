@@ -11,14 +11,14 @@ import app.ss.media.playback.NOTIFICATION_ID
 import app.ss.media.playback.PLAY_PAUSE
 import app.ss.media.playback.PREVIOUS
 import app.ss.media.playback.STOP_PLAYBACK
-import app.ss.media.playback.players.SSAudioPlayer
 import app.ss.media.playback.extensions.isIdle
 import app.ss.media.playback.extensions.playPause
 import app.ss.media.playback.model.MediaId
 import app.ss.media.playback.model.MediaId.Companion.CALLER_OTHER
 import app.ss.media.playback.model.MediaId.Companion.CALLER_SELF
+import app.ss.media.playback.players.SSAudioPlayer
 import app.ss.media.playback.receivers.BecomingNoisyReceiver
-import app.ss.media.playback.repository.AudioRepository
+import app.ss.media.repository.SSMediaRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -37,7 +37,7 @@ class MusicService : MediaBrowserServiceCompat(), CoroutineScope by MainScope() 
     lateinit var mediaNotifications: MediaNotifications
 
     @Inject
-    lateinit var repository: AudioRepository
+    lateinit var repository: SSMediaRepository
 
     @Inject
     lateinit var schedulerProvider: SchedulerProvider
