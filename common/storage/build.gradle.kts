@@ -20,47 +20,43 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback
+import dependencies.Dependencies.Hilt
+import dependencies.Dependencies.AndroidX.Room
 
-import app.ss.media.playback.model.AudioFile
-import app.ss.media.repository.SSMediaRepository
-
-interface AudioQueueManager {
-    var currentAudioIndex: Int
-    val currentAudioId: String
-    var currentAudio: AudioFile?
-
-    val previousAudioIndex: Int?
-    val nextAudioIndex: Int?
-
-    suspend fun refreshCurrentAudio(): AudioFile?
-
-    fun setCurrentAudioId(audioId: String)
+plugins {
+    id(BuildPlugins.Android.LIBRARY)
+    id(BuildPlugins.Kotlin.ANDROID)
+    id(BuildPlugins.Kotlin.KAPT)
+    id(BuildPlugins.DAGGER_HILT)
 }
 
-internal class AudioQueueManagerImpl(
-    private val repository: SSMediaRepository
-) : AudioQueueManager {
+android {
+    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
 
-    private var audioId: String? = null
-    override var currentAudioIndex: Int = 0
+    defaultConfig {
+        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
 
-    override val currentAudioId: String get() = audioId ?: ""
-
-    override var currentAudio: AudioFile? = null
-
-    override val previousAudioIndex: Int? = null
-
-    override val nextAudioIndex: Int? = null
-
-    override suspend fun refreshCurrentAudio(): AudioFile? {
-        val id = audioId ?: return null
-        currentAudio = repository.findAudioFile(id)
-
-        return currentAudio
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["room.schemaLocation"] = "$projectDir/schemas"
+            }
+        }
     }
 
-    override fun setCurrentAudioId(audioId: String) {
-        this.audioId = audioId
+    compileOptions {
+        sourceCompatibility = JavaOptions.version
+        targetCompatibility = JavaOptions.version
     }
+    kotlinOptions {
+        jvmTarget = JavaOptions.version.toString()
+    }
+}
+
+dependencies {
+    implementation(Hilt.ANDROID)
+    kapt(Hilt.COMPILER)
+
+    implementation(Room.runtime)
+    implementation(Room.ktx)
+    kapt(Room.compiler)
 }

@@ -22,7 +22,10 @@
 
 package app.ss.media.model
 
+import android.net.Uri
 import androidx.annotation.Keep
+import app.ss.media.playback.model.AudioFile
+import app.ss.storage.db.entity.AudioFileEntity
 import com.squareup.moshi.JsonClass
 
 @Keep
@@ -36,4 +39,26 @@ data class SSAudio(
     val target: String,
     val targetIndex: String,
     val title: String
+)
+
+fun SSAudio.toEntity(): AudioFileEntity = AudioFileEntity(
+    id,
+    artist,
+    image,
+    imageRatio,
+    src,
+    target,
+    targetIndex,
+    title,
+)
+
+fun AudioFileEntity.toAudio(): AudioFile = AudioFile(
+    id = id,
+    artist = artist,
+    image = image,
+    imageRatio = imageRatio,
+    source = Uri.parse(src),
+    target = target,
+    targetIndex = targetIndex,
+    title = title,
 )

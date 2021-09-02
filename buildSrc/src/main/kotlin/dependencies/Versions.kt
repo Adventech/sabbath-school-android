@@ -21,6 +21,7 @@ object Versions {
         const val BROWSER = "1.3.0"
         const val DATASTORE_PREFS = "1.0.0"
         const val MEDIA = "1.4.1"
+        const val ROOM = "2.3.0"
     }
 
     object Facebook {

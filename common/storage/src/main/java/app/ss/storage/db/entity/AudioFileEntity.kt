@@ -20,47 +20,19 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback
+package app.ss.storage.db.entity
 
-import app.ss.media.playback.model.AudioFile
-import app.ss.media.repository.SSMediaRepository
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-interface AudioQueueManager {
-    var currentAudioIndex: Int
-    val currentAudioId: String
-    var currentAudio: AudioFile?
-
-    val previousAudioIndex: Int?
-    val nextAudioIndex: Int?
-
-    suspend fun refreshCurrentAudio(): AudioFile?
-
-    fun setCurrentAudioId(audioId: String)
-}
-
-internal class AudioQueueManagerImpl(
-    private val repository: SSMediaRepository
-) : AudioQueueManager {
-
-    private var audioId: String? = null
-    override var currentAudioIndex: Int = 0
-
-    override val currentAudioId: String get() = audioId ?: ""
-
-    override var currentAudio: AudioFile? = null
-
-    override val previousAudioIndex: Int? = null
-
-    override val nextAudioIndex: Int? = null
-
-    override suspend fun refreshCurrentAudio(): AudioFile? {
-        val id = audioId ?: return null
-        currentAudio = repository.findAudioFile(id)
-
-        return currentAudio
-    }
-
-    override fun setCurrentAudioId(audioId: String) {
-        this.audioId = audioId
-    }
-}
+@Entity(tableName = "audios")
+data class AudioFileEntity(
+    @PrimaryKey val id: String,
+    val artist: String,
+    val image: String,
+    val imageRatio: String,
+    val src: String,
+    val target: String,
+    val targetIndex: String,
+    val title: String
+)

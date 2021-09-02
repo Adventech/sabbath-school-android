@@ -28,6 +28,8 @@ import app.ss.media.BuildConfig
 import app.ss.media.api.SSMediaApi
 import app.ss.media.repository.SSMediaRepository
 import app.ss.media.repository.SSMediaRepositoryImpl
+import app.ss.storage.db.dao.AudioDao
+import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -91,8 +93,12 @@ object MediaModule {
     @Singleton
     fun provideMediaRepository(
         mediaApi: SSMediaApi,
+        audioDao: AudioDao,
+        schedulerProvider: SchedulerProvider
     ): SSMediaRepository =
         SSMediaRepositoryImpl(
             mediaApi = mediaApi,
+            audioDao = audioDao,
+            schedulerProvider = schedulerProvider,
         )
 }

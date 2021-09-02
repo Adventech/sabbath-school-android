@@ -139,8 +139,9 @@ android {
 dependencies {
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
-    implementation(project(BuildModules.Common.TRANSLATIONS))
     implementation(project(BuildModules.Common.LESSONS_DATA))
+    implementation(project(BuildModules.Common.STORAGE))
+    implementation(project(BuildModules.Common.TRANSLATIONS))
     implementation(project(BuildModules.Features.APP_WIDGETS))
     implementation(project(BuildModules.Features.ACCOUNT))
     implementation(project(BuildModules.Features.BIBLE))

@@ -20,47 +20,25 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback
+package app.ss.storage.di
 
-import app.ss.media.playback.model.AudioFile
-import app.ss.media.repository.SSMediaRepository
+import android.content.Context
+import app.ss.storage.db.SabbathSchoolDatabase
+import app.ss.storage.db.dao.AudioDao
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-interface AudioQueueManager {
-    var currentAudioIndex: Int
-    val currentAudioId: String
-    var currentAudio: AudioFile?
+@Module
+@InstallIn(SingletonComponent::class)
+object StorageModule {
 
-    val previousAudioIndex: Int?
-    val nextAudioIndex: Int?
-
-    suspend fun refreshCurrentAudio(): AudioFile?
-
-    fun setCurrentAudioId(audioId: String)
-}
-
-internal class AudioQueueManagerImpl(
-    private val repository: SSMediaRepository
-) : AudioQueueManager {
-
-    private var audioId: String? = null
-    override var currentAudioIndex: Int = 0
-
-    override val currentAudioId: String get() = audioId ?: ""
-
-    override var currentAudio: AudioFile? = null
-
-    override val previousAudioIndex: Int? = null
-
-    override val nextAudioIndex: Int? = null
-
-    override suspend fun refreshCurrentAudio(): AudioFile? {
-        val id = audioId ?: return null
-        currentAudio = repository.findAudioFile(id)
-
-        return currentAudio
-    }
-
-    override fun setCurrentAudioId(audioId: String) {
-        this.audioId = audioId
-    }
+    @Provides
+    @Singleton
+    fun provideAudioDao(
+        @ApplicationContext context: Context,
+    ): AudioDao = SabbathSchoolDatabase.getInstance(context).audioDao()
 }

@@ -4,7 +4,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.media.playback.repository.AudioRepository
+import app.ss.media.repository.SSMediaRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PlaybackViewModel @Inject constructor(
     val playbackConnection: PlaybackConnection,
-    private val repository: AudioRepository,
+    private val repository: SSMediaRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -40,7 +40,8 @@ class PlaybackViewModel @Inject constructor(
             else -> {
                 if (state != PlaybackStateCompat.STATE_BUFFERING) {
                     viewModelScope.launch {
-                        val audio = repository.findAudioFile("") ?: return@launch
+                        // sample id
+                        val audio = repository.findAudioFile("876d52b6d4193883a43dba72ecd4d5d4c0b775b24fded652f3b667e1dfb0066e") ?: return@launch
                         playbackConnection.playAudio(audio)
                     }
                 }

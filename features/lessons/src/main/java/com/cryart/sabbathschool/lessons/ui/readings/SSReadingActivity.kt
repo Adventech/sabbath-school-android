@@ -316,6 +316,10 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
             // updateColorScheme(displayOptions)
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
         }
+
+        playbackViewModel.playingAudioFlow.collectIn(this) { audioFile ->
+            Timber.i("Playing: $audioFile")
+        }
     }
 
     override fun getShareWebUri(): Uri {

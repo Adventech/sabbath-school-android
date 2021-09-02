@@ -20,47 +20,40 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback
+package app.ss.storage.db
 
-import app.ss.media.playback.model.AudioFile
-import app.ss.media.repository.SSMediaRepository
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import app.ss.storage.db.dao.AudioDao
+import app.ss.storage.db.entity.AudioFileEntity
 
-interface AudioQueueManager {
-    var currentAudioIndex: Int
-    val currentAudioId: String
-    var currentAudio: AudioFile?
+@Database(
+    entities = [
+        AudioFileEntity::class
+    ],
+    version = 1,
+    exportSchema = true
+)
+internal abstract class SabbathSchoolDatabase : RoomDatabase() {
 
-    val previousAudioIndex: Int?
-    val nextAudioIndex: Int?
+    abstract fun audioDao(): AudioDao
 
-    suspend fun refreshCurrentAudio(): AudioFile?
+    companion object {
+        private const val DATABASE_NAME = "sabbath_school_db"
 
-    fun setCurrentAudioId(audioId: String)
-}
+        @Volatile
+        private var INSTANCE: SabbathSchoolDatabase? = null
 
-internal class AudioQueueManagerImpl(
-    private val repository: SSMediaRepository
-) : AudioQueueManager {
+        fun getInstance(context: Context): SabbathSchoolDatabase =
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
+            }
 
-    private var audioId: String? = null
-    override var currentAudioIndex: Int = 0
-
-    override val currentAudioId: String get() = audioId ?: ""
-
-    override var currentAudio: AudioFile? = null
-
-    override val previousAudioIndex: Int? = null
-
-    override val nextAudioIndex: Int? = null
-
-    override suspend fun refreshCurrentAudio(): AudioFile? {
-        val id = audioId ?: return null
-        currentAudio = repository.findAudioFile(id)
-
-        return currentAudio
-    }
-
-    override fun setCurrentAudioId(audioId: String) {
-        this.audioId = audioId
+        private fun buildDatabase(context: Context): SabbathSchoolDatabase =
+            Room.databaseBuilder(context, SabbathSchoolDatabase::class.java, DATABASE_NAME)
+                .fallbackToDestructiveMigration()
+                .build()
     }
 }

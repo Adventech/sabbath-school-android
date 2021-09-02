@@ -20,47 +20,15 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback
+package app.ss.storage.db.dao
 
-import app.ss.media.playback.model.AudioFile
-import app.ss.media.repository.SSMediaRepository
+import androidx.room.Dao
+import androidx.room.Query
+import app.ss.storage.db.entity.AudioFileEntity
 
-interface AudioQueueManager {
-    var currentAudioIndex: Int
-    val currentAudioId: String
-    var currentAudio: AudioFile?
+@Dao
+interface AudioDao : BaseDao<AudioFileEntity> {
 
-    val previousAudioIndex: Int?
-    val nextAudioIndex: Int?
-
-    suspend fun refreshCurrentAudio(): AudioFile?
-
-    fun setCurrentAudioId(audioId: String)
-}
-
-internal class AudioQueueManagerImpl(
-    private val repository: SSMediaRepository
-) : AudioQueueManager {
-
-    private var audioId: String? = null
-    override var currentAudioIndex: Int = 0
-
-    override val currentAudioId: String get() = audioId ?: ""
-
-    override var currentAudio: AudioFile? = null
-
-    override val previousAudioIndex: Int? = null
-
-    override val nextAudioIndex: Int? = null
-
-    override suspend fun refreshCurrentAudio(): AudioFile? {
-        val id = audioId ?: return null
-        currentAudio = repository.findAudioFile(id)
-
-        return currentAudio
-    }
-
-    override fun setCurrentAudioId(audioId: String) {
-        this.audioId = audioId
-    }
+    @Query("SELECT * FROM audios WHERE id = :id")
+    fun findBy(id: String): AudioFileEntity?
 }

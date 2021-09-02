@@ -29,8 +29,10 @@ import app.ss.media.repository.SSMediaRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.misc.SSConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,13 +42,17 @@ class ReadingsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
+    private val _audioAvailable = MutableSharedFlow<Boolean>()
+    val audioAvailableFlow: SharedFlow<Boolean> get() = _audioAvailable.asSharedFlow()
+
     init {
         viewModelScope.launch(schedulerProvider.default) {
-            savedStateHandle.get<String>(SSConstants.SS_LESSON_INDEX_EXTRA)?.let { index ->
-                val audio = mediaRepository.getAudio(index)
-
-                Timber.d("AUDIO: ${audio.data?.size}")
+            savedStateHandle.lessonIndex?.let { index ->
+                val resource = mediaRepository.getAudio(index)
+                _audioAvailable.emit(resource.data.isNullOrEmpty().not())
             }
         }
     }
 }
+
+private val SavedStateHandle.lessonIndex: String? get() = get(SSConstants.SS_LESSON_INDEX_EXTRA)

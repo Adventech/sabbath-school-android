@@ -30,6 +30,12 @@ object Dependencies {
         const val BROWSER = "androidx.browser:browser:${Versions.AndroidX.BROWSER}"
         const val DATASTORE_PREFS = "androidx.datastore:datastore-preferences:${Versions.AndroidX.DATASTORE_PREFS}"
         const val MEDIA = "androidx.media:media:${Versions.AndroidX.MEDIA}"
+
+        object Room {
+            const val runtime = "androidx.room:room-runtime:${Versions.AndroidX.ROOM}"
+            const val compiler = "androidx.room:room-compiler:${Versions.AndroidX.ROOM}"
+            const val ktx = "androidx.room:room-ktx:${Versions.AndroidX.ROOM}"
+        }
     }
 
     object Firebase {

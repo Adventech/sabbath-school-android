@@ -4,6 +4,7 @@ object BuildModules {
         const val CORE = ":common:core"
         const val DESIGN = ":common:design"
         const val LESSONS_DATA = ":common:lessons-data"
+        const val STORAGE = ":common:storage"
         const val TRANSLATIONS = ":common:translations"
     }
 
