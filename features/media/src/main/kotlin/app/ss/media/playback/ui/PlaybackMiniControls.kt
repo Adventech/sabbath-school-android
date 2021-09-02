@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.BottomSheetState
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
@@ -30,7 +31,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ProgressIndicatorDefaults
 import androidx.compose.material.Surface
@@ -84,11 +84,11 @@ import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.theme.lighter
 import kotlinx.coroutines.launch
 
-object PlaybackMiniControlsDefaults {
+private object PlaybackMiniControlsDefaults {
     val height = 56.dp
     val maxWidth = 600.dp
-    val playPauseSize = 36.dp
-    val replaySize = 26.dp
+    val playPauseSize = 42.dp
+    val replaySize = 32.dp
     val cancelSize = 20.dp
 }
 
@@ -128,11 +128,12 @@ fun PlaybackMiniControls(
 ) {
     val coroutine = rememberCoroutineScope()
     val expand = { coroutine.launch { playbackSheetState.expand() } }
+    val cancel: () -> Unit = { playbackConnection.transportControls?.stop() }
 
     val backgroundColor = playbackMiniBackgroundColor()
     val contentColor = playbackMiniContentColor()
 
-    Dismissible(onDismiss = { playbackConnection.transportControls?.stop() }) {
+    Dismissible(onDismiss = cancel) {
 
         Box(
             modifier = Modifier.fillMaxWidth()
@@ -151,34 +152,36 @@ fun PlaybackMiniControls(
                     .align(Alignment.Center)
                     .clickable { expand() }
             ) {
-                Column {
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                        horizontalArrangement = Arrangement.spacedBy(0.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .height(height)
                             .fillMaxWidth()
                             .background(backgroundColor)
                     ) {
-                        CompositionLocalProvider(LocalContentColor provides contentColor) {
-                            NowPlayingColumn(
-                                nowPlaying = nowPlaying,
-                                onCancel = {
-                                    playbackConnection.transportControls?.stop()
-                                }
-                            )
-                            PlaybackReplay(
-                                contentColor = contentColor
-                            ) {
+                        NowPlayingColumn(
+                            nowPlaying = nowPlaying,
+                            onCancel = cancel
+                        )
+                        PlaybackReplay(
+                            contentColor = contentColor,
+                            onRewind = {
                                 playbackConnection.transportControls?.rewind()
                             }
-                            PlaybackPlayPause(
-                                playbackState = playbackState,
-                                contentColor = contentColor
-                            ) {
+                        )
+                        PlaybackPlayPause(
+                            playbackState = playbackState,
+                            contentColor = contentColor,
+                            onPlayPause = {
                                 playbackConnection.mediaController?.playPause()
                             }
-                        }
+                        )
+
+                        Spacer(modifier = Modifier.width(Dimens.grid_2))
                     }
                     PlaybackProgress(
                         playbackState = playbackState,
@@ -268,6 +271,8 @@ private fun RowScope.NowPlayingColumn(
         NowPlayingColumn(
             audio = nowPlaying.toAudio(),
             modifier = Modifier
+                .weight(1f)
+                .padding(bottom = 2.dp),
         )
     }
 }
@@ -327,6 +332,25 @@ private fun NowPlayingColumnPreview() {
 }
 
 @Composable
+private fun PlaybackReplay(
+    size: Dp = PlaybackMiniControlsDefaults.replaySize,
+    contentColor: Color,
+    onRewind: () -> Unit
+) {
+    IconButton(
+        onClick = onRewind,
+        modifier = Modifier.size(size)
+    ) {
+        Icon(
+            Icons.Rounded.Replay10,
+            contentDescription = "Rewind",
+            tint = contentColor,
+            modifier = Modifier.size(size)
+        )
+    }
+}
+
+@Composable
 private fun PlaybackPlayPause(
     playbackState: PlaybackStateCompat,
     size: Dp = PlaybackMiniControlsDefaults.playPauseSize,
@@ -335,6 +359,7 @@ private fun PlaybackPlayPause(
 ) {
     IconButton(
         onClick = onPlayPause,
+        modifier = Modifier.size(size),
     ) {
         Icon(
             painter = rememberVectorPainter(
@@ -347,24 +372,6 @@ private fun PlaybackPlayPause(
             ),
             modifier = Modifier.size(size),
             contentDescription = "Play/Pause",
-            tint = contentColor
-        )
-    }
-}
-
-@Composable
-private fun PlaybackReplay(
-    size: Dp = PlaybackMiniControlsDefaults.replaySize,
-    contentColor: Color,
-    onRewind: () -> Unit
-) {
-    IconButton(
-        onClick = onRewind,
-    ) {
-        Icon(
-            Icons.Rounded.Replay10,
-            modifier = Modifier.size(size),
-            contentDescription = "Rewind",
             tint = contentColor
         )
     }
