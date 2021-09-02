@@ -24,9 +24,11 @@ package app.ss.media.repository
 
 import app.ss.media.api.SSMediaApi
 import app.ss.media.model.SSAudio
+import app.ss.storage.db.dao.AudioDao
 import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
 import com.cryart.sabbathschool.test.coroutines.runBlockingTest
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeEqualTo
@@ -41,13 +43,16 @@ class SSMediaRepositoryImplTest {
     var coroutinesTestRule = CoroutineTestRule()
 
     private val mockApi: SSMediaApi = mockk()
+    private val mockAudioDao: AudioDao = mockk()
 
     private lateinit var repository: SSMediaRepository
 
     @Before
     fun setup() {
         repository = SSMediaRepositoryImpl(
-            mockApi
+            mockApi,
+            mockAudioDao,
+            coroutinesTestRule.dispatcherProvider
         )
     }
 
@@ -72,6 +77,7 @@ class SSMediaRepositoryImplTest {
         coEvery { mockApi.getAudio("en", "2021-03") }.returns(
             Response.success(result)
         )
+        every { mockAudioDao.insertAll(any()) }.returns(Unit)
 
         val response = repository.getAudio(lessonIndex)
 
