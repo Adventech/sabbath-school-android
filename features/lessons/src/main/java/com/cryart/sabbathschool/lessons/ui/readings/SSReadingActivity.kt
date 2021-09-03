@@ -42,6 +42,7 @@ import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
 import app.ss.media.playback.PlaybackViewModel
+import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import coil.load
 import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
@@ -168,7 +169,13 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
         MiniPlayerComponent(
             binding.ssPlayerView,
             playbackViewModel.playbackConnection,
-            ssPrefs.displayOptionsFlow()
+            ssPrefs.displayOptionsFlow(),
+            onExpand = {
+                supportFragmentManager.showNowPlaying(
+                    viewModel.lessonIndex,
+                    getReadIndex()
+                )
+            }
         )
     }
 
@@ -227,7 +234,10 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.ss_reading_menu_audio -> {
-                playbackViewModel.playPause()
+                supportFragmentManager.showNowPlaying(
+                    viewModel.lessonIndex,
+                    getReadIndex()
+                )
                 true
             }
             R.id.ss_reading_menu_share -> {
@@ -335,6 +345,12 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
         val readIndex = read?.shareIndex(ssReadingViewModel.lessonShareIndex, position + 1)
 
         return "${getString(R.string.ss_app_host)}/${readIndex ?: ""}".toWebUri()
+    }
+
+    private fun getReadIndex(): String? {
+        val position = binding.ssReadingViewPager.currentItem
+        val read = readingViewAdapter.getReadAt(position)
+        return read?.index
     }
 
     companion object {
