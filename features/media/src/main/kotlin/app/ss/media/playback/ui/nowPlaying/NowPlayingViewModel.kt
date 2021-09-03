@@ -51,6 +51,11 @@ class NowPlayingViewModel @Inject constructor(
             }
             .stateIn(viewModelScope, emptyList())
 
+    val nowPlaying: StateFlow<AudioFile?> = playList.map {
+        it.firstOrNull()
+    }
+        .stateIn(viewModelScope, null)
+
     init {
         println("LESSON INDEX: ${savedStateHandle.lessonIndex}")
         println("READ INDEX: ${savedStateHandle.readIndex}")

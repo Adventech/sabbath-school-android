@@ -22,12 +22,21 @@
 
 package app.ss.media.playback.ui.nowPlaying
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.with
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -36,6 +45,9 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,6 +59,8 @@ import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import app.ss.media.playback.ui.nowPlaying.ScreenDefaults.tintColor
+import app.ss.media.playback.ui.nowPlaying.components.BoxState
+import app.ss.media.playback.ui.nowPlaying.components.NowPlayingBox
 import com.cryart.design.base.TransparentBottomSheetSurface
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.BaseGrey2
@@ -84,8 +98,20 @@ internal fun NowPlayingScreen(
                 .collectAsState(NONE_PLAYBACK_STATE)
             val nowPlaying by rememberFlowWithLifecycle(playbackConnection.nowPlaying)
                 .collectAsState(NONE_PLAYING)
+            val audio by rememberFlowWithLifecycle(flow = viewModel.nowPlaying)
+                .collectAsState(initial = null)
+            var boxState by remember { mutableStateOf(BoxState.Expanded) }
 
             DragHandle()
+
+            Spacer(modifier = Modifier.height(Dimens.grid_4))
+
+            if (audio != null) {
+                NowPlayingBox(
+                    audio = audio!!,
+                    boxState = boxState
+                )
+            }
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -93,17 +119,25 @@ internal fun NowPlayingScreen(
                 playbackSpeedFlow = playbackConnection.playbackSpeed,
                 toggleSpeed = { playbackSpeed ->
                     playbackConnection.toggleSpeed(playbackSpeed)
+                },
+                toggleExpand = {
+                    boxState = when (boxState) {
+                        BoxState.Collapsed -> BoxState.Expanded
+                        BoxState.Expanded -> BoxState.Collapsed
+                    }
                 }
             )
         }
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun BottomControls(
     modifier: Modifier = Modifier,
     playbackSpeedFlow: StateFlow<PlaybackSpeed>,
-    toggleSpeed: (PlaybackSpeed) -> Unit = {}
+    toggleSpeed: (PlaybackSpeed) -> Unit = {},
+    toggleExpand: () -> Unit = {}
 ) {
     val playbackSpeed by rememberFlowWithLifecycle(playbackSpeedFlow)
         .collectAsState(PlaybackSpeed.NORMAL)
@@ -121,17 +155,32 @@ private fun BottomControls(
                 toggleSpeed(playbackSpeed)
             }
         ) {
-            Text(
-                text = playbackSpeed.label,
-                style = TitleMedium.copy(
-                    color = tintColor()
+            AnimatedContent(
+                targetState = playbackSpeed,
+                transitionSpec = {
+                    if (targetState.speed > initialState.speed) {
+                        slideInVertically({ height -> height }) + fadeIn() with
+                            slideOutVertically({ height -> -height }) + fadeOut()
+                    } else {
+                        slideInVertically({ height -> -height }) + fadeIn() with
+                            slideOutVertically({ height -> height }) + fadeOut()
+                    }.using(
+                        SizeTransform(clip = false)
+                    )
+                }
+            ) { targetSpeed ->
+                Text(
+                    text = targetSpeed.label,
+                    style = TitleMedium.copy(
+                        color = tintColor()
+                    )
                 )
-            )
+            }
         }
 
         Spacer(modifier = Modifier.weight(1f))
 
-        IconButton(onClick = {}) {
+        IconButton(onClick = toggleExpand) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_audio_icon_playlist),
                 contentDescription = "PlayList",
