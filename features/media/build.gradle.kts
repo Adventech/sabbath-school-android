@@ -109,6 +109,7 @@ dependencies {
     implementation(Compose.tooling)
     implementation(Compose.icons)
     implementation(Compose.iconsExtended)
+    implementation(Compose.constraintLayout)
 
     implementation(Moshi.kotlin)
     kapt(Moshi.codegen)
