@@ -38,6 +38,7 @@ interface SSMediaRepository {
     suspend fun getAudio(lessonIndex: String): Resource<List<SSAudio>>
     suspend fun findAudioFile(id: String): AudioFile?
     suspend fun updateDuration(id: String, duration: Long)
+    suspend fun getPlayList(lessonIndex: String): List<AudioFile>
 }
 
 internal class SSMediaRepositoryImpl(
@@ -78,6 +79,12 @@ internal class SSMediaRepositoryImpl(
     override suspend fun updateDuration(id: String, duration: Long) = withContext(schedulerProvider.io) {
         Timber.i("Updating duration...$duration")
         audioDao.update(duration, id)
+    }
+
+    override suspend fun getPlayList(lessonIndex: String): List<AudioFile> = withContext(schedulerProvider.io) {
+        audioDao.searchBy("%$lessonIndex%").map {
+            it.toAudio()
+        }
     }
 }
 
