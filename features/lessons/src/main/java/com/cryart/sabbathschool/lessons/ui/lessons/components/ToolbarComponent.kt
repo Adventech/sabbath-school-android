@@ -35,7 +35,7 @@ import com.cryart.design.color.withAlpha
 import com.cryart.sabbathschool.core.extensions.activity.setLightStatusBar
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
-import com.cryart.sabbathschool.core.extensions.view.doOnApplyWindowInsets
+import com.cryart.design.ext.doOnApplyWindowInsets
 import com.cryart.sabbathschool.core.extensions.view.tint
 import com.cryart.sabbathschool.core.ui.BaseDataComponent
 import com.cryart.sabbathschool.lessons.R
