@@ -10,6 +10,7 @@ object Versions {
         const val APPCOMPAT = "1.3.1"
         const val RECYCLER_VIEW = "1.2.1"
         const val LIFECYCLE = "2.3.1"
+        const val LIFECYCLE_COMPOSE = "1.0.0-alpha07"
         const val LIFECYCLE_KTX = "2.4.0-alpha01"
         const val LIFECYCLE_EXT = "2.2.0"
         const val CORE = "1.6.0"
