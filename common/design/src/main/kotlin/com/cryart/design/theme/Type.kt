@@ -37,7 +37,8 @@ import com.cryart.design.R
 val LatoFontFamily = FontFamily(
     Font(R.font.lato_regular, FontWeight.Normal),
     Font(R.font.lato_medium, FontWeight.Medium),
-    Font(R.font.lato_bold, FontWeight.Bold)
+    Font(R.font.lato_bold, FontWeight.Bold),
+    Font(R.font.lato_black, FontWeight.Black),
 )
 
 val Typography = Typography(
