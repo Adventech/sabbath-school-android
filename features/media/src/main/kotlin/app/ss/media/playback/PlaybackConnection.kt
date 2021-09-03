@@ -43,6 +43,7 @@ import app.ss.media.playback.extensions.duration
 import app.ss.media.playback.extensions.isBuffering
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.AudioFile
+import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.media.playback.players.AudioPlayer
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.flowInterval
 import kotlinx.coroutines.CoroutineScope
@@ -63,12 +64,15 @@ interface PlaybackConnection {
 
     val playbackProgress: StateFlow<PlaybackProgressState>
     val playbackMode: StateFlow<PlaybackModeState>
+    val playbackSpeed: StateFlow<PlaybackSpeed>
 
     var mediaController: MediaControllerCompat?
     val transportControls: MediaControllerCompat.TransportControls?
 
     fun playAudio(audio: AudioFile)
     fun playAudios(audios: List<AudioFile>, index: Int = 0)
+
+    fun toggleSpeed(playbackSpeed: PlaybackSpeed)
 }
 
 internal class PlaybackConnectionImpl(
@@ -86,9 +90,19 @@ internal class PlaybackConnectionImpl(
     override val playbackProgress = MutableStateFlow(PlaybackProgressState())
 
     override val playbackMode = MutableStateFlow(PlaybackModeState())
+    override val playbackSpeed = MutableStateFlow(PlaybackSpeed.NORMAL)
 
     override var mediaController: MediaControllerCompat? = null
     override val transportControls get() = mediaController?.transportControls
+
+    private val mediaBrowserConnectionCallback = MediaBrowserConnectionCallback(context)
+    private val mediaBrowser = MediaBrowserCompat(
+        context, serviceComponent, mediaBrowserConnectionCallback, null
+    ).apply { connect() }
+
+    init {
+        startPlaybackProgress()
+    }
 
     override fun playAudio(audio: AudioFile) = playAudios(audios = listOf(audio), index = 0)
 
@@ -103,13 +117,15 @@ internal class PlaybackConnectionImpl(
         )
     }
 
-    private val mediaBrowserConnectionCallback = MediaBrowserConnectionCallback(context)
-    private val mediaBrowser = MediaBrowserCompat(
-        context, serviceComponent, mediaBrowserConnectionCallback, null
-    ).apply { connect() }
-
-    init {
-        startPlaybackProgress()
+    override fun toggleSpeed(playbackSpeed: PlaybackSpeed) {
+        val nextSpeed = when (playbackSpeed) {
+            PlaybackSpeed.SLOW -> PlaybackSpeed.NORMAL
+            PlaybackSpeed.NORMAL -> PlaybackSpeed.FAST
+            PlaybackSpeed.FAST -> PlaybackSpeed.FASTEST
+            PlaybackSpeed.FASTEST -> PlaybackSpeed.SLOW
+        }
+        transportControls?.setPlaybackSpeed(nextSpeed.speed)
+        this.playbackSpeed.value = nextSpeed
     }
 
     private fun startPlaybackProgress() = launch {
