@@ -1,7 +1,6 @@
 package app.ss.media.playback
 
 import android.support.v4.media.session.PlaybackStateCompat
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.media.repository.SSMediaRepository
@@ -14,7 +13,6 @@ import javax.inject.Inject
 class PlaybackViewModel @Inject constructor(
     val playbackConnection: PlaybackConnection,
     private val repository: SSMediaRepository,
-    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     init {
@@ -49,6 +47,3 @@ class PlaybackViewModel @Inject constructor(
         }
     }
 }
-
-private const val ARG_FILE_ID = "arg:file"
-private val SavedStateHandle.fileId: String? get() = get(ARG_FILE_ID)

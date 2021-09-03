@@ -27,7 +27,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.media.repository.SSMediaRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
-import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -45,6 +45,8 @@ class ReadingsViewModel @Inject constructor(
     private val _audioAvailable = MutableSharedFlow<Boolean>()
     val audioAvailableFlow: SharedFlow<Boolean> get() = _audioAvailable.asSharedFlow()
 
+    val lessonIndex: String? get() = savedStateHandle.lessonIndex
+
     init {
         viewModelScope.launch(schedulerProvider.default) {
             savedStateHandle.lessonIndex?.let { index ->
@@ -54,5 +56,3 @@ class ReadingsViewModel @Inject constructor(
         }
     }
 }
-
-private val SavedStateHandle.lessonIndex: String? get() = get(SSConstants.SS_LESSON_INDEX_EXTRA)
