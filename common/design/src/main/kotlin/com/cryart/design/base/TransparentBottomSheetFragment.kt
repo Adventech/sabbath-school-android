@@ -43,7 +43,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-open class BaseTransparentBottomSheetFragment : BottomSheetDialogFragment() {
+open class TransparentBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun getTheme() = R.style.TransparentBottomSheetDialogTheme
 
@@ -68,7 +68,7 @@ open class BaseTransparentBottomSheetFragment : BottomSheetDialogFragment() {
             }
         }.apply {
             setOnShowListener {
-                (this@BaseTransparentBottomSheetFragment.dialog as BottomSheetDialog).behavior.setState(
+                (this@TransparentBottomSheetFragment.dialog as BottomSheetDialog).behavior.setState(
                     BottomSheetBehavior.STATE_EXPANDED
                 )
             }
