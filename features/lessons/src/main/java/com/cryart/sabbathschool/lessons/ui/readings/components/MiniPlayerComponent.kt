@@ -39,7 +39,8 @@ import kotlinx.coroutines.flow.Flow
 class MiniPlayerComponent(
     composeView: ComposeView,
     private val playbackConnection: PlaybackConnection,
-    private val displayOptionsFlow: Flow<SSReadingDisplayOptions>
+    private val displayOptionsFlow: Flow<SSReadingDisplayOptions>,
+    private val onExpand: () -> Unit
 ) {
     init {
         composeView.setContent {
@@ -49,7 +50,8 @@ class MiniPlayerComponent(
 
                 PlaybackMiniControls(
                     playbackConnection = playbackConnection,
-                    readerContentColor = contentColorFor(backgroundColor = Color.parse(options.themeColor))
+                    readerContentColor = contentColorFor(backgroundColor = Color.parse(options.themeColor)),
+                    onExpand = onExpand
                 )
             }
         }
