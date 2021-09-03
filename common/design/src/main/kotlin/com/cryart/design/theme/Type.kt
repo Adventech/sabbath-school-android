@@ -114,3 +114,6 @@ val Title = textStyle(
 val TitleSmall = Title.copy(
     fontSize = TextSize.Size15.fontSize
 )
+val TitleMedium = Title.copy(
+    fontSize = TextSize.Size18.fontSize
+)
