@@ -36,16 +36,11 @@ fun Activity.setLightStatusBar(light: Boolean) {
 }
 
 fun Activity.slideEnter() {
-    with(window) {
-        requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
-        enterTransition = Slide(Gravity.END)
-    }
-}
-
-fun Activity.slideExit() {
-    with(window) {
-        requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
-        exitTransition = Slide(Gravity.START)
+    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+        with(window) {
+            requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+            enterTransition = Slide(Gravity.END)
+        }
     }
 }
 
