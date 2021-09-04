@@ -130,7 +130,7 @@ fun PlaybackMiniControls(
     val cancel: () -> Unit = { playbackConnection.transportControls?.stop() }
 
     val backgroundColor = playbackMiniBackgroundColor()
-    val contentColor = playbackMiniContentColor()
+    val contentColor = playbackContentColor()
 
     Dismissible(onDismiss = cancel) {
 
@@ -203,7 +203,7 @@ private fun playbackMiniBackgroundColor(): Color =
     }
 
 @Composable
-private fun playbackMiniContentColor(): Color =
+internal fun playbackContentColor(): Color =
     if (isSystemInDarkTheme()) {
         Color.White
     } else {
@@ -225,7 +225,8 @@ private fun PlaybackProgress(
     color: Color,
     playbackConnection: PlaybackConnection = LocalPlaybackConnection.current,
 ) {
-    val progressState by rememberFlowWithLifecycle(playbackConnection.playbackProgress).collectAsState(PlaybackProgressState())
+    val progressState by rememberFlowWithLifecycle(playbackConnection.playbackProgress)
+        .collectAsState(PlaybackProgressState())
     val sizeModifier = Modifier
         .height(2.dp)
         .fillMaxWidth()

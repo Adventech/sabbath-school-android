@@ -25,7 +25,9 @@ package app.ss.media.playback.ui.nowPlaying.components
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -190,13 +192,17 @@ private fun NowPlayingColumn(
 
     Column(
         modifier = modifier
-            .padding(Dimens.grid_2),
+            .padding(
+                horizontal = Dimens.grid_2,
+                vertical = 24.dp
+            ),
         horizontalAlignment = alignment
     ) {
         Text(
             text = audio.title,
             style = titleStyle
         )
+        Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = audio.artist,
             style = artistStyle
