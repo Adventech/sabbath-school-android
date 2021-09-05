@@ -29,6 +29,7 @@ import app.ss.media.playback.extensions.artist
 import app.ss.media.playback.extensions.artworkUri
 import app.ss.media.playback.extensions.duration
 import app.ss.media.playback.extensions.id
+import app.ss.media.playback.extensions.source
 import app.ss.media.playback.extensions.title
 
 fun List<MediaSessionCompat.QueueItem>?.toMediaIdList(): List<MediaId> {
@@ -42,12 +43,14 @@ fun AudioFile.toMediaMetadata(builder: MediaMetadataCompat.Builder): MediaMetada
     putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaId(MEDIA_TYPE_AUDIO, id).toString())
     putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration)
     putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, image)
+    putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, source.toString())
 }
 
 fun MediaMetadataCompat.toAudio(): AudioFile = AudioFile(
     id = id,
     title = title ?: UNTITLED,
     artist = artist ?: UNTITLED,
-    source = artworkUri,
-    duration = duration
+    source = source,
+    duration = duration,
+    image = artworkUri.toString()
 )
