@@ -26,13 +26,11 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.cryart.sabbathschool.actions.RecyclerViewItemCountAssertion.Companion.withItemCount
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -73,16 +71,6 @@ class QuarterliesActivityTest {
     @Test
     fun verify_quarterly_groups_are_shown() = launch {
         onView(withId(R.id.ss_quarterlies_list)).check(withItemCount(3))
-    }
-
-    @Test
-    fun verify_lesson_screen_is_launched_when_last_quarterly_index_saved() {
-        ssPrefs.setLastQuarterlyIndex("en-2021-03")
-        ssPrefs.setAppReBrandingShown()
-
-        launch {
-            Intents.intended(IntentMatchers.hasComponent(SSLessonsActivity::class.java.name))
-        }
     }
 
     private fun launch(
