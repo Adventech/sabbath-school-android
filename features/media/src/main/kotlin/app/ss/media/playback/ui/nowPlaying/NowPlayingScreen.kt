@@ -59,6 +59,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.media.R
+import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
 import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.extensions.id
@@ -113,6 +114,12 @@ internal fun NowPlayingScreen(
                 .collectAsState(NONE_PLAYING)
             val playbackQueue by rememberFlowWithLifecycle(playbackConnection.playbackQueue)
                 .collectAsState(PlaybackQueue())
+            val nowPlayingAudio = if (nowPlaying.id.isEmpty()) {
+                playbackQueue.currentAudio ?: nowPlaying.toAudio()
+            } else {
+                nowPlaying.toAudio()
+            }
+
             var boxState by remember { mutableStateOf(BoxState.Expanded) }
 
             val expanded = boxState == BoxState.Expanded
@@ -125,11 +132,16 @@ internal fun NowPlayingScreen(
             Spacer(modifier = Modifier.height(Dimens.grid_4))
 
             NowPlayingBox(
-                audio = nowPlaying.toAudio(),
+                audio = nowPlayingAudio,
                 boxState = boxState
             )
 
-            PlaybackQueue(expanded, playbackQueue, nowPlaying)
+            PlaybackQueue(
+                expanded,
+                playbackQueue,
+                nowPlaying,
+                playbackConnection = playbackConnection
+            )
 
             PlaybackProgress(
                 playbackState = playbackState,
@@ -168,9 +180,9 @@ internal fun NowPlayingScreen(
 private fun ColumnScope.PlaybackQueue(
     expanded: Boolean,
     playbackQueue: PlaybackQueue,
-    nowPlaying: MediaMetadataCompat
+    nowPlaying: MediaMetadataCompat,
+    playbackConnection: PlaybackConnection
 ) {
-    println("NOW_PLAYING: ${nowPlaying.id}")
     if (expanded) {
         Spacer(modifier = Modifier.Companion.weight(1f))
     } else {
@@ -179,7 +191,8 @@ private fun ColumnScope.PlaybackQueue(
             modifier = Modifier.Companion.weight(1f),
             playbackQueue = playbackQueue,
             nowPlayingId = nowPlaying.id,
-            onPlayAudio = { audio ->
+            onPlayAudio = { position ->
+                playbackConnection.transportControls?.skipToQueueItem(position.toLong())
             }
         )
     }

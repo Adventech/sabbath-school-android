@@ -32,7 +32,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Divider
 import androidx.compose.material.LocalContentAlpha
@@ -63,7 +63,7 @@ internal fun PlaybackQueueList(
     playbackQueue: PlaybackQueue,
     modifier: Modifier = Modifier,
     nowPlayingId: String? = null,
-    onPlayAudio: (AudioFile) -> Unit,
+    onPlayAudio: (Int) -> Unit,
 ) {
 
     LazyColumn(
@@ -73,12 +73,12 @@ internal fun PlaybackQueueList(
             horizontal = Dimens.grid_4
         )
     ) {
-        items(playbackQueue.audiosList) { audio ->
+        itemsIndexed(playbackQueue.audiosList) { index, audio ->
             AudioRow(
                 audio = audio,
                 isPlaying = audio.id == nowPlayingId,
                 onClick = {
-                    onPlayAudio(audio)
+                    onPlayAudio(index)
                 }
             )
             Divider()
@@ -99,7 +99,9 @@ private fun AudioRow(
             .fillMaxWidth()
             .padding(horizontal = Spacing4)
             .clickable {
-                onClick()
+                if (isPlaying.not()) {
+                    onClick()
+                }
             }
     ) {
 

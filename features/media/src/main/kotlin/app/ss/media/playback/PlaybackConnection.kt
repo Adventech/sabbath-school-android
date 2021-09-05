@@ -28,8 +28,8 @@ import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
-import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
@@ -44,7 +44,6 @@ import app.ss.media.playback.model.PlaybackModeState
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
-import app.ss.media.playback.model.fromMediaController
 import app.ss.media.playback.players.AudioPlayer
 import app.ss.media.playback.players.QUEUE_LIST_KEY
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.flowInterval
@@ -56,7 +55,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 const val PLAYBACK_PROGRESS_INTERVAL = 1000L
 
@@ -124,6 +122,7 @@ internal class PlaybackConnectionImpl(
                 putStringArray(QUEUE_LIST_KEY, audiosIds)
             }
         )
+        transportControls?.sendCustomAction(UPDATE_QUEUE, bundleOf())
     }
 
     override fun toggleSpeed(playbackSpeed: PlaybackSpeed) {
@@ -202,12 +201,6 @@ internal class PlaybackConnectionImpl(
 
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
             nowPlaying.value = metadata ?: return
-        }
-
-        override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
-            Timber.d("New queue: size=${queue?.size}")
-            val newQueue = fromMediaController(mediaController ?: return)
-            this@PlaybackConnectionImpl.playbackQueueState.value = newQueue
         }
 
         override fun onRepeatModeChanged(repeatMode: Int) {

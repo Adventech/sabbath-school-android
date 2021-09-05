@@ -14,7 +14,7 @@ data class PlaybackQueue(
 
     val isValid = list.isNotEmpty() && audiosList.isNotEmpty() && currentIndex >= 0
 
-    val currentAudio get() = get(currentIndex)
+    val currentAudio get() = getOrNull(currentIndex)
 }
 
 fun fromMediaController(mediaController: MediaControllerCompat) = PlaybackQueue(

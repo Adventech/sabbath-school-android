@@ -53,20 +53,36 @@ internal class AudioQueueManagerImpl(
 
     override var currentAudio: AudioFile? = null
 
-    override val previousAudioIndex: Int? = null
+    override val previousAudioIndex: Int?
+        get() {
+            val previousIndex = currentAudioIndex - 1
 
-    override val nextAudioIndex: Int? = null
+            return when {
+                previousIndex >= 0 -> previousIndex
+                else -> null
+            }
+        }
+
+    override val nextAudioIndex: Int? get() {
+        val nextIndex = currentAudioIndex + 1
+        return when {
+            nextIndex < queue.size -> nextIndex
+            else -> null
+        }
+    }
     override val queue: List<AudioFile> get() = queueList
 
     override suspend fun refreshCurrentAudio(): AudioFile? {
         val id = audioId ?: return null
         currentAudio = repository.findAudioFile(id)
+        currentAudioIndex = queueList.indexOfFirst { it.id == id }
 
         return currentAudio
     }
 
     override fun setCurrentAudioId(audioId: String) {
         this.audioId = audioId
+        currentAudioIndex = queueList.indexOfFirst { it.id == audioId }
     }
 
     override fun setAudioQueue(queue: List<AudioFile>, selected: Int) {
@@ -75,5 +91,6 @@ internal class AudioQueueManagerImpl(
 
         currentAudio = queueList.getOrNull(selected)
         audioId = currentAudio?.id
+        currentAudioIndex = selected
     }
 }
