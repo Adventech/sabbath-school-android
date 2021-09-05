@@ -32,10 +32,12 @@ interface AudioQueueManager {
 
     val previousAudioIndex: Int?
     val nextAudioIndex: Int?
+    val queue: List<AudioFile>
 
     suspend fun refreshCurrentAudio(): AudioFile?
 
     fun setCurrentAudioId(audioId: String)
+    fun setAudioQueue(queue: List<AudioFile>, selected: Int)
 }
 
 internal class AudioQueueManagerImpl(
@@ -43,6 +45,8 @@ internal class AudioQueueManagerImpl(
 ) : AudioQueueManager {
 
     private var audioId: String? = null
+    private val queueList = mutableListOf<AudioFile>()
+
     override var currentAudioIndex: Int = 0
 
     override val currentAudioId: String get() = audioId ?: ""
@@ -52,6 +56,7 @@ internal class AudioQueueManagerImpl(
     override val previousAudioIndex: Int? = null
 
     override val nextAudioIndex: Int? = null
+    override val queue: List<AudioFile> get() = queueList
 
     override suspend fun refreshCurrentAudio(): AudioFile? {
         val id = audioId ?: return null
@@ -62,5 +67,13 @@ internal class AudioQueueManagerImpl(
 
     override fun setCurrentAudioId(audioId: String) {
         this.audioId = audioId
+    }
+
+    override fun setAudioQueue(queue: List<AudioFile>, selected: Int) {
+        queueList.clear()
+        queueList.addAll(queue)
+
+        currentAudio = queueList.getOrNull(selected)
+        audioId = currentAudio?.id
     }
 }
