@@ -39,6 +39,7 @@ interface AudioPlayer {
     fun pause()
     fun stop()
     fun release()
+    fun setPlaybackSpeed(speed: Float)
     fun onPrepared(prepared: OnPrepared<AudioPlayer>)
     fun onError(error: OnError<AudioPlayer>)
     fun onBuffering(buffering: OnBuffering<AudioPlayer>)
@@ -151,6 +152,10 @@ internal class AudioPlayerImpl(
 
     override fun release() {
         player.release()
+    }
+
+    override fun setPlaybackSpeed(speed: Float) {
+        player.setPlaybackSpeed(speed)
     }
 
     override fun onPrepared(prepared: OnPrepared<AudioPlayer>) {

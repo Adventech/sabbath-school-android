@@ -124,7 +124,7 @@ internal class PlaybackConnectionImpl(
             PlaybackSpeed.FAST -> PlaybackSpeed.FASTEST
             PlaybackSpeed.FASTEST -> PlaybackSpeed.SLOW
         }
-        transportControls?.setPlaybackSpeed(nextSpeed.speed)
+        audioPlayer.setPlaybackSpeed(nextSpeed.speed)
         this.playbackSpeed.value = nextSpeed
     }
 
