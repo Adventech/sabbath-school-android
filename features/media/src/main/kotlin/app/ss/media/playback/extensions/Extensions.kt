@@ -15,9 +15,9 @@ import java.util.concurrent.TimeUnit
 fun isOreo() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
 fun Long.millisToDuration(): String {
-    val seconds = TimeUnit.SECONDS.convert(this, TimeUnit.MILLISECONDS).toInt()
-    val minutes = TimeUnit.MINUTES.convert(this, TimeUnit.MILLISECONDS).toInt()
-    val hours = TimeUnit.HOURS.convert(this, TimeUnit.MILLISECONDS).toInt()
+    val seconds = (TimeUnit.SECONDS.convert(this, TimeUnit.MILLISECONDS) % 60).toInt()
+    val minutes = (TimeUnit.MINUTES.convert(this, TimeUnit.MILLISECONDS) % 60).toInt()
+    val hours = (TimeUnit.HOURS.convert(this, TimeUnit.MILLISECONDS) % 24).toInt()
 
     "${timeAddZeros(hours)}:${timeAddZeros(minutes, "0")}:${timeAddZeros(seconds, "00")}".apply {
         return if (startsWith(":")) replaceFirst(":", "") else this
