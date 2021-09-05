@@ -77,14 +77,14 @@ class AppNavigatorImpl @Inject constructor(
         when (destination) {
             Destination.LESSONS -> {
                 with(TaskStackBuilder.create(activity)) {
-                    addNextIntent(QuarterliesActivity.launchIntent(activity, false))
+                    addNextIntent(QuarterliesActivity.launchIntent(activity))
                     addNextIntentWithParentStack(intent)
                     startActivities()
                 }
             }
             Destination.READ -> {
                 with(TaskStackBuilder.create(activity)) {
-                    addNextIntent(QuarterliesActivity.launchIntent(activity, false))
+                    addNextIntent(QuarterliesActivity.launchIntent(activity))
                     ssPrefs.getLastQuarterlyIndex()?.let { index ->
                         addNextIntent(SSLessonsActivity.launchIntent(activity, index))
                     }
@@ -153,7 +153,7 @@ class AppNavigatorImpl @Inject constructor(
         val lessonIndex: String
         val endIntent: Intent
         val taskBuilder = TaskStackBuilder.create(activity)
-        taskBuilder.addNextIntent(QuarterliesActivity.launchIntent(activity, false))
+        taskBuilder.addNextIntent(QuarterliesActivity.launchIntent(activity))
 
         if (uri.path?.matches(WEB_LINK_REGEX.toRegex()) == true && segments.size >= 2) {
             quarterlyIndex = "${segments.first()}-${segments[1]}"

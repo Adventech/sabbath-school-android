@@ -31,16 +31,14 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import app.ss.lessons.data.model.QuarterlyGroup
 import com.cryart.sabbathschool.core.extensions.activity.startIntentWithScene
-import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.navigation.AppNavigator
+import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
 import com.cryart.sabbathschool.lessons.databinding.SsPromptAppReBrandingBinding
-import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.languages.LanguagesListFragment
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies
@@ -75,8 +73,6 @@ class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
         setContentView(binding.root)
 
         collectData()
-
-        viewModel.viewCreated()
     }
 
     private fun collectData() {
@@ -93,10 +89,6 @@ class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
             viewModel.quarterliesFlow.map { it.data ?: GroupedQuarterlies.Empty }
         )
 
-        viewModel.lastQuarterlyIndexLiveData.observeNonNull(this) { index ->
-            val intent = SSLessonsActivity.launchIntent(this, index)
-            startIntentWithScene(intent)
-        }
         viewModel.appReBrandingFlow
             .collectIn(this) { show ->
                 if (show) {
@@ -149,11 +141,8 @@ class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
     companion object {
         fun launchIntent(
             context: Context,
-            launchDefault: Boolean = true
         ): Intent = Intent(
             context, QuarterliesActivity::class.java
-        ).apply {
-            putExtra(SSConstants.SS_QUARTERLY_SCREEN_LAUNCH_EXTRA, launchDefault)
-        }
+        )
     }
 }
