@@ -1,8 +1,8 @@
 package dependencies
 
 object Versions {
-    const val COROUTINES = "1.5.1"
-    const val COMPOSE = "1.0.1"
+    const val COROUTINES = "1.5.2"
+    const val COMPOSE = "1.0.2"
     const val MATERIAL = "1.4.0"
     const val ACCOMPANIST = "0.17.0"
 
@@ -34,7 +34,7 @@ object Versions {
     const val TAP_TARGET = "3.3.0"
     const val ICONICS = "5.3.0@aar"
 
-    const val FIREBASE_BOM = "28.3.1"
+    const val FIREBASE_BOM = "28.4.0"
     const val PLAY_AUTH = "19.2.0"
     const val ANDROID_JOB = "1.4.2"
     const val JODA = "2.10.9.1"
@@ -44,7 +44,7 @@ object Versions {
 
     // Tests
     const val ANDROIDX_TEST = "1.4.0"
-    const val EXT = "1.1.2"
+    const val EXT = "1.1.3"
     const val ARCH_CORE = "2.1.0"
     const val JUNIT = "4.13.2"
     const val ROBOELECTRIC = "4.6.1"
@@ -52,5 +52,5 @@ object Versions {
     const val ESPRESSO = "3.4.0"
     const val FRAGMENT_TEST = "1.3.6"
     const val KLUENT = "1.68"
-    const val TURBINE = "0.6.0"
+    const val TURBINE = "0.6.1"
 }
