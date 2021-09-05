@@ -22,9 +22,11 @@
 
 package app.ss.media.playback.ui.nowPlaying
 
+import android.support.v4.media.MediaMetadataCompat
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -32,6 +34,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.with
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -53,10 +56,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.media.R
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
 import app.ss.media.playback.extensions.NONE_PLAYING
+import app.ss.media.playback.extensions.id
+import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.media.playback.model.toAudio
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
@@ -65,6 +71,7 @@ import app.ss.media.playback.ui.nowPlaying.components.BoxState
 import app.ss.media.playback.ui.nowPlaying.components.NowPlayingBox
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControls
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgress
+import app.ss.media.playback.ui.nowPlaying.components.PlaybackQueueList
 import app.ss.media.playback.ui.playbackContentColor
 import com.cryart.design.base.TransparentBottomSheetSurface
 import com.cryart.design.theme.BaseBlue
@@ -104,7 +111,14 @@ internal fun NowPlayingScreen(
                 .collectAsState(NONE_PLAYBACK_STATE)
             val nowPlaying by rememberFlowWithLifecycle(playbackConnection.nowPlaying)
                 .collectAsState(NONE_PLAYING)
+            val playbackQueue by rememberFlowWithLifecycle(playbackConnection.playbackQueue)
+                .collectAsState(PlaybackQueue())
             var boxState by remember { mutableStateOf(BoxState.Expanded) }
+
+            val expanded = boxState == BoxState.Expanded
+            val spacing by animateDpAsState(
+                if (expanded) Spacing24 else 0.dp
+            )
 
             DragHandle()
 
@@ -115,7 +129,7 @@ internal fun NowPlayingScreen(
                 boxState = boxState
             )
 
-            Spacer(modifier = Modifier.weight(1f))
+            PlaybackQueue(expanded, playbackQueue, nowPlaying)
 
             PlaybackProgress(
                 playbackState = playbackState,
@@ -123,13 +137,15 @@ internal fun NowPlayingScreen(
                 playbackConnection = playbackConnection
             )
 
+            Spacer(modifier = Modifier.height(spacing))
+
             PlayBackControls(
                 playbackState = playbackState,
                 contentColor = playbackContentColor(),
                 playbackConnection = playbackConnection
             )
 
-            Spacer(modifier = Modifier.height(Spacing24))
+            Spacer(modifier = Modifier.height(spacing))
 
             BottomControls(
                 playbackSpeedFlow = playbackConnection.playbackSpeed,
@@ -149,6 +165,28 @@ internal fun NowPlayingScreen(
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
+private fun ColumnScope.PlaybackQueue(
+    expanded: Boolean,
+    playbackQueue: PlaybackQueue,
+    nowPlaying: MediaMetadataCompat
+) {
+    println("NOW_PLAYING: ${nowPlaying.id}")
+    if (expanded) {
+        Spacer(modifier = Modifier.Companion.weight(1f))
+    } else {
+        Spacer(modifier = Modifier.height(Spacing16))
+        PlaybackQueueList(
+            modifier = Modifier.Companion.weight(1f),
+            playbackQueue = playbackQueue,
+            nowPlayingId = nowPlaying.id,
+            onPlayAudio = { audio ->
+            }
+        )
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
 private fun BottomControls(
     modifier: Modifier = Modifier,
     playbackSpeedFlow: StateFlow<PlaybackSpeed>,
@@ -162,7 +200,8 @@ private fun BottomControls(
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                horizontal = Dimens.grid_4,
+                end = Dimens.grid_4,
+                start = Dimens.grid_2
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {

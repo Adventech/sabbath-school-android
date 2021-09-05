@@ -60,7 +60,7 @@ internal fun PlayBackControls(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(Dimens.grid_6),
+            .padding(horizontal = Dimens.grid_6),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {

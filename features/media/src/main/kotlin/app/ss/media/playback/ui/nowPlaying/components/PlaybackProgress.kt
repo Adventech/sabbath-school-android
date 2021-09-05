@@ -57,7 +57,6 @@ import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.TitleSmall
 import com.cryart.design.theme.darker
@@ -77,7 +76,6 @@ internal fun PlaybackProgress(
     Box(
         modifier = Modifier.padding(
             horizontal = Dimens.grid_4,
-            vertical = Spacing16
         )
     ) {
         PlaybackProgressSlider(

@@ -40,7 +40,7 @@ fun AudioFile.toMediaMetadata(builder: MediaMetadataCompat.Builder): MediaMetada
     putString(MediaMetadataCompat.METADATA_KEY_ALBUM, artist)
     putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
     putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
-    putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaId(MEDIA_TYPE_AUDIO, id).toString())
+    putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, id)
     putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration)
     putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, image)
     putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, source.toString())
