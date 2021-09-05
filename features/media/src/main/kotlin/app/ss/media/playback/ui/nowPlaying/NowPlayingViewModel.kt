@@ -25,39 +25,55 @@ package app.ss.media.playback.ui.nowPlaying
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.media.playback.AudioQueueManager
 import app.ss.media.playback.PlaybackConnection
+import app.ss.media.playback.extensions.compilation
+import app.ss.media.playback.extensions.id
+import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.AudioFile
 import app.ss.media.repository.SSMediaRepository
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import com.cryart.sabbathschool.core.extensions.intent.readIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class NowPlayingViewModel @Inject constructor(
     private val repository: SSMediaRepository,
     val playbackConnection: PlaybackConnection,
+    private val queueManager: AudioQueueManager,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val playList: StateFlow<List<AudioFile>>
-        get() = flowOf(savedStateHandle.lessonIndex)
-            .map { index ->
-                index?.let { repository.getPlayList(it) } ?: emptyList()
-            }
-            .stateIn(viewModelScope, emptyList())
-
-    val nowPlaying: StateFlow<AudioFile?> = playList.map {
-        it.firstOrNull()
-    }
-        .stateIn(viewModelScope, null)
-
     init {
-        println("LESSON INDEX: ${savedStateHandle.lessonIndex}")
-        println("READ INDEX: ${savedStateHandle.readIndex}")
+        generateQueue()
+    }
+
+    private fun generateQueue() = viewModelScope.launch {
+        val nowPlaying = playbackConnection.nowPlaying.first()
+        val lessonIndex = savedStateHandle.lessonIndex ?: return@launch
+        val playlist = repository.getPlayList(lessonIndex)
+
+        if (nowPlaying.id.isEmpty()) {
+            setAudioQueue(playlist)
+        } else if (!nowPlaying.compilation.startsWith(lessonIndex)) {
+            val state = playbackConnection.playbackState.first()
+            setAudioQueue(playlist, state.isPlaying)
+        }
+    }
+
+    private fun setAudioQueue(playlist: List<AudioFile>, play: Boolean = false) {
+        if (playlist.isEmpty()) return
+
+        val index = playlist.indexOfFirst { it.targetIndex == savedStateHandle.readIndex }
+        val position = index.coerceAtLeast(0)
+        queueManager.setAudioQueue(playlist, position)
+        playbackConnection.setQueue(playlist, index)
+
+        if (play) {
+            playbackConnection.playAudios(playlist, position)
+        }
     }
 }
