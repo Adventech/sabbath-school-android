@@ -72,9 +72,12 @@ class NowPlayingViewModel @Inject constructor(
 
         if (nowPlaying.id.isEmpty()) {
             setAudioQueue(playlist)
-        } else if (!nowPlayingAudio.value.target.startsWith(lessonIndex)) {
-            val state = playbackConnection.playbackState.first()
-            setAudioQueue(playlist, state.isPlaying)
+        } else {
+            val audio = repository.findAudioFile(nowPlaying.id)
+            if (audio?.targetIndex?.startsWith(lessonIndex) == false) {
+                val state = playbackConnection.playbackState.first()
+                setAudioQueue(playlist, state.isPlaying)
+            }
         }
     }
 

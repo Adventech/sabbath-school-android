@@ -326,6 +326,7 @@ internal class SSAudioPlayerImpl(
     }
 
     override fun release() {
+        queueManager.clear()
         mediaSession.apply {
             isActive = false
             release()

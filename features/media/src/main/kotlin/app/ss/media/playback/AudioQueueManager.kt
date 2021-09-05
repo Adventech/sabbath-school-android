@@ -38,6 +38,7 @@ interface AudioQueueManager {
 
     fun setCurrentAudioId(audioId: String)
     fun setAudioQueue(queue: List<AudioFile>, selected: Int)
+    fun clear()
 }
 
 internal class AudioQueueManagerImpl(
@@ -92,5 +93,11 @@ internal class AudioQueueManagerImpl(
         currentAudio = queueList.getOrNull(selected)
         audioId = currentAudio?.id
         currentAudioIndex = selected
+    }
+
+    override fun clear() {
+        queueList.clear()
+        currentAudio = null
+        currentAudioIndex = 0
     }
 }
