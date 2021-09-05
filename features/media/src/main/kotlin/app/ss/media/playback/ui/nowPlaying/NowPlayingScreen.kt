@@ -58,6 +58,7 @@ import app.ss.media.R
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
 import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.model.PlaybackSpeed
+import app.ss.media.playback.model.toAudio
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import app.ss.media.playback.ui.nowPlaying.ScreenDefaults.tintColor
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
@@ -103,20 +104,16 @@ internal fun NowPlayingScreen(
                 .collectAsState(NONE_PLAYBACK_STATE)
             val nowPlaying by rememberFlowWithLifecycle(playbackConnection.nowPlaying)
                 .collectAsState(NONE_PLAYING)
-            val audio by rememberFlowWithLifecycle(flow = viewModel.nowPlaying)
-                .collectAsState(initial = null)
             var boxState by remember { mutableStateOf(BoxState.Expanded) }
 
             DragHandle()
 
             Spacer(modifier = Modifier.height(Dimens.grid_4))
 
-            if (audio != null) {
-                NowPlayingBox(
-                    audio = audio!!,
-                    boxState = boxState
-                )
-            }
+            NowPlayingBox(
+                audio = nowPlaying.toAudio(),
+                boxState = boxState
+            )
 
             Spacer(modifier = Modifier.weight(1f))
 

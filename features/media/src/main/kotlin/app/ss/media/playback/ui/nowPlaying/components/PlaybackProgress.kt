@@ -31,9 +31,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.Slider
 import androidx.compose.material.SliderDefaults
@@ -48,7 +46,6 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -57,7 +54,6 @@ import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.isBuffering
 import app.ss.media.playback.extensions.millisToDuration
 import app.ss.media.playback.model.PlaybackProgressState
-import app.ss.media.playback.ui.common.Delayed
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
@@ -106,7 +102,6 @@ private fun BoxScope.PlaybackProgressSlider(
     draggingProgress: Float?,
     setDraggingProgress: (Float?) -> Unit,
     contentColor: Color,
-    bufferedProgressColor: Color = contentColor.copy(alpha = 0.25f),
     height: Dp = 60.dp,
     playbackConnection: PlaybackConnection
 ) {
@@ -118,60 +113,27 @@ private fun BoxScope.PlaybackProgressSlider(
         activeTrackColor = contentColor,
         inactiveTrackColor = contentColor.copy(alpha = ContentAlpha.disabled)
     )
-    val linearProgressMod = Modifier
-        .fillMaxWidth(fraction = .99f)
-        .clip(CircleShape)
-        .align(Alignment.TopCenter)
-
-    val bufferedProgress = progressState.bufferedProgress
     val isBuffering = playbackState.isBuffering
 
-    Box(
-        modifier = Modifier.height(height),
-        contentAlignment = Alignment.Center
-    ) {
-        if (!isBuffering)
-            LinearProgressIndicator(
-                progress = bufferedProgress,
-                color = bufferedProgressColor,
-                backgroundColor = Color.Transparent,
-                modifier = linearProgressMod
-            )
-
-        Slider(
-            value = draggingProgress ?: progressState.progress,
-            onValueChange = {
-                if (!isBuffering) setDraggingProgress(it)
-            },
-            colors = sliderColors,
-            modifier = Modifier.alpha(
+    Slider(
+        value = draggingProgress ?: progressState.progress,
+        onValueChange = {
+            if (!isBuffering) setDraggingProgress(it)
+        },
+        colors = sliderColors,
+        modifier = Modifier
+            .height(height)
+            .align(Alignment.TopCenter)
+            .alpha(
                 if (isBuffering) 0f else 1f
             ),
-            onValueChangeFinished = {
-                playbackConnection.transportControls?.seekTo(
-                    (updatedProgressState.total.toFloat() * (updatedDraggingProgress ?: 0f)).roundToLong()
-                )
-                setDraggingProgress(null)
-            }
-        )
-
-        if (isBuffering) {
-            LinearProgressIndicator(
-                progress = 0f,
-                color = contentColor,
-                modifier = linearProgressMod
+        onValueChangeFinished = {
+            playbackConnection.transportControls?.seekTo(
+                (updatedProgressState.total.toFloat() * (updatedDraggingProgress ?: 0f)).roundToLong()
             )
-            Delayed(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .then(linearProgressMod)
-            ) {
-                LinearProgressIndicator(
-                    color = contentColor,
-                )
-            }
+            setDraggingProgress(null)
         }
-    }
+    )
 }
 
 @Composable
@@ -185,6 +147,7 @@ private fun BoxScope.PlaybackProgressDuration(
             .fillMaxWidth()
             .align(Alignment.BottomCenter)
             .padding(top = Spacing8)
+            .padding(horizontal = Spacing8)
     ) {
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             val currentDuration = when (draggingProgress != null) {
