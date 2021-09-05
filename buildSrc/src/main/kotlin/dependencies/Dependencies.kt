@@ -59,7 +59,7 @@ object Dependencies {
         const val CORE = "com.mikepenz:iconics-core:${Versions.ICONICS}"
         const val VIEWS = "com.mikepenz:iconics-views:${Versions.ICONICS}"
         const val TYPEFACE = "com.mikepenz:iconics-typeface-api:${Versions.ICONICS}"
-        const val MATERIAL_TYPEFACE = "com.mikepenz:google-material-typeface:4.0.0.1-kotlin@aar"
+        const val MATERIAL_TYPEFACE = "com.mikepenz:google-material-typeface:4.0.0.2-kotlin@aar"
     }
 
     object Facebook {

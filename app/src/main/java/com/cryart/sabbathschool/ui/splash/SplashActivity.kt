@@ -26,13 +26,20 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.TaskStackBuilder
 import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var ssPrefs: SSPrefs
 
     private val viewModel: SplashViewModel by viewModels()
 
@@ -54,6 +61,18 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun launchMain() {
-        startActivity(QuarterliesActivity.launchIntent(this))
+        ssPrefs.getLastQuarterlyIndex()?.let { index ->
+            with(TaskStackBuilder.create(this)) {
+                addNextIntent(
+                    QuarterliesActivity.launchIntent(this@SplashActivity)
+                )
+                addNextIntentWithParentStack(
+                    SSLessonsActivity.launchIntent(this@SplashActivity, index)
+                )
+                startActivities()
+            }
+        } ?: run {
+            startActivity(QuarterliesActivity.launchIntent(this))
+        }
     }
 }
