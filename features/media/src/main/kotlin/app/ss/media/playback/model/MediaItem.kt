@@ -29,7 +29,6 @@ import androidx.core.net.toUri
 import app.ss.media.playback.extensions.UNTITLED
 import app.ss.media.playback.extensions.artist
 import app.ss.media.playback.extensions.artworkUri
-import app.ss.media.playback.extensions.compilation
 import app.ss.media.playback.extensions.duration
 import app.ss.media.playback.extensions.id
 import app.ss.media.playback.extensions.source
@@ -43,7 +42,6 @@ fun AudioFile.toMediaMetadata(builder: MediaMetadataCompat.Builder): MediaMetada
     putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration)
     putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, image)
     putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, source.toString())
-    putString(MediaMetadataCompat.METADATA_KEY_COMPILATION, target)
 }
 
 fun MediaMetadataCompat.toAudio(): AudioFile = AudioFile(
@@ -52,8 +50,7 @@ fun MediaMetadataCompat.toAudio(): AudioFile = AudioFile(
     artist = artist ?: UNTITLED,
     source = source,
     duration = duration,
-    image = artworkUri.toString(),
-    target = compilation
+    image = artworkUri.toString()
 )
 
 fun AudioFile.toMediaDescription(): MediaDescriptionCompat {

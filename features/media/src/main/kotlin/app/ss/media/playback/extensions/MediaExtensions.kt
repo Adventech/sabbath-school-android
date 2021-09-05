@@ -126,5 +126,3 @@ inline val MediaMetadataCompat.artwork: Bitmap? get() = getBitmap(MediaMetadataC
 inline val MediaMetadataCompat.artworkUri: Uri get() = (getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI) ?: "").toUri()
 
 inline val MediaMetadataCompat.source: Uri get() = (getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI) ?: "").toUri()
-
-inline val MediaMetadataCompat.compilation: String get() = getString(MediaMetadataCompat.METADATA_KEY_COMPILATION) ?: ""

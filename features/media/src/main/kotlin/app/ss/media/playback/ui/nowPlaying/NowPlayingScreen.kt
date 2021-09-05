@@ -22,7 +22,6 @@
 
 package app.ss.media.playback.ui.nowPlaying
 
-import android.support.v4.media.MediaMetadataCompat
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
@@ -61,11 +60,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.media.R
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
-import app.ss.media.playback.extensions.NONE_PLAYING
-import app.ss.media.playback.extensions.id
+import app.ss.media.playback.model.AudioFile
 import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
-import app.ss.media.playback.model.toAudio
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import app.ss.media.playback.ui.nowPlaying.ScreenDefaults.tintColor
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
@@ -110,14 +107,14 @@ internal fun NowPlayingScreen(
             val playbackConnection = viewModel.playbackConnection
             val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState)
                 .collectAsState(NONE_PLAYBACK_STATE)
-            val nowPlaying by rememberFlowWithLifecycle(playbackConnection.nowPlaying)
-                .collectAsState(NONE_PLAYING)
+            val nowPlaying by rememberFlowWithLifecycle(viewModel.nowPlayingAudio)
+                .collectAsState(AudioFile(""))
             val playbackQueue by rememberFlowWithLifecycle(playbackConnection.playbackQueue)
                 .collectAsState(PlaybackQueue())
             val nowPlayingAudio = if (nowPlaying.id.isEmpty()) {
-                playbackQueue.currentAudio ?: nowPlaying.toAudio()
+                playbackQueue.currentAudio ?: nowPlaying
             } else {
-                nowPlaying.toAudio()
+                nowPlaying
             }
 
             var boxState by remember { mutableStateOf(BoxState.Expanded) }
@@ -139,7 +136,7 @@ internal fun NowPlayingScreen(
             PlaybackQueue(
                 expanded,
                 playbackQueue,
-                nowPlaying,
+                nowPlaying.id,
                 playbackConnection = playbackConnection
             )
 
@@ -180,7 +177,7 @@ internal fun NowPlayingScreen(
 private fun ColumnScope.PlaybackQueue(
     expanded: Boolean,
     playbackQueue: PlaybackQueue,
-    nowPlaying: MediaMetadataCompat,
+    nowPlayingId: String,
     playbackConnection: PlaybackConnection
 ) {
     if (expanded) {
@@ -190,7 +187,7 @@ private fun ColumnScope.PlaybackQueue(
         PlaybackQueueList(
             modifier = Modifier.Companion.weight(1f),
             playbackQueue = playbackQueue,
-            nowPlayingId = nowPlaying.id,
+            nowPlayingId = nowPlayingId,
             onPlayAudio = { position ->
                 playbackConnection.transportControls?.skipToQueueItem(position.toLong())
             }

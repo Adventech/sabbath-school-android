@@ -27,15 +27,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.media.playback.AudioQueueManager
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.extensions.compilation
 import app.ss.media.playback.extensions.id
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.AudioFile
+import app.ss.media.playback.model.toAudio
 import app.ss.media.repository.SSMediaRepository
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import com.cryart.sabbathschool.core.extensions.intent.readIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -46,6 +49,17 @@ class NowPlayingViewModel @Inject constructor(
     private val queueManager: AudioQueueManager,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    val nowPlayingAudio: StateFlow<AudioFile> = playbackConnection.nowPlaying
+        .map { metaData ->
+            val def = metaData.toAudio()
+            if (metaData.id.isEmpty()) {
+                def
+            } else {
+                repository.findAudioFile(metaData.id) ?: def
+            }
+        }
+        .stateIn(viewModelScope, AudioFile(""))
 
     init {
         generateQueue()
@@ -58,7 +72,7 @@ class NowPlayingViewModel @Inject constructor(
 
         if (nowPlaying.id.isEmpty()) {
             setAudioQueue(playlist)
-        } else if (!nowPlaying.compilation.startsWith(lessonIndex)) {
+        } else if (!nowPlayingAudio.value.target.startsWith(lessonIndex)) {
             val state = playbackConnection.playbackState.first()
             setAudioQueue(playlist, state.isPlaying)
         }
