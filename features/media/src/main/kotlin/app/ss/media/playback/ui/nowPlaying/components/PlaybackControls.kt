@@ -50,6 +50,12 @@ import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.extensions.playPause
 import com.cryart.design.theme.Dimens
 
+private object PlayBackControlsDefaults {
+    val nonPlayButtonSize = 38.dp
+    val playButtonSize = 46.dp
+    val playButtonHorizontalPadding = 46.dp
+}
+
 @Composable
 internal fun PlayBackControls(
     playbackState: PlaybackStateCompat,
@@ -68,8 +74,8 @@ internal fun PlayBackControls(
         Spacer(modifier = Modifier.weight(1f))
 
         IconButton(
-            onClick = {},
-            modifier = Modifier.size(38.dp)
+            onClick = { playbackConnection.transportControls?.rewind() },
+            modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
         ) {
             Icon(
                 painterResource(id = R.drawable.ic_audio_icon_backward),
@@ -79,11 +85,11 @@ internal fun PlayBackControls(
             )
         }
 
-        Spacer(modifier = Modifier.width(46.dp))
+        Spacer(modifier = Modifier.width(PlayBackControlsDefaults.playButtonHorizontalPadding))
 
         IconButton(
             onClick = { playbackConnection.mediaController?.playPause() },
-            modifier = Modifier.size(46.dp),
+            modifier = Modifier.size(PlayBackControlsDefaults.playButtonSize),
         ) {
             val painter = when {
                 playbackState.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
@@ -99,11 +105,11 @@ internal fun PlayBackControls(
             )
         }
 
-        Spacer(modifier = Modifier.width(46.dp))
+        Spacer(modifier = Modifier.width(PlayBackControlsDefaults.playButtonHorizontalPadding))
 
         IconButton(
-            onClick = {},
-            modifier = Modifier.size(38.dp)
+            onClick = { playbackConnection.transportControls?.fastForward() },
+            modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
         ) {
             Icon(
                 painterResource(id = R.drawable.ic_audio_icon_forward),
