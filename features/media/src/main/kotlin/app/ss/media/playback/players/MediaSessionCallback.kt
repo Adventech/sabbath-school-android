@@ -12,6 +12,7 @@ import app.ss.media.playback.BY_UI_KEY
 import app.ss.media.playback.PAUSE_ACTION
 import app.ss.media.playback.PLAY_ACTION
 import app.ss.media.playback.SET_MEDIA_STATE
+import app.ss.media.playback.UPDATE_META_DATA
 import app.ss.media.playback.UPDATE_QUEUE
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.toQueueItem
@@ -130,6 +131,9 @@ class MediaSessionCallback(
                         audio.toQueueItem(index.toLong())
                     }
                 )
+            }
+            UPDATE_META_DATA -> {
+                audioPlayer.resetMedia()
             }
         }
     }

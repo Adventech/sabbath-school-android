@@ -65,6 +65,7 @@ interface SSAudioPlayer {
     fun updatePlaybackState(applier: PlaybackStateCompat.Builder.() -> Unit = {})
     fun setPlaybackState(state: PlaybackStateCompat)
     suspend fun setDataFromMediaId(_mediaId: String, extras: Bundle = bundleOf())
+    fun resetMedia()
 }
 
 internal class SSAudioPlayerImpl(
@@ -382,6 +383,13 @@ internal class SSAudioPlayerImpl(
             return
         }
         playAudio(audio)
+    }
+
+    override fun resetMedia() {
+        launch {
+            val audio = repository.findAudioFile(queueManager.currentAudioId) ?: return@launch
+            setMetaData(audio)
+        }
     }
 
     private fun goToStart() {

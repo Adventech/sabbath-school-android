@@ -27,6 +27,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.media.playback.AudioQueueManager
 import app.ss.media.playback.PlaybackConnection
+import app.ss.media.playback.UPDATE_META_DATA
 import app.ss.media.playback.extensions.id
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.AudioFile
@@ -78,6 +79,11 @@ class NowPlayingViewModel @Inject constructor(
                 val state = playbackConnection.playbackState.first()
                 setAudioQueue(playlist, state.isPlaying)
             }
+        }
+
+        val currentId = queueManager.currentAudio?.id ?: return@launch
+        if (currentId != nowPlaying.id) {
+            playbackConnection.transportControls?.sendCustomAction(UPDATE_META_DATA, null)
         }
     }
 
