@@ -35,6 +35,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.DrawableRes
 import androidx.media.app.NotificationCompat
+import app.ss.media.R
 import app.ss.media.playback.extensions.album
 import app.ss.media.playback.extensions.artist
 import app.ss.media.playback.extensions.artwork
@@ -46,13 +47,15 @@ import app.ss.media.playback.extensions.title
 import app.ss.media.playback.receivers.MediaButtonReceiver.Companion.buildMediaButtonPendingIntent
 import app.ss.media.playback.service.MusicService
 import com.cryart.sabbathschool.core.extensions.context.systemService
-import app.ss.media.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 private const val CHANNEL_ID = "app.ss.media.NOW_PLAYING"
 const val NOTIFICATION_ID = 0xb339
 
-const val PREVIOUS = "action_previous"
-const val NEXT = "action_next"
+const val BACKWARD = "action_backward"
+const val FORWARD = "action_forward"
 const val STOP_PLAYBACK = "action_stop"
 const val PLAY_PAUSE = "action_play_or_pause"
 const val REPEAT_ONE = "action_repeat_one"
@@ -72,13 +75,15 @@ interface MediaNotifications {
 
 internal class MediaNotificationsImpl constructor(
     private val context: Context
-) : MediaNotifications {
+) : MediaNotifications, CoroutineScope by MainScope() {
 
     private val notificationManager: NotificationManager = context.systemService(Context.NOTIFICATION_SERVICE)
 
     override fun updateNotification(mediaSession: MediaSessionCompat) {
         if (!MusicService.IS_FOREGROUND) return
-        notificationManager.notify(NOTIFICATION_ID, buildNotification(mediaSession))
+        launch {
+            notificationManager.notify(NOTIFICATION_ID, buildNotification(mediaSession))
+        }
     }
 
     override fun buildNotification(mediaSession: MediaSessionCompat): Notification {
@@ -118,19 +123,14 @@ internal class MediaNotificationsImpl constructor(
             setShowWhen(false)
             setVisibility(androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC)
             setDeleteIntent(buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP))
-            addAction(getPreviousAction(context))
-            if (isBuffering)
+            addAction(getBackwardAction(context))
+            if (isBuffering) {
                 addAction(getBufferingAction())
-            else
-                addAction(getPlayPauseAction(context, if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play_arrow))
-            addAction(getNextAction(context))
+            } else {
+                addAction(getPlayPauseAction(context, if (isPlaying) R.drawable.ic_audio_icon_pause else R.drawable.ic_audio_icon_play))
+            }
+            addAction(getForwardAction(context))
             addAction(getStopAction(context))
-        }
-
-        if (artwork != null) {
-            /*builder.color = Palette.from(artwork)
-                .generate()
-                .getDominantColor(Color.parseColor("#16053D"))*/
         }
 
         return builder.build()
@@ -150,10 +150,10 @@ internal class MediaNotificationsImpl constructor(
         return androidx.core.app.NotificationCompat.Action(R.drawable.ic_stop, "", pendingIntent)
     }
 
-    private fun getPreviousAction(context: Context): androidx.core.app.NotificationCompat.Action {
-        val actionIntent = Intent(context, MusicService::class.java).apply { action = PREVIOUS }
+    private fun getBackwardAction(context: Context): androidx.core.app.NotificationCompat.Action {
+        val actionIntent = Intent(context, MusicService::class.java).apply { action = BACKWARD }
         val pendingIntent = PendingIntent.getService(context, 0, actionIntent, FLAG_IMMUTABLE)
-        return androidx.core.app.NotificationCompat.Action(R.drawable.ic_skip_previous, "", pendingIntent)
+        return androidx.core.app.NotificationCompat.Action(R.drawable.ic_audio_icon_backward, "", pendingIntent)
     }
 
     private fun getPlayPauseAction(
@@ -165,12 +165,12 @@ internal class MediaNotificationsImpl constructor(
         return androidx.core.app.NotificationCompat.Action(playButtonResId, "", pendingIntent)
     }
 
-    private fun getNextAction(context: Context): androidx.core.app.NotificationCompat.Action {
+    private fun getForwardAction(context: Context): androidx.core.app.NotificationCompat.Action {
         val actionIntent = Intent(context, MusicService::class.java).apply {
-            action = NEXT
+            action = FORWARD
         }
         val pendingIntent = PendingIntent.getService(context, 0, actionIntent, FLAG_IMMUTABLE)
-        return androidx.core.app.NotificationCompat.Action(R.drawable.ic_skip_next, "", pendingIntent)
+        return androidx.core.app.NotificationCompat.Action(R.drawable.ic_audio_icon_forward, "", pendingIntent)
     }
 
     private fun createEmptyNotification(): Notification {
