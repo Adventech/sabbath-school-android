@@ -23,7 +23,6 @@
 package app.ss.media.playback.ui.nowPlaying.components
 
 import android.support.v4.media.session.PlaybackStateCompat
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -59,7 +58,6 @@ import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.TitleSmall
-import com.cryart.design.theme.darker
 import kotlin.math.roundToLong
 
 @Composable
@@ -153,7 +151,7 @@ private fun BoxScope.PlaybackProgressDuration(
                 else -> progressState.currentDuration
             }
             val textStyle = TitleSmall.copy(
-                color = progressColor(),
+                color = BaseGrey2,
                 fontSize = 14.sp
             )
             Text(
@@ -167,11 +165,3 @@ private fun BoxScope.PlaybackProgressDuration(
         }
     }
 }
-
-@Composable
-private fun progressColor(): Color =
-    if (isSystemInDarkTheme()) {
-        BaseGrey2
-    } else {
-        Color.White.darker()
-    }
