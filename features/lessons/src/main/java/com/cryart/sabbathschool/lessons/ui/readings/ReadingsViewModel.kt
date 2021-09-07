@@ -29,21 +29,21 @@ import app.ss.media.repository.SSMediaRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ReadingsViewModel @Inject constructor(
     private val mediaRepository: SSMediaRepository,
-    private val schedulerProvider: SchedulerProvider,
+    schedulerProvider: SchedulerProvider,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _audioAvailable = MutableSharedFlow<Boolean>()
-    val audioAvailableFlow: SharedFlow<Boolean> get() = _audioAvailable.asSharedFlow()
+    private val _audioAvailable = MutableStateFlow(false)
+    val audioAvailableFlow: StateFlow<Boolean> get() = _audioAvailable.asStateFlow()
 
     val lessonIndex: String? get() = savedStateHandle.lessonIndex
 

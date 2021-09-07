@@ -270,6 +270,11 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
         }
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.ss_reading_menu_audio)?.isVisible = viewModel.audioAvailableFlow.value
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onDestroy() {
         try {
             (binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.drawable as? BitmapDrawable)?.bitmap?.recycle()
