@@ -22,8 +22,16 @@
 
 package app.ss.media.playback.ui.nowPlaying.components
 
+import androidx.compose.animation.core.InfiniteTransition
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -31,8 +39,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Divider
 import androidx.compose.material.LocalContentAlpha
@@ -41,6 +51,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -50,6 +61,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.media.playback.model.AudioFile
 import app.ss.media.playback.model.PlaybackQueue
+import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.Body
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.SSTheme
@@ -63,6 +75,7 @@ internal fun PlaybackQueueList(
     playbackQueue: PlaybackQueue,
     modifier: Modifier = Modifier,
     nowPlayingId: String? = null,
+    isPlaying: Boolean = false,
     onPlayAudio: (Int) -> Unit,
 ) {
 
@@ -76,7 +89,8 @@ internal fun PlaybackQueueList(
         itemsIndexed(playbackQueue.audiosList) { index, audio ->
             AudioRow(
                 audio = audio,
-                isPlaying = audio.id == nowPlayingId,
+                isSelected = audio.id == nowPlayingId,
+                isPlaying = isPlaying,
                 onClick = {
                     onPlayAudio(index)
                 }
@@ -91,6 +105,7 @@ private fun AudioRow(
     audio: AudioFile,
     modifier: Modifier = Modifier,
     isPlaying: Boolean = false,
+    isSelected: Boolean = false,
     onClick: () -> Unit = {}
 ) {
     Row(
@@ -99,7 +114,7 @@ private fun AudioRow(
             .fillMaxWidth()
             .padding(horizontal = Spacing4)
             .clickable {
-                if (isPlaying.not()) {
+                if (isSelected.not()) {
                     onClick()
                 }
             }
@@ -115,7 +130,7 @@ private fun AudioRow(
                 text = audio.title,
                 style = TitleSmall.copy(
                     color = MaterialTheme.colors.onSurface,
-                    fontWeight = if (isPlaying) FontWeight.Black else FontWeight.Medium,
+                    fontWeight = if (isSelected) FontWeight.Black else FontWeight.Medium,
                     fontSize = 16.sp
                 ),
                 maxLines = 1,
@@ -132,6 +147,10 @@ private fun AudioRow(
                 )
             }
             Spacer(modifier = Modifier.height(Spacing6))
+        }
+
+        if (isSelected && isPlaying) {
+            NowPlayingAnimation()
         }
     }
 }
@@ -161,8 +180,57 @@ private fun AudioRowPreviewPlaying() {
             AudioRow(
                 audio = sampleAudio,
                 modifier = Modifier.padding(8.dp),
-                isPlaying = true
+                isPlaying = true,
+                isSelected = true
             )
         }
     }
+}
+
+@Composable
+private fun NowPlayingAnimation() {
+    val infiniteTransition = rememberInfiniteTransition()
+
+    Row(
+        Modifier.size(24.dp),
+        verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        infiniteTransition.PulsingLine(
+            2,
+            duration = 450
+        )
+        infiniteTransition.PulsingLine(
+            3,
+            duration = 500
+        )
+        infiniteTransition.PulsingLine(
+            2,
+            duration = 600
+        )
+    }
+}
+
+@Composable
+fun InfiniteTransition.PulsingLine(
+    heightFactor: Int,
+    duration: Int
+) {
+    val scale by animateFloat(
+        1f,
+        heightFactor.toFloat(),
+        infiniteRepeatable(tween(duration), RepeatMode.Reverse)
+    )
+
+    Box(
+        Modifier
+            .size(
+                width = 4.dp,
+                height = (8 * scale).dp
+            )
+            .background(
+                BaseBlue,
+                shape = RoundedCornerShape(50)
+            )
+    )
 }

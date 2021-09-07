@@ -60,8 +60,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.media.R
-import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
+import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.AudioFile
 import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
@@ -140,10 +140,13 @@ internal fun NowPlayingScreen(
             }
 
             PlaybackQueue(
-                expanded,
-                playbackQueue,
-                nowPlaying.id,
-                playbackConnection = playbackConnection
+                expanded = expanded,
+                playbackQueue = playbackQueue,
+                isPlaying = playbackState.isPlaying,
+                nowPlayingId = nowPlaying.id,
+                onPlayAudio = { position ->
+                    playbackConnection.transportControls?.skipToQueueItem(position.toLong())
+                }
             )
 
             PlaybackProgress(
@@ -183,8 +186,9 @@ internal fun NowPlayingScreen(
 private fun ColumnScope.PlaybackQueue(
     expanded: Boolean,
     playbackQueue: PlaybackQueue,
+    isPlaying: Boolean,
     nowPlayingId: String,
-    playbackConnection: PlaybackConnection
+    onPlayAudio: (Int) -> Unit,
 ) {
     AnimatedVisibility(
         visible = !expanded,
@@ -197,9 +201,8 @@ private fun ColumnScope.PlaybackQueue(
                     .padding(top = Spacing16),
                 playbackQueue = playbackQueue,
                 nowPlayingId = nowPlayingId,
-                onPlayAudio = { position ->
-                    playbackConnection.transportControls?.skipToQueueItem(position.toLong())
-                }
+                isPlaying = isPlaying,
+                onPlayAudio = onPlayAudio
             )
         }
     )
