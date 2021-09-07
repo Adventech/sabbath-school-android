@@ -47,6 +47,8 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -80,7 +82,6 @@ import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.Spacing24
 import com.cryart.design.theme.TitleMedium
-import com.cryart.design.widgets.DragHandle
 import kotlinx.coroutines.flow.StateFlow
 
 private object ScreenDefaults {
@@ -97,6 +98,7 @@ private object ScreenDefaults {
 @Composable
 internal fun NowPlayingScreen(
     viewModel: NowPlayingViewModel = viewModel(),
+    onClose: () -> Unit
 ) {
     TransparentBottomSheetSurface {
 
@@ -106,6 +108,17 @@ internal fun NowPlayingScreen(
                 .padding(vertical = Spacing16),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Row(modifier = Modifier.padding(horizontal = Dimens.grid_4)) {
+                IconButton(onClick = onClose) {
+                    Icon(
+                        Icons.Rounded.Close,
+                        contentDescription = "Close"
+                    )
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+            }
+
             val playbackConnection = viewModel.playbackConnection
             val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState)
                 .collectAsState(NONE_PLAYBACK_STATE)
@@ -126,9 +139,7 @@ internal fun NowPlayingScreen(
                 if (expanded) Spacing24 else 0.dp
             )
 
-            DragHandle()
-
-            Spacer(modifier = Modifier.height(Dimens.grid_4))
+            Spacer(modifier = Modifier.height(Dimens.grid_2))
 
             NowPlayingBox(
                 audio = nowPlayingAudio,

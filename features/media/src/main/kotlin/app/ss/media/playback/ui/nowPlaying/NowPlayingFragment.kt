@@ -28,22 +28,39 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import com.cryart.design.base.TransparentBottomSheetFragment
+import app.ss.media.R
 import com.cryart.sabbathschool.core.misc.SSConstants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NowPlayingFragment : TransparentBottomSheetFragment() {
+class NowPlayingFragment : DialogFragment(R.layout.fragment_now_playing) {
+
+    override fun getTheme(): Int = R.style.Theme_SS_DialogFragment_Transparent
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setWindowAnimations(R.style.NowPlaying_Dialog_Animation)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setContent {
-                NowPlayingScreen()
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)?.apply {
+            findViewById<View>(R.id.root).setOnClickListener {
+                dismiss()
+            }
+            findViewById<ComposeView>(R.id.composeView).apply {
+                setContent {
+                    NowPlayingScreen(
+                        onClose = {
+                            dismiss()
+                        }
+                    )
+                }
             }
         }
     }
