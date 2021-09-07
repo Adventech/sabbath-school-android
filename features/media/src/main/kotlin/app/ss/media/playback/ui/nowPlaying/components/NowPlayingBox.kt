@@ -50,7 +50,7 @@ import com.cryart.design.theme.Body
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.LatoFontFamily
 import com.cryart.design.theme.SSTheme
-import com.cryart.design.theme.Spacing24
+import com.cryart.design.theme.Spacing32
 
 internal enum class BoxState { Collapsed, Expanded }
 
@@ -68,7 +68,7 @@ internal fun NowPlayingBox(
     boxState: BoxState = BoxState.Expanded
 ) {
     BoxWithConstraints {
-        val marginTop by animateDpAsState(targetValue = if (boxState == BoxState.Expanded) Spacing24 else 0.dp)
+        val marginTop by animateDpAsState(targetValue = if (boxState == BoxState.Expanded) Spacing32 else 0.dp)
         val constraints = decoupledConstraints(boxState, marginTop = marginTop)
 
         ConstraintLayout(

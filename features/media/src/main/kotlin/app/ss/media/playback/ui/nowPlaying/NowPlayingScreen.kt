@@ -23,9 +23,11 @@
 package app.ss.media.playback.ui.nowPlaying
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -133,6 +135,10 @@ internal fun NowPlayingScreen(
                 boxState = boxState
             )
 
+            if (expanded) {
+                Spacer(modifier = Modifier.weight(1f))
+            }
+
             PlaybackQueue(
                 expanded,
                 playbackQueue,
@@ -180,19 +186,23 @@ private fun ColumnScope.PlaybackQueue(
     nowPlayingId: String,
     playbackConnection: PlaybackConnection
 ) {
-    if (expanded) {
-        Spacer(modifier = Modifier.Companion.weight(1f))
-    } else {
-        Spacer(modifier = Modifier.height(Spacing16))
-        PlaybackQueueList(
-            modifier = Modifier.Companion.weight(1f),
-            playbackQueue = playbackQueue,
-            nowPlayingId = nowPlayingId,
-            onPlayAudio = { position ->
-                playbackConnection.transportControls?.skipToQueueItem(position.toLong())
-            }
-        )
-    }
+    AnimatedVisibility(
+        visible = !expanded,
+        enter = fadeIn(),
+        exit = fadeOut(animationSpec = tween(100)),
+        modifier = Modifier.weight(1f),
+        content = {
+            PlaybackQueueList(
+                modifier = Modifier
+                    .padding(top = Spacing16),
+                playbackQueue = playbackQueue,
+                nowPlayingId = nowPlayingId,
+                onPlayAudio = { position ->
+                    playbackConnection.transportControls?.skipToQueueItem(position.toLong())
+                }
+            )
+        }
+    )
 }
 
 @OptIn(ExperimentalAnimationApi::class)
