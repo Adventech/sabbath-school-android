@@ -39,7 +39,6 @@ import com.cryart.design.R
 import com.cryart.design.ext.doOnApplyWindowInsets
 import com.cryart.design.theme.SSTheme
 import com.cryart.design.theme.Spacing16
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -49,9 +48,12 @@ open class TransparentBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.doOnApplyWindowInsets { insetView, windowInsets, _, initialMargins ->
-            insetView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                updateMargins(top = initialMargins.top + windowInsets.getInsets(systemBars()).top)
+
+        if (resources.getBoolean(R.bool.is_large_screen).not()) {
+            view.doOnApplyWindowInsets { insetView, windowInsets, _, initialMargins ->
+                insetView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                    updateMargins(top = initialMargins.top + windowInsets.getInsets(systemBars()).top)
+                }
             }
         }
     }
@@ -65,12 +67,6 @@ open class TransparentBottomSheetFragment : BottomSheetDialogFragment() {
                 }
                 findViewById<View>(com.google.android.material.R.id.container)?.fitsSystemWindows = false
                 findViewById<View>(com.google.android.material.R.id.coordinator)?.fitsSystemWindows = false
-            }
-        }.apply {
-            setOnShowListener {
-                (this@TransparentBottomSheetFragment.dialog as BottomSheetDialog).behavior.setState(
-                    BottomSheetBehavior.STATE_EXPANDED
-                )
             }
         }
 }
