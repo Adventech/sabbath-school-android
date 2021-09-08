@@ -43,6 +43,7 @@ import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
 import app.ss.media.playback.PlaybackViewModel
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
+import app.ss.media.playback.ui.video.showVideoList
 import coil.load
 import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
@@ -238,6 +239,12 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
                     viewModel.lessonIndex,
                     getReadIndex()
                 )
+                true
+            }
+            R.id.ss_reading_menu_video -> {
+                viewModel.lessonIndex?.let {
+                    supportFragmentManager.showVideoList(it)
+                }
                 true
             }
             R.id.ss_reading_menu_share -> {
