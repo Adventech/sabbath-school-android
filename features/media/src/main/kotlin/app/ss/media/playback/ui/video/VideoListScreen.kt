@@ -22,7 +22,6 @@
 
 package app.ss.media.playback.ui.video
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
@@ -30,7 +29,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,9 +38,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -51,7 +47,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,10 +54,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.media.R
 import app.ss.media.model.SSVideo
 import app.ss.media.model.SSVideosInfo
+import app.ss.media.playback.ui.common.RemoteImage
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
-import coil.transform.RoundedCornersTransformation
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Body
@@ -182,33 +176,16 @@ private fun VideoColumn(
             .clickable { }
     ) {
 
-        Box(
+        RemoteImage(
+            data = video.thumbnail,
+            contentDescription = video.title,
             modifier = modifier
                 .size(
                     width = 276.dp,
                     height = 149.dp
-                )
-        ) {
-            Surface(
-                modifier = Modifier
-                    .fillMaxSize(),
-                color = BaseGrey2,
-                elevation = Spacing8,
-                shape = RoundedCornerShape(Spacing8),
-            ) {
-                Image(
-                    painter = rememberImagePainter(
-                        data = video.thumbnail,
-                        builder = {
-                            crossfade(true)
-                            transformations(RoundedCornersTransformation(CoverCornerRadius))
-                        }
-                    ),
-                    contentDescription = video.title,
-                    contentScale = ContentScale.Crop
-                )
-            }
-        }
+                ),
+            cornerRadius = CoverCornerRadius
+        )
 
         Spacer(modifier = Modifier.height(Spacing16))
 

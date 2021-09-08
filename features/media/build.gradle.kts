@@ -21,6 +21,7 @@
  */
 
 import dependencies.Dependencies
+import dependencies.Dependencies.Accompanist
 import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Compose
@@ -110,6 +111,7 @@ dependencies {
     implementation(Compose.icons)
     implementation(Compose.iconsExtended)
     implementation(Compose.constraintLayout)
+    implementation(Accompanist.placeholder)
 
     implementation(Moshi.kotlin)
     kapt(Moshi.codegen)

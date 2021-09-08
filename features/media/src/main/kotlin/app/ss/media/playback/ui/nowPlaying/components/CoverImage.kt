@@ -23,28 +23,17 @@
 package app.ss.media.playback.ui.nowPlaying.components
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import app.ss.media.playback.model.AudioFile
+import app.ss.media.playback.ui.common.RemoteImage
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
-import coil.transform.RoundedCornersTransformation
-import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.SSTheme
-import com.cryart.design.theme.Spacing8
 
 private interface Sizes {
     val width: Dp
@@ -84,44 +73,17 @@ internal fun CoverImage(
         targetValue = if (collapsed) orientation.height / 2 else orientation.height,
     )
 
-    Box(
+    RemoteImage(
+        data = audio.image,
         modifier = modifier
             .size(
                 width = width,
                 height = height
             )
-            .padding(Dimens.grid_1)
-    ) {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize(),
-            color = BaseGrey2,
-            elevation = Spacing8,
-            shape = RoundedCornerShape(Spacing8),
-        ) {
-            Image(
-                painter = rememberImagePainter(
-                    data = audio.image,
-                    builder = {
-                        crossfade(true)
-                        transformations(RoundedCornersTransformation(CoverCornerRadius))
-                    }
-                ),
-                contentDescription = audio.title,
-                contentScale = ContentScale.Crop
-            )
-        }
-    }
+            .padding(Dimens.grid_1),
+        contentDescription = audio.title,
+        cornerRadius = CoverCornerRadius,
+    )
 }
 
 private const val CoverCornerRadius = 6f
-
-@Preview(
-    name = "Image"
-)
-@Composable
-private fun CoverImagePreview() {
-    SSTheme {
-        CoverImage(audio = sampleAudio)
-    }
-}
