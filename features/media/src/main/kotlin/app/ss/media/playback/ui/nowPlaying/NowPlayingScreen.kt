@@ -47,14 +47,14 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -75,14 +75,17 @@ import app.ss.media.playback.ui.nowPlaying.components.PlayBackControls
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgress
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackQueueList
 import app.ss.media.playback.ui.playbackContentColor
-import com.cryart.design.base.TransparentBottomSheetSurface
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.Spacing24
 import com.cryart.design.theme.TitleMedium
+import com.cryart.design.widgets.DragHandle
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 
 private object ScreenDefaults {
 
@@ -98,95 +101,90 @@ private object ScreenDefaults {
 @Composable
 internal fun NowPlayingScreen(
     viewModel: NowPlayingViewModel = viewModel(),
-    onClose: () -> Unit
+    isAtTop: (Boolean) -> Unit = {},
 ) {
-    TransparentBottomSheetSurface {
+    val listState = rememberLazyListState()
+    val playbackConnection = viewModel.playbackConnection
+    val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState)
+        .collectAsState(NONE_PLAYBACK_STATE)
+    val nowPlaying by rememberFlowWithLifecycle(viewModel.nowPlayingAudio)
+        .collectAsState(AudioFile(""))
+    val playbackQueue by rememberFlowWithLifecycle(playbackConnection.playbackQueue)
+        .collectAsState(PlaybackQueue())
+    val nowPlayingAudio = if (nowPlaying.id.isEmpty()) {
+        playbackQueue.currentAudio ?: nowPlaying
+    } else {
+        nowPlaying
+    }
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(vertical = Spacing16),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row(modifier = Modifier.padding(horizontal = Dimens.grid_4)) {
-                IconButton(onClick = onClose) {
-                    Icon(
-                        Icons.Rounded.Close,
-                        contentDescription = "Close"
-                    )
-                }
+    var boxState by remember { mutableStateOf(BoxState.Expanded) }
 
-                Spacer(modifier = Modifier.weight(1f))
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = Spacing16),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        DragHandle()
+
+        val expanded = boxState == BoxState.Expanded
+        val spacing by animateDpAsState(
+            if (expanded) Spacing24 else 0.dp
+        )
+
+        Spacer(modifier = Modifier.height(Dimens.grid_2))
+
+        NowPlayingBox(
+            audio = nowPlayingAudio,
+            boxState = boxState
+        )
+
+        PlaybackQueue(
+            expanded = expanded,
+            listState = listState,
+            playbackQueue = playbackQueue,
+            isPlaying = playbackState.isPlaying,
+            nowPlayingId = nowPlaying.id,
+            onPlayAudio = { position ->
+                playbackConnection.transportControls?.skipToQueueItem(position.toLong())
             }
+        )
 
-            val listState = rememberLazyListState()
-            val playbackConnection = viewModel.playbackConnection
-            val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState)
-                .collectAsState(NONE_PLAYBACK_STATE)
-            val nowPlaying by rememberFlowWithLifecycle(viewModel.nowPlayingAudio)
-                .collectAsState(AudioFile(""))
-            val playbackQueue by rememberFlowWithLifecycle(playbackConnection.playbackQueue)
-                .collectAsState(PlaybackQueue())
-            val nowPlayingAudio = if (nowPlaying.id.isEmpty()) {
-                playbackQueue.currentAudio ?: nowPlaying
-            } else {
-                nowPlaying
+        PlaybackProgress(
+            playbackState = playbackState,
+            contentColor = MaterialTheme.colors.primary,
+            playbackConnection = playbackConnection
+        )
+
+        Spacer(modifier = Modifier.height(spacing))
+
+        PlayBackControls(
+            playbackState = playbackState,
+            contentColor = playbackContentColor(),
+            playbackConnection = playbackConnection
+        )
+
+        Spacer(modifier = Modifier.height(spacing))
+
+        BottomControls(
+            playbackSpeedFlow = playbackConnection.playbackSpeed,
+            toggleSpeed = { playbackSpeed ->
+                playbackConnection.toggleSpeed(playbackSpeed)
+            },
+            toggleExpand = {
+                boxState = when (boxState) {
+                    BoxState.Collapsed -> BoxState.Expanded
+                    BoxState.Expanded -> BoxState.Collapsed
+                }
             }
+        )
+    }
 
-            var boxState by remember { mutableStateOf(BoxState.Expanded) }
-
-            val expanded = boxState == BoxState.Expanded
-            val spacing by animateDpAsState(
-                if (expanded) Spacing24 else 0.dp
-            )
-
-            Spacer(modifier = Modifier.height(Dimens.grid_2))
-
-            NowPlayingBox(
-                audio = nowPlayingAudio,
-                boxState = boxState
-            )
-
-            PlaybackQueue(
-                expanded = expanded,
-                listState = listState,
-                playbackQueue = playbackQueue,
-                isPlaying = playbackState.isPlaying,
-                nowPlayingId = nowPlaying.id,
-                onPlayAudio = { position ->
-                    playbackConnection.transportControls?.skipToQueueItem(position.toLong())
-                }
-            )
-
-            PlaybackProgress(
-                playbackState = playbackState,
-                contentColor = MaterialTheme.colors.primary,
-                playbackConnection = playbackConnection
-            )
-
-            Spacer(modifier = Modifier.height(spacing))
-
-            PlayBackControls(
-                playbackState = playbackState,
-                contentColor = playbackContentColor(),
-                playbackConnection = playbackConnection
-            )
-
-            Spacer(modifier = Modifier.height(spacing))
-
-            BottomControls(
-                playbackSpeedFlow = playbackConnection.playbackSpeed,
-                toggleSpeed = { playbackSpeed ->
-                    playbackConnection.toggleSpeed(playbackSpeed)
-                },
-                toggleExpand = {
-                    boxState = when (boxState) {
-                        BoxState.Collapsed -> BoxState.Expanded
-                        BoxState.Expanded -> BoxState.Collapsed
-                    }
-                }
-            )
-        }
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.firstVisibleItemIndex }
+            .map { index -> boxState == BoxState.Expanded || index == 0 }
+            .distinctUntilChanged()
+            .collect { isAtTop(it) }
     }
 }
 

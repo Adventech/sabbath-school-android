@@ -73,6 +73,8 @@ import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.TitleSmall
 import kotlinx.coroutines.launch
 
+private const val scrollToItemKey = "playbackQueue"
+
 @Composable
 internal fun PlaybackQueueList(
     playbackQueue: List<AudioFile>,
@@ -105,11 +107,13 @@ internal fun PlaybackQueueList(
         }
     }
 
-    LaunchedEffect(key1 = "$nowPlayingId.$isPlaying.${listState.firstVisibleItemIndex}") {
-        val position = playbackQueue.indexOfFirst { it.id == nowPlayingId }
-        if (isPlaying && position > 0) {
+    if (playbackQueue.isEmpty()) return
+
+    val position = playbackQueue.indexOfFirst { it.id == nowPlayingId }
+    if (position > 0) {
+        LaunchedEffect(key1 = scrollToItemKey) {
             coroutine.launch {
-                listState.animateScrollToItem(position)
+                listState.scrollToItem(position)
             }
         }
     }
