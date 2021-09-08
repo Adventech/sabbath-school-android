@@ -75,6 +75,7 @@ import app.ss.media.playback.ui.nowPlaying.components.PlayBackControls
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgress
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackQueueList
 import app.ss.media.playback.ui.playbackContentColor
+import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
@@ -132,7 +133,15 @@ internal fun NowPlayingScreen(
             if (expanded) Spacing24 else 0.dp
         )
 
-        Spacer(modifier = Modifier.height(Dimens.grid_2))
+        Spacer(
+            modifier = Modifier
+                .thenIf(expanded) {
+                    Modifier.weight(1f)
+                }
+                .thenIf(expanded.not()) {
+                    Modifier.height(Dimens.grid_2)
+                }
+        )
 
         NowPlayingBox(
             audio = nowPlayingAudio,
@@ -198,13 +207,11 @@ private fun ColumnScope.PlaybackQueue(
     nowPlayingId: String,
     onPlayAudio: (Int) -> Unit,
 ) {
-    val paddingTop by animateDpAsState(targetValue = if (expanded) 0.dp else Spacing16)
     val queueList = if (expanded) emptyList() else playbackQueue.audiosList
 
     PlaybackQueueList(
         listState = listState,
         modifier = Modifier
-            .padding(top = paddingTop)
             .weight(1f),
         playbackQueue = queueList,
         nowPlayingId = nowPlayingId,

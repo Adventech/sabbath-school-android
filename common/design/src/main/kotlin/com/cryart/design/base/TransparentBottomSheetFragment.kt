@@ -52,7 +52,10 @@ open class TransparentBottomSheetFragment : BottomSheetDialogFragment() {
         if (resources.getBoolean(R.bool.is_large_screen).not()) {
             view.doOnApplyWindowInsets { insetView, windowInsets, _, initialMargins ->
                 insetView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                    updateMargins(top = initialMargins.top + windowInsets.getInsets(systemBars()).top)
+                    updateMargins(
+                        top = initialMargins.top + windowInsets.getInsets(systemBars()).top,
+                        bottom = initialMargins.bottom + windowInsets.getInsets(systemBars()).bottom
+                    )
                 }
             }
         }

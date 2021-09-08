@@ -71,6 +71,7 @@ import com.cryart.design.theme.Spacing4
 import com.cryart.design.theme.Spacing6
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.TitleSmall
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val scrollToItemKey = "playbackQueue"
@@ -94,7 +95,10 @@ internal fun PlaybackQueueList(
             horizontal = Dimens.grid_4
         )
     ) {
-        itemsIndexed(playbackQueue) { index, audio ->
+        itemsIndexed(
+            playbackQueue,
+            key = { _: Int, item: AudioFile -> item.id }
+        ) { index, audio ->
             AudioRow(
                 audio = audio,
                 isSelected = audio.id == nowPlayingId,
@@ -113,6 +117,7 @@ internal fun PlaybackQueueList(
     if (position > 0) {
         LaunchedEffect(key1 = scrollToItemKey) {
             coroutine.launch {
+                delay(300)
                 listState.scrollToItem(position)
             }
         }
