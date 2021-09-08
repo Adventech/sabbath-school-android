@@ -84,7 +84,7 @@ private fun textStyle(
     color = color,
     fontFamily = LatoFontFamily,
     fontSize = textSize.fontSize,
-    lineHeight = textSize.lineHeight,
+    lineHeight = TextUnit.Unspecified,
     fontStyle = FontStyle.Normal,
     fontWeight = fontWeight,
     textDecoration = textDecoration,
