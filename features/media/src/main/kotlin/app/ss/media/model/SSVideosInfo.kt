@@ -22,6 +22,11 @@
 
 package app.ss.media.model
 
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
+
+@Keep
+@JsonClass(generateAdapter = true)
 data class SSVideosInfo(
     val artist: String,
     val clips: List<SSVideo>
