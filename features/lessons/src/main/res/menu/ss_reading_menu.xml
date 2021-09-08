@@ -30,7 +30,8 @@
         android:orderInCategory="100"
         android:title="@string/ss_settings_display_options"
         android:visible="false"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
 
     <item
         android:id="@+id/ss_reading_menu_video"
@@ -38,14 +39,16 @@
         android:orderInCategory="100"
         android:title="@string/ss_settings_display_options"
         android:visible="false"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
 
     <item
         android:id="@+id/ss_reading_menu_display_options"
         android:icon="@drawable/ic_round_text_format"
         android:orderInCategory="100"
         android:title="@string/ss_settings_display_options"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
 
     <item
         android:id="@+id/ss_reading_menu_suggest_edit"
