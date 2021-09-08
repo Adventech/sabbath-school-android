@@ -24,6 +24,7 @@ package app.ss.media.repository
 
 import app.ss.media.api.SSMediaApi
 import app.ss.media.model.SSAudio
+import app.ss.media.model.SSVideosInfo
 import app.ss.media.model.request.SSMediaRequest
 import app.ss.media.model.toAudio
 import app.ss.media.model.toEntity
@@ -39,6 +40,8 @@ interface SSMediaRepository {
     suspend fun findAudioFile(id: String): AudioFile?
     suspend fun updateDuration(id: String, duration: Long)
     suspend fun getPlayList(lessonIndex: String): List<AudioFile>
+
+    suspend fun getVideo(lessonIndex: String): Resource<List<SSVideosInfo>>
 }
 
 internal class SSMediaRepositoryImpl(
@@ -84,6 +87,23 @@ internal class SSMediaRepositoryImpl(
     override suspend fun getPlayList(lessonIndex: String): List<AudioFile> = withContext(schedulerProvider.io) {
         audioDao.searchBy("%$lessonIndex%").map {
             it.toAudio()
+        }
+    }
+
+    override suspend fun getVideo(lessonIndex: String): Resource<List<SSVideosInfo>> {
+        return try {
+            val request = lessonIndex.toMediaRequest() ?: return Resource.error(Throwable("Invalid Index"))
+            val response = mediaApi.getVideo(request.language, request.quarterlyId)
+
+            val videos = response.body() ?: emptyList()
+            if (videos.isNotEmpty()) {
+                // cache
+            }
+
+            Resource.success(videos)
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            Resource.error(ex)
         }
     }
 }

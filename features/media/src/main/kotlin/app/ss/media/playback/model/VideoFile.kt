@@ -20,25 +20,19 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.api
+package app.ss.media.playback.model
 
-import app.ss.media.model.SSAudio
-import app.ss.media.model.SSVideosInfo
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
+import android.net.Uri
+import androidx.annotation.Keep
 
-interface SSMediaApi {
-
-    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/audio.json")
-    suspend fun getAudio(
-        @Path("lang") language: String,
-        @Path("quarterly_id") quarterlyId: String
-    ): Response<List<SSAudio>>
-
-    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/video.json")
-    suspend fun getVideo(
-        @Path("lang") language: String,
-        @Path("quarterly_id") quarterlyId: String
-    ): Response<List<SSVideosInfo>>
-}
+@Keep
+data class VideoFile(
+    val id: String,
+    val artist: String = "",
+    val src: Uri = Uri.EMPTY,
+    val target: String = "",
+    val targetIndex: String = "",
+    val thumbnail: String = "",
+    val title: String = "",
+    val duration: Long = 0
+)

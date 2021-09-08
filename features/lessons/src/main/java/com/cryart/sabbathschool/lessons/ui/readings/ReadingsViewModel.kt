@@ -45,6 +45,9 @@ class ReadingsViewModel @Inject constructor(
     private val _audioAvailable = MutableStateFlow(false)
     val audioAvailableFlow: StateFlow<Boolean> get() = _audioAvailable.asStateFlow()
 
+    private val _videoAvailable = MutableStateFlow(false)
+    val videoAvailableFlow: StateFlow<Boolean> get() = _videoAvailable.asStateFlow()
+
     val lessonIndex: String? get() = savedStateHandle.lessonIndex
 
     init {
@@ -52,6 +55,9 @@ class ReadingsViewModel @Inject constructor(
             savedStateHandle.lessonIndex?.let { index ->
                 val resource = mediaRepository.getAudio(index)
                 _audioAvailable.emit(resource.data.isNullOrEmpty().not())
+
+                val videoResource = mediaRepository.getVideo(index)
+                _videoAvailable.emit(videoResource.data.isNullOrEmpty().not())
             }
         }
     }

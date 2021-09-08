@@ -20,25 +20,14 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.api
+package app.ss.media.model
 
-import app.ss.media.model.SSAudio
-import app.ss.media.model.SSVideosInfo
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
-
-interface SSMediaApi {
-
-    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/audio.json")
-    suspend fun getAudio(
-        @Path("lang") language: String,
-        @Path("quarterly_id") quarterlyId: String
-    ): Response<List<SSAudio>>
-
-    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/video.json")
-    suspend fun getVideo(
-        @Path("lang") language: String,
-        @Path("quarterly_id") quarterlyId: String
-    ): Response<List<SSVideosInfo>>
-}
+data class SSVideo(
+    val artist: String,
+    val id: String,
+    val src: String,
+    val target: String,
+    val targetIndex: String,
+    val thumbnail: String,
+    val title: String
+)

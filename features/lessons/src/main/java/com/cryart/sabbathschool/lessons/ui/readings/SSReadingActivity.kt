@@ -272,6 +272,7 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         menu?.findItem(R.id.ss_reading_menu_audio)?.isVisible = viewModel.audioAvailableFlow.value
+        menu?.findItem(R.id.ss_reading_menu_video)?.isVisible = viewModel.videoAvailableFlow.value
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -341,6 +342,10 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
         viewModel.audioAvailableFlow.collectIn(this) { available ->
             val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
             menu.findItem(R.id.ss_reading_menu_audio)?.isVisible = available
+        }
+        viewModel.videoAvailableFlow.collectIn(this) { available ->
+            val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
+            menu.findItem(R.id.ss_reading_menu_video)?.isVisible = available
         }
     }
 
