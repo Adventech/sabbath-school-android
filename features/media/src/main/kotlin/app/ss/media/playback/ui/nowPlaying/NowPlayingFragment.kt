@@ -28,36 +28,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.os.bundleOf
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import app.ss.media.R
+import com.cryart.design.base.TransparentBottomSheetFragment
+import com.cryart.design.base.TransparentBottomSheetSurface
 import com.cryart.sabbathschool.core.misc.SSConstants
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NowPlayingFragment : DialogFragment(R.layout.fragment_now_playing) {
-
-    override fun getTheme(): Int = R.style.Theme_SS_DialogFragment_Transparent
-
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.setWindowAnimations(R.style.NowPlaying_Dialog_Animation)
-    }
+class NowPlayingFragment : TransparentBottomSheetFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)?.apply {
-            findViewById<View>(R.id.root).setOnClickListener {
-                dismiss()
-            }
-            findViewById<ComposeView>(R.id.composeView).apply {
-                setContent {
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setContent {
+                TransparentBottomSheetSurface {
                     NowPlayingScreen(
-                        onClose = {
-                            dismiss()
+                        isAtTop = { isAtTop ->
+                            (dialog as? BottomSheetDialog)?.behavior?.isDraggable = isAtTop
                         }
                     )
                 }

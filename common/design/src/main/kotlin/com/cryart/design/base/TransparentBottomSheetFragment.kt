@@ -62,11 +62,13 @@ open class TransparentBottomSheetFragment : BottomSheetDialogFragment() {
         object : BottomSheetDialog(requireContext(), theme) {
             override fun onAttachedToWindow() {
                 super.onAttachedToWindow()
-                window?.let {
-                    WindowCompat.setDecorFitsSystemWindows(it, false)
+                if (resources.getBoolean(R.bool.is_large_screen).not()) {
+                    window?.let {
+                        WindowCompat.setDecorFitsSystemWindows(it, false)
+                    }
+                    findViewById<View>(com.google.android.material.R.id.container)?.fitsSystemWindows = false
+                    findViewById<View>(com.google.android.material.R.id.coordinator)?.fitsSystemWindows = false
                 }
-                findViewById<View>(com.google.android.material.R.id.container)?.fitsSystemWindows = false
-                findViewById<View>(com.google.android.material.R.id.coordinator)?.fitsSystemWindows = false
             }
         }
 }
