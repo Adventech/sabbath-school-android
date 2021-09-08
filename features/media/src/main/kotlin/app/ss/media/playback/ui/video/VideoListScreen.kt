@@ -76,6 +76,7 @@ import com.cryart.design.widgets.DragHandle
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 
 @OptIn(InternalCoroutinesApi::class)
 @Composable
@@ -122,7 +123,7 @@ internal fun ViewListScreen(
         }
 
         item {
-            Spacer(modifier = Modifier.height(Spacing24))
+            Spacer(modifier = Modifier.height(Spacing16))
         }
 
         items(videoList) { videosInfo ->
@@ -132,10 +133,9 @@ internal fun ViewListScreen(
 
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
+            .map { index -> index == 0 }
             .distinctUntilChanged()
-            .collect { position ->
-                isAtTop(position == 0)
-            }
+            .collect { isAtTop(it) }
     }
 }
 
@@ -153,7 +153,7 @@ private fun VideosInfoList(
             ),
             modifier = Modifier
                 .padding(horizontal = Spacing24)
-                .padding(top = Spacing8)
+                .padding(top = Spacing16)
         )
 
         LazyRow(
