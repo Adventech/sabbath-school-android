@@ -41,6 +41,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ContentAlpha
@@ -51,7 +52,9 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -60,7 +63,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.media.playback.model.AudioFile
-import app.ss.media.playback.model.PlaybackQueue
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.Body
 import com.cryart.design.theme.Dimens
@@ -69,24 +71,28 @@ import com.cryart.design.theme.Spacing4
 import com.cryart.design.theme.Spacing6
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.TitleSmall
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun PlaybackQueueList(
-    playbackQueue: PlaybackQueue,
+    playbackQueue: List<AudioFile>,
+    listState: LazyListState,
     modifier: Modifier = Modifier,
     nowPlayingId: String? = null,
     isPlaying: Boolean = false,
     onPlayAudio: (Int) -> Unit,
 ) {
+    val coroutine = rememberCoroutineScope()
 
     LazyColumn(
         modifier = modifier,
+        state = listState,
         contentPadding = PaddingValues(
             vertical = Spacing8,
             horizontal = Dimens.grid_4
         )
     ) {
-        itemsIndexed(playbackQueue.audiosList) { index, audio ->
+        itemsIndexed(playbackQueue) { index, audio ->
             AudioRow(
                 audio = audio,
                 isSelected = audio.id == nowPlayingId,
@@ -96,6 +102,15 @@ internal fun PlaybackQueueList(
                 }
             )
             Divider()
+        }
+    }
+
+    LaunchedEffect(key1 = "$nowPlayingId.$isPlaying.${listState.firstVisibleItemIndex}") {
+        val position = playbackQueue.indexOfFirst { it.id == nowPlayingId }
+        if (isPlaying && position > 0) {
+            coroutine.launch {
+                listState.animateScrollToItem(position)
+            }
         }
     }
 }

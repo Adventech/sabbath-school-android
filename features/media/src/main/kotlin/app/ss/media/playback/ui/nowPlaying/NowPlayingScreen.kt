@@ -23,11 +23,9 @@
 package app.ss.media.playback.ui.nowPlaying
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -42,6 +40,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -119,6 +119,7 @@ internal fun NowPlayingScreen(
                 Spacer(modifier = Modifier.weight(1f))
             }
 
+            val listState = rememberLazyListState()
             val playbackConnection = viewModel.playbackConnection
             val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState)
                 .collectAsState(NONE_PLAYBACK_STATE)
@@ -146,12 +147,9 @@ internal fun NowPlayingScreen(
                 boxState = boxState
             )
 
-            if (expanded) {
-                Spacer(modifier = Modifier.weight(1f))
-            }
-
             PlaybackQueue(
                 expanded = expanded,
+                listState = listState,
                 playbackQueue = playbackQueue,
                 isPlaying = playbackState.isPlaying,
                 nowPlayingId = nowPlaying.id,
@@ -197,25 +195,23 @@ internal fun NowPlayingScreen(
 private fun ColumnScope.PlaybackQueue(
     expanded: Boolean,
     playbackQueue: PlaybackQueue,
+    listState: LazyListState,
     isPlaying: Boolean,
     nowPlayingId: String,
     onPlayAudio: (Int) -> Unit,
 ) {
-    AnimatedVisibility(
-        visible = !expanded,
-        enter = fadeIn(),
-        exit = fadeOut(animationSpec = tween(100)),
-        modifier = Modifier.weight(1f),
-        content = {
-            PlaybackQueueList(
-                modifier = Modifier
-                    .padding(top = Spacing16),
-                playbackQueue = playbackQueue,
-                nowPlayingId = nowPlayingId,
-                isPlaying = isPlaying,
-                onPlayAudio = onPlayAudio
-            )
-        }
+    val paddingTop by animateDpAsState(targetValue = if (expanded) 0.dp else Spacing16)
+    val queueList = if (expanded) emptyList() else playbackQueue.audiosList
+
+    PlaybackQueueList(
+        listState = listState,
+        modifier = Modifier
+            .padding(top = paddingTop)
+            .weight(1f),
+        playbackQueue = queueList,
+        nowPlayingId = nowPlayingId,
+        isPlaying = isPlaying,
+        onPlayAudio = onPlayAudio
     )
 }
 
