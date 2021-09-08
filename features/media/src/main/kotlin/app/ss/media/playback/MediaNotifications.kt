@@ -36,7 +36,6 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.DrawableRes
 import androidx.media.app.NotificationCompat
 import app.ss.media.R
-import app.ss.media.playback.extensions.album
 import app.ss.media.playback.extensions.artist
 import app.ss.media.playback.extensions.artwork
 import app.ss.media.playback.extensions.displayDescription
@@ -91,7 +90,6 @@ internal class MediaNotificationsImpl constructor(
             return createEmptyNotification()
         }
 
-        val albumName = mediaSession.controller.metadata.album
         val artistName = mediaSession.controller.metadata.artist
         val trackName = mediaSession.controller.metadata.title
         val artwork = mediaSession.controller.metadata.artwork
@@ -117,7 +115,7 @@ internal class MediaNotificationsImpl constructor(
             setLargeIcon(artwork)
             setContentIntent(clickIntent)
             setContentTitle(trackName)
-            setContentText("$artistName - $albumName")
+            setContentText(artistName)
             setSubText(description)
             setColorized(true)
             setShowWhen(false)
