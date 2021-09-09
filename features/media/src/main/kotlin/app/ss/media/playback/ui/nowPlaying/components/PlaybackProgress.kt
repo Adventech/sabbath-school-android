@@ -23,6 +23,7 @@
 package app.ss.media.playback.ui.nowPlaying.components
 
 import android.support.v4.media.session.PlaybackStateCompat
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -44,7 +45,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -54,16 +54,40 @@ import app.ss.media.playback.extensions.isBuffering
 import app.ss.media.playback.extensions.millisToDuration
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
+import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey2
+import com.cryart.design.theme.BaseGrey3
 import com.cryart.design.theme.Dimens
+import com.cryart.design.theme.OffWhite
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.TitleSmall
+import com.cryart.design.theme.darker
 import kotlin.math.roundToLong
+
+private object ProgressColors {
+    @Composable
+    fun thumbColor(): Color =
+        if (isSystemInDarkTheme()) {
+            BaseGrey1
+        } else {
+            OffWhite.darker()
+        }
+
+    @Composable
+    fun activeTrackColor(): Color = thumbColor()
+
+    @Composable
+    fun inactiveTrackColor(): Color =
+        if (isSystemInDarkTheme()) {
+            BaseGrey3
+        } else {
+            BaseGrey1
+        }
+}
 
 @Composable
 internal fun PlaybackProgress(
     playbackState: PlaybackStateCompat,
-    contentColor: Color,
     playbackConnection: PlaybackConnection
 ) {
     val progressState by rememberFlowWithLifecycle(playbackConnection.playbackProgress)
@@ -81,7 +105,6 @@ internal fun PlaybackProgress(
             progressState,
             draggingProgress,
             setDraggingProgress,
-            contentColor,
             playbackConnection = playbackConnection
         )
         PlaybackProgressDuration(
@@ -97,7 +120,6 @@ private fun BoxScope.PlaybackProgressSlider(
     progressState: PlaybackProgressState,
     draggingProgress: Float?,
     setDraggingProgress: (Float?) -> Unit,
-    contentColor: Color,
     height: Dp = 60.dp,
     playbackConnection: PlaybackConnection
 ) {
@@ -105,9 +127,9 @@ private fun BoxScope.PlaybackProgressSlider(
     val updatedDraggingProgress by rememberUpdatedState(draggingProgress)
 
     val sliderColors = SliderDefaults.colors(
-        thumbColor = contentColor,
-        activeTrackColor = contentColor,
-        inactiveTrackColor = contentColor.copy(alpha = ContentAlpha.disabled)
+        thumbColor = ProgressColors.thumbColor(),
+        activeTrackColor = ProgressColors.activeTrackColor(),
+        inactiveTrackColor = ProgressColors.inactiveTrackColor()
     )
     val isBuffering = playbackState.isBuffering
 
@@ -119,10 +141,7 @@ private fun BoxScope.PlaybackProgressSlider(
         colors = sliderColors,
         modifier = Modifier
             .height(height)
-            .align(Alignment.TopCenter)
-            .alpha(
-                if (isBuffering) 0f else 1f
-            ),
+            .align(Alignment.TopCenter),
         onValueChangeFinished = {
             playbackConnection.transportControls?.seekTo(
                 (updatedProgressState.total.toFloat() * (updatedDraggingProgress ?: 0f)).roundToLong()
