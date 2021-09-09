@@ -23,11 +23,10 @@
 package app.ss.media.playback.ui.nowPlaying.components
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -50,7 +49,9 @@ import com.cryart.design.theme.Body
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.LatoFontFamily
 import com.cryart.design.theme.SSTheme
+import com.cryart.design.theme.Spacing24
 import com.cryart.design.theme.Spacing32
+import com.cryart.design.theme.Spacing8
 
 internal enum class BoxState { Collapsed, Expanded }
 
@@ -167,42 +168,51 @@ private fun NowPlayingColumn(
     audio: AudioFile,
     boxState: BoxState
 ) {
-    val alignment: Alignment.Horizontal = when (boxState) {
-        BoxState.Collapsed -> Alignment.Start
-        BoxState.Expanded -> Alignment.CenterHorizontally
+    val horizontalAlignment: Alignment.Horizontal
+    val titleStyle: TextStyle
+    val artistStyle: TextStyle
+    val spacing: Dp
+
+    when (boxState) {
+        BoxState.Collapsed -> {
+            horizontalAlignment = Alignment.Start
+            titleStyle = textStyle().copy(
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium
+            )
+            artistStyle = Body.copy(
+                fontSize = 14.sp,
+            )
+            spacing = 2.dp
+        }
+        BoxState.Expanded -> {
+            horizontalAlignment = Alignment.CenterHorizontally
+            titleStyle = textStyle().copy(
+                fontSize = 21.sp,
+                fontWeight = FontWeight.Black
+            )
+            artistStyle = Body.copy(
+                fontSize = 17.sp,
+            )
+            spacing = Spacing8
+        }
     }
-    val titleStyle = when (boxState) {
-        BoxState.Collapsed -> textStyle().copy(
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Medium
-        )
-        BoxState.Expanded -> textStyle().copy(
-            fontSize = 21.sp,
-            fontWeight = FontWeight.Black
-        )
-    }
-    val artistStyle = when (boxState) {
-        BoxState.Collapsed -> Body.copy(
-            fontSize = 14.sp,
-        )
-        BoxState.Expanded -> Body.copy(
-            fontSize = 17.sp,
-        )
-    }
+
+    val animatedSpacing by animateDpAsState(targetValue = spacing)
 
     Column(
         modifier = modifier
             .padding(
                 horizontal = Dimens.grid_2,
-                vertical = 24.dp
+                vertical = Spacing24
             ),
-        horizontalAlignment = alignment
+        horizontalAlignment = horizontalAlignment,
+        verticalArrangement = Arrangement.spacedBy(animatedSpacing)
     ) {
         Text(
             text = audio.title,
             style = titleStyle
         )
-        Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = audio.artist,
             style = artistStyle
