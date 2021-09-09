@@ -28,22 +28,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import coil.request.ImageRequest
-import coil.request.ImageResult
 import coil.transform.RoundedCornersTransformation
-import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Spacing8
-import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.placeholder
-import com.google.accompanist.placeholder.material.shimmer
+import com.google.accompanist.placeholder.PlaceholderDefaults
+import com.google.accompanist.placeholder.material.color
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
@@ -53,20 +45,13 @@ fun RemoteImage(
     contentDescription: String? = null,
     cornerRadius: Float = 0f,
 ) {
-    var isLoading by remember { mutableStateOf(true) }
-    val loadingModifier = Modifier.placeholder(
-        visible = isLoading,
-        highlight = PlaceholderHighlight.shimmer(),
-    )
-
     Box(
         modifier = modifier
     ) {
         Surface(
             modifier = Modifier
-                .fillMaxSize()
-                .then(loadingModifier),
-            color = BaseGrey2,
+                .fillMaxSize(),
+            color = PlaceholderDefaults.color(),
             elevation = Spacing8,
             shape = RoundedCornerShape(Spacing8),
         ) {
@@ -76,14 +61,6 @@ fun RemoteImage(
                     builder = {
                         crossfade(true)
                         transformations(RoundedCornersTransformation(cornerRadius))
-                        listener(
-                            onSuccess = { _: ImageRequest, _: ImageResult.Metadata ->
-                                isLoading = false
-                            },
-                            onError = { _: ImageRequest, _: Throwable ->
-                                isLoading = false
-                            }
-                        )
                     }
                 ),
                 contentDescription = contentDescription,
