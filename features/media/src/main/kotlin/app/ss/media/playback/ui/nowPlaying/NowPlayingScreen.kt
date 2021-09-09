@@ -26,6 +26,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -209,11 +210,15 @@ private fun ColumnScope.PlaybackQueue(
     onPlayAudio: (Int) -> Unit,
 ) {
 
+    val alpha by animateFloatAsState(
+        targetValue = if (expanded) 0f else 1f,
+    )
+
     PlaybackQueueList(
         listState = listState,
         modifier = Modifier
             .weight(1f)
-            .alpha(if (expanded) 0f else 1f)
+            .alpha(alpha)
             .padding(top = Spacing16),
         playbackQueue = playbackQueue.audiosList,
         nowPlayingId = nowPlayingId,
