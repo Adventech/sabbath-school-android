@@ -32,6 +32,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.with
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -57,6 +58,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -197,7 +199,6 @@ internal fun NowPlayingScreen(
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun ColumnScope.PlaybackQueue(
     expanded: Boolean,
@@ -207,13 +208,14 @@ private fun ColumnScope.PlaybackQueue(
     nowPlayingId: String,
     onPlayAudio: (Int) -> Unit,
 ) {
-    val queueList = if (expanded) emptyList() else playbackQueue.audiosList
 
     PlaybackQueueList(
         listState = listState,
         modifier = Modifier
-            .weight(1f),
-        playbackQueue = queueList,
+            .weight(1f)
+            .alpha(if (expanded) 0f else 1f)
+            .padding(top = Spacing16),
+        playbackQueue = playbackQueue.audiosList,
         nowPlayingId = nowPlayingId,
         isPlaying = isPlaying,
         onPlayAudio = onPlayAudio
@@ -238,7 +240,8 @@ private fun BottomControls(
                 end = Dimens.grid_4,
                 start = Dimens.grid_2
             ),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         TextButton(
             onClick = {
@@ -267,8 +270,6 @@ private fun BottomControls(
                 )
             }
         }
-
-        Spacer(modifier = Modifier.weight(1f))
 
         IconButton(onClick = toggleExpand) {
             Icon(
