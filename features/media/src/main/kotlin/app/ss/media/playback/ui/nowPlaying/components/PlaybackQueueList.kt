@@ -71,6 +71,7 @@ import com.cryart.design.theme.Spacing4
 import com.cryart.design.theme.Spacing6
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.TitleSmall
+import com.cryart.design.theme.divider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -107,7 +108,10 @@ internal fun PlaybackQueueList(
                     onPlayAudio(index)
                 }
             )
-            Divider()
+            Divider(
+                color = divider(),
+                thickness = 0.5.dp
+            )
         }
     }
 
