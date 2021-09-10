@@ -45,10 +45,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -61,6 +65,7 @@ import app.ss.media.model.SSVideo
 import app.ss.media.model.SSVideosInfo
 import app.ss.media.playback.ui.common.RemoteImage
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
+import com.cryart.design.ext.ListSnappingConnection
 import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.BaseGrey2
@@ -168,7 +173,19 @@ private fun VideosInfoList(
     videosInfo: SSVideosInfo,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
+    val listState = rememberLazyListState()
+    val widthState = remember { mutableStateOf(0) }
+    val connection = remember(listState) {
+        ListSnappingConnection(
+            listState = listState,
+            widthState = widthState
+        )
+    }
+
+    Column(
+        modifier = modifier
+            .nestedScroll(connection),
+    ) {
         Text(
             text = videosInfo.artist.uppercase(),
             style = Title.copy(
@@ -184,10 +201,16 @@ private fun VideosInfoList(
             contentPadding = PaddingValues(
                 horizontal = Spacing16,
                 vertical = Spacing16
-            )
+            ),
+            state = listState
         ) {
             items(videosInfo.clips) { video ->
-                VideoColumn(video = video)
+                VideoColumn(
+                    video = video,
+                    modifier = Modifier.onGloballyPositioned { coordinates ->
+                        widthState.value = coordinates.size.width
+                    }
+                )
             }
         }
     }
