@@ -22,6 +22,7 @@
 
 package app.ss.media.playback.ui.nowPlaying
 
+import android.view.MotionEvent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
@@ -31,9 +32,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.with
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -50,22 +48,27 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -94,9 +97,6 @@ import com.cryart.design.theme.Spacing32
 import com.cryart.design.theme.TitleMedium
 import com.cryart.design.widgets.DragHandle
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 
 private object ScreenDefaults {
 
@@ -109,13 +109,13 @@ private object ScreenDefaults {
         }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun NowPlayingScreen(
     viewModel: NowPlayingViewModel = viewModel(),
     isDraggable: (Boolean) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
-    var dragDelta by remember { mutableStateOf(0f) }
     val playbackConnection = viewModel.playbackConnection
     val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState)
         .collectAsState(NONE_PLAYBACK_STATE)
@@ -132,16 +132,25 @@ internal fun NowPlayingScreen(
     var boxState by remember { mutableStateOf(BoxState.Expanded) }
     val expanded = boxState == BoxState.Expanded
 
+    val nestedScrollConnection = remember {
+        object : NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                isDraggable(false)
+                return super.onPreScroll(available, source)
+            }
+
+            override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
+                isDraggable(true)
+                return super.onPostFling(consumed, available)
+            }
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(vertical = Spacing16)
-            .draggable(
-                orientation = Orientation.Vertical,
-                state = rememberDraggableState { delta ->
-                    dragDelta = delta
-                }
-            ),
+            .nestedScroll(connection = nestedScrollConnection),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -202,6 +211,19 @@ internal fun NowPlayingScreen(
                                 (heightState.container - heightState.image).toDp()
                             }
                         )
+                        .pointerInteropFilter { event ->
+                            when (event.action) {
+                                MotionEvent.ACTION_DOWN -> {
+                                    if (listState.firstVisibleItemIndex > 0) {
+                                        isDraggable(false)
+                                    }
+                                }
+                                MotionEvent.ACTION_UP -> {
+                                    isDraggable(true)
+                                }
+                            }
+                            false
+                        }
                         .layoutId("queue"),
                     playbackQueue = playbackQueue.audiosList,
                     nowPlayingId = nowPlaying.id,
@@ -244,20 +266,6 @@ internal fun NowPlayingScreen(
                 }
             }
         )
-    }
-
-    LaunchedEffect(listState) {
-        snapshotFlow { listState.firstVisibleItemIndex }
-            .map { index -> boxState == BoxState.Expanded || index == 0 }
-            .distinctUntilChanged()
-            .collect { isDraggable(it) }
-    }
-
-    LaunchedEffect(dragDelta) {
-        snapshotFlow { dragDelta }
-            .map { delta -> boxState == BoxState.Expanded || delta > 0 }
-            .distinctUntilChanged()
-            .collect { isDraggable(it) }
     }
 }
 
