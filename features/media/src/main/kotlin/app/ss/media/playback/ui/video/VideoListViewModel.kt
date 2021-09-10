@@ -43,7 +43,7 @@ import javax.inject.Inject
 class VideoListViewModel @Inject constructor(
     private val repository: SSMediaRepository,
     private val schedulerProvider: SchedulerProvider,
-    savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     val videoListFlow: StateFlow<VideoListData> = flowOf(savedStateHandle.lessonIndex)
@@ -65,7 +65,10 @@ class VideoListViewModel @Inject constructor(
                 clips = first().clips.subList(1)
             )
         } else {
-            VideoListData.Horizontal(this)
+            VideoListData.Horizontal(
+                data = this,
+                target = savedStateHandle.lessonIndex
+            )
         }
     }
 }

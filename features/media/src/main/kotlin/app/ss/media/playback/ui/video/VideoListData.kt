@@ -26,7 +26,15 @@ import app.ss.media.model.SSVideo
 import app.ss.media.model.SSVideosInfo
 
 sealed class VideoListData {
-    data class Horizontal(val data: List<SSVideosInfo>) : VideoListData()
-    data class Vertical(val featured: SSVideo, val clips: List<SSVideo>) : VideoListData()
+    data class Horizontal(
+        val data: List<SSVideosInfo>,
+        val target: String?
+    ) : VideoListData()
+
+    data class Vertical(
+        val featured: SSVideo,
+        val clips: List<SSVideo>
+    ) : VideoListData()
+
     object Empty : VideoListData()
 }

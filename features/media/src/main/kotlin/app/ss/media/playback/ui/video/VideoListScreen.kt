@@ -140,8 +140,12 @@ internal fun ViewListScreen(
                 // todo: show empty view?
             }
             is VideoListData.Horizontal -> {
-                items((videoList as VideoListData.Horizontal).data) { videosInfo ->
-                    VideosInfoList(videosInfo = videosInfo)
+                val data = videoList as VideoListData.Horizontal
+                items(data.data) { videosInfo ->
+                    VideosInfoList(
+                        videosInfo = videosInfo,
+                        target = data.target
+                    )
                 }
             }
             is VideoListData.Vertical -> {
@@ -178,6 +182,7 @@ internal fun ViewListScreen(
 @Composable
 private fun VideosInfoList(
     videosInfo: SSVideosInfo,
+    target: String?,
     modifier: Modifier = Modifier
 ) {
     val listState = rememberLazyListState()
@@ -219,6 +224,14 @@ private fun VideosInfoList(
                     }
                 )
             }
+        }
+    }
+
+    // scroll to the most relevant video
+    LaunchedEffect(target) {
+        val index = videosInfo.clips.indexOfFirst { it.targetIndex == target }
+        if (index > 0) {
+            listState.scrollToItem(index)
         }
     }
 }
