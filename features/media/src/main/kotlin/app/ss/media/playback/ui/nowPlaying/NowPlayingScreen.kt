@@ -31,6 +31,9 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.with
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -109,9 +112,10 @@ private object ScreenDefaults {
 @Composable
 internal fun NowPlayingScreen(
     viewModel: NowPlayingViewModel = viewModel(),
-    isAtTop: (Boolean) -> Unit = {},
+    isDraggable: (Boolean) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
+    var dragDelta by remember { mutableStateOf(0f) }
     val playbackConnection = viewModel.playbackConnection
     val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState)
         .collectAsState(NONE_PLAYBACK_STATE)
@@ -131,7 +135,13 @@ internal fun NowPlayingScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = Spacing16),
+            .padding(vertical = Spacing16)
+            .draggable(
+                orientation = Orientation.Vertical,
+                state = rememberDraggableState { delta ->
+                    dragDelta = delta
+                }
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -240,7 +250,14 @@ internal fun NowPlayingScreen(
         snapshotFlow { listState.firstVisibleItemIndex }
             .map { index -> boxState == BoxState.Expanded || index == 0 }
             .distinctUntilChanged()
-            .collect { isAtTop(it) }
+            .collect { isDraggable(it) }
+    }
+
+    LaunchedEffect(dragDelta) {
+        snapshotFlow { dragDelta }
+            .map { delta -> boxState == BoxState.Expanded || delta > 0 }
+            .distinctUntilChanged()
+            .collect { isDraggable(it) }
     }
 }
 

@@ -47,8 +47,8 @@ class NowPlayingFragment : TransparentBottomSheetFragment() {
             setContent {
                 TransparentBottomSheetSurface {
                     NowPlayingScreen(
-                        isAtTop = { isAtTop ->
-                            (dialog as? BottomSheetDialog)?.behavior?.isDraggable = isAtTop
+                        isDraggable = { isDraggable ->
+                            (dialog as? BottomSheetDialog)?.behavior?.isDraggable = isDraggable
                         }
                     )
                 }
