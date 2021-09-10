@@ -63,7 +63,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.media.R
 import app.ss.media.model.SSVideo
 import app.ss.media.model.SSVideosInfo
-import app.ss.media.playback.ui.common.RemoteImage
+import app.ss.media.playback.ui.common.CoilImage
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import com.cryart.design.ext.ListSnappingConnection
 import com.cryart.design.ext.thenIf
@@ -266,7 +266,7 @@ private fun VideoColumn(
             .clickable { }
     ) {
 
-        RemoteImage(
+        CoilImage(
             data = video.thumbnail,
             contentDescription = video.title,
             modifier = modifier
@@ -311,7 +311,7 @@ private fun VideoRow(
             )
             .clickable { }
     ) {
-        RemoteImage(
+        CoilImage(
             data = video.thumbnail,
             contentDescription = video.title,
             modifier = modifier

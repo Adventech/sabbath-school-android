@@ -23,7 +23,6 @@
 package app.ss.media.playback.ui.common
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
@@ -32,6 +31,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import coil.size.Scale
+import coil.size.Size
 import coil.transform.RoundedCornersTransformation
 import com.cryart.design.theme.Spacing8
 import com.google.accompanist.placeholder.PlaceholderDefaults
@@ -39,33 +40,35 @@ import com.google.accompanist.placeholder.material.color
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun RemoteImage(
+fun CoilImage(
     data: String?,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
     cornerRadius: Float = 0f,
+    contentScale: ContentScale = ContentScale.Crop,
+    scale: Scale = Scale.FIT,
+    size: Size? = null
 ) {
-    Box(
-        modifier = modifier
+    Surface(
+        modifier = modifier,
+        color = PlaceholderDefaults.color(),
+        elevation = Spacing8,
+        shape = RoundedCornerShape(Spacing8),
     ) {
-        Surface(
+        Image(
+            painter = rememberImagePainter(
+                data = data,
+                builder = {
+                    crossfade(true)
+                    transformations(RoundedCornersTransformation(cornerRadius))
+                    scale(scale = scale)
+                    size?.let { size(it) }
+                }
+            ),
+            contentDescription = contentDescription,
+            contentScale = contentScale,
             modifier = Modifier
                 .fillMaxSize(),
-            color = PlaceholderDefaults.color(),
-            elevation = Spacing8,
-            shape = RoundedCornerShape(Spacing8),
-        ) {
-            Image(
-                painter = rememberImagePainter(
-                    data = data,
-                    builder = {
-                        crossfade(true)
-                        transformations(RoundedCornersTransformation(cornerRadius))
-                    }
-                ),
-                contentDescription = contentDescription,
-                contentScale = ContentScale.Crop
-            )
-        }
+        )
     }
 }

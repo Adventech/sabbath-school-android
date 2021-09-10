@@ -28,11 +28,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import app.ss.media.playback.model.AudioFile
-import app.ss.media.playback.ui.common.RemoteImage
-import coil.annotation.ExperimentalCoilApi
+import app.ss.media.playback.ui.common.CoilImage
+import coil.size.PixelSize
+import coil.size.Scale
 import com.cryart.design.theme.Dimens
 
 private interface Sizes {
@@ -57,7 +59,6 @@ private enum class CoverOrientation(val key: String) : Sizes {
     }
 }
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 internal fun CoverImage(
     modifier: Modifier = Modifier,
@@ -66,23 +67,30 @@ internal fun CoverImage(
 ) {
     val orientation = CoverOrientation.fromKey(audio.imageRatio) ?: CoverOrientation.PORTRAIT
     val collapsed = boxState == BoxState.Collapsed
-    val width by animateDpAsState(
-        targetValue = if (collapsed) orientation.width / 2 else orientation.width,
-    )
-    val height by animateDpAsState(
-        targetValue = if (collapsed) orientation.height / 2 else orientation.height,
-    )
+    val width = if (collapsed) orientation.width / 2 else orientation.width
+    val height = if (collapsed) orientation.height / 2 else orientation.height
+    val animatedWidth by animateDpAsState(width)
+    val animatedHeight by animateDpAsState(height)
+    val scale = if (orientation == CoverOrientation.PORTRAIT) Scale.FIT else Scale.FILL
+    val size = with(LocalDensity.current) {
+        PixelSize(
+            width.toPx().toInt(),
+            height.toPx().toInt()
+        )
+    }
 
-    RemoteImage(
+    CoilImage(
         data = audio.image,
         modifier = modifier
             .size(
-                width = width,
-                height = height
+                width = animatedWidth,
+                height = animatedHeight
             )
             .padding(Dimens.grid_1),
         contentDescription = audio.title,
         cornerRadius = CoverCornerRadius,
+        scale = scale,
+        size = size
     )
 }
 
