@@ -33,7 +33,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -65,11 +64,10 @@ import androidx.compose.ui.unit.sp
 import app.ss.media.playback.model.AudioFile
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.Body
-import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.SSTheme
+import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.Spacing4
 import com.cryart.design.theme.Spacing6
-import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.TitleSmall
 import com.cryart.design.theme.divider
 import kotlinx.coroutines.delay
@@ -89,12 +87,9 @@ internal fun PlaybackQueueList(
     val coroutine = rememberCoroutineScope()
 
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier
+            .padding(vertical = Spacing16),
         state = listState,
-        contentPadding = PaddingValues(
-            vertical = Spacing8,
-            horizontal = Dimens.grid_4
-        )
     ) {
         itemsIndexed(
             playbackQueue,

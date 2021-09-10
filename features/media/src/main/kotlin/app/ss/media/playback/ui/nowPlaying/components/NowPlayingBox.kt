@@ -24,33 +24,24 @@ package app.ss.media.playback.ui.nowPlaying.components
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.ConstraintSet
 import app.ss.media.playback.model.AudioFile
 import com.cryart.design.theme.Body
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.LatoFontFamily
-import com.cryart.design.theme.SSTheme
 import com.cryart.design.theme.Spacing24
-import com.cryart.design.theme.Spacing32
 import com.cryart.design.theme.Spacing8
 
 internal enum class BoxState { Collapsed, Expanded }
@@ -63,107 +54,7 @@ internal val sampleAudio = AudioFile(
 )
 
 @Composable
-internal fun NowPlayingBox(
-    modifier: Modifier = Modifier,
-    audio: AudioFile,
-    boxState: BoxState = BoxState.Expanded
-) {
-    BoxWithConstraints {
-        val marginTop by animateDpAsState(targetValue = if (boxState == BoxState.Expanded) Spacing32 else 0.dp)
-        val constraints = decoupledConstraints(boxState, marginTop = marginTop)
-
-        ConstraintLayout(
-            constraints,
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = Dimens.grid_4)
-        ) {
-            CoverImage(
-                audio = audio,
-                boxState = boxState,
-                modifier = Modifier.layoutId("image")
-            )
-
-            NowPlayingColumn(
-                audio = audio,
-                boxState = boxState,
-                modifier = Modifier.layoutId("text")
-            )
-        }
-    }
-}
-
-private fun decoupledConstraints(
-    boxState: BoxState,
-    marginTop: Dp = 0.dp
-): ConstraintSet {
-    return ConstraintSet {
-        val image = createRefFor("image")
-        val text = createRefFor("text")
-
-        constrain(image) {
-            when (boxState) {
-                BoxState.Collapsed -> {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                }
-                BoxState.Expanded -> {
-                    linkTo(start = parent.start, end = parent.end)
-                    top.linkTo(parent.top, margin = marginTop)
-                    bottom.linkTo(text.top)
-                }
-            }
-        }
-        constrain(text) {
-            when (boxState) {
-                BoxState.Collapsed -> {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(image.end)
-                }
-                BoxState.Expanded -> {
-                    linkTo(start = parent.start, end = parent.end)
-                    top.linkTo(image.bottom)
-                }
-            }
-        }
-    }
-}
-
-@Preview(
-    name = "Box ~ Expanded"
-)
-@Composable
-private fun NowPlayingBoxPreview() {
-    SSTheme {
-        Surface {
-            NowPlayingBox(
-                modifier = Modifier.padding(6.dp),
-                audio = sampleAudio
-            )
-        }
-    }
-}
-
-@Preview(
-    name = "Box ~ Collapsed"
-)
-@Composable
-private fun NowPlayingBoxPreviewCollapsed() {
-    SSTheme {
-        Surface {
-            NowPlayingBox(
-                modifier = Modifier.padding(6.dp),
-                audio = sampleAudio,
-                boxState = BoxState.Collapsed
-            )
-        }
-    }
-}
-
-@Composable
-private fun NowPlayingColumn(
+internal fun NowPlayingColumn(
     modifier: Modifier = Modifier,
     audio: AudioFile,
     boxState: BoxState

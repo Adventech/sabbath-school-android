@@ -120,7 +120,7 @@ private fun BoxScope.PlaybackProgressSlider(
     progressState: PlaybackProgressState,
     draggingProgress: Float?,
     setDraggingProgress: (Float?) -> Unit,
-    height: Dp = 60.dp,
+    height: Dp = 56.dp,
     playbackConnection: PlaybackConnection
 ) {
     val updatedProgressState by rememberUpdatedState(progressState)
@@ -162,7 +162,7 @@ private fun BoxScope.PlaybackProgressDuration(
             .fillMaxWidth()
             .align(Alignment.BottomCenter)
             .padding(top = Spacing8)
-            .padding(horizontal = Spacing8)
+            .padding(horizontal = 6.dp)
     ) {
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             val currentDuration = when (draggingProgress != null) {
