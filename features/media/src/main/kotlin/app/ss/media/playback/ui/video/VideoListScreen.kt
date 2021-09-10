@@ -81,7 +81,7 @@ import com.cryart.design.theme.TitleSmall
 import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.theme.navTitle
 import com.cryart.design.widgets.DragHandle
-import com.cryart.sabbathschool.core.extensions.list.subList
+
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -95,7 +95,7 @@ internal fun ViewListScreen(
 ) {
 
     val videoList by rememberFlowWithLifecycle(viewModel.videoListFlow)
-        .collectAsState(emptyList())
+        .collectAsState(VideoListData.Empty)
 
     val listState = rememberLazyListState()
 
@@ -135,27 +135,34 @@ internal fun ViewListScreen(
             Spacer(modifier = Modifier.height(Spacing16))
         }
 
-        if (videoList.size == 1 && videoList.first().clips.isNotEmpty()) {
-            item {
-                VideoColumn(
-                    video = videoList.first().clips.first(),
-                    featured = true,
-                    vertical = true
-                )
+        when (videoList) {
+            VideoListData.Empty -> {
+                // todo: show empty view?
             }
-
-            item {
-                Spacer(modifier = Modifier.height(Spacing32))
+            is VideoListData.Horizontal -> {
+                items((videoList as VideoListData.Horizontal).data) { videosInfo ->
+                    VideosInfoList(videosInfo = videosInfo)
+                }
             }
+            is VideoListData.Vertical -> {
+                val data = videoList as VideoListData.Vertical
+                item {
+                    VideoColumn(
+                        video = data.featured,
+                        featured = true,
+                        vertical = true
+                    )
+                }
 
-            items(videoList.first().clips.subList(1)) { video ->
-                VideoRow(video = video)
+                item {
+                    Spacer(modifier = Modifier.height(Spacing32))
+                }
 
-                Spacer(modifier = Modifier.height(Dimens.grid_4))
-            }
-        } else {
-            items(videoList) { videosInfo ->
-                VideosInfoList(videosInfo = videosInfo)
+                items(data.clips) { video ->
+                    VideoRow(video = video)
+
+                    Spacer(modifier = Modifier.height(Dimens.grid_4))
+                }
             }
         }
     }

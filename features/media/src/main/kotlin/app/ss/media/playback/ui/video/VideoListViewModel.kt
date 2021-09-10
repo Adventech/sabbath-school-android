@@ -30,6 +30,7 @@ import app.ss.media.repository.SSMediaRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
+import com.cryart.sabbathschool.core.extensions.list.subList
 import com.cryart.sabbathschool.core.response.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
@@ -45,7 +46,7 @@ class VideoListViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val videoListFlow: StateFlow<List<SSVideosInfo>> = flowOf(savedStateHandle.lessonIndex)
+    val videoListFlow: StateFlow<VideoListData> = flowOf(savedStateHandle.lessonIndex)
         .map { index ->
             index?.let {
                 withContext(schedulerProvider.default) {
@@ -53,7 +54,18 @@ class VideoListViewModel @Inject constructor(
                 }
             } ?: Resource.success(emptyList())
         }.map { resource ->
-            resource.data ?: emptyList()
+            (resource.data ?: emptyList()).toData()
         }
-        .stateIn(viewModelScope, emptyList())
+        .stateIn(viewModelScope, VideoListData.Empty)
+
+    private fun List<SSVideosInfo>.toData(): VideoListData {
+        return if (size == 1 && first().clips.isNotEmpty()) {
+            return VideoListData.Vertical(
+                featured = first().clips.first(),
+                clips = first().clips.subList(1)
+            )
+        } else {
+            VideoListData.Horizontal(this)
+        }
+    }
 }
