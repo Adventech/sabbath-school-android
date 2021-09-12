@@ -22,11 +22,14 @@
 
 package app.ss.media.model
 
+import android.os.Parcelable
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
+import kotlinx.parcelize.Parcelize
 
 @Keep
 @JsonClass(generateAdapter = true)
+@Parcelize
 data class SSVideo(
     val artist: String,
     val id: String,
@@ -35,4 +38,4 @@ data class SSVideo(
     val targetIndex: String,
     val thumbnail: String,
     val title: String
-)
+) : Parcelable

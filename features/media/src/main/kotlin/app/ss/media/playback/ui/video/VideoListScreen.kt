@@ -54,6 +54,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
@@ -65,6 +66,7 @@ import app.ss.media.model.SSVideo
 import app.ss.media.model.SSVideosInfo
 import app.ss.media.playback.ui.common.CoilImage
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
+import app.ss.media.playback.ui.video.player.VideoPlayerActivity
 import com.cryart.design.ext.ListSnappingConnection
 import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.BaseBlue
@@ -98,6 +100,15 @@ internal fun ViewListScreen(
         .collectAsState(VideoListData.Empty)
 
     val listState = rememberLazyListState()
+
+    val context = LocalContext.current
+    val onVideoClick: (SSVideo) -> Unit = { video ->
+        val intent = VideoPlayerActivity.launchIntent(
+            context,
+            video
+        )
+        context.startActivity(intent)
+    }
 
     LazyColumn(
         contentPadding = PaddingValues(
@@ -144,7 +155,8 @@ internal fun ViewListScreen(
                 items(data.data) { videosInfo ->
                     VideosInfoList(
                         videosInfo = videosInfo,
-                        target = data.target
+                        target = data.target,
+                        onVideoClick = onVideoClick
                     )
                 }
             }
@@ -154,7 +166,8 @@ internal fun ViewListScreen(
                     VideoColumn(
                         video = data.featured,
                         featured = true,
-                        vertical = true
+                        vertical = true,
+                        onVideoClick = onVideoClick
                     )
                 }
 
@@ -163,7 +176,10 @@ internal fun ViewListScreen(
                 }
 
                 items(data.clips) { video ->
-                    VideoRow(video = video)
+                    VideoRow(
+                        video = video,
+                        onVideoClick = onVideoClick
+                    )
 
                     Spacer(modifier = Modifier.height(Dimens.grid_4))
                 }
@@ -183,7 +199,8 @@ internal fun ViewListScreen(
 private fun VideosInfoList(
     videosInfo: SSVideosInfo,
     target: String?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onVideoClick: (SSVideo) -> Unit
 ) {
     val listState = rememberLazyListState()
     val widthState = remember { mutableStateOf(0) }
@@ -221,7 +238,8 @@ private fun VideosInfoList(
                     video = video,
                     modifier = Modifier.onGloballyPositioned { coordinates ->
                         widthState.value = coordinates.size.width
-                    }
+                    },
+                    onVideoClick = onVideoClick
                 )
             }
         }
@@ -241,7 +259,8 @@ private fun VideoColumn(
     video: SSVideo,
     modifier: Modifier = Modifier,
     featured: Boolean = false,
-    vertical: Boolean = false
+    vertical: Boolean = false,
+    onVideoClick: (SSVideo) -> Unit,
 ) {
     val defSize = getThumbnailSize(vertical = vertical)
     val size = if (featured) {
@@ -263,7 +282,9 @@ private fun VideoColumn(
                     horizontal = Spacing24
                 )
             }
-            .clickable { }
+            .clickable {
+                onVideoClick(video)
+            }
     ) {
 
         CoilImage(
@@ -299,6 +320,7 @@ private fun VideoColumn(
 private fun VideoRow(
     video: SSVideo,
     modifier: Modifier = Modifier,
+    onVideoClick: (SSVideo) -> Unit
 ) {
     val size = getThumbnailSize(vertical = true)
 
@@ -309,7 +331,9 @@ private fun VideoRow(
             .padding(
                 horizontal = Spacing24,
             )
-            .clickable { }
+            .clickable {
+                onVideoClick(video)
+            }
     ) {
         CoilImage(
             data = video.thumbnail,

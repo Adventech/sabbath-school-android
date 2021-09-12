@@ -106,8 +106,8 @@ object Dependencies {
 
     object ExoPlayer {
         const val core = "com.google.android.exoplayer:exoplayer-core:${Versions.exoplayer}"
-        const val ui = "com.google.android.exoplayer:exoplayer-ui:${Versions.exoplayer}"
         const val okhttp = "com.google.android.exoplayer:extension-okhttp:${Versions.exoplayer}"
         const val mediaSession = "com.google.android.exoplayer:extension-mediasession:${Versions.exoplayer}"
+        const val ui = "com.google.android.exoplayer:exoplayer-ui:${Versions.exoplayer}"
     }
 }

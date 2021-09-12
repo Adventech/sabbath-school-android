@@ -56,7 +56,7 @@ object MediaModule {
 
     private fun okHttpCache(context: Context): Cache {
         val app = context.applicationContext as Application
-        return Cache(app.cacheDir, (10 * 1024 * 1024))
+        return Cache(app.cacheDir, (10 * 1024 * 1024).toLong())
     }
 
     @Provides

@@ -28,6 +28,13 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application>
+
+        <activity
+            android:name=".playback.ui.video.player.VideoPlayerActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:label="@string/blank"
+            android:theme="@style/Theme.SS.Video" />
+
         <service
             android:name=".playback.service.MusicService"
             android:enabled="true"

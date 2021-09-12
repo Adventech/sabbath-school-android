@@ -38,8 +38,8 @@ const val QUEUE_CURRENT_INDEX = "queue_current_index"
 const val QUEUE_HAS_PREVIOUS = "queue_has_previous"
 const val QUEUE_HAS_NEXT = "queue_has_next"
 
-private const val DEFAULT_FORWARD = 30 * 1000
-private const val DEFAULT_REWIND = 15 * 1000
+internal const val DEFAULT_FORWARD = 30 * 1000
+internal const val DEFAULT_REWIND = 15 * 1000
 private const val COVER_IMAGE_SIZE = 300 // px
 
 interface SSAudioPlayer {
