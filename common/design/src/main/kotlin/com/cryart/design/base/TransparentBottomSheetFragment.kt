@@ -22,58 +22,19 @@
 
 package com.cryart.design.base
 
-import android.app.Dialog
-import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat.Type.systemBars
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updateMargins
 import com.cryart.design.R
-import com.cryart.design.ext.doOnApplyWindowInsets
 import com.cryart.design.theme.SSTheme
 import com.cryart.design.theme.Spacing16
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 open class TransparentBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun getTheme() = R.style.TransparentBottomSheetDialogTheme
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        if (resources.getBoolean(R.bool.is_large_screen).not()) {
-            view.doOnApplyWindowInsets { insetView, windowInsets, _, initialMargins ->
-                insetView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                    updateMargins(
-                        top = initialMargins.top + windowInsets.getInsets(systemBars()).top,
-                        bottom = initialMargins.bottom + windowInsets.getInsets(systemBars()).bottom
-                    )
-                }
-            }
-        }
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        object : BottomSheetDialog(requireContext(), theme) {
-            override fun onAttachedToWindow() {
-                super.onAttachedToWindow()
-                if (resources.getBoolean(R.bool.is_large_screen).not()) {
-                    window?.let {
-                        WindowCompat.setDecorFitsSystemWindows(it, false)
-                    }
-                    findViewById<View>(com.google.android.material.R.id.container)?.fitsSystemWindows = false
-                    findViewById<View>(com.google.android.material.R.id.coordinator)?.fitsSystemWindows = false
-                }
-            }
-        }
 }
 
 @Composable
