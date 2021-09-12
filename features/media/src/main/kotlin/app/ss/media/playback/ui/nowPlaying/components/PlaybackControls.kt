@@ -50,7 +50,7 @@ import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.extensions.playPause
 import com.cryart.design.theme.Dimens
 
-private object PlayBackControlsDefaults {
+internal object PlayBackControlsDefaults {
     val nonPlayButtonSize = 38.dp
     val playButtonSize = 46.dp
     val playButtonHorizontalPadding = 46.dp
