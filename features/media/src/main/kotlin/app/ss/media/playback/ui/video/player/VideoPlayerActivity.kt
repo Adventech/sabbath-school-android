@@ -35,6 +35,7 @@ import app.ss.media.R
 import app.ss.media.model.SSVideo
 import app.ss.media.playback.players.SSVideoPlayer
 import app.ss.media.playback.players.SSVideoPlayerImpl
+import app.ss.media.playback.players.hasEnded
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.google.android.exoplayer2.ui.PlayerView
@@ -86,6 +87,8 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
                     },
                     HIDE_DELAY
                 )
+            } else if (state.hasEnded) {
+                showSystemUI()
             }
         }
     }
@@ -136,7 +139,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     }
 
     companion object {
-        private const val HIDE_DELAY = 2500L
+        private const val HIDE_DELAY = 3500L
         private const val ARG_VIDEO = "arg:video"
 
         fun launchIntent(
