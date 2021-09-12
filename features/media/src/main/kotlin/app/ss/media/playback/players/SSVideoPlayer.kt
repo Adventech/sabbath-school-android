@@ -40,6 +40,8 @@ data class VideoPlaybackState(
     val isPlaying: Boolean = false
 )
 
+val VideoPlaybackState.isBuffering: Boolean get() = state == Player.STATE_BUFFERING
+
 interface SSVideoPlayer {
     val playbackState: StateFlow<VideoPlaybackState>
     fun playVideo(video: SSVideo, playerView: PlayerView)
@@ -127,7 +129,9 @@ internal class SSVideoPlayerImpl(
 
     override fun onPlaybackStateChanged(state: Int) {
         super.onPlaybackStateChanged(state)
-        playbackState.value = VideoPlaybackState(state)
+        playbackState.value = playbackState.value.copy(
+            state = state
+        )
     }
 
     override fun onIsPlayingChanged(isPlaying: Boolean) {

@@ -22,6 +22,7 @@
 
 package app.ss.media.playback.ui.video.player
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -30,9 +31,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -40,17 +44,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import app.ss.media.R
 import app.ss.media.playback.players.SSVideoPlayer
 import app.ss.media.playback.players.VideoPlaybackState
+import app.ss.media.playback.players.isBuffering
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
+import app.ss.media.playback.ui.nowPlaying.components.PlayBackControlsDefaults
 import com.cryart.design.theme.SSTheme
 
 @Composable
 fun VideoPlayerControls(
-    videoPlayer: SSVideoPlayer
+    videoPlayer: SSVideoPlayer,
+    onClose: () -> Unit = {},
 ) {
     SSTheme {
         val playbackState by rememberFlowWithLifecycle(videoPlayer.playbackState)
@@ -59,9 +64,17 @@ fun VideoPlayerControls(
         Surface(color = Color.Black.copy(0.6f)) {
             Box(modifier = Modifier.fillMaxSize()) {
 
+                TopBar(onClose = onClose)
+
                 Controls(
                     onPlayPause = {
                         videoPlayer.playPause()
+                    },
+                    onRewind = {
+                        videoPlayer.rewind()
+                    },
+                    onForward = {
+                        videoPlayer.fastForward()
                     },
                     playbackState = playbackState
                 )
@@ -71,10 +84,33 @@ fun VideoPlayerControls(
 }
 
 @Composable
+private fun BoxScope.TopBar(
+    onClose: () -> Unit,
+    contentColor: Color = Color.White
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.align(Alignment.TopCenter)
+    ) {
+        IconButton(onClick = onClose) {
+            Icon(
+                Icons.Rounded.Close,
+                contentDescription = "Close",
+                tint = contentColor,
+            )
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
 private fun BoxScope.Controls(
     onPlayPause: () -> Unit,
+    onRewind: () -> Unit,
+    onForward: () -> Unit,
     playbackState: VideoPlaybackState,
-    size: Dp = 30.dp,
     contentColor: Color = Color.White
 ) {
     Row(
@@ -83,8 +119,8 @@ private fun BoxScope.Controls(
     ) {
 
         IconButton(
-            onClick = { },
-            modifier = Modifier.size(size)
+            onClick = onRewind,
+            modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
         ) {
             Icon(
                 painterResource(id = R.drawable.ic_audio_icon_backward),
@@ -94,29 +130,39 @@ private fun BoxScope.Controls(
             )
         }
 
-        Spacer(modifier = Modifier.width(46.dp))
+        Spacer(modifier = Modifier.width(PlayBackControlsDefaults.playButtonHorizontalPadding))
 
-        IconButton(
-            onClick = onPlayPause,
-            modifier = Modifier.size(size),
+        Box(
+            modifier = Modifier.size(PlayBackControlsDefaults.playButtonSize),
+            contentAlignment = Alignment.Center
         ) {
-            val painter = when {
-                playbackState.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
-                else -> painterResource(id = R.drawable.ic_audio_icon_play)
+
+            if (playbackState.isBuffering) {
+                CircularProgressIndicator()
+            } else {
+                IconButton(
+                    onClick = onPlayPause,
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    val painter = when {
+                        playbackState.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
+                        else -> painterResource(id = R.drawable.ic_audio_icon_play)
+                    }
+                    Icon(
+                        painter = painter,
+                        modifier = Modifier.fillMaxSize(),
+                        contentDescription = "Play/Pause",
+                        tint = contentColor
+                    )
+                }
             }
-            Icon(
-                painter = painter,
-                modifier = Modifier.fillMaxSize(),
-                contentDescription = "Play/Pause",
-                tint = contentColor
-            )
         }
 
-        Spacer(modifier = Modifier.width(46.dp))
+        Spacer(modifier = Modifier.width(PlayBackControlsDefaults.playButtonHorizontalPadding))
 
         IconButton(
-            onClick = { },
-            modifier = Modifier.size(size)
+            onClick = onForward,
+            modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
         ) {
             Icon(
                 painterResource(id = R.drawable.ic_audio_icon_forward),

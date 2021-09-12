@@ -25,10 +25,8 @@ package app.ss.media.playback.ui.video.player
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
@@ -43,7 +41,6 @@ import com.google.android.exoplayer2.ui.PlayerView
 
 class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
 
-    private lateinit var toolbar: Toolbar
     private lateinit var exoPlayerView: PlayerView
     private lateinit var composeView: ComposeView
 
@@ -53,32 +50,34 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        toolbar = findViewById(R.id.toolbar)
         exoPlayerView = findViewById(R.id.playerView)
         composeView = findViewById(R.id.composeView)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         exoPlayerView.overlayFrameLayout?.setOnClickListener {
-            showSystemUI(findViewById(R.id.root))
+            showSystemUI()
         }
 
         composeView.setContent {
             VideoPlayerControls(
-                videoPlayer = videoPlayer
+                videoPlayer = videoPlayer,
+                onClose = {
+                    showSystemUI()
+                    finish()
+                }
             )
         }
 
-        val video = intent.getParcelableExtra<SSVideo>(ARG_VIDEO)!!
+        val video = intent.getParcelableExtra<SSVideo>(ARG_VIDEO) ?: run {
+            finish()
+            return
+        }
         videoPlayer.playVideo(video, exoPlayerView)
 
         videoPlayer.playbackState.collectIn(this) { state ->
             if (state.isPlaying) {
                 exoPlayerView.postDelayed(
                     {
-                        hideSystemUI(findViewById(R.id.root))
+                        hideSystemUI()
                     },
                     HIDE_DELAY
                 )
@@ -86,20 +85,10 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun hideSystemUI(view: View) {
-        toolbar.fadeTo(false)
+    private fun hideSystemUI() {
         composeView.fadeTo(false)
 
+        val view: View = findViewById(R.id.root)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowInsetsControllerCompat(window, view).let { controller ->
             controller.hide(systemBars())
@@ -107,16 +96,16 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         }
     }
 
-    private fun showSystemUI(view: View) {
+    private fun showSystemUI() {
+        val view: View = findViewById(R.id.root)
         WindowCompat.setDecorFitsSystemWindows(window, true)
         WindowInsetsControllerCompat(window, view).show(systemBars())
-        toolbar.fadeTo(true)
         composeView.fadeTo(true)
 
         view.postDelayed(
             {
                 if (videoPlayer.playbackState.value.isPlaying) {
-                    hideSystemUI(view)
+                    hideSystemUI()
                 }
             },
             HIDE_DELAY
