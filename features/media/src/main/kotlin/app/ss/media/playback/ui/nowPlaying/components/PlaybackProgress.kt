@@ -33,8 +33,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.Slider
-import androidx.compose.material.SliderDefaults
+import com.cryart.design.widgets.material.SliderDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -62,6 +61,7 @@ import com.cryart.design.theme.OffWhite
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.TitleSmall
 import com.cryart.design.theme.darker
+import com.cryart.design.widgets.material.Slider
 import kotlin.math.roundToLong
 
 private object ProgressColors {
@@ -137,6 +137,7 @@ private fun BoxScope.PlaybackProgressSlider(
     draggingProgress: Float?,
     setDraggingProgress: (Float?) -> Unit,
     height: Dp = 56.dp,
+    thumbRadius: Dp = 4.dp,
     onSeekTo: (Long) -> Unit
 ) {
     val updatedProgressState by rememberUpdatedState(progressState)
@@ -154,6 +155,7 @@ private fun BoxScope.PlaybackProgressSlider(
             if (!isBuffering) setDraggingProgress(it)
         },
         colors = sliderColors,
+        thumbRadius = thumbRadius,
         modifier = Modifier
             .height(height)
             .align(Alignment.TopCenter),

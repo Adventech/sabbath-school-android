@@ -57,6 +57,7 @@ dependencies {
     implementation(AndroidX.CORE)
 
     implementation(Compose.ui)
+    implementation(Compose.uiUtil)
     implementation(Compose.material)
     implementation(Compose.tooling)
 }
