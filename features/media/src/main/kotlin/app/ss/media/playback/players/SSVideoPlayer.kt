@@ -50,6 +50,7 @@ data class VideoPlaybackState(
 )
 
 val VideoPlaybackState.isBuffering: Boolean get() = state == Player.STATE_BUFFERING
+val VideoPlaybackState.hasEnded: Boolean get() = state == Player.STATE_ENDED
 
 interface SSVideoPlayer {
     val playbackState: StateFlow<VideoPlaybackState>
@@ -95,6 +96,9 @@ internal class SSVideoPlayerImpl(
         if (exoPlayer.isPlaying) {
             exoPlayer.pause()
         } else {
+            if (playbackState.value.hasEnded) {
+                exoPlayer.seekTo(0)
+            }
             exoPlayer.play()
         }
     }
