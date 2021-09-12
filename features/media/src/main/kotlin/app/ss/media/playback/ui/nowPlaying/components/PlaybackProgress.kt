@@ -93,19 +93,35 @@ internal fun PlaybackProgress(
     val progressState by rememberFlowWithLifecycle(playbackConnection.playbackProgress)
         .collectAsState(PlaybackProgressState())
 
+    PlaybackProgressDuration(
+        isBuffering = playbackState.isBuffering,
+        progressState,
+        onSeekTo = { position ->
+            playbackConnection.transportControls?.seekTo(position)
+        }
+    )
+}
+
+@Composable
+internal fun PlaybackProgressDuration(
+    isBuffering: Boolean,
+    progressState: PlaybackProgressState,
+    onSeekTo: (Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val (draggingProgress, setDraggingProgress) = remember { mutableStateOf<Float?>(null) }
 
     Box(
-        modifier = Modifier.padding(
+        modifier = modifier.padding(
             horizontal = Dimens.grid_4,
         )
     ) {
         PlaybackProgressSlider(
-            playbackState,
+            isBuffering = isBuffering,
             progressState,
             draggingProgress,
             setDraggingProgress,
-            playbackConnection = playbackConnection
+            onSeekTo = onSeekTo
         )
         PlaybackProgressDuration(
             progressState,
@@ -116,12 +132,12 @@ internal fun PlaybackProgress(
 
 @Composable
 private fun BoxScope.PlaybackProgressSlider(
-    playbackState: PlaybackStateCompat,
+    isBuffering: Boolean,
     progressState: PlaybackProgressState,
     draggingProgress: Float?,
     setDraggingProgress: (Float?) -> Unit,
     height: Dp = 56.dp,
-    playbackConnection: PlaybackConnection
+    onSeekTo: (Long) -> Unit
 ) {
     val updatedProgressState by rememberUpdatedState(progressState)
     val updatedDraggingProgress by rememberUpdatedState(draggingProgress)
@@ -131,7 +147,6 @@ private fun BoxScope.PlaybackProgressSlider(
         activeTrackColor = ProgressColors.activeTrackColor(),
         inactiveTrackColor = ProgressColors.inactiveTrackColor()
     )
-    val isBuffering = playbackState.isBuffering
 
     Slider(
         value = draggingProgress ?: progressState.progress,
@@ -143,9 +158,8 @@ private fun BoxScope.PlaybackProgressSlider(
             .height(height)
             .align(Alignment.TopCenter),
         onValueChangeFinished = {
-            playbackConnection.transportControls?.seekTo(
-                (updatedProgressState.total.toFloat() * (updatedDraggingProgress ?: 0f)).roundToLong()
-            )
+            val position = (updatedProgressState.total.toFloat() * (updatedDraggingProgress ?: 0f)).roundToLong()
+            onSeekTo(position)
             setDraggingProgress(null)
         }
     )
