@@ -48,20 +48,25 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         SSVideoPlayerImpl(this)
     }
 
+    private var systemUiVisible: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         exoPlayerView = findViewById(R.id.playerView)
         composeView = findViewById(R.id.composeView)
 
         exoPlayerView.overlayFrameLayout?.setOnClickListener {
-            showSystemUI()
+            if (systemUiVisible) {
+                hideSystemUI()
+            } else {
+                showSystemUI()
+            }
         }
 
         composeView.setContent {
             VideoPlayerControls(
                 videoPlayer = videoPlayer,
                 onClose = {
-                    showSystemUI()
                     finish()
                 }
             )
@@ -94,6 +99,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             controller.hide(systemBars())
             controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
+        systemUiVisible = false
     }
 
     private fun showSystemUI() {
@@ -110,6 +116,8 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             },
             HIDE_DELAY
         )
+
+        systemUiVisible = true
     }
 
     override fun onStop() {

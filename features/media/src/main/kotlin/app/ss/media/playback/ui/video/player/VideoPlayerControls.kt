@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.CircularProgressIndicator
@@ -45,12 +46,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import app.ss.media.R
+import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.players.SSVideoPlayer
 import app.ss.media.playback.players.VideoPlaybackState
 import app.ss.media.playback.players.isBuffering
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControlsDefaults
+import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
 import com.cryart.design.theme.SSTheme
+import com.cryart.design.theme.Spacing32
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun VideoPlayerControls(
@@ -77,6 +82,14 @@ fun VideoPlayerControls(
                         videoPlayer.fastForward()
                     },
                     playbackState = playbackState
+                )
+
+                PlayBackProgress(
+                    playbackProgressFlow = videoPlayer.playbackProgress,
+                    playbackState = playbackState,
+                    onSeekTo = { position ->
+                        videoPlayer.seekTo(position)
+                    }
                 )
             }
         }
@@ -172,4 +185,23 @@ private fun BoxScope.Controls(
             )
         }
     }
+}
+
+@Composable
+private fun BoxScope.PlayBackProgress(
+    playbackProgressFlow: StateFlow<PlaybackProgressState>,
+    playbackState: VideoPlaybackState,
+    onSeekTo: (Long) -> Unit
+) {
+    val progressState by rememberFlowWithLifecycle(playbackProgressFlow)
+        .collectAsState(PlaybackProgressState())
+
+    PlaybackProgressDuration(
+        isBuffering = playbackState.isBuffering,
+        progressState = progressState,
+        onSeekTo = onSeekTo,
+        modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .padding(bottom = Spacing32)
+    )
 }

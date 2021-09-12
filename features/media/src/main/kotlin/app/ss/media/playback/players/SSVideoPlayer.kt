@@ -24,15 +24,24 @@ package app.ss.media.playback.players
 
 import android.content.Context
 import android.net.Uri
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import app.ss.media.model.SSVideo
+import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
+import app.ss.media.playback.model.PlaybackProgressState
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.flowInterval
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.ui.PlayerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 data class VideoPlaybackState(
@@ -44,6 +53,7 @@ val VideoPlaybackState.isBuffering: Boolean get() = state == Player.STATE_BUFFER
 
 interface SSVideoPlayer {
     val playbackState: StateFlow<VideoPlaybackState>
+    val playbackProgress: StateFlow<PlaybackProgressState>
     fun playVideo(video: SSVideo, playerView: PlayerView)
     fun playPause()
     fun seekTo(position: Long)
@@ -55,8 +65,9 @@ interface SSVideoPlayer {
 }
 
 internal class SSVideoPlayerImpl(
-    private val context: Context
-) : SSVideoPlayer, Player.Listener {
+    private val context: Context,
+    coroutineScope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope,
+) : SSVideoPlayer, Player.Listener, CoroutineScope by coroutineScope {
 
     private val exoPlayer: SimpleExoPlayer by lazy {
         SimpleExoPlayer.Builder(context).build().also { player ->
@@ -67,7 +78,12 @@ internal class SSVideoPlayerImpl(
 
     override val playbackState = MutableStateFlow(VideoPlaybackState())
 
+    private var playbackProgressInterval: Job = Job()
+    override val playbackProgress = MutableStateFlow(PlaybackProgressState())
+
     override fun playVideo(video: SSVideo, playerView: PlayerView) {
+        startPlaybackProgress()
+
         val mediaSource = DefaultMediaSourceFactory(context)
             .createMediaSource(MediaItem.fromUri(Uri.parse(video.src)))
         playerView.player = exoPlayer
@@ -139,5 +155,33 @@ internal class SSVideoPlayerImpl(
         playbackState.value = playbackState.value.copy(
             isPlaying = isPlaying
         )
+    }
+
+    private fun startPlaybackProgress() = launch {
+        playbackState.collect { state ->
+            playbackProgressInterval.cancel()
+
+            val duration = exoPlayer.duration
+            val position = exoPlayer.currentPosition
+
+            if (state.state == Player.STATE_IDLE || duration < 1)
+                return@collect
+
+            val initial = PlaybackProgressState(duration, position, buffered = exoPlayer.bufferedPosition)
+            playbackProgress.value = initial
+
+            if (state.isPlaying && !state.isBuffering) {
+                starPlaybackProgressInterval(initial)
+            }
+        }
+    }
+
+    private fun starPlaybackProgressInterval(initial: PlaybackProgressState) {
+        playbackProgressInterval = launch {
+            flowInterval(PLAYBACK_PROGRESS_INTERVAL).collect { ticks ->
+                val elapsed = PLAYBACK_PROGRESS_INTERVAL * (ticks + 1)
+                playbackProgress.value = initial.copy(elapsed = elapsed, buffered = exoPlayer.bufferedPosition)
+            }
+        }
     }
 }
