@@ -222,7 +222,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun pictureInPictureParams(isPlaying: Boolean): PictureInPictureParams {
         val visibleRect = Rect()
-        exoPlayerView.getGlobalVisibleRect(visibleRect)
+        findViewById<View>(R.id.root).getGlobalVisibleRect(visibleRect)
 
         return PictureInPictureParams.Builder()
             .setActions(

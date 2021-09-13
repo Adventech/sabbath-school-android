@@ -54,7 +54,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
@@ -66,7 +65,6 @@ import app.ss.media.model.SSVideo
 import app.ss.media.model.SSVideosInfo
 import app.ss.media.playback.ui.common.CoilImage
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
-import app.ss.media.playback.ui.video.player.VideoPlayerActivity
 import com.cryart.design.ext.ListSnappingConnection
 import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.BaseBlue
@@ -83,7 +81,6 @@ import com.cryart.design.theme.TitleSmall
 import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.theme.navTitle
 import com.cryart.design.widgets.DragHandle
-
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -93,22 +90,14 @@ import kotlinx.coroutines.flow.map
 @Composable
 internal fun ViewListScreen(
     viewModel: VideoListViewModel = viewModel(),
-    isAtTop: (Boolean) -> Unit = {}
+    isAtTop: (Boolean) -> Unit = {},
+    onVideoClick: (SSVideo) -> Unit
 ) {
 
     val videoList by rememberFlowWithLifecycle(viewModel.videoListFlow)
         .collectAsState(VideoListData.Empty)
 
     val listState = rememberLazyListState()
-
-    val context = LocalContext.current
-    val onVideoClick: (SSVideo) -> Unit = { video ->
-        val intent = VideoPlayerActivity.launchIntent(
-            context,
-            video
-        )
-        context.startActivity(intent)
-    }
 
     LazyColumn(
         contentPadding = PaddingValues(
