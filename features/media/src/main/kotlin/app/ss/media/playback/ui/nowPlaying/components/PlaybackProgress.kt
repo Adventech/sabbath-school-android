@@ -55,8 +55,8 @@ import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.BaseGrey3
-import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.OffWhite
+import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.Spacing4
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.TitleSmall
@@ -117,7 +117,7 @@ internal fun PlaybackProgressDuration(
 
     Box(
         modifier = modifier.padding(
-            horizontal = Dimens.grid_4,
+            horizontal = Spacing16,
         )
     ) {
         PlaybackProgressSlider(

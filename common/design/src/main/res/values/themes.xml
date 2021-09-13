@@ -148,6 +148,6 @@
     <style name="TransparentBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@null</item>
         <item name="behavior_skipCollapsed">true</item>
-        <item name="behavior_peekHeight">1000dp</item>
+        <item name="behavior_peekHeight">@dimen/ss_behaviour_peek_height</item>
     </style>
 </resources>

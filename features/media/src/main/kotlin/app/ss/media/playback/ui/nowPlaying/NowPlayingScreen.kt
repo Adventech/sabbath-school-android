@@ -94,6 +94,7 @@ import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.Spacing32
+import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.TitleMedium
 import com.cryart.design.widgets.DragHandle
 import kotlinx.coroutines.flow.StateFlow
@@ -328,7 +329,7 @@ private fun BottomControls(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(end = Dimens.grid_2),
+            .padding(end = Spacing8),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
