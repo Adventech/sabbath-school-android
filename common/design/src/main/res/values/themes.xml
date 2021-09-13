@@ -128,6 +128,21 @@
 
     <style name="TransparentBottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/TransparentBottomSheetStyle</item>
+        <item name="colorPrimary">@color/ss_theme_primary</item>
+        <item name="colorPrimaryVariant">@color/ss_theme_primary_variant</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/ss_theme_secondary</item>
+        <item name="colorSecondaryVariant">@color/ss_theme_secondary_variant</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSurface">@color/ss_theme_color_background</item>
+        <item name="colorOnBackground">@color/ss_theme_color_on_background</item>
+        <item name="colorControlHighlight">@color/on_surface_32</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">?attr/isLightTheme</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.SS.Headline6</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.SS.LargeComponent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">#80000000</item>
     </style>
 
     <style name="TransparentBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
