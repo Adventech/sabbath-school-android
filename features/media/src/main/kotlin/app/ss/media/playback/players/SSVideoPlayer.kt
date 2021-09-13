@@ -23,11 +23,14 @@
 package app.ss.media.playback.players
 
 import android.content.Context
+import android.media.AudioManager
 import android.net.Uri
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import app.ss.media.model.SSVideo
+import app.ss.media.playback.AudioFocusHelper
+import app.ss.media.playback.AudioFocusHelperImpl
 import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
 import app.ss.media.playback.model.PlaybackProgressState
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.flowInterval
@@ -69,12 +72,13 @@ interface SSVideoPlayer {
 
 internal class SSVideoPlayerImpl(
     private val context: Context,
+    private val audioFocusHelper: AudioFocusHelper = AudioFocusHelperImpl(context),
     coroutineScope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope,
 ) : SSVideoPlayer, Player.Listener, CoroutineScope by coroutineScope {
 
     private val exoPlayer: SimpleExoPlayer by lazy {
         SimpleExoPlayer.Builder(context).build().also { player ->
-            player.playWhenReady = true
+            player.playWhenReady = false
             player.addListener(this)
         }
     }
@@ -90,6 +94,31 @@ internal class SSVideoPlayerImpl(
 
         val connector = MediaSessionConnector(mediaSession)
         connector.setPlayer(exoPlayer)
+
+        audioFocusHelper.onAudioFocusGain {
+            if (isAudioFocusGranted && !exoPlayer.isPlaying) {
+                exoPlayer.play()
+            } else {
+                audioFocusHelper.setVolume(AudioManager.ADJUST_RAISE)
+            }
+            isAudioFocusGranted = false
+        }
+        audioFocusHelper.onAudioFocusLoss {
+            abandonPlayback()
+            isAudioFocusGranted = false
+            exoPlayer.pause()
+        }
+
+        audioFocusHelper.onAudioFocusLossTransient {
+            if (exoPlayer.isPlaying) {
+                isAudioFocusGranted = true
+                exoPlayer.pause()
+            }
+        }
+
+        audioFocusHelper.onAudioFocusLossTransientCanDuck {
+            audioFocusHelper.setVolume(AudioManager.ADJUST_LOWER)
+        }
 
         startPlaybackProgress()
     }
@@ -113,7 +142,7 @@ internal class SSVideoPlayerImpl(
             if (playbackState.value.hasEnded) {
                 exoPlayer.seekTo(0)
             }
-            exoPlayer.play()
+            playOnFocus()
         }
     }
 
@@ -148,6 +177,12 @@ internal class SSVideoPlayerImpl(
     override fun onResume() {
         val state = playbackState.value
         if (exoPlayer.isPlaying.not() && state.state == Player.STATE_READY) {
+            playOnFocus()
+        }
+    }
+
+    private fun playOnFocus() {
+        if (audioFocusHelper.requestPlayback()) {
             exoPlayer.play()
         }
     }
@@ -166,6 +201,10 @@ internal class SSVideoPlayerImpl(
         playbackState.value = playbackState.value.copy(
             state = state
         )
+
+        if (state == Player.STATE_READY) {
+            playOnFocus()
+        }
     }
 
     override fun onIsPlayingChanged(isPlaying: Boolean) {
