@@ -64,7 +64,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         SSVideoPlayerImpl(this)
     }
 
-    private var systemUiVisible: Boolean = false
+    private var systemUiVisible: Boolean = true
     private val pictureInPictureEnabled: Boolean
         get() {
             return if (supportsPiP) {
@@ -121,7 +121,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         videoPlayer.playVideo(video, exoPlayerView)
 
         videoPlayer.playbackState.collectIn(this) { state ->
-            if (state.isPlaying) {
+            if (state.isPlaying && systemUiVisible) {
                 exoPlayerView.postDelayed(
                     {
                         hideSystemUI()
