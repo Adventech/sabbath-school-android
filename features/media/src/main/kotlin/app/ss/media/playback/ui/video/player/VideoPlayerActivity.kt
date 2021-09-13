@@ -181,6 +181,13 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        if (videoPlayer.playbackState.value.isPlaying) {
+            videoPlayer.playPause()
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         videoPlayer.onResume()

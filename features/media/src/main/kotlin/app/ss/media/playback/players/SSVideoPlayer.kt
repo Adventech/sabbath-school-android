@@ -24,6 +24,7 @@ package app.ss.media.playback.players
 
 import android.content.Context
 import android.net.Uri
+import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import app.ss.media.model.SSVideo
@@ -34,6 +35,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.ui.PlayerView
 import kotlinx.coroutines.CoroutineScope
@@ -81,6 +83,14 @@ internal class SSVideoPlayerImpl(
 
     private var playbackProgressInterval: Job = Job()
     override val playbackProgress = MutableStateFlow(PlaybackProgressState())
+
+    init {
+        val mediaSession = MediaSessionCompat(context, "ss-video-player")
+        mediaSession.isActive = true
+
+        val connector = MediaSessionConnector(mediaSession)
+        connector.setPlayer(exoPlayer)
+    }
 
     override fun playVideo(video: SSVideo, playerView: PlayerView) {
         startPlaybackProgress()
