@@ -102,11 +102,15 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         }
 
         composeView.setContent {
+            val onEnterPnp: () -> Unit = {
+                enterPnP()
+            }
             VideoPlayerControls(
                 videoPlayer = videoPlayer,
                 onClose = {
                     finish()
-                }
+                },
+                onEnterPnp = if (supportsPnp) onEnterPnp else null
             )
         }
 
@@ -187,6 +191,10 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
 
     override fun onUserLeaveHint() {
         super.onUserLeaveHint()
+        enterPnP()
+    }
+
+    private fun enterPnP() {
         if (supportsPnp) {
             hideSystemUI()
             val params = pictureInPictureParams(videoPlayer.playbackState.value.isPlaying)
