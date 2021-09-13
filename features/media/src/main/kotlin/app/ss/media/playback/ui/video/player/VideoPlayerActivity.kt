@@ -129,7 +129,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
                     HIDE_DELAY
                 )
             } else if (state.hasEnded) {
-                showSystemUI()
+                showSystemUI(false)
             }
 
             if (supportsPnp && pictureInPictureEnabled) {
@@ -152,7 +152,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         systemUiVisible = false
     }
 
-    private fun showSystemUI() {
+    private fun showSystemUI(autoHide: Boolean = true) {
         if (pictureInPictureEnabled) return
 
         val view: View = findViewById(R.id.root)
@@ -160,14 +160,16 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         WindowInsetsControllerCompat(window, view).show(systemBars())
         composeView.fadeTo(true)
 
-        view.postDelayed(
-            {
-                if (videoPlayer.playbackState.value.isPlaying) {
-                    hideSystemUI()
-                }
-            },
-            HIDE_DELAY
-        )
+        if (autoHide) {
+            view.postDelayed(
+                {
+                    if (videoPlayer.playbackState.value.isPlaying) {
+                        hideSystemUI()
+                    }
+                },
+                HIDE_DELAY
+            )
+        }
 
         systemUiVisible = true
     }
@@ -191,7 +193,9 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
 
     override fun onUserLeaveHint() {
         super.onUserLeaveHint()
-        enterPnP()
+        if (videoPlayer.playbackState.value.isPlaying) {
+            enterPnP()
+        }
     }
 
     private fun enterPnP() {
