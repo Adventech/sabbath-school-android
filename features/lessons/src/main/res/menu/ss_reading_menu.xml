@@ -35,7 +35,7 @@
 
     <item
         android:id="@+id/ss_reading_menu_video"
-        android:icon="@drawable/ic_round_ondemand_video"
+        android:icon="@drawable/ic_video_icon"
         android:orderInCategory="100"
         android:title="@string/ss_media_video"
         android:visible="false"
@@ -44,7 +44,7 @@
 
     <item
         android:id="@+id/ss_reading_menu_display_options"
-        android:icon="@drawable/ic_round_text_format"
+        android:icon="@drawable/ic_read_options"
         android:orderInCategory="100"
         android:title="@string/ss_settings_display_options"
         app:showAsAction="always"

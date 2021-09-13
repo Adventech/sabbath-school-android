@@ -38,7 +38,6 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.PictureInPictureAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -124,7 +123,7 @@ private fun BoxScope.TopBar(
         onEnterPnp?.let {
             IconButton(onClick = onEnterPnp) {
                 Icon(
-                    Icons.Rounded.PictureInPictureAlt,
+                    painterResource(id = R.drawable.ic_video_icon_pip),
                     contentDescription = "Picture In Picture",
                     tint = contentColor,
                 )
