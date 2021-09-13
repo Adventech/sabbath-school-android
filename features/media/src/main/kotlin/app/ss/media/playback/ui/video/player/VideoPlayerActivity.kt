@@ -67,7 +67,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     private var systemUiVisible: Boolean = false
     private val pictureInPictureEnabled: Boolean
         get() {
-            return if (supportsPnp) {
+            return if (supportsPiP) {
                 isInPictureInPictureMode
             } else {
                 false
@@ -102,15 +102,15 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         }
 
         composeView.setContent {
-            val onEnterPnp: () -> Unit = {
-                enterPnP()
+            val onEnterPiP: () -> Unit = {
+                enterPiP()
             }
             VideoPlayerControls(
                 videoPlayer = videoPlayer,
                 onClose = {
                     finish()
                 },
-                onEnterPnp = if (supportsPnp) onEnterPnp else null
+                onEnterPiP = if (supportsPiP) onEnterPiP else null
             )
         }
 
@@ -132,7 +132,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
                 showSystemUI(false)
             }
 
-            if (supportsPnp && pictureInPictureEnabled) {
+            if (supportsPiP && pictureInPictureEnabled) {
                 setPictureInPictureParams(pictureInPictureParams(state.isPlaying))
             }
         }
@@ -207,12 +207,12 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     override fun onUserLeaveHint() {
         super.onUserLeaveHint()
         if (videoPlayer.playbackState.value.isPlaying) {
-            enterPnP()
+            enterPiP()
         }
     }
 
-    private fun enterPnP() {
-        if (supportsPnp) {
+    private fun enterPiP() {
+        if (supportsPiP) {
             hideSystemUI()
             val params = pictureInPictureParams(videoPlayer.playbackState.value.isPlaying)
             enterPictureInPictureMode(params)
@@ -291,7 +291,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     }
 }
 
-private val Context.supportsPnp: Boolean
+private val Context.supportsPiP: Boolean
     get() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
             packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)

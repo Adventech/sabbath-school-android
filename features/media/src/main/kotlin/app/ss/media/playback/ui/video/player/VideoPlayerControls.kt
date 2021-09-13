@@ -61,7 +61,7 @@ import kotlinx.coroutines.flow.StateFlow
 fun VideoPlayerControls(
     videoPlayer: SSVideoPlayer,
     onClose: () -> Unit = {},
-    onEnterPnp: (() -> Unit)? = null,
+    onEnterPiP: (() -> Unit)? = null,
 ) {
     SSTheme {
         val playbackState by rememberFlowWithLifecycle(videoPlayer.playbackState)
@@ -72,7 +72,7 @@ fun VideoPlayerControls(
 
                 TopBar(
                     onClose = onClose,
-                    onEnterPnp = onEnterPnp
+                    onEnterPiP = onEnterPiP
                 )
 
                 Controls(
@@ -103,7 +103,7 @@ fun VideoPlayerControls(
 @Composable
 private fun BoxScope.TopBar(
     onClose: () -> Unit,
-    onEnterPnp: (() -> Unit)? = null,
+    onEnterPiP: (() -> Unit)? = null,
     contentColor: Color = Color.White
 ) {
     Row(
@@ -120,8 +120,8 @@ private fun BoxScope.TopBar(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        onEnterPnp?.let {
-            IconButton(onClick = onEnterPnp) {
+        onEnterPiP?.let {
+            IconButton(onClick = onEnterPiP) {
                 Icon(
                     painterResource(id = R.drawable.ic_video_icon_pip),
                     contentDescription = "Picture In Picture",
