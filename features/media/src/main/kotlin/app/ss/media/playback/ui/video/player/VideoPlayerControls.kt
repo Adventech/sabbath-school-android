@@ -38,6 +38,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.PictureInPictureAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -61,6 +62,7 @@ import kotlinx.coroutines.flow.StateFlow
 fun VideoPlayerControls(
     videoPlayer: SSVideoPlayer,
     onClose: () -> Unit = {},
+    onEnterPnp: (() -> Unit)? = null,
 ) {
     SSTheme {
         val playbackState by rememberFlowWithLifecycle(videoPlayer.playbackState)
@@ -69,7 +71,10 @@ fun VideoPlayerControls(
         Surface(color = Color.Black.copy(0.6f)) {
             Box(modifier = Modifier.fillMaxSize()) {
 
-                TopBar(onClose = onClose)
+                TopBar(
+                    onClose = onClose,
+                    onEnterPnp = onEnterPnp
+                )
 
                 Controls(
                     onPlayPause = {
@@ -99,6 +104,7 @@ fun VideoPlayerControls(
 @Composable
 private fun BoxScope.TopBar(
     onClose: () -> Unit,
+    onEnterPnp: (() -> Unit)? = null,
     contentColor: Color = Color.White
 ) {
     Row(
@@ -114,6 +120,16 @@ private fun BoxScope.TopBar(
         }
 
         Spacer(modifier = Modifier.weight(1f))
+
+        onEnterPnp?.let {
+            IconButton(onClick = onEnterPnp) {
+                Icon(
+                    Icons.Rounded.PictureInPictureAlt,
+                    contentDescription = "Picture In Picture",
+                    tint = contentColor,
+                )
+            }
+        }
     }
 }
 
@@ -151,7 +167,9 @@ private fun BoxScope.Controls(
         ) {
 
             if (playbackState.isBuffering) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(
+                    color = contentColor
+                )
             } else {
                 IconButton(
                     onClick = onPlayPause,
@@ -202,6 +220,7 @@ private fun BoxScope.PlayBackProgress(
         onSeekTo = onSeekTo,
         modifier = Modifier
             .align(Alignment.BottomCenter)
-            .padding(bottom = Spacing32)
+            .padding(bottom = Spacing32),
+        forceDark = true,
     )
 }

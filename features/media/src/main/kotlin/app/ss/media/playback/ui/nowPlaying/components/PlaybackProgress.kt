@@ -67,23 +67,25 @@ import kotlin.math.roundToLong
 
 private object ProgressColors {
     @Composable
-    fun thumbColor(): Color =
-        if (isSystemInDarkTheme()) {
-            BaseGrey1
-        } else {
-            OffWhite.darker()
+    fun thumbColor(forceDark: Boolean): Color {
+        return when {
+            isSystemInDarkTheme() -> BaseGrey1
+            forceDark -> BaseGrey1
+            else -> OffWhite.darker()
         }
+    }
 
     @Composable
-    fun activeTrackColor(): Color = thumbColor()
+    fun activeTrackColor(forceDark: Boolean): Color = thumbColor(forceDark)
 
     @Composable
-    fun inactiveTrackColor(): Color =
-        if (isSystemInDarkTheme()) {
-            BaseGrey3
-        } else {
-            BaseGrey1
+    fun inactiveTrackColor(forceDark: Boolean): Color {
+        return when {
+            isSystemInDarkTheme() -> BaseGrey3
+            forceDark -> BaseGrey3
+            else -> BaseGrey1
         }
+    }
 }
 
 @Composable
@@ -108,7 +110,8 @@ internal fun PlaybackProgressDuration(
     isBuffering: Boolean,
     progressState: PlaybackProgressState,
     onSeekTo: (Long) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    forceDark: Boolean = false
 ) {
     val (draggingProgress, setDraggingProgress) = remember { mutableStateOf<Float?>(null) }
 
@@ -122,6 +125,7 @@ internal fun PlaybackProgressDuration(
             progressState,
             draggingProgress,
             setDraggingProgress,
+            forceDark = forceDark,
             onSeekTo = onSeekTo
         )
         PlaybackProgressDuration(
@@ -139,15 +143,16 @@ private fun BoxScope.PlaybackProgressSlider(
     setDraggingProgress: (Float?) -> Unit,
     height: Dp = 56.dp,
     thumbRadius: Dp = 4.dp,
+    forceDark: Boolean = false,
     onSeekTo: (Long) -> Unit
 ) {
     val updatedProgressState by rememberUpdatedState(progressState)
     val updatedDraggingProgress by rememberUpdatedState(draggingProgress)
 
     val sliderColors = SliderDefaults.colors(
-        thumbColor = ProgressColors.thumbColor(),
-        activeTrackColor = ProgressColors.activeTrackColor(),
-        inactiveTrackColor = ProgressColors.inactiveTrackColor()
+        thumbColor = ProgressColors.thumbColor(forceDark),
+        activeTrackColor = ProgressColors.activeTrackColor(forceDark),
+        inactiveTrackColor = ProgressColors.inactiveTrackColor(forceDark)
     )
 
     Slider(
