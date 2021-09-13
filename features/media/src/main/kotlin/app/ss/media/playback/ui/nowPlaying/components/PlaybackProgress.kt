@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
-import com.cryart.design.widgets.material.SliderDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -58,10 +57,12 @@ import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.BaseGrey3
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.OffWhite
+import com.cryart.design.theme.Spacing4
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.TitleSmall
 import com.cryart.design.theme.darker
 import com.cryart.design.widgets.material.Slider
+import com.cryart.design.widgets.material.SliderDefaults
 import kotlin.math.roundToLong
 
 private object ProgressColors {
@@ -158,7 +159,8 @@ private fun BoxScope.PlaybackProgressSlider(
         thumbRadius = thumbRadius,
         modifier = Modifier
             .height(height)
-            .align(Alignment.TopCenter),
+            .align(Alignment.TopCenter)
+            .padding(horizontal = Spacing4),
         onValueChangeFinished = {
             val position = (updatedProgressState.total.toFloat() * (updatedDraggingProgress ?: 0f)).roundToLong()
             onSeekTo(position)
@@ -178,7 +180,7 @@ private fun BoxScope.PlaybackProgressDuration(
             .fillMaxWidth()
             .align(Alignment.BottomCenter)
             .padding(top = Spacing8)
-            .padding(horizontal = 6.dp)
+            .padding(horizontal = Spacing4)
     ) {
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             val currentDuration = when (draggingProgress != null) {

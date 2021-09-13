@@ -328,10 +328,7 @@ private fun BottomControls(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(
-                end = Dimens.grid_4,
-                start = Dimens.grid_2
-            ),
+            .padding(end = Dimens.grid_2),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
