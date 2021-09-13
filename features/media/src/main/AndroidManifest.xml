@@ -21,6 +21,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="app.ss.media">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -33,7 +34,10 @@
             android:name=".playback.ui.video.player.VideoPlayerActivity"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:label="@string/blank"
-            android:theme="@style/Theme.SS.Video" />
+            android:launchMode="singleTask"
+            android:supportsPictureInPicture="true"
+            android:theme="@style/Theme.SS.Video"
+            tools:targetApi="n" />
 
         <service
             android:name=".playback.service.MusicService"

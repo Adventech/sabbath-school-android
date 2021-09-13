@@ -22,10 +22,22 @@
 
 package app.ss.media.playback.ui.video.player
 
+import android.app.PendingIntent
+import android.app.PictureInPictureParams
+import android.app.RemoteAction
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.graphics.Rect
+import android.graphics.drawable.Icon
+import android.os.Build
 import android.os.Bundle
+import android.util.Rational
 import android.view.View
+import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.WindowCompat
@@ -33,6 +45,9 @@ import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.WindowInsetsControllerCompat
 import app.ss.media.R
 import app.ss.media.model.SSVideo
+import app.ss.media.playback.BACKWARD
+import app.ss.media.playback.FORWARD
+import app.ss.media.playback.PLAY_PAUSE
 import app.ss.media.playback.players.SSVideoPlayer
 import app.ss.media.playback.players.SSVideoPlayerImpl
 import app.ss.media.playback.players.hasEnded
@@ -50,6 +65,28 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     }
 
     private var systemUiVisible: Boolean = false
+    private val pictureInPictureEnabled: Boolean
+        get() {
+            return if (supportsPnp) {
+                isInPictureInPictureMode
+            } else {
+                false
+            }
+        }
+
+    private val broadcastReceiver = object : BroadcastReceiver() {
+
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent == null || intent.action != ACTION_PIP_CONTROLS) {
+                return
+            }
+            when (intent.getStringExtra(ACTION_TYPE)) {
+                PLAY_PAUSE -> videoPlayer.playPause()
+                BACKWARD -> videoPlayer.rewind()
+                FORWARD -> videoPlayer.fastForward()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +127,13 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             } else if (state.hasEnded) {
                 showSystemUI()
             }
+
+            if (supportsPnp && pictureInPictureEnabled) {
+                setPictureInPictureParams(pictureInPictureParams(state.isPlaying))
+            }
         }
+
+        registerReceiver(broadcastReceiver, IntentFilter(ACTION_PIP_CONTROLS))
     }
 
     private fun hideSystemUI() {
@@ -106,6 +149,8 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     }
 
     private fun showSystemUI() {
+        if (pictureInPictureEnabled) return
+
         val view: View = findViewById(R.id.root)
         WindowCompat.setDecorFitsSystemWindows(window, true)
         WindowInsetsControllerCompat(window, view).show(systemBars())
@@ -123,9 +168,11 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         systemUiVisible = true
     }
 
-    override fun onStop() {
-        super.onStop()
-        videoPlayer.onPause()
+    override fun onPause() {
+        super.onPause()
+        if (pictureInPictureEnabled.not()) {
+            videoPlayer.onPause()
+        }
     }
 
     override fun onResume() {
@@ -138,9 +185,75 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         super.onDestroy()
     }
 
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        if (supportsPnp) {
+            hideSystemUI()
+            val params = pictureInPictureParams(videoPlayer.playbackState.value.isPlaying)
+            enterPictureInPictureMode(params)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun pictureInPictureParams(isPlaying: Boolean): PictureInPictureParams {
+        val visibleRect = Rect()
+        exoPlayerView.getGlobalVisibleRect(visibleRect)
+
+        return PictureInPictureParams.Builder()
+            .setActions(
+                listOf(
+                    createRemoteAction(
+                        R.drawable.ic_audio_icon_backward,
+                        "Rewind",
+                        BACKWARD,
+                        1
+                    ),
+                    createRemoteAction(
+                        if (isPlaying) R.drawable.ic_audio_icon_pause else R.drawable.ic_audio_icon_play,
+                        "Play/Pause",
+                        PLAY_PAUSE,
+                        2
+                    ),
+                    createRemoteAction(
+                        R.drawable.ic_audio_icon_forward,
+                        "Forward",
+                        FORWARD,
+                        3
+                    ),
+                )
+            )
+            .setAspectRatio(Rational(16, 9))
+            .setSourceRectHint(visibleRect)
+            .build()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createRemoteAction(
+        @DrawableRes iconResId: Int,
+        title: String,
+        action: String,
+        requestCode: Int
+    ): RemoteAction {
+        return RemoteAction(
+            Icon.createWithResource(this, iconResId),
+            title,
+            title,
+            PendingIntent.getBroadcast(
+                this,
+                requestCode,
+                Intent(ACTION_PIP_CONTROLS)
+                    .putExtra(ACTION_TYPE, action),
+                PendingIntent.FLAG_IMMUTABLE
+            )
+        )
+    }
+
     companion object {
         private const val HIDE_DELAY = 3500L
         private const val ARG_VIDEO = "arg:video"
+
+        private const val ACTION_PIP_CONTROLS = "pip_media_controls"
+        private const val ACTION_TYPE = "pip_media_action_type"
 
         fun launchIntent(
             context: Context,
@@ -152,3 +265,9 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         }
     }
 }
+
+private val Context.supportsPnp: Boolean
+    get() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
+    }
