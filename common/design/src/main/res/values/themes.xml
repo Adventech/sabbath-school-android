@@ -126,7 +126,7 @@
 
     <style name="Theme.SS.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 
-    <style name="TransparentBottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
+    <style name="TransparentBottomSheetDialogTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/TransparentBottomSheetStyle</item>
         <item name="colorPrimary">@color/ss_theme_primary</item>
         <item name="colorPrimaryVariant">@color/ss_theme_primary_variant</item>
@@ -137,12 +137,12 @@
         <item name="colorSurface">@color/ss_theme_color_background</item>
         <item name="colorOnBackground">@color/ss_theme_color_on_background</item>
         <item name="colorControlHighlight">@color/on_surface_32</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">?attr/isLightTheme</item>
         <item name="textAppearanceHeadline6">@style/TextAppearance.SS.Headline6</item>
         <item name="android:windowIsFloating">false</item>
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.SS.LargeComponent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">#80000000</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">?attr/isLightTheme</item>
     </style>
 
     <style name="TransparentBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
