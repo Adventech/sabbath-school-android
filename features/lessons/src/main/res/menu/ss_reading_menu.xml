@@ -28,7 +28,7 @@
         android:id="@+id/ss_reading_menu_audio"
         android:icon="@drawable/ic_audio_icon_navbar"
         android:orderInCategory="100"
-        android:title="@string/ss_settings_display_options"
+        android:title="@string/ss_media_audio"
         android:visible="false"
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
@@ -37,7 +37,7 @@
         android:id="@+id/ss_reading_menu_video"
         android:icon="@drawable/ic_round_ondemand_video"
         android:orderInCategory="100"
-        android:title="@string/ss_settings_display_options"
+        android:title="@string/ss_media_video"
         android:visible="false"
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
