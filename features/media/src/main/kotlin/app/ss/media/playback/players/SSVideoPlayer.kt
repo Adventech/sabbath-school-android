@@ -90,10 +90,14 @@ internal class SSVideoPlayerImpl(
 
         val connector = MediaSessionConnector(mediaSession)
         connector.setPlayer(exoPlayer)
+
+        startPlaybackProgress()
     }
 
     override fun playVideo(video: SSVideo, playerView: PlayerView) {
-        startPlaybackProgress()
+        if (exoPlayer.isPlaying) {
+            exoPlayer.pause()
+        }
 
         val mediaSource = DefaultMediaSourceFactory(context)
             .createMediaSource(MediaItem.fromUri(Uri.parse(video.src)))

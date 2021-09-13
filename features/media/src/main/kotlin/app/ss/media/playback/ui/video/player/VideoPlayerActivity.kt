@@ -140,6 +140,12 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         registerReceiver(broadcastReceiver, IntentFilter(ACTION_PIP_CONTROLS))
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        val video = intent?.getParcelableExtra<SSVideo>(ARG_VIDEO) ?: return
+        videoPlayer.playVideo(video, exoPlayerView)
+    }
+
     private fun hideSystemUI() {
         composeView.fadeTo(false)
 
