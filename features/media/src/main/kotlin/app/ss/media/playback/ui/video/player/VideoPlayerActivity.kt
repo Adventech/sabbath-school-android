@@ -30,6 +30,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Rect
 import android.graphics.drawable.Icon
 import android.os.Build
@@ -87,6 +88,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             }
         }
     }
+    private var onStopCalled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -192,11 +194,13 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         if (videoPlayer.playbackState.value.isPlaying) {
             videoPlayer.playPause()
         }
+        onStopCalled = true
     }
 
     override fun onResume() {
         super.onResume()
         videoPlayer.onResume()
+        onStopCalled = false
     }
 
     override fun onDestroy() {
@@ -216,6 +220,17 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             hideSystemUI()
             val params = pictureInPictureParams(videoPlayer.playbackState.value.isPlaying)
             enterPictureInPictureMode(params)
+        }
+    }
+
+    override fun onPictureInPictureModeChanged(
+        isInPictureInPictureMode: Boolean,
+        newConfig: Configuration?
+    ) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+
+        if (isInPictureInPictureMode.not() && onStopCalled) {
+            finish()
         }
     }
 
