@@ -105,4 +105,6 @@ Vi tror virkelig, at Gud har øget kendskabet til den moderne verden og vil have
     <string name="ss_settings_version_with_param_string">Version: %1$s</string>
     <string name="ss_copyright">%1$s Generalkonference for syvende dags adventister®</string>
     <string name="ss_see_all">Se alt</string>
+    <string name="ss_media_audio">Lyd</string>
+    <string name="ss_media_video">Video</string>
 </resources>

@@ -104,4 +104,6 @@
     <string name="ss_more">更多</string>
     <string name="ss_copyright">%1$s 基督复临安息日会总会®</string>
     <string name="ss_see_all">看到所有</string>
+    <string name="ss_media_audio">声音的</string>
+    <string name="ss_media_video">视频</string>
 </resources>

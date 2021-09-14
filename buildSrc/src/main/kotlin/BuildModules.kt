@@ -4,17 +4,19 @@ object BuildModules {
         const val CORE = ":common:core"
         const val DESIGN = ":common:design"
         const val LESSONS_DATA = ":common:lessons-data"
+        const val STORAGE = ":common:storage"
         const val TRANSLATIONS = ":common:translations"
     }
 
     object Features {
+        const val ACCOUNT = ":features:account"
         const val APP_WIDGETS = ":features:app-widgets"
         const val BIBLE = ":features:bible"
-        const val READER = ":features:reader"
         const val LESSONS = ":features:lessons"
-        const val SETTINGS = ":features:settings"
-        const val ACCOUNT = ":features:account"
+        const val MEDIA = ":features:media"
+        const val READER = ":features:reader"
         const val READINGS = ":features:readings"
+        const val SETTINGS = ":features:settings"
     }
 
     object Libraries {

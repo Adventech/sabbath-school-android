@@ -10,6 +10,7 @@ object Versions {
         const val APPCOMPAT = "1.3.1"
         const val RECYCLER_VIEW = "1.2.1"
         const val LIFECYCLE = "2.3.1"
+        const val LIFECYCLE_COMPOSE = "1.0.0-alpha07"
         const val LIFECYCLE_KTX = "2.4.0-alpha01"
         const val LIFECYCLE_EXT = "2.2.0"
         const val CORE = "1.6.0"
@@ -20,6 +21,8 @@ object Versions {
         const val PREFERENCE = "1.1.1"
         const val BROWSER = "1.3.0"
         const val DATASTORE_PREFS = "1.0.0"
+        const val MEDIA = "1.4.1"
+        const val ROOM = "2.3.0"
     }
 
     object Facebook {
@@ -40,7 +43,13 @@ object Versions {
     const val JODA = "2.10.9.1"
     const val JODA_TIME = "2.10.10"
     const val MARK_WORM = "4.6.2"
-    const val MOSHI = "1.12.0"
+    const val exoplayer = "2.15.0"
+
+    object Square {
+        const val moshi = "1.12.0"
+        const val okhttp3 = "4.9.1"
+        const val retrofit = "2.9.0"
+    }
 
     // Tests
     const val ANDROIDX_TEST = "1.4.0"

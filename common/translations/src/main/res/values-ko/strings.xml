@@ -108,4 +108,6 @@
     <string name="ss_more">더보기</string>
     <string name="ss_copyright">%1$s 제칠일안식일예수재림교 총회®</string>
     <string name="ss_see_all">모두 보기</string>
+    <string name="ss_media_audio">오디오</string>
+    <string name="ss_media_video">동영상</string>
 </resources>

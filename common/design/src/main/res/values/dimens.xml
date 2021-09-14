@@ -55,4 +55,6 @@
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_xlarge">24sp</dimen>
 
+    <dimen name="ss_behaviour_peek_height">1000dp</dimen>
+
 </resources>

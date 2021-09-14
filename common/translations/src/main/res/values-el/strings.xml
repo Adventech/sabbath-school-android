@@ -105,4 +105,6 @@
     <string name="ss_settings_version_with_param_string">Εκδοχή: %1$s</string>
     <string name="ss_copyright">%1$s Γενική Συνδιάσκεψη των Αντβεντιστών της Έβδομης Ημέρας®</string>
     <string name="ss_see_all">Προβολή όλων</string>
+    <string name="ss_media_audio">Χος</string>
+    <string name="ss_media_video">βίντεο</string>
 </resources>

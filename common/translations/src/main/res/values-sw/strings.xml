@@ -104,4 +104,6 @@ Tunaamini kweli kwamba Mungu ameongeza ujuzi wa dunia ya kisasa na anataka tuutu
     <string name="ss_more">Zaidi</string>
     <string name="ss_copyright">%1$s Mkutano Mkuu wa Waadventista Wasabato®</string>
     <string name="ss_see_all">Ona yote</string>
+    <string name="ss_media_audio">Sauti</string>
+    <string name="ss_media_video">Video</string>
 </resources>

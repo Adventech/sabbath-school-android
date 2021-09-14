@@ -105,5 +105,7 @@
     <string name="ss_more">ອ່ານຕໍ່</string>
     <string name="ss_copyright">%1$s ກອງປະຊຸມໃຫຍ່ສາສະ ໜາ ຄຣິສຕຽນມື້ທີເຈັດ®</string>
     <string name="ss_see_all">ເບິ່ງທັງົດ</string>
+    <string name="ss_media_audio">ສຽງ</string>
+    <string name="ss_media_video">ວິດີໂອ</string>
 
 </resources>

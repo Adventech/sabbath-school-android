@@ -18,6 +18,7 @@ object Dependencies {
         const val APPCOMPAT = "androidx.appcompat:appcompat:${Versions.AndroidX.APPCOMPAT}"
         const val RECYCLER_VIEW = "androidx.recyclerview:recyclerview:${Versions.AndroidX.RECYCLER_VIEW}"
         const val LIFECYCLE_COMMON = "androidx.lifecycle:lifecycle-common-java8:${Versions.AndroidX.LIFECYCLE}"
+        const val LIFECYCLE_COMPOSE = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.AndroidX.LIFECYCLE_COMPOSE}"
         const val LIFECYCLE_EXTENSIONS = "androidx.lifecycle:lifecycle-extensions:${Versions.AndroidX.LIFECYCLE_EXT}"
         const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.LIFECYCLE}"
         const val LIFECYCLE_LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.AndroidX.LIFECYCLE}"
@@ -29,6 +30,13 @@ object Dependencies {
         const val PREFERENCE = "androidx.preference:preference-ktx:${Versions.AndroidX.PREFERENCE}"
         const val BROWSER = "androidx.browser:browser:${Versions.AndroidX.BROWSER}"
         const val DATASTORE_PREFS = "androidx.datastore:datastore-preferences:${Versions.AndroidX.DATASTORE_PREFS}"
+        const val MEDIA = "androidx.media:media:${Versions.AndroidX.MEDIA}"
+
+        object Room {
+            const val runtime = "androidx.room:room-runtime:${Versions.AndroidX.ROOM}"
+            const val compiler = "androidx.room:room-compiler:${Versions.AndroidX.ROOM}"
+            const val ktx = "androidx.room:room-ktx:${Versions.AndroidX.ROOM}"
+        }
     }
 
     object Firebase {
@@ -65,8 +73,12 @@ object Dependencies {
 
     object Compose {
         const val ui = "androidx.compose.ui:ui:${Versions.COMPOSE}"
+        const val uiUtil = "androidx.compose.ui:ui-util:${Versions.COMPOSE}"
         const val material = "androidx.compose.material:material:${Versions.COMPOSE}"
         const val tooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
+        const val icons = "androidx.compose.material:material-icons-core:${Versions.COMPOSE}"
+        const val iconsExtended = "androidx.compose.material:material-icons-extended:${Versions.COMPOSE}"
+        const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02"
     }
 
     object Accompanist {
@@ -80,8 +92,23 @@ object Dependencies {
 
     object Square {
         object Moshi {
-            const val kotlin = "com.squareup.moshi:moshi-kotlin:${Versions.MOSHI}"
-            const val codegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.MOSHI}"
+            const val kotlin = "com.squareup.moshi:moshi-kotlin:${Versions.Square.moshi}"
+            const val codegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.Square.moshi}"
         }
+        object Okhttp {
+            const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.Square.okhttp3}"
+            const val logging = "com.squareup.okhttp3:logging-interceptor:${Versions.Square.okhttp3}"
+        }
+        object Retrofit {
+            const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.Square.retrofit}"
+            const val moshiConverter = "com.squareup.retrofit2:converter-moshi:${Versions.Square.retrofit}"
+        }
+    }
+
+    object ExoPlayer {
+        const val core = "com.google.android.exoplayer:exoplayer-core:${Versions.exoplayer}"
+        const val okhttp = "com.google.android.exoplayer:extension-okhttp:${Versions.exoplayer}"
+        const val mediaSession = "com.google.android.exoplayer:extension-mediasession:${Versions.exoplayer}"
+        const val ui = "com.google.android.exoplayer:exoplayer-ui:${Versions.exoplayer}"
     }
 }

@@ -37,7 +37,8 @@ import com.cryart.design.R
 val LatoFontFamily = FontFamily(
     Font(R.font.lato_regular, FontWeight.Normal),
     Font(R.font.lato_medium, FontWeight.Medium),
-    Font(R.font.lato_bold, FontWeight.Bold)
+    Font(R.font.lato_bold, FontWeight.Bold),
+    Font(R.font.lato_black, FontWeight.Black),
 )
 
 val Typography = Typography(
@@ -83,7 +84,7 @@ private fun textStyle(
     color = color,
     fontFamily = LatoFontFamily,
     fontSize = textSize.fontSize,
-    lineHeight = textSize.lineHeight,
+    lineHeight = TextUnit.Unspecified,
     fontStyle = FontStyle.Normal,
     fontWeight = fontWeight,
     textDecoration = textDecoration,
@@ -97,6 +98,11 @@ val LabelSmall = textStyle(
     textSize = TextSize.Size15,
     fontWeight = FontWeight.Normal,
 )
+val Body = textStyle(
+    textSize = TextSize.Size13,
+    fontWeight = FontWeight.Normal,
+    color = BaseGrey2
+)
 val BodyMedium1 = textStyle(
     textSize = TextSize.Size13,
     fontWeight = FontWeight.SemiBold,
@@ -108,4 +114,7 @@ val Title = textStyle(
 )
 val TitleSmall = Title.copy(
     fontSize = TextSize.Size15.fontSize
+)
+val TitleMedium = Title.copy(
+    fontSize = TextSize.Size18.fontSize
 )
