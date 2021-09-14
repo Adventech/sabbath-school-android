@@ -104,4 +104,6 @@
     <string name="ss_more">มากกว่า</string>
     <string name="ss_copyright">%1$s การประชุมใหญ่สามัญของมิชชั่นวันที่เจ็ด®</string>
     <string name="ss_see_all">ดูทั้งหมด</string>
+    <string name="ss_media_audio">เสียง</string>
+    <string name="ss_media_video">วีดิทัศน์</string>
 </resources>

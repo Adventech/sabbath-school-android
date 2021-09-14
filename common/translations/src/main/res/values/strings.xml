@@ -108,4 +108,9 @@
     <string name="ss_copyright">%1$s General Conference of Seventh-day Adventists®</string>
     <string name="ss_see_all">See All</string>
 
+    <string name="ss_media_notification_channel" translatable="false">Now Playing</string>
+    <string name="ss_media_notification_channel_description" translatable="false">Shows what media is currently playing</string>
+    <string name="ss_media_audio">Audio</string>
+    <string name="ss_media_video">Video</string>
+
 </resources>

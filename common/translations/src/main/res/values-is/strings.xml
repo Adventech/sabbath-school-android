@@ -104,4 +104,6 @@ Við trúum því sannarlega að Guð hafi aukið þekkingu á nútímanum og vi
     <string name="ss_settings_version_with_param_string">Útgáfa: %1$s</string>
     <string name="ss_copyright">%1$s Aðalráðstefna sjöunda dags aðventista®</string>
     <string name="ss_see_all">Sjá allt</string>
+    <string name="ss_media_audio">Hljóð</string>
+    <string name="ss_media_video">Myndband</string>
 </resources>

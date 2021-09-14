@@ -26,13 +26,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.addRepeatingJob
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -89,3 +92,15 @@ fun <T> Flow<T>.stateIn(
     started = SharingStarted.WhileSubscribed(5000),
     initialValue = initialValue
 )
+
+fun flowInterval(interval: Long, timeUnit: TimeUnit = TimeUnit.MILLISECONDS): Flow<Int> {
+    val delayMillis = timeUnit.toMillis(interval)
+    return channelFlow {
+        var tick = 0
+        send(tick)
+        while (true) {
+            delay(delayMillis)
+            send(++tick)
+        }
+    }
+}

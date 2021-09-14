@@ -55,6 +55,7 @@ import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.options.SSReadingDisplayOptionsView
@@ -109,7 +110,9 @@ class SSReadingViewModel(
 
     init {
         loadLessonInfo()
-        checkConnection()
+        if (!BuildConfig.DEBUG) {
+            checkConnection()
+        }
     }
 
     private val verseClickWithDebounce: (verse: String) -> Unit =

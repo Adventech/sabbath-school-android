@@ -105,4 +105,6 @@
     <string name="ss_more">更多</string>
     <string name="ss_copyright">%1$s 基督复臨安息日會總會®</string>
     <string name="ss_see_all">看到所有</string>
+    <string name="ss_media_video">視頻</string>
+    <string name="ss_media_audio">"聲音的"</string>
 </resources>
