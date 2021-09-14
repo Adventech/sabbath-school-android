@@ -100,4 +100,6 @@
     <string name="ss_more">ಹೆಚ್ಚು</string>
     <string name="ss_copyright">%1$s ಏಳನೇ ದಿನದ ಅಡ್ವೆಂಟಿಸ್ಟ್‌ಗಳ ಸಾಮಾನ್ಯ ಸಮ್ಮೇಳನ®</string>
     <string name="ss_see_all">ಎಲ್ಲವನ್ನೂ ನೋಡಿ</string>
+    <string name="ss_media_audio">ಆಡಿಯೋ</string>
+    <string name="ss_media_video">ವಿಡಿಯೋ</string>
 </resources>

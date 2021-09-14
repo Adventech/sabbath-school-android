@@ -110,7 +110,7 @@
 
     <string name="ss_media_notification_channel" translatable="false">Now Playing</string>
     <string name="ss_media_notification_channel_description" translatable="false">Shows what media is currently playing</string>
-    <string name="ss_media_audio" translatable="false">Audio</string>
-    <string name="ss_media_video" translatable="false">Video</string>
+    <string name="ss_media_audio">Audio</string>
+    <string name="ss_media_video">Video</string>
 
 </resources>

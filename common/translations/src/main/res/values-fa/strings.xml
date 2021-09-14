@@ -105,4 +105,6 @@
     <string name="ss_settings_version_with_param_string">نسخه: %1$s</string>
     <string name="ss_copyright">%1$s کنفرانس عمومی ماجراجویان روز هفتم®</string>
     <string name="ss_see_all">همه را ببین</string>
+    <string name="ss_media_audio">سمعی</string>
+    <string name="ss_media_video">ویدیو</string>
 </resources>

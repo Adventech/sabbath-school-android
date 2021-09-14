@@ -104,4 +104,6 @@ Nous croyons vraiment que Dieu a augmenté la connaissance du monde moderne et v
     <string name="ss_settings_version_with_param_string">Version: %1$s</string>
     <string name="ss_copyright">%1$s Conférence générale des adventistes du septième jour®</string>
     <string name="ss_see_all">Voir tout</string>
+    <string name="ss_media_audio">l\'audio</string>
+    <string name="ss_media_video">Vidéo</string>
 </resources>

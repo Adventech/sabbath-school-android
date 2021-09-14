@@ -104,5 +104,7 @@
     <string name="ss_more">अधिक</string>
     <string name="ss_copyright">%1$s सातौं दिन Adventists को सामान्य सम्मेलन®</string>
     <string name="ss_see_all">सबै हेर</string>
+    <string name="ss_media_audio">अडियो</string>
+    <string name="ss_media_video">भिडियो</string>
 
 </resources>

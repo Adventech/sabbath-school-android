@@ -104,4 +104,6 @@
     <string name="ss_more">மேலும்</string>
     <string name="ss_copyright">%1$s ஏழாவது நாள் அட்வென்டிஸ்டுகளின் பொது மாநாடு®</string>
     <string name="ss_see_all">அனைத்தையும் பார்</string>
+    <string name="ss_media_video">ஒளிதோற்றம்</string>
+    <string name="ss_media_audio">ஒலி சார்ந்த</string>
 </resources>

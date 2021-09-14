@@ -105,4 +105,6 @@ Igazán hiszünk abban, hogy Isten megnövelte a modern világ tudását, és az
     <string name="ss_settings_version_with_param_string">Változat: %1$s</string>
     <string name="ss_copyright">%1$s Hetednapi adventisták általános konferenciája®</string>
     <string name="ss_see_all">Az összes megtekintése</string>
+    <string name="ss_media_audio">Hang</string>
+    <string name="ss_media_video">Videó</string>
 </resources>

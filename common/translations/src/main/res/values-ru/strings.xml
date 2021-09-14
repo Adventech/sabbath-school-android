@@ -105,4 +105,6 @@
     <string name="ss_more">Дополнительно</string>
     <string name="ss_copyright">%1$s Генеральная конференция адвентистов седьмого дня®</string>
     <string name="ss_see_all">Посмотреть все</string>
+    <string name="ss_media_audio">Аудио</string>
+    <string name="ss_media_video">видео</string>
 </resources>
