@@ -6,10 +6,10 @@ import android.support.v4.media.MediaBrowserCompat
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import app.ss.media.playback.MediaNotifications
-import app.ss.media.playback.NEXT
+import app.ss.media.playback.FORWARD
 import app.ss.media.playback.NOTIFICATION_ID
 import app.ss.media.playback.PLAY_PAUSE
-import app.ss.media.playback.PREVIOUS
+import app.ss.media.playback.BACKWARD
 import app.ss.media.playback.STOP_PLAYBACK
 import app.ss.media.playback.extensions.isIdle
 import app.ss.media.playback.extensions.playPause
@@ -101,8 +101,8 @@ class MusicService : MediaBrowserServiceCompat(), CoroutineScope by MainScope() 
 
         when (intent.action) {
             PLAY_PAUSE -> controller.playPause()
-            NEXT -> controller.transportControls.skipToNext()
-            PREVIOUS -> controller.transportControls.skipToPrevious()
+            FORWARD -> controller.transportControls.fastForward()
+            BACKWARD -> controller.transportControls.rewind()
             STOP_PLAYBACK -> controller.transportControls.stop()
         }
 

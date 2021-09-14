@@ -28,31 +28,33 @@ import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
-import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import app.ss.media.playback.model.MEDIA_TYPE_AUDIO
-import app.ss.media.playback.model.MediaId
-import app.ss.media.playback.model.PlaybackModeState
-import app.ss.media.playback.model.PlaybackProgressState
-import app.ss.media.playback.players.QUEUE_LIST_KEY
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
 import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.extensions.duration
 import app.ss.media.playback.extensions.isBuffering
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.AudioFile
+import app.ss.media.playback.model.MEDIA_TYPE_AUDIO
+import app.ss.media.playback.model.MediaId
+import app.ss.media.playback.model.PlaybackModeState
+import app.ss.media.playback.model.PlaybackProgressState
+import app.ss.media.playback.model.PlaybackQueue
+import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.media.playback.players.AudioPlayer
+import app.ss.media.playback.players.QUEUE_LIST_KEY
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.flowInterval
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 const val PLAYBACK_PROGRESS_INTERVAL = 1000L
 
@@ -61,14 +63,20 @@ interface PlaybackConnection {
     val playbackState: StateFlow<PlaybackStateCompat>
     val nowPlaying: StateFlow<MediaMetadataCompat>
 
+    val playbackQueue: SharedFlow<PlaybackQueue>
+
     val playbackProgress: StateFlow<PlaybackProgressState>
     val playbackMode: StateFlow<PlaybackModeState>
+    val playbackSpeed: StateFlow<PlaybackSpeed>
 
     var mediaController: MediaControllerCompat?
     val transportControls: MediaControllerCompat.TransportControls?
 
     fun playAudio(audio: AudioFile)
     fun playAudios(audios: List<AudioFile>, index: Int = 0)
+
+    fun toggleSpeed(playbackSpeed: PlaybackSpeed)
+    fun setQueue(audios: List<AudioFile>, index: Int = 0)
 }
 
 internal class PlaybackConnectionImpl(
@@ -82,13 +90,26 @@ internal class PlaybackConnectionImpl(
     override val playbackState = MutableStateFlow(NONE_PLAYBACK_STATE)
     override val nowPlaying = MutableStateFlow(NONE_PLAYING)
 
+    private val playbackQueueState = MutableStateFlow(PlaybackQueue())
+    override val playbackQueue = playbackQueueState
+
     private var playbackProgressInterval: Job = Job()
     override val playbackProgress = MutableStateFlow(PlaybackProgressState())
 
     override val playbackMode = MutableStateFlow(PlaybackModeState())
+    override val playbackSpeed = MutableStateFlow(PlaybackSpeed.NORMAL)
 
     override var mediaController: MediaControllerCompat? = null
     override val transportControls get() = mediaController?.transportControls
+
+    private val mediaBrowserConnectionCallback = MediaBrowserConnectionCallback(context)
+    private val mediaBrowser = MediaBrowserCompat(
+        context, serviceComponent, mediaBrowserConnectionCallback, null
+    ).apply { connect() }
+
+    init {
+        startPlaybackProgress()
+    }
 
     override fun playAudio(audio: AudioFile) = playAudios(audios = listOf(audio), index = 0)
 
@@ -101,15 +122,30 @@ internal class PlaybackConnectionImpl(
                 putStringArray(QUEUE_LIST_KEY, audiosIds)
             }
         )
+        transportControls?.sendCustomAction(UPDATE_QUEUE, bundleOf())
     }
 
-    private val mediaBrowserConnectionCallback = MediaBrowserConnectionCallback(context)
-    private val mediaBrowser = MediaBrowserCompat(
-        context, serviceComponent, mediaBrowserConnectionCallback, null
-    ).apply { connect() }
+    override fun toggleSpeed(playbackSpeed: PlaybackSpeed) {
+        val nextSpeed = when (playbackSpeed) {
+            PlaybackSpeed.SLOW -> PlaybackSpeed.NORMAL
+            PlaybackSpeed.NORMAL -> PlaybackSpeed.FAST
+            PlaybackSpeed.FAST -> PlaybackSpeed.FASTEST
+            PlaybackSpeed.FASTEST -> PlaybackSpeed.SLOW
+        }
+        audioPlayer.setPlaybackSpeed(nextSpeed.speed)
+        this.playbackSpeed.value = nextSpeed
+    }
 
-    init {
-        startPlaybackProgress()
+    override fun setQueue(audios: List<AudioFile>, index: Int) {
+        val audiosIds = audios.map { it.id }
+        val initialId = audios.getOrNull(index)?.id ?: ""
+        val playbackQueue = PlaybackQueue(
+            list = audiosIds,
+            audiosList = audios,
+            initialMediaId = initialId,
+            currentIndex = index
+        )
+        this.playbackQueueState.value = playbackQueue
     }
 
     private fun startPlaybackProgress() = launch {
@@ -165,10 +201,6 @@ internal class PlaybackConnectionImpl(
 
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
             nowPlaying.value = metadata ?: return
-        }
-
-        override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
-            Timber.d("New queue: size=${queue?.size}")
         }
 
         override fun onRepeatModeChanged(repeatMode: Int) {

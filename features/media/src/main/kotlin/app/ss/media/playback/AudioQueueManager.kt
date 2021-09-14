@@ -32,10 +32,13 @@ interface AudioQueueManager {
 
     val previousAudioIndex: Int?
     val nextAudioIndex: Int?
+    val queue: List<AudioFile>
 
     suspend fun refreshCurrentAudio(): AudioFile?
 
     fun setCurrentAudioId(audioId: String)
+    fun setAudioQueue(queue: List<AudioFile>, selected: Int)
+    fun clear()
 }
 
 internal class AudioQueueManagerImpl(
@@ -43,24 +46,58 @@ internal class AudioQueueManagerImpl(
 ) : AudioQueueManager {
 
     private var audioId: String? = null
+    private val queueList = mutableListOf<AudioFile>()
+
     override var currentAudioIndex: Int = 0
 
     override val currentAudioId: String get() = audioId ?: ""
 
     override var currentAudio: AudioFile? = null
 
-    override val previousAudioIndex: Int? = null
+    override val previousAudioIndex: Int?
+        get() {
+            val previousIndex = currentAudioIndex - 1
 
-    override val nextAudioIndex: Int? = null
+            return when {
+                previousIndex >= 0 -> previousIndex
+                else -> null
+            }
+        }
+
+    override val nextAudioIndex: Int? get() {
+        val nextIndex = currentAudioIndex + 1
+        return when {
+            nextIndex < queue.size -> nextIndex
+            else -> null
+        }
+    }
+    override val queue: List<AudioFile> get() = queueList
 
     override suspend fun refreshCurrentAudio(): AudioFile? {
         val id = audioId ?: return null
         currentAudio = repository.findAudioFile(id)
+        currentAudioIndex = queueList.indexOfFirst { it.id == id }
 
         return currentAudio
     }
 
     override fun setCurrentAudioId(audioId: String) {
         this.audioId = audioId
+        currentAudioIndex = queueList.indexOfFirst { it.id == audioId }
+    }
+
+    override fun setAudioQueue(queue: List<AudioFile>, selected: Int) {
+        queueList.clear()
+        queueList.addAll(queue)
+
+        currentAudio = queueList.getOrNull(selected)
+        audioId = currentAudio?.id
+        currentAudioIndex = selected
+    }
+
+    override fun clear() {
+        queueList.clear()
+        currentAudio = null
+        currentAudioIndex = 0
     }
 }

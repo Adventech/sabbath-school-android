@@ -23,6 +23,7 @@
 package app.ss.media.api
 
 import app.ss.media.model.SSAudio
+import app.ss.media.model.SSVideosInfo
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -34,4 +35,10 @@ interface SSMediaApi {
         @Path("lang") language: String,
         @Path("quarterly_id") quarterlyId: String
     ): Response<List<SSAudio>>
+
+    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/video.json")
+    suspend fun getVideo(
+        @Path("lang") language: String,
+        @Path("quarterly_id") quarterlyId: String
+    ): Response<List<SSVideosInfo>>
 }

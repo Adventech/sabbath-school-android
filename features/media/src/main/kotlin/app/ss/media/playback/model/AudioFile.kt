@@ -24,7 +24,6 @@ package app.ss.media.playback.model
 
 import android.net.Uri
 import androidx.annotation.Keep
-import app.ss.media.playback.extensions.UNTITLED
 
 @Keep
 data class AudioFile(
@@ -38,5 +37,3 @@ data class AudioFile(
     val targetIndex: String = "",
     val duration: Long = 0
 )
-
-val AudioFile.isUnKnown: Boolean get() = title == UNTITLED

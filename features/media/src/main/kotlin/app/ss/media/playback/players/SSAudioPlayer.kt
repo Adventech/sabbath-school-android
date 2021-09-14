@@ -38,7 +38,9 @@ const val QUEUE_CURRENT_INDEX = "queue_current_index"
 const val QUEUE_HAS_PREVIOUS = "queue_has_previous"
 const val QUEUE_HAS_NEXT = "queue_has_next"
 
-const val DEFAULT_FORWARD_REWIND = 10 * 1000
+internal const val DEFAULT_FORWARD = 30 * 1000
+internal const val DEFAULT_REWIND = 15 * 1000
+private const val COVER_IMAGE_SIZE = 300 // px
 
 interface SSAudioPlayer {
     fun getSession(): MediaSessionCompat
@@ -49,7 +51,11 @@ interface SSAudioPlayer {
     fun fastForward()
     fun rewind()
     fun pause(extras: Bundle = bundleOf(BY_UI_KEY to true))
+    suspend fun nextAudio(): String?
+    suspend fun previousAudio()
+    suspend fun repeatAudio()
     fun stop(byUser: Boolean = true)
+    suspend fun skipTo(position: Int)
     fun release()
     fun onPlayingState(playing: OnIsPlaying<SSAudioPlayer>)
     fun onPrepared(prepared: OnPrepared<SSAudioPlayer>)
@@ -59,6 +65,7 @@ interface SSAudioPlayer {
     fun updatePlaybackState(applier: PlaybackStateCompat.Builder.() -> Unit = {})
     fun setPlaybackState(state: PlaybackStateCompat)
     suspend fun setDataFromMediaId(_mediaId: String, extras: Bundle = bundleOf())
+    fun resetMedia()
 }
 
 internal class SSAudioPlayerImpl(
@@ -84,7 +91,12 @@ internal class SSAudioPlayerImpl(
 
     private val mediaSession = MediaSessionCompat(context, context.getString(R.string.ss_app_name), null, pendingIntent).apply {
         setCallback(
-            MediaSessionCallback(this, this@SSAudioPlayerImpl, audioFocusHelper)
+            MediaSessionCallback(
+                this,
+                this@SSAudioPlayerImpl,
+                audioFocusHelper,
+                queueManager
+            )
         )
         setPlaybackState(stateBuilder.build())
 
@@ -111,7 +123,7 @@ internal class SSAudioPlayerImpl(
             when (controller.repeatMode) {
                 PlaybackStateCompat.REPEAT_MODE_ONE -> controller.transportControls.sendCustomAction(REPEAT_ONE, null)
                 PlaybackStateCompat.REPEAT_MODE_ALL -> controller.transportControls.sendCustomAction(REPEAT_ALL, null)
-                else -> launch { goToStart() }
+                else -> launch { if (nextAudio() == null) goToStart() }
             }
         }
         audioPlayer.onBuffering {
@@ -236,19 +248,18 @@ internal class SSAudioPlayerImpl(
     }
 
     override fun fastForward() {
-        val forwardTo = mediaSession.position() + DEFAULT_FORWARD_REWIND
+        val forwardTo = mediaSession.position() + DEFAULT_FORWARD
         queueManager.currentAudio?.apply {
-            /*val duration = durationMillis()
             if (forwardTo > duration) {
                 seekTo(duration)
             } else {
                 seekTo(forwardTo)
-            }*/
+            }
         }
     }
 
     override fun rewind() {
-        val rewindTo = mediaSession.position() - DEFAULT_FORWARD_REWIND
+        val rewindTo = mediaSession.position() - DEFAULT_REWIND
         if (rewindTo < 0) {
             seekTo(0)
         } else {
@@ -273,6 +284,27 @@ internal class SSAudioPlayerImpl(
         }
     }
 
+    override suspend fun nextAudio(): String? {
+        val index = queueManager.nextAudioIndex
+        if (index != null) {
+            val audio = queueManager.queue[index]
+            playAudio(audio)
+            return audio.id
+        }
+        return null
+    }
+
+    override suspend fun previousAudio() {
+        if (queueManager.queue.isNotEmpty())
+            queueManager.previousAudioIndex?.let {
+                playAudio(queueManager.queue[it])
+            } ?: repeatAudio()
+    }
+
+    override suspend fun repeatAudio() {
+        playAudio(queueManager.currentAudioId)
+    }
+
     override fun stop(byUser: Boolean) {
         updatePlaybackState {
             setState(if (byUser) PlaybackStateCompat.STATE_NONE else PlaybackStateCompat.STATE_STOPPED, 0, 1F)
@@ -282,7 +314,20 @@ internal class SSAudioPlayerImpl(
         isPlayingCallback(false, byUser)
     }
 
+    override suspend fun skipTo(position: Int) {
+        if (queueManager.currentAudioIndex == position) {
+            Timber.d("Not skipping to index=$position")
+            return
+        }
+        val audio = queueManager.queue.getOrNull(position) ?: return
+        queueManager.setCurrentAudioId(audio.id)
+        queueManager.refreshCurrentAudio()
+        playAudio(audio)
+        updatePlaybackState()
+    }
+
     override fun release() {
+        queueManager.clear()
         mediaSession.apply {
             isActive = false
             release()
@@ -340,6 +385,13 @@ internal class SSAudioPlayerImpl(
         playAudio(audio)
     }
 
+    override fun resetMedia() {
+        launch {
+            val audio = repository.findAudioFile(queueManager.currentAudioId) ?: return@launch
+            setMetaData(audio)
+        }
+    }
+
     private fun goToStart() {
         isInitialized = false
 
@@ -362,7 +414,5 @@ internal class SSAudioPlayerImpl(
         }
     }
 }
-
-private const val COVER_IMAGE_SIZE = 300 // px
 
 operator fun Bundle?.plus(other: Bundle?) = this.apply { (this ?: Bundle()).putAll(other ?: Bundle()) }

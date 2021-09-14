@@ -25,6 +25,7 @@ package app.ss.media.di
 import android.content.ComponentName
 import android.content.Context
 import app.ss.media.playback.AudioFocusHelperImpl
+import app.ss.media.playback.AudioQueueManager
 import app.ss.media.playback.AudioQueueManagerImpl
 import app.ss.media.playback.MediaNotifications
 import app.ss.media.playback.MediaNotificationsImpl
@@ -71,12 +72,13 @@ object PlaybackModule {
     fun provideSSPlayer(
         @ApplicationContext context: Context,
         player: AudioPlayer,
-        repository: SSMediaRepository
+        repository: SSMediaRepository,
+        queueManager: AudioQueueManager
     ): SSAudioPlayer = SSAudioPlayerImpl(
         context,
         player,
         audioFocusHelper = AudioFocusHelperImpl(context),
-        queueManager = AudioQueueManagerImpl(repository),
+        queueManager = queueManager,
         repository = repository
     )
 
@@ -89,5 +91,13 @@ object PlaybackModule {
         context = context,
         serviceComponent = ComponentName(context, MusicService::class.java),
         audioPlayer = audioPlayer,
+    )
+
+    @Provides
+    @Singleton
+    fun provideQueueManager(
+        repository: SSMediaRepository
+    ): AudioQueueManager = AudioQueueManagerImpl(
+        repository = repository
     )
 }

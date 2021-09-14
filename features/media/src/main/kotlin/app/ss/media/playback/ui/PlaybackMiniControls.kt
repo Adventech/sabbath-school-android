@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.BottomSheetState
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -44,7 +43,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -70,7 +68,6 @@ import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.model.toAudio
 import app.ss.media.playback.ui.common.Dismissible
 import app.ss.media.playback.ui.common.LocalPlaybackConnection
-import app.ss.media.playback.ui.common.LocalPlaybackSheetState
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.BaseGrey1
@@ -82,7 +79,6 @@ import com.cryart.design.theme.Spacing12
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.theme.lighter
-import kotlinx.coroutines.launch
 
 private object PlaybackMiniControlsDefaults {
     val height = 60.dp
@@ -98,6 +94,7 @@ fun PlaybackMiniControls(
     modifier: Modifier = Modifier,
     playbackConnection: PlaybackConnection,
     readerContentColor: Color,
+    onExpand: () -> Unit
 ) {
     val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState).collectAsState(NONE_PLAYBACK_STATE)
     val nowPlaying by rememberFlowWithLifecycle(playbackConnection.nowPlaying).collectAsState(NONE_PLAYING)
@@ -113,7 +110,8 @@ fun PlaybackMiniControls(
             playbackState = playbackState,
             nowPlaying = nowPlaying,
             playbackConnection = playbackConnection,
-            readerContentColor = readerContentColor
+            readerContentColor = readerContentColor,
+            onExpand = onExpand
         )
     }
 }
@@ -126,15 +124,13 @@ fun PlaybackMiniControls(
     modifier: Modifier = Modifier,
     height: Dp = PlaybackMiniControlsDefaults.height,
     playbackConnection: PlaybackConnection = LocalPlaybackConnection.current,
-    playbackSheetState: BottomSheetState = LocalPlaybackSheetState.current,
     readerContentColor: Color,
+    onExpand: () -> Unit
 ) {
-    val coroutine = rememberCoroutineScope()
-    val expand = { coroutine.launch { playbackSheetState.expand() } }
     val cancel: () -> Unit = { playbackConnection.transportControls?.stop() }
 
     val backgroundColor = playbackMiniBackgroundColor()
-    val contentColor = playbackMiniContentColor()
+    val contentColor = playbackContentColor()
 
     Dismissible(onDismiss = cancel) {
 
@@ -153,7 +149,7 @@ fun PlaybackMiniControls(
                         )
                     }
                     .align(Alignment.Center)
-                    .clickable { expand() }
+                    .clickable { onExpand() }
             ) {
                 Column(
                     modifier = Modifier.fillMaxWidth()
@@ -207,7 +203,7 @@ private fun playbackMiniBackgroundColor(): Color =
     }
 
 @Composable
-private fun playbackMiniContentColor(): Color =
+internal fun playbackContentColor(): Color =
     if (isSystemInDarkTheme()) {
         Color.White
     } else {
@@ -229,7 +225,8 @@ private fun PlaybackProgress(
     color: Color,
     playbackConnection: PlaybackConnection = LocalPlaybackConnection.current,
 ) {
-    val progressState by rememberFlowWithLifecycle(playbackConnection.playbackProgress).collectAsState(PlaybackProgressState())
+    val progressState by rememberFlowWithLifecycle(playbackConnection.playbackProgress)
+        .collectAsState(PlaybackProgressState())
     val sizeModifier = Modifier
         .height(2.dp)
         .fillMaxWidth()

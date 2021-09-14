@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.extensions.view
+package com.cryart.design.ext
 
 import android.view.View
 import androidx.core.graphics.Insets

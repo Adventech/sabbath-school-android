@@ -22,32 +22,46 @@
 
 package app.ss.media.playback.model
 
+import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
+import androidx.core.net.toUri
 import app.ss.media.playback.extensions.UNTITLED
 import app.ss.media.playback.extensions.artist
 import app.ss.media.playback.extensions.artworkUri
 import app.ss.media.playback.extensions.duration
 import app.ss.media.playback.extensions.id
+import app.ss.media.playback.extensions.source
 import app.ss.media.playback.extensions.title
-
-fun List<MediaSessionCompat.QueueItem>?.toMediaIdList(): List<MediaId> {
-    return this?.map { it.description.mediaId?.toMediaId() ?: MediaId() } ?: emptyList()
-}
 
 fun AudioFile.toMediaMetadata(builder: MediaMetadataCompat.Builder): MediaMetadataCompat.Builder = builder.apply {
     putString(MediaMetadataCompat.METADATA_KEY_ALBUM, artist)
     putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
     putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
-    putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaId(MEDIA_TYPE_AUDIO, id).toString())
+    putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, id)
     putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration)
     putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, image)
+    putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, source.toString())
 }
 
 fun MediaMetadataCompat.toAudio(): AudioFile = AudioFile(
     id = id,
     title = title ?: UNTITLED,
     artist = artist ?: UNTITLED,
-    source = artworkUri,
-    duration = duration
+    source = source,
+    duration = duration,
+    image = artworkUri.toString()
 )
+
+fun AudioFile.toMediaDescription(): MediaDescriptionCompat {
+    return MediaDescriptionCompat.Builder()
+        .setTitle(title)
+        .setMediaId(id)
+        .setSubtitle(artist)
+        .setDescription(artist)
+        .setIconUri(image.toUri())
+        .setMediaUri(source)
+        .build()
+}
+
+fun AudioFile.toQueueItem(id: Long): MediaSessionCompat.QueueItem = MediaSessionCompat.QueueItem(toMediaDescription(), id)

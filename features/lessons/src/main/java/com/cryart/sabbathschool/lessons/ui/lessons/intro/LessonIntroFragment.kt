@@ -33,7 +33,7 @@ import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updateMargins
 import androidx.fragment.app.FragmentManager
-import com.cryart.sabbathschool.core.extensions.view.doOnApplyWindowInsets
+import com.cryart.design.ext.doOnApplyWindowInsets
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsFragmentLessonIntroBinding

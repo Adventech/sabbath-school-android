@@ -21,6 +21,7 @@
  */
 
 import dependencies.Dependencies
+import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Compose
 import dependencies.Versions
 
@@ -53,8 +54,10 @@ android {
 
 dependencies {
     implementation(Dependencies.MATERIAL)
+    implementation(AndroidX.CORE)
 
     implementation(Compose.ui)
+    implementation(Compose.uiUtil)
     implementation(Compose.material)
     implementation(Compose.tooling)
 }

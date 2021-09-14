@@ -54,7 +54,7 @@ class MediaButtonReceiver : BroadcastReceiver() {
         )
     }
 
-    private class MediaButtonConnectionCallback internal constructor(
+    private class MediaButtonConnectionCallback(
         private val mContext: Context,
         private val mIntent: Intent,
         private val mPendingResult: PendingResult
@@ -196,7 +196,7 @@ class MediaButtonReceiver : BroadcastReceiver() {
             return PendingIntent.getBroadcast(context, keyCode, intent, PendingIntent.FLAG_ONE_SHOT)
         }
 
-        fun getMediaButtonReceiverComponent(context: Context): ComponentName? {
+        private fun getMediaButtonReceiverComponent(context: Context): ComponentName? {
             val queryIntent = Intent(Intent.ACTION_MEDIA_BUTTON)
             queryIntent.setPackage(context.packageName)
             val pm = context.packageManager

@@ -21,6 +21,7 @@
  */
 
 import dependencies.Dependencies
+import dependencies.Dependencies.Accompanist
 import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Compose
@@ -94,6 +95,7 @@ dependencies {
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
     implementation(AndroidX.LIFECYCLE_EXTENSIONS)
     implementation(AndroidX.LIFECYCLE_LIVEDATA)
+    implementation(AndroidX.LIFECYCLE_COMPOSE)
     api(AndroidX.MEDIA)
 
     implementation(Hilt.ANDROID)
@@ -108,6 +110,8 @@ dependencies {
     implementation(Compose.tooling)
     implementation(Compose.icons)
     implementation(Compose.iconsExtended)
+    implementation(Compose.constraintLayout)
+    implementation(Accompanist.placeholder)
 
     implementation(Moshi.kotlin)
     kapt(Moshi.codegen)

@@ -42,6 +42,8 @@ import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
 import app.ss.media.playback.PlaybackViewModel
+import app.ss.media.playback.ui.nowPlaying.showNowPlaying
+import app.ss.media.playback.ui.video.showVideoList
 import coil.load
 import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
@@ -168,7 +170,13 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
         MiniPlayerComponent(
             binding.ssPlayerView,
             playbackViewModel.playbackConnection,
-            ssPrefs.displayOptionsFlow()
+            ssPrefs.displayOptionsFlow(),
+            onExpand = {
+                supportFragmentManager.showNowPlaying(
+                    viewModel.lessonIndex,
+                    getReadIndex()
+                )
+            }
         )
     }
 
@@ -227,7 +235,16 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.ss_reading_menu_audio -> {
-                playbackViewModel.playPause()
+                supportFragmentManager.showNowPlaying(
+                    viewModel.lessonIndex,
+                    getReadIndex()
+                )
+                true
+            }
+            R.id.ss_reading_menu_video -> {
+                viewModel.lessonIndex?.let {
+                    supportFragmentManager.showVideoList(it)
+                }
                 true
             }
             R.id.ss_reading_menu_share -> {
@@ -258,6 +275,12 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.ss_reading_menu_audio)?.isVisible = viewModel.audioAvailableFlow.value
+        menu?.findItem(R.id.ss_reading_menu_video)?.isVisible = viewModel.videoAvailableFlow.value
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onDestroy() {
@@ -327,6 +350,10 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
             val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
             menu.findItem(R.id.ss_reading_menu_audio)?.isVisible = available
         }
+        viewModel.videoAvailableFlow.collectIn(this) { available ->
+            val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
+            menu.findItem(R.id.ss_reading_menu_video)?.isVisible = available
+        }
     }
 
     override fun getShareWebUri(): Uri {
@@ -335,6 +362,12 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
         val readIndex = read?.shareIndex(ssReadingViewModel.lessonShareIndex, position + 1)
 
         return "${getString(R.string.ss_app_host)}/${readIndex ?: ""}".toWebUri()
+    }
+
+    private fun getReadIndex(): String? {
+        val position = binding.ssReadingViewPager.currentItem
+        val read = readingViewAdapter.getReadAt(position)
+        return read?.index
     }
 
     companion object {

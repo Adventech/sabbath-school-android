@@ -18,6 +18,7 @@ object Dependencies {
         const val APPCOMPAT = "androidx.appcompat:appcompat:${Versions.AndroidX.APPCOMPAT}"
         const val RECYCLER_VIEW = "androidx.recyclerview:recyclerview:${Versions.AndroidX.RECYCLER_VIEW}"
         const val LIFECYCLE_COMMON = "androidx.lifecycle:lifecycle-common-java8:${Versions.AndroidX.LIFECYCLE}"
+        const val LIFECYCLE_COMPOSE = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.AndroidX.LIFECYCLE_COMPOSE}"
         const val LIFECYCLE_EXTENSIONS = "androidx.lifecycle:lifecycle-extensions:${Versions.AndroidX.LIFECYCLE_EXT}"
         const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.LIFECYCLE}"
         const val LIFECYCLE_LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.AndroidX.LIFECYCLE}"
@@ -72,10 +73,12 @@ object Dependencies {
 
     object Compose {
         const val ui = "androidx.compose.ui:ui:${Versions.COMPOSE}"
+        const val uiUtil = "androidx.compose.ui:ui-util:${Versions.COMPOSE}"
         const val material = "androidx.compose.material:material:${Versions.COMPOSE}"
         const val tooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
         const val icons = "androidx.compose.material:material-icons-core:${Versions.COMPOSE}"
         const val iconsExtended = "androidx.compose.material:material-icons-extended:${Versions.COMPOSE}"
+        const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02"
     }
 
     object Accompanist {
@@ -104,8 +107,8 @@ object Dependencies {
 
     object ExoPlayer {
         const val core = "com.google.android.exoplayer:exoplayer-core:${Versions.exoplayer}"
-        const val ui = "com.google.android.exoplayer:exoplayer-ui:${Versions.exoplayer}"
         const val okhttp = "com.google.android.exoplayer:extension-okhttp:${Versions.exoplayer}"
         const val mediaSession = "com.google.android.exoplayer:extension-mediasession:${Versions.exoplayer}"
+        const val ui = "com.google.android.exoplayer:exoplayer-ui:${Versions.exoplayer}"
     }
 }

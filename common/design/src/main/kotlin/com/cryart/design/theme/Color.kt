@@ -88,3 +88,6 @@ fun navTitle(): Color = if (isSystemInDarkTheme()) Color.White else Color.Black
 
 @Composable
 fun iconTint(): Color = if (isSystemInDarkTheme()) Color.White else BaseGrey2.lighter(0.2f)
+
+@Composable
+fun divider(): Color = if (isSystemInDarkTheme()) BaseGrey5 else BaseGrey1
