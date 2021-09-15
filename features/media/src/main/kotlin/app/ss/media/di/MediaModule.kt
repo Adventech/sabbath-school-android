@@ -64,7 +64,7 @@ object MediaModule {
     fun provideOkhttpClient(
         @ApplicationContext context: Context
     ): OkHttpClient = OkHttpClient.Builder()
-        .cache(okHttpCache(context))
+        //  .cache(okHttpCache(context))
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(1, TimeUnit.MINUTES)
         .addInterceptor(
