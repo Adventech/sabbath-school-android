@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -63,6 +64,7 @@ internal fun NowPlayingColumn(
     val titleStyle: TextStyle
     val artistStyle: TextStyle
     val spacing: Dp
+    val textAlign: TextAlign
 
     when (boxState) {
         BoxState.Collapsed -> {
@@ -74,6 +76,7 @@ internal fun NowPlayingColumn(
             artistStyle = Body.copy(
                 fontSize = 14.sp,
             )
+            textAlign = TextAlign.Start
             spacing = 2.dp
         }
         BoxState.Expanded -> {
@@ -85,6 +88,7 @@ internal fun NowPlayingColumn(
             artistStyle = Body.copy(
                 fontSize = 17.sp,
             )
+            textAlign = TextAlign.Center
             spacing = Spacing8
         }
     }
@@ -102,11 +106,13 @@ internal fun NowPlayingColumn(
     ) {
         Text(
             text = audio.title,
-            style = titleStyle
+            style = titleStyle,
+            textAlign = textAlign
         )
         Text(
             text = audio.artist,
-            style = artistStyle
+            style = artistStyle,
+            textAlign = textAlign
         )
     }
 }

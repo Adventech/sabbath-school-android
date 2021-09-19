@@ -22,4 +22,5 @@
 
 <resources>
     <dimen name="ss_behaviour_peek_height">2000dp</dimen>
+    <dimen name="content_horizontal_spacing">@dimen/spacing_large</dimen>
 </resources>

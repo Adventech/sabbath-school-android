@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.lessons.ui.readings
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Build
@@ -186,6 +187,7 @@ class SSReadingViewModel(
             })
     }
 
+    @SuppressLint("CheckResult")
     fun promptForEditSuggestion() {
         if (ssReads.isEmpty()) return
 

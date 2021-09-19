@@ -58,8 +58,8 @@ import com.cryart.sabbathschool.core.misc.SSUnzip
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
-import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import com.cryart.sabbathschool.core.ui.ShareableScreen
+import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
@@ -73,7 +73,7 @@ import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, ShareableScreen {
+class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, ShareableScreen {
 
     @Inject
     lateinit var appNavigator: AppNavigator
@@ -234,6 +234,10 @@ class SSReadingActivity : SSBaseActivity(), SSReadingViewModel.DataListener, Sha
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            android.R.id.home -> {
+                finishAfterTransition()
+                true
+            }
             R.id.ss_reading_menu_audio -> {
                 supportFragmentManager.showNowPlaying(
                     viewModel.lessonIndex,
