@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2021. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,18 +20,9 @@
   ~ THE SOFTWARE.
   -->
 
-<resources>
-
-    <style name="Platform.V29.Theme.SS" parent="Platform.V24.Theme.SS">
-        <item name="android:enforceStatusBarContrast">false</item>
-        <item name="colorControlHighlight">@color/on_surface_16</item>
-    </style>
-
-    <style name="Platform.Theme.SS" parent="Platform.V29.Theme.SS" />
-
-    <style name="Theme.SS.Full">
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:statusBarColor">@color/color_navigation_full</item>
-    </style>
-
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners
+        android:topLeftRadius="@dimen/spacing_medium"
+        android:topRightRadius="@dimen/spacing_medium" />
+    <solid android:color="?android:attr/colorBackground" />
+</shape>
