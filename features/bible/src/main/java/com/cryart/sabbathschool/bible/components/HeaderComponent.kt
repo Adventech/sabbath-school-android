@@ -38,7 +38,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.contentColorFor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.Check
@@ -90,15 +89,9 @@ class HeaderComponent(
                 ).value
 
                 val backgroundColor = Color.parse(displayOptions.themeColor)
-                val contentColor = if (displayOptions.theme == SSReadingDisplayOptions.SS_THEME_DARK) {
-                    Color.White
-                } else {
-                    contentColorFor(backgroundColor = backgroundColor)
-                }
-
                 Surface(
                     color = backgroundColor,
-                    contentColor = contentColor
+                    contentColor = displayOptions.contentColor()
                 ) {
                     HeaderRow(
                         bibleVerses = bibleVerses,
@@ -108,6 +101,13 @@ class HeaderComponent(
                 }
             }
         }
+    }
+}
+
+private fun SSReadingDisplayOptions.contentColor(): Color {
+    return when (theme) {
+        SSReadingDisplayOptions.SS_THEME_DARK -> Color.White
+        else -> Color.Black
     }
 }
 
