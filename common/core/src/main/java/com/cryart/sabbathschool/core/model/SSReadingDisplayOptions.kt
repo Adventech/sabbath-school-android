@@ -47,7 +47,7 @@ data class SSReadingDisplayOptions @JvmOverloads constructor(
         const val SS_THEME_LIGHT = "light"
         const val SS_THEME_SEPIA = "sepia"
         const val SS_THEME_DARK = "dark"
-        const val SS_THEME_LIGHT_HEX = "#ffffff"
+        const val SS_THEME_LIGHT_HEX = "#fdfdfd"
         const val SS_THEME_SEPIA_HEX = "#fbf0d9"
         const val SS_THEME_DARK_HEX = "#000000"
         const val SS_SIZE_TINY = "tiny"
