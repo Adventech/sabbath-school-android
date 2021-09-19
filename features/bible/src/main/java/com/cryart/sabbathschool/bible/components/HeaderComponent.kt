@@ -201,6 +201,7 @@ private fun BibleVersionsMenu(
                         Icon(
                             Icons.Rounded.Check,
                             contentDescription = "Selected",
+                            tint = if (isSystemInDarkTheme()) Color.White else Color.Black,
                         )
                     }
                 }
