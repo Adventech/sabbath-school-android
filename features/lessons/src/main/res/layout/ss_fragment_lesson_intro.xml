@@ -32,7 +32,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:navigationIcon="@drawable/ic_close" />
+        app:contentInsetStartWithNavigation="0dp"
+        app:navigationIcon="@drawable/ic_close"
+        tools:title="Title" />
 
     <View
         android:layout_width="match_parent"
