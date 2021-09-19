@@ -188,7 +188,7 @@
                     android:id="@+id/about_message"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/spacing_large"
+                    android:layout_marginHorizontal="@dimen/content_horizontal_spacing"
                     android:layout_marginTop="24dp"
                     android:justificationMode="inter_word"
                     android:text="@string/ss_about_text"
