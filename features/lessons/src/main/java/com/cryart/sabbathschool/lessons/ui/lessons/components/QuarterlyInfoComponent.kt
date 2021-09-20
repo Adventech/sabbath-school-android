@@ -78,10 +78,15 @@ class QuarterlyInfoComponent(
 
                 binding.root.findViewById<View?>(R.id.ss_lessons_app_bar_read)
                     ?.setOnClickListener { view ->
-                        todayLessonIndex?.let { index ->
-                            val context = view.context
-                            val ssReadingIntent = SSReadingActivity.launchIntent(context, index)
-                            context.startActivity(ssReadingIntent)
+                        todayLessonIndex?.let index@{ index ->
+                            val lesson = quarterlyInfo.lessons.firstOrNull { it.index == index } ?: return@index
+                            if (lesson.pdfOnly) {
+                                // PDF Only
+                            } else {
+                                val context = view.context
+                                val ssReadingIntent = SSReadingActivity.launchIntent(context, index)
+                                context.startActivity(ssReadingIntent)
+                            }
                         }
                     }
             }

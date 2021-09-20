@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
 import android.view.ViewGroup
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -76,8 +77,12 @@ private class LessonsListAdapter : ListAdapter<SSLesson, LessonInfoHolder>(objec
                 val position = holder.absoluteAdapterPosition
                 val item = getItem(position)
 
-                val ssReadingIntent = SSReadingActivity.launchIntent(view.context, item.index)
-                view.context.startActivity(ssReadingIntent)
+                if (item.pdfOnly) {
+                    // PDF Only
+                } else {
+                    val ssReadingIntent = SSReadingActivity.launchIntent(view.context, item.index)
+                    view.context.startActivity(ssReadingIntent)
+                }
             }
         }
     }
@@ -88,10 +93,16 @@ private class LessonsListAdapter : ListAdapter<SSLesson, LessonInfoHolder>(objec
     }
 }
 
-private class LessonInfoHolder(private val binding: SsLessonItemBinding) : RecyclerView.ViewHolder(binding.root) {
+private class LessonInfoHolder(
+    private val binding: SsLessonItemBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: SSLesson) {
-        binding.ssLessonItemIndex.text = absoluteAdapterPosition.plus(1).toString()
+        binding.ssLessonItemIndex.text = if (item.id.isDigitsOnly()) {
+            "${item.id.toInt()}"
+        } else {
+            "•"
+        }
         binding.ssLessonItemTitle.text = item.title
         binding.ssLessonItemNormalDate.text = item.dateDisplay()
     }
