@@ -27,7 +27,7 @@ object SSConstants {
     const val SS_DATE_FORMAT_OUTPUT = "d MMMM"
     const val SS_DATE_FORMAT_OUTPUT_DAY = "EEEE. d MMMM"
     const val SS_DATE_FORMAT_OUTPUT_DAY_SHORT = "EEE. d MMMM"
-    private const val SS_FIREBASE_API_PREFIX = "/api/v1"
+    private const val SS_FIREBASE_API_PREFIX = "/api/v2"
     const val SS_FIREBASE_LANGUAGES_DATABASE = "$SS_FIREBASE_API_PREFIX/languages"
     const val SS_FIREBASE_QUARTERLIES_DATABASE = "$SS_FIREBASE_API_PREFIX/quarterlies"
     const val SS_FIREBASE_QUARTERLY_INFO_DATABASE = "$SS_FIREBASE_API_PREFIX/quarterly-info"
