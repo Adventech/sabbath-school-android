@@ -44,6 +44,7 @@ object Versions {
     const val JODA_TIME = "2.10.10"
     const val MARK_WORM = "4.6.2"
     const val exoplayer = "2.15.0"
+    const val pdfKit = "7.0.0"
 
     object Square {
         const val moshi = "1.12.0"

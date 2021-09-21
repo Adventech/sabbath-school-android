@@ -7,4 +7,5 @@ fun RepositoryHandler.applyDefault() {
     google()
     mavenCentral()
     maven("https://plugins.gradle.org/m2/")
+    maven("https://customers.pspdfkit.com/maven")
 }
