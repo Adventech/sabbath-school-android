@@ -41,12 +41,17 @@ import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import kotlinx.coroutines.flow.Flow
 import org.joda.time.format.DateTimeFormat
 
-class LessonsListComponent constructor(
+internal interface LessonsCallback {
+    fun openPdf(lesson: SSLesson)
+}
+
+internal class LessonsListComponent constructor(
     lifecycleOwner: LifecycleOwner,
-    binding: SsLessonsListBinding
+    binding: SsLessonsListBinding,
+    lessonsCallback: LessonsCallback,
 ) : BaseDataComponent<List<SSLesson>>(lifecycleOwner) {
 
-    private val listAdapter = LessonsListAdapter()
+    private val listAdapter = LessonsListAdapter(lessonsCallback)
 
     init {
         binding.ssLessonInfoList.apply {
@@ -62,7 +67,9 @@ class LessonsListComponent constructor(
     }
 }
 
-private class LessonsListAdapter : ListAdapter<SSLesson, LessonInfoHolder>(object : DiffUtil.ItemCallback<SSLesson>() {
+private class LessonsListAdapter(
+    private val callback: LessonsCallback
+) : ListAdapter<SSLesson, LessonInfoHolder>(object : DiffUtil.ItemCallback<SSLesson>() {
     override fun areItemsTheSame(oldItem: SSLesson, newItem: SSLesson): Boolean {
         return oldItem.id == newItem.id
     }
@@ -78,7 +85,7 @@ private class LessonsListAdapter : ListAdapter<SSLesson, LessonInfoHolder>(objec
                 val item = getItem(position)
 
                 if (item.pdfOnly) {
-                    // PDF Only
+                    callback.openPdf(item)
                 } else {
                     val ssReadingIntent = SSReadingActivity.launchIntent(view.context, item.index)
                     view.context.startActivity(ssReadingIntent)

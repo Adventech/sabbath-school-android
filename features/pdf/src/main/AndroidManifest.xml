@@ -26,6 +26,7 @@
     <application>
         <activity
             android:name="com.pspdfkit.ui.PdfActivity"
+            android:theme="@style/Theme.SS"
             android:windowSoftInputMode="adjustNothing" />
     </application>
 

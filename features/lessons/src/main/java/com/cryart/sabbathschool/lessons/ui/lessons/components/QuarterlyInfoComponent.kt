@@ -54,10 +54,11 @@ import kotlinx.coroutines.flow.Flow
 import org.joda.time.DateTime
 import org.joda.time.Interval
 
-class QuarterlyInfoComponent(
+internal class QuarterlyInfoComponent(
     lifecycleOwner: LifecycleOwner,
     private val fragmentManager: FragmentManager,
-    private val binding: SsLessonsQuarterlyInfoBinding
+    private val binding: SsLessonsQuarterlyInfoBinding,
+    private val lessonsCallback: LessonsCallback,
 ) : BaseComponent<SSQuarterlyInfo?>(lifecycleOwner) {
 
     override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<SSQuarterlyInfo?>) {
@@ -81,7 +82,7 @@ class QuarterlyInfoComponent(
                         todayLessonIndex?.let index@{ index ->
                             val lesson = quarterlyInfo.lessons.firstOrNull { it.index == index } ?: return@index
                             if (lesson.pdfOnly) {
-                                // PDF Only
+                                lessonsCallback.openPdf(lesson)
                             } else {
                                 val context = view.context
                                 val ssReadingIntent = SSReadingActivity.launchIntent(context, index)
