@@ -66,13 +66,12 @@ internal class QuarterliesRepositoryImpl(
 
     override suspend fun getQuarterlies(languageCode: String?, group: QuarterlyGroup?): Resource<List<SSQuarterly>> {
         val code = languageCode ?: ssPrefs.getLanguageCode()
-
-        val event = firebaseDatabase
+        val dbRef = firebaseDatabase
             .getReference(SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE)
             .child(code)
-            .singleEvent()
+            .also { it.keepSynced(true) }
 
-        return when (event) {
+        return when (val event = dbRef.singleEvent()) {
             is ValueEvent.Cancelled -> Resource.error(event.error)
             is ValueEvent.DataChange -> {
                 val quarterlies = event.snapshot.children.mapNotNull {
