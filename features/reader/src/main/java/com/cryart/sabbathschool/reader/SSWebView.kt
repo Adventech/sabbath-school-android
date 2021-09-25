@@ -37,7 +37,7 @@ open class SSWebView @JvmOverloads constructor(
             SSHelper.readFileFromAssets(context, SSConstants.SS_READER_APP_ENTRYPOINT)
         }
         try {
-            content = content.replace("\\{\\{content\\}\\}".toRegex(), contentData)
+            content = content.replace("{{content}}", contentData)
             content = content.replace("ss-wrapper-light", "ss-wrapper-" + ssReadingDisplayOptions.theme)
             content = content.replace("ss-wrapper-andada", "ss-wrapper-" + ssReadingDisplayOptions.font)
             content = content.replace("ss-wrapper-medium", "ss-wrapper-" + ssReadingDisplayOptions.size)
