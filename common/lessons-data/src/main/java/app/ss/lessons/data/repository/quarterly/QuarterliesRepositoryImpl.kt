@@ -24,6 +24,7 @@ package app.ss.lessons.data.repository.quarterly
 
 import app.ss.lessons.data.extensions.ValueEvent
 import app.ss.lessons.data.extensions.singleEvent
+import app.ss.lessons.data.extensions.valueEventFlow
 import app.ss.lessons.data.model.Language
 import app.ss.lessons.data.model.QuarterlyGroup
 import app.ss.lessons.data.model.SSQuarterly
@@ -35,6 +36,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -64,23 +67,27 @@ internal class QuarterliesRepositoryImpl(
             })
     }
 
-    override suspend fun getQuarterlies(languageCode: String?, group: QuarterlyGroup?): Resource<List<SSQuarterly>> {
+    override suspend fun getQuarterlies(
+        languageCode: String?,
+        group: QuarterlyGroup?
+    ): Flow<Resource<List<SSQuarterly>>> {
         val code = languageCode ?: ssPrefs.getLanguageCode()
         val dbRef = firebaseDatabase
             .getReference(SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE)
             .child(code)
-            .also { it.keepSynced(true) }
 
-        return when (val event = dbRef.singleEvent()) {
-            is ValueEvent.Cancelled -> Resource.error(event.error)
-            is ValueEvent.DataChange -> {
-                val quarterlies = event.snapshot.children.mapNotNull {
-                    SSQuarterly(it)
+        return dbRef.valueEventFlow().map { event ->
+            when (event) {
+                is ValueEvent.Cancelled -> Resource.error(event.error)
+                is ValueEvent.DataChange -> {
+                    val quarterlies = event.snapshot.children.mapNotNull {
+                        SSQuarterly(it)
+                    }
+                    val result = group?.let {
+                        quarterlies.filter { it.quarterly_group == group }
+                    } ?: quarterlies
+                    Resource.success(result)
                 }
-                val result = group?.let {
-                    quarterlies.filter { it.quarterly_group == group }
-                } ?: quarterlies
-                Resource.success(result)
             }
         }
     }

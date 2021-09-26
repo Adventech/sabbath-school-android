@@ -42,6 +42,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -72,7 +73,7 @@ class QuarterliesViewModel @Inject constructor(
 
     val quarterliesFlow: StateFlow<Resource<GroupedQuarterlies>>
         get() = ssPrefs.getLanguageCodeFlow()
-            .map { language -> repository.getQuarterlies(language, quarterlyGroup) }
+            .flatMapLatest { language -> repository.getQuarterlies(language, quarterlyGroup) }
             .map(this::groupQuarterlies)
             .stateIn(viewModelScope, Resource.success(GroupedQuarterlies.TypeList(placeHolderQuarterlies())))
 
