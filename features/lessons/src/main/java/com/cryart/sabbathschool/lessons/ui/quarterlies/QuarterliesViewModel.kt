@@ -42,6 +42,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -70,11 +71,10 @@ class QuarterliesViewModel @Inject constructor(
     private val _appReBranding = MutableSharedFlow<Boolean>()
     val appReBrandingFlow: SharedFlow<Boolean> get() = _appReBranding.asSharedFlow()
 
-    val quarterliesFlow: StateFlow<Resource<GroupedQuarterlies>>
-        get() = ssPrefs.getLanguageCodeFlow()
-            .map { language -> repository.getQuarterlies(language, quarterlyGroup) }
-            .map(this::groupQuarterlies)
-            .stateIn(viewModelScope, Resource.success(GroupedQuarterlies.TypeList(placeHolderQuarterlies())))
+    val quarterliesFlow: StateFlow<Resource<GroupedQuarterlies>> = ssPrefs.getLanguageCodeFlow()
+        .flatMapLatest { language -> repository.getQuarterlies(language, quarterlyGroup) }
+        .map(this::groupQuarterlies)
+        .stateIn(viewModelScope, Resource.success(GroupedQuarterlies.TypeList(placeHolderQuarterlies())))
 
     @Suppress("UNCHECKED_CAST")
     private fun groupQuarterlies(resource: Resource<List<SSQuarterly>>): Resource<GroupedQuarterlies> {

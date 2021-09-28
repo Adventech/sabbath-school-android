@@ -82,8 +82,8 @@ class QuarterliesViewModelTest {
         val language = "de"
 
         coEvery { mockRepository.getQuarterlies(any(), null) }.returns(
-            Resource.success(
-                emptyList()
+            flowOf(
+                Resource.success(emptyList())
             )
         )
         every { mockSSPrefs.setLanguageCode(language) }.returns(Unit)
