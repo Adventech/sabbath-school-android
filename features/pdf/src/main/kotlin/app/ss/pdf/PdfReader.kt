@@ -22,6 +22,7 @@
 
 package app.ss.pdf
 
+import android.content.Context
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import app.ss.lessons.data.model.LessonPdf
@@ -47,6 +48,7 @@ internal class PdfReaderImpl : PdfReader, DownloadJob.ProgressListenerAdapter() 
     override fun open(activity: AppCompatActivity, pdf: LessonPdf) {
         val request: DownloadRequest = DownloadRequest.Builder(activity)
             .uri(pdf.src)
+            .outputFile(File(activity.getDir(FILE_DIRECTORY, Context.MODE_PRIVATE), "${pdf.id}.pdf"))
             .build()
 
         downloadJob = DownloadJob.startDownload(request)
@@ -77,10 +79,14 @@ internal class PdfReaderImpl : PdfReader, DownloadJob.ProgressListenerAdapter() 
             activity,
             LessonPdf(
                 id = "",
-                title = "A Famliy Tree of God's Love",
+                title = "A Family Tree of God's Love",
                 src = "https://sabbath-school-pdf.adventech.io/pdf/en/2021-03-pp/" +
                     "7d328f229ae2532b48433f5a2fd72f2e9261c066084c44bbf967afa6f7bb1b87/7d328f229ae2532b48433f5a2fd72f2e9261c066084c44bbf967afa6f7bb1b87.pdf"
             )
         )
+    }
+
+    companion object {
+        private const val FILE_DIRECTORY = "ssPdfs"
     }
 }
