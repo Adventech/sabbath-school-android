@@ -20,14 +20,12 @@
   ~ THE SOFTWARE.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="app.ss.pdf">
-
-    <application>
-        <activity
-            android:name="com.pspdfkit.ui.PdfActivity"
-            android:theme="@style/Theme.SS.Pdf"
-            android:windowSoftInputMode="adjustNothing" />
-    </application>
-
-</manifest>
+<resources>
+    <style name="Theme.SS.Pdf">
+        <item name="colorPrimary">@color/ss_theme_color_background</item>
+        <item name="colorPrimaryVariant">@color/ss_theme_color_background</item>
+        <item name="colorOnPrimary">@color/text_primary</item>
+        <item name="colorSurface">@color/ss_theme_color_background</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+    </style>
+</resources>

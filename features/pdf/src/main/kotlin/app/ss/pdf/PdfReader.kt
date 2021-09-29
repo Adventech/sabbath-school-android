@@ -28,11 +28,13 @@ import androidx.appcompat.app.AppCompatActivity
 import app.ss.lessons.data.model.LessonPdf
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.ThumbnailBarMode
+import com.pspdfkit.configuration.page.PageFitMode
 import com.pspdfkit.configuration.settings.SettingsMenuItemType
 import com.pspdfkit.configuration.sharing.ShareFeatures
 import com.pspdfkit.document.download.DownloadJob
 import com.pspdfkit.document.download.DownloadRequest
-import com.pspdfkit.ui.PdfActivity
+import com.pspdfkit.ui.DocumentDescriptor
+import com.pspdfkit.ui.PdfActivityIntentBuilder
 import java.io.File
 import java.util.EnumSet
 
@@ -64,11 +66,20 @@ internal class PdfReaderImpl : PdfReader, DownloadJob.ProgressListenerAdapter() 
                     .disableSearch()
                     .disablePrinting()
                     .disableOutline()
+                    .fitMode(PageFitMode.FIT_TO_WIDTH)
+                    .animateScrollOnEdgeTaps(true)
                     .setEnabledShareFeatures(EnumSet.noneOf(ShareFeatures::class.java))
                     .setThumbnailBarMode(ThumbnailBarMode.THUMBNAIL_BAR_MODE_NONE)
                     .setSettingsMenuItems(EnumSet.allOf(SettingsMenuItemType::class.java))
                     .build()
-                PdfActivity.showDocument(activity, Uri.fromFile(output), config)
+
+                val intent = PdfActivityIntentBuilder.fromDocumentDescriptor(
+                    activity,
+                    DocumentDescriptor.fromUri(Uri.fromFile(output)),
+                )
+                    .configuration(config)
+                    .build()
+                activity.startActivity(intent)
             }
         })
     }
