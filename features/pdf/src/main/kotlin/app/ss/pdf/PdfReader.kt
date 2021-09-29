@@ -55,43 +55,31 @@ internal class PdfReaderImpl(
     private val schedulerProvider: SchedulerProvider
 ) : PdfReader, DownloadJob.ProgressListenerAdapter(), CoroutineScope by MainScope() {
 
-    private var downloadJob: DownloadJob? = null
-
-    private fun open(activity: AppCompatActivity, pdf: LessonPdf) {
-        val request: DownloadRequest = DownloadRequest.Builder(activity)
-            .uri(pdf.src)
-            .outputFile(File(activity.getDir(FILE_DIRECTORY, Context.MODE_PRIVATE), "${pdf.id}.pdf"))
+    private fun read(activity: AppCompatActivity, files: List<LocalFile>) {
+        val document = DocumentDescriptor.fromUris(files.map { it.uri }, null, null)
+        val config = PdfActivityConfiguration.Builder(activity)
+            // .title(pdf.title)
+            .hidePageLabels()
+            .hideDocumentTitleOverlay()
+            .hidePageNumberOverlay()
+            .hideThumbnailGrid()
+            .disableSearch()
+            .disablePrinting()
+            .disableOutline()
+            .fitMode(PageFitMode.FIT_TO_WIDTH)
+            .animateScrollOnEdgeTaps(true)
+            .setEnabledShareFeatures(EnumSet.noneOf(ShareFeatures::class.java))
+            .setThumbnailBarMode(ThumbnailBarMode.THUMBNAIL_BAR_MODE_NONE)
+            .setSettingsMenuItems(EnumSet.allOf(SettingsMenuItemType::class.java))
             .build()
 
-        downloadJob = DownloadJob.startDownload(request)
-        downloadJob?.setProgressListener(object : DownloadJob.ProgressListenerAdapter() {
-            override fun onComplete(output: File) {
-                downloadJob = null
-                val config = PdfActivityConfiguration.Builder(activity)
-                    .title(pdf.title)
-                    .hidePageLabels()
-                    .hideDocumentTitleOverlay()
-                    .hidePageNumberOverlay()
-                    .hideThumbnailGrid()
-                    .disableSearch()
-                    .disablePrinting()
-                    .disableOutline()
-                    .fitMode(PageFitMode.FIT_TO_WIDTH)
-                    .animateScrollOnEdgeTaps(true)
-                    .setEnabledShareFeatures(EnumSet.noneOf(ShareFeatures::class.java))
-                    .setThumbnailBarMode(ThumbnailBarMode.THUMBNAIL_BAR_MODE_NONE)
-                    .setSettingsMenuItems(EnumSet.allOf(SettingsMenuItemType::class.java))
-                    .build()
-
-                val intent = PdfActivityIntentBuilder.fromDocumentDescriptor(
-                    activity,
-                    DocumentDescriptor.fromUri(Uri.fromFile(output)),
-                )
-                    .configuration(config)
-                    .build()
-                activity.startActivity(intent)
-            }
-        })
+        val intent = PdfActivityIntentBuilder.fromDocumentDescriptor(
+            activity,
+            document,
+        )
+            .configuration(config)
+            .build()
+        activity.startActivity(intent)
     }
 
     override fun open(activity: AppCompatActivity, pdfs: List<LessonPdf>) {
@@ -99,7 +87,9 @@ internal class PdfReaderImpl(
             try {
                 val files = pdfs.mapNotNull { downloadFile(activity, it) }
 
-                println("FILES: $files")
+                if (files.isNotEmpty()) {
+                    read(activity, files)
+                }
             } catch (ex: Exception) {
                 Timber.e(ex)
             }
