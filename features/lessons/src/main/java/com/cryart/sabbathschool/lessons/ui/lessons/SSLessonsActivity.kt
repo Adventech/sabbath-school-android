@@ -30,6 +30,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.WindowCompat
 import androidx.core.widget.NestedScrollView
+import app.ss.lessons.data.model.LessonPdf
 import app.ss.lessons.data.model.SSLesson
 import app.ss.pdf.PdfReader
 import com.cryart.sabbathschool.core.extensions.context.shareContent
@@ -192,8 +193,16 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen, LessonsCallback {
 
     override fun openPdf(lesson: SSLesson) {
         // fetch pdfs
+        val pdfs = listOf(
+            LessonPdf(
+                id = "7d328f229ae2532b48433f5a2fd72f2e9261c066084c44bbf967afa6f7bb1b87",
+                title = "A Family Tree of God's Love",
+                src = "https://sabbath-school-pdf.adventech.io/pdf/en/2021-03-pp/" +
+                    "7d328f229ae2532b48433f5a2fd72f2e9261c066084c44bbf967afa6f7bb1b87/7d328f229ae2532b48433f5a2fd72f2e9261c066084c44bbf967afa6f7bb1b87.pdf"
+            )
+        )
         pdfReader.open(
-            this, emptyList()
+            this, pdfs
         )
     }
 }

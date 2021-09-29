@@ -24,6 +24,7 @@ package app.ss.pdf.di
 
 import app.ss.pdf.PdfReader
 import app.ss.pdf.PdfReaderImpl
+import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,5 +37,9 @@ object PdfModule {
 
     @Provides
     @Singleton
-    fun provideReader(): PdfReader = PdfReaderImpl()
+    fun provideReader(
+        schedulerProvider: SchedulerProvider,
+    ): PdfReader = PdfReaderImpl(
+        schedulerProvider = schedulerProvider,
+    )
 }
