@@ -25,6 +25,8 @@ package com.cryart.sabbathschool.lessons.ui.readings
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.lessons.data.model.LessonPdf
+import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.media.repository.SSMediaRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
@@ -38,8 +40,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ReadingsViewModel @Inject constructor(
     private val mediaRepository: SSMediaRepository,
-    schedulerProvider: SchedulerProvider,
-    private val savedStateHandle: SavedStateHandle
+    private val lessonsRepository: LessonsRepository,
+    private val savedStateHandle: SavedStateHandle,
+    schedulerProvider: SchedulerProvider
 ) : ViewModel() {
 
     private val _audioAvailable = MutableStateFlow(false)
@@ -47,6 +50,12 @@ class ReadingsViewModel @Inject constructor(
 
     private val _videoAvailable = MutableStateFlow(false)
     val videoAvailableFlow: StateFlow<Boolean> get() = _videoAvailable.asStateFlow()
+
+    private val _pdfAvailable = MutableStateFlow(false)
+    val pdfAvailableFlow: StateFlow<Boolean> get() = _pdfAvailable.asStateFlow()
+
+    private val _lessonPdfs = MutableStateFlow(emptyList<LessonPdf>())
+    val lessonPdfsFlow: StateFlow<List<LessonPdf>> = _lessonPdfs
 
     val lessonIndex: String? get() = savedStateHandle.lessonIndex
 
@@ -58,6 +67,11 @@ class ReadingsViewModel @Inject constructor(
 
                 val videoResource = mediaRepository.getVideo(index)
                 _videoAvailable.emit(videoResource.data.isNullOrEmpty().not())
+
+                val lessonResource = lessonsRepository.getLessonInfo(index)
+                val pdfs = lessonResource.data?.pdfs ?: emptyList()
+                _lessonPdfs.emit(pdfs)
+                _pdfAvailable.emit(pdfs.isNotEmpty())
             }
         }
     }
