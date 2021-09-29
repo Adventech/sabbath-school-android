@@ -25,7 +25,10 @@ package com.cryart.sabbathschool.lessons.ui.lessons
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.lessons.data.model.LessonPdf
+import app.ss.lessons.data.model.SSLesson
 import app.ss.lessons.data.model.SSQuarterlyInfo
+import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
@@ -33,14 +36,18 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LessonsViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
+    private val lessonsRepository: LessonsRepository,
     private val ssPrefs: SSPrefs,
     private val appWidgetHelper: AppWidgetHelper,
     private val savedStateHandle: SavedStateHandle
@@ -75,8 +82,19 @@ class LessonsViewModel @Inject constructor(
     val quarterlyShareIndex: String get() = ssQuarterlyInfo?.shareIndex() ?: ""
     val quarterlyTitle: String get() = ssQuarterlyInfo?.quarterly?.title ?: ""
 
+    private val _selectedPdfs = MutableSharedFlow<List<LessonPdf>>()
+    val selectedPdfsFlow: SharedFlow<List<LessonPdf>> = _selectedPdfs
+
     init {
         // cache DisplayOptions for read screen launch
         ssPrefs.getDisplayOptions { }
+    }
+
+    fun pdfLessonSelected(lesson: SSLesson) = viewModelScope.launch {
+        val resource = lessonsRepository.getLessonInfo(lesson.index)
+        if (resource.isSuccessFul) {
+            val data = resource.data
+            _selectedPdfs.emit(data?.pdfs ?: emptyList())
+        }
     }
 }

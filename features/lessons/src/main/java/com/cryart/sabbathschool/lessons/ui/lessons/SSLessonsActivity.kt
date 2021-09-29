@@ -30,11 +30,11 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.WindowCompat
 import androidx.core.widget.NestedScrollView
-import app.ss.lessons.data.model.LessonPdf
 import app.ss.lessons.data.model.SSLesson
 import app.ss.pdf.PdfReader
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.tint
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -148,6 +148,12 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen, LessonsCallback {
                 LessonsFooter(credits, features)
             }
         )
+
+        viewModel.selectedPdfsFlow.collectIn(this) { pdfs ->
+            if (pdfs.isNotEmpty()) {
+                pdfReader.open(this@SSLessonsActivity, pdfs)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -178,6 +184,10 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen, LessonsCallback {
         return "${getString(R.string.ss_app_host)}/${viewModel.quarterlyShareIndex}".toWebUri()
     }
 
+    override fun openPdf(lesson: SSLesson) {
+        viewModel.pdfLessonSelected(lesson)
+    }
+
     companion object {
 
         fun launchIntent(
@@ -189,20 +199,5 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen, LessonsCallback {
         ).apply {
             putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, quarterlyIndex)
         }
-    }
-
-    override fun openPdf(lesson: SSLesson) {
-        // fetch pdfs
-        val pdfs = listOf(
-            LessonPdf(
-                id = "7d328f229ae2532b48433f5a2fd72f2e9261c066084c44bbf967afa6f7bb1b87",
-                title = "A Family Tree of God's Love",
-                src = "https://sabbath-school-pdf.adventech.io/pdf/en/2021-03-pp/" +
-                    "7d328f229ae2532b48433f5a2fd72f2e9261c066084c44bbf967afa6f7bb1b87/7d328f229ae2532b48433f5a2fd72f2e9261c066084c44bbf967afa6f7bb1b87.pdf"
-            )
-        )
-        pdfReader.open(
-            this, pdfs
-        )
     }
 }
