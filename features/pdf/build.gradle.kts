@@ -23,17 +23,12 @@
 import dependencies.Dependencies
 import dependencies.Dependencies.Accompanist
 import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Compose
-import dependencies.Dependencies.ExoPlayer
 import dependencies.Dependencies.Hilt
-import dependencies.Dependencies.Kotlin
-import dependencies.Dependencies.Square.Moshi
-import dependencies.Dependencies.Square.Okhttp
-import dependencies.Dependencies.Square.Retrofit
 import dependencies.Versions
 import extensions.addTestsDependencies
 import extensions.kapt
+import extensions.readPropertyValue
 
 plugins {
     id(BuildPlugins.Android.LIBRARY)
@@ -42,11 +37,19 @@ plugins {
     id(BuildPlugins.DAGGER_HILT)
 }
 
+val psPdfKitKey = readPropertyValue(
+    filePath = "$rootDir/${BuildAndroidConfig.API_KEYS_PROPS_FILE}",
+    key = "PSPDFKIT_LICENSE",
+    defaultValue = ""
+)
+
 android {
     compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
 
     defaultConfig {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
+
+        manifestPlaceholders["psPdfKitKey"] = psPdfKitKey
     }
 
     sourceSets {
