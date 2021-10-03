@@ -21,9 +21,7 @@
  */
 
 import dependencies.Dependencies
-import dependencies.Dependencies.Accompanist
 import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Compose
 import dependencies.Dependencies.Hilt
 import dependencies.Versions
 import extensions.addTestsDependencies
@@ -93,14 +91,6 @@ dependencies {
     kapt(Hilt.COMPILER)
 
     implementation(Dependencies.TIMBER)
-
-    implementation(Compose.ui)
-    implementation(Compose.material)
-    implementation(Compose.tooling)
-    implementation(Compose.icons)
-    implementation(Compose.iconsExtended)
-    implementation(Compose.constraintLayout)
-    implementation(Accompanist.placeholder)
 
     implementation(Dependencies.PDF_KIT)
 
