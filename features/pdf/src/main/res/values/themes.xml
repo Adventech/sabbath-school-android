@@ -26,6 +26,61 @@
         <item name="colorPrimaryVariant">@color/ss_theme_color_background</item>
         <item name="colorOnPrimary">@color/text_primary</item>
         <item name="colorSurface">@color/ss_theme_color_background</item>
-        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorOnSurface">@color/ss_icon_tint</item>
+        <item name="colorAccent">@color/ss_icon_tint</item>
+
+        <item name="pspdf__mainToolbarStyle">@style/Widget.SS.Pdf.MainToolbarStyle</item>
+        <item name="pspdf__actionBarIconsStyle">@style/Widget.SS.Pdf.ActionBar</item>
+        <item name="pspdf__outlineViewStyle">@style/Widget.SS.Pdf.OutlineStyle</item>
+        <item name="pspdf__contextualToolbarStyle">@style/Widget.SS.Pdf.ContextualToolbarStyle</item>
+        <item name="pspdf__settingsModePickerItemStyle">@style/Widget.SS.Pdf.SettingsModePickerItemStyle</item>
+        <item name="pspdf__settingsModeLineSeparatorStyle">@style/Widget.SS.Pdf.SettingsModeLineSeparatorStyle</item>
+        <item name="pspdf__tabBarStyle">@style/Widget.SS.Pdf.TabBarStyle</item>
+    </style>
+
+    <style name="Widget.SS.Pdf" parent="Theme.SS.Pdf"/>
+
+    <style name="Widget.SS.Pdf.MainToolbarStyle">
+        <item name="pspdf__backgroundColor">?colorSurface</item>
+        <item name="pspdf__textColor">?attr/colorOnSurface</item>
+
+        <item name="pspdf__toolbarTheme">@style/ThemeOverlay.SS.Toolbar</item>
+        <item name="pspdf__toolbarPopupTheme">@style/ThemeOverlay.AppCompat.DayNight</item>
+    </style>
+
+    <style name="Widget.SS.Pdf.ActionBar">
+        <item name="pspdf__iconsColor">?attr/colorOnSurface</item>
+        <item name="pspdf__iconsColorActivated">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="Widget.SS.Pdf.ContextualToolbarStyle">
+        <item name="pspdf__backgroundColor">?colorSurface</item>
+        <item name="pspdf__submenuBackgroundColor">?colorSurface</item>
+        <item name="pspdf__iconsColor">?attr/colorOnSurface</item>
+        <item name="pspdf__iconsColorActivated">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="Widget.SS.Pdf.OutlineStyle">
+        <item name="pspdf__backgroundColor">?attr/colorSurface</item>
+    </style>
+
+    <style name="Widget.SS.Pdf.SettingsModePickerItemStyle">
+        <item name="pspdf__itemTint">@color/ss_pdf_item_tint</item>
+    </style>
+
+    <style name="Widget.SS.Pdf.SettingsModeLineSeparatorStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:background">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="Widget.SS.Pdf.TabBarStyle">
+        <item name="pspdf__tabTextColor">@color/ss_pdf_text_color</item>
+        <item name="pspdf__tabColor">@color/ss_pdf_tab_color</item>
+        <item name="pspdf__backgroundColor">?attr/colorSurface</item>
+        <item name="pspdf__tabTextColorSelected">?attr/colorOnSurface</item>
+        <item name="pspdf__tabIndicatorColor">?attr/colorOnSurface</item>
     </style>
 </resources>
