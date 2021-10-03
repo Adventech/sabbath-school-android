@@ -20,23 +20,24 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.model
+package app.ss.pdf.ui
 
-import android.os.Parcelable
-import androidx.annotation.Keep
-import com.google.firebase.database.IgnoreExtraProperties
-import kotlinx.parcelize.Parcelize
+import android.os.Bundle
+import android.view.MenuItem
+import com.pspdfkit.ui.PdfActivity
 
-@Keep
-@IgnoreExtraProperties
-@Parcelize
-data class LessonPdf(
-    val id: String,
-    val title: String = "",
-    val start_date: String = "",
-    val end_date: String = "",
-    val target: String = "",
-    val src: String = ""
-) : Parcelable {
-    constructor() : this("")
+class SSReadPdfActivity : PdfActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> true.also { finish() }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 }

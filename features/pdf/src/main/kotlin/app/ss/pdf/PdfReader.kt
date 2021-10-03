@@ -26,12 +26,15 @@ import android.content.Context
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import app.ss.lessons.data.model.LessonPdf
+import app.ss.pdf.ui.SSReadPdfActivity
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
+import com.pspdfkit.configuration.activity.TabBarHidingMode
 import com.pspdfkit.configuration.activity.ThumbnailBarMode
 import com.pspdfkit.configuration.page.PageFitMode
 import com.pspdfkit.configuration.settings.SettingsMenuItemType
 import com.pspdfkit.configuration.sharing.ShareFeatures
+import com.pspdfkit.document.DocumentSource
 import com.pspdfkit.document.download.DownloadJob
 import com.pspdfkit.document.download.DownloadRequest
 import com.pspdfkit.ui.DocumentDescriptor
@@ -56,11 +59,15 @@ internal class PdfReaderImpl(
 ) : PdfReader, DownloadJob.ProgressListenerAdapter(), CoroutineScope by MainScope() {
 
     private fun read(activity: AppCompatActivity, files: List<LocalFile>) {
-        val document = DocumentDescriptor.fromUris(files.map { it.uri }, null, null)
+        val docs = files.map { file ->
+            DocumentDescriptor.fromDocumentSource(DocumentSource(file.uri)).apply {
+                setTitle(file.title)
+            }
+        }
         val config = PdfActivityConfiguration.Builder(activity)
-            // .title(pdf.title)
             .hidePageLabels()
             .hideDocumentTitleOverlay()
+            .disableDocumentInfoView()
             .hidePageNumberOverlay()
             .hideThumbnailGrid()
             .disableSearch()
@@ -71,14 +78,17 @@ internal class PdfReaderImpl(
             .setEnabledShareFeatures(EnumSet.noneOf(ShareFeatures::class.java))
             .setThumbnailBarMode(ThumbnailBarMode.THUMBNAIL_BAR_MODE_NONE)
             .setSettingsMenuItems(EnumSet.allOf(SettingsMenuItemType::class.java))
+            .setTabBarHidingMode(TabBarHidingMode.AUTOMATIC)
             .build()
 
         val intent = PdfActivityIntentBuilder.fromDocumentDescriptor(
             activity,
-            document,
+            *docs.toTypedArray(),
         )
             .configuration(config)
+            .activityClass(SSReadPdfActivity::class.java)
             .build()
+
         activity.startActivity(intent)
     }
 

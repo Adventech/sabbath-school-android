@@ -25,7 +25,7 @@
 
     <application>
         <activity
-            android:name="com.pspdfkit.ui.PdfActivity"
+            android:name=".ui.SSReadPdfActivity"
             android:theme="@style/Theme.SS.Pdf"
             android:windowSoftInputMode="adjustNothing" />
 
