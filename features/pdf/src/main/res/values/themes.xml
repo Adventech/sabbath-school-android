@@ -29,6 +29,7 @@
         <item name="colorOnSurface">@color/ss_icon_tint</item>
         <item name="colorAccent">@color/ss_icon_tint</item>
 
+        <item name="pspdf__backgroundColor">@color/ss_pdf_document_background</item>
         <item name="pspdf__mainToolbarStyle">@style/Widget.SS.Pdf.MainToolbarStyle</item>
         <item name="pspdf__actionBarIconsStyle">@style/Widget.SS.Pdf.ActionBar</item>
         <item name="pspdf__outlineViewStyle">@style/Widget.SS.Pdf.OutlineStyle</item>

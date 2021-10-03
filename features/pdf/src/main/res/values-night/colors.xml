@@ -22,4 +22,5 @@
 
 <resources>
     <color name="ss_icon_tint">@color/white</color>
+    <color name="ss_pdf_document_background">@color/ss_theme_color_background</color>
 </resources>

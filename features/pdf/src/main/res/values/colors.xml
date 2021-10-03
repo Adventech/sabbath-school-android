@@ -22,4 +22,5 @@
 
 <resources>
     <color name="ss_icon_tint">@color/black</color>
+    <color name="ss_pdf_document_background">@color/pspdf__color_gray_light</color>
 </resources>
