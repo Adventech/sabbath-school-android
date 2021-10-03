@@ -23,7 +23,7 @@
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Hilt
-import dependencies.Versions
+import dependencies.Dependencies.Kotlin
 import extensions.addTestsDependencies
 import extensions.kapt
 import extensions.readPropertyValue
@@ -67,13 +67,6 @@ android {
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.OPT_IN
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
-    }
-
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
@@ -91,6 +84,9 @@ dependencies {
     kapt(Hilt.COMPILER)
 
     implementation(Dependencies.TIMBER)
+
+    implementation(Kotlin.COROUTINES)
+    implementation(Kotlin.COROUTINES_ANDROID)
 
     implementation(Dependencies.PDF_KIT)
 
