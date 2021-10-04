@@ -264,9 +264,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
             R.id.ss_reading_menu_pdf -> {
                 val pdfs = viewModel.lessonPdfsFlow.value
                 if (pdfs.isNotEmpty()) {
-                    pdfReader.open(
-                        this, pdfs
-                    )
+                    startActivity(pdfReader.launchIntent(pdfs))
                 }
                 true
             }

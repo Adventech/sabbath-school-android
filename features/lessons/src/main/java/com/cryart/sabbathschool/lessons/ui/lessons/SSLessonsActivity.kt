@@ -151,7 +151,7 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen, LessonsCallback {
 
         viewModel.selectedPdfsFlow.collectIn(this) { pdfs ->
             if (pdfs.isNotEmpty()) {
-                pdfReader.open(this@SSLessonsActivity, pdfs)
+                startActivity(pdfReader.launchIntent(pdfs))
             }
         }
     }
