@@ -79,6 +79,8 @@ dependencies {
     implementation(Dependencies.MATERIAL)
     implementation(AndroidX.CORE)
     implementation(AndroidX.APPCOMPAT)
+    implementation(AndroidX.ACTIVITY)
+    implementation(AndroidX.LIFECYCLE_VIEWMODEL)
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
@@ -88,7 +90,7 @@ dependencies {
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
 
-    implementation(Dependencies.PDF_KIT)
+    api(Dependencies.PDF_KIT)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))

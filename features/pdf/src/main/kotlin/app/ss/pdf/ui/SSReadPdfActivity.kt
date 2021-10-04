@@ -24,14 +24,27 @@ package app.ss.pdf.ui
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
+import com.cryart.sabbathschool.core.R
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
+import com.pspdfkit.document.DocumentSource
+import com.pspdfkit.ui.DocumentDescriptor
 import com.pspdfkit.ui.PdfActivity
+import com.pspdfkit.ui.tabs.PdfTabBarCloseMode
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SSReadPdfActivity : PdfActivity() {
+
+    private val viewModel by viewModels<ReadPdfViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        overridePendingTransition(R.anim.enter_from_right, android.R.anim.fade_out)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        initUi()
+
+        collectData()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -40,4 +53,38 @@ class SSReadPdfActivity : PdfActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    private fun initUi() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        pspdfKitViews.tabBar?.setCloseMode(PdfTabBarCloseMode.CLOSE_DISABLED)
+    }
+
+    private fun collectData() {
+        viewModel.pdfsFilesFlow.collectIn(this) { resource ->
+            if (documentCoordinator.documents.isNotEmpty()) return@collectIn
+
+            val documents = resource.data?.map { file ->
+                DocumentDescriptor.fromDocumentSource(DocumentSource(file.uri)).apply {
+                    setTitle(file.title)
+                }
+            } ?: return@collectIn
+
+            if (documents.isEmpty()) return@collectIn
+
+            documents.forEach { documentCoordinator.addDocument(it) }
+            documentCoordinator.setVisibleDocument(documents.first())
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(android.R.anim.fade_in, R.anim.exit_to_right)
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(android.R.anim.fade_in, R.anim.exit_to_right)
+    }
 }
+
+internal const val ARG_PDF_FILES = "ss_arg_pdf_files"

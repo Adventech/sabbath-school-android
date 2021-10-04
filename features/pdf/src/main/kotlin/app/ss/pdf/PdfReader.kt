@@ -23,48 +23,48 @@
 package app.ss.pdf
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
+import androidx.annotation.Keep
 import app.ss.lessons.data.model.LessonPdf
+import app.ss.pdf.ui.ARG_PDF_FILES
 import app.ss.pdf.ui.SSReadPdfActivity
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.response.Resource
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.TabBarHidingMode
 import com.pspdfkit.configuration.activity.ThumbnailBarMode
 import com.pspdfkit.configuration.page.PageFitMode
 import com.pspdfkit.configuration.settings.SettingsMenuItemType
 import com.pspdfkit.configuration.sharing.ShareFeatures
-import com.pspdfkit.document.DocumentSource
 import com.pspdfkit.document.download.DownloadJob
 import com.pspdfkit.document.download.DownloadRequest
-import com.pspdfkit.ui.DocumentDescriptor
 import com.pspdfkit.ui.PdfActivityIntentBuilder
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 import java.io.File
 import java.util.EnumSet
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-internal data class LocalFile(val title: String, val uri: Uri)
+@Keep
+data class LocalFile(val title: String, val uri: Uri)
 
 interface PdfReader {
-    fun open(activity: AppCompatActivity, pdfs: List<LessonPdf>)
+    fun launchIntent(pdfs: List<LessonPdf>): Intent
+    fun downloadFlow(pdfs: List<LessonPdf>): Flow<Resource<List<LocalFile>>>
 }
 
 internal class PdfReaderImpl(
+    private val context: Context,
     private val schedulerProvider: SchedulerProvider
-) : PdfReader, DownloadJob.ProgressListenerAdapter(), CoroutineScope by MainScope() {
+) : PdfReader, DownloadJob.ProgressListenerAdapter() {
 
-    private fun read(activity: AppCompatActivity, files: List<LocalFile>) {
-        val docs = files.map { file ->
-            DocumentDescriptor.fromDocumentSource(DocumentSource(file.uri)).apply {
-                setTitle(file.title)
-            }
-        }
-        val config = PdfActivityConfiguration.Builder(activity)
+    override fun launchIntent(pdfs: List<LessonPdf>): Intent {
+        val config = PdfActivityConfiguration.Builder(context)
             .hidePageLabels()
             .hideDocumentTitleOverlay()
             .disableDocumentInfoView()
@@ -81,29 +81,22 @@ internal class PdfReaderImpl(
             .setTabBarHidingMode(TabBarHidingMode.AUTOMATIC)
             .build()
 
-        val intent = PdfActivityIntentBuilder.fromDocumentDescriptor(
-            activity,
-            *docs.toTypedArray(),
-        )
+        return PdfActivityIntentBuilder.emptyActivity(context)
             .configuration(config)
             .activityClass(SSReadPdfActivity::class.java)
             .build()
-
-        activity.startActivity(intent)
+            .apply { putParcelableArrayListExtra(ARG_PDF_FILES, ArrayList(pdfs)) }
     }
 
-    override fun open(activity: AppCompatActivity, pdfs: List<LessonPdf>) {
-        launch(schedulerProvider.default) {
-            try {
-                val files = pdfs.mapNotNull { downloadFile(activity, it) }
-
-                if (files.isNotEmpty()) {
-                    read(activity, files)
-                }
-            } catch (ex: Exception) {
-                Timber.e(ex)
-            }
-        }
+    override fun downloadFlow(pdfs: List<LessonPdf>): Flow<Resource<List<LocalFile>>> {
+        return flow {
+            emit(Resource.loading())
+            val files = pdfs.mapNotNull { downloadFile(context, it) }
+            emit(Resource.success(files))
+        }.catch {
+            Timber.e(it)
+            emit(Resource.error(it))
+        }.flowOn(schedulerProvider.default)
     }
 
     private suspend fun downloadFile(
