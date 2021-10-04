@@ -37,6 +37,7 @@
         <item name="pspdf__settingsModePickerItemStyle">@style/Widget.SS.Pdf.SettingsModePickerItemStyle</item>
         <item name="pspdf__settingsModeLineSeparatorStyle">@style/Widget.SS.Pdf.SettingsModeLineSeparatorStyle</item>
         <item name="pspdf__tabBarStyle">@style/Widget.SS.Pdf.TabBarStyle</item>
+        <item name="pspdf__textSelectionStyle">@style/Widget.SS.Pdf.TextSelectionStyle</item>
     </style>
 
     <style name="Widget.SS.Pdf" parent="Theme.SS.Pdf"/>
@@ -63,6 +64,12 @@
 
     <style name="Widget.SS.Pdf.OutlineStyle">
         <item name="pspdf__backgroundColor">?attr/colorSurface</item>
+        <item name="pspdf__bookmarksBarBackgroundColor">?attr/colorSurface</item>
+        <item name="pspdf__annotationsBarBackgroundColor">?attr/colorSurface</item>
+        <item name="pspdf__tabIndicatorColor">?attr/colorOnSurface</item>
+        <item name="pspdf__defaultTextColor">@color/text_primary</item>
+        <item name="pspdf__bookmarksBarIconColor">?attr/colorOnSurface</item>
+        <item name="pspdf__annotationsBarIconColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="Widget.SS.Pdf.SettingsModePickerItemStyle">
@@ -83,5 +90,10 @@
         <item name="pspdf__backgroundColor">?attr/colorSurface</item>
         <item name="pspdf__tabTextColorSelected">?attr/colorOnSurface</item>
         <item name="pspdf__tabIndicatorColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="Widget.SS.Pdf.TextSelectionStyle">
+        <item name="pspdf__leftHandleColor">@color/ss_blue</item>
+        <item name="pspdf__rightHandleColor">@color/ss_blue</item>
     </style>
 </resources>
