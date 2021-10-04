@@ -27,9 +27,12 @@ import android.content.Intent
 import android.net.Uri
 import androidx.annotation.Keep
 import app.ss.lessons.data.model.LessonPdf
+import app.ss.media.model.MediaAvailability
+import app.ss.pdf.ui.ARG_MEDIA_AVAILABILITY
 import app.ss.pdf.ui.ARG_PDF_FILES
 import app.ss.pdf.ui.SSReadPdfActivity
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.TabBarHidingMode
@@ -54,7 +57,12 @@ import kotlin.coroutines.suspendCoroutine
 data class LocalFile(val title: String, val uri: Uri)
 
 interface PdfReader {
-    fun launchIntent(pdfs: List<LessonPdf>): Intent
+    fun launchIntent(
+        pdfs: List<LessonPdf>,
+        lessonIndex: String,
+        mediaAvailability: MediaAvailability = MediaAvailability()
+    ): Intent
+
     fun downloadFlow(pdfs: List<LessonPdf>): Flow<Resource<List<LocalFile>>>
 }
 
@@ -64,7 +72,7 @@ internal class PdfReaderImpl(
     private val schedulerProvider: SchedulerProvider
 ) : PdfReader, DownloadJob.ProgressListenerAdapter() {
 
-    override fun launchIntent(pdfs: List<LessonPdf>): Intent {
+    override fun launchIntent(pdfs: List<LessonPdf>, lessonIndex: String, mediaAvailability: MediaAvailability): Intent {
         val config = PdfActivityConfiguration.Builder(context)
             .hidePageLabels()
             .hideDocumentTitleOverlay()
@@ -90,7 +98,11 @@ internal class PdfReaderImpl(
             .configuration(config)
             .activityClass(SSReadPdfActivity::class.java)
             .build()
-            .apply { putParcelableArrayListExtra(ARG_PDF_FILES, ArrayList(pdfs)) }
+            .apply {
+                putParcelableArrayListExtra(ARG_PDF_FILES, ArrayList(pdfs))
+                putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, lessonIndex)
+                putExtra(ARG_MEDIA_AVAILABILITY, mediaAvailability)
+            }
     }
 
     override fun downloadFlow(pdfs: List<LessonPdf>): Flow<Resource<List<LocalFile>>> {

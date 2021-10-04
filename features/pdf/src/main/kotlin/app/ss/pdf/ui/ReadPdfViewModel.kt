@@ -26,31 +26,32 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.LessonPdf
+import app.ss.media.model.MediaAvailability
 import app.ss.pdf.LocalFile
 import app.ss.pdf.PdfReader
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
+import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import com.cryart.sabbathschool.core.response.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
 class ReadPdfViewModel @Inject constructor(
     pdfReader: PdfReader,
-    savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-
-    private val _audioAvailable = MutableStateFlow(false)
-    val audioAvailableFlow: StateFlow<Boolean> get() = _audioAvailable.asStateFlow()
-
-    private val _videoAvailable = MutableStateFlow(false)
-    val videoAvailableFlow: StateFlow<Boolean> get() = _videoAvailable.asStateFlow()
 
     val pdfsFilesFlow: StateFlow<Resource<List<LocalFile>>> = pdfReader.downloadFlow(savedStateHandle.pdfs)
         .stateIn(viewModelScope, Resource.loading())
 
     private val SavedStateHandle.pdfs: List<LessonPdf>
         get() = get<ArrayList<LessonPdf>>(ARG_PDF_FILES) ?: emptyList()
+
+    val mediaActivity: MediaAvailability
+        get() = savedStateHandle.get<MediaAvailability>(
+            ARG_MEDIA_AVAILABILITY
+        ) ?: MediaAvailability()
+
+    val lessonIndex: String? get() = savedStateHandle.lessonIndex
 }

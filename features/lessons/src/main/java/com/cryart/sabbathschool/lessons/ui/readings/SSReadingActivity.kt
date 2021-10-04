@@ -41,6 +41,7 @@ import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
+import app.ss.media.model.MediaAvailability
 import app.ss.media.playback.PlaybackViewModel
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
@@ -262,9 +263,13 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
                 true
             }
             R.id.ss_reading_menu_pdf -> {
-                val pdfs = viewModel.lessonPdfsFlow.value
+                val (index, pdfs) = viewModel.lessonPdfsFlow.value
                 if (pdfs.isNotEmpty()) {
-                    startActivity(pdfReader.launchIntent(pdfs))
+                    val media = MediaAvailability(
+                        audio = viewModel.audioAvailableFlow.value,
+                        video = viewModel.videoAvailableFlow.value
+                    )
+                    startActivity(pdfReader.launchIntent(pdfs, index, mediaAvailability = media))
                 }
                 true
             }

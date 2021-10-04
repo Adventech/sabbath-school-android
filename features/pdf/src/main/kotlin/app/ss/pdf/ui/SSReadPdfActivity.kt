@@ -23,10 +23,18 @@
 package app.ss.pdf.ui
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
+import app.ss.media.playback.ui.nowPlaying.showNowPlaying
+import app.ss.media.playback.ui.video.showVideoList
 import app.ss.pdf.PdfReaderPrefs
+import app.ss.pdf.R
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
+import com.cryart.sabbathschool.core.extensions.view.tint
 import com.pspdfkit.document.DocumentSource
 import com.pspdfkit.ui.DocumentDescriptor
 import com.pspdfkit.ui.PdfActivity
@@ -50,9 +58,46 @@ class SSReadPdfActivity : PdfActivity() {
         collectData()
     }
 
+    override fun onGenerateMenuItemIds(menuItems: MutableList<Int>): MutableList<Int> {
+        return menuItems.also {
+            val media = viewModel.mediaActivity
+            if (media.video) {
+                it.add(0, ID_VIDEO)
+            }
+            if (media.audio) {
+                it.add(0, ID_AUDIO)
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+
+        menu?.findItem(ID_AUDIO)?.custom(R.string.ss_media_audio, R.drawable.ic_audio_icon)
+        menu?.findItem(ID_VIDEO)?.custom(R.string.ss_media_video, R.drawable.ic_video_icon)
+
+        return true
+    }
+
+    private fun MenuItem.custom(
+        @StringRes titleRes: Int,
+        @DrawableRes iconRes: Int
+    ) {
+        title = getString(titleRes)
+        setIcon(iconRes)
+        setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        icon?.tint(ContextCompat.getColor(this@SSReadPdfActivity, R.color.ss_icon_tint))
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> true.also { finish() }
+            ID_AUDIO -> true.also { supportFragmentManager.showNowPlaying(viewModel.lessonIndex) }
+            ID_VIDEO -> true.also {
+                viewModel.lessonIndex?.let {
+                    supportFragmentManager.showVideoList(it)
+                }
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -83,6 +128,12 @@ class SSReadPdfActivity : PdfActivity() {
         readerPrefs.saveConfiguration(configuration.configuration)
         super.onDestroy()
     }
+
+    companion object {
+        private const val ID_AUDIO = 23
+        private const val ID_VIDEO = 24
+    }
 }
 
 internal const val ARG_PDF_FILES = "ss_arg_pdf_files"
+internal const val ARG_MEDIA_AVAILABILITY = "aa_arg_media_availability"

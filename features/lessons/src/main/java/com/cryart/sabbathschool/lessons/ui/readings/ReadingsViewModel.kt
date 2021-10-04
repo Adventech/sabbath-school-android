@@ -54,8 +54,8 @@ class ReadingsViewModel @Inject constructor(
     private val _pdfAvailable = MutableStateFlow(false)
     val pdfAvailableFlow: StateFlow<Boolean> get() = _pdfAvailable.asStateFlow()
 
-    private val _lessonPdfs = MutableStateFlow(emptyList<LessonPdf>())
-    val lessonPdfsFlow: StateFlow<List<LessonPdf>> = _lessonPdfs
+    private val _lessonPdfs = MutableStateFlow("" to emptyList<LessonPdf>())
+    val lessonPdfsFlow: StateFlow<Pair<String, List<LessonPdf>>> = _lessonPdfs
 
     val lessonIndex: String? get() = savedStateHandle.lessonIndex
 
@@ -70,7 +70,7 @@ class ReadingsViewModel @Inject constructor(
 
                 val lessonResource = lessonsRepository.getLessonInfo(index)
                 val pdfs = lessonResource.data?.pdfs ?: emptyList()
-                _lessonPdfs.emit(pdfs)
+                _lessonPdfs.emit(index to pdfs)
                 _pdfAvailable.emit(pdfs.isNotEmpty())
             }
         }

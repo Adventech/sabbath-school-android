@@ -82,8 +82,8 @@ class LessonsViewModel @Inject constructor(
     val quarterlyShareIndex: String get() = ssQuarterlyInfo?.shareIndex() ?: ""
     val quarterlyTitle: String get() = ssQuarterlyInfo?.quarterly?.title ?: ""
 
-    private val _selectedPdfs = MutableSharedFlow<List<LessonPdf>>()
-    val selectedPdfsFlow: SharedFlow<List<LessonPdf>> = _selectedPdfs
+    private val _selectedPdfs = MutableSharedFlow<Pair<String, List<LessonPdf>>>()
+    val selectedPdfsFlow: SharedFlow<Pair<String, List<LessonPdf>>> = _selectedPdfs
 
     init {
         // cache DisplayOptions for read screen launch
@@ -94,7 +94,7 @@ class LessonsViewModel @Inject constructor(
         val resource = lessonsRepository.getLessonInfo(lesson.index)
         if (resource.isSuccessFul) {
             val data = resource.data
-            _selectedPdfs.emit(data?.pdfs ?: emptyList())
+            _selectedPdfs.emit(lesson.index to (data?.pdfs ?: emptyList()))
         }
     }
 }
