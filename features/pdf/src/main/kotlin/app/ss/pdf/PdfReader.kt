@@ -60,6 +60,7 @@ interface PdfReader {
 
 internal class PdfReaderImpl(
     private val context: Context,
+    private val readerPrefs: PdfReaderPrefs,
     private val schedulerProvider: SchedulerProvider
 ) : PdfReader, DownloadJob.ProgressListenerAdapter() {
 
@@ -79,6 +80,10 @@ internal class PdfReaderImpl(
             .setThumbnailBarMode(ThumbnailBarMode.THUMBNAIL_BAR_MODE_NONE)
             .setSettingsMenuItems(EnumSet.allOf(SettingsMenuItemType::class.java))
             .setTabBarHidingMode(TabBarHidingMode.AUTOMATIC)
+            .scrollMode(readerPrefs.scrollMode())
+            .scrollDirection(readerPrefs.scrollDirection())
+            .layoutMode(readerPrefs.pageLayoutMode())
+            .themeMode(readerPrefs.themeMode())
             .build()
 
         return PdfActivityIntentBuilder.emptyActivity(context)

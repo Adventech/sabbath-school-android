@@ -25,6 +25,8 @@ package app.ss.pdf.di
 import android.content.Context
 import app.ss.pdf.PdfReader
 import app.ss.pdf.PdfReaderImpl
+import app.ss.pdf.PdfReaderPrefs
+import app.ss.pdf.PdfReaderPrefsImpl
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import dagger.Module
 import dagger.Provides
@@ -39,11 +41,19 @@ object PdfModule {
 
     @Provides
     @Singleton
+    fun provideReaderPrefs(
+        @ApplicationContext context: Context
+    ): PdfReaderPrefs = PdfReaderPrefsImpl(context)
+
+    @Provides
+    @Singleton
     fun provideReader(
         @ApplicationContext context: Context,
+        readerPrefs: PdfReaderPrefs,
         schedulerProvider: SchedulerProvider,
     ): PdfReader = PdfReaderImpl(
         context = context,
+        readerPrefs = readerPrefs,
         schedulerProvider = schedulerProvider,
     )
 }

@@ -25,22 +25,25 @@ package app.ss.pdf.ui
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
-import com.cryart.sabbathschool.core.R
+import app.ss.pdf.PdfReaderPrefs
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.pspdfkit.document.DocumentSource
 import com.pspdfkit.ui.DocumentDescriptor
 import com.pspdfkit.ui.PdfActivity
 import com.pspdfkit.ui.tabs.PdfTabBarCloseMode
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SSReadPdfActivity : PdfActivity() {
+
+    @Inject
+    lateinit var readerPrefs: PdfReaderPrefs
 
     private val viewModel by viewModels<ReadPdfViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        overridePendingTransition(R.anim.enter_from_right, android.R.anim.fade_out)
 
         initUi()
 
@@ -76,14 +79,9 @@ class SSReadPdfActivity : PdfActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(android.R.anim.fade_in, R.anim.exit_to_right)
-    }
-
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(android.R.anim.fade_in, R.anim.exit_to_right)
+    override fun onDestroy() {
+        readerPrefs.saveConfiguration(configuration.configuration)
+        super.onDestroy()
     }
 }
 

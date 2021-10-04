@@ -76,11 +76,12 @@ dependencies {
     implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Common.TRANSLATIONS))
 
-    implementation(Dependencies.MATERIAL)
-    implementation(AndroidX.CORE)
-    implementation(AndroidX.APPCOMPAT)
     implementation(AndroidX.ACTIVITY)
+    implementation(AndroidX.APPCOMPAT)
+    implementation(AndroidX.CORE)
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
+    implementation(Dependencies.MATERIAL)
+    implementation(AndroidX.PREFERENCE)
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
