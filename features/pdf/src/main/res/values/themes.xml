@@ -28,6 +28,7 @@
         <item name="colorSurface">@color/ss_theme_color_background</item>
         <item name="colorOnSurface">@color/ss_icon_tint</item>
         <item name="colorAccent">@color/ss_icon_tint</item>
+        <item name="android:colorBackground">@color/ss_theme_color_background</item>
 
         <item name="pspdf__backgroundColor">@color/ss_pdf_document_background</item>
         <item name="pspdf__mainToolbarStyle">@style/Widget.SS.Pdf.MainToolbarStyle</item>
@@ -69,7 +70,10 @@
         <item name="pspdf__tabIndicatorColor">?attr/colorOnSurface</item>
         <item name="pspdf__defaultTextColor">@color/text_primary</item>
         <item name="pspdf__bookmarksBarIconColor">?attr/colorOnSurface</item>
+        <item name="pspdf__bookmarksDragHandleIconColor">@color/text_secondary</item>
         <item name="pspdf__annotationsBarIconColor">?attr/colorOnSurface</item>
+        <item name="pspdf__annotationsDeleteIconColor">@color/text_secondary</item>
+        <item name="pspdf__annotationsDragHandleIconColor">@color/text_secondary</item>
     </style>
 
     <style name="Widget.SS.Pdf.SettingsModePickerItemStyle">

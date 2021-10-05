@@ -23,4 +23,8 @@
 <resources>
     <color name="ss_icon_tint">@color/black</color>
     <color name="ss_pdf_document_background">@color/pspdf__color_gray_light</color>
+
+    <color name="pspdf__color">@color/ss_icon_tint</color>
+    <!-- Issue with outline tabBar background -->
+    <color name="pspdf__color_white">@color/ss_theme_color_background</color>
 </resources>
