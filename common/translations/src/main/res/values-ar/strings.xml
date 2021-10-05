@@ -103,4 +103,5 @@
     <string name="ss_see_all">اظهار الكل</string>
     <string name="ss_media_audio">صوتي</string>
     <string name="ss_media_video">فيديو</string>
+    <string name="ss_pdf_original">ملف PDF الأصلي</string>
 </resources>

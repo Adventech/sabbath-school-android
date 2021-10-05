@@ -107,4 +107,5 @@
     <string name="ss_see_all">看到所有</string>
     <string name="ss_media_video">視頻</string>
     <string name="ss_media_audio">"聲音的"</string>
+    <string name="ss_pdf_original">原版pdf</string>
 </resources>

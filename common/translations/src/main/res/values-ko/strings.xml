@@ -110,4 +110,5 @@
     <string name="ss_see_all">모두 보기</string>
     <string name="ss_media_audio">오디오</string>
     <string name="ss_media_video">동영상</string>
+    <string name="ss_pdf_original">원본 PDF</string>
 </resources>
