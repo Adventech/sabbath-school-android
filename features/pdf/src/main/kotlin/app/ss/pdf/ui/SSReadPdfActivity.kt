@@ -25,6 +25,8 @@ package app.ss.pdf.ui
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -105,6 +107,10 @@ class SSReadPdfActivity : PdfActivity() {
     private fun initUi() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         pspdfKitViews.tabBar?.setCloseMode(PdfTabBarCloseMode.CLOSE_DISABLED)
+        (pspdfKitViews.emptyView as? ViewGroup)?.apply {
+            removeAllViews()
+            addView(ProgressBar(this@SSReadPdfActivity))
+        }
     }
 
     private fun collectData() {
