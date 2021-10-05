@@ -90,6 +90,7 @@
         <item name="pspdf__backgroundColor">?attr/colorSurface</item>
         <item name="pspdf__tabTextColorSelected">?attr/colorOnSurface</item>
         <item name="pspdf__tabIndicatorColor">?attr/colorOnSurface</item>
+        <item name="pspdf__tabBarMinimumWidth">172dp</item>
     </style>
 
     <style name="Widget.SS.Pdf.TextSelectionStyle">
