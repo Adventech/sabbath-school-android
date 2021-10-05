@@ -23,7 +23,11 @@
 package app.ss.pdf.ui
 
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.lessons.data.model.LessonPdf
 import app.ss.pdf.PdfReader
@@ -71,7 +75,9 @@ class SSReadPdfActivityTest {
                     "7d328f229ae2532b48433f5a2fd72f2e9261c066084c44bbf967afa6f7bb1b87.pdf"
             )
         )
-    ) {}
+    ) {
+        onView(withText("A Family Tree of God's Love")).check(matches(isDisplayed()))
+    }
 
     private fun launch(
         pdfs: List<LessonPdf>,
