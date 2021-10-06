@@ -54,6 +54,12 @@
     <style name="Widget.SS.Pdf.ActionBar">
         <item name="pspdf__iconsColor">?attr/colorOnSurface</item>
         <item name="pspdf__iconsColorActivated">?attr/colorOnSurface</item>
+        <item name="pspdf__editAnnotationsIcon">@drawable/ic_pdf_annotations</item>
+        <item name="pspdf__editAnnotationsIconActivated">@drawable/ic_pdf_annotations</item>
+        <item name="pspdf__settingsIcon">@drawable/ic_pdf_settings</item>
+        <item name="pspdf__settingsIconActivated">@drawable/ic_pdf_settings</item>
+        <item name="pspdf__outlineIcon">@drawable/ic_pdf_bookmark</item>
+        <item name="pspdf__outlineIconActivated">@drawable/ic_pdf_bookmark</item>
     </style>
 
     <style name="Widget.SS.Pdf.ContextualToolbarStyle">
