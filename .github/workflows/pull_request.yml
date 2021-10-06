@@ -10,6 +10,10 @@ jobs:
     name: Test Suite [Instrumented]
 
     runs-on: macos-latest
+    strategy:
+      matrix:
+        api-level: [23, 29]
+        target: [default, google_apis]
 
     steps:
       - name: Checkout repo
@@ -28,8 +32,8 @@ jobs:
       - name: Execute Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 28
-          target: google_apis
+          api-level: ${{matrix.api-level}}
+          target: ${{matrix.target}}
           arch: x86_64
           profile: Nexus 6
           script: ./gradlew app:connectedCheck --stacktrace
