@@ -14,9 +14,9 @@ repositories {
 object PluginVersions {
     const val GRADLE_ANDROID = "7.0.2"
     const val GRADLE_VERSIONS = "0.33.0"
-    const val KOTLIN = "1.5.21"
+    const val KOTLIN = "1.5.30"
     const val KTLINT = "0.40.0"
-    const val HILT = "2.38.1" // Also update [Versions.kt]
+    const val HILT = "2.39.1" // Also update [Versions.kt]
     const val GOOGLE_SERVICES = "4.3.5"
     const val FIREBASE_CRASHLYTICS_GRADLE = "2.5.2"
 }
