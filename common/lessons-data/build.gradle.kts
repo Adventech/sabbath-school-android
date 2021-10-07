@@ -62,6 +62,7 @@ dependencies {
 
     implementation(platform(Firebase.BOM))
     implementation(Firebase.DATABASE)
+    implementation(Firebase.AUTH)
 
     addTestsDependencies()
 }

@@ -20,27 +20,14 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.lessons
+package app.ss.lessons.data.model
 
-import app.ss.lessons.data.model.PdfAnnotations
-import app.ss.lessons.data.model.SSLessonInfo
-import app.ss.lessons.data.model.SSRead
-import app.ss.lessons.data.model.TodayData
-import app.ss.lessons.data.model.WeekData
-import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
+import androidx.annotation.Keep
 
-interface LessonsRepository {
-
-    suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo>
-
-    suspend fun getTodayRead(): Resource<TodayData>
-
-    suspend fun getDayRead(dayIndex: String): Resource<SSRead>
-
-    suspend fun getWeekData(): Resource<WeekData>
-
-    fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>)
-
-    suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>>
+@Keep
+data class PdfAnnotations(
+    val pageIndex: Int,
+    val annotations: List<String> = emptyList()
+) {
+    constructor() : this(0)
 }

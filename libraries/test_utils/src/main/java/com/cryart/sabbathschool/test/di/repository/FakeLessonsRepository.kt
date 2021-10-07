@@ -1,5 +1,6 @@
 package com.cryart.sabbathschool.test.di.repository
 
+import app.ss.lessons.data.model.PdfAnnotations
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.TodayData
@@ -7,6 +8,8 @@ import app.ss.lessons.data.model.WeekData
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.test.di.mock.MockDataFactory
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
 
 class FakeLessonsRepository @Inject constructor() : LessonsRepository {
@@ -24,5 +27,12 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
 
     override suspend fun getWeekData(): Resource<WeekData> {
         return Resource.success(MockDataFactory.weekData())
+    }
+
+    override fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
+    }
+
+    override suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>> {
+        return emptyFlow()
     }
 }
