@@ -94,7 +94,6 @@ internal class PdfReaderImpl(
             .disableSearch()
             .disablePrinting()
             .disableOutline()
-            .disableAnnotationRotation()
             .fitMode(PageFitMode.FIT_TO_WIDTH)
             .animateScrollOnEdgeTaps(true)
             .excludedAnnotationTypes(excludedAnnotationTypes)

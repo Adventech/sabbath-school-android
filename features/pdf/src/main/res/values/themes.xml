@@ -31,6 +31,7 @@
         <item name="android:colorBackground">@color/ss_theme_color_background</item>
 
         <item name="pspdf__backgroundColor">@color/ss_pdf_document_background</item>
+        <item name="pspdf__navigationHistoryIconColor">@color/ss_icon_tint</item>
         <item name="pspdf__mainToolbarStyle">@style/Widget.SS.Pdf.MainToolbarStyle</item>
         <item name="pspdf__actionBarIconsStyle">@style/Widget.SS.Pdf.ActionBar</item>
         <item name="pspdf__outlineViewStyle">@style/Widget.SS.Pdf.OutlineStyle</item>
@@ -39,6 +40,7 @@
         <item name="pspdf__settingsModeLineSeparatorStyle">@style/Widget.SS.Pdf.SettingsModeLineSeparatorStyle</item>
         <item name="pspdf__tabBarStyle">@style/Widget.SS.Pdf.TabBarStyle</item>
         <item name="pspdf__textSelectionStyle">@style/Widget.SS.Pdf.TextSelectionStyle</item>
+        <item name="pspdf__formEditingBarStyle">@style/Widget.SS.Pdf.FormEditingBarStyle</item>
     </style>
 
     <style name="Widget.SS.Pdf" parent="Theme.SS.Pdf"/>
