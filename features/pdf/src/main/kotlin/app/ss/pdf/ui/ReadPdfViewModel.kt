@@ -46,7 +46,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -70,6 +69,7 @@ class ReadPdfViewModel @Inject constructor(
     val lessonIndex: String? get() = savedStateHandle.lessonIndex
 
     private val currentDocAnnotations = mutableListOf<Annotation>()
+    private var currentSyncDocAnnotations: List<PdfAnnotations> = emptyList()
     private var syncAnnotationsJob: Job? = null
 
     fun onDocumentLoaded(document: PdfDocument, docIndex: Int) {
@@ -85,13 +85,13 @@ class ReadPdfViewModel @Inject constructor(
             }
 
             val groupedAnnotations = currentDocAnnotations.groupBy { it.pageIndex }
-            val allAnnotations = groupedAnnotations.keys.mapNotNull { pageIndex ->
+            currentSyncDocAnnotations = groupedAnnotations.keys.mapNotNull { pageIndex ->
                 val list = groupedAnnotations[pageIndex] ?: return@mapNotNull null
                 val annotations = list.map { it.toInstantJson() }.filter(::invalidInstantJson)
                 PdfAnnotations(pageIndex, annotations)
             }
 
-            lessonsRepository.saveAnnotations(index, pdfId, allAnnotations)
+            lessonsRepository.saveAnnotations(index, pdfId, currentSyncDocAnnotations)
         }
         document.annotationProvider.addOnAnnotationUpdatedListener(annotationUpdatedListener)
 
@@ -105,24 +105,22 @@ class ReadPdfViewModel @Inject constructor(
             lessonsRepository.getAnnotations(index, pdfId).collect { resource ->
                 val annotations = resource.data ?: return@collect
 
-                if (annotations.isEmpty()) return@collect
+                if (annotations.isEmpty() || currentSyncDocAnnotations == annotations) return@collect
 
-                try {
-                    with(document.annotationProvider) {
-                        removeOnAnnotationUpdatedListener(annotationUpdatedListener)
-                        val existing = currentDocAnnotations.toList()
-                        currentDocAnnotations.clear()
-                        existing.forEach { removeAnnotationFromPageAsync(it).await(viewModelScope) }
+                with(document.annotationProvider) {
+                    removeOnAnnotationUpdatedListener(annotationUpdatedListener)
 
-                        annotations
-                            .flatMap { it.annotations }
-                            .map { createAnnotationFromInstantJsonAsync(it).await(viewModelScope) }
-                            .forEach { currentDocAnnotations.add(it) }
+                    val existing = currentDocAnnotations.toList()
+                    existing.forEach { removeAnnotationFromPageAsync(it).await(viewModelScope) }
 
-                        addOnAnnotationUpdatedListener(annotationUpdatedListener)
-                    }
-                } catch (ex: Exception) {
-                    Timber.e(ex)
+                    val addedAnnotations = annotations
+                        .flatMap { it.annotations }
+                        .map { createAnnotationFromInstantJsonAsync(it).await(viewModelScope) }
+
+                    currentDocAnnotations.clear()
+                    currentDocAnnotations.addAll(addedAnnotations)
+
+                    addOnAnnotationUpdatedListener(annotationUpdatedListener)
                 }
             }
         }
