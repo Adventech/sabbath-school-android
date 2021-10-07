@@ -107,4 +107,5 @@
     <string name="ss_see_all">Посмотреть все</string>
     <string name="ss_media_audio">Аудио</string>
     <string name="ss_media_video">видео</string>
+    <string name="ss_pdf_original">Исходный PDF</string>
 </resources>

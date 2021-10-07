@@ -107,5 +107,6 @@
     <string name="ss_see_all">ເບິ່ງທັງົດ</string>
     <string name="ss_media_audio">ສຽງ</string>
     <string name="ss_media_video">ວິດີໂອ</string>
+    <string name="ss_pdf_original">Pdf ຕົ້ນສະບັບ</string>
 
 </resources>

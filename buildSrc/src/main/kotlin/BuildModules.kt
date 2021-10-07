@@ -14,6 +14,7 @@ object BuildModules {
         const val BIBLE = ":features:bible"
         const val LESSONS = ":features:lessons"
         const val MEDIA = ":features:media"
+        const val PDF = ":features:pdf"
         const val READER = ":features:reader"
         const val READINGS = ":features:readings"
         const val SETTINGS = ":features:settings"

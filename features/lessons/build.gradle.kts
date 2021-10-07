@@ -77,6 +77,7 @@ dependencies {
     implementation(project(BuildModules.Features.BIBLE))
     implementation(project(BuildModules.Features.READER))
     implementation(project(BuildModules.Features.MEDIA))
+    implementation(project(BuildModules.Features.PDF))
 
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)

@@ -41,9 +41,11 @@ import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
+import app.ss.media.model.MediaAvailability
 import app.ss.media.playback.PlaybackViewModel
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
+import app.ss.pdf.PdfReader
 import coil.load
 import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
@@ -57,10 +59,8 @@ import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.core.navigation.AppNavigator
-import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.core.ui.SlidingActivity
-import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.components.MiniPlayerComponent
@@ -80,6 +80,9 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
 
     @Inject
     lateinit var ssPrefs: SSPrefs
+
+    @Inject
+    lateinit var pdfReader: PdfReader
 
     private val binding by viewBinding(SsReadingActivityBinding::inflate)
     private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance()
@@ -227,8 +230,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.ss_reading_menu, menu)
-        // Enable new Read screen in Debug
-        menu.findItem(R.id.ss_reading_debug).isVisible = BuildConfig.DEBUG
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -261,20 +262,19 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
                 )
                 true
             }
-            R.id.ss_reading_menu_suggest_edit -> {
-                ssReadingViewModel.promptForEditSuggestion()
+            R.id.ss_reading_menu_pdf -> {
+                val (index, pdfs) = viewModel.lessonPdfsFlow.value
+                if (pdfs.isNotEmpty()) {
+                    val media = MediaAvailability(
+                        audio = viewModel.audioAvailableFlow.value,
+                        video = viewModel.videoAvailableFlow.value
+                    )
+                    startActivity(pdfReader.launchIntent(pdfs, index, mediaAvailability = media))
+                }
                 true
             }
             R.id.ss_reading_menu_display_options -> {
                 ssReadingViewModel.onDisplayOptionsClick()
-                true
-            }
-            R.id.ss_reading_menu_settings -> {
-                appNavigator.navigate(this, Destination.SETTINGS)
-                true
-            }
-            R.id.ss_reading_debug -> {
-                appNavigator.navigate(this, Destination.READ, intent.extras)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -284,6 +284,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         menu?.findItem(R.id.ss_reading_menu_audio)?.isVisible = viewModel.audioAvailableFlow.value
         menu?.findItem(R.id.ss_reading_menu_video)?.isVisible = viewModel.videoAvailableFlow.value
+        menu?.findItem(R.id.ss_reading_menu_pdf)?.isVisible = viewModel.pdfAvailableFlow.value
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -357,6 +358,11 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         viewModel.videoAvailableFlow.collectIn(this) { available ->
             val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
             menu.findItem(R.id.ss_reading_menu_video)?.isVisible = available
+        }
+
+        viewModel.pdfAvailableFlow.collectIn(this) { available ->
+            val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
+            menu.findItem(R.id.ss_reading_menu_pdf)?.isVisible = available
         }
     }
 

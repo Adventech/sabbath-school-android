@@ -27,6 +27,7 @@ import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
 import dependencies.Versions
 import extensions.addTestsDependencies
+import extensions.readPropertyValue
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -39,21 +40,12 @@ plugins {
     id(BuildPlugins.Google.SERVICES)
 }
 
-fun readVersionCode(): Int {
-    val file = file("build_number.properties")
-    return if (file.exists()) {
-        val keyProps = Properties().apply {
-            load(FileInputStream(file))
-        }
-        val buildNumber = keyProps.getProperty("BUILD_NUMBER", "1")
-        1490 + buildNumber.toInt()
-    } else {
-        1
-    }
-}
-
 val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
-val appVersionCode = readVersionCode()
+val appVersionCode = readPropertyValue(
+    filePath = "build_number.properties",
+    key = "BUILD_NUMBER",
+    defaultValue = "1"
+).toInt() + 1490
 
 android {
     compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
@@ -147,6 +139,7 @@ dependencies {
     implementation(project(BuildModules.Features.BIBLE))
     implementation(project(BuildModules.Features.LESSONS))
     implementation(project(BuildModules.Features.MEDIA))
+    implementation(project(BuildModules.Features.PDF))
     implementation(project(BuildModules.Features.READINGS))
     implementation(project(BuildModules.Features.SETTINGS))
 

@@ -113,4 +113,6 @@
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
 
+    <string name="ss_pdf_original">Original PDF</string>
+
 </resources>

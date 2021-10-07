@@ -30,8 +30,11 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.WindowCompat
 import androidx.core.widget.NestedScrollView
+import app.ss.lessons.data.model.SSLesson
+import app.ss.pdf.PdfReader
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.tint
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -42,6 +45,7 @@ import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.StatusComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.FooterComponent
+import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsCallback
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooter
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsListComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfoComponent
@@ -49,9 +53,13 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.ToolbarComponent
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class SSLessonsActivity : SlidingActivity(), ShareableScreen {
+class SSLessonsActivity : SlidingActivity(), ShareableScreen, LessonsCallback {
+
+    @Inject
+    lateinit var pdfReader: PdfReader
 
     private val viewModel by viewModels<LessonsViewModel>()
 
@@ -67,10 +75,19 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
         ToolbarComponent(this, binding.ssLessonsToolbar)
     }
     private val quarterlyInfoComponent: QuarterlyInfoComponent by lazy {
-        QuarterlyInfoComponent(this, supportFragmentManager, binding.appBarContent)
+        QuarterlyInfoComponent(
+            lifecycleOwner = this,
+            fragmentManager = supportFragmentManager,
+            binding = binding.appBarContent,
+            lessonsCallback = this,
+        )
     }
     private val lessonsListComponent: LessonsListComponent by lazy {
-        LessonsListComponent(this, binding.ssLessonInfoList)
+        LessonsListComponent(
+            lifecycleOwner = this,
+            binding = binding.ssLessonInfoList,
+            lessonsCallback = this
+        )
     }
 
     private var shareMenuItem: MenuItem? = null
@@ -131,6 +148,13 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
                 LessonsFooter(credits, features)
             }
         )
+
+        viewModel.selectedPdfsFlow.collectIn(this) { pair ->
+            val (index, pdfs) = pair
+            if (pdfs.isNotEmpty()) {
+                startActivity(pdfReader.launchIntent(pdfs, index))
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -159,6 +183,10 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
 
     override fun getShareWebUri(): Uri {
         return "${getString(R.string.ss_app_host)}/${viewModel.quarterlyShareIndex}".toWebUri()
+    }
+
+    override fun openPdf(lesson: SSLesson) {
+        viewModel.pdfLessonSelected(lesson)
     }
 
     companion object {

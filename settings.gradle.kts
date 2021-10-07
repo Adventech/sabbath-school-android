@@ -31,6 +31,7 @@ include(
     ":features:bible",
     ":features:lessons",
     ":features:media",
+    ":features:pdf",
     ":features:reader",
     ":features:readings",
     ":features:settings",
