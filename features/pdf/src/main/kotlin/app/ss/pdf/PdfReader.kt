@@ -75,7 +75,7 @@ internal class PdfReaderImpl(
 ) : PdfReader, DownloadJob.ProgressListenerAdapter() {
 
     init {
-        if (BuildConfig.PSPDFKIT_LICENSE.isNotEmpty()) {
+        if (PSPDFKit.isInitialized().not() && BuildConfig.PSPDFKIT_LICENSE.isNotEmpty()) {
             PSPDFKit.initialize(context, BuildConfig.PSPDFKIT_LICENSE)
         }
     }
