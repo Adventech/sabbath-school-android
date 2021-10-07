@@ -27,6 +27,7 @@ import app.ss.lessons.data.repository.lessons.LessonsRepositoryImpl
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepositoryImpl
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
@@ -46,6 +47,7 @@ object RepositoryModule {
     @Provides
     fun provideLessonsRepository(
         database: FirebaseDatabase,
+        auth: FirebaseAuth,
         ssPrefs: SSPrefs
-    ): LessonsRepository = LessonsRepositoryImpl(database, ssPrefs)
+    ): LessonsRepository = LessonsRepositoryImpl(database, auth, ssPrefs)
 }

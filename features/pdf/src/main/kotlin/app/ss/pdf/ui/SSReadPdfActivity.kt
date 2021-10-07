@@ -38,6 +38,7 @@ import app.ss.pdf.R
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.tint
 import com.pspdfkit.document.DocumentSource
+import com.pspdfkit.document.PdfDocument
 import com.pspdfkit.ui.DocumentDescriptor
 import com.pspdfkit.ui.PdfActivity
 import com.pspdfkit.ui.tabs.PdfTabBarCloseMode
@@ -128,6 +129,11 @@ class SSReadPdfActivity : PdfActivity() {
             documents.forEach { documentCoordinator.addDocument(it) }
             documentCoordinator.setVisibleDocument(documents.first())
         }
+    }
+
+    override fun onDocumentLoaded(document: PdfDocument) {
+        super.onDocumentLoaded(document)
+        viewModel.onDocumentLoaded(document, pageIndex)
     }
 
     override fun onDestroy() {
