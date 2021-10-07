@@ -110,10 +110,9 @@ class ReadPdfViewModel @Inject constructor(
                 try {
                     with(document.annotationProvider) {
                         removeOnAnnotationUpdatedListener(annotationUpdatedListener)
-                        currentDocAnnotations.forEach {
-                            removeAnnotationFromPageAsync(it).await(viewModelScope)
-                        }
+                        val existing = currentDocAnnotations.toList()
                         currentDocAnnotations.clear()
+                        existing.forEach { removeAnnotationFromPageAsync(it).await(viewModelScope) }
 
                         annotations
                             .flatMap { it.annotations }

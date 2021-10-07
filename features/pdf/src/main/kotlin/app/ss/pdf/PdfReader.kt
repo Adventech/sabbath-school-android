@@ -35,6 +35,7 @@ import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
 import com.pspdfkit.PSPDFKit
+import com.pspdfkit.annotations.AnnotationType
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.TabBarHidingMode
 import com.pspdfkit.configuration.activity.ThumbnailBarMode
@@ -80,6 +81,10 @@ internal class PdfReaderImpl(
     }
 
     override fun launchIntent(pdfs: List<LessonPdf>, lessonIndex: String, mediaAvailability: MediaAvailability): Intent {
+        val excludedAnnotationTypes = ArrayList(EnumSet.allOf(AnnotationType::class.java))
+        excludedAnnotationTypes.remove(AnnotationType.HIGHLIGHT)
+        excludedAnnotationTypes.remove(AnnotationType.INK)
+
         val config = PdfActivityConfiguration.Builder(context)
             .hidePageLabels()
             .hideDocumentTitleOverlay()
@@ -89,8 +94,10 @@ internal class PdfReaderImpl(
             .disableSearch()
             .disablePrinting()
             .disableOutline()
+            .disableAnnotationRotation()
             .fitMode(PageFitMode.FIT_TO_WIDTH)
             .animateScrollOnEdgeTaps(true)
+            .excludedAnnotationTypes(excludedAnnotationTypes)
             .setEnabledShareFeatures(EnumSet.noneOf(ShareFeatures::class.java))
             .setThumbnailBarMode(ThumbnailBarMode.THUMBNAIL_BAR_MODE_NONE)
             .setSettingsMenuItems(EnumSet.allOf(SettingsMenuItemType::class.java))
