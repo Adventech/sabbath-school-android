@@ -33,18 +33,21 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
     @Provides
+    @Singleton
     fun provideQuarterliesRepository(
         database: FirebaseDatabase,
         ssPrefs: SSPrefs
     ): QuarterliesRepository = QuarterliesRepositoryImpl(database, ssPrefs)
 
     @Provides
+    @Singleton
     fun provideLessonsRepository(
         database: FirebaseDatabase,
         auth: FirebaseAuth,
