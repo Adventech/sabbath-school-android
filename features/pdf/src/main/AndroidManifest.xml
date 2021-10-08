@@ -28,6 +28,10 @@
             android:name=".ui.SSReadPdfActivity"
             android:theme="@style/Theme.SS.Pdf"
             android:windowSoftInputMode="adjustNothing" />
+
+        <meta-data
+            android:name="pspdfkit_license_key"
+            android:value="${psPdfKitKey}" />
     </application>
 
 </manifest>

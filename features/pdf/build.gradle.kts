@@ -47,7 +47,7 @@ android {
     defaultConfig {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
 
-        buildConfigField("String", "PSPDFKIT_LICENSE", "\"$psPdfKitKey\"")
+        manifestPlaceholders["psPdfKitKey"] = psPdfKitKey
     }
 
     sourceSets {
