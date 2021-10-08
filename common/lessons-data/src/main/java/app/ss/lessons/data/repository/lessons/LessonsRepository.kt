@@ -28,6 +28,7 @@ import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.TodayData
 import app.ss.lessons.data.model.WeekData
 import com.cryart.sabbathschool.core.response.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface LessonsRepository {
 
@@ -41,5 +42,5 @@ interface LessonsRepository {
 
     fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>)
 
-    suspend fun getAnnotations(lessonIndex: String, pdfId: String): Resource<List<PdfAnnotations>>
+    suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>>
 }

@@ -41,6 +41,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -77,22 +78,24 @@ class ReadPdfViewModel @Inject constructor(
         val pdfId = savedStateHandle.pdfs.getOrNull(docIndex)?.id ?: return@launch
         currDocIndex = docIndex
 
-        val syncAnnotations = lessonsRepository.getAnnotations(index, pdfId).data ?: return@launch
+        lessonsRepository.getAnnotations(index, pdfId).collect { resource ->
+            val syncAnnotations = resource.data ?: return@collect
 
-        with(document.annotationProvider) {
+            with(document.annotationProvider) {
 
-            removeOnAnnotationUpdatedListener(annotationUpdatedListener)
+                removeOnAnnotationUpdatedListener(annotationUpdatedListener)
 
-            if (syncAnnotations.isNotEmpty()) {
-                document.annotations()
-                    .forEach { removeAnnotationFromPage(it) }
+                if (syncAnnotations.isNotEmpty()) {
+                    document.annotations()
+                        .forEach { removeAnnotationFromPage(it) }
 
-                syncAnnotations
-                    .flatMap { it.annotations }
-                    .forEach { createAnnotationFromInstantJson(it) }
+                    syncAnnotations
+                        .flatMap { it.annotations }
+                        .forEach { createAnnotationFromInstantJson(it) }
+                }
+
+                addOnAnnotationUpdatedListener(annotationUpdatedListener)
             }
-
-            addOnAnnotationUpdatedListener(annotationUpdatedListener)
         }
     }
 
