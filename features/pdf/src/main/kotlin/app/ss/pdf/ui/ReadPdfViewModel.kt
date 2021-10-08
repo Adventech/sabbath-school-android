@@ -85,11 +85,11 @@ class ReadPdfViewModel @Inject constructor(
 
             if (syncAnnotations.isNotEmpty()) {
                 document.annotations()
-                    .forEach { removeAnnotationFromPageAsync(it) }
+                    .forEach { removeAnnotationFromPage(it) }
 
                 syncAnnotations
                     .flatMap { it.annotations }
-                    .map { createAnnotationFromInstantJsonAsync(it) }
+                    .forEach { createAnnotationFromInstantJson(it) }
             }
 
             addOnAnnotationUpdatedListener(annotationUpdatedListener)
