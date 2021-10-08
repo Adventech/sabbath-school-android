@@ -24,7 +24,6 @@ package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.extensions.ValueEvent
 import app.ss.lessons.data.extensions.singleEvent
-import app.ss.lessons.data.extensions.valueEventFlow
 import app.ss.lessons.data.model.PdfAnnotations
 import app.ss.lessons.data.model.QuarterlyLessonInfo
 import app.ss.lessons.data.model.SSLessonInfo
@@ -42,10 +41,6 @@ import com.cryart.sabbathschool.core.response.Resource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.getValue
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
 import timber.log.Timber
 
@@ -242,27 +237,22 @@ internal class LessonsRepositoryImpl constructor(
         pdfRef.setValue(annotations)
     }
 
-    override suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>> {
-        val uid = firebaseAuth.uid ?: return flowOf(Resource.error(Throwable("Invalid User")))
+    override suspend fun getAnnotations(lessonIndex: String, pdfId: String): Resource<List<PdfAnnotations>> {
+        val uid = firebaseAuth.uid ?: return Resource.error(Throwable("Invalid User"))
 
-        val eventFlow = firebaseRef
+        val event = firebaseRef
             .child(SSConstants.SS_FIREBASE_ANNOTATIONS_DATABASE)
             .child(uid)
             .child(lessonIndex)
             .child(pdfId)
-            .valueEventFlow()
+            .singleEvent()
 
-        return eventFlow.map { event ->
-            when (event) {
-                is ValueEvent.Cancelled -> Resource.error(event.error)
-                is ValueEvent.DataChange -> {
-                    val annotations = event.snapshot.children.mapNotNull { it.getValue<PdfAnnotations>() }
-                    Resource.success(annotations)
-                }
+        return when (event) {
+            is ValueEvent.Cancelled -> Resource.error(event.error)
+            is ValueEvent.DataChange -> {
+                val annotations = event.snapshot.children.mapNotNull { it.getValue<PdfAnnotations>() }
+                Resource.success(annotations)
             }
-        }.catch {
-            Timber.e(it)
-            emit(Resource.error(it))
         }
     }
 }

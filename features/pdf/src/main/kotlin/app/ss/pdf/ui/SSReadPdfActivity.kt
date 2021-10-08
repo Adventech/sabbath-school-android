@@ -53,6 +53,8 @@ class SSReadPdfActivity : PdfActivity() {
 
     private val viewModel by viewModels<ReadPdfViewModel>()
 
+    private var loadedDocuments: List<DocumentDescriptor> = emptyList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -118,22 +120,30 @@ class SSReadPdfActivity : PdfActivity() {
         viewModel.pdfsFilesFlow.collectIn(this) { resource ->
             if (documentCoordinator.documents.isNotEmpty()) return@collectIn
 
-            val documents = resource.data?.map { file ->
+            loadedDocuments = resource.data?.map { file ->
                 DocumentDescriptor.fromDocumentSource(DocumentSource(file.uri)).apply {
                     setTitle(file.title)
                 }
             } ?: return@collectIn
 
-            if (documents.isEmpty()) return@collectIn
+            if (loadedDocuments.isEmpty()) return@collectIn
 
-            documents.forEach { documentCoordinator.addDocument(it) }
-            documentCoordinator.setVisibleDocument(documents.first())
+            loadedDocuments.forEach { documentCoordinator.addDocument(it) }
+            documentCoordinator.setVisibleDocument(loadedDocuments.first())
+        }
+
+        viewModel.annotationsUpdateFlow.collectIn(this) { docIndex ->
+            val document = documentCoordinator.documents.getOrNull(docIndex)?.document ?: return@collectIn
+            viewModel.saveAnnotations(document, docIndex)
         }
     }
 
     override fun onDocumentLoaded(document: PdfDocument) {
         super.onDocumentLoaded(document)
-        viewModel.onDocumentLoaded(document, pageIndex)
+        val index = loadedDocuments.indexOfFirst { it.uid == documentCoordinator.visibleDocument?.uid }
+        if (index >= 0) {
+            viewModel.onDocumentLoaded(document, index)
+        }
     }
 
     override fun onDestroy() {

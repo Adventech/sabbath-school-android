@@ -38,14 +38,10 @@ import com.pspdfkit.annotations.Annotation
 import com.pspdfkit.annotations.AnnotationProvider
 import com.pspdfkit.document.PdfDocument
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.Completable
-import io.reactivex.Single
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -68,74 +64,74 @@ class ReadPdfViewModel @Inject constructor(
 
     val lessonIndex: String? get() = savedStateHandle.lessonIndex
 
-    private val currentDocAnnotations = mutableListOf<Annotation>()
-    private var currentSyncDocAnnotations: List<PdfAnnotations> = emptyList()
-    private var syncAnnotationsJob: Job? = null
+    private val _annotationsUpdate = MutableSharedFlow<Int>()
+    val annotationsUpdateFlow: SharedFlow<Int> = _annotationsUpdate
 
-    fun onDocumentLoaded(document: PdfDocument, docIndex: Int) {
-        currentDocAnnotations.clear()
+    private var currDocIndex = -1
+    private val annotationUpdatedListener = SSAnnotationUpdatedListener {
+        viewModelScope.launch { _annotationsUpdate.emit(currDocIndex) }
+    }
 
-        val index = lessonIndex ?: return
-        val pdfId = savedStateHandle.pdfs.getOrNull(docIndex)?.id ?: return
+    fun onDocumentLoaded(document: PdfDocument, docIndex: Int) = viewModelScope.launch {
+        val index = lessonIndex ?: return@launch
+        val pdfId = savedStateHandle.pdfs.getOrNull(docIndex)?.id ?: return@launch
+        currDocIndex = docIndex
 
-        val annotationUpdatedListener = SSAnnotationUpdatedListener { annotation ->
-            currentDocAnnotations.removeAll { it.uuid == annotation.uuid }
-            if (annotation.isAttached) {
-                currentDocAnnotations.add(annotation)
+        val syncAnnotations = lessonsRepository.getAnnotations(index, pdfId).data ?: return@launch
+
+        with(document.annotationProvider) {
+
+            removeOnAnnotationUpdatedListener(annotationUpdatedListener)
+
+            if (syncAnnotations.isNotEmpty()) {
+                document.annotations()
+                    .forEach { removeAnnotationFromPageAsync(it) }
+
+                syncAnnotations
+                    .flatMap { it.annotations }
+                    .map { createAnnotationFromInstantJsonAsync(it) }
             }
 
-            val groupedAnnotations = currentDocAnnotations.groupBy { it.pageIndex }
-            currentSyncDocAnnotations = groupedAnnotations.keys.mapNotNull { pageIndex ->
-                val list = groupedAnnotations[pageIndex] ?: return@mapNotNull null
-                val annotations = list.map { it.toInstantJson() }.filter(::invalidInstantJson)
-                PdfAnnotations(pageIndex, annotations)
-            }
-
-            lessonsRepository.saveAnnotations(index, pdfId, currentSyncDocAnnotations)
-        }
-        document.annotationProvider.addOnAnnotationUpdatedListener(annotationUpdatedListener)
-
-        for (i in 0 until document.pageCount) {
-            val annotations = document.annotationProvider.getAnnotations(i)
-            currentDocAnnotations.addAll(annotations)
-        }
-
-        syncAnnotationsJob?.cancel()
-        syncAnnotationsJob = viewModelScope.launch {
-            lessonsRepository.getAnnotations(index, pdfId).collect { resource ->
-                val annotations = resource.data ?: return@collect
-
-                if (annotations.isEmpty() || currentSyncDocAnnotations == annotations) return@collect
-
-                with(document.annotationProvider) {
-                    removeOnAnnotationUpdatedListener(annotationUpdatedListener)
-
-                    val existing = currentDocAnnotations.toList()
-                    existing.forEach { removeAnnotationFromPageAsync(it).await(viewModelScope) }
-
-                    val addedAnnotations = annotations
-                        .flatMap { it.annotations }
-                        .map { createAnnotationFromInstantJsonAsync(it).await(viewModelScope) }
-
-                    currentDocAnnotations.clear()
-                    currentDocAnnotations.addAll(addedAnnotations)
-
-                    addOnAnnotationUpdatedListener(annotationUpdatedListener)
-                }
-            }
+            addOnAnnotationUpdatedListener(annotationUpdatedListener)
         }
     }
+
+    fun saveAnnotations(document: PdfDocument, docIndex: Int) {
+        val lessonIndex = lessonIndex ?: return
+        val pdfId = savedStateHandle.pdfs.getOrNull(docIndex)?.id ?: return
+
+        val syncAnnotations = document.annotations().toSync()
+
+        lessonsRepository.saveAnnotations(lessonIndex, pdfId, syncAnnotations)
+    }
+
+    private fun PdfDocument.annotations(): List<Annotation> {
+        val allAnnotations = mutableListOf<Annotation>()
+        for (i in 0 until pageCount) {
+            val annotations = annotationProvider.getAnnotations(i)
+            allAnnotations.addAll(annotations)
+        }
+
+        return allAnnotations
+    }
+
+    private fun List<Annotation>.toSync(): List<PdfAnnotations> {
+        val groupedAnnotations = groupBy { it.pageIndex }
+        return groupedAnnotations.keys.mapNotNull { pageIndex ->
+            val list = groupedAnnotations[pageIndex] ?: return@mapNotNull null
+            val annotations = list.map { it.toInstantJson() }.filter(::invalidInstantJson)
+            PdfAnnotations(pageIndex, annotations)
+        }
+    }
+
+    private fun invalidInstantJson(json: String) = json != "null"
 }
 
-private fun invalidInstantJson(json: String) = json != "null"
-private suspend fun Completable.await(scope: CoroutineScope) = withContext(scope.coroutineContext) { blockingAwait() }
-private suspend fun <T> Single<T>.await(scope: CoroutineScope): T = withContext(scope.coroutineContext) { blockingGet() }
-
 internal class SSAnnotationUpdatedListener(
-    private val onUpdate: (Annotation) -> Unit
+    private val onUpdate: () -> Unit
 ) : AnnotationProvider.OnAnnotationUpdatedListener {
-    override fun onAnnotationCreated(a: Annotation) = onUpdate(a)
-    override fun onAnnotationUpdated(a: Annotation) = onUpdate(a)
-    override fun onAnnotationRemoved(a: Annotation) = onUpdate(a)
+    override fun onAnnotationCreated(a: Annotation) = onUpdate()
+    override fun onAnnotationUpdated(a: Annotation) = onUpdate()
+    override fun onAnnotationRemoved(a: Annotation) = onUpdate()
     override fun onAnnotationZOrderChanged(p0: Int, p1: MutableList<Annotation>, p2: MutableList<Annotation>) {}
 }
