@@ -44,8 +44,7 @@ jobs:
       - name: Generate api keys
         env:
           API_SECRETS: ${{secrets.API_SECRETS}}
-        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
-        run: echo $API_SECRETS > release/ss_api_keys.properties
+        run: 'echo "$API_SECRETS" > release/ss_api_keys.properties'
 
       - name: Build Release
         if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'

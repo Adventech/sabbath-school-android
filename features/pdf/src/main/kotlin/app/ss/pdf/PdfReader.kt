@@ -34,7 +34,6 @@ import app.ss.pdf.ui.SSReadPdfActivity
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
-import com.pspdfkit.PSPDFKit
 import com.pspdfkit.annotations.AnnotationType
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.TabBarHidingMode
@@ -73,12 +72,6 @@ internal class PdfReaderImpl(
     private val readerPrefs: PdfReaderPrefs,
     private val schedulerProvider: SchedulerProvider
 ) : PdfReader, DownloadJob.ProgressListenerAdapter() {
-
-    init {
-        if (PSPDFKit.isInitialized().not() && BuildConfig.PSPDFKIT_LICENSE.isNotEmpty()) {
-            PSPDFKit.initialize(context, BuildConfig.PSPDFKIT_LICENSE)
-        }
-    }
 
     override fun launchIntent(pdfs: List<LessonPdf>, lessonIndex: String, mediaAvailability: MediaAvailability): Intent {
         val excludedAnnotationTypes = ArrayList(EnumSet.allOf(AnnotationType::class.java))
