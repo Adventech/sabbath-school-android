@@ -31,21 +31,17 @@ import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.media.model.MediaAvailability
 import app.ss.pdf.LocalFile
 import app.ss.pdf.PdfReader
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import com.cryart.sabbathschool.core.response.Resource
 import com.pspdfkit.annotations.Annotation
-import com.pspdfkit.annotations.AnnotationProvider
 import com.pspdfkit.document.PdfDocument
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,7 +49,6 @@ class ReadPdfViewModel @Inject constructor(
     pdfReader: PdfReader,
     private val lessonsRepository: LessonsRepository,
     private val savedStateHandle: SavedStateHandle,
-    private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
 
     val pdfsFilesFlow: StateFlow<Resource<List<LocalFile>>> = pdfReader.downloadFlow(savedStateHandle.pdfs)
@@ -72,12 +67,8 @@ class ReadPdfViewModel @Inject constructor(
     private val _annotationsUpdate = MutableSharedFlow<Int>()
     val annotationsUpdateFlow: SharedFlow<Int> = _annotationsUpdate
 
-    private var currDocIndex = -1
-    private val annotationUpdatedListener = SSAnnotationUpdatedListener {
-       // viewModelScope.launch { _annotationsUpdate.emit(currDocIndex) }
-    }
-
-    private var savedAnnotations: List<PdfAnnotations> = emptyList()
+    private val _annotationsMap: MutableMap<Int, List<PdfAnnotations>> = mutableMapOf()
+    val annotationsMap: Map<Int, List<PdfAnnotations>> = _annotationsMap
 
     init {
         viewModelScope.launch {
@@ -85,48 +76,11 @@ class ReadPdfViewModel @Inject constructor(
             savedStateHandle.pdfs.forEachIndexed { index, pdf ->
                 lessonsRepository.getAnnotations(lessonIndex, pdf.id).collect { resource ->
                     val syncAnnotations = resource.data ?: return@collect
-                    if (syncAnnotations == savedAnnotations) return@collect
-
-                    savedAnnotations = syncAnnotations
+                    _annotationsMap[index] = syncAnnotations
+                    _annotationsUpdate.emit(index)
                 }
             }
         }
-    }
-
-    fun onDocumentLoaded(document: PdfDocument, docIndex: Int) {
-        val index = lessonIndex ?: return
-        val pdfId = savedStateHandle.pdfs.getOrNull(docIndex)?.id ?: return
-        currDocIndex = docIndex
-        document.annotationProvider.addOnAnnotationUpdatedListener(annotationUpdatedListener)
-
-        //   delay(2000) // wait for pdf to load
-
-        /*lessonsRepository.getAnnotations(index, pdfId).collect { resource ->
-            val syncAnnotations = resource.data ?: return@collect
-            if (syncAnnotations == savedAnnotations) return@collect
-
-            savedAnnotations = syncAnnotations
-
-            with(document.annotationProvider) {
-
-                removeOnAnnotationUpdatedListener(annotationUpdatedListener)
-
-                withContext(schedulerProvider.main) {
-                    if (syncAnnotations.isNotEmpty()) {
-                        document.annotations()
-                            .forEach { removeAnnotationFromPage(it) }
-
-                        delay(2000)
-
-                        syncAnnotations
-                            .flatMap { it.annotations }
-                            .forEach { createAnnotationFromInstantJson(it) }
-                    }
-                }
-
-                addOnAnnotationUpdatedListener(annotationUpdatedListener)
-            }
-        }*/
     }
 
     fun saveAnnotations(document: PdfDocument, docIndex: Int) {
@@ -135,19 +89,7 @@ class ReadPdfViewModel @Inject constructor(
 
         val syncAnnotations = document.annotations().toSync()
 
-        this.savedAnnotations = syncAnnotations
-
         lessonsRepository.saveAnnotations(lessonIndex, pdfId, syncAnnotations)
-    }
-
-    private fun PdfDocument.annotations(): List<Annotation> {
-        val allAnnotations = mutableListOf<Annotation>()
-        for (i in 0 until pageCount) {
-            val annotations = annotationProvider.getAnnotations(i)
-            allAnnotations.addAll(annotations)
-        }
-
-        return allAnnotations
     }
 
     private fun List<Annotation>.toSync(): List<PdfAnnotations> {
@@ -162,11 +104,11 @@ class ReadPdfViewModel @Inject constructor(
     private fun invalidInstantJson(json: String) = json != "null"
 }
 
-internal class SSAnnotationUpdatedListener(
-    private val onUpdate: () -> Unit
-) : AnnotationProvider.OnAnnotationUpdatedListener {
-    override fun onAnnotationCreated(a: Annotation) = onUpdate()
-    override fun onAnnotationUpdated(a: Annotation) = onUpdate()
-    override fun onAnnotationRemoved(a: Annotation) = onUpdate()
-    override fun onAnnotationZOrderChanged(p0: Int, p1: MutableList<Annotation>, p2: MutableList<Annotation>) {}
+fun PdfDocument.annotations(): List<Annotation> {
+    val allAnnotations = mutableListOf<Annotation>()
+    for (i in 0 until pageCount) {
+        val annotations = annotationProvider.getAnnotations(i)
+        allAnnotations.addAll(annotations)
+    }
+    return allAnnotations
 }

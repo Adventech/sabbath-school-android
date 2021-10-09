@@ -31,6 +31,7 @@ import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import app.ss.lessons.data.model.PdfAnnotations
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
 import app.ss.pdf.PdfReaderPrefs
@@ -134,19 +135,38 @@ class SSReadPdfActivity : PdfActivity() {
 
         viewModel.annotationsUpdateFlow.collectIn(this) { docIndex ->
             val document = documentCoordinator.documents.getOrNull(docIndex)?.document ?: return@collectIn
-            viewModel.saveAnnotations(document, docIndex)
+            val annotations = viewModel.annotationsMap[docIndex] ?: return@collectIn
+
+            loadAnnotations(document, annotations)
         }
     }
 
     override fun onDocumentLoaded(document: PdfDocument) {
-      //  super.onDocumentLoaded(document)
         val index = loadedDocuments.indexOfFirst { it.uid == documentCoordinator.visibleDocument?.uid }
         if (index >= 0) {
-            viewModel.onDocumentLoaded(document, index)
+            val annotations = viewModel.annotationsMap[index] ?: return
+            loadAnnotations(document, annotations)
+        }
+    }
+
+    private fun loadAnnotations(document: PdfDocument, annotations: List<PdfAnnotations>) {
+        if (annotations.isEmpty()) return
+
+        with(document.annotationProvider) {
+            document.annotations()
+                .forEach { removeAnnotationFromPage(it) }
+
+            annotations
+                .flatMap { it.annotations }
+                .forEach { createAnnotationFromInstantJson(it) }
         }
     }
 
     override fun onDestroy() {
+        val documents = loadedDocuments.mapNotNull { it.document }
+        documents.forEachIndexed { index, pdfDocument ->
+            viewModel.saveAnnotations(pdfDocument, index)
+        }
         readerPrefs.saveConfiguration(configuration.configuration)
         super.onDestroy()
     }
