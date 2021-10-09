@@ -139,7 +139,7 @@ class SSReadPdfActivity : PdfActivity() {
     }
 
     override fun onDocumentLoaded(document: PdfDocument) {
-        super.onDocumentLoaded(document)
+      //  super.onDocumentLoaded(document)
         val index = loadedDocuments.indexOfFirst { it.uid == documentCoordinator.visibleDocument?.uid }
         if (index >= 0) {
             viewModel.onDocumentLoaded(document, index)
