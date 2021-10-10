@@ -43,36 +43,25 @@
         tools:ignore="AlwaysShowAction" />
 
     <item
-        android:id="@+id/ss_reading_menu_display_options"
+        android:id="@+id/ss_reading_menu_pdf"
         android:icon="@drawable/ic_read_options"
         android:orderInCategory="100"
-        android:title="@string/ss_settings_display_options"
-        app:showAsAction="always"
+        android:title="@string/ss_pdf_original"
+        android:visible="false"
+        app:showAsAction="never"
         tools:ignore="AlwaysShowAction" />
 
     <item
-        android:id="@+id/ss_reading_menu_suggest_edit"
-        android:orderInCategory="102"
-        android:title="@string/ss_reading_suggest_edit"
-        app:showAsAction="never" />
+        android:id="@+id/ss_reading_menu_display_options"
+        android:icon="@drawable/ic_read_options"
+        android:orderInCategory="101"
+        android:title="@string/ss_settings_display_options"
+        app:showAsAction="never"
+        tools:ignore="AlwaysShowAction" />
 
     <item
         android:id="@+id/ss_reading_menu_share"
         android:orderInCategory="102"
         android:title="@string/ss_share"
         app:showAsAction="never" />
-
-    <item
-        android:id="@+id/ss_reading_menu_settings"
-        android:orderInCategory="103"
-        android:title="@string/ss_settings"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/ss_reading_debug"
-        android:orderInCategory="104"
-        android:title="DEBUG"
-        android:visible="false"
-        app:showAsAction="never"
-        tools:ignore="HardcodedText" />
 </menu>

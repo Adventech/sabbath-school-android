@@ -33,6 +33,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/rounded_top_corners_background"
         android:divider="@color/list_divider"
         android:orientation="vertical"
         android:showDividers="middle">

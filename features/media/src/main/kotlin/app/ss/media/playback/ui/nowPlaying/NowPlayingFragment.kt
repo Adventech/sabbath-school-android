@@ -59,7 +59,7 @@ class NowPlayingFragment : TransparentBottomSheetFragment() {
 
 fun FragmentManager.showNowPlaying(
     lessonIndex: String?,
-    readIndex: String?
+    readIndex: String? = null
 ) {
     val fragment = NowPlayingFragment().apply {
         arguments = bundleOf(

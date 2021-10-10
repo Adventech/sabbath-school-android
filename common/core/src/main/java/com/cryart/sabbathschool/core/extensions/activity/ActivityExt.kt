@@ -23,35 +23,8 @@
 package com.cryart.sabbathschool.core.extensions.activity
 
 import android.app.Activity
-import android.app.ActivityOptions
-import android.content.Intent
-import android.os.Build
-import android.transition.Slide
-import android.view.Gravity
-import android.view.Window
 import androidx.core.view.WindowCompat
 
 fun Activity.setLightStatusBar(light: Boolean) {
     WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = light
-}
-
-fun Activity.slideEnter() {
-    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
-        with(window) {
-            requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
-            enterTransition = Slide(Gravity.END)
-        }
-    }
-}
-
-fun Activity.startIntentWithScene(intent: Intent) {
-    // This crash is caused by a bug in version 6.x the Android platform, which was fixed in OS versions > 7.0.
-    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
-        startActivity(
-            intent,
-            ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
-        )
-    } else {
-        startActivity(intent)
-    }
 }

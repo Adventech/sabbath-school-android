@@ -27,25 +27,30 @@ import app.ss.lessons.data.repository.lessons.LessonsRepositoryImpl
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepositoryImpl
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
     @Provides
+    @Singleton
     fun provideQuarterliesRepository(
         database: FirebaseDatabase,
         ssPrefs: SSPrefs
     ): QuarterliesRepository = QuarterliesRepositoryImpl(database, ssPrefs)
 
     @Provides
+    @Singleton
     fun provideLessonsRepository(
         database: FirebaseDatabase,
+        auth: FirebaseAuth,
         ssPrefs: SSPrefs
-    ): LessonsRepository = LessonsRepositoryImpl(database, ssPrefs)
+    ): LessonsRepository = LessonsRepositoryImpl(database, auth, ssPrefs)
 }

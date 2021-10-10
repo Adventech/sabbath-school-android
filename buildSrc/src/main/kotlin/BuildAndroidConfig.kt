@@ -1,6 +1,7 @@
 object BuildAndroidConfig {
     const val APP_ID = "com.cryart.sabbathschool"
     const val KEYSTORE_PROPS_FILE = "../release/keystore.properties"
+    const val API_KEYS_PROPS_FILE = "release/ss_api_keys.properties"
 
     const val COMPILE_SDK_VERSION = 30
     const val MIN_SDK_VERSION = 21
@@ -10,7 +11,7 @@ object BuildAndroidConfig {
 
     object Version {
         private const val MAJOR = 4
-        private const val MINOR = 5
+        private const val MINOR = 6
         private const val PATCH = 0
 
         const val name = "$MAJOR.$MINOR.$PATCH"

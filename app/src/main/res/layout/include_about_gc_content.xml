@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:justificationMode="inter_word"
-        android:paddingHorizontal="@dimen/spacing_large"
+        android:paddingHorizontal="@dimen/content_horizontal_spacing"
         android:paddingVertical="@dimen/spacing_normal"
         android:text="@string/gc_sspm_about"
         android:textSize="18sp"

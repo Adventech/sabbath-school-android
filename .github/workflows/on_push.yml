@@ -41,13 +41,18 @@ jobs:
         if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
         run: echo "BUILD_NUMBER=${{github.run_number}}" > app/build_number.properties
 
+      - name: Generate api keys
+        env:
+          API_SECRETS: ${{secrets.API_SECRETS}}
+        run: 'echo "$API_SECRETS" > release/ss_api_keys.properties'
+
       - name: Build Release
         if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
         run: ./gradlew app:bundleRelease --stacktrace
 
       - name: Publish to Internal track
         if: github.ref == 'refs/heads/develop'
-        uses: r0adkll/upload-google-play@v1
+        uses: r0adkll/upload-google-play@v1.0.15
         with:
           serviceAccountJson: release/play-account.json
           packageName: com.cryart.sabbathschool

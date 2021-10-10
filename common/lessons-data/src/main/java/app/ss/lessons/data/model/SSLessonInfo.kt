@@ -29,12 +29,16 @@ import com.google.firebase.database.IgnoreExtraProperties
 @IgnoreExtraProperties
 data class SSLessonInfo(
     val lesson: SSLesson,
-    val days: List<SSDay>
+    val days: List<SSDay>,
+    val pdfs: List<LessonPdf> = emptyList()
 ) {
     constructor(snapshot: DataSnapshot) : this(
         snapshot.child("lesson").getValue(SSLesson::class.java) ?: SSLesson(),
         snapshot.child("days").children.mapNotNull {
             it.getValue(SSDay::class.java)
+        },
+        snapshot.child("pdfs").children.mapNotNull {
+            it.getValue(LessonPdf::class.java)
         }
     )
 

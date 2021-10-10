@@ -35,6 +35,7 @@ data class SSLesson(
     val index: String = "",
     val path: String = "",
     val full_path: String = "",
+    val pdfOnly: Boolean = false,
 ) {
     constructor() : this("")
 }

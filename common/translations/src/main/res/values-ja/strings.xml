@@ -114,4 +114,5 @@
     <string name="ss_see_all">すべてを見る</string>
     <string name="ss_media_audio">オーディオ</string>
     <string name="ss_media_video">ビデオ</string>
+    <string name="ss_pdf_original">元のレイアウト</string>
 </resources>

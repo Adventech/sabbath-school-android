@@ -82,6 +82,8 @@
         <item name="behavior_skipCollapsed">true</item>
         <item name="android:elevation">@dimen/elevation_bottom_sheet</item>
         <item name="behavior_peekHeight">@dimen/ss_behaviour_peek_height</item>
+        <!--Use `@drawable/rounded_top_corners_background` for layout background-->
+        <item name="backgroundTint">@android:color/transparent</item>
     </style>
 
     <style name="Widget.SS.Snackbar" parent="Widget.MaterialComponents.Snackbar">

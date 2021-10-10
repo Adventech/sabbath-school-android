@@ -21,5 +21,7 @@
   -->
 
 <resources>
-    <style name="TransparentBottomSheetDialogTheme" parent="Theme.SS.BottomSheetDialog"/>
+    <style name="Theme.SS.BottomSheetDialog" parent="Base.Theme.BottomSheetDialog" />
+
+    <style name="TransparentBottomSheetDialogTheme" parent="Theme.SS.BottomSheetDialog" />
 </resources>

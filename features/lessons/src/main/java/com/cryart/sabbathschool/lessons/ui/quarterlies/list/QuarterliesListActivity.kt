@@ -29,14 +29,12 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import app.ss.lessons.data.model.QuarterlyGroup
-import com.cryart.sabbathschool.core.extensions.activity.slideEnter
-import com.cryart.sabbathschool.core.extensions.activity.startIntentWithScene
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
+import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
-import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesViewModel
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies
@@ -47,7 +45,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
-class QuarterliesListActivity : SSBaseActivity(), QuarterlyListCallbacks {
+class QuarterliesListActivity : SlidingActivity(), QuarterlyListCallbacks {
 
     private val viewModel by viewModels<QuarterliesViewModel>()
 
@@ -61,7 +59,6 @@ class QuarterliesListActivity : SSBaseActivity(), QuarterlyListCallbacks {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        slideEnter()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
@@ -93,7 +90,7 @@ class QuarterliesListActivity : SSBaseActivity(), QuarterlyListCallbacks {
 
     override fun onReadClick(index: String) {
         val lessonsIntent = SSLessonsActivity.launchIntent(this, index)
-        startIntentWithScene(lessonsIntent)
+        startActivity(lessonsIntent)
     }
 
     override fun onSeeAllClick(group: QuarterlyGroup) {
