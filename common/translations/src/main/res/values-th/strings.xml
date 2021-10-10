@@ -106,5 +106,5 @@
     <string name="ss_see_all">ดูทั้งหมด</string>
     <string name="ss_media_audio">เสียง</string>
     <string name="ss_media_video">วีดิทัศน์</string>
-    <string name="ss_pdf_original">ต้นฉบับ Pdf</string>
+    <string name="ss_pdf_original">โครงร่างดั้งเดิม</string>
 </resources>
