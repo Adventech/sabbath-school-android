@@ -68,7 +68,6 @@
     <string name="ss_about_app_version">"نسخة ٣.٠"</string>
     <string name="ss_about_made">"صنع ب ❤ بواسطة أدفنتيك"</string>
     <string name="ss_settings_display_options">"خيارات العرض"</string>
-    <string name="ss_settings_color_theme">"لون الستايل"</string>
     <string name="ss_settings_color_theme_light">"فاتح"</string>
     <string name="ss_settings_color_theme_sepia">"بني داكن"</string>
     <string name="ss_settings_color_theme_dark">"غامق"</string>

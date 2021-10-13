@@ -66,7 +66,6 @@
     <string name="ss_about_app_version">"версия 3.0"</string>
     <string name="ss_about_made">"Сделано с ❤ - Adventech"</string>
     <string name="ss_settings_display_options">"Настройки просмотра"</string>
-    <string name="ss_settings_color_theme">"Цветовая схема"</string>
     <string name="ss_settings_color_theme_light">"Светлая"</string>
     <string name="ss_settings_color_theme_sepia">"Сепия"</string>
     <string name="ss_settings_color_theme_dark">"Темная"</string>

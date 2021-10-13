@@ -67,7 +67,6 @@
     <string name="ss_about_app_version">"Versioon 3.0"</string>
     <string name="ss_about_made">"Tehtud ❤ Adventech'i poolt"</string>
     <string name="ss_settings_display_options">"Kuva valikud"</string>
-    <string name="ss_settings_color_theme">"Värviteema"</string>
     <string name="ss_settings_color_theme_light">"Hele"</string>
     <string name="ss_settings_color_theme_sepia">"Seepia"</string>
     <string name="ss_settings_color_theme_dark">"Tume"</string>

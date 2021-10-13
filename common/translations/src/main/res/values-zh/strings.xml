@@ -66,7 +66,6 @@
     <string name="ss_about_app_version">"版本3.0"</string>
     <string name="ss_about_made">"用Adventech的❤做出来"</string>
     <string name="ss_settings_display_options">"显示选项"</string>
-    <string name="ss_settings_color_theme">"颜色主题"</string>
     <string name="ss_settings_color_theme_light">"光"</string>
     <string name="ss_settings_color_theme_sepia">"乌贼"</string>
     <string name="ss_settings_color_theme_dark">"黑暗"</string>

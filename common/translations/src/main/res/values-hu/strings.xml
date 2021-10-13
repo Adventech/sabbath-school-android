@@ -68,7 +68,6 @@
     <string name="ss_about_app_version">"verzió 3.0"</string>
     <string name="ss_about_made">"Az Adventech által készített ❤"</string>
     <string name="ss_settings_display_options">"megjelenítési lehetőségek"</string>
-    <string name="ss_settings_color_theme">"Színes téma"</string>
     <string name="ss_settings_color_theme_light">"Fény"</string>
     <string name="ss_settings_color_theme_sepia">"Szépia"</string>
     <string name="ss_settings_color_theme_dark">"Sötét"</string>

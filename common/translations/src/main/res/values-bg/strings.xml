@@ -67,7 +67,6 @@
     <string name="ss_about_app_version">"Версия 3.0"</string>
     <string name="ss_about_made">"Направено с ❤ от Адвентех"</string>
     <string name="ss_settings_display_options">"Опции за показване"</string>
-    <string name="ss_settings_color_theme">"Цветна тема"</string>
     <string name="ss_settings_color_theme_light">"Светлина"</string>
     <string name="ss_settings_color_theme_sepia">"Сепия"</string>
     <string name="ss_settings_color_theme_dark">"Тъмен"</string>

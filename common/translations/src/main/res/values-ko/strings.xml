@@ -70,7 +70,6 @@
     <string name="ss_about_app_version">"버전 3.0"</string>
     <string name="ss_about_made">"❤ Adventech 제작"</string>
     <string name="ss_settings_display_options">"디스플레이 옵션"</string>
-    <string name="ss_settings_color_theme">"색상 테마"</string>
     <string name="ss_settings_color_theme_light">"빛"</string>
     <string name="ss_settings_color_theme_sepia">"sepia색상"</string>
     <string name="ss_settings_color_theme_dark">"어둡게"</string>

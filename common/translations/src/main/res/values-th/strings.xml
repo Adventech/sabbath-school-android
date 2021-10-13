@@ -66,7 +66,6 @@
     <string name="ss_about_app_version">"เวอร์ชัน 3.0"</string>
     <string name="ss_about_made">"ทำด้วย❤โดย Adventech"</string>
     <string name="ss_settings_display_options">"ตัวเลือกการแสดงผล"</string>
-    <string name="ss_settings_color_theme">"ธีมสี"</string>
     <string name="ss_settings_color_theme_light">"เบา"</string>
     <string name="ss_settings_color_theme_sepia">"สีซีเปีย"</string>
     <string name="ss_settings_color_theme_dark">"มืด"</string>

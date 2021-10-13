@@ -67,7 +67,6 @@
     <string name="ss_about_app_version">"versione 3.0"</string>
     <string name="ss_about_made">"Realizzato con ❤ da Adventech"</string>
     <string name="ss_settings_display_options">"Opzioni di visualizzazione"</string>
-    <string name="ss_settings_color_theme">"Tema del colore"</string>
     <string name="ss_settings_color_theme_light">"Leggero"</string>
     <string name="ss_settings_color_theme_sepia">"Nero di seppia"</string>
     <string name="ss_settings_color_theme_dark">"Buio"</string>

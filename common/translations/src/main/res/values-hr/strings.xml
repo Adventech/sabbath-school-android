@@ -67,7 +67,6 @@
     <string name="ss_about_app_version">"verzija 3.0"</string>
     <string name="ss_about_made">"Napravljeno od ❤ Adventech"</string>
     <string name="ss_settings_display_options">"Postavke zaslona"</string>
-    <string name="ss_settings_color_theme">"Tema boje"</string>
     <string name="ss_settings_color_theme_light">"Svjetlo"</string>
     <string name="ss_settings_color_theme_sepia">"Sepija"</string>
     <string name="ss_settings_color_theme_dark">"mrak"</string>
