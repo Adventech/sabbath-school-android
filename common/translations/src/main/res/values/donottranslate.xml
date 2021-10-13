@@ -61,7 +61,6 @@
     <string name="ss_about_github" translatable="false">@string/ss_settings_github</string>
     <string name="ss_about_github_summary" translatable="false">@string/ss_settings_github_summary</string>
 
-    <string name="ss_reading_display_options_color_theme" translatable="false">@string/ss_settings_color_theme</string>
     <string name="ss_reading_display_options_typeface" translatable="false">@string/ss_settings_typeface</string>
     <string name="ss_reading_display_options_font_size" translatable="false">@string/ss_settings_font_size</string>
 
@@ -74,5 +73,10 @@
     <string name="ss_reading_display_options_typeface_pt_serif" translatable="false">@string/ss_settings_typeface_pt_serif</string>
     <string name="ss_reading_display_options_typeface_pt_sans" translatable="false">@string/ss_settings_typeface_pt_sans</string>
     <string name="ss_reading_display_options_aa" translatable="false">Aa</string>
+
+    <string name="ss_settings_key_theme" translatable="false">ss_settings_theme</string>
+    <string name="ss_settings_theme_value_default" translatable="false">theme_default</string>
+    <string name="ss_settings_theme_value_light" translatable="false">theme_light</string>
+    <string name="ss_settings_theme_value_dark" translatable="false">theme_dark</string>
 
 </resources>

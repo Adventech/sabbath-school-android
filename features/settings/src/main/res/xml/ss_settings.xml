@@ -26,31 +26,13 @@
         app:iconSpaceReserved="false"
         app:title="@string/ss_settings_display_options">
         <ListPreference
-            app:defaultValue="light"
+            app:defaultValue="@string/ss_settings_theme_value_default"
             app:entries="@array/ss_settings_display_options_theme_entries"
             app:entryValues="@array/ss_settings_display_options_theme_values"
             app:iconSpaceReserved="false"
-            app:key="ss_settings_display_options_theme"
+            app:key="@string/ss_settings_key_theme"
             app:summary="%s"
-            app:title="@string/ss_settings_color_theme" />
-
-        <ListPreference
-            app:defaultValue="andada"
-            app:entries="@array/ss_settings_display_options_font_entries"
-            app:entryValues="@array/ss_settings_display_options_font_values"
-            app:iconSpaceReserved="false"
-            app:key="ss_settings_display_options_font"
-            app:summary="%s"
-            app:title="@string/ss_settings_typeface" />
-
-        <ListPreference
-            app:defaultValue="medium"
-            app:entries="@array/ss_settings_display_options_size_entries"
-            app:entryValues="@array/ss_settings_display_options_size_values"
-            app:iconSpaceReserved="false"
-            app:key="ss_settings_display_options_size"
-            app:summary="%s"
-            app:title="@string/ss_settings_font_size" />
+            app:title="@string/ss_settings_theme" />
     </PreferenceCategory>
 
     <PreferenceCategory

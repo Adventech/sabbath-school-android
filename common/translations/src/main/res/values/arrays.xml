@@ -24,43 +24,13 @@
 <resources>
     <string-array translatable="false" name="ss_settings_display_options_theme_entries">
         <item>@string/ss_settings_color_theme_light</item>
-        <item>@string/ss_settings_color_theme_sepia</item>
         <item>@string/ss_settings_color_theme_dark</item>
+        <item>@string/ss_settings_theme_default</item>
     </string-array>
 
     <string-array translatable="false" name="ss_settings_display_options_theme_values">
-        <item>light</item>
-        <item>sepia</item>
-        <item>dark</item>
-    </string-array>
-
-    <string-array translatable="false" name="ss_settings_display_options_font_entries">
-        <item>@string/ss_settings_typeface_andada</item>
-        <item>@string/ss_settings_typeface_lato</item>
-        <item>@string/ss_settings_typeface_pt_serif</item>
-        <item>@string/ss_settings_typeface_pt_sans</item>
-    </string-array>
-
-    <string-array translatable="false" name="ss_settings_display_options_font_values">
-        <item>andada</item>
-        <item>lato</item>
-        <item>pt-serif</item>
-        <item>pt-sans</item>
-    </string-array>
-
-    <string-array translatable="false" name="ss_settings_display_options_size_entries">
-        <item>@string/ss_settings_font_size_tiny</item>
-        <item>@string/ss_settings_font_size_small</item>
-        <item>@string/ss_settings_font_size_medium</item>
-        <item>@string/ss_settings_font_size_large</item>
-        <item>@string/ss_settings_font_size_huge</item>
-    </string-array>
-
-    <string-array translatable="false" name="ss_settings_display_options_size_values">
-        <item>tiny</item>
-        <item>small</item>
-        <item>medium</item>
-        <item>large</item>
-        <item>huge</item>
+        <item>@string/ss_settings_theme_value_light</item>
+        <item>@string/ss_settings_theme_value_dark</item>
+        <item>@string/ss_settings_theme_value_default</item>
     </string-array>
 </resources>

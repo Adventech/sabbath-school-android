@@ -27,20 +27,12 @@ import android.view.MenuItem
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
-import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import com.cryart.sabbathschool.settings.databinding.SsSettingsActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SSSettingsActivity : SSBaseActivity() {
-
-    @Inject
-    lateinit var dailyReminder: DailyReminder
-
-    @Inject
-    lateinit var appConfig: AppConfig
 
     private val binding by viewBinding(SsSettingsActivityBinding::inflate)
 
@@ -53,7 +45,7 @@ class SSSettingsActivity : SSBaseActivity() {
 
         supportFragmentManager.beginTransaction().replace(
             R.id.ss_settings_frame,
-            SSSettingsFragment.newInstance(appConfig)
+            SSSettingsFragment.newInstance()
         ).commit()
 
         SSEvent.track(this, SSConstants.SS_EVENT_SETTINGS_OPEN)
