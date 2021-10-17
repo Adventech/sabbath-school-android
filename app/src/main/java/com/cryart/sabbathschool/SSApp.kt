@@ -24,20 +24,14 @@ package com.cryart.sabbathschool
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.ThemeHelper
 import com.cryart.sabbathschool.reminder.SSJobCreator
 import com.evernote.android.job.JobManager
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
 
 @HiltAndroidApp
 class SSApp : Application() {
-
-    @Inject
-    lateinit var ssPrefs: SSPrefs
 
     override fun onCreate() {
         JobManager.create(this)
@@ -46,6 +40,5 @@ class SSApp : Application() {
 
         Firebase.database.setPersistenceEnabled(true)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        ThemeHelper.setTheme(this, ssPrefs.getAppTheme())
     }
 }

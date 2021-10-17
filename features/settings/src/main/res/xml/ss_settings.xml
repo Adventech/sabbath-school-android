@@ -24,19 +24,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:title="@string/ss_settings_display_options">
-        <ListPreference
-            app:defaultValue="@string/ss_settings_theme_value_default"
-            app:entries="@array/ss_settings_display_options_theme_entries"
-            app:entryValues="@array/ss_settings_display_options_theme_values"
-            app:iconSpaceReserved="false"
-            app:key="@string/ss_settings_key_theme"
-            app:summary="%s"
-            app:title="@string/ss_settings_theme" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        app:iconSpaceReserved="false"
         app:title="@string/ss_settings_reminder">
         <CheckBoxPreference
             app:defaultValue="true"

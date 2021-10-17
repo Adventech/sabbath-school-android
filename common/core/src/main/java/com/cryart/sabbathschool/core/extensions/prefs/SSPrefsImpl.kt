@@ -33,7 +33,6 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.preference.PreferenceManager
-import com.cryart.sabbathschool.core.R
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSHelper
@@ -263,11 +262,6 @@ class SSPrefsImpl(
             putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY_DARK, primaryDark)
         }
     }
-
-    override fun getAppTheme(): String = sharedPreferences.getString(
-        context.getString(R.string.ss_settings_key_theme),
-        context.getString(R.string.ss_settings_theme_value_default)
-    )!!
 
     override fun clear() {
         sharedPreferences.edit { clear() }
