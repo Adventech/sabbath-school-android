@@ -107,5 +107,5 @@ Nous croyons vraiment que Dieu a augmenté la connaissance du monde moderne et v
     <string name="ss_media_video">Vidéo</string>
     <string name="ss_pdf_original">Disposition originale</string>
     <string name="ss_settings_theme">Thème</string>
-    <string name="ss_settings_theme_default">Défaillance du système</string>
+    <string name="ss_settings_theme_default">Défaut</string>
 </resources>

@@ -108,5 +108,5 @@
     <string name="ss_media_video">βίντεο</string>
     <string name="ss_pdf_original">Αρχική διάταξη</string>
     <string name="ss_settings_theme">Θέμα</string>
-    <string name="ss_settings_theme_default">Προεπιλογή συστήματος</string>
+    <string name="ss_settings_theme_default">Προκαθορισμένο</string>
 </resources>

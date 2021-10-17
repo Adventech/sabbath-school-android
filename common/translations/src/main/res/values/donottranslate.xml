@@ -67,8 +67,7 @@
     <string name="ss_reading_display_options_theme_light" translatable="false">@string/ss_settings_color_theme_light</string>
     <string name="ss_reading_display_options_theme_sepia" translatable="false">@string/ss_settings_color_theme_sepia</string>
     <string name="ss_reading_display_options_theme_dark" translatable="false">@string/ss_settings_color_theme_dark</string>
-    <string name="ss_settings_theme_light" translatable="false">@string/ss_settings_color_theme_light</string>
-    <string name="ss_settings_theme_dark" translatable="false">@string/ss_settings_color_theme_dark</string>
+    <string name="ss_reading_display_options_theme_default" translatable="false">@string/ss_settings_theme_default</string>
 
     <string name="ss_reading_display_options_typeface_andada" translatable="false">@string/ss_settings_typeface_andada</string>
     <string name="ss_reading_display_options_typeface_lato" translatable="false">@string/ss_settings_typeface_lato</string>

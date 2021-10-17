@@ -108,5 +108,5 @@ Wir glauben wirklich, dass Gott die Erkenntnis der modernen Welt erhöht hat und
     <string name="ss_media_video">Video</string>
     <string name="ss_pdf_original">Original-Layout</string>
     <string name="ss_settings_theme">Thema</string>
-    <string name="ss_settings_theme_default">Systemfehler</string>
+    <string name="ss_settings_theme_default">Standard</string>
 </resources>

@@ -107,6 +107,6 @@
     <string name="ss_media_video">भिडियो</string>
     <string name="ss_pdf_original">मूल लेआउट</string>
     <string name="ss_settings_theme">विषयवस्तु</string>
-    <string name="ss_settings_theme_default">प्रणाली पूर्वनिर्धारित</string>
+    <string name="ss_settings_theme_default">पूर्वनिर्धारित</string>
 
 </resources>

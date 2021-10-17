@@ -108,5 +108,5 @@ Vi tror virkelig, at Gud har øget kendskabet til den moderne verden og vil have
     <string name="ss_media_video">Video</string>
     <string name="ss_pdf_original">Originalt layout</string>
     <string name="ss_settings_theme">Tema</string>
-    <string name="ss_settings_theme_default">System standard</string>
+    <string name="ss_settings_theme_default">Standard</string>
 </resources>

@@ -107,5 +107,5 @@
     <string name="ss_media_video">วีดิทัศน์</string>
     <string name="ss_pdf_original">โครงร่างดั้งเดิม</string>
     <string name="ss_settings_theme">ธีม</string>
-    <string name="ss_settings_theme_default">ค่าเริ่มต้นของระบบ</string>
+    <string name="ss_settings_theme_default">ค่าเริ่มต้น</string>
 </resources>
