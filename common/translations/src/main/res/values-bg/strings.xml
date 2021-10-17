@@ -107,4 +107,6 @@
     <string name="ss_media_audio">Аудио</string>
     <string name="ss_media_video">Видео</string>
     <string name="ss_pdf_original">Оригинално оформление</string>
+    <string name="ss_settings_theme">Тема</string>
+    <string name="ss_settings_theme_default">Система по подразбиране</string>
 </resources>

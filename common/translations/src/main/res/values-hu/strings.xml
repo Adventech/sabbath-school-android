@@ -107,4 +107,6 @@ Igazán hiszünk abban, hogy Isten megnövelte a modern világ tudását, és az
     <string name="ss_media_audio">Hang</string>
     <string name="ss_media_video">Videó</string>
     <string name="ss_pdf_original">Eredeti elrendezés</string>
+    <string name="ss_settings_theme">Téma</string>
+    <string name="ss_settings_theme_default">Rendszer alapértelmezett</string>
 </resources>

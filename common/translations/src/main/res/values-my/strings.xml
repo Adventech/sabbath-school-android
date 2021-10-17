@@ -100,5 +100,7 @@
     <string name="ss_media_audio">အသံ</string>
     <string name="ss_media_video">ဗွီဒီယို</string>
     <string name="ss_pdf_original">မူရင်းအပြင်အဆင်</string>
+    <string name="ss_settings_theme">အပြင်အဆင်</string>
+    <string name="ss_settings_theme_default">စနစ်ပုံသေ</string>
 
 </resources>

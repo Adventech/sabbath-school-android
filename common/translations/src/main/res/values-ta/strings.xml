@@ -106,4 +106,6 @@
     <string name="ss_media_video">ஒளிதோற்றம்</string>
     <string name="ss_media_audio">ஒலி சார்ந்த</string>
     <string name="ss_pdf_original">அசல் வடிவமைப்பு</string>
+    <string name="ss_settings_theme">தீம்</string>
+    <string name="ss_settings_theme_default">கணினி இயல்புநிலை</string>
 </resources>

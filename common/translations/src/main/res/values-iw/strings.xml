@@ -106,4 +106,6 @@
     <string name="ss_media_audio">" שֶׁמַע"</string>
     <string name="ss_media_video">וִידֵאוֹ</string>
     <string name="ss_pdf_original">פריסה מקורית</string>
+    <string name="ss_settings_theme">נושא</string>
+    <string name="ss_settings_theme_default">ברירת מחדל של המערכת</string>
 </resources>

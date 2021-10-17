@@ -103,4 +103,6 @@
     <string name="ss_media_audio">صوتي</string>
     <string name="ss_media_video">فيديو</string>
     <string name="ss_pdf_original">التخطيط الأصلي</string>
+    <string name="ss_settings_theme">سمة</string>
+    <string name="ss_settings_theme_default">النظام الافتراضي</string>
 </resources>

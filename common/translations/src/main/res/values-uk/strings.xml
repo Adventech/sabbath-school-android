@@ -106,4 +106,6 @@
     <string name="ss_media_audio">Аудіо</string>
     <string name="ss_media_video">Відео</string>
     <string name="ss_pdf_original">Оригінальний макет</string>
+    <string name="ss_settings_theme">Тема</string>
+    <string name="ss_settings_theme_default">За замовчуванням система</string>
 </resources>

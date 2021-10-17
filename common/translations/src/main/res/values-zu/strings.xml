@@ -107,4 +107,6 @@ Siyakholwa ngempela ukuthi uNkulunkulu ukwandise ulwazi lwezwe lwanamuhla futhi 
     <string name="ss_media_audio">Umsindo</string>
     <string name="ss_media_video">Ividiyo</string>
     <string name="ss_pdf_original">Isakhiwo sangempela</string>
+    <string name="ss_settings_theme">Ingqikithi</string>
+    <string name="ss_settings_theme_default">Okuzenzakalelayo kwesistimu</string>
 </resources>

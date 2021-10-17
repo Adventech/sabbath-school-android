@@ -107,4 +107,6 @@ Opravdu věříme, že Bůh rozmnožil poznání moderního světa a chce, abych
     <string name="ss_media_audio">Zvuk</string>
     <string name="ss_media_video">Video</string>
     <string name="ss_pdf_original">Původní rozvržení</string>
+    <string name="ss_settings_theme">Téma</string>
+    <string name="ss_settings_theme_default">Výchozí nastavení systému</string>
 </resources>

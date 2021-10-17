@@ -106,4 +106,6 @@
     <string name="ss_media_audio">ऑडियो</string>
     <string name="ss_media_video">वीडियो</string>
     <string name="ss_pdf_original">मूल लेआउट</string>
+    <string name="ss_settings_theme">विषय</string>
+    <string name="ss_settings_theme_default">प्रणालीगत चूक</string>
 </resources>

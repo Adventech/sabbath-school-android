@@ -110,4 +110,6 @@
     <string name="ss_media_audio">오디오</string>
     <string name="ss_media_video">동영상</string>
     <string name="ss_pdf_original">원래 레이아웃</string>
+    <string name="ss_settings_theme">주제</string>
+    <string name="ss_settings_theme_default">시스템 기본값</string>
 </resources>

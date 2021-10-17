@@ -106,4 +106,6 @@ Vi tror verkligen att Gud har ökat den moderna världens kunskap och vill att v
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
     <string name="ss_pdf_original">Ursprunglig layout</string>
+    <string name="ss_settings_theme">Tema</string>
+    <string name="ss_settings_theme_default">Systemfel</string>
 </resources>

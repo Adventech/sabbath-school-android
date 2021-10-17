@@ -107,5 +107,7 @@
     <string name="ss_media_audio">ສຽງ</string>
     <string name="ss_media_video">ວິດີໂອ</string>
     <string name="ss_pdf_original">ໂຄງຮ່າງຕົ້ນສະບັບ</string>
+    <string name="ss_settings_theme">ຫົວຂໍ້</string>
+    <string name="ss_settings_theme_default">ຄ່າເລີ່ມຕົ້ນຂອງລະບົບ</string>
 
 </resources>

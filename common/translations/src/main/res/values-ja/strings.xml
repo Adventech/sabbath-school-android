@@ -114,4 +114,6 @@
     <string name="ss_media_audio">オーディオ</string>
     <string name="ss_media_video">ビデオ</string>
     <string name="ss_pdf_original">元のレイアウト</string>
+    <string name="ss_settings_theme">テーマ</string>
+    <string name="ss_settings_theme_default">システムのデフォルト</string>
 </resources>

@@ -106,4 +106,6 @@ Naprawdę wierzymy, że Bóg zwiększył wiedzę o współczesnym świecie i chc
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Wideo</string>
     <string name="ss_pdf_original">Oryginalny układ</string>
+    <string name="ss_settings_theme">Temat</string>
+    <string name="ss_settings_theme_default">Domyślne ustawienie systemowe</string>
 </resources>

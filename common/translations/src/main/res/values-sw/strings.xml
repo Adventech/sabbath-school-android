@@ -106,4 +106,6 @@ Tunaamini kweli kwamba Mungu ameongeza ujuzi wa dunia ya kisasa na anataka tuutu
     <string name="ss_media_audio">Sauti</string>
     <string name="ss_media_video">Video</string>
     <string name="ss_pdf_original">Mpangilio wa asili</string>
+    <string name="ss_settings_theme">Mandhari</string>
+    <string name="ss_settings_theme_default">Chaguo-msingi la mfumo</string>
 </resources>

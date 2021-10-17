@@ -107,4 +107,6 @@
     <string name="ss_media_audio">سمعی</string>
     <string name="ss_media_video">ویدیو</string>
     <string name="ss_pdf_original">طرح اصلی</string>
+    <string name="ss_settings_theme">موضوع</string>
+    <string name="ss_settings_theme_default">پیش فرض سیستم</string>
 </resources>

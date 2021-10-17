@@ -106,4 +106,6 @@
     <string name="ss_media_audio">ഓഡിയോ</string>
     <string name="ss_media_video">വീഡിയോ</string>
     <string name="ss_pdf_original">യഥാർത്ഥ ലേoutട്ട്</string>
+    <string name="ss_settings_theme">തീം</string>
+    <string name="ss_settings_theme_default">സിസ്റ്റം ഡിഫോൾട്ട്</string>
 </resources>

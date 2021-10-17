@@ -106,4 +106,6 @@ Gerçekten, Tanrı'nın modern dünya bilgisini arttırdığına ve O'nun ihtiş
     <string name="ss_media_video">Video</string>
     <string name="ss_media_audio">Ses</string>
     <string name="ss_pdf_original">Özgün düzen</string>
+    <string name="ss_settings_theme">Tema</string>
+    <string name="ss_settings_theme_default">Sistem varsayılanı</string>
 </resources>

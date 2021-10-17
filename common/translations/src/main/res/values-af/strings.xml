@@ -108,4 +108,6 @@ Ons glo werklik dat God die kennis van die moderne wÃªreld verhoog het en wil hÃ
     <string name="ss_media_audio">Oudio</string>
     <string name="ss_media_video">Video</string>
     <string name="ss_pdf_original">Oorspronklike uitleg</string>
+    <string name="ss_settings_theme">Tema</string>
+    <string name="ss_settings_theme_default">Stelsel standaard</string>
 </resources>
