@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,32 +20,21 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool
+package com.cryart.sabbathschool.core.misc
 
-import android.app.Application
+import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.ThemeHelper
-import com.cryart.sabbathschool.reminder.SSJobCreator
-import com.evernote.android.job.JobManager
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
+import com.cryart.sabbathschool.core.R
 
-@HiltAndroidApp
-class SSApp : Application() {
+object ThemeHelper {
 
-    @Inject
-    lateinit var ssPrefs: SSPrefs
-
-    override fun onCreate() {
-        JobManager.create(this)
-            .addJobCreator(SSJobCreator())
-        super.onCreate()
-
-        Firebase.database.setPersistenceEnabled(true)
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        ThemeHelper.setTheme(this, ssPrefs.getAppTheme())
+    fun setTheme(context: Context, theme: String) {
+        val mode = when (theme) {
+            context.getString(R.string.ss_settings_theme_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
+            context.getString(R.string.ss_settings_theme_value_dark) -> AppCompatDelegate.MODE_NIGHT_YES
+            context.getString(R.string.ss_settings_theme_value_default) -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            else -> return
+        }
+        AppCompatDelegate.setDefaultNightMode(mode)
     }
 }

@@ -24,10 +24,10 @@ package com.cryart.sabbathschool.settings
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.core.misc.ThemeHelper
 import com.cryart.sabbathschool.core.model.AppConfig
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -61,13 +61,9 @@ class SSSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnShare
     override fun onSharedPreferenceChanged(pref: SharedPreferences?, key: String?) {
         when (key) {
             getString(R.string.ss_settings_key_theme) -> {
-                val theme = when (pref?.getString(key, null)) {
-                    getString(R.string.ss_settings_theme_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
-                    getString(R.string.ss_settings_theme_value_dark) -> AppCompatDelegate.MODE_NIGHT_YES
-                    getString(R.string.ss_settings_theme_value_default) -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                    else -> return
+                pref?.getString(key, null)?.let { theme ->
+                    ThemeHelper.setTheme(requireContext(), theme)
                 }
-                AppCompatDelegate.setDefaultNightMode(theme)
             }
             SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY, SSConstants.SS_SETTINGS_REMINDER_TIME_KEY -> {
                 dailyReminder.reSchedule()
