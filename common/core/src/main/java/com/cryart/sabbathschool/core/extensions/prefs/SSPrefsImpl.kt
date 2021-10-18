@@ -206,12 +206,7 @@ class SSPrefsImpl(
         .distinctUntilChanged()
 
     private fun Preferences.toDisplayOptions(): SSReadingDisplayOptions {
-        val defaultTheme = if (context.isDarkTheme()) {
-            SSReadingDisplayOptions.SS_THEME_DARK
-        } else {
-            SSReadingDisplayOptions.SS_THEME_LIGHT
-        }
-        val theme = this[stringPreferencesKey(SSConstants.SS_SETTINGS_THEME_KEY)] ?: defaultTheme
+        val theme = this[stringPreferencesKey(SSConstants.SS_SETTINGS_THEME_KEY)] ?: SSReadingDisplayOptions.SS_THEME_DEFAULT
         val size = this[stringPreferencesKey(SSConstants.SS_SETTINGS_SIZE_KEY)] ?: SSReadingDisplayOptions.SS_SIZE_MEDIUM
         val font = this[stringPreferencesKey(SSConstants.SS_SETTINGS_FONT_KEY)] ?: SSReadingDisplayOptions.SS_FONT_LATO
 

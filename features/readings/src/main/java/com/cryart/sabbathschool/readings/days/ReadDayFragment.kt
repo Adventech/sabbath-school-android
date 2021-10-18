@@ -27,6 +27,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
+import com.cryart.sabbathschool.core.model.themeColor
 import com.cryart.sabbathschool.core.ui.SSBaseFragment
 import com.cryart.sabbathschool.readings.R
 import com.cryart.sabbathschool.readings.components.model.ReadingDay
@@ -51,7 +52,7 @@ class ReadDayFragment : SSBaseFragment<FragmentDayBinding>(R.layout.fragment_day
         super.onInit()
 
         ssPrefs.getDisplayOptions { options ->
-            view?.setBackgroundColor(Color.parseColor(options.themeColor))
+            view?.setBackgroundColor(Color.parseColor(options.themeColor(requireContext())))
             readingViewComponent = ReadingViewComponent(viewLifecycleOwner, options, viewBinding.readingView)
         }
     }
