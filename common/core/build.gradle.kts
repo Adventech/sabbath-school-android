@@ -55,8 +55,6 @@ android {
 }
 
 dependencies {
-    implementation(project(BuildModules.Common.TRANSLATIONS))
-
     implementation(AndroidX.LIFECYCLE_COMMON)
     implementation(AndroidX.LIFECYCLE_KTX)
     implementation(AndroidX.PREFERENCE)
