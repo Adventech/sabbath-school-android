@@ -66,7 +66,6 @@
     <string name="ss_about_app_version">"संस्करण 3.0"</string>
     <string name="ss_about_made">"Adventech द्वारा प्यार संग"</string>
     <string name="ss_settings_display_options">"विकल्पहरू प्रदर्शन गर्नुहोस्"</string>
-    <string name="ss_settings_color_theme">"रङ विषयवस्तु"</string>
     <string name="ss_settings_color_theme_light">"लाइट"</string>
     <string name="ss_settings_color_theme_sepia">"खैरो"</string>
     <string name="ss_settings_color_theme_dark">"गाढा"</string>
@@ -107,5 +106,7 @@
     <string name="ss_media_audio">अडियो</string>
     <string name="ss_media_video">भिडियो</string>
     <string name="ss_pdf_original">मूल लेआउट</string>
+    <string name="ss_settings_theme">विषयवस्तु</string>
+    <string name="ss_settings_theme_default">पूर्वनिर्धारित</string>
 
 </resources>

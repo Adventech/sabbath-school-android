@@ -66,7 +66,6 @@
     <string name="ss_about_app_version">"version 3.0"</string>
     <string name="ss_about_made">"Yenziwe nge-❤ ngu-Adventech"</string>
     <string name="ss_settings_display_options">"Izinketho zokubonisa"</string>
-    <string name="ss_settings_color_theme">"Isihloko sombala"</string>
     <string name="ss_settings_color_theme_light">"Ukukhanya"</string>
     <string name="ss_settings_color_theme_sepia">"I-Sepia"</string>
     <string name="ss_settings_color_theme_dark">"Umnyama"</string>
@@ -108,4 +107,6 @@ Siyakholwa ngempela ukuthi uNkulunkulu ukwandise ulwazi lwezwe lwanamuhla futhi 
     <string name="ss_media_audio">Umsindo</string>
     <string name="ss_media_video">Ividiyo</string>
     <string name="ss_pdf_original">Isakhiwo sangempela</string>
+    <string name="ss_settings_theme">Ingqikithi</string>
+    <string name="ss_settings_theme_default">Okuzenzakalelayo</string>
 </resources>

@@ -43,4 +43,19 @@
     <style name="Theme.SS.Lessons" parent="Theme.SS.Full">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="display_options_text_view">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">@dimen/ss_reading_display_options_button_padding</item>
+        <item name="android:paddingBottom">@dimen/ss_reading_display_options_button_padding</item>
+        <item name="android:paddingStart">@dimen/spacing_micro</item>
+        <item name="android:paddingEnd">@dimen/spacing_micro</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/selector_primary_variant</item>
+        <item name="fontFamily">@font/lato_regular</item>
+    </style>
 </resources>

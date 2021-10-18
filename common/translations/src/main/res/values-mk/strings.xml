@@ -66,7 +66,6 @@
     <string name="ss_about_app_version">"верзија 3.0"</string>
     <string name="ss_about_made">"Направени со ❤ од Adventech"</string>
     <string name="ss_settings_display_options">"Опции за прикажување"</string>
-    <string name="ss_settings_color_theme">"Боја тема"</string>
     <string name="ss_settings_color_theme_light">"Светлина"</string>
     <string name="ss_settings_color_theme_sepia">"Сепија"</string>
     <string name="ss_settings_color_theme_dark">"Темно"</string>
@@ -107,4 +106,6 @@
     <string name="ss_media_audio">Аудио</string>
     <string name="ss_media_video">Видео</string>
     <string name="ss_pdf_original">Оригинален распоред</string>
+    <string name="ss_settings_theme">Тема</string>
+    <string name="ss_settings_theme_default">Стандардно</string>
 </resources>

@@ -47,52 +47,31 @@
             android:divider="@color/list_divider"
             android:focusable="true"
             android:showDividers="middle"
-            android:weightSum="3">
+            android:weightSum="4">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/themeLight"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
+                style="@style/display_options_text_view"
                 android:onClick="@{() -> viewModel.setThemeLight()}"
-                android:paddingTop="@dimen/ss_reading_display_options_button_padding"
-                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
-                android:text="@string/ss_reading_display_options_theme_light"
-                android:textAlignment="center"
-                android:textColor="@color/selector_primary_variant"
-                app:fontFamily="@font/lato_regular" />
+                android:text="@string/ss_reading_display_options_theme_light" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/themeSepia"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
+                style="@style/display_options_text_view"
                 android:onClick="@{() -> viewModel.setThemeSepia()}"
-                android:paddingTop="@dimen/ss_reading_display_options_button_padding"
-                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
-                android:text="@string/ss_reading_display_options_theme_sepia"
-                android:textAlignment="center"
-                android:textColor="@color/selector_primary_variant"
-                app:fontFamily="@font/lato_regular" />
+                android:text="@string/ss_reading_display_options_theme_sepia" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/themeDark"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
+                style="@style/display_options_text_view"
                 android:onClick="@{() -> viewModel.setThemeDark()}"
-                android:paddingTop="@dimen/ss_reading_display_options_button_padding"
-                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
-                android:text="@string/ss_reading_display_options_theme_dark"
-                android:textAlignment="center"
-                android:textColor="@color/selector_primary_variant"
-                app:fontFamily="@font/lato_regular" />
+                android:text="@string/ss_reading_display_options_theme_dark" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/themeDefault"
+                style="@style/display_options_text_view"
+                android:onClick="@{() -> viewModel.setThemeDefault()}"
+                android:text="@string/ss_reading_display_options_theme_default" />
 
         </LinearLayout>
 

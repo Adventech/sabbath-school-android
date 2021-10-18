@@ -58,6 +58,8 @@ import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import com.cryart.sabbathschool.core.model.colorTheme
+import com.cryart.sabbathschool.core.model.displayTheme
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.core.ui.SlidingActivity
@@ -184,14 +186,14 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     }
 
     private fun updateColorScheme(displayOptions: SSReadingDisplayOptions) {
-        val color = displayOptions.colorTheme
+        val color = displayOptions.colorTheme(this)
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.apply {
             setContentScrimColor(color)
             setStatusBarScrimColor(color)
             setBackgroundColor(color)
 
             setCollapsedTitleTextColor(
-                when (displayOptions.theme) {
+                when (displayOptions.displayTheme(this@SSReadingActivity)) {
                     SSReadingDisplayOptions.SS_THEME_DARK -> Color.WHITE
                     else -> Color.BLACK
                 }

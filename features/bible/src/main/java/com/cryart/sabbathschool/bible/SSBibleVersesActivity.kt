@@ -32,6 +32,7 @@ import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent.track
+import com.cryart.sabbathschool.core.model.colorTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -65,7 +66,7 @@ class SSBibleVersesActivity : AppCompatActivity(), HeaderComponent.Callbacks {
         }
 
         viewModel.displayOptions { options ->
-            binding.ssBibleVersesView.setBackgroundColor(options.colorTheme)
+            binding.ssBibleVersesView.setBackgroundColor(options.colorTheme(this))
         }
     }
 

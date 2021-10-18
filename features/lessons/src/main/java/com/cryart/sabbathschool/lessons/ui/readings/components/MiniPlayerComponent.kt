@@ -28,12 +28,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.ui.PlaybackMiniControls
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import com.cryart.design.theme.SSTheme
 import com.cryart.design.theme.parse
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import com.cryart.sabbathschool.core.model.themeColor
 import kotlinx.coroutines.flow.Flow
 
 class MiniPlayerComponent(
@@ -50,7 +52,7 @@ class MiniPlayerComponent(
 
                 PlaybackMiniControls(
                     playbackConnection = playbackConnection,
-                    readerContentColor = contentColorFor(backgroundColor = Color.parse(options.themeColor)),
+                    readerContentColor = contentColorFor(backgroundColor = Color.parse(options.themeColor(LocalContext.current))),
                     onExpand = onExpand
                 )
             }

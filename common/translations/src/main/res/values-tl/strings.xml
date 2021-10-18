@@ -66,7 +66,6 @@
     <string name="ss_about_app_version">"bersyon 3.0"</string>
     <string name="ss_about_made">"Ginawa gamit ang ❤ sa Adventech"</string>
     <string name="ss_settings_display_options">"Mga pagpipilian sa display"</string>
-    <string name="ss_settings_color_theme">"Kulay ng tema"</string>
     <string name="ss_settings_color_theme_light">"Banayad"</string>
     <string name="ss_settings_color_theme_sepia">"Sepia"</string>
     <string name="ss_settings_color_theme_dark">"Madilim"</string>
@@ -107,4 +106,6 @@ Talagang naniniwala kami na pinalaki ng Diyos ang kaalaman sa modernong mundo at
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
     <string name="ss_pdf_original">ఒరిజినల్ లేవుట్</string>
+    <string name="ss_settings_theme">Tema</string>
+    <string name="ss_settings_theme_default">Default</string>
 </resources>

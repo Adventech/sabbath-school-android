@@ -63,7 +63,7 @@ dependencies {
     implementation(AndroidX.APPCOMPAT)
     implementation(AndroidX.ACTIVITY)
     implementation(AndroidX.FRAGMENT_KTX)
-    implementation(AndroidX.PREFERENCE)
+    api(AndroidX.PREFERENCE)
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)

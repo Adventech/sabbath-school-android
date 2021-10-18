@@ -66,7 +66,6 @@
     <string name="ss_about_app_version">"Verzia 3.0"</string>
     <string name="ss_about_made">"Vyrobené s ❤ od Adventech"</string>
     <string name="ss_settings_display_options">"Možnosti zobrazenia"</string>
-    <string name="ss_settings_color_theme">"Farebná téma"</string>
     <string name="ss_settings_color_theme_light">"Svetlo"</string>
     <string name="ss_settings_color_theme_sepia">"Sépia"</string>
     <string name="ss_settings_color_theme_dark">"Tmavá"</string>
@@ -107,4 +106,6 @@ Naozaj veríme, že Boh rozšíril poznanie moderného sveta a chce, aby sme ho 
     <string name="ss_media_audio">Zvuk</string>
     <string name="ss_media_video">Video</string>
     <string name="ss_pdf_original">Pôvodné rozloženie</string>
+    <string name="ss_settings_theme">Téma</string>
+    <string name="ss_settings_theme_default">Predvolené</string>
 </resources>

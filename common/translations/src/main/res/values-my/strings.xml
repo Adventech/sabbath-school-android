@@ -65,7 +65,6 @@
     <string name="ss_about_app_version">"ဗားရှင်း 3.0"</string>
     <string name="ss_about_made">"Adventech အားဖြင့်❤နှင့်ဖွဲ့"</string>
     <string name="ss_settings_display_options">"ကြည့်ရန်ဦးစားပေး"</string>
-    <string name="ss_settings_color_theme">"အရောင်ဆောင်ပုဒ်"</string>
     <string name="ss_settings_color_theme_light">"အလင်း"</string>
     <string name="ss_settings_color_theme_sepia">"နီညိုရောင်"</string>
     <string name="ss_settings_color_theme_dark">"မှောငျမိုကျသော"</string>
@@ -101,5 +100,7 @@
     <string name="ss_media_audio">အသံ</string>
     <string name="ss_media_video">ဗွီဒီယို</string>
     <string name="ss_pdf_original">မူရင်းအပြင်အဆင်</string>
+    <string name="ss_settings_theme">အပြင်အဆင်</string>
+    <string name="ss_settings_theme_default">ပုံသေ</string>
 
 </resources>

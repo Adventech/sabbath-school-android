@@ -67,7 +67,6 @@
     <string name="ss_about_app_version">"גרסה 3.0"</string>
     <string name="ss_about_made">"נעשה ב ❤ על ידי Adventech"</string>
     <string name="ss_settings_display_options">"אפשרויות תצוגה"</string>
-    <string name="ss_settings_color_theme">"נושא צבע"</string>
     <string name="ss_settings_color_theme_light">"אוֹר"</string>
     <string name="ss_settings_color_theme_sepia">"חוּם כֵּהֶה"</string>
     <string name="ss_settings_color_theme_dark">"אפל"</string>
@@ -107,4 +106,6 @@
     <string name="ss_media_audio">" שֶׁמַע"</string>
     <string name="ss_media_video">וִידֵאוֹ</string>
     <string name="ss_pdf_original">פריסה מקורית</string>
+    <string name="ss_settings_theme">נושא</string>
+    <string name="ss_settings_theme_default">בְּרִירַת מֶחדָל</string>
 </resources>

@@ -67,7 +67,6 @@
     <string name="ss_about_app_version">"έκδοση 3.0"</string>
     <string name="ss_about_made">"Κατασκευάστηκε με ❤ από την Adventech"</string>
     <string name="ss_settings_display_options">"Επιλογές προβολής"</string>
-    <string name="ss_settings_color_theme">"Χρωματισμός θέματος"</string>
     <string name="ss_settings_color_theme_light">"Φωτεινό"</string>
     <string name="ss_settings_color_theme_sepia">"Καστανόχρους"</string>
     <string name="ss_settings_color_theme_dark">"Σκοτεινό"</string>
@@ -108,4 +107,6 @@
     <string name="ss_media_audio">Χος</string>
     <string name="ss_media_video">βίντεο</string>
     <string name="ss_pdf_original">Αρχική διάταξη</string>
+    <string name="ss_settings_theme">Θέμα</string>
+    <string name="ss_settings_theme_default">Προκαθορισμένο</string>
 </resources>

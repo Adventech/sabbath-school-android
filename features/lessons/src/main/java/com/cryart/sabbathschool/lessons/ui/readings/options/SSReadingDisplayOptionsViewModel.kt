@@ -117,6 +117,10 @@ class SSReadingDisplayOptionsViewModel(
         setTheme(SSReadingDisplayOptions.SS_THEME_DARK)
     }
 
+    fun setThemeDefault() {
+        setTheme(SSReadingDisplayOptions.SS_THEME_DEFAULT)
+    }
+
     fun setSizeTiny() {
         setSize(SSReadingDisplayOptions.SS_SIZE_TINY)
     }
@@ -149,6 +153,7 @@ class SSReadingDisplayOptionsViewModel(
             SSReadingDisplayOptions.SS_THEME_LIGHT -> binding.themeLight
             SSReadingDisplayOptions.SS_THEME_DARK -> binding.themeDark
             SSReadingDisplayOptions.SS_THEME_SEPIA -> binding.themeSepia
+            SSReadingDisplayOptions.SS_THEME_DEFAULT -> binding.themeDefault
             else -> return
         }
         binding.themeContainer.children.forEach { view ->

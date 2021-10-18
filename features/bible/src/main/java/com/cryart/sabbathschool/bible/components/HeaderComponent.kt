@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.bible.components
 
+import android.content.Context
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -54,6 +55,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -63,6 +65,8 @@ import com.cryart.design.theme.LabelMedium
 import com.cryart.design.theme.SSTheme
 import com.cryart.design.theme.parse
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import com.cryart.sabbathschool.core.model.displayTheme
+import com.cryart.sabbathschool.core.model.themeColor
 import kotlinx.coroutines.flow.Flow
 
 class HeaderComponent(
@@ -88,7 +92,7 @@ class HeaderComponent(
                     initial = emptyList()
                 ).value
 
-                val backgroundColor = Color.parse(displayOptions.themeColor)
+                val backgroundColor = Color.parse(displayOptions.themeColor(LocalContext.current))
                 Surface(
                     color = backgroundColor,
                     contentColor = displayOptions.contentColor()
@@ -104,8 +108,9 @@ class HeaderComponent(
     }
 }
 
-private fun SSReadingDisplayOptions.contentColor(): Color {
-    return when (theme) {
+@Composable
+private fun SSReadingDisplayOptions.contentColor(context: Context = LocalContext.current): Color {
+    return when (displayTheme(context)) {
         SSReadingDisplayOptions.SS_THEME_DARK -> Color.White
         else -> Color.Black
     }

@@ -66,7 +66,6 @@
     <string name="ss_about_app_version">"versi 3.0"</string>
     <string name="ss_about_made">"Dibuat dengan ❤ oleh Adventech"</string>
     <string name="ss_settings_display_options">"Aturan Paparan"</string>
-    <string name="ss_settings_color_theme">"Tema Warna"</string>
     <string name="ss_settings_color_theme_light">"Terang"</string>
     <string name="ss_settings_color_theme_sepia">"Sepia"</string>
     <string name="ss_settings_color_theme_dark">"Gelap"</string>
@@ -107,4 +106,6 @@ Kami benar-benar percaya bahawa Tuhan telah meningkatkan pengetahuan tentang dun
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
     <string name="ss_pdf_original">Susun atur asal</string>
+    <string name="ss_settings_theme">Tema</string>
+    <string name="ss_settings_theme_default">Lalai</string>
 </resources>

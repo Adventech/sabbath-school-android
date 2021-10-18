@@ -56,6 +56,7 @@ import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import com.cryart.sabbathschool.core.model.colorTheme
 import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
@@ -459,7 +460,7 @@ class SSReadingViewModel(
     fun onSSReadingDisplayOptions(ssReadingDisplayOptions: SSReadingDisplayOptions) {
         currentSSReadingView?.updateReadingDisplayOptions(ssReadingDisplayOptions)
         val parent = currentSSReadingView?.parent as? ViewGroup
-        parent?.setBackgroundColor(ssReadingDisplayOptions.colorTheme)
+        parent?.setBackgroundColor(ssReadingDisplayOptions.colorTheme(parent.context))
 
         for (i in 0 until ssTotalReadsCount) {
             if (i == ssReadingActivityBinding.ssReadingViewPager.currentItem) continue

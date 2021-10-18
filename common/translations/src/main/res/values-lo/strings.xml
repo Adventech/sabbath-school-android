@@ -66,7 +66,6 @@
     <string name="ss_about_app_version">"ຮຸ່ນ 3.0"</string>
     <string name="ss_about_made">"Made with by Adventech"</string>
     <string name="ss_settings_display_options">"ຕົວເລືອກສະແດງ"</string>
-    <string name="ss_settings_color_theme">"ຫົວເລື່ອງ"</string>
     <string name="ss_settings_color_theme_light">"ແສງສະຫວ່າງ"</string>
     <string name="ss_settings_color_theme_sepia">"ສີນ້ໍາຕານດໍາ
     "</string>
@@ -108,5 +107,7 @@
     <string name="ss_media_audio">ສຽງ</string>
     <string name="ss_media_video">ວິດີໂອ</string>
     <string name="ss_pdf_original">ໂຄງຮ່າງຕົ້ນສະບັບ</string>
+    <string name="ss_settings_theme">ຫົວຂໍ້</string>
+    <string name="ss_settings_theme_default">ຄ່າເລີ່ມຕົ້ນ</string>
 
 </resources>
