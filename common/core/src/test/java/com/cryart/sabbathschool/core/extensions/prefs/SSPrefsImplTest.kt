@@ -28,8 +28,10 @@ class SSPrefsImplTest {
 
     @get:Rule
     var coroutinesTestRule = CoroutineTestRule()
+
     private val mockDataStore: DataStore<Preferences> = mockk(relaxed = true)
     private val mockSharedPreferences: SharedPreferences = mockk()
+
     private lateinit var impl: SSPrefsImpl
 
     @Before
@@ -50,7 +52,7 @@ class SSPrefsImplTest {
         }
         every { mockDataStore.data }.returns(testFlow)
         impl.displayOptionsFlow().test {
-            awaitItem() shouldBeEqualTo SSReadingDisplayOptions("light", "medium", "lato")
+            awaitItem() shouldBeEqualTo SSReadingDisplayOptions("default", "medium", "lato")
             awaitComplete()
         }
     }
@@ -59,7 +61,7 @@ class SSPrefsImplTest {
     fun `default value returned when exception is thrown during synchronous read`() = coroutinesTestRule.runBlockingTest {
         every { mockDataStore.data }.answers { error("IO error") }
         impl.getDisplayOptions { options ->
-            options shouldBeEqualTo SSReadingDisplayOptions("light", "medium", "lato")
+            options shouldBeEqualTo SSReadingDisplayOptions("default", "medium", "lato")
         }
     }
 
