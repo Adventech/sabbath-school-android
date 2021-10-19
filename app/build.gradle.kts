@@ -88,6 +88,10 @@ android {
             }
 
             manifestPlaceholders["enableReporting"] = true
+
+            ndk {
+                debugSymbolLevel = "SYMBOL_TABLE"
+            }
         }
         getByName(BuildType.DEBUG) {
 
