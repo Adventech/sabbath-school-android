@@ -2,9 +2,9 @@ package dependencies
 
 object Versions {
     const val COROUTINES = "1.5.2"
-    const val COMPOSE = "1.0.3"
+    const val COMPOSE = "1.0.4"
     const val MATERIAL = "1.4.0"
-    const val ACCOMPANIST = "0.19.0"
+    const val ACCOMPANIST = "0.20.0"
 
     object AndroidX {
         const val APPCOMPAT = "1.3.1"
@@ -21,7 +21,7 @@ object Versions {
         const val PREFERENCE = "1.1.1"
         const val BROWSER = "1.3.0"
         const val DATASTORE_PREFS = "1.0.0"
-        const val MEDIA = "1.4.2"
+        const val MEDIA = "1.4.3"
         const val ROOM = "2.3.0"
     }
 
@@ -35,7 +35,7 @@ object Versions {
     const val TIMBER = "5.0.1"
     const val COIL = "1.4.0"
     const val TAP_TARGET = "3.3.0"
-    const val ICONICS = "5.3.1@aar"
+    const val ICONICS = "5.3.2@aar"
 
     const val FIREBASE_BOM = "28.4.2"
     const val PLAY_AUTH = "19.2.0"
