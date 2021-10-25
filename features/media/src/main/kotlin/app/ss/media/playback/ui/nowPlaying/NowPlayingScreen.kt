@@ -73,6 +73,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
+import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.media.R
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
@@ -172,11 +173,12 @@ internal fun NowPlayingScreen(
                 if (expanded) 0.dp else Dimens.grid_2
             )
 
+            val constrains = decoupledConstraints(
+                expanded = expanded,
+                marginTop = marginTop
+            )
             ConstraintLayout(
-                constraintSet = decoupledConstraints(
-                    expanded = expanded,
-                    marginTop = marginTop
-                ),
+                constraintSet = constrains,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(
@@ -283,6 +285,7 @@ private fun decoupledConstraints(
         val image = createRefFor("image")
         val text = createRefFor("text")
         val queue = createRefFor("queue")
+        val endGuideline = createGuidelineFromEnd(Spacing16)
 
         if (expanded) {
             createVerticalChain(image, text, chainStyle = ChainStyle.Spread)
@@ -304,6 +307,8 @@ private fun decoupledConstraints(
                 top.linkTo(image.top)
                 bottom.linkTo(image.bottom)
                 start.linkTo(image.end)
+                end.linkTo(endGuideline)
+                width = Dimension.fillToConstraints
             }
         }
 
