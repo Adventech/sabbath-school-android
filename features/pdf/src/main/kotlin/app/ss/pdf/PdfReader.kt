@@ -73,10 +73,18 @@ internal class PdfReaderImpl(
     private val schedulerProvider: SchedulerProvider
 ) : PdfReader, DownloadJob.ProgressListenerAdapter() {
 
+    private val allowedAnnotations = listOf(
+        AnnotationType.HIGHLIGHT,
+        AnnotationType.INK,
+        AnnotationType.NOTE,
+        AnnotationType.WATERMARK,
+        AnnotationType.STRIKEOUT,
+        AnnotationType.FREETEXT,
+    )
+
     override fun launchIntent(pdfs: List<LessonPdf>, lessonIndex: String, mediaAvailability: MediaAvailability): Intent {
         val excludedAnnotationTypes = ArrayList(EnumSet.allOf(AnnotationType::class.java))
-        excludedAnnotationTypes.remove(AnnotationType.HIGHLIGHT)
-        excludedAnnotationTypes.remove(AnnotationType.INK)
+        allowedAnnotations.forEach { excludedAnnotationTypes.remove(it) }
 
         val config = PdfActivityConfiguration.Builder(context)
             .hidePageLabels()
