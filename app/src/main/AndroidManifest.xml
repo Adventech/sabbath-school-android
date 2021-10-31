@@ -28,6 +28,8 @@
         <package android:name="com.facebook.katana" />
     </queries>
 
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+
     <application
         android:name=".SSApp"
         android:allowBackup="false"
