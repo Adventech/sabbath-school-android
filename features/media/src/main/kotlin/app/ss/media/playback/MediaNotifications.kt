@@ -26,11 +26,11 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.DrawableRes
@@ -52,6 +52,8 @@ import kotlinx.coroutines.launch
 
 private const val CHANNEL_ID = "app.ss.media.NOW_PLAYING"
 const val NOTIFICATION_ID = 0xb339
+
+val SAFE_FLAG_IMMUTABLE = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
 
 const val BACKWARD = "action_backward"
 const val FORWARD = "action_forward"
@@ -99,7 +101,7 @@ internal class MediaNotificationsImpl constructor(
 
         val pm: PackageManager = context.packageManager
         val nowPlayingIntent = pm.getLaunchIntentForPackage(context.packageName)
-        val clickIntent = PendingIntent.getActivity(context, 0, nowPlayingIntent, FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE)
+        val clickIntent = PendingIntent.getActivity(context, 0, nowPlayingIntent, FLAG_UPDATE_CURRENT or SAFE_FLAG_IMMUTABLE)
 
         createNotificationChannel()
 
@@ -144,13 +146,13 @@ internal class MediaNotificationsImpl constructor(
 
     private fun getStopAction(context: Context): androidx.core.app.NotificationCompat.Action {
         val actionIntent = Intent(context, MusicService::class.java).apply { action = STOP_PLAYBACK }
-        val pendingIntent = PendingIntent.getService(context, 0, actionIntent, FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getService(context, 0, actionIntent, SAFE_FLAG_IMMUTABLE)
         return androidx.core.app.NotificationCompat.Action(R.drawable.ic_stop, "", pendingIntent)
     }
 
     private fun getBackwardAction(context: Context): androidx.core.app.NotificationCompat.Action {
         val actionIntent = Intent(context, MusicService::class.java).apply { action = BACKWARD }
-        val pendingIntent = PendingIntent.getService(context, 0, actionIntent, FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getService(context, 0, actionIntent, SAFE_FLAG_IMMUTABLE)
         return androidx.core.app.NotificationCompat.Action(R.drawable.ic_audio_icon_backward, "", pendingIntent)
     }
 
@@ -159,7 +161,7 @@ internal class MediaNotificationsImpl constructor(
         @DrawableRes playButtonResId: Int
     ): androidx.core.app.NotificationCompat.Action {
         val actionIntent = Intent(context, MusicService::class.java).apply { action = PLAY_PAUSE }
-        val pendingIntent = PendingIntent.getService(context, 0, actionIntent, FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getService(context, 0, actionIntent, SAFE_FLAG_IMMUTABLE)
         return androidx.core.app.NotificationCompat.Action(playButtonResId, "", pendingIntent)
     }
 
@@ -167,7 +169,7 @@ internal class MediaNotificationsImpl constructor(
         val actionIntent = Intent(context, MusicService::class.java).apply {
             action = FORWARD
         }
-        val pendingIntent = PendingIntent.getService(context, 0, actionIntent, FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getService(context, 0, actionIntent, SAFE_FLAG_IMMUTABLE)
         return androidx.core.app.NotificationCompat.Action(R.drawable.ic_audio_icon_forward, "", pendingIntent)
     }
 
