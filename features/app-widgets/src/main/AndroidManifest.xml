@@ -6,7 +6,7 @@
         <receiver
             android:name=".today.TodayAppWidget"
             android:label="Today's Lesson"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -18,7 +18,7 @@
         <receiver
             android:name=".today.TodayImgAppWidget"
             android:label="Today's Lesson"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -30,7 +30,7 @@
         <receiver
             android:name=".week.WeekLessonWidget"
             android:label="This Week's Lesson"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
