@@ -3,9 +3,9 @@ object BuildAndroidConfig {
     const val KEYSTORE_PROPS_FILE = "../release/keystore.properties"
     const val API_KEYS_PROPS_FILE = "release/ss_api_keys.properties"
 
-    const val COMPILE_SDK_VERSION = 30
+    const val COMPILE_SDK_VERSION = 31
     const val MIN_SDK_VERSION = 21
-    const val TARGET_SDK_VERSION = 30
+    const val TARGET_SDK_VERSION = 31
 
     const val TEST_INSTRUMENTATION_RUNNER = "com.cryart.sabbathschool.SSAppTestRunner"
 
