@@ -74,7 +74,7 @@ class AboutActivity : SSBaseActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.ss_menu_share, menu)
         return super.onCreateOptionsMenu(menu)
     }
