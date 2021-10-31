@@ -24,7 +24,8 @@ package com.cryart.sabbathschool.core.extensions.coroutines.flow
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.addRepeatingJob
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -35,12 +36,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 /**
- * A convenience wrapper around [addRepeatingJob] that simply calls [collect]
+ * A convenience wrapper around [flowWithLifecycle] that simply calls [collect]
  * with [action]. Think of it as [kotlinx.coroutines.flow.launchIn], but for collecting.
  *
  * ```
@@ -52,28 +52,9 @@ import kotlin.coroutines.EmptyCoroutineContext
 inline fun <T> Flow<T>.collectIn(
     owner: LifecycleOwner,
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-    coroutineContext: CoroutineContext = EmptyCoroutineContext,
     crossinline action: suspend CoroutineScope.(T) -> Unit
-) = owner.addRepeatingJob(minActiveState, coroutineContext) {
-    collect {
-        action(it)
-    }
-}
-
-/**
- * A convenience wrapper around [addRepeatingJob] that simply calls [collect].
- * Think of it as [kotlinx.coroutines.flow.launchIn], but for collecting.
- *
- * ```
- * uiStateFlow.collectIn(owner)
- * ```
- */
-fun <T> Flow<T>.collectIn(
-    owner: LifecycleOwner,
-    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-    coroutineContext: CoroutineContext = EmptyCoroutineContext
-) = owner.addRepeatingJob(minActiveState, coroutineContext) {
-    collect()
+) = owner.lifecycleScope.launch {
+    flowWithLifecycle(owner.lifecycle, minActiveState).collect { action(it) }
 }
 
 /**
@@ -82,7 +63,7 @@ fun <T> Flow<T>.collectIn(
 fun <T, V> Flow<T>.mapDistinct(mapper: suspend (T) -> V): Flow<V> = map(mapper).distinctUntilChanged()
 
 /**
- * Use in [ViewModel] to avoid passing 5000
+ * Use in [androidx.lifecycle.ViewModel] to avoid passing 5000
  */
 fun <T> Flow<T>.stateIn(
     scope: CoroutineScope,

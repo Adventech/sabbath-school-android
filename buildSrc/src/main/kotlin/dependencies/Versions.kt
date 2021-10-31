@@ -9,13 +9,11 @@ object Versions {
     object AndroidX {
         const val APPCOMPAT = "1.3.1"
         const val RECYCLER_VIEW = "1.2.1"
-        const val LIFECYCLE = "2.3.1"
-        const val LIFECYCLE_COMPOSE = "1.0.0-alpha07"
-        const val LIFECYCLE_KTX = "2.4.0-alpha01"
+        const val LIFECYCLE = "2.4.0"
         const val LIFECYCLE_EXT = "2.2.0"
-        const val CORE = "1.6.0"
+        const val CORE = "1.7.0"
         const val FRAGMENT = "1.3.6"
-        const val ACTIVITY = "1.3.1"
+        const val ACTIVITY = "1.4.0"
         const val CONSTRAINT_LAYOUT = "2.1.1"
         const val START_UP = "1.1.0"
         const val PREFERENCE = "1.1.1"
@@ -30,18 +28,18 @@ object Versions {
         const val SHIMMER = "0.5.0"
     }
 
-    const val HILT = "2.39.1" // Also update [build.gradle.kts]
+    const val HILT = "2.40" // Also update [build.gradle.kts]
 
     const val TIMBER = "5.0.1"
     const val COIL = "1.4.0"
     const val TAP_TARGET = "3.3.0"
     const val ICONICS = "5.3.2@aar"
 
-    const val FIREBASE_BOM = "28.4.2"
+    const val FIREBASE_BOM = "29.0.0"
     const val PLAY_AUTH = "19.2.0"
     const val ANDROID_JOB = "1.4.2"
-    const val JODA = "2.10.9.1"
-    const val JODA_TIME = "2.10.12"
+    const val JODA = "2.10.12.2"
+    const val JODA_TIME = "2.10.13"
     const val MARK_WORM = "4.6.2"
     const val exoplayer = "2.15.1"
     const val pdfKit = "7.0.0"
@@ -62,5 +60,5 @@ object Versions {
     const val ESPRESSO = "3.4.0"
     const val FRAGMENT_TEST = "1.3.6"
     const val KLUENT = "1.68"
-    const val TURBINE = "0.6.1"
+    const val TURBINE = "0.7.0"
 }
