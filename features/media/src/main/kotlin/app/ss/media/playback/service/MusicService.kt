@@ -116,6 +116,7 @@ class MusicService : MediaBrowserServiceCompat(), CoroutineScope by MainScope() 
     }
 
     override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
+        result.detach()
     }
 
     override fun onTaskRemoved(rootIntent: Intent) {
