@@ -32,7 +32,6 @@ interface SSPrefs {
     fun displayOptionsFlow(): Flow<SSReadingDisplayOptions>
     fun setDisplayOptions(ssReadingDisplayOptions: SSReadingDisplayOptions)
     fun getReminderTime(): ReminderTime
-    fun getReminderJobId(): Int?
     fun getLanguageCode(): String
     fun getLanguageCodeFlow(): Flow<String>
     fun setLanguageCode(languageCode: String)
@@ -42,11 +41,12 @@ interface SSPrefs {
     fun getLastReaderArtifactCreationTime(): Long
     fun reminderEnabled(): Boolean
     fun isAppReBrandingPromptShown(): Boolean
-    fun setReminderJobId(jobId: Int?)
+    fun isReminderScheduled(): Boolean
     fun setLastBibleUsed(bibleId: String)
     fun setLastQuarterlyType(type: String)
     fun setLastQuarterlyIndex(index: String)
     fun setLastReaderArtifactCreationTime(readerArtifactCreationTime: Long)
     fun setAppReBrandingShown()
     fun setThemeColor(primary: String, primaryDark: String)
+    fun setReminderScheduled()
 }

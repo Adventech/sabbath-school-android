@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,14 +22,21 @@
 
 package com.cryart.sabbathschool.reminder
 
-import com.evernote.android.job.Job
-import com.evernote.android.job.JobCreator
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class SSJobCreator : JobCreator {
-    override fun create(tag: String): Job? {
-        return when (tag) {
-            SSReminderJob.TAG -> SSReminderJob()
-            else -> null
+@AndroidEntryPoint
+class SsBootReceiver : BroadcastReceiver() {
+
+    @Inject
+    lateinit var dailyReminderManager: DailyReminderManager
+
+    override fun onReceive(context: Context, intent: Intent) {
+        if (intent.action == "android.intent.action.BOOT_COMPLETED") {
+            dailyReminderManager.reSchedule()
         }
     }
 }

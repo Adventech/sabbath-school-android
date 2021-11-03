@@ -99,21 +99,6 @@ class SSPrefsImpl(
         return ReminderTime(hour, min)
     }
 
-    override fun getReminderJobId(): Int? {
-        val id = sharedPreferences.getInt(SSConstants.SS_REMINDER_JOB_ID, -1)
-        return if (id == -1) {
-            null
-        } else {
-            id
-        }
-    }
-
-    override fun setReminderJobId(jobId: Int?) {
-        sharedPreferences.edit {
-            putInt(SSConstants.SS_REMINDER_JOB_ID, jobId ?: -1)
-        }
-    }
-
     override fun getLanguageCode(): String {
         val code = sharedPreferences.getString(
             SSConstants.SS_LAST_LANGUAGE_INDEX,
@@ -246,6 +231,10 @@ class SSPrefsImpl(
         SSConstants.SS_APP_RE_BRANDING_PROMPT_SEEN, false
     )
 
+    override fun isReminderScheduled(): Boolean = sharedPreferences.getBoolean(
+        SSConstants.SS_REMINDER_SCHEDULED, false
+    )
+
     override fun setAppReBrandingShown() = sharedPreferences.edit {
         putBoolean(SSConstants.SS_APP_RE_BRANDING_PROMPT_SEEN, true)
     }
@@ -255,6 +244,10 @@ class SSPrefsImpl(
             putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY, primary)
             putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY_DARK, primaryDark)
         }
+    }
+
+    override fun setReminderScheduled() = sharedPreferences.edit {
+        putBoolean(SSConstants.SS_REMINDER_SCHEDULED, true)
     }
 
     override fun clear() {

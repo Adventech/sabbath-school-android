@@ -45,7 +45,7 @@ object SSConstants {
     const val SS_READ_VERSE_EXTRA = "SS_READ_VERSE_EXTRA"
     const val SS_COLOR_THEME_LAST_PRIMARY = "SS_COLOR_THEME_LAST_PRIMARY"
     const val SS_COLOR_THEME_LAST_PRIMARY_DARK = "SS_COLOR_THEME_LAST_PRIMARY_DARK"
-    const val SS_REMINDER_JOB_ID = "ss_reminder_job_id"
+    const val SS_REMINDER_SCHEDULED = "ss_reminder_scheduled"
     const val SS_REMINDER_TIME_SETTINGS_FORMAT = "HH:mm"
     const val SS_SETTINGS_REMINDER_ENABLED_KEY = "ss_settings_reminder_enabled"
     const val SS_SETTINGS_REMINDER_ENABLED_DEFAULT_VALUE = true

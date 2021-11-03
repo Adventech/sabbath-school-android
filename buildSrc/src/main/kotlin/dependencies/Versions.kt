@@ -37,7 +37,6 @@ object Versions {
 
     const val FIREBASE_BOM = "29.0.0"
     const val PLAY_AUTH = "19.2.0"
-    const val ANDROID_JOB = "1.4.2"
     const val JODA = "2.10.12.2"
     const val JODA_TIME = "2.10.13"
     const val MARK_WORM = "4.6.2"

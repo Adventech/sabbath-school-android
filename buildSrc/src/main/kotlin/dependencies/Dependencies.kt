@@ -4,7 +4,6 @@ object Dependencies {
     const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
     const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
     const val PLAY_AUTH = "com.google.android.gms:play-services-auth:${Versions.PLAY_AUTH}"
-    const val ANDROID_JOB = "com.evernote:android-job:${Versions.ANDROID_JOB}"
     const val JODA = "net.danlew:android.joda:${Versions.JODA}"
     const val TAP_TARGET = "uk.co.samuelwall:material-tap-target-prompt:${Versions.TAP_TARGET}"
     const val PDF_KIT = "com.pspdfkit:pspdfkit:${Versions.pdfKit}"

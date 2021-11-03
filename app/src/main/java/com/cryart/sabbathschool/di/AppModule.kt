@@ -22,7 +22,9 @@
 
 package com.cryart.sabbathschool.di
 
+import android.app.AlarmManager
 import android.content.Context
+import androidx.core.app.NotificationManagerCompat
 import com.cryart.sabbathschool.BuildConfig
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.AppConfig
@@ -30,7 +32,6 @@ import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.cryart.sabbathschool.settings.DailyReminder
 import com.cryart.sabbathschool.ui.login.FacebookLoginManager
 import com.cryart.sabbathschool.ui.login.GoogleSignInWrapper
-import com.evernote.android.job.JobManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,7 +53,12 @@ object AppModule {
         @ApplicationContext context: Context,
         ssPrefs: SSPrefs
     ): DailyReminderManager {
-        return DailyReminderManager(JobManager.create(context), ssPrefs)
+        return DailyReminderManager(
+            alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager,
+            notificationManager = NotificationManagerCompat.from(context),
+            context = context,
+            ssPrefs = ssPrefs,
+        )
     }
 
     @Provides
