@@ -54,6 +54,7 @@ class SplashViewModelTest {
     fun setUp() {
         every { mockDailyReminderManager.scheduleReminder() }.returns(Unit)
         every { mockSSPrefs.reminderEnabled() }.returns(true)
+        every { mockSSPrefs.isReminderScheduled() }.returns(false)
 
         viewModel = SplashViewModel(
             mockFirebaseAuth,
