@@ -41,7 +41,7 @@ class SplashViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-        if (firebaseAuth.currentUser != null && ssPrefs.reminderEnabled()) {
+        if (firebaseAuth.currentUser != null && ssPrefs.reminderEnabled() && ssPrefs.isReminderScheduled().not()) {
             dailyReminderManager.scheduleReminder()
         }
     }

@@ -178,7 +178,6 @@ dependencies {
     implementation(Dependencies.TIMBER)
 
     implementation(Dependencies.Facebook.SDK)
-    implementation(Dependencies.ANDROID_JOB)
     implementation(Dependencies.JODA)
 
     implementation(Dependencies.Compose.tooling)

@@ -28,7 +28,7 @@
         <package android:name="com.facebook.katana" />
     </queries>
 
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".SSApp"
@@ -124,6 +124,20 @@
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="${enableReporting}" />
+
+        <!-- Reminder -->
+        <receiver
+            android:name=".reminder.ReminderReceiver"
+            android:exported="true"
+            tools:ignore="ExportedReceiver" />
+
+        <receiver
+            android:name=".reminder.SsBootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

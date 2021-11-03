@@ -20,13 +20,20 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.settings
+package com.cryart.sabbathschool.reminder
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-interface DailyReminder {
+@AndroidEntryPoint
+class ReminderReceiver : BroadcastReceiver() {
 
-    fun reSchedule()
+    @Inject lateinit var dailyReminderManager: DailyReminderManager
 
-    fun showNotification(context: Context)
+    override fun onReceive(context: Context, intent: Intent) {
+        dailyReminderManager.showNotification(context)
+    }
 }
