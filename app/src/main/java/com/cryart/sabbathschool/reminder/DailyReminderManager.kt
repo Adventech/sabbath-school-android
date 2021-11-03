@@ -58,14 +58,13 @@ class DailyReminderManager constructor(
             else
                 PendingIntent.FLAG_UPDATE_CURRENT
         } else {
-            PendingIntent.FLAG_NO_CREATE
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
+            else
+                PendingIntent.FLAG_NO_CREATE
         }
-        PendingIntent.getBroadcast(
-            context,
-            0,
-            intent,
-            flag
-        )
+
+        PendingIntent.getBroadcast(context, 0, intent, flag)
     }
 
     private fun getTriggerAtMillis(): Long {
