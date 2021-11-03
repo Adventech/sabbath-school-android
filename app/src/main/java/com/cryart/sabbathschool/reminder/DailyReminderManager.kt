@@ -32,7 +32,6 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import app.ss.media.playback.SAFE_FLAG_IMMUTABLE
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.settings.DailyReminder
@@ -53,11 +52,19 @@ class DailyReminderManager constructor(
     private fun getPendingIntent(
         create: Boolean
     ): PendingIntent? = Intent(context, ReminderReceiver::class.java).let { intent ->
+        val flag = if (create) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                PendingIntent.FLAG_IMMUTABLE
+            else
+                PendingIntent.FLAG_UPDATE_CURRENT
+        } else {
+            PendingIntent.FLAG_NO_CREATE
+        }
         PendingIntent.getBroadcast(
             context,
             0,
             intent,
-            if (create) SAFE_FLAG_IMMUTABLE else PendingIntent.FLAG_NO_CREATE
+            flag
         )
     }
 
