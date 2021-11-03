@@ -68,15 +68,20 @@ class DailyReminderManager constructor(
         )
     }
 
-    private val reminderTime: DateTime
-        get() {
-            val time = ssPrefs.getReminderTime()
+    private fun getTriggerAtMillis(): Long {
+        val dateTimeNow = dateNow ?: DateTime.now()
+        val time = ssPrefs.getReminderTime()
+        val reminderTime = dateTimeNow
+            .withTimeAtStartOfDay()
+            .plusHours(time.hour)
+            .plusMinutes(time.min)
 
-            return (dateNow ?: DateTime.now())
-                .withTimeAtStartOfDay()
-                .plusHours(time.hour)
-                .plusMinutes(time.min)
+        return if (dateTimeNow.isBefore(reminderTime)) {
+            reminderTime.millis
+        } else {
+            reminderTime.plusDays(1).millis
         }
+    }
 
     fun scheduleReminder() {
         if (isScheduled) {
@@ -86,7 +91,7 @@ class DailyReminderManager constructor(
 
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
-            reminderTime.millis,
+            getTriggerAtMillis(),
             AlarmManager.INTERVAL_DAY,
             getPendingIntent(true)
         )

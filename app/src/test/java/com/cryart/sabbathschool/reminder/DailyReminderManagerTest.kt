@@ -43,7 +43,10 @@ class DailyReminderManagerTest {
     private val mockNotificationManager: NotificationManagerCompat = mockk(relaxed = true)
     private val mockSSPrefs: SSPrefs = mockk(relaxed = true)
 
+    // 07:00
     private val dateTimeNow = DateTime.now()
+        .withTimeAtStartOfDay()
+        .plusHours(7)
 
     private lateinit var testSubject: DailyReminderManager
 
@@ -61,11 +64,46 @@ class DailyReminderManagerTest {
     }
 
     @Test
-    fun `should schedule repeating alarm`() {
+    fun `should schedule repeating alarm - next day`() {
         val alarmTime = dateTimeNow
             .withTimeAtStartOfDay()
             .plusHours(6)
             .plusMinutes(30)
+            .plusDays(1)
+
+        testSubject.scheduleReminder()
+
+        verify {
+            mockAlarmManager.setInexactRepeating(
+                eq(AlarmManager.RTC_WAKEUP),
+                eq(alarmTime.millis),
+                eq(AlarmManager.INTERVAL_DAY),
+                any()
+            )
+        }
+
+        verify { mockSSPrefs.setReminderScheduled() }
+    }
+
+    @Test
+    fun `should schedule repeating alarm - same day`() {
+        // 5 am
+        val dateNow = DateTime.now()
+            .withTimeAtStartOfDay()
+            .plusHours(5)
+
+        val alarmTime = DateTime.now()
+            .withTimeAtStartOfDay()
+            .plusHours(6)
+            .plusMinutes(30)
+
+        testSubject = DailyReminderManager(
+            ApplicationProvider.getApplicationContext(),
+            mockAlarmManager,
+            mockNotificationManager,
+            mockSSPrefs,
+            dateNow
+        )
 
         testSubject.scheduleReminder()
 
