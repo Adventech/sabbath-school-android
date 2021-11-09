@@ -30,8 +30,7 @@ import com.google.firebase.auth.FirebaseAuth
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.amshove.kluent.shouldBeFalse
-import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -55,31 +54,13 @@ class SplashViewModelTest {
         every { mockDailyReminderManager.scheduleReminder() }.returns(Unit)
         every { mockSSPrefs.reminderEnabled() }.returns(true)
         every { mockSSPrefs.isReminderScheduled() }.returns(false)
+        every { mockSSPrefs.isReadingLatestQuarterly() }.returns(false)
 
         viewModel = SplashViewModel(
             mockFirebaseAuth,
             mockSSPrefs,
             mockDailyReminderManager,
-            coroutinesTestRule.dispatcherProvider
         )
-    }
-
-    @Test
-    fun `should emit false when user is not signed in`() {
-        every { mockFirebaseAuth.currentUser }.returns(null)
-
-        viewModel.isSignedInLiveData.observeForever {
-            it.shouldBeFalse()
-        }
-    }
-
-    @Test
-    fun `should emit true when user signed in`() {
-        every { mockFirebaseAuth.currentUser }.returns(mockk())
-
-        viewModel.isSignedInLiveData.observeForever {
-            it.shouldBeTrue()
-        }
     }
 
     @Test
@@ -90,7 +71,6 @@ class SplashViewModelTest {
             mockFirebaseAuth,
             mockSSPrefs,
             mockDailyReminderManager,
-            coroutinesTestRule.dispatcherProvider
         )
 
         verify { mockDailyReminderManager.scheduleReminder() }
@@ -105,9 +85,37 @@ class SplashViewModelTest {
             mockFirebaseAuth,
             mockSSPrefs,
             mockDailyReminderManager,
-            coroutinesTestRule.dispatcherProvider
         )
 
         verify(inverse = false) { mockDailyReminderManager.scheduleReminder() }
+    }
+
+    @Test
+    fun `should return Quarterlies state when user is signed in and no last saved index`() {
+        every { mockFirebaseAuth.currentUser }.returns(mockk())
+        every { mockSSPrefs.getLastQuarterlyIndex() }.returns(null)
+
+        val state = viewModel.launchState
+        state shouldBeEqualTo LaunchState.Quarterlies
+    }
+
+    @Test
+    fun `should return Quarterlies state when user is signed in with last saved index and not reading latest quarterly`() {
+        every { mockFirebaseAuth.currentUser }.returns(mockk())
+        every { mockSSPrefs.getLastQuarterlyIndex() }.returns("index")
+        every { mockSSPrefs.isReadingLatestQuarterly() }.returns(false)
+
+        val state = viewModel.launchState
+        state shouldBeEqualTo LaunchState.Quarterlies
+    }
+
+    @Test
+    fun `should return Lessons state when user is signed in with last saved index and reading latest quarterly`() {
+        every { mockFirebaseAuth.currentUser }.returns(mockk())
+        every { mockSSPrefs.getLastQuarterlyIndex() }.returns("index")
+        every { mockSSPrefs.isReadingLatestQuarterly() }.returns(true)
+
+        val state = viewModel.launchState
+        state shouldBeEqualTo LaunchState.Lessons("index")
     }
 }

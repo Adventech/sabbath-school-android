@@ -49,4 +49,6 @@ interface SSPrefs {
     fun setAppReBrandingShown()
     fun setThemeColor(primary: String, primaryDark: String)
     fun setReminderScheduled()
+    fun isReadingLatestQuarterly(): Boolean
+    fun setReadingLatestQuarterly(state: Boolean)
 }

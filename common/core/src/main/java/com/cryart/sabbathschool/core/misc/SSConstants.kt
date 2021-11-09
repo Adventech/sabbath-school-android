@@ -80,4 +80,5 @@ object SSConstants {
     const val SS_READER_ARTIFACT_CREATION_TIME = "sabbath-school-reader-creation-time"
     const val SS_APP_PLAY_STORE_LINK = "https://play.google.com/store/apps/details?id=com.cryart.sabbathschool"
     const val SS_API_BASE_URL = "https://sabbath-school.adventech.io/"
+    const val SS_LATEST_QUARTERLY = "ss_latest_quarterly"
 }

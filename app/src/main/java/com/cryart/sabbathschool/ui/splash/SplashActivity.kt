@@ -22,57 +22,42 @@
 
 package com.cryart.sabbathschool.ui.splash
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.TaskStackBuilder
-import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
+@SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var ssPrefs: SSPrefs
 
     private val viewModel: SplashViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.isSignedInLiveData.observeNonNull(
-            this,
-            { signedIn ->
-                if (signedIn) {
-                    launchMain()
-                } else {
-                    startActivity(Intent(this, LoginActivity::class.java))
+        when (val state = viewModel.launchState) {
+            is LaunchState.Lessons -> {
+                with(TaskStackBuilder.create(this)) {
+                    addNextIntent(
+                        QuarterliesActivity.launchIntent(this@SplashActivity)
+                    )
+                    addNextIntentWithParentStack(
+                        SSLessonsActivity.launchIntent(this@SplashActivity, state.index)
+                    )
+                    startActivities()
                 }
-
-                finish()
             }
-        )
-    }
-
-    private fun launchMain() {
-        ssPrefs.getLastQuarterlyIndex()?.let { index ->
-            with(TaskStackBuilder.create(this)) {
-                addNextIntent(
-                    QuarterliesActivity.launchIntent(this@SplashActivity)
-                )
-                addNextIntentWithParentStack(
-                    SSLessonsActivity.launchIntent(this@SplashActivity, index)
-                )
-                startActivities()
-            }
-        } ?: run {
-            startActivity(QuarterliesActivity.launchIntent(this))
+            LaunchState.Login -> startActivity(Intent(this, LoginActivity::class.java))
+            LaunchState.Quarterlies -> startActivity(QuarterliesActivity.launchIntent(this))
         }
+
+        finish()
     }
 }
