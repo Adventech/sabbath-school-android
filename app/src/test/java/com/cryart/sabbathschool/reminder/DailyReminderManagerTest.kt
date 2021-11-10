@@ -74,10 +74,9 @@ class DailyReminderManagerTest {
         testSubject.scheduleReminder()
 
         verify {
-            mockAlarmManager.setInexactRepeating(
+            mockAlarmManager.set(
                 eq(AlarmManager.RTC_WAKEUP),
                 eq(alarmTime.millis),
-                eq(AlarmManager.INTERVAL_DAY),
                 any()
             )
         }
@@ -108,10 +107,9 @@ class DailyReminderManagerTest {
         testSubject.scheduleReminder()
 
         verify {
-            mockAlarmManager.setInexactRepeating(
+            mockAlarmManager.set(
                 eq(AlarmManager.RTC_WAKEUP),
                 eq(alarmTime.millis),
-                eq(AlarmManager.INTERVAL_DAY),
                 any()
             )
         }
@@ -131,10 +129,9 @@ class DailyReminderManagerTest {
         testSubject.reSchedule()
 
         verify(inverse = true) {
-            mockAlarmManager.setInexactRepeating(
+            mockAlarmManager.set(
                 eq(AlarmManager.RTC_WAKEUP),
                 eq(alarmTime.millis),
-                eq(AlarmManager.INTERVAL_DAY),
                 any()
             )
         }
