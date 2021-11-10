@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,31 +22,8 @@
 
 package com.cryart.sabbathschool.ui.splash
 
-import androidx.lifecycle.ViewModel
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.reminder.DailyReminderManager
-import com.google.firebase.auth.FirebaseAuth
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-
-@HiltViewModel
-class SplashViewModel @Inject constructor(
-    private val firebaseAuth: FirebaseAuth,
-    private val ssPrefs: SSPrefs,
-    dailyReminderManager: DailyReminderManager,
-) : ViewModel() {
-
-    init {
-        if (firebaseAuth.currentUser != null && ssPrefs.reminderEnabled() && ssPrefs.isReminderScheduled().not()) {
-            dailyReminderManager.scheduleReminder()
-        }
-    }
-
-    val launchState: LaunchState
-        get() = when {
-            firebaseAuth.currentUser == null -> LaunchState.Login
-            ssPrefs.getLastQuarterlyIndex() != null && ssPrefs.isReadingLatestQuarterly() ->
-                LaunchState.Lessons(ssPrefs.getLastQuarterlyIndex()!!)
-            else -> LaunchState.Quarterlies
-        }
+sealed class LaunchState {
+    object Login : LaunchState()
+    object Quarterlies : LaunchState()
+    data class Lessons(val index: String) : LaunchState()
 }

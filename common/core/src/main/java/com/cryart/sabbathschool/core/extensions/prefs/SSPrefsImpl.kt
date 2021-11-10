@@ -250,6 +250,14 @@ class SSPrefsImpl(
         putBoolean(SSConstants.SS_REMINDER_SCHEDULED, true)
     }
 
+    override fun isReadingLatestQuarterly(): Boolean {
+        return sharedPreferences.getBoolean(SSConstants.SS_LATEST_QUARTERLY, false)
+    }
+
+    override fun setReadingLatestQuarterly(state: Boolean) = sharedPreferences.edit {
+        putBoolean(SSConstants.SS_LATEST_QUARTERLY, state)
+    }
+
     override fun clear() {
         sharedPreferences.edit { clear() }
         coroutineScope.launch {
