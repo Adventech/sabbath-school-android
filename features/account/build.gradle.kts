@@ -66,6 +66,7 @@ dependencies {
 
     implementation(platform(Dependencies.Firebase.BOM))
     implementation(Dependencies.Firebase.AUTH)
+    implementation(Dependencies.PLAY_AUTH)
 
     implementation(Dependencies.Hilt.ANDROID)
     kapt(Dependencies.Hilt.COMPILER)

@@ -33,5 +33,5 @@ class GetSignInDataContract : ActivityResultContract<GoogleSignInClient, Intent?
         return input.signInIntent
     }
 
-    override fun parseResult(resultCode: Int, data: Intent?): Intent? = data
+    override fun parseResult(resultCode: Int, intent: Intent?): Intent? = intent
 }

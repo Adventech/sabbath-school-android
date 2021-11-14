@@ -33,14 +33,21 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.cryart.sabbathschool.account.databinding.SsFragmentAccountBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -49,9 +56,22 @@ class AccountDialogFragment : AppCompatDialogFragment() {
     @Inject
     lateinit var appNavigator: AppNavigator
 
+    @Inject
+    lateinit var appConfig: AppConfig
+
     private val viewModel: AccountViewModel by viewModels()
 
     private var binding: SsFragmentAccountBinding? = null
+
+    private val googleSignInClient: GoogleSignInClient by lazy {
+        val gso = GoogleSignInOptions.Builder(
+            GoogleSignInOptions.DEFAULT_SIGN_IN
+        )
+            .requestIdToken(appConfig.webClientId)
+            .requestEmail()
+            .build()
+        GoogleSignIn.getClient(requireActivity(), gso)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialAlertDialogBuilder(requireContext())
@@ -72,22 +92,25 @@ class AccountDialogFragment : AppCompatDialogFragment() {
 
         viewModel.userInfoLiveData.observe(
             viewLifecycleOwner,
-            {
+            { userInfo ->
                 binding?.apply {
-                    it.photo?.let {
+                    userInfo.photo?.let {
                         userAvatar.load(it) {
                             error(R.drawable.ic_account_circle)
                             transformations(CircleCropTransformation())
                         }
                     }
-                    userName.text = it.displayName ?: getString(R.string.ss_menu_anonymous_name)
-                    userEmail.text = it.email ?: getString(R.string.ss_menu_anonymous_email)
+                    userName.text = userInfo.displayName ?: getString(R.string.ss_menu_anonymous_name)
+                    userEmail.text = userInfo.email ?: getString(R.string.ss_menu_anonymous_email)
                 }
             }
         )
 
         binding?.apply {
             chipSignOut.setOnClickListener {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    googleSignInClient.signOut().await()
+                }
                 viewModel.logoutClicked()
                 appNavigator.navigate(requireActivity(), Destination.LOGIN)
             }
