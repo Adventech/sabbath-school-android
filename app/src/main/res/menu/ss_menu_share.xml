@@ -5,5 +5,5 @@
         android:id="@+id/ss_action_share"
         android:title="@string/ss_share"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_share"/>
+        android:icon="@drawable/ic_menu_share"/>
 </menu>
