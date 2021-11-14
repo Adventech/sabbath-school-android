@@ -59,10 +59,7 @@ dependencies {
     implementation(Dependencies.MATERIAL)
     implementation(Dependencies.AndroidX.CORE)
     implementation(Dependencies.AndroidX.APPCOMPAT)
-    implementation(Dependencies.AndroidX.ACTIVITY)
     implementation(Dependencies.AndroidX.FRAGMENT_KTX)
-    implementation(Dependencies.AndroidX.LIFECYCLE_EXTENSIONS)
-    implementation(Dependencies.AndroidX.LIFECYCLE_LIVEDATA)
 
     implementation(platform(Dependencies.Firebase.BOM))
     implementation(Dependencies.Firebase.AUTH)

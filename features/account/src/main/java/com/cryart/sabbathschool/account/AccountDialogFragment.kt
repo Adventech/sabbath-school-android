@@ -37,6 +37,7 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.cryart.sabbathschool.account.databinding.SsFragmentAccountBinding
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.core.navigation.AppNavigator
@@ -90,21 +91,18 @@ class AccountDialogFragment : AppCompatDialogFragment() {
             (requireDialog() as AlertDialog).setView(binding?.root)
         }
 
-        viewModel.userInfoLiveData.observe(
-            viewLifecycleOwner,
-            { userInfo ->
-                binding?.apply {
-                    userInfo.photo?.let {
-                        userAvatar.load(it) {
-                            error(R.drawable.ic_account_circle)
-                            transformations(CircleCropTransformation())
-                        }
+        viewModel.userInfoFlow.collectIn(viewLifecycleOwner) { userInfo ->
+            binding?.apply {
+                userInfo.photo?.let {
+                    userAvatar.load(it) {
+                        error(R.drawable.ic_account_circle)
+                        transformations(CircleCropTransformation())
                     }
-                    userName.text = userInfo.displayName ?: getString(R.string.ss_menu_anonymous_name)
-                    userEmail.text = userInfo.email ?: getString(R.string.ss_menu_anonymous_email)
                 }
+                userName.text = userInfo.displayName ?: getString(R.string.ss_menu_anonymous_name)
+                userEmail.text = userInfo.email ?: getString(R.string.ss_menu_anonymous_email)
             }
-        )
+        }
 
         binding?.apply {
             chipSignOut.setOnClickListener {
