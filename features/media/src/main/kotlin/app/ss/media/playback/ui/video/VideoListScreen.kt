@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -39,23 +40,21 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -65,7 +64,6 @@ import app.ss.media.model.SSVideo
 import app.ss.media.model.SSVideosInfo
 import app.ss.media.playback.ui.common.CoilImage
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
-import com.cryart.design.ext.ListSnappingConnection
 import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.BaseGrey2
@@ -81,12 +79,13 @@ import com.cryart.design.theme.TitleSmall
 import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.theme.navTitle
 import com.cryart.design.widgets.DragHandle
-import kotlinx.coroutines.InternalCoroutinesApi
+import dev.chrisbanes.snapper.ExperimentalSnapperApi
+import dev.chrisbanes.snapper.SnapOffsets
+import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
-@OptIn(InternalCoroutinesApi::class)
 @Composable
 internal fun ViewListScreen(
     viewModel: VideoListViewModel = viewModel(),
@@ -184,6 +183,7 @@ internal fun ViewListScreen(
     }
 }
 
+@OptIn(ExperimentalSnapperApi::class)
 @Composable
 private fun VideosInfoList(
     videosInfo: SSVideosInfo,
@@ -192,17 +192,13 @@ private fun VideosInfoList(
     onVideoClick: (SSVideo) -> Unit
 ) {
     val listState = rememberLazyListState()
-    val widthState = remember { mutableStateOf(0) }
-    val connection = remember(listState) {
-        ListSnappingConnection(
-            listState = listState,
-            widthState = widthState
-        )
-    }
+    val contentPadding = PaddingValues(
+        horizontal = Spacing16,
+        vertical = Spacing16
+    )
 
     Column(
-        modifier = modifier
-            .nestedScroll(connection),
+        modifier = modifier,
     ) {
         Text(
             text = videosInfo.artist.uppercase(),
@@ -216,18 +212,21 @@ private fun VideosInfoList(
         )
 
         LazyRow(
-            contentPadding = PaddingValues(
-                horizontal = Spacing16,
-                vertical = Spacing16
+            contentPadding = contentPadding,
+            state = listState,
+            flingBehavior = rememberSnapperFlingBehavior(
+                lazyListState = listState,
+                snapOffsetForItem = SnapOffsets.Start,
+                endContentPadding = contentPadding.calculateEndPadding(LayoutDirection.Ltr),
             ),
-            state = listState
         ) {
-            items(videosInfo.clips) { video ->
+            itemsIndexed(
+                videosInfo.clips,
+                key = { _: Int, item: SSVideo -> item.id }
+            ) { _, video ->
                 VideoColumn(
                     video = video,
-                    modifier = Modifier.onGloballyPositioned { coordinates ->
-                        widthState.value = coordinates.size.width
-                    },
+                    modifier = Modifier,
                     onVideoClick = onVideoClick
                 )
             }
