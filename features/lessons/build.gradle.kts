@@ -55,6 +55,7 @@ android {
     kotlinOptions {
         jvmTarget = JavaOptions.version.toString()
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
+        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OPT_IN
     }
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.COMPOSE
@@ -121,6 +122,7 @@ dependencies {
     implementation(Compose.ui)
     implementation(Compose.material)
     implementation(Compose.tooling)
+    implementation(Compose.snapper)
 
     implementation(Accompanist.placeholder)
 
