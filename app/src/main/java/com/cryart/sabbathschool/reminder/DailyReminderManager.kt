@@ -47,8 +47,6 @@ class DailyReminderManager constructor(
     private val dateNow: DateTime? = null
 ) : DailyReminder {
 
-    private val isScheduled: Boolean get() = getPendingIntent(false) != null
-
     private fun getPendingIntent(
         create: Boolean
     ): PendingIntent? = Intent(context, ReminderReceiver::class.java).let { intent ->
@@ -83,15 +81,9 @@ class DailyReminderManager constructor(
     }
 
     fun scheduleReminder() {
-        if (isScheduled) {
-            Timber.i("Reminder scheduled")
-            return
-        }
-
-        alarmManager.setInexactRepeating(
+        alarmManager.set(
             AlarmManager.RTC_WAKEUP,
             getTriggerAtMillis(),
-            AlarmManager.INTERVAL_DAY,
             getPendingIntent(true)
         )
 

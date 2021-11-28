@@ -35,5 +35,6 @@ class ReminderReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         dailyReminderManager.showNotification(context)
+        dailyReminderManager.reSchedule()
     }
 }
