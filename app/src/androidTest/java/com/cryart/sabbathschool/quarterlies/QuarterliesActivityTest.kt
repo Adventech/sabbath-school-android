@@ -24,13 +24,9 @@ package com.cryart.sabbathschool.quarterlies
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.cryart.sabbathschool.actions.RecyclerViewItemCountAssertion.Companion.withItemCount
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -69,9 +65,7 @@ class QuarterliesActivityTest {
     }
 
     @Test
-    fun verify_quarterly_groups_are_shown() = launch {
-        onView(withId(R.id.ss_quarterlies_list)).check(withItemCount(3))
-    }
+    fun launchScreen() = launch {}
 
     private fun launch(
         block: (ActivityScenario<QuarterliesActivity>) -> Unit
