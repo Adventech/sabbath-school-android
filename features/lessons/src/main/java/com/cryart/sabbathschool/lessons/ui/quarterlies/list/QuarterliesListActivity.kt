@@ -54,9 +54,6 @@ class QuarterliesListActivity : SlidingActivity(), QuarterlyListCallbacks {
     private val appbarComponent: QuarterliesAppbarComponent by lazy {
         QuarterliesAppbarComponent(this, binding.appBar)
     }
-    private val listComponent: QuarterlyListComponent by lazy {
-        QuarterlyListComponent(this, binding.ssQuarterliesList, this)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,8 +70,11 @@ class QuarterliesListActivity : SlidingActivity(), QuarterlyListCallbacks {
             }
         }
         appbarComponent.collect(viewModel.groupTitleFlow)
-        listComponent.collect(
-            viewModel.quarterliesFlow.map { it.data ?: GroupedQuarterlies.Empty }
+
+        QuarterlyListComponent(
+            binding = binding.ssQuarterliesList,
+            dataFlow = viewModel.quarterliesFlow.map { it.data ?: GroupedQuarterlies.Empty },
+            callbacks = this
         )
     }
 
