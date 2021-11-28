@@ -56,11 +56,6 @@ jobs:
           FIREBASE_CONFIG: ${{secrets.FIREBASE_CONFIG}}
         run: echo $FIREBASE_CONFIG > app/google-services.json
 
-      - name: Generate api keys
-        env:
-          API_SECRETS: ${{secrets.API_SECRETS}}
-        run: 'echo "$API_SECRETS" > release/ss_api_keys.properties'
-
       - name: Execute Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:

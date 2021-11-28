@@ -41,7 +41,6 @@ captures/
 *.keystore
 *.jks
 /release/keystore.properties
-/release/ss_api_keys.properties
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
