@@ -77,15 +77,13 @@ fun QuarterlyList(
 
     LazyColumn(modifier = modifier) {
         when (data) {
-            GroupedQuarterlies.Empty -> {
-            }
+            GroupedQuarterlies.Empty -> { /* No op */ }
             is GroupedQuarterlies.TypeGroup -> {
                 val groupData = (data as GroupedQuarterlies.TypeGroup).data
                 itemsIndexed(
                     groupData,
                     key = { _: Int, item: QuarterliesGroup -> item.group.name }
                 ) { index, group ->
-                    val lastIndex = index == groupData.lastIndex
 
                     val items = group.quarterlies.map { quarterly ->
                         quarterly.spec(
@@ -99,7 +97,7 @@ fun QuarterlyList(
                     GroupedQuarterliesColumn(
                         title = group.group.name,
                         items = items,
-                        lastIndex
+                        index == groupData.lastIndex
                     ) {
                         callbacks?.onSeeAllClick(group.group)
                     }
