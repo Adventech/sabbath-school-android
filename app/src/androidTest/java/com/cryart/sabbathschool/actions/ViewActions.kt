@@ -23,15 +23,10 @@ package com.cryart.sabbathschool.actions
 
 import android.view.View
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.matcher.BoundedMatcher
-import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
@@ -61,27 +56,6 @@ fun isTextInLines(lines: Int): TypeSafeMatcher<View> {
 
         override fun matchesSafely(item: View): Boolean {
             return (item as TextView).lineCount == lines
-        }
-    }
-}
-
-class RecyclerViewItemCountAssertion private constructor(private val matcher: Matcher<Int>) : ViewAssertion {
-    override fun check(view: View, noViewFoundException: NoMatchingViewException?) {
-        if (noViewFoundException != null) {
-            throw noViewFoundException
-        }
-        val recyclerView: RecyclerView = view as RecyclerView
-        val adapter = recyclerView.adapter
-        assertThat(adapter?.itemCount ?: 0, matcher)
-    }
-
-    companion object {
-        fun withItemCount(expectedCount: Int): RecyclerViewItemCountAssertion {
-            return withItemCount(`is`(expectedCount))
-        }
-
-        fun withItemCount(matcher: Matcher<Int>): RecyclerViewItemCountAssertion {
-            return RecyclerViewItemCountAssertion(matcher)
         }
     }
 }

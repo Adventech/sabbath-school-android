@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -41,7 +42,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -61,6 +63,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.lessons.data.model.SSQuarterly
@@ -83,6 +86,9 @@ import com.cryart.sabbathschool.lessons.R
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
+import dev.chrisbanes.snapper.ExperimentalSnapperApi
+import dev.chrisbanes.snapper.SnapOffsets
+import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 
 fun SSQuarterly.spec(
     type: QuarterlySpec.Type,
@@ -331,61 +337,89 @@ fun GroupedQuarterliesColumn(
                 lastIndex = lastIndex
             )
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = title.uppercase(),
-                style = Title.copy(
-                    color = BaseGrey2,
-                    fontSize = 13.sp
-                ),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(
-                    start = Dimens.grid_5,
-                    end = Dimens.grid_2
-                )
-            )
+        GroupTitle(title, seeAllClick)
 
-            TextButton(
-                onClick = seeAllClick,
-            ) {
-                Text(
-                    text = stringResource(id = R.string.ss_see_all),
-                    style = LabelSmall.copy(
-                        color = MaterialTheme.colors.primary,
-                    ),
-                )
-
-                Icon(
-                    Icons.Rounded.KeyboardArrowRight,
-                    contentDescription = "Arrow Right",
-                    tint = iconTint()
-                )
-            }
-        }
         Spacer(modifier = Modifier.height(Dimens.grid_2))
 
-        LazyRow(
-            contentPadding = PaddingValues(
-                horizontal = Dimens.grid_4,
-            ),
-            horizontalArrangement = Arrangement.spacedBy(Dimens.grid_4)
-        ) {
-            items(items) { item ->
-                QuarterlyColumn(
-                    spec = item,
-                    modifier = Modifier
-                        .clickable(onClick = item.onClick),
-                )
-            }
-        }
+        GroupQuarterlies(items)
 
         Spacer(modifier = Modifier.height(Dimens.grid_4))
+    }
+}
+
+@OptIn(ExperimentalSnapperApi::class)
+@Composable
+private fun GroupQuarterlies(
+    items: List<QuarterlySpec>,
+    modifier: Modifier = Modifier,
+) {
+    val lazyListState = rememberLazyListState()
+    val contentPadding = PaddingValues(
+        horizontal = Dimens.grid_4,
+    )
+
+    LazyRow(
+        state = lazyListState,
+        flingBehavior = rememberSnapperFlingBehavior(
+            lazyListState = lazyListState,
+            snapOffsetForItem = SnapOffsets.Start,
+            endContentPadding = contentPadding.calculateEndPadding(LayoutDirection.Ltr),
+        ),
+        contentPadding = contentPadding,
+        horizontalArrangement = Arrangement.spacedBy(Dimens.grid_4),
+        modifier = modifier
+    ) {
+        itemsIndexed(items, key = { _: Int, spec: QuarterlySpec -> spec.title }) { _, item ->
+            QuarterlyColumn(
+                spec = item,
+                modifier = Modifier
+                    .clickable(onClick = item.onClick),
+            )
+        }
+    }
+}
+
+@Composable
+private fun GroupTitle(
+    title: String,
+    seeAllClick: () -> Unit = {}
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = title.uppercase(),
+            style = Title.copy(
+                color = BaseGrey2,
+                fontSize = 13.sp
+            ),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(
+                start = Dimens.grid_5,
+                end = Dimens.grid_2
+            )
+        )
+
+        TextButton(
+            onClick = seeAllClick,
+        ) {
+            Text(
+                text = stringResource(id = R.string.ss_see_all),
+                style = LabelSmall.copy(
+                    color = MaterialTheme.colors.primary,
+                ),
+            )
+
+            Icon(
+                Icons.Rounded.KeyboardArrowRight,
+                contentDescription = "Arrow Right",
+                tint = iconTint()
+            )
+        }
     }
 }
 
