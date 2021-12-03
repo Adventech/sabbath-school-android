@@ -28,14 +28,14 @@ object Versions {
         const val SHIMMER = "0.5.0"
     }
 
-    const val HILT = "2.40.2" // Also update [build.gradle.kts]
+    const val HILT = "2.40.4" // Also update [build.gradle.kts]
 
     const val TIMBER = "5.0.1"
     const val COIL = "1.4.0"
     const val TAP_TARGET = "3.3.2"
     const val ICONICS = "5.3.3@aar"
 
-    const val FIREBASE_BOM = "29.0.0"
+    const val FIREBASE_BOM = "29.0.1"
     const val PLAY_AUTH = "19.2.0"
     const val JODA = "2.10.12.2"
     const val JODA_TIME = "2.10.13"
@@ -54,10 +54,10 @@ object Versions {
     const val EXT = "1.1.3"
     const val ARCH_CORE = "2.1.0"
     const val JUNIT = "4.13.2"
-    const val ROBOELECTRIC = "4.7.2"
-    const val MOCKK = "1.12.0"
+    const val ROBOELECTRIC = "4.7.3"
+    const val MOCKK = "1.12.1"
     const val ESPRESSO = "3.4.0"
-    const val FRAGMENT_TEST = "1.3.6"
+    const val FRAGMENT_TEST = "1.4.0"
     const val KLUENT = "1.68"
     const val TURBINE = "0.7.0"
 }
