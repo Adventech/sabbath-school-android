@@ -61,6 +61,13 @@ android {
         testInstrumentationRunner = BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER
 
         vectorDrawables.useSupportLibrary = true
+
+        ndk {
+            abiFilters.addAll(
+                // keep all binaries supported by PSPDFKit
+                listOf("x86", "arm64-v8a", "armeabi-v7a")
+            )
+        }
     }
 
     signingConfigs {
@@ -88,10 +95,6 @@ android {
             }
 
             manifestPlaceholders["enableReporting"] = true
-
-            ndk {
-                debugSymbolLevel = "SYMBOL_TABLE"
-            }
         }
         getByName(BuildType.DEBUG) {
 
