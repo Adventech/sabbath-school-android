@@ -65,7 +65,7 @@ android {
         ndk {
             abiFilters.addAll(
                 // keep all binaries supported by PSPDFKit
-                listOf("x86", "arm64-v8a", "armeabi-v7a")
+                listOf("x86", "x86_64", "arm64-v8a", "armeabi-v7a")
             )
         }
     }
@@ -163,9 +163,7 @@ dependencies {
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
     implementation(AndroidX.LIFECYCLE_EXTENSIONS)
     implementation(AndroidX.LIFECYCLE_LIVEDATA)
-    implementation(AndroidX.RECYCLER_VIEW)
     implementation(AndroidX.START_UP)
-    implementation(AndroidX.DATASTORE_PREFS)
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
