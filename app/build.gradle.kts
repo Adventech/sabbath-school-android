@@ -95,6 +95,8 @@ android {
             }
 
             manifestPlaceholders["enableReporting"] = true
+
+            ndk { debugSymbolLevel = "FULL" }
         }
         getByName(BuildType.DEBUG) {
 
