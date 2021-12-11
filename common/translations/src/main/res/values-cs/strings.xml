@@ -23,14 +23,14 @@
 <resources>
     <string name="ss_app_name">"Sobotní škola"</string>
     <string name="ss_share">"Sdílet"</string>
-    <string name="ss_login_button_google">"Přihlaste se pomocí služby Google"</string>
-    <string name="ss_login_button_facebook">"Přihlásit se pomocí Facebooku"</string>
-    <string name="ss_login_button_anonymous">"Přihlaste se jako anonymní"</string>
+    <string name="ss_login_button_google">"Přihlásit se s účtem Google"</string>
+    <string name="ss_login_button_facebook">"Přihlásit se s účtem Facebooku"</string>
+    <string name="ss_login_button_anonymous">"Pokračovat bez přihlášení"</string>
     <string name="ss_menu_anonymous_name">"Anonymní"</string>
     <string name="ss_menu_sign_out">"Odhlásit se"</string>
-    <string name="ss_menu_read_now">"Přečtěte si teď"</string>
+    <string name="ss_menu_read_now">"Číst teď"</string>
     <string name="ss_menu_share_app">"Sdílet aplikaci"</string>
-    <string name="ss_menu_share_app_text">"Podívejte se na aplikaci Sobotní škola, kterou používám - %1$s"</string>
+    <string name="ss_menu_share_app_text">"Podívej se na aplikaci Sobotní škola, kterou používám - %1$s"</string>
     <string name="ss_more">Více</string>
     <string name="ss_my_highlights">"Moje zvýraznění"</string>
     <string name="ss_my_notes">"Moje poznámky"</string>
@@ -41,28 +41,28 @@
     <string name="ss_login_anonymously_dialog_negative">"Ne"</string>
     <string name="ss_login_anonymously_dialog_title">"Přihlásit se anonymně?"</string>
     <string name="ss_login_anonymously_dialog_description">"Pokud se přihlásíte anonymně, nebudete moci synchronizovat data (například komentáře a zvýraznění) v různých zařízeních nebo po odinstalování aplikace. Opravdu chcete pokračovat?"</string>
-    <string name="ss_quarterlies_filter_languages">"Jazyky"</string>
-    <string name="ss_quarterlies_downloading">"Získání čtvrtletníků ..."</string>
+    <string name="ss_quarterlies_filter_languages">"Filtrovat jazyky"</string>
+    <string name="ss_quarterlies_downloading">"Načítám čtvrtletí..."</string>
     <string name="ss_quarterlies_error">"Došlo k neznámé chybě. Prosím zkuste to znovu."</string>
     <string name="ss_quarterlies_empty">"V tuto chvíli nejsou k dispozici žádné čtvrtletí"</string>
     <string name="ss_quarterly_item_read_text">"Otevřít"</string>
-    <string name="ss_lessons_downloading">"Otevření čtvrtletí ..."</string>
-    <string name="ss_lessons_error">"Při otevření čtvrtletí došlo k chybě"</string>
+    <string name="ss_lessons_downloading">"Otevírání čtvrtletí ..."</string>
+    <string name="ss_lessons_error">"Při otevírání čtvrtletí došlo k chybě"</string>
     <string name="ss_lessons_empty">"V tuto chvíli nejsou k dispozici žádné lekce"</string>
     <string name="ss_lessons_read">"Číst"</string>
-    <string name="ss_reading_empty">"Na této lekci pracujeme. Zkontrolujte prosím později."</string>
+    <string name="ss_reading_empty">"Vypadá to, že tato lekce je prázdná. Zkontrolujte prosím později."</string>
     <string name="ss_reading_error">"Při otevření lekce došlo k chybě"</string>
     <string name="ss_reading_downloading">"Stažení lekce pro čtení offline"</string>
-    <string name="ss_reading_suggest_edit">"Navrhovat úpravu nebo opravu"</string>
-    <string name="ss_reading_suggest_edit_hint">"Popište prosím opravu nebo návrh"</string>
-    <string name="ss_reading_suggest_edit_done">"Děkuji! Váš návrh bude přezkoumán."</string>
+    <string name="ss_reading_suggest_edit">"Navrhnout úpravu nebo opravu"</string>
+    <string name="ss_reading_suggest_edit_hint">"Popište prosím svou opravu nebo návrh"</string>
+    <string name="ss_reading_suggest_edit_done">"Děkujeme! Váš návrh bude přezkoumán."</string>
     <string name="ss_reading_comment">"Komentář"</string>
     <string name="ss_reading_enter_comment">"Zadejte svůj komentář"</string>
-    <string name="ss_reading_copied">"Výběr byl zkopírován"</string>
+    <string name="ss_reading_copied">"Výběr byl zkopírován."</string>
     <string name="ss_reading_share_to">"Sdílet výběr:"</string>
 
     <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Brzy"</string>
+    <string name="ss_coming_soon_header">"Již brzy"</string>
     <string name="ss_coming_soon_subheader">"V současné době pracujeme na této funkci. Zůstaňte naladěni, brzy přijde."</string>
     <string name="ss_about_app_version">"verze 3.0"</string>
     <string name="ss_about_made">"Vyrobeno z ❤ od Adventech"</string>
@@ -70,43 +70,48 @@
     <string name="ss_settings_color_theme_light">"Světlý"</string>
     <string name="ss_settings_color_theme_sepia">"Sépie"</string>
     <string name="ss_settings_color_theme_dark">"Tmavý"</string>
-    <string name="ss_settings_typeface">"Písmo"</string>
-    <string name="ss_settings_font_size">"Velikost písma"</string>
+    <string name="ss_settings_typeface">"Druh písma"</string>
+    <string name="ss_settings_font_size">"Velikost fontu"</string>
     <string name="ss_settings_font_size_tiny">"Drobný"</string>
     <string name="ss_settings_font_size_small">"Malý"</string>
     <string name="ss_settings_font_size_medium">"Střední"</string>
     <string name="ss_settings_font_size_large">"Velký"</string>
     <string name="ss_settings_font_size_huge">"Obrovský"</string>
+    <string name="ss_settings_theme">Téma</string>
+    <string name="ss_settings_theme_default">Výchozí</string>
     <string name="ss_settings_version">Verze</string>
+    <string name="ss_settings_version_with_param_string">Verze: %1$s</string>
 
     <!-- RATE APP -->
-    <string name="rate_dialog_title">"Ohodnoť aplikaci Sobotní škola"</string>
-    <string name="rate_dialog_message">"Věnujte prosím prosím chvíli, abyste ohodnotili aplikaci Sobotní škola. Děkuji za vaši podporu!"</string>
-    <string name="rate_dialog_ok">"Ohodnoť to"</string>
+    <string name="rate_dialog_title">"Ohodnoťte aplikaci Sobotní škola"</string>
+    <string name="rate_dialog_message">"Jestliže se vám líbí aplikace Sobotní škola, najdete si chvilku, abyste ji ohodnotili? Děkujeme za vaši podporu!"</string>
+    <string name="rate_dialog_ok">"Ohodnoťte ji"</string>
     <string name="rate_dialog_cancel">"Později"</string>
     <string name="rate_dialog_no">"Ne"</string>
-    <string name="ss_settings_website">"webová stránka"</string>
+    <string name="ss_settings_website">"Webová stránka"</string>
     <string name="ss_quarterlies_filter_languages_prompt_title">"Čtěte ve více jazycích"</string>
     <string name="ss_quarterlies_filter_languages_prompt_description">"Klepnutím na ikonu filtru zobrazíte dostupné jazyky"</string>
     <string name="ss_bible">"Bible"</string>
     <string name="ss_settings_reminder">"Denní připomenutí"</string>
     <string name="ss_settings_reminder_summary">"Zaškrtněte, chcete-li zapnout připomenutí denního studia"</string>
     <string name="ss_settings_reminder_time">"Čas připomenutí"</string>
-    <string name="ss_settings_reminder_text">"Je čas na studium lekce Sobotní školy"</string>
+    <string name="ss_settings_reminder_text">"Je čas na studium Sobotní školy"</string>
     <string name="ss_reading_offline">"Jste offline. Znovu se připojte, abyste mohli číst tuto lekci."</string>
-    <string name="ss_reading_offline_retry">"Opakujte"</string>
-    <string name="ss_about_text">"Poslání Adventech je předně a především - vzdát slávu našemu Pánu, Věkovitému. Jsme odhodláni dělat naši službu prostřednictvím technologie. Naším cílem je sjednotit Církev adventistů sedmého dne. Naším cílem je hlásat Dobré zprávy tomuto světu prostřednictvím technologií a pokroků v komunikaci. Naším cílem je svědčit o Ježíšově druhém příchodu.
-
-Jsme inspirováni příkladem a metodami Ježíše, když působil zde na Zemi. Proto jsme se zavázali poskytovat vysoký stupeň kvality všech našich projektů zcela bezplatně s láskou a odhodláním. Jsme odhodláni vzdát slávu našemu Otci, protože je hoden nejvyšší chvály.
-
-Opravdu věříme, že Bůh rozmnožil poznání moderního světa a chce, abychom to využili k Jeho slávě, abychom hlásali, že se brzy vrátí!"</string>
-
-    <string name="ss_settings_version_with_param_string">Verze: %1$s</string>
+    <string name="ss_reading_offline_retry">"Opakovat"</string>
+    <string name="ss_about_text">"Adventech je nezisková organizace v Kanadě, která se věnuje využívání technologií ve službě. Posláním Adventechu, jakožto oddaných Adventistů sedmého dne, je především vzdávat slávu Bohu. Naším cílem je také prostřednictvím naší služby přinášet jednotu celosvětové Církvi adventistů sedmého dne. Naším hlavním cílem je hlásat věčné evangelium prostřednictvím technologií a pokroků ve sdělovacích prostředcích a přispět svým dílem k přípravě světa na druhý příchod Ježíše."</string>
+  
+    <string name="sspm_logo_content_description" translatable="false">Sabbath School Personal Ministries Logo</string>
+    <string name="sspm_re_branding_message" translatable="false">Vítejte v oficiální aplikaci Oddělení sobotní školy a osobní služby Generální konference. Aplikace, kterou stále pohání Adventech, brzy získá nová vylepšení obsahu a funkcí, přičemž zůstane jednoduchou a snadnou v používání.\nStudovat a sdílet Boží slovo nebylo nikdy jednodušší!</string>
+    <string name="gc_sspm_logo_content_description" translatable="false">General Conference Sabbath School and Personal Ministries logo</string>
+    <string name="gc_sspm_about" translatable="false">Posláním Oddělení sobotní školy a osobní služby Generální konference je vytvářet učedníky, kteří pak vytvářejí další učedníky. Toho chceme dosáhnout tím, že pomáháme místním sborům Církve adventistů sedmého dne a jejich členům objevovat smysl a moc Sobotní školy a že inspirujeme a zapojujeme každého člena do aktivní osobní služby získávání duší.\n\nOddělení sobotní školy a osobní služby vytváří zdroje, které pomáhají členům Církve adventistů sedmého dne v jejich cestě s Kristem a ve svědectví světu. Cílem aplikace Sobotní školy a osobní služby je spojit mnohé z těchto zdrojů na jednom vhodném místě. Jak budou přibývat další zdroje, členové církve a jejich rodiny budou mít brzy k dispozici bohaté zdroje, které jim pomohou při studiu a sdílení Božího slova.\n\nPro usnadnění údržby a vývoje aplikace je Oddělení sobotní školy a osobní služby rádo, že může spolupracovat s oddaným a talentovaným týmem v Adventech.</string>
     <string name="ss_copyright">%1$s Generální konference adventistů sedmého dne®</string>
     <string name="ss_see_all">Vidět vše</string>
-    <string name="ss_media_audio">Zvuk</string>
+
+    <string name="ss_media_notification_channel" translatable="false">Nyní se přehrává</string>
+    <string name="ss_media_notification_channel_description" translatable="false">Zobrazuje, jaká média se právě přehrávají</string>
+    <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
-    <string name="ss_pdf_original">Původní rozvržení</string>
-    <string name="ss_settings_theme">Téma</string>
-    <string name="ss_settings_theme_default">Výchozí</string>
+
+    <string name="ss_pdf_original">Rozvržení tištěné verze</string>
+
 </resources>
