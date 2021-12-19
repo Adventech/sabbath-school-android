@@ -4,7 +4,7 @@ object Versions {
     const val COROUTINES = "1.5.2"
     const val COMPOSE = "1.0.5"
     const val MATERIAL = "1.4.0"
-    const val ACCOMPANIST = "0.20.2"
+    const val ACCOMPANIST = "0.20.3"
 
     object AndroidX {
         const val APPCOMPAT = "1.4.0"
@@ -20,7 +20,7 @@ object Versions {
         const val BROWSER = "1.4.0"
         const val DATASTORE_PREFS = "1.0.0"
         const val MEDIA = "1.4.3"
-        const val ROOM = "2.3.0"
+        const val ROOM = "2.4.0"
     }
 
     object Facebook {
@@ -28,7 +28,7 @@ object Versions {
         const val SHIMMER = "0.5.0"
     }
 
-    const val HILT = "2.40.4" // Also update [build.gradle.kts]
+    const val HILT = "2.40.5" // Also update [build.gradle.kts]
 
     const val TIMBER = "5.0.1"
     const val COIL = "1.4.0"
@@ -36,15 +36,15 @@ object Versions {
     const val ICONICS = "5.3.3@aar"
 
     const val FIREBASE_BOM = "29.0.1"
-    const val PLAY_AUTH = "19.2.0"
+    const val PLAY_AUTH = "20.0.0"
     const val JODA = "2.10.12.2"
     const val JODA_TIME = "2.10.13"
     const val MARK_WORM = "4.6.2"
     const val exoplayer = "2.16.1"
-    const val pdfKit = "8.0.1"
+    const val pdfKit = "8.0.2"
 
     object Square {
-        const val moshi = "1.12.0"
+        const val moshi = "1.13.0"
         const val okhttp3 = "4.9.3"
         const val retrofit = "2.9.0"
     }
