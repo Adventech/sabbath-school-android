@@ -347,11 +347,11 @@ private fun BottomControls(
                 targetState = playbackSpeed,
                 transitionSpec = {
                     if (targetState.speed > initialState.speed) {
-                        slideInVertically({ height -> height }) + fadeIn() with
-                            slideOutVertically({ height -> -height }) + fadeOut()
+                        slideInVertically(initialOffsetY = { height -> height }) + fadeIn() with
+                            slideOutVertically(targetOffsetY = { height -> -height }) + fadeOut()
                     } else {
-                        slideInVertically({ height -> -height }) + fadeIn() with
-                            slideOutVertically({ height -> height }) + fadeOut()
+                        slideInVertically(initialOffsetY = { height -> -height }) + fadeIn() with
+                            slideOutVertically(targetOffsetY = { height -> height }) + fadeOut()
                     }.using(
                         SizeTransform(clip = false)
                     )
