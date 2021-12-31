@@ -80,6 +80,7 @@ object Dependencies {
         const val iconsExtended = "androidx.compose.material:material-icons-extended:${Versions.COMPOSE}"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02"
         const val snapper = "dev.chrisbanes.snapper:snapper:0.1.0"
+        const val glance = "androidx.glance:glance:1.0.0-alpha01"
     }
 
     object Accompanist {
