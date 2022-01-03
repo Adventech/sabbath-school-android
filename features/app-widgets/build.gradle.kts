@@ -23,6 +23,7 @@
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Compose
+import dependencies.Dependencies.Compose.Glance
 import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.Kotlin
@@ -85,7 +86,9 @@ dependencies {
     implementation(Coil.compose)
 
     implementation(Compose.tooling)
-    implementation(Compose.glance)
+    implementation(Compose.material)
+    implementation(Glance.core)
+    implementation(Glance.appwidget)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))

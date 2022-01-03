@@ -5,8 +5,8 @@
     <application>
         <receiver
             android:name=".today.TodayAppWidget"
-            android:label="Today's Lesson"
-            android:exported="true">
+            android:exported="true"
+            android:label="Today's Lesson">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -17,8 +17,8 @@
         </receiver>
         <receiver
             android:name=".today.TodayImgAppWidget"
-            android:label="Today's Lesson"
-            android:exported="true">
+            android:exported="true"
+            android:label="Today's Lesson">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -29,8 +29,8 @@
         </receiver>
         <receiver
             android:name=".week.WeekLessonWidget"
-            android:label="This Week's Lesson"
-            android:exported="true">
+            android:exported="true"
+            android:label="This Week's Lesson">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -38,6 +38,19 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/week_lesson_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".glance.TodayWidgetProvider"
+            android:enabled="@bool/glance_appwidget_available"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/today_widget_info" />
         </receiver>
     </application>
 
