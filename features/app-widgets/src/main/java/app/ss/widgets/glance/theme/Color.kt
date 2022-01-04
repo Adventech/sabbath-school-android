@@ -23,8 +23,9 @@
 package app.ss.widgets.glance.theme
 
 import androidx.compose.ui.graphics.Color
+import com.cryart.design.theme.BaseBlue
 
-val md_theme_light_primary = Color(0xFF2c5ea8)
+val md_theme_light_primary = BaseBlue
 val md_theme_light_onPrimary = Color(0xFFffffff)
 val md_theme_light_primaryContainer = Color(0xFFd6e3ff)
 val md_theme_light_onPrimaryContainer = Color(0xFF001a40)
@@ -50,8 +51,8 @@ val md_theme_light_outline = Color(0xFF74777f)
 val md_theme_light_inverseOnSurface = Color(0xFFf2f0f4)
 val md_theme_light_inverseSurface = Color(0xFF2f3034)
 
-val md_theme_dark_primary = Color(0xFFa9c7ff)
-val md_theme_dark_onPrimary = Color(0xFF002f68)
+val md_theme_dark_primary = BaseBlue
+val md_theme_dark_onPrimary = Color.White
 val md_theme_dark_primaryContainer = Color(0xFF02458e)
 val md_theme_dark_onPrimaryContainer = Color(0xFFd6e3ff)
 val md_theme_dark_secondary = Color(0xFFa9c7ff)
@@ -75,6 +76,3 @@ val md_theme_dark_onSurfaceVariant = Color(0xFFc4c6d0)
 val md_theme_dark_outline = Color(0xFF8e9099)
 val md_theme_dark_inverseOnSurface = Color(0xFF1a1b1f)
 val md_theme_dark_inverseSurface = Color(0xFFe3e2e6)
-
-val seed = Color(0xFF2e5797)
-val error = Color(0xFFba1b1b)
