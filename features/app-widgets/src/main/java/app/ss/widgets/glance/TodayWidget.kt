@@ -24,34 +24,41 @@ package app.ss.widgets.glance
 
 import android.content.ComponentName
 import android.content.Context
-import android.net.Uri
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.glance.Button
 import androidx.glance.GlanceModifier
 import androidx.glance.LocalContext
 import androidx.glance.action.actionStartActivity
 import androidx.glance.appwidget.GlanceAppWidget
-import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.appWidgetBackground
-import androidx.glance.appwidget.background
 import androidx.glance.appwidget.cornerRadius
+import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.text.Text
+import androidx.glance.unit.ColorProvider
 import app.ss.widgets.R
-import app.ss.widgets.WidgetDataProvider
-import app.ss.widgets.glance.theme.TodayTitle
+import app.ss.widgets.glance.theme.SsAppWidgetTheme
+import app.ss.widgets.glance.theme.copy
+import app.ss.widgets.glance.theme.todayBody
+import app.ss.widgets.glance.theme.todayTitle
 import app.ss.widgets.model.TodayWidgetModel
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import com.cryart.design.theme.Spacing12
+import com.cryart.design.theme.Spacing20
+import com.cryart.design.theme.Spacing32
+import com.cryart.design.theme.Spacing4
+import com.cryart.design.theme.Spacing6
+import com.cryart.design.theme.Spacing8
 
 internal class TodayWidget(
     private val model: TodayWidgetModel,
@@ -63,15 +70,17 @@ internal class TodayWidget(
 
     @Composable
     override fun Content() {
-        Box(
-            modifier = GlanceModifier
-                .fillMaxSize()
-                .background(day = Color.White, night = Color.Black)
-                .appWidgetBackground()
-                .cornerRadius(20.dp)
-                .padding(8.dp)
-        ) {
-            Today(model = model)
+        SsAppWidgetTheme {
+            Box(
+                modifier = GlanceModifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.surface)
+                    .appWidgetBackground()
+                    .cornerRadius(20.dp)
+                    .padding(Spacing8)
+            ) {
+                Today(model = model)
+            }
         }
     }
 }
@@ -85,7 +94,9 @@ private fun Today(
     context: Context = LocalContext.current
 ) {
     Column(
-        modifier = GlanceModifier.fillMaxSize(),
+        modifier = GlanceModifier
+            .fillMaxSize()
+            .padding(Spacing8),
         verticalAlignment = Alignment.Bottom,
     ) {
         Spacer(
@@ -93,31 +104,32 @@ private fun Today(
         )
         Text(
             text = model.date,
-            style = TodayTitle
+            style = todayBody(),
+            maxLines = 2
         )
+
+        Spacer(modifier = GlanceModifier.height(Spacing6))
+
         Text(
             text = model.title,
-            style = TodayTitle
+            style = todayTitle(),
+            maxLines = 3
         )
+
+        Spacer(modifier = GlanceModifier.height(Spacing12))
+
         Button(
-            text = context.getString(R.string.ss_lessons_read),
-            onClick = actionStartActivity(cmp)
+            text = context.getString(R.string.ss_lessons_read).uppercase(),
+            style = todayTitle().copy(
+                color = ColorProvider(MaterialTheme.colorScheme.onPrimary),
+                fontSize = 14.sp
+            ),
+            maxLines = 1,
+            onClick = actionStartActivity(cmp),
+            modifier = GlanceModifier
+                .background(MaterialTheme.colorScheme.primary)
+                .cornerRadius(Spacing20)
+                .padding(horizontal = Spacing32, vertical = Spacing4)
         )
     }
-}
-
-@AndroidEntryPoint
-internal class TodayWidgetProvider : GlanceAppWidgetReceiver() {
-
-    @Inject
-    lateinit var dataProvider: WidgetDataProvider
-
-    private val model = TodayWidgetModel(
-        "Further Thought",
-        "Friday, December 31",
-        "",
-        Uri.EMPTY
-    )
-
-    override val glanceAppWidget: GlanceAppWidget get() = TodayWidget(model)
 }

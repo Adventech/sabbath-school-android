@@ -22,12 +22,71 @@
 
 package app.ss.widgets.glance.theme
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import androidx.glance.text.FontStyle
+import androidx.glance.text.FontWeight
+import androidx.glance.text.TextAlign
+import androidx.glance.text.TextDecoration
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 
-val TodayTitle = TextStyle(
-    color = ColorProvider(Color.White),
-    fontSize = 20.sp
+private sealed class TextSize(
+    val fontSize: TextUnit,
+    val lineHeight: TextUnit,
+) {
+    object Size10 : TextSize(10.sp, 14.sp)
+    object Size12 : TextSize(12.sp, 18.sp)
+    object Size13 : TextSize(13.sp, 20.sp)
+    object Size15 : TextSize(15.sp, 22.sp)
+    object Size16 : TextSize(16.sp, 24.sp)
+    object Size18 : TextSize(18.sp, 26.sp)
+    object Size24 : TextSize(24.sp, 28.sp)
+    object Size32 : TextSize(32.sp, 40.sp)
+}
+
+internal fun TextStyle.copy(
+    color: ColorProvider? = this.color,
+    fontSize: TextUnit? = this.fontSize,
+    fontWeight: FontWeight? = this.fontWeight,
+    fontStyle: FontStyle? = this.fontStyle,
+    textAlign: TextAlign? = this.textAlign,
+    textDecoration: TextDecoration? = this.textDecoration,
+) = TextStyle(
+    color = color,
+    fontSize = fontSize,
+    fontWeight = fontWeight,
+    fontStyle = fontStyle,
+    textAlign = textAlign,
+    textDecoration = textDecoration
+)
+
+private fun textStyle(
+    color: Color,
+    textSize: TextSize,
+    fontWeight: FontWeight,
+    textDecoration: TextDecoration? = null,
+) = TextStyle(
+    color = ColorProvider(color),
+    fontSize = textSize.fontSize,
+    fontStyle = FontStyle.Normal,
+    fontWeight = fontWeight,
+    textDecoration = textDecoration,
+)
+
+@Composable
+fun todayTitle() = textStyle(
+    color = MaterialTheme.colorScheme.onSurface,
+    textSize = TextSize.Size18,
+    fontWeight = FontWeight.Bold
+)
+
+@Composable
+fun todayBody() = textStyle(
+    color = MaterialTheme.colorScheme.onSurfaceVariant,
+    textSize = TextSize.Size15,
+    fontWeight = FontWeight.Normal
 )
