@@ -22,26 +22,35 @@
 
 package app.ss.widgets.glance
 
-import android.net.Uri
+import android.content.Context
+import android.content.Intent
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import app.ss.widgets.WidgetDataProvider
-import app.ss.widgets.model.TodayWidgetModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-internal class TodayWidgetProvider : GlanceAppWidgetReceiver() {
+internal class TodayWidgetProvider : GlanceAppWidgetReceiver(), CoroutineScope by MainScope() {
 
     @Inject
     lateinit var dataProvider: WidgetDataProvider
 
-    private val model = TodayWidgetModel(
-        "Further Thought",
-        "Friday, December 31",
-        "",
-        Uri.EMPTY
-    )
+    private val todayWidget = TodayWidget()
 
-    override val glanceAppWidget: GlanceAppWidget get() = TodayWidget(model)
+    override val glanceAppWidget: GlanceAppWidget = todayWidget
+
+    override fun onReceive(context: Context, intent: Intent) {
+        super.onReceive(context, intent)
+
+        launch {
+            todayWidget.model = dataProvider.getTodayModel()
+            todayWidget.glanceId?.let {
+                todayWidget.update(context, it)
+            }
+        }
+    }
 }

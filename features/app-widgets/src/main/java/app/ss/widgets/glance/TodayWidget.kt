@@ -24,14 +24,20 @@ package app.ss.widgets.glance
 
 import android.content.ComponentName
 import android.content.Context
+import android.net.Uri
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.Button
+import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.LocalContext
+import androidx.glance.LocalGlanceId
 import androidx.glance.action.actionStartActivity
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
@@ -59,10 +65,12 @@ import com.cryart.design.theme.Spacing32
 import com.cryart.design.theme.Spacing4
 import com.cryart.design.theme.Spacing6
 import com.cryart.design.theme.Spacing8
+import com.cryart.sabbathschool.core.misc.DateHelper
 
-internal class TodayWidget(
-    private val model: TodayWidgetModel,
-) : GlanceAppWidget() {
+internal class TodayWidget : GlanceAppWidget() {
+
+    var glanceId: GlanceId? = null
+    var model by mutableStateOf<TodayWidgetModel?>(null)
 
     override val sizeMode = SizeMode.Responsive(
         setOf(DpSize(180.dp, 110.dp), DpSize(300.dp, 110.dp))
@@ -70,6 +78,8 @@ internal class TodayWidget(
 
     @Composable
     override fun Content() {
+        glanceId = LocalGlanceId.current
+
         SsAppWidgetTheme {
             Box(
                 modifier = GlanceModifier
@@ -79,7 +89,7 @@ internal class TodayWidget(
                     .cornerRadius(20.dp)
                     .padding(Spacing8)
             ) {
-                Today(model = model)
+                Today(model = model ?: errorModel())
             }
         }
     }
@@ -87,6 +97,16 @@ internal class TodayWidget(
 
 private const val pkg = "com.cryart.sabbathschool"
 private val cmp = ComponentName(pkg, "$pkg.ui.splash.SplashActivity")
+
+@Composable
+private fun errorModel(
+    context: Context = LocalContext.current,
+): TodayWidgetModel = TodayWidgetModel(
+    context.getString(R.string.ss_widget_error_label),
+    DateHelper.today(),
+    "",
+    Uri.EMPTY
+)
 
 @Composable
 private fun Today(
