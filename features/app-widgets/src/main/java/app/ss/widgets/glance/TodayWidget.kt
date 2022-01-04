@@ -36,6 +36,8 @@ import androidx.compose.ui.unit.sp
 import androidx.glance.Button
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.Image
+import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
 import androidx.glance.LocalGlanceId
 import androidx.glance.action.actionStartActivity
@@ -45,12 +47,14 @@ import androidx.glance.appwidget.appWidgetBackground
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
 import androidx.glance.layout.Alignment
-import androidx.glance.layout.Box
 import androidx.glance.layout.Column
+import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
+import androidx.glance.layout.size
 import androidx.glance.text.Text
 import androidx.glance.unit.ColorProvider
 import app.ss.widgets.R
@@ -64,7 +68,6 @@ import com.cryart.design.theme.Spacing20
 import com.cryart.design.theme.Spacing32
 import com.cryart.design.theme.Spacing4
 import com.cryart.design.theme.Spacing6
-import com.cryart.design.theme.Spacing8
 import com.cryart.sabbathschool.core.misc.DateHelper
 
 internal class TodayWidget : GlanceAppWidget() {
@@ -81,15 +84,16 @@ internal class TodayWidget : GlanceAppWidget() {
         glanceId = LocalGlanceId.current
 
         SsAppWidgetTheme {
-            Box(
+            Column(
                 modifier = GlanceModifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.surface)
                     .appWidgetBackground()
                     .cornerRadius(20.dp)
-                    .padding(Spacing8)
             ) {
-                Today(model = model ?: errorModel())
+                WidgetAppLogo()
+
+                TodayInfo(model = model ?: errorModel())
             }
         }
     }
@@ -109,19 +113,43 @@ private fun errorModel(
 )
 
 @Composable
-private fun Today(
+private fun WidgetAppLogo(
+    modifier: GlanceModifier = GlanceModifier,
+) {
+    Row(modifier = modifier.fillMaxWidth()) {
+        Spacer(modifier = GlanceModifier.defaultWeight())
+
+        Image(
+            provider = ImageProvider(R.drawable.ic_widget_logo),
+            contentDescription = "",
+            modifier = GlanceModifier
+                .size(70.dp)
+                .padding(
+                    top = (-40).dp,
+                    end = (-35).dp
+                )
+        )
+    }
+}
+
+@Composable
+private fun TodayInfo(
     model: TodayWidgetModel,
-    context: Context = LocalContext.current
+    context: Context = LocalContext.current,
+    modifier: GlanceModifier = GlanceModifier
 ) {
     Column(
-        modifier = GlanceModifier
+        modifier = modifier
             .fillMaxSize()
-            .padding(Spacing8),
+            .padding(
+                start = Spacing12,
+                end = Spacing12,
+                bottom = Spacing12
+            ),
         verticalAlignment = Alignment.Bottom,
     ) {
-        Spacer(
-            modifier = GlanceModifier.defaultWeight()
-        )
+        Spacer(modifier = GlanceModifier.defaultWeight())
+
         Text(
             text = model.date,
             style = todayBody(),
@@ -150,6 +178,7 @@ private fun Today(
                 .background(MaterialTheme.colorScheme.primary)
                 .cornerRadius(Spacing20)
                 .padding(horizontal = Spacing32, vertical = Spacing4)
+                .height(32.dp)
         )
     }
 }
