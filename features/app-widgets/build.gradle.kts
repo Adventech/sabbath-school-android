@@ -86,7 +86,7 @@ dependencies {
     implementation(Coil.compose)
 
     implementation(Compose.tooling)
-    implementation(Compose.material)
+    implementation(Compose.material3)
     implementation(Glance.core)
     implementation(Glance.appwidget)
 

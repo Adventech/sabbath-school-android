@@ -72,9 +72,12 @@ object Dependencies {
     }
 
     object Compose {
+        private const val material3Version = "1.0.0-alpha01"
+
         const val ui = "androidx.compose.ui:ui:${Versions.COMPOSE}"
         const val uiUtil = "androidx.compose.ui:ui-util:${Versions.COMPOSE}"
         const val material = "androidx.compose.material:material:${Versions.COMPOSE}"
+        const val material3 = "androidx.compose.material3:material3:$material3Version"
         const val tooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
         const val icons = "androidx.compose.material:material-icons-core:${Versions.COMPOSE}"
         const val iconsExtended = "androidx.compose.material:material-icons-extended:${Versions.COMPOSE}"
