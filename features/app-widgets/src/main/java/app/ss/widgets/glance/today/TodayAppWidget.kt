@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,26 +20,21 @@
  * THE SOFTWARE.
  */
 
-package app.ss.widgets.glance
+package app.ss.widgets.glance.today
 
 import android.content.ComponentName
 import android.content.Context
 import android.net.Uri
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.Button
-import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
-import androidx.glance.LocalGlanceId
 import androidx.glance.action.actionStartActivity
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
@@ -70,10 +65,9 @@ import com.cryart.design.theme.Spacing4
 import com.cryart.design.theme.Spacing6
 import com.cryart.sabbathschool.core.misc.DateHelper
 
-internal class TodayWidget : GlanceAppWidget() {
-
-    var glanceId: GlanceId? = null
-    var model by mutableStateOf<TodayWidgetModel?>(null)
+internal class TodayAppWidget(
+    private val model: TodayWidgetModel? = null
+) : GlanceAppWidget() {
 
     override val sizeMode = SizeMode.Responsive(
         setOf(DpSize(180.dp, 110.dp), DpSize(300.dp, 110.dp))
@@ -81,8 +75,6 @@ internal class TodayWidget : GlanceAppWidget() {
 
     @Composable
     override fun Content() {
-        glanceId = LocalGlanceId.current
-
         SsAppWidgetTheme {
             Column(
                 modifier = GlanceModifier
@@ -103,7 +95,7 @@ private const val pkg = "com.cryart.sabbathschool"
 private val cmp = ComponentName(pkg, "$pkg.ui.splash.SplashActivity")
 
 @Composable
-private fun errorModel(
+internal fun errorModel(
     context: Context = LocalContext.current,
 ): TodayWidgetModel = TodayWidgetModel(
     context.getString(R.string.ss_widget_error_label),
@@ -133,7 +125,7 @@ private fun WidgetAppLogo(
 }
 
 @Composable
-private fun TodayInfo(
+internal fun TodayInfo(
     model: TodayWidgetModel,
     context: Context = LocalContext.current,
     modifier: GlanceModifier = GlanceModifier

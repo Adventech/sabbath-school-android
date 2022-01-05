@@ -41,7 +41,7 @@
         </receiver>
 
         <receiver
-            android:name=".glance.TodayWidgetProvider"
+            android:name=".glance.today.TodayAppWidgetReceiver"
             android:enabled="@bool/glance_appwidget_available"
             android:exported="true">
             <intent-filter>
@@ -52,6 +52,20 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/today_widget_info" />
         </receiver>
+
+        <receiver
+            android:name=".glance.today.TodayImageAppWidgetReceiver"
+            android:enabled="@bool/glance_appwidget_available"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/today_img_widget_info" />
+        </receiver>
+
     </application>
 
 </manifest>

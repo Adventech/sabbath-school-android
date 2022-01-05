@@ -20,37 +20,27 @@
  * THE SOFTWARE.
  */
 
-package app.ss.widgets.glance
+package app.ss.widgets.glance.today
 
 import android.content.Context
 import android.content.Intent
 import androidx.glance.appwidget.GlanceAppWidget
-import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import app.ss.widgets.WidgetDataProvider
+import androidx.glance.appwidget.updateAll
+import app.ss.widgets.glance.BaseGlanceAppWidgetReceiver
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
-internal class TodayWidgetProvider : GlanceAppWidgetReceiver(), CoroutineScope by MainScope() {
+internal class TodayAppWidgetReceiver : BaseGlanceAppWidgetReceiver() {
 
-    @Inject
-    lateinit var dataProvider: WidgetDataProvider
-
-    private val todayWidget = TodayWidget()
-
-    override val glanceAppWidget: GlanceAppWidget = todayWidget
+    override val glanceAppWidget: GlanceAppWidget get() = TodayAppWidget()
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
         launch {
-            todayWidget.model = dataProvider.getTodayModel()
-            todayWidget.glanceId?.let {
-                todayWidget.update(context, it)
-            }
+            val model = widgetDataProvider.getTodayModel()
+            TodayAppWidget(model).updateAll(context)
         }
     }
 }
