@@ -66,12 +66,12 @@
     <string name="ss_coming_soon_subheader">"V současné době pracujeme na této funkci. Zůstaňte naladěni, brzy přijde."</string>
     <string name="ss_about_app_version">"verze 3.0"</string>
     <string name="ss_about_made">"Vyrobeno z ❤ od Adventech"</string>
-    <string name="ss_settings_display_options">"Volby zobrazení"</string>
+    <string name="ss_settings_display_options">"Možnosti zobrazení"</string>
     <string name="ss_settings_color_theme_light">"Světlý"</string>
     <string name="ss_settings_color_theme_sepia">"Sépie"</string>
     <string name="ss_settings_color_theme_dark">"Tmavý"</string>
     <string name="ss_settings_typeface">"Druh písma"</string>
-    <string name="ss_settings_font_size">"Velikost fontu"</string>
+    <string name="ss_settings_font_size">"Velikost písma"</string>
     <string name="ss_settings_font_size_tiny">"Drobný"</string>
     <string name="ss_settings_font_size_small">"Malý"</string>
     <string name="ss_settings_font_size_medium">"Střední"</string>
