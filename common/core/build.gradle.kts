@@ -21,6 +21,7 @@
  */
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
+import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
@@ -72,6 +73,8 @@ dependencies {
     implementation(Firebase.ANALYTICS)
     implementation(Firebase.AUTH)
     implementation(Firebase.DATABASE)
+
+    implementation(Coil.core)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))
