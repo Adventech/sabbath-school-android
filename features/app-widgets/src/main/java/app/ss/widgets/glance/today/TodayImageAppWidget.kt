@@ -22,6 +22,7 @@
 
 package app.ss.widgets.glance.today
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.material3.MaterialTheme
@@ -62,6 +63,7 @@ internal class TodayImageAppWidget @AssistedInject constructor(
     }
 
     @Composable
+    @SuppressLint("RestrictedApi")
     override fun Content(data: Data?) {
         val model = data?.model
         val modelCover = data?.modelCover
