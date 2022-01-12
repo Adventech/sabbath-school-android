@@ -22,37 +22,57 @@
 
 package app.ss.widgets.glance.today
 
+import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.dp
 import androidx.glance.BitmapImageProvider
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
-import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.appWidgetBackground
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
 import androidx.glance.layout.Box
 import androidx.glance.layout.ContentScale
 import androidx.glance.layout.fillMaxSize
+import app.ss.widgets.WidgetDataProvider
+import app.ss.widgets.glance.BaseGlanceAppWidget
+import app.ss.widgets.glance.theme.AppWidgetCornerRadius
 import app.ss.widgets.glance.theme.SsAppWidgetTheme
 import app.ss.widgets.model.TodayWidgetModel
+import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
-internal class TodayImageAppWidget(
-    private val model: TodayWidgetModel? = null,
-    private val modelCover: Bitmap? = null
-) : GlanceAppWidget() {
+internal class TodayImageAppWidget @AssistedInject constructor(
+    private val dataProvider: WidgetDataProvider,
+    @Assisted private val context: Context,
+) : BaseGlanceAppWidget<TodayImageAppWidget.Data>(context = context) {
+
+    data class Data(
+        val model: TodayWidgetModel? = null,
+        val modelCover: Bitmap? = null
+    )
+
+    override suspend fun loadData(): Data {
+        val model = dataProvider.getTodayModel()
+        val bitmap = context.fetchBitmap(model?.cover)
+        return Data(model, modelCover = bitmap)
+    }
 
     @Composable
-    override fun Content() {
+    override fun Content(data: Data?) {
+        val model = data?.model
+        val modelCover = data?.modelCover
+
         SsAppWidgetTheme {
             Box(
                 modifier = GlanceModifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.surface)
                     .appWidgetBackground()
-                    .cornerRadius(20.dp)
+                    .cornerRadius(AppWidgetCornerRadius)
             ) {
                 modelCover?.let { bitmap ->
                     Image(
@@ -66,5 +86,10 @@ internal class TodayImageAppWidget(
                 TodayInfo(model = model ?: errorModel())
             }
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(context: Context): TodayImageAppWidget
     }
 }

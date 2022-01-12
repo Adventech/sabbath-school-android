@@ -22,14 +22,18 @@
 
 package app.ss.widgets.glance
 
+import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import app.ss.widgets.WidgetDataProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import javax.inject.Inject
 
-abstract class BaseGlanceAppWidgetReceiver : GlanceAppWidgetReceiver(), CoroutineScope by MainScope() {
+abstract class BaseGlanceAppWidgetReceiver <T : BaseGlanceAppWidget<*>> : GlanceAppWidgetReceiver() {
 
     @Inject
     internal lateinit var widgetDataProvider: WidgetDataProvider
+
+    override val glanceAppWidget: GlanceAppWidget
+        get() = createWidget().also { it.initiateLoad() }
+
+    abstract fun createWidget(): T
 }

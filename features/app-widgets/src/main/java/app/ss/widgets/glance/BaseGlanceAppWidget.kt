@@ -20,23 +20,45 @@
  * THE SOFTWARE.
  */
 
-package app.ss.widgets.glance.today
+package app.ss.widgets.glance
 
 import android.content.Context
-import app.ss.widgets.glance.BaseGlanceAppWidgetReceiver
-import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.unit.DpSize
+import androidx.glance.GlanceId
+import androidx.glance.LocalGlanceId
+import androidx.glance.LocalSize
+import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.updateAll
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
-internal class TodayAppWidgetReceiver : BaseGlanceAppWidgetReceiver<TodayAppWidget>() {
+abstract class BaseGlanceAppWidget<T>(
+    private val context: Context,
+    initialData: T? = null
+) : GlanceAppWidget(), CoroutineScope by MainScope() {
 
-    @Inject
-    @ApplicationContext
-    lateinit var context: Context
+    private val glanceId = mutableStateOf<GlanceId?>(null)
+    private val size = mutableStateOf<DpSize?>(null)
+    private val data = mutableStateOf(initialData)
 
-    @Inject
-    lateinit var widgetFactory: TodayAppWidget.Factory
+    abstract suspend fun loadData(): T
 
-    override fun createWidget(): TodayAppWidget = widgetFactory.create(context = context)
+    fun initiateLoad() = launch {
+        data.value = loadData()
+        updateAll(context)
+    }
+
+    @Composable
+    override fun Content() {
+        glanceId.value = LocalGlanceId.current
+        size.value = LocalSize.current
+
+        Content(data.value)
+    }
+
+    @Composable
+    abstract fun Content(data: T?)
 }

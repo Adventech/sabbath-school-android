@@ -23,40 +23,21 @@
 package app.ss.widgets.glance.today
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import androidx.glance.appwidget.GlanceAppWidget
-import androidx.glance.appwidget.updateAll
 import app.ss.widgets.glance.BaseGlanceAppWidgetReceiver
-import coil.imageLoader
-import coil.request.ImageRequest
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 @AndroidEntryPoint
-internal class TodayImageAppWidgetReceiver : BaseGlanceAppWidgetReceiver() {
+internal class TodayImageAppWidgetReceiver : BaseGlanceAppWidgetReceiver<TodayImageAppWidget>() {
 
-    override val glanceAppWidget: GlanceAppWidget get() = TodayImageAppWidget()
+    @Inject
+    @ApplicationContext
+    lateinit var context: Context
+    @Inject
+    lateinit var widgetFactory: TodayImageAppWidget.Factory
 
-    override fun onReceive(context: Context, intent: Intent) {
-        super.onReceive(context, intent)
-
-        launch {
-            val model = widgetDataProvider.getTodayModel()
-            val bitmap = fetchImage(context, model?.cover)
-
-            TodayImageAppWidget(model, bitmap).updateAll(context)
-        }
-    }
-
-    private suspend fun fetchImage(context: Context, cover: String?): Bitmap? {
-        val request = ImageRequest.Builder(context)
-            .data(cover)
-            .build()
-
-        val drawable = context.imageLoader.execute(request).drawable
-
-        return (drawable as? BitmapDrawable)?.bitmap
-    }
+    override fun createWidget(): TodayImageAppWidget = widgetFactory.create(
+        context = context
+    )
 }

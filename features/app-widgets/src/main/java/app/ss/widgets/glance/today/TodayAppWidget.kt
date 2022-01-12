@@ -36,7 +36,6 @@ import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
 import androidx.glance.action.actionStartActivity
-import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.appWidgetBackground
 import androidx.glance.appwidget.cornerRadius
@@ -53,6 +52,9 @@ import androidx.glance.layout.size
 import androidx.glance.text.Text
 import androidx.glance.unit.ColorProvider
 import app.ss.widgets.R
+import app.ss.widgets.WidgetDataProvider
+import app.ss.widgets.glance.BaseGlanceAppWidget
+import app.ss.widgets.glance.theme.AppWidgetCornerRadius
 import app.ss.widgets.glance.theme.SsAppWidgetTheme
 import app.ss.widgets.glance.theme.copy
 import app.ss.widgets.glance.theme.todayBody
@@ -64,30 +66,43 @@ import com.cryart.design.theme.Spacing32
 import com.cryart.design.theme.Spacing4
 import com.cryart.design.theme.Spacing6
 import com.cryart.sabbathschool.core.misc.DateHelper
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
-internal class TodayAppWidget(
-    private val model: TodayWidgetModel? = null
-) : GlanceAppWidget() {
+private typealias Data = TodayWidgetModel
+
+internal class TodayAppWidget @AssistedInject constructor(
+    private val dataProvider: WidgetDataProvider,
+    @Assisted context: Context,
+) : BaseGlanceAppWidget<Data?>(context = context) {
 
     override val sizeMode = SizeMode.Responsive(
         setOf(DpSize(180.dp, 110.dp), DpSize(300.dp, 110.dp))
     )
 
+    override suspend fun loadData(): Data? = dataProvider.getTodayModel()
+
     @Composable
-    override fun Content() {
+    override fun Content(data: Data?) {
         SsAppWidgetTheme {
             Column(
                 modifier = GlanceModifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.surface)
                     .appWidgetBackground()
-                    .cornerRadius(20.dp)
+                    .cornerRadius(AppWidgetCornerRadius)
             ) {
                 WidgetAppLogo()
 
-                TodayInfo(model = model ?: errorModel())
+                TodayInfo(model = data ?: errorModel())
             }
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(context: Context): TodayAppWidget
     }
 }
 
