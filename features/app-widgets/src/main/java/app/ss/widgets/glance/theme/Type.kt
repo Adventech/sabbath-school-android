@@ -78,15 +78,19 @@ private fun textStyle(
 )
 
 @Composable
-fun todayTitle() = textStyle(
-    color = MaterialTheme.colorScheme.onSurface,
+fun todayTitle(
+    color: Color? = null
+) = textStyle(
+    color = color ?: MaterialTheme.colorScheme.onSurface,
     textSize = TextSize.Size18,
     fontWeight = FontWeight.Bold
 )
 
 @Composable
-fun todayBody() = textStyle(
-    color = MaterialTheme.colorScheme.onSurfaceVariant,
+fun todayBody(
+    color: Color? = null
+) = textStyle(
+    color = color ?: MaterialTheme.colorScheme.onSurfaceVariant,
     textSize = TextSize.Size15,
     fontWeight = FontWeight.Normal
 )

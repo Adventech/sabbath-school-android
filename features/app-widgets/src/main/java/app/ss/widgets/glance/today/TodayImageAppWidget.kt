@@ -27,6 +27,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.glance.BitmapImageProvider
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
@@ -85,7 +86,19 @@ internal class TodayImageAppWidget @AssistedInject constructor(
                     )
                 }
 
-                TodayInfo(model = model ?: errorModel())
+                val (modifier: GlanceModifier, textColor: Color?) = if (modelCover != null) {
+                    GlanceModifier.background(
+                        Color.Black.copy(alpha = 0.6f)
+                    ) to Color.White
+                } else {
+                    GlanceModifier to null
+                }
+
+                TodayInfo(
+                    infoModel = model,
+                    modifier = modifier,
+                    textColor = textColor
+                )
             }
         }
     }

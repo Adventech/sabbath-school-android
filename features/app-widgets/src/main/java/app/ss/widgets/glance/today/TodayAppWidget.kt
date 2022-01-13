@@ -27,6 +27,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,7 +51,6 @@ import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.text.Text
-import androidx.glance.unit.ColorProvider
 import app.ss.widgets.R
 import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.BaseGlanceAppWidget
@@ -95,7 +95,7 @@ internal class TodayAppWidget @AssistedInject constructor(
             ) {
                 WidgetAppLogo()
 
-                TodayInfo(model = data ?: errorModel())
+                TodayInfo(infoModel = data)
             }
         }
     }
@@ -108,16 +108,6 @@ internal class TodayAppWidget @AssistedInject constructor(
 
 private const val pkg = "com.cryart.sabbathschool"
 private val cmp = ComponentName(pkg, "$pkg.ui.splash.SplashActivity")
-
-@Composable
-internal fun errorModel(
-    context: Context = LocalContext.current,
-): TodayWidgetModel = TodayWidgetModel(
-    context.getString(R.string.ss_widget_error_label),
-    DateHelper.today(),
-    "",
-    Uri.EMPTY
-)
 
 @Composable
 private fun WidgetAppLogo(
@@ -141,10 +131,13 @@ private fun WidgetAppLogo(
 
 @Composable
 internal fun TodayInfo(
-    model: TodayWidgetModel,
+    infoModel: TodayWidgetModel?,
     context: Context = LocalContext.current,
-    modifier: GlanceModifier = GlanceModifier
+    modifier: GlanceModifier = GlanceModifier,
+    textColor: Color? = null,
 ) {
+    val model = infoModel ?: errorModel()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -159,7 +152,7 @@ internal fun TodayInfo(
 
         Text(
             text = model.date,
-            style = todayBody(),
+            style = todayBody(textColor),
             maxLines = 2
         )
 
@@ -167,7 +160,7 @@ internal fun TodayInfo(
 
         Text(
             text = model.title,
-            style = todayTitle(),
+            style = todayTitle(textColor),
             maxLines = 3
         )
 
@@ -175,10 +168,9 @@ internal fun TodayInfo(
 
         Button(
             text = context.getString(R.string.ss_lessons_read).uppercase(),
-            style = todayTitle().copy(
-                color = ColorProvider(MaterialTheme.colorScheme.onPrimary),
-                fontSize = 14.sp
-            ),
+            style = todayTitle(
+                MaterialTheme.colorScheme.onPrimary
+            ).copy(fontSize = 14.sp),
             maxLines = 1,
             onClick = actionStartActivity(cmp),
             modifier = GlanceModifier
@@ -189,3 +181,13 @@ internal fun TodayInfo(
         )
     }
 }
+
+@Composable
+private fun errorModel(
+    context: Context = LocalContext.current,
+): TodayWidgetModel = TodayWidgetModel(
+    context.getString(R.string.ss_widget_error_label),
+    DateHelper.today(),
+    "",
+    Uri.EMPTY
+)
