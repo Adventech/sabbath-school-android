@@ -22,12 +22,21 @@
 
 package app.ss.widgets.glance
 
+import android.content.Context
+import android.content.Intent
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import androidx.glance.appwidget.updateAll
+import app.ss.widgets.BaseWidgetProvider
 import app.ss.widgets.WidgetDataProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-abstract class BaseGlanceAppWidgetReceiver <T : BaseGlanceAppWidget<*>> : GlanceAppWidgetReceiver() {
+abstract class BaseGlanceAppWidgetReceiver<T : BaseGlanceAppWidget<*>> :
+    GlanceAppWidgetReceiver(),
+    CoroutineScope by MainScope() {
 
     @Inject
     internal lateinit var widgetDataProvider: WidgetDataProvider
@@ -36,4 +45,12 @@ abstract class BaseGlanceAppWidgetReceiver <T : BaseGlanceAppWidget<*>> : Glance
         get() = createWidget().also { it.initiateLoad() }
 
     abstract fun createWidget(): T
+
+    override fun onReceive(context: Context, intent: Intent) {
+        super.onReceive(context, intent)
+
+        if (intent.action == BaseWidgetProvider.REFRESH_ACTION) {
+            launch { glanceAppWidget.updateAll(context) }
+        }
+    }
 }
