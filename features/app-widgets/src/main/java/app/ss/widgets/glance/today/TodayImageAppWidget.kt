@@ -25,21 +25,21 @@ package app.ss.widgets.glance.today
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.glance.BitmapImageProvider
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
-import androidx.glance.appwidget.appWidgetBackground
-import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.SizeMode
 import androidx.glance.background
 import androidx.glance.layout.Box
 import androidx.glance.layout.ContentScale
 import androidx.glance.layout.fillMaxSize
 import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.BaseGlanceAppWidget
-import app.ss.widgets.glance.theme.AppWidgetCornerRadius
+import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
 import app.ss.widgets.glance.theme.SsAppWidgetTheme
 import app.ss.widgets.model.TodayWidgetModel
 import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
@@ -57,6 +57,10 @@ internal class TodayImageAppWidget @AssistedInject constructor(
         val modelCover: Bitmap? = null
     )
 
+    override val sizeMode = SizeMode.Responsive(
+        setOf(DpSize(180.dp, 110.dp), DpSize(300.dp, 110.dp))
+    )
+
     override suspend fun loadData(): Data {
         val model = dataProvider.getTodayModel()
         val bitmap = context.fetchBitmap(model?.cover)
@@ -72,10 +76,7 @@ internal class TodayImageAppWidget @AssistedInject constructor(
         SsAppWidgetTheme {
             Box(
                 modifier = GlanceModifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surface)
-                    .appWidgetBackground()
-                    .cornerRadius(AppWidgetCornerRadius)
+                    .modifyAppWidgetBackground()
             ) {
                 modelCover?.let { bitmap ->
                     Image(

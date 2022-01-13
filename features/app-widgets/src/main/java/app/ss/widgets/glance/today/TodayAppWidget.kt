@@ -38,7 +38,6 @@ import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
 import androidx.glance.action.actionStartActivity
 import androidx.glance.appwidget.SizeMode
-import androidx.glance.appwidget.appWidgetBackground
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
 import androidx.glance.layout.Alignment
@@ -54,7 +53,7 @@ import androidx.glance.text.Text
 import app.ss.widgets.R
 import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.BaseGlanceAppWidget
-import app.ss.widgets.glance.theme.AppWidgetCornerRadius
+import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
 import app.ss.widgets.glance.theme.SsAppWidgetTheme
 import app.ss.widgets.glance.theme.copy
 import app.ss.widgets.glance.theme.todayBody
@@ -88,10 +87,7 @@ internal class TodayAppWidget @AssistedInject constructor(
         SsAppWidgetTheme {
             Column(
                 modifier = GlanceModifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surface)
-                    .appWidgetBackground()
-                    .cornerRadius(AppWidgetCornerRadius)
+                    .modifyAppWidgetBackground()
             ) {
                 WidgetAppLogo()
 
@@ -112,15 +108,16 @@ private val cmp = ComponentName(pkg, "$pkg.ui.splash.SplashActivity")
 @Composable
 private fun WidgetAppLogo(
     modifier: GlanceModifier = GlanceModifier,
+    context: Context = LocalContext.current,
 ) {
     Row(modifier = modifier.fillMaxWidth()) {
         Spacer(modifier = GlanceModifier.defaultWeight())
 
         Image(
             provider = ImageProvider(R.drawable.ic_widget_logo),
-            contentDescription = "",
+            contentDescription = context.getString(R.string.ss_app_name),
             modifier = GlanceModifier
-                .size(70.dp)
+                .size(AppLogoSize)
                 .padding(
                     top = (-40).dp,
                     end = (-35).dp
@@ -128,6 +125,8 @@ private fun WidgetAppLogo(
         )
     }
 }
+
+private val AppLogoSize = 70.dp
 
 @Composable
 internal fun TodayInfo(
@@ -177,7 +176,7 @@ internal fun TodayInfo(
                 .background(MaterialTheme.colorScheme.primary)
                 .cornerRadius(Spacing20)
                 .padding(horizontal = Spacing32, vertical = Spacing4)
-                .height(32.dp)
+                .height(Spacing32)
         )
     }
 }
