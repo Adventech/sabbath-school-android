@@ -22,7 +22,6 @@
 
 package app.ss.widgets.glance.today
 
-import android.content.ComponentName
 import android.content.Context
 import android.net.Uri
 import androidx.compose.material3.MaterialTheme
@@ -36,7 +35,6 @@ import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
-import androidx.glance.action.actionStartActivity
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
@@ -54,6 +52,8 @@ import app.ss.widgets.R
 import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
+import app.ss.widgets.glance.extensions.clickable
+import app.ss.widgets.glance.extensions.toAction
 import app.ss.widgets.glance.theme.SsAppWidgetTheme
 import app.ss.widgets.glance.theme.copy
 import app.ss.widgets.glance.theme.todayBody
@@ -88,6 +88,7 @@ internal class TodayAppWidget @AssistedInject constructor(
             Column(
                 modifier = GlanceModifier
                     .modifyAppWidgetBackground()
+                    .clickable(uri = data?.uri)
             ) {
                 WidgetAppLogo()
 
@@ -101,9 +102,6 @@ internal class TodayAppWidget @AssistedInject constructor(
         fun create(context: Context): TodayAppWidget
     }
 }
-
-private const val pkg = "com.cryart.sabbathschool"
-private val cmp = ComponentName(pkg, "$pkg.ui.splash.SplashActivity")
 
 @Composable
 private fun WidgetAppLogo(
@@ -171,7 +169,7 @@ internal fun TodayInfo(
                 MaterialTheme.colorScheme.onPrimary
             ).copy(fontSize = 14.sp),
             maxLines = 1,
-            onClick = actionStartActivity(cmp),
+            onClick = model.uri.toAction(),
             modifier = GlanceModifier
                 .background(MaterialTheme.colorScheme.primary)
                 .cornerRadius(Spacing20)

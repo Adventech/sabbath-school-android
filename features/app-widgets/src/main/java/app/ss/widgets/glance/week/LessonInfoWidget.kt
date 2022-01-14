@@ -52,6 +52,7 @@ import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.extensions.divider
 import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
+import app.ss.widgets.glance.extensions.clickable
 import app.ss.widgets.glance.theme.SsAppWidgetTheme
 import app.ss.widgets.glance.theme.copy
 import app.ss.widgets.glance.theme.todayBody
@@ -99,7 +100,8 @@ internal class LessonInfoWidget @AssistedInject constructor(
                     LessonInfoRow(
                         quarterlyTitle = model?.quarterlyTitle ?: default,
                         lessonTitle = model?.lessonTitle ?: default,
-                        cover = cover
+                        cover = cover,
+                        modifier = GlanceModifier.clickable(uri = model?.uri)
                     )
                 }
 
@@ -117,6 +119,7 @@ internal class LessonInfoWidget @AssistedInject constructor(
                         modifier = GlanceModifier
                             .fillMaxWidth()
                             .padding(horizontal = Spacing12)
+                            .clickable(uri = item.uri)
                     ) {
                         DayInfo(
                             model = item,

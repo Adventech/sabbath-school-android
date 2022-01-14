@@ -22,11 +22,16 @@
 
 package app.ss.widgets.glance.extensions
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceModifier
+import androidx.glance.action.Action
+import androidx.glance.action.clickable
+import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.appWidgetBackground
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
@@ -47,3 +52,16 @@ fun GlanceModifier.divider(height: Dp = 0.5.dp) = this
     .fillMaxWidth()
     .height(height)
     .background(MaterialTheme.colorScheme.inverseOnSurface)
+
+private fun Uri.launchIntent(): Intent = Intent().apply { data = this@launchIntent }
+
+private const val pkg = "com.cryart.sabbathschool"
+
+private val fallbackIntent: Intent = Intent().apply {
+    setClassName(pkg, "$pkg.ui.splash.SplashActivity")
+}
+internal fun Uri?.toAction(): Action =
+    actionStartActivity(this?.launchIntent() ?: fallbackIntent)
+
+@Composable
+fun GlanceModifier.clickable(uri: Uri?) = this.clickable(uri.toAction())

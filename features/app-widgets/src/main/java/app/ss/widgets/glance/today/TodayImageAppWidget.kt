@@ -40,6 +40,7 @@ import androidx.glance.layout.fillMaxSize
 import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
+import app.ss.widgets.glance.extensions.clickable
 import app.ss.widgets.glance.theme.SsAppWidgetTheme
 import app.ss.widgets.model.TodayWidgetModel
 import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
@@ -77,6 +78,7 @@ internal class TodayImageAppWidget @AssistedInject constructor(
             Box(
                 modifier = GlanceModifier
                     .modifyAppWidgetBackground()
+                    .clickable(uri = model?.uri)
             ) {
                 modelCover?.let { bitmap ->
                     Image(
