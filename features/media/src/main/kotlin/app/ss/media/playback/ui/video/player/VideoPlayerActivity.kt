@@ -45,7 +45,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.WindowInsetsControllerCompat
 import app.ss.media.R
-import app.ss.media.model.SSVideo
+import app.ss.lessons.data.model.api.SSVideo
 import app.ss.media.playback.BACKWARD
 import app.ss.media.playback.FORWARD
 import app.ss.media.playback.PLAY_PAUSE

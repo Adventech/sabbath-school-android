@@ -20,14 +20,13 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.model
+package app.ss.lessons.data.model.media
 
-import androidx.annotation.Keep
-import com.squareup.moshi.JsonClass
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class SSVideosInfo(
-    val artist: String,
-    val clips: List<SSVideo>
-)
+@Parcelize
+data class MediaAvailability(
+    val audio: Boolean = false,
+    val video: Boolean = false
+) : Parcelable

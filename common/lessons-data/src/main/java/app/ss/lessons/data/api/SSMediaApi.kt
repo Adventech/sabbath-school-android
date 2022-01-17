@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,25 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.model
+package app.ss.lessons.data.api
 
-import android.os.Parcelable
-import androidx.annotation.Keep
-import com.squareup.moshi.JsonClass
-import kotlinx.parcelize.Parcelize
+import app.ss.lessons.data.model.api.SSAudio
+import app.ss.lessons.data.model.api.SSVideosInfo
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Path
 
-@Keep
-@JsonClass(generateAdapter = true)
-@Parcelize
-data class SSVideo(
-    val artist: String,
-    val id: String,
-    val src: String,
-    val target: String,
-    val targetIndex: String,
-    val thumbnail: String,
-    val title: String
-) : Parcelable
+interface SSMediaApi {
+
+    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/audio.json")
+    suspend fun getAudio(
+        @Path("lang") language: String,
+        @Path("quarterly_id") quarterlyId: String
+    ): Response<List<SSAudio>>
+
+    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/video.json")
+    suspend fun getVideo(
+        @Path("lang") language: String,
+        @Path("quarterly_id") quarterlyId: String
+    ): Response<List<SSVideosInfo>>
+}

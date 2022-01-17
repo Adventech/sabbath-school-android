@@ -20,20 +20,9 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.model
+package app.ss.lessons.data.model.api.request
 
-import android.net.Uri
-import androidx.annotation.Keep
-
-@Keep
-data class AudioFile(
-    val id: String,
-    val title: String = "",
-    val artist: String = "",
-    val source: Uri = Uri.EMPTY,
-    val image: String = "",
-    val imageRatio: String = "",
-    val target: String = "",
-    val targetIndex: String = "",
-    val duration: Long = 0
+internal data class SSMediaRequest(
+    val language: String,
+    val quarterlyId: String
 )

@@ -20,45 +20,22 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.model
+package app.ss.lessons.data.model.api
 
-import android.net.Uri
+import android.os.Parcelable
 import androidx.annotation.Keep
-import app.ss.media.playback.model.AudioFile
-import app.ss.storage.db.entity.AudioFileEntity
 import com.squareup.moshi.JsonClass
+import kotlinx.parcelize.Parcelize
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class SSAudio(
-    val id: String,
+@Parcelize
+data class SSVideo(
     val artist: String,
-    val image: String,
-    val imageRatio: String,
+    val id: String,
     val src: String,
     val target: String,
     val targetIndex: String,
+    val thumbnail: String,
     val title: String
-)
-
-fun SSAudio.toEntity(): AudioFileEntity = AudioFileEntity(
-    id = id,
-    artist = artist,
-    image = image,
-    imageRatio = imageRatio,
-    src = src,
-    target = target,
-    targetIndex = targetIndex,
-    title = title,
-)
-
-fun AudioFileEntity.toAudio(): AudioFile = AudioFile(
-    id = id,
-    artist = artist,
-    image = image,
-    imageRatio = imageRatio,
-    source = Uri.parse(src),
-    target = target,
-    targetIndex = targetIndex,
-    title = title,
-)
+) : Parcelable

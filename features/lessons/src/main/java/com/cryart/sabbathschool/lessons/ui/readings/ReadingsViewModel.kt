@@ -27,7 +27,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.LessonPdf
 import app.ss.lessons.data.repository.lessons.LessonsRepository
-import app.ss.media.repository.SSMediaRepository
+import app.ss.lessons.data.repository.media.SSMediaRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import dagger.hilt.android.lifecycle.HiltViewModel

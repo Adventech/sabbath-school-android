@@ -22,10 +22,15 @@
 
 package app.ss.lessons.data.di
 
+import app.ss.lessons.data.api.SSMediaApi
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.lessons.LessonsRepositoryImpl
+import app.ss.lessons.data.repository.media.SSMediaRepository
+import app.ss.lessons.data.repository.media.SSMediaRepositoryImpl
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepositoryImpl
+import app.ss.storage.db.dao.AudioDao
+import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -53,4 +58,17 @@ object RepositoryModule {
         auth: FirebaseAuth,
         ssPrefs: SSPrefs
     ): LessonsRepository = LessonsRepositoryImpl(database, auth, ssPrefs)
+
+    @Provides
+    @Singleton
+    fun provideMediaRepository(
+        mediaApi: SSMediaApi,
+        audioDao: AudioDao,
+        schedulerProvider: SchedulerProvider
+    ): SSMediaRepository =
+        SSMediaRepositoryImpl(
+            mediaApi = mediaApi,
+            audioDao = audioDao,
+            schedulerProvider = schedulerProvider,
+        )
 }

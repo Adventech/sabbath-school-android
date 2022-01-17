@@ -22,8 +22,8 @@
 
 package app.ss.media.playback
 
-import app.ss.media.playback.model.AudioFile
-import app.ss.media.repository.SSMediaRepository
+import app.ss.lessons.data.model.media.AudioFile
+import app.ss.lessons.data.repository.media.SSMediaRepository
 
 interface AudioQueueManager {
     var currentAudioIndex: Int
@@ -64,13 +64,14 @@ internal class AudioQueueManagerImpl(
             }
         }
 
-    override val nextAudioIndex: Int? get() {
-        val nextIndex = currentAudioIndex + 1
-        return when {
-            nextIndex < queue.size -> nextIndex
-            else -> null
+    override val nextAudioIndex: Int?
+        get() {
+            val nextIndex = currentAudioIndex + 1
+            return when {
+                nextIndex < queue.size -> nextIndex
+                else -> null
+            }
         }
-    }
     override val queue: List<AudioFile> get() = queueList
 
     override suspend fun refreshCurrentAudio(): AudioFile? {

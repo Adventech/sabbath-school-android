@@ -37,7 +37,7 @@ import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.extensions.duration
 import app.ss.media.playback.extensions.isBuffering
 import app.ss.media.playback.extensions.isPlaying
-import app.ss.media.playback.model.AudioFile
+import app.ss.lessons.data.model.media.AudioFile
 import app.ss.media.playback.model.MEDIA_TYPE_AUDIO
 import app.ss.media.playback.model.MediaId
 import app.ss.media.playback.model.PlaybackModeState
@@ -52,7 +52,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 

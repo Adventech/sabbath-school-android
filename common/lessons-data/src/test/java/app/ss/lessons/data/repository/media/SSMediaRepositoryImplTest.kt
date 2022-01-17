@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,10 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.repository
+package app.ss.lessons.data.repository.media
 
-import app.ss.media.api.SSMediaApi
-import app.ss.media.model.SSAudio
+import app.ss.lessons.data.api.SSMediaApi
+import app.ss.lessons.data.model.api.SSAudio
 import app.ss.storage.db.dao.AudioDao
 import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
 import com.cryart.sabbathschool.test.coroutines.runBlockingTest

@@ -28,9 +28,6 @@ import dependencies.Dependencies.Compose
 import dependencies.Dependencies.ExoPlayer
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.Kotlin
-import dependencies.Dependencies.Square.Moshi
-import dependencies.Dependencies.Square.Okhttp
-import dependencies.Dependencies.Square.Retrofit
 import dependencies.Versions
 import extensions.addTestsDependencies
 import extensions.kapt
@@ -80,6 +77,7 @@ dependencies {
 
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Common.STORAGE))
     implementation(project(BuildModules.Common.TRANSLATIONS))
 
@@ -114,20 +112,10 @@ dependencies {
     implementation(Compose.snapper)
     implementation(Accompanist.placeholder)
 
-    implementation(Moshi.kotlin)
-    kapt(Moshi.codegen)
-
-    api(Okhttp.okhttp)
-    implementation(Okhttp.logging)
-
-    implementation(Retrofit.retrofit2)
-    implementation(Retrofit.moshiConverter)
-
     implementation(ExoPlayer.core)
     implementation(ExoPlayer.ui)
     implementation(ExoPlayer.okhttp)
     implementation(ExoPlayer.mediaSession)
 
     addTestsDependencies()
-    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }

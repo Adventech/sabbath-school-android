@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.model
+package app.ss.lessons.data.model.media
 
 import android.net.Uri
 import androidx.annotation.Keep
