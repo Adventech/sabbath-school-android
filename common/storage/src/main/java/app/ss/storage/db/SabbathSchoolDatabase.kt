@@ -23,22 +23,31 @@
 package app.ss.storage.db
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import app.ss.storage.db.dao.AudioDao
+import app.ss.storage.db.dao.LanguagesDao
 import app.ss.storage.db.entity.AudioFileEntity
+import app.ss.storage.db.entity.LanguageEntity
 
 @Database(
     entities = [
-        AudioFileEntity::class
+        AudioFileEntity::class,
+        LanguageEntity::class
     ],
-    version = 2,
-    exportSchema = true
+    version = 3,
+    exportSchema = true,
+    autoMigrations = [
+        AutoMigration(from = 2, to = 3)
+    ]
 )
 internal abstract class SabbathSchoolDatabase : RoomDatabase() {
 
     abstract fun audioDao(): AudioDao
+
+    abstract fun languagesDao(): LanguagesDao
 
     companion object {
         private const val DATABASE_NAME = "sabbath_school_db"
