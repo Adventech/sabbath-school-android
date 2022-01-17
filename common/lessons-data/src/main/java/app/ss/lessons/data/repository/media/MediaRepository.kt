@@ -34,6 +34,8 @@ import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface MediaRepository {
     suspend fun getAudio(lessonIndex: String): Resource<List<SSAudio>>
@@ -44,7 +46,8 @@ interface MediaRepository {
     suspend fun getVideo(lessonIndex: String): Resource<List<SSVideosInfo>>
 }
 
-internal class MediaRepositoryImpl(
+@Singleton
+internal class MediaRepositoryImpl @Inject constructor(
     private val mediaApi: SSMediaApi,
     private val audioDao: AudioDao,
     private val schedulerProvider: SchedulerProvider

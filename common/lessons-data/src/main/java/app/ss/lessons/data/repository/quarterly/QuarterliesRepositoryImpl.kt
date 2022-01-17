@@ -38,10 +38,13 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-internal class QuarterliesRepositoryImpl(
+@Singleton
+internal class QuarterliesRepositoryImpl @Inject constructor(
     private val firebaseDatabase: FirebaseDatabase,
     private val ssPrefs: SSPrefs
 ) : QuarterliesRepository {
