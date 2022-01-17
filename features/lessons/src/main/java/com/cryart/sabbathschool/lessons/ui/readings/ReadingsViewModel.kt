@@ -27,7 +27,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.LessonPdf
 import app.ss.lessons.data.repository.lessons.LessonsRepository
-import app.ss.lessons.data.repository.media.SSMediaRepository
+import app.ss.lessons.data.repository.media.MediaRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,7 +39,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReadingsViewModel @Inject constructor(
-    private val mediaRepository: SSMediaRepository,
+    private val mediaRepository: MediaRepository,
     private val lessonsRepository: LessonsRepository,
     private val savedStateHandle: SavedStateHandle,
     schedulerProvider: SchedulerProvider

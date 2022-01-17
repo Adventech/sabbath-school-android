@@ -23,7 +23,7 @@
 package app.ss.media.playback
 
 import app.ss.lessons.data.model.media.AudioFile
-import app.ss.lessons.data.repository.media.SSMediaRepository
+import app.ss.lessons.data.repository.media.MediaRepository
 
 interface AudioQueueManager {
     var currentAudioIndex: Int
@@ -42,7 +42,7 @@ interface AudioQueueManager {
 }
 
 internal class AudioQueueManagerImpl(
-    private val repository: SSMediaRepository
+    private val repository: MediaRepository
 ) : AudioQueueManager {
 
     private var audioId: String? = null

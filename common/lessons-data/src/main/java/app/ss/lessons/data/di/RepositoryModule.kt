@@ -25,8 +25,8 @@ package app.ss.lessons.data.di
 import app.ss.lessons.data.api.SSMediaApi
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.lessons.LessonsRepositoryImpl
-import app.ss.lessons.data.repository.media.SSMediaRepository
-import app.ss.lessons.data.repository.media.SSMediaRepositoryImpl
+import app.ss.lessons.data.repository.media.MediaRepository
+import app.ss.lessons.data.repository.media.MediaRepositoryImpl
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepositoryImpl
 import app.ss.storage.db.dao.AudioDao
@@ -65,8 +65,8 @@ object RepositoryModule {
         mediaApi: SSMediaApi,
         audioDao: AudioDao,
         schedulerProvider: SchedulerProvider
-    ): SSMediaRepository =
-        SSMediaRepositoryImpl(
+    ): MediaRepository =
+        MediaRepositoryImpl(
             mediaApi = mediaApi,
             audioDao = audioDao,
             schedulerProvider = schedulerProvider,

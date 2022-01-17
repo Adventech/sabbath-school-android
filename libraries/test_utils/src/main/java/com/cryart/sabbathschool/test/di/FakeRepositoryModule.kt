@@ -2,8 +2,10 @@ package com.cryart.sabbathschool.test.di
 
 import app.ss.lessons.data.di.RepositoryModule
 import app.ss.lessons.data.repository.lessons.LessonsRepository
+import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import com.cryart.sabbathschool.test.di.repository.FakeLessonsRepository
+import com.cryart.sabbathschool.test.di.repository.FakeMediaRepository
 import com.cryart.sabbathschool.test.di.repository.FakeQuarterliesRepository
 import dagger.Binds
 import dagger.Module
@@ -21,4 +23,7 @@ abstract class FakeRepositoryModule {
 
     @Binds
     abstract fun bindLessonsRepository(impl: FakeLessonsRepository): LessonsRepository
+
+    @Binds
+    abstract fun bindMediaRepository(impl: FakeMediaRepository): MediaRepository
 }

@@ -35,7 +35,7 @@ import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-interface SSMediaRepository {
+interface MediaRepository {
     suspend fun getAudio(lessonIndex: String): Resource<List<SSAudio>>
     suspend fun findAudioFile(id: String): AudioFile?
     suspend fun updateDuration(id: String, duration: Long)
@@ -44,11 +44,11 @@ interface SSMediaRepository {
     suspend fun getVideo(lessonIndex: String): Resource<List<SSVideosInfo>>
 }
 
-internal class SSMediaRepositoryImpl(
+internal class MediaRepositoryImpl(
     private val mediaApi: SSMediaApi,
     private val audioDao: AudioDao,
     private val schedulerProvider: SchedulerProvider
-) : SSMediaRepository {
+) : MediaRepository {
 
     override suspend fun getAudio(
         lessonIndex: String,

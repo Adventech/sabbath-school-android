@@ -26,7 +26,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.api.SSVideosInfo
-import app.ss.lessons.data.repository.media.SSMediaRepository
+import app.ss.lessons.data.repository.media.MediaRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
@@ -41,7 +41,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VideoListViewModel @Inject constructor(
-    private val repository: SSMediaRepository,
+    private val repository: MediaRepository,
     private val schedulerProvider: SchedulerProvider,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {

@@ -37,7 +37,7 @@ import org.junit.Rule
 import org.junit.Test
 import retrofit2.Response
 
-class SSMediaRepositoryImplTest {
+class MediaRepositoryImplTest {
 
     @get:Rule
     var coroutinesTestRule = CoroutineTestRule()
@@ -45,11 +45,11 @@ class SSMediaRepositoryImplTest {
     private val mockApi: SSMediaApi = mockk()
     private val mockAudioDao: AudioDao = mockk()
 
-    private lateinit var repository: SSMediaRepository
+    private lateinit var repository: MediaRepository
 
     @Before
     fun setup() {
-        repository = SSMediaRepositoryImpl(
+        repository = MediaRepositoryImpl(
             mockApi,
             mockAudioDao,
             coroutinesTestRule.dispatcherProvider

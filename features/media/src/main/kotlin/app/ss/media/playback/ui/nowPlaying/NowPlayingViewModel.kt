@@ -26,7 +26,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.media.AudioFile
-import app.ss.lessons.data.repository.media.SSMediaRepository
+import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.media.playback.AudioQueueManager
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.UPDATE_META_DATA
@@ -45,7 +45,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NowPlayingViewModel @Inject constructor(
-    private val repository: SSMediaRepository,
+    private val repository: MediaRepository,
     val playbackConnection: PlaybackConnection,
     private val queueManager: AudioQueueManager,
     private val savedStateHandle: SavedStateHandle

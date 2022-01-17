@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
-import app.ss.lessons.data.repository.media.SSMediaRepository
+import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.media.playback.BACKWARD
 import app.ss.media.playback.FORWARD
 import app.ss.media.playback.MediaNotifications
@@ -37,7 +37,7 @@ class MusicService : MediaBrowserServiceCompat(), CoroutineScope by MainScope() 
     lateinit var mediaNotifications: MediaNotifications
 
     @Inject
-    lateinit var repository: SSMediaRepository
+    lateinit var repository: MediaRepository
 
     @Inject
     lateinit var schedulerProvider: SchedulerProvider

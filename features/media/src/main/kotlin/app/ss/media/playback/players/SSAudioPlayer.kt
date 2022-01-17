@@ -10,7 +10,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import app.ss.lessons.data.model.media.AudioFile
-import app.ss.lessons.data.repository.media.SSMediaRepository
+import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.media.R
 import app.ss.media.playback.AudioFocusHelper
 import app.ss.media.playback.AudioQueueManager
@@ -73,7 +73,7 @@ internal class SSAudioPlayerImpl(
     private val audioPlayer: AudioPlayer,
     private val audioFocusHelper: AudioFocusHelper,
     private val queueManager: AudioQueueManager,
-    private val repository: SSMediaRepository,
+    private val repository: MediaRepository,
 ) : SSAudioPlayer, CoroutineScope by MainScope() {
 
     private var isInitialized: Boolean = false
