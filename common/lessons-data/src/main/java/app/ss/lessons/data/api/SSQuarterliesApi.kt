@@ -22,23 +22,12 @@
 
 package app.ss.lessons.data.api
 
-import app.ss.lessons.data.model.api.SSAudio
-import app.ss.lessons.data.model.api.SSVideosInfo
+import app.ss.lessons.data.model.api.SSLanguage
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 
-internal interface SSMediaApi {
+internal interface SSQuarterliesApi {
 
-    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/audio.json")
-    suspend fun getAudio(
-        @Path("lang") language: String,
-        @Path("quarterly_id") quarterlyId: String
-    ): Response<List<SSAudio>>
-
-    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/video.json")
-    suspend fun getVideo(
-        @Path("lang") language: String,
-        @Path("quarterly_id") quarterlyId: String
-    ): Response<List<SSVideosInfo>>
+    @GET("api/v2/languages/index.json")
+    suspend fun getLanguages(): Response<List<SSLanguage>>
 }

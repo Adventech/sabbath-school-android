@@ -29,46 +29,24 @@ import app.ss.lessons.data.model.Language
 import app.ss.lessons.data.model.QuarterlyGroup
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
+import app.ss.lessons.data.repository.mediator.LanguagesDataSource
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 internal class QuarterliesRepositoryImpl @Inject constructor(
     private val firebaseDatabase: FirebaseDatabase,
-    private val ssPrefs: SSPrefs
+    private val ssPrefs: SSPrefs,
+    private val languagesSource: LanguagesDataSource,
 ) : QuarterliesRepository {
 
-    override suspend fun getLanguages(): Resource<List<Language>> {
-        // Switch to API when we migrate
-        return getLanguagesFirebase()
-    }
-
-    private suspend fun getLanguagesFirebase(): Resource<List<Language>> = suspendCoroutine { continuation ->
-        firebaseDatabase.getReference(SSConstants.SS_FIREBASE_LANGUAGES_DATABASE)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(error: DatabaseError) {
-                    continuation.resume(Resource.error(error.toException()))
-                }
-
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val languages = snapshot.children.mapNotNull {
-                        it.getValue(Language::class.java)
-                    }
-                    continuation.resume(Resource.success(languages))
-                }
-            })
-    }
+    override suspend fun getLanguages(): Resource<List<Language>> = languagesSource.get()
 
     override suspend fun getQuarterlies(
         languageCode: String?,

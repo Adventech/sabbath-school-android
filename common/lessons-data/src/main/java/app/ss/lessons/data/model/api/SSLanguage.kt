@@ -20,25 +20,14 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.api
+package app.ss.lessons.data.model.api
 
-import app.ss.lessons.data.model.api.SSAudio
-import app.ss.lessons.data.model.api.SSVideosInfo
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 
-internal interface SSMediaApi {
-
-    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/audio.json")
-    suspend fun getAudio(
-        @Path("lang") language: String,
-        @Path("quarterly_id") quarterlyId: String
-    ): Response<List<SSAudio>>
-
-    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/video.json")
-    suspend fun getVideo(
-        @Path("lang") language: String,
-        @Path("quarterly_id") quarterlyId: String
-    ): Response<List<SSVideosInfo>>
-}
+@Keep
+@JsonClass(generateAdapter = true)
+internal data class SSLanguage(
+    val code: String,
+    val name: String
+)

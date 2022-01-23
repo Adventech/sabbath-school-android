@@ -24,6 +24,7 @@ package app.ss.lessons.data.di
 
 import app.ss.lessons.data.BuildConfig
 import app.ss.lessons.data.api.SSMediaApi
+import app.ss.lessons.data.api.SSQuarterliesApi
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -69,8 +70,15 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideMediaApi(
+    internal fun provideMediaApi(
         okHttpClient: OkHttpClient
     ): SSMediaApi = retrofit(okHttpClient)
         .create(SSMediaApi::class.java)
+
+    @Provides
+    @Singleton
+    internal fun provideQuarterliesApi(
+        okHttpClient: OkHttpClient
+    ): SSQuarterliesApi = retrofit(okHttpClient)
+        .create(SSQuarterliesApi::class.java)
 }
