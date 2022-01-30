@@ -19,7 +19,7 @@ import app.ss.media.playback.model.MediaId.Companion.CALLER_OTHER
 import app.ss.media.playback.model.MediaId.Companion.CALLER_SELF
 import app.ss.media.playback.players.SSAudioPlayer
 import app.ss.media.playback.receivers.BecomingNoisyReceiver
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -40,7 +40,7 @@ class MusicService : MediaBrowserServiceCompat(), CoroutineScope by MainScope() 
     lateinit var repository: MediaRepository
 
     @Inject
-    lateinit var schedulerProvider: SchedulerProvider
+    lateinit var dispatcherProvider: DispatcherProvider
 
     private var becomingNoisyReceiver: BecomingNoisyReceiver? = null
 

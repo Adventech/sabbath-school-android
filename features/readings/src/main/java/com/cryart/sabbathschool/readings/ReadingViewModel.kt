@@ -26,7 +26,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.repository.lessons.LessonsRepository
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.response.Resource
@@ -50,7 +50,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ReadingViewModel @Inject constructor(
     private val lessonsRepository: LessonsRepository,
-    private val schedulerProvider: SchedulerProvider
+    private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
     private val _uiState = MutableSharedFlow<Status>()
@@ -65,7 +65,7 @@ class ReadingViewModel @Inject constructor(
     private val _errorData = MutableStateFlow<ErrorData>(ErrorData.Empty)
     val errorDataFlow: StateFlow<ErrorData> get() = _errorData.asStateFlow()
 
-    fun loadData(lessonIndex: String) = viewModelScope.launch(schedulerProvider.default) {
+    fun loadData(lessonIndex: String) = viewModelScope.launch(dispatcherProvider.default) {
         val resource = try {
             _uiState.emit(Status.LOADING)
             lessonsRepository.getLessonInfo(lessonIndex)
@@ -83,7 +83,7 @@ class ReadingViewModel @Inject constructor(
         }
     }
 
-    private fun displayLessonInfo(lessonInfo: SSLessonInfo) = viewModelScope.launch(schedulerProvider.default) {
+    private fun displayLessonInfo(lessonInfo: SSLessonInfo) = viewModelScope.launch(dispatcherProvider.default) {
         val days = lessonInfo.days.map {
             ReadingDay(it.id, it.index, formatDate(it.date), it.title)
         }

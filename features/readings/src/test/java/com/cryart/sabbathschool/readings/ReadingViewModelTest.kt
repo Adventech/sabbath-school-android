@@ -5,29 +5,27 @@ import app.ss.lessons.data.model.SSDay
 import app.ss.lessons.data.model.SSLesson
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.repository.lessons.LessonsRepository
-import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
+import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.readings.components.model.AppBarData
 import com.cryart.sabbathschool.readings.components.model.ErrorData
 import com.cryart.sabbathschool.readings.components.model.ReadingDaysData
-import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
-import com.cryart.sabbathschool.test.coroutines.runBlockingTest
+import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 class ReadingViewModelTest {
 
-    @get:Rule
-    var coroutinesTestRule = CoroutineTestRule()
+    private val dispatcherProvider = TestDispatcherProvider()
 
     private val mockLessonsRepository: LessonsRepository = mockk()
 
@@ -35,11 +33,11 @@ class ReadingViewModelTest {
 
     @Before
     fun setup() {
-        viewModel = ReadingViewModel(mockLessonsRepository, coroutinesTestRule.dispatcherProvider)
+        viewModel = ReadingViewModel(mockLessonsRepository, dispatcherProvider)
     }
 
     @Test
-    fun `uiStateFlow should emit Loading then Error when getLessonInfo call fails`() = coroutinesTestRule.runBlockingTest {
+    fun `uiStateFlow should emit Loading then Error when getLessonInfo call fails`() = runTest {
         val lessonIndex = "lesson"
 
         coEvery { mockLessonsRepository.getLessonInfo(lessonIndex) }
@@ -54,7 +52,7 @@ class ReadingViewModelTest {
     }
 
     @Test
-    fun `uiStateFlow should emit Loading then Error when read days are empty`() = coroutinesTestRule.runBlockingTest {
+    fun `uiStateFlow should emit Loading then Error when read days are empty`() = runTest {
         val lessonIndex = "lesson"
         val lessonInfo = SSLessonInfo(SSLesson("Lesson"), emptyList())
 
@@ -70,7 +68,7 @@ class ReadingViewModelTest {
     }
 
     @Test
-    fun `errorData should emit Empty then errorRes when read days are empty`() = coroutinesTestRule.runBlockingTest {
+    fun `errorData should emit Empty then errorRes when read days are empty`() = runTest {
         val lessonIndex = "lesson"
         val lessonInfo = SSLessonInfo(SSLesson("Lesson"), emptyList())
 
@@ -86,7 +84,7 @@ class ReadingViewModelTest {
     }
 
     @Test
-    fun `uiStateFlow should emit Loading then Success when read days are not empty`() = coroutinesTestRule.runBlockingTest {
+    fun `uiStateFlow should emit Loading then Success when read days are not empty`() = runTest {
         val lessonIndex = "lesson"
         val lessonInfo = SSLessonInfo(
             SSLesson("Lesson"),
@@ -105,7 +103,7 @@ class ReadingViewModelTest {
     }
 
     @Test
-    fun `should default to empty string when parsing an invalid date (empty string)`() = coroutinesTestRule.runBlockingTest {
+    fun `should default to empty string when parsing an invalid date (empty string)`() = runTest {
         val lessonIndex = "lesson"
         val lessonInfo = SSLessonInfo(
             SSLesson("Lesson"),
@@ -124,7 +122,7 @@ class ReadingViewModelTest {
     }
 
     @Test
-    fun `should default to empty string when parsing an invalid date (invalid day of month)`() = coroutinesTestRule.runBlockingTest {
+    fun `should default to empty string when parsing an invalid date (invalid day of month)`() = runTest {
         val lessonIndex = "lesson"
         val lessonInfo = SSLessonInfo(
             SSLesson("Lesson"),
@@ -143,7 +141,7 @@ class ReadingViewModelTest {
     }
 
     @Test
-    fun `appBarData should emit Empty then Cover`() = coroutinesTestRule.runBlockingTest {
+    fun `appBarData should emit Empty then Cover`() = runTest {
         val lessonIndex = "lesson"
         val lessonInfo = SSLessonInfo(
             SSLesson("Lesson", cover = "cover_url"),
@@ -162,7 +160,7 @@ class ReadingViewModelTest {
     }
 
     @Test
-    fun `appBarData should emit Empty then Cover, then Title onPageSelected`() = coroutinesTestRule.runBlockingTest {
+    fun `appBarData should emit Empty then Cover, then Title onPageSelected`() = runTest {
         val lessonIndex = "lesson"
         val lessonInfo = SSLessonInfo(
             SSLesson("Lesson", cover = "cover_url"),
@@ -183,7 +181,7 @@ class ReadingViewModelTest {
     }
 
     @Test
-    fun `should set index as current day`() = coroutinesTestRule.runBlockingTest {
+    fun `should set index as current day`() = runTest {
         val dateFormat = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
         val today = DateTime.now().withTimeAtStartOfDay()
         val yesterday = today.minusDays(1)
@@ -210,7 +208,7 @@ class ReadingViewModelTest {
     }
 
     @Test
-    fun `should update index on saveSelectedPage`() = coroutinesTestRule.runBlockingTest {
+    fun `should update index on saveSelectedPage`() = runTest {
         val dateFormat = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
         val today = DateTime.now().withTimeAtStartOfDay()
         val yesterday = today.minusDays(1)

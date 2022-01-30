@@ -37,6 +37,7 @@ import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.ReminderTime
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -47,6 +48,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Locale
+import javax.inject.Inject
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     name = "ss_prefs",
@@ -65,12 +67,18 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     }
 )
 
-class SSPrefsImpl(
-    private val context: Context,
-    private val dataStore: DataStore<Preferences> = context.dataStore,
-    private val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context),
-    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
+internal class SSPrefsImpl(
+    private val dataStore: DataStore<Preferences>,
+    private val sharedPreferences: SharedPreferences,
+    private val coroutineScope: CoroutineScope,
 ) : SSPrefs {
+
+    @Inject
+    constructor(@ApplicationContext context: Context) : this(
+        dataStore = context.dataStore,
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context),
+        coroutineScope = CoroutineScope(Dispatchers.IO)
+    )
 
     private fun preferencesFlow(): Flow<Preferences> = dataStore.data
         .catch { exception ->

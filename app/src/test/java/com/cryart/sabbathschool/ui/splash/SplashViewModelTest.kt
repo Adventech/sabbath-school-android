@@ -25,7 +25,6 @@ package com.cryart.sabbathschool.ui.splash
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.reminder.DailyReminderManager
-import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
 import com.google.firebase.auth.FirebaseAuth
 import io.mockk.every
 import io.mockk.mockk
@@ -39,9 +38,6 @@ class SplashViewModelTest {
 
     @get:Rule
     val instantTaskRule = InstantTaskExecutorRule()
-
-    @get:Rule
-    var coroutinesTestRule = CoroutineTestRule()
 
     private val mockFirebaseAuth: FirebaseAuth = mockk(relaxed = true)
     private val mockDailyReminderManager: DailyReminderManager = mockk()

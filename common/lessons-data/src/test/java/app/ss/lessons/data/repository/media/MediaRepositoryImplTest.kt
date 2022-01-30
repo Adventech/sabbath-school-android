@@ -25,22 +25,20 @@ package app.ss.lessons.data.repository.media
 import app.ss.lessons.data.api.SSMediaApi
 import app.ss.lessons.data.model.api.SSAudio
 import app.ss.storage.db.dao.AudioDao
-import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
-import com.cryart.sabbathschool.test.coroutines.runBlockingTest
+import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeEqualTo
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import retrofit2.Response
 
 class MediaRepositoryImplTest {
 
-    @get:Rule
-    var coroutinesTestRule = CoroutineTestRule()
+    private val dispatcherProvider = TestDispatcherProvider()
 
     private val mockApi: SSMediaApi = mockk()
     private val mockAudioDao: AudioDao = mockk()
@@ -52,12 +50,12 @@ class MediaRepositoryImplTest {
         repository = MediaRepositoryImpl(
             mockApi,
             mockAudioDao,
-            coroutinesTestRule.dispatcherProvider
+            dispatcherProvider
         )
     }
 
     @Test
-    fun `should return error for invalid index`() = coroutinesTestRule.runBlockingTest {
+    fun `should return error for invalid index`() = runTest {
         val response = repository.getAudio("")
 
         response.isSuccessFul shouldBeEqualTo false
@@ -65,7 +63,7 @@ class MediaRepositoryImplTest {
     }
 
     @Test
-    fun `should filter audios by targetIndex`() = coroutinesTestRule.runBlockingTest {
+    fun `should filter audios by targetIndex`() = runTest {
         val lessonIndex = "en-2021-03-09"
 
         val result = listOf(

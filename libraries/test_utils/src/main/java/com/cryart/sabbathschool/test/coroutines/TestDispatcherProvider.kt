@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,33 +20,21 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.test
+package com.cryart.sabbathschool.test.coroutines
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
-import org.junit.After
-import org.junit.Before
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import javax.inject.Inject
 
-open class BaseTest {
+class TestDispatcherProvider(val testDispatcher: TestDispatcher) : DispatcherProvider {
 
-    private val testDispatcher = TestCoroutineDispatcher()
+    @Inject
+    constructor() : this(testDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler()))
 
-    @Before
-    open fun setup() {
-        // Sets the given [dispatcher] as an underlying dispatcher of [Dispatchers.Main].
-        // All consecutive usages of [Dispatchers.Main] will use given [dispatcher] under the hood.
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    @After
-    open fun tearDown() {
-        // Resets state of the [Dispatchers.Main] to the original main dispatcher.
-        // For example, in Android Main thread dispatcher will be set as [Dispatchers.Main].
-        Dispatchers.resetMain()
-
-        // Clean up the TestCoroutineDispatcher to make sure no other work is running.
-        testDispatcher.cleanupTestCoroutines()
-    }
+    override val io: CoroutineDispatcher = testDispatcher
+    override val main: CoroutineDispatcher = testDispatcher
+    override val default: CoroutineDispatcher = testDispatcher
 }

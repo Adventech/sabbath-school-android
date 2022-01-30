@@ -26,9 +26,10 @@ import android.content.Intent
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.arch.observeFuture
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.reminder.DailyReminderManager
+import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import com.facebook.AccessToken
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -46,8 +47,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Rule
@@ -63,9 +63,7 @@ class LoginViewModelTest {
     private val mockFacebookLoginManager: FacebookLoginManager = mockk()
     private val mockReminderManager: DailyReminderManager = mockk()
 
-    private val schedulerProvider: SchedulerProvider = SchedulerProvider(
-        TestCoroutineDispatcher(), TestCoroutineDispatcher()
-    )
+    private val dispatcherProvider: DispatcherProvider = TestDispatcherProvider()
 
     private lateinit var viewModel: LoginViewModel
 
@@ -79,7 +77,7 @@ class LoginViewModelTest {
             mockGoogleSignIn,
             mockFacebookLoginManager,
             mockReminderManager,
-            schedulerProvider
+            dispatcherProvider
         )
     }
 
@@ -104,7 +102,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `should post Success when Google auth is successful`() = runBlockingTest {
+    fun `should post Success when Google auth is successful`() = runTest {
         val mockData: Intent = mockk()
         val mockTask: Task<GoogleSignInAccount> = mockk()
         val token = "token"
@@ -128,7 +126,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `should post Error when Google auth is fails`() = runBlockingTest {
+    fun `should post Error when Google auth is fails`() = runTest {
         val mockData: Intent = mockk()
         val mockTask: Task<GoogleSignInAccount> = mockk()
         val token = "token"
@@ -153,7 +151,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `should post Success when sign in anonymously is successful`() = runBlockingTest {
+    fun `should post Success when sign in anonymously is successful`() = runTest {
         val mockAuthResult: AuthResult = mockk()
         val mockFirebaseUser: FirebaseUser = mockk()
 
@@ -169,7 +167,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `should post Error when sign in anonymously not successful`() = runBlockingTest {
+    fun `should post Error when sign in anonymously not successful`() = runTest {
         val mockAuthResult: AuthResult = mockk()
 
         every { mockAuthResult.user }.returns(null)

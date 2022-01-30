@@ -30,7 +30,7 @@ import app.ss.lessons.data.model.media.AudioFile
 import app.ss.lessons.data.model.media.toAudio
 import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.entity.AudioFileEntity
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -50,7 +50,7 @@ interface MediaRepository {
 internal class MediaRepositoryImpl @Inject constructor(
     private val mediaApi: SSMediaApi,
     private val audioDao: AudioDao,
-    private val schedulerProvider: SchedulerProvider
+    private val dispatcherProvider: DispatcherProvider
 ) : MediaRepository {
 
     override suspend fun getAudio(
@@ -63,7 +63,7 @@ internal class MediaRepositoryImpl @Inject constructor(
 
             val audios = response.body() ?: emptyList()
             if (audios.isNotEmpty()) {
-                withContext(schedulerProvider.io) {
+                withContext(dispatcherProvider.io) {
                     audioDao.insertAll(
                         audios.map { it.toEntity() }
                     )
@@ -78,16 +78,16 @@ internal class MediaRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findAudioFile(id: String): AudioFile? = withContext(schedulerProvider.io) {
+    override suspend fun findAudioFile(id: String): AudioFile? = withContext(dispatcherProvider.io) {
         audioDao.findBy(id)?.toAudio()
     }
 
-    override suspend fun updateDuration(id: String, duration: Long) = withContext(schedulerProvider.io) {
+    override suspend fun updateDuration(id: String, duration: Long) = withContext(dispatcherProvider.io) {
         Timber.i("Updating duration...$duration")
         audioDao.update(duration, id)
     }
 
-    override suspend fun getPlayList(lessonIndex: String): List<AudioFile> = withContext(schedulerProvider.io) {
+    override suspend fun getPlayList(lessonIndex: String): List<AudioFile> = withContext(dispatcherProvider.io) {
         audioDao.searchBy("%$lessonIndex%").map {
             it.toAudio()
         }
