@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,33 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.model
+package app.ss.storage.db.entity
 
-import android.os.Parcelable
-import androidx.annotation.Keep
-import com.google.firebase.database.IgnoreExtraProperties
-import kotlinx.parcelize.Parcelize
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import app.ss.models.Credit
+import app.ss.models.Feature
+import app.ss.models.QuarterlyGroup
 
-@Keep
-@Parcelize
-@IgnoreExtraProperties
-data class QuarterlyGroup(
-    val name: String,
-    val order: Int = Int.MAX_VALUE
-) : Parcelable {
-    constructor() : this("")
-}
+@Entity(tableName = "quarterlies")
+data class QuarterlyEntity(
+    @PrimaryKey val id: String,
+    val title: String,
+    val description: String,
+    val introduction: String?,
+    val human_date: String,
+    val start_date: String,
+    val end_date: String,
+    val cover: String,
+    val splash: String?,
+    val index: String,
+    val path: String,
+    val full_path: String,
+    val lang: String,
+    val color_primary: String,
+    val color_primary_dark: String,
+    val quarterly_name: String,
+    val quarterly_group: QuarterlyGroup?,
+    val features: List<Feature>,
+    val credits: List<Credit>,
+)

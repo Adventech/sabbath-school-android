@@ -22,6 +22,7 @@
 
 package app.ss.lessons.data.model
 
+import app.ss.models.SSQuarterly
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 

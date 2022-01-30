@@ -28,7 +28,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import app.ss.lessons.data.model.QuarterlyGroup
+import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,26 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.model
-
-import androidx.annotation.Keep
-import com.google.firebase.database.IgnoreExtraProperties
-
-@Keep
-@IgnoreExtraProperties
-data class Feature(
-    val name: String,
-    val title: String = "",
-    val description: String = "",
-    val image: String = ""
-) {
-    constructor() : this("")
+plugins {
+    id(BuildPlugins.Android.LIBRARY)
+    id(BuildPlugins.Kotlin.ANDROID)
+    id(BuildPlugins.Kotlin.PARCELIZE)
 }
+
+android {
+    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
+
+    defaultConfig {
+        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaOptions.version
+        targetCompatibility = JavaOptions.version
+    }
+    kotlinOptions {
+        jvmTarget = JavaOptions.version.toString()
+    }
+}
+
+dependencies {}

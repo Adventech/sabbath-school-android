@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,28 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package app.ss.lessons.data.model
 
-import androidx.annotation.Keep
-import app.ss.models.SSQuarterly
-import com.google.firebase.database.DataSnapshot
+package app.ss.models
 
-@Keep
-data class SSQuarterlyInfo(
-    val quarterly: SSQuarterly,
-    val lessons: List<SSLesson>
-) {
-
-    constructor(snapshot: DataSnapshot) : this(
-        SSQuarterly(""),
-        snapshot.child("lessons").children.mapNotNull {
-            it.getValue(SSLesson::class.java)
-        }
-    )
-
-    /**
-     * Convert a Quarterly index of "en-2021-03"
-     * To "en/2021-03"
-     */
-    fun shareIndex(): String = quarterly.index.replaceFirst("-", "/")
-}
+data class Feature(
+    val name: String,
+    val title: String = "",
+    val description: String = "",
+    val image: String = ""
+)

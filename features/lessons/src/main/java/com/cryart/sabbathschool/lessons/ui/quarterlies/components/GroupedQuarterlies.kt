@@ -22,8 +22,8 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies.components
 
-import app.ss.lessons.data.model.QuarterlyGroup
-import app.ss.lessons.data.model.SSQuarterly
+import app.ss.models.QuarterlyGroup
+import app.ss.models.SSQuarterly
 
 sealed interface GroupedQuarterlies {
     data class TypeList(val data: List<SSQuarterly>) : GroupedQuarterlies
