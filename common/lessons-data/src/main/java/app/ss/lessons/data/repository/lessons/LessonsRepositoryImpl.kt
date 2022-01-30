@@ -28,7 +28,7 @@ import app.ss.lessons.data.extensions.valueEventFlow
 import app.ss.lessons.data.model.PdfAnnotations
 import app.ss.lessons.data.model.QuarterlyLessonInfo
 import app.ss.lessons.data.model.SSLessonInfo
-import app.ss.lessons.data.model.SSQuarterly
+import app.ss.models.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.TodayData
@@ -165,7 +165,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
             is ValueEvent.Cancelled -> null
             is ValueEvent.DataChange -> {
                 val quarterlies = quarterlyEvent.snapshot.children.mapNotNull {
-                    SSQuarterly(it)
+                    SSQuarterly("")
                 }
                 val quarterly = quarterlies.firstOrNull()
                 quarterly?.index

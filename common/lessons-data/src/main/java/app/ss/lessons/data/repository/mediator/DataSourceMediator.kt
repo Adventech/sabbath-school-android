@@ -39,8 +39,8 @@ internal abstract class DataSourceMediator<T>(
 
     abstract val network: DataSource<T>
 
-    suspend fun get(): Resource<List<T>> {
-        val network = withContext(dispatcherProvider.default) { network.get() }
+    suspend fun get(params: Map<String, Any> = emptyMap()): Resource<List<T>> {
+        val network = withContext(dispatcherProvider.default) { network.get(params) }
 
         return if (network.isSuccessFul) {
             network.also {
@@ -49,17 +49,17 @@ internal abstract class DataSourceMediator<T>(
                 }
             }
         } else {
-            cache.get()
+            cache.get(params)
         }
     }
 
-    fun getAsFlow(): Flow<Resource<List<T>>> = flow {
-        val cacheResource = cache.get()
+    fun getAsFlow(params: Map<String, Any> = emptyMap()): Flow<Resource<List<T>>> = flow {
+        val cacheResource = cache.get(params)
         if (cacheResource.isSuccessFul) {
             emit(cacheResource)
         }
 
-        val network = withContext(dispatcherProvider.default) { network.get() }
+        val network = withContext(dispatcherProvider.default) { network.get(params) }
         if (network.isSuccessFul) {
             val data = network.data ?: emptyList()
             cache.update(data)
@@ -75,7 +75,7 @@ internal abstract class DataSourceMediator<T>(
 }
 
 interface DataSource<T> {
-    suspend fun get(): Resource<List<T>>
+    suspend fun get(params: Map<String, Any> = emptyMap()): Resource<List<T>>
 }
 
 interface LocalDataSource<T> : DataSource<T> {

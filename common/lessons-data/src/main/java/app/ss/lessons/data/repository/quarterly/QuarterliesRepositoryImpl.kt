@@ -24,12 +24,13 @@ package app.ss.lessons.data.repository.quarterly
 
 import app.ss.lessons.data.extensions.ValueEvent
 import app.ss.lessons.data.extensions.singleEvent
-import app.ss.lessons.data.extensions.valueEventFlow
 import app.ss.lessons.data.model.Language
-import app.ss.lessons.data.model.QuarterlyGroup
-import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.lessons.data.repository.mediator.LanguagesDataSource
+import app.ss.lessons.data.repository.mediator.QuarterliesDataSource
+import app.ss.lessons.data.repository.mediator.QuarterliesDataSource.Companion.LANGUAGE
+import app.ss.models.QuarterlyGroup
+import app.ss.models.SSQuarterly
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
@@ -44,6 +45,7 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
     private val firebaseDatabase: FirebaseDatabase,
     private val ssPrefs: SSPrefs,
     private val languagesSource: LanguagesDataSource,
+    private val quarterliesDataSource: QuarterliesDataSource,
 ) : QuarterliesRepository {
 
     override suspend fun getLanguages(): Resource<List<Language>> = languagesSource.get()
@@ -53,22 +55,15 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
         group: QuarterlyGroup?
     ): Flow<Resource<List<SSQuarterly>>> {
         val code = languageCode ?: ssPrefs.getLanguageCode()
-        val dbRef = firebaseDatabase
-            .getReference(SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE)
-            .child(code)
-
-        return dbRef.valueEventFlow().map { event ->
-            when (event) {
-                is ValueEvent.Cancelled -> Resource.error(event.error)
-                is ValueEvent.DataChange -> {
-                    val quarterlies = event.snapshot.children.mapNotNull {
-                        SSQuarterly(it)
-                    }
-                    val result = group?.let {
-                        quarterlies.filter { it.quarterly_group == group }
-                    } ?: quarterlies
-                    Resource.success(result)
-                }
+        return quarterliesDataSource.getAsFlow(
+            mapOf(LANGUAGE to code)
+        ).map { result ->
+            if (result.isSuccessFul) {
+                val quarterlies = result.data ?: emptyList()
+                val filtered = group?.let { quarterlies.filter { it.quarterly_group == group } } ?: quarterlies
+                Resource.success(filtered)
+            } else {
+                result
             }
         }
     }

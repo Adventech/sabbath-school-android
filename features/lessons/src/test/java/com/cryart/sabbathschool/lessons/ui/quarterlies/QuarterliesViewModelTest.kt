@@ -25,7 +25,7 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
-import app.ss.lessons.data.model.QuarterlyGroup
+import app.ss.models.QuarterlyGroup
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants

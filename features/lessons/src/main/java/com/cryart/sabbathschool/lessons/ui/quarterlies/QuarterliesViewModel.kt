@@ -25,8 +25,8 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.lessons.data.model.QuarterlyGroup
-import app.ss.lessons.data.model.SSQuarterly
+import app.ss.models.QuarterlyGroup
+import app.ss.models.SSQuarterly
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs

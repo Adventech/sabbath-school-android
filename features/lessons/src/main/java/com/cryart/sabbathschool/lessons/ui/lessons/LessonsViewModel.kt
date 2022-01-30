@@ -27,7 +27,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.LessonPdf
 import app.ss.lessons.data.model.SSLesson
-import app.ss.lessons.data.model.SSQuarterly
+import app.ss.models.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository

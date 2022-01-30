@@ -26,8 +26,8 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
-import app.ss.lessons.data.model.Credit
-import app.ss.lessons.data.model.Feature
+import app.ss.models.Credit
+import app.ss.models.Feature
 import com.cryart.design.theme.SSTheme
 import com.cryart.sabbathschool.lessons.ui.lessons.components.CreditFooterItem
 import com.cryart.sabbathschool.lessons.ui.lessons.components.FeatureFooterItem
