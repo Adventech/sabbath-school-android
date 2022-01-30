@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
@@ -37,7 +36,6 @@ class SSPrefsImplTest {
     @Before
     fun setup() {
         impl = SSPrefsImpl(
-            ApplicationProvider.getApplicationContext(),
             mockDataStore,
             mockSharedPreferences,
             CoroutineScope(coroutinesTestRule.testDispatcher)

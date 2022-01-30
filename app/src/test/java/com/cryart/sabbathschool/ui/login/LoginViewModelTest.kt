@@ -26,9 +26,10 @@ import android.content.Intent
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.arch.observeFuture
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.reminder.DailyReminderManager
+import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import com.facebook.AccessToken
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -46,7 +47,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
@@ -63,9 +63,7 @@ class LoginViewModelTest {
     private val mockFacebookLoginManager: FacebookLoginManager = mockk()
     private val mockReminderManager: DailyReminderManager = mockk()
 
-    private val schedulerProvider: SchedulerProvider = SchedulerProvider(
-        TestCoroutineDispatcher(), TestCoroutineDispatcher()
-    )
+    private val dispatcherProvider: DispatcherProvider = TestDispatcherProvider()
 
     private lateinit var viewModel: LoginViewModel
 
@@ -79,7 +77,7 @@ class LoginViewModelTest {
             mockGoogleSignIn,
             mockFacebookLoginManager,
             mockReminderManager,
-            schedulerProvider
+            dispatcherProvider
         )
     }
 

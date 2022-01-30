@@ -22,15 +22,19 @@
 
 package com.cryart.sabbathschool.test.coroutines
 
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import javax.inject.Inject
 
-object TestSchedulerProvider {
-    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler())
+class TestDispatcherProvider(private val testDispatcher: TestDispatcher) : DispatcherProvider {
 
-    val dispatcherProvider: SchedulerProvider = SchedulerProvider(
-        testDispatcher, testDispatcher, testDispatcher
-    )
+    @Inject
+    constructor() : this(testDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler()))
+
+    override val io: CoroutineDispatcher = testDispatcher
+    override val main: CoroutineDispatcher = testDispatcher
+    override val default: CoroutineDispatcher = testDispatcher
 }

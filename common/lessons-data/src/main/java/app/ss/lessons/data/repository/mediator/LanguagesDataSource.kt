@@ -26,18 +26,18 @@ import app.ss.lessons.data.api.SSQuarterliesApi
 import app.ss.lessons.data.model.Language
 import app.ss.storage.db.dao.LanguagesDao
 import app.ss.storage.db.entity.LanguageEntity
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class LanguagesDataSource @Inject constructor(
-    schedulerProvider: SchedulerProvider,
+    dispatcherProvider: DispatcherProvider,
     private val languagesDao: LanguagesDao,
     private val quarterliesApi: SSQuarterliesApi,
 ) : DataSourceMediator<Language>(
-    schedulerProvider = schedulerProvider
+    dispatcherProvider = dispatcherProvider
 ) {
     override val cache: LocalDataSource<Language>
         get() = object : LocalDataSource<Language> {

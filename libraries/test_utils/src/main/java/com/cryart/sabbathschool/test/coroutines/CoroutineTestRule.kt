@@ -1,6 +1,5 @@
 package com.cryart.sabbathschool.test.coroutines
 
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -13,9 +12,7 @@ import org.junit.runner.Description
 @ExperimentalCoroutinesApi
 class CoroutineTestRule(val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()) : TestWatcher() {
 
-    val dispatcherProvider = SchedulerProvider(
-        testDispatcher, testDispatcher, testDispatcher
-    )
+    val dispatcherProvider = TestDispatcherProvider()
 
     override fun starting(description: Description?) {
         super.starting(description)

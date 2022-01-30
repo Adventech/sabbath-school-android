@@ -23,8 +23,9 @@
 package app.ss.lessons.data.repository.mediator
 
 import app.cash.turbine.test
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
-import com.cryart.sabbathschool.test.coroutines.TestSchedulerProvider
+import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -39,13 +40,13 @@ class DataSourceMediatorTest {
     private val cacheSource: LocalDataSource<Any> = mockk()
     private val networkSource: DataSource<Any> = mockk()
 
-    private val schedulerProvider = TestSchedulerProvider.dispatcherProvider
+    private val dispatcherProvider: DispatcherProvider = TestDispatcherProvider()
 
     private lateinit var mediator: DataSourceMediator<Any>
 
     @Before
     fun setup() {
-        mediator = object : DataSourceMediator<Any>(schedulerProvider) {
+        mediator = object : DataSourceMediator<Any>(dispatcherProvider) {
             override val cache: LocalDataSource<Any>
                 get() = cacheSource
             override val network: DataSource<Any>

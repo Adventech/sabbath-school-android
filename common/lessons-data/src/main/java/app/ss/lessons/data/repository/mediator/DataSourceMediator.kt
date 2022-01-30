@@ -22,7 +22,7 @@
 
 package app.ss.lessons.data.repository.mediator
 
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -32,7 +32,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 internal abstract class DataSourceMediator<T>(
-    private val schedulerProvider: SchedulerProvider
+    private val dispatcherProvider: DispatcherProvider
 ) {
 
     abstract val cache: LocalDataSource<T>
@@ -40,12 +40,12 @@ internal abstract class DataSourceMediator<T>(
     abstract val network: DataSource<T>
 
     suspend fun get(): Resource<List<T>> {
-        val network = withContext(schedulerProvider.default) { network.get() }
+        val network = withContext(dispatcherProvider.default) { network.get() }
 
         return if (network.isSuccessFul) {
             network.also {
                 it.data?.let {
-                    withContext(schedulerProvider.io) { cache.update(it) }
+                    withContext(dispatcherProvider.io) { cache.update(it) }
                 }
             }
         } else {
@@ -59,7 +59,7 @@ internal abstract class DataSourceMediator<T>(
             emit(cacheResource)
         }
 
-        val network = withContext(schedulerProvider.default) { network.get() }
+        val network = withContext(dispatcherProvider.default) { network.get() }
         if (network.isSuccessFul) {
             val data = network.data ?: emptyList()
             cache.update(data)
@@ -67,7 +67,7 @@ internal abstract class DataSourceMediator<T>(
             emit(network)
         }
     }
-        .flowOn(schedulerProvider.io)
+        .flowOn(dispatcherProvider.io)
         .catch {
             Timber.e(it)
             emit(Resource.error(it))
