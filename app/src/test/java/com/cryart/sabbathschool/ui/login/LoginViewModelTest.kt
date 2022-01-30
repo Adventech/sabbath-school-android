@@ -47,7 +47,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Rule
@@ -102,7 +102,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `should post Success when Google auth is successful`() = runBlockingTest {
+    fun `should post Success when Google auth is successful`() = runTest {
         val mockData: Intent = mockk()
         val mockTask: Task<GoogleSignInAccount> = mockk()
         val token = "token"
@@ -126,7 +126,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `should post Error when Google auth is fails`() = runBlockingTest {
+    fun `should post Error when Google auth is fails`() = runTest {
         val mockData: Intent = mockk()
         val mockTask: Task<GoogleSignInAccount> = mockk()
         val token = "token"
@@ -151,7 +151,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `should post Success when sign in anonymously is successful`() = runBlockingTest {
+    fun `should post Success when sign in anonymously is successful`() = runTest {
         val mockAuthResult: AuthResult = mockk()
         val mockFirebaseUser: FirebaseUser = mockk()
 
@@ -167,7 +167,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `should post Error when sign in anonymously not successful`() = runBlockingTest {
+    fun `should post Error when sign in anonymously not successful`() = runTest {
         val mockAuthResult: AuthResult = mockk()
 
         every { mockAuthResult.user }.returns(null)
