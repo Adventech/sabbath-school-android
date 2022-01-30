@@ -28,7 +28,7 @@ import android.net.Uri
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import app.ss.media.model.SSVideo
+import app.ss.lessons.data.model.api.SSVideo
 import app.ss.media.playback.AudioFocusHelper
 import app.ss.media.playback.AudioFocusHelperImpl
 import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
@@ -45,7 +45,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,9 +20,35 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.model.request
+package com.cryart.sabbathschool.test.di.repository
 
-internal data class SSMediaRequest(
-    val language: String,
-    val quarterlyId: String
-)
+import app.ss.lessons.data.model.api.SSAudio
+import app.ss.lessons.data.model.api.SSVideosInfo
+import app.ss.lessons.data.model.media.AudioFile
+import app.ss.lessons.data.repository.media.MediaRepository
+import com.cryart.sabbathschool.core.response.Resource
+import javax.inject.Inject
+
+class FakeMediaRepository @Inject constructor() : MediaRepository {
+
+    override suspend fun getAudio(
+        lessonIndex: String
+    ): Resource<List<SSAudio>> = Resource.success(emptyList())
+
+    override suspend fun findAudioFile(
+        id: String
+    ): AudioFile? = null
+
+    override suspend fun updateDuration(
+        id: String,
+        duration: Long
+    ) {}
+
+    override suspend fun getPlayList(
+        lessonIndex: String
+    ): List<AudioFile> = emptyList()
+
+    override suspend fun getVideo(
+        lessonIndex: String
+    ): Resource<List<SSVideosInfo>> = Resource.success(emptyList())
+}

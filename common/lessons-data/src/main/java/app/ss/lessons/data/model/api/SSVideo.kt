@@ -20,21 +20,22 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.ui.video
+package app.ss.lessons.data.model.api
 
-import app.ss.lessons.data.model.api.SSVideo
-import app.ss.lessons.data.model.api.SSVideosInfo
+import android.os.Parcelable
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
+import kotlinx.parcelize.Parcelize
 
-sealed class VideoListData {
-    data class Horizontal(
-        val data: List<SSVideosInfo>,
-        val target: String?
-    ) : VideoListData()
-
-    data class Vertical(
-        val featured: SSVideo,
-        val clips: List<SSVideo>
-    ) : VideoListData()
-
-    object Empty : VideoListData()
-}
+@Keep
+@JsonClass(generateAdapter = true)
+@Parcelize
+data class SSVideo(
+    val artist: String,
+    val id: String,
+    val src: String,
+    val target: String,
+    val targetIndex: String,
+    val thumbnail: String,
+    val title: String
+) : Parcelable

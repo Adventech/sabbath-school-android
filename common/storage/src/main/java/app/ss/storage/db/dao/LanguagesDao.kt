@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.model
+package app.ss.storage.db.dao
 
-import android.os.Parcelable
-import androidx.annotation.Keep
-import com.squareup.moshi.JsonClass
-import kotlinx.parcelize.Parcelize
+import androidx.room.Dao
+import androidx.room.Query
+import app.ss.storage.db.entity.LanguageEntity
 
-@Keep
-@JsonClass(generateAdapter = true)
-@Parcelize
-data class SSVideo(
-    val artist: String,
-    val id: String,
-    val src: String,
-    val target: String,
-    val targetIndex: String,
-    val thumbnail: String,
-    val title: String
-) : Parcelable
+@Dao
+interface LanguagesDao : BaseDao<LanguageEntity> {
+
+    @Query("SELECT * FROM languages")
+    fun get(): List<LanguageEntity>
+
+    @Query("SELECT * FROM languages WHERE name LIKE :query")
+    fun search(query: String): List<LanguageEntity>
+}

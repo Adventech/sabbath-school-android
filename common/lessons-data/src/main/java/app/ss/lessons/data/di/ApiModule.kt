@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,11 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.di
+package app.ss.lessons.data.di
 
-import app.ss.media.BuildConfig
-import app.ss.media.api.SSMediaApi
-import app.ss.media.repository.SSMediaRepository
-import app.ss.media.repository.SSMediaRepositoryImpl
-import app.ss.storage.db.dao.AudioDao
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import app.ss.lessons.data.BuildConfig
+import app.ss.lessons.data.api.SSMediaApi
+import app.ss.lessons.data.api.SSQuarterliesApi
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -44,10 +41,16 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object MediaModule {
+object ApiModule {
 
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
+        .build()
+
+    private fun retrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+        .baseUrl(SSConstants.SS_API_BASE_URL)
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .client(okHttpClient)
         .build()
 
     @Provides
@@ -67,26 +70,15 @@ object MediaModule {
 
     @Provides
     @Singleton
-    fun provideMediaApi(
+    internal fun provideMediaApi(
         okHttpClient: OkHttpClient
-    ): SSMediaApi =
-        Retrofit.Builder()
-            .baseUrl(SSConstants.SS_API_BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .client(okHttpClient)
-            .build()
-            .create(SSMediaApi::class.java)
+    ): SSMediaApi = retrofit(okHttpClient)
+        .create(SSMediaApi::class.java)
 
     @Provides
     @Singleton
-    fun provideMediaRepository(
-        mediaApi: SSMediaApi,
-        audioDao: AudioDao,
-        schedulerProvider: SchedulerProvider
-    ): SSMediaRepository =
-        SSMediaRepositoryImpl(
-            mediaApi = mediaApi,
-            audioDao = audioDao,
-            schedulerProvider = schedulerProvider,
-        )
+    internal fun provideQuarterliesApi(
+        okHttpClient: OkHttpClient
+    ): SSQuarterliesApi = retrofit(okHttpClient)
+        .create(SSQuarterliesApi::class.java)
 }

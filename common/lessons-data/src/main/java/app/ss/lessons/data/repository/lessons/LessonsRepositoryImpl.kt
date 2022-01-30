@@ -47,8 +47,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
 import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
 
-internal class LessonsRepositoryImpl constructor(
+@Singleton
+internal class LessonsRepositoryImpl @Inject constructor(
     private val firebaseDatabase: FirebaseDatabase,
     private val firebaseAuth: FirebaseAuth,
     private val ssPrefs: SSPrefs

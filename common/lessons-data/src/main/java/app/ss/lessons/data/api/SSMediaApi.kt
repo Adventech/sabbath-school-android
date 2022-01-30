@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,25 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.model
+package app.ss.lessons.data.api
 
-import androidx.annotation.Keep
-import com.squareup.moshi.JsonClass
+import app.ss.lessons.data.model.api.SSAudio
+import app.ss.lessons.data.model.api.SSVideosInfo
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Path
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class SSVideosInfo(
-    val artist: String,
-    val clips: List<SSVideo>
-)
+internal interface SSMediaApi {
+
+    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/audio.json")
+    suspend fun getAudio(
+        @Path("lang") language: String,
+        @Path("quarterly_id") quarterlyId: String
+    ): Response<List<SSAudio>>
+
+    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/video.json")
+    suspend fun getVideo(
+        @Path("lang") language: String,
+        @Path("quarterly_id") quarterlyId: String
+    ): Response<List<SSVideosInfo>>
+}

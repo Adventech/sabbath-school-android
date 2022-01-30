@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,21 +20,32 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.ui.video
+package app.ss.lessons.data.model.media
 
-import app.ss.lessons.data.model.api.SSVideo
-import app.ss.lessons.data.model.api.SSVideosInfo
+import android.net.Uri
+import androidx.annotation.Keep
+import app.ss.storage.db.entity.AudioFileEntity
 
-sealed class VideoListData {
-    data class Horizontal(
-        val data: List<SSVideosInfo>,
-        val target: String?
-    ) : VideoListData()
+@Keep
+data class AudioFile(
+    val id: String,
+    val title: String = "",
+    val artist: String = "",
+    val source: Uri = Uri.EMPTY,
+    val image: String = "",
+    val imageRatio: String = "",
+    val target: String = "",
+    val targetIndex: String = "",
+    val duration: Long = 0
+)
 
-    data class Vertical(
-        val featured: SSVideo,
-        val clips: List<SSVideo>
-    ) : VideoListData()
-
-    object Empty : VideoListData()
-}
+fun AudioFileEntity.toAudio(): AudioFile = AudioFile(
+    id = id,
+    artist = artist,
+    image = image,
+    imageRatio = imageRatio,
+    source = Uri.parse(src),
+    target = target,
+    targetIndex = targetIndex,
+    title = title,
+)

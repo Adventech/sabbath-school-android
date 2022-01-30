@@ -26,6 +26,7 @@ import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.net.toUri
+import app.ss.lessons.data.model.media.AudioFile
 import app.ss.media.playback.extensions.UNTITLED
 import app.ss.media.playback.extensions.artist
 import app.ss.media.playback.extensions.artworkUri

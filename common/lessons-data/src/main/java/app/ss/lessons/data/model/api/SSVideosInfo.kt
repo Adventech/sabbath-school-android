@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +20,14 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.model
+package app.ss.lessons.data.model.api
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 
-@Parcelize
-data class MediaAvailability(
-    val audio: Boolean = false,
-    val video: Boolean = false
-) : Parcelable
+@Keep
+@JsonClass(generateAdapter = true)
+data class SSVideosInfo(
+    val artist: String,
+    val clips: List<SSVideo>
+)

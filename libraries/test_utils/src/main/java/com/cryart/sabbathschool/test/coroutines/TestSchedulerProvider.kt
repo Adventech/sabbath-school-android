@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,21 +20,17 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.ui.video
+package com.cryart.sabbathschool.test.coroutines
 
-import app.ss.lessons.data.model.api.SSVideo
-import app.ss.lessons.data.model.api.SSVideosInfo
+import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 
-sealed class VideoListData {
-    data class Horizontal(
-        val data: List<SSVideosInfo>,
-        val target: String?
-    ) : VideoListData()
+object TestSchedulerProvider {
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler())
 
-    data class Vertical(
-        val featured: SSVideo,
-        val clips: List<SSVideo>
-    ) : VideoListData()
-
-    object Empty : VideoListData()
+    val dispatcherProvider: SchedulerProvider = SchedulerProvider(
+        testDispatcher, testDispatcher, testDispatcher
+    )
 }

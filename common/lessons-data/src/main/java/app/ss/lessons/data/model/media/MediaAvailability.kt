@@ -20,21 +20,13 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.ui.video
+package app.ss.lessons.data.model.media
 
-import app.ss.lessons.data.model.api.SSVideo
-import app.ss.lessons.data.model.api.SSVideosInfo
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-sealed class VideoListData {
-    data class Horizontal(
-        val data: List<SSVideosInfo>,
-        val target: String?
-    ) : VideoListData()
-
-    data class Vertical(
-        val featured: SSVideo,
-        val clips: List<SSVideo>
-    ) : VideoListData()
-
-    object Empty : VideoListData()
-}
+@Parcelize
+data class MediaAvailability(
+    val audio: Boolean = false,
+    val video: Boolean = false
+) : Parcelable

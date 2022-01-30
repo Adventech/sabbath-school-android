@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,21 +20,14 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.ui.video
+package app.ss.lessons.data.api
 
-import app.ss.lessons.data.model.api.SSVideo
-import app.ss.lessons.data.model.api.SSVideosInfo
+import app.ss.lessons.data.model.api.SSLanguage
+import retrofit2.Response
+import retrofit2.http.GET
 
-sealed class VideoListData {
-    data class Horizontal(
-        val data: List<SSVideosInfo>,
-        val target: String?
-    ) : VideoListData()
+internal interface SSQuarterliesApi {
 
-    data class Vertical(
-        val featured: SSVideo,
-        val clips: List<SSVideo>
-    ) : VideoListData()
-
-    object Empty : VideoListData()
+    @GET("api/v2/languages/index.json")
+    suspend fun getLanguages(): Response<List<SSLanguage>>
 }

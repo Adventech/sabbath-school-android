@@ -31,7 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import app.ss.media.playback.model.AudioFile
+import app.ss.lessons.data.model.media.AudioFile
 import app.ss.media.playback.ui.common.CoilImage
 import coil.size.PixelSize
 import coil.size.Scale

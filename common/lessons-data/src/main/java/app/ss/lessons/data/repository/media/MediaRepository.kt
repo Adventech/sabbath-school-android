@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,24 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.repository
+package app.ss.lessons.data.repository.media
 
-import app.ss.media.api.SSMediaApi
-import app.ss.media.model.SSAudio
-import app.ss.media.model.SSVideosInfo
-import app.ss.media.model.request.SSMediaRequest
-import app.ss.media.model.toAudio
-import app.ss.media.model.toEntity
-import app.ss.media.playback.model.AudioFile
+import app.ss.lessons.data.api.SSMediaApi
+import app.ss.lessons.data.model.api.SSAudio
+import app.ss.lessons.data.model.api.SSVideosInfo
+import app.ss.lessons.data.model.api.request.SSMediaRequest
+import app.ss.lessons.data.model.media.AudioFile
+import app.ss.lessons.data.model.media.toAudio
 import app.ss.storage.db.dao.AudioDao
+import app.ss.storage.db.entity.AudioFileEntity
 import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
 
-interface SSMediaRepository {
+interface MediaRepository {
     suspend fun getAudio(lessonIndex: String): Resource<List<SSAudio>>
     suspend fun findAudioFile(id: String): AudioFile?
     suspend fun updateDuration(id: String, duration: Long)
@@ -44,11 +46,12 @@ interface SSMediaRepository {
     suspend fun getVideo(lessonIndex: String): Resource<List<SSVideosInfo>>
 }
 
-internal class SSMediaRepositoryImpl(
+@Singleton
+internal class MediaRepositoryImpl @Inject constructor(
     private val mediaApi: SSMediaApi,
     private val audioDao: AudioDao,
     private val schedulerProvider: SchedulerProvider
-) : SSMediaRepository {
+) : MediaRepository {
 
     override suspend fun getAudio(
         lessonIndex: String,
@@ -117,3 +120,14 @@ private fun String.toMediaRequest(): SSMediaRequest? {
     val id = langId.substringAfter('-')
     return SSMediaRequest(lang, id)
 }
+
+fun SSAudio.toEntity(): AudioFileEntity = AudioFileEntity(
+    id = id,
+    artist = artist,
+    image = image,
+    imageRatio = imageRatio,
+    src = src,
+    target = target,
+    targetIndex = targetIndex,
+    title = title,
+)

@@ -24,6 +24,7 @@ package app.ss.media.di
 
 import android.content.ComponentName
 import android.content.Context
+import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.media.playback.AudioFocusHelperImpl
 import app.ss.media.playback.AudioQueueManager
 import app.ss.media.playback.AudioQueueManagerImpl
@@ -36,7 +37,6 @@ import app.ss.media.playback.players.AudioPlayerImpl
 import app.ss.media.playback.players.SSAudioPlayer
 import app.ss.media.playback.players.SSAudioPlayerImpl
 import app.ss.media.playback.service.MusicService
-import app.ss.media.repository.SSMediaRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -72,7 +72,7 @@ object PlaybackModule {
     fun provideSSPlayer(
         @ApplicationContext context: Context,
         player: AudioPlayer,
-        repository: SSMediaRepository,
+        repository: MediaRepository,
         queueManager: AudioQueueManager
     ): SSAudioPlayer = SSAudioPlayerImpl(
         context,
@@ -96,7 +96,7 @@ object PlaybackModule {
     @Provides
     @Singleton
     fun provideQueueManager(
-        repository: SSMediaRepository
+        repository: MediaRepository
     ): AudioQueueManager = AudioQueueManagerImpl(
         repository = repository
     )

@@ -60,8 +60,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.media.R
-import app.ss.media.model.SSVideo
-import app.ss.media.model.SSVideosInfo
+import app.ss.lessons.data.model.api.SSVideo
+import app.ss.lessons.data.model.api.SSVideosInfo
 import app.ss.media.playback.ui.common.CoilImage
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import com.cryart.design.ext.thenIf
@@ -82,7 +82,6 @@ import com.cryart.design.widgets.DragHandle
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
 import dev.chrisbanes.snapper.SnapOffsets
 import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 

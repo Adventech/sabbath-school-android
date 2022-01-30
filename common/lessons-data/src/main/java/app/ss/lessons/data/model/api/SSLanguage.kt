@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,14 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.model
+package app.ss.lessons.data.model.api
 
-import android.net.Uri
 import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 
 @Keep
-data class VideoFile(
-    val id: String,
-    val artist: String = "",
-    val src: Uri = Uri.EMPTY,
-    val target: String = "",
-    val targetIndex: String = "",
-    val thumbnail: String = "",
-    val title: String = "",
-    val duration: Long = 0
+@JsonClass(generateAdapter = true)
+internal data class SSLanguage(
+    val code: String,
+    val name: String
 )

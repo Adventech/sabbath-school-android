@@ -9,6 +9,8 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import app.ss.lessons.data.model.media.AudioFile
+import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.media.R
 import app.ss.media.playback.AudioFocusHelper
 import app.ss.media.playback.AudioQueueManager
@@ -21,10 +23,8 @@ import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.extensions.position
 import app.ss.media.playback.extensions.repeatMode
 import app.ss.media.playback.extensions.shuffleMode
-import app.ss.media.playback.model.AudioFile
 import app.ss.media.playback.model.toMediaId
 import app.ss.media.playback.model.toMediaMetadata
-import app.ss.media.repository.SSMediaRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -73,7 +73,7 @@ internal class SSAudioPlayerImpl(
     private val audioPlayer: AudioPlayer,
     private val audioFocusHelper: AudioFocusHelper,
     private val queueManager: AudioQueueManager,
-    private val repository: SSMediaRepository,
+    private val repository: MediaRepository,
 ) : SSAudioPlayer, CoroutineScope by MainScope() {
 
     private var isInitialized: Boolean = false
