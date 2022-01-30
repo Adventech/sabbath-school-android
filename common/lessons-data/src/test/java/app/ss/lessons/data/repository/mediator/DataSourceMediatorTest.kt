@@ -24,30 +24,28 @@ package app.ss.lessons.data.repository.mediator
 
 import app.cash.turbine.test
 import com.cryart.sabbathschool.core.response.Resource
-import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
-import com.cryart.sabbathschool.test.coroutines.runBlockingTest
+import com.cryart.sabbathschool.test.coroutines.TestSchedulerProvider
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
 class DataSourceMediatorTest {
 
-    @get:Rule
-    var coroutinesTestRule = CoroutineTestRule()
-
     private val cacheSource: LocalDataSource<Any> = mockk()
     private val networkSource: DataSource<Any> = mockk()
+
+    private val schedulerProvider = TestSchedulerProvider.dispatcherProvider
 
     private lateinit var mediator: DataSourceMediator<Any>
 
     @Before
     fun setup() {
-        mediator = object : DataSourceMediator<Any>(coroutinesTestRule.dispatcherProvider) {
+        mediator = object : DataSourceMediator<Any>(schedulerProvider) {
             override val cache: LocalDataSource<Any>
                 get() = cacheSource
             override val network: DataSource<Any>
@@ -56,7 +54,7 @@ class DataSourceMediatorTest {
     }
 
     @Test
-    fun `should return cache data when network fails`() = coroutinesTestRule.runBlockingTest {
+    fun `should return cache data when network fails`() = runTest {
         val cacheResource = Resource.success(listOf("1", "2", "3"))
 
         coEvery { networkSource.get() }.returns(Resource.error(Throwable("Error")))
@@ -68,7 +66,7 @@ class DataSourceMediatorTest {
     }
 
     @Test
-    fun `should cache network data when successful`() = coroutinesTestRule.runBlockingTest {
+    fun `should cache network data when successful`() = runTest {
         val data = listOf("1", "2", "3")
         val networkResource = Resource.success(data)
 
@@ -82,7 +80,7 @@ class DataSourceMediatorTest {
     }
 
     @Test
-    fun `should emit cached resource then network resource when completed`() = coroutinesTestRule.runBlockingTest {
+    fun `should emit cached resource then network resource when completed`() = runTest {
         val data = listOf("3", "4", "5")
         val cacheResource = Resource.success(listOf("1", "2"))
         val networkResource = Resource.success(data)
