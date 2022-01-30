@@ -25,13 +25,13 @@ package com.cryart.sabbathschool.lessons.ui.languages
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.ss.lessons.data.model.Language
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
-import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
+import com.cryart.sabbathschool.core.response.Resource
+import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Rule
@@ -42,8 +42,7 @@ class LanguagesListViewModelTest {
     @get:Rule
     val instantTaskRule = InstantTaskExecutorRule()
 
-    @get:Rule
-    var coroutinesTestRule = CoroutineTestRule()
+    private val dispatcherProvider = TestDispatcherProvider()
 
     private val mockRepository: QuarterliesRepository = mockk()
     private val mockSSPrefs: SSPrefs = mockk()
@@ -55,12 +54,12 @@ class LanguagesListViewModelTest {
         viewModel = LanguagesListViewModel(
             mockRepository,
             mockSSPrefs,
-            coroutinesTestRule.dispatcherProvider
+            dispatcherProvider
         )
     }
 
     @Test
-    fun `should emit models with properly formatted native language name`() = runBlockingTest {
+    fun `should emit models with properly formatted native language name`() = runTest {
         val languageList = listOf(
             Language("en", "English"),
             Language("es", "Spanish"),
