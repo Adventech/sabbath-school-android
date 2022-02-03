@@ -23,6 +23,7 @@
 package app.ss.lessons.data.repository.mediator
 
 import app.ss.lessons.data.api.SSQuarterliesApi
+import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.entity.QuarterlyEntity
@@ -41,7 +42,12 @@ internal class QuarterliesDataSource @Inject constructor(
     override val cache: LocalDataSource<SSQuarterly> = object : LocalDataSource<SSQuarterly> {
         override suspend fun get(params: Map<String, Any>): Resource<List<SSQuarterly>> {
             val code = params[LANGUAGE] as? String ?: "en"
-            val data = quarterliesDao.get(code).map { it.toModel() }
+            val group = params[QUARTERLY_GROUP] as? QuarterlyGroup
+            val quarterlies = group?.let { quarterliesDao.get(code, it) } ?: quarterliesDao.get(code)
+            val data = quarterlies.map { it.toModel() }
+            if (data.isEmpty()) {
+                return Resource.loading()
+            }
             return Resource.success(data)
         }
 
@@ -54,8 +60,10 @@ internal class QuarterliesDataSource @Inject constructor(
     override val network: DataSource<SSQuarterly> = object : DataSource<SSQuarterly> {
         override suspend fun get(params: Map<String, Any>): Resource<List<SSQuarterly>> = try {
             val code = params[LANGUAGE] as? String ?: "en"
+            val group = params[QUARTERLY_GROUP] as? QuarterlyGroup
             val data = quarterliesApi.getQuarterlies(code).body() ?: emptyList()
-            Resource.success(data)
+            val filtered = group?.let { data.filter { it.quarterly_group == group } } ?: data
+            Resource.success(filtered)
         } catch (error: Throwable) {
             Resource.error(error)
         }
@@ -63,6 +71,7 @@ internal class QuarterliesDataSource @Inject constructor(
 
     companion object {
         const val LANGUAGE = "language"
+        const val QUARTERLY_GROUP = "quarterly_group"
     }
 }
 

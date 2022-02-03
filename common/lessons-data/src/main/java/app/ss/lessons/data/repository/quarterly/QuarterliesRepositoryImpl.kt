@@ -29,6 +29,7 @@ import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.lessons.data.repository.mediator.LanguagesDataSource
 import app.ss.lessons.data.repository.mediator.QuarterliesDataSource
 import app.ss.lessons.data.repository.mediator.QuarterliesDataSource.Companion.LANGUAGE
+import app.ss.lessons.data.repository.mediator.QuarterliesDataSource.Companion.QUARTERLY_GROUP
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
@@ -36,7 +37,6 @@ import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -55,17 +55,12 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
         group: QuarterlyGroup?
     ): Flow<Resource<List<SSQuarterly>>> {
         val code = languageCode ?: ssPrefs.getLanguageCode()
-        return quarterliesDataSource.getAsFlow(
-            mapOf(LANGUAGE to code)
-        ).map { result ->
-            if (result.isSuccessFul) {
-                val quarterlies = result.data ?: emptyList()
-                val filtered = group?.let { quarterlies.filter { it.quarterly_group == group } } ?: quarterlies
-                Resource.success(filtered)
-            } else {
-                result
-            }
-        }
+        val params = mapOf(
+            LANGUAGE to code,
+            QUARTERLY_GROUP to group
+        ).mapNotNull { map -> map.value?.let { map.key to it } }
+
+        return quarterliesDataSource.getAsFlow(params.toMap())
     }
 
     override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {
