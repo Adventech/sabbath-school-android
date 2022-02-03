@@ -34,7 +34,7 @@ data class SSLessonInfo(
     val pdfs: List<LessonPdf> = emptyList()
 ) {
     constructor(snapshot: DataSnapshot) : this(
-        snapshot.child("lesson").getValue(SSLesson::class.java) ?: SSLesson(),
+        snapshot.child("lesson").getValue(SSLesson::class.java) ?: SSLesson(""),
         snapshot.child("days").children.mapNotNull {
             it.getValue(SSDay::class.java)
         },

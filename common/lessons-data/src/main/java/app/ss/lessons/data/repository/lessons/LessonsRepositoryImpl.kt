@@ -121,7 +121,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
 
         return when (event) {
             is ValueEvent.Cancelled -> Resource.error(event.error)
-            is ValueEvent.DataChange -> Resource.success(SSQuarterlyInfo(event.snapshot))
+            is ValueEvent.DataChange -> Resource.loading()
         }
     }
 
@@ -136,13 +136,14 @@ internal class LessonsRepositoryImpl @Inject constructor(
         return when (event) {
             is ValueEvent.Cancelled -> null
             is ValueEvent.DataChange -> {
-                val info = SSQuarterlyInfo(event.snapshot)
+                /*val info = SSQuarterlyInfo(event.snapshot)
                 val today = DateTime.now().withTimeAtStartOfDay()
                 if (today.isBefore(parseDate(info.quarterly.end_date))) {
                     info
                 } else {
                     null
-                }
+                }*/
+                null
             }
         }
     }

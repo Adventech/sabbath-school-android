@@ -22,30 +22,28 @@
 
 package app.ss.lessons.data.repository.quarterly
 
-import app.ss.lessons.data.extensions.ValueEvent
-import app.ss.lessons.data.extensions.singleEvent
 import app.ss.lessons.data.model.Language
-import app.ss.models.SSQuarterlyInfo
+import app.ss.lessons.data.repository.mediator.DataSourceMediator.Companion.ID
+import app.ss.lessons.data.repository.mediator.DataSourceMediator.Companion.LANGUAGE
+import app.ss.lessons.data.repository.mediator.DataSourceMediator.Companion.QUARTERLY_GROUP
 import app.ss.lessons.data.repository.mediator.LanguagesDataSource
 import app.ss.lessons.data.repository.mediator.QuarterliesDataSource
-import app.ss.lessons.data.repository.mediator.QuarterliesDataSource.Companion.LANGUAGE
-import app.ss.lessons.data.repository.mediator.QuarterliesDataSource.Companion.QUARTERLY_GROUP
+import app.ss.lessons.data.repository.mediator.QuarterlyInfoDataSource
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
+import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class QuarterliesRepositoryImpl @Inject constructor(
-    private val firebaseDatabase: FirebaseDatabase,
     private val ssPrefs: SSPrefs,
     private val languagesSource: LanguagesDataSource,
     private val quarterliesDataSource: QuarterliesDataSource,
+    private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
 ) : QuarterliesRepository {
 
     override suspend fun getLanguages(): Resource<List<Language>> = languagesSource.get()
@@ -64,14 +62,13 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {
-        val event = firebaseDatabase.reference
-            .child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
-            .child(index)
-            .singleEvent()
-
-        return when (event) {
-            is ValueEvent.Cancelled -> Resource.error(event.error)
-            is ValueEvent.DataChange -> Resource.error(Throwable(""))
-        }
+        val code = index.substringBefore('-')
+        val id = index.substringAfter('-')
+        return quarterlyInfoDataSource.getItem(
+            mapOf(
+                LANGUAGE to code,
+                ID to id
+            )
+        )
     }
 }

@@ -68,11 +68,6 @@ internal class QuarterliesDataSource @Inject constructor(
             Resource.error(error)
         }
     }
-
-    companion object {
-        const val LANGUAGE = "language"
-        const val QUARTERLY_GROUP = "quarterly_group"
-    }
 }
 
 private fun QuarterlyEntity.toModel(): SSQuarterly = SSQuarterly(
