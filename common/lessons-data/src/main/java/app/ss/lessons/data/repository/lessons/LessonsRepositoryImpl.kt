@@ -29,7 +29,7 @@ import app.ss.lessons.data.model.PdfAnnotations
 import app.ss.lessons.data.model.QuarterlyLessonInfo
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.models.SSQuarterly
-import app.ss.lessons.data.model.SSQuarterlyInfo
+import app.ss.models.SSQuarterlyInfo
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.TodayData
 import app.ss.lessons.data.model.WeekData

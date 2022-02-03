@@ -2,7 +2,7 @@ package com.cryart.sabbathschool.readings
 
 import app.cash.turbine.test
 import app.ss.lessons.data.model.SSDay
-import app.ss.lessons.data.model.SSLesson
+import app.ss.models.SSLesson
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import com.cryart.sabbathschool.core.misc.SSConstants

@@ -22,6 +22,7 @@
 package app.ss.lessons.data.model
 
 import androidx.annotation.Keep
+import app.ss.models.SSLesson
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.IgnoreExtraProperties
 

@@ -25,7 +25,7 @@ package app.ss.lessons.data.repository.quarterly
 import app.ss.lessons.data.extensions.ValueEvent
 import app.ss.lessons.data.extensions.singleEvent
 import app.ss.lessons.data.model.Language
-import app.ss.lessons.data.model.SSQuarterlyInfo
+import app.ss.models.SSQuarterlyInfo
 import app.ss.lessons.data.repository.mediator.LanguagesDataSource
 import app.ss.lessons.data.repository.mediator.QuarterliesDataSource
 import app.ss.lessons.data.repository.mediator.QuarterliesDataSource.Companion.LANGUAGE
@@ -71,7 +71,7 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
 
         return when (event) {
             is ValueEvent.Cancelled -> Resource.error(event.error)
-            is ValueEvent.DataChange -> Resource.success(SSQuarterlyInfo(event.snapshot))
+            is ValueEvent.DataChange -> Resource.error(Throwable(""))
         }
     }
 }

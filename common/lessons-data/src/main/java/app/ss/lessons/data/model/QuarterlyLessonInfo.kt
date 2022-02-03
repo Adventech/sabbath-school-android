@@ -22,6 +22,8 @@
 
 package app.ss.lessons.data.model
 
+import app.ss.models.SSQuarterlyInfo
+
 internal data class QuarterlyLessonInfo(
     val quarterlyInfo: SSQuarterlyInfo,
     val lessonInfo: SSLessonInfo

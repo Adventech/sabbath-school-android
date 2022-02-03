@@ -24,6 +24,7 @@ package app.ss.lessons.data.api
 
 import app.ss.lessons.data.model.api.SSLanguage
 import app.ss.models.SSQuarterly
+import app.ss.models.SSQuarterlyInfo
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -35,4 +36,10 @@ internal interface SSQuarterliesApi {
 
     @GET("api/v2/{lang}/quarterlies/index.json")
     suspend fun getQuarterlies(@Path("lang") language: String): Response<List<SSQuarterly>>
+
+    @GET("api/v2/{lang}/quarterlies/{id}/index.json")
+    suspend fun getQuarterlyInfo(
+        @Path("lang") language: String,
+        @Path("id") id: String
+    ): Response<SSQuarterlyInfo>
 }
