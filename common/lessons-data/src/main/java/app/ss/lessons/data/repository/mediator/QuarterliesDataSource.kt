@@ -37,12 +37,14 @@ internal class QuarterliesDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val quarterliesDao: QuarterliesDao,
     private val quarterliesApi: SSQuarterliesApi,
-) : DataSourceMediator<SSQuarterly>(dispatcherProvider) {
+) : DataSourceMediator<SSQuarterly, QuarterliesDataSource.Request>(dispatcherProvider) {
 
-    override val cache: LocalDataSource<SSQuarterly> = object : LocalDataSource<SSQuarterly> {
-        override suspend fun get(params: Map<String, Any>): Resource<List<SSQuarterly>> {
-            val code = params[LANGUAGE] as? String ?: "en"
-            val group = params[QUARTERLY_GROUP] as? QuarterlyGroup
+    data class Request(val language: String?, val group: QuarterlyGroup? = null)
+
+    override val cache: LocalDataSource<SSQuarterly, Request> = object : LocalDataSource<SSQuarterly, Request> {
+        override suspend fun get(request: Request?): Resource<List<SSQuarterly>> {
+            val code = request?.language ?: "en"
+            val group = request?.group
             val quarterlies = group?.let { quarterliesDao.get(code, it) } ?: quarterliesDao.get(code)
             val data = quarterlies.map { it.toModel() }
             if (data.isEmpty()) {
@@ -57,10 +59,10 @@ internal class QuarterliesDataSource @Inject constructor(
             )
         }
     }
-    override val network: DataSource<SSQuarterly> = object : DataSource<SSQuarterly> {
-        override suspend fun get(params: Map<String, Any>): Resource<List<SSQuarterly>> = try {
-            val code = params[LANGUAGE] as? String ?: "en"
-            val group = params[QUARTERLY_GROUP] as? QuarterlyGroup
+    override val network: DataSource<SSQuarterly, Request> = object : DataSource<SSQuarterly, Request> {
+        override suspend fun get(request: Request?): Resource<List<SSQuarterly>> = try {
+            val code = request?.language ?: "en"
+            val group = request?.group
             val data = quarterliesApi.getQuarterlies(code).body() ?: emptyList()
             val filtered = group?.let { data.filter { it.quarterly_group == group } } ?: data
             Resource.success(filtered)

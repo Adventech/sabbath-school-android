@@ -31,50 +31,16 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-internal abstract class DataSourceMediator<T>(
+internal abstract class DataSourceMediator<T, R>(
     private val dispatcherProvider: DispatcherProvider
 ) {
 
-    abstract val cache: LocalDataSource<T>
+    abstract val cache: LocalDataSource<T, R>
 
-    abstract val network: DataSource<T>
+    abstract val network: DataSource<T, R>
 
-    suspend fun get(params: Map<String, Any> = emptyMap()): Resource<List<T>> {
-        val network = withContext(dispatcherProvider.default) { network.get(params) }
-
-        return if (network.isSuccessFul) {
-            network.also {
-                it.data?.let {
-                    withContext(dispatcherProvider.io) { cache.update(it) }
-                }
-            }
-        } else {
-            cache.get(params)
-        }
-    }
-
-    fun getAsFlow(params: Map<String, Any> = emptyMap()): Flow<Resource<List<T>>> = flow {
-        val cacheResource = cache.get(params)
-        if (cacheResource.isSuccessFul) {
-            emit(cacheResource)
-        }
-
-        val network = withContext(dispatcherProvider.default) { network.get(params) }
-        if (network.isSuccessFul) {
-            val data = network.data ?: emptyList()
-            cache.update(data)
-
-            emit(network)
-        }
-    }
-        .flowOn(dispatcherProvider.io)
-        .catch {
-            Timber.e(it)
-            emit(Resource.error(it))
-        }
-
-    suspend fun getItem(params: Map<String, Any> = emptyMap()): Resource<T> {
-        val network = withContext(dispatcherProvider.default) { network.getItem(params) }
+    suspend fun get(request: R? = null): Resource<List<T>> {
+        val network = withContext(dispatcherProvider.default) { network.get(request) }
 
         return if (network.isSuccessFul) {
             network.also {
@@ -83,17 +49,17 @@ internal abstract class DataSourceMediator<T>(
                 }
             }
         } else {
-            cache.getItem(params)
+            withContext(dispatcherProvider.io) { cache.get(request) }
         }
     }
 
-    fun getItemAsFlow(params: Map<String, Any> = emptyMap()): Flow<Resource<T>> = flow {
-        val cacheResource = cache.getItem(params)
+    fun getAsFlow(request: R? = null): Flow<Resource<List<T>>> = flow {
+        val cacheResource = cache.get(request)
         if (cacheResource.isSuccessFul) {
             emit(cacheResource)
         }
 
-        val network = withContext(dispatcherProvider.default) { network.getItem(params) }
+        val network = withContext(dispatcherProvider.default) { network.get(request) }
         if (network.isSuccessFul) {
             network.data?.let { cache.update(it) }
 
@@ -106,19 +72,46 @@ internal abstract class DataSourceMediator<T>(
             emit(Resource.error(it))
         }
 
-    companion object {
-        const val ID = "id"
-        const val LANGUAGE = "language"
-        const val QUARTERLY_GROUP = "quarterly_group"
+    suspend fun getItem(request: R? = null): Resource<T> {
+        val network = withContext(dispatcherProvider.default) { network.getItem(request) }
+
+        return if (network.isSuccessFul) {
+            network.also {
+                it.data?.let {
+                    withContext(dispatcherProvider.io) { cache.updateItem(it) }
+                }
+            }
+        } else {
+            withContext(dispatcherProvider.io) { cache.getItem(request) }
+        }
     }
+
+    fun getItemAsFlow(request: R? = null): Flow<Resource<T>> = flow {
+        val cacheResource = cache.getItem(request)
+        if (cacheResource.isSuccessFul) {
+            emit(cacheResource)
+        }
+
+        val network = withContext(dispatcherProvider.default) { network.getItem(request) }
+        if (network.isSuccessFul) {
+            network.data?.let { cache.updateItem(it) }
+
+            emit(network)
+        }
+    }
+        .flowOn(dispatcherProvider.io)
+        .catch {
+            Timber.e(it)
+            emit(Resource.error(it))
+        }
 }
 
-interface DataSource<T> {
-    suspend fun get(params: Map<String, Any> = emptyMap()): Resource<List<T>> = Resource.success(emptyList())
-    suspend fun getItem(params: Map<String, Any> = emptyMap()): Resource<T> = Resource.loading()
+interface DataSource<T, R> {
+    suspend fun get(request: R? = null): Resource<List<T>> = Resource.success(emptyList())
+    suspend fun getItem(request: R? = null): Resource<T> = Resource.loading()
 }
 
-interface LocalDataSource<T> : DataSource<T> {
+interface LocalDataSource<T, R> : DataSource<T, R> {
     fun update(data: List<T>) = Unit
-    fun update(data: T) = Unit
+    fun updateItem(data: T) = Unit
 }

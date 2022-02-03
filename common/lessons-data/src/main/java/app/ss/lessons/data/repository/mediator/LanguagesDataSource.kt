@@ -36,34 +36,34 @@ internal class LanguagesDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val languagesDao: LanguagesDao,
     private val quarterliesApi: SSQuarterliesApi,
-) : DataSourceMediator<Language>(
+) : DataSourceMediator<Language, LanguagesDataSource.Request>(
     dispatcherProvider = dispatcherProvider
 ) {
-    override val cache: LocalDataSource<Language>
-        get() = object : LocalDataSource<Language> {
-            override suspend fun get(params: Map<String, Any>): Resource<List<Language>> {
-                val data = languagesDao.get().map {
+    object Request
+
+    override val cache: LocalDataSource<Language, Request> = object : LocalDataSource<Language, Request> {
+        override suspend fun get(request: Request?): Resource<List<Language>> {
+            val data = languagesDao.get().map {
+                Language(it.code, it.name)
+            }
+
+            return Resource.success(data)
+        }
+
+        override fun update(data: List<Language>) {
+            languagesDao.insertAll(data.map { LanguageEntity(it.code, it.name) })
+        }
+    }
+
+    override val network: DataSource<Language, Request> = object : DataSource<Language, Request> {
+        override suspend fun get(request: Request?): Resource<List<Language>> =
+            try {
+                val data = quarterliesApi.getLanguages().body()?.map {
                     Language(it.code, it.name)
-                }
-
-                return Resource.success(data)
+                } ?: emptyList()
+                Resource.success(data)
+            } catch (error: Throwable) {
+                Resource.error(error)
             }
-
-            override fun update(data: List<Language>) {
-                languagesDao.insertAll(data.map { LanguageEntity(it.code, it.name) })
-            }
-        }
-
-    override val network: DataSource<Language>
-        get() = object : DataSource<Language> {
-            override suspend fun get(params: Map<String, Any>): Resource<List<Language>> =
-                try {
-                    val data = quarterliesApi.getLanguages().body()?.map {
-                        Language(it.code, it.name)
-                    } ?: emptyList()
-                    Resource.success(data)
-                } catch (error: Throwable) {
-                    Resource.error(error)
-                }
-        }
+    }
 }

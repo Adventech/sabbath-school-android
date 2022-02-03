@@ -23,9 +23,6 @@
 package app.ss.lessons.data.repository.quarterly
 
 import app.ss.lessons.data.model.Language
-import app.ss.lessons.data.repository.mediator.DataSourceMediator.Companion.ID
-import app.ss.lessons.data.repository.mediator.DataSourceMediator.Companion.LANGUAGE
-import app.ss.lessons.data.repository.mediator.DataSourceMediator.Companion.QUARTERLY_GROUP
 import app.ss.lessons.data.repository.mediator.LanguagesDataSource
 import app.ss.lessons.data.repository.mediator.QuarterliesDataSource
 import app.ss.lessons.data.repository.mediator.QuarterlyInfoDataSource
@@ -53,22 +50,14 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
         group: QuarterlyGroup?
     ): Flow<Resource<List<SSQuarterly>>> {
         val code = languageCode ?: ssPrefs.getLanguageCode()
-        val params = mapOf(
-            LANGUAGE to code,
-            QUARTERLY_GROUP to group
-        ).mapNotNull { map -> map.value?.let { map.key to it } }
-
-        return quarterliesDataSource.getAsFlow(params.toMap())
+        return quarterliesDataSource.getAsFlow(QuarterliesDataSource.Request(code, group))
     }
 
     override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {
         val code = index.substringBefore('-')
         val id = index.substringAfter('-')
         return quarterlyInfoDataSource.getItem(
-            mapOf(
-                LANGUAGE to code,
-                ID to id
-            )
+            QuarterlyInfoDataSource.Request(code, id)
         )
     }
 }

@@ -37,19 +37,19 @@ import org.junit.Test
 
 class DataSourceMediatorTest {
 
-    private val cacheSource: LocalDataSource<Any> = mockk()
-    private val networkSource: DataSource<Any> = mockk()
+    private val cacheSource: LocalDataSource<Any, Any> = mockk()
+    private val networkSource: DataSource<Any, Any> = mockk()
 
     private val dispatcherProvider: DispatcherProvider = TestDispatcherProvider()
 
-    private lateinit var mediator: DataSourceMediator<Any>
+    private lateinit var mediator: DataSourceMediator<Any, Any>
 
     @Before
     fun setup() {
-        mediator = object : DataSourceMediator<Any>(dispatcherProvider) {
-            override val cache: LocalDataSource<Any>
+        mediator = object : DataSourceMediator<Any, Any>(dispatcherProvider) {
+            override val cache: LocalDataSource<Any, Any>
                 get() = cacheSource
-            override val network: DataSource<Any>
+            override val network: DataSource<Any, Any>
                 get() = networkSource
         }
     }
@@ -86,8 +86,8 @@ class DataSourceMediatorTest {
         val cacheResource = Resource.success(listOf("1", "2"))
         val networkResource = Resource.success(data)
 
-        coEvery { cacheSource.get() }.returns(cacheResource)
-        coEvery { networkSource.get() }.returns(networkResource)
+        coEvery { cacheSource.get(null) }.returns(cacheResource)
+        coEvery { networkSource.get(null) }.returns(networkResource)
         every { cacheSource.update(data) }.returns(Unit)
 
         mediator.getAsFlow().test {

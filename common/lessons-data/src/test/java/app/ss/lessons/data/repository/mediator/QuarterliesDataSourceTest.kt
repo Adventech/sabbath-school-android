@@ -87,9 +87,7 @@ class QuarterliesDataSourceTest {
         )
 
         dataSource.getAsFlow(
-            mapOf(
-                "language" to "en"
-            )
+            QuarterliesDataSource.Request("en")
         ).test {
             awaitItem().data shouldBeEqualTo listOf(quarterly.copy(title = "local"))
             awaitItem().data shouldBeEqualTo listOf(quarterly.copy(title = "remote"))
@@ -119,9 +117,7 @@ class QuarterliesDataSourceTest {
         )
 
         dataSource.getAsFlow(
-            mapOf(
-                "language" to "en"
-            )
+            QuarterliesDataSource.Request("en")
         ).test {
             awaitItem().data shouldBeEqualTo listOf(quarterly.copy(title = "remote"))
 
@@ -143,10 +139,7 @@ class QuarterliesDataSourceTest {
         )
 
         dataSource.getAsFlow(
-            mapOf(
-                "language" to "en",
-                "quarterly_group" to group
-            )
+            QuarterliesDataSource.Request("en", group)
         ).test {
             awaitItem().data shouldBeEqualTo listOf(quarterly.copy(quarterly_group = group))
 

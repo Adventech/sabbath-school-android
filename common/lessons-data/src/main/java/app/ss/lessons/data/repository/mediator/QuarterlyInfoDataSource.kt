@@ -33,23 +33,25 @@ import javax.inject.Singleton
 internal class QuarterlyInfoDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val quarterliesApi: SSQuarterliesApi,
-) : DataSourceMediator<SSQuarterlyInfo>(dispatcherProvider = dispatcherProvider) {
+) : DataSourceMediator<SSQuarterlyInfo, QuarterlyInfoDataSource.Request>(dispatcherProvider = dispatcherProvider) {
 
-    override val cache: LocalDataSource<SSQuarterlyInfo> = object : LocalDataSource<SSQuarterlyInfo> {
-        override suspend fun getItem(params: Map<String, Any>): Resource<SSQuarterlyInfo> {
+    data class Request(val language: String, val id: String)
+
+    override val cache: LocalDataSource<SSQuarterlyInfo, Request> = object : LocalDataSource<SSQuarterlyInfo, Request> {
+        override suspend fun getItem(request: Request?): Resource<SSQuarterlyInfo> {
             return Resource.loading()
         }
-    }
-    override val network: DataSource<SSQuarterlyInfo> = object : LocalDataSource<SSQuarterlyInfo> {
-        override suspend fun getItem(params: Map<String, Any>): Resource<SSQuarterlyInfo> = try {
-            val language = params[LANGUAGE] as? String ?: "en"
 
-            val data = (params[ID] as? String)?.let { id ->
-                quarterliesApi.getQuarterlyInfo(language, id).body()
-            }
-            data?.let {
-                Resource.success(data)
-            } ?: Resource.error(Throwable(""))
+        override fun updateItem(data: SSQuarterlyInfo) {
+        }
+    }
+    override val network: DataSource<SSQuarterlyInfo, Request> = object : LocalDataSource<SSQuarterlyInfo, Request> {
+        override suspend fun getItem(request: Request?): Resource<SSQuarterlyInfo> = try {
+            val error = Resource.error<SSQuarterlyInfo>(Throwable(""))
+            request?.let {
+                val data = quarterliesApi.getQuarterlyInfo(request.language, request.id).body()
+                data?.let { Resource.success(data) } ?: error
+            } ?: error
         } catch (error: Throwable) {
             Resource.error(error)
         }
