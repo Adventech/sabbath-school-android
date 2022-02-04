@@ -30,7 +30,8 @@ import app.ss.models.QuarterlyGroup
 
 @Entity(tableName = "quarterlies")
 data class QuarterlyEntity(
-    @PrimaryKey val id: String,
+    @PrimaryKey val index: String,
+    val id: String,
     val title: String,
     val description: String,
     val introduction: String?,
@@ -39,7 +40,6 @@ data class QuarterlyEntity(
     val end_date: String,
     val cover: String,
     val splash: String?,
-    val index: String,
     val path: String,
     val full_path: String,
     val lang: String,

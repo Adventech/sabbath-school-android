@@ -45,17 +45,14 @@ internal class QuarterlyInfoDataSource @Inject constructor(
 
     override val cache: LocalDataSource<SSQuarterlyInfo, Request> = object : LocalDataSource<SSQuarterlyInfo, Request> {
         override suspend fun getItem(request: Request?): Resource<SSQuarterlyInfo> {
-            val quarterlyIndex = request?.index ?: return Resource.loading()
+            val info = request?.index?.let {
+                quarterliesDao.getInfo(it)
+            } ?: return Resource.loading()
 
-            val map = quarterliesDao.getInfo(quarterlyIndex)
-            if (map.isEmpty()) return Resource.loading()
-
-            val quarterly = map.keys.first()
-            val lessons = map.values.flatten()
             return Resource.success(
                 SSQuarterlyInfo(
-                    quarterly = quarterly.toModel(),
-                    lessons = lessons.map { it.toModel() }
+                    quarterly = info.quarterly.toModel(),
+                    lessons = info.lessons.map { it.toModel() }
                 )
             )
         }

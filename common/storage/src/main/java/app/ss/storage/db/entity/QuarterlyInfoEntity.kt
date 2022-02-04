@@ -20,25 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.storage.db.dao
+package app.ss.storage.db.entity
 
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Transaction
-import app.ss.models.QuarterlyGroup
-import app.ss.storage.db.entity.QuarterlyEntity
-import app.ss.storage.db.entity.QuarterlyInfoEntity
+import androidx.room.Embedded
+import androidx.room.Relation
 
-@Dao
-interface QuarterliesDao : BaseDao<QuarterlyEntity> {
+data class QuarterlyInfoEntity(
+    @Embedded
+    val quarterly: QuarterlyEntity,
 
-    @Query("SELECT * FROM quarterlies WHERE lang = :language")
-    fun get(language: String): List<QuarterlyEntity>
-
-    @Query("SELECT * FROM quarterlies WHERE lang = :language AND quarterly_group = :group")
-    fun get(language: String, group: QuarterlyGroup): List<QuarterlyEntity>
-
-    @Transaction
-    @Query("SELECT * FROM quarterlies WHERE quarterlies.`index` = :quarterlyIndex")
-    fun getInfo(quarterlyIndex: String): QuarterlyInfoEntity?
-}
+    @Relation(
+        parentColumn = "index",
+        entityColumn = "quarter"
+    )
+    val lessons: List<LessonEntity>
+)
