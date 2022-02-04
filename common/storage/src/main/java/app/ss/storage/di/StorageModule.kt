@@ -26,6 +26,7 @@ import android.content.Context
 import app.ss.storage.db.SabbathSchoolDatabase
 import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.dao.LanguagesDao
+import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.dao.QuarterliesDao
 import dagger.Module
 import dagger.Provides
@@ -55,6 +56,12 @@ object StorageModule {
     fun provideQuarterliesDao(
         @ApplicationContext context: Context,
     ): QuarterliesDao = context.database().quarterliesDao()
+
+    @Provides
+    @Singleton
+    fun provideLessonsDao(
+        @ApplicationContext context: Context,
+    ): LessonsDao = context.database().lessonsDao()
 }
 
 private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)

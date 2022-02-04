@@ -72,12 +72,12 @@ internal class QuarterliesDataSource @Inject constructor(
     }
 }
 
-private fun QuarterlyEntity.toModel(): SSQuarterly = SSQuarterly(
+internal fun QuarterlyEntity.toModel(): SSQuarterly = SSQuarterly(
     id, title, description, introduction, human_date, start_date, end_date, cover, splash, index, path,
     full_path, lang, color_primary, color_primary_dark, quarterly_name, quarterly_group, features, credits
 )
 
-private fun SSQuarterly.toEntity(): QuarterlyEntity = QuarterlyEntity(
+internal fun SSQuarterly.toEntity(): QuarterlyEntity = QuarterlyEntity(
     id, title, description, introduction, human_date, start_date, end_date, cover, splash, index, path,
     full_path, lang, color_primary, color_primary_dark, quarterly_name, quarterly_group, features, credits
 )

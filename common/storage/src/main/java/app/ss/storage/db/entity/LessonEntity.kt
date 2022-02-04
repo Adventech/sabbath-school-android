@@ -20,25 +20,21 @@
  * THE SOFTWARE.
  */
 
-package app.ss.storage.db.dao
+package app.ss.storage.db.entity
 
-import androidx.room.Dao
-import androidx.room.Query
-import app.ss.models.QuarterlyGroup
-import app.ss.storage.db.entity.LessonEntity
-import app.ss.storage.db.entity.QuarterlyEntity
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Dao
-interface QuarterliesDao : BaseDao<QuarterlyEntity> {
-
-    @Query("SELECT * FROM quarterlies WHERE lang = :language")
-    fun get(language: String): List<QuarterlyEntity>
-
-    @Query("SELECT * FROM quarterlies WHERE lang = :language AND quarterly_group = :group")
-    fun get(language: String, group: QuarterlyGroup): List<QuarterlyEntity>
-
-    @Query(
-        "SELECT * FROM quarterlies JOIN lessons ON quarter = quarterlies.`index` WHERE quarterlies.`index` = :quarterlyIndex"
-    )
-    fun getInfo(quarterlyIndex: String): Map<QuarterlyEntity, List<LessonEntity>>
-}
+@Entity(tableName = "lessons")
+data class LessonEntity(
+    @PrimaryKey val index: String,
+    val quarter: String,
+    val title: String,
+    val start_date: String,
+    val end_date: String,
+    val cover: String,
+    val id: String,
+    val path: String,
+    val full_path: String,
+    val pdfOnly: Boolean,
+)

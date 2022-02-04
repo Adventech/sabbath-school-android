@@ -30,9 +30,11 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.dao.LanguagesDao
+import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.entity.AudioFileEntity
 import app.ss.storage.db.entity.LanguageEntity
+import app.ss.storage.db.entity.LessonEntity
 import app.ss.storage.db.entity.QuarterlyEntity
 
 @Database(
@@ -40,12 +42,14 @@ import app.ss.storage.db.entity.QuarterlyEntity
         AudioFileEntity::class,
         LanguageEntity::class,
         QuarterlyEntity::class,
+        LessonEntity::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
-        AutoMigration(from = 3, to = 4)
+        AutoMigration(from = 3, to = 4),
+        AutoMigration(from = 4, to = 5)
     ]
 )
 @TypeConverters(Converters::class)
@@ -56,6 +60,8 @@ internal abstract class SabbathSchoolDatabase : RoomDatabase() {
     abstract fun languagesDao(): LanguagesDao
 
     abstract fun quarterliesDao(): QuarterliesDao
+
+    abstract fun lessonsDao(): LessonsDao
 
     companion object {
         private const val DATABASE_NAME = "sabbath_school_db"

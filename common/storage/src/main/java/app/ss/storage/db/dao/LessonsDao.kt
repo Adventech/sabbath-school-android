@@ -23,22 +23,7 @@
 package app.ss.storage.db.dao
 
 import androidx.room.Dao
-import androidx.room.Query
-import app.ss.models.QuarterlyGroup
 import app.ss.storage.db.entity.LessonEntity
-import app.ss.storage.db.entity.QuarterlyEntity
 
 @Dao
-interface QuarterliesDao : BaseDao<QuarterlyEntity> {
-
-    @Query("SELECT * FROM quarterlies WHERE lang = :language")
-    fun get(language: String): List<QuarterlyEntity>
-
-    @Query("SELECT * FROM quarterlies WHERE lang = :language AND quarterly_group = :group")
-    fun get(language: String, group: QuarterlyGroup): List<QuarterlyEntity>
-
-    @Query(
-        "SELECT * FROM quarterlies JOIN lessons ON quarter = quarterlies.`index` WHERE quarterlies.`index` = :quarterlyIndex"
-    )
-    fun getInfo(quarterlyIndex: String): Map<QuarterlyEntity, List<LessonEntity>>
-}
+interface LessonsDao : BaseDao<LessonEntity>
