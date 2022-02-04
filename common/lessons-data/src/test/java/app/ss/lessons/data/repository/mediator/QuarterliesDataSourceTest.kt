@@ -49,16 +49,21 @@ class QuarterliesDataSourceTest {
     private lateinit var dataSource: QuarterliesDataSource
 
     private val entity = QuarterlyEntity(
-        "id", "title", "desc", null, "date", "date", "date",
-        "cover", null, "index", "path", "full_path", "en",
-        "color_primary", "color_primary_dark", "name", null, emptyList(),
-        emptyList()
+        id = "id", title = "title", description = "desc",
+        introduction = null,
+        human_date = "date", start_date = "date", end_date = "date",
+        cover = "cover", splash = null, index = "index", path = "path",
+        full_path = "full_path", lang = "en",
+        color_primary = "color_primary", color_primary_dark = "color_primary_dark",
+        quarterly_name = "name", quarterly_group = null, features = emptyList(),
+        credits = emptyList()
     )
     private val quarterly = SSQuarterly(
-        "id", "title", "desc", null, "date", "date", "date",
+        "id", "title", "desc", null, "date",
+        "date", "date",
         "cover", null, "index", "path", "full_path", "en",
-        "color_primary", "color_primary_dark", "name", null, emptyList(),
-        emptyList()
+        "color_primary", "color_primary_dark", "name",
+        null, emptyList(), emptyList()
     )
 
     @Before
