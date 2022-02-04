@@ -23,10 +23,10 @@
 package com.cryart.sabbathschool.test.di.repository
 
 import app.ss.lessons.data.model.Language
+import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.test.di.mock.QuarterlyMockData
 import kotlinx.coroutines.flow.Flow
@@ -45,9 +45,11 @@ class FakeQuarterliesRepository @Inject constructor(
         return flowOf(Resource.success(mockData.getQuarterlies(group)))
     }
 
-    override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {
-        return mockData.getQuarterlyInfo(index)?.let {
-            Resource.success(it)
-        } ?: Resource.error(Throwable())
+    override suspend fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>> {
+        return flowOf(
+            mockData.getQuarterlyInfo(index)?.let {
+                Resource.success(it)
+            } ?: Resource.error(Throwable())
+        )
     }
 }

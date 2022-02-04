@@ -30,8 +30,12 @@ import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
+import org.joda.time.DateTime
+import org.joda.time.Interval
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -53,11 +57,29 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
         return quarterliesDataSource.getAsFlow(QuarterliesDataSource.Request(code, group))
     }
 
-    override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {
-        val code = index.substringBefore('-')
-        val id = index.substringAfter('-')
-        return quarterlyInfoDataSource.getItem(
-            QuarterlyInfoDataSource.Request(code, id)
-        )
-    }
+    override suspend fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>> =
+        quarterlyInfoDataSource.getItemAsFlow(QuarterlyInfoDataSource.Request(index))
+            .onEach { resource ->
+                if (resource.isSuccessFul) {
+                    ssPrefs.setLastQuarterlyIndex(index)
+
+                    resource.data?.let {
+                        ssPrefs.setThemeColor(
+                            it.quarterly.color_primary,
+                            it.quarterly.color_primary_dark
+                        )
+                        ssPrefs.setReadingLatestQuarterly(it.quarterly.isLatest)
+                    }
+                }
+            }
+
+    private val SSQuarterly.isLatest: Boolean
+        get() {
+            val today = DateTime.now().withTimeAtStartOfDay()
+
+            val startDate = DateHelper.parseDate(start_date)
+            val endDate = DateHelper.parseDate(end_date)
+
+            return Interval(startDate, endDate?.plusDays(1)).contains(today)
+        }
 }

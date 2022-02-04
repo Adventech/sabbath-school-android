@@ -23,7 +23,11 @@
 package app.ss.lessons.data.repository.mediator
 
 import app.ss.lessons.data.api.SSQuarterliesApi
+import app.ss.models.SSLesson
 import app.ss.models.SSQuarterlyInfo
+import app.ss.storage.db.dao.LessonsDao
+import app.ss.storage.db.dao.QuarterliesDao
+import app.ss.storage.db.entity.LessonEntity
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import javax.inject.Inject
@@ -33,27 +37,75 @@ import javax.inject.Singleton
 internal class QuarterlyInfoDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val quarterliesApi: SSQuarterliesApi,
+    private val quarterliesDao: QuarterliesDao,
+    private val lessonsDao: LessonsDao,
 ) : DataSourceMediator<SSQuarterlyInfo, QuarterlyInfoDataSource.Request>(dispatcherProvider = dispatcherProvider) {
 
-    data class Request(val language: String, val id: String)
+    data class Request(val index: String)
 
     override val cache: LocalDataSource<SSQuarterlyInfo, Request> = object : LocalDataSource<SSQuarterlyInfo, Request> {
         override suspend fun getItem(request: Request?): Resource<SSQuarterlyInfo> {
-            return Resource.loading()
+            val quarterlyIndex = request?.index ?: return Resource.loading()
+
+            val map = quarterliesDao.getInfo(quarterlyIndex)
+            if (map.isEmpty()) return Resource.loading()
+
+            val quarterly = map.keys.first()
+            val lessons = map.values.flatten()
+            return Resource.success(
+                SSQuarterlyInfo(
+                    quarterly = quarterly.toModel(),
+                    lessons = lessons.map { it.toModel() }
+                )
+            )
         }
 
         override fun updateItem(data: SSQuarterlyInfo) {
+            lessonsDao.insertAll(
+                data.lessons.map { it.toEntity() }
+            )
+            quarterliesDao.updateItem(data.quarterly.toEntity())
         }
     }
     override val network: DataSource<SSQuarterlyInfo, Request> = object : LocalDataSource<SSQuarterlyInfo, Request> {
         override suspend fun getItem(request: Request?): Resource<SSQuarterlyInfo> = try {
-            val error = Resource.error<SSQuarterlyInfo>(Throwable(""))
-            request?.let {
-                val data = quarterliesApi.getQuarterlyInfo(request.language, request.id).body()
+            val error = Resource.error<SSQuarterlyInfo>(IllegalArgumentException("Required Quarterly [index]"))
+
+            request?.index?.let { index ->
+                val language = index.substringBefore('-')
+                val id = index.substringAfter('-')
+
+                val data = quarterliesApi.getQuarterlyInfo(language, id).body()
+
                 data?.let { Resource.success(data) } ?: error
             } ?: error
         } catch (error: Throwable) {
             Resource.error(error)
         }
     }
+
+    private fun SSLesson.toEntity(): LessonEntity = LessonEntity(
+        index = index,
+        quarter = index.substringBeforeLast('-'),
+        title = title,
+        start_date = start_date,
+        end_date = end_date,
+        cover = cover,
+        id = id,
+        path = path,
+        full_path = full_path,
+        pdfOnly = pdfOnly
+    )
+
+    private fun LessonEntity.toModel(): SSLesson = SSLesson(
+        index = index,
+        title = title,
+        start_date = start_date,
+        end_date = end_date,
+        cover = cover,
+        id = id,
+        path = path,
+        full_path = full_path,
+        pdfOnly = pdfOnly
+    )
 }
