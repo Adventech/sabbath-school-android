@@ -24,6 +24,8 @@ package app.ss.lessons.data.repository.lessons
 
 import app.ss.models.PdfAnnotations
 import app.ss.lessons.data.model.QuarterlyLessonInfo
+import app.ss.models.SSComment
+import app.ss.models.SSReadHighlights
 import app.ss.lessons.data.model.TodayData
 import app.ss.lessons.data.model.WeekData
 import app.ss.lessons.data.model.WeekDay
@@ -163,4 +165,12 @@ internal class LessonsRepositoryImpl @Inject constructor(
     ): Flow<Resource<List<PdfAnnotations>>> = pdfAnnotationsDataSource.getAsFlow(
         PdfAnnotationsDataSource.Request(lessonIndex, pdfId)
     )
+
+    override fun getComments(dayIndex: String): Flow<Resource<List<SSComment>>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getReadHighlights(dayIndex: String): Flow<Resource<List<SSReadHighlights>>> {
+        TODO("Not yet implemented")
+    }
 }

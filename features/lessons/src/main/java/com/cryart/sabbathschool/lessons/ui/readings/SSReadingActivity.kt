@@ -39,8 +39,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
-import app.ss.lessons.data.model.SSReadComments
-import app.ss.lessons.data.model.SSReadHighlights
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
 import app.ss.lessons.data.model.media.MediaAvailability
 import app.ss.media.playback.PlaybackViewModel
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying

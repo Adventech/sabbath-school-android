@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.ss.models.SSRead
-import app.ss.lessons.data.model.SSReadComments
-import app.ss.lessons.data.model.SSReadHighlights
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.view.inflate
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions

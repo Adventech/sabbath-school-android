@@ -1,5 +1,7 @@
 package com.cryart.sabbathschool.test.di.repository
 
+import app.ss.models.SSComment
+import app.ss.models.SSReadHighlights
 import app.ss.models.PdfAnnotations
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
@@ -33,6 +35,14 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
     }
 
     override suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>> {
+        return emptyFlow()
+    }
+
+    override fun getComments(dayIndex: String): Flow<Resource<List<SSComment>>> {
+        return emptyFlow()
+    }
+
+    override fun getReadHighlights(dayIndex: String): Flow<Resource<List<SSReadHighlights>>> {
         return emptyFlow()
     }
 }

@@ -58,9 +58,9 @@ import com.cryart.sabbathschool.readings.R;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import app.ss.lessons.data.model.SSComment;
-import app.ss.lessons.data.model.SSReadComments;
-import app.ss.lessons.data.model.SSReadHighlights;
+import app.ss.models.SSComment;
+import app.ss.models.SSReadComments;
+import app.ss.models.SSReadHighlights;
 import timber.log.Timber;
 
 import static android.content.Context.CLIPBOARD_SERVICE;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,16 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package app.ss.lessons.data.model
+package app.ss.models
 
-import androidx.annotation.Keep
-import com.google.firebase.database.IgnoreExtraProperties
-
-@Keep
-@IgnoreExtraProperties
-data class SSComment(
-    val elementId: String,
-    var comment: String
-) {
-    constructor() : this("", "")
-}
+data class SSReadComments(
+    val readIndex: String,
+    val comments: List<SSComment>
+)

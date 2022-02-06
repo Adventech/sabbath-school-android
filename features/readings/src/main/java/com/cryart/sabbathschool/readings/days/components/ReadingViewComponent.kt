@@ -1,8 +1,8 @@
 package com.cryart.sabbathschool.readings.days.components
 
 import androidx.lifecycle.LifecycleOwner
-import app.ss.lessons.data.model.SSReadComments
-import app.ss.lessons.data.model.SSReadHighlights
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.core.ui.BaseComponent

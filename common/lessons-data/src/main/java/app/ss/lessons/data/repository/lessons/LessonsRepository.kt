@@ -22,6 +22,8 @@
 
 package app.ss.lessons.data.repository.lessons
 
+import app.ss.models.SSComment
+import app.ss.models.SSReadHighlights
 import app.ss.models.PdfAnnotations
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
@@ -43,4 +45,8 @@ interface LessonsRepository {
     suspend fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>)
 
     suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>>
+
+    fun getComments(dayIndex: String): Flow<Resource<List<SSComment>>>
+
+    fun getReadHighlights(dayIndex: String): Flow<Resource<List<SSReadHighlights>>>
 }

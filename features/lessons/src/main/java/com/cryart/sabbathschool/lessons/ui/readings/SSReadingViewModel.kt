@@ -41,8 +41,8 @@ import androidx.lifecycle.lifecycleScope
 import app.ss.lessons.data.model.SSContextMenu
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
-import app.ss.lessons.data.model.SSReadComments
-import app.ss.lessons.data.model.SSReadHighlights
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
 import app.ss.lessons.data.model.SSSuggestion
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
@@ -243,7 +243,7 @@ class SSReadingViewModel(
             .child(dayIndex)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val ssReadComments = SSReadComments(dataSnapshot, dayIndex)
+                    val ssReadComments = SSReadComments("", emptyList())
                     downloadRead(dayIndex, index, ssReadHighlights, ssReadComments)
                 }
 
