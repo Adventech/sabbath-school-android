@@ -42,7 +42,7 @@ internal class LanguagesDataSource @Inject constructor(
     object Request
 
     override val cache: LocalDataSource<Language, Request> = object : LocalDataSource<Language, Request> {
-        override suspend fun get(request: Request?): Resource<List<Language>> {
+        override suspend fun get(request: Request): Resource<List<Language>> {
             val data = languagesDao.get().map {
                 Language(it.code, it.name)
             }
@@ -56,7 +56,7 @@ internal class LanguagesDataSource @Inject constructor(
     }
 
     override val network: DataSource<Language, Request> = object : DataSource<Language, Request> {
-        override suspend fun get(request: Request?): Resource<List<Language>> =
+        override suspend fun get(request: Request): Resource<List<Language>> =
             try {
                 val data = quarterliesApi.getLanguages().body()?.map {
                     Language(it.code, it.name)

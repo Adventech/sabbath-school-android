@@ -44,10 +44,8 @@ internal class QuarterlyInfoDataSource @Inject constructor(
     data class Request(val index: String)
 
     override val cache: LocalDataSource<SSQuarterlyInfo, Request> = object : LocalDataSource<SSQuarterlyInfo, Request> {
-        override suspend fun getItem(request: Request?): Resource<SSQuarterlyInfo> {
-            val info = request?.index?.let {
-                quarterliesDao.getInfo(it)
-            } ?: return Resource.loading()
+        override suspend fun getItem(request: Request): Resource<SSQuarterlyInfo> {
+            val info = quarterliesDao.getInfo(request.index) ?: return Resource.loading()
 
             return Resource.success(
                 SSQuarterlyInfo(
@@ -65,17 +63,16 @@ internal class QuarterlyInfoDataSource @Inject constructor(
         }
     }
     override val network: DataSource<SSQuarterlyInfo, Request> = object : LocalDataSource<SSQuarterlyInfo, Request> {
-        override suspend fun getItem(request: Request?): Resource<SSQuarterlyInfo> = try {
+        override suspend fun getItem(request: Request): Resource<SSQuarterlyInfo> = try {
             val error = Resource.error<SSQuarterlyInfo>(IllegalArgumentException("Required Quarterly [index]"))
+            val index = request.index
 
-            request?.index?.let { index ->
-                val language = index.substringBefore('-')
-                val id = index.substringAfter('-')
+            val language = index.substringBefore('-')
+            val id = index.substringAfter('-')
 
-                val data = quarterliesApi.getQuarterlyInfo(language, id).body()
+            val response = quarterliesApi.getQuarterlyInfo(language, id)
 
-                data?.let { Resource.success(data) } ?: error
-            } ?: error
+            response.body()?.let { Resource.success(it) } ?: error
         } catch (error: Throwable) {
             Resource.error(error)
         }

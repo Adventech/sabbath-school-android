@@ -46,12 +46,9 @@ internal class ReadsDataSource @Inject constructor(
 
     override val cache: LocalDataSource<SSRead, Request> = object : LocalDataSource<SSRead, Request> {
 
-        override suspend fun getItem(request: Request?): Resource<SSRead> {
-            return request?.dayIndex?.let { index ->
-                readsDao.get(index)?.let {
-                    Resource.success(it.toModel())
-                } ?: Resource.loading()
-            } ?: Resource.loading()
+        override suspend fun getItem(request: Request): Resource<SSRead> {
+            val read = readsDao.get(request.dayIndex) ?: return Resource.loading()
+            return Resource.success(read.toModel())
         }
 
         override fun updateItem(data: SSRead) {
@@ -60,19 +57,20 @@ internal class ReadsDataSource @Inject constructor(
     }
 
     override val network: DataSource<SSRead, Request> = object : DataSource<SSRead, Request> {
-        override suspend fun getItem(request: Request?): Resource<SSRead> = try {
+        override suspend fun getItem(request: Request): Resource<SSRead> = try {
             val error = Resource.error<SSRead>(Throwable(""))
-            request?.dayIndex?.let { index ->
-                val language = index.substringBefore('-')
-                val dayId = index.substringAfterLast('-')
-                val lessonIndex = index.substringAfter('-')
-                    .substringBeforeLast('-')
-                val quarterlyId = lessonIndex.substringBeforeLast('-')
-                val lessonId = lessonIndex.substringAfterLast('-')
+            val index = request.dayIndex
 
-                val data = lessonsApi.getDayRead(language, quarterlyId, lessonId, dayId).body()
-                data?.let { Resource.success(it) } ?: error
-            } ?: error
+            val language = index.substringBefore('-')
+            val dayId = index.substringAfterLast('-')
+            val lessonIndex = index.substringAfter('-')
+                .substringBeforeLast('-')
+            val quarterlyId = lessonIndex.substringBeforeLast('-')
+            val lessonId = lessonIndex.substringAfterLast('-')
+
+            val response = lessonsApi.getDayRead(language, quarterlyId, lessonId, dayId)
+
+            response.body()?.let { Resource.success(it) } ?: error
         } catch (error: Throwable) {
             Timber.e(error)
             Resource.error(error)

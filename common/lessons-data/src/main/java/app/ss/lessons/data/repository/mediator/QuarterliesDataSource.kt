@@ -39,12 +39,13 @@ internal class QuarterliesDataSource @Inject constructor(
     private val quarterliesApi: SSQuarterliesApi,
 ) : DataSourceMediator<SSQuarterly, QuarterliesDataSource.Request>(dispatcherProvider) {
 
-    data class Request(val language: String?, val group: QuarterlyGroup? = null)
+    data class Request(val language: String, val group: QuarterlyGroup? = null)
 
     override val cache: LocalDataSource<SSQuarterly, Request> = object : LocalDataSource<SSQuarterly, Request> {
-        override suspend fun get(request: Request?): Resource<List<SSQuarterly>> {
-            val code = request?.language ?: "en"
-            val group = request?.group
+        override suspend fun get(request: Request): Resource<List<SSQuarterly>> {
+            val code = request.language
+            val group = request.group
+
             val quarterlies = group?.let { quarterliesDao.get(code, it) } ?: quarterliesDao.get(code)
             val data = quarterlies.map { it.toModel() }
             if (data.isEmpty()) {
@@ -60,10 +61,9 @@ internal class QuarterliesDataSource @Inject constructor(
         }
     }
     override val network: DataSource<SSQuarterly, Request> = object : DataSource<SSQuarterly, Request> {
-        override suspend fun get(request: Request?): Resource<List<SSQuarterly>> = try {
-            val code = request?.language ?: "en"
-            val group = request?.group
-            val data = quarterliesApi.getQuarterlies(code).body() ?: emptyList()
+        override suspend fun get(request: Request): Resource<List<SSQuarterly>> = try {
+            val group = request.group
+            val data = quarterliesApi.getQuarterlies(request.language).body() ?: emptyList()
             val filtered = group?.let { data.filter { it.quarterly_group == group } } ?: data
             Resource.success(filtered)
         } catch (error: Throwable) {

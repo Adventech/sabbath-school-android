@@ -39,7 +39,7 @@ internal abstract class DataSourceMediator<T, R>(
 
     abstract val network: DataSource<T, R>
 
-    suspend fun get(request: R? = null): Resource<List<T>> {
+    suspend fun get(request: R): Resource<List<T>> {
         val network = withContext(dispatcherProvider.default) { network.get(request) }
 
         return if (network.isSuccessFul) {
@@ -53,7 +53,7 @@ internal abstract class DataSourceMediator<T, R>(
         }
     }
 
-    fun getAsFlow(request: R? = null): Flow<Resource<List<T>>> = flow {
+    fun getAsFlow(request: R): Flow<Resource<List<T>>> = flow {
         val cacheResource = cache.get(request)
         if (cacheResource.isSuccessFul) {
             emit(cacheResource)
@@ -72,7 +72,7 @@ internal abstract class DataSourceMediator<T, R>(
             emit(Resource.error(it))
         }
 
-    suspend fun getItem(request: R? = null): Resource<T> {
+    suspend fun getItem(request: R): Resource<T> {
         val network = withContext(dispatcherProvider.default) { network.getItem(request) }
 
         return if (network.isSuccessFul) {
@@ -86,7 +86,7 @@ internal abstract class DataSourceMediator<T, R>(
         }
     }
 
-    fun getItemAsFlow(request: R? = null): Flow<Resource<T>> = flow {
+    fun getItemAsFlow(request: R): Flow<Resource<T>> = flow {
         val cacheResource = cache.getItem(request)
         if (cacheResource.isSuccessFul) {
             emit(cacheResource)
@@ -107,8 +107,8 @@ internal abstract class DataSourceMediator<T, R>(
 }
 
 interface DataSource<T, R> {
-    suspend fun get(request: R? = null): Resource<List<T>> = Resource.success(emptyList())
-    suspend fun getItem(request: R? = null): Resource<T> = Resource.loading()
+    suspend fun get(request: R): Resource<List<T>> = Resource.success(emptyList())
+    suspend fun getItem(request: R): Resource<T> = Resource.loading()
 }
 
 interface LocalDataSource<T, R> : DataSource<T, R> {

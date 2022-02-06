@@ -47,12 +47,9 @@ internal class LessonInfoDataSource @Inject constructor(
 
     override val cache: LocalDataSource<SSLessonInfo, Request> = object : LocalDataSource<SSLessonInfo, Request> {
 
-        override suspend fun getItem(request: Request?): Resource<SSLessonInfo> {
-            return request?.lessonIndex?.let { index ->
-                lessonsDao.get(index)?.let {
-                    Resource.success(it.toInfoModel())
-                } ?: Resource.loading()
-            } ?: Resource.loading()
+        override suspend fun getItem(request: Request): Resource<SSLessonInfo> {
+            val info = lessonsDao.get(request.lessonIndex) ?: return Resource.loading()
+            return Resource.success(info.toInfoModel())
         }
 
         override fun updateItem(data: SSLessonInfo) {
@@ -65,19 +62,18 @@ internal class LessonInfoDataSource @Inject constructor(
     }
 
     override val network: DataSource<SSLessonInfo, Request> = object : DataSource<SSLessonInfo, Request> {
-        override suspend fun getItem(request: Request?): Resource<SSLessonInfo> = try {
+        override suspend fun getItem(request: Request): Resource<SSLessonInfo> = try {
             val error = Resource.error<SSLessonInfo>(Throwable(""))
-            request?.lessonIndex?.let { index ->
+            val index = request.lessonIndex
 
-                val language = index.substringBefore('-')
-                val lessonId = index.substringAfterLast('-')
-                val quarterlyId = index.substringAfter('-')
-                    .substringBeforeLast('-')
+            val language = index.substringBefore('-')
+            val lessonId = index.substringAfterLast('-')
+            val quarterlyId = index.substringAfter('-')
+                .substringBeforeLast('-')
 
-                val data = lessonsApi.getLessonInfo(language, quarterlyId, lessonId).body()
+            val response = lessonsApi.getLessonInfo(language, quarterlyId, lessonId)
 
-                data?.let { Resource.success(it) } ?: error
-            } ?: error
+            response.body()?.let { Resource.success(it) } ?: error
         } catch (error: Throwable) {
             Timber.e(error)
             Resource.error(error)

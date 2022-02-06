@@ -57,11 +57,12 @@ class DataSourceMediatorTest {
     @Test
     fun `should return cache data when network fails`() = runTest {
         val cacheResource = Resource.success(listOf("1", "2", "3"))
+        val request = Any()
 
-        coEvery { networkSource.get() }.returns(Resource.error(Throwable("Error")))
-        coEvery { cacheSource.get() }.returns(cacheResource)
+        coEvery { networkSource.get(request) }.returns(Resource.error(Throwable("Error")))
+        coEvery { cacheSource.get(request) }.returns(cacheResource)
 
-        val resource = mediator.get()
+        val resource = mediator.get(request)
 
         resource.shouldBeEqualTo(cacheResource)
     }
@@ -70,11 +71,12 @@ class DataSourceMediatorTest {
     fun `should cache network data when successful`() = runTest {
         val data = listOf("1", "2", "3")
         val networkResource = Resource.success(data)
+        val request = Any()
 
-        coEvery { networkSource.get() }.returns(networkResource)
+        coEvery { networkSource.get(request) }.returns(networkResource)
         every { cacheSource.update(data) }.returns(Unit)
 
-        val resource = mediator.get()
+        val resource = mediator.get(request)
 
         resource.shouldBeEqualTo(networkResource)
         verify { cacheSource.update(data) }
@@ -85,12 +87,13 @@ class DataSourceMediatorTest {
         val data = listOf("3", "4", "5")
         val cacheResource = Resource.success(listOf("1", "2"))
         val networkResource = Resource.success(data)
+        val request = Any()
 
-        coEvery { cacheSource.get(null) }.returns(cacheResource)
-        coEvery { networkSource.get(null) }.returns(networkResource)
+        coEvery { cacheSource.get(request) }.returns(cacheResource)
+        coEvery { networkSource.get(request) }.returns(networkResource)
         every { cacheSource.update(data) }.returns(Unit)
 
-        mediator.getAsFlow().test {
+        mediator.getAsFlow(request).test {
             awaitItem() shouldBeEqualTo cacheResource
             awaitItem() shouldBeEqualTo networkResource
             awaitComplete()

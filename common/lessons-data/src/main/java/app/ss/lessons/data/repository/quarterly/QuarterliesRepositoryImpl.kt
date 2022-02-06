@@ -47,7 +47,7 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
     private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
 ) : QuarterliesRepository {
 
-    override suspend fun getLanguages(): Resource<List<Language>> = languagesSource.get()
+    override suspend fun getLanguages(): Resource<List<Language>> = languagesSource.get(LanguagesDataSource.Request)
 
     override suspend fun getQuarterlies(
         languageCode: String?,
