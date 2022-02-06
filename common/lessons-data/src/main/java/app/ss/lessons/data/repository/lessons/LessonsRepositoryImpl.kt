@@ -23,7 +23,6 @@
 package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.extensions.ValueEvent
-import app.ss.lessons.data.extensions.singleEvent
 import app.ss.lessons.data.extensions.valueEventFlow
 import app.ss.lessons.data.model.PdfAnnotations
 import app.ss.lessons.data.model.QuarterlyLessonInfo
@@ -59,6 +58,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
     private val quarterliesDataSource: QuarterliesDataSource,
     private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
     private val lessonInfoDataSource: LessonInfoDataSource,
+    private val readDataSource: ReadDataSource,
 ) : LessonsRepository {
 
     private val firebaseRef = firebaseDatabase.reference.apply { keepSynced(true) }
@@ -68,12 +68,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
 
     override suspend fun getTodayRead(): Resource<TodayData> {
         val dataResponse = getQuarterlyAndLessonInfo()
-        val lessonInfo: SSLessonInfo
-        if (dataResponse.isSuccessFul && dataResponse.data != null) {
-            lessonInfo = dataResponse.data!!.lessonInfo
-        } else {
-            return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
-        }
+        val lessonInfo = dataResponse.data?.lessonInfo ?: return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
 
         val today = DateTime.now().withTimeAtStartOfDay()
         val todayModel = lessonInfo.days.find { day ->
@@ -137,29 +132,12 @@ internal class LessonsRepositoryImpl @Inject constructor(
         return lesson?.let { getLessonInfo(it.index).data }
     }
 
-    override suspend fun getDayRead(dayIndex: String): Resource<SSRead> {
-        val event = firebaseRef
-            .child(SSConstants.SS_FIREBASE_READS_DATABASE)
-            .child(dayIndex)
-            .singleEvent()
-
-        return when (event) {
-            is ValueEvent.Cancelled -> Resource.error(event.error)
-            is ValueEvent.DataChange -> Resource.success(SSRead(event.snapshot))
-        }
-    }
+    override suspend fun getDayRead(dayIndex: String): Resource<SSRead> =
+        readDataSource.getItem(ReadDataSource.Request(dayIndex))
 
     override suspend fun getWeekData(): Resource<WeekData> {
         val dataResponse = getQuarterlyAndLessonInfo()
-        val quarterlyInfo: SSQuarterlyInfo
-        val lessonInfo: SSLessonInfo
-        if (dataResponse.isSuccessFul && dataResponse.data != null) {
-            quarterlyInfo = dataResponse.data!!.quarterlyInfo
-            lessonInfo = dataResponse.data!!.lessonInfo
-        } else {
-            return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
-        }
-
+        val (quarterlyInfo, lessonInfo) = dataResponse.data ?: return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
         val today = DateTime.now().withTimeAtStartOfDay()
 
         val days = lessonInfo.days.map { ssDay ->

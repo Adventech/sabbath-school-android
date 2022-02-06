@@ -22,6 +22,7 @@
 
 package app.ss.lessons.data.api
 
+import app.ss.lessons.data.model.SSRead
 import app.ss.models.SSLessonInfo
 import retrofit2.Response
 import retrofit2.http.GET
@@ -35,4 +36,12 @@ interface SSLessonsApi {
         @Path("quarterlyId") quarterlyId: String,
         @Path("lessonId") lessonId: String,
     ): Response<SSLessonInfo>
+
+    @GET("api/v2/{lang}/quarterlies/{quarterlyId}/lessons/{lessonId}/days/{dayId}/read/index.json")
+    suspend fun getDayRead(
+        @Path("lang") language: String,
+        @Path("quarterlyId") quarterlyId: String,
+        @Path("lessonId") lessonId: String,
+        @Path("dayId") dayId: String,
+    ): Response<SSRead>
 }
