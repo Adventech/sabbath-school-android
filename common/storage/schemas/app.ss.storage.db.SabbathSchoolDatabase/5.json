@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "aad9deac7b24a3e842a0b1b06688d568",
+    "identityHash": "7c9bca18e005acb09c2b9b7382cf038e",
     "entities": [
       {
         "tableName": "audios",
@@ -399,12 +399,64 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "comments",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`readIndex` TEXT NOT NULL, `comments` TEXT NOT NULL, PRIMARY KEY(`readIndex`))",
+        "fields": [
+          {
+            "fieldPath": "readIndex",
+            "columnName": "readIndex",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "comments",
+            "columnName": "comments",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "readIndex"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "highlights",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`readIndex` TEXT NOT NULL, `highlights` TEXT NOT NULL, PRIMARY KEY(`readIndex`))",
+        "fields": [
+          {
+            "fieldPath": "readIndex",
+            "columnName": "readIndex",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "highlights",
+            "columnName": "highlights",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "readIndex"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'aad9deac7b24a3e842a0b1b06688d568')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7c9bca18e005acb09c2b9b7382cf038e')"
     ]
   }
 }

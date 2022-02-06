@@ -24,8 +24,8 @@ package com.cryart.sabbathschool.test.di.repository
 
 import app.ss.lessons.data.model.api.SSAudio
 import app.ss.lessons.data.model.api.SSVideosInfo
-import app.ss.lessons.data.model.media.AudioFile
 import app.ss.lessons.data.repository.media.MediaRepository
+import app.ss.models.media.AudioFile
 import com.cryart.sabbathschool.core.response.Resource
 import javax.inject.Inject
 

@@ -46,7 +46,6 @@ object Dependencies {
         const val AUTH = "com.google.firebase:firebase-auth-ktx"
         const val DATABASE = "com.google.firebase:firebase-database-ktx"
         const val STORAGE = "com.google.firebase:firebase-storage-ktx"
-        const val MESSAGING = "com.google.firebase:firebase-messaging-ktx"
         const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
     }
 

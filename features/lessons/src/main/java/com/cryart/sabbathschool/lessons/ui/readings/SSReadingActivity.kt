@@ -37,14 +37,14 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import app.ss.media.playback.PlaybackViewModel
+import app.ss.media.playback.ui.nowPlaying.showNowPlaying
+import app.ss.media.playback.ui.video.showVideoList
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
 import app.ss.models.media.MediaAvailability
-import app.ss.media.playback.PlaybackViewModel
-import app.ss.media.playback.ui.nowPlaying.showNowPlaying
-import app.ss.media.playback.ui.video.showVideoList
 import app.ss.pdf.PdfReader
 import coil.load
 import com.cryart.design.theme
@@ -86,10 +86,20 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     @Inject
     lateinit var pdfReader: PdfReader
 
+    @Inject
+    lateinit var viewModelFactory: ReadingViewModelFactory
+
     private val binding by viewBinding(SsReadingActivityBinding::inflate)
     private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance()
         .reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
-    private lateinit var ssReadingViewModel: SSReadingViewModel
+    private val ssReadingViewModel: SSReadingViewModel by viewModels {
+        SSReadingViewModel.provideFactory(
+            viewModelFactory,
+            intent.extras?.getString(SSConstants.SS_LESSON_INDEX_EXTRA)!!,
+            this,
+            binding
+        )
+    }
 
     private val readingViewAdapter: ReadingViewPagerAdapter by lazy {
         ReadingViewPagerAdapter(ssReadingViewModel)
@@ -108,21 +118,10 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         checkIfReaderNeeded()
 
         initUI()
-        val lessonIndex = intent.extras?.getString(SSConstants.SS_LESSON_INDEX_EXTRA)
-        if (lessonIndex.isNullOrEmpty()) {
-            finish()
-            return
-        }
 
         ViewTreeLifecycleOwner.set(binding.root, this)
-        if (!this::ssReadingViewModel.isInitialized) {
-            ssReadingViewModel = SSReadingViewModel(
-                this,
-                this,
-                lessonIndex,
-                binding
-            )
-        }
+        // ssReadingViewModel.dataListener = this
+        //  ssReadingViewModel.ssReadingActivityBinding = binding
 
         // Read position passed in intent extras
         val extraPosition = intent.extras?.getString(SSConstants.SS_READ_POSITION_EXTRA)

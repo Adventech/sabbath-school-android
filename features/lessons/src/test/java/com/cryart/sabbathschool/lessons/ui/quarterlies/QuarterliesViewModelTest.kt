@@ -25,14 +25,12 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
-import app.ss.models.QuarterlyGroup
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.response.Resource
-import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
-import com.google.firebase.auth.FirebaseAuth
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -52,10 +50,7 @@ class QuarterliesViewModelTest {
     @get:Rule
     val instantTaskRule = InstantTaskExecutorRule()
 
-    private val dispatcherProvider = TestDispatcherProvider()
-
     private val mockRepository: QuarterliesRepository = mockk(relaxed = true)
-    private val mockFirebaseAuth: FirebaseAuth = mockk()
     private val mockSSPrefs: SSPrefs = mockk()
     private val mockSavedStateHandle: SavedStateHandle = mockk()
 
@@ -69,7 +64,6 @@ class QuarterliesViewModelTest {
         viewModel = QuarterliesViewModel(
             mockRepository,
             mockSSPrefs,
-            mockFirebaseAuth,
             mockSavedStateHandle,
         )
     }

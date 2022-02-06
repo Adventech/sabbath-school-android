@@ -25,9 +25,9 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -36,7 +36,6 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarter
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesAppbarData
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroup
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.placeHolderQuarterlies
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -52,7 +51,6 @@ import javax.inject.Inject
 class QuarterliesViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
     private val ssPrefs: SSPrefs,
-    private val firebaseAuth: FirebaseAuth,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -60,7 +58,7 @@ class QuarterliesViewModel @Inject constructor(
         get() = savedStateHandle.get(SSConstants.SS_QUARTERLY_GROUP)
 
     val photoUrlFlow: SharedFlow<QuarterliesAppbarData>
-        get() = flowOf(QuarterliesAppbarData.Photo(firebaseAuth.currentUser?.photoUrl))
+        get() = flowOf(QuarterliesAppbarData.Photo(null)) // TODO: Provide User photo
             .stateIn(viewModelScope, QuarterliesAppbarData.Empty)
 
     val groupTitleFlow: SharedFlow<QuarterliesAppbarData>
