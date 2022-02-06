@@ -25,7 +25,6 @@ package app.ss.media.playback.ui.nowPlaying
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.lessons.data.model.media.AudioFile
 import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.media.playback.AudioQueueManager
 import app.ss.media.playback.PlaybackConnection
@@ -33,6 +32,7 @@ import app.ss.media.playback.UPDATE_META_DATA
 import app.ss.media.playback.extensions.id
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.toAudio
+import app.ss.models.media.AudioFile
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import com.cryart.sabbathschool.core.extensions.intent.readIndex

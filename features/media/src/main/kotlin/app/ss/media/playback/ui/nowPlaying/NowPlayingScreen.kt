@@ -78,7 +78,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.media.R
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
 import app.ss.media.playback.extensions.isPlaying
-import app.ss.lessons.data.model.media.AudioFile
+import app.ss.models.media.AudioFile
 import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle

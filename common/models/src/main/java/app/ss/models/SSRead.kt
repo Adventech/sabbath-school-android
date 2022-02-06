@@ -21,6 +21,9 @@
  */
 package app.ss.models
 
+import androidx.annotation.Keep
+
+@Keep
 data class SSRead(
     val id: String = "",
     val date: String = "",

@@ -1,4 +1,4 @@
-package app.ss.lessons.data.model
+package app.ss.models
 
 data class TodayData(
     val index: String,

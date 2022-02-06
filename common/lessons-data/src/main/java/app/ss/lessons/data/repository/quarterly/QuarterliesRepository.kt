@@ -22,7 +22,7 @@
 
 package app.ss.lessons.data.repository.quarterly
 
-import app.ss.lessons.data.model.Language
+import app.ss.models.Language
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo

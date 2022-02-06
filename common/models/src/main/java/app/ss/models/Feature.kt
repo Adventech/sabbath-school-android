@@ -22,6 +22,9 @@
 
 package app.ss.models
 
+import androidx.annotation.Keep
+
+@Keep
 data class Feature(
     val name: String,
     val title: String = "",

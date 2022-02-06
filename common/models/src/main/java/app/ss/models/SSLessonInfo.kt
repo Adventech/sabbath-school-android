@@ -21,6 +21,9 @@
  */
 package app.ss.models
 
+import androidx.annotation.Keep
+
+@Keep
 data class SSLessonInfo(
     val lesson: SSLesson,
     val days: List<SSDay>,

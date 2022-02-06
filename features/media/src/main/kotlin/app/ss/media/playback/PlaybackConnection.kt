@@ -37,7 +37,7 @@ import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.extensions.duration
 import app.ss.media.playback.extensions.isBuffering
 import app.ss.media.playback.extensions.isPlaying
-import app.ss.lessons.data.model.media.AudioFile
+import app.ss.models.media.AudioFile
 import app.ss.media.playback.model.MEDIA_TYPE_AUDIO
 import app.ss.media.playback.model.MediaId
 import app.ss.media.playback.model.PlaybackModeState

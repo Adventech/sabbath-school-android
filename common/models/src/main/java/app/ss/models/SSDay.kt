@@ -21,6 +21,9 @@
  */
 package app.ss.models
 
+import androidx.annotation.Keep
+
+@Keep
 data class SSDay(
     val title: String,
     val date: String = "",

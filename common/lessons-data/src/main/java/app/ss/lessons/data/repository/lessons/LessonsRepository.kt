@@ -27,8 +27,8 @@ import app.ss.models.SSReadHighlights
 import app.ss.models.PdfAnnotations
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
-import app.ss.lessons.data.model.TodayData
-import app.ss.lessons.data.model.WeekData
+import app.ss.models.TodayData
+import app.ss.models.WeekData
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
 

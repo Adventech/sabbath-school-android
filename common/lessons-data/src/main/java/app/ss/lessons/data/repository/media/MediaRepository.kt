@@ -22,12 +22,12 @@
 
 package app.ss.lessons.data.repository.media
 
+import android.net.Uri
 import app.ss.lessons.data.api.SSMediaApi
 import app.ss.lessons.data.model.api.SSAudio
 import app.ss.lessons.data.model.api.SSVideosInfo
 import app.ss.lessons.data.model.api.request.SSMediaRequest
-import app.ss.lessons.data.model.media.AudioFile
-import app.ss.lessons.data.model.media.toAudio
+import app.ss.models.media.AudioFile
 import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.entity.AudioFileEntity
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
@@ -127,6 +127,17 @@ fun SSAudio.toEntity(): AudioFileEntity = AudioFileEntity(
     image = image,
     imageRatio = imageRatio,
     src = src,
+    target = target,
+    targetIndex = targetIndex,
+    title = title,
+)
+
+fun AudioFileEntity.toAudio(): AudioFile = AudioFile(
+    id = id,
+    artist = artist,
+    image = image,
+    imageRatio = imageRatio,
+    source = Uri.parse(src),
     target = target,
     targetIndex = targetIndex,
     title = title,

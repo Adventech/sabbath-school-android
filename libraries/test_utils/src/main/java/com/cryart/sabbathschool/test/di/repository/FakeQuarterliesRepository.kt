@@ -22,7 +22,7 @@
 
 package com.cryart.sabbathschool.test.di.repository
 
-import app.ss.lessons.data.model.Language
+import app.ss.models.Language
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly

@@ -27,7 +27,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.annotation.Keep
 import app.ss.models.LessonPdf
-import app.ss.lessons.data.model.media.MediaAvailability
+import app.ss.models.media.MediaAvailability
 import app.ss.pdf.ui.ARG_MEDIA_AVAILABILITY
 import app.ss.pdf.ui.ARG_PDF_FILES
 import app.ss.pdf.ui.SSReadPdfActivity

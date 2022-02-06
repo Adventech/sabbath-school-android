@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +20,20 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.model
+package app.ss.models.media
 
-data class WeekData(
-    val quarterlyIndex: String,
-    val quarterlyTitle: String,
-    val lessonIndex: String,
-    val lessonTitle: String,
-    val cover: String,
-    val days: List<WeekDay>
+import android.net.Uri
+import androidx.annotation.Keep
+
+@Keep
+data class AudioFile(
+    val id: String,
+    val title: String = "",
+    val artist: String = "",
+    val source: Uri = Uri.EMPTY,
+    val image: String = "",
+    val imageRatio: String = "",
+    val target: String = "",
+    val targetIndex: String = "",
+    val duration: Long = 0
 )

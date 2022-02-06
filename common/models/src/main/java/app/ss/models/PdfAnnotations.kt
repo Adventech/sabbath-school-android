@@ -22,6 +22,9 @@
 
 package app.ss.models
 
+import androidx.annotation.Keep
+
+@Keep
 data class PdfAnnotations(
     val pageIndex: Int,
     val annotations: List<String> = emptyList()

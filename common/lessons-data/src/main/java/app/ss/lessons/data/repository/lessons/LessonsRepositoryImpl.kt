@@ -26,9 +26,9 @@ import app.ss.models.PdfAnnotations
 import app.ss.lessons.data.model.QuarterlyLessonInfo
 import app.ss.models.SSComment
 import app.ss.models.SSReadHighlights
-import app.ss.lessons.data.model.TodayData
-import app.ss.lessons.data.model.WeekData
-import app.ss.lessons.data.model.WeekDay
+import app.ss.models.TodayData
+import app.ss.models.WeekData
+import app.ss.models.WeekDay
 import app.ss.lessons.data.repository.mediator.QuarterliesDataSource
 import app.ss.lessons.data.repository.mediator.QuarterlyInfoDataSource
 import app.ss.models.SSLessonInfo

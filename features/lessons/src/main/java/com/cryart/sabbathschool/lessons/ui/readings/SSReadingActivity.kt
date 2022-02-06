@@ -41,7 +41,7 @@ import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
-import app.ss.lessons.data.model.media.MediaAvailability
+import app.ss.models.media.MediaAvailability
 import app.ss.media.playback.PlaybackViewModel
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList

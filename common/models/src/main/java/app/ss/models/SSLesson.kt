@@ -21,6 +21,9 @@
  */
 package app.ss.models
 
+import androidx.annotation.Keep
+
+@Keep
 data class SSLesson(
     val title: String,
     val start_date: String = "",

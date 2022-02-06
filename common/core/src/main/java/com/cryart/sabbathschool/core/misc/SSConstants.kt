@@ -32,8 +32,6 @@ object SSConstants {
     const val SS_FIREBASE_READS_DATABASE = "$SS_FIREBASE_API_PREFIX/reads"
     const val SS_FIREBASE_HIGHLIGHTS_DATABASE = "highlights"
     const val SS_FIREBASE_COMMENTS_DATABASE = "comments"
-    const val SS_FIREBASE_SUGGESTIONS_DATABASE = "suggestions"
-    const val SS_FIREBASE_ANNOTATIONS_DATABASE = "annotations"
     const val SS_QUARTERLY_INDEX_EXTRA = "SS_QUARTERLY_INDEX"
     const val SS_QUARTERLY_GROUP = "quarterly_group"
     const val SS_LESSON_INDEX_EXTRA = "SS_LESSON_INDEX"

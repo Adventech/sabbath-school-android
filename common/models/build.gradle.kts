@@ -20,6 +20,8 @@
  * THE SOFTWARE.
  */
 
+import dependencies.Dependencies.AndroidX
+
 plugins {
     id(BuildPlugins.Android.LIBRARY)
     id(BuildPlugins.Kotlin.ANDROID)
@@ -42,4 +44,6 @@ android {
     }
 }
 
-dependencies {}
+dependencies {
+    implementation(AndroidX.ANNOTATIONS)
+}

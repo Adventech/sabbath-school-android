@@ -21,6 +21,9 @@
  */
 package app.ss.models
 
+import androidx.annotation.Keep
+
+@Keep
 data class SSQuarterlyInfo(
     val quarterly: SSQuarterly,
     val lessons: List<SSLesson>

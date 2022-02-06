@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,16 +20,13 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.model
+package app.ss.models.media
 
-import androidx.annotation.Keep
-import com.google.firebase.database.IgnoreExtraProperties
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-@Keep
-@IgnoreExtraProperties
-data class Language(
-    val code: String,
-    val name: String
-) {
-    constructor() : this("", "")
-}
+@Parcelize
+data class MediaAvailability(
+    val audio: Boolean = false,
+    val video: Boolean = false
+) : Parcelable

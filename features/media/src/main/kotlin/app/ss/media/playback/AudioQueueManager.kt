@@ -22,7 +22,7 @@
 
 package app.ss.media.playback
 
-import app.ss.lessons.data.model.media.AudioFile
+import app.ss.models.media.AudioFile
 import app.ss.lessons.data.repository.media.MediaRepository
 
 interface AudioQueueManager {

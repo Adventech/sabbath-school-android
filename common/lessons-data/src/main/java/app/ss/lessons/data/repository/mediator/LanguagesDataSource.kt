@@ -23,7 +23,7 @@
 package app.ss.lessons.data.repository.mediator
 
 import app.ss.lessons.data.api.SSQuarterliesApi
-import app.ss.lessons.data.model.Language
+import app.ss.models.Language
 import app.ss.storage.db.dao.LanguagesDao
 import app.ss.storage.db.entity.LanguageEntity
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
