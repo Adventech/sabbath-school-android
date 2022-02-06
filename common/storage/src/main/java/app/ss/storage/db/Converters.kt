@@ -25,7 +25,9 @@ package app.ss.storage.db
 import androidx.room.TypeConverter
 import app.ss.models.Credit
 import app.ss.models.Feature
+import app.ss.models.LessonPdf
 import app.ss.models.QuarterlyGroup
+import app.ss.models.SSDay
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -47,6 +49,14 @@ internal object Converters {
     }
     private val creditsAdapter: JsonAdapter<List<Credit>> by lazy {
         val listDataType: Type = Types.newParameterizedType(List::class.java, Credit::class.java)
+        moshi.adapter(listDataType)
+    }
+    private val daysAdapter: JsonAdapter<List<SSDay>> by lazy {
+        val listDataType: Type = Types.newParameterizedType(List::class.java, SSDay::class.java)
+        moshi.adapter(listDataType)
+    }
+    private val pdfsAdapter: JsonAdapter<List<LessonPdf>> by lazy {
+        val listDataType: Type = Types.newParameterizedType(List::class.java, LessonPdf::class.java)
         moshi.adapter(listDataType)
     }
 
@@ -73,4 +83,20 @@ internal object Converters {
 
     @TypeConverter
     fun fromCredits(credits: List<Credit>?): String? = creditsAdapter.toJson(credits)
+
+    @TypeConverter
+    fun toSSDays(value: String?): List<SSDay>? = value?.let { jsonString ->
+        daysAdapter.fromJson(jsonString)
+    }
+
+    @TypeConverter
+    fun fromSSDays(days: List<SSDay>?): String? = daysAdapter.toJson(days)
+
+    @TypeConverter
+    fun toLessonPdfs(value: String?): List<LessonPdf>? = value?.let { jsonString ->
+        pdfsAdapter.fromJson(jsonString)
+    }
+
+    @TypeConverter
+    fun fromLessonPdfs(lessons: List<LessonPdf>?): String? = pdfsAdapter.toJson(lessons)
 }

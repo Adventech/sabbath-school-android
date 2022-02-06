@@ -23,7 +23,21 @@
 package app.ss.storage.db.dao
 
 import androidx.room.Dao
+import androidx.room.Query
+import app.ss.models.LessonPdf
+import app.ss.models.SSDay
 import app.ss.storage.db.entity.LessonEntity
 
 @Dao
-interface LessonsDao : BaseDao<LessonEntity>
+interface LessonsDao : BaseDao<LessonEntity> {
+
+    @Query("SELECT * FROM lessons WHERE `index` = :lessonIndex")
+    fun get(lessonIndex: String): LessonEntity?
+
+    @Query("UPDATE lessons SET days = :days, pdfs = :pdfs WHERE `index` = :lessonIndex")
+    fun updateInfo(
+        lessonIndex: String,
+        days: List<SSDay>,
+        pdfs: List<LessonPdf>,
+    )
+}

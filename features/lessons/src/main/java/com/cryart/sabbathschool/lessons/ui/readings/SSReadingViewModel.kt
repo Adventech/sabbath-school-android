@@ -161,7 +161,7 @@ class SSReadingViewModel(
             .child(ssLessonIndex)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                  //  ssLessonInfo = SSLessonInfo(dataSnapshot)
+                    //  ssLessonInfo = SSLessonInfo(dataSnapshot)
 
                     ssTotalReadsCount = ssLessonInfo?.days?.size ?: 0
 

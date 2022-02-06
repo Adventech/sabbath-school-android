@@ -23,10 +23,13 @@
 package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.api.SSLessonsApi
-import app.ss.models.SSLessonInfo
 import app.ss.lessons.data.repository.mediator.DataSource
 import app.ss.lessons.data.repository.mediator.DataSourceMediator
 import app.ss.lessons.data.repository.mediator.LocalDataSource
+import app.ss.models.SSLesson
+import app.ss.models.SSLessonInfo
+import app.ss.storage.db.dao.LessonsDao
+import app.ss.storage.db.entity.LessonEntity
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import timber.log.Timber
@@ -36,7 +39,8 @@ import javax.inject.Singleton
 @Singleton
 internal class LessonInfoDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val lessonsApi: SSLessonsApi
+    private val lessonsApi: SSLessonsApi,
+    private val lessonsDao: LessonsDao,
 ) : DataSourceMediator<SSLessonInfo, LessonInfoDataSource.Request>(dispatcherProvider = dispatcherProvider) {
 
     data class Request(val lessonIndex: String)
@@ -44,7 +48,19 @@ internal class LessonInfoDataSource @Inject constructor(
     override val cache: LocalDataSource<SSLessonInfo, Request> = object : LocalDataSource<SSLessonInfo, Request> {
 
         override suspend fun getItem(request: Request?): Resource<SSLessonInfo> {
-            TODO("Not yet implemented")
+            return request?.lessonIndex?.let { index ->
+                lessonsDao.get(index)?.let {
+                    Resource.success(it.toInfoModel())
+                } ?: Resource.loading()
+            } ?: Resource.loading()
+        }
+
+        override fun updateItem(data: SSLessonInfo) {
+            lessonsDao.updateInfo(
+                data.lesson.index,
+                data.days,
+                data.pdfs
+            )
         }
     }
 
@@ -67,4 +83,20 @@ internal class LessonInfoDataSource @Inject constructor(
             Resource.error(error)
         }
     }
+
+    private fun LessonEntity.toInfoModel(): SSLessonInfo = SSLessonInfo(
+        lesson = SSLesson(
+            title = title,
+            start_date = start_date,
+            end_date = end_date,
+            cover = cover,
+            id = id,
+            index = index,
+            path = path,
+            full_path = full_path,
+            pdfOnly = pdfOnly
+        ),
+        days = days,
+        pdfs = pdfs
+    )
 }

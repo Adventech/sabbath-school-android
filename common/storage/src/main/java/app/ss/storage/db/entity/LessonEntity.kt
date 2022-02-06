@@ -24,6 +24,8 @@ package app.ss.storage.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import app.ss.models.LessonPdf
+import app.ss.models.SSDay
 
 @Entity(tableName = "lessons")
 data class LessonEntity(
@@ -37,4 +39,6 @@ data class LessonEntity(
     val path: String,
     val full_path: String,
     val pdfOnly: Boolean,
+    val days: List<SSDay> = emptyList(),
+    val pdfs: List<LessonPdf> = emptyList()
 )
