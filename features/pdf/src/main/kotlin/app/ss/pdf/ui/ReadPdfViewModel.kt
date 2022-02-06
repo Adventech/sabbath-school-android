@@ -26,7 +26,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.models.LessonPdf
-import app.ss.lessons.data.model.PdfAnnotations
+import app.ss.models.PdfAnnotations
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.model.media.MediaAvailability
 import app.ss.pdf.LocalFile

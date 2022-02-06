@@ -22,7 +22,7 @@
 
 package app.ss.lessons.data.model.api.request
 
-import app.ss.lessons.data.model.PdfAnnotations
+import app.ss.models.PdfAnnotations
 
 data class UploadPdfAnnotationsRequest(
     val data: List<PdfAnnotations>

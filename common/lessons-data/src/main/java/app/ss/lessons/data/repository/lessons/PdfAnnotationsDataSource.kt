@@ -23,7 +23,7 @@
 package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.api.SSLessonsApi
-import app.ss.lessons.data.model.PdfAnnotations
+import app.ss.models.PdfAnnotations
 import app.ss.lessons.data.model.api.request.UploadPdfAnnotationsRequest
 import app.ss.lessons.data.repository.mediator.DataSource
 import app.ss.lessons.data.repository.mediator.DataSourceMediator
@@ -31,10 +31,11 @@ import app.ss.lessons.data.repository.mediator.LocalDataSource
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import timber.log.Timber
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-internal class PdfAnnotationsDataSource constructor(
+internal class PdfAnnotationsDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val lessonsApi: SSLessonsApi
 ) : DataSourceMediator<PdfAnnotations, PdfAnnotationsDataSource.Request>(dispatcherProvider = dispatcherProvider) {

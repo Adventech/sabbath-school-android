@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,9 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.model
+package app.ss.models
 
-import androidx.annotation.Keep
-
-@Keep
 data class PdfAnnotations(
     val pageIndex: Int,
     val annotations: List<String> = emptyList()
-) {
-    constructor() : this(0)
-}
+)
