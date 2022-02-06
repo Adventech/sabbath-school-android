@@ -29,7 +29,7 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
         return Resource.success(MockDataFactory.weekData())
     }
 
-    override fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
+    override suspend fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
     }
 
     override suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>> {

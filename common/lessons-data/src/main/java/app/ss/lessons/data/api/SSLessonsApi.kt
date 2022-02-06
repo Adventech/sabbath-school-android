@@ -23,10 +23,14 @@
 package app.ss.lessons.data.api
 
 import app.ss.lessons.data.model.PdfAnnotations
+import app.ss.lessons.data.model.api.request.UploadPdfAnnotationsRequest
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
+import okhttp3.ResponseBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface SSLessonsApi {
@@ -46,9 +50,16 @@ interface SSLessonsApi {
         @Path("dayId") dayId: String,
     ): Response<SSRead>
 
-    @GET("api/v2/annotations/{readIndex}/{pdfId}")
+    @GET("api/v2/annotations/{lessonIndex}/{pdfId}")
     suspend fun getPdfAnnotations(
-        @Path("readIndex") readIndex: String,
+        @Path("lessonIndex") lessonIndex: String,
         @Path("pdfId") pdfId: String,
     ): Response<List<PdfAnnotations>>
+
+    @POST("api/v2/annotations/{lessonIndex}/{pdfId}")
+    suspend fun uploadAnnotations(
+        @Path("lessonIndex") lessonIndex: String,
+        @Path("pdfId") pdfId: String,
+        @Body request: UploadPdfAnnotationsRequest
+    ): Response<ResponseBody>
 }

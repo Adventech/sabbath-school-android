@@ -22,46 +22,35 @@
 
 package app.ss.lessons.data.repository.lessons
 
-import app.ss.lessons.data.extensions.ValueEvent
-import app.ss.lessons.data.extensions.valueEventFlow
 import app.ss.lessons.data.model.PdfAnnotations
 import app.ss.lessons.data.model.QuarterlyLessonInfo
-import app.ss.models.SSLessonInfo
-import app.ss.models.SSQuarterlyInfo
-import app.ss.models.SSRead
 import app.ss.lessons.data.model.TodayData
 import app.ss.lessons.data.model.WeekData
 import app.ss.lessons.data.model.WeekDay
 import app.ss.lessons.data.repository.mediator.QuarterliesDataSource
 import app.ss.lessons.data.repository.mediator.QuarterlyInfoDataSource
+import app.ss.models.SSLessonInfo
+import app.ss.models.SSQuarterlyInfo
+import app.ss.models.SSRead
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.DateHelper.formatDate
 import com.cryart.sabbathschool.core.misc.DateHelper.parseDate
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.getValue
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class LessonsRepositoryImpl @Inject constructor(
-    private val firebaseDatabase: FirebaseDatabase,
-    private val firebaseAuth: FirebaseAuth,
     private val ssPrefs: SSPrefs,
     private val quarterliesDataSource: QuarterliesDataSource,
     private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
     private val lessonInfoDataSource: LessonInfoDataSource,
     private val readsDataSource: ReadsDataSource,
+    private val pdfAnnotationsDataSource: PdfAnnotationsDataSource,
 ) : LessonsRepository {
-
-    private val firebaseRef = firebaseDatabase.reference.apply { keepSynced(true) }
 
     override suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo> =
         lessonInfoDataSource.getItem(LessonInfoDataSource.Request(lessonIndex))
@@ -161,37 +150,17 @@ internal class LessonsRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
-        val uid = firebaseAuth.uid ?: return
-        Timber.d("UID: $uid")
-
-        val pdfRef = firebaseRef
-            .child(SSConstants.SS_FIREBASE_ANNOTATIONS_DATABASE)
-            .child(uid)
-            .child(lessonIndex)
-            .child(pdfId)
-
-        pdfRef.setValue(annotations)
+    override suspend fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
+        pdfAnnotationsDataSource.sync(
+            PdfAnnotationsDataSource.Request(lessonIndex, pdfId),
+            annotations
+        )
     }
 
-    override suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>> {
-        val uid = firebaseAuth.uid ?: return flowOf(Resource.error(Throwable("Invalid User")))
-
-        val eventFlow = firebaseDatabase.reference
-            .child(SSConstants.SS_FIREBASE_ANNOTATIONS_DATABASE)
-            .child(uid)
-            .child(lessonIndex)
-            .child(pdfId)
-            .valueEventFlow()
-
-        return eventFlow.map { event ->
-            when (event) {
-                is ValueEvent.Cancelled -> Resource.error(event.error)
-                is ValueEvent.DataChange -> {
-                    val annotations = event.snapshot.children.mapNotNull { it.getValue<PdfAnnotations>() }
-                    Resource.success(annotations)
-                }
-            }
-        }
-    }
+    override suspend fun getAnnotations(
+        lessonIndex: String,
+        pdfId: String
+    ): Flow<Resource<List<PdfAnnotations>>> = pdfAnnotationsDataSource.getAsFlow(
+        PdfAnnotationsDataSource.Request(lessonIndex, pdfId)
+    )
 }

@@ -88,7 +88,7 @@ class ReadPdfViewModel @Inject constructor(
 
         val syncAnnotations = document.annotations().toSync()
 
-        lessonsRepository.saveAnnotations(lessonIndex, pdfId, syncAnnotations)
+        viewModelScope.launch { lessonsRepository.saveAnnotations(lessonIndex, pdfId, syncAnnotations) }
     }
 
     private fun List<Annotation>.toSync(): List<PdfAnnotations> {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,10 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.lessons
+package app.ss.lessons.data.model.api.request
 
 import app.ss.lessons.data.model.PdfAnnotations
-import app.ss.models.SSLessonInfo
-import app.ss.models.SSRead
-import app.ss.lessons.data.model.TodayData
-import app.ss.lessons.data.model.WeekData
-import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
 
-interface LessonsRepository {
-
-    suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo>
-
-    suspend fun getTodayRead(): Resource<TodayData>
-
-    suspend fun getDayRead(dayIndex: String): Resource<SSRead>
-
-    suspend fun getWeekData(): Resource<WeekData>
-
-    suspend fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>)
-
-    suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>>
-}
+data class UploadPdfAnnotationsRequest(
+    val data: List<PdfAnnotations>
+)

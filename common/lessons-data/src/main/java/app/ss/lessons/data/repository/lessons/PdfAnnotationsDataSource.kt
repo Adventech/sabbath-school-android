@@ -24,6 +24,7 @@ package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.api.SSLessonsApi
 import app.ss.lessons.data.model.PdfAnnotations
+import app.ss.lessons.data.model.api.request.UploadPdfAnnotationsRequest
 import app.ss.lessons.data.repository.mediator.DataSource
 import app.ss.lessons.data.repository.mediator.DataSourceMediator
 import app.ss.lessons.data.repository.mediator.LocalDataSource
@@ -39,21 +40,35 @@ internal class PdfAnnotationsDataSource constructor(
 ) : DataSourceMediator<PdfAnnotations, PdfAnnotationsDataSource.Request>(dispatcherProvider = dispatcherProvider) {
 
     data class Request(
-        val readIndex: String,
+        val lessonIndex: String,
         val pdfId: String
     )
 
     override val cache: LocalDataSource<PdfAnnotations, Request> = object : LocalDataSource<PdfAnnotations, Request> {
+
+        override fun update(data: List<PdfAnnotations>) {
+        }
     }
 
     override val network: DataSource<PdfAnnotations, Request> = object : DataSource<PdfAnnotations, Request> {
         override suspend fun get(request: Request): Resource<List<PdfAnnotations>> = try {
-            val data = lessonsApi.getPdfAnnotations(request.readIndex, request.pdfId).body() ?: emptyList()
+            val data = lessonsApi.getPdfAnnotations(request.lessonIndex, request.pdfId).body() ?: emptyList()
 
             Resource.success(data)
         } catch (error: Throwable) {
             Timber.e(error)
             Resource.error(error)
+        }
+
+        override suspend fun update(request: Request, data: List<PdfAnnotations>) = try {
+            val response = lessonsApi.uploadAnnotations(
+                request.lessonIndex,
+                request.pdfId,
+                UploadPdfAnnotationsRequest(data)
+            )
+            Timber.d("SUCCESS: ${response.isSuccessful}")
+        } catch (error: Throwable) {
+            Timber.e(error)
         }
     }
 }

@@ -104,11 +104,17 @@ internal abstract class DataSourceMediator<T, R>(
             Timber.e(it)
             emit(Resource.error(it))
         }
+
+    suspend fun sync(request: R, data: List<T>) {
+        withContext(dispatcherProvider.io) { cache.update(data) }
+        withContext(dispatcherProvider.default) { network.update(request, data) }
+    }
 }
 
 interface DataSource<T, R> {
     suspend fun get(request: R): Resource<List<T>> = Resource.success(emptyList())
     suspend fun getItem(request: R): Resource<T> = Resource.loading()
+    suspend fun update(request: R, data: List<T>) = Unit
 }
 
 interface LocalDataSource<T, R> : DataSource<T, R> {
