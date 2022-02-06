@@ -3,7 +3,7 @@ package com.cryart.sabbathschool.lessons.ui.readings
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import app.ss.lessons.data.model.SSRead
+import app.ss.models.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme

@@ -24,7 +24,7 @@ package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.model.PdfAnnotations
 import app.ss.models.SSLessonInfo
-import app.ss.lessons.data.model.SSRead
+import app.ss.models.SSRead
 import app.ss.lessons.data.model.TodayData
 import app.ss.lessons.data.model.WeekData
 import com.cryart.sabbathschool.core.response.Resource

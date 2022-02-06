@@ -59,7 +59,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.ss.lessons.data.model.SSBibleVerses
+import app.ss.models.SSBibleVerses
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.LabelMedium
 import com.cryart.design.theme.SSTheme

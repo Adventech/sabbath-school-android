@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,14 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package app.ss.lessons.data.model
+package app.ss.models
 
-import androidx.annotation.Keep
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.IgnoreExtraProperties
-
-@Keep
-@IgnoreExtraProperties
 data class SSRead(
     val id: String = "",
     val date: String = "",
@@ -35,14 +29,6 @@ data class SSRead(
     val content: String = "",
     val bible: List<SSBibleVerses> = mutableListOf()
 ) {
-    constructor(snapshot: DataSnapshot) : this(
-        snapshot.child("id").getValue(String::class.java) ?: "",
-        snapshot.child("date").getValue(String::class.java) ?: "",
-        snapshot.child("index").getValue(String::class.java) ?: "",
-        snapshot.child("title").getValue(String::class.java) ?: "",
-        snapshot.child("content").getValue(String::class.java) ?: "",
-        snapshot.child("bible").children.mapNotNull { SSBibleVerses(it) }
-    )
 
     /**
      * Convert a Read index of

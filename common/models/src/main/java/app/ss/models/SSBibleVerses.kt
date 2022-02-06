@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,24 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package app.ss.lessons.data.model
+package app.ss.models
 
-import androidx.annotation.Keep
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.IgnoreExtraProperties
-
-@Keep
-@IgnoreExtraProperties
 data class SSBibleVerses(
     val name: String = "",
     val verses: Map<String, String> = mutableMapOf()
-) {
-    constructor(snapshot: DataSnapshot) : this(
-        snapshot.child("name").getValue(String::class.java) ?: "",
-        snapshot.child("verses").children.mapNotNull {
-            val key = it.key!!
-            val value = it.getValue(String::class.java) ?: ""
-            key to value
-        }.toMap()
-    )
-}
+)

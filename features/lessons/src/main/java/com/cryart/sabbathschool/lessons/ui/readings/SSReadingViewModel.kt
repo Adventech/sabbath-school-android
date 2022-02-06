@@ -40,7 +40,7 @@ import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import app.ss.lessons.data.model.SSContextMenu
 import app.ss.models.SSLessonInfo
-import app.ss.lessons.data.model.SSRead
+import app.ss.models.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
 import app.ss.lessons.data.model.SSSuggestion
@@ -260,7 +260,7 @@ class SSReadingViewModel(
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.value != null) {
                         if (ssReadsLoadedCounter < ssTotalReadsCount && ssReads.size >= index) {
-                            val ssRead = SSRead(dataSnapshot)
+                            val ssRead = SSRead()
                             ssReads.add(index, ssRead)
                             ssReadHighlights.add(index, _ssReadHighlights)
                             ssReadComments.add(index, _ssReadComments)
