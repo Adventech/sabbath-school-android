@@ -166,11 +166,11 @@ internal class LessonsRepositoryImpl @Inject constructor(
         PdfAnnotationsDataSource.Request(lessonIndex, pdfId)
     )
 
-    override fun getComments(dayIndex: String): Flow<Resource<List<SSComment>>> {
+    override fun getComments(readIndex: String): Flow<Resource<List<SSComment>>> {
         TODO("Not yet implemented")
     }
 
-    override fun getReadHighlights(dayIndex: String): Flow<Resource<List<SSReadHighlights>>> {
+    override fun getReadHighlights(readIndex: String): Flow<Resource<List<SSReadHighlights>>> {
         TODO("Not yet implemented")
     }
 }

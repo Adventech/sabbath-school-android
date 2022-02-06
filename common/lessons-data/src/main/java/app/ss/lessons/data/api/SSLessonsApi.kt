@@ -22,10 +22,12 @@
 
 package app.ss.lessons.data.api
 
-import app.ss.models.PdfAnnotations
 import app.ss.lessons.data.model.api.request.UploadPdfAnnotationsRequest
+import app.ss.models.PdfAnnotations
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -62,4 +64,14 @@ interface SSLessonsApi {
         @Path("pdfId") pdfId: String,
         @Body request: UploadPdfAnnotationsRequest
     ): Response<ResponseBody>
+
+    @GET("api/v2/comments/{readIndex}")
+    suspend fun getComments(
+        @Path("readIndex") readIndex: String
+    ): Response<List<SSReadComments>>
+
+    @GET("api/v2/highlights/{readIndex}")
+    suspend fun getHighlights(
+        @Path("readIndex") readIndex: String
+    ): Response<List<SSReadHighlights>>
 }

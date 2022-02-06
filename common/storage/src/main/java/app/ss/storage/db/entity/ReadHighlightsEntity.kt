@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,33 +20,13 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.lessons
+package app.ss.storage.db.entity
 
-import app.ss.models.SSComment
-import app.ss.models.SSReadHighlights
-import app.ss.models.PdfAnnotations
-import app.ss.models.SSLessonInfo
-import app.ss.models.SSRead
-import app.ss.models.TodayData
-import app.ss.models.WeekData
-import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-interface LessonsRepository {
-
-    suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo>
-
-    suspend fun getTodayRead(): Resource<TodayData>
-
-    suspend fun getDayRead(dayIndex: String): Resource<SSRead>
-
-    suspend fun getWeekData(): Resource<WeekData>
-
-    suspend fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>)
-
-    suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>>
-
-    fun getComments(readIndex: String): Flow<Resource<List<SSComment>>>
-
-    fun getReadHighlights(readIndex: String): Flow<Resource<List<SSReadHighlights>>>
-}
+@Entity(tableName = "highlights")
+data class ReadHighlightsEntity(
+    @PrimaryKey val readIndex: String,
+    var highlights: String
+)

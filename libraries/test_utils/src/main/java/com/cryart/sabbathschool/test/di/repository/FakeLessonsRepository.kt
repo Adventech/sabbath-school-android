@@ -38,11 +38,11 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
         return emptyFlow()
     }
 
-    override fun getComments(dayIndex: String): Flow<Resource<List<SSComment>>> {
+    override fun getComments(readIndex: String): Flow<Resource<List<SSComment>>> {
         return emptyFlow()
     }
 
-    override fun getReadHighlights(dayIndex: String): Flow<Resource<List<SSReadHighlights>>> {
+    override fun getReadHighlights(readIndex: String): Flow<Resource<List<SSReadHighlights>>> {
         return emptyFlow()
     }
 }
