@@ -45,7 +45,10 @@ internal abstract class DataSourceMediator<T, R>(
         return if (network.isSuccessFul) {
             network.also {
                 it.data?.let {
-                    withContext(dispatcherProvider.io) { cache.update(it) }
+                    withContext(dispatcherProvider.io) {
+                        cache.update(it)
+                        cache.update(request, it)
+                    }
                 }
             }
         } else {

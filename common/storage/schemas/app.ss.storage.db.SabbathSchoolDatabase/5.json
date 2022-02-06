@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "b154dd1ec3686612a4d2e190097d424e",
+    "identityHash": "aad9deac7b24a3e842a0b1b06688d568",
     "entities": [
       {
         "tableName": "audios",
@@ -361,12 +361,50 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "annotations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`index` TEXT NOT NULL, `pdfIndex` TEXT NOT NULL, `pageIndex` INTEGER NOT NULL, `annotations` TEXT NOT NULL, PRIMARY KEY(`index`))",
+        "fields": [
+          {
+            "fieldPath": "index",
+            "columnName": "index",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pdfIndex",
+            "columnName": "pdfIndex",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pageIndex",
+            "columnName": "pageIndex",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "annotations",
+            "columnName": "annotations",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "index"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b154dd1ec3686612a4d2e190097d424e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'aad9deac7b24a3e842a0b1b06688d568')"
     ]
   }
 }

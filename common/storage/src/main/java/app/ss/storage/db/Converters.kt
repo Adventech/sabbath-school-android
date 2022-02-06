@@ -64,6 +64,10 @@ internal object Converters {
         val listDataType: Type = Types.newParameterizedType(List::class.java, SSBibleVerses::class.java)
         moshi.adapter(listDataType)
     }
+    private val stringsAdapter: JsonAdapter<List<String>> by lazy {
+        val listDataType: Type = Types.newParameterizedType(List::class.java, String::class.java)
+        moshi.adapter(listDataType)
+    }
 
     @TypeConverter
     fun toQuarterlyGroup(value: String?): QuarterlyGroup? = value?.let { jsonString ->
@@ -112,4 +116,12 @@ internal object Converters {
 
     @TypeConverter
     fun fromBibleVerses(verses: List<SSBibleVerses>?): String? = versesAdapter.toJson(verses)
+
+    @TypeConverter
+    fun toStrings(value: String?): List<String>? = value?.let { jsonString ->
+        stringsAdapter.fromJson(jsonString)
+    }
+
+    @TypeConverter
+    fun fromStrings(verses: List<String>?): String? = stringsAdapter.toJson(verses)
 }

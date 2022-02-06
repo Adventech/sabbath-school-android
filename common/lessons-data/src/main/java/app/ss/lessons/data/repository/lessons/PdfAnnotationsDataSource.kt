@@ -23,11 +23,13 @@
 package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.api.SSLessonsApi
-import app.ss.models.PdfAnnotations
 import app.ss.lessons.data.model.api.request.UploadPdfAnnotationsRequest
 import app.ss.lessons.data.repository.mediator.DataSource
 import app.ss.lessons.data.repository.mediator.DataSourceMediator
 import app.ss.lessons.data.repository.mediator.LocalDataSource
+import app.ss.models.PdfAnnotations
+import app.ss.storage.db.dao.PdfAnnotationsDao
+import app.ss.storage.db.entity.PdfAnnotationsEntity
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import timber.log.Timber
@@ -37,7 +39,8 @@ import javax.inject.Singleton
 @Singleton
 internal class PdfAnnotationsDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val lessonsApi: SSLessonsApi
+    private val lessonsApi: SSLessonsApi,
+    private val pdfAnnotationsDao: PdfAnnotationsDao,
 ) : DataSourceMediator<PdfAnnotations, PdfAnnotationsDataSource.Request>(dispatcherProvider = dispatcherProvider) {
 
     data class Request(
@@ -47,7 +50,25 @@ internal class PdfAnnotationsDataSource @Inject constructor(
 
     override val cache: LocalDataSource<PdfAnnotations, Request> = object : LocalDataSource<PdfAnnotations, Request> {
 
-        override fun update(data: List<PdfAnnotations>) {
+        override suspend fun update(request: Request, data: List<PdfAnnotations>) {
+            val pdfIndex = "${request.lessonIndex}-${request.pdfId}"
+            val entities = data.map {
+                PdfAnnotationsEntity(
+                    index = "$pdfIndex-${it.pageIndex}",
+                    pdfIndex = pdfIndex,
+                    pageIndex = it.pageIndex,
+                    annotations = it.annotations
+                )
+            }
+            pdfAnnotationsDao.insertAll(entities)
+        }
+
+        override suspend fun get(request: Request): Resource<List<PdfAnnotations>> {
+            val pdfIndex = "${request.lessonIndex}-${request.pdfId}"
+            val data = pdfAnnotationsDao.get(pdfIndex).map {
+                PdfAnnotations(pageIndex = it.pageIndex, annotations = it.annotations)
+            }
+            return Resource.success(data)
         }
     }
 

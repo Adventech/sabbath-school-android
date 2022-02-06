@@ -31,11 +31,13 @@ import androidx.room.TypeConverters
 import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.dao.LanguagesDao
 import app.ss.storage.db.dao.LessonsDao
+import app.ss.storage.db.dao.PdfAnnotationsDao
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.dao.ReadsDao
 import app.ss.storage.db.entity.AudioFileEntity
 import app.ss.storage.db.entity.LanguageEntity
 import app.ss.storage.db.entity.LessonEntity
+import app.ss.storage.db.entity.PdfAnnotationsEntity
 import app.ss.storage.db.entity.QuarterlyEntity
 import app.ss.storage.db.entity.ReadEntity
 
@@ -46,6 +48,7 @@ import app.ss.storage.db.entity.ReadEntity
         QuarterlyEntity::class,
         LessonEntity::class,
         ReadEntity::class,
+        PdfAnnotationsEntity::class
     ],
     version = 5,
     exportSchema = true,
@@ -67,6 +70,8 @@ internal abstract class SabbathSchoolDatabase : RoomDatabase() {
     abstract fun lessonsDao(): LessonsDao
 
     abstract fun readsDao(): ReadsDao
+
+    abstract fun pdfAnnotationsDao(): PdfAnnotationsDao
 
     companion object {
         private const val DATABASE_NAME = "sabbath_school_db"
