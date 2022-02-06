@@ -28,12 +28,13 @@ import app.ss.lessons.data.extensions.valueEventFlow
 import app.ss.lessons.data.model.PdfAnnotations
 import app.ss.lessons.data.model.QuarterlyLessonInfo
 import app.ss.lessons.data.model.SSLessonInfo
-import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.TodayData
 import app.ss.lessons.data.model.WeekData
 import app.ss.lessons.data.model.WeekDay
+import app.ss.lessons.data.repository.mediator.QuarterliesDataSource
+import app.ss.lessons.data.repository.mediator.QuarterlyInfoDataSource
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.DateHelper.formatDate
 import com.cryart.sabbathschool.core.misc.DateHelper.parseDate
@@ -54,22 +55,16 @@ import javax.inject.Singleton
 internal class LessonsRepositoryImpl @Inject constructor(
     private val firebaseDatabase: FirebaseDatabase,
     private val firebaseAuth: FirebaseAuth,
-    private val ssPrefs: SSPrefs
+    private val ssPrefs: SSPrefs,
+    private val quarterliesDataSource: QuarterliesDataSource,
+    private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
+    private val lessonInfoDataSource: LessonInfoDataSource,
 ) : LessonsRepository {
 
     private val firebaseRef = firebaseDatabase.reference.apply { keepSynced(true) }
 
-    override suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo> {
-        val event = firebaseRef
-            .child(SSConstants.SS_FIREBASE_LESSON_INFO_DATABASE)
-            .child(lessonIndex)
-            .singleEvent()
-
-        return when (event) {
-            is ValueEvent.Cancelled -> Resource.error(event.error)
-            is ValueEvent.DataChange -> Resource.success(SSLessonInfo(event.snapshot))
-        }
-    }
+    override suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo> =
+        lessonInfoDataSource.getItem(LessonInfoDataSource.Request(lessonIndex))
 
     override suspend fun getTodayRead(): Resource<TodayData> {
         val dataResponse = getQuarterlyAndLessonInfo()
@@ -98,12 +93,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
 
     private suspend fun getQuarterlyAndLessonInfo(): Resource<QuarterlyLessonInfo> {
         val quarterlyResponse = getQuarterlyInfo()
-        val quarterlyInfo: SSQuarterlyInfo
-        if (quarterlyResponse.isSuccessFul && quarterlyResponse.data != null) {
-            quarterlyInfo = quarterlyResponse.data!!
-        } else {
-            return Resource.error(quarterlyResponse.error ?: Throwable("Invalid QuarterlyInfo"))
-        }
+        val quarterlyInfo = quarterlyResponse.data ?: return Resource.error(quarterlyResponse.error ?: Throwable("Invalid QuarterlyInfo"))
         val lessonInfo = getWeekLessonInfo(quarterlyInfo) ?: return Resource.error(Throwable("Invalid LessonInfo"))
 
         return Resource.success(QuarterlyLessonInfo(quarterlyInfo, lessonInfo))
@@ -114,64 +104,25 @@ internal class LessonsRepositoryImpl @Inject constructor(
             return Resource.success(it)
         } ?: getDefaultQuarterlyIndex() ?: return Resource.error(Throwable("Invalid Quarterly Index"))
 
-        val event = firebaseRef
-            .child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
-            .child(index)
-            .singleEvent()
-
-        return when (event) {
-            is ValueEvent.Cancelled -> Resource.error(event.error)
-            is ValueEvent.DataChange -> Resource.loading()
-        }
+        return quarterlyInfoDataSource.cache.getItem(QuarterlyInfoDataSource.Request(index))
     }
 
     private suspend fun getLastQuarterlyInfoIfCurrent(): SSQuarterlyInfo? {
         val index = ssPrefs.getLastQuarterlyIndex() ?: return null
+        val info = quarterlyInfoDataSource.cache.getItem(QuarterlyInfoDataSource.Request(index)).data ?: return null
 
-        val event = firebaseRef
-            .child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
-            .child(index)
-            .singleEvent()
-
-        return when (event) {
-            is ValueEvent.Cancelled -> null
-            is ValueEvent.DataChange -> {
-                /*val info = SSQuarterlyInfo(event.snapshot)
-                val today = DateTime.now().withTimeAtStartOfDay()
-                if (today.isBefore(parseDate(info.quarterly.end_date))) {
-                    info
-                } else {
-                    null
-                }*/
-                null
-            }
+        val today = DateTime.now().withTimeAtStartOfDay()
+        return if (today.isBefore(parseDate(info.quarterly.end_date))) {
+            info
+        } else {
+            null
         }
     }
 
     private suspend fun getDefaultQuarterlyIndex(): String? {
-        var code = ssPrefs.getLanguageCode()
-        if (code == "iw") {
-            code = "he"
-        }
-        if (code == "fil") {
-            code = "tl"
-        }
-
-        val quarterlyEvent = firebaseRef
-            .child(SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE)
-            .child(code)
-            .singleEvent()
-
-        return when (quarterlyEvent) {
-            is ValueEvent.Cancelled -> null
-            is ValueEvent.DataChange -> {
-                val quarterlies = quarterlyEvent.snapshot.children.mapNotNull {
-                    SSQuarterly("")
-                }
-                val quarterly = quarterlies.firstOrNull()
-                quarterly?.index
-            }
-        }
+        val resource = quarterliesDataSource.cache.get(QuarterliesDataSource.Request(ssPrefs.getLanguageCode()))
+        val quarterly = resource.data?.firstOrNull()
+        return quarterly?.index
     }
 
     private suspend fun getWeekLessonInfo(quarterlyInfo: SSQuarterlyInfo): SSLessonInfo? {

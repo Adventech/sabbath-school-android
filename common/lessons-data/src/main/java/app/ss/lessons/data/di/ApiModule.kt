@@ -23,6 +23,7 @@
 package app.ss.lessons.data.di
 
 import app.ss.lessons.data.BuildConfig
+import app.ss.lessons.data.api.SSLessonsApi
 import app.ss.lessons.data.api.SSMediaApi
 import app.ss.lessons.data.api.SSQuarterliesApi
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -81,4 +82,11 @@ object ApiModule {
         okHttpClient: OkHttpClient
     ): SSQuarterliesApi = retrofit(okHttpClient)
         .create(SSQuarterliesApi::class.java)
+
+    @Provides
+    @Singleton
+    internal fun provideLessonsApi(
+        okHttpClient: OkHttpClient
+    ): SSLessonsApi = retrofit(okHttpClient)
+        .create(SSLessonsApi::class.java)
 }
