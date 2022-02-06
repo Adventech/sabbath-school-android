@@ -26,9 +26,9 @@ import app.ss.lessons.data.api.SSLessonsApi
 import app.ss.lessons.data.repository.mediator.DataSource
 import app.ss.lessons.data.repository.mediator.DataSourceMediator
 import app.ss.lessons.data.repository.mediator.LocalDataSource
-import app.ss.models.SSReadComments
-import app.ss.storage.db.dao.ReadCommentsDao
-import app.ss.storage.db.entity.ReadCommentsEntity
+import app.ss.models.SSReadHighlights
+import app.ss.storage.db.dao.ReadHighlightsDao
+import app.ss.storage.db.entity.ReadHighlightsEntity
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import timber.log.Timber
@@ -36,38 +36,41 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-internal class ReadCommentsDataSource @Inject constructor(
+internal class ReadHighlightsDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val lessonsApi: SSLessonsApi,
-    private val readCommentsDao: ReadCommentsDao,
-) : DataSourceMediator<SSReadComments, ReadCommentsDataSource.Request>(dispatcherProvider = dispatcherProvider) {
+    private val readHighlightsDao: ReadHighlightsDao,
+) : DataSourceMediator<SSReadHighlights, ReadHighlightsDataSource.Request>(dispatcherProvider = dispatcherProvider) {
 
     data class Request(val readIndex: String)
 
-    override val cache: LocalDataSource<SSReadComments, Request> = object : LocalDataSource<SSReadComments, Request> {
-        override suspend fun get(request: Request): Resource<List<SSReadComments>> {
-            val data = readCommentsDao.get(request.readIndex).map {
-                SSReadComments(it.readIndex, it.comments)
+    override val cache: LocalDataSource<SSReadHighlights, Request> = object : LocalDataSource<SSReadHighlights, Request> {
+        override suspend fun get(request: Request): Resource<List<SSReadHighlights>> {
+            val data = readHighlightsDao.get(request.readIndex).map {
+                SSReadHighlights(it.readIndex, it.highlights)
             }
             return Resource.success(data)
         }
 
-        override fun update(data: List<SSReadComments>) {
-            readCommentsDao.insertAll(data.map { ReadCommentsEntity(it.readIndex, it.comments) })
+        override fun update(data: List<SSReadHighlights>) {
+            readHighlightsDao.insertAll(
+                data.map { ReadHighlightsEntity(it.readIndex, it.highlights) }
+            )
         }
     }
 
-    override val network: DataSource<SSReadComments, Request> = object : DataSource<SSReadComments, Request> {
-        override suspend fun get(request: Request): Resource<List<SSReadComments>> = try {
-            val response = lessonsApi.getComments(request.readIndex)
-            Resource.success(response.body() ?: emptyList())
+    override val network: DataSource<SSReadHighlights, Request> = object : DataSource<SSReadHighlights, Request> {
+        override suspend fun get(request: Request): Resource<List<SSReadHighlights>> = try {
+            val response = lessonsApi.getHighlights(request.readIndex)
+            val data = response.body() ?: emptyList()
+            Resource.success(data)
         } catch (error: Throwable) {
             Timber.e(error)
             Resource.error(error)
         }
 
-        override suspend fun update(request: Request, data: List<SSReadComments>) {
-            data.forEach { lessonsApi.uploadComments(it) }
+        override suspend fun update(request: Request, data: List<SSReadHighlights>) {
+            data.forEach { lessonsApi.uploadHighlights(it) }
         }
     }
 }

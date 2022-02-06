@@ -22,11 +22,11 @@
 
 package app.ss.lessons.data.repository.lessons
 
-import app.ss.models.SSComment
-import app.ss.models.SSReadHighlights
 import app.ss.models.PdfAnnotations
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
 import app.ss.models.TodayData
 import app.ss.models.WeekData
 import com.cryart.sabbathschool.core.response.Resource
@@ -46,7 +46,11 @@ interface LessonsRepository {
 
     suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>>
 
-    fun getComments(readIndex: String): Flow<Resource<List<SSComment>>>
+    fun getComments(readIndex: String): Flow<Resource<List<SSReadComments>>>
+
+    suspend fun saveComments(comments: SSReadComments)
 
     fun getReadHighlights(readIndex: String): Flow<Resource<List<SSReadHighlights>>>
+
+    suspend fun saveHighlights(highlights: SSReadHighlights)
 }

@@ -70,8 +70,18 @@ interface SSLessonsApi {
         @Path("readIndex") readIndex: String
     ): Response<List<SSReadComments>>
 
+    @POST("api/v2/comments")
+    suspend fun uploadComments(
+        @Body comments: SSReadComments
+    ): Response<ResponseBody>
+
     @GET("api/v2/highlights/{readIndex}")
     suspend fun getHighlights(
         @Path("readIndex") readIndex: String
     ): Response<List<SSReadHighlights>>
+
+    @POST("api/v2/highlights")
+    suspend fun uploadHighlights(
+        @Body highlights: SSReadHighlights
+    ): Response<ResponseBody>
 }

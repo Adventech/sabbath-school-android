@@ -22,18 +22,18 @@
 
 package app.ss.lessons.data.repository.lessons
 
-import app.ss.models.PdfAnnotations
 import app.ss.lessons.data.model.QuarterlyLessonInfo
-import app.ss.models.SSComment
+import app.ss.lessons.data.repository.mediator.QuarterliesDataSource
+import app.ss.lessons.data.repository.mediator.QuarterlyInfoDataSource
+import app.ss.models.PdfAnnotations
+import app.ss.models.SSLessonInfo
+import app.ss.models.SSQuarterlyInfo
+import app.ss.models.SSRead
+import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
 import app.ss.models.TodayData
 import app.ss.models.WeekData
 import app.ss.models.WeekDay
-import app.ss.lessons.data.repository.mediator.QuarterliesDataSource
-import app.ss.lessons.data.repository.mediator.QuarterlyInfoDataSource
-import app.ss.models.SSLessonInfo
-import app.ss.models.SSQuarterlyInfo
-import app.ss.models.SSRead
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.DateHelper.formatDate
 import com.cryart.sabbathschool.core.misc.DateHelper.parseDate
@@ -52,6 +52,8 @@ internal class LessonsRepositoryImpl @Inject constructor(
     private val lessonInfoDataSource: LessonInfoDataSource,
     private val readsDataSource: ReadsDataSource,
     private val pdfAnnotationsDataSource: PdfAnnotationsDataSource,
+    private val readCommentsDataSource: ReadCommentsDataSource,
+    private val readHighlightsDataSource: ReadHighlightsDataSource,
 ) : LessonsRepository {
 
     override suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo> =
@@ -166,11 +168,25 @@ internal class LessonsRepositoryImpl @Inject constructor(
         PdfAnnotationsDataSource.Request(lessonIndex, pdfId)
     )
 
-    override fun getComments(readIndex: String): Flow<Resource<List<SSComment>>> {
-        TODO("Not yet implemented")
+    override fun getComments(
+        readIndex: String
+    ): Flow<Resource<List<SSReadComments>>> = readCommentsDataSource.getAsFlow(ReadCommentsDataSource.Request(readIndex))
+
+    override suspend fun saveComments(comments: SSReadComments) {
+        readCommentsDataSource.sync(
+            ReadCommentsDataSource.Request(comments.readIndex),
+            listOf(comments)
+        )
     }
 
-    override fun getReadHighlights(readIndex: String): Flow<Resource<List<SSReadHighlights>>> {
-        TODO("Not yet implemented")
+    override fun getReadHighlights(
+        readIndex: String
+    ): Flow<Resource<List<SSReadHighlights>>> = readHighlightsDataSource.getAsFlow(ReadHighlightsDataSource.Request(readIndex))
+
+    override suspend fun saveHighlights(highlights: SSReadHighlights) {
+        readHighlightsDataSource.sync(
+            ReadHighlightsDataSource.Request(highlights.readIndex),
+            listOf(highlights)
+        )
     }
 }

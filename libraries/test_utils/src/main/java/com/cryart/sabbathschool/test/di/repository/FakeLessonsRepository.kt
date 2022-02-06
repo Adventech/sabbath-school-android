@@ -1,13 +1,13 @@
 package com.cryart.sabbathschool.test.di.repository
 
-import app.ss.models.SSComment
-import app.ss.models.SSReadHighlights
+import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.models.PdfAnnotations
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
 import app.ss.models.TodayData
 import app.ss.models.WeekData
-import app.ss.lessons.data.repository.lessons.LessonsRepository
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.test.di.mock.MockDataFactory
 import kotlinx.coroutines.flow.Flow
@@ -38,11 +38,15 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
         return emptyFlow()
     }
 
-    override fun getComments(readIndex: String): Flow<Resource<List<SSComment>>> {
+    override fun getComments(readIndex: String): Flow<Resource<List<SSReadComments>>> {
         return emptyFlow()
     }
+
+    override suspend fun saveComments(comments: SSReadComments) {}
 
     override fun getReadHighlights(readIndex: String): Flow<Resource<List<SSReadHighlights>>> {
         return emptyFlow()
     }
+
+    override suspend fun saveHighlights(highlights: SSReadHighlights) {}
 }
