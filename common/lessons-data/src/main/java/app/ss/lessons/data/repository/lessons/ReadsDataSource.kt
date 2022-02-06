@@ -23,10 +23,12 @@
 package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.api.SSLessonsApi
-import app.ss.models.SSRead
 import app.ss.lessons.data.repository.mediator.DataSource
 import app.ss.lessons.data.repository.mediator.DataSourceMediator
 import app.ss.lessons.data.repository.mediator.LocalDataSource
+import app.ss.models.SSRead
+import app.ss.storage.db.dao.ReadsDao
+import app.ss.storage.db.entity.ReadEntity
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import timber.log.Timber
@@ -34,14 +36,27 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-internal class ReadDataSource @Inject constructor(
+internal class ReadsDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val lessonsApi: SSLessonsApi,
-) : DataSourceMediator<SSRead, ReadDataSource.Request>(dispatcherProvider = dispatcherProvider) {
+    private val readsDao: ReadsDao,
+) : DataSourceMediator<SSRead, ReadsDataSource.Request>(dispatcherProvider = dispatcherProvider) {
 
     data class Request(val dayIndex: String)
 
     override val cache: LocalDataSource<SSRead, Request> = object : LocalDataSource<SSRead, Request> {
+
+        override suspend fun getItem(request: Request?): Resource<SSRead> {
+            return request?.dayIndex?.let { index ->
+                readsDao.get(index)?.let {
+                    Resource.success(it.toModel())
+                } ?: Resource.loading()
+            } ?: Resource.loading()
+        }
+
+        override fun updateItem(data: SSRead) {
+            readsDao.updateItem(data.toEntity())
+        }
     }
 
     override val network: DataSource<SSRead, Request> = object : DataSource<SSRead, Request> {
@@ -63,4 +78,22 @@ internal class ReadDataSource @Inject constructor(
             Resource.error(error)
         }
     }
+
+    private fun SSRead.toEntity(): ReadEntity = ReadEntity(
+        index = index,
+        id = id,
+        date = date,
+        title = title,
+        content = content,
+        bible = bible
+    )
+
+    private fun ReadEntity.toModel(): SSRead = SSRead(
+        index = index,
+        id = id,
+        date = date,
+        title = title,
+        content = content,
+        bible = bible
+    )
 }

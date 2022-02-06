@@ -32,17 +32,20 @@ import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.dao.LanguagesDao
 import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.dao.QuarterliesDao
+import app.ss.storage.db.dao.ReadsDao
 import app.ss.storage.db.entity.AudioFileEntity
 import app.ss.storage.db.entity.LanguageEntity
 import app.ss.storage.db.entity.LessonEntity
 import app.ss.storage.db.entity.QuarterlyEntity
+import app.ss.storage.db.entity.ReadEntity
 
 @Database(
     entities = [
         AudioFileEntity::class,
         LanguageEntity::class,
         QuarterlyEntity::class,
-        LessonEntity::class
+        LessonEntity::class,
+        ReadEntity::class,
     ],
     version = 5,
     exportSchema = true,
@@ -62,6 +65,8 @@ internal abstract class SabbathSchoolDatabase : RoomDatabase() {
     abstract fun quarterliesDao(): QuarterliesDao
 
     abstract fun lessonsDao(): LessonsDao
+
+    abstract fun readsDao(): ReadsDao
 
     companion object {
         private const val DATABASE_NAME = "sabbath_school_db"

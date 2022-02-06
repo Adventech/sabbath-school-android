@@ -58,7 +58,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
     private val quarterliesDataSource: QuarterliesDataSource,
     private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
     private val lessonInfoDataSource: LessonInfoDataSource,
-    private val readDataSource: ReadDataSource,
+    private val readsDataSource: ReadsDataSource,
 ) : LessonsRepository {
 
     private val firebaseRef = firebaseDatabase.reference.apply { keepSynced(true) }
@@ -133,7 +133,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getDayRead(dayIndex: String): Resource<SSRead> =
-        readDataSource.getItem(ReadDataSource.Request(dayIndex))
+        readsDataSource.getItem(ReadsDataSource.Request(dayIndex))
 
     override suspend fun getWeekData(): Resource<WeekData> {
         val dataResponse = getQuarterlyAndLessonInfo()

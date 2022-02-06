@@ -28,6 +28,7 @@ import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.dao.LanguagesDao
 import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.dao.QuarterliesDao
+import app.ss.storage.db.dao.ReadsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -62,6 +63,12 @@ object StorageModule {
     fun provideLessonsDao(
         @ApplicationContext context: Context,
     ): LessonsDao = context.database().lessonsDao()
+
+    @Provides
+    @Singleton
+    fun provideReadsDao(
+        @ApplicationContext context: Context,
+    ): ReadsDao = context.database().readsDao()
 }
 
 private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)

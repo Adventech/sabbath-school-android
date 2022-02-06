@@ -27,6 +27,7 @@ import app.ss.models.Credit
 import app.ss.models.Feature
 import app.ss.models.LessonPdf
 import app.ss.models.QuarterlyGroup
+import app.ss.models.SSBibleVerses
 import app.ss.models.SSDay
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
@@ -57,6 +58,10 @@ internal object Converters {
     }
     private val pdfsAdapter: JsonAdapter<List<LessonPdf>> by lazy {
         val listDataType: Type = Types.newParameterizedType(List::class.java, LessonPdf::class.java)
+        moshi.adapter(listDataType)
+    }
+    private val versesAdapter: JsonAdapter<List<SSBibleVerses>> by lazy {
+        val listDataType: Type = Types.newParameterizedType(List::class.java, SSBibleVerses::class.java)
         moshi.adapter(listDataType)
     }
 
@@ -99,4 +104,12 @@ internal object Converters {
 
     @TypeConverter
     fun fromLessonPdfs(lessons: List<LessonPdf>?): String? = pdfsAdapter.toJson(lessons)
+
+    @TypeConverter
+    fun toBibleVerses(value: String?): List<SSBibleVerses>? = value?.let { jsonString ->
+        versesAdapter.fromJson(jsonString)
+    }
+
+    @TypeConverter
+    fun fromBibleVerses(verses: List<SSBibleVerses>?): String? = versesAdapter.toJson(verses)
 }
