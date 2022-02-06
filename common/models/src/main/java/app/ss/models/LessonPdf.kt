@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,15 +20,11 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.model
+package app.ss.models
 
 import android.os.Parcelable
-import androidx.annotation.Keep
-import com.google.firebase.database.IgnoreExtraProperties
 import kotlinx.parcelize.Parcelize
 
-@Keep
-@IgnoreExtraProperties
 @Parcelize
 data class LessonPdf(
     val id: String,
@@ -37,6 +33,4 @@ data class LessonPdf(
     val end_date: String = "",
     val target: String = "",
     val src: String = ""
-) : Parcelable {
-    constructor() : this("")
-}
+) : Parcelable

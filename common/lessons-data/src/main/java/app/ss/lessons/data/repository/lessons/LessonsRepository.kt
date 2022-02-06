@@ -23,7 +23,7 @@
 package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.model.PdfAnnotations
-import app.ss.lessons.data.model.SSLessonInfo
+import app.ss.models.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.TodayData
 import app.ss.lessons.data.model.WeekData

@@ -39,7 +39,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import app.ss.lessons.data.model.SSContextMenu
-import app.ss.lessons.data.model.SSLessonInfo
+import app.ss.models.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
@@ -161,7 +161,7 @@ class SSReadingViewModel(
             .child(ssLessonIndex)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    ssLessonInfo = SSLessonInfo(dataSnapshot)
+                  //  ssLessonInfo = SSLessonInfo(dataSnapshot)
 
                     ssTotalReadsCount = ssLessonInfo?.days?.size ?: 0
 

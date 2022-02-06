@@ -27,7 +27,7 @@ import app.ss.lessons.data.extensions.singleEvent
 import app.ss.lessons.data.extensions.valueEventFlow
 import app.ss.lessons.data.model.PdfAnnotations
 import app.ss.lessons.data.model.QuarterlyLessonInfo
-import app.ss.lessons.data.model.SSLessonInfo
+import app.ss.models.SSLessonInfo
 import app.ss.models.SSQuarterlyInfo
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.TodayData

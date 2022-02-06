@@ -22,7 +22,7 @@
 
 package app.ss.lessons.data.api
 
-import app.ss.lessons.data.model.SSLessonInfo
+import app.ss.models.SSLessonInfo
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

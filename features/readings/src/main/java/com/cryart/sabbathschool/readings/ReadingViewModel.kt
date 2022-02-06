@@ -24,7 +24,7 @@ package com.cryart.sabbathschool.readings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.lessons.data.model.SSLessonInfo
+import app.ss.models.SSLessonInfo
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.misc.SSConstants

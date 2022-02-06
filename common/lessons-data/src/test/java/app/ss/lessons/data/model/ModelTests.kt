@@ -23,6 +23,7 @@
 package app.ss.lessons.data.model
 
 import app.ss.models.SSLesson
+import app.ss.models.SSLessonInfo
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
 import org.amshove.kluent.shouldBeEqualTo

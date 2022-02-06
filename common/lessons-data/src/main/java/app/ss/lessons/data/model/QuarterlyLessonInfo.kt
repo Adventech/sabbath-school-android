@@ -22,6 +22,7 @@
 
 package app.ss.lessons.data.model
 
+import app.ss.models.SSLessonInfo
 import app.ss.models.SSQuarterlyInfo
 
 internal data class QuarterlyLessonInfo(
