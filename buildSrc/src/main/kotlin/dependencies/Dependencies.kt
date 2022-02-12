@@ -42,9 +42,7 @@ object Dependencies {
 
     object Firebase {
         const val BOM = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
-        const val AUTH = "com.google.firebase:firebase-auth-ktx"
         const val STORAGE = "com.google.firebase:firebase-storage-ktx"
-        const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
     }
 
     object Kotlin {
@@ -61,7 +59,6 @@ object Dependencies {
     }
 
     object Facebook {
-        const val SDK = "com.facebook.android:facebook-android-sdk:${Versions.Facebook.SDK}"
         const val SHIMMER = "com.facebook.shimmer:shimmer:${Versions.Facebook.SHIMMER}"
     }
 

@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Biblijske Pouke"</string>
     <string name="ss_share">"Udio"</string>
     <string name="ss_login_button_google">"Prijavite se putem Googlea"</string>
-    <string name="ss_login_button_facebook">"Prijavite se putem Facebooka"</string>
     <string name="ss_login_button_anonymous">"Prijavite se anonimno"</string>
     <string name="ss_menu_anonymous_name">"Anoniman"</string>
     <string name="ss_menu_sign_out">"Odjavi se"</string>

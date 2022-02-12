@@ -39,7 +39,6 @@ import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.settings.SSSettingsActivity
 import com.cryart.sabbathschool.ui.about.AboutActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
-import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -48,11 +47,10 @@ import javax.inject.Singleton
  */
 @Singleton
 class AppNavigatorImpl @Inject constructor(
-    private val firebaseAuth: FirebaseAuth,
     private val ssPrefs: SSPrefs
 ) : AppNavigator {
 
-    private val isSignedIn: Boolean get() = firebaseAuth.currentUser != null
+    private val isSignedIn: Boolean get() = false
 
     override fun navigate(activity: Activity, destination: Destination, extras: Bundle?) {
         val clazz = getDestinationClass(destination) ?: return

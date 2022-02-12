@@ -25,7 +25,6 @@
     <string name="ss_app_name">"مدرسة السبت"</string>
     <string name="ss_share">"شارك"</string>
     <string name="ss_login_button_google">"تسجيل الدخول بحساب جوجل"</string>
-    <string name="ss_login_button_facebook">"تسجيل الدخول بحساب الفيسبوك"</string>
     <string name="ss_login_button_anonymous">"تسجيل الدخول كمجهول"</string>
     <string name="ss_menu_anonymous_name">"مجهول"</string>
     <string name="ss_menu_sign_out">"تسجيل الخروج "</string>

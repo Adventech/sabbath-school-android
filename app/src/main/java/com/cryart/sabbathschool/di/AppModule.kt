@@ -31,7 +31,6 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.cryart.sabbathschool.settings.DailyReminder
-import com.cryart.sabbathschool.ui.login.FacebookLoginManager
 import com.cryart.sabbathschool.ui.login.GoogleSignInWrapper
 import dagger.Module
 import dagger.Provides
@@ -45,9 +44,6 @@ object AppModule {
 
     @Provides
     fun provideGoogleSignInWrapper() = GoogleSignInWrapper()
-
-    @Provides
-    fun provideFacebookLoginManager() = FacebookLoginManager()
 
     @Provides
     fun provideReminderManager(

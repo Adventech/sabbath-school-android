@@ -68,9 +68,6 @@ dependencies {
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.JODA)
 
-    implementation(platform(Firebase.BOM))
-    implementation(Firebase.AUTH)
-
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))
     androidTestImplementation(project(BuildModules.Libraries.TEST_UTILS))

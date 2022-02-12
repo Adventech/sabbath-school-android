@@ -22,7 +22,6 @@
 
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
 import dependencies.Versions
@@ -172,12 +171,8 @@ dependencies {
 
     implementation(Dependencies.PLAY_AUTH)
 
-    implementation(platform(Firebase.BOM))
-    implementation(Firebase.AUTH)
-
     implementation(Dependencies.TIMBER)
 
-    implementation(Dependencies.Facebook.SDK)
     implementation(Dependencies.JODA)
 
     implementation(Dependencies.Compose.tooling)

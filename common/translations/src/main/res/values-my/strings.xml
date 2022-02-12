@@ -23,7 +23,6 @@
     <string name="ss_app_name">"မြန်မာလူကြီးတန်း"</string>
     <string name="ss_share">"ဝေစု"</string>
     <string name="ss_login_button_google">"Google ဖြင့်မှတ်ပုံတင်ရန်"</string>
-    <string name="ss_login_button_facebook">"Facebook ကိုသုံးပါ"</string>
     <string name="ss_login_button_anonymous">"အမည်ဝှက်"</string>
     <string name="ss_menu_anonymous_name">"အမည်မသိ"</string>
     <string name="ss_menu_sign_out">"ဆိုင်းအောက်"</string>

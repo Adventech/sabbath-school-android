@@ -49,20 +49,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/facebook"
-            android:layout_width="@dimen/ss_login_button_social_width"
-            android:layout_height="@dimen/ss_login_button_social_height"
-            android:text="@string/ss_login_button_facebook"
-            android:textColor="@android:color/white"
-            app:backgroundTint="@color/com_facebook_blue"
-            app:cornerRadius="@dimen/spacing_micro"
-            app:icon="@drawable/ic_fb_logo"
-            app:iconSize="20dp"
-            app:iconGravity="textStart"
-            app:iconTint="@android:color/white"
-            app:textAllCaps="false" />
-
-        <com.google.android.material.button.MaterialButton
             android:id="@+id/google"
             android:layout_width="@dimen/ss_login_button_social_width"
             android:layout_height="@dimen/ss_login_button_social_height"

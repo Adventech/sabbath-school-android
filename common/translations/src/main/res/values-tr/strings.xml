@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Sebt Okulu"</string>
     <string name="ss_share">"Paylaş"</string>
     <string name="ss_login_button_google">"Google ile giriş"</string>
-    <string name="ss_login_button_facebook">"Facebook ile giriş"</string>
     <string name="ss_login_button_anonymous">"Anonim olarak Devam"</string>
     <string name="ss_menu_anonymous_name">"Anonim"</string>
     <string name="ss_menu_sign_out">"Oturumu Kapat"</string>

@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Mwongozo wa kujifunza Biblia"</string>
     <string name="ss_share">"Shiriki"</string>
     <string name="ss_login_button_google">"Ingia na Google"</string>
-    <string name="ss_login_button_facebook">"Ingia na Facebook"</string>
     <string name="ss_login_button_anonymous">"Ingia Anonymously"</string>
     <string name="ss_menu_anonymous_name">"Mtu asiyejulikana"</string>
     <string name="ss_menu_sign_out">"Toka"</string>

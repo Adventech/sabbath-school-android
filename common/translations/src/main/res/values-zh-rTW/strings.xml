@@ -25,7 +25,6 @@
     <string name="ss_app_name">"安息日學校"</string>
     <string name="ss_share">"共享"</string>
     <string name="ss_login_button_google">"用Google登入"</string>
-    <string name="ss_login_button_facebook">"用Facebook登入"</string>
     <string name="ss_login_button_anonymous">"匿名登錄"</string>
     <string name="ss_menu_anonymous_name">"匿名"</string>
     <string name="ss_menu_sign_out">"登出"</string>

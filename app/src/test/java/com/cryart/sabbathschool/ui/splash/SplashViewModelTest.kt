@@ -25,7 +25,6 @@ package com.cryart.sabbathschool.ui.splash
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.reminder.DailyReminderManager
-import com.google.firebase.auth.FirebaseAuth
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -39,7 +38,6 @@ class SplashViewModelTest {
     @get:Rule
     val instantTaskRule = InstantTaskExecutorRule()
 
-    private val mockFirebaseAuth: FirebaseAuth = mockk(relaxed = true)
     private val mockDailyReminderManager: DailyReminderManager = mockk()
     private val mockSSPrefs: SSPrefs = mockk()
 
@@ -53,7 +51,6 @@ class SplashViewModelTest {
         every { mockSSPrefs.isReadingLatestQuarterly() }.returns(false)
 
         viewModel = SplashViewModel(
-            mockFirebaseAuth,
             mockSSPrefs,
             mockDailyReminderManager,
         )
@@ -61,10 +58,8 @@ class SplashViewModelTest {
 
     @Test
     fun `should schedule reminder when user is signed in`() {
-        every { mockFirebaseAuth.currentUser }.returns(mockk())
 
         SplashViewModel(
-            mockFirebaseAuth,
             mockSSPrefs,
             mockDailyReminderManager,
         )
@@ -74,11 +69,9 @@ class SplashViewModelTest {
 
     @Test
     fun `should not schedule reminder when user is signed in and reminder is disabled`() {
-        every { mockFirebaseAuth.currentUser }.returns(mockk())
         every { mockSSPrefs.reminderEnabled() }.returns(false)
 
         SplashViewModel(
-            mockFirebaseAuth,
             mockSSPrefs,
             mockDailyReminderManager,
         )
@@ -88,7 +81,6 @@ class SplashViewModelTest {
 
     @Test
     fun `should return Quarterlies state when user is signed in and no last saved index`() {
-        every { mockFirebaseAuth.currentUser }.returns(mockk())
         every { mockSSPrefs.getLastQuarterlyIndex() }.returns(null)
 
         val state = viewModel.launchState
@@ -97,7 +89,6 @@ class SplashViewModelTest {
 
     @Test
     fun `should return Quarterlies state when user is signed in with last saved index and not reading latest quarterly`() {
-        every { mockFirebaseAuth.currentUser }.returns(mockk())
         every { mockSSPrefs.getLastQuarterlyIndex() }.returns("index")
         every { mockSSPrefs.isReadingLatestQuarterly() }.returns(false)
 
@@ -107,7 +98,6 @@ class SplashViewModelTest {
 
     @Test
     fun `should return Lessons state when user is signed in with last saved index and reading latest quarterly`() {
-        every { mockFirebaseAuth.currentUser }.returns(mockk())
         every { mockSSPrefs.getLastQuarterlyIndex() }.returns("index")
         every { mockSSPrefs.isReadingLatestQuarterly() }.returns(true)
 

@@ -24,7 +24,6 @@
     <string name="ss_app_name">"ಸಬ್ಬತ್ ಶಾಲೆ"</string>
     <string name="ss_share">"ಹಂಚಿಕೊಳ್ಳಿ"</string>
     <string name="ss_login_button_google">"Google ನೊಂದಿಗೆ ಸೈನ್ ಇನ್ ಮಾಡಿ"</string>
-    <string name="ss_login_button_facebook">"ಫೇಸ್ಬುಕ್ ಜೊತೆ ಸೈನ್ ಇನ್ ಮಾಡಿ"</string>
     <string name="ss_login_button_anonymous">"ಅನಾಮಧೇಯವಾಗಿ ಲಾಗಿನ್ ಮಾಡಿ"</string>
     <string name="ss_menu_anonymous_name">"ಅನಾಮಧೇಯ"</string>
     <string name="ss_menu_sign_out">"ಸೈನ್ ಔಟ್ ಮಾಡಿ"</string>

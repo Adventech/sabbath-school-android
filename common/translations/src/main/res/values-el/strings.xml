@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Σχολή Σαββάτου"</string>
     <string name="ss_share">"Κοινοποίησε"</string>
     <string name="ss_login_button_google">"Συνδεθείτε μέσω Google"</string>
-    <string name="ss_login_button_facebook">"Συνδεθείτε μέσω Facebook"</string>
     <string name="ss_login_button_anonymous">"Συνδεθείτε ανώνυμα"</string>
     <string name="ss_menu_anonymous_name">"Ανώνυμος"</string>
     <string name="ss_menu_sign_out">"Αποσύνδεση"</string>

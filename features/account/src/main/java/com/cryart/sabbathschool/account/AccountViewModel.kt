@@ -27,32 +27,20 @@ import androidx.lifecycle.viewModelScope
 import com.cryart.sabbathschool.account.model.UserInfo
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
-    private val firebaseAuth: FirebaseAuth,
     private val ssPrefs: SSPrefs
 ) : ViewModel() {
 
-    val userInfoFlow: StateFlow<UserInfo> = flowOf(firebaseAuth.currentUser)
-        .map { user ->
-            user?.let {
-                val name = if (user.displayName.isNullOrEmpty()) null else user.displayName
-                val email = if (user.email.isNullOrEmpty()) null else user.email
-
-                UserInfo(name, email, user.photoUrl)
-            } ?: UserInfo()
-        }
+    val userInfoFlow: StateFlow<UserInfo> = flowOf(UserInfo())
         .stateIn(viewModelScope, UserInfo())
 
     fun logoutClicked() {
-        firebaseAuth.signOut()
         ssPrefs.clear()
     }
 }

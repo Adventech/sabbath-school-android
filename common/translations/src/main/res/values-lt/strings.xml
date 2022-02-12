@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Sabato Mokykla"</string>
     <string name="ss_share">"Dalintis"</string>
     <string name="ss_login_button_google">"Prisijunkite naudodami „Google“"</string>
-    <string name="ss_login_button_facebook">"Prisijunkite naudodami „Facebook“"</string>
     <string name="ss_login_button_anonymous">"Prisijungti anonimiškai"</string>
     <string name="ss_menu_anonymous_name">"Anoniminis"</string>
     <string name="ss_menu_sign_out">"Atsijungti"</string>

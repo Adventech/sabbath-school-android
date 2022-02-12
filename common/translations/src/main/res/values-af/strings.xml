@@ -25,7 +25,6 @@
     <string name="ss_app_name">"Sabbatskool"</string>
     <string name="ss_share">"Deel"</string>
     <string name="ss_login_button_google">"Meld aan by Google"</string>
-    <string name="ss_login_button_facebook">"Teken in met Facebook"</string>
     <string name="ss_login_button_anonymous">"Teken Anoniem aan"</string>
     <string name="ss_menu_anonymous_name">"Anoniem"</string>
     <string name="ss_menu_sign_out">"Teken uit"</string>

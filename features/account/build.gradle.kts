@@ -61,8 +61,6 @@ dependencies {
     implementation(Dependencies.AndroidX.APPCOMPAT)
     implementation(Dependencies.AndroidX.FRAGMENT_KTX)
 
-    implementation(platform(Dependencies.Firebase.BOM))
-    implementation(Dependencies.Firebase.AUTH)
     implementation(Dependencies.PLAY_AUTH)
 
     implementation(Dependencies.Hilt.ANDROID)

@@ -35,8 +35,6 @@ import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding
 import com.cryart.sabbathschool.databinding.SsLoginButtonsBinding
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
-import com.facebook.CallbackManager
-import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -65,8 +63,6 @@ class LoginActivity : AppCompatActivity() {
         registerForActivityResult(GetSignInDataContract()) { data ->
             viewModel.handleGoogleSignInResult(data)
         }
-
-    private val callbackManager = CallbackManager.Factory.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,12 +103,6 @@ class LoginActivity : AppCompatActivity() {
             google.setOnClickListener {
                 getGoogleSignInLauncher.launch(googleSignInClient)
             }
-            facebook.setOnClickListener {
-                LoginManager.getInstance().logInWithReadPermissions(
-                    this@LoginActivity,
-                    listOf("public_profile", "email")
-                )
-            }
             anonymous.setOnClickListener {
                 MaterialAlertDialogBuilder(this@LoginActivity)
                     .setTitle(R.string.ss_login_anonymously_dialog_title)
@@ -125,8 +115,6 @@ class LoginActivity : AppCompatActivity() {
                     .show()
             }
         }
-
-        viewModel.initFacebookAuth(callbackManager)
     }
 
     private fun launchMain() {
@@ -135,11 +123,5 @@ class LoginActivity : AppCompatActivity() {
         }
         startActivity(intent)
         finish()
-    }
-
-    @SuppressWarnings("Deprecation")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        callbackManager.onActivityResult(requestCode, resultCode, data)
-        super.onActivityResult(requestCode, resultCode, data)
     }
 }
