@@ -36,6 +36,7 @@ import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.dao.ReadCommentsDao
 import app.ss.storage.db.dao.ReadHighlightsDao
 import app.ss.storage.db.dao.ReadsDao
+import app.ss.storage.db.dao.UserDao
 import app.ss.storage.db.entity.AudioFileEntity
 import app.ss.storage.db.entity.LanguageEntity
 import app.ss.storage.db.entity.LessonEntity
@@ -44,6 +45,7 @@ import app.ss.storage.db.entity.QuarterlyEntity
 import app.ss.storage.db.entity.ReadCommentsEntity
 import app.ss.storage.db.entity.ReadEntity
 import app.ss.storage.db.entity.ReadHighlightsEntity
+import app.ss.storage.db.entity.UserEntity
 
 @Database(
     entities = [
@@ -55,6 +57,7 @@ import app.ss.storage.db.entity.ReadHighlightsEntity
         PdfAnnotationsEntity::class,
         ReadCommentsEntity::class,
         ReadHighlightsEntity::class,
+        UserEntity::class
     ],
     version = 5,
     exportSchema = true,
@@ -82,6 +85,8 @@ internal abstract class SabbathSchoolDatabase : RoomDatabase() {
     abstract fun readCommentsDao(): ReadCommentsDao
 
     abstract fun readHighlightsDao(): ReadHighlightsDao
+
+    abstract fun userDao(): UserDao
 
     companion object {
         private const val DATABASE_NAME = "sabbath_school_db"

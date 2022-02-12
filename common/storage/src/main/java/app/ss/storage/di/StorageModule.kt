@@ -32,6 +32,7 @@ import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.dao.ReadCommentsDao
 import app.ss.storage.db.dao.ReadHighlightsDao
 import app.ss.storage.db.dao.ReadsDao
+import app.ss.storage.db.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -90,6 +91,12 @@ object StorageModule {
     fun provideReadHighlightsDao(
         @ApplicationContext context: Context,
     ): ReadHighlightsDao = context.database().readHighlightsDao()
+
+    @Provides
+    @Singleton
+    fun provideUserDao(
+        @ApplicationContext context: Context,
+    ): UserDao = context.database().userDao()
 }
 
 private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)
