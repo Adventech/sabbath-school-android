@@ -69,9 +69,7 @@ dependencies {
     implementation(Dependencies.JODA)
 
     implementation(platform(Firebase.BOM))
-    implementation(Firebase.ANALYTICS)
     implementation(Firebase.AUTH)
-    implementation(Firebase.DATABASE)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))

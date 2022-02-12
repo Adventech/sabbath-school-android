@@ -173,10 +173,7 @@ dependencies {
     implementation(Dependencies.PLAY_AUTH)
 
     implementation(platform(Firebase.BOM))
-    implementation(Firebase.ANALYTICS)
     implementation(Firebase.AUTH)
-    implementation(Firebase.CRASHLYTICS)
-    implementation(Firebase.DATABASE)
 
     implementation(Dependencies.TIMBER)
 

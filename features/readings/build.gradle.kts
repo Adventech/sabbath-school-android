@@ -92,10 +92,7 @@ dependencies {
     kapt(Hilt.COMPILER)
 
     implementation(platform(Firebase.BOM))
-    implementation(Firebase.DATABASE)
     implementation(Firebase.STORAGE)
-    implementation(Firebase.ANALYTICS)
-    implementation(Firebase.AUTH)
 
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.JODA)

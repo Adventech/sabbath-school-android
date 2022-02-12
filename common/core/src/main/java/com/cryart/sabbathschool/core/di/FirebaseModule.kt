@@ -22,12 +22,8 @@
 
 package com.cryart.sabbathschool.core.di
 
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
@@ -39,11 +35,5 @@ import dagger.hilt.components.SingletonComponent
 object FirebaseModule {
 
     @Provides
-    fun provideAnalytics(): FirebaseAnalytics = Firebase.analytics
-
-    @Provides
     fun provideAuth(): FirebaseAuth = Firebase.auth
-
-    @Provides
-    fun provideDatabase(): FirebaseDatabase = Firebase.database
 }

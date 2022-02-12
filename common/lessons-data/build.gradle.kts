@@ -69,8 +69,6 @@ dependencies {
     implementation(Dependencies.JODA)
 
     implementation(platform(Firebase.BOM))
-    implementation(Firebase.DATABASE)
-    implementation(Firebase.AUTH)
 
     implementation(Moshi.kotlin)
     kapt(Moshi.codegen)
