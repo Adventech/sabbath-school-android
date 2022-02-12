@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.ui.login
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -64,6 +65,7 @@ class LoginActivity : AppCompatActivity() {
             viewModel.handleGoogleSignInResult(data)
         }
 
+    @SuppressLint("ShowToast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = SsLoginActivityBinding.inflate(layoutInflater)

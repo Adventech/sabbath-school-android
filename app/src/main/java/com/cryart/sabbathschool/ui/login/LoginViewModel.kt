@@ -51,7 +51,7 @@ class LoginViewModel @Inject constructor(
     private val _viewState: MutableStateFlow<ViewState?> = MutableStateFlow(null)
     val viewStateFlow: StateFlow<ViewState?> = _viewState
 
-    fun handleGoogleSignInResult(data: Intent?) = viewModelScope.launch(dispatcherProvider.io) {
+    fun handleGoogleSignInResult(data: Intent?) = viewModelScope.launch(dispatcherProvider.default) {
         _viewState.emit(ViewState.Loading)
 
         try {
@@ -79,7 +79,7 @@ class LoginViewModel @Inject constructor(
         _viewState.emit(state)
     }
 
-    fun handleAnonymousLogin() = viewModelScope.launch {
+    fun handleAnonymousLogin() = viewModelScope.launch(dispatcherProvider.default) {
         _viewState.emit(ViewState.Loading)
         val response = authRepository.signIn()
         handleAuthResult(response)

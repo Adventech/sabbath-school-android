@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.auth.AuthRepository
 import app.ss.models.auth.SSUser
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,24 +39,23 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val ssPrefs: SSPrefs,
     private val authRepository: AuthRepository,
-    dailyReminderManager: DailyReminderManager,
+    private val dailyReminderManager: DailyReminderManager,
+    private val dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
-
-    init {
-        viewModelScope.launch {
-            val resource = authRepository.getUser()
-            val user = resource.data
-
-            if (user != null && ssPrefs.isReminderScheduled() && ssPrefs.isReminderScheduled().not()) {
-                dailyReminderManager.scheduleReminder()
-            }
-
-            updateState(user)
-        }
-    }
 
     private val _launchState: MutableStateFlow<LaunchState> = MutableStateFlow(LaunchState.Loading)
     val launchStateFlow: StateFlow<LaunchState> = _launchState
+
+    fun launch() = viewModelScope.launch(dispatcherProvider.default) {
+        val resource = authRepository.getUser()
+        val user = resource.data
+
+        if (user != null && ssPrefs.reminderEnabled() && ssPrefs.isReminderScheduled().not()) {
+            dailyReminderManager.scheduleReminder()
+        }
+
+        updateState(user)
+    }
 
     private suspend fun updateState(user: SSUser?) {
         val state = when {

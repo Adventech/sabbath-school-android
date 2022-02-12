@@ -44,6 +44,8 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         viewModel.launchStateFlow.collectIn(this) { state -> handleState(state) }
+
+        viewModel.launch()
     }
 
     private fun handleState(state: LaunchState) {
