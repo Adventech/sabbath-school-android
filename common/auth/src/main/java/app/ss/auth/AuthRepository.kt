@@ -53,6 +53,11 @@ interface AuthRepository {
      * Sign in with a provider token
      */
     suspend fun signIn(token: String): Resource<AuthResponse>
+
+    /**
+     * Sign out
+     */
+    suspend fun logout()
 }
 
 @Singleton
@@ -90,4 +95,6 @@ internal class AuthRepositoryImpl @Inject constructor(
         userDao.clear()
         userDao.insertItem(user.toEntity())
     }
+
+    override suspend fun logout() = userDao.clear()
 }
