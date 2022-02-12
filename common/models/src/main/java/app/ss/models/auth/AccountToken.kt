@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,24 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-include(
-    ":app",
-    ":common:auth",
-    ":common:core",
-    ":common:design",
-    ":common:lessons-data",
-    ":common:models",
-    ":common:storage",
-    ":common:translations",
-    ":features:account",
-    ":features:app-widgets",
-    ":features:bible",
-    ":features:lessons",
-    ":features:media",
-    ":features:pdf",
-    ":features:reader",
-    ":features:readings",
-    ":features:settings",
-    ":libraries:test_utils"
+
+package app.ss.models.auth
+
+import androidx.annotation.Keep
+
+@Keep
+data class AccountToken(
+    val apiKey: String,
+    val refreshToken: String,
+    val accessToken: String,
+    val expirationTime: Long,
 )
-rootProject.buildFileName = "build.gradle.kts"
