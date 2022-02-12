@@ -28,6 +28,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.TaskStackBuilder
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
@@ -42,9 +43,13 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        when (val state = viewModel.launchState) {
+        viewModel.launchStateFlow.collectIn(this) { state -> handleState(state) }
+    }
+
+    private fun handleState(state: LaunchState) {
+        when (state) {
             is LaunchState.Lessons -> {
-                with(TaskStackBuilder.create(this)) {
+                with(TaskStackBuilder.create(this@SplashActivity)) {
                     addNextIntent(
                         QuarterliesActivity.launchIntent(this@SplashActivity)
                     )
@@ -54,8 +59,9 @@ class SplashActivity : AppCompatActivity() {
                     startActivities()
                 }
             }
-            LaunchState.Login -> startActivity(Intent(this, LoginActivity::class.java))
-            LaunchState.Quarterlies -> startActivity(QuarterliesActivity.launchIntent(this))
+            LaunchState.Login -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+            LaunchState.Quarterlies -> startActivity(QuarterliesActivity.launchIntent(this@SplashActivity))
+            LaunchState.Loading -> return
         }
 
         finish()

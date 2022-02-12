@@ -30,7 +30,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.cryart.sabbathschool.R
-import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding
 import com.cryart.sabbathschool.databinding.SsLoginButtonsBinding
@@ -72,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
 
         initUi()
 
-        viewModel.viewStateLiveData.observeNonNull(this) { state ->
+        viewModel.viewStateFlow.collectIn(this) { state ->
             when (state) {
                 is ViewState.Success<*> -> launchMain()
                 ViewState.Loading -> {
@@ -89,7 +89,7 @@ class LoginActivity : AppCompatActivity() {
 
                     val message = state.message ?: state.messageRes?.let {
                         getString(it)
-                    } ?: return@observeNonNull
+                    } ?: return@collectIn
                     Snackbar.make(buttonsBinding.root, message, Snackbar.LENGTH_INDEFINITE)
                         .setAction(android.R.string.ok) {}
                         .show()

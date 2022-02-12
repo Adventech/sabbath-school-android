@@ -23,30 +23,48 @@
 package com.cryart.sabbathschool.ui.splash
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import app.ss.auth.AuthRepository
+import app.ss.models.auth.SSUser
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val ssPrefs: SSPrefs,
+    private val authRepository: AuthRepository,
     dailyReminderManager: DailyReminderManager,
 ) : ViewModel() {
 
     init {
-        // if (firebaseAuth.currentUser != null && ssPrefs.reminderEnabled() && ssPrefs.isReminderScheduled().not()) {
-        //    dailyReminderManager.scheduleReminder()
-        // }
+        viewModelScope.launch {
+            val resource = authRepository.getUser()
+            val user = resource.data
+
+            if (user != null && ssPrefs.isReminderScheduled() && ssPrefs.isReminderScheduled().not()) {
+                dailyReminderManager.scheduleReminder()
+            }
+
+            updateState(user)
+        }
     }
 
-    val launchState: LaunchState
-        get() = LaunchState.Login
-   /* val launchState: LaunchState
-        get() = when {
-            firebaseAuth.currentUser == null -> LaunchState.Login
+    private val _launchState: MutableStateFlow<LaunchState> = MutableStateFlow(LaunchState.Loading)
+    val launchStateFlow: StateFlow<LaunchState> = _launchState
+
+    private suspend fun updateState(user: SSUser?) {
+        val state = when {
+            user == null -> LaunchState.Login
             ssPrefs.getLastQuarterlyIndex() != null && ssPrefs.isReadingLatestQuarterly() ->
                 LaunchState.Lessons(ssPrefs.getLastQuarterlyIndex()!!)
             else -> LaunchState.Quarterlies
-        }*/
+        }
+
+        _launchState.emit(state)
+    }
 }
