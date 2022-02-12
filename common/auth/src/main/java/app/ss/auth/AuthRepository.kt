@@ -66,7 +66,7 @@ internal class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun signIn(): Resource<AuthResponse> = try {
-        val response = authApi.signInAnonymously()
+        val response = withContext(dispatcherProvider.default) { authApi.signInAnonymously() }
         val user = response.body()
         val result = if (user != null) {
             cacheUser(user)

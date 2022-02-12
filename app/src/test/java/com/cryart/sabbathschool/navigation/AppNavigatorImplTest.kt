@@ -26,17 +26,21 @@ import android.app.Activity
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import app.ss.auth.AuthRepository
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
+import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.settings.SSSettingsActivity
+import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import com.cryart.sabbathschool.ui.login.LoginActivity
 import dagger.hilt.android.testing.HiltAndroidTest
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import org.amshove.kluent.shouldBeEqualTo
@@ -54,9 +58,11 @@ import org.robolectric.android.controller.ActivityController
 class AppNavigatorImplTest {
 
     private val mockSSPrefs: SSPrefs = mockk()
+    private val mockAuthRepository: AuthRepository = mockk()
 
     private lateinit var controller: ActivityController<AppCompatActivity>
     private lateinit var activity: Activity
+    private val dispatcherProvider = TestDispatcherProvider()
 
     private lateinit var navigator: AppNavigator
 
@@ -66,8 +72,13 @@ class AppNavigatorImplTest {
         activity = controller.create().start().resume().get()
 
         every { mockSSPrefs.getLastQuarterlyIndex() }.returns("index")
+        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(mockk()))
 
-        navigator = AppNavigatorImpl(mockSSPrefs)
+        navigator = AppNavigatorImpl(
+            ssPrefs = mockSSPrefs,
+            authRepository = mockAuthRepository,
+            dispatcherProvider = dispatcherProvider
+        )
     }
 
     @After
@@ -78,6 +89,8 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to Login destination`() {
+        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(null))
+
         navigator.navigate(activity, Destination.LOGIN)
 
         val shadow = Shadows.shadowOf(activity)
@@ -100,6 +113,8 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to login when not authenticated`() {
+        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(null))
+
         navigator.navigate(activity, Destination.SETTINGS)
 
         val shadow = Shadows.shadowOf(activity)
@@ -145,6 +160,8 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to login when not authenticated - web-link`() {
+        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(null))
+
         val uri = Uri.parse("https://sabbath-school.adventech.io/en/2021-03")
 
         navigator.navigate(activity, uri)
