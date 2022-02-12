@@ -22,6 +22,7 @@
 
 package app.ss.auth
 
+import app.ss.auth.api.AuthRequest
 import app.ss.auth.api.SSAuthApi
 import app.ss.auth.api.UserModel
 import app.ss.auth.api.toEntity
@@ -31,6 +32,7 @@ import app.ss.storage.db.dao.UserDao
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -65,8 +67,12 @@ internal class AuthRepositoryImpl @Inject constructor(
         Resource.success(user?.toModel())
     }
 
-    override suspend fun signIn(): Resource<AuthResponse> = try {
-        val response = withContext(dispatcherProvider.default) { authApi.signInAnonymously() }
+    override suspend fun signIn(): Resource<AuthResponse> = makeAuthRequest { authApi.signIn() }
+
+    override suspend fun signIn(token: String): Resource<AuthResponse> = makeAuthRequest { authApi.signIn(AuthRequest(token)) }
+
+    private suspend fun makeAuthRequest(request: suspend () -> Response<UserModel>): Resource<AuthResponse> = try {
+        val response = withContext(dispatcherProvider.default) { request() }
         val user = response.body()
         val result = if (user != null) {
             cacheUser(user)
@@ -83,9 +89,5 @@ internal class AuthRepositoryImpl @Inject constructor(
     private suspend fun cacheUser(user: UserModel) = withContext(dispatcherProvider.io) {
         userDao.clear()
         userDao.insertItem(user.toEntity())
-    }
-
-    override suspend fun signIn(token: String): Resource<AuthResponse> {
-        TODO("Not yet implemented")
     }
 }

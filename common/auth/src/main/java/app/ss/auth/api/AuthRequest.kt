@@ -22,15 +22,8 @@
 
 package app.ss.auth.api
 
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.POST
+import com.squareup.moshi.Json
 
-internal interface SSAuthApi {
-
-    @POST("api/v2/auth/signin/anonymous")
-    suspend fun signIn(): Response<UserModel>
-
-    @POST("api/v2/auth/signin/google")
-    suspend fun signIn(@Body request: AuthRequest): Response<UserModel>
-}
+internal data class AuthRequest(
+    @Json(name = "id_token") val token: String
+)
