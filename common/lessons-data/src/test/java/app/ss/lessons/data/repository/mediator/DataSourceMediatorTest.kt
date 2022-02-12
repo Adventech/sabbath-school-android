@@ -75,6 +75,7 @@ class DataSourceMediatorTest {
 
         coEvery { networkSource.get(request) }.returns(networkResource)
         every { cacheSource.update(data) }.returns(Unit)
+        coEvery { cacheSource.update(request, data) }.returns(Unit)
 
         val resource = mediator.get(request)
 
