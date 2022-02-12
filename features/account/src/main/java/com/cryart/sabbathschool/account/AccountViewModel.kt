@@ -22,25 +22,43 @@
 
 package com.cryart.sabbathschool.account
 
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.auth.AuthRepository
 import com.cryart.sabbathschool.account.model.UserInfo
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AccountViewModel @Inject constructor(
-    private val ssPrefs: SSPrefs
+internal class AccountViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val ssPrefs: SSPrefs,
+    private val dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
 
-    val userInfoFlow: StateFlow<UserInfo> = flowOf(UserInfo())
-        .stateIn(viewModelScope, UserInfo())
+    private val _userInfo: MutableStateFlow<UserInfo> = MutableStateFlow(UserInfo())
+    val userInfoFlow: StateFlow<UserInfo> = _userInfo
 
-    fun logoutClicked() {
+    init {
+        viewModelScope.launch(dispatcherProvider.io) {
+            authRepository.getUser().data?.let { user ->
+                _userInfo.emit(
+                    UserInfo(
+                        user.displayName, user.email, user.photo?.toUri()
+                    )
+                )
+            }
+        }
+    }
+
+    fun logoutClicked() = viewModelScope.launch(dispatcherProvider.io) {
         ssPrefs.clear()
+        authRepository.logout()
     }
 }
