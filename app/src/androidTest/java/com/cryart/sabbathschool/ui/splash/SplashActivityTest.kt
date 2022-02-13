@@ -33,6 +33,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -67,6 +68,7 @@ class SplashActivityTest {
     }
 
     @Test
+    @Ignore("Resolve signed in state")
     fun shouldLaunchQuarterliesActivity() {
         // Requires signed-in user
         // firebaseAuth.signInAnonymously().await()
