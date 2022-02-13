@@ -51,10 +51,10 @@ jobs:
         with:
           java-version: 11
 
-      - name: Decode Firebase google-services.json
+      - name: Decode API KEYS
         env:
-          FIREBASE_CONFIG: ${{secrets.FIREBASE_CONFIG}}
-        run: echo $FIREBASE_CONFIG > app/google-services.json
+          API_KEYS: ${{secrets.API_SECRETS}}
+        run: echo $API_KEYS > release/ss_private_keys.properties
 
       - name: Execute Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
