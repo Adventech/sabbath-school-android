@@ -36,7 +36,6 @@ object Versions {
     const val TAP_TARGET = "3.3.2"
     const val ICONICS = "5.3.3@aar"
 
-    const val FIREBASE_BOM = "29.0.3"
     const val PLAY_AUTH = "20.0.1"
     const val JODA = "2.10.12.2"
     const val JODA_TIME = "2.10.13"

@@ -71,7 +71,6 @@ class SplashActivityTest {
     @Ignore("Resolve signed in state")
     fun shouldLaunchQuarterliesActivity() {
         // Requires signed-in user
-        // firebaseAuth.signInAnonymously().await()
 
         scenario = ActivityScenario.launch(SplashActivity::class.java)
         intended(hasComponent(QuarterliesActivity::class.java.name))
