@@ -25,7 +25,6 @@ import dependencies.Dependencies.Accompanist
 import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Compose
-import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.Iconics
 import dependencies.Dependencies.Kotlin
@@ -82,7 +81,6 @@ dependencies {
 
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
-    implementation(Kotlin.COROUTINES_PLAY_SERVICES)
 
     implementation(Dependencies.MATERIAL)
     implementation(AndroidX.CORE)
@@ -97,9 +95,6 @@ dependencies {
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
-
-    implementation(platform(Firebase.BOM))
-    implementation(Firebase.STORAGE)
 
     implementation(Dependencies.JODA)
     implementation(Dependencies.TIMBER)

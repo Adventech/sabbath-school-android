@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,30 +20,19 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.ui.login
+package app.ss.auth.di
 
-import com.cryart.sabbathschool.core.annotations.OpenClass
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.FacebookAuthProvider
+import app.ss.auth.AuthRepository
+import app.ss.auth.AuthRepositoryImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-/**
- * Facebook Login wrapper for testing
- */
-@OpenClass
-class FacebookLoginManager {
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class AuthBindings {
 
-    fun registerCallback(
-        callbackManager: CallbackManager,
-        callback: FacebookCallback<LoginResult>
-    ) {
-        LoginManager.getInstance().registerCallback(callbackManager, callback)
-    }
-
-    fun getCredential(token: String): AuthCredential {
-        return FacebookAuthProvider.getCredential(token)
-    }
+    @Binds
+    internal abstract fun bindRepository(impl: AuthRepositoryImpl): AuthRepository
 }

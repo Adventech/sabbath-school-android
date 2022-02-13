@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Școala de Sabat"</string>
     <string name="ss_share">"Distribuie"</string>
     <string name="ss_login_button_google">"Conectați-vă la Google"</string>
-    <string name="ss_login_button_facebook">"Loghează-te cu Facebook"</string>
     <string name="ss_login_button_anonymous">"Conectați-vă ca Anonim"</string>
     <string name="ss_menu_anonymous_name">"Anonim"</string>
     <string name="ss_menu_sign_out">"Ieșiți din cont"</string>

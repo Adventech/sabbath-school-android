@@ -29,7 +29,9 @@ import android.os.Bundle
 import androidx.core.app.TaskStackBuilder
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentActivity
+import app.ss.auth.AuthRepository
 import com.cryart.sabbathschool.account.AccountDialogFragment
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
@@ -39,7 +41,9 @@ import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.settings.SSSettingsActivity
 import com.cryart.sabbathschool.ui.about.AboutActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
-import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -48,52 +52,57 @@ import javax.inject.Singleton
  */
 @Singleton
 class AppNavigatorImpl @Inject constructor(
-    private val firebaseAuth: FirebaseAuth,
-    private val ssPrefs: SSPrefs
-) : AppNavigator {
+    private val ssPrefs: SSPrefs,
+    private val authRepository: AuthRepository,
+    private val dispatcherProvider: DispatcherProvider,
+) : AppNavigator, CoroutineScope by MainScope() {
 
-    private val isSignedIn: Boolean get() = firebaseAuth.currentUser != null
+    private suspend fun isSignedIn(): Boolean {
+        return authRepository.getUser().data != null
+    }
 
     override fun navigate(activity: Activity, destination: Destination, extras: Bundle?) {
-        val clazz = getDestinationClass(destination) ?: return
-        val loginClass = LoginActivity::class.java
+        launch(dispatcherProvider.default) {
+            val clazz = getDestinationClass(destination) ?: return@launch
+            val loginClass = LoginActivity::class.java
 
-        val intent = if (clazz == loginClass || !isSignedIn) {
-            Intent(activity, loginClass).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-        } else if (destination == Destination.ACCOUNT) {
-            val fragment = AccountDialogFragment()
-            val fm = (activity as? FragmentActivity)?.supportFragmentManager ?: return
-            fragment.show(fm, fragment.tag)
-            return
-        } else {
-            Intent(activity, clazz)
-        }
-        extras?.let {
-            intent.putExtras(it)
-        }
-
-        when (destination) {
-            Destination.LESSONS -> {
-                with(TaskStackBuilder.create(activity)) {
-                    addNextIntent(QuarterliesActivity.launchIntent(activity))
-                    addNextIntentWithParentStack(intent)
-                    startActivities()
+            val intent = if (clazz == loginClass || !isSignedIn()) {
+                Intent(activity, loginClass).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
+            } else if (destination == Destination.ACCOUNT) {
+                val fragment = AccountDialogFragment()
+                val fm = (activity as? FragmentActivity)?.supportFragmentManager ?: return@launch
+                fragment.show(fm, fragment.tag)
+                return@launch
+            } else {
+                Intent(activity, clazz)
             }
-            Destination.READ -> {
-                with(TaskStackBuilder.create(activity)) {
-                    addNextIntent(QuarterliesActivity.launchIntent(activity))
-                    ssPrefs.getLastQuarterlyIndex()?.let { index ->
-                        addNextIntent(SSLessonsActivity.launchIntent(activity, index))
+            extras?.let {
+                intent.putExtras(it)
+            }
+
+            when (destination) {
+                Destination.LESSONS -> {
+                    with(TaskStackBuilder.create(activity)) {
+                        addNextIntent(QuarterliesActivity.launchIntent(activity))
+                        addNextIntentWithParentStack(intent)
+                        startActivities()
                     }
-                    addNextIntentWithParentStack(intent)
-                    startActivities()
                 }
-            }
-            else -> {
-                activity.startActivity(intent)
+                Destination.READ -> {
+                    with(TaskStackBuilder.create(activity)) {
+                        addNextIntent(QuarterliesActivity.launchIntent(activity))
+                        ssPrefs.getLastQuarterlyIndex()?.let { index ->
+                            addNextIntent(SSLessonsActivity.launchIntent(activity, index))
+                        }
+                        addNextIntentWithParentStack(intent)
+                        startActivities()
+                    }
+                }
+                else -> {
+                    activity.startActivity(intent)
+                }
             }
         }
     }
@@ -139,13 +148,13 @@ class AppNavigatorImpl @Inject constructor(
      * [1] https://sabbath-school.adventech.io/en/2021-03
      * [2] https://sabbath-school.adventech.io/en/2021-03/03/07-friday-further-thought/
      */
-    private fun navigateFromWeb(activity: Activity, uri: Uri) {
-        if (!isSignedIn) {
+    private fun navigateFromWeb(activity: Activity, uri: Uri) = launch(dispatcherProvider.default) {
+        if (!isSignedIn()) {
             val intent = Intent(activity, LoginActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
             activity.startActivity(intent)
-            return
+            return@launch
         }
 
         val segments = uri.pathSegments

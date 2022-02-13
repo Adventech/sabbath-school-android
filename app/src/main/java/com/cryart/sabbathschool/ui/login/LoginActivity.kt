@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.ui.login
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -30,22 +31,25 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.cryart.sabbathschool.R
-import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
+import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding
 import com.cryart.sabbathschool.databinding.SsLoginButtonsBinding
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
-import com.facebook.CallbackManager
-import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var appConfig: AppConfig
 
     private val viewModel: LoginViewModel by viewModels()
 
@@ -55,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
         val gso = GoogleSignInOptions.Builder(
             GoogleSignInOptions.DEFAULT_SIGN_IN
         )
-            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestIdToken(appConfig.webClientId)
             .requestEmail()
             .build()
         GoogleSignIn.getClient(this, gso)
@@ -66,8 +70,7 @@ class LoginActivity : AppCompatActivity() {
             viewModel.handleGoogleSignInResult(data)
         }
 
-    private val callbackManager = CallbackManager.Factory.create()
-
+    @SuppressLint("ShowToast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = SsLoginActivityBinding.inflate(layoutInflater)
@@ -76,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
 
         initUi()
 
-        viewModel.viewStateLiveData.observeNonNull(this) { state ->
+        viewModel.viewStateFlow.collectIn(this) { state ->
             when (state) {
                 is ViewState.Success<*> -> launchMain()
                 ViewState.Loading -> {
@@ -93,7 +96,7 @@ class LoginActivity : AppCompatActivity() {
 
                     val message = state.message ?: state.messageRes?.let {
                         getString(it)
-                    } ?: return@observeNonNull
+                    } ?: return@collectIn
                     Snackbar.make(buttonsBinding.root, message, Snackbar.LENGTH_INDEFINITE)
                         .setAction(android.R.string.ok) {}
                         .show()
@@ -107,12 +110,6 @@ class LoginActivity : AppCompatActivity() {
             google.setOnClickListener {
                 getGoogleSignInLauncher.launch(googleSignInClient)
             }
-            facebook.setOnClickListener {
-                LoginManager.getInstance().logInWithReadPermissions(
-                    this@LoginActivity,
-                    listOf("public_profile", "email")
-                )
-            }
             anonymous.setOnClickListener {
                 MaterialAlertDialogBuilder(this@LoginActivity)
                     .setTitle(R.string.ss_login_anonymously_dialog_title)
@@ -125,8 +122,6 @@ class LoginActivity : AppCompatActivity() {
                     .show()
             }
         }
-
-        viewModel.initFacebookAuth(callbackManager)
     }
 
     private fun launchMain() {
@@ -135,11 +130,5 @@ class LoginActivity : AppCompatActivity() {
         }
         startActivity(intent)
         finish()
-    }
-
-    @SuppressWarnings("Deprecation")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        callbackManager.onActivityResult(requestCode, resultCode, data)
-        super.onActivityResult(requestCode, resultCode, data)
     }
 }

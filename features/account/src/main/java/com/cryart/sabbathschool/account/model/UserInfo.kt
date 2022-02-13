@@ -26,7 +26,7 @@ import android.net.Uri
 import androidx.annotation.Keep
 
 @Keep
-data class UserInfo(
+internal data class UserInfo(
     val displayName: String? = null,
     val email: String? = null,
     val photo: Uri? = null

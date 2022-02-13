@@ -22,12 +22,10 @@
 
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Firebase
-import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
+import dependencies.Dependencies.Kotlin
 import extensions.addTestsDependencies
 import extensions.kapt
-import extensions.testImplementation
 
 plugins {
     id(BuildPlugins.Android.LIBRARY)
@@ -74,7 +72,6 @@ dependencies {
 
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
-    implementation(Kotlin.COROUTINES_PLAY_SERVICES)
 
     implementation(Dependencies.MATERIAL)
     implementation(AndroidX.CORE)
@@ -90,9 +87,6 @@ dependencies {
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
-
-    implementation(platform(Firebase.BOM))
-    implementation(Firebase.STORAGE)
 
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.JODA)

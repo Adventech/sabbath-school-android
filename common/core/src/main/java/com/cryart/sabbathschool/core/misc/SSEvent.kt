@@ -30,6 +30,7 @@ object SSEvent {
         track(context, event_name, HashMap<String, Any>())
     }
 
+    @SuppressWarnings("unused")
     @JvmStatic
     fun track(context: Context, event_name: String, values: HashMap<String, *>) {
         // Replace Analytics

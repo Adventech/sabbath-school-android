@@ -24,7 +24,6 @@ package com.cryart.sabbathschool.test.coroutines
 
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import javax.inject.Inject
@@ -32,7 +31,7 @@ import javax.inject.Inject
 class TestDispatcherProvider(val testDispatcher: TestDispatcher) : DispatcherProvider {
 
     @Inject
-    constructor() : this(testDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler()))
+    constructor() : this(testDispatcher = UnconfinedTestDispatcher())
 
     override val io: CoroutineDispatcher = testDispatcher
     override val main: CoroutineDispatcher = testDispatcher

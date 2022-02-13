@@ -24,7 +24,6 @@
     <string name="ss_app_name">"ஓய்வுநாட் பள்ளி"</string>
     <string name="ss_share">"பகிர்"</string>
     <string name="ss_login_button_google">"Google உடன் உள்நுழைக"</string>
-    <string name="ss_login_button_facebook">"பேஸ்பு கொண்டு உள்நுழையவும்"</string>
     <string name="ss_login_button_anonymous">"அநாமதேயமாக உள்நுழைக"</string>
     <string name="ss_menu_anonymous_name">"அநாமதேய"</string>
     <string name="ss_menu_sign_out">"வெளியேறு"</string>

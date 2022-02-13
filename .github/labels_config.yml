@@ -1,5 +1,7 @@
 ci:
   - '.github/*'
+auth:
+  - 'common/auth/*'
 core:
   - 'common/core/*'
 design:

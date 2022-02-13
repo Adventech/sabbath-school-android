@@ -22,7 +22,6 @@
 
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
 import dependencies.Versions
@@ -36,8 +35,6 @@ plugins {
     id(BuildPlugins.Kotlin.ANDROID)
     id(BuildPlugins.Kotlin.KAPT)
     id(BuildPlugins.DAGGER_HILT)
-    id(BuildPlugins.Google.CRASHLYTICS)
-    id(BuildPlugins.Google.SERVICES)
 }
 
 val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
@@ -46,6 +43,12 @@ val appVersionCode = readPropertyValue(
     key = "BUILD_NUMBER",
     defaultValue = "1"
 ).toInt() + 1490
+
+val webClientId = readPropertyValue(
+    filePath = "$rootDir/${BuildAndroidConfig.PRIVATE_KEYS_PROPS_FILE}",
+    key = "WEB_CLIENT_ID",
+    defaultValue = ""
+)
 
 android {
     compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
@@ -68,6 +71,8 @@ android {
                 listOf("x86", "x86_64", "arm64-v8a", "armeabi-v7a")
             )
         }
+
+        buildConfigField("String", "WEB_CLIENT_ID", "\"$webClientId\"")
     }
 
     signingConfigs {
@@ -94,13 +99,7 @@ android {
                 signingConfig = signingConfigs.getByName(BuildType.RELEASE)
             }
 
-            manifestPlaceholders["enableReporting"] = true
-
             ndk { debugSymbolLevel = "FULL" }
-        }
-        getByName(BuildType.DEBUG) {
-
-            manifestPlaceholders["enableReporting"] = false
         }
     }
 
@@ -138,6 +137,7 @@ android {
 }
 
 dependencies {
+    implementation(project(BuildModules.Common.AUTH))
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
     implementation(project(BuildModules.Common.LESSONS_DATA))
@@ -154,7 +154,6 @@ dependencies {
 
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
-    implementation(Kotlin.COROUTINES_PLAY_SERVICES)
 
     implementation(Dependencies.MATERIAL)
     implementation(AndroidX.CORE)
@@ -172,12 +171,8 @@ dependencies {
 
     implementation(Dependencies.PLAY_AUTH)
 
-    implementation(platform(Firebase.BOM))
-    implementation(Firebase.AUTH)
-
     implementation(Dependencies.TIMBER)
 
-    implementation(Dependencies.Facebook.SDK)
     implementation(Dependencies.JODA)
 
     implementation(Dependencies.Compose.tooling)
@@ -185,9 +180,4 @@ dependencies {
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))
     androidTestImplementation(project(BuildModules.Libraries.TEST_UTILS))
-}
-
-val googleServices = file("google-services.json")
-if (!googleServices.exists()) {
-    com.google.common.io.Files.copy(file("stage-google-services.json"), googleServices)
 }

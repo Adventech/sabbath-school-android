@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Escuela Sabática"</string>
     <string name="ss_share">"Compartir"</string>
     <string name="ss_login_button_google">"Inicia sesión con Google"</string>
-    <string name="ss_login_button_facebook">"Inicia sesión con Facebook"</string>
     <string name="ss_login_button_anonymous">"Continue anonymously"</string>
     <string name="ss_menu_anonymous_name">"Anónimo"</string>
     <string name="ss_menu_sign_out">"Desconectar"</string>

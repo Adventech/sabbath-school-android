@@ -20,7 +20,6 @@
  * THE SOFTWARE.
  */
 import dependencies.Dependencies
-import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.Square.Moshi
@@ -67,8 +66,6 @@ dependencies {
     kapt(Hilt.COMPILER)
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.JODA)
-
-    implementation(platform(Firebase.BOM))
 
     implementation(Moshi.kotlin)
     kapt(Moshi.codegen)

@@ -21,6 +21,7 @@
  */
 include(
     ":app",
+    ":common:auth",
     ":common:core",
     ":common:design",
     ":common:lessons-data",

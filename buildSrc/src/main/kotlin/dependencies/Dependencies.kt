@@ -40,13 +40,6 @@ object Dependencies {
         }
     }
 
-    object Firebase {
-        const val BOM = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
-        const val AUTH = "com.google.firebase:firebase-auth-ktx"
-        const val STORAGE = "com.google.firebase:firebase-storage-ktx"
-        const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
-    }
-
     object Kotlin {
         const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}"
         const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}"
@@ -61,7 +54,6 @@ object Dependencies {
     }
 
     object Facebook {
-        const val SDK = "com.facebook.android:facebook-android-sdk:${Versions.Facebook.SDK}"
         const val SHIMMER = "com.facebook.shimmer:shimmer:${Versions.Facebook.SHIMMER}"
     }
 

@@ -56,7 +56,6 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.misc.SSUnzip
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.core.model.colorTheme
 import com.cryart.sabbathschool.core.model.displayTheme
@@ -66,12 +65,8 @@ import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.components.MiniPlayerComponent
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageMetadata
-import com.google.firebase.storage.StorageReference
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -90,8 +85,9 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     lateinit var viewModelFactory: ReadingViewModelFactory
 
     private val binding by viewBinding(SsReadingActivityBinding::inflate)
-    private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance()
-        .reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
+
+    //  private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance()
+    //       .reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
     private val ssReadingViewModel: SSReadingViewModel by viewModels {
         SSReadingViewModel.provideFactory(
             viewModelFactory,
@@ -120,8 +116,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         initUI()
 
         ViewTreeLifecycleOwner.set(binding.root, this)
-        // ssReadingViewModel.dataListener = this
-        //  ssReadingViewModel.ssReadingActivityBinding = binding
 
         // Read position passed in intent extras
         val extraPosition = intent.extras?.getString(SSConstants.SS_READ_POSITION_EXTRA)
@@ -201,14 +195,25 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     }
 
     private fun checkIfReaderNeeded() {
-        latestReaderArtifactRef.metadata.addOnSuccessListener { storageMetadata: StorageMetadata ->
-            val lastReaderArtifactCreationTime = ssPrefs.getLastReaderArtifactCreationTime()
-            if (lastReaderArtifactCreationTime != storageMetadata.creationTimeMillis) {
-                downloadLatestReader(storageMetadata.updatedTimeMillis)
-            }
-        }.addOnFailureListener {
-            Timber.e(it.fillInStackTrace())
-        }
+//        latestReaderArtifactRef.metadata.addOnSuccessListener { storageMetadata: StorageMetadata ->
+//            val lastReaderArtifactCreationTime = ssPrefs.getLastReaderArtifactCreationTime()
+//            if (lastReaderArtifactCreationTime != storageMetadata.creationTimeMillis) {
+//                downloadLatestReader(storageMetadata.updatedTimeMillis)
+//            }
+//        }.addOnFailureListener {
+//            Timber.e(it.fillInStackTrace())
+//        }
+    }
+
+    private fun downloadLatestReader(readerArtifactCreationTime: Long) {
+//        val localFile = File(filesDir, SSConstants.SS_READER_ARTIFACT_NAME)
+//        latestReaderArtifactRef.getFile(localFile)
+//            .addOnSuccessListener {
+//                ssPrefs.setLastReaderArtifactCreationTime(readerArtifactCreationTime)
+//                SSUnzip(localFile.path, filesDir.path + "/")
+//            }.addOnFailureListener {
+//                Timber.e(it)
+//            }
     }
 
     private fun updateColorScheme() {
@@ -216,17 +221,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setContentScrimColor(primaryColor)
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setBackgroundColor(primaryColor)
         binding.ssProgressBar.ssQuarterliesLoading.theme(primaryColor)
-    }
-
-    private fun downloadLatestReader(readerArtifactCreationTime: Long) {
-        val localFile = File(filesDir, SSConstants.SS_READER_ARTIFACT_NAME)
-        latestReaderArtifactRef.getFile(localFile)
-            .addOnSuccessListener {
-                ssPrefs.setLastReaderArtifactCreationTime(readerArtifactCreationTime)
-                SSUnzip(localFile.path, filesDir.path + "/")
-            }.addOnFailureListener {
-                Timber.e(it)
-            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

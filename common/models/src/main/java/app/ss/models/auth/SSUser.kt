@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,20 +20,19 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.di
+package app.ss.models.auth
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import androidx.annotation.Keep
 
-@Module
-@InstallIn(SingletonComponent::class)
-object FirebaseModule {
-
-    @Provides
-    fun provideAuth(): FirebaseAuth = Firebase.auth
-}
+@Keep
+data class SSUser(
+    val uid: String,
+    val displayName: String?,
+    val email: String?,
+    val photo: String?,
+    val emailVerified: Boolean,
+    val phoneNumber: String?,
+    val isAnonymous: Boolean,
+    val tenantId: String?,
+    val stsTokenManager: AccountToken
+)

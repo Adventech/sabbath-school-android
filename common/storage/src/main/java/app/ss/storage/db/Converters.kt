@@ -30,6 +30,7 @@ import app.ss.models.QuarterlyGroup
 import app.ss.models.SSBibleVerses
 import app.ss.models.SSComment
 import app.ss.models.SSDay
+import app.ss.models.auth.AccountToken
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -72,6 +73,9 @@ internal object Converters {
     private val stringsAdapter: JsonAdapter<List<String>> by lazy {
         val listDataType: Type = Types.newParameterizedType(List::class.java, String::class.java)
         moshi.adapter(listDataType)
+    }
+    private val accountTokenAdapter: JsonAdapter<AccountToken> by lazy {
+        moshi.adapter(AccountToken::class.java)
     }
 
     @TypeConverter
@@ -137,4 +141,12 @@ internal object Converters {
 
     @TypeConverter
     fun fromStrings(verses: List<String>?): String? = stringsAdapter.toJson(verses)
+
+    @TypeConverter
+    fun toAccountToken(value: String?): AccountToken? = value?.let { jsonString ->
+        accountTokenAdapter.fromJson(jsonString)
+    }
+
+    @TypeConverter
+    fun fromAccountToken(token: AccountToken?): String? = accountTokenAdapter.toJson(token)
 }

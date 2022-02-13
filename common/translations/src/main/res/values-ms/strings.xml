@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Sekolah Sabat"</string>
     <string name="ss_share">"Kongsikan"</string>
     <string name="ss_login_button_google">"Daftar Masuk dengan Google"</string>
-    <string name="ss_login_button_facebook">"Daftar Masuk dengan Facebook"</string>
     <string name="ss_login_button_anonymous">"Daftar Masuk Tanpa Nama"</string>
     <string name="ss_menu_anonymous_name">"Tanpa Nama"</string>
     <string name="ss_menu_sign_out">"Daftar Keluar"</string>

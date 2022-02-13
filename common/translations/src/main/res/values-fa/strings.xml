@@ -24,7 +24,6 @@
     <string name="ss_app_name">"دانشکده سبت"</string>
     <string name="ss_share">"اشتراک گذاری"</string>
     <string name="ss_login_button_google">"ورود به سیستم با گوگل"</string>
-    <string name="ss_login_button_facebook">"ورود به سیستم با فیس بوک"</string>
     <string name="ss_login_button_anonymous">"ورود به عنوان ناشناس"</string>
     <string name="ss_menu_anonymous_name">"ناشناس"</string>
     <string name="ss_menu_sign_out">"خروج"</string>
