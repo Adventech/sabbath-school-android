@@ -22,12 +22,10 @@
 
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Firebase
-import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
+import dependencies.Dependencies.Kotlin
 import extensions.addTestsDependencies
 import extensions.kapt
-import extensions.testImplementation
 
 plugins {
     id(BuildPlugins.Android.LIBRARY)

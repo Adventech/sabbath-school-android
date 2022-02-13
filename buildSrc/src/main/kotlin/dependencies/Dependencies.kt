@@ -40,11 +40,6 @@ object Dependencies {
         }
     }
 
-    object Firebase {
-        const val BOM = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
-        const val STORAGE = "com.google.firebase:firebase-storage-ktx"
-    }
-
     object Kotlin {
         const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}"
         const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}"
