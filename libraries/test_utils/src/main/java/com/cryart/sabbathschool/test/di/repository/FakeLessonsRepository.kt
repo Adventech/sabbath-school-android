@@ -38,14 +38,14 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
         return emptyFlow()
     }
 
-    override fun getComments(readIndex: String): Flow<Resource<List<SSReadComments>>> {
-        return emptyFlow()
+    override suspend fun getComments(readIndex: String): Resource<SSReadComments> {
+        return Resource.success(SSReadComments(readIndex, emptyList()))
     }
 
     override suspend fun saveComments(comments: SSReadComments) {}
 
-    override fun getReadHighlights(readIndex: String): Flow<Resource<List<SSReadHighlights>>> {
-        return emptyFlow()
+    override suspend fun getReadHighlights(readIndex: String): Resource<SSReadHighlights> {
+        return Resource.success(SSReadHighlights(readIndex))
     }
 
     override suspend fun saveHighlights(highlights: SSReadHighlights) {}

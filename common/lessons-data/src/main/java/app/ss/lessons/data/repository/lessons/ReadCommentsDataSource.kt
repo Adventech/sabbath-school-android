@@ -52,15 +52,24 @@ internal class ReadCommentsDataSource @Inject constructor(
             return Resource.success(data)
         }
 
-        override fun update(data: List<SSReadComments>) {
-            readCommentsDao.insertAll(data.map { ReadCommentsEntity(it.readIndex, it.comments) })
+        override suspend fun getItem(request: Request): Resource<SSReadComments> {
+            val data = readCommentsDao.get(request.readIndex).map {
+                SSReadComments(it.readIndex, it.comments)
+            }
+
+            return Resource.success(data.firstOrNull() ?: SSReadComments(request.readIndex, emptyList()))
+        }
+
+        override fun updateItem(data: SSReadComments) {
+            readCommentsDao.insert(ReadCommentsEntity(data.readIndex, data.comments))
         }
     }
 
     override val network: DataSource<SSReadComments, Request> = object : DataSource<SSReadComments, Request> {
-        override suspend fun get(request: Request): Resource<List<SSReadComments>> = try {
+
+        override suspend fun getItem(request: Request): Resource<SSReadComments> = try {
             val response = lessonsApi.getComments(request.readIndex)
-            Resource.success(response.body() ?: emptyList())
+            Resource.success(response.body() ?: SSReadComments(request.readIndex, emptyList()))
         } catch (error: Throwable) {
             Timber.e(error)
             Resource.error(error)

@@ -68,7 +68,7 @@ interface SSLessonsApi {
     @GET("api/v2/comments/{readIndex}")
     suspend fun getComments(
         @Path("readIndex") readIndex: String
-    ): Response<List<SSReadComments>>
+    ): Response<SSReadComments>
 
     @POST("api/v2/comments")
     suspend fun uploadComments(
@@ -78,7 +78,7 @@ interface SSLessonsApi {
     @GET("api/v2/highlights/{readIndex}")
     suspend fun getHighlights(
         @Path("readIndex") readIndex: String
-    ): Response<List<SSReadHighlights>>
+    ): Response<SSReadHighlights>
 
     @POST("api/v2/highlights")
     suspend fun uploadHighlights(

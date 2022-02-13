@@ -45,11 +45,11 @@ internal class ReadHighlightsDataSource @Inject constructor(
     data class Request(val readIndex: String)
 
     override val cache: LocalDataSource<SSReadHighlights, Request> = object : LocalDataSource<SSReadHighlights, Request> {
-        override suspend fun get(request: Request): Resource<List<SSReadHighlights>> {
+        override suspend fun getItem(request: Request): Resource<SSReadHighlights> {
             val data = readHighlightsDao.get(request.readIndex).map {
                 SSReadHighlights(it.readIndex, it.highlights)
             }
-            return Resource.success(data)
+            return Resource.success(data.firstOrNull() ?: SSReadHighlights(request.readIndex))
         }
 
         override fun update(data: List<SSReadHighlights>) {
@@ -60,9 +60,10 @@ internal class ReadHighlightsDataSource @Inject constructor(
     }
 
     override val network: DataSource<SSReadHighlights, Request> = object : DataSource<SSReadHighlights, Request> {
-        override suspend fun get(request: Request): Resource<List<SSReadHighlights>> = try {
+
+        override suspend fun getItem(request: Request): Resource<SSReadHighlights> = try {
             val response = lessonsApi.getHighlights(request.readIndex)
-            val data = response.body() ?: emptyList()
+            val data = response.body() ?: SSReadHighlights(request.readIndex)
             Resource.success(data)
         } catch (error: Throwable) {
             Timber.e(error)

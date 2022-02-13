@@ -33,11 +33,8 @@ import androidx.core.widget.NestedScrollView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableInt
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.SSContextMenu
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.models.SSLessonInfo
@@ -72,15 +69,18 @@ import org.joda.time.DateTime
 import ru.beryukhov.reactivenetwork.ReactiveNetwork
 import ru.beryukhov.reactivenetwork.internet.observing.InternetObservingSettings
 import timber.log.Timber
-import java.util.ArrayList
 
 class SSReadingViewModel @AssistedInject constructor(
     private val lessonsRepository: LessonsRepository,
     @Assisted private val ssLessonIndex: String,
     @Assisted private val dataListener: DataListener,
-    @Assisted private val ssReadingActivityBinding: SsReadingActivityBinding
-) : SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback, ViewModel() {
+    @Assisted private val ssReadingActivityBinding: SsReadingActivityBinding,
+    @Assisted private val activity: FragmentActivity,
+) : SSReadingView.ContextMenuCallback,
+    SSReadingView.HighlightsCommentsCallback,
+    CoroutineScope by MainScope() {
 
+    private val context: Context = activity
     private var ssLessonInfo: SSLessonInfo? = null
     private var ssReadIndexInt = 0
     private val ssReads: ArrayList<SSRead> = arrayListOf()
@@ -108,10 +108,6 @@ class SSReadingViewModel @AssistedInject constructor(
             checkConnection()
         }
     }
-
-    private val context: Context get() = ssReadingActivityBinding.root.context
-    // lateinit var dataListener: DataListener
-    //  lateinit var ssReadingActivityBinding: SsReadingActivityBinding
 
     private val verseClickWithDebounce: (verse: String) -> Unit =
         debounceUntilLast(
@@ -147,7 +143,7 @@ class SSReadingViewModel @AssistedInject constructor(
         }.launchIn(CoroutineScope(Dispatchers.IO))
     }
 
-    private fun loadLessonInfo() = viewModelScope.launch {
+    private fun loadLessonInfo() = launch {
         ssLessonLoadingVisibility.set(View.VISIBLE)
         ssLessonOfflineStateVisibility.set(View.INVISIBLE)
         ssLessonErrorStateVisibility.set(View.INVISIBLE)
@@ -195,7 +191,7 @@ class SSReadingViewModel @AssistedInject constructor(
         }
     }
 
-    private fun downloadHighlights(dayIndex: String, index: Int) = viewModelScope.launch {
+    private fun downloadHighlights(dayIndex: String, index: Int) = launch {
         /*mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
             .child(userUuid)
             .child(dayIndex)
@@ -209,11 +205,12 @@ class SSReadingViewModel @AssistedInject constructor(
                     Timber.e(databaseError.toException())
                 }
             })*/
-        // val resource = lessonsRepository.getReadHighlights(dayIndex)
+        val resource = lessonsRepository.getReadHighlights(dayIndex)
+        Timber.d("HIGHLIGHTS: ${resource.data}")
         ssReadHighlights.add(index, SSReadHighlights(dayIndex))
     }
 
-    private fun downloadComments(dayIndex: String, index: Int) = viewModelScope.launch {
+    private fun downloadComments(dayIndex: String, index: Int) = launch {
         /*mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
             .child(userUuid)
             .child(dayIndex)
@@ -228,11 +225,13 @@ class SSReadingViewModel @AssistedInject constructor(
                 }
             })*/
 
-        // val resource = lessonsRepository.getComments(dayIndex)
+        val resource = lessonsRepository.getComments(dayIndex)
+        val comments = resource.data
+        Timber.d("COMMENTS: $comments")
         ssReadComments.add(index, SSReadComments("", emptyList()))
     }
 
-    private fun downloadRead(dayIndex: String, index: Int) = viewModelScope.launch {
+    private fun downloadRead(dayIndex: String, index: Int) = launch {
         val resource = lessonsRepository.getDayRead(dayIndex = dayIndex)
         val read = resource.data ?: return@launch
         ssReads.add(read)
@@ -459,21 +458,6 @@ class SSReadingViewModel @AssistedInject constructor(
             val isLightTheme = !view.context.isDarkTheme()
             view.isVisible = (show && isLightTheme) || (!show && !isLightTheme)
         }
-
-        fun provideFactory(
-            assistedFactory: ReadingViewModelFactory,
-            lessonIndex: String,
-            dataListener: DataListener,
-            ssReadingActivityBinding: SsReadingActivityBinding
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return assistedFactory.create(
-                    lessonIndex, dataListener, ssReadingActivityBinding
-                ) as T
-            }
-        }
     }
 }
 
@@ -482,6 +466,7 @@ interface ReadingViewModelFactory {
     fun create(
         lessonIndex: String,
         dataListener: SSReadingViewModel.DataListener,
-        ssReadingActivityBinding: SsReadingActivityBinding
+        ssReadingActivityBinding: SsReadingActivityBinding,
+        activity: FragmentActivity
     ): SSReadingViewModel
 }

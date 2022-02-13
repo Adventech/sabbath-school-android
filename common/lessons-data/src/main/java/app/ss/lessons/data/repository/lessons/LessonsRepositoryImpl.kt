@@ -173,9 +173,9 @@ internal class LessonsRepositoryImpl @Inject constructor(
         PdfAnnotationsDataSource.Request(lessonIndex, pdfId)
     )
 
-    override fun getComments(
+    override suspend fun getComments(
         readIndex: String
-    ): Flow<Resource<List<SSReadComments>>> = readCommentsDataSource.getAsFlow(ReadCommentsDataSource.Request(readIndex))
+    ): Resource<SSReadComments> = readCommentsDataSource.getItem(ReadCommentsDataSource.Request(readIndex))
 
     override suspend fun saveComments(comments: SSReadComments) {
         readCommentsDataSource.sync(
@@ -184,9 +184,9 @@ internal class LessonsRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun getReadHighlights(
+    override suspend fun getReadHighlights(
         readIndex: String
-    ): Flow<Resource<List<SSReadHighlights>>> = readHighlightsDataSource.getAsFlow(ReadHighlightsDataSource.Request(readIndex))
+    ): Resource<SSReadHighlights> = readHighlightsDataSource.getItem(ReadHighlightsDataSource.Request(readIndex))
 
     override suspend fun saveHighlights(highlights: SSReadHighlights) {
         readHighlightsDataSource.sync(

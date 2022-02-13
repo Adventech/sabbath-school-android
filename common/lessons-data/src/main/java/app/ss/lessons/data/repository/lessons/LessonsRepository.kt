@@ -46,11 +46,11 @@ interface LessonsRepository {
 
     fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>>
 
-    fun getComments(readIndex: String): Flow<Resource<List<SSReadComments>>>
+    suspend fun getComments(readIndex: String): Resource<SSReadComments>
 
     suspend fun saveComments(comments: SSReadComments)
 
-    fun getReadHighlights(readIndex: String): Flow<Resource<List<SSReadHighlights>>>
+    suspend fun getReadHighlights(readIndex: String): Resource<SSReadHighlights>
 
     suspend fun saveHighlights(highlights: SSReadHighlights)
 }

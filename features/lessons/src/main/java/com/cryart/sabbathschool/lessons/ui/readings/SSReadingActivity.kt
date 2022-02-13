@@ -88,14 +88,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
 
     //  private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance()
     //       .reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
-    private val ssReadingViewModel: SSReadingViewModel by viewModels {
-        SSReadingViewModel.provideFactory(
-            viewModelFactory,
-            intent.extras?.getString(SSConstants.SS_LESSON_INDEX_EXTRA)!!,
-            this,
-            binding
-        )
-    }
+    private lateinit var ssReadingViewModel: SSReadingViewModel
 
     private val readingViewAdapter: ReadingViewPagerAdapter by lazy {
         ReadingViewPagerAdapter(ssReadingViewModel)
@@ -116,6 +109,13 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         initUI()
 
         ViewTreeLifecycleOwner.set(binding.root, this)
+
+        ssReadingViewModel = viewModelFactory.create(
+            intent.extras?.getString(SSConstants.SS_LESSON_INDEX_EXTRA)!!,
+            this,
+            binding,
+            this
+        )
 
         // Read position passed in intent extras
         val extraPosition = intent.extras?.getString(SSConstants.SS_READ_POSITION_EXTRA)
