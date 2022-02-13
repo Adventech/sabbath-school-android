@@ -15,11 +15,11 @@ import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
 
 class FakeLessonsRepository @Inject constructor() : LessonsRepository {
-    override suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo> {
+    override suspend fun getLessonInfo(lessonIndex: String, cached: Boolean): Resource<SSLessonInfo> {
         return Resource.success(MockDataFactory.lessonInfo())
     }
 
-    override suspend fun getTodayRead(): Resource<TodayData> {
+    override suspend fun getTodayRead(cached: Boolean): Resource<TodayData> {
         return Resource.success(MockDataFactory.todayModel())
     }
 
@@ -27,14 +27,14 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
         return Resource.success(MockDataFactory.ssRead(dayIndex))
     }
 
-    override suspend fun getWeekData(): Resource<WeekData> {
+    override suspend fun getWeekData(cached: Boolean): Resource<WeekData> {
         return Resource.success(MockDataFactory.weekData())
     }
 
     override suspend fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
     }
 
-    override suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>> {
+    override fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>> {
         return emptyFlow()
     }
 

@@ -56,11 +56,16 @@ internal class LessonsRepositoryImpl @Inject constructor(
     private val readHighlightsDataSource: ReadHighlightsDataSource,
 ) : LessonsRepository {
 
-    override suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo> =
-        lessonInfoDataSource.getItem(LessonInfoDataSource.Request(lessonIndex))
+    override suspend fun getLessonInfo(lessonIndex: String, cached: Boolean): Resource<SSLessonInfo> {
+        return if (cached) {
+            lessonInfoDataSource.cache.getItem(LessonInfoDataSource.Request(lessonIndex))
+        } else {
+            lessonInfoDataSource.getItem(LessonInfoDataSource.Request(lessonIndex))
+        }
+    }
 
-    override suspend fun getTodayRead(): Resource<TodayData> {
-        val dataResponse = getQuarterlyAndLessonInfo()
+    override suspend fun getTodayRead(cached: Boolean): Resource<TodayData> {
+        val dataResponse = getQuarterlyAndLessonInfo(cached)
         val lessonInfo = dataResponse.data?.lessonInfo ?: return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
 
         val today = DateTime.now().withTimeAtStartOfDay()
@@ -79,10 +84,10 @@ internal class LessonsRepositoryImpl @Inject constructor(
         return Resource.success(todayModel)
     }
 
-    private suspend fun getQuarterlyAndLessonInfo(): Resource<QuarterlyLessonInfo> {
+    private suspend fun getQuarterlyAndLessonInfo(cached: Boolean): Resource<QuarterlyLessonInfo> {
         val quarterlyResponse = getQuarterlyInfo()
         val quarterlyInfo = quarterlyResponse.data ?: return Resource.error(quarterlyResponse.error ?: Throwable("Invalid QuarterlyInfo"))
-        val lessonInfo = getWeekLessonInfo(quarterlyInfo) ?: return Resource.error(Throwable("Invalid LessonInfo"))
+        val lessonInfo = getWeekLessonInfo(quarterlyInfo, cached) ?: return Resource.error(Throwable("Invalid LessonInfo"))
 
         return Resource.success(QuarterlyLessonInfo(quarterlyInfo, lessonInfo))
     }
@@ -113,7 +118,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
         return quarterly?.index
     }
 
-    private suspend fun getWeekLessonInfo(quarterlyInfo: SSQuarterlyInfo): SSLessonInfo? {
+    private suspend fun getWeekLessonInfo(quarterlyInfo: SSQuarterlyInfo, cached: Boolean): SSLessonInfo? {
         val lesson = quarterlyInfo.lessons.find { lesson ->
             val startDate = parseDate(lesson.start_date)
             val endDate = parseDate(lesson.end_date)
@@ -122,14 +127,14 @@ internal class LessonsRepositoryImpl @Inject constructor(
             startDate?.isBeforeNow == true && (endDate?.isAfterNow == true || today.isEqual(endDate))
         }
 
-        return lesson?.let { getLessonInfo(it.index).data }
+        return lesson?.let { getLessonInfo(it.index, cached).data }
     }
 
     override suspend fun getDayRead(dayIndex: String): Resource<SSRead> =
         readsDataSource.getItem(ReadsDataSource.Request(dayIndex))
 
-    override suspend fun getWeekData(): Resource<WeekData> {
-        val dataResponse = getQuarterlyAndLessonInfo()
+    override suspend fun getWeekData(cached: Boolean): Resource<WeekData> {
+        val dataResponse = getQuarterlyAndLessonInfo(cached)
         val (quarterlyInfo, lessonInfo) = dataResponse.data ?: return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
         val today = DateTime.now().withTimeAtStartOfDay()
 
@@ -161,7 +166,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getAnnotations(
+    override fun getAnnotations(
         lessonIndex: String,
         pdfId: String
     ): Flow<Resource<List<PdfAnnotations>>> = pdfAnnotationsDataSource.getAsFlow(

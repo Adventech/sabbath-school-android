@@ -34,17 +34,17 @@ import kotlinx.coroutines.flow.Flow
 
 interface LessonsRepository {
 
-    suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo>
+    suspend fun getLessonInfo(lessonIndex: String, cached: Boolean = false): Resource<SSLessonInfo>
 
-    suspend fun getTodayRead(): Resource<TodayData>
+    suspend fun getTodayRead(cached: Boolean = false): Resource<TodayData>
 
     suspend fun getDayRead(dayIndex: String): Resource<SSRead>
 
-    suspend fun getWeekData(): Resource<WeekData>
+    suspend fun getWeekData(cached: Boolean = false): Resource<WeekData>
 
     suspend fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>)
 
-    suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>>
+    fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>>
 
     fun getComments(readIndex: String): Flow<Resource<List<SSReadComments>>>
 
