@@ -22,8 +22,11 @@
 
 package app.ss.auth.api
 
-import com.squareup.moshi.Json
+import retrofit2.http.Body
+import retrofit2.http.POST
 
-data class AuthRequest(
-    @Json(name = "id_token") val token: String
-)
+interface SSTokenApi {
+
+    @POST("api/v2/auth/refresh")
+    suspend fun refreshToken(@Body userModel: UserModel): UserModel
+}

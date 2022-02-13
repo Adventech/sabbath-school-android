@@ -23,6 +23,7 @@
 package app.ss.auth.di
 
 import app.ss.auth.api.SSAuthApi
+import app.ss.auth.api.SSTokenApi
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -33,6 +34,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -49,9 +51,20 @@ object AuthModule {
         .client(okHttpClient)
         .build()
 
+    private fun getClient() = OkHttpClient.Builder()
+        .connectTimeout(1, TimeUnit.MINUTES)
+        .readTimeout(1, TimeUnit.MINUTES)
+        .retryOnConnectionFailure(true)
+        .build()
+
     @Provides
     @Singleton
     internal fun provideAuthApi(
         okHttpClient: OkHttpClient
     ): SSAuthApi = retrofit(okHttpClient).create(SSAuthApi::class.java)
+
+    @Provides
+    @Singleton
+    internal fun provideTokenApi(): SSTokenApi = retrofit(getClient())
+        .create(SSTokenApi::class.java)
 }

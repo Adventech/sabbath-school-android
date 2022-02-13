@@ -31,7 +31,7 @@ import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = true)
-internal data class UserModel(
+data class UserModel(
     val uid: String,
     val displayName: String?,
     val email: String?,
@@ -44,6 +44,18 @@ internal data class UserModel(
 )
 
 internal fun UserEntity.toModel(): SSUser = SSUser(
+    uid = uid,
+    displayName = displayName,
+    email = email,
+    stsTokenManager = stsTokenManager,
+    photo = photo,
+    emailVerified = emailVerified,
+    phoneNumber = phoneNumber,
+    isAnonymous = isAnonymous,
+    tenantId = tenantId
+)
+
+internal fun UserEntity.toUserModel(): UserModel = UserModel(
     uid = uid,
     displayName = displayName,
     email = email,

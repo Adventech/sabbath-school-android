@@ -30,6 +30,9 @@ import app.ss.storage.db.entity.UserEntity
 interface UserDao : BaseDao<UserEntity> {
 
     @Query("SELECT * FROM user LIMIT 1")
+    fun getCurrent(): UserEntity?
+
+    @Query("SELECT * FROM user LIMIT 1")
     suspend fun get(): UserEntity?
 
     @Query("DELETE FROM user")

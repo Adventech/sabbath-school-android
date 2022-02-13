@@ -20,10 +20,28 @@
  * THE SOFTWARE.
  */
 
-package app.ss.auth.api
+package app.ss.auth.extensions
 
-import com.squareup.moshi.Json
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import kotlin.coroutines.CoroutineContext
 
-data class AuthRequest(
-    @Json(name = "id_token") val token: String
-)
+suspend fun <T> safeApiCall(
+    context: CoroutineContext,
+    apiCall: suspend () -> T
+): NetworkResource<T> {
+    return withContext(context) {
+        try {
+            NetworkResource.Success(apiCall.invoke())
+        } catch (throwable: Throwable) {
+            when (throwable) {
+                is HttpException -> {
+                    NetworkResource.Failure(false, throwable.code(), throwable.response()?.errorBody())
+                }
+                else -> {
+                    NetworkResource.Failure(true, null, null)
+                }
+            }
+        }
+    }
+}
