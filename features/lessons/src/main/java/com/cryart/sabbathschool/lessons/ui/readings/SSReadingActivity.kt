@@ -86,6 +86,9 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     @Inject
     lateinit var pdfReader: PdfReader
 
+    @Inject
+    lateinit var readingVmFactory: SSReadingViewModel.Factory
+
     private val binding by viewBinding(SsReadingActivityBinding::inflate)
     private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance()
         .reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
@@ -116,11 +119,11 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
 
         ViewTreeLifecycleOwner.set(binding.root, this)
         if (!this::ssReadingViewModel.isInitialized) {
-            ssReadingViewModel = SSReadingViewModel(
-                this,
-                this,
-                lessonIndex,
-                binding
+            ssReadingViewModel = readingVmFactory.create(
+                lessonIndex = lessonIndex,
+                dataListener = this,
+                ssReadingActivityBinding = binding,
+                activity = this
             )
         }
 

@@ -27,27 +27,40 @@ import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.dao.LanguagesDao
+import app.ss.storage.db.dao.ReadCommentsDao
+import app.ss.storage.db.dao.ReadHighlightsDao
 import app.ss.storage.db.entity.AudioFileEntity
 import app.ss.storage.db.entity.LanguageEntity
+import app.ss.storage.db.entity.ReadCommentsEntity
+import app.ss.storage.db.entity.ReadHighlightsEntity
 
 @Database(
     entities = [
         AudioFileEntity::class,
-        LanguageEntity::class
+        LanguageEntity::class,
+        ReadCommentsEntity::class,
+        ReadHighlightsEntity::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = true,
     autoMigrations = [
-        AutoMigration(from = 2, to = 3)
+        AutoMigration(from = 2, to = 3),
+        AutoMigration(from = 3, to = 4)
     ]
 )
+@TypeConverters(Converters::class)
 internal abstract class SabbathSchoolDatabase : RoomDatabase() {
 
     abstract fun audioDao(): AudioDao
 
     abstract fun languagesDao(): LanguagesDao
+
+    abstract fun readCommentsDao(): ReadCommentsDao
+
+    abstract fun readHighlightsDao(): ReadHighlightsDao
 
     companion object {
         private const val DATABASE_NAME = "sabbath_school_db"
