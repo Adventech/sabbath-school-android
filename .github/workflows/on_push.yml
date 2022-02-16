@@ -52,19 +52,17 @@ jobs:
           serviceAccountJson: release/play-account.json
           packageName: com.cryart.sabbathschool
           track: internal
-          status: completed
           whatsNewDirectory: distribution/whatsnew
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           mappingFile: app/build/outputs/mapping/release/mapping.txt
 
       - name: Publish to Alpha track
         if: github.ref == 'refs/heads/main'
-        uses: r0adkll/upload-google-play@v1
+        uses: r0adkll/upload-google-play@v1.0.15
         with:
           serviceAccountJson: release/play-account.json
           packageName: com.cryart.sabbathschool
           track: alpha
-          status: completed
           whatsNewDirectory: distribution/whatsnew
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           mappingFile: app/build/outputs/mapping/release/mapping.txt
