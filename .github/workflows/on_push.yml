@@ -52,6 +52,7 @@ jobs:
           serviceAccountJson: release/play-account.json
           packageName: com.cryart.sabbathschool
           track: internal
+          status: completed
           whatsNewDirectory: distribution/whatsnew
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           mappingFile: app/build/outputs/mapping/release/mapping.txt
@@ -63,6 +64,7 @@ jobs:
           serviceAccountJson: release/play-account.json
           packageName: com.cryart.sabbathschool
           track: alpha
+          status: completed
           whatsNewDirectory: distribution/whatsnew
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           mappingFile: app/build/outputs/mapping/release/mapping.txt
