@@ -25,6 +25,8 @@ package app.ss.lessons.data.repository.lessons
 import app.ss.lessons.data.model.PdfAnnotations
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
+import app.ss.lessons.data.model.SSReadComments
+import app.ss.lessons.data.model.SSReadHighlights
 import app.ss.lessons.data.model.TodayData
 import app.ss.lessons.data.model.WeekData
 import com.cryart.sabbathschool.core.response.Resource
@@ -43,4 +45,8 @@ interface LessonsRepository {
     fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>)
 
     suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>>
+
+    suspend fun saveComments(comments: SSReadComments)
+
+    suspend fun saveHighlights(highlights: SSReadHighlights)
 }
