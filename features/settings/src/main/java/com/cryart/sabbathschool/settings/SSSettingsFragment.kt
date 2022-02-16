@@ -24,13 +24,21 @@ package com.cryart.sabbathschool.settings
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.core.os.bundleOf
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.AppConfig
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SSSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+
+    @Inject
+    lateinit var dailyReminder: DailyReminder
+
+    @Inject
+    lateinit var appConfig: AppConfig
 
     override fun onResume() {
         super.onResume()
@@ -46,24 +54,18 @@ class SSSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnShare
         addPreferencesFromResource(R.xml.ss_settings)
 
         val aboutPref = findPreference<Preference>(getString(R.string.ss_settings_version_key))
-        val config = arguments?.getParcelable<AppConfig>(ARG_CONFIG)
-        aboutPref?.summary = config?.version
+        aboutPref?.summary = appConfig.version
     }
 
-    override fun onSharedPreferenceChanged(p0: SharedPreferences?, string: String?) {
-        when (string) {
+    override fun onSharedPreferenceChanged(pref: SharedPreferences?, key: String?) {
+        when (key) {
             SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY, SSConstants.SS_SETTINGS_REMINDER_TIME_KEY -> {
-                val reminder = (requireActivity() as? SSSettingsActivity)?.dailyReminder
-                reminder?.reSchedule()
+                dailyReminder.reSchedule()
             }
         }
     }
 
     companion object {
-        private const val ARG_CONFIG = "key:config"
-
-        fun newInstance(config: AppConfig): SSSettingsFragment = SSSettingsFragment().apply {
-            arguments = bundleOf(ARG_CONFIG to config)
-        }
+        fun newInstance(): SSSettingsFragment = SSSettingsFragment()
     }
 }

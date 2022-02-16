@@ -67,7 +67,6 @@
     <string name="ss_about_app_version">"version 3.0"</string>
     <string name="ss_about_made">"Fabriqué avec ❤ par Adventech"</string>
     <string name="ss_settings_display_options">"Option d'affichage"</string>
-    <string name="ss_settings_color_theme">"Thème de couleur"</string>
     <string name="ss_settings_color_theme_light">"Lumière"</string>
     <string name="ss_settings_color_theme_sepia">"Sépia"</string>
     <string name="ss_settings_color_theme_dark">"Foncé"</string>
@@ -107,4 +106,6 @@ Nous croyons vraiment que Dieu a augmenté la connaissance du monde moderne et v
     <string name="ss_media_audio">l\'audio</string>
     <string name="ss_media_video">Vidéo</string>
     <string name="ss_pdf_original">Disposition originale</string>
+    <string name="ss_settings_theme">Thème</string>
+    <string name="ss_settings_theme_default">Défaut</string>
 </resources>

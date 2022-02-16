@@ -41,7 +41,7 @@ import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
-import app.ss.media.model.MediaAvailability
+import app.ss.lessons.data.model.media.MediaAvailability
 import app.ss.media.playback.PlaybackViewModel
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
@@ -58,6 +58,8 @@ import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSUnzip
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import com.cryart.sabbathschool.core.model.colorTheme
+import com.cryart.sabbathschool.core.model.displayTheme
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.core.ui.SlidingActivity
@@ -83,6 +85,9 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
 
     @Inject
     lateinit var pdfReader: PdfReader
+
+    @Inject
+    lateinit var readingVmFactory: SSReadingViewModel.Factory
 
     private val binding by viewBinding(SsReadingActivityBinding::inflate)
     private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance()
@@ -114,11 +119,11 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
 
         ViewTreeLifecycleOwner.set(binding.root, this)
         if (!this::ssReadingViewModel.isInitialized) {
-            ssReadingViewModel = SSReadingViewModel(
-                this,
-                this,
-                lessonIndex,
-                binding
+            ssReadingViewModel = readingVmFactory.create(
+                lessonIndex = lessonIndex,
+                dataListener = this,
+                ssReadingActivityBinding = binding,
+                activity = this
             )
         }
 
@@ -184,14 +189,14 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     }
 
     private fun updateColorScheme(displayOptions: SSReadingDisplayOptions) {
-        val color = displayOptions.colorTheme
+        val color = displayOptions.colorTheme(this)
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.apply {
             setContentScrimColor(color)
             setStatusBarScrimColor(color)
             setBackgroundColor(color)
 
             setCollapsedTitleTextColor(
-                when (displayOptions.theme) {
+                when (displayOptions.displayTheme(this@SSReadingActivity)) {
                     SSReadingDisplayOptions.SS_THEME_DARK -> Color.WHITE
                     else -> Color.BLACK
                 }

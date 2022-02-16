@@ -24,8 +24,6 @@ package com.cryart.sabbathschool
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.cryart.sabbathschool.reminder.SSJobCreator
-import com.evernote.android.job.JobManager
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.HiltAndroidApp
@@ -34,8 +32,6 @@ import dagger.hilt.android.HiltAndroidApp
 class SSApp : Application() {
 
     override fun onCreate() {
-        JobManager.create(this)
-            .addJobCreator(SSJobCreator())
         super.onCreate()
 
         Firebase.database.setPersistenceEnabled(true)

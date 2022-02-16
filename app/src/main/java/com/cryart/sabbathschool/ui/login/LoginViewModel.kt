@@ -29,7 +29,7 @@ import androidx.lifecycle.viewModelScope
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.arch.SingleLiveEvent
 import com.cryart.sabbathschool.core.extensions.arch.asLiveData
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.facebook.AccessToken
@@ -52,13 +52,13 @@ class LoginViewModel @Inject constructor(
     private val googleSignIn: GoogleSignInWrapper,
     private val facebookLoginManager: FacebookLoginManager,
     private val reminderManager: DailyReminderManager,
-    private val schedulerProvider: SchedulerProvider
+    private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
     private val mutableViewState = SingleLiveEvent<ViewState>()
     val viewStateLiveData: LiveData<ViewState> = mutableViewState.asLiveData()
 
-    fun handleGoogleSignInResult(data: Intent?) = viewModelScope.launch(schedulerProvider.io) {
+    fun handleGoogleSignInResult(data: Intent?) = viewModelScope.launch(dispatcherProvider.io) {
         mutableViewState.postValue(ViewState.Loading)
 
         try {
@@ -85,7 +85,7 @@ class LoginViewModel @Inject constructor(
         mutableViewState.postValue(state)
     }
 
-    fun handleAnonymousLogin() = viewModelScope.launch(schedulerProvider.io) {
+    fun handleAnonymousLogin() = viewModelScope.launch(dispatcherProvider.io) {
         try {
             mutableViewState.postValue(ViewState.Loading)
             val result = firebaseAuth.signInAnonymously().await()
@@ -118,7 +118,7 @@ class LoginViewModel @Inject constructor(
         )
     }
 
-    private fun handleFacebookAccessToken(accessToken: AccessToken) = viewModelScope.launch(schedulerProvider.io) {
+    private fun handleFacebookAccessToken(accessToken: AccessToken) = viewModelScope.launch(dispatcherProvider.io) {
         try {
             mutableViewState.postValue(ViewState.Loading)
             val credential = facebookLoginManager.getCredential(accessToken.token)

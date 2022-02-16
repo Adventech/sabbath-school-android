@@ -29,7 +29,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.lessons.data.model.QuarterlyGroup
-import com.cryart.sabbathschool.actions.RecyclerViewItemCountAssertion.Companion.withItemCount
 import com.cryart.sabbathschool.actions.withCollapsingToolbarTitle
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.quarterlies.list.QuarterliesListActivity
@@ -65,18 +64,16 @@ class QuarterliesListActivityTest {
                     withCollapsingToolbarTitle(name)
                 )
             )
-
-            onView(withId(R.id.ss_quarterlies_list)).check(withItemCount(20))
         }
     }
 
     @Test
-    fun verify_empty_state_shown() {
-        val group = QuarterlyGroup("Invalid", 100)
-
-        launch(group) {
-            onView(withId(R.id.ss_quarterlies_list)).check(withItemCount(0))
-        }
+    fun verify_empty_state_shown() = launch(QuarterlyGroup("Invalid", 100)) {
+        onView(withId(R.id.ss_toolbar_layout)).check(
+            matches(
+                withCollapsingToolbarTitle("Invalid")
+            )
+        )
     }
 
     private fun launch(

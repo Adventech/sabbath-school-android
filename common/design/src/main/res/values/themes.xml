@@ -45,6 +45,7 @@
         <item name="chipStyle">@style/Widget.SS.Chip</item>
         <item name="bottomSheetDialogTheme">@style/Theme.SS.BottomSheetDialog</item>
         <item name="listPopupWindowStyle">@style/Widget.MaterialComponents.ListPopupWindow</item>
+        <item name="alertDialogTheme">@style/ThemeOverlay.SS.MaterialAlertDialog</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.SS.MaterialAlertDialog</item>
         <item name="snackbarStyle">@style/Widget.SS.Snackbar</item>
         <item name="snackbarTextViewStyle">@style/Widget.SS.Snackbar.TextView</item>
@@ -111,6 +112,9 @@
         </item>
         <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialog.SS.Body.Text</item>
         <item name="android:windowAnimationStyle">@style/Animation.SS.MaterialAlertDialog</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.SS.Button.Dialog</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.SS.Button.Dialog</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.SS.Button.Dialog</item>
     </style>
 
     <style name="ThemeOverlay.SS.MaterialAlertDialog" parent="Base.ThemeOverlay.SS.MaterialAlertDialog">

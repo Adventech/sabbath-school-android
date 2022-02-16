@@ -66,7 +66,6 @@
     <string name="ss_about_app_version">"Versjon 3.0"</string>
     <string name="ss_about_made">"Laget med ❤ av Adventech"</string>
     <string name="ss_settings_display_options">"Skjermalternativer"</string>
-    <string name="ss_settings_color_theme">"Farge tema"</string>
     <string name="ss_settings_color_theme_light">"Lett"</string>
     <string name="ss_settings_color_theme_sepia">"Sepia"</string>
     <string name="ss_settings_color_theme_dark">"Mørk"</string>
@@ -103,4 +102,6 @@
     <string name="ss_media_audio">Lyd</string>
     <string name="ss_media_video">Video</string>
     <string name="ss_pdf_original">Originalt oppsett</string>
+    <string name="ss_settings_theme">Tema</string>
+    <string name="ss_settings_theme_default">Misligholde</string>
 </resources>

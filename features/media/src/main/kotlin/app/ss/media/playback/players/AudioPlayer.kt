@@ -10,7 +10,6 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -63,7 +62,7 @@ internal class AudioPlayerImpl(
         }
 
     private fun createPlayer(owner: AudioPlayerImpl): ExoPlayer {
-        return SimpleExoPlayer.Builder(
+        return ExoPlayer.Builder(
             context,
             DefaultRenderersFactory(context).apply {
                 setExtensionRendererMode(EXTENSION_RENDERER_MODE_PREFER)

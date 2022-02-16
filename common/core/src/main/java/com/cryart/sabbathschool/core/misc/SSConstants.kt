@@ -45,7 +45,7 @@ object SSConstants {
     const val SS_READ_VERSE_EXTRA = "SS_READ_VERSE_EXTRA"
     const val SS_COLOR_THEME_LAST_PRIMARY = "SS_COLOR_THEME_LAST_PRIMARY"
     const val SS_COLOR_THEME_LAST_PRIMARY_DARK = "SS_COLOR_THEME_LAST_PRIMARY_DARK"
-    const val SS_REMINDER_JOB_ID = "ss_reminder_job_id"
+    const val SS_REMINDER_SCHEDULED = "ss_reminder_scheduled"
     const val SS_REMINDER_TIME_SETTINGS_FORMAT = "HH:mm"
     const val SS_SETTINGS_REMINDER_ENABLED_KEY = "ss_settings_reminder_enabled"
     const val SS_SETTINGS_REMINDER_ENABLED_DEFAULT_VALUE = true
@@ -80,4 +80,5 @@ object SSConstants {
     const val SS_READER_ARTIFACT_CREATION_TIME = "sabbath-school-reader-creation-time"
     const val SS_APP_PLAY_STORE_LINK = "https://play.google.com/store/apps/details?id=com.cryart.sabbathschool"
     const val SS_API_BASE_URL = "https://sabbath-school.adventech.io/"
+    const val SS_LATEST_QUARTERLY = "ss_latest_quarterly"
 }

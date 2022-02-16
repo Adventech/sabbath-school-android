@@ -27,8 +27,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.LessonPdf
 import app.ss.lessons.data.repository.lessons.LessonsRepository
-import app.ss.media.repository.SSMediaRepository
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import app.ss.lessons.data.repository.media.MediaRepository
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,10 +39,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReadingsViewModel @Inject constructor(
-    private val mediaRepository: SSMediaRepository,
+    private val mediaRepository: MediaRepository,
     private val lessonsRepository: LessonsRepository,
     private val savedStateHandle: SavedStateHandle,
-    schedulerProvider: SchedulerProvider
+    dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
     private val _audioAvailable = MutableStateFlow(false)
@@ -60,7 +60,7 @@ class ReadingsViewModel @Inject constructor(
     val lessonIndex: String? get() = savedStateHandle.lessonIndex
 
     init {
-        viewModelScope.launch(schedulerProvider.default) {
+        viewModelScope.launch(dispatcherProvider.default) {
             savedStateHandle.lessonIndex?.let { index ->
                 val resource = mediaRepository.getAudio(index)
                 _audioAvailable.emit(resource.data.isNullOrEmpty().not())

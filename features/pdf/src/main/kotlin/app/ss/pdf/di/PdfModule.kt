@@ -27,7 +27,7 @@ import app.ss.pdf.PdfReader
 import app.ss.pdf.PdfReaderImpl
 import app.ss.pdf.PdfReaderPrefs
 import app.ss.pdf.PdfReaderPrefsImpl
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,10 +50,10 @@ object PdfModule {
     fun provideReader(
         @ApplicationContext context: Context,
         readerPrefs: PdfReaderPrefs,
-        schedulerProvider: SchedulerProvider,
+        dispatcherProvider: DispatcherProvider,
     ): PdfReader = PdfReaderImpl(
         context = context,
         readerPrefs = readerPrefs,
-        schedulerProvider = schedulerProvider,
+        dispatcherProvider = dispatcherProvider,
     )
 }

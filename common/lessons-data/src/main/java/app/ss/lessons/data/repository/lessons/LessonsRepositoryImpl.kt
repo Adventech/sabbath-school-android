@@ -31,9 +31,17 @@ import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.lessons.data.model.SSRead
+import app.ss.lessons.data.model.SSReadComments
+import app.ss.lessons.data.model.SSReadHighlights
 import app.ss.lessons.data.model.TodayData
 import app.ss.lessons.data.model.WeekData
 import app.ss.lessons.data.model.WeekDay
+import app.ss.storage.db.dao.ReadCommentsDao
+import app.ss.storage.db.dao.ReadHighlightsDao
+import app.ss.storage.db.entity.Comment
+import app.ss.storage.db.entity.ReadCommentsEntity
+import app.ss.storage.db.entity.ReadHighlightsEntity
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.DateHelper.formatDate
 import com.cryart.sabbathschool.core.misc.DateHelper.parseDate
@@ -45,13 +53,20 @@ import com.google.firebase.database.ktx.getValue
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
 
-internal class LessonsRepositoryImpl constructor(
+@Singleton
+internal class LessonsRepositoryImpl @Inject constructor(
     private val firebaseDatabase: FirebaseDatabase,
     private val firebaseAuth: FirebaseAuth,
-    private val ssPrefs: SSPrefs
+    private val ssPrefs: SSPrefs,
+    private val readCommentsDao: ReadCommentsDao,
+    private val readHighlightsDao: ReadHighlightsDao,
+    private val dispatcherProvider: DispatcherProvider,
 ) : LessonsRepository {
 
     private val firebaseRef = firebaseDatabase.reference.apply { keepSynced(true) }
@@ -260,5 +275,23 @@ internal class LessonsRepositoryImpl constructor(
                 }
             }
         }
+    }
+
+    override suspend fun saveComments(comments: SSReadComments) = withContext(dispatcherProvider.io) {
+        readCommentsDao.insertItem(
+            ReadCommentsEntity(
+                readIndex = comments.readIndex,
+                comments = comments.comments.map { Comment(it.elementId, it.comment) }
+            )
+        )
+    }
+
+    override suspend fun saveHighlights(highlights: SSReadHighlights) = withContext(dispatcherProvider.io) {
+        readHighlightsDao.insertItem(
+            ReadHighlightsEntity(
+                readIndex = highlights.readIndex,
+                highlights = highlights.highlights
+            )
+        )
     }
 }

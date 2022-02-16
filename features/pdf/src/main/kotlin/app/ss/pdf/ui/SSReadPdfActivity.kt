@@ -76,11 +76,11 @@ class SSReadPdfActivity : PdfActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
 
-        menu?.findItem(ID_AUDIO)?.custom(R.string.ss_media_audio, R.drawable.ic_audio_icon)
-        menu?.findItem(ID_VIDEO)?.custom(R.string.ss_media_video, R.drawable.ic_video_icon)
+        menu.findItem(ID_AUDIO)?.custom(R.string.ss_media_audio, R.drawable.ic_audio_icon)
+        menu.findItem(ID_VIDEO)?.custom(R.string.ss_media_video, R.drawable.ic_video_icon)
 
         return true
     }

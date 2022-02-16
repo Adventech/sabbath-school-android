@@ -66,7 +66,6 @@
     <string name="ss_about_app_version">"version 3.0"</string>
     <string name="ss_about_made">"Yenziwe ngo-❤ ngu-Adventech"</string>
     <string name="ss_settings_display_options">"Izinketho zokubonisa"</string>
-    <string name="ss_settings_color_theme">"Umbala wombala"</string>
     <string name="ss_settings_color_theme_light">"KuKhanya"</string>
     <string name="ss_settings_color_theme_sepia">"Sepia"</string>
     <string name="ss_settings_color_theme_dark">"Mnyama"</string>
@@ -107,4 +106,6 @@ Siyakholwa ngokwenene ukuba uThixo ukwandise ulwazi lwehlabathi lanamhlanje kway
     <string name="ss_media_audio">Umsindo</string>
     <string name="ss_media_video">Ividiyo</string>
     <string name="ss_pdf_original">Uyilo loqobo</string>
+    <string name="ss_settings_theme">Umxholo</string>
+    <string name="ss_settings_theme_default">Ukungagqibeki</string>
 </resources>

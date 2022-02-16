@@ -25,9 +25,9 @@ package app.ss.media.playback.ui.video
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.media.model.SSVideosInfo
-import app.ss.media.repository.SSMediaRepository
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import app.ss.lessons.data.model.api.SSVideosInfo
+import app.ss.lessons.data.repository.media.MediaRepository
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import com.cryart.sabbathschool.core.extensions.list.subList
@@ -41,15 +41,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VideoListViewModel @Inject constructor(
-    private val repository: SSMediaRepository,
-    private val schedulerProvider: SchedulerProvider,
+    private val repository: MediaRepository,
+    private val dispatcherProvider: DispatcherProvider,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     val videoListFlow: StateFlow<VideoListData> = flowOf(savedStateHandle.lessonIndex)
         .map { index ->
             index?.let {
-                withContext(schedulerProvider.default) {
+                withContext(dispatcherProvider.default) {
                     repository.getVideo(it)
                 }
             } ?: Resource.success(emptyList())

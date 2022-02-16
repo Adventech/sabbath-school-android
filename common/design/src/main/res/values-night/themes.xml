@@ -40,6 +40,7 @@
 
     <style name="ThemeOverlay.SS.MaterialAlertDialog" parent="Base.ThemeOverlay.SS.MaterialAlertDialog">
         <item name="colorSecondary">@color/ss_theme_secondary</item>
+        <item name="colorPrimary">@color/ss_theme_secondary</item>
     </style>
 
     <style name="Theme.SS.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />

@@ -28,7 +28,7 @@ import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.LessonPdf
 import app.ss.lessons.data.model.PdfAnnotations
 import app.ss.lessons.data.repository.lessons.LessonsRepository
-import app.ss.media.model.MediaAvailability
+import app.ss.lessons.data.model.media.MediaAvailability
 import app.ss.pdf.LocalFile
 import app.ss.pdf.PdfReader
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
@@ -40,7 +40,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

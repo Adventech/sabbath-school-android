@@ -25,6 +25,9 @@ package app.ss.storage.di
 import android.content.Context
 import app.ss.storage.db.SabbathSchoolDatabase
 import app.ss.storage.db.dao.AudioDao
+import app.ss.storage.db.dao.LanguagesDao
+import app.ss.storage.db.dao.ReadCommentsDao
+import app.ss.storage.db.dao.ReadHighlightsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,5 +43,25 @@ object StorageModule {
     @Singleton
     fun provideAudioDao(
         @ApplicationContext context: Context,
-    ): AudioDao = SabbathSchoolDatabase.getInstance(context).audioDao()
+    ): AudioDao = context.database().audioDao()
+
+    @Provides
+    @Singleton
+    fun provideLanguagesDao(
+        @ApplicationContext context: Context,
+    ): LanguagesDao = context.database().languagesDao()
+
+    @Provides
+    @Singleton
+    fun provideReadCommentsDao(
+        @ApplicationContext context: Context,
+    ): ReadCommentsDao = context.database().readCommentsDao()
+
+    @Provides
+    @Singleton
+    fun provideReadHighlightsDao(
+        @ApplicationContext context: Context,
+    ): ReadHighlightsDao = context.database().readHighlightsDao()
+
+    private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)
 }

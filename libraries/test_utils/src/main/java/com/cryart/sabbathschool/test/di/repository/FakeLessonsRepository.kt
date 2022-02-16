@@ -3,6 +3,8 @@ package com.cryart.sabbathschool.test.di.repository
 import app.ss.lessons.data.model.PdfAnnotations
 import app.ss.lessons.data.model.SSLessonInfo
 import app.ss.lessons.data.model.SSRead
+import app.ss.lessons.data.model.SSReadComments
+import app.ss.lessons.data.model.SSReadHighlights
 import app.ss.lessons.data.model.TodayData
 import app.ss.lessons.data.model.WeekData
 import app.ss.lessons.data.repository.lessons.LessonsRepository
@@ -35,4 +37,8 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
     override suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>> {
         return emptyFlow()
     }
+
+    override suspend fun saveComments(comments: SSReadComments) {}
+
+    override suspend fun saveHighlights(highlights: SSReadHighlights) {}
 }

@@ -22,6 +22,9 @@
 
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.AndroidX.Room
+import dependencies.Dependencies.Square.Moshi
+import extensions.implementation
+import extensions.kapt
 
 plugins {
     id(BuildPlugins.Android.LIBRARY)
@@ -38,7 +41,10 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments["room.schemaLocation"] = "$projectDir/schemas"
+                arguments += mapOf(
+                    "room.schemaLocation" to "$projectDir/schemas",
+                    "room.incremental" to "true",
+                )
             }
         }
     }
@@ -59,4 +65,7 @@ dependencies {
     implementation(Room.runtime)
     implementation(Room.ktx)
     kapt(Room.compiler)
+
+    implementation(Moshi.kotlin)
+    kapt(Moshi.codegen)
 }

@@ -27,11 +27,11 @@ import android.content.Intent
 import android.net.Uri
 import androidx.annotation.Keep
 import app.ss.lessons.data.model.LessonPdf
-import app.ss.media.model.MediaAvailability
+import app.ss.lessons.data.model.media.MediaAvailability
 import app.ss.pdf.ui.ARG_MEDIA_AVAILABILITY
 import app.ss.pdf.ui.ARG_PDF_FILES
 import app.ss.pdf.ui.SSReadPdfActivity
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
 import com.pspdfkit.annotations.AnnotationType
@@ -70,13 +70,21 @@ interface PdfReader {
 internal class PdfReaderImpl(
     private val context: Context,
     private val readerPrefs: PdfReaderPrefs,
-    private val schedulerProvider: SchedulerProvider
+    private val dispatcherProvider: DispatcherProvider
 ) : PdfReader, DownloadJob.ProgressListenerAdapter() {
+
+    private val allowedAnnotations = listOf(
+        AnnotationType.HIGHLIGHT,
+        AnnotationType.INK,
+        AnnotationType.NOTE,
+        AnnotationType.WATERMARK,
+        AnnotationType.STRIKEOUT,
+        AnnotationType.FREETEXT,
+    )
 
     override fun launchIntent(pdfs: List<LessonPdf>, lessonIndex: String, mediaAvailability: MediaAvailability): Intent {
         val excludedAnnotationTypes = ArrayList(EnumSet.allOf(AnnotationType::class.java))
-        excludedAnnotationTypes.remove(AnnotationType.HIGHLIGHT)
-        excludedAnnotationTypes.remove(AnnotationType.INK)
+        allowedAnnotations.forEach { excludedAnnotationTypes.remove(it) }
 
         val config = PdfActivityConfiguration.Builder(context)
             .hidePageLabels()
@@ -87,7 +95,6 @@ internal class PdfReaderImpl(
             .disableSearch()
             .disablePrinting()
             .disableOutline()
-            .autosaveEnabled(false)
             .fitMode(PageFitMode.FIT_TO_WIDTH)
             .animateScrollOnEdgeTaps(true)
             .excludedAnnotationTypes(excludedAnnotationTypes)
@@ -120,7 +127,7 @@ internal class PdfReaderImpl(
         }.catch {
             Timber.e(it)
             emit(Resource.error(it))
-        }.flowOn(schedulerProvider.default)
+        }.flowOn(dispatcherProvider.default)
     }
 
     private suspend fun downloadFile(

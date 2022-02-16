@@ -4,7 +4,6 @@ object Dependencies {
     const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
     const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
     const val PLAY_AUTH = "com.google.android.gms:play-services-auth:${Versions.PLAY_AUTH}"
-    const val ANDROID_JOB = "com.evernote:android-job:${Versions.ANDROID_JOB}"
     const val JODA = "net.danlew:android.joda:${Versions.JODA}"
     const val TAP_TARGET = "uk.co.samuelwall:material-tap-target-prompt:${Versions.TAP_TARGET}"
     const val PDF_KIT = "com.pspdfkit:pspdfkit:${Versions.pdfKit}"
@@ -19,11 +18,11 @@ object Dependencies {
         const val APPCOMPAT = "androidx.appcompat:appcompat:${Versions.AndroidX.APPCOMPAT}"
         const val RECYCLER_VIEW = "androidx.recyclerview:recyclerview:${Versions.AndroidX.RECYCLER_VIEW}"
         const val LIFECYCLE_COMMON = "androidx.lifecycle:lifecycle-common-java8:${Versions.AndroidX.LIFECYCLE}"
-        const val LIFECYCLE_COMPOSE = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.AndroidX.LIFECYCLE_COMPOSE}"
+        const val LIFECYCLE_COMPOSE = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.AndroidX.LIFECYCLE}"
         const val LIFECYCLE_EXTENSIONS = "androidx.lifecycle:lifecycle-extensions:${Versions.AndroidX.LIFECYCLE_EXT}"
         const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.LIFECYCLE}"
         const val LIFECYCLE_LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.AndroidX.LIFECYCLE}"
-        const val LIFECYCLE_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.AndroidX.LIFECYCLE_KTX}"
+        const val LIFECYCLE_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.AndroidX.LIFECYCLE}"
         const val ACTIVITY = "androidx.activity:activity-ktx:${Versions.AndroidX.ACTIVITY}"
         const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Versions.AndroidX.FRAGMENT}"
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.AndroidX.CONSTRAINT_LAYOUT}"
@@ -79,7 +78,8 @@ object Dependencies {
         const val tooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
         const val icons = "androidx.compose.material:material-icons-core:${Versions.COMPOSE}"
         const val iconsExtended = "androidx.compose.material:material-icons-extended:${Versions.COMPOSE}"
-        const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02"
+        const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0"
+        const val snapper = "dev.chrisbanes.snapper:snapper:0.1.1"
     }
 
     object Accompanist {

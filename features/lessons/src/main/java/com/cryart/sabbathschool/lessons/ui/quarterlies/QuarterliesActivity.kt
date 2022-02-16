@@ -63,9 +63,6 @@ class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
     private val appbarComponent: QuarterliesAppbarComponent by lazy {
         QuarterliesAppbarComponent(this, binding.appBar, appNavigator)
     }
-    private val listComponent: QuarterlyListComponent by lazy {
-        QuarterlyListComponent(this, binding.ssQuarterliesList, this)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,8 +81,10 @@ class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
 
         appbarComponent.collect(viewModel.photoUrlFlow)
 
-        listComponent.collect(
-            viewModel.quarterliesFlow.map { it.data ?: GroupedQuarterlies.Empty }
+        QuarterlyListComponent(
+            binding = binding.ssQuarterliesList,
+            dataFlow = viewModel.quarterliesFlow.map { it.data ?: GroupedQuarterlies.Empty },
+            callbacks = this
         )
 
         viewModel.appReBrandingFlow
@@ -110,7 +109,7 @@ class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
         alertDialog.show()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.ss_quarterlies_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }

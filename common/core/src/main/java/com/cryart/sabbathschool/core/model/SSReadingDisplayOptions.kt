@@ -21,7 +21,9 @@
  */
 package com.cryart.sabbathschool.core.model
 
+import android.content.Context
 import android.graphics.Color
+import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 
 data class SSReadingDisplayOptions @JvmOverloads constructor(
     var theme: String = SS_THEME_LIGHT,
@@ -31,22 +33,13 @@ data class SSReadingDisplayOptions @JvmOverloads constructor(
 
     constructor(isDark: Boolean) : this(if (isDark) SS_THEME_DARK else SS_THEME_LIGHT)
 
-    val themeColor: String
-        get() {
-            return when (theme) {
-                SS_THEME_LIGHT -> SS_THEME_LIGHT_HEX
-                SS_THEME_DARK -> SS_THEME_DARK_HEX
-                SS_THEME_SEPIA -> SS_THEME_SEPIA_HEX
-                else -> ""
-            }
-        }
-
-    val colorTheme: Int get() = Color.parseColor(themeColor)
+    fun themeDisplay(context: Context): String = displayTheme(context)
 
     companion object {
         const val SS_THEME_LIGHT = "light"
         const val SS_THEME_SEPIA = "sepia"
         const val SS_THEME_DARK = "dark"
+        const val SS_THEME_DEFAULT = "default"
         const val SS_THEME_LIGHT_HEX = "#fdfdfd"
         const val SS_THEME_SEPIA_HEX = "#fbf0d9"
         const val SS_THEME_DARK_HEX = "#000000"
@@ -61,3 +54,27 @@ data class SSReadingDisplayOptions @JvmOverloads constructor(
         const val SS_FONT_PT_SANS = "pt-sans"
     }
 }
+
+fun SSReadingDisplayOptions.displayTheme(context: Context): String {
+    return if (theme == SSReadingDisplayOptions.SS_THEME_DEFAULT) {
+        if (context.isDarkTheme()) SSReadingDisplayOptions.SS_THEME_DARK else SSReadingDisplayOptions.SS_THEME_LIGHT
+    } else {
+        theme
+    }
+}
+fun SSReadingDisplayOptions.themeColor(context: Context): String {
+    return when (theme) {
+        SSReadingDisplayOptions.SS_THEME_LIGHT -> SSReadingDisplayOptions.SS_THEME_LIGHT_HEX
+        SSReadingDisplayOptions.SS_THEME_DARK -> SSReadingDisplayOptions.SS_THEME_DARK_HEX
+        SSReadingDisplayOptions.SS_THEME_SEPIA -> SSReadingDisplayOptions.SS_THEME_SEPIA_HEX
+        else -> {
+            if (context.isDarkTheme()) {
+                SSReadingDisplayOptions.SS_THEME_DARK_HEX
+            } else {
+                SSReadingDisplayOptions.SS_THEME_LIGHT_HEX
+            }
+        }
+    }
+}
+
+fun SSReadingDisplayOptions.colorTheme(context: Context): Int = Color.parseColor(themeColor(context))

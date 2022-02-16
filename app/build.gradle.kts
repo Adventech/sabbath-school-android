@@ -61,6 +61,13 @@ android {
         testInstrumentationRunner = BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER
 
         vectorDrawables.useSupportLibrary = true
+
+        ndk {
+            abiFilters.addAll(
+                // keep all binaries supported by PSPDFKit
+                listOf("x86", "x86_64", "arm64-v8a", "armeabi-v7a")
+            )
+        }
     }
 
     signingConfigs {
@@ -88,6 +95,8 @@ android {
             }
 
             manifestPlaceholders["enableReporting"] = true
+
+            ndk { debugSymbolLevel = "FULL" }
         }
         getByName(BuildType.DEBUG) {
 
@@ -156,9 +165,7 @@ dependencies {
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
     implementation(AndroidX.LIFECYCLE_EXTENSIONS)
     implementation(AndroidX.LIFECYCLE_LIVEDATA)
-    implementation(AndroidX.RECYCLER_VIEW)
     implementation(AndroidX.START_UP)
-    implementation(AndroidX.DATASTORE_PREFS)
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
@@ -174,7 +181,6 @@ dependencies {
     implementation(Dependencies.TIMBER)
 
     implementation(Dependencies.Facebook.SDK)
-    implementation(Dependencies.ANDROID_JOB)
     implementation(Dependencies.JODA)
 
     implementation(Dependencies.Compose.tooling)

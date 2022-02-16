@@ -25,7 +25,7 @@ package com.cryart.sabbathschool.lessons.ui.languages
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,10 +36,10 @@ import javax.inject.Inject
 class LanguagesListViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
     private val ssPrefs: SSPrefs,
-    schedulerProvider: SchedulerProvider
+    dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
-    val languagesLiveData: LiveData<List<LanguageModel>> = liveData(schedulerProvider.io) {
+    val languagesLiveData: LiveData<List<LanguageModel>> = liveData(dispatcherProvider.io) {
         val resource = repository.getLanguages()
         val models = if (resource.isSuccessFul) {
             val selectedLanguage = ssPrefs.getLanguageCode()

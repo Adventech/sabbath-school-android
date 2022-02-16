@@ -70,7 +70,6 @@
     <string name="ss_about_app_version">"3.0バージョン"</string>
     <string name="ss_about_made">"Adventechによって❤に作りました。"</string>
     <string name="ss_settings_display_options">"表示設定"</string>
-    <string name="ss_settings_color_theme">"テーマ"</string>
     <string name="ss_settings_color_theme_light">"明色"</string>
     <string name="ss_settings_color_theme_sepia">"セピア色"</string>
     <string name="ss_settings_color_theme_dark">"暗色"</string>
@@ -115,4 +114,6 @@
     <string name="ss_media_audio">オーディオ</string>
     <string name="ss_media_video">ビデオ</string>
     <string name="ss_pdf_original">元のレイアウト</string>
+    <string name="ss_settings_theme">テーマ</string>
+    <string name="ss_settings_theme_default">ディフォルト</string>
 </resources>

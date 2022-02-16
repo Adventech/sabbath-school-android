@@ -7,6 +7,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import app.ss.widgets.model.WidgetType
 import app.ss.widgets.today.TodayAppWidget
 import app.ss.widgets.today.TodayImgAppWidget
@@ -87,6 +88,7 @@ internal fun Uri.clickIntent(context: Context): PendingIntent {
     return Intent().apply {
         data = uri
     }.let { intent ->
-        PendingIntent.getActivity(context, 0, intent, 0)
+        val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        PendingIntent.getActivity(context, 0, intent, flag)
     }
 }

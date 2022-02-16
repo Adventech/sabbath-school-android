@@ -22,148 +22,130 @@
 
 package com.cryart.sabbathschool.reminder
 
+import android.app.AlarmManager
+import androidx.core.app.NotificationManagerCompat
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.ReminderTime
-import com.evernote.android.job.JobManager
-import com.evernote.android.job.JobRequest
-import io.mockk.CapturingSlot
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.slot
 import io.mockk.verify
-import org.amshove.kluent.shouldBeEqualTo
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4::class)
 class DailyReminderManagerTest {
 
-    private val mockJobManager: JobManager = mockk()
-    private val mockRequestBuilder: JobRequest.Builder = mockk(relaxed = true)
-    private val mockJobRequest: JobRequest = mockk()
-    private val mockSSPrefs: SSPrefs = mockk()
+    private val mockAlarmManager: AlarmManager = mockk(relaxed = true)
+    private val mockNotificationManager: NotificationManagerCompat = mockk(relaxed = true)
+    private val mockSSPrefs: SSPrefs = mockk(relaxed = true)
+
+    // 07:00
+    private val dateTimeNow = DateTime.now()
+        .withTimeAtStartOfDay()
+        .plusHours(7)
 
     private lateinit var testSubject: DailyReminderManager
 
     @Before
     fun setup() {
         every { mockSSPrefs.getReminderTime() }.returns(ReminderTime(6, 30))
-        every { mockSSPrefs.setReminderJobId(any()) }.returns(Unit)
 
-        every { mockJobRequest.schedule() }.returns(1)
-        every { mockRequestBuilder.setExact(any()) }.returns(mockRequestBuilder)
-        every { mockRequestBuilder.build() }.returns(mockJobRequest)
+        testSubject = DailyReminderManager(
+            ApplicationProvider.getApplicationContext(),
+            mockAlarmManager,
+            mockNotificationManager,
+            mockSSPrefs,
+            dateNow = dateTimeNow
+        )
     }
 
     @Test
-    fun `should set an initial delay of 2 hours 30 minutes when scheduled at 4am`() {
-        val dateTime4am = DateTime(2020, 5, 20, 4, 0)
-        testSubject = DailyReminderManager(
-            mockJobManager,
-            mockSSPrefs,
-            mockRequestBuilder,
-            dateTime4am
-        )
-
-        val millisSlot: CapturingSlot<Long> = slot()
-
-        every { mockSSPrefs.getReminderJobId() }.returns(null)
+    fun `should schedule repeating alarm - next day`() {
+        val alarmTime = dateTimeNow
+            .withTimeAtStartOfDay()
+            .plusHours(6)
+            .plusMinutes(30)
+            .plusDays(1)
 
         testSubject.scheduleReminder()
 
-        verify { mockSSPrefs.setReminderJobId(1) }
         verify {
-            mockRequestBuilder.setExact(capture(millisSlot))
+            mockAlarmManager.set(
+                eq(AlarmManager.RTC_WAKEUP),
+                eq(alarmTime.millis),
+                any()
+            )
         }
 
-        millisSlot.captured shouldBeEqualTo (2.5 * HOUR).toLong()
+        verify { mockSSPrefs.setReminderScheduled() }
     }
 
     @Test
-    fun `should set an initial delay of 23 hours when scheduled at 7, 30 am`() {
-        val dateTime7am = DateTime(2020, 5, 20, 7, 30)
+    fun `should schedule repeating alarm - same day`() {
+        // 5 am
+        val dateNow = DateTime.now()
+            .withTimeAtStartOfDay()
+            .plusHours(5)
+
+        val alarmTime = DateTime.now()
+            .withTimeAtStartOfDay()
+            .plusHours(6)
+            .plusMinutes(30)
+
         testSubject = DailyReminderManager(
-            mockJobManager,
+            ApplicationProvider.getApplicationContext(),
+            mockAlarmManager,
+            mockNotificationManager,
             mockSSPrefs,
-            mockRequestBuilder,
-            dateTime7am
+            dateNow
         )
-
-        val millisSlot: CapturingSlot<Long> = slot()
-
-        every { mockSSPrefs.getReminderJobId() }.returns(null)
 
         testSubject.scheduleReminder()
 
-        verify { mockSSPrefs.setReminderJobId(1) }
         verify {
-            mockRequestBuilder.setExact(capture(millisSlot))
+            mockAlarmManager.set(
+                eq(AlarmManager.RTC_WAKEUP),
+                eq(alarmTime.millis),
+                any()
+            )
         }
 
-        millisSlot.captured shouldBeEqualTo (23 * HOUR)
+        verify { mockSSPrefs.setReminderScheduled() }
     }
 
     @Test
-    fun `should cancel job and remove id from prefs when cancelReminder is called`() {
-        testSubject = DailyReminderManager(mockJobManager, mockSSPrefs, mockRequestBuilder)
-        every { mockJobManager.cancelAll() }.returns(1)
-
-        testSubject.cancelReminder()
-
-        verify {
-            mockJobManager.cancelAll()
-            mockSSPrefs.setReminderJobId(null)
-        }
-    }
-
-    @Test
-    fun `should cancel and schedule when reschedule is called`() {
-        val dateTime7am = DateTime(2020, 5, 20, 7, 30)
-        testSubject = DailyReminderManager(
-            mockJobManager,
-            mockSSPrefs,
-            mockRequestBuilder,
-            dateTime7am
-        )
-        every { mockJobManager.cancelAll() }.returns(1)
-        every { mockSSPrefs.getReminderJobId() }.returns(null)
-        every { mockSSPrefs.reminderEnabled() }.returns(true)
-
-        testSubject.reSchedule()
-
-        verify {
-            mockJobManager.cancelAll()
-            mockSSPrefs.setReminderJobId(null)
-            mockSSPrefs.setReminderJobId(1)
-        }
-    }
-
-    @Test
-    fun `should cancel and not schedule when reschedule is called and reminder is disabled`() {
-        val dateTime7am = DateTime(2020, 5, 20, 7, 30)
-        testSubject = DailyReminderManager(
-            mockJobManager,
-            mockSSPrefs,
-            mockRequestBuilder,
-            dateTime7am
-        )
-        every { mockJobManager.cancelAll() }.returns(1)
-        every { mockSSPrefs.getReminderJobId() }.returns(null)
+    fun `should not schedule if pref not enabled`() {
         every { mockSSPrefs.reminderEnabled() }.returns(false)
 
+        val alarmTime = dateTimeNow
+            .withTimeAtStartOfDay()
+            .plusHours(6)
+            .plusMinutes(30)
+
         testSubject.reSchedule()
 
-        verify {
-            mockJobManager.cancelAll()
-            mockSSPrefs.setReminderJobId(null)
-        }
         verify(inverse = true) {
-            mockSSPrefs.setReminderJobId(1)
+            mockAlarmManager.set(
+                eq(AlarmManager.RTC_WAKEUP),
+                eq(alarmTime.millis),
+                any()
+            )
         }
     }
 
-    companion object {
-        private const val MINUTE = 60000L
-        private const val HOUR = 60 * MINUTE
+    @Test
+    fun `should show reminder notification`() {
+        testSubject.showNotification(ApplicationProvider.getApplicationContext())
+
+        verify {
+            mockNotificationManager.notify(
+                eq(1),
+                any()
+            )
+        }
     }
 }

@@ -44,6 +44,7 @@ import app.ss.lessons.data.model.SSRead
 import app.ss.lessons.data.model.SSReadComments
 import app.ss.lessons.data.model.SSReadHighlights
 import app.ss.lessons.data.model.SSSuggestion
+import app.ss.lessons.data.repository.lessons.LessonsRepository
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.cryart.sabbathschool.bible.SSBibleVersesActivity
@@ -56,6 +57,7 @@ import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import com.cryart.sabbathschool.core.model.colorTheme
 import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
@@ -65,23 +67,30 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import ru.beryukhov.reactivenetwork.ReactiveNetwork
 import ru.beryukhov.reactivenetwork.internet.observing.InternetObservingSettings
 import timber.log.Timber
-import java.util.ArrayList
 
-class SSReadingViewModel(
-    private val context: Context,
-    private val dataListener: DataListener,
-    private val ssLessonIndex: String,
-    private val ssReadingActivityBinding: SsReadingActivityBinding,
-) : SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback {
+class SSReadingViewModel @AssistedInject constructor(
+    private val lessonsRepository: LessonsRepository,
+    @Assisted private val ssLessonIndex: String,
+    @Assisted private val dataListener: DataListener,
+    @Assisted private val ssReadingActivityBinding: SsReadingActivityBinding,
+    @Assisted private val activity: FragmentActivity,
+) : SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback, CoroutineScope by MainScope() {
+
+    private val context: Context = activity
+
     private val ssFirebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val userUuid = ssFirebaseAuth.currentUser?.uid ?: ""
     private val mDatabase = FirebaseDatabase.getInstance().reference.apply {
@@ -228,6 +237,8 @@ class SSReadingViewModel(
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val ssReadHighlights = dataSnapshot.getValue(SSReadHighlights::class.java) ?: SSReadHighlights(dayIndex)
                     downloadComments(dayIndex, index, ssReadHighlights)
+
+                    launch { lessonsRepository.saveHighlights(ssReadHighlights) }
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -244,6 +255,8 @@ class SSReadingViewModel(
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val ssReadComments = SSReadComments(dataSnapshot, dayIndex)
                     downloadRead(dayIndex, index, ssReadHighlights, ssReadComments)
+
+                    launch { lessonsRepository.saveComments(ssReadComments) }
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -357,6 +370,8 @@ class SSReadingViewModel(
             SSConstants.SS_EVENT_TEXT_HIGHLIGHTED,
             hashMapOf(SSConstants.SS_EVENT_PARAM_READ_INDEX to ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
         )
+
+        launch { lessonsRepository.saveHighlights(ssReadHighlights) }
     }
 
     override fun onCommentsReceived(ssReadComments: SSReadComments) {
@@ -369,6 +384,8 @@ class SSReadingViewModel(
             SSConstants.SS_EVENT_COMMENT_CREATED,
             hashMapOf(SSConstants.SS_EVENT_PARAM_READ_INDEX to ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
         )
+
+        launch { lessonsRepository.saveComments(ssReadComments) }
     }
 
     override fun onVerseClicked(verse: String) = verseClickWithDebounce(verse)
@@ -459,7 +476,7 @@ class SSReadingViewModel(
     fun onSSReadingDisplayOptions(ssReadingDisplayOptions: SSReadingDisplayOptions) {
         currentSSReadingView?.updateReadingDisplayOptions(ssReadingDisplayOptions)
         val parent = currentSSReadingView?.parent as? ViewGroup
-        parent?.setBackgroundColor(ssReadingDisplayOptions.colorTheme)
+        parent?.setBackgroundColor(ssReadingDisplayOptions.colorTheme(parent.context))
 
         for (i in 0 until ssTotalReadsCount) {
             if (i == ssReadingActivityBinding.ssReadingViewPager.currentItem) continue
@@ -474,6 +491,16 @@ class SSReadingViewModel(
     fun reloadContent() {
         loadLessonInfo()
         checkConnection()
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            lessonIndex: String,
+            dataListener: DataListener,
+            ssReadingActivityBinding: SsReadingActivityBinding,
+            activity: FragmentActivity
+        ): SSReadingViewModel
     }
 
     companion object {

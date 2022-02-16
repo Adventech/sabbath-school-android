@@ -42,8 +42,7 @@
             android:background="?attr/actionBarItemBackground"
             android:contentDescription="@string/blank"
             android:padding="@dimen/spacing_normal"
-            app:tint="?attr/colorPrimary"
-            app:srcCompat="@drawable/ic_arrow_back" />
+            app:srcCompat="@drawable/ic_nav_back" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"

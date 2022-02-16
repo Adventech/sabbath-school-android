@@ -22,23 +22,22 @@
 
 package com.cryart.sabbathschool.core.di
 
-import android.content.Context
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DefaultDispatcherProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefsImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-object CoreModule {
+abstract class CoreModule {
 
-    @Provides
-    fun provideSchedulers(): SchedulerProvider = SchedulerProvider()
+    @Binds
+    internal abstract fun bindSchedulerProvider(provider: DefaultDispatcherProvider): DispatcherProvider
 
-    @Provides
-    fun provideSSPrefs(@ApplicationContext context: Context): SSPrefs = SSPrefsImpl(context)
+    @Binds
+    internal abstract fun bindSSPrefs(impl: SSPrefsImpl): SSPrefs
 }

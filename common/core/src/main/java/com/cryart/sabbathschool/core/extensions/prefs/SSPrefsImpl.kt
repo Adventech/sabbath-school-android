@@ -33,11 +33,11 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.preference.PreferenceManager
-import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.ReminderTime
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -48,6 +48,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Locale
+import javax.inject.Inject
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     name = "ss_prefs",
@@ -66,12 +67,18 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     }
 )
 
-class SSPrefsImpl(
-    private val context: Context,
-    private val dataStore: DataStore<Preferences> = context.dataStore,
-    private val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context),
-    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
+internal class SSPrefsImpl(
+    private val dataStore: DataStore<Preferences>,
+    private val sharedPreferences: SharedPreferences,
+    private val coroutineScope: CoroutineScope,
 ) : SSPrefs {
+
+    @Inject
+    constructor(@ApplicationContext context: Context) : this(
+        dataStore = context.dataStore,
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context),
+        coroutineScope = CoroutineScope(Dispatchers.IO)
+    )
 
     private fun preferencesFlow(): Flow<Preferences> = dataStore.data
         .catch { exception ->
@@ -98,21 +105,6 @@ class SSPrefsImpl(
         )
 
         return ReminderTime(hour, min)
-    }
-
-    override fun getReminderJobId(): Int? {
-        val id = sharedPreferences.getInt(SSConstants.SS_REMINDER_JOB_ID, -1)
-        return if (id == -1) {
-            null
-        } else {
-            id
-        }
-    }
-
-    override fun setReminderJobId(jobId: Int?) {
-        sharedPreferences.edit {
-            putInt(SSConstants.SS_REMINDER_JOB_ID, jobId ?: -1)
-        }
     }
 
     override fun getLanguageCode(): String {
@@ -206,12 +198,7 @@ class SSPrefsImpl(
         .distinctUntilChanged()
 
     private fun Preferences.toDisplayOptions(): SSReadingDisplayOptions {
-        val defaultTheme = if (context.isDarkTheme()) {
-            SSReadingDisplayOptions.SS_THEME_DARK
-        } else {
-            SSReadingDisplayOptions.SS_THEME_LIGHT
-        }
-        val theme = this[stringPreferencesKey(SSConstants.SS_SETTINGS_THEME_KEY)] ?: defaultTheme
+        val theme = this[stringPreferencesKey(SSConstants.SS_SETTINGS_THEME_KEY)] ?: SSReadingDisplayOptions.SS_THEME_DEFAULT
         val size = this[stringPreferencesKey(SSConstants.SS_SETTINGS_SIZE_KEY)] ?: SSReadingDisplayOptions.SS_SIZE_MEDIUM
         val font = this[stringPreferencesKey(SSConstants.SS_SETTINGS_FONT_KEY)] ?: SSReadingDisplayOptions.SS_FONT_LATO
 
@@ -252,6 +239,10 @@ class SSPrefsImpl(
         SSConstants.SS_APP_RE_BRANDING_PROMPT_SEEN, false
     )
 
+    override fun isReminderScheduled(): Boolean = sharedPreferences.getBoolean(
+        SSConstants.SS_REMINDER_SCHEDULED, false
+    )
+
     override fun setAppReBrandingShown() = sharedPreferences.edit {
         putBoolean(SSConstants.SS_APP_RE_BRANDING_PROMPT_SEEN, true)
     }
@@ -261,6 +252,18 @@ class SSPrefsImpl(
             putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY, primary)
             putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY_DARK, primaryDark)
         }
+    }
+
+    override fun setReminderScheduled() = sharedPreferences.edit {
+        putBoolean(SSConstants.SS_REMINDER_SCHEDULED, true)
+    }
+
+    override fun isReadingLatestQuarterly(): Boolean {
+        return sharedPreferences.getBoolean(SSConstants.SS_LATEST_QUARTERLY, false)
+    }
+
+    override fun setReadingLatestQuarterly(state: Boolean) = sharedPreferences.edit {
+        putBoolean(SSConstants.SS_LATEST_QUARTERLY, state)
     }
 
     override fun clear() {

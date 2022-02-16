@@ -9,6 +9,7 @@ import app.ss.lessons.data.model.SSReadHighlights
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.view.inflate
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import com.cryart.sabbathschool.core.model.colorTheme
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingViewBinding
 
@@ -77,9 +78,10 @@ class ReadingViewHolder(
         readingViewModel: SSReadingViewModel
     ) {
 
-        binding.ssReadingViewScroll.setBackgroundColor(readingOptions.colorTheme)
+        val context = binding.root.context
+        binding.ssReadingViewScroll.setBackgroundColor(readingOptions.colorTheme(context))
         binding.ssReadingView.apply {
-            setBackgroundColor(readingOptions.colorTheme)
+            setBackgroundColor(readingOptions.colorTheme(context))
             setContextMenuCallback(readingViewModel)
             setHighlightsCommentsCallback(readingViewModel)
             setReadHighlights(highlights)

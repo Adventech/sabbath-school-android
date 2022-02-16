@@ -65,6 +65,10 @@
         <item name="shapeAppearance">@style/ShapeAppearanceOverlay.SS.Rounded</item>
     </style>
 
+    <style name="Widget.SS.Button.Dialog" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/ss_theme_secondary</item>
+    </style>
+
     <style name="Widget.SS.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="fabSize">normal</item>
     </style>

@@ -22,10 +22,7 @@
 
 package com.cryart.sabbathschool.ui.splash
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.google.firebase.auth.FirebaseAuth
@@ -35,18 +32,21 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
-    ssPrefs: SSPrefs,
+    private val ssPrefs: SSPrefs,
     dailyReminderManager: DailyReminderManager,
-    schedulerProvider: SchedulerProvider
 ) : ViewModel() {
 
     init {
-        if (firebaseAuth.currentUser != null && ssPrefs.reminderEnabled()) {
+        if (firebaseAuth.currentUser != null && ssPrefs.reminderEnabled() && ssPrefs.isReminderScheduled().not()) {
             dailyReminderManager.scheduleReminder()
         }
     }
 
-    val isSignedInLiveData: LiveData<Boolean> = liveData(schedulerProvider.io) {
-        emit(firebaseAuth.currentUser != null)
-    }
+    val launchState: LaunchState
+        get() = when {
+            firebaseAuth.currentUser == null -> LaunchState.Login
+            ssPrefs.getLastQuarterlyIndex() != null && ssPrefs.isReadingLatestQuarterly() ->
+                LaunchState.Lessons(ssPrefs.getLastQuarterlyIndex()!!)
+            else -> LaunchState.Quarterlies
+        }
 }

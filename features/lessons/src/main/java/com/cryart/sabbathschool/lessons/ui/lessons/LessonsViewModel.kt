@@ -27,12 +27,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.model.LessonPdf
 import app.ss.lessons.data.model.SSLesson
+import app.ss.lessons.data.model.SSQuarterly
 import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,6 +44,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import org.joda.time.DateTime
+import org.joda.time.Interval
 import javax.inject.Inject
 
 @HiltViewModel
@@ -72,6 +76,7 @@ class LessonsViewModel @Inject constructor(
                         it.quarterly.color_primary,
                         it.quarterly.color_primary_dark
                     )
+                    ssPrefs.setReadingLatestQuarterly(it.quarterly.isLatest)
                 }
             }
             resource
@@ -97,4 +102,14 @@ class LessonsViewModel @Inject constructor(
             _selectedPdfs.emit(lesson.index to (data?.pdfs ?: emptyList()))
         }
     }
+
+    private val SSQuarterly.isLatest: Boolean
+        get() {
+            val today = DateTime.now().withTimeAtStartOfDay()
+
+            val startDate = DateHelper.parseDate(start_date)
+            val endDate = DateHelper.parseDate(end_date)
+
+            return Interval(startDate, endDate?.plusDays(1)).contains(today)
+        }
 }

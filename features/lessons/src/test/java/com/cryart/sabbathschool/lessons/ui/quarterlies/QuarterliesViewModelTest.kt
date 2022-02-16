@@ -31,14 +31,14 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.response.Resource
-import com.cryart.sabbathschool.test.coroutines.CoroutineTestRule
+import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import com.google.firebase.auth.FirebaseAuth
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Ignore
@@ -52,8 +52,7 @@ class QuarterliesViewModelTest {
     @get:Rule
     val instantTaskRule = InstantTaskExecutorRule()
 
-    @get:Rule
-    var coroutinesTestRule = CoroutineTestRule()
+    private val dispatcherProvider = TestDispatcherProvider()
 
     private val mockRepository: QuarterliesRepository = mockk(relaxed = true)
     private val mockFirebaseAuth: FirebaseAuth = mockk()
@@ -77,7 +76,7 @@ class QuarterliesViewModelTest {
 
     @Test
     @Ignore("Flaky test")
-    fun `should update selected language and quarterlies list`() = runBlockingTest {
+    fun `should update selected language and quarterlies list`() = runTest {
         // given
         val language = "de"
 

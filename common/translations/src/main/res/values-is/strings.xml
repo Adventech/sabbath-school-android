@@ -67,7 +67,6 @@
     <string name="ss_about_app_version">"útgáfa 3.0"</string>
     <string name="ss_about_made">"Made með ❤ eftir Adventech"</string>
     <string name="ss_settings_display_options">"Skjávalkostir"</string>
-    <string name="ss_settings_color_theme">"Litur þema"</string>
     <string name="ss_settings_color_theme_light">"Ljós"</string>
     <string name="ss_settings_color_theme_sepia">"Sepia"</string>
     <string name="ss_settings_color_theme_dark">"Myrkur"</string>
@@ -107,4 +106,6 @@ Við trúum því sannarlega að Guð hafi aukið þekkingu á nútímanum og vi
     <string name="ss_media_audio">Hljóð</string>
     <string name="ss_media_video">Myndband</string>
     <string name="ss_pdf_original">Upprunalega skipulag</string>
+    <string name="ss_settings_theme">Þema</string>
+    <string name="ss_settings_theme_default">Sjálfgefið</string>
 </resources>

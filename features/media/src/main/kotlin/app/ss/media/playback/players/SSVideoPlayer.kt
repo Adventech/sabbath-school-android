@@ -28,16 +28,16 @@ import android.net.Uri
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import app.ss.media.model.SSVideo
+import app.ss.lessons.data.model.api.SSVideo
 import app.ss.media.playback.AudioFocusHelper
 import app.ss.media.playback.AudioFocusHelperImpl
 import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
 import app.ss.media.playback.model.PlaybackProgressState
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.flowInterval
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.ui.PlayerView
@@ -45,7 +45,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -76,8 +75,8 @@ internal class SSVideoPlayerImpl(
     coroutineScope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope,
 ) : SSVideoPlayer, Player.Listener, CoroutineScope by coroutineScope {
 
-    private val exoPlayer: SimpleExoPlayer by lazy {
-        SimpleExoPlayer.Builder(context).build().also { player ->
+    private val exoPlayer: ExoPlayer by lazy {
+        ExoPlayer.Builder(context).build().also { player ->
             player.playWhenReady = false
             player.addListener(this)
         }

@@ -66,7 +66,6 @@
     <string name="ss_about_app_version">"பதிப்பு 3.0"</string>
     <string name="ss_about_made">"❤ கொண்டு டம்ட் மூலம்"</string>
     <string name="ss_settings_display_options">"காட்சி விருப்பங்கள்"</string>
-    <string name="ss_settings_color_theme">"வண்ண தீம்"</string>
     <string name="ss_settings_color_theme_light">"ஒளி"</string>
     <string name="ss_settings_color_theme_sepia">"செபியா"</string>
     <string name="ss_settings_color_theme_dark">"டார்க்"</string>
@@ -107,4 +106,6 @@
     <string name="ss_media_video">ஒளிதோற்றம்</string>
     <string name="ss_media_audio">ஒலி சார்ந்த</string>
     <string name="ss_pdf_original">அசல் வடிவமைப்பு</string>
+    <string name="ss_settings_theme">தீம்</string>
+    <string name="ss_settings_theme_default">இயல்புநிலை</string>
 </resources>

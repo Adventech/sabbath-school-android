@@ -22,7 +22,11 @@
 
 package com.cryart.sabbathschool.settings
 
+import android.content.Context
+
 interface DailyReminder {
 
     fun reSchedule()
+
+    fun showNotification(context: Context)
 }
