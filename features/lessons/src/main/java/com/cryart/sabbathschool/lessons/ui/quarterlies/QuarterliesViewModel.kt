@@ -22,12 +22,15 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
+import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.auth.AuthRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -51,15 +54,16 @@ import javax.inject.Inject
 class QuarterliesViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
     private val ssPrefs: SSPrefs,
-    private val savedStateHandle: SavedStateHandle
+    private val authRepository: AuthRepository,
+    private val savedStateHandle: SavedStateHandle,
+    dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
     private val quarterlyGroup: QuarterlyGroup?
         get() = savedStateHandle.get(SSConstants.SS_QUARTERLY_GROUP)
 
-    val photoUrlFlow: SharedFlow<QuarterliesAppbarData>
-        get() = flowOf(QuarterliesAppbarData.Photo(null)) // TODO: Provide User photo
-            .stateIn(viewModelScope, QuarterliesAppbarData.Empty)
+    private val _photoUrl = MutableSharedFlow<QuarterliesAppbarData>()
+    val photoUrlFlow: SharedFlow<QuarterliesAppbarData> = _photoUrl
 
     val groupTitleFlow: SharedFlow<QuarterliesAppbarData>
         get() = flowOf(
@@ -73,6 +77,13 @@ class QuarterliesViewModel @Inject constructor(
         .flatMapLatest { language -> repository.getQuarterlies(language, quarterlyGroup) }
         .map(this::groupQuarterlies)
         .stateIn(viewModelScope, Resource.success(GroupedQuarterlies.TypeList(placeHolderQuarterlies())))
+
+    init {
+        viewModelScope.launch(dispatcherProvider.io) {
+            val photoUrl = authRepository.getUser().data?.photo?.toUri()
+            _photoUrl.emit(QuarterliesAppbarData.Photo(photoUrl))
+        }
+    }
 
     @Suppress("UNCHECKED_CAST")
     private fun groupQuarterlies(resource: Resource<List<SSQuarterly>>): Resource<GroupedQuarterlies> {

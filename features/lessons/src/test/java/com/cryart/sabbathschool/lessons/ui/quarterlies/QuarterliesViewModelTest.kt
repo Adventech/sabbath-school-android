@@ -24,12 +24,16 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import app.ss.auth.AuthRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.QuarterlyGroup
+import app.ss.models.auth.SSUser
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.response.Resource
+import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -44,6 +48,7 @@ class QuarterliesViewModelTest {
     private val mockRepository: QuarterliesRepository = mockk(relaxed = true)
     private val mockSSPrefs: SSPrefs = mockk()
     private val mockSavedStateHandle: SavedStateHandle = mockk()
+    private val mockAuthRepository: AuthRepository = mockk()
 
     private lateinit var viewModel: QuarterliesViewModel
 
@@ -51,11 +56,16 @@ class QuarterliesViewModelTest {
     fun setup() {
         every { mockSSPrefs.getLanguageCodeFlow() }.returns(flowOf("en"))
         every { mockSavedStateHandle.get<QuarterlyGroup>(SSConstants.SS_QUARTERLY_GROUP) }.returns(null)
+        val user = mockk<SSUser>()
+        every { user.photo }.returns(null)
+        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(user))
 
         viewModel = QuarterliesViewModel(
-            mockRepository,
-            mockSSPrefs,
-            mockSavedStateHandle,
+            repository = mockRepository,
+            ssPrefs = mockSSPrefs,
+            authRepository = mockAuthRepository,
+            savedStateHandle = mockSavedStateHandle,
+            dispatcherProvider = TestDispatcherProvider()
         )
     }
 
