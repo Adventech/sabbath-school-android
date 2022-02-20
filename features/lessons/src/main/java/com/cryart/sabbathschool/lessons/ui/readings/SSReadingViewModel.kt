@@ -102,6 +102,16 @@ class SSReadingViewModel @AssistedInject constructor(
     val secondaryColor: Int
         get() = context.colorPrimaryDark
 
+    private val currentSSReadingView: SSReadingView?
+        get() {
+            val view = ssReadingActivityBinding.ssReadingViewPager
+                .findViewWithTag<View>("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager.currentItem)
+            return view?.findViewById(R.id.ss_reading_view)
+        }
+
+    val cover: String
+        get() = ssLessonInfo?.lesson?.cover ?: ""
+
     init {
         loadLessonInfo()
         if (!BuildConfig.DEBUG) {
@@ -170,8 +180,9 @@ class SSReadingViewModel @AssistedInject constructor(
                 if (startDate?.isEqual(today) == true && ssReadIndexInt < 6) {
                     ssReadIndexInt = idx
                 }
-                downloadHighlights(ssDay.index, idx)
-                downloadComments(ssDay.index, idx)
+
+                ssReadHighlights.add(SSReadHighlights(ssDay.index))
+                ssReadComments.add(SSReadComments(ssDay.index, emptyList()))
 
                 val resource = lessonsRepository.getDayRead(dayIndex = ssDay.index)
                 resource.data?.let { ssReads.add(it) }
@@ -190,101 +201,6 @@ class SSReadingViewModel @AssistedInject constructor(
             }
         }
     }
-
-    private fun downloadHighlights(dayIndex: String, index: Int) = launch {
-        /*mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
-            .child(userUuid)
-            .child(dayIndex)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val ssReadHighlights = dataSnapshot.getValue(SSReadHighlights::class.java) ?: SSReadHighlights(dayIndex)
-                    downloadComments(dayIndex, index, ssReadHighlights)
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Timber.e(databaseError.toException())
-                }
-            })*/
-        val resource = lessonsRepository.getReadHighlights(dayIndex)
-        Timber.d("HIGHLIGHTS: ${resource.data}")
-        ssReadHighlights.add(index, SSReadHighlights(dayIndex))
-    }
-
-    private fun downloadComments(dayIndex: String, index: Int) = launch {
-        /*mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
-            .child(userUuid)
-            .child(dayIndex)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val ssReadComments = SSReadComments("", emptyList())
-                    downloadRead(dayIndex, index, ssReadHighlights, ssReadComments)
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Timber.e(databaseError.toException())
-                }
-            })*/
-
-        val resource = lessonsRepository.getComments(dayIndex)
-        val comments = resource.data
-        Timber.d("COMMENTS: $comments")
-        ssReadComments.add(index, SSReadComments("", emptyList()))
-    }
-
-    private fun downloadRead(dayIndex: String, index: Int) = launch {
-        val resource = lessonsRepository.getDayRead(dayIndex = dayIndex)
-        val read = resource.data ?: return@launch
-        ssReads.add(read)
-
-        /* mDatabase.child(SSConstants.SS_FIREBASE_READS_DATABASE)
-             .child(dayIndex)
-             .addValueEventListener(object : ValueEventListener {
-                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                     if (dataSnapshot.value != null) {
-                         if (ssReadsLoadedCounter < ssTotalReadsCount && ssReads.size >= index) {
-                             val ssRead = SSRead()
-                             ssReads.add(index, ssRead)
-                             ssReadHighlights.add(index, _ssReadHighlights)
-                             ssReadComments.add(index, _ssReadComments)
-                         }
-                         ssReadsLoadedCounter++
-                         if (ssReadsLoadedCounter == ssTotalReadsCount && !ssReadsDownloaded) {
-                             ssReadsDownloaded = true
-                             dataListener.onReadsDownloaded(ssReads, ssReadHighlights, ssReadComments, ssReadIndexInt)
-                         }
-                     }
-                     try {
-                         ssLessonCoordinatorVisibility.set(View.VISIBLE)
-                         ssLessonLoadingVisibility.set(View.INVISIBLE)
-                         ssLessonOfflineStateVisibility.set(View.INVISIBLE)
-                         ssLessonErrorStateVisibility.set(View.INVISIBLE)
-                     } catch (e: Exception) {
-                         Timber.e(e)
-                     }
-                 }
-
-                 override fun onCancelled(databaseError: DatabaseError) {
-                     try {
-                         ssLessonCoordinatorVisibility.set(View.VISIBLE)
-                         ssLessonLoadingVisibility.set(View.INVISIBLE)
-                         ssLessonOfflineStateVisibility.set(View.INVISIBLE)
-                         ssLessonErrorStateVisibility.set(View.INVISIBLE)
-                     } catch (e: Exception) {
-                         Timber.e(e)
-                     }
-                 }
-             })*/
-    }
-
-    private val currentSSReadingView: SSReadingView?
-        get() {
-            val view = ssReadingActivityBinding.ssReadingViewPager
-                .findViewWithTag<View>("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager.currentItem)
-            return view?.findViewById(R.id.ss_reading_view)
-        }
-
-    val cover: String
-        get() = ssLessonInfo?.lesson?.cover ?: ""
 
     override fun onSelectionStarted(x: Float, y: Float, highlightId: Int) {
         onSelectionStarted(x, y)

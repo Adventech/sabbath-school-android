@@ -30,7 +30,7 @@ data class SSRead(
     val index: String = "",
     val title: String = "",
     val content: String = "",
-    val bible: List<SSBibleVerses> = mutableListOf()
+    val bible: List<SSBibleVerses> = emptyList()
 ) {
 
     /**

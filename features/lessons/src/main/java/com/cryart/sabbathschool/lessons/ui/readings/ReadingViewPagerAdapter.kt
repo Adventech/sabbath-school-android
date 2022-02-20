@@ -34,6 +34,17 @@ class ReadingViewPagerAdapter(
         this.notifyDataSetChanged()
     }
 
+    fun setContent(
+        ssReadHighlights: List<SSReadHighlights>,
+        ssReadComments: List<SSReadComments>
+    ) {
+        this.ssReadHighlights = ssReadHighlights
+        this.ssReadComments = ssReadComments
+        if (ssReads.isNotEmpty()) {
+            this.notifyDataSetChanged()
+        }
+    }
+
     fun getReadAt(position: Int): SSRead? = ssReads.getOrNull(position)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReadingViewHolder =
