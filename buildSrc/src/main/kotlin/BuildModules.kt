@@ -1,9 +1,11 @@
 object BuildModules {
 
     object Common {
+        const val AUTH = ":common:auth"
         const val CORE = ":common:core"
         const val DESIGN = ":common:design"
         const val LESSONS_DATA = ":common:lessons-data"
+        const val MODELS = ":common:models"
         const val STORAGE = ":common:storage"
         const val TRANSLATIONS = ":common:translations"
     }

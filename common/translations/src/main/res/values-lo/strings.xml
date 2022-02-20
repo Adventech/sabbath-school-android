@@ -24,7 +24,6 @@
     <string name="ss_app_name">"ໂຮງຮຽນວັນບຸນ"</string>
     <string name="ss_share">"ແບ່ງປັນ"</string>
     <string name="ss_login_button_google">"ເຂົ້າສູ່ລະບົບດ້ວຍ Google"</string>
-    <string name="ss_login_button_facebook">"ເຂົ້າສູ່ລະບົບໂດຍເຟສບຸກ"</string>
     <string name="ss_login_button_anonymous">"ເຂົ້າສູ່ລະບົບໂດຍບໍ່ລະບຸຊື່"</string>
     <string name="ss_menu_anonymous_name">"ຊື່ສັດ"</string>
     <string name="ss_menu_sign_out">"ອອກ​ຈາກ​ລະ​ບົບ"</string>

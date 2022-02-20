@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Sobotná škola"</string>
     <string name="ss_share">"Zdieľať"</string>
     <string name="ss_login_button_google">"Prihlásiť sa s účtom Google"</string>
-    <string name="ss_login_button_facebook">"Prihlásiť sa s účtom Facebook"</string>
     <string name="ss_login_button_anonymous">"Pokračovať bez prihlásenia"</string>
     <string name="ss_menu_anonymous_name">"Anonymný"</string>
     <string name="ss_menu_sign_out">"Odhlásiť Sa"</string>

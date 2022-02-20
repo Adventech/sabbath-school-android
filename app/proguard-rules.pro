@@ -55,9 +55,6 @@
 
 -keep class net.danlew.android.joda.R$raw { *; }
 
-#Required for firebase db issue
--keep class org.json.* { *; }
-
 -keepclassmembers class com.cryart.sabbathschool.** {
   *;
 }

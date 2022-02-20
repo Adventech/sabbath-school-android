@@ -22,31 +22,38 @@
 
 package app.ss.lessons.data.repository.lessons
 
-import app.ss.lessons.data.model.PdfAnnotations
-import app.ss.lessons.data.model.SSLessonInfo
-import app.ss.lessons.data.model.SSRead
-import app.ss.lessons.data.model.SSReadComments
-import app.ss.lessons.data.model.SSReadHighlights
-import app.ss.lessons.data.model.TodayData
-import app.ss.lessons.data.model.WeekData
+import app.ss.models.PdfAnnotations
+import app.ss.models.SSDay
+import app.ss.models.SSLessonInfo
+import app.ss.models.SSRead
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
+import app.ss.models.TodayData
+import app.ss.models.WeekData
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface LessonsRepository {
 
-    suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo>
+    suspend fun getLessonInfo(lessonIndex: String, cached: Boolean = false): Resource<SSLessonInfo>
 
-    suspend fun getTodayRead(): Resource<TodayData>
+    suspend fun getTodayRead(cached: Boolean = false): Resource<TodayData>
 
     suspend fun getDayRead(dayIndex: String): Resource<SSRead>
 
-    suspend fun getWeekData(): Resource<WeekData>
+    suspend fun getDayRead(day: SSDay): Resource<SSRead>
 
-    fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>)
+    suspend fun getWeekData(cached: Boolean = false): Resource<WeekData>
 
-    suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>>
+    suspend fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>)
+
+    fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>>
+
+    suspend fun getComments(readIndex: String): Resource<SSReadComments>
 
     suspend fun saveComments(comments: SSReadComments)
+
+    suspend fun getReadHighlights(readIndex: String): Resource<SSReadHighlights>
 
     suspend fun saveHighlights(highlights: SSReadHighlights)
 }

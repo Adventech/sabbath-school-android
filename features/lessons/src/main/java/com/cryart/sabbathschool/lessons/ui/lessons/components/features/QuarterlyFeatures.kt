@@ -35,7 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
-import app.ss.lessons.data.model.Feature
+import app.ss.models.Feature
 import coil.compose.rememberImagePainter
 import com.cryart.design.theme.Spacing12
 import com.cryart.design.theme.Spacing16

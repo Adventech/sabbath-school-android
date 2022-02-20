@@ -22,21 +22,21 @@
 
 package app.ss.lessons.data.repository.quarterly
 
-import app.ss.lessons.data.model.Language
-import app.ss.lessons.data.model.QuarterlyGroup
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.model.SSQuarterlyInfo
+import app.ss.models.Language
+import app.ss.models.QuarterlyGroup
+import app.ss.models.SSQuarterly
+import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface QuarterliesRepository {
 
-    suspend fun getLanguages(): Resource<List<Language>>
+    fun getLanguages(): Flow<Resource<List<Language>>>
 
-    suspend fun getQuarterlies(
+    fun getQuarterlies(
         languageCode: String? = null,
         group: QuarterlyGroup? = null
     ): Flow<Resource<List<SSQuarterly>>>
 
-    suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo>
+    suspend fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>>
 }

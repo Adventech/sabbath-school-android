@@ -95,7 +95,9 @@ class AccountDialogFragment : AppCompatDialogFragment() {
             binding?.apply {
                 userInfo.photo?.let {
                     userAvatar.load(it) {
+                        placeholder(R.drawable.ic_account_circle)
                         error(R.drawable.ic_account_circle)
+                        crossfade(true)
                         transformations(CircleCropTransformation())
                     }
                 }

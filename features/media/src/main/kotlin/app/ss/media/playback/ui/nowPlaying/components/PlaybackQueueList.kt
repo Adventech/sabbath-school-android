@@ -61,7 +61,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ss.lessons.data.model.media.AudioFile
+import app.ss.models.media.AudioFile
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.Body
 import com.cryart.design.theme.SSTheme

@@ -26,7 +26,6 @@
     <!-- 앱 공유 -->
     <string name="ss_share">"공유"</string>
     <string name="ss_login_button_google">"Google로 로그인"</string>
-    <string name="ss_login_button_facebook">"Facebook으로 로그인"</string>
     <string name="ss_login_button_anonymous">"익명으로 로그인"</string>
     <string name="ss_menu_anonymous_name">"익명"</string>
     <string name="ss_menu_sign_out">"로그 아웃"</string>

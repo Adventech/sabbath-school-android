@@ -22,37 +22,43 @@
 
 package com.cryart.sabbathschool.account
 
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.auth.AuthRepository
 import com.cryart.sabbathschool.account.model.UserInfo
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AccountViewModel @Inject constructor(
-    private val firebaseAuth: FirebaseAuth,
-    private val ssPrefs: SSPrefs
+internal class AccountViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val ssPrefs: SSPrefs,
+    private val dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
 
-    val userInfoFlow: StateFlow<UserInfo> = flowOf(firebaseAuth.currentUser)
-        .map { user ->
-            user?.let {
-                val name = if (user.displayName.isNullOrEmpty()) null else user.displayName
-                val email = if (user.email.isNullOrEmpty()) null else user.email
+    private val _userInfo: MutableStateFlow<UserInfo> = MutableStateFlow(UserInfo())
+    val userInfoFlow: StateFlow<UserInfo> = _userInfo
 
-                UserInfo(name, email, user.photoUrl)
-            } ?: UserInfo()
+    init {
+        viewModelScope.launch(dispatcherProvider.io) {
+            authRepository.getUser().data?.let { user ->
+                _userInfo.emit(
+                    UserInfo(
+                        user.displayName, user.email, user.photo?.toUri()
+                    )
+                )
+            }
         }
-        .stateIn(viewModelScope, UserInfo())
+    }
 
-    fun logoutClicked() {
-        firebaseAuth.signOut()
+    fun logoutClicked() = viewModelScope.launch(dispatcherProvider.io) {
         ssPrefs.clear()
+        authRepository.logout()
     }
 }

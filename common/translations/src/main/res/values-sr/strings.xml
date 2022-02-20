@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Subotna škola"</string>
     <string name="ss_share">"Podelite"</string>
     <string name="ss_login_button_google">"Prijavite se sa Google nalogom"</string>
-    <string name="ss_login_button_facebook">"Prijavite se sa Facebook nalogom"</string>
     <string name="ss_login_button_anonymous">"Anonimna prijava"</string>
     <string name="ss_menu_anonymous_name">"Anonimni korisnik"</string>
     <string name="ss_menu_sign_out">"Odjavite se"</string>

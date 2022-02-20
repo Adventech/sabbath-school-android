@@ -22,15 +22,12 @@
 
 package com.cryart.sabbathschool.lessons.ui.readings
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Build
-import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.BindingAdapter
@@ -39,14 +36,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import app.ss.lessons.data.model.SSContextMenu
-import app.ss.lessons.data.model.SSLessonInfo
-import app.ss.lessons.data.model.SSRead
-import app.ss.lessons.data.model.SSReadComments
-import app.ss.lessons.data.model.SSReadHighlights
-import app.ss.lessons.data.model.SSSuggestion
 import app.ss.lessons.data.repository.lessons.LessonsRepository
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.input.input
+import app.ss.models.SSLessonInfo
+import app.ss.models.SSRead
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
 import com.cryart.sabbathschool.bible.SSBibleVersesActivity
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
@@ -62,11 +56,6 @@ import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.options.SSReadingDisplayOptionsView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -87,22 +76,17 @@ class SSReadingViewModel @AssistedInject constructor(
     @Assisted private val dataListener: DataListener,
     @Assisted private val ssReadingActivityBinding: SsReadingActivityBinding,
     @Assisted private val activity: FragmentActivity,
-) : SSReadingView.ContextMenuCallback, SSReadingView.HighlightsCommentsCallback, CoroutineScope by MainScope() {
+) : SSReadingView.ContextMenuCallback,
+    SSReadingView.HighlightsCommentsCallback,
+    CoroutineScope by MainScope() {
 
     private val context: Context = activity
-
-    private val ssFirebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val userUuid = ssFirebaseAuth.currentUser?.uid ?: ""
-    private val mDatabase = FirebaseDatabase.getInstance().reference.apply {
-        keepSynced(true)
-    }
     private var ssLessonInfo: SSLessonInfo? = null
     private var ssReadIndexInt = 0
     private val ssReads: ArrayList<SSRead> = arrayListOf()
     private val ssReadHighlights: ArrayList<SSReadHighlights> = arrayListOf()
     private val ssReadComments: ArrayList<SSReadComments> = arrayListOf()
     private var ssTotalReadsCount = 0
-    private var ssReadsLoadedCounter = 0
     private var ssReadsDownloaded = false
     private var highlightId = 0
     val lessonTitle: String get() = ssLessonInfo?.lesson?.title ?: ""
@@ -117,6 +101,16 @@ class SSReadingViewModel @AssistedInject constructor(
 
     val secondaryColor: Int
         get() = context.colorPrimaryDark
+
+    private val currentSSReadingView: SSReadingView?
+        get() {
+            val view = ssReadingActivityBinding.ssReadingViewPager
+                .findViewWithTag<View>("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager.currentItem)
+            return view?.findViewById(R.id.ss_reading_view)
+        }
+
+    val cover: String
+        get() = ssLessonInfo?.lesson?.cover ?: ""
 
     init {
         loadLessonInfo()
@@ -159,162 +153,63 @@ class SSReadingViewModel @AssistedInject constructor(
         }.launchIn(CoroutineScope(Dispatchers.IO))
     }
 
-    private fun loadLessonInfo() {
+    private fun loadLessonInfo() = launch {
         ssLessonLoadingVisibility.set(View.VISIBLE)
         ssLessonOfflineStateVisibility.set(View.INVISIBLE)
         ssLessonErrorStateVisibility.set(View.INVISIBLE)
         ssLessonCoordinatorVisibility.set(View.INVISIBLE)
 
-        mDatabase.child(SSConstants.SS_FIREBASE_LESSON_INFO_DATABASE)
-            .child(ssLessonIndex)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    ssLessonInfo = SSLessonInfo(dataSnapshot)
+        val lessonInfoResource = lessonsRepository.getLessonInfo(ssLessonIndex)
+        val lessonInfo = lessonInfoResource.data ?: run {
+            ssLessonErrorStateVisibility.set(View.VISIBLE)
+            ssLessonLoadingVisibility.set(View.INVISIBLE)
+            ssLessonOfflineStateVisibility.set(View.INVISIBLE)
+            ssLessonCoordinatorVisibility.set(View.INVISIBLE)
+            return@launch
+        }
+        ssLessonInfo = lessonInfo
+        dataListener.onLessonInfoChanged(lessonInfo)
 
-                    ssTotalReadsCount = ssLessonInfo?.days?.size ?: 0
+        ssTotalReadsCount = lessonInfo.days.size
 
-                    if (ssLessonInfo?.days?.isNotEmpty() == true) {
-                        dataListener.onLessonInfoChanged(ssLessonInfo!!)
-                        val today = DateTime.now().withTimeAtStartOfDay()
-                        for ((idx, ssDay) in ssLessonInfo?.days?.withIndex()!!) {
-                            val startDate = DateHelper.parseDate(ssDay.date)
-                            if (startDate?.isEqual(today) == true && ssReadIndexInt < 6) {
-                                ssReadIndexInt = idx
-                            }
-                            downloadHighlights(ssDay.index, idx)
-                        }
-                    }
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Timber.e(databaseError.toException())
-                    ssLessonErrorStateVisibility.set(View.VISIBLE)
-                    ssLessonLoadingVisibility.set(View.INVISIBLE)
-                    ssLessonOfflineStateVisibility.set(View.INVISIBLE)
-                    ssLessonCoordinatorVisibility.set(View.INVISIBLE)
-                }
-            })
-    }
-
-    @SuppressLint("CheckResult")
-    fun promptForEditSuggestion() {
-        if (ssReads.isEmpty()) return
-
-        val currentUser = ssFirebaseAuth.currentUser
-        val defaultName = context.getString(R.string.ss_menu_anonymous_name)
-        val defaultEmail = context.getString(R.string.ss_menu_anonymous_email)
-        val name = if (currentUser?.displayName.isNullOrEmpty()) {
-            defaultName
-        } else currentUser?.displayName ?: defaultName
-        val email = if (currentUser?.email.isNullOrEmpty()) {
-            defaultEmail
-        } else currentUser?.email ?: defaultEmail
-
-        MaterialDialog(context).show {
-            title(res = R.string.ss_reading_suggest_edit)
-            input(
-                hintRes = R.string.ss_reading_suggest_edit_hint,
-                inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES,
-                allowEmpty = true
-            ) { _, input ->
-                if (input.isEmpty()) {
-                    return@input
-                }
-                mDatabase.child(SSConstants.SS_FIREBASE_SUGGESTIONS_DATABASE)
-                    .child(userUuid)
-                    .child(ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
-                    .setValue(SSSuggestion(name, email, input.toString()))
-                Toast.makeText(context, context.getString(R.string.ss_reading_suggest_edit_done), Toast.LENGTH_LONG).show()
+        val today = DateTime.now().withTimeAtStartOfDay()
+        for ((idx, ssDay) in lessonInfo.days.withIndex()) {
+            val startDate = DateHelper.parseDate(ssDay.date)
+            if (startDate?.isEqual(today) == true && ssReadIndexInt < 6) {
+                ssReadIndexInt = idx
             }
+
+            loadComments(ssDay.index, idx)
+            loadHighlights(ssDay.index, idx)
+
+            val resource = lessonsRepository.getDayRead(ssDay)
+            resource.data?.let { ssReads.add(it) }
+        }
+
+        ssReadsDownloaded = true
+        dataListener.onReadsDownloaded(ssReads, ssReadHighlights, ssReadComments, ssReadIndexInt)
+
+        try {
+            ssLessonCoordinatorVisibility.set(View.VISIBLE)
+            ssLessonLoadingVisibility.set(View.INVISIBLE)
+            ssLessonOfflineStateVisibility.set(View.INVISIBLE)
+            ssLessonErrorStateVisibility.set(View.INVISIBLE)
+        } catch (e: Exception) {
+            Timber.e(e)
         }
     }
 
-    private fun downloadHighlights(dayIndex: String, index: Int) {
-        mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
-            .child(userUuid)
-            .child(dayIndex)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val ssReadHighlights = dataSnapshot.getValue(SSReadHighlights::class.java) ?: SSReadHighlights(dayIndex)
-                    downloadComments(dayIndex, index, ssReadHighlights)
-
-                    launch { lessonsRepository.saveHighlights(ssReadHighlights) }
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Timber.e(databaseError.toException())
-                }
-            })
+    private suspend fun loadComments(dayIndex: String, index: Int) {
+        val resource = lessonsRepository.getComments(dayIndex)
+        val comments = resource.data ?: SSReadComments(dayIndex, emptyList())
+        ssReadComments.add(index, comments)
     }
 
-    private fun downloadComments(dayIndex: String, index: Int, ssReadHighlights: SSReadHighlights) {
-        mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
-            .child(userUuid)
-            .child(dayIndex)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val ssReadComments = SSReadComments(dataSnapshot, dayIndex)
-                    downloadRead(dayIndex, index, ssReadHighlights, ssReadComments)
-
-                    launch { lessonsRepository.saveComments(ssReadComments) }
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Timber.e(databaseError.toException())
-                }
-            })
+    private suspend fun loadHighlights(dayIndex: String, index: Int) {
+        val resource = lessonsRepository.getReadHighlights(dayIndex)
+        val highlights = resource.data ?: SSReadHighlights(dayIndex)
+        ssReadHighlights.add(index, highlights)
     }
-
-    private fun downloadRead(dayIndex: String, index: Int, _ssReadHighlights: SSReadHighlights, _ssReadComments: SSReadComments) {
-        mDatabase.child(SSConstants.SS_FIREBASE_READS_DATABASE)
-            .child(dayIndex)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.value != null) {
-                        if (ssReadsLoadedCounter < ssTotalReadsCount && ssReads.size >= index) {
-                            val ssRead = SSRead(dataSnapshot)
-                            ssReads.add(index, ssRead)
-                            ssReadHighlights.add(index, _ssReadHighlights)
-                            ssReadComments.add(index, _ssReadComments)
-                        }
-                        ssReadsLoadedCounter++
-                        if (ssReadsLoadedCounter == ssTotalReadsCount && !ssReadsDownloaded) {
-                            ssReadsDownloaded = true
-                            dataListener.onReadsDownloaded(ssReads, ssReadHighlights, ssReadComments, ssReadIndexInt)
-                        }
-                    }
-                    try {
-                        ssLessonCoordinatorVisibility.set(View.VISIBLE)
-                        ssLessonLoadingVisibility.set(View.INVISIBLE)
-                        ssLessonOfflineStateVisibility.set(View.INVISIBLE)
-                        ssLessonErrorStateVisibility.set(View.INVISIBLE)
-                    } catch (e: Exception) {
-                        Timber.e(e)
-                    }
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    try {
-                        ssLessonCoordinatorVisibility.set(View.VISIBLE)
-                        ssLessonLoadingVisibility.set(View.INVISIBLE)
-                        ssLessonOfflineStateVisibility.set(View.INVISIBLE)
-                        ssLessonErrorStateVisibility.set(View.INVISIBLE)
-                    } catch (e: Exception) {
-                        Timber.e(e)
-                    }
-                }
-            })
-    }
-
-    private val currentSSReadingView: SSReadingView?
-        get() {
-            val view = ssReadingActivityBinding.ssReadingViewPager
-                .findViewWithTag<View>("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager.currentItem)
-            return view?.findViewById(R.id.ss_reading_view)
-        }
-
-    val cover: String
-        get() = ssLessonInfo?.lesson?.cover ?: ""
 
     override fun onSelectionStarted(x: Float, y: Float, highlightId: Int) {
         onSelectionStarted(x, y)
@@ -361,30 +256,10 @@ class SSReadingViewModel @AssistedInject constructor(
     }
 
     override fun onHighlightsReceived(ssReadHighlights: SSReadHighlights) {
-        mDatabase.child(SSConstants.SS_FIREBASE_HIGHLIGHTS_DATABASE)
-            .child(userUuid)
-            .child(ssReadHighlights.readIndex)
-            .setValue(ssReadHighlights)
-        SSEvent.track(
-            context,
-            SSConstants.SS_EVENT_TEXT_HIGHLIGHTED,
-            hashMapOf(SSConstants.SS_EVENT_PARAM_READ_INDEX to ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
-        )
-
         launch { lessonsRepository.saveHighlights(ssReadHighlights) }
     }
 
     override fun onCommentsReceived(ssReadComments: SSReadComments) {
-        mDatabase.child(SSConstants.SS_FIREBASE_COMMENTS_DATABASE)
-            .child(userUuid)
-            .child(ssReadComments.readIndex)
-            .setValue(ssReadComments)
-        SSEvent.track(
-            context,
-            SSConstants.SS_EVENT_COMMENT_CREATED,
-            hashMapOf(SSConstants.SS_EVENT_PARAM_READ_INDEX to ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index)
-        )
-
         launch { lessonsRepository.saveComments(ssReadComments) }
     }
 
@@ -493,16 +368,6 @@ class SSReadingViewModel @AssistedInject constructor(
         checkConnection()
     }
 
-    @AssistedFactory
-    interface Factory {
-        fun create(
-            lessonIndex: String,
-            dataListener: DataListener,
-            ssReadingActivityBinding: SsReadingActivityBinding,
-            activity: FragmentActivity
-        ): SSReadingViewModel
-    }
-
     companion object {
         private const val DEFAULT_PING_HOST = "www.google.com"
         private const val DEFAULT_PING_PORT = 80
@@ -521,4 +386,14 @@ class SSReadingViewModel @AssistedInject constructor(
             view.isVisible = (show && isLightTheme) || (!show && !isLightTheme)
         }
     }
+}
+
+@AssistedFactory
+interface ReadingViewModelFactory {
+    fun create(
+        lessonIndex: String,
+        dataListener: SSReadingViewModel.DataListener,
+        ssReadingActivityBinding: SsReadingActivityBinding,
+        activity: FragmentActivity
+    ): SSReadingViewModel
 }

@@ -24,7 +24,6 @@
     <string name="ss_app_name">"ספר שבת"</string>
     <string name="ss_share">"לַחֲלוֹק"</string>
     <string name="ss_login_button_google">"היכנס באמצעות Google"</string>
-    <string name="ss_login_button_facebook">"התחבר עם פייסבוק"</string>
     <string name="ss_login_button_anonymous">"התחברות כ- אנונימי"</string>
     <string name="ss_menu_anonymous_name">"בעילום שם"</string>
     <string name="ss_menu_sign_out">"התנתק"</string>

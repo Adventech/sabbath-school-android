@@ -34,8 +34,8 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
-import app.ss.lessons.data.model.Feature
-import app.ss.lessons.data.model.SSQuarterlyInfo
+import app.ss.models.Feature
+import app.ss.models.SSQuarterlyInfo
 import com.cryart.design.color.withAlpha
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.addMoreEllipses

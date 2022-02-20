@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Biblíulexíur"</string>
     <string name="ss_share">"Deila"</string>
     <string name="ss_login_button_google">"Skráðu þig inn með Google"</string>
-    <string name="ss_login_button_facebook">"Skráðu þig inn með Facebook"</string>
     <string name="ss_login_button_anonymous">"Innskráning Nafnlaust"</string>
     <string name="ss_menu_anonymous_name">"Nafnlaus"</string>
     <string name="ss_menu_sign_out">"Útskrá"</string>

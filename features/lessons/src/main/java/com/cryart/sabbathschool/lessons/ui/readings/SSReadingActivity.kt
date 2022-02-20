@@ -37,14 +37,14 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import app.ss.lessons.data.model.SSLessonInfo
-import app.ss.lessons.data.model.SSRead
-import app.ss.lessons.data.model.SSReadComments
-import app.ss.lessons.data.model.SSReadHighlights
-import app.ss.lessons.data.model.media.MediaAvailability
 import app.ss.media.playback.PlaybackViewModel
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
+import app.ss.models.SSLessonInfo
+import app.ss.models.SSRead
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
+import app.ss.models.media.MediaAvailability
 import app.ss.pdf.PdfReader
 import coil.load
 import com.cryart.design.theme
@@ -56,7 +56,6 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.misc.SSUnzip
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.core.model.colorTheme
 import com.cryart.sabbathschool.core.model.displayTheme
@@ -66,12 +65,8 @@ import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.components.MiniPlayerComponent
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageMetadata
-import com.google.firebase.storage.StorageReference
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -87,11 +82,12 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     lateinit var pdfReader: PdfReader
 
     @Inject
-    lateinit var readingVmFactory: SSReadingViewModel.Factory
+    lateinit var viewModelFactory: ReadingViewModelFactory
 
     private val binding by viewBinding(SsReadingActivityBinding::inflate)
-    private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance()
-        .reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
+
+    //  private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance()
+    //       .reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
     private lateinit var ssReadingViewModel: SSReadingViewModel
 
     private val readingViewAdapter: ReadingViewPagerAdapter by lazy {
@@ -111,21 +107,15 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         checkIfReaderNeeded()
 
         initUI()
-        val lessonIndex = intent.extras?.getString(SSConstants.SS_LESSON_INDEX_EXTRA)
-        if (lessonIndex.isNullOrEmpty()) {
-            finish()
-            return
-        }
 
         ViewTreeLifecycleOwner.set(binding.root, this)
-        if (!this::ssReadingViewModel.isInitialized) {
-            ssReadingViewModel = readingVmFactory.create(
-                lessonIndex = lessonIndex,
-                dataListener = this,
-                ssReadingActivityBinding = binding,
-                activity = this
-            )
-        }
+
+        ssReadingViewModel = viewModelFactory.create(
+            intent.extras?.getString(SSConstants.SS_LESSON_INDEX_EXTRA)!!,
+            this,
+            binding,
+            this
+        )
 
         // Read position passed in intent extras
         val extraPosition = intent.extras?.getString(SSConstants.SS_READ_POSITION_EXTRA)
@@ -205,14 +195,25 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     }
 
     private fun checkIfReaderNeeded() {
-        latestReaderArtifactRef.metadata.addOnSuccessListener { storageMetadata: StorageMetadata ->
-            val lastReaderArtifactCreationTime = ssPrefs.getLastReaderArtifactCreationTime()
-            if (lastReaderArtifactCreationTime != storageMetadata.creationTimeMillis) {
-                downloadLatestReader(storageMetadata.updatedTimeMillis)
-            }
-        }.addOnFailureListener {
-            Timber.e(it.fillInStackTrace())
-        }
+//        latestReaderArtifactRef.metadata.addOnSuccessListener { storageMetadata: StorageMetadata ->
+//            val lastReaderArtifactCreationTime = ssPrefs.getLastReaderArtifactCreationTime()
+//            if (lastReaderArtifactCreationTime != storageMetadata.creationTimeMillis) {
+//                downloadLatestReader(storageMetadata.updatedTimeMillis)
+//            }
+//        }.addOnFailureListener {
+//            Timber.e(it.fillInStackTrace())
+//        }
+    }
+
+    private fun downloadLatestReader(readerArtifactCreationTime: Long) {
+//        val localFile = File(filesDir, SSConstants.SS_READER_ARTIFACT_NAME)
+//        latestReaderArtifactRef.getFile(localFile)
+//            .addOnSuccessListener {
+//                ssPrefs.setLastReaderArtifactCreationTime(readerArtifactCreationTime)
+//                SSUnzip(localFile.path, filesDir.path + "/")
+//            }.addOnFailureListener {
+//                Timber.e(it)
+//            }
     }
 
     private fun updateColorScheme() {
@@ -220,17 +221,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setContentScrimColor(primaryColor)
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setBackgroundColor(primaryColor)
         binding.ssProgressBar.ssQuarterliesLoading.theme(primaryColor)
-    }
-
-    private fun downloadLatestReader(readerArtifactCreationTime: Long) {
-        val localFile = File(filesDir, SSConstants.SS_READER_ARTIFACT_NAME)
-        latestReaderArtifactRef.getFile(localFile)
-            .addOnSuccessListener {
-                ssPrefs.setLastReaderArtifactCreationTime(readerArtifactCreationTime)
-                SSUnzip(localFile.path, filesDir.path + "/")
-            }.addOnFailureListener {
-                Timber.e(it)
-            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

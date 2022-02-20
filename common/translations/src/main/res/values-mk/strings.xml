@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Сабат Училиште"</string>
     <string name="ss_share">"Сподели"</string>
     <string name="ss_login_button_google">"Пријавете се со Google"</string>
-    <string name="ss_login_button_facebook">"Пријавете се со Фејсбук"</string>
     <string name="ss_login_button_anonymous">"Пријавете се анонимно"</string>
     <string name="ss_menu_anonymous_name">"Анонимен"</string>
     <string name="ss_menu_sign_out">"Одјави се"</string>

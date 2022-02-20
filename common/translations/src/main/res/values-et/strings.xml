@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Hingamispäevakooli õppetükk"</string>
     <string name="ss_share">"Jaga"</string>
     <string name="ss_login_button_google">"Google sisselogimine"</string>
-    <string name="ss_login_button_facebook">"Facebook sisselogimine"</string>
     <string name="ss_login_button_anonymous">"Logi sisse anonüümsena"</string>
     <string name="ss_menu_anonymous_name">"Anonüümne"</string>
     <string name="ss_menu_sign_out">"Logi välja"</string>

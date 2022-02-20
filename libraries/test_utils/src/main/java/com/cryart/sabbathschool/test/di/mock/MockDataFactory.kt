@@ -22,14 +22,14 @@
 
 package com.cryart.sabbathschool.test.di.mock
 
-import app.ss.lessons.data.model.SSBibleVerses
-import app.ss.lessons.data.model.SSDay
-import app.ss.lessons.data.model.SSLesson
-import app.ss.lessons.data.model.SSLessonInfo
-import app.ss.lessons.data.model.SSRead
-import app.ss.lessons.data.model.TodayData
-import app.ss.lessons.data.model.WeekData
-import app.ss.lessons.data.model.WeekDay
+import app.ss.models.SSBibleVerses
+import app.ss.models.SSDay
+import app.ss.models.SSLesson
+import app.ss.models.SSLessonInfo
+import app.ss.models.SSRead
+import app.ss.models.TodayData
+import app.ss.models.WeekData
+import app.ss.models.WeekDay
 
 /**
  * Mock data for UI tests

@@ -92,7 +92,6 @@ dependencies {
     implementation(AndroidX.FRAGMENT_KTX)
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
     implementation(AndroidX.LIFECYCLE_EXTENSIONS)
-    implementation(AndroidX.LIFECYCLE_LIVEDATA)
     implementation(AndroidX.LIFECYCLE_COMPOSE)
     api(AndroidX.MEDIA)
 

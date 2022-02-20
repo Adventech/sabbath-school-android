@@ -22,13 +22,15 @@
 
 package com.cryart.sabbathschool.lessons.ui.languages
 
-import androidx.lifecycle.LiveData
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import java.util.Locale
 import javax.inject.Inject
 
@@ -36,29 +38,23 @@ import javax.inject.Inject
 class LanguagesListViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
     private val ssPrefs: SSPrefs,
-    dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
-    val languagesLiveData: LiveData<List<LanguageModel>> = liveData(dispatcherProvider.io) {
-        val resource = repository.getLanguages()
-        val models = if (resource.isSuccessFul) {
-            val selectedLanguage = ssPrefs.getLanguageCode()
+    val languagesFlow: StateFlow<List<LanguageModel>>
+        get() = repository.getLanguages()
+            .map { resource ->
+                resource.data?.map {
+                    LanguageModel(
+                        code = it.code,
+                        nativeName = getNativeLanguageName(it.code),
+                        name = it.name,
+                        selected = it.code == ssPrefs.getLanguageCode()
+                    )
+                } ?: emptyList()
+            }.stateIn(viewModelScope, emptyList())
 
-            resource.data?.map {
-                LanguageModel(
-                    it.code,
-                    getNativeLanguageName(it.code),
-                    it.name,
-                    it.code == selectedLanguage
-                )
-            } ?: emptyList()
-        } else {
-            emptyList()
-        }
-        emit(models)
-    }
-
-    private fun getNativeLanguageName(code: String): String {
+    @VisibleForTesting
+    fun getNativeLanguageName(code: String): String {
         val loc = Locale(code)
         val name = loc.getDisplayLanguage(loc)
         return name.replaceFirstChar { it.uppercase() }

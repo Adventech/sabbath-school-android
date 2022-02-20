@@ -31,7 +31,7 @@ import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import app.ss.lessons.data.model.PdfAnnotations
+import app.ss.models.PdfAnnotations
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
 import app.ss.pdf.PdfReaderPrefs

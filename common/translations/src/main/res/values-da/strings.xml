@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Bibelstudium"</string>
     <string name="ss_share">"Del"</string>
     <string name="ss_login_button_google">"Log ind med Google"</string>
-    <string name="ss_login_button_facebook">"Log ind med Facebook"</string>
     <string name="ss_login_button_anonymous">"Log ind som anonym"</string>
     <string name="ss_menu_anonymous_name">"Anonym"</string>
     <string name="ss_menu_sign_out">"Log ud"</string>

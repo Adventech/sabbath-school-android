@@ -23,9 +23,9 @@
 package com.cryart.sabbathschool.test.di.mock
 
 import android.content.Context
-import app.ss.lessons.data.model.QuarterlyGroup
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.model.SSQuarterlyInfo
+import app.ss.models.QuarterlyGroup
+import app.ss.models.SSQuarterly
+import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.test.di.repository.fromJson
 import com.squareup.moshi.Moshi
 

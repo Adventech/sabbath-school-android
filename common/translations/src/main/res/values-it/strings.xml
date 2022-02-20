@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Scuola del Sabato"</string>
     <string name="ss_share">"Condividere"</string>
     <string name="ss_login_button_google">"Accedi con Google"</string>
-    <string name="ss_login_button_facebook">"Accedi con Facebook"</string>
     <string name="ss_login_button_anonymous">"Accedi come Anonimo"</string>
     <string name="ss_menu_anonymous_name">"Anonimo"</string>
     <string name="ss_menu_sign_out">"Disconnessione"</string>

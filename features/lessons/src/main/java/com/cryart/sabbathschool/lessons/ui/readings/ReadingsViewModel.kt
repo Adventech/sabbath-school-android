@@ -25,7 +25,7 @@ package com.cryart.sabbathschool.lessons.ui.readings
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.lessons.data.model.LessonPdf
+import app.ss.models.LessonPdf
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.media.MediaRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider

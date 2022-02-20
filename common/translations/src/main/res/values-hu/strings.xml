@@ -25,7 +25,6 @@
     <string name="ss_app_name">"Szombatiskola"</string>
     <string name="ss_share">"Ossza meg"</string>
     <string name="ss_login_button_google">"Jelentkezzen be a Google-lal"</string>
-    <string name="ss_login_button_facebook">"Jelentkezzen be a Facebook-on"</string>
     <string name="ss_login_button_anonymous">"Bejelentkezés névtelenül"</string>
     <string name="ss_menu_anonymous_name">"Névtelen"</string>
     <string name="ss_menu_sign_out">"Kijelentkezés"</string>

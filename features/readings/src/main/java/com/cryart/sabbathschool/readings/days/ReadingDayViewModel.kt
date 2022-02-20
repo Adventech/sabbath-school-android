@@ -2,8 +2,6 @@ package com.cryart.sabbathschool.readings.days
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.lessons.data.model.SSReadComments
-import app.ss.lessons.data.model.SSReadHighlights
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
@@ -38,8 +36,6 @@ class ReadingDayViewModel @Inject constructor(
             _readData.emit(
                 ReadingData.Content(
                     dayRead.content.trim(),
-                    SSReadHighlights(day.index),
-                    SSReadComments(day.index, emptyList())
                 )
             )
         }

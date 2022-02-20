@@ -31,8 +31,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import app.ss.lessons.data.model.QuarterlyGroup
-import app.ss.lessons.data.model.SSQuarterly
+import app.ss.models.QuarterlyGroup
+import app.ss.models.SSQuarterly
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import com.cryart.design.ext.rememberViewInteropNestedScrollConnection
 import com.cryart.design.ext.thenIf

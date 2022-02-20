@@ -38,8 +38,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import app.ss.lessons.data.model.Credit
-import app.ss.lessons.data.model.Feature
+import app.ss.models.Credit
+import app.ss.models.Feature
 import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.BaseGrey3

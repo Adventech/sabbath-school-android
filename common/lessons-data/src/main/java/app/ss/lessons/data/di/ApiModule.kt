@@ -22,9 +22,12 @@
 
 package app.ss.lessons.data.di
 
+import app.ss.auth.api.TokenAuthenticator
 import app.ss.lessons.data.BuildConfig
+import app.ss.lessons.data.api.SSLessonsApi
 import app.ss.lessons.data.api.SSMediaApi
 import app.ss.lessons.data.api.SSQuarterliesApi
+import app.ss.storage.db.dao.UserDao
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -55,7 +58,10 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideOkhttpClient(): OkHttpClient = OkHttpClient.Builder()
+    fun provideOkhttpClient(
+        userDao: UserDao,
+        tokenAuthenticator: TokenAuthenticator
+    ): OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(1, TimeUnit.MINUTES)
         .addInterceptor(
@@ -65,6 +71,17 @@ object ApiModule {
                     HttpLoggingInterceptor.Level.NONE
             }
         )
+        .addInterceptor { chain ->
+            chain.proceed(
+                chain.request().newBuilder().also { request ->
+                    request.addHeader("Accept", "application/json")
+                    userDao.getCurrent()?.let {
+                        request.addHeader("x-ss-auth-access-token", it.stsTokenManager.accessToken)
+                    }
+                }.build()
+            )
+        }
+        .authenticator(tokenAuthenticator)
         .retryOnConnectionFailure(true)
         .build()
 
@@ -81,4 +98,11 @@ object ApiModule {
         okHttpClient: OkHttpClient
     ): SSQuarterliesApi = retrofit(okHttpClient)
         .create(SSQuarterliesApi::class.java)
+
+    @Provides
+    @Singleton
+    internal fun provideLessonsApi(
+        okHttpClient: OkHttpClient
+    ): SSLessonsApi = retrofit(okHttpClient)
+        .create(SSLessonsApi::class.java)
 }

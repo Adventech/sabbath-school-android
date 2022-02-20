@@ -22,7 +22,7 @@ internal class WidgetDataProviderImpl constructor(
 
     override suspend fun getTodayModel(): TodayWidgetModel? {
         return try {
-            val data = repository.getTodayRead().data ?: return null
+            val data = repository.getTodayRead(cached = true).data ?: return null
 
             TodayWidgetModel(
                 data.title,
@@ -38,7 +38,7 @@ internal class WidgetDataProviderImpl constructor(
 
     override suspend fun getWeekLessonModel(): WeekLessonWidgetModel? {
         return try {
-            val data = repository.getWeekData().data ?: return null
+            val data = repository.getWeekData(cached = true).data ?: return null
 
             val days = data.days.mapIndexed { index, day ->
                 WeekDayWidgetModel(

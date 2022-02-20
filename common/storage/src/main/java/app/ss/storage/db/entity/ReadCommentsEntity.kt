@@ -24,14 +24,10 @@ package app.ss.storage.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import app.ss.models.SSComment
 
 @Entity(tableName = "comments")
 data class ReadCommentsEntity(
     @PrimaryKey val readIndex: String,
-    val comments: List<Comment>
-)
-
-data class Comment(
-    val elementId: String,
-    var comment: String
+    val comments: List<SSComment>
 )

@@ -20,7 +20,6 @@
  * THE SOFTWARE.
  */
 import dependencies.Dependencies
-import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.Square.Moshi
@@ -57,7 +56,9 @@ android {
 }
 
 dependencies {
+    implementation(project(BuildModules.Common.AUTH))
     implementation(project(BuildModules.Common.CORE))
+    api(project(BuildModules.Common.MODELS))
     implementation(project(BuildModules.Common.STORAGE))
 
     implementation(Kotlin.COROUTINES)
@@ -66,10 +67,6 @@ dependencies {
     kapt(Hilt.COMPILER)
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.JODA)
-
-    implementation(platform(Firebase.BOM))
-    implementation(Firebase.DATABASE)
-    implementation(Firebase.AUTH)
 
     implementation(Moshi.kotlin)
     kapt(Moshi.codegen)

@@ -63,7 +63,7 @@ import app.ss.media.playback.extensions.isError
 import app.ss.media.playback.extensions.isPlayEnabled
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.extensions.playPause
-import app.ss.lessons.data.model.media.AudioFile
+import app.ss.models.media.AudioFile
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.model.toAudio
 import app.ss.media.playback.ui.common.Dismissible

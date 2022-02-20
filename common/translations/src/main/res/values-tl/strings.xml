@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Liksyon sa Paaralang Sabado"</string>
     <string name="ss_share">"Ibahagi"</string>
     <string name="ss_login_button_google">"Mag-sign in gamit ang Google"</string>
-    <string name="ss_login_button_facebook">"Mag-sign in gamit ang Facebook"</string>
     <string name="ss_login_button_anonymous">"Mag-login nang hindi nagpapakilala"</string>
     <string name="ss_menu_anonymous_name">"Hindi nagpapakilala"</string>
     <string name="ss_menu_sign_out">"Maglog-off"</string>

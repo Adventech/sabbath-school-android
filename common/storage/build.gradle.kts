@@ -59,6 +59,8 @@ android {
 }
 
 dependencies {
+    api(project(BuildModules.Common.MODELS))
+
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
 
