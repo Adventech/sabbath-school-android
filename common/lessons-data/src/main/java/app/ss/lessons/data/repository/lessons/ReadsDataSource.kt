@@ -42,7 +42,10 @@ internal class ReadsDataSource @Inject constructor(
     private val readsDao: ReadsDao,
 ) : DataSourceMediator<SSRead, ReadsDataSource.Request>(dispatcherProvider = dispatcherProvider) {
 
-    data class Request(val dayIndex: String)
+    data class Request(
+        val dayIndex: String,
+        val fullPath: String,
+    )
 
     override val cache: LocalDataSource<SSRead, Request> = object : LocalDataSource<SSRead, Request> {
 
@@ -51,25 +54,15 @@ internal class ReadsDataSource @Inject constructor(
             return Resource.success(read.toModel())
         }
 
-        override fun updateItem(data: SSRead) {
-            readsDao.updateItem(data.toEntity())
+        override suspend fun updateItem(data: SSRead) {
+            readsDao.insertItem(data.toEntity())
         }
     }
 
     override val network: DataSource<SSRead, Request> = object : DataSource<SSRead, Request> {
         override suspend fun getItem(request: Request): Resource<SSRead> = try {
             val error = Resource.error<SSRead>(Throwable(""))
-            val index = request.dayIndex
-
-            val language = index.substringBefore('-')
-            val dayId = index.substringAfterLast('-')
-            val lessonIndex = index.substringAfter('-')
-                .substringBeforeLast('-')
-            val quarterlyId = lessonIndex.substringBeforeLast('-')
-            val lessonId = lessonIndex.substringAfterLast('-')
-
-            val response = lessonsApi.getDayRead(language, quarterlyId, lessonId, dayId)
-
+            val response = lessonsApi.getDayRead("${request.fullPath}/index.json")
             response.body()?.let { Resource.success(it) } ?: error
         } catch (error: Throwable) {
             Timber.e(error)

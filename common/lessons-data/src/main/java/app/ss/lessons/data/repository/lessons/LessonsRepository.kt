@@ -23,6 +23,7 @@
 package app.ss.lessons.data.repository.lessons
 
 import app.ss.models.PdfAnnotations
+import app.ss.models.SSDay
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
@@ -39,6 +40,8 @@ interface LessonsRepository {
     suspend fun getTodayRead(cached: Boolean = false): Resource<TodayData>
 
     suspend fun getDayRead(dayIndex: String): Resource<SSRead>
+
+    suspend fun getDayRead(day: SSDay): Resource<SSRead>
 
     suspend fun getWeekData(cached: Boolean = false): Resource<WeekData>
 

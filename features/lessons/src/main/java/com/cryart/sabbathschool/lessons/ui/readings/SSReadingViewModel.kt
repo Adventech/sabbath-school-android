@@ -172,33 +172,30 @@ class SSReadingViewModel @AssistedInject constructor(
 
         ssTotalReadsCount = lessonInfo.days.size
 
-        if (lessonInfo.days.isNotEmpty()) {
-
-            val today = DateTime.now().withTimeAtStartOfDay()
-            for ((idx, ssDay) in lessonInfo.days.withIndex()) {
-                val startDate = DateHelper.parseDate(ssDay.date)
-                if (startDate?.isEqual(today) == true && ssReadIndexInt < 6) {
-                    ssReadIndexInt = idx
-                }
-
-                ssReadHighlights.add(SSReadHighlights(ssDay.index))
-                ssReadComments.add(SSReadComments(ssDay.index, emptyList()))
-
-                val resource = lessonsRepository.getDayRead(dayIndex = ssDay.index)
-                resource.data?.let { ssReads.add(it) }
+        val today = DateTime.now().withTimeAtStartOfDay()
+        for ((idx, ssDay) in lessonInfo.days.withIndex()) {
+            val startDate = DateHelper.parseDate(ssDay.date)
+            if (startDate?.isEqual(today) == true && ssReadIndexInt < 6) {
+                ssReadIndexInt = idx
             }
 
-            ssReadsDownloaded = true
-            dataListener.onReadsDownloaded(ssReads, ssReadHighlights, ssReadComments, ssReadIndexInt)
+            ssReadHighlights.add(SSReadHighlights(ssDay.index))
+            ssReadComments.add(SSReadComments(ssDay.index, emptyList()))
 
-            try {
-                ssLessonCoordinatorVisibility.set(View.VISIBLE)
-                ssLessonLoadingVisibility.set(View.INVISIBLE)
-                ssLessonOfflineStateVisibility.set(View.INVISIBLE)
-                ssLessonErrorStateVisibility.set(View.INVISIBLE)
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
+            val resource = lessonsRepository.getDayRead(ssDay)
+            resource.data?.let { ssReads.add(it) }
+        }
+
+        ssReadsDownloaded = true
+        dataListener.onReadsDownloaded(ssReads, ssReadHighlights, ssReadComments, ssReadIndexInt)
+
+        try {
+            ssLessonCoordinatorVisibility.set(View.VISIBLE)
+            ssLessonLoadingVisibility.set(View.INVISIBLE)
+            ssLessonOfflineStateVisibility.set(View.INVISIBLE)
+            ssLessonErrorStateVisibility.set(View.INVISIBLE)
+        } catch (e: Exception) {
+            Timber.e(e)
         }
     }
 

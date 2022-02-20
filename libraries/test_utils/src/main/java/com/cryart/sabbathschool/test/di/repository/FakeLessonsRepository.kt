@@ -2,6 +2,7 @@ package com.cryart.sabbathschool.test.di.repository
 
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.models.PdfAnnotations
+import app.ss.models.SSDay
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
@@ -25,6 +26,10 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
 
     override suspend fun getDayRead(dayIndex: String): Resource<SSRead> {
         return Resource.success(MockDataFactory.ssRead(dayIndex))
+    }
+
+    override suspend fun getDayRead(day: SSDay): Resource<SSRead> {
+        return Resource.success(MockDataFactory.ssRead(day.index))
     }
 
     override suspend fun getWeekData(cached: Boolean): Resource<WeekData> {

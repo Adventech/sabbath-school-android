@@ -34,6 +34,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Url
 
 interface SSLessonsApi {
 
@@ -44,13 +45,8 @@ interface SSLessonsApi {
         @Path("lessonId") lessonId: String,
     ): Response<SSLessonInfo>
 
-    @GET("api/v2/{lang}/quarterlies/{quarterlyId}/lessons/{lessonId}/days/{dayId}/read/index.json")
-    suspend fun getDayRead(
-        @Path("lang") language: String,
-        @Path("quarterlyId") quarterlyId: String,
-        @Path("lessonId") lessonId: String,
-        @Path("dayId") dayId: String,
-    ): Response<SSRead>
+    @GET
+    suspend fun getDayRead(@Url fullPath: String): Response<SSRead>
 
     @GET("api/v2/annotations/{lessonIndex}/{pdfId}")
     suspend fun getPdfAnnotations(

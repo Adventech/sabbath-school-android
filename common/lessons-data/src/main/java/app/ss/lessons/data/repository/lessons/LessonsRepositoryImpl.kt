@@ -26,6 +26,7 @@ import app.ss.lessons.data.model.QuarterlyLessonInfo
 import app.ss.lessons.data.repository.mediator.QuarterliesDataSource
 import app.ss.lessons.data.repository.mediator.QuarterlyInfoDataSource
 import app.ss.models.PdfAnnotations
+import app.ss.models.SSDay
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSQuarterlyInfo
 import app.ss.models.SSRead
@@ -34,12 +35,14 @@ import app.ss.models.SSReadHighlights
 import app.ss.models.TodayData
 import app.ss.models.WeekData
 import app.ss.models.WeekDay
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.DateHelper.formatDate
 import com.cryart.sabbathschool.core.misc.DateHelper.parseDate
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -54,6 +57,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
     private val pdfAnnotationsDataSource: PdfAnnotationsDataSource,
     private val readCommentsDataSource: ReadCommentsDataSource,
     private val readHighlightsDataSource: ReadHighlightsDataSource,
+    private val dispatcherProvider: DispatcherProvider,
 ) : LessonsRepository {
 
     override suspend fun getLessonInfo(lessonIndex: String, cached: Boolean): Resource<SSLessonInfo> {
@@ -130,8 +134,19 @@ internal class LessonsRepositoryImpl @Inject constructor(
         return lesson?.let { getLessonInfo(it.index, cached).data }
     }
 
-    override suspend fun getDayRead(dayIndex: String): Resource<SSRead> =
-        readsDataSource.getItem(ReadsDataSource.Request(dayIndex))
+    override suspend fun getDayRead(dayIndex: String): Resource<SSRead> = withContext(dispatcherProvider.io) {
+        readsDataSource.cache.getItem(
+            ReadsDataSource.Request(dayIndex = dayIndex, fullPath = "")
+        )
+    }
+
+    override suspend fun getDayRead(day: SSDay): Resource<SSRead> =
+        readsDataSource.getItem(
+            ReadsDataSource.Request(
+                dayIndex = day.index,
+                fullPath = day.full_read_path
+            )
+        )
 
     override suspend fun getWeekData(cached: Boolean): Resource<WeekData> {
         val dataResponse = getQuarterlyAndLessonInfo(cached)
