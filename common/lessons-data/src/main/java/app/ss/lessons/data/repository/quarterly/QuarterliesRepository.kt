@@ -31,9 +31,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface QuarterliesRepository {
 
-    suspend fun getLanguages(): Resource<List<Language>>
+    fun getLanguages(): Flow<Resource<List<Language>>>
 
-    suspend fun getQuarterlies(
+    fun getQuarterlies(
         languageCode: String? = null,
         group: QuarterlyGroup? = null
     ): Flow<Resource<List<SSQuarterly>>>

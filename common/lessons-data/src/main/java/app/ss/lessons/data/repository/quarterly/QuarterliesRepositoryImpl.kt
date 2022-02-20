@@ -47,9 +47,9 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
     private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
 ) : QuarterliesRepository {
 
-    override suspend fun getLanguages(): Resource<List<Language>> = languagesSource.get(LanguagesDataSource.Request)
+    override fun getLanguages(): Flow<Resource<List<Language>>> = languagesSource.getAsFlow(LanguagesDataSource.Request)
 
-    override suspend fun getQuarterlies(
+    override fun getQuarterlies(
         languageCode: String?,
         group: QuarterlyGroup?
     ): Flow<Resource<List<SSQuarterly>>> {

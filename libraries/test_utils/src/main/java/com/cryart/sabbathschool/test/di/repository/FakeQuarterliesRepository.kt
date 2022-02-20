@@ -37,11 +37,11 @@ class FakeQuarterliesRepository @Inject constructor(
     private val mockData: QuarterlyMockData
 ) : QuarterliesRepository {
 
-    override suspend fun getLanguages(): Resource<List<Language>> {
-        return Resource.success(emptyList())
+    override fun getLanguages(): Flow<Resource<List<Language>>> {
+        return flowOf(Resource.success(emptyList()))
     }
 
-    override suspend fun getQuarterlies(languageCode: String?, group: QuarterlyGroup?): Flow<Resource<List<SSQuarterly>>> {
+    override fun getQuarterlies(languageCode: String?, group: QuarterlyGroup?): Flow<Resource<List<SSQuarterly>>> {
         return flowOf(Resource.success(mockData.getQuarterlies(group)))
     }
 

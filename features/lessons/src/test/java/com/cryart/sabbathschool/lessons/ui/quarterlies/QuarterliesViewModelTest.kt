@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
@@ -31,7 +30,6 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.response.Resource
-import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -39,16 +37,9 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
-import org.junit.Ignore
-import org.junit.Rule
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
-@ExperimentalTime
 class QuarterliesViewModelTest {
-
-    @get:Rule
-    val instantTaskRule = InstantTaskExecutorRule()
 
     private val mockRepository: QuarterliesRepository = mockk(relaxed = true)
     private val mockSSPrefs: SSPrefs = mockk()
@@ -69,15 +60,12 @@ class QuarterliesViewModelTest {
     }
 
     @Test
-    @Ignore("Flaky test")
     fun `should update selected language and quarterlies list`() = runTest {
         // given
         val language = "de"
 
-        coEvery { mockRepository.getQuarterlies(any(), null) }.returns(
-            flowOf(
-                Resource.success(emptyList())
-            )
+        every { mockRepository.getQuarterlies(any(), null) }.returns(
+            flowOf(Resource.success(emptyList()))
         )
         every { mockSSPrefs.setLanguageCode(language) }.returns(Unit)
         every { mockSSPrefs.isAppReBrandingPromptShown() }.returns(true)
@@ -88,8 +76,7 @@ class QuarterliesViewModelTest {
 
             verify { mockSSPrefs.setLanguageCode(language) }
 
-            awaitItem().status shouldBeEqualTo Status.LOADING
-            // awaitItem().status shouldBeEqualTo Status.SUCCESS
+            awaitItem().status shouldBeEqualTo Status.SUCCESS
         }
     }
 }
