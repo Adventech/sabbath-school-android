@@ -20,9 +20,12 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.mediator
+package app.ss.lessons.data.repository.quarterly
 
 import app.ss.lessons.data.api.SSQuarterliesApi
+import app.ss.lessons.data.repository.DataSource
+import app.ss.lessons.data.repository.DataSourceMediator
+import app.ss.lessons.data.repository.LocalDataSource
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.storage.db.dao.QuarterliesDao

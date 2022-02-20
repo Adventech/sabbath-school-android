@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.mediator
+package app.ss.lessons.data.repository
 
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
