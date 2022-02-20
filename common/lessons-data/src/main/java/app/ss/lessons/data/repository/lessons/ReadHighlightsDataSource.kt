@@ -48,14 +48,19 @@ internal class ReadHighlightsDataSource @Inject constructor(
         override suspend fun getItem(request: Request): Resource<SSReadHighlights> {
             val data = readHighlightsDao.get(request.readIndex)?.let {
                 SSReadHighlights(it.readIndex, it.highlights)
-            }
-            return data?.let { Resource.success(data) } ?: Resource.loading()
+            } ?: SSReadHighlights(request.readIndex)
+
+            return Resource.success(data)
         }
 
         override suspend fun updateItem(data: SSReadHighlights) {
             if (data.highlights.isNotEmpty()) {
                 readHighlightsDao.insertItem(ReadHighlightsEntity(data.readIndex, data.highlights))
             }
+        }
+
+        override fun update(data: List<SSReadHighlights>) {
+            data.forEach { readHighlightsDao.updateItem(ReadHighlightsEntity(it.readIndex, it.highlights)) }
         }
     }
 

@@ -49,14 +49,19 @@ internal class ReadCommentsDataSource @Inject constructor(
         override suspend fun getItem(request: Request): Resource<SSReadComments> {
             val data = readCommentsDao.get(request.readIndex)?.let {
                 SSReadComments(it.readIndex, it.comments)
-            }
-            return data?.let { Resource.success(data) } ?: Resource.loading()
+            } ?: SSReadComments(request.readIndex, emptyList())
+
+            return Resource.success(data)
         }
 
         override suspend fun updateItem(data: SSReadComments) {
             if (data.comments.isNotEmpty()) {
                 readCommentsDao.insertItem(ReadCommentsEntity(data.readIndex, data.comments))
             }
+        }
+
+        override fun update(data: List<SSReadComments>) {
+            data.forEach { readCommentsDao.updateItem(ReadCommentsEntity(it.readIndex, it.comments)) }
         }
     }
 
