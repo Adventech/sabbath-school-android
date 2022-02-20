@@ -23,9 +23,7 @@
 package app.ss.lessons.data.repository.quarterly
 
 import app.ss.models.Language
-import app.ss.lessons.data.repository.mediator.LanguagesDataSource
 import app.ss.lessons.data.repository.mediator.QuarterliesDataSource
-import app.ss.lessons.data.repository.mediator.QuarterlyInfoDataSource
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
