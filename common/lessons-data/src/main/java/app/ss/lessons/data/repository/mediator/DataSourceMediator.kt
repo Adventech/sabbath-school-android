@@ -122,5 +122,5 @@ interface DataSource<T, R> {
 
 interface LocalDataSource<T, R> : DataSource<T, R> {
     fun update(data: List<T>) = Unit
-    fun updateItem(data: T) = Unit
+    suspend fun updateItem(data: T) = Unit
 }

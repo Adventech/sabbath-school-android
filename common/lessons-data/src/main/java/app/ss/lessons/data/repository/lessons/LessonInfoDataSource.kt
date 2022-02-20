@@ -52,7 +52,7 @@ internal class LessonInfoDataSource @Inject constructor(
             return Resource.success(info.toInfoModel())
         }
 
-        override fun updateItem(data: SSLessonInfo) {
+        override suspend fun updateItem(data: SSLessonInfo) {
             lessonsDao.updateInfo(
                 data.lesson.index,
                 data.days,

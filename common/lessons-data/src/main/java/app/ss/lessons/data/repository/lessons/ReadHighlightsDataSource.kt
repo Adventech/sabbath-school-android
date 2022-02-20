@@ -57,6 +57,10 @@ internal class ReadHighlightsDataSource @Inject constructor(
                 data.map { ReadHighlightsEntity(it.readIndex, it.highlights) }
             )
         }
+
+        override suspend fun updateItem(data: SSReadHighlights) {
+            readHighlightsDao.insertItem(ReadHighlightsEntity(data.readIndex, data.highlights))
+        }
     }
 
     override val network: DataSource<SSReadHighlights, Request> = object : DataSource<SSReadHighlights, Request> {
