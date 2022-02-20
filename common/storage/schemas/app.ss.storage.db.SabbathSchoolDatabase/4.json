@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "98b91118d1a2536f23bf81840df16e66",
+    "identityHash": "4fce832e88618dc12a17b977bec01b47",
     "entities": [
       {
         "tableName": "audios",
@@ -99,127 +99,51 @@
         "foreignKeys": []
       },
       {
-        "tableName": "quarterlies",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `introduction` TEXT, `human_date` TEXT NOT NULL, `start_date` TEXT NOT NULL, `end_date` TEXT NOT NULL, `cover` TEXT NOT NULL, `splash` TEXT, `index` TEXT NOT NULL, `path` TEXT NOT NULL, `full_path` TEXT NOT NULL, `lang` TEXT NOT NULL, `color_primary` TEXT NOT NULL, `color_primary_dark` TEXT NOT NULL, `quarterly_name` TEXT NOT NULL, `quarterly_group` TEXT, `features` TEXT NOT NULL, `credits` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "tableName": "comments",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`readIndex` TEXT NOT NULL, `comments` TEXT NOT NULL, PRIMARY KEY(`readIndex`))",
         "fields": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
+            "fieldPath": "readIndex",
+            "columnName": "readIndex",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "title",
-            "columnName": "title",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "description",
-            "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "introduction",
-            "columnName": "introduction",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "human_date",
-            "columnName": "human_date",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "start_date",
-            "columnName": "start_date",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "end_date",
-            "columnName": "end_date",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "cover",
-            "columnName": "cover",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "splash",
-            "columnName": "splash",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "index",
-            "columnName": "index",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "path",
-            "columnName": "path",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "full_path",
-            "columnName": "full_path",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "lang",
-            "columnName": "lang",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "color_primary",
-            "columnName": "color_primary",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "color_primary_dark",
-            "columnName": "color_primary_dark",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "quarterly_name",
-            "columnName": "quarterly_name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "quarterly_group",
-            "columnName": "quarterly_group",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "features",
-            "columnName": "features",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "credits",
-            "columnName": "credits",
+            "fieldPath": "comments",
+            "columnName": "comments",
             "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "readIndex"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "highlights",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`readIndex` TEXT NOT NULL, `highlights` TEXT NOT NULL, PRIMARY KEY(`readIndex`))",
+        "fields": [
+          {
+            "fieldPath": "readIndex",
+            "columnName": "readIndex",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "highlights",
+            "columnName": "highlights",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "readIndex"
           ],
           "autoGenerate": false
         },
@@ -230,7 +154,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '98b91118d1a2536f23bf81840df16e66')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4fce832e88618dc12a17b977bec01b47')"
     ]
   }
 }
