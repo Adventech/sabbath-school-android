@@ -18,11 +18,6 @@ jobs:
         with:
           java-version: 11
 
-      - name: Decode API KEYS
-        env:
-          API_KEYS: ${{secrets.API_SECRETS}}
-        run: echo $API_KEYS > release/ss_private_keys.properties
-
       - name: Decrypt secrets
         run: ./release/decrypt-secrets.sh
         env:

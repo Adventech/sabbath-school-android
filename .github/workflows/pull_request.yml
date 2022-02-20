@@ -51,11 +51,6 @@ jobs:
         with:
           java-version: 11
 
-      - name: Decode API KEYS
-        env:
-          API_KEYS: ${{secrets.API_SECRETS}}
-        run: echo $API_KEYS > release/ss_private_keys.properties
-
       - name: Execute Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
