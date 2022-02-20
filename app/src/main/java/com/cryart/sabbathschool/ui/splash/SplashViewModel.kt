@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.auth.AuthRepository
 import app.ss.models.auth.SSUser
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,12 +40,13 @@ class SplashViewModel @Inject constructor(
     private val ssPrefs: SSPrefs,
     private val authRepository: AuthRepository,
     private val dailyReminderManager: DailyReminderManager,
+    private val dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
 
     private val _launchState: MutableStateFlow<LaunchState> = MutableStateFlow(LaunchState.Loading)
     val launchStateFlow: StateFlow<LaunchState> = _launchState
 
-    fun launch() = viewModelScope.launch {
+    fun launch() = viewModelScope.launch(dispatcherProvider.default) {
         val resource = authRepository.getUser()
         val user = resource.data
 

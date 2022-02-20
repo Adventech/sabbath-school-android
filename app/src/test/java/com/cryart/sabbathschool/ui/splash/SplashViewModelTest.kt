@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.ui.splash
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import app.ss.auth.AuthRepository
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
@@ -37,13 +36,9 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Ignore
-import org.junit.Rule
 import org.junit.Test
 
 class SplashViewModelTest {
-
-    @get:Rule
-    val instantTaskRule = InstantTaskExecutorRule()
 
     private val mockDailyReminderManager: DailyReminderManager = mockk()
     private val mockSSPrefs: SSPrefs = mockk()
