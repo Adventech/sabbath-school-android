@@ -12,8 +12,8 @@ object BuildAndroidConfig {
 
     object Version {
         private const val MAJOR = 4
-        private const val MINOR = 7
-        private const val PATCH = 2
+        private const val MINOR = 8
+        private const val PATCH = 0
 
         const val name = "$MAJOR.$MINOR.$PATCH"
     }

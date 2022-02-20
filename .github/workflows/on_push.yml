@@ -58,7 +58,7 @@ jobs:
 
       - name: Publish to Alpha track
         if: github.ref == 'refs/heads/main'
-        uses: r0adkll/upload-google-play@v1
+        uses: r0adkll/upload-google-play@v1.0.15
         with:
           serviceAccountJson: release/play-account.json
           packageName: com.cryart.sabbathschool
