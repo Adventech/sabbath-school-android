@@ -30,5 +30,5 @@ import app.ss.storage.db.entity.ReadHighlightsEntity
 interface ReadHighlightsDao : BaseDao<ReadHighlightsEntity> {
 
     @Query("SELECT * FROM highlights WHERE readIndex = :readIndex")
-    fun get(readIndex: String): List<ReadHighlightsEntity>
+    fun get(readIndex: String): ReadHighlightsEntity?
 }

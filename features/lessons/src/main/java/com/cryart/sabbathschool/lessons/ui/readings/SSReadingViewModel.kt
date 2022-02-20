@@ -179,8 +179,8 @@ class SSReadingViewModel @AssistedInject constructor(
                 ssReadIndexInt = idx
             }
 
-            ssReadHighlights.add(SSReadHighlights(ssDay.index))
-            ssReadComments.add(SSReadComments(ssDay.index, emptyList()))
+            loadComments(ssDay.index, idx)
+            loadHighlights(ssDay.index, idx)
 
             val resource = lessonsRepository.getDayRead(ssDay)
             resource.data?.let { ssReads.add(it) }
@@ -197,6 +197,18 @@ class SSReadingViewModel @AssistedInject constructor(
         } catch (e: Exception) {
             Timber.e(e)
         }
+    }
+
+    private suspend fun loadComments(dayIndex: String, index: Int) {
+        val resource = lessonsRepository.getComments(dayIndex)
+        val comments = resource.data ?: SSReadComments(dayIndex, emptyList())
+        ssReadComments.add(index, comments)
+    }
+
+    private suspend fun loadHighlights(dayIndex: String, index: Int) {
+        val resource = lessonsRepository.getReadHighlights(dayIndex)
+        val highlights = resource.data ?: SSReadHighlights(dayIndex)
+        ssReadHighlights.add(index, highlights)
     }
 
     override fun onSelectionStarted(x: Float, y: Float, highlightId: Int) {

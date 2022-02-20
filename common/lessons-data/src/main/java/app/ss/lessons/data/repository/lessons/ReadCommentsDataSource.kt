@@ -45,23 +45,18 @@ internal class ReadCommentsDataSource @Inject constructor(
     data class Request(val readIndex: String)
 
     override val cache: LocalDataSource<SSReadComments, Request> = object : LocalDataSource<SSReadComments, Request> {
-        override suspend fun get(request: Request): Resource<List<SSReadComments>> {
-            val data = readCommentsDao.get(request.readIndex).map {
-                SSReadComments(it.readIndex, it.comments)
-            }
-            return Resource.success(data)
-        }
 
         override suspend fun getItem(request: Request): Resource<SSReadComments> {
-            val data = readCommentsDao.get(request.readIndex).map {
+            val data = readCommentsDao.get(request.readIndex)?.let {
                 SSReadComments(it.readIndex, it.comments)
             }
-
-            return Resource.success(data.firstOrNull() ?: SSReadComments(request.readIndex, emptyList()))
+            return data?.let { Resource.success(data) } ?: Resource.loading()
         }
 
         override suspend fun updateItem(data: SSReadComments) {
-            readCommentsDao.insertItem(ReadCommentsEntity(data.readIndex, data.comments))
+            if (data.comments.isNotEmpty()) {
+                readCommentsDao.insertItem(ReadCommentsEntity(data.readIndex, data.comments))
+            }
         }
     }
 

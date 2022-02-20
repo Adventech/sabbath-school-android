@@ -30,5 +30,5 @@ import app.ss.storage.db.entity.ReadCommentsEntity
 interface ReadCommentsDao : BaseDao<ReadCommentsEntity> {
 
     @Query("SELECT * FROM comments WHERE readIndex = :readIndex")
-    fun get(readIndex: String): List<ReadCommentsEntity>
+    fun get(readIndex: String): ReadCommentsEntity?
 }
