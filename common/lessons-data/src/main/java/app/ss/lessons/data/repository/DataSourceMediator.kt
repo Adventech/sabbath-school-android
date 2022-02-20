@@ -24,16 +24,18 @@ package app.ss.lessons.data.repository
 
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 internal abstract class DataSourceMediator<T, R>(
     private val dispatcherProvider: DispatcherProvider
-) {
+) : CoroutineScope by CoroutineScope(dispatcherProvider.default) {
 
     abstract val cache: LocalDataSource<T, R>
 
@@ -76,17 +78,21 @@ internal abstract class DataSourceMediator<T, R>(
         }
 
     suspend fun getItem(request: R): Resource<T> {
-        val network = withContext(dispatcherProvider.default) { network.getItem(request) }
-
-        return if (network.isSuccessFul) {
-            network.also {
+        val cacheResource = withContext(dispatcherProvider.io) { cache.getItem(request) }
+        return if (cacheResource.isSuccessFul) {
+            cacheResource.also { cacheNetworkRequest(request) }
+        } else {
+            withContext(dispatcherProvider.default) { network.getItem(request) }.also {
                 it.data?.let {
                     withContext(dispatcherProvider.io) { cache.updateItem(it) }
                 }
             }
-        } else {
-            withContext(dispatcherProvider.io) { cache.getItem(request) }
         }
+    }
+
+    private fun cacheNetworkRequest(request: R) = launch {
+        val resource = network.getItem(request)
+        resource.data?.let { withContext(dispatcherProvider.io) { cache.updateItem(it) } }
     }
 
     fun getItemAsFlow(request: R): Flow<Resource<T>> = flow {

@@ -62,7 +62,9 @@ internal class LessonsRepositoryImpl @Inject constructor(
 
     override suspend fun getLessonInfo(lessonIndex: String, cached: Boolean): Resource<SSLessonInfo> {
         return if (cached) {
-            lessonInfoDataSource.cache.getItem(LessonInfoDataSource.Request(lessonIndex))
+            withContext(dispatcherProvider.io) {
+                lessonInfoDataSource.cache.getItem(LessonInfoDataSource.Request(lessonIndex))
+            }
         } else {
             lessonInfoDataSource.getItem(LessonInfoDataSource.Request(lessonIndex))
         }
@@ -101,12 +103,16 @@ internal class LessonsRepositoryImpl @Inject constructor(
             return Resource.success(it)
         } ?: getDefaultQuarterlyIndex() ?: return Resource.error(Throwable("Invalid Quarterly Index"))
 
-        return quarterlyInfoDataSource.cache.getItem(QuarterlyInfoDataSource.Request(index))
+        return withContext(dispatcherProvider.io) {
+            quarterlyInfoDataSource.cache.getItem(QuarterlyInfoDataSource.Request(index))
+        }
     }
 
     private suspend fun getLastQuarterlyInfoIfCurrent(): SSQuarterlyInfo? {
         val index = ssPrefs.getLastQuarterlyIndex() ?: return null
-        val info = quarterlyInfoDataSource.cache.getItem(QuarterlyInfoDataSource.Request(index)).data ?: return null
+        val info = withContext(dispatcherProvider.io) {
+            quarterlyInfoDataSource.cache.getItem(QuarterlyInfoDataSource.Request(index)).data
+        } ?: return null
 
         val today = DateTime.now().withTimeAtStartOfDay()
         return if (today.isBefore(parseDate(info.quarterly.end_date))) {
@@ -117,7 +123,9 @@ internal class LessonsRepositoryImpl @Inject constructor(
     }
 
     private suspend fun getDefaultQuarterlyIndex(): String? {
-        val resource = quarterliesDataSource.cache.get(QuarterliesDataSource.Request(ssPrefs.getLanguageCode()))
+        val resource = withContext(dispatcherProvider.io) {
+            quarterliesDataSource.cache.get(QuarterliesDataSource.Request(ssPrefs.getLanguageCode()))
+        }
         val quarterly = resource.data?.firstOrNull()
         return quarterly?.index
     }

@@ -59,10 +59,8 @@ internal class QuarterlyInfoDataSource @Inject constructor(
         }
 
         override suspend fun updateItem(data: SSQuarterlyInfo) {
-            lessonsDao.insertAll(
-                data.lessons.map { it.toEntity() }
-            )
-            quarterliesDao.insertItem(data.quarterly.toEntity())
+            data.lessons.forEach { lessonsDao.update(it.toEntity()) }
+            quarterliesDao.update(data.quarterly.toEntity())
         }
     }
     override val network: DataSource<SSQuarterlyInfo, Request> = object : LocalDataSource<SSQuarterlyInfo, Request> {
