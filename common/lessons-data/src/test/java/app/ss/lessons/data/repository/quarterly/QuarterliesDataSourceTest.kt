@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.mediator
+package app.ss.lessons.data.repository.quarterly
 
 import app.cash.turbine.test
 import app.ss.lessons.data.api.SSQuarterliesApi
