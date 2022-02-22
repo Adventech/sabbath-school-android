@@ -23,14 +23,14 @@ jobs:
         env:
           ENCRYPT_KEY: ${{ secrets.ENCRYPT_KEY }}
 
-      - name: Run ktlint
-        run: ./gradlew ktlint
-
-      - name: Run Android lint
-        run: ./gradlew lintDebug
-
-      - name: Run unit tests
-        run: ./gradlew testDebugUnitTest
+#      - name: Run ktlint
+#        run: ./gradlew ktlint
+#
+#      - name: Run Android lint
+#        run: ./gradlew lintDebug
+#
+#      - name: Run unit tests
+#        run: ./gradlew testDebugUnitTest
 
       - name: Generate build number
         if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
