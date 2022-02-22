@@ -20,25 +20,16 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.api
+package app.ss.storage.db.entity
 
-import app.ss.lessons.data.model.api.VideosInfoModel
-import app.ss.models.media.SSAudio
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import app.ss.models.media.SSVideo
 
-internal interface SSMediaApi {
-
-    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/audio.json")
-    suspend fun getAudio(
-        @Path("lang") language: String,
-        @Path("quarterly_id") quarterlyId: String
-    ): Response<List<SSAudio>>
-
-    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/video.json")
-    suspend fun getVideo(
-        @Path("lang") language: String,
-        @Path("quarterly_id") quarterlyId: String
-    ): Response<List<VideosInfoModel>>
-}
+@Entity(tableName = "video_info")
+data class VideoInfoEntity(
+    @PrimaryKey val id: String,
+    val lessonIndex: String,
+    val artist: String,
+    val clips: List<SSVideo>
+)

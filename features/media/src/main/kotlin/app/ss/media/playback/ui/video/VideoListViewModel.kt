@@ -25,7 +25,7 @@ package app.ss.media.playback.ui.video
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.lessons.data.model.api.SSVideosInfo
+import app.ss.models.media.SSVideosInfo
 import app.ss.lessons.data.repository.media.MediaRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
