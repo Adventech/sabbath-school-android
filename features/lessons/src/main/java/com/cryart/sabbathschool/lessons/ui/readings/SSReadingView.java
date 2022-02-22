@@ -56,6 +56,7 @@ import app.ss.models.SSReadHighlights;
 import com.cryart.sabbathschool.reader.SSWebView;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
@@ -412,7 +413,10 @@ public class SSReadingView extends SSWebView {
                     }
                 }
                 if (!found) {
-                    ssReadComments.getComments().add(new SSComment(inputId, commentReceived));
+                    ArrayList<SSComment> commentsList = new ArrayList<>();
+                    commentsList.addAll(ssReadComments.getComments());
+                    commentsList.add(new SSComment(inputId, commentReceived));
+                    ssReadComments.setComments(commentsList);
                 }
                 highlightsCommentsCallback.onCommentsReceived(ssReadComments);
 

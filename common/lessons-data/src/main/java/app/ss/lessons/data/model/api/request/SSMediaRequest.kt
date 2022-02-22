@@ -22,6 +22,9 @@
 
 package app.ss.lessons.data.model.api.request
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 internal data class SSMediaRequest(
     val language: String,
     val quarterlyId: String

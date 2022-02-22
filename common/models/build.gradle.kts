@@ -21,6 +21,7 @@
  */
 
 import dependencies.Dependencies.AndroidX
+import dependencies.Dependencies.Square.Moshi
 
 plugins {
     id(BuildPlugins.Android.LIBRARY)
@@ -46,4 +47,5 @@ android {
 
 dependencies {
     implementation(AndroidX.ANNOTATIONS)
+    implementation(Moshi.kotlin)
 }

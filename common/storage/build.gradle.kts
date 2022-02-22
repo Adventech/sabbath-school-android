@@ -20,9 +20,11 @@
  * THE SOFTWARE.
  */
 
+import dependencies.Dependencies
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.AndroidX.Room
 import dependencies.Dependencies.Square.Moshi
+import extensions.addTestsDependencies
 import extensions.implementation
 import extensions.kapt
 
@@ -70,4 +72,8 @@ dependencies {
 
     implementation(Moshi.kotlin)
     kapt(Moshi.codegen)
+
+    implementation(Dependencies.TIMBER)
+
+    addTestsDependencies()
 }

@@ -22,8 +22,10 @@
 package app.ss.models
 
 import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 
 @Keep
+@JsonClass(generateAdapter = true)
 data class SSQuarterlyInfo(
     val quarterly: SSQuarterly,
     val lessons: List<SSLesson>

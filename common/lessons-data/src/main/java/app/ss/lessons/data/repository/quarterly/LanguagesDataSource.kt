@@ -53,7 +53,7 @@ internal class LanguagesDataSource @Inject constructor(
             return Resource.success(data)
         }
 
-        override fun update(data: List<Language>) {
+        override suspend fun update(data: List<Language>) {
             languagesDao.insertAll(data.map { LanguageEntity(it.code, it.name) })
         }
     }

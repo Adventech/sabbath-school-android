@@ -19,21 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package app.ss.models
 
-import androidx.annotation.Keep
-import com.squareup.moshi.JsonClass
+package app.ss.storage.db
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class SSLesson(
-    val title: String,
-    val start_date: String = "",
-    val end_date: String = "",
-    val cover: String = "",
-    val id: String = "",
-    val index: String = "",
-    val path: String = "",
-    val full_path: String = "",
-    val pdfOnly: Boolean = false,
-)
+import app.ss.models.SSComment
+import org.amshove.kluent.shouldBeEqualTo
+import org.junit.Test
+
+class ConvertersTest {
+
+    @Test
+    fun jsonToComments() {
+        val json = """
+            [
+                {
+                    "comment": "...",
+                    "elementId": "input-0"
+                }
+            ]
+        """.trimIndent()
+        val comments = Converters.toComments(json)
+
+        comments shouldBeEqualTo listOf(SSComment("input-0", "..."))
+    }
+
+    @Test
+    fun nullJsonToComments() {
+        val json = null
+        val comments = Converters.toComments(json)
+
+        comments shouldBeEqualTo null
+    }
+
+    @Test
+    fun legacyJsonToComments() {
+        val json = """
+            [{"a":"input-0","b":"Legacy comment"}]
+        """.trimIndent()
+
+        val comments = Converters.toComments(json)
+
+        comments shouldBeEqualTo listOf(SSComment("input-0", "Legacy comment"))
+    }
+}

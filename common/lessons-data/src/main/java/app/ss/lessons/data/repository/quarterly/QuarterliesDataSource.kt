@@ -57,7 +57,7 @@ internal class QuarterliesDataSource @Inject constructor(
             return Resource.success(data)
         }
 
-        override fun update(data: List<SSQuarterly>) {
+        override suspend fun update(data: List<SSQuarterly>) {
             quarterliesDao.insertAll(
                 data.map { it.toEntity() }
             )
