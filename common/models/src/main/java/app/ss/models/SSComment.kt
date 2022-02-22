@@ -28,5 +28,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class SSComment(
     val elementId: String,
-    var comment: String
+    var comment: String = ""
 )

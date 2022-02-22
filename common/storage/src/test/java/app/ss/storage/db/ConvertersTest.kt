@@ -19,14 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package app.ss.models
 
-import androidx.annotation.Keep
-import com.squareup.moshi.JsonClass
+package app.ss.storage.db
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class SSReadComments(
-    val readIndex: String,
-    var comments: List<SSComment>
-)
+import app.ss.models.SSComment
+import org.amshove.kluent.shouldBeEqualTo
+import org.junit.Test
+
+class ConvertersTest {
+
+    @Test
+    fun jsonToComments() {
+        val json = """
+            [
+                {
+                    "comment": "...",
+                    "elementId": "input-0"
+                }
+            ]
+        """.trimIndent()
+        val comments = Converters.toComments(json)
+
+        comments shouldBeEqualTo listOf(SSComment("input-0", "..."))
+    }
+
+    @Test
+    fun nullJsonToComments() {
+        val json = null
+        val comments = Converters.toComments(json)
+
+        comments shouldBeEqualTo null
+    }
+}
