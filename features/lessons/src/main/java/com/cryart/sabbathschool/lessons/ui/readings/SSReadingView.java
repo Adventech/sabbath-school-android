@@ -414,6 +414,7 @@ public class SSReadingView extends SSWebView {
                 }
                 if (!found) {
                     ArrayList<SSComment> commentsList = new ArrayList<>();
+                    commentsList.addAll(ssReadComments.getComments());
                     commentsList.add(new SSComment(inputId, commentReceived));
                     ssReadComments.setComments(commentsList);
                 }
