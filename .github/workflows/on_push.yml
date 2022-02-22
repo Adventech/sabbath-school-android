@@ -41,7 +41,7 @@ jobs:
         run: ./gradlew app:bundleRelease --stacktrace
 
       - name: Publish to Internal track
-        if: github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/tm/fix/auth'
         uses: r0adkll/upload-google-play@v1.0.15
         with:
           serviceAccountJson: release/play-account.json

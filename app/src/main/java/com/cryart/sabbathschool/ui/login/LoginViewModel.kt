@@ -37,7 +37,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,17 +53,17 @@ class LoginViewModel @Inject constructor(
     fun handleGoogleSignInResult(data: Intent?) = viewModelScope.launch(dispatcherProvider.default) {
         _viewState.emit(ViewState.Loading)
 
-        try {
-            val task = googleSignIn.getSignedInAccountFromIntent(data)
-            val account = task.getResult(ApiException::class.java)
+        //  try {
+        val task = googleSignIn.getSignedInAccountFromIntent(data)
+        val account = task.getResult(ApiException::class.java)
 
-            val token = account?.idToken ?: return@launch
-            val response = authRepository.signIn(token)
-            handleAuthResult(response)
-        } catch (e: Exception) {
-            Timber.e(e)
-            _viewState.emit(ViewState.Error(messageRes = R.string.ss_login_failed))
-        }
+        val token = account?.idToken ?: return@launch
+        val response = authRepository.signIn(token)
+        handleAuthResult(response)
+        //   } catch (e: Exception) {
+        //      Timber.e(e)
+        _viewState.emit(ViewState.Error(messageRes = R.string.ss_login_failed))
+        //  }
     }
 
     private suspend fun handleAuthResult(response: Resource<AuthResponse>) {
