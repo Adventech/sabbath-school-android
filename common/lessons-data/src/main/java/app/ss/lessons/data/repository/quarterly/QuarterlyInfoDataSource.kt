@@ -59,7 +59,11 @@ internal class QuarterlyInfoDataSource @Inject constructor(
         }
 
         override suspend fun updateItem(data: SSQuarterlyInfo) {
-            data.lessons.forEach { lessonsDao.update(it.toEntity()) }
+            data.lessons.forEach {
+                if (lessonsDao.get(it.index) == null) {
+                    lessonsDao.insertItem(it.toEntity())
+                }
+            }
             quarterliesDao.update(data.quarterly.toEntity())
         }
     }
