@@ -50,4 +50,15 @@ class ConvertersTest {
 
         comments shouldBeEqualTo null
     }
+
+    @Test
+    fun legacyJsonToComments() {
+        val json = """
+            [{"a":"input-0","b":"Legacy comment"}]
+        """.trimIndent()
+
+        val comments = Converters.toComments(json)
+
+        comments shouldBeEqualTo listOf(SSComment("input-0", "Legacy comment"))
+    }
 }

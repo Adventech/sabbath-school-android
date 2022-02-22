@@ -35,6 +35,7 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import timber.log.Timber
 import java.lang.reflect.Type
 
 internal object Converters {
@@ -127,8 +128,16 @@ internal object Converters {
     fun fromBibleVerses(verses: List<SSBibleVerses>?): String? = versesAdapter.toJson(verses)
 
     @TypeConverter
-    fun toComments(value: String?): List<SSComment>? = value?.let { jsonString ->
-        commentsAdapter.fromJson(jsonString)
+    fun toComments(value: String?): List<SSComment>? = try {
+        value?.let {
+            val jsonString = it
+                .replace("\"a\"", "\"elementId\"")
+                .replace("\"b\"", "\"comment\"")
+            commentsAdapter.fromJson(jsonString)
+        }
+    } catch (ex: Exception) {
+        Timber.e(ex)
+        emptyList()
     }
 
     @TypeConverter
