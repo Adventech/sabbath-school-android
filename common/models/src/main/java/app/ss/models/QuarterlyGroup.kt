@@ -24,10 +24,12 @@ package app.ss.models
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
+@JsonClass(generateAdapter = true)
 data class QuarterlyGroup(
     val name: String,
     val order: Int = Int.MAX_VALUE

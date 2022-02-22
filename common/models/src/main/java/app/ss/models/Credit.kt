@@ -23,8 +23,10 @@
 package app.ss.models
 
 import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 
 @Keep
+@JsonClass(generateAdapter = true)
 data class Credit(
     val name: String,
     val value: String

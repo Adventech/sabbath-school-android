@@ -23,7 +23,9 @@
 package app.ss.lessons.data.model.api.request
 
 import app.ss.models.PdfAnnotations
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class UploadPdfAnnotationsRequest(
     val data: List<PdfAnnotations>
 )

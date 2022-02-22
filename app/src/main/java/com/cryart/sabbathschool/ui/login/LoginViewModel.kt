@@ -68,8 +68,6 @@ class LoginViewModel @Inject constructor(
     }
 
     private suspend fun handleAuthResult(response: Resource<AuthResponse>) {
-        response.error?.let { throw it }
-
         val state = when (response.data) {
             is AuthResponse.Authenticated -> {
                 reminderManager.scheduleReminder()

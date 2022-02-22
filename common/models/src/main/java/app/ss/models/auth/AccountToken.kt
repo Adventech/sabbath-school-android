@@ -23,8 +23,10 @@
 package app.ss.models.auth
 
 import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 
 @Keep
+@JsonClass(generateAdapter = true)
 data class AccountToken(
     val apiKey: String,
     val refreshToken: String,
