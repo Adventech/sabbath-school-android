@@ -27,9 +27,8 @@ import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
-import io.mockk.every
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
@@ -74,13 +73,13 @@ class DataSourceMediatorTest {
         val request = Any()
 
         coEvery { networkSource.get(request) }.returns(networkResource)
-        every { cacheSource.update(data) }.returns(Unit)
+        coEvery { cacheSource.update(data) }.returns(Unit)
         coEvery { cacheSource.update(request, data) }.returns(Unit)
 
         val resource = mediator.get(request)
 
         resource.shouldBeEqualTo(networkResource)
-        verify { cacheSource.update(data) }
+        coVerify { cacheSource.update(data) }
     }
 
     @Test
@@ -92,14 +91,14 @@ class DataSourceMediatorTest {
 
         coEvery { cacheSource.get(request) }.returns(cacheResource)
         coEvery { networkSource.get(request) }.returns(networkResource)
-        every { cacheSource.update(data) }.returns(Unit)
+        coEvery { cacheSource.update(data) }.returns(Unit)
 
         mediator.getAsFlow(request).test {
             awaitItem() shouldBeEqualTo cacheResource
             awaitItem() shouldBeEqualTo networkResource
             awaitComplete()
 
-            verify { cacheSource.update(data) }
+            coVerify { cacheSource.update(data) }
         }
     }
 }
