@@ -33,7 +33,7 @@ jobs:
 #        run: ./gradlew testDebugUnitTest
 
       - name: Generate build number
-        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/tm/fix/auth'
         run: echo "BUILD_NUMBER=${{github.run_number}}" > app/build_number.properties
 
       - name: Build Release
