@@ -20,25 +20,15 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.api
+package app.ss.storage.db.dao
 
-import app.ss.lessons.data.model.api.VideosInfoModel
-import app.ss.models.media.SSAudio
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
+import androidx.room.Dao
+import androidx.room.Query
+import app.ss.storage.db.entity.VideoInfoEntity
 
-internal interface SSMediaApi {
+@Dao
+interface VideoInfoDao : BaseDao<VideoInfoEntity> {
 
-    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/audio.json")
-    suspend fun getAudio(
-        @Path("lang") language: String,
-        @Path("quarterly_id") quarterlyId: String
-    ): Response<List<SSAudio>>
-
-    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/video.json")
-    suspend fun getVideo(
-        @Path("lang") language: String,
-        @Path("quarterly_id") quarterlyId: String
-    ): Response<List<VideosInfoModel>>
+    @Query("SELECT * FROM video_info WHERE lessonIndex = :lessonIndex")
+    fun get(lessonIndex: String): List<VideoInfoEntity>
 }

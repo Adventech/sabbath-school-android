@@ -22,8 +22,8 @@
 
 package app.ss.media.playback.ui.video
 
-import app.ss.lessons.data.model.api.SSVideo
-import app.ss.lessons.data.model.api.SSVideosInfo
+import app.ss.models.media.SSVideo
+import app.ss.models.media.SSVideosInfo
 
 sealed class VideoListData {
     data class Horizontal(

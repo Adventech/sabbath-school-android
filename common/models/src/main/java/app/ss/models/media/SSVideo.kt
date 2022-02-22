@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.model.api
+package app.ss.models.media
 
 import android.os.Parcelable
 import androidx.annotation.Keep

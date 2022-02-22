@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.model.api
+package app.ss.models.media
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
@@ -28,6 +28,8 @@ import com.squareup.moshi.JsonClass
 @Keep
 @JsonClass(generateAdapter = true)
 data class SSVideosInfo(
+    val id: String,
     val artist: String,
-    val clips: List<SSVideo>
+    val clips: List<SSVideo>,
+    val lessonIndex: String
 )

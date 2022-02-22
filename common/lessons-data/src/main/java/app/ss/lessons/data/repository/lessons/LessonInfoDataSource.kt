@@ -48,7 +48,8 @@ internal class LessonInfoDataSource @Inject constructor(
     override val cache: LocalDataSource<SSLessonInfo, Request> = object : LocalDataSource<SSLessonInfo, Request> {
 
         override suspend fun getItem(request: Request): Resource<SSLessonInfo> {
-            val info = lessonsDao.get(request.lessonIndex) ?: return Resource.loading()
+            val info = lessonsDao.get(request.lessonIndex)
+            if (info == null || info.days.isEmpty()) return Resource.loading()
             return Resource.success(info.toInfoModel())
         }
 

@@ -31,6 +31,7 @@ import app.ss.models.SSBibleVerses
 import app.ss.models.SSComment
 import app.ss.models.SSDay
 import app.ss.models.auth.AccountToken
+import app.ss.models.media.SSVideo
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -77,6 +78,10 @@ internal object Converters {
     }
     private val accountTokenAdapter: JsonAdapter<AccountToken> by lazy {
         moshi.adapter(AccountToken::class.java)
+    }
+    private val videosAdapter: JsonAdapter<List<SSVideo>> by lazy {
+        val listDataType: Type = Types.newParameterizedType(List::class.java, SSVideo::class.java)
+        moshi.adapter(listDataType)
     }
 
     @TypeConverter
@@ -158,4 +163,12 @@ internal object Converters {
 
     @TypeConverter
     fun fromAccountToken(token: AccountToken?): String? = accountTokenAdapter.toJson(token)
+
+    @TypeConverter
+    fun toVideos(value: String?): List<SSVideo>? = value?.let { jsonString ->
+        videosAdapter.fromJson(jsonString)
+    }
+
+    @TypeConverter
+    fun fromVideos(videos: List<SSVideo>?): String? = videosAdapter.toJson(videos)
 }

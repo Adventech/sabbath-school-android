@@ -23,17 +23,12 @@
 package app.ss.lessons.data.model.api
 
 import androidx.annotation.Keep
+import app.ss.models.media.SSVideo
 import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class SSAudio(
-    val id: String,
+data class VideosInfoModel(
     val artist: String,
-    val image: String,
-    val imageRatio: String,
-    val src: String,
-    val target: String,
-    val targetIndex: String,
-    val title: String
+    val clips: List<SSVideo>,
 )
