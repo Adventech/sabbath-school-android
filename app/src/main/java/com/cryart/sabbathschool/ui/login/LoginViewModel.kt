@@ -61,7 +61,15 @@ class LoginViewModel @Inject constructor(
         handleAuthResult(response)
     }
 
+    fun handleAnonymousLogin() = viewModelScope.launch(dispatcherProvider.default) {
+        _viewState.emit(ViewState.Loading)
+        val response = authRepository.signIn()
+        handleAuthResult(response)
+    }
+
     private suspend fun handleAuthResult(response: Resource<AuthResponse>) {
+        response.error?.let { throw it }
+
         val state = when (response.data) {
             is AuthResponse.Authenticated -> {
                 reminderManager.scheduleReminder()
@@ -71,11 +79,5 @@ class LoginViewModel @Inject constructor(
         }
 
         _viewState.emit(state)
-    }
-
-    fun handleAnonymousLogin() = viewModelScope.launch(dispatcherProvider.default) {
-        _viewState.emit(ViewState.Loading)
-        val response = authRepository.signIn()
-        handleAuthResult(response)
     }
 }
