@@ -23,25 +23,25 @@ jobs:
         env:
           ENCRYPT_KEY: ${{ secrets.ENCRYPT_KEY }}
 
-#      - name: Run ktlint
-#        run: ./gradlew ktlint
-#
-#      - name: Run Android lint
-#        run: ./gradlew lintDebug
-#
-#      - name: Run unit tests
-#        run: ./gradlew testDebugUnitTest
+      - name: Run ktlint
+        run: ./gradlew ktlint
+
+      - name: Run Android lint
+        run: ./gradlew lintDebug
+
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest
 
       - name: Generate build number
-        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/tm/fix/auth'
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
         run: echo "BUILD_NUMBER=${{github.run_number}}" > app/build_number.properties
 
       - name: Build Release
-        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/tm/fix/auth'
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
         run: ./gradlew app:bundleRelease --stacktrace
 
       - name: Publish to Internal track
-        if: github.ref == 'refs/heads/tm/fix/auth'
+        if: github.ref == 'refs/heads/develop'
         uses: r0adkll/upload-google-play@v1.0.15
         with:
           serviceAccountJson: release/play-account.json
