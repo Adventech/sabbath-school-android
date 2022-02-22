@@ -59,8 +59,8 @@ internal class ReadHighlightsDataSource @Inject constructor(
             }
         }
 
-        override fun update(data: List<SSReadHighlights>) {
-            data.forEach { readHighlightsDao.updateItem(ReadHighlightsEntity(it.readIndex, it.highlights)) }
+        override suspend fun update(data: List<SSReadHighlights>) {
+            data.forEach { readHighlightsDao.insertItem(ReadHighlightsEntity(it.readIndex, it.highlights)) }
         }
     }
 
