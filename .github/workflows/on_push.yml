@@ -37,7 +37,7 @@ jobs:
         run: echo "BUILD_NUMBER=${{github.run_number}}" > app/build_number.properties
 
       - name: Build Release
-        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/tm/fix/auth'
         run: ./gradlew app:bundleRelease --stacktrace
 
       - name: Publish to Internal track
