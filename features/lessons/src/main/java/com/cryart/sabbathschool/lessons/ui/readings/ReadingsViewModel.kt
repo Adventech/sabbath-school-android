@@ -74,5 +74,7 @@ class ReadingsViewModel @Inject constructor(
                 _pdfAvailable.emit(pdfs.isNotEmpty())
             }
         }
+
+        lessonsRepository.checkReaderArtifact()
     }
 }

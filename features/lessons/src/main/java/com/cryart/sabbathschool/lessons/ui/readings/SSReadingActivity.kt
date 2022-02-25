@@ -86,8 +86,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
 
     private val binding by viewBinding(SsReadingActivityBinding::inflate)
 
-    //  private val latestReaderArtifactRef: StorageReference = FirebaseStorage.getInstance()
-    //       .reference.child(SSConstants.SS_READER_ARTIFACT_NAME)
     private lateinit var ssReadingViewModel: SSReadingViewModel
 
     private val readingViewAdapter: ReadingViewPagerAdapter by lazy {
@@ -103,8 +101,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        checkIfReaderNeeded()
 
         initUI()
 
@@ -192,28 +188,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
                 }
             )
         }
-    }
-
-    private fun checkIfReaderNeeded() {
-//        latestReaderArtifactRef.metadata.addOnSuccessListener { storageMetadata: StorageMetadata ->
-//            val lastReaderArtifactCreationTime = ssPrefs.getLastReaderArtifactCreationTime()
-//            if (lastReaderArtifactCreationTime != storageMetadata.creationTimeMillis) {
-//                downloadLatestReader(storageMetadata.updatedTimeMillis)
-//            }
-//        }.addOnFailureListener {
-//            Timber.e(it.fillInStackTrace())
-//        }
-    }
-
-    private fun downloadLatestReader(readerArtifactCreationTime: Long) {
-//        val localFile = File(filesDir, SSConstants.SS_READER_ARTIFACT_NAME)
-//        latestReaderArtifactRef.getFile(localFile)
-//            .addOnSuccessListener {
-//                ssPrefs.setLastReaderArtifactCreationTime(readerArtifactCreationTime)
-//                SSUnzip(localFile.path, filesDir.path + "/")
-//            }.addOnFailureListener {
-//                Timber.e(it)
-//            }
     }
 
     private fun updateColorScheme() {
