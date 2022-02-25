@@ -54,4 +54,6 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
     }
 
     override suspend fun saveHighlights(highlights: SSReadHighlights) {}
+
+    override fun checkReaderArtifact() {}
 }

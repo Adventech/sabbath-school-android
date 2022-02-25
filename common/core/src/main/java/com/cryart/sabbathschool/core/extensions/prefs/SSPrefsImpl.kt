@@ -165,13 +165,13 @@ internal class SSPrefsImpl(
         }
     }
 
-    override fun getLastReaderArtifactCreationTime(): Long {
-        return sharedPreferences.getLong(SSConstants.SS_READER_ARTIFACT_CREATION_TIME, 0)
+    override fun getReaderArtifactLastModified(): String? {
+        return sharedPreferences.getString(SSConstants.SS_READER_ARTIFACT_LAST_MODIFIED, null)
     }
 
-    override fun setLastReaderArtifactCreationTime(readerArtifactCreationTime: Long) {
+    override fun setReaderArtifactLastModified(lastModified: String) {
         sharedPreferences.edit {
-            putLong(SSConstants.SS_READER_ARTIFACT_CREATION_TIME, readerArtifactCreationTime)
+            putString(SSConstants.SS_READER_ARTIFACT_LAST_MODIFIED, lastModified)
         }
     }
 

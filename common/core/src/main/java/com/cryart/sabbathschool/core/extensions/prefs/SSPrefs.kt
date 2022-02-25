@@ -38,14 +38,14 @@ interface SSPrefs {
     fun getLastBibleUsed(): String?
     fun getLastQuarterlyType(): String?
     fun getLastQuarterlyIndex(): String?
-    fun getLastReaderArtifactCreationTime(): Long
+    fun getReaderArtifactLastModified(): String?
     fun reminderEnabled(): Boolean
     fun isAppReBrandingPromptShown(): Boolean
     fun isReminderScheduled(): Boolean
     fun setLastBibleUsed(bibleId: String)
     fun setLastQuarterlyType(type: String)
     fun setLastQuarterlyIndex(index: String)
-    fun setLastReaderArtifactCreationTime(readerArtifactCreationTime: Long)
+    fun setReaderArtifactLastModified(lastModified: String)
     fun setAppReBrandingShown()
     fun setThemeColor(primary: String, primaryDark: String)
     fun setReminderScheduled()
