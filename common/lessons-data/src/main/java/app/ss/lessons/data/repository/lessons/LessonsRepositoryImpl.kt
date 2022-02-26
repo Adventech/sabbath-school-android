@@ -58,6 +58,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
     private val readCommentsDataSource: ReadCommentsDataSource,
     private val readHighlightsDataSource: ReadHighlightsDataSource,
     private val dispatcherProvider: DispatcherProvider,
+    private val readerArtifactHelper: ReaderArtifactHelper
 ) : LessonsRepository {
 
     override suspend fun getLessonInfo(lessonIndex: String, cached: Boolean): Resource<SSLessonInfo> {
@@ -216,5 +217,9 @@ internal class LessonsRepositoryImpl @Inject constructor(
             ReadHighlightsDataSource.Request(highlights.readIndex),
             listOf(highlights)
         )
+    }
+
+    override fun checkReaderArtifact() {
+        readerArtifactHelper.sync()
     }
 }

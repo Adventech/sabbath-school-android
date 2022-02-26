@@ -56,4 +56,6 @@ interface LessonsRepository {
     suspend fun getReadHighlights(readIndex: String): Resource<SSReadHighlights>
 
     suspend fun saveHighlights(highlights: SSReadHighlights)
+
+    fun checkReaderArtifact()
 }

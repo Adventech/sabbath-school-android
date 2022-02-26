@@ -21,17 +21,14 @@
  */
 package com.cryart.sabbathschool.core.misc
 
+import com.cryart.sabbathschool.core.BuildConfig
+
 object SSConstants {
     const val SS_APP_RATE_INSTALL_DAYS = 7
     const val SS_DATE_FORMAT = "dd/MM/yyyy"
     const val SS_DATE_FORMAT_OUTPUT = "d MMMM"
     const val SS_DATE_FORMAT_OUTPUT_DAY = "EEEE. d MMMM"
     const val SS_DATE_FORMAT_OUTPUT_DAY_SHORT = "EEE. d MMMM"
-    private const val SS_FIREBASE_API_PREFIX = "/api/v2"
-    const val SS_FIREBASE_LESSON_INFO_DATABASE = "$SS_FIREBASE_API_PREFIX/lesson-info"
-    const val SS_FIREBASE_READS_DATABASE = "$SS_FIREBASE_API_PREFIX/reads"
-    const val SS_FIREBASE_HIGHLIGHTS_DATABASE = "highlights"
-    const val SS_FIREBASE_COMMENTS_DATABASE = "comments"
     const val SS_QUARTERLY_INDEX_EXTRA = "SS_QUARTERLY_INDEX"
     const val SS_QUARTERLY_GROUP = "quarterly_group"
     const val SS_LESSON_INDEX_EXTRA = "SS_LESSON_INDEX"
@@ -43,7 +40,6 @@ object SSConstants {
     const val SS_REMINDER_SCHEDULED = "ss_reminder_scheduled"
     const val SS_REMINDER_TIME_SETTINGS_FORMAT = "HH:mm"
     const val SS_SETTINGS_REMINDER_ENABLED_KEY = "ss_settings_reminder_enabled"
-    const val SS_SETTINGS_REMINDER_ENABLED_DEFAULT_VALUE = true
     const val SS_SETTINGS_REMINDER_TIME_KEY = "ss_settings_reminder_time"
     const val SS_SETTINGS_REMINDER_TIME_DEFAULT_VALUE = "08:00"
     const val SS_SETTINGS_THEME_KEY = "ss_settings_display_options_theme"
@@ -72,8 +68,11 @@ object SSConstants {
     const val SS_EVENT_PARAM_LESSON_INDEX = "ss_lesson_index"
     const val SS_EVENT_PARAM_READ_INDEX = "ss_read_index"
     const val SS_READER_ARTIFACT_NAME = "sabbath-school-reader-latest.zip"
-    const val SS_READER_ARTIFACT_CREATION_TIME = "sabbath-school-reader-creation-time"
+    const val SS_READER_ARTIFACT_LAST_MODIFIED = "sabbath-school-reader-last-modified"
     const val SS_APP_PLAY_STORE_LINK = "https://play.google.com/store/apps/details?id=com.cryart.sabbathschool"
-    const val SS_API_BASE_URL = "https://sabbath-school.adventech.io/"
+    private const val SS_API_BASE_URL = "https://sabbath-school.adventech.io/"
+    private const val SS_STAGE_API_BASE_URL = "https://sabbath-school-stage.adventech.io/"
     const val SS_LATEST_QUARTERLY = "ss_latest_quarterly"
+
+    fun apiBaseUrl() = if (BuildConfig.DEBUG) SS_STAGE_API_BASE_URL else SS_API_BASE_URL
 }

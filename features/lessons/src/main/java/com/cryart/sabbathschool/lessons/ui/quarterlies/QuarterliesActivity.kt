@@ -74,9 +74,7 @@ class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
     private fun collectData() {
         val stateFlow = viewModel.quarterliesFlow.map { it.status }
         stateFlow.collectIn(this) { status ->
-            binding.apply {
-                ssQuarterliesErrorState.isVisible = status == Status.ERROR
-            }
+            binding.ssQuarterliesErrorState.isVisible = status == Status.ERROR
         }
 
         appbarComponent.collect(viewModel.photoUrlFlow)

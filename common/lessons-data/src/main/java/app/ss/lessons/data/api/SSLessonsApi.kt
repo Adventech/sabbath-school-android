@@ -80,4 +80,9 @@ interface SSLessonsApi {
     suspend fun uploadHighlights(
         @Body highlights: SSReadHighlights
     ): Response<ResponseBody>
+
+    @GET
+    suspend fun readerArtifact(
+        @Url url: String
+    ): Response<ResponseBody>
 }

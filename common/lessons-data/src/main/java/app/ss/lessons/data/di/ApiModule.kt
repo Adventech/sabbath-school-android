@@ -51,7 +51,7 @@ object ApiModule {
         .build()
 
     private fun retrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl(SSConstants.SS_API_BASE_URL)
+        .baseUrl(SSConstants.apiBaseUrl())
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .client(okHttpClient)
         .build()
