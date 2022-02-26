@@ -60,14 +60,16 @@ class ReadingsViewModel @Inject constructor(
     val lessonIndex: String? get() = savedStateHandle.lessonIndex
 
     init {
-        viewModelScope.launch(dispatcherProvider.default) {
-            savedStateHandle.lessonIndex?.let { index ->
+        savedStateHandle.lessonIndex?.let { index ->
+            viewModelScope.launch(dispatcherProvider.default) {
                 val resource = mediaRepository.getAudio(index)
                 _audioAvailable.emit(resource.data.isNullOrEmpty().not())
-
+            }
+            viewModelScope.launch(dispatcherProvider.default) {
                 val videoResource = mediaRepository.getVideo(index)
                 _videoAvailable.emit(videoResource.data.isNullOrEmpty().not())
-
+            }
+            viewModelScope.launch(dispatcherProvider.default) {
                 val lessonResource = lessonsRepository.getLessonInfo(index)
                 val pdfs = lessonResource.data?.pdfs ?: emptyList()
                 _lessonPdfs.emit(index to pdfs)
