@@ -38,5 +38,5 @@ interface QuarterliesRepository {
         group: QuarterlyGroup? = null
     ): Flow<Resource<List<SSQuarterly>>>
 
-    suspend fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>>
+    fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>>
 }

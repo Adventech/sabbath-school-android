@@ -45,7 +45,7 @@ class FakeQuarterliesRepository @Inject constructor(
         return flowOf(Resource.success(mockData.getQuarterlies(group)))
     }
 
-    override suspend fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>> {
+    override fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>> {
         return flowOf(
             mockData.getQuarterlyInfo(index)?.let {
                 Resource.success(it)
