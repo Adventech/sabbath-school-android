@@ -19,13 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 import dependencies.Dependencies
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.Square.Moshi
 import dependencies.Dependencies.Square.Okhttp
 import dependencies.Dependencies.Square.Retrofit
-import extensions.addTestsDependencies
 import extensions.implementation
 import extensions.kapt
 
@@ -33,7 +33,6 @@ plugins {
     id(BuildPlugins.Android.LIBRARY)
     id(BuildPlugins.Kotlin.ANDROID)
     id(BuildPlugins.Kotlin.KAPT)
-    id(BuildPlugins.Kotlin.PARCELIZE)
     id(BuildPlugins.DAGGER_HILT)
 }
 
@@ -56,9 +55,6 @@ android {
 
 dependencies {
     implementation(project(BuildModules.Common.CORE))
-    implementation(project(BuildModules.Common.MODELS))
-    implementation(project(BuildModules.Common.NETWORK))
-    implementation(project(BuildModules.Common.STORAGE))
 
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
@@ -72,7 +68,4 @@ dependencies {
     implementation(Retrofit.retrofit2)
     implementation(Okhttp.okhttp)
     implementation(Retrofit.moshiConverter)
-
-    addTestsDependencies()
-    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }

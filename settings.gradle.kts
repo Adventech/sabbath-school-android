@@ -26,6 +26,7 @@ include(
     ":common:design",
     ":common:lessons-data",
     ":common:models",
+    ":common:network",
     ":common:storage",
     ":common:translations",
     ":features:account",

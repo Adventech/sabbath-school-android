@@ -22,6 +22,8 @@
 
 package com.cryart.sabbathschool.core.di
 
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelperImpl
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.DefaultDispatcherProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
@@ -40,4 +42,7 @@ abstract class CoreModule {
 
     @Binds
     internal abstract fun bindSSPrefs(impl: SSPrefsImpl): SSPrefs
+
+    @Binds
+    internal abstract fun bindConnectivityHelper(iml: ConnectivityHelperImpl): ConnectivityHelper
 }

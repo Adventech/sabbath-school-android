@@ -20,19 +20,24 @@
  * THE SOFTWARE.
  */
 
-package app.ss.auth.extensions
+package app.ss.network
 
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
-import kotlin.coroutines.CoroutineContext
 
 suspend fun <T> safeApiCall(
-    context: CoroutineContext,
+    connectivityHelper: ConnectivityHelper,
     apiCall: suspend () -> T
 ): NetworkResource<T> {
-    return withContext(context) {
+    return withContext(Dispatchers.Default) {
         try {
-            NetworkResource.Success(apiCall.invoke())
+            if (connectivityHelper.isConnected()) {
+                NetworkResource.Success(apiCall.invoke())
+            } else {
+                NetworkResource.Failure(isNetworkError = true)
+            }
         } catch (throwable: Throwable) {
             when (throwable) {
                 is HttpException -> {

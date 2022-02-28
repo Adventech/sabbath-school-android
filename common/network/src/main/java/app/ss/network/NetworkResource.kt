@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.auth.extensions
+package app.ss.network
 
 import okhttp3.ResponseBody
 
@@ -28,8 +28,8 @@ sealed class NetworkResource<out T> {
     data class Success<out T>(val value: T) : NetworkResource<T>()
     data class Failure(
         val isNetworkError: Boolean,
-        val errorCode: Int?,
-        val errorBody: ResponseBody?
+        val errorCode: Int? = null,
+        val errorBody: ResponseBody? = null
     ) : NetworkResource<Nothing>()
 
     object Loading : NetworkResource<Nothing>()
