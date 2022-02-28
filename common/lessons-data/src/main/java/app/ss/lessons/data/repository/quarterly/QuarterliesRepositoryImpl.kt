@@ -30,6 +30,7 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.onEach
 import org.joda.time.DateTime
 import org.joda.time.Interval
@@ -54,8 +55,9 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
         return quarterliesDataSource.getAsFlow(QuarterliesDataSource.Request(code, group))
     }
 
-    override suspend fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>> =
+    override fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>> =
         quarterlyInfoDataSource.getItemAsFlow(QuarterlyInfoDataSource.Request(index))
+            .filter { it.data?.lessons?.isNotEmpty() == true }
             .onEach { resource ->
                 if (resource.isSuccessFul) {
                     ssPrefs.setLastQuarterlyIndex(index)

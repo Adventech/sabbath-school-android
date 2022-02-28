@@ -20,17 +20,32 @@
  * THE SOFTWARE.
  */
 
-package app.ss.auth.extensions
+package app.ss.network
 
-import okhttp3.ResponseBody
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
+import retrofit2.HttpException
+import timber.log.Timber
 
-sealed class NetworkResource<out T> {
-    data class Success<out T>(val value: T) : NetworkResource<T>()
-    data class Failure(
-        val isNetworkError: Boolean,
-        val errorCode: Int?,
-        val errorBody: ResponseBody?
-    ) : NetworkResource<Nothing>()
+suspend fun <T> safeApiCall(
+    connectivityHelper: ConnectivityHelper,
+    apiCall: suspend () -> T
+): NetworkResource<T> {
+    return try {
+        if (connectivityHelper.isConnected()) {
+            NetworkResource.Success(apiCall.invoke())
+        } else {
+            NetworkResource.Failure(isNetworkError = true)
+        }
+    } catch (throwable: Throwable) {
+        Timber.e(throwable)
 
-    object Loading : NetworkResource<Nothing>()
+        when (throwable) {
+            is HttpException -> {
+                NetworkResource.Failure(false, throwable.code(), throwable.response()?.errorBody())
+            }
+            else -> {
+                NetworkResource.Failure(true, null, null)
+            }
+        }
+    }
 }

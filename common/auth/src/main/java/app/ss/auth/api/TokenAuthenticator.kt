@@ -22,11 +22,13 @@
 
 package app.ss.auth.api
 
-import app.ss.auth.extensions.NetworkResource
-import app.ss.auth.extensions.safeApiCall
+import app.ss.network.NetworkResource
+import app.ss.network.safeApiCall
 import app.ss.storage.db.dao.UserDao
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
@@ -38,7 +40,8 @@ import javax.inject.Singleton
 class TokenAuthenticator @Inject constructor(
     private val authApi: SSTokenApi,
     private val userDao: UserDao,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val connectivityHelper: ConnectivityHelper
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
@@ -48,8 +51,10 @@ class TokenAuthenticator @Inject constructor(
             when (val resource = getUpdatedToken(user.toUserModel())) {
                 is NetworkResource.Success -> {
 
-                    userDao.clear()
-                    userDao.insertItem(resource.value.toEntity())
+                    withContext(dispatcherProvider.io) {
+                        userDao.clear()
+                        userDao.insertItem(resource.value.toEntity())
+                    }
 
                     response.request.newBuilder()
                         .header("x-ss-auth-access-token", resource.value.stsTokenManager.accessToken)
@@ -60,7 +65,9 @@ class TokenAuthenticator @Inject constructor(
         }
     }
 
-    private suspend fun getUpdatedToken(userModel: UserModel): NetworkResource<UserModel> {
-        return safeApiCall(dispatcherProvider.default) { authApi.refreshToken(userModel) }
+    private suspend fun getUpdatedToken(
+        userModel: UserModel
+    ): NetworkResource<UserModel> = withContext(dispatcherProvider.default) {
+        safeApiCall(connectivityHelper) { authApi.refreshToken(userModel) }
     }
 }

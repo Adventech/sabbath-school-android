@@ -29,18 +29,22 @@ import app.ss.lessons.data.repository.LocalDataSource
 import app.ss.models.SSReadComments
 import app.ss.storage.db.dao.ReadCommentsDao
 import app.ss.storage.db.entity.ReadCommentsEntity
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class ReadCommentsDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
+    connectivityHelper: ConnectivityHelper,
     private val lessonsApi: SSLessonsApi,
-    private val readCommentsDao: ReadCommentsDao,
-) : DataSourceMediator<SSReadComments, ReadCommentsDataSource.Request>(dispatcherProvider = dispatcherProvider) {
+    private val readCommentsDao: ReadCommentsDao
+) : DataSourceMediator<SSReadComments, ReadCommentsDataSource.Request>(
+    dispatcherProvider = dispatcherProvider,
+    connectivityHelper = connectivityHelper,
+) {
 
     data class Request(val readIndex: String)
 
@@ -67,12 +71,9 @@ internal class ReadCommentsDataSource @Inject constructor(
 
     override val network: DataSource<SSReadComments, Request> = object : DataSource<SSReadComments, Request> {
 
-        override suspend fun getItem(request: Request): Resource<SSReadComments> = try {
+        override suspend fun getItem(request: Request): Resource<SSReadComments> {
             val response = lessonsApi.getComments(request.readIndex)
-            Resource.success(response.body() ?: SSReadComments(request.readIndex, emptyList()))
-        } catch (error: Throwable) {
-            Timber.e(error)
-            Resource.error(error)
+            return Resource.success(response.body() ?: SSReadComments(request.readIndex, emptyList()))
         }
 
         override suspend fun update(request: Request, data: List<SSReadComments>) {

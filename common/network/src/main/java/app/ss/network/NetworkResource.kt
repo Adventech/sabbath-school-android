@@ -20,28 +20,15 @@
  * THE SOFTWARE.
  */
 
-package app.ss.auth.extensions
+package app.ss.network
 
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
-import kotlin.coroutines.CoroutineContext
+import okhttp3.ResponseBody
 
-suspend fun <T> safeApiCall(
-    context: CoroutineContext,
-    apiCall: suspend () -> T
-): NetworkResource<T> {
-    return withContext(context) {
-        try {
-            NetworkResource.Success(apiCall.invoke())
-        } catch (throwable: Throwable) {
-            when (throwable) {
-                is HttpException -> {
-                    NetworkResource.Failure(false, throwable.code(), throwable.response()?.errorBody())
-                }
-                else -> {
-                    NetworkResource.Failure(true, null, null)
-                }
-            }
-        }
-    }
+sealed class NetworkResource<out T> {
+    data class Success<out T>(val value: T) : NetworkResource<T>()
+    data class Failure(
+        val isNetworkError: Boolean,
+        val errorCode: Int? = null,
+        val errorBody: ResponseBody? = null
+    ) : NetworkResource<Nothing>()
 }

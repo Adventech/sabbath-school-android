@@ -29,18 +29,22 @@ import app.ss.lessons.data.repository.LocalDataSource
 import app.ss.models.SSReadHighlights
 import app.ss.storage.db.dao.ReadHighlightsDao
 import app.ss.storage.db.entity.ReadHighlightsEntity
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class ReadHighlightsDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
+    connectivityHelper: ConnectivityHelper,
     private val lessonsApi: SSLessonsApi,
     private val readHighlightsDao: ReadHighlightsDao,
-) : DataSourceMediator<SSReadHighlights, ReadHighlightsDataSource.Request>(dispatcherProvider = dispatcherProvider) {
+) : DataSourceMediator<SSReadHighlights, ReadHighlightsDataSource.Request>(
+    dispatcherProvider = dispatcherProvider,
+    connectivityHelper = connectivityHelper
+) {
 
     data class Request(val readIndex: String)
 
@@ -66,13 +70,10 @@ internal class ReadHighlightsDataSource @Inject constructor(
 
     override val network: DataSource<SSReadHighlights, Request> = object : DataSource<SSReadHighlights, Request> {
 
-        override suspend fun getItem(request: Request): Resource<SSReadHighlights> = try {
+        override suspend fun getItem(request: Request): Resource<SSReadHighlights> {
             val response = lessonsApi.getHighlights(request.readIndex)
             val data = response.body() ?: SSReadHighlights(request.readIndex)
-            Resource.success(data)
-        } catch (error: Throwable) {
-            Timber.e(error)
-            Resource.error(error)
+            return Resource.success(data)
         }
 
         override suspend fun update(request: Request, data: List<SSReadHighlights>) {

@@ -23,11 +23,13 @@
 package app.ss.lessons.data.repository
 
 import app.cash.turbine.test
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
@@ -40,12 +42,15 @@ class DataSourceMediatorTest {
     private val networkSource: DataSource<Any, Any> = mockk()
 
     private val dispatcherProvider: DispatcherProvider = TestDispatcherProvider()
+    private val connectivityHelper: ConnectivityHelper = mockk()
 
     private lateinit var mediator: DataSourceMediator<Any, Any>
 
     @Before
     fun setup() {
-        mediator = object : DataSourceMediator<Any, Any>(dispatcherProvider) {
+        every { connectivityHelper.isConnected() }.returns(true)
+
+        mediator = object : DataSourceMediator<Any, Any>(dispatcherProvider, connectivityHelper) {
             override val cache: LocalDataSource<Any, Any>
                 get() = cacheSource
             override val network: DataSource<Any, Any>

@@ -29,6 +29,7 @@ import app.ss.lessons.data.repository.LocalDataSource
 import app.ss.models.Language
 import app.ss.storage.db.dao.LanguagesDao
 import app.ss.storage.db.entity.LanguageEntity
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import javax.inject.Inject
@@ -37,10 +38,12 @@ import javax.inject.Singleton
 @Singleton
 internal class LanguagesDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
+    connectivityHelper: ConnectivityHelper,
     private val languagesDao: LanguagesDao,
     private val quarterliesApi: SSQuarterliesApi,
 ) : DataSourceMediator<Language, LanguagesDataSource.Request>(
-    dispatcherProvider = dispatcherProvider
+    dispatcherProvider = dispatcherProvider,
+    connectivityHelper = connectivityHelper
 ) {
     object Request
 
@@ -59,14 +62,11 @@ internal class LanguagesDataSource @Inject constructor(
     }
 
     override val network: DataSource<Language, Request> = object : DataSource<Language, Request> {
-        override suspend fun get(request: Request): Resource<List<Language>> =
-            try {
-                val data = quarterliesApi.getLanguages().body()?.map {
-                    Language(it.code, it.name)
-                } ?: emptyList()
-                Resource.success(data)
-            } catch (error: Throwable) {
-                Resource.error(error)
-            }
+        override suspend fun get(request: Request): Resource<List<Language>> {
+            val data = quarterliesApi.getLanguages().body()?.map {
+                Language(it.code, it.name)
+            } ?: emptyList()
+            return Resource.success(data)
+        }
     }
 }

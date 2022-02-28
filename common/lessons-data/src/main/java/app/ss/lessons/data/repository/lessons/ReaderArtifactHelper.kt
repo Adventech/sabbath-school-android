@@ -24,6 +24,9 @@ package app.ss.lessons.data.repository.lessons
 
 import android.content.Context
 import app.ss.lessons.data.api.SSLessonsApi
+import app.ss.network.NetworkResource
+import app.ss.network.safeApiCall
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -44,18 +47,26 @@ internal class ReaderArtifactHelper @Inject constructor(
     @ApplicationContext private val context: Context,
     private val lessonsApi: SSLessonsApi,
     private val ssPrefs: SSPrefs,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val connectivityHelper: ConnectivityHelper
 ) : CoroutineScope by CoroutineScope(dispatcherProvider.default) {
 
     fun sync() = try {
         launch {
-            val response = lessonsApi.readerArtifact(URL)
-            val lastModified = response.headers()[LAST_MODIFIED] ?: return@launch
+            val response = safeApiCall(connectivityHelper) {
+                lessonsApi.readerArtifact(URL)
+            }
+            when (response) {
+                is NetworkResource.Success -> {
+                    val lastModified = response.value.headers()[LAST_MODIFIED] ?: return@launch
 
-            if (ssPrefs.getReaderArtifactLastModified() != lastModified) {
-                downloadFile {
-                    ssPrefs.setReaderArtifactLastModified(lastModified)
+                    if (ssPrefs.getReaderArtifactLastModified() != lastModified) {
+                        downloadFile {
+                            ssPrefs.setReaderArtifactLastModified(lastModified)
+                        }
+                    }
                 }
+                is NetworkResource.Failure -> {}
             }
         }
     } catch (error: Throwable) {

@@ -28,20 +28,22 @@ import app.ss.lessons.data.repository.DataSourceMediator
 import app.ss.lessons.data.repository.LocalDataSource
 import app.ss.models.media.SSAudio
 import app.ss.storage.db.dao.AudioDao
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class AudioDataSource @Inject constructor(
+    connectivityHelper: ConnectivityHelper,
     private val mediaApi: SSMediaApi,
     private val audioDao: AudioDao,
     private val dispatcherProvider: DispatcherProvider
 ) : DataSourceMediator<SSAudio, AudioDataSource.Request>(
-    dispatcherProvider = dispatcherProvider
+    dispatcherProvider = dispatcherProvider,
+    connectivityHelper = connectivityHelper,
 ) {
 
     data class Request(val lessonIndex: String)
@@ -59,7 +61,7 @@ internal class AudioDataSource @Inject constructor(
     }
 
     override val network: DataSource<SSAudio, Request> = object : DataSource<SSAudio, Request> {
-        override suspend fun get(request: Request): Resource<List<SSAudio>> = try {
+        override suspend fun get(request: Request): Resource<List<SSAudio>> {
             val data = request.lessonIndex.toMediaRequest()?.let {
                 mediaApi.getAudio(it.language, it.quarterlyId).body()
             } ?: emptyList()
@@ -68,10 +70,7 @@ internal class AudioDataSource @Inject constructor(
 
             val lessonAudios = data.filter { it.targetIndex.startsWith(request.lessonIndex) }
 
-            Resource.success(lessonAudios)
-        } catch (error: Throwable) {
-            Timber.e(error)
-            Resource.error(error)
+            return Resource.success(lessonAudios)
         }
     }
 }

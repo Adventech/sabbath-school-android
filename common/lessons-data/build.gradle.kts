@@ -59,6 +59,7 @@ dependencies {
     implementation(project(BuildModules.Common.AUTH))
     implementation(project(BuildModules.Common.CORE))
     api(project(BuildModules.Common.MODELS))
+    implementation(project(BuildModules.Common.NETWORK))
     implementation(project(BuildModules.Common.STORAGE))
 
     implementation(Kotlin.COROUTINES)
