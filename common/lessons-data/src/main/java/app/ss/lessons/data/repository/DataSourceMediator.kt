@@ -22,6 +22,9 @@
 
 package app.ss.lessons.data.repository
 
+import app.ss.network.NetworkResource
+import app.ss.network.safeApiCall
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.CoroutineScope
@@ -34,7 +37,8 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 internal abstract class DataSourceMediator<T, R>(
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val connectivityHelper: ConnectivityHelper,
 ) : CoroutineScope by CoroutineScope(dispatcherProvider.default) {
 
     abstract val cache: LocalDataSource<T, R>
@@ -42,7 +46,7 @@ internal abstract class DataSourceMediator<T, R>(
     abstract val network: DataSource<T, R>
 
     suspend fun get(request: R): Resource<List<T>> {
-        val network = withContext(dispatcherProvider.default) { network.get(request) }
+        val network = withContext(dispatcherProvider.default) { safeNetworkGet { network.get(request) } }
 
         return if (network.isSuccessFul) {
             network.also {
@@ -64,7 +68,7 @@ internal abstract class DataSourceMediator<T, R>(
             emit(cacheResource)
         }
 
-        val network = withContext(dispatcherProvider.default) { network.get(request) }
+        val network = withContext(dispatcherProvider.default) { safeNetworkGet { network.get(request) } }
         if (network.isSuccessFul) {
             network.data?.let { cache.update(it) }
 
@@ -82,7 +86,7 @@ internal abstract class DataSourceMediator<T, R>(
         return if (cacheResource.isSuccessFul) {
             cacheResource.also { cacheNetworkRequest(request) }
         } else {
-            withContext(dispatcherProvider.default) { network.getItem(request) }.also {
+            withContext(dispatcherProvider.default) { safeNetworkGetItem { network.getItem(request) } }.also {
                 it.data?.let {
                     withContext(dispatcherProvider.io) { cache.updateItem(it) }
                 }
@@ -91,7 +95,7 @@ internal abstract class DataSourceMediator<T, R>(
     }
 
     private fun cacheNetworkRequest(request: R) = launch {
-        val resource = network.getItem(request)
+        val resource = safeNetworkGetItem { network.getItem(request) }
         resource.data?.let { withContext(dispatcherProvider.io) { cache.updateItem(it) } }
     }
 
@@ -101,7 +105,7 @@ internal abstract class DataSourceMediator<T, R>(
             emit(cacheResource)
         }
 
-        val network = withContext(dispatcherProvider.default) { network.getItem(request) }
+        val network = withContext(dispatcherProvider.default) { safeNetworkGetItem { network.getItem(request) } }
         if (network.isSuccessFul) {
             network.data?.let { cache.updateItem(it) }
 
@@ -116,7 +120,21 @@ internal abstract class DataSourceMediator<T, R>(
 
     suspend fun sync(request: R, data: List<T>) {
         withContext(dispatcherProvider.io) { cache.update(data) }
-        withContext(dispatcherProvider.default) { network.update(request, data) }
+        withContext(dispatcherProvider.default) { safeApiCall(connectivityHelper) { network.update(request, data) } }
+    }
+
+    private suspend fun safeNetworkGetItem(call: suspend () -> Resource<T>): Resource<T> {
+        return when (val resource = safeApiCall(connectivityHelper) { call() }) {
+            is NetworkResource.Failure -> Resource.error(Throwable())
+            is NetworkResource.Success -> resource.value
+        }
+    }
+
+    private suspend fun safeNetworkGet(call: suspend () -> Resource<List<T>>): Resource<List<T>> {
+        return when (val resource = safeApiCall(connectivityHelper) { call() }) {
+            is NetworkResource.Failure -> Resource.error(Throwable())
+            is NetworkResource.Success -> resource.value
+        }
     }
 }
 

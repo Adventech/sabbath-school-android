@@ -30,6 +30,7 @@ import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.entity.QuarterlyEntity
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import javax.inject.Inject
@@ -38,9 +39,13 @@ import javax.inject.Singleton
 @Singleton
 internal class QuarterliesDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
+    connectivityHelper: ConnectivityHelper,
     private val quarterliesDao: QuarterliesDao,
     private val quarterliesApi: SSQuarterliesApi,
-) : DataSourceMediator<SSQuarterly, QuarterliesDataSource.Request>(dispatcherProvider) {
+) : DataSourceMediator<SSQuarterly, QuarterliesDataSource.Request>(
+    dispatcherProvider = dispatcherProvider,
+    connectivityHelper = connectivityHelper,
+) {
 
     data class Request(val language: String, val group: QuarterlyGroup? = null)
 
@@ -64,13 +69,11 @@ internal class QuarterliesDataSource @Inject constructor(
         }
     }
     override val network: DataSource<SSQuarterly, Request> = object : DataSource<SSQuarterly, Request> {
-        override suspend fun get(request: Request): Resource<List<SSQuarterly>> = try {
+        override suspend fun get(request: Request): Resource<List<SSQuarterly>> {
             val group = request.group
             val data = quarterliesApi.getQuarterlies(request.language).body() ?: emptyList()
             val filtered = group?.let { data.filter { it.quarterly_group == group } } ?: data
-            Resource.success(filtered)
-        } catch (error: Throwable) {
-            Resource.error(error)
+            return Resource.success(filtered)
         }
     }
 }

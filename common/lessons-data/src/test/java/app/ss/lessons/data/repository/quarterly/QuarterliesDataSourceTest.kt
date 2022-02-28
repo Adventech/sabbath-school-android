@@ -28,6 +28,7 @@ import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.entity.QuarterlyEntity
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.every
@@ -43,6 +44,7 @@ class QuarterliesDataSourceTest {
 
     private val mockQuarterliesDao: QuarterliesDao = mockk()
     private val mockQuarterliesApi: SSQuarterliesApi = mockk()
+    private val connectivityHelper: ConnectivityHelper = mockk()
 
     private val dispatcherProvider = TestDispatcherProvider()
 
@@ -68,10 +70,13 @@ class QuarterliesDataSourceTest {
 
     @Before
     fun setup() {
+        every { connectivityHelper.isConnected() }.returns(true)
+
         dataSource = QuarterliesDataSource(
             dispatcherProvider = dispatcherProvider,
+            connectivityHelper = connectivityHelper,
             quarterliesDao = mockQuarterliesDao,
-            quarterliesApi = mockQuarterliesApi
+            quarterliesApi = mockQuarterliesApi,
         )
     }
 

@@ -23,29 +23,28 @@
 package app.ss.network
 
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import timber.log.Timber
 
 suspend fun <T> safeApiCall(
     connectivityHelper: ConnectivityHelper,
     apiCall: suspend () -> T
 ): NetworkResource<T> {
-    return withContext(Dispatchers.Default) {
-        try {
-            if (connectivityHelper.isConnected()) {
-                NetworkResource.Success(apiCall.invoke())
-            } else {
-                NetworkResource.Failure(isNetworkError = true)
+    return try {
+        if (connectivityHelper.isConnected()) {
+            NetworkResource.Success(apiCall.invoke())
+        } else {
+            NetworkResource.Failure(isNetworkError = true)
+        }
+    } catch (throwable: Throwable) {
+        Timber.e(throwable)
+
+        when (throwable) {
+            is HttpException -> {
+                NetworkResource.Failure(false, throwable.code(), throwable.response()?.errorBody())
             }
-        } catch (throwable: Throwable) {
-            when (throwable) {
-                is HttpException -> {
-                    NetworkResource.Failure(false, throwable.code(), throwable.response()?.errorBody())
-                }
-                else -> {
-                    NetworkResource.Failure(true, null, null)
-                }
+            else -> {
+                NetworkResource.Failure(true, null, null)
             }
         }
     }

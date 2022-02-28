@@ -31,6 +31,4 @@ sealed class NetworkResource<out T> {
         val errorCode: Int? = null,
         val errorBody: ResponseBody? = null
     ) : NetworkResource<Nothing>()
-
-    object Loading : NetworkResource<Nothing>()
 }

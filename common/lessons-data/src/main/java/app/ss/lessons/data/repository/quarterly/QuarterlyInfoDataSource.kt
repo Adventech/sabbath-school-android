@@ -31,6 +31,7 @@ import app.ss.models.SSQuarterlyInfo
 import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.entity.LessonEntity
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import javax.inject.Inject
@@ -39,10 +40,14 @@ import javax.inject.Singleton
 @Singleton
 internal class QuarterlyInfoDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
+    connectivityHelper: ConnectivityHelper,
     private val quarterliesApi: SSQuarterliesApi,
     private val quarterliesDao: QuarterliesDao,
     private val lessonsDao: LessonsDao,
-) : DataSourceMediator<SSQuarterlyInfo, QuarterlyInfoDataSource.Request>(dispatcherProvider = dispatcherProvider) {
+) : DataSourceMediator<SSQuarterlyInfo, QuarterlyInfoDataSource.Request>(
+    dispatcherProvider = dispatcherProvider,
+    connectivityHelper = connectivityHelper,
+) {
 
     data class Request(val index: String)
 
@@ -72,7 +77,7 @@ internal class QuarterlyInfoDataSource @Inject constructor(
         }
     }
     override val network: DataSource<SSQuarterlyInfo, Request> = object : LocalDataSource<SSQuarterlyInfo, Request> {
-        override suspend fun getItem(request: Request): Resource<SSQuarterlyInfo> = try {
+        override suspend fun getItem(request: Request): Resource<SSQuarterlyInfo> {
             val error = Resource.error<SSQuarterlyInfo>(IllegalArgumentException("Required Quarterly [index]"))
             val index = request.index
 
@@ -81,9 +86,7 @@ internal class QuarterlyInfoDataSource @Inject constructor(
 
             val response = quarterliesApi.getQuarterlyInfo(language, id)
 
-            response.body()?.let { Resource.success(it) } ?: error
-        } catch (error: Throwable) {
-            Resource.error(error)
+            return response.body()?.let { Resource.success(it) } ?: error
         }
     }
 

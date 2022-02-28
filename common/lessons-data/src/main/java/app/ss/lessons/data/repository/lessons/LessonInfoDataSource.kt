@@ -30,18 +30,22 @@ import app.ss.models.SSLesson
 import app.ss.models.SSLessonInfo
 import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.entity.LessonEntity
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class LessonInfoDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
+    connectivityHelper: ConnectivityHelper,
     private val lessonsApi: SSLessonsApi,
     private val lessonsDao: LessonsDao,
-) : DataSourceMediator<SSLessonInfo, LessonInfoDataSource.Request>(dispatcherProvider = dispatcherProvider) {
+) : DataSourceMediator<SSLessonInfo, LessonInfoDataSource.Request>(
+    dispatcherProvider = dispatcherProvider,
+    connectivityHelper = connectivityHelper
+) {
 
     data class Request(val lessonIndex: String)
 
@@ -63,7 +67,7 @@ internal class LessonInfoDataSource @Inject constructor(
     }
 
     override val network: DataSource<SSLessonInfo, Request> = object : DataSource<SSLessonInfo, Request> {
-        override suspend fun getItem(request: Request): Resource<SSLessonInfo> = try {
+        override suspend fun getItem(request: Request): Resource<SSLessonInfo> {
             val error = Resource.error<SSLessonInfo>(Throwable(""))
             val index = request.lessonIndex
 
@@ -72,12 +76,9 @@ internal class LessonInfoDataSource @Inject constructor(
             val quarterlyId = index.substringAfter('-')
                 .substringBeforeLast('-')
 
-            val response = lessonsApi.getLessonInfo(language, quarterlyId, lessonId)
+            val resource = lessonsApi.getLessonInfo(language, quarterlyId, lessonId)
 
-            response.body()?.let { Resource.success(it) } ?: error
-        } catch (error: Throwable) {
-            Timber.e(error)
-            Resource.error(error)
+            return resource.body()?.let { Resource.success(it) } ?: error
         }
     }
 

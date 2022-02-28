@@ -30,18 +30,22 @@ import app.ss.lessons.data.repository.LocalDataSource
 import app.ss.models.PdfAnnotations
 import app.ss.storage.db.dao.PdfAnnotationsDao
 import app.ss.storage.db.entity.PdfAnnotationsEntity
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class PdfAnnotationsDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
+    connectivityHelper: ConnectivityHelper,
     private val lessonsApi: SSLessonsApi,
     private val pdfAnnotationsDao: PdfAnnotationsDao,
-) : DataSourceMediator<PdfAnnotations, PdfAnnotationsDataSource.Request>(dispatcherProvider = dispatcherProvider) {
+) : DataSourceMediator<PdfAnnotations, PdfAnnotationsDataSource.Request>(
+    dispatcherProvider = dispatcherProvider,
+    connectivityHelper = connectivityHelper
+) {
 
     data class Request(
         val lessonIndex: String,
@@ -73,24 +77,18 @@ internal class PdfAnnotationsDataSource @Inject constructor(
     }
 
     override val network: DataSource<PdfAnnotations, Request> = object : DataSource<PdfAnnotations, Request> {
-        override suspend fun get(request: Request): Resource<List<PdfAnnotations>> = try {
-            val data = lessonsApi.getPdfAnnotations(request.lessonIndex, request.pdfId).body() ?: emptyList()
-
-            Resource.success(data)
-        } catch (error: Throwable) {
-            Timber.e(error)
-            Resource.error(error)
+        override suspend fun get(request: Request): Resource<List<PdfAnnotations>> {
+            val resource = lessonsApi.getPdfAnnotations(request.lessonIndex, request.pdfId)
+            val data = resource.body() ?: emptyList()
+            return Resource.success(data)
         }
 
-        override suspend fun update(request: Request, data: List<PdfAnnotations>) = try {
-            val response = lessonsApi.uploadAnnotations(
+        override suspend fun update(request: Request, data: List<PdfAnnotations>) {
+            lessonsApi.uploadAnnotations(
                 request.lessonIndex,
                 request.pdfId,
                 UploadPdfAnnotationsRequest(data)
             )
-            Timber.d("SUCCESS: ${response.isSuccessful}")
-        } catch (error: Throwable) {
-            Timber.e(error)
         }
     }
 }

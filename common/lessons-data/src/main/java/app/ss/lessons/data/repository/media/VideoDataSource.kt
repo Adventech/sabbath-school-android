@@ -30,9 +30,9 @@ import app.ss.lessons.data.repository.LocalDataSource
 import app.ss.models.media.SSVideosInfo
 import app.ss.storage.db.dao.VideoInfoDao
 import app.ss.storage.db.entity.VideoInfoEntity
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -40,8 +40,12 @@ import javax.inject.Singleton
 internal class VideoDataSource @Inject constructor(
     private val mediaApi: SSMediaApi,
     private val videoInfoDao: VideoInfoDao,
-    dispatcherProvider: DispatcherProvider
-) : DataSourceMediator<SSVideosInfo, VideoDataSource.Request>(dispatcherProvider = dispatcherProvider) {
+    dispatcherProvider: DispatcherProvider,
+    connectivityHelper: ConnectivityHelper,
+) : DataSourceMediator<SSVideosInfo, VideoDataSource.Request>(
+    dispatcherProvider = dispatcherProvider,
+    connectivityHelper = connectivityHelper,
+) {
 
     data class Request(val lessonIndex: String)
 
@@ -59,7 +63,7 @@ internal class VideoDataSource @Inject constructor(
     }
 
     override val network: DataSource<SSVideosInfo, Request> = object : DataSource<SSVideosInfo, Request> {
-        override suspend fun get(request: Request): Resource<List<SSVideosInfo>> = try {
+        override suspend fun get(request: Request): Resource<List<SSVideosInfo>> {
             val data = request.lessonIndex.toMediaRequest()?.let { ssMediaRequest ->
                 val lessonIndex = "${ssMediaRequest.language}-${ssMediaRequest.quarterlyId}"
                 val videos = mediaApi.getVideo(ssMediaRequest.language, ssMediaRequest.quarterlyId).body()
@@ -68,10 +72,7 @@ internal class VideoDataSource @Inject constructor(
                 }
             } ?: emptyList()
 
-            Resource.success(data)
-        } catch (error: Throwable) {
-            Timber.e(error)
-            Resource.error(error)
+            return Resource.success(data)
         }
     }
 }

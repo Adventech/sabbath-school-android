@@ -29,18 +29,22 @@ import app.ss.lessons.data.repository.LocalDataSource
 import app.ss.models.SSRead
 import app.ss.storage.db.dao.ReadsDao
 import app.ss.storage.db.entity.ReadEntity
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class ReadsDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
+    connectivityHelper: ConnectivityHelper,
     private val lessonsApi: SSLessonsApi,
     private val readsDao: ReadsDao,
-) : DataSourceMediator<SSRead, ReadsDataSource.Request>(dispatcherProvider = dispatcherProvider) {
+) : DataSourceMediator<SSRead, ReadsDataSource.Request>(
+    dispatcherProvider = dispatcherProvider,
+    connectivityHelper = connectivityHelper,
+) {
 
     data class Request(
         val dayIndex: String,
@@ -60,13 +64,10 @@ internal class ReadsDataSource @Inject constructor(
     }
 
     override val network: DataSource<SSRead, Request> = object : DataSource<SSRead, Request> {
-        override suspend fun getItem(request: Request): Resource<SSRead> = try {
+        override suspend fun getItem(request: Request): Resource<SSRead> {
             val error = Resource.error<SSRead>(Throwable(""))
             val response = lessonsApi.getDayRead("${request.fullPath}/index.json")
-            response.body()?.let { Resource.success(it) } ?: error
-        } catch (error: Throwable) {
-            Timber.e(error)
-            Resource.error(error)
+            return response.body()?.let { Resource.success(it) } ?: error
         }
     }
 
