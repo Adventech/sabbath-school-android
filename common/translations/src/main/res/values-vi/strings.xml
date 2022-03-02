@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Bài học Sa-bát"</string>
     <string name="ss_share">"Chia sẻ"</string>
     <string name="ss_login_button_google">"Đăng nhập bằng Google"</string>
-    <string name="ss_login_button_facebook">"Đăng nhập vao facebook"</string>
     <string name="ss_login_button_anonymous">"Đăng nhập nặc danh"</string>
     <string name="ss_menu_anonymous_name">"Vô danh"</string>
     <string name="ss_menu_sign_out">"Đăng xuất"</string>

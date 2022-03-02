@@ -10,11 +10,6 @@ object BuildPlugins {
         const val KAPT = "kotlin-kapt"
     }
 
-    object Google {
-        const val CRASHLYTICS = "com.google.firebase.crashlytics"
-        const val SERVICES = "com.google.gms.google-services"
-    }
-
     const val DAGGER_HILT = "dagger.hilt.android.plugin"
     const val KTLINT = "plugins.ktlint"
 

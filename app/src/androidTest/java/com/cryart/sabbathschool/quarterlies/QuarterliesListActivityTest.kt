@@ -28,7 +28,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import app.ss.lessons.data.model.QuarterlyGroup
+import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.actions.withCollapsingToolbarTitle
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.quarterlies.list.QuarterliesListActivity

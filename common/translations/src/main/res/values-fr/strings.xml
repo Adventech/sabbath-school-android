@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Ecole du Sabbat"</string>
     <string name="ss_share">"Partager"</string>
     <string name="ss_login_button_google">"Connectez-vous avec Google"</string>
-    <string name="ss_login_button_facebook">"Connectez-vous avec Facebook"</string>
     <string name="ss_login_button_anonymous">"Continuer anonymement"</string>
     <string name="ss_menu_anonymous_name">"Anonyme"</string>
     <string name="ss_menu_sign_out">"Se déconnecter"</string>

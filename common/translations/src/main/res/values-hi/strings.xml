@@ -24,7 +24,6 @@
     <string name="ss_app_name">"सब्बाथ स्कूल"</string>
     <string name="ss_share">"शेयर"</string>
     <string name="ss_login_button_google">"Google के साथ साइन इन करें"</string>
-    <string name="ss_login_button_facebook">"फ़ेसबुक से साइन इन करें"</string>
     <string name="ss_login_button_anonymous">"अनाम रूप से लॉगिन करें"</string>
     <string name="ss_menu_anonymous_name">"गुमनाम"</string>
     <string name="ss_menu_sign_out">"साइन आउट"</string>

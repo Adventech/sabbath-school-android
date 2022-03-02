@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Szkoła Sobotnia"</string>
     <string name="ss_share">"Udostępnij"</string>
     <string name="ss_login_button_google">"Zaloguj się za pomocą Google"</string>
-    <string name="ss_login_button_facebook">"Zaloguj się przez Facebook"</string>
     <string name="ss_login_button_anonymous">"Zaloguj się jako Anonimowy"</string>
     <string name="ss_menu_anonymous_name">"Anonimowy"</string>
     <string name="ss_menu_sign_out">"Wyloguj się"</string>

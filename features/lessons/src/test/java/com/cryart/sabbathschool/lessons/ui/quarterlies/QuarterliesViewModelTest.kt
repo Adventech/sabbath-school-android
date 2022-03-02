@@ -22,17 +22,17 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
-import app.ss.lessons.data.model.QuarterlyGroup
+import app.ss.auth.AuthRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import app.ss.models.QuarterlyGroup
+import app.ss.models.auth.SSUser
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
-import com.google.firebase.auth.FirebaseAuth
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -41,23 +41,14 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
-import org.junit.Ignore
-import org.junit.Rule
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
-@ExperimentalTime
 class QuarterliesViewModelTest {
 
-    @get:Rule
-    val instantTaskRule = InstantTaskExecutorRule()
-
-    private val dispatcherProvider = TestDispatcherProvider()
-
     private val mockRepository: QuarterliesRepository = mockk(relaxed = true)
-    private val mockFirebaseAuth: FirebaseAuth = mockk()
     private val mockSSPrefs: SSPrefs = mockk()
     private val mockSavedStateHandle: SavedStateHandle = mockk()
+    private val mockAuthRepository: AuthRepository = mockk()
 
     private lateinit var viewModel: QuarterliesViewModel
 
@@ -65,25 +56,26 @@ class QuarterliesViewModelTest {
     fun setup() {
         every { mockSSPrefs.getLanguageCodeFlow() }.returns(flowOf("en"))
         every { mockSavedStateHandle.get<QuarterlyGroup>(SSConstants.SS_QUARTERLY_GROUP) }.returns(null)
+        val user = mockk<SSUser>()
+        every { user.photo }.returns(null)
+        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(user))
 
         viewModel = QuarterliesViewModel(
-            mockRepository,
-            mockSSPrefs,
-            mockFirebaseAuth,
-            mockSavedStateHandle,
+            repository = mockRepository,
+            ssPrefs = mockSSPrefs,
+            authRepository = mockAuthRepository,
+            savedStateHandle = mockSavedStateHandle,
+            dispatcherProvider = TestDispatcherProvider()
         )
     }
 
     @Test
-    @Ignore("Flaky test")
     fun `should update selected language and quarterlies list`() = runTest {
         // given
         val language = "de"
 
-        coEvery { mockRepository.getQuarterlies(any(), null) }.returns(
-            flowOf(
-                Resource.success(emptyList())
-            )
+        every { mockRepository.getQuarterlies(any(), null) }.returns(
+            flowOf(Resource.success(emptyList()))
         )
         every { mockSSPrefs.setLanguageCode(language) }.returns(Unit)
         every { mockSSPrefs.isAppReBrandingPromptShown() }.returns(true)
@@ -94,8 +86,7 @@ class QuarterliesViewModelTest {
 
             verify { mockSSPrefs.setLanguageCode(language) }
 
-            awaitItem().status shouldBeEqualTo Status.LOADING
-            // awaitItem().status shouldBeEqualTo Status.SUCCESS
+            awaitItem().status shouldBeEqualTo Status.SUCCESS
         }
     }
 }

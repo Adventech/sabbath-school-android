@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Sesikolo Sesabatha"</string>
     <string name="ss_share">"Yabelana"</string>
     <string name="ss_login_button_google">"Ngena ngemvume ngeGoogle"</string>
-    <string name="ss_login_button_facebook">"Ngena kwi-Facebook"</string>
     <string name="ss_login_button_anonymous">"Ngena ngemvume ngegama"</string>
     <string name="ss_menu_anonymous_name">"Engaziwa"</string>
     <string name="ss_menu_sign_out">"Phuma"</string>

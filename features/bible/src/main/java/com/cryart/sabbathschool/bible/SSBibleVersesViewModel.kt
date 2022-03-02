@@ -24,7 +24,7 @@ package com.cryart.sabbathschool.bible
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.lessons.data.model.SSBibleVerses
+import app.ss.models.SSBibleVerses
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs

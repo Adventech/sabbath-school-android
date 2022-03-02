@@ -26,8 +26,14 @@ import android.content.Context
 import app.ss.storage.db.SabbathSchoolDatabase
 import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.dao.LanguagesDao
+import app.ss.storage.db.dao.LessonsDao
+import app.ss.storage.db.dao.PdfAnnotationsDao
+import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.dao.ReadCommentsDao
 import app.ss.storage.db.dao.ReadHighlightsDao
+import app.ss.storage.db.dao.ReadsDao
+import app.ss.storage.db.dao.UserDao
+import app.ss.storage.db.dao.VideoInfoDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,6 +59,30 @@ object StorageModule {
 
     @Provides
     @Singleton
+    fun provideQuarterliesDao(
+        @ApplicationContext context: Context,
+    ): QuarterliesDao = context.database().quarterliesDao()
+
+    @Provides
+    @Singleton
+    fun provideLessonsDao(
+        @ApplicationContext context: Context,
+    ): LessonsDao = context.database().lessonsDao()
+
+    @Provides
+    @Singleton
+    fun provideReadsDao(
+        @ApplicationContext context: Context,
+    ): ReadsDao = context.database().readsDao()
+
+    @Provides
+    @Singleton
+    fun providePdfAnnotationsDao(
+        @ApplicationContext context: Context,
+    ): PdfAnnotationsDao = context.database().pdfAnnotationsDao()
+
+    @Provides
+    @Singleton
     fun provideReadCommentsDao(
         @ApplicationContext context: Context,
     ): ReadCommentsDao = context.database().readCommentsDao()
@@ -63,5 +93,17 @@ object StorageModule {
         @ApplicationContext context: Context,
     ): ReadHighlightsDao = context.database().readHighlightsDao()
 
-    private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)
+    @Provides
+    @Singleton
+    fun provideUserDao(
+        @ApplicationContext context: Context,
+    ): UserDao = context.database().userDao()
+
+    @Provides
+    @Singleton
+    fun provideVideoInfoDao(
+        @ApplicationContext context: Context,
+    ): VideoInfoDao = context.database().videoInfoDao()
 }
+
+private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)

@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.ui.splash
 
 sealed class LaunchState {
+    object Loading : LaunchState()
     object Login : LaunchState()
     object Quarterlies : LaunchState()
     data class Lessons(val index: String) : LaunchState()

@@ -22,75 +22,58 @@
 
 package app.ss.lessons.data.repository.lessons
 
-import app.ss.lessons.data.extensions.ValueEvent
-import app.ss.lessons.data.extensions.singleEvent
-import app.ss.lessons.data.extensions.valueEventFlow
-import app.ss.lessons.data.model.PdfAnnotations
 import app.ss.lessons.data.model.QuarterlyLessonInfo
-import app.ss.lessons.data.model.SSLessonInfo
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.model.SSQuarterlyInfo
-import app.ss.lessons.data.model.SSRead
-import app.ss.lessons.data.model.SSReadComments
-import app.ss.lessons.data.model.SSReadHighlights
-import app.ss.lessons.data.model.TodayData
-import app.ss.lessons.data.model.WeekData
-import app.ss.lessons.data.model.WeekDay
-import app.ss.storage.db.dao.ReadCommentsDao
-import app.ss.storage.db.dao.ReadHighlightsDao
-import app.ss.storage.db.entity.Comment
-import app.ss.storage.db.entity.ReadCommentsEntity
-import app.ss.storage.db.entity.ReadHighlightsEntity
+import app.ss.lessons.data.repository.quarterly.QuarterliesDataSource
+import app.ss.lessons.data.repository.quarterly.QuarterlyInfoDataSource
+import app.ss.models.PdfAnnotations
+import app.ss.models.SSDay
+import app.ss.models.SSLessonInfo
+import app.ss.models.SSQuarterlyInfo
+import app.ss.models.SSRead
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
+import app.ss.models.TodayData
+import app.ss.models.WeekData
+import app.ss.models.WeekDay
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.DateHelper.formatDate
 import com.cryart.sabbathschool.core.misc.DateHelper.parseDate
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.getValue
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class LessonsRepositoryImpl @Inject constructor(
-    private val firebaseDatabase: FirebaseDatabase,
-    private val firebaseAuth: FirebaseAuth,
     private val ssPrefs: SSPrefs,
-    private val readCommentsDao: ReadCommentsDao,
-    private val readHighlightsDao: ReadHighlightsDao,
+    private val quarterliesDataSource: QuarterliesDataSource,
+    private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
+    private val lessonInfoDataSource: LessonInfoDataSource,
+    private val readsDataSource: ReadsDataSource,
+    private val pdfAnnotationsDataSource: PdfAnnotationsDataSource,
+    private val readCommentsDataSource: ReadCommentsDataSource,
+    private val readHighlightsDataSource: ReadHighlightsDataSource,
     private val dispatcherProvider: DispatcherProvider,
+    private val readerArtifactHelper: ReaderArtifactHelper
 ) : LessonsRepository {
 
-    private val firebaseRef = firebaseDatabase.reference.apply { keepSynced(true) }
-
-    override suspend fun getLessonInfo(lessonIndex: String): Resource<SSLessonInfo> {
-        val event = firebaseRef
-            .child(SSConstants.SS_FIREBASE_LESSON_INFO_DATABASE)
-            .child(lessonIndex)
-            .singleEvent()
-
-        return when (event) {
-            is ValueEvent.Cancelled -> Resource.error(event.error)
-            is ValueEvent.DataChange -> Resource.success(SSLessonInfo(event.snapshot))
+    override suspend fun getLessonInfo(lessonIndex: String, cached: Boolean): Resource<SSLessonInfo> {
+        return if (cached) {
+            withContext(dispatcherProvider.io) {
+                lessonInfoDataSource.cache.getItem(LessonInfoDataSource.Request(lessonIndex))
+            }
+        } else {
+            lessonInfoDataSource.getItem(LessonInfoDataSource.Request(lessonIndex))
         }
     }
 
-    override suspend fun getTodayRead(): Resource<TodayData> {
-        val dataResponse = getQuarterlyAndLessonInfo()
-        val lessonInfo: SSLessonInfo
-        if (dataResponse.isSuccessFul && dataResponse.data != null) {
-            lessonInfo = dataResponse.data!!.lessonInfo
-        } else {
-            return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
-        }
+    override suspend fun getTodayRead(cached: Boolean): Resource<TodayData> {
+        val dataResponse = getQuarterlyAndLessonInfo(cached)
+        val lessonInfo = dataResponse.data?.lessonInfo ?: return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
 
         val today = DateTime.now().withTimeAtStartOfDay()
         val todayModel = lessonInfo.days.find { day ->
@@ -108,15 +91,10 @@ internal class LessonsRepositoryImpl @Inject constructor(
         return Resource.success(todayModel)
     }
 
-    private suspend fun getQuarterlyAndLessonInfo(): Resource<QuarterlyLessonInfo> {
+    private suspend fun getQuarterlyAndLessonInfo(cached: Boolean): Resource<QuarterlyLessonInfo> {
         val quarterlyResponse = getQuarterlyInfo()
-        val quarterlyInfo: SSQuarterlyInfo
-        if (quarterlyResponse.isSuccessFul && quarterlyResponse.data != null) {
-            quarterlyInfo = quarterlyResponse.data!!
-        } else {
-            return Resource.error(quarterlyResponse.error ?: Throwable("Invalid QuarterlyInfo"))
-        }
-        val lessonInfo = getWeekLessonInfo(quarterlyInfo) ?: return Resource.error(Throwable("Invalid LessonInfo"))
+        val quarterlyInfo = quarterlyResponse.data ?: return Resource.error(quarterlyResponse.error ?: Throwable("Invalid QuarterlyInfo"))
+        val lessonInfo = getWeekLessonInfo(quarterlyInfo, cached) ?: return Resource.error(Throwable("Invalid LessonInfo"))
 
         return Resource.success(QuarterlyLessonInfo(quarterlyInfo, lessonInfo))
     }
@@ -126,66 +104,34 @@ internal class LessonsRepositoryImpl @Inject constructor(
             return Resource.success(it)
         } ?: getDefaultQuarterlyIndex() ?: return Resource.error(Throwable("Invalid Quarterly Index"))
 
-        val event = firebaseRef
-            .child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
-            .child(index)
-            .singleEvent()
-
-        return when (event) {
-            is ValueEvent.Cancelled -> Resource.error(event.error)
-            is ValueEvent.DataChange -> Resource.success(SSQuarterlyInfo(event.snapshot))
+        return withContext(dispatcherProvider.io) {
+            quarterlyInfoDataSource.cache.getItem(QuarterlyInfoDataSource.Request(index))
         }
     }
 
     private suspend fun getLastQuarterlyInfoIfCurrent(): SSQuarterlyInfo? {
         val index = ssPrefs.getLastQuarterlyIndex() ?: return null
+        val info = withContext(dispatcherProvider.io) {
+            quarterlyInfoDataSource.cache.getItem(QuarterlyInfoDataSource.Request(index)).data
+        } ?: return null
 
-        val event = firebaseRef
-            .child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
-            .child(index)
-            .singleEvent()
-
-        return when (event) {
-            is ValueEvent.Cancelled -> null
-            is ValueEvent.DataChange -> {
-                val info = SSQuarterlyInfo(event.snapshot)
-                val today = DateTime.now().withTimeAtStartOfDay()
-                if (today.isBefore(parseDate(info.quarterly.end_date))) {
-                    info
-                } else {
-                    null
-                }
-            }
+        val today = DateTime.now().withTimeAtStartOfDay()
+        return if (today.isBefore(parseDate(info.quarterly.end_date))) {
+            info
+        } else {
+            null
         }
     }
 
     private suspend fun getDefaultQuarterlyIndex(): String? {
-        var code = ssPrefs.getLanguageCode()
-        if (code == "iw") {
-            code = "he"
+        val resource = withContext(dispatcherProvider.io) {
+            quarterliesDataSource.cache.get(QuarterliesDataSource.Request(ssPrefs.getLanguageCode()))
         }
-        if (code == "fil") {
-            code = "tl"
-        }
-
-        val quarterlyEvent = firebaseRef
-            .child(SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE)
-            .child(code)
-            .singleEvent()
-
-        return when (quarterlyEvent) {
-            is ValueEvent.Cancelled -> null
-            is ValueEvent.DataChange -> {
-                val quarterlies = quarterlyEvent.snapshot.children.mapNotNull {
-                    SSQuarterly(it)
-                }
-                val quarterly = quarterlies.firstOrNull()
-                quarterly?.index
-            }
-        }
+        val quarterly = resource.data?.firstOrNull()
+        return quarterly?.index
     }
 
-    private suspend fun getWeekLessonInfo(quarterlyInfo: SSQuarterlyInfo): SSLessonInfo? {
+    private suspend fun getWeekLessonInfo(quarterlyInfo: SSQuarterlyInfo, cached: Boolean): SSLessonInfo? {
         val lesson = quarterlyInfo.lessons.find { lesson ->
             val startDate = parseDate(lesson.start_date)
             val endDate = parseDate(lesson.end_date)
@@ -194,32 +140,26 @@ internal class LessonsRepositoryImpl @Inject constructor(
             startDate?.isBeforeNow == true && (endDate?.isAfterNow == true || today.isEqual(endDate))
         }
 
-        return lesson?.let { getLessonInfo(it.index).data }
+        return lesson?.let { getLessonInfo(it.index, cached).data }
     }
 
-    override suspend fun getDayRead(dayIndex: String): Resource<SSRead> {
-        val event = firebaseRef
-            .child(SSConstants.SS_FIREBASE_READS_DATABASE)
-            .child(dayIndex)
-            .singleEvent()
-
-        return when (event) {
-            is ValueEvent.Cancelled -> Resource.error(event.error)
-            is ValueEvent.DataChange -> Resource.success(SSRead(event.snapshot))
-        }
+    override suspend fun getDayRead(dayIndex: String): Resource<SSRead> = withContext(dispatcherProvider.io) {
+        readsDataSource.cache.getItem(
+            ReadsDataSource.Request(dayIndex = dayIndex, fullPath = "")
+        )
     }
 
-    override suspend fun getWeekData(): Resource<WeekData> {
-        val dataResponse = getQuarterlyAndLessonInfo()
-        val quarterlyInfo: SSQuarterlyInfo
-        val lessonInfo: SSLessonInfo
-        if (dataResponse.isSuccessFul && dataResponse.data != null) {
-            quarterlyInfo = dataResponse.data!!.quarterlyInfo
-            lessonInfo = dataResponse.data!!.lessonInfo
-        } else {
-            return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
-        }
+    override suspend fun getDayRead(day: SSDay): Resource<SSRead> =
+        readsDataSource.getItem(
+            ReadsDataSource.Request(
+                dayIndex = day.index,
+                fullPath = day.full_read_path
+            )
+        )
 
+    override suspend fun getWeekData(cached: Boolean): Resource<WeekData> {
+        val dataResponse = getQuarterlyAndLessonInfo(cached)
+        val (quarterlyInfo, lessonInfo) = dataResponse.data ?: return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
         val today = DateTime.now().withTimeAtStartOfDay()
 
         val days = lessonInfo.days.map { ssDay ->
@@ -243,55 +183,43 @@ internal class LessonsRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
-        val uid = firebaseAuth.uid ?: return
-        Timber.d("UID: $uid")
-
-        val pdfRef = firebaseRef
-            .child(SSConstants.SS_FIREBASE_ANNOTATIONS_DATABASE)
-            .child(uid)
-            .child(lessonIndex)
-            .child(pdfId)
-
-        pdfRef.setValue(annotations)
-    }
-
-    override suspend fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>> {
-        val uid = firebaseAuth.uid ?: return flowOf(Resource.error(Throwable("Invalid User")))
-
-        val eventFlow = firebaseDatabase.reference
-            .child(SSConstants.SS_FIREBASE_ANNOTATIONS_DATABASE)
-            .child(uid)
-            .child(lessonIndex)
-            .child(pdfId)
-            .valueEventFlow()
-
-        return eventFlow.map { event ->
-            when (event) {
-                is ValueEvent.Cancelled -> Resource.error(event.error)
-                is ValueEvent.DataChange -> {
-                    val annotations = event.snapshot.children.mapNotNull { it.getValue<PdfAnnotations>() }
-                    Resource.success(annotations)
-                }
-            }
-        }
-    }
-
-    override suspend fun saveComments(comments: SSReadComments) = withContext(dispatcherProvider.io) {
-        readCommentsDao.insertItem(
-            ReadCommentsEntity(
-                readIndex = comments.readIndex,
-                comments = comments.comments.map { Comment(it.elementId, it.comment) }
-            )
+    override suspend fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
+        pdfAnnotationsDataSource.sync(
+            PdfAnnotationsDataSource.Request(lessonIndex, pdfId),
+            annotations
         )
     }
 
-    override suspend fun saveHighlights(highlights: SSReadHighlights) = withContext(dispatcherProvider.io) {
-        readHighlightsDao.insertItem(
-            ReadHighlightsEntity(
-                readIndex = highlights.readIndex,
-                highlights = highlights.highlights
-            )
+    override fun getAnnotations(
+        lessonIndex: String,
+        pdfId: String
+    ): Flow<Resource<List<PdfAnnotations>>> = pdfAnnotationsDataSource.getAsFlow(
+        PdfAnnotationsDataSource.Request(lessonIndex, pdfId)
+    )
+
+    override suspend fun getComments(
+        readIndex: String
+    ): Resource<SSReadComments> = readCommentsDataSource.getItem(ReadCommentsDataSource.Request(readIndex))
+
+    override suspend fun saveComments(comments: SSReadComments) {
+        readCommentsDataSource.sync(
+            ReadCommentsDataSource.Request(comments.readIndex),
+            listOf(comments)
         )
+    }
+
+    override suspend fun getReadHighlights(
+        readIndex: String
+    ): Resource<SSReadHighlights> = readHighlightsDataSource.getItem(ReadHighlightsDataSource.Request(readIndex))
+
+    override suspend fun saveHighlights(highlights: SSReadHighlights) {
+        readHighlightsDataSource.sync(
+            ReadHighlightsDataSource.Request(highlights.readIndex),
+            listOf(highlights)
+        )
+    }
+
+    override fun checkReaderArtifact() {
+        readerArtifactHelper.sync()
     }
 }

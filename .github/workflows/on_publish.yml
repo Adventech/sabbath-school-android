@@ -1,0 +1,40 @@
+name: Upload release asset(s)
+on:
+  release:
+    types: ["published"]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Decrypt secrets
+        run: ./release/decrypt-secrets.sh
+        env:
+          ENCRYPT_KEY: ${{ secrets.ENCRYPT_KEY }}
+
+      - name: Generate build number
+        run: echo "BUILD_NUMBER=${{github.run_number}}" > app/build_number.properties
+
+      - name: Build Release
+        run: ./gradlew app:bundleRelease --stacktrace
+
+      - name: Upload aab
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: app/build/outputs/bundle/release/app-release.aab
+          asset_name: pb-android-prod-release.aab
+          asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

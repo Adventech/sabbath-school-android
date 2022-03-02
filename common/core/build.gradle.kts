@@ -21,7 +21,6 @@
  */
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
 import extensions.addTestsDependencies
@@ -67,11 +66,6 @@ dependencies {
     kapt(Hilt.COMPILER)
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.JODA)
-
-    implementation(platform(Firebase.BOM))
-    implementation(Firebase.ANALYTICS)
-    implementation(Firebase.AUTH)
-    implementation(Firebase.DATABASE)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))

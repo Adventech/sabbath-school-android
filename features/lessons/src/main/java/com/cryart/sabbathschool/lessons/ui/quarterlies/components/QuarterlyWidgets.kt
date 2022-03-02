@@ -66,7 +66,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ss.lessons.data.model.SSQuarterly
+import app.ss.models.SSQuarterly
 import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
 import com.cryart.design.theme.BaseGrey2

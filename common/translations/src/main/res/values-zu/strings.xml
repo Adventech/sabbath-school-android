@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Isikole seSabatha"</string>
     <string name="ss_share">"Yabelana"</string>
     <string name="ss_login_button_google">"Ngena ngemvume nge-Google"</string>
-    <string name="ss_login_button_facebook">"Ngena ngemvume nge-Facebook"</string>
     <string name="ss_login_button_anonymous">"Ngena ngemvume ngokungaziwa"</string>
     <string name="ss_menu_anonymous_name">"Angaziwa"</string>
     <string name="ss_menu_sign_out">"Sayinela ukuphuma"</string>

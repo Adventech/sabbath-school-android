@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Sekolo sa Sabatha"</string>
     <string name="ss_share">"Kopanela"</string>
     <string name="ss_login_button_google">"Kenana le Google"</string>
-    <string name="ss_login_button_facebook">"Kena ka Facebook"</string>
     <string name="ss_login_button_anonymous">"Ho kena Inonymously"</string>
     <string name="ss_menu_anonymous_name">"E sa tsejoe"</string>
     <string name="ss_menu_sign_out">"Tsoaha"</string>

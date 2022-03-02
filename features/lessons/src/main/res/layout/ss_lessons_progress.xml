@@ -28,6 +28,7 @@
     android:layout_height="match_parent"
     android:background="?android:attr/windowBackground"
     android:visibility="gone"
+    app:shimmer_duration="1500"
     tools:visibility="visible">
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -24,7 +24,6 @@
     <string name="ss_app_name">"โรงเรียนวันสะบาโต"</string>
     <string name="ss_share">"หุ้น"</string>
     <string name="ss_login_button_google">"ลงชื่อเข้าใช้ด้วย Google"</string>
-    <string name="ss_login_button_facebook">"ลงชื่อเข้าใช้ด้วย Facebook"</string>
     <string name="ss_login_button_anonymous">"เข้าสู่ระบบด้วยชื่อผู้ไม่ประสงค์ออกนาม"</string>
     <string name="ss_menu_anonymous_name">"ไม่ระบุชื่อ"</string>
     <string name="ss_menu_sign_out">"ออกจากระบบ"</string>

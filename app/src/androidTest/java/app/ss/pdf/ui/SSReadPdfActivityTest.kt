@@ -25,7 +25,7 @@ package app.ss.pdf.ui
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.intent.Intents
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import app.ss.lessons.data.model.LessonPdf
+import app.ss.models.LessonPdf
 import app.ss.pdf.PdfReader
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

@@ -22,12 +22,11 @@
 
 package app.ss.lessons.data.repository.media
 
-import app.ss.lessons.data.api.SSMediaApi
-import app.ss.lessons.data.model.api.SSAudio
-import app.ss.lessons.data.model.api.SSVideosInfo
+import android.net.Uri
+import app.ss.models.media.SSAudio
+import app.ss.models.media.SSVideosInfo
 import app.ss.lessons.data.model.api.request.SSMediaRequest
-import app.ss.lessons.data.model.media.AudioFile
-import app.ss.lessons.data.model.media.toAudio
+import app.ss.models.media.AudioFile
 import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.entity.AudioFileEntity
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
@@ -42,40 +41,19 @@ interface MediaRepository {
     suspend fun findAudioFile(id: String): AudioFile?
     suspend fun updateDuration(id: String, duration: Long)
     suspend fun getPlayList(lessonIndex: String): List<AudioFile>
-
     suspend fun getVideo(lessonIndex: String): Resource<List<SSVideosInfo>>
 }
 
 @Singleton
 internal class MediaRepositoryImpl @Inject constructor(
-    private val mediaApi: SSMediaApi,
+    private val audioDataSource: AudioDataSource,
+    private val videoDataSource: VideoDataSource,
     private val audioDao: AudioDao,
     private val dispatcherProvider: DispatcherProvider
 ) : MediaRepository {
 
-    override suspend fun getAudio(
-        lessonIndex: String,
-    ): Resource<List<SSAudio>> {
-
-        return try {
-            val request = lessonIndex.toMediaRequest() ?: return Resource.error(Throwable("Invalid Index"))
-            val response = mediaApi.getAudio(request.language, request.quarterlyId)
-
-            val audios = response.body() ?: emptyList()
-            if (audios.isNotEmpty()) {
-                withContext(dispatcherProvider.io) {
-                    audioDao.insertAll(
-                        audios.map { it.toEntity() }
-                    )
-                }
-            }
-
-            val lessonAudios = audios.filter { it.targetIndex.startsWith(lessonIndex) }
-
-            Resource.success(lessonAudios)
-        } catch (ex: Throwable) {
-            Resource.error(ex)
-        }
+    override suspend fun getAudio(lessonIndex: String): Resource<List<SSAudio>> {
+        return audioDataSource.get(AudioDataSource.Request(lessonIndex))
     }
 
     override suspend fun findAudioFile(id: String): AudioFile? = withContext(dispatcherProvider.io) {
@@ -94,24 +72,11 @@ internal class MediaRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getVideo(lessonIndex: String): Resource<List<SSVideosInfo>> {
-        return try {
-            val request = lessonIndex.toMediaRequest() ?: return Resource.error(Throwable("Invalid Index"))
-            val response = mediaApi.getVideo(request.language, request.quarterlyId)
-
-            val videos = response.body() ?: emptyList()
-            if (videos.isNotEmpty()) {
-                // cache
-            }
-
-            Resource.success(videos)
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            Resource.error(ex)
-        }
+        return videoDataSource.get(VideoDataSource.Request(lessonIndex))
     }
 }
 
-private fun String.toMediaRequest(): SSMediaRequest? {
+internal fun String.toMediaRequest(): SSMediaRequest? {
     if (this.isEmpty()) {
         return null
     }
@@ -122,6 +87,28 @@ private fun String.toMediaRequest(): SSMediaRequest? {
 }
 
 fun SSAudio.toEntity(): AudioFileEntity = AudioFileEntity(
+    id = id,
+    artist = artist,
+    image = image,
+    imageRatio = imageRatio,
+    src = src,
+    target = target,
+    targetIndex = targetIndex,
+    title = title,
+)
+
+fun AudioFileEntity.toAudio(): AudioFile = AudioFile(
+    id = id,
+    artist = artist,
+    image = image,
+    imageRatio = imageRatio,
+    source = Uri.parse(src),
+    target = target,
+    targetIndex = targetIndex,
+    title = title,
+)
+
+fun AudioFileEntity.toSSAudio(): SSAudio = SSAudio(
     id = id,
     artist = artist,
     image = image,

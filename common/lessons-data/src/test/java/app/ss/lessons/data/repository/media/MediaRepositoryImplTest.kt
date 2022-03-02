@@ -22,25 +22,24 @@
 
 package app.ss.lessons.data.repository.media
 
-import app.ss.lessons.data.api.SSMediaApi
-import app.ss.lessons.data.model.api.SSAudio
+import app.ss.models.media.SSAudio
 import app.ss.storage.db.dao.AudioDao
+import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
-import org.amshove.kluent.shouldNotBeEqualTo
 import org.junit.Before
 import org.junit.Test
-import retrofit2.Response
 
 class MediaRepositoryImplTest {
 
     private val dispatcherProvider = TestDispatcherProvider()
 
-    private val mockApi: SSMediaApi = mockk()
+    private val mockAudioDataSource: AudioDataSource = mockk()
+    private val mockVideoDataSource: VideoDataSource = mockk()
     private val mockAudioDao: AudioDao = mockk()
 
     private lateinit var repository: MediaRepository
@@ -48,18 +47,11 @@ class MediaRepositoryImplTest {
     @Before
     fun setup() {
         repository = MediaRepositoryImpl(
-            mockApi,
-            mockAudioDao,
-            dispatcherProvider
+            audioDataSource = mockAudioDataSource,
+            videoDataSource = mockVideoDataSource,
+            audioDao = mockAudioDao,
+            dispatcherProvider = dispatcherProvider
         )
-    }
-
-    @Test
-    fun `should return error for invalid index`() = runTest {
-        val response = repository.getAudio("")
-
-        response.isSuccessFul shouldBeEqualTo false
-        response.error shouldNotBeEqualTo null
     }
 
     @Test
@@ -72,9 +64,8 @@ class MediaRepositoryImplTest {
             buildAudio(id = "3", targetIndex = "en-2021-04-03-01")
         )
 
-        coEvery { mockApi.getAudio("en", "2021-03") }.returns(
-            Response.success(result)
-        )
+        coEvery { mockAudioDataSource.get(AudioDataSource.Request("en-2021-03-09")) }
+            .returns(Resource.success(result))
         every { mockAudioDao.insertAll(any()) }.returns(Unit)
 
         val response = repository.getAudio(lessonIndex)

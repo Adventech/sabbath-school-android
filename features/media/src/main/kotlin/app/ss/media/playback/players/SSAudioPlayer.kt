@@ -9,7 +9,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
-import app.ss.lessons.data.model.media.AudioFile
+import app.ss.models.media.AudioFile
 import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.media.R
 import app.ss.media.playback.AudioFocusHelper

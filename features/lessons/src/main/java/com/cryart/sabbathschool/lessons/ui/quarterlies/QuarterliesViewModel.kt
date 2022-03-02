@@ -22,12 +22,15 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
+import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.lessons.data.model.QuarterlyGroup
-import app.ss.lessons.data.model.SSQuarterly
+import app.ss.auth.AuthRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import app.ss.models.QuarterlyGroup
+import app.ss.models.SSQuarterly
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -36,14 +39,14 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarter
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesAppbarData
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroup
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.placeHolderQuarterlies
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -52,21 +55,19 @@ import javax.inject.Inject
 class QuarterliesViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
     private val ssPrefs: SSPrefs,
-    private val firebaseAuth: FirebaseAuth,
-    private val savedStateHandle: SavedStateHandle
+    private val authRepository: AuthRepository,
+    private val savedStateHandle: SavedStateHandle,
+    dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
     private val quarterlyGroup: QuarterlyGroup?
         get() = savedStateHandle.get(SSConstants.SS_QUARTERLY_GROUP)
 
-    val photoUrlFlow: SharedFlow<QuarterliesAppbarData>
-        get() = flowOf(QuarterliesAppbarData.Photo(firebaseAuth.currentUser?.photoUrl))
-            .stateIn(viewModelScope, QuarterliesAppbarData.Empty)
+    private val _photoUrl = MutableStateFlow<QuarterliesAppbarData>(QuarterliesAppbarData.Empty)
+    val photoUrlFlow: StateFlow<QuarterliesAppbarData> = _photoUrl.asStateFlow()
 
-    val groupTitleFlow: SharedFlow<QuarterliesAppbarData>
-        get() = flowOf(
-            QuarterliesAppbarData.Title(quarterlyGroup?.name)
-        ).stateIn(viewModelScope, QuarterliesAppbarData.Empty)
+    private val _groupTitle = MutableStateFlow(QuarterliesAppbarData.Title(quarterlyGroup?.name))
+    val groupTitleFlow: StateFlow<QuarterliesAppbarData> = _groupTitle.asStateFlow()
 
     private val _appReBranding = MutableSharedFlow<Boolean>()
     val appReBrandingFlow: SharedFlow<Boolean> get() = _appReBranding.asSharedFlow()
@@ -75,6 +76,13 @@ class QuarterliesViewModel @Inject constructor(
         .flatMapLatest { language -> repository.getQuarterlies(language, quarterlyGroup) }
         .map(this::groupQuarterlies)
         .stateIn(viewModelScope, Resource.success(GroupedQuarterlies.TypeList(placeHolderQuarterlies())))
+
+    init {
+        viewModelScope.launch(dispatcherProvider.io) {
+            val photoUrl = authRepository.getUser().data?.photo?.toUri()
+            _photoUrl.emit(QuarterliesAppbarData.Photo(photoUrl))
+        }
+    }
 
     @Suppress("UNCHECKED_CAST")
     private fun groupQuarterlies(resource: Resource<List<SSQuarterly>>): Resource<GroupedQuarterlies> {

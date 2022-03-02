@@ -29,7 +29,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import app.ss.lessons.data.model.QuarterlyGroup
+import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.model.Status
@@ -74,9 +74,7 @@ class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
     private fun collectData() {
         val stateFlow = viewModel.quarterliesFlow.map { it.status }
         stateFlow.collectIn(this) { status ->
-            binding.apply {
-                ssQuarterliesErrorState.isVisible = status == Status.ERROR
-            }
+            binding.ssQuarterliesErrorState.isVisible = status == Status.ERROR
         }
 
         appbarComponent.collect(viewModel.photoUrlFlow)

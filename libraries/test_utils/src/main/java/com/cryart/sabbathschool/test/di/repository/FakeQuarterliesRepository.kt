@@ -22,11 +22,11 @@
 
 package com.cryart.sabbathschool.test.di.repository
 
-import app.ss.lessons.data.model.Language
-import app.ss.lessons.data.model.QuarterlyGroup
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.model.SSQuarterlyInfo
+import app.ss.models.Language
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import app.ss.models.QuarterlyGroup
+import app.ss.models.SSQuarterly
+import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.test.di.mock.QuarterlyMockData
 import kotlinx.coroutines.flow.Flow
@@ -37,17 +37,19 @@ class FakeQuarterliesRepository @Inject constructor(
     private val mockData: QuarterlyMockData
 ) : QuarterliesRepository {
 
-    override suspend fun getLanguages(): Resource<List<Language>> {
-        return Resource.success(emptyList())
+    override fun getLanguages(): Flow<Resource<List<Language>>> {
+        return flowOf(Resource.success(emptyList()))
     }
 
-    override suspend fun getQuarterlies(languageCode: String?, group: QuarterlyGroup?): Flow<Resource<List<SSQuarterly>>> {
+    override fun getQuarterlies(languageCode: String?, group: QuarterlyGroup?): Flow<Resource<List<SSQuarterly>>> {
         return flowOf(Resource.success(mockData.getQuarterlies(group)))
     }
 
-    override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {
-        return mockData.getQuarterlyInfo(index)?.let {
-            Resource.success(it)
-        } ?: Resource.error(Throwable())
+    override fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>> {
+        return flowOf(
+            mockData.getQuarterlyInfo(index)?.let {
+                Resource.success(it)
+            } ?: Resource.error(Throwable())
+        )
     }
 }

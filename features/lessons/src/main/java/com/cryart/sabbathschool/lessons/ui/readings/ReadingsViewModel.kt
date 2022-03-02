@@ -25,7 +25,7 @@ package com.cryart.sabbathschool.lessons.ui.readings
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.lessons.data.model.LessonPdf
+import app.ss.models.LessonPdf
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.media.MediaRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
@@ -60,19 +60,23 @@ class ReadingsViewModel @Inject constructor(
     val lessonIndex: String? get() = savedStateHandle.lessonIndex
 
     init {
-        viewModelScope.launch(dispatcherProvider.default) {
-            savedStateHandle.lessonIndex?.let { index ->
+        savedStateHandle.lessonIndex?.let { index ->
+            viewModelScope.launch(dispatcherProvider.default) {
                 val resource = mediaRepository.getAudio(index)
                 _audioAvailable.emit(resource.data.isNullOrEmpty().not())
-
+            }
+            viewModelScope.launch(dispatcherProvider.default) {
                 val videoResource = mediaRepository.getVideo(index)
                 _videoAvailable.emit(videoResource.data.isNullOrEmpty().not())
-
+            }
+            viewModelScope.launch(dispatcherProvider.default) {
                 val lessonResource = lessonsRepository.getLessonInfo(index)
                 val pdfs = lessonResource.data?.pdfs ?: emptyList()
                 _lessonPdfs.emit(index to pdfs)
                 _pdfAvailable.emit(pdfs.isNotEmpty())
             }
         }
+
+        lessonsRepository.checkReaderArtifact()
     }
 }

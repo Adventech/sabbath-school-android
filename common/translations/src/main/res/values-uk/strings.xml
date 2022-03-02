@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Суботня Школа"</string>
     <string name="ss_share">"Поділитися"</string>
     <string name="ss_login_button_google">"Увійти через Google"</string>
-    <string name="ss_login_button_facebook">"Увійти через Facebook"</string>
     <string name="ss_login_button_anonymous">"Продовжити анонімно"</string>
     <string name="ss_menu_anonymous_name">"Анонім"</string>
     <string name="ss_menu_sign_out">"Вийти з аккаунта"</string>

@@ -51,11 +51,6 @@ jobs:
         with:
           java-version: 11
 
-      - name: Decode Firebase google-services.json
-        env:
-          FIREBASE_CONFIG: ${{secrets.FIREBASE_CONFIG}}
-        run: echo $FIREBASE_CONFIG > app/google-services.json
-
       - name: Execute Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:

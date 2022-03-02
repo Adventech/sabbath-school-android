@@ -22,66 +22,63 @@
 
 package app.ss.lessons.data.repository.quarterly
 
-import app.ss.lessons.data.extensions.ValueEvent
-import app.ss.lessons.data.extensions.singleEvent
-import app.ss.lessons.data.extensions.valueEventFlow
-import app.ss.lessons.data.model.Language
-import app.ss.lessons.data.model.QuarterlyGroup
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.model.SSQuarterlyInfo
-import app.ss.lessons.data.repository.mediator.LanguagesDataSource
+import app.ss.models.Language
+import app.ss.models.QuarterlyGroup
+import app.ss.models.SSQuarterly
+import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.response.Resource
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.onEach
+import org.joda.time.DateTime
+import org.joda.time.Interval
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class QuarterliesRepositoryImpl @Inject constructor(
-    private val firebaseDatabase: FirebaseDatabase,
     private val ssPrefs: SSPrefs,
     private val languagesSource: LanguagesDataSource,
+    private val quarterliesDataSource: QuarterliesDataSource,
+    private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
 ) : QuarterliesRepository {
 
-    override suspend fun getLanguages(): Resource<List<Language>> = languagesSource.get()
+    override fun getLanguages(): Flow<Resource<List<Language>>> = languagesSource.getAsFlow(LanguagesDataSource.Request)
 
-    override suspend fun getQuarterlies(
+    override fun getQuarterlies(
         languageCode: String?,
         group: QuarterlyGroup?
     ): Flow<Resource<List<SSQuarterly>>> {
         val code = languageCode ?: ssPrefs.getLanguageCode()
-        val dbRef = firebaseDatabase
-            .getReference(SSConstants.SS_FIREBASE_QUARTERLIES_DATABASE)
-            .child(code)
+        return quarterliesDataSource.getAsFlow(QuarterliesDataSource.Request(code, group))
+    }
 
-        return dbRef.valueEventFlow().map { event ->
-            when (event) {
-                is ValueEvent.Cancelled -> Resource.error(event.error)
-                is ValueEvent.DataChange -> {
-                    val quarterlies = event.snapshot.children.mapNotNull {
-                        SSQuarterly(it)
+    override fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>> =
+        quarterlyInfoDataSource.getItemAsFlow(QuarterlyInfoDataSource.Request(index))
+            .filter { it.data?.lessons?.isNotEmpty() == true }
+            .onEach { resource ->
+                if (resource.isSuccessFul) {
+                    ssPrefs.setLastQuarterlyIndex(index)
+
+                    resource.data?.let {
+                        ssPrefs.setThemeColor(
+                            it.quarterly.color_primary,
+                            it.quarterly.color_primary_dark
+                        )
+                        ssPrefs.setReadingLatestQuarterly(it.quarterly.isLatest)
                     }
-                    val result = group?.let {
-                        quarterlies.filter { it.quarterly_group == group }
-                    } ?: quarterlies
-                    Resource.success(result)
                 }
             }
-        }
-    }
 
-    override suspend fun getQuarterlyInfo(index: String): Resource<SSQuarterlyInfo> {
-        val event = firebaseDatabase.reference
-            .child(SSConstants.SS_FIREBASE_QUARTERLY_INFO_DATABASE)
-            .child(index)
-            .singleEvent()
+    private val SSQuarterly.isLatest: Boolean
+        get() {
+            val today = DateTime.now().withTimeAtStartOfDay()
 
-        return when (event) {
-            is ValueEvent.Cancelled -> Resource.error(event.error)
-            is ValueEvent.DataChange -> Resource.success(SSQuarterlyInfo(event.snapshot))
+            val startDate = DateHelper.parseDate(start_date)
+            val endDate = DateHelper.parseDate(end_date)
+
+            return Interval(startDate, endDate?.plusDays(1)).contains(today)
         }
-    }
 }

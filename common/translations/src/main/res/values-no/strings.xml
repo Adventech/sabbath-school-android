@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Sabbatsskole"</string>
     <string name="ss_share">"Dele"</string>
     <string name="ss_login_button_google">"Logg på med Google"</string>
-    <string name="ss_login_button_facebook">"Logg inn med Facebook"</string>
     <string name="ss_login_button_anonymous">"Logg inn som anonym"</string>
     <string name="ss_menu_anonymous_name">"Anonym"</string>
     <string name="ss_menu_sign_out">"Logg ut"</string>

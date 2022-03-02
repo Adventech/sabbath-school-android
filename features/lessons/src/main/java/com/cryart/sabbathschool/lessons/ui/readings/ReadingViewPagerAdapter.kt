@@ -3,9 +3,9 @@ package com.cryart.sabbathschool.lessons.ui.readings
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import app.ss.lessons.data.model.SSRead
-import app.ss.lessons.data.model.SSReadComments
-import app.ss.lessons.data.model.SSReadHighlights
+import app.ss.models.SSRead
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.view.inflate
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
@@ -32,6 +32,17 @@ class ReadingViewPagerAdapter(
         this.ssReadHighlights = ssReadHighlights
         this.ssReadComments = ssReadComments
         this.notifyDataSetChanged()
+    }
+
+    fun setContent(
+        ssReadHighlights: List<SSReadHighlights>,
+        ssReadComments: List<SSReadComments>
+    ) {
+        this.ssReadHighlights = ssReadHighlights
+        this.ssReadComments = ssReadComments
+        if (ssReads.isNotEmpty()) {
+            this.notifyDataSetChanged()
+        }
     }
 
     fun getReadAt(position: Int): SSRead? = ssReads.getOrNull(position)

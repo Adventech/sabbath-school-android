@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Escola Sabatina"</string>
     <string name="ss_share">"Compartilhar"</string>
     <string name="ss_login_button_google">"Faça login no Google"</string>
-    <string name="ss_login_button_facebook">"Faça login no Facebook"</string>
     <string name="ss_login_button_anonymous">"Continue anonimamente"</string>
     <string name="ss_menu_anonymous_name">"Anônimo"</string>
     <string name="ss_menu_sign_out">"Sair"</string>
