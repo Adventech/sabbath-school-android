@@ -47,6 +47,7 @@ internal class ReaderArtifactHelper @Inject constructor(
     @ApplicationContext private val context: Context,
     private val lessonsApi: SSLessonsApi,
     private val ssPrefs: SSPrefs,
+    private val okHttpClient: OkHttpClient,
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper
 ) : CoroutineScope by CoroutineScope(dispatcherProvider.default) {
@@ -78,16 +79,19 @@ internal class ReaderArtifactHelper @Inject constructor(
         val request = Request.Builder()
             .url(URL)
             .build()
-        OkHttpClient()
-            .newCall(request)
-            .execute()
-            .use { response ->
-                val body = response.body ?: return@use
-                destination.sink().buffer().use { sink ->
-                    sink.writeAll(body.source())
-                    callback()
-                }
+        try {
+            val response = okHttpClient.newCall(request).execute()
+            val body = response.body ?: run {
+                Timber.e("Failed to download reader")
+                return
             }
+            destination.sink().buffer().use { sink ->
+                sink.writeAll(body.source())
+                callback()
+            }
+        } catch (error: Throwable) {
+            Timber.e(error)
+        }
     }
 
     companion object {
