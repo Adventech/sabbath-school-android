@@ -63,12 +63,12 @@ import app.ss.media.playback.extensions.isError
 import app.ss.media.playback.extensions.isPlayEnabled
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.extensions.playPause
-import app.ss.models.media.AudioFile
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.model.toAudio
 import app.ss.media.playback.ui.common.Dismissible
 import app.ss.media.playback.ui.common.LocalPlaybackConnection
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
+import app.ss.models.media.AudioFile
 import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey2
@@ -103,8 +103,8 @@ fun PlaybackMiniControls(
     AnimatedVisibility(
         visible = visible,
         modifier = modifier,
-        enter = slideInVertically({ it / 2 }),
-        exit = slideOutVertically({ it / 2 })
+        enter = slideInVertically(initialOffsetY = { it / 2 }),
+        exit = slideOutVertically(targetOffsetY = { it / 2 })
     ) {
         PlaybackMiniControls(
             playbackState = playbackState,

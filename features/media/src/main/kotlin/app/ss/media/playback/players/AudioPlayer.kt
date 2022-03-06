@@ -15,7 +15,6 @@ import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.util.PriorityTaskManager
 import okhttp3.OkHttpClient
-import timber.log.Timber
 
 typealias OnPrepared<T> = T.() -> Unit
 typealias OnError<T> = T.(error: Throwable) -> Unit
@@ -105,7 +104,6 @@ internal class AudioPlayerImpl(
     }
 
     override fun setSource(uri: Uri, local: Boolean): Boolean {
-        Timber.d("Setting source: local=$local, uri=$uri")
         return try {
             if (local) player.setMediaItem(MediaItem.fromUri(uri), true)
             else {

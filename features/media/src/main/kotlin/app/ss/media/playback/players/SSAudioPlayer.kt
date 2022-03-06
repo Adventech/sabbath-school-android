@@ -17,6 +17,7 @@ import app.ss.media.playback.AudioQueueManager
 import app.ss.media.playback.BY_UI_KEY
 import app.ss.media.playback.REPEAT_ALL
 import app.ss.media.playback.REPEAT_ONE
+import app.ss.media.playback.SAFE_FLAG_IMMUTABLE
 import app.ss.media.playback.extensions.createDefaultPlaybackState
 import app.ss.media.playback.extensions.getBitmap
 import app.ss.media.playback.extensions.isPlaying
@@ -87,7 +88,7 @@ internal class SSAudioPlayerImpl(
     private val metadataBuilder = MediaMetadataCompat.Builder()
     private val stateBuilder = createDefaultPlaybackState()
 
-    private val pendingIntent = PendingIntent.getBroadcast(context, 0, Intent(Intent.ACTION_MEDIA_BUTTON), PendingIntent.FLAG_IMMUTABLE)
+    private val pendingIntent = PendingIntent.getBroadcast(context, 0, Intent(Intent.ACTION_MEDIA_BUTTON), SAFE_FLAG_IMMUTABLE)
 
     private val mediaSession = MediaSessionCompat(context, context.getString(R.string.ss_app_name), null, pendingIntent).apply {
         setCallback(
@@ -101,7 +102,7 @@ internal class SSAudioPlayerImpl(
         setPlaybackState(stateBuilder.build())
 
         val sessionIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-        val sessionActivityPendingIntent = PendingIntent.getActivity(context, 0, sessionIntent, PendingIntent.FLAG_IMMUTABLE)
+        val sessionActivityPendingIntent = PendingIntent.getActivity(context, 0, sessionIntent, SAFE_FLAG_IMMUTABLE)
         setSessionActivity(sessionActivityPendingIntent)
         isActive = true
     }
