@@ -181,9 +181,3 @@ dependencies {
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))
     androidTestImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }
-
-configurations.all {
-    resolutionStrategy {
-        force(AndroidX.ANNOTATIONS)
-    }
-}
