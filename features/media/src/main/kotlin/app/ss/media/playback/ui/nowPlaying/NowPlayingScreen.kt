@@ -78,7 +78,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.media.R
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
 import app.ss.media.playback.extensions.isPlaying
-import app.ss.models.media.AudioFile
 import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
@@ -90,6 +89,7 @@ import app.ss.media.playback.ui.nowPlaying.components.PlayBackControls
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgress
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackQueueList
 import app.ss.media.playback.ui.playbackContentColor
+import app.ss.models.media.AudioFile
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
@@ -347,11 +347,11 @@ private fun BottomControls(
                 targetState = playbackSpeed,
                 transitionSpec = {
                     if (targetState.speed > initialState.speed) {
-                        slideInVertically({ height -> height }) + fadeIn() with
-                            slideOutVertically({ height -> -height }) + fadeOut()
+                        slideInVertically(initialOffsetY = { height -> height }) + fadeIn() with
+                            slideOutVertically(targetOffsetY = { height -> -height }) + fadeOut()
                     } else {
-                        slideInVertically({ height -> -height }) + fadeIn() with
-                            slideOutVertically({ height -> height }) + fadeOut()
+                        slideInVertically(initialOffsetY = { height -> -height }) + fadeIn() with
+                            slideOutVertically(targetOffsetY = { height -> height }) + fadeOut()
                     }.using(
                         SizeTransform(clip = false)
                     )

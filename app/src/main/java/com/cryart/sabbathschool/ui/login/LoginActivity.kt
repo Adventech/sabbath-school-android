@@ -101,6 +101,7 @@ class LoginActivity : AppCompatActivity() {
                         .setAction(android.R.string.ok) {}
                         .show()
                 }
+                null -> {}
             }
         }
     }

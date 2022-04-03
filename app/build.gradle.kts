@@ -24,6 +24,7 @@ import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
+import dependencies.TestAndroidDependencies
 import dependencies.Versions
 import extensions.addTestsDependencies
 import extensions.readPropertyValue
@@ -134,6 +135,7 @@ android {
         resources.excludes += "/META-INF/AL2.0"
         resources.excludes += "/META-INF/LGPL2.1"
     }
+
 }
 
 dependencies {
@@ -180,4 +182,7 @@ dependencies {
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))
     androidTestImplementation(project(BuildModules.Libraries.TEST_UTILS))
+    androidTestImplementation(TestAndroidDependencies.Espresso.contrib) {
+        exclude(group = "org.checkerframework", module = "checker")
+    }
 }

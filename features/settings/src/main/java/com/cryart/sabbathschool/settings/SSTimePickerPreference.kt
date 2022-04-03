@@ -38,7 +38,7 @@ class SSTimePickerPreference(
     attrs: AttributeSet?
 ) : Preference(context, attrs), OnTimeSetListener {
 
-    private val value: String? get() = sharedPreferences.getString(key, SSConstants.SS_SETTINGS_REMINDER_TIME_DEFAULT_VALUE)
+    private val value: String? get() = sharedPreferences?.getString(key, SSConstants.SS_SETTINGS_REMINDER_TIME_DEFAULT_VALUE)
 
     override fun onClick() {
         super.onClick()
@@ -63,9 +63,9 @@ class SSTimePickerPreference(
                 hour = timePicker.currentHour
                 minute = timePicker.currentMinute
             }
-            sharedPreferences.edit().putString(
+            sharedPreferences?.edit()?.putString(
                 SSConstants.SS_SETTINGS_REMINDER_TIME_KEY, String.format(Locale.getDefault(), "%02d:%02d", hour, minute)
-            ).apply()
+            )?.apply()
             summary = summary
         }
     }
