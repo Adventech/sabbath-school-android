@@ -76,4 +76,5 @@ dependencies {
     implementation(Dependencies.TIMBER)
 
     addTestsDependencies()
+    kaptTest(Moshi.codegen)
 }
