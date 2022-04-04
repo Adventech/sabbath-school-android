@@ -49,14 +49,14 @@ object Versions {
     }
 
     // Tests
-    const val ANDROIDX_TEST = "1.4.1"
+    const val ANDROIDX_TEST = "1.4.0"
     const val EXT = "1.1.3"
     const val ARCH_CORE = "2.1.0"
     const val JUNIT = "4.13.2"
     const val ROBOELECTRIC = "4.7.3"
     const val MOCKK = "1.12.3"
     const val ESPRESSO = "3.4.0"
-    const val FRAGMENT_TEST = "1.4.0"
+    const val FRAGMENT_TEST = "1.4.1"
     const val KLUENT = "1.68"
     const val TURBINE = "0.7.0"
 }
