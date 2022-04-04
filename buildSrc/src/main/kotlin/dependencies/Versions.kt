@@ -37,7 +37,7 @@ object Versions {
 
     const val PLAY_AUTH = "20.1.0"
     const val JODA = "2.10.12.2"
-    const val JODA_TIME = "2.10.13"
+    const val JODA_TIME = "2.10.14"
     const val MARK_WORM = "4.6.2"
     const val exoplayer = "2.17.1"
     const val pdfKit = "8.1.2"
@@ -49,7 +49,7 @@ object Versions {
     }
 
     // Tests
-    const val ANDROIDX_TEST = "1.4.0"
+    const val ANDROIDX_TEST = "1.4.1"
     const val EXT = "1.1.3"
     const val ARCH_CORE = "2.1.0"
     const val JUNIT = "4.13.2"
