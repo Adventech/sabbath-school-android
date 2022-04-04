@@ -52,7 +52,6 @@ import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.core.model.colorTheme
-import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.options.SSReadingDisplayOptionsView
@@ -60,14 +59,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
-import ru.beryukhov.reactivenetwork.ReactiveNetwork
-import ru.beryukhov.reactivenetwork.internet.observing.InternetObservingSettings
 import timber.log.Timber
 
 class SSReadingViewModel @AssistedInject constructor(
@@ -114,9 +108,6 @@ class SSReadingViewModel @AssistedInject constructor(
 
     init {
         loadLessonInfo()
-        if (!BuildConfig.DEBUG) {
-            checkConnection()
-        }
     }
 
     private val verseClickWithDebounce: (verse: String) -> Unit =
@@ -130,28 +121,6 @@ class SSReadingViewModel @AssistedInject constructor(
             )
             context.startActivity(intent)
         }
-
-    private fun checkConnection() {
-        val inetOptions = InternetObservingSettings.builder()
-            .host(DEFAULT_PING_HOST)
-            .port(DEFAULT_PING_PORT)
-            .timeout(DEFAULT_PING_TIMEOUT_IN_MS)
-            .initialInterval(DEFAULT_INITIAL_PING_INTERVAL_IN_MS)
-            .interval(DEFAULT_PING_INTERVAL_IN_MS)
-            .build()
-        ReactiveNetwork().observeInternetConnectivity(inetOptions).onEach { connected ->
-            if (!connected && ssLessonInfo == null) {
-                try {
-                    ssLessonOfflineStateVisibility.set(View.VISIBLE)
-                    ssLessonErrorStateVisibility.set(View.INVISIBLE)
-                    ssLessonLoadingVisibility.set(View.INVISIBLE)
-                    ssLessonCoordinatorVisibility.set(View.INVISIBLE)
-                } catch (e: Exception) {
-                    Timber.e(e)
-                }
-            }
-        }.launchIn(CoroutineScope(Dispatchers.IO))
-    }
 
     private fun loadLessonInfo() = launch {
         ssLessonLoadingVisibility.set(View.VISIBLE)
@@ -365,15 +334,9 @@ class SSReadingViewModel @AssistedInject constructor(
 
     fun reloadContent() {
         loadLessonInfo()
-        checkConnection()
     }
 
     companion object {
-        private const val DEFAULT_PING_HOST = "www.google.com"
-        private const val DEFAULT_PING_PORT = 80
-        private const val DEFAULT_PING_INTERVAL_IN_MS = 2000
-        private const val DEFAULT_INITIAL_PING_INTERVAL_IN_MS = 500
-        private const val DEFAULT_PING_TIMEOUT_IN_MS = 2000
 
         /**
          * Pass true if this view should be visible in light theme
