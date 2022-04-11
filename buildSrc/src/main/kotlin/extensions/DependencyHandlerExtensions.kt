@@ -123,7 +123,6 @@ fun DependencyHandler.addTestsDependencies() {
     kaptTest(TestDependencies.HILT_COMPILER)
 
     androidTestImplementation(TestAndroidDependencies.Espresso.core)
-    androidTestImplementation(TestAndroidDependencies.Espresso.contrib)
     androidTestImplementation(TestAndroidDependencies.Espresso.intents)
     androidTestImplementation(TestAndroidDependencies.RUNNER)
     androidTestImplementation(TestAndroidDependencies.RULES)

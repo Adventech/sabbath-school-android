@@ -11,8 +11,6 @@
 
 -dontwarn org.conscrypt.**
 
--dontwarn com.github.pwittchen.reactivenetwork.library.ReactiveNetwork
-
 # Dagger
 -dontwarn com.google.errorprone.annotations.*
 
@@ -58,3 +56,5 @@
 -keepclassmembers class com.cryart.sabbathschool.** {
   *;
 }
+
+-keep @android.support.annotation.Keep class * {*;}

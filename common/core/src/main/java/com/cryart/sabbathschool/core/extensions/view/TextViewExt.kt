@@ -33,11 +33,11 @@ import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import timber.log.Timber
 
 fun TextView.addMoreEllipses(
     maxLines: Int,
-    @StringRes
-    moreLabelRes: Int,
+    @StringRes moreLabelRes: Int,
     @ColorRes textColorRes: Int
 ) = post {
 
@@ -51,7 +51,12 @@ fun TextView.addMoreEllipses(
     val suffix = "  $moreString"
 
     val fullContent = text.toString()
-    val actionDisplayText = fullContent.substring(0, lastCharShown - suffix.length - 3) + "..." + suffix
+    val actionDisplayText = try {
+        fullContent.substring(0, lastCharShown - suffix.length - 3) + "..." + suffix
+    } catch (ex: StringIndexOutOfBoundsException) {
+        Timber.e(ex)
+        return@post
+    }
 
     val truncatedSpannableString = SpannableString(actionDisplayText)
     val startIndex = actionDisplayText.indexOf(moreString)

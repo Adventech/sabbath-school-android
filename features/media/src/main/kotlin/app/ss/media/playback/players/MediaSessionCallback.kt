@@ -19,7 +19,6 @@ import app.ss.media.playback.model.toQueueItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 const val QUEUE_MEDIA_ID_KEY = "queue_media_id_key"
 const val QUEUE_LIST_KEY = "queue_list_key"
@@ -57,52 +56,42 @@ class MediaSessionCallback(
     }
 
     override fun onPause() {
-        Timber.d("onPause")
         audioPlayer.pause()
     }
 
     override fun onPlay() {
-        Timber.d("onPlay")
         playOnFocus()
     }
 
     override fun onFastForward() {
-        Timber.d("onFastForward")
         audioPlayer.fastForward()
     }
 
     override fun onRewind() {
-        Timber.d("onRewind")
         audioPlayer.rewind()
     }
 
     override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
-        Timber.d("onPlayFromMediaId, $mediaId, ${extras?.readable()}")
         launch { audioPlayer.setDataFromMediaId(mediaId, extras ?: bundleOf()) }
     }
 
     override fun onSeekTo(position: Long) {
-        Timber.d("onSeekTo: position=$position")
         audioPlayer.seekTo(position)
     }
 
     override fun onSkipToNext() {
-        Timber.d("onSkipToNext()")
         launch { audioPlayer.nextAudio() }
     }
 
     override fun onSkipToPrevious() {
-        Timber.d("onSkipToPrevious()")
         launch { audioPlayer.previousAudio() }
     }
 
     override fun onSkipToQueueItem(id: Long) {
-        Timber.d("onSkipToQueueItem: $id")
         launch { audioPlayer.skipTo(id.toInt()) }
     }
 
     override fun onStop() {
-        Timber.d("onStop()")
         audioPlayer.stop()
     }
 
@@ -140,7 +129,6 @@ class MediaSessionCallback(
 
     private fun setSavedMediaSessionState() {
         val controller = mediaSession.controller ?: return
-        Timber.d(controller.playbackState.toString())
         if (controller.playbackState == null || controller.playbackState.state == STATE_NONE) {
             // audioPlayer.restoreQueueState()
         } else {
@@ -158,10 +146,3 @@ class MediaSessionCallback(
             audioPlayer.playAudio(extras)
     }
 }
-
-@OptIn(ExperimentalStdlibApi::class)
-fun Bundle.readable() = buildList {
-    keySet().forEach {
-        add("key=$it, value=${get(it)}")
-    }
-}.joinToString()
