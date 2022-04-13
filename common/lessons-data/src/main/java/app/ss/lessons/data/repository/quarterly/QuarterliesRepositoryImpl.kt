@@ -23,11 +23,13 @@
 package app.ss.lessons.data.repository.quarterly
 
 import app.ss.models.Language
+import app.ss.models.PublishingInfo
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.DateHelper
+import com.cryart.sabbathschool.core.misc.DeviceHelper
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
@@ -43,6 +45,8 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
     private val languagesSource: LanguagesDataSource,
     private val quarterliesDataSource: QuarterliesDataSource,
     private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
+    private val publishingInfoDataSource: PublishingInfoDataSource,
+    private val deviceHelper: DeviceHelper
 ) : QuarterliesRepository {
 
     override fun getLanguages(): Flow<Resource<List<Language>>> = languagesSource.getAsFlow(LanguagesDataSource.Request())
@@ -71,6 +75,13 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
                     }
                 }
             }
+
+    override fun getPublishingInfo(languageCode: String?): Flow<Resource<PublishingInfo>> {
+        val language = languageCode ?: ssPrefs.getLanguageCode()
+        val country = deviceHelper.country()
+
+        return publishingInfoDataSource.getItemAsFlow(PublishingInfoDataSource.Request(country, language))
+    }
 
     private val SSQuarterly.isLatest: Boolean
         get() {

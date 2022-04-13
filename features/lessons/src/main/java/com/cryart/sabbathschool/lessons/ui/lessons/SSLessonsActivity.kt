@@ -53,6 +53,7 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.ToolbarComponent
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -154,6 +155,10 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen, LessonsCallback {
             if (pdfs.isNotEmpty()) {
                 startActivity(pdfReader.launchIntent(pdfs, index))
             }
+        }
+
+        viewModel.publishingInfo.collectIn(this) { info ->
+            Timber.d("INFO: $info")
         }
     }
 

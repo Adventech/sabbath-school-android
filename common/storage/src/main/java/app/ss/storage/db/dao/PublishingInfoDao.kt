@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,26 +20,15 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.quarterly
+package app.ss.storage.db.dao
 
-import app.ss.models.Language
-import app.ss.models.PublishingInfo
-import app.ss.models.QuarterlyGroup
-import app.ss.models.SSQuarterly
-import app.ss.models.SSQuarterlyInfo
-import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
+import androidx.room.Dao
+import androidx.room.Query
+import app.ss.storage.db.entity.PublishingInfoEntity
 
-interface QuarterliesRepository {
+@Dao
+interface PublishingInfoDao : BaseDao<PublishingInfoEntity> {
 
-    fun getLanguages(): Flow<Resource<List<Language>>>
-
-    fun getQuarterlies(
-        languageCode: String? = null,
-        group: QuarterlyGroup? = null
-    ): Flow<Resource<List<SSQuarterly>>>
-
-    fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>>
-
-    fun getPublishingInfo(languageCode: String? = null): Flow<Resource<PublishingInfo>>
+    @Query("SELECT * FROM publishing_info WHERE country = :country AND language = :language LIMIT 1")
+    fun get(country: String, language: String): PublishingInfoEntity?
 }
