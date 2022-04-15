@@ -107,4 +107,5 @@ Mes tikime, kad Dievas padidino šiuolaikinio pasaulio žinias ir nori, kad mes 
     <string name="ss_pdf_original">Originalus išdėstymas</string>
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Numatytas</string>
+    <string name="ss_get_printed_resources">Gauti spausdintus išteklius</string>
 </resources>

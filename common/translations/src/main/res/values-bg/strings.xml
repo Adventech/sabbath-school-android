@@ -108,4 +108,5 @@
     <string name="ss_pdf_original">Оригинално оформление</string>
     <string name="ss_settings_theme">Тема</string>
     <string name="ss_settings_theme_default">По подразбиране</string>
+    <string name="ss_get_printed_resources">Вземете печатни ресурси</string>
 </resources>

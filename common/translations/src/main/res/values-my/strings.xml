@@ -101,5 +101,6 @@
     <string name="ss_pdf_original">မူရင်းအပြင်အဆင်</string>
     <string name="ss_settings_theme">အပြင်အဆင်</string>
     <string name="ss_settings_theme_default">ပုံသေ</string>
+    <string name="ss_get_printed_resources">ပုံနှိပ်ထားသော အရင်းအမြစ်များကို ရယူပါ။</string>
 
 </resources>
