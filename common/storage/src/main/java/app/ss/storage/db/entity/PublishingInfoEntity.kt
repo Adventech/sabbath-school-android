@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,26 +20,23 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.quarterly
+package app.ss.storage.db.entity
 
-import app.ss.models.Language
-import app.ss.models.PublishingInfo
-import app.ss.models.QuarterlyGroup
-import app.ss.models.SSQuarterly
-import app.ss.models.SSQuarterlyInfo
-import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-interface QuarterliesRepository {
-
-    fun getLanguages(): Flow<Resource<List<Language>>>
-
-    fun getQuarterlies(
-        languageCode: String? = null,
-        group: QuarterlyGroup? = null
-    ): Flow<Resource<List<SSQuarterly>>>
-
-    fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>>
-
-    fun getPublishingInfo(languageCode: String? = null): Flow<Resource<PublishingInfo>>
+@Entity(tableName = "publishing_info")
+data class PublishingInfoEntity(
+    @PrimaryKey val key: String,
+    val country: String,
+    val language: String,
+    val message: String,
+    val url: String
+) {
+    constructor(
+        country: String,
+        language: String,
+        message: String,
+        url: String
+    ) : this("$country:$language", country, language, message, url)
 }

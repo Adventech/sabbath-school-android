@@ -32,6 +32,7 @@ import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.dao.LanguagesDao
 import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.dao.PdfAnnotationsDao
+import app.ss.storage.db.dao.PublishingInfoDao
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.dao.ReadCommentsDao
 import app.ss.storage.db.dao.ReadHighlightsDao
@@ -42,6 +43,7 @@ import app.ss.storage.db.entity.AudioFileEntity
 import app.ss.storage.db.entity.LanguageEntity
 import app.ss.storage.db.entity.LessonEntity
 import app.ss.storage.db.entity.PdfAnnotationsEntity
+import app.ss.storage.db.entity.PublishingInfoEntity
 import app.ss.storage.db.entity.QuarterlyEntity
 import app.ss.storage.db.entity.ReadCommentsEntity
 import app.ss.storage.db.entity.ReadEntity
@@ -60,15 +62,17 @@ import app.ss.storage.db.entity.VideoInfoEntity
         ReadCommentsEntity::class,
         ReadHighlightsEntity::class,
         UserEntity::class,
-        VideoInfoEntity::class
+        VideoInfoEntity::class,
+        PublishingInfoEntity::class,
     ],
-    version = 6,
+    version = 7,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
         AutoMigration(from = 3, to = 4),
         AutoMigration(from = 4, to = 5),
-        AutoMigration(from = 5, to = 6)
+        AutoMigration(from = 5, to = 6),
+        AutoMigration(from = 6, to = 7),
     ]
 )
 @TypeConverters(Converters::class)
@@ -93,6 +97,8 @@ internal abstract class SabbathSchoolDatabase : RoomDatabase() {
     abstract fun videoInfoDao(): VideoInfoDao
 
     abstract fun userDao(): UserDao
+
+    abstract fun publishingInfoDao(): PublishingInfoDao
 
     companion object {
         private const val DATABASE_NAME = "sabbath_school_db"

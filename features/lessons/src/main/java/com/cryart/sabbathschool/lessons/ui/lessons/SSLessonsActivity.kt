@@ -48,6 +48,7 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.FooterComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsCallback
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooter
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsListComponent
+import com.cryart.sabbathschool.lessons.ui.lessons.components.PublishingInfoComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfoComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.ToolbarComponent
 import dagger.hilt.android.AndroidEntryPoint
@@ -155,6 +156,12 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen, LessonsCallback {
                 startActivity(pdfReader.launchIntent(pdfs, index))
             }
         }
+
+        PublishingInfoComponent(
+            binding = binding.publishingInfoView,
+            dataFlow = viewModel.publishingInfo,
+            colorFlow = dataFlow.map { it?.quarterly?.color_primary }
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

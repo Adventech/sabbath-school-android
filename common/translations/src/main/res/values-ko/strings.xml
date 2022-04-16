@@ -111,4 +111,5 @@
     <string name="ss_pdf_original">원래 레이아웃</string>
     <string name="ss_settings_theme">주제</string>
     <string name="ss_settings_theme_default">기본</string>
+    <string name="ss_get_printed_resources">인쇄된 리소스 가져오기</string>
 </resources>

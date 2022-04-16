@@ -103,4 +103,5 @@
     <string name="ss_pdf_original">Originalt oppsett</string>
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Misligholde</string>
+    <string name="ss_get_printed_resources">Få trykte ressurser</string>
 </resources>

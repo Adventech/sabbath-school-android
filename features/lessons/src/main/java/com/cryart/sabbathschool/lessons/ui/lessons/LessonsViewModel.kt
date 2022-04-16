@@ -25,11 +25,12 @@ package com.cryart.sabbathschool.lessons.ui.lessons
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.models.LessonPdf
-import app.ss.models.SSLesson
-import app.ss.models.SSQuarterlyInfo
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import app.ss.models.LessonPdf
+import app.ss.models.PublishingInfo
+import app.ss.models.SSLesson
+import app.ss.models.SSQuarterlyInfo
 import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
@@ -39,8 +40,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -58,6 +61,12 @@ class LessonsViewModel @Inject constructor(
         get() = savedStateHandle.get<String>(
             SSConstants.SS_QUARTERLY_INDEX_EXTRA
         ) ?: ssPrefs.getLastQuarterlyIndex()
+
+    val publishingInfo: StateFlow<PublishingInfo?>
+        get() = repository.getPublishingInfo()
+            .mapNotNull { it.data }
+            .distinctUntilChanged()
+            .stateIn(viewModelScope, null)
 
     val quarterlyInfoFlow: StateFlow<Resource<SSQuarterlyInfo>> = flowOf(quarterlyIndex)
         .flatMapLatest { index ->

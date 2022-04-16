@@ -108,4 +108,5 @@
     <string name="ss_pdf_original">原始佈局</string>
     <string name="ss_settings_theme">主題</string>
     <string name="ss_settings_theme_default">默認</string>
+    <string name="ss_get_printed_resources">獲取印刷資源</string>
 </resources>

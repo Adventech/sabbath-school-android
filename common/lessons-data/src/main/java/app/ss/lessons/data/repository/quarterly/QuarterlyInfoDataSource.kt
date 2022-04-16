@@ -76,7 +76,8 @@ internal class QuarterlyInfoDataSource @Inject constructor(
             quarterliesDao.update(data.quarterly.toEntity())
         }
     }
-    override val network: DataSource<SSQuarterlyInfo, Request> = object : LocalDataSource<SSQuarterlyInfo, Request> {
+
+    override val network: DataSource<SSQuarterlyInfo, Request> = object : DataSource<SSQuarterlyInfo, Request> {
         override suspend fun getItem(request: Request): Resource<SSQuarterlyInfo> {
             val error = Resource.error<SSQuarterlyInfo>(IllegalArgumentException("Required Quarterly [index]"))
             val index = request.index

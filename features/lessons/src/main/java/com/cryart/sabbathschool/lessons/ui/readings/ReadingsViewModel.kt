@@ -25,15 +25,20 @@ package com.cryart.sabbathschool.lessons.ui.readings
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.models.LessonPdf
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.media.MediaRepository
+import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import app.ss.models.LessonPdf
+import app.ss.models.PublishingInfo
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,6 +47,7 @@ class ReadingsViewModel @Inject constructor(
     private val mediaRepository: MediaRepository,
     private val lessonsRepository: LessonsRepository,
     private val savedStateHandle: SavedStateHandle,
+    quarterliesRepository: QuarterliesRepository,
     dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
@@ -57,10 +63,15 @@ class ReadingsViewModel @Inject constructor(
     private val _lessonPdfs = MutableStateFlow("" to emptyList<LessonPdf>())
     val lessonPdfsFlow: StateFlow<Pair<String, List<LessonPdf>>> = _lessonPdfs
 
+    val publishingInfo: StateFlow<PublishingInfo?> = quarterliesRepository.getPublishingInfo()
+        .mapNotNull { it.data }
+        .distinctUntilChanged()
+        .stateIn(viewModelScope, null)
+
     val lessonIndex: String? get() = savedStateHandle.lessonIndex
 
     init {
-        savedStateHandle.lessonIndex?.let { index ->
+        lessonIndex?.let { index ->
             viewModelScope.launch(dispatcherProvider.default) {
                 val resource = mediaRepository.getAudio(index)
                 _audioAvailable.emit(resource.data.isNullOrEmpty().not())

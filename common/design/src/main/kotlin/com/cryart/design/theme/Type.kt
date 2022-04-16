@@ -98,6 +98,10 @@ val LabelSmall = textStyle(
     textSize = TextSize.Size15,
     fontWeight = FontWeight.Normal,
 )
+val LabelXSmall = textStyle(
+    textSize = TextSize.Size13,
+    fontWeight = FontWeight.Normal,
+)
 val Body = textStyle(
     textSize = TextSize.Size13,
     fontWeight = FontWeight.Normal,

@@ -24,12 +24,14 @@ package com.cryart.sabbathschool.test.di.repository
 
 import app.ss.models.Language
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import app.ss.models.PublishingInfo
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.test.di.mock.QuarterlyMockData
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
@@ -51,5 +53,9 @@ class FakeQuarterliesRepository @Inject constructor(
                 Resource.success(it)
             } ?: Resource.error(Throwable())
         )
+    }
+
+    override fun getPublishingInfo(languageCode: String?): Flow<Resource<PublishingInfo>> {
+        return emptyFlow()
     }
 }

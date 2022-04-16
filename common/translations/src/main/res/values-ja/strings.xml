@@ -115,4 +115,5 @@
     <string name="ss_pdf_original">元のレイアウト</string>
     <string name="ss_settings_theme">テーマ</string>
     <string name="ss_settings_theme_default">ディフォルト</string>
+    <string name="ss_get_printed_resources">印刷されたリソースの取得</string>
 </resources>

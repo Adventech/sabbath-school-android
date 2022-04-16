@@ -28,6 +28,7 @@ import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.dao.LanguagesDao
 import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.dao.PdfAnnotationsDao
+import app.ss.storage.db.dao.PublishingInfoDao
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.dao.ReadCommentsDao
 import app.ss.storage.db.dao.ReadHighlightsDao
@@ -104,6 +105,12 @@ object StorageModule {
     fun provideVideoInfoDao(
         @ApplicationContext context: Context,
     ): VideoInfoDao = context.database().videoInfoDao()
+
+    @Provides
+    @Singleton
+    fun providePublishingInfoDao(
+        @ApplicationContext context: Context,
+    ): PublishingInfoDao = context.database().publishingInfoDao()
 }
 
 private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)
