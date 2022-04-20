@@ -25,6 +25,7 @@ package com.cryart.sabbathschool.lessons.ui.lessons.components
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -32,7 +33,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
@@ -44,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.ss.models.PublishingInfo
 import com.cryart.design.theme.Dimens
@@ -51,6 +52,8 @@ import com.cryart.design.theme.LabelXSmall
 import com.cryart.design.theme.SSTheme
 import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.parse
+import com.cryart.design.theme.onSurfaceSecondaryColor
+import com.cryart.design.widgets.Divider
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.lessons.databinding.SsComposeComponentBinding
 import kotlinx.coroutines.flow.Flow
@@ -82,46 +85,66 @@ class PublishingInfoComponent(
 private fun PublishingInfo(
     publishingInfo: PublishingInfo,
     primaryColorHex: String,
+    modifier: Modifier = Modifier,
     context: Context = LocalContext.current
 ) {
     val onclick: () -> Unit = { context.launchWebUrl(publishingInfo.url) }
 
-    Row(
-        modifier = Modifier
-            .clickable(
-                enabled = true,
-                onClick = onclick,
-                role = Role.Button
-            ),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Spacer(modifier = Modifier.size(Dimens.grid_4))
-
-        Text(
-            text = publishingInfo.message,
-            style = LabelXSmall.copy(
-                color = MaterialTheme.colors.onSurface,
-            ),
+    Column(modifier = modifier) {
+        Row(
             modifier = Modifier
-                .weight(1f)
-                .padding(vertical = Spacing16)
-        )
-
-        Spacer(modifier = Modifier.size(Spacing16))
-
-        IconButton(
-            onClick = onclick,
-            modifier = Modifier
-                .background(Color.parse(primaryColorHex), CircleShape)
-                .size(32.dp)
+                .clickable(
+                    enabled = true,
+                    onClick = onclick,
+                    role = Role.Button
+                ),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                Icons.Rounded.KeyboardArrowRight,
-                contentDescription = "Open",
-                tint = Color.White
+            Spacer(modifier = Modifier.size(Dimens.grid_4))
+
+            Text(
+                text = publishingInfo.message,
+                style = LabelXSmall.copy(
+                    color = onSurfaceSecondaryColor(),
+                ),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(vertical = Spacing16)
             )
+
+            Spacer(modifier = Modifier.size(Spacing16))
+
+            IconButton(
+                onClick = onclick,
+                modifier = Modifier
+                    .background(Color.parse(primaryColorHex), CircleShape)
+                    .size(32.dp)
+            ) {
+                Icon(
+                    Icons.Rounded.KeyboardArrowRight,
+                    contentDescription = "Open",
+                    tint = Color.White
+                )
+            }
+
+            Spacer(modifier = Modifier.size(Dimens.grid_4))
         }
 
-        Spacer(modifier = Modifier.size(Dimens.grid_4))
+        Divider()
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewPublishingInfo() {
+    SSTheme {
+        PublishingInfo(
+            publishingInfo = PublishingInfo(
+                message = "The right to print and distribute this Sabbath School resource in the " +
+                    "United States belongs to the Pacific Press Publishing Association.",
+                url = "http://www.sabbathschoolmaterials.com"
+            ),
+            primaryColorHex = "#385bb2"
+        )
     }
 }
