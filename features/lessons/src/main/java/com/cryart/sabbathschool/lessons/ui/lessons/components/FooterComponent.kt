@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,20 +34,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.ss.models.Credit
 import app.ss.models.Feature
-import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey2
-import com.cryart.design.theme.BaseGrey3
 import com.cryart.design.theme.LabelSmall
 import com.cryart.design.theme.SSTheme
 import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.TitleSmall
-import com.cryart.design.theme.lighter
+import com.cryart.design.theme.onSurfaceSecondaryColor
+import com.cryart.design.theme.surfaceSecondaryColor
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsComposeComponentBinding
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.FeatureImage
@@ -68,7 +65,7 @@ class FooterComponent(
     init {
         binding.composeView.setContent {
             SSTheme {
-                Surface(color = footerBackground()) {
+                Surface(color = surfaceSecondaryColor()) {
                     FooterList(dataFlow = dataFlow)
                 }
             }
@@ -109,7 +106,7 @@ fun FooterList(
         Text(
             text = stringResource(id = R.string.ss_copyright, year),
             style = LabelSmall.copy(
-                color = copyrightColor()
+                color = onSurfaceSecondaryColor()
             ),
             modifier = Modifier.padding(
                 vertical = VerticalPadding
@@ -119,24 +116,6 @@ fun FooterList(
 }
 
 private val year: String = "© ${Calendar.getInstance().get(Calendar.YEAR)}"
-
-@Composable
-private fun footerBackground(): Color {
-    return if (isSystemInDarkTheme()) {
-        Color.Black.lighter()
-    } else {
-        BaseGrey1
-    }
-}
-
-@Composable
-private fun copyrightColor(): Color {
-    return if (isSystemInDarkTheme()) {
-        BaseGrey3
-    } else {
-        BaseGrey2
-    }
-}
 
 @Composable
 fun FeatureFooterItem(

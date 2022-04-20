@@ -24,6 +24,7 @@ package com.cryart.design.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import kotlin.math.max
 import kotlin.math.min
@@ -84,10 +85,31 @@ private fun Float.add(toComponent: Float): Float {
 }
 
 @Composable
-fun navTitle(): Color = if (isSystemInDarkTheme()) Color.White else Color.Black
+@Stable
+fun navTitle(
+    isDark: Boolean = isSystemInDarkTheme()
+): Color = if (isDark) Color.White else Color.Black
 
 @Composable
-fun iconTint(): Color = if (isSystemInDarkTheme()) Color.White else BaseGrey2.lighter(0.2f)
+@Stable
+fun iconTint(
+    isDark: Boolean = isSystemInDarkTheme()
+): Color = if (isDark) Color.White else BaseGrey2.lighter(0.2f)
 
 @Composable
-fun divider(): Color = if (isSystemInDarkTheme()) BaseGrey5 else BaseGrey1
+@Stable
+fun dividerColor(
+    isDark: Boolean = isSystemInDarkTheme()
+): Color = if (isDark) Color(0x1FFFFFFF) else Color(0x80D7D7D7)
+
+@Composable
+@Stable
+fun surfaceSecondaryColor(
+    isDark: Boolean = isSystemInDarkTheme()
+): Color = if (isDark) Color.Black.lighter() else BaseGrey1
+
+@Composable
+@Stable
+fun onSurfaceSecondaryColor(
+    isDark: Boolean = isSystemInDarkTheme()
+): Color = if (isDark) BaseGrey3 else BaseGrey2

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,21 +20,17 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.design
+package com.cryart.design.widgets
 
-import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
+import androidx.compose.runtime.Composable
+import androidx.compose.material.Divider
+import androidx.compose.ui.unit.dp
+import com.cryart.design.theme.dividerColor
 
-fun RecyclerView.dividers(
-    @DrawableRes dividerRes: Int = R.drawable.list_divider,
-    orientation: Int = DividerItemDecoration.VERTICAL
-) {
-    addItemDecoration(
-        DividerItemDecoration(context, orientation).apply {
-            val divider = ContextCompat.getDrawable(context, dividerRes) ?: return@apply
-            setDrawable(divider)
-        }
+@Composable
+fun Divider() {
+    Divider(
+        color = dividerColor(),
+        thickness = 0.5.dp
     )
 }
