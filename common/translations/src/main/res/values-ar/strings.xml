@@ -46,13 +46,13 @@
     <string name="ss_quarterlies_error">"حدث خطأ غير معروف. الرجاء المحاولة مجدداً"</string>
     <string name="ss_quarterlies_empty">"يبدو أنه لا توجد دروس متاحة الآن"</string>
     <string name="ss_quarterly_item_read_text">"افتح"</string>
-    <string name="ss_lessons_downloading">"يتم الفتح..."</string>
+    <string name="ss_lessons_downloading">"يتم الفتح…"</string>
     <string name="ss_lessons_error">"حدثت مشكلة في أثناء فتح الدرس"</string>
     <string name="ss_lessons_empty">"يبدو أنه لا توجد دروس في هذه اللحظة "</string>
     <string name="ss_lessons_read">"اقرأ"</string>
     <string name="ss_reading_empty">"يبدو أن هذا الدرس فارغ. الرجاء المعاودة لاحقاً"</string>
     <string name="ss_reading_error">"حدثت مشكلة في أثناء فتح الدرس"</string>
-    <string name="ss_reading_downloading">"يتم الفتح..."</string>
+    <string name="ss_reading_downloading">"يتم الفتح…"</string>
     <string name="ss_reading_suggest_edit">"اقترح تعديل أو تصحيح "</string>
     <string name="ss_reading_suggest_edit_hint">"الرجاء وصف تصحيحك أو تعديلك"</string>
     <string name="ss_reading_suggest_edit_done">"شكراً! سيتم النظر في اقتراحاك"</string>
@@ -97,11 +97,12 @@
     <string name="ss_reading_offline_retry">"أعد المحاولة"</string>
     <string name="ss_about_text">مهمة Adventech هي أولاً وقبل كل شيء - أعط المجد لربنا ، أيام الأيام القديمة. نحن ملتزمون بالقيام بوزارتنا من خلال التكنولوجيا. هدفنا هو توحيد كنيستنا السبتية. هدفنا هو الإعلان عن أخبار جيدة لهذا العالم من خلال التكنولوجيا والتقدم في الاتصالات. هدفنا هو رؤية المجيء الثاني ليسوع.  لقد ألهمنا مثال يسوع وأساليبه عندما خدم هنا على الأرض. لذلك ، نحن ملتزمون بتقديم درجة عالية من الجودة لجميع مشاريعنا دون أي تكلفة على الإطلاق مع الحب والتفاني. نحن ملتزمون بإعطاء المجد لأبينا ، لأنه يستحق أعلى الثناء.  نحن نؤمن حقًا أن الله قد زاد معرفة العالم الحديث ويريدنا أن نستخدمه لمجده لإعلان عودته قريبًا!</string>
     <string name="ss_settings_version_with_param_string">الإصدار: %1$s</string>
-    <string name="ss_copyright"> ®المؤتمر العام للسبتيين %1$</string>
+    <string name="ss_copyright"> ®المؤتمر العام للسبتيين %1$s</string>
     <string name="ss_see_all">اظهار الكل</string>
     <string name="ss_media_audio">صوتي</string>
     <string name="ss_media_video">فيديو</string>
     <string name="ss_pdf_original">التخطيط الأصلي</string>
     <string name="ss_settings_theme">سمة</string>
     <string name="ss_settings_theme_default">تقصير</string>
+    <string name="ss_get_printed_resources">احصل على موارد مطبوعة</string>
 </resources>

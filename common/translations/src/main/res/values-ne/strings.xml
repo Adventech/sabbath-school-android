@@ -107,5 +107,6 @@
     <string name="ss_pdf_original">मूल लेआउट</string>
     <string name="ss_settings_theme">विषयवस्तु</string>
     <string name="ss_settings_theme_default">पूर्वनिर्धारित</string>
+    <string name="ss_get_printed_resources">मुद्रित स्रोतहरू प्राप्त गर्नुहोस्</string>
 
 </resources>

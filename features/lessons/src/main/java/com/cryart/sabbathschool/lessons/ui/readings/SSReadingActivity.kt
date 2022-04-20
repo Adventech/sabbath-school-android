@@ -49,6 +49,7 @@ import app.ss.pdf.PdfReader
 import coil.load
 import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
@@ -246,6 +247,10 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
                 ssReadingViewModel.onDisplayOptionsClick()
                 true
             }
+            R.id.ss_reading_menu_printed_resources -> {
+                viewModel.publishingInfo.value?.let { launchWebUrl(it.url) }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -254,6 +259,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         menu?.findItem(R.id.ss_reading_menu_audio)?.isVisible = viewModel.audioAvailableFlow.value
         menu?.findItem(R.id.ss_reading_menu_video)?.isVisible = viewModel.videoAvailableFlow.value
         menu?.findItem(R.id.ss_reading_menu_pdf)?.isVisible = viewModel.pdfAvailableFlow.value
+        menu?.findItem(R.id.ss_reading_menu_printed_resources)?.isVisible = viewModel.publishingInfo.value != null
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -328,10 +334,13 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
             val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
             menu.findItem(R.id.ss_reading_menu_video)?.isVisible = available
         }
-
         viewModel.pdfAvailableFlow.collectIn(this) { available ->
             val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
             menu.findItem(R.id.ss_reading_menu_pdf)?.isVisible = available
+        }
+        viewModel.publishingInfo.collectIn(this) { info ->
+            val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
+            menu.findItem(R.id.ss_reading_menu_printed_resources)?.isVisible = info != null
         }
     }
 

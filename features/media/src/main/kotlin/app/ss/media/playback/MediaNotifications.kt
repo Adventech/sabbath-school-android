@@ -45,9 +45,6 @@ import app.ss.media.playback.extensions.title
 import app.ss.media.playback.receivers.MediaButtonReceiver.Companion.buildMediaButtonPendingIntent
 import app.ss.media.playback.service.MusicService
 import com.cryart.sabbathschool.core.extensions.context.systemService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import androidx.core.app.NotificationCompat as CoreNotificationCompat
 import androidx.media.app.NotificationCompat as MediaNotificationCompat
 
@@ -77,13 +74,12 @@ interface MediaNotifications {
 
 internal class MediaNotificationsImpl constructor(
     private val context: Context
-) : MediaNotifications, CoroutineScope by MainScope() {
+) : MediaNotifications {
 
     private val notificationManager: NotificationManager = context.systemService(Context.NOTIFICATION_SERVICE)
 
     override fun updateNotification(mediaSession: MediaSessionCompat) {
-        if (!MusicService.IS_FOREGROUND) return
-        launch {
+        if (MusicService.IS_FOREGROUND) {
             notificationManager.notify(NOTIFICATION_ID, buildNotification(mediaSession))
         }
     }

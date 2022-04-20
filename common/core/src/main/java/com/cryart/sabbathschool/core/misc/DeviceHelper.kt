@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,26 +20,26 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.quarterly
+package com.cryart.sabbathschool.core.misc
 
-import app.ss.models.Language
-import app.ss.models.PublishingInfo
-import app.ss.models.QuarterlyGroup
-import app.ss.models.SSQuarterly
-import app.ss.models.SSQuarterlyInfo
-import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
+import android.content.Context
+import android.telephony.TelephonyManager
+import com.cryart.sabbathschool.core.extensions.context.systemService
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-interface QuarterliesRepository {
+interface DeviceHelper {
+    fun country(): String
+}
 
-    fun getLanguages(): Flow<Resource<List<Language>>>
+@Singleton
+internal class DeviceHelperImpl @Inject constructor(
+    @ApplicationContext private val context: Context
+) : DeviceHelper {
 
-    fun getQuarterlies(
-        languageCode: String? = null,
-        group: QuarterlyGroup? = null
-    ): Flow<Resource<List<SSQuarterly>>>
-
-    fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>>
-
-    fun getPublishingInfo(languageCode: String? = null): Flow<Resource<PublishingInfo>>
+    override fun country(): String {
+        val telephonyManager: TelephonyManager = context.systemService(Context.TELEPHONY_SERVICE)
+        return telephonyManager.networkCountryIso
+    }
 }

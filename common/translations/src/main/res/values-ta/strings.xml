@@ -107,4 +107,5 @@
     <string name="ss_pdf_original">அசல் வடிவமைப்பு</string>
     <string name="ss_settings_theme">தீம்</string>
     <string name="ss_settings_theme_default">இயல்புநிலை</string>
+    <string name="ss_get_printed_resources">அச்சிடப்பட்ட வளங்களைப் பெறுங்கள்</string>
 </resources>

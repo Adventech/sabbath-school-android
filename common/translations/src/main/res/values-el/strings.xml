@@ -108,4 +108,5 @@
     <string name="ss_pdf_original">Αρχική διάταξη</string>
     <string name="ss_settings_theme">Θέμα</string>
     <string name="ss_settings_theme_default">Προκαθορισμένο</string>
+    <string name="ss_get_printed_resources">Λάβετε εκτυπωμένους πόρους</string>
 </resources>

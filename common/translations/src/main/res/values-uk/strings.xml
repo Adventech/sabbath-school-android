@@ -107,4 +107,5 @@
     <string name="ss_pdf_original">Оригінальний макет</string>
     <string name="ss_settings_theme">Тема</string>
     <string name="ss_settings_theme_default">За замовчуванням</string>
+    <string name="ss_get_printed_resources">Отримати друковані ресурси</string>
 </resources>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,26 +20,13 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.quarterly
+package app.ss.lessons.data.model.api.request
 
-import app.ss.models.Language
-import app.ss.models.PublishingInfo
-import app.ss.models.QuarterlyGroup
-import app.ss.models.SSQuarterly
-import app.ss.models.SSQuarterlyInfo
-import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-interface QuarterliesRepository {
-
-    fun getLanguages(): Flow<Resource<List<Language>>>
-
-    fun getQuarterlies(
-        languageCode: String? = null,
-        group: QuarterlyGroup? = null
-    ): Flow<Resource<List<SSQuarterly>>>
-
-    fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>>
-
-    fun getPublishingInfo(languageCode: String? = null): Flow<Resource<PublishingInfo>>
-}
+@JsonClass(generateAdapter = true)
+data class PublishingInfoRequest(
+    @Json(name = "country") val country: String,
+    @Json(name = "language") val language: String,
+)

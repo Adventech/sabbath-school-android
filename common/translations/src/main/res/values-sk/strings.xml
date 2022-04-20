@@ -112,5 +112,6 @@
     <string name="ss_media_video">Video</string>
 
     <string name="ss_pdf_original">Rozvrhnutie tlačenej verzie</string>
+    <string name="ss_get_printed_resources">Získajte tlačené zdroje</string>
 
 </resources>

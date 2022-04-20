@@ -21,14 +21,11 @@ import app.ss.media.playback.players.SSAudioPlayer
 import app.ss.media.playback.receivers.BecomingNoisyReceiver
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MusicService : MediaBrowserServiceCompat(), CoroutineScope by MainScope() {
+class MusicService : MediaBrowserServiceCompat() {
 
     @Inject
     lateinit var musicPlayer: SSAudioPlayer
@@ -120,17 +117,13 @@ class MusicService : MediaBrowserServiceCompat(), CoroutineScope by MainScope() 
     }
 
     override fun onTaskRemoved(rootIntent: Intent) {
-        launch {
-            musicPlayer.pause()
-            musicPlayer.stop(false)
-        }
+        musicPlayer.pause()
+        musicPlayer.stop(false)
         super.onTaskRemoved(rootIntent)
     }
 
     override fun onDestroy() {
-        launch {
-            musicPlayer.release()
-        }
+        musicPlayer.release()
     }
 
     companion object {

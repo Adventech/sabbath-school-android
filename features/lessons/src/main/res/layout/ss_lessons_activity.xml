@@ -44,6 +44,10 @@
                 layout="@layout/ss_lessons_quarterly_info" />
 
             <include
+                android:id="@+id/publishingInfoView"
+                layout="@layout/ss_compose_component" />
+
+            <include
                 android:id="@+id/ss_lesson_info_list"
                 layout="@layout/ss_lessons_list" />
 

@@ -108,4 +108,5 @@
     <string name="ss_pdf_original">Оригинальный макет</string>
     <string name="ss_settings_theme">Тема</string>
     <string name="ss_settings_theme_default">Дефолт</string>
+    <string name="ss_get_printed_resources">Получить печатные ресурсы</string>
 </resources>
