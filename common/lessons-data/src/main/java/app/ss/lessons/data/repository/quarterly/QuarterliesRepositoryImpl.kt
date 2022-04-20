@@ -66,12 +66,12 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
                 if (resource.isSuccessFul) {
                     ssPrefs.setLastQuarterlyIndex(index)
 
-                    resource.data?.let {
+                    resource.data?.run {
                         ssPrefs.setThemeColor(
-                            it.quarterly.color_primary,
-                            it.quarterly.color_primary_dark
+                            primary = quarterly.color_primary,
+                            primaryDark = quarterly.color_primary_dark
                         )
-                        ssPrefs.setReadingLatestQuarterly(it.quarterly.isLatest)
+                        ssPrefs.setReadingLatestQuarterly(quarterly.isLatest)
                     }
                 }
             }

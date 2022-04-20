@@ -7,6 +7,7 @@ object Dependencies {
     const val JODA = "net.danlew:android.joda:${Versions.JODA}"
     const val TAP_TARGET = "uk.co.samuelwall:material-tap-target-prompt:${Versions.TAP_TARGET}"
     const val PDF_KIT = "com.pspdfkit:pspdfkit:${Versions.pdfKit}"
+    const val Cascade = "me.saket.cascade:cascade:${Versions.Cascade}"
 
     object Hilt {
         const val ANDROID = "com.google.dagger:hilt-android:${Versions.HILT}"

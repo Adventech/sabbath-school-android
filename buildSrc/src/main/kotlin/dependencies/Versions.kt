@@ -41,6 +41,7 @@ object Versions {
     const val MARK_WORM = "4.6.2"
     const val exoplayer = "2.17.1"
     const val pdfKit = "8.1.2"
+    const val Cascade = "1.3.0"
 
     object Square {
         const val moshi = "1.13.0"

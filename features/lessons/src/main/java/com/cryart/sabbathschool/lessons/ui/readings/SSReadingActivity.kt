@@ -67,6 +67,8 @@ import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.components.MiniPlayerComponent
 import dagger.hilt.android.AndroidEntryPoint
+import me.saket.cascade.CascadePopupMenu
+import me.saket.cascade.overrideAllPopupMenus
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -152,15 +154,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
             binding.ssReadingViewPager.currentItem = it
         }
 
-        /*binding.ssReadingAppBar.apply {
-            appbarChangeListener = AppbarOffsetChangeListener(
-                this@SSReadingActivity,
-                ssReadingCollapsingToolbar,
-                ssReadingToolbar,
-            ).also {
-                ssReadingAppBarLayout.addOnOffsetChangedListener(it)
-            }
-        }*/
+        binding.ssReadingAppBar.ssReadingToolbar.overrideAllPopupMenus(with = ::CascadePopupMenu)
 
         MiniPlayerComponent(
             binding.ssPlayerView,
