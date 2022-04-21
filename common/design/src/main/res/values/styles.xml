@@ -116,4 +116,9 @@
 
     <style name="Widget.SS.TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
 
+    <style name="Widget.SS.PopupMenuStyle" parent="@style/Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">@color/ss_theme_color_background</item>
+        <item name="android:popupElevation">8dp</item>
+    </style>
+
 </resources>

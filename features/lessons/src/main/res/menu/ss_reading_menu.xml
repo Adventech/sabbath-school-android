@@ -67,7 +67,7 @@
 
     <item
         android:id="@+id/ss_reading_menu_share"
-        android:icon="@drawable/ic_round_share"
+        android:icon="@drawable/ic_share"
         android:orderInCategory="103"
         android:title="@string/ss_share"
         app:showAsAction="never" />
