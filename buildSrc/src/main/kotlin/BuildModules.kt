@@ -19,7 +19,6 @@ object BuildModules {
         const val MEDIA = ":features:media"
         const val PDF = ":features:pdf"
         const val READER = ":features:reader"
-        const val READINGS = ":features:readings"
         const val SETTINGS = ":features:settings"
     }
 

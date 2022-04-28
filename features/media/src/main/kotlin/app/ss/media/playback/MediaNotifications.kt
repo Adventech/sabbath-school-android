@@ -29,7 +29,6 @@ import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -45,6 +44,9 @@ import app.ss.media.playback.extensions.title
 import app.ss.media.playback.receivers.MediaButtonReceiver.Companion.buildMediaButtonPendingIntent
 import app.ss.media.playback.service.MusicService
 import com.cryart.sabbathschool.core.extensions.context.systemService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import androidx.core.app.NotificationCompat as CoreNotificationCompat
 import androidx.media.app.NotificationCompat as MediaNotificationCompat
 
@@ -74,13 +76,13 @@ interface MediaNotifications {
 
 internal class MediaNotificationsImpl constructor(
     private val context: Context
-) : MediaNotifications {
+) : MediaNotifications, CoroutineScope by MainScope() {
 
     private val notificationManager: NotificationManager = context.systemService(Context.NOTIFICATION_SERVICE)
 
     override fun updateNotification(mediaSession: MediaSessionCompat) {
         if (MusicService.IS_FOREGROUND) {
-            notificationManager.notify(NOTIFICATION_ID, buildNotification(mediaSession))
+            launch { notificationManager.notify(NOTIFICATION_ID, buildNotification(mediaSession)) }
         }
     }
 
@@ -96,9 +98,10 @@ internal class MediaNotificationsImpl constructor(
         val isBuffering = mediaSession.isBuffering()
         val description = mediaSession.controller.metadata.displayDescription
 
-        val pm: PackageManager = context.packageManager
-        val nowPlayingIntent = pm.getLaunchIntentForPackage(context.packageName)
+        val packageManager = context.packageManager
+        val nowPlayingIntent = packageManager.getLaunchIntentForPackage(context.packageName)
         val clickIntent = PendingIntent.getActivity(context, 0, nowPlayingIntent, FLAG_UPDATE_CURRENT or SAFE_FLAG_IMMUTABLE)
+        val cancelIntent = buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP)
 
         createNotificationChannel()
 
@@ -106,7 +109,7 @@ internal class MediaNotificationsImpl constructor(
             .setMediaSession(mediaSession.sessionToken)
             .setShowCancelButton(true)
             .setShowActionsInCompactView(0, 1, 2)
-            .setCancelButtonIntent(buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP))
+            .setCancelButtonIntent(cancelIntent)
 
         val builder = CoreNotificationCompat.Builder(context, CHANNEL_ID).apply {
             setStyle(style)
@@ -119,7 +122,7 @@ internal class MediaNotificationsImpl constructor(
             setColorized(true)
             setShowWhen(false)
             setVisibility(CoreNotificationCompat.VISIBILITY_PUBLIC)
-            setDeleteIntent(buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP))
+            setDeleteIntent(cancelIntent)
             addAction(getBackwardAction(context))
             if (isBuffering) {
                 addAction(getBufferingAction())
