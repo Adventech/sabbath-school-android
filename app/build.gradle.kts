@@ -152,7 +152,6 @@ dependencies {
     implementation(project(BuildModules.Features.LESSONS))
     implementation(project(BuildModules.Features.MEDIA))
     implementation(project(BuildModules.Features.PDF))
-    implementation(project(BuildModules.Features.READINGS))
     implementation(project(BuildModules.Features.SETTINGS))
 
     implementation(Kotlin.COROUTINES)

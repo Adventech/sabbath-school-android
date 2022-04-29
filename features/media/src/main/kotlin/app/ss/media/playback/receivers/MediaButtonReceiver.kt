@@ -1,6 +1,5 @@
 package app.ss.media.playback.receivers
 
-import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.ComponentName
@@ -55,23 +54,23 @@ class MediaButtonReceiver : BroadcastReceiver() {
     }
 
     private class MediaButtonConnectionCallback(
-        private val mContext: Context,
-        private val mIntent: Intent,
-        private val mPendingResult: PendingResult
+        private val context: Context,
+        private val intent: Intent,
+        private val pendingResult: PendingResult
     ) : MediaBrowserCompat.ConnectionCallback() {
-        private var mMediaBrowser: MediaBrowserCompat? = null
+        private var mediaBrowser: MediaBrowserCompat? = null
 
         fun setMediaBrowser(mediaBrowser: MediaBrowserCompat?) {
-            mMediaBrowser = mediaBrowser
+            this.mediaBrowser = mediaBrowser
         }
 
         override fun onConnected() {
-            val mediaController = MediaControllerCompat(
-                mContext,
-                mMediaBrowser!!.sessionToken
-            )
-            val ke = mIntent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
-            mediaController.dispatchMediaButtonEvent(ke)
+            mediaBrowser?.let {
+                val mediaController = MediaControllerCompat(context, it.sessionToken)
+                val event = intent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
+                mediaController.dispatchMediaButtonEvent(event)
+            }
+
             finish()
         }
 
@@ -84,8 +83,8 @@ class MediaButtonReceiver : BroadcastReceiver() {
         }
 
         private fun finish() {
-            mMediaBrowser!!.disconnect()
-            mPendingResult.finish()
+            mediaBrowser?.disconnect()
+            pendingResult.finish()
         }
     }
 
@@ -148,7 +147,6 @@ class MediaButtonReceiver : BroadcastReceiver() {
          * @return Created pending intent, or null if the given component name is null or the
          * `action` is unsupported/invalid.
          */
-        @SuppressLint("UnspecifiedImmutableFlag")
         fun buildMediaButtonPendingIntent(
             context: Context?,
             mbrComponent: ComponentName?,

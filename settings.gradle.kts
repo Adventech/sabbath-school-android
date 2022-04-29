@@ -36,7 +36,6 @@ include(
     ":features:media",
     ":features:pdf",
     ":features:reader",
-    ":features:readings",
     ":features:settings",
     ":libraries:test_utils"
 )
