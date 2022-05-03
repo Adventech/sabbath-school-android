@@ -31,20 +31,19 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
@@ -54,16 +53,15 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.media.R
-import app.ss.models.media.SSVideo
-import app.ss.models.media.SSVideosInfo
 import app.ss.media.playback.ui.common.CoilImage
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
+import app.ss.models.media.SSVideo
+import app.ss.models.media.SSVideosInfo
 import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.BaseGrey2
@@ -79,9 +77,7 @@ import com.cryart.design.theme.TitleSmall
 import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.theme.navTitle
 import com.cryart.design.widgets.DragHandle
-import dev.chrisbanes.snapper.ExperimentalSnapperApi
-import dev.chrisbanes.snapper.SnapOffsets
-import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
+import com.cryart.design.widgets.list.SnappingLazyRow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
@@ -182,7 +178,6 @@ internal fun ViewListScreen(
     }
 }
 
-@OptIn(ExperimentalSnapperApi::class)
 @Composable
 private fun VideosInfoList(
     videosInfo: SSVideosInfo,
@@ -191,10 +186,6 @@ private fun VideosInfoList(
     onVideoClick: (SSVideo) -> Unit
 ) {
     val listState = rememberLazyListState()
-    val contentPadding = PaddingValues(
-        horizontal = Spacing16,
-        vertical = Spacing16
-    )
 
     Column(
         modifier = modifier,
@@ -210,14 +201,12 @@ private fun VideosInfoList(
                 .padding(top = Spacing16)
         )
 
-        LazyRow(
-            contentPadding = contentPadding,
+        SnappingLazyRow(
             state = listState,
-            flingBehavior = rememberSnapperFlingBehavior(
-                lazyListState = listState,
-                snapOffsetForItem = SnapOffsets.Start,
-                endContentPadding = contentPadding.calculateEndPadding(LayoutDirection.Ltr),
-            ),
+            contentPadding = PaddingValues(
+                horizontal = Spacing16,
+                vertical = Spacing16
+            )
         ) {
             itemsIndexed(
                 videosInfo.clips,
@@ -361,6 +350,7 @@ private fun VideoRow(
 private const val CoverCornerRadius = 6f
 
 @Composable
+@Stable
 private fun getThumbnailSize(vertical: Boolean): Size {
     val ratio = if (vertical) 2.7f else 1.2f
     val largeScreen = isLargeScreen()
