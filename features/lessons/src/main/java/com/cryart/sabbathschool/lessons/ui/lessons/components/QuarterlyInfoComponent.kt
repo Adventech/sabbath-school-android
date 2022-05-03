@@ -34,7 +34,6 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
-import app.ss.models.Feature
 import app.ss.models.SSQuarterlyInfo
 import com.cryart.design.color.withAlpha
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
@@ -46,6 +45,9 @@ import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsQuarterlyInfoBinding
 import com.cryart.sabbathschool.lessons.ui.base.loadCover
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
+import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.FeatureSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.showLessonIntro
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
@@ -154,13 +156,13 @@ internal class QuarterlyInfoComponent(
                 ?.backgroundTintList = ColorStateList.valueOf(primaryDarkColor)
 
             findViewById<ComposeView?>(R.id.quarterly_features_view)
-                ?.let { view -> showFeatures(view, quarterly.features) }
+                ?.let { view -> showFeatures(view, quarterly.features.map { it.toSpec() }) }
         }
     }
 
-    private fun showFeatures(view: ComposeView, features: List<Feature>) {
+    private fun showFeatures(view: ComposeView, features: List<FeatureSpec>) {
         view.setContent {
-            QuarterlyFeaturesRow(features = features)
+            QuarterlyFeaturesRow(spec = QuarterlyFeaturesSpec(features))
         }
         view.isVisible = features.isNotEmpty()
     }

@@ -30,20 +30,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
-import app.ss.models.Feature
 import coil.compose.rememberImagePainter
 import com.cryart.design.theme.Spacing12
 import com.cryart.design.theme.Spacing16
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.FeatureSpec
+
+@Immutable
+data class QuarterlyFeaturesSpec(
+    val features: List<FeatureSpec>
+)
 
 @Composable
 fun QuarterlyFeaturesRow(
     modifier: Modifier = Modifier,
-    features: List<Feature>
+    spec: QuarterlyFeaturesSpec
 ) {
     Row(
         modifier = modifier
@@ -54,7 +60,7 @@ fun QuarterlyFeaturesRow(
                 end = Spacing16
             )
     ) {
-        features.forEach { feature ->
+        spec.features.forEach { feature ->
             FeatureImage(
                 feature = feature,
                 modifier = Modifier.size(
@@ -73,7 +79,7 @@ private val ImageHeight = Spacing12
 
 @Composable
 fun FeatureImage(
-    feature: Feature,
+    feature: FeatureSpec,
     modifier: Modifier,
     tint: Color = Color.White.copy(alpha = 0.5f)
 ) {
@@ -99,9 +105,18 @@ fun FeatureImage(
 @Composable
 fun FeaturesRowPreview() {
     QuarterlyFeaturesRow(
-        features = listOf(
-            Feature(name = "", image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_egw.png"),
-            Feature(name = "", image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_inside_story.png")
+        spec = QuarterlyFeaturesSpec(
+            features = listOf(
+                FeatureSpec(
+                    image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_egw.png",
+                    name = "", title = "", description = ""
+
+                ),
+                FeatureSpec(
+                    name = "", title = "", description = "",
+                    image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_inside_story.png"
+                )
+            )
         )
     )
 }

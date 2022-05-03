@@ -39,7 +39,6 @@ import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.SSTheme
 import com.cryart.sabbathschool.lessons.databinding.SsQuarterliesListBinding
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 
 interface QuarterlyListCallbacks {
     fun onReadClick(index: String)
@@ -56,8 +55,11 @@ class QuarterlyListComponent(
         binding.ssQuarterliesList.setContent {
             SSTheme {
                 Surface(modifier = Modifier.nestedScroll(rememberViewInteropNestedScrollConnection())) {
+                    val data by rememberFlowWithLifecycle(dataFlow)
+                        .collectAsState(initial = GroupedQuarterlies.TypeList(placeHolderQuarterlies()))
+
                     QuarterlyList(
-                        dataFlow = dataFlow,
+                        data = data,
                         callbacks = callbacks
                     )
                 }
@@ -69,17 +71,14 @@ class QuarterlyListComponent(
 @Composable
 fun QuarterlyList(
     modifier: Modifier = Modifier,
-    dataFlow: Flow<GroupedQuarterlies> = emptyFlow(),
+    data: GroupedQuarterlies,
     callbacks: QuarterlyListCallbacks? = null
 ) {
-    val data by rememberFlowWithLifecycle(dataFlow)
-        .collectAsState(initial = GroupedQuarterlies.TypeList(placeHolderQuarterlies()))
-
     LazyColumn(modifier = modifier) {
         when (data) {
             GroupedQuarterlies.Empty -> { /* No op */ }
             is GroupedQuarterlies.TypeGroup -> {
-                val groupData = (data as GroupedQuarterlies.TypeGroup).data
+                val groupData = data.data
                 itemsIndexed(
                     groupData,
                     key = { _: Int, item: QuarterliesGroup -> item.group.name }
@@ -95,9 +94,11 @@ fun QuarterlyList(
                     }
 
                     GroupedQuarterliesColumn(
-                        title = group.group.name,
-                        items = items,
-                        index == groupData.lastIndex
+                        spec = GroupedQuarterliesSpec(
+                            title = group.group.name,
+                            items = items,
+                            index == groupData.lastIndex
+                        )
                     ) {
                         callbacks?.onSeeAllClick(group.group)
                     }
@@ -105,7 +106,7 @@ fun QuarterlyList(
             }
             is GroupedQuarterlies.TypeList -> {
                 itemsIndexed(
-                    (data as GroupedQuarterlies.TypeList).data,
+                    data.data,
                     key = { _: Int, item: SSQuarterly -> item.id }
                 ) { _, item ->
                     QuarterlyRow(

@@ -46,11 +46,12 @@ import com.cryart.sabbathschool.lessons.databinding.SsLessonsActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.StatusComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.FooterComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsCallback
-import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooter
+import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooterSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsListComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.PublishingInfoComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfoComponent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.ToolbarComponent
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
 import kotlinx.coroutines.flow.map
@@ -143,10 +144,10 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen, LessonsCallback {
 
         FooterComponent(
             binding.composeView,
-            dataFlow.map {
-                val credits = it?.quarterly?.credits ?: emptyList()
-                val features = it?.quarterly?.features ?: emptyList()
-                LessonsFooter(credits, features)
+            dataFlow.map { info ->
+                val credits = info?.quarterly?.credits?.map { it.toSpec() } ?: emptyList()
+                val features = info?.quarterly?.features?.map { it.toSpec() } ?: emptyList()
+                LessonsFooterSpec(credits, features)
             }
         )
 
