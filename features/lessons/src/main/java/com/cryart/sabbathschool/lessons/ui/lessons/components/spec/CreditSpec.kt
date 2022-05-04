@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,15 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.languages
+package com.cryart.sabbathschool.lessons.ui.lessons.components.spec
 
-import android.view.ViewGroup
-import com.cryart.sabbathschool.lessons.ui.base.DynamicSearchAdapter
+import app.ss.models.Credit
+import javax.annotation.concurrent.Immutable
 
-class LanguagesListAdapter(
-    private val itemClick: (LanguageModel) -> Unit
-) : DynamicSearchAdapter<LanguageModel, LanguageItemHolder>() {
+@Immutable
+data class CreditSpec(
+    val name: String,
+    val value: String
+)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LanguageItemHolder {
-        return LanguageItemHolder.create(parent).also { holder ->
-            holder.itemView.setOnClickListener {
-                val item = getItem(holder.absoluteAdapterPosition)
-                itemClick(item)
-            }
-        }
-    }
-
-    override fun onBindViewHolder(holder: LanguageItemHolder, position: Int) {
-        val item = getItem(position)
-
-        holder.bind(item)
-    }
-}
+internal fun Credit.toSpec() = CreditSpec(name, value)

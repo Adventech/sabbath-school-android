@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -51,11 +50,13 @@ import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.LabelXSmall
 import com.cryart.design.theme.SSTheme
 import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.parse
 import com.cryart.design.theme.onSurfaceSecondaryColor
+import com.cryart.design.theme.parse
 import com.cryart.design.widgets.Divider
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.lessons.databinding.SsComposeComponentBinding
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.PublishingInfoSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
 import kotlinx.coroutines.flow.Flow
 
 class PublishingInfoComponent(
@@ -73,7 +74,7 @@ class PublishingInfoComponent(
 
             SSTheme {
                 PublishingInfo(
-                    publishingInfo = data,
+                    spec = data.toSpec(),
                     primaryColorHex = primaryColor
                 )
             }
@@ -83,12 +84,12 @@ class PublishingInfoComponent(
 
 @Composable
 private fun PublishingInfo(
-    publishingInfo: PublishingInfo,
+    spec: PublishingInfoSpec,
     primaryColorHex: String,
     modifier: Modifier = Modifier,
-    context: Context = LocalContext.current
 ) {
-    val onclick: () -> Unit = { context.launchWebUrl(publishingInfo.url) }
+    val context = LocalContext.current
+    val onclick: () -> Unit = { context.launchWebUrl(spec.url) }
 
     Column(modifier = modifier) {
         Row(
@@ -103,7 +104,7 @@ private fun PublishingInfo(
             Spacer(modifier = Modifier.size(Dimens.grid_4))
 
             Text(
-                text = publishingInfo.message,
+                text = spec.message,
                 style = LabelXSmall.copy(
                     color = onSurfaceSecondaryColor(),
                 ),
@@ -139,7 +140,7 @@ private fun PublishingInfo(
 private fun PreviewPublishingInfo() {
     SSTheme {
         PublishingInfo(
-            publishingInfo = PublishingInfo(
+            spec = PublishingInfoSpec(
                 message = "The right to print and distribute this Sabbath School resource in the " +
                     "United States belongs to the Pacific Press Publishing Association.",
                 url = "http://www.sabbathschoolmaterials.com"

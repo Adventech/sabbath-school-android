@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.bible.components
 
-import android.content.Context
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -45,6 +44,7 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -85,22 +85,20 @@ class HeaderComponent(
     init {
         composeView.setContent {
             SSTheme {
-                val displayOptions = displayOptionsFlow.collectAsState(
-                    initial = SSReadingDisplayOptions(isSystemInDarkTheme())
-                ).value
-                val bibleVerses = bibleVersesFlow.collectAsState(
-                    initial = emptyList()
-                ).value
-
+                val displayOptions by displayOptionsFlow.collectAsState(initial = SSReadingDisplayOptions(isSystemInDarkTheme()))
+                val bibleVerses by bibleVersesFlow.collectAsState(initial = emptyList())
                 val backgroundColor = Color.parse(displayOptions.themeColor(LocalContext.current))
+
                 Surface(
                     color = backgroundColor,
-                    contentColor = displayOptions.contentColor()
+                    contentColor = contentColor(displayOptions.displayTheme(LocalContext.current))
                 ) {
                     HeaderRow(
-                        bibleVerses = bibleVerses,
-                        lastBibleUsed = lastBibleUsed ?: "",
-                        callbacks = callbacks,
+                        spec = HeaderRowSpec(
+                            bibleVerses = bibleVerses,
+                            lastBibleUsed = lastBibleUsed ?: "",
+                            callbacks = callbacks,
+                        )
                     )
                 }
             }
@@ -109,8 +107,9 @@ class HeaderComponent(
 }
 
 @Composable
-private fun SSReadingDisplayOptions.contentColor(context: Context = LocalContext.current): Color {
-    return when (displayTheme(context)) {
+@Stable
+private fun contentColor(theme: String): Color {
+    return when (theme) {
         SSReadingDisplayOptions.SS_THEME_DARK -> Color.White
         else -> Color.Black
     }
@@ -118,10 +117,8 @@ private fun SSReadingDisplayOptions.contentColor(context: Context = LocalContext
 
 @Composable
 fun HeaderRow(
-    bibleVerses: List<SSBibleVerses>,
-    lastBibleUsed: String,
+    spec: HeaderRowSpec,
     modifier: Modifier = Modifier,
-    callbacks: HeaderComponent.Callbacks? = null,
 ) {
 
     Row(
@@ -132,7 +129,7 @@ fun HeaderRow(
 
         IconButton(
             onClick = {
-                callbacks?.onClose()
+                spec.callbacks.onClose()
             }
         ) {
             Icon(Icons.Rounded.Close, contentDescription = "Close")
@@ -140,20 +137,15 @@ fun HeaderRow(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        BibleVersionsMenu(
-            bibleVerses = bibleVerses,
-            lastBibleUsed = lastBibleUsed,
-            callbacks = callbacks,
-        )
+        BibleVersionsMenu(spec = spec)
     }
 }
 
 @Composable
 private fun BibleVersionsMenu(
-    bibleVerses: List<SSBibleVerses>,
-    lastBibleUsed: String,
-    callbacks: HeaderComponent.Callbacks? = null,
+    spec: HeaderRowSpec,
 ) {
+    val (bibleVerses, lastBibleUsed, callbacks) = spec
     var expanded by remember { mutableStateOf(false) }
     var selected by remember { mutableStateOf(lastBibleUsed) }
     val iconRotation by animateFloatAsState(
@@ -192,7 +184,7 @@ private fun BibleVersionsMenu(
                         val version = verse.name
                         selected = version
                         expanded = false
-                        callbacks?.versionSelected(version)
+                        callbacks.versionSelected(version)
                     },
                     modifier = Modifier
                         .testTag("DropdownMenuItem-${verse.name}")
@@ -231,18 +223,20 @@ private fun BibleVersionsMenu(
 private fun HeaderRowPreview() {
     SSTheme {
         HeaderRow(
-            bibleVerses = emptyList(),
-            lastBibleUsed = "KJV",
+            spec = HeaderRowSpec(
+                bibleVerses = emptyList(),
+                lastBibleUsed = "KJV",
+                callbacks = object : HeaderComponent.Callbacks {
+                    override fun onClose() {
+                    }
+
+                    override fun versionSelected(version: String) {
+                    }
+                },
+            ),
             modifier = Modifier
                 .height(50.dp)
                 .padding(6.dp),
-            callbacks = object : HeaderComponent.Callbacks {
-                override fun onClose() {
-                }
-
-                override fun versionSelected(version: String) {
-                }
-            },
         )
     }
 }

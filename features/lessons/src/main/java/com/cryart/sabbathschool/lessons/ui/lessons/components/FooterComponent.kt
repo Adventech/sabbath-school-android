@@ -31,13 +31,13 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import app.ss.models.Credit
-import app.ss.models.Feature
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.LabelSmall
 import com.cryart.design.theme.SSTheme
@@ -49,24 +49,29 @@ import com.cryart.design.theme.surfaceSecondaryColor
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsComposeComponentBinding
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.FeatureImage
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.CreditSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.FeatureSpec
 import kotlinx.coroutines.flow.Flow
 import java.util.Calendar
 
-data class LessonsFooter(
-    val credits: List<Credit> = emptyList(),
-    val features: List<Feature> = emptyList()
+@Immutable
+data class LessonsFooterSpec(
+    val credits: List<CreditSpec> = emptyList(),
+    val features: List<FeatureSpec> = emptyList()
 )
 
 class FooterComponent(
     binding: SsComposeComponentBinding,
-    private val dataFlow: Flow<LessonsFooter>
+    private val dataFlow: Flow<LessonsFooterSpec>
 ) {
 
     init {
         binding.composeView.setContent {
             SSTheme {
                 Surface(color = surfaceSecondaryColor()) {
-                    FooterList(dataFlow = dataFlow)
+                    val spec by dataFlow.collectAsState(initial = LessonsFooterSpec())
+
+                    FooterList(spec = spec)
                 }
             }
         }
@@ -76,10 +81,8 @@ class FooterComponent(
 @Composable
 fun FooterList(
     modifier: Modifier = Modifier,
-    dataFlow: Flow<LessonsFooter>
+    spec: LessonsFooterSpec
 ) {
-    val data = dataFlow.collectAsState(initial = LessonsFooter())
-
     val topPadding = Spacing8
     val horizontalPadding = Spacing16
     val bottomPadding = 48.dp
@@ -95,11 +98,11 @@ fun FooterList(
             )
     ) {
 
-        data.value.features.forEach { feature ->
+        spec.features.forEach { feature ->
             FeatureFooterItem(feature = feature)
         }
 
-        data.value.credits.forEach { credit ->
+        spec.credits.forEach { credit ->
             CreditFooterItem(credit = credit)
         }
 
@@ -108,9 +111,7 @@ fun FooterList(
             style = LabelSmall.copy(
                 color = onSurfaceSecondaryColor()
             ),
-            modifier = Modifier.padding(
-                vertical = VerticalPadding
-            )
+            modifier = Modifier.padding(vertical = VerticalPadding)
         )
     }
 }
@@ -120,15 +121,13 @@ private val year: String = "© ${Calendar.getInstance().get(Calendar.YEAR)}"
 @Composable
 fun FeatureFooterItem(
     modifier: Modifier = Modifier,
-    feature: Feature
+    feature: FeatureSpec
 ) {
     val imagePaddingEnd = 10.dp
 
     Column(
         modifier = modifier
-            .padding(
-                vertical = VerticalPadding,
-            )
+            .padding(vertical = VerticalPadding)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             FeatureImage(
@@ -144,17 +143,13 @@ fun FeatureFooterItem(
 
             Text(
                 text = feature.title,
-                style = TitleSmall.copy(
-                    color = MaterialTheme.colors.onSurface
-                )
+                style = TitleSmall.copy(color = MaterialTheme.colors.onSurface)
             )
         }
 
         Text(
             text = feature.description,
-            style = LabelSmall.copy(
-                color = BaseGrey2
-            )
+            style = LabelSmall.copy(color = BaseGrey2)
         )
     }
 }
@@ -165,26 +160,20 @@ private val ImageHeight = 22.dp
 @Composable
 fun CreditFooterItem(
     modifier: Modifier = Modifier,
-    credit: Credit
+    credit: CreditSpec
 ) {
     Column(
         modifier = modifier
-            .padding(
-                vertical = VerticalPadding,
-            )
+            .padding(vertical = VerticalPadding)
     ) {
         Text(
             text = credit.name,
-            style = TitleSmall.copy(
-                color = MaterialTheme.colors.onSurface
-            )
+            style = TitleSmall.copy(color = MaterialTheme.colors.onSurface)
         )
 
         Text(
             text = credit.value,
-            style = LabelSmall.copy(
-                color = BaseGrey2
-            )
+            style = LabelSmall.copy(color = BaseGrey2)
         )
     }
 }

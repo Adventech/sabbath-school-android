@@ -22,7 +22,6 @@
 
 package app.ss.media.playback.ui.nowPlaying.components
 
-import android.support.v4.media.session.PlaybackStateCompat
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -44,10 +43,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import app.ss.media.R
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.extensions.isError
-import app.ss.media.playback.extensions.isPlayEnabled
-import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.extensions.playPause
+import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import com.cryart.design.theme.Dimens
 
 internal object PlayBackControlsDefaults {
@@ -58,7 +55,7 @@ internal object PlayBackControlsDefaults {
 
 @Composable
 internal fun PlayBackControls(
-    playbackState: PlaybackStateCompat,
+    spec: PlaybackStateSpec,
     contentColor: Color,
     modifier: Modifier = Modifier,
     playbackConnection: PlaybackConnection
@@ -92,9 +89,9 @@ internal fun PlayBackControls(
             modifier = Modifier.size(PlayBackControlsDefaults.playButtonSize),
         ) {
             val painter = when {
-                playbackState.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
-                playbackState.isError -> rememberVectorPainter(Icons.Rounded.ErrorOutline)
-                playbackState.isPlayEnabled -> painterResource(id = R.drawable.ic_audio_icon_play)
+                spec.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
+                spec.isError -> rememberVectorPainter(Icons.Rounded.ErrorOutline)
+                spec.isPlayEnabled -> painterResource(id = R.drawable.ic_audio_icon_play)
                 else -> painterResource(id = R.drawable.ic_audio_icon_play)
             }
             Icon(

@@ -118,7 +118,6 @@ dependencies {
     implementation(Compose.ui)
     implementation(Compose.material)
     implementation(Compose.tooling)
-    implementation(Compose.snapper)
 
     implementation(Accompanist.placeholder)
 

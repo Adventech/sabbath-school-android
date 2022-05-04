@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,40 +20,14 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.quarterlies.components
+package com.cryart.sabbathschool.bible.components
 
 import androidx.compose.runtime.Immutable
-import app.ss.models.QuarterlyGroup
-import app.ss.models.SSQuarterly
+import app.ss.models.SSBibleVerses
 
-sealed interface GroupedQuarterlies {
-    @Immutable
-    data class TypeList(val data: List<SSQuarterly>) : GroupedQuarterlies
-    @Immutable
-    data class TypeGroup(val data: List<QuarterliesGroup>) : GroupedQuarterlies
-    object Empty : GroupedQuarterlies
-}
-
-data class QuarterliesGroup(
-    val group: QuarterlyGroup,
-    val quarterlies: List<SSQuarterly>
+@Immutable
+data class HeaderRowSpec(
+    val bibleVerses: List<SSBibleVerses>,
+    val lastBibleUsed: String,
+    val callbacks: HeaderComponent.Callbacks,
 )
-
-private const val PLACEHOLDER_ID = "PLACEHOLDER_QUARTERLY"
-
-internal val SSQuarterly.isPlaceholder: Boolean get() = id.startsWith(PLACEHOLDER_ID)
-
-internal fun placeHolderQuarterlies(): List<SSQuarterly> {
-    val placeHolders = mutableListOf<SSQuarterly>()
-    for (i in 0 until 10) {
-        placeHolders.add(
-            SSQuarterly(
-                "${PLACEHOLDER_ID}_$i",
-                title = "Quarterly placeholder",
-                human_date = "Some * date * here",
-                color_primary = "#2E5797"
-            )
-        )
-    }
-    return placeHolders
-}

@@ -28,7 +28,9 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.cryart.design.theme.SSTheme
+import com.cryart.sabbathschool.bible.components.HeaderComponent
 import com.cryart.sabbathschool.bible.components.HeaderRow
+import com.cryart.sabbathschool.bible.components.HeaderRowSpec
 import com.cryart.sabbathschool.test.di.mock.MockDataFactory
 import org.junit.Rule
 import org.junit.Test
@@ -42,14 +44,22 @@ class BibleHeaderComponentTest {
     val composeTestRule = createComposeRule()
 
     private val bibleVerses = MockDataFactory.bibleVerses
+    private val callbacks = object : HeaderComponent.Callbacks {
+        override fun onClose() {}
+
+        override fun versionSelected(version: String) {}
+    }
 
     @Test
     fun verify_last_bible_used_is_displayed() {
         composeTestRule.setContent {
             SSTheme {
                 HeaderRow(
-                    bibleVerses = bibleVerses,
-                    lastBibleUsed = "KJV",
+                    spec = HeaderRowSpec(
+                        bibleVerses = bibleVerses,
+                        lastBibleUsed = "KJV",
+                        callbacks = callbacks
+                    )
                 )
             }
         }
@@ -64,8 +74,11 @@ class BibleHeaderComponentTest {
         composeTestRule.setContent {
             SSTheme {
                 HeaderRow(
-                    bibleVerses = bibleVerses,
-                    lastBibleUsed = "KJV",
+                    spec = HeaderRowSpec(
+                        bibleVerses = bibleVerses,
+                        lastBibleUsed = "KJV",
+                        callbacks = callbacks
+                    )
                 )
             }
         }

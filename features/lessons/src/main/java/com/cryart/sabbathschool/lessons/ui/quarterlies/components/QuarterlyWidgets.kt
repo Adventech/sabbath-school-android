@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -41,9 +40,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -53,6 +50,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -63,7 +61,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.models.SSQuarterly
@@ -82,13 +79,11 @@ import com.cryart.design.theme.iconTint
 import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.theme.navTitle
 import com.cryart.design.theme.parse
+import com.cryart.design.widgets.list.SnappingLazyRow
 import com.cryart.sabbathschool.lessons.R
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
-import dev.chrisbanes.snapper.ExperimentalSnapperApi
-import dev.chrisbanes.snapper.SnapOffsets
-import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 
 fun SSQuarterly.spec(
     type: QuarterlySpec.Type,
@@ -103,6 +98,7 @@ fun SSQuarterly.spec(
     onClick
 )
 
+@Immutable
 data class QuarterlySpec(
     val title: String,
     val date: String,
@@ -133,6 +129,13 @@ data class QuarterlySpec(
         }
     }
 }
+
+@Immutable
+data class GroupedQuarterliesSpec(
+    val title: String,
+    val items: List<QuarterlySpec>,
+    val lastIndex: Boolean,
+)
 
 @Composable
 private fun CoverBox(
@@ -324,9 +327,7 @@ private fun QuarterlyCover(
 
 @Composable
 fun GroupedQuarterliesColumn(
-    title: String,
-    items: List<QuarterlySpec>,
-    lastIndex: Boolean,
+    spec: GroupedQuarterliesSpec,
     modifier: Modifier = Modifier,
     seeAllClick: () -> Unit = {}
 ) {
@@ -334,48 +335,27 @@ fun GroupedQuarterliesColumn(
         modifier = modifier
             .groupBackground(
                 darkTheme = isSystemInDarkTheme(),
-                lastIndex = lastIndex
+                lastIndex = spec.lastIndex
             )
     ) {
-        GroupTitle(title, seeAllClick)
+        GroupTitle(spec.title, seeAllClick)
 
         Spacer(modifier = Modifier.height(Dimens.grid_2))
 
-        GroupQuarterlies(items)
+        SnappingLazyRow(
+            contentPadding = PaddingValues(horizontal = Dimens.grid_4),
+            horizontalArrangement = Arrangement.spacedBy(Dimens.grid_4)
+        ) {
+            itemsIndexed(spec.items, key = { _: Int, spec: QuarterlySpec -> spec.title }) { _, item ->
+                QuarterlyColumn(
+                    spec = item,
+                    modifier = Modifier
+                        .clickable(onClick = item.onClick),
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(Dimens.grid_4))
-    }
-}
-
-@OptIn(ExperimentalSnapperApi::class)
-@Composable
-private fun GroupQuarterlies(
-    items: List<QuarterlySpec>,
-    modifier: Modifier = Modifier,
-) {
-    val lazyListState = rememberLazyListState()
-    val contentPadding = PaddingValues(
-        horizontal = Dimens.grid_4,
-    )
-
-    LazyRow(
-        state = lazyListState,
-        flingBehavior = rememberSnapperFlingBehavior(
-            lazyListState = lazyListState,
-            snapOffsetForItem = SnapOffsets.Start,
-            endContentPadding = contentPadding.calculateEndPadding(LayoutDirection.Ltr),
-        ),
-        contentPadding = contentPadding,
-        horizontalArrangement = Arrangement.spacedBy(Dimens.grid_4),
-        modifier = modifier
-    ) {
-        itemsIndexed(items, key = { _: Int, spec: QuarterlySpec -> spec.title }) { _, item ->
-            QuarterlyColumn(
-                spec = item,
-                modifier = Modifier
-                    .clickable(onClick = item.onClick),
-            )
-        }
     }
 }
 
@@ -449,9 +429,11 @@ private fun Modifier.groupBackground(
 @Composable
 private fun GroupedQuarterliesColumnPreview() {
     GroupedQuarterliesColumn(
-        "Grouping",
-        emptyList(),
-        true,
+        spec = GroupedQuarterliesSpec(
+            "Grouping",
+            emptyList(),
+            true
+        ),
         Modifier
             .padding(4.dp)
             .fillMaxWidth()

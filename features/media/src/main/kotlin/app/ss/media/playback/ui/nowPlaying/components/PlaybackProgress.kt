@@ -22,7 +22,6 @@
 
 package app.ss.media.playback.ui.nowPlaying.components
 
-import android.support.v4.media.session.PlaybackStateCompat
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,10 +47,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.extensions.isBuffering
 import app.ss.media.playback.extensions.millisToDuration
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
+import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.BaseGrey3
@@ -90,14 +89,14 @@ private object ProgressColors {
 
 @Composable
 internal fun PlaybackProgress(
-    playbackState: PlaybackStateCompat,
+    spec: PlaybackStateSpec,
     playbackConnection: PlaybackConnection
 ) {
     val progressState by rememberFlowWithLifecycle(playbackConnection.playbackProgress)
         .collectAsState(PlaybackProgressState())
 
     PlaybackProgressDuration(
-        isBuffering = playbackState.isBuffering,
+        isBuffering = spec.isBuffering,
         progressState,
         onSeekTo = { position ->
             playbackConnection.transportControls?.seekTo(position)
