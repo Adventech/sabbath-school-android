@@ -41,6 +41,7 @@ import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.core.ui.SlidingActivity
+import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsActivityBinding
 import com.cryart.sabbathschool.lessons.ui.base.StatusComponent
@@ -98,8 +99,10 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen, LessonsCallback {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        AppRate.with(this).setInstallDays(SSConstants.SS_APP_RATE_INSTALL_DAYS).monitor()
-        AppRate.showRateDialogIfMeetsConditions(this)
+        if (!BuildConfig.DEBUG) {
+            AppRate.with(this).setInstallDays(SSConstants.SS_APP_RATE_INSTALL_DAYS).monitor()
+            AppRate.showRateDialogIfMeetsConditions(this)
+        }
 
         initUI()
         collectData()
