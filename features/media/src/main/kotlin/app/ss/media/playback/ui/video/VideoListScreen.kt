@@ -60,8 +60,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.media.R
 import app.ss.media.playback.ui.common.CoilImage
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
+import app.ss.media.playback.ui.spec.VideoSpec
+import app.ss.media.playback.ui.spec.VideosInfoSpec
+import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.SSVideo
-import app.ss.models.media.SSVideosInfo
 import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.BaseGrey2
@@ -137,7 +139,7 @@ internal fun ViewListScreen(
                 val data = videoList as VideoListData.Horizontal
                 items(data.data) { videosInfo ->
                     VideosInfoList(
-                        videosInfo = videosInfo,
+                        spec = videosInfo.toSpec(),
                         target = data.target,
                         onVideoClick = onVideoClick
                     )
@@ -146,11 +148,12 @@ internal fun ViewListScreen(
             is VideoListData.Vertical -> {
                 val data = videoList as VideoListData.Vertical
                 item {
+                    val video = data.featured
                     VideoColumn(
-                        video = data.featured,
+                        video = video.toSpec(),
                         featured = true,
                         vertical = true,
-                        onVideoClick = onVideoClick
+                        onVideoClick = { onVideoClick(video) }
                     )
                 }
 
@@ -160,8 +163,8 @@ internal fun ViewListScreen(
 
                 items(data.clips) { video ->
                     VideoRow(
-                        video = video,
-                        onVideoClick = onVideoClick
+                        video = video.toSpec(),
+                        onVideoClick = { onVideoClick(video) }
                     )
 
                     Spacer(modifier = Modifier.height(Dimens.grid_4))
@@ -180,7 +183,7 @@ internal fun ViewListScreen(
 
 @Composable
 private fun VideosInfoList(
-    videosInfo: SSVideosInfo,
+    spec: VideosInfoSpec,
     target: String?,
     modifier: Modifier = Modifier,
     onVideoClick: (SSVideo) -> Unit
@@ -191,7 +194,7 @@ private fun VideosInfoList(
         modifier = modifier,
     ) {
         Text(
-            text = videosInfo.artist.uppercase(),
+            text = spec.artist.uppercase(),
             style = Title.copy(
                 fontSize = 13.sp,
                 color = if (isSystemInDarkTheme()) BaseGrey2 else BaseBlue
@@ -209,13 +212,13 @@ private fun VideosInfoList(
             )
         ) {
             itemsIndexed(
-                videosInfo.clips,
+                spec.clips,
                 key = { _: Int, item: SSVideo -> item.id }
             ) { _, video ->
                 VideoColumn(
-                    video = video,
+                    video = video.toSpec(),
                     modifier = Modifier,
-                    onVideoClick = onVideoClick
+                    onVideoClick = { onVideoClick(video) }
                 )
             }
         }
@@ -223,7 +226,7 @@ private fun VideosInfoList(
 
     // scroll to the most relevant video
     LaunchedEffect(target) {
-        val index = videosInfo.clips.indexOfFirst { it.targetIndex == target }
+        val index = spec.clips.indexOfFirst { it.targetIndex == target }
         if (index > 0) {
             listState.scrollToItem(index)
         }
@@ -232,11 +235,11 @@ private fun VideosInfoList(
 
 @Composable
 private fun VideoColumn(
-    video: SSVideo,
+    video: VideoSpec,
     modifier: Modifier = Modifier,
     featured: Boolean = false,
     vertical: Boolean = false,
-    onVideoClick: (SSVideo) -> Unit,
+    onVideoClick: () -> Unit,
 ) {
     val defSize = getThumbnailSize(vertical = vertical)
     val size = if (featured) {
@@ -259,7 +262,7 @@ private fun VideoColumn(
                 )
             }
             .clickable {
-                onVideoClick(video)
+                onVideoClick()
             }
     ) {
 
@@ -294,9 +297,9 @@ private fun VideoColumn(
 
 @Composable
 private fun VideoRow(
-    video: SSVideo,
+    video: VideoSpec,
     modifier: Modifier = Modifier,
-    onVideoClick: (SSVideo) -> Unit
+    onVideoClick: () -> Unit
 ) {
     val size = getThumbnailSize(vertical = true)
 
@@ -308,7 +311,7 @@ private fun VideoRow(
                 horizontal = Spacing24,
             )
             .clickable {
-                onVideoClick(video)
+                onVideoClick()
             }
     ) {
         CoilImage(

@@ -22,7 +22,6 @@
 
 package app.ss.media.playback.ui.video.player
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -55,7 +54,6 @@ import app.ss.media.playback.ui.nowPlaying.components.PlayBackControlsDefaults
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
 import com.cryart.design.theme.SSTheme
 import com.cryart.design.theme.Spacing32
-import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun VideoPlayerControls(
@@ -66,6 +64,8 @@ fun VideoPlayerControls(
     SSTheme {
         val playbackState by rememberFlowWithLifecycle(videoPlayer.playbackState)
             .collectAsState(initial = VideoPlaybackState())
+        val progressState by rememberFlowWithLifecycle(videoPlayer.playbackProgress)
+            .collectAsState(PlaybackProgressState())
 
         Surface(color = Color.Black.copy(0.6f)) {
             Box(modifier = Modifier.fillMaxSize()) {
@@ -89,7 +89,7 @@ fun VideoPlayerControls(
                 )
 
                 PlayBackProgress(
-                    playbackProgressFlow = videoPlayer.playbackProgress,
+                    progressState = progressState,
                     playbackState = playbackState,
                     onSeekTo = { position ->
                         videoPlayer.seekTo(position)
@@ -132,7 +132,6 @@ private fun BoxScope.TopBar(
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun BoxScope.Controls(
     onPlayPause: () -> Unit,
@@ -206,13 +205,10 @@ private fun BoxScope.Controls(
 
 @Composable
 private fun BoxScope.PlayBackProgress(
-    playbackProgressFlow: StateFlow<PlaybackProgressState>,
+    progressState: PlaybackProgressState,
     playbackState: VideoPlaybackState,
     onSeekTo: (Long) -> Unit
 ) {
-    val progressState by rememberFlowWithLifecycle(playbackProgressFlow)
-        .collectAsState(PlaybackProgressState())
-
     PlaybackProgressDuration(
         isBuffering = playbackState.isBuffering,
         progressState = progressState,

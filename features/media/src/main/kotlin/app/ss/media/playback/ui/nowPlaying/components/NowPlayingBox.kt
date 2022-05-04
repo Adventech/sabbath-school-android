@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.models.media.AudioFile
 import com.cryart.design.theme.Body
 import com.cryart.design.theme.Dimens
@@ -56,9 +58,9 @@ internal val sampleAudio = AudioFile(
 
 @Composable
 internal fun NowPlayingColumn(
-    modifier: Modifier = Modifier,
-    audio: AudioFile,
-    boxState: BoxState
+    spec: NowPlayingSpec,
+    boxState: BoxState,
+    modifier: Modifier = Modifier
 ) {
     val horizontalAlignment: Alignment.Horizontal
     val titleStyle: TextStyle
@@ -105,12 +107,12 @@ internal fun NowPlayingColumn(
         verticalArrangement = Arrangement.spacedBy(animatedSpacing)
     ) {
         Text(
-            text = audio.title,
+            text = spec.title,
             style = titleStyle,
             textAlign = textAlign
         )
         Text(
-            text = audio.artist,
+            text = spec.artist,
             style = artistStyle,
             textAlign = textAlign
         )
@@ -118,6 +120,7 @@ internal fun NowPlayingColumn(
 }
 
 @Composable
+@Stable
 private fun textStyle(): TextStyle = TextStyle(
     color = MaterialTheme.colors.onSurface,
     fontFamily = LatoFontFamily,

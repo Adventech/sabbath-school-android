@@ -43,7 +43,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaOptions.version.toString()
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
     }
 }
 

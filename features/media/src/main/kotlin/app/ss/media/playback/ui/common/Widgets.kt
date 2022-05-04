@@ -29,7 +29,6 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import coil.size.Scale
 import coil.size.Size
@@ -38,7 +37,6 @@ import com.cryart.design.theme.Spacing8
 import com.google.accompanist.placeholder.PlaceholderDefaults
 import com.google.accompanist.placeholder.material.color
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun CoilImage(
     data: String?,

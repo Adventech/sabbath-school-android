@@ -54,6 +54,10 @@ android {
         jvmTarget = JavaOptions.version.toString()
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.OPT_IN
     }
+    compileOptions {
+        sourceCompatibility = JavaOptions.version
+        targetCompatibility = JavaOptions.version
+    }
 }
 
 dependencies {

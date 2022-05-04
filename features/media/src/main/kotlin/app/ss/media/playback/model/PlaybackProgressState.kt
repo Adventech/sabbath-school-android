@@ -1,7 +1,9 @@
 package app.ss.media.playback.model
 
+import androidx.compose.runtime.Immutable
 import app.ss.media.playback.extensions.millisToDuration
 
+@Immutable
 data class PlaybackProgressState(
     val total: Long = 0L,
     val position: Long = 0L,

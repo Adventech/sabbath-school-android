@@ -81,7 +81,6 @@ import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
-import app.ss.media.playback.ui.nowPlaying.ScreenDefaults.tintColor
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
 import app.ss.media.playback.ui.nowPlaying.components.CoverImage
 import app.ss.media.playback.ui.nowPlaying.components.NowPlayingColumn
@@ -89,6 +88,9 @@ import app.ss.media.playback.ui.nowPlaying.components.PlayBackControls
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgress
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackQueueList
 import app.ss.media.playback.ui.playbackContentColor
+import app.ss.media.playback.ui.spec.PlaybackQueueSpec
+import app.ss.media.playback.ui.spec.toImageSpec
+import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.AudioFile
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.BaseGrey2
@@ -98,18 +100,6 @@ import com.cryart.design.theme.Spacing32
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.TitleMedium
 import com.cryart.design.widgets.DragHandle
-import kotlinx.coroutines.flow.StateFlow
-
-private object ScreenDefaults {
-
-    @Composable
-    fun tintColor(): Color =
-        if (isSystemInDarkTheme()) {
-            BaseGrey2
-        } else {
-            BaseBlue
-        }
-}
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -187,7 +177,7 @@ internal fun NowPlayingScreen(
             ) {
 
                 CoverImage(
-                    audio = nowPlayingAudio,
+                    spec = nowPlayingAudio.toImageSpec(),
                     boxState = boxState,
                     modifier = Modifier
                         .layoutId("image")
@@ -199,13 +189,21 @@ internal fun NowPlayingScreen(
                 )
 
                 NowPlayingColumn(
-                    audio = nowPlayingAudio,
+                    spec = nowPlayingAudio.toSpec(),
                     boxState = boxState,
                     modifier = Modifier.layoutId("text")
                 )
 
                 PlaybackQueueList(
-                    listState = listState,
+                    spec = PlaybackQueueSpec(
+                        listState = listState,
+                        queue = playbackQueue.audiosList.map { it.toSpec() },
+                        nowPlayingId = nowPlaying.id,
+                        isPlaying = playbackState.isPlaying,
+                        onPlayAudio = { position ->
+                            playbackConnection.transportControls?.skipToQueueItem(position.toLong())
+                        }
+                    ),
                     modifier = Modifier
                         .alpha(if (expanded) 0f else 1f)
                         .padding(top = Spacing16)
@@ -228,12 +226,6 @@ internal fun NowPlayingScreen(
                             false
                         }
                         .layoutId("queue"),
-                    playbackQueue = playbackQueue.audiosList,
-                    nowPlayingId = nowPlaying.id,
-                    isPlaying = playbackState.isPlaying,
-                    onPlayAudio = { position ->
-                        playbackConnection.transportControls?.skipToQueueItem(position.toLong())
-                    }
                 )
             }
         }
@@ -243,24 +235,27 @@ internal fun NowPlayingScreen(
         )
 
         PlaybackProgress(
-            playbackState = playbackState,
+            spec = playbackState.toSpec(),
             playbackConnection = playbackConnection
         )
 
         Spacer(modifier = Modifier.height(spacing))
 
         PlayBackControls(
-            playbackState = playbackState,
+            spec = playbackState.toSpec(),
             contentColor = playbackContentColor(),
             playbackConnection = playbackConnection
         )
 
         Spacer(modifier = Modifier.height(spacing))
 
+        val playbackSpeed by rememberFlowWithLifecycle(playbackConnection.playbackSpeed)
+            .collectAsState(PlaybackSpeed.NORMAL)
+
         BottomControls(
-            playbackSpeedFlow = playbackConnection.playbackSpeed,
-            toggleSpeed = { playbackSpeed ->
-                playbackConnection.toggleSpeed(playbackSpeed)
+            playbackSpeed = playbackSpeed,
+            toggleSpeed = { speed ->
+                playbackConnection.toggleSpeed(speed)
             },
             toggleExpand = {
                 boxState = when (boxState) {
@@ -324,13 +319,10 @@ private fun decoupledConstraints(
 @Composable
 private fun BottomControls(
     modifier: Modifier = Modifier,
-    playbackSpeedFlow: StateFlow<PlaybackSpeed>,
+    playbackSpeed: PlaybackSpeed,
     toggleSpeed: (PlaybackSpeed) -> Unit = {},
     toggleExpand: () -> Unit = {}
 ) {
-    val playbackSpeed by rememberFlowWithLifecycle(playbackSpeedFlow)
-        .collectAsState(PlaybackSpeed.NORMAL)
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -375,3 +367,8 @@ private fun BottomControls(
         }
     }
 }
+
+@Composable
+private fun tintColor(
+    isDark: Boolean = isSystemInDarkTheme()
+): Color = if (isDark) BaseGrey2 else BaseBlue

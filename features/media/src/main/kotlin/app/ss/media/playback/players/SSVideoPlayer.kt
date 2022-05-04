@@ -26,6 +26,7 @@ import android.content.Context
 import android.media.AudioManager
 import android.net.Uri
 import android.support.v4.media.session.MediaSessionCompat
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import app.ss.models.media.SSVideo
@@ -48,6 +49,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@Immutable
 data class VideoPlaybackState(
     @Player.State val state: Int = Player.STATE_IDLE,
     val isPlaying: Boolean = false

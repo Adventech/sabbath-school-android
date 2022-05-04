@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,24 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.languages
+package app.ss.media.playback.ui.spec
 
-import android.view.ViewGroup
-import com.cryart.sabbathschool.lessons.ui.base.DynamicSearchAdapter
+import android.support.v4.media.MediaMetadataCompat
+import androidx.compose.runtime.Immutable
+import app.ss.media.playback.model.toAudio
+import app.ss.models.media.AudioFile
 
-class LanguagesListAdapter(
-    private val itemClick: (LanguageModel) -> Unit
-) : DynamicSearchAdapter<LanguageModel, LanguageItemHolder>() {
+@Immutable
+data class NowPlayingSpec(
+    val id: String,
+    val title: String,
+    val artist: String
+)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LanguageItemHolder {
-        return LanguageItemHolder.create(parent).also { holder ->
-            holder.itemView.setOnClickListener {
-                val item = getItem(holder.absoluteAdapterPosition)
-                itemClick(item)
-            }
-        }
-    }
+internal fun AudioFile.toSpec() = NowPlayingSpec(
+    id = id,
+    title = title,
+    artist = artist
+)
 
-    override fun onBindViewHolder(holder: LanguageItemHolder, position: Int) {
-        val item = getItem(position)
-
-        holder.bind(item)
-    }
-}
+internal fun MediaMetadataCompat.toSpec() = toAudio().toSpec()
