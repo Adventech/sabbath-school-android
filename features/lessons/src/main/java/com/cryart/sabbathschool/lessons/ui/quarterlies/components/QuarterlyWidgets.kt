@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -53,9 +52,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -64,8 +65,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.models.SSQuarterly
-import coil.compose.rememberImagePainter
-import coil.transform.RoundedCornersTransformation
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.BodyMedium1
 import com.cryart.design.theme.Dimens
@@ -115,7 +116,7 @@ data class QuarterlySpec(
         fun width(largeScreen: Boolean): Dp = when {
             largeScreen && this == NORMAL -> 150.dp
             largeScreen && this == LARGE -> 198.dp
-            this == NORMAL -> 98.dp
+            this == NORMAL -> 100.dp
             this == LARGE -> 148.dp
             else -> Dp.Unspecified
         }
@@ -311,16 +312,16 @@ private fun QuarterlyCover(
         color = spec.color,
         modifier = modifier
     ) {
-        Image(
-            painter = rememberImagePainter(
-                data = spec.cover,
-                builder = {
-                    crossfade(true)
-                    transformations(RoundedCornersTransformation(18f))
-                }
-            ),
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(spec.cover)
+                .crossfade(true)
+                .build(),
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(18f)),
             contentDescription = spec.title,
-            contentScale = ContentScale.Fit
+            contentScale = ContentScale.Crop
         )
     }
 }

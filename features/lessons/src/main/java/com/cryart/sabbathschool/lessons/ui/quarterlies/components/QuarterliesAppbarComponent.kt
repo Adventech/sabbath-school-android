@@ -26,7 +26,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import coil.imageLoader
 import coil.request.ImageRequest
-import coil.size.PixelSize
+import coil.size.Size
 import coil.transform.CircleCropTransformation
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.navigation.AppNavigator
@@ -69,7 +69,7 @@ class QuarterliesAppbarComponent(
                 is QuarterliesAppbarData.Photo -> {
                     val size = activity.resources.getDimensionPixelSize(R.dimen.spacing_large)
                     val request = ImageRequest.Builder(activity)
-                        .size(PixelSize(size, size))
+                        .size(Size(size, size))
                         .transformations(CircleCropTransformation())
                         .data(data.uri)
                         .error(R.drawable.ic_account_circle)

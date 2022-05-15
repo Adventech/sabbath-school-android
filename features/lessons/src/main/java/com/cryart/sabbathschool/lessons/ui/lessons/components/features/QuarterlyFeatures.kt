@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons.components.features
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -35,8 +34,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.cryart.design.theme.Spacing12
 import com.cryart.design.theme.Spacing16
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.FeatureSpec
@@ -83,13 +84,11 @@ fun FeatureImage(
     modifier: Modifier,
     tint: Color = Color.White.copy(alpha = 0.5f)
 ) {
-    Image(
-        painter = rememberImagePainter(
-            data = feature.image,
-            builder = {
-                crossfade(true)
-            }
-        ),
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(feature.image)
+            .crossfade(true)
+            .build(),
         contentDescription = feature.title,
         contentScale = ContentScale.Inside,
         modifier = modifier,

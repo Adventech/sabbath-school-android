@@ -33,8 +33,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import app.ss.media.playback.ui.common.CoilImage
 import app.ss.media.playback.ui.spec.CoverImageSpec
-import coil.size.PixelSize
 import coil.size.Scale
+import coil.size.Size
 import com.cryart.design.theme.Dimens
 
 private interface Sizes {
@@ -76,7 +76,7 @@ internal fun CoverImage(
         CoverOrientation.PORTRAIT -> Scale.FIT
     }
     val size = with(LocalDensity.current) {
-        PixelSize(
+        Size(
             width.toPx().toInt(),
             height.toPx().toInt()
         )
