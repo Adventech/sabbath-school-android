@@ -3,7 +3,7 @@ package dependencies
 object Versions {
     const val COROUTINES = "1.6.1"
     const val COMPOSE = "1.1.1"
-    const val MATERIAL = "1.5.0"
+    const val MATERIAL = "1.6.0"
     const val ACCOMPANIST = "0.23.1"
 
     object AndroidX {
@@ -28,10 +28,10 @@ object Versions {
         const val SHIMMER = "0.5.0"
     }
 
-    const val HILT = "2.41" // Also update [build.gradle.kts]
+    const val HILT = "2.42" // Also update [build.gradle.kts]
 
     const val TIMBER = "5.0.1"
-    const val COIL = "1.4.0"
+    const val COIL = "2.0.0"
     const val TAP_TARGET = "3.3.2"
     const val ICONICS = "5.3.3@aar"
 
@@ -40,7 +40,7 @@ object Versions {
     const val JODA_TIME = "2.10.14"
     const val MARK_WORM = "4.6.2"
     const val exoplayer = "2.17.1"
-    const val pdfKit = "8.2.0"
+    const val pdfKit = "8.2.1"
     const val Cascade = "1.3.0"
 
     object Square {
@@ -54,10 +54,10 @@ object Versions {
     const val EXT = "1.1.3"
     const val ARCH_CORE = "2.1.0"
     const val JUNIT = "4.13.2"
-    const val ROBOELECTRIC = "4.7.3"
-    const val MOCKK = "1.12.3"
+    const val ROBOELECTRIC = "4.8.1"
+    const val MOCKK = "1.12.4"
     const val ESPRESSO = "3.4.0"
     const val FRAGMENT_TEST = "1.4.1"
     const val KLUENT = "1.68"
-    const val TURBINE = "0.7.0"
+    const val TURBINE = "0.8.0"
 }
