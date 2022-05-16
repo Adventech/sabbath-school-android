@@ -62,14 +62,33 @@ object Dependencies {
     }
 
     object Compose {
+        private const val constraintLayoutVersion = "1.0.0"
+        private const val material3Version = "1.0.0-alpha10"
+        private const val snapperVersion = "0.2.1"
+
+        const val foundation = "androidx.compose.foundation:foundation:${Versions.COMPOSE}"
+        const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Versions.COMPOSE}"
         const val ui = "androidx.compose.ui:ui:${Versions.COMPOSE}"
         const val uiUtil = "androidx.compose.ui:ui-util:${Versions.COMPOSE}"
         const val material = "androidx.compose.material:material:${Versions.COMPOSE}"
+        const val material3 = "androidx.compose.material3:material3:$material3Version"
+        const val windowSizeClass = "androidx.compose.material3:material3-window-size-class:$material3Version"
+        const val runtime = "androidx.compose.runtime:runtime:${Versions.COMPOSE}"
         const val tooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
+        const val toolingPreview = "androidx.compose.ui:ui-tooling-preview:${Versions.COMPOSE}"
         const val icons = "androidx.compose.material:material-icons-core:${Versions.COMPOSE}"
         const val iconsExtended = "androidx.compose.material:material-icons-extended:${Versions.COMPOSE}"
-        const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0"
-        const val snapper = "dev.chrisbanes.snapper:snapper:0.2.1"
+        const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:$constraintLayoutVersion"
+        const val snapper = "dev.chrisbanes.snapper:snapper:$snapperVersion"
+
+        // TODO : Remove these dependencies once we upgrade to Android Studio Dolphin b/228889042
+        // These dependencies are currently necessary to render Compose previews
+        object Preview {
+            const val customView = "androidx.customview:customview:1.2.0-alpha01"
+            const val customViewContainer = "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-beta01"
+            const val savedState = "androidx.savedstate:savedstate-ktx:1.1.0"
+        }
     }
 
     object Accompanist {

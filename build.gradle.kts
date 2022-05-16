@@ -42,10 +42,7 @@ subprojects {
             if (findProperty("ss.enableComposeCompilerReports") == "true") {
                 freeCompilerArgs = freeCompilerArgs + listOf(
                     "-P",
-                    "${KotlinOptions.Compose.ReportsDestination}=$buildDir/compose_metrics"
-                )
-
-                freeCompilerArgs = freeCompilerArgs + listOf(
+                    "${KotlinOptions.Compose.ReportsDestination}=$buildDir/compose_metrics",
                     "-P",
                     "${KotlinOptions.Compose.MetricsDestination}=$buildDir/compose_metrics"
                 )
