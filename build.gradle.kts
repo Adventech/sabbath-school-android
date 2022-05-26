@@ -21,6 +21,7 @@
  */
 
 import extensions.applyDefault
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins.apply(BuildPlugins.UPDATE_DEPENDENCIES)
 
@@ -28,4 +29,24 @@ allprojects {
     repositories.applyDefault()
 
     plugins.apply(BuildPlugins.KTLINT)
+}
+
+/**
+ * Enable Composable Metrics.
+ *
+ * https://chris.banes.dev/composable-metrics/
+ */
+subprojects {
+    tasks.withType(KotlinCompile::class) {
+        kotlinOptions {
+            if (findProperty("ss.enableComposeCompilerReports") == "true") {
+                freeCompilerArgs = freeCompilerArgs + listOf(
+                    "-P",
+                    "${KotlinOptions.Compose.ReportsDestination}=$buildDir/compose_metrics",
+                    "-P",
+                    "${KotlinOptions.Compose.MetricsDestination}=$buildDir/compose_metrics"
+                )
+            }
+        }
+    }
 }

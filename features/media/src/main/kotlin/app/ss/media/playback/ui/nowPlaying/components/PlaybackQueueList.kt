@@ -40,7 +40,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ContentAlpha
@@ -61,7 +60,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ss.models.media.AudioFile
+import app.ss.media.playback.ui.spec.NowPlayingSpec
+import app.ss.media.playback.ui.spec.PlaybackQueueSpec
+import app.ss.media.playback.ui.spec.toSpec
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.Body
 import com.cryart.design.theme.SSTheme
@@ -75,14 +76,11 @@ private const val scrollToItemKey = "playbackQueue"
 
 @Composable
 internal fun PlaybackQueueList(
-    playbackQueue: List<AudioFile>,
-    listState: LazyListState,
+    spec: PlaybackQueueSpec,
     modifier: Modifier = Modifier,
-    nowPlayingId: String? = null,
-    isPlaying: Boolean = false,
-    onPlayAudio: (Int) -> Unit,
 ) {
     val coroutine = rememberCoroutineScope()
+    val (playbackQueue, listState, nowPlayingId, isPlaying, onPlayAudio) = spec
 
     LazyColumn(
         modifier = modifier
@@ -91,10 +89,10 @@ internal fun PlaybackQueueList(
     ) {
         itemsIndexed(
             playbackQueue,
-            key = { _: Int, item: AudioFile -> item.id }
+            key = { _: Int, item: NowPlayingSpec -> item.id }
         ) { index, audio ->
             AudioRow(
-                audio = audio,
+                spec = audio,
                 isSelected = audio.id == nowPlayingId,
                 isPlaying = isPlaying,
                 onClick = {
@@ -121,7 +119,7 @@ internal fun PlaybackQueueList(
 
 @Composable
 private fun AudioRow(
-    audio: AudioFile,
+    spec: NowPlayingSpec,
     modifier: Modifier = Modifier,
     isPlaying: Boolean = false,
     isSelected: Boolean = false,
@@ -146,7 +144,7 @@ private fun AudioRow(
         ) {
             Spacer(modifier = Modifier.height(Spacing6))
             Text(
-                text = audio.title,
+                text = spec.title,
                 style = TitleSmall.copy(
                     color = MaterialTheme.colors.onSurface,
                     fontWeight = if (isSelected) FontWeight.Black else FontWeight.Medium,
@@ -157,7 +155,7 @@ private fun AudioRow(
             )
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 Text(
-                    text = audio.artist,
+                    text = spec.artist,
                     style = Body.copy(
                         fontSize = 14.sp
                     ),
@@ -182,7 +180,7 @@ private fun AudioRowPreview() {
     SSTheme {
         Surface {
             AudioRow(
-                audio = sampleAudio,
+                spec = sampleAudio.toSpec(),
                 modifier = Modifier.padding(8.dp)
             )
         }
@@ -197,7 +195,7 @@ private fun AudioRowPreviewPlaying() {
     SSTheme {
         Surface {
             AudioRow(
-                audio = sampleAudio,
+                spec = sampleAudio.toSpec(),
                 modifier = Modifier.padding(8.dp),
                 isPlaying = true,
                 isSelected = true

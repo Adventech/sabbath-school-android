@@ -32,7 +32,7 @@ class LanguagesListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LanguageItemHolder {
         return LanguageItemHolder.create(parent).also { holder ->
             holder.itemView.setOnClickListener {
-                val item = getItem(holder.adapterPosition)
+                val item = getItem(holder.absoluteAdapterPosition)
                 itemClick(item)
             }
         }

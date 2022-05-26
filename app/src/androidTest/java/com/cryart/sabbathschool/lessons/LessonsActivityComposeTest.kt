@@ -26,12 +26,13 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
-import app.ss.models.Credit
-import app.ss.models.Feature
 import com.cryart.design.theme.SSTheme
 import com.cryart.sabbathschool.lessons.ui.lessons.components.CreditFooterItem
 import com.cryart.sabbathschool.lessons.ui.lessons.components.FeatureFooterItem
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
+import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.CreditSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.FeatureSpec
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,16 +49,20 @@ class LessonsActivityComposeTest {
         composeTestRule.setContent {
             SSTheme {
                 QuarterlyFeaturesRow(
-                    features = listOf(
-                        Feature(
-                            name = "",
-                            title = "title-1",
-                            image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_egw.png"
-                        ),
-                        Feature(
-                            name = "",
-                            title = "title-2",
-                            image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_inside_story.png"
+                    spec = QuarterlyFeaturesSpec(
+                        features = listOf(
+                            FeatureSpec(
+                                name = "",
+                                title = "title-1",
+                                image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_egw.png",
+                                description = ""
+                            ),
+                            FeatureSpec(
+                                name = "",
+                                title = "title-2",
+                                image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_inside_story.png",
+                                description = ""
+                            )
                         )
                     )
                 )
@@ -70,7 +75,7 @@ class LessonsActivityComposeTest {
 
     @Test
     fun check_feature_footer_item_is_displayed() {
-        val feature = Feature(
+        val feature = FeatureSpec(
             name = "egw-quotes",
             title = "Ellen G. White Quotes",
             description = "Enhance your study with additional selected quotes from Ellen G. White writings",
@@ -98,7 +103,7 @@ class LessonsActivityComposeTest {
 
     @Test
     fun check_credit_footer_item_is_displayed() {
-        val credit = Credit(
+        val credit = CreditSpec(
             "Editor", "Clifford R. Goldstein"
         )
         composeTestRule.setContent {

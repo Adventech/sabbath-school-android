@@ -24,6 +24,7 @@ include(
     ":common:auth",
     ":common:core",
     ":common:design",
+    ":common:design-compose",
     ":common:lessons-data",
     ":common:models",
     ":common:network",

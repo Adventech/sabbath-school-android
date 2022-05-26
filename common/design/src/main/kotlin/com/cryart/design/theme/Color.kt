@@ -38,30 +38,6 @@ val BaseGrey5 = Color(0xFF1A1A1A)
 val BaseRed = Color(0xFFF1706B)
 val OffWhite = Color(0xFFE2E2E5)
 
-data class Colors(
-    val Primary: Color = BaseBlue,
-    val PrimaryVariant: Color = BaseBlue,
-    val Secondary: Color = BaseBlue,
-    val Background: Color = Color.White,
-    val Surface: Color = Color.White,
-    val OnPrimary: Color = Color.White,
-    val OnSecondary: Color = Color.White,
-    val OnBackground: Color = BaseGrey3,
-    val OnSurface: Color = BaseGrey3,
-    val Error: Color = BaseRed,
-) {
-    companion object {
-        fun darkModeColors(): Colors = Colors(
-            Primary = Color.White,
-            Background = Color.Black,
-            Surface = Color.Black,
-            OnBackground = BaseGrey1,
-            OnSurface = BaseGrey1,
-            OnPrimary = BaseBlue
-        )
-    }
-}
-
 fun Color.darker(componentDelta: Float = 0.1f): Color = makeColor(-1 * componentDelta)
 
 fun Color.lighter(componentDelta: Float = 0.1f): Color = makeColor(componentDelta)

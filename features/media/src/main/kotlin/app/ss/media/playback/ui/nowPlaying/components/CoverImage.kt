@@ -32,9 +32,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import app.ss.media.playback.ui.common.CoilImage
-import app.ss.models.media.AudioFile
-import coil.size.PixelSize
+import app.ss.media.playback.ui.spec.CoverImageSpec
 import coil.size.Scale
+import coil.size.Size
 import com.cryart.design.theme.Dimens
 
 private interface Sizes {
@@ -61,33 +61,36 @@ private enum class CoverOrientation(val key: String) : Sizes {
 
 @Composable
 internal fun CoverImage(
+    spec: CoverImageSpec,
     modifier: Modifier = Modifier,
-    audio: AudioFile,
     boxState: BoxState = BoxState.Expanded,
 ) {
-    val orientation = CoverOrientation.fromKey(audio.imageRatio) ?: CoverOrientation.PORTRAIT
+    val orientation = CoverOrientation.fromKey(spec.imageRatio) ?: CoverOrientation.PORTRAIT
     val collapsed = boxState == BoxState.Collapsed
     val width = if (collapsed) orientation.width / 2 else orientation.width
     val height = if (collapsed) orientation.height / 2 else orientation.height
     val animatedWidth by animateDpAsState(width)
     val animatedHeight by animateDpAsState(height)
-    val scale = if (orientation == CoverOrientation.PORTRAIT) Scale.FIT else Scale.FILL
+    val scale = when (orientation) {
+        CoverOrientation.SQUARE -> Scale.FILL
+        CoverOrientation.PORTRAIT -> Scale.FIT
+    }
     val size = with(LocalDensity.current) {
-        PixelSize(
+        Size(
             width.toPx().toInt(),
             height.toPx().toInt()
         )
     }
 
     CoilImage(
-        data = audio.image,
+        data = spec.image,
         modifier = modifier
             .size(
                 width = animatedWidth,
                 height = animatedHeight
             )
             .padding(Dimens.grid_1),
-        contentDescription = audio.title,
+        contentDescription = spec.title,
         cornerRadius = CoverCornerRadius,
         scale = scale,
         size = size

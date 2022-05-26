@@ -22,11 +22,14 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies.components
 
+import androidx.compose.runtime.Immutable
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 
 sealed interface GroupedQuarterlies {
+    @Immutable
     data class TypeList(val data: List<SSQuarterly>) : GroupedQuarterlies
+    @Immutable
     data class TypeGroup(val data: List<QuarterliesGroup>) : GroupedQuarterlies
     object Empty : GroupedQuarterlies
 }

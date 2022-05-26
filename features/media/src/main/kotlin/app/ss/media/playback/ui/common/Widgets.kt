@@ -22,23 +22,22 @@
 
 package app.ss.media.playback.ui.common
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import androidx.compose.ui.platform.LocalContext
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import coil.size.Scale
 import coil.size.Size
-import coil.transform.RoundedCornersTransformation
 import com.cryart.design.theme.Spacing8
 import com.google.accompanist.placeholder.PlaceholderDefaults
 import com.google.accompanist.placeholder.material.color
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun CoilImage(
     data: String?,
@@ -55,20 +54,20 @@ fun CoilImage(
         elevation = Spacing8,
         shape = RoundedCornerShape(Spacing8),
     ) {
-        Image(
-            painter = rememberImagePainter(
-                data = data,
-                builder = {
-                    crossfade(true)
-                    transformations(RoundedCornersTransformation(cornerRadius))
-                    scale(scale = scale)
-                    size?.let { size(it) }
-                }
-            ),
+        var builder = ImageRequest.Builder(LocalContext.current)
+            .data(data)
+            .crossfade(true)
+            .scale(scale = scale)
+
+        builder = size?.let { builder.size(it) } ?: builder
+
+        AsyncImage(
+            model = builder.build(),
             contentDescription = contentDescription,
-            contentScale = contentScale,
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .clip(RoundedCornerShape(cornerRadius)),
+            contentScale = contentScale
         )
     }
 }

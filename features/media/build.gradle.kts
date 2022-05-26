@@ -108,7 +108,6 @@ dependencies {
     implementation(Compose.icons)
     implementation(Compose.iconsExtended)
     implementation(Compose.constraintLayout)
-    implementation(Compose.snapper)
     implementation(Accompanist.placeholder)
 
     implementation(ExoPlayer.core)

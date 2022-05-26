@@ -50,6 +50,14 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.COMPOSE
     }
+    kotlinOptions {
+        jvmTarget = JavaOptions.version.toString()
+        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OPT_IN
+    }
+    compileOptions {
+        sourceCompatibility = JavaOptions.version
+        targetCompatibility = JavaOptions.version
+    }
 }
 
 dependencies {
@@ -60,4 +68,5 @@ dependencies {
     implementation(Compose.uiUtil)
     implementation(Compose.material)
     implementation(Compose.tooling)
+    implementation(Compose.snapper)
 }

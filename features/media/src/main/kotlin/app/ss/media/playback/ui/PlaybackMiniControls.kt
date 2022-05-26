@@ -1,9 +1,6 @@
 package app.ss.media.playback.ui
 
-import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.session.PlaybackStateCompat
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -26,7 +23,6 @@ import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LinearProgressIndicator
@@ -58,17 +54,14 @@ import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
 import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.extensions.isActive
-import app.ss.media.playback.extensions.isBuffering
-import app.ss.media.playback.extensions.isError
-import app.ss.media.playback.extensions.isPlayEnabled
-import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.extensions.playPause
 import app.ss.media.playback.model.PlaybackProgressState
-import app.ss.media.playback.model.toAudio
 import app.ss.media.playback.ui.common.Dismissible
 import app.ss.media.playback.ui.common.LocalPlaybackConnection
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
-import app.ss.models.media.AudioFile
+import app.ss.media.playback.ui.spec.NowPlayingSpec
+import app.ss.media.playback.ui.spec.PlaybackStateSpec
+import app.ss.media.playback.ui.spec.toSpec
 import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey2
@@ -88,7 +81,6 @@ private object PlaybackMiniControlsDefaults {
     val cancelSize = 20.dp
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PlaybackMiniControls(
     modifier: Modifier = Modifier,
@@ -107,8 +99,8 @@ fun PlaybackMiniControls(
         exit = slideOutVertically(targetOffsetY = { it / 2 })
     ) {
         PlaybackMiniControls(
-            playbackState = playbackState,
-            nowPlaying = nowPlaying,
+            spec = playbackState.toSpec(),
+            nowPlayingSpec = nowPlaying.toSpec(),
             playbackConnection = playbackConnection,
             readerContentColor = readerContentColor,
             onExpand = onExpand
@@ -116,11 +108,10 @@ fun PlaybackMiniControls(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PlaybackMiniControls(
-    playbackState: PlaybackStateCompat,
-    nowPlaying: MediaMetadataCompat,
+    spec: PlaybackStateSpec,
+    nowPlayingSpec: NowPlayingSpec,
     modifier: Modifier = Modifier,
     height: Dp = PlaybackMiniControlsDefaults.height,
     playbackConnection: PlaybackConnection = LocalPlaybackConnection.current,
@@ -163,7 +154,7 @@ fun PlaybackMiniControls(
                             .background(backgroundColor)
                     ) {
                         NowPlayingColumn(
-                            nowPlaying = nowPlaying,
+                            spec = nowPlayingSpec,
                             onCancel = cancel
                         )
                         PlaybackReplay(
@@ -174,7 +165,7 @@ fun PlaybackMiniControls(
                         )
 
                         PlaybackPlayPause(
-                            playbackState = playbackState,
+                            spec = spec,
                             contentColor = contentColor,
                             onPlayPause = {
                                 playbackConnection.mediaController?.playPause()
@@ -184,7 +175,7 @@ fun PlaybackMiniControls(
                         Spacer(modifier = Modifier.width(Dimens.grid_2))
                     }
                     PlaybackProgress(
-                        playbackState = playbackState,
+                        spec = spec,
                         color = readerContentColor,
                         playbackConnection = playbackConnection
                     )
@@ -195,24 +186,30 @@ fun PlaybackMiniControls(
 }
 
 @Composable
-private fun playbackMiniBackgroundColor(): Color =
-    if (isSystemInDarkTheme()) {
+private fun playbackMiniBackgroundColor(
+    isDark: Boolean = isSystemInDarkTheme()
+): Color =
+    if (isDark) {
         Color.Black.lighter()
     } else {
         BaseGrey1
     }
 
 @Composable
-internal fun playbackContentColor(): Color =
-    if (isSystemInDarkTheme()) {
+internal fun playbackContentColor(
+    isDark: Boolean = isSystemInDarkTheme()
+): Color =
+    if (isDark) {
         Color.White
     } else {
         Color.Black
     }
 
 @Composable
-private fun playbackButtonSpacing(): Dp {
-    return if (isLargeScreen()) {
+private fun playbackButtonSpacing(
+    isLargeScreen: Boolean = isLargeScreen()
+): Dp {
+    return if (isLargeScreen) {
         Spacing12
     } else {
         Spacing8
@@ -221,7 +218,7 @@ private fun playbackButtonSpacing(): Dp {
 
 @Composable
 private fun PlaybackProgress(
-    playbackState: PlaybackStateCompat,
+    spec: PlaybackStateSpec,
     color: Color,
     playbackConnection: PlaybackConnection = LocalPlaybackConnection.current,
 ) {
@@ -230,8 +227,9 @@ private fun PlaybackProgress(
     val sizeModifier = Modifier
         .height(2.dp)
         .fillMaxWidth()
+
     when {
-        playbackState.isBuffering -> {
+        spec.isBuffering -> {
             LinearProgressIndicator(
                 color = color,
                 modifier = sizeModifier
@@ -250,7 +248,7 @@ private fun PlaybackProgress(
 
 @Composable
 private fun RowScope.NowPlayingColumn(
-    nowPlaying: MediaMetadataCompat,
+    spec: NowPlayingSpec,
     onCancel: () -> Unit
 ) {
     Row(
@@ -271,7 +269,7 @@ private fun RowScope.NowPlayingColumn(
         }
 
         NowPlayingColumn(
-            audio = nowPlaying.toAudio(),
+            spec = spec,
             modifier = Modifier
                 .weight(1f),
         )
@@ -280,7 +278,7 @@ private fun RowScope.NowPlayingColumn(
 
 @Composable
 private fun NowPlayingColumn(
-    audio: AudioFile,
+    spec: NowPlayingSpec,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -290,7 +288,7 @@ private fun NowPlayingColumn(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            audio.title,
+            spec.title,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             style = LabelMedium.copy(
@@ -303,7 +301,7 @@ private fun NowPlayingColumn(
 
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             Text(
-                audio.artist,
+                spec.artist,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = Body
@@ -334,7 +332,7 @@ private fun PlaybackReplay(
 
 @Composable
 private fun PlaybackPlayPause(
-    playbackState: PlaybackStateCompat,
+    spec: PlaybackStateSpec,
     size: Dp = PlaybackMiniControlsDefaults.playPauseSize,
     contentColor: Color,
     onPlayPause: () -> Unit
@@ -344,9 +342,9 @@ private fun PlaybackPlayPause(
         modifier = Modifier.size(size),
     ) {
         val painter = when {
-            playbackState.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
-            playbackState.isPlayEnabled -> painterResource(id = R.drawable.ic_audio_icon_play)
-            playbackState.isError -> rememberVectorPainter(Icons.Rounded.ErrorOutline)
+            spec.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
+            spec.isPlayEnabled -> painterResource(id = R.drawable.ic_audio_icon_play)
+            spec.isError -> rememberVectorPainter(Icons.Rounded.ErrorOutline)
             else -> rememberVectorPainter(Icons.Rounded.HourglassBottom)
         }
         Icon(
