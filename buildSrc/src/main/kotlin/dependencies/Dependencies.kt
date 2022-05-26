@@ -62,7 +62,7 @@ object Dependencies {
     }
 
     object Compose {
-        private const val constraintLayoutVersion = "1.0.0"
+        private const val constraintLayoutVersion = "1.0.1"
         private const val material3Version = "1.0.0-alpha10"
         private const val snapperVersion = "0.2.1"
 

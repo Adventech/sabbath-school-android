@@ -15,7 +15,7 @@ object Versions {
         const val CORE = "1.7.0"
         const val FRAGMENT = "1.4.1"
         const val ACTIVITY = "1.4.0"
-        const val CONSTRAINT_LAYOUT = "2.1.3"
+        const val CONSTRAINT_LAYOUT = "2.1.4"
         const val START_UP = "1.1.1"
         const val PREFERENCE = "1.2.0"
         const val BROWSER = "1.4.0"
@@ -31,7 +31,7 @@ object Versions {
     const val HILT = "2.42" // Also update [build.gradle.kts]
 
     const val TIMBER = "5.0.1"
-    const val COIL = "2.0.0"
+    const val COIL = "2.1.0"
     const val TAP_TARGET = "3.3.2"
     const val ICONICS = "5.3.3@aar"
 
