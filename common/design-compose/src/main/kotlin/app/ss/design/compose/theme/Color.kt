@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,25 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-include(
-    ":app",
-    ":common:auth",
-    ":common:core",
-    ":common:design",
-    ":common:design-compose",
-    ":common:lessons-data",
-    ":common:models",
-    ":common:network",
-    ":common:storage",
-    ":common:translations",
-    ":features:account",
-    ":features:app-widgets",
-    ":features:bible",
-    ":features:lessons",
-    ":features:media",
-    ":features:pdf",
-    ":features:reader",
-    ":features:settings",
-    ":libraries:test_utils"
-)
-rootProject.buildFileName = "build.gradle.kts"
+
+package app.ss.design.compose.theme
+
+import androidx.compose.ui.graphics.Color
+
+val BaseBlue = Color(0xFF2E5797)
+val BaseGrey1 = Color(0xFFEFEFEF)
+val BaseGrey2 = Color(0xFF8F8E94)
+val BaseGrey3 = Color(0xFF606060)
+val BaseGrey4 = Color(0xFF383838)
+val BaseGrey5 = Color(0xFF1A1A1A)
+val BaseRed = Color(0xFFF1706B)
+val OffWhite = Color(0xFFE2E2E5)
