@@ -22,7 +22,8 @@ object DateHelper {
                 .print(
                     DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                         .parseLocalDate(date)
-                ).replaceFirstChar { it.uppercase() }
+                ).replace("Saturday", "Sabbath")
+                .replaceFirstChar { it.uppercase() }
         } catch (ex: IllegalArgumentException) {
             Timber.e(ex)
             return ""

@@ -1,7 +1,7 @@
 package dependencies
 
 object Versions {
-    const val COROUTINES = "1.6.1"
+    const val COROUTINES = "1.6.2"
     const val COMPOSE = "1.2.0-beta01"
     const val MATERIAL = "1.6.0"
     const val ACCOMPANIST = "0.23.1"
