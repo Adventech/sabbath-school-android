@@ -185,7 +185,7 @@ class SSReadingViewModel @AssistedInject constructor(
         this.highlightId = highlightId
     }
 
-    @SuppressWarnings("deprecation")
+    @Suppress("DEPRECATION")
     override fun onSelectionStarted(posX: Float, posY: Float) {
         val scrollView: NestedScrollView = ssReadingActivityBinding.ssReadingViewPager
             .findViewWithTag("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager.currentItem)
