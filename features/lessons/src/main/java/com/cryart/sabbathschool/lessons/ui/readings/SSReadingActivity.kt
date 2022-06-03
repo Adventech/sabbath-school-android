@@ -25,8 +25,6 @@ package com.cryart.sabbathschool.lessons.ui.readings
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -57,9 +55,6 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
-import com.cryart.sabbathschool.core.model.colorTheme
-import com.cryart.sabbathschool.core.model.displayTheme
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.core.ui.SlidingActivity
@@ -69,7 +64,6 @@ import com.cryart.sabbathschool.lessons.ui.readings.components.MiniPlayerCompone
 import dagger.hilt.android.AndroidEntryPoint
 import me.saket.cascade.CascadePopupMenu
 import me.saket.cascade.overrideAllPopupMenus
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -169,22 +163,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         )
     }
 
-    private fun updateColorScheme(displayOptions: SSReadingDisplayOptions) {
-        val color = displayOptions.colorTheme(this)
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.apply {
-            setContentScrimColor(color)
-            setStatusBarScrimColor(color)
-            setBackgroundColor(color)
-
-            setCollapsedTitleTextColor(
-                when (displayOptions.displayTheme(this@SSReadingActivity)) {
-                    SSReadingDisplayOptions.SS_THEME_DARK -> Color.WHITE
-                    else -> Color.BLACK
-                }
-            )
-        }
-    }
-
     private fun updateColorScheme() {
         val primaryColor = this.colorPrimary
         binding.ssReadingAppBar.ssReadingCollapsingToolbar.setContentScrimColor(primaryColor)
@@ -255,15 +233,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         menu?.findItem(R.id.ss_reading_menu_pdf)?.isVisible = viewModel.pdfAvailableFlow.value
         menu?.findItem(R.id.ss_reading_menu_printed_resources)?.isVisible = viewModel.publishingInfo.value != null
         return super.onPrepareOptionsMenu(menu)
-    }
-
-    override fun onDestroy() {
-        try {
-            (binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.drawable as? BitmapDrawable)?.bitmap?.recycle()
-        } catch (e: Exception) {
-            Timber.e(e)
-        }
-        super.onDestroy()
     }
 
     override fun onLessonInfoChanged(ssLessonInfo: SSLessonInfo) {
