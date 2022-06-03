@@ -3,16 +3,16 @@ package dependencies
 object Versions {
     const val COROUTINES = "1.6.2"
     const val COMPOSE = "1.2.0-beta01"
-    const val MATERIAL = "1.6.0"
+    const val MATERIAL = "1.6.1"
     const val ACCOMPANIST = "0.23.1"
 
     object AndroidX {
         const val ANNOTATIONS = "1.3.0"
-        const val APPCOMPAT = "1.4.1"
+        const val APPCOMPAT = "1.4.2"
         const val RECYCLER_VIEW = "1.2.1"
         const val LIFECYCLE = "2.4.1"
         const val LIFECYCLE_EXT = "2.2.0"
-        const val CORE = "1.7.0"
+        const val CORE = "1.8.0"
         const val FRAGMENT = "1.4.1"
         const val ACTIVITY = "1.4.0"
         const val CONSTRAINT_LAYOUT = "2.1.4"
