@@ -25,10 +25,12 @@ import dependencies.Dependencies.Accompanist
 import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Compose
 import dependencies.Versions
+import dependencies.TestAndroidDependencies
 
 plugins {
     id(BuildPlugins.Android.LIBRARY)
     id(BuildPlugins.Kotlin.ANDROID)
+    id(BuildPlugins.PAPARAZZI)
 }
 
 android {
@@ -74,4 +76,6 @@ dependencies {
     debugImplementation(Compose.Preview.customViewContainer)
     debugImplementation(Compose.Preview.viewModel)
     debugImplementation(Compose.Preview.savedState)
+
+    testImplementation(TestAndroidDependencies.Compose.junit)
 }
