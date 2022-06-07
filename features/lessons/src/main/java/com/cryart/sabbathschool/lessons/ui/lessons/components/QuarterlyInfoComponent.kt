@@ -38,7 +38,6 @@ import app.ss.models.SSQuarterlyInfo
 import com.cryart.design.color.withAlpha
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.addMoreEllipses
-import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.lessons.R
@@ -65,7 +64,7 @@ internal class QuarterlyInfoComponent(
 
     override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<SSQuarterlyInfo?>) {
         visibilityFlow.collectIn(owner) { visible ->
-            binding.root.fadeTo(visible)
+            binding.root.isVisible = visible
         }
 
         dataFlow.collectIn(owner) { data ->
