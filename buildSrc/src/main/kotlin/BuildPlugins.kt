@@ -12,6 +12,6 @@ object BuildPlugins {
 
     const val DAGGER_HILT = "dagger.hilt.android.plugin"
     const val KTLINT = "plugins.ktlint"
-
+    const val PAPARAZZI = "app.cash.paparazzi"
     const val UPDATE_DEPENDENCIES = "plugins.update-dependencies"
 }

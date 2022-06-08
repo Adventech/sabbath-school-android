@@ -16,6 +16,7 @@ object PluginVersions {
     const val KOTLIN = "1.6.21"
     const val KTLINT = "0.40.0"
     const val HILT = "2.42" // Also update [Versions.kt]
+    const val PAPARAZZI = "1.0.0"
 }
 
 dependencies {
@@ -24,4 +25,5 @@ dependencies {
     implementation("com.google.dagger:hilt-android-gradle-plugin:${PluginVersions.HILT}")
     implementation("com.pinterest:ktlint:${PluginVersions.KTLINT}")
     implementation("com.github.ben-manes:gradle-versions-plugin:${PluginVersions.GRADLE_VERSIONS}")
+    implementation("app.cash.paparazzi:paparazzi-gradle-plugin:${PluginVersions.PAPARAZZI}")
 }
