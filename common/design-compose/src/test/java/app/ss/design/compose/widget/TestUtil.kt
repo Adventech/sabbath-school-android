@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.widget.button
+package app.ss.design.compose.widget
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -24,6 +24,7 @@ package app.ss.design.compose.widget.button
 
 import app.cash.paparazzi.DeviceConfig.Companion.PIXEL_5
 import app.cash.paparazzi.Paparazzi
+import app.ss.design.compose.widget.TestSurface
 import org.junit.Rule
 import org.junit.Test
 
