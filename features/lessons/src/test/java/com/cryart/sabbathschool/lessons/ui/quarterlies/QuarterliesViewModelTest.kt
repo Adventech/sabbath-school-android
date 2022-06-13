@@ -30,8 +30,9 @@ import app.ss.models.QuarterlyGroup
 import app.ss.models.auth.SSUser
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.response.Resource
+import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies
+import com.cryart.sabbathschool.lessons.ui.quarterlies.components.placeHolderQuarterlies
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.every
@@ -86,7 +87,7 @@ class QuarterliesViewModelTest {
 
             verify { mockSSPrefs.setLanguageCode(language) }
 
-            awaitItem().status shouldBeEqualTo Status.SUCCESS
+            awaitItem() shouldBeEqualTo GroupedQuarterlies.TypeList(placeHolderQuarterlies())
         }
     }
 }

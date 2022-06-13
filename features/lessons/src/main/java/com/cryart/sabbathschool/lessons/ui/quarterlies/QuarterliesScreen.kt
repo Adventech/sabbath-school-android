@@ -52,7 +52,6 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesLis
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyList
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListCallbacks
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.placeHolderQuarterlies
-import kotlinx.coroutines.flow.map
 
 @Composable
 fun QuarterliesScreen(
@@ -63,8 +62,7 @@ fun QuarterliesScreen(
         rememberSplineBasedDecay(),
         rememberTopAppBarScrollState()
     )
-    val dataFlow = viewModel.quarterliesFlow.map { it.data ?: GroupedQuarterlies.Empty }
-    val data by rememberFlowWithLifecycle(dataFlow)
+    val data by rememberFlowWithLifecycle(viewModel.quarterliesFlow)
         .collectAsState(initial = GroupedQuarterlies.TypeList(placeHolderQuarterlies()))
 
     SsScaffold(

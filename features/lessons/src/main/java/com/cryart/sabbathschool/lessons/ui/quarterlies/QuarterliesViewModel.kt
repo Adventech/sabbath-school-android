@@ -73,10 +73,10 @@ class QuarterliesViewModel @Inject constructor(
     private val _appReBranding = MutableSharedFlow<Boolean>()
     val appReBrandingFlow: SharedFlow<Boolean> get() = _appReBranding.asSharedFlow()
 
-    val quarterliesFlow: StateFlow<Resource<GroupedQuarterlies>> = ssPrefs.getLanguageCodeFlow()
+    val quarterliesFlow: StateFlow<GroupedQuarterlies> = ssPrefs.getLanguageCodeFlow()
         .flatMapLatest { language -> repository.getQuarterlies(language, quarterlyGroup) }
         .map(this::groupQuarterlies)
-        .stateIn(viewModelScope, Resource.success(GroupedQuarterlies.TypeList(placeHolderQuarterlies())))
+        .stateIn(viewModelScope, GroupedQuarterlies.TypeList(placeHolderQuarterlies()))
 
     init {
         viewModelScope.launch(dispatcherProvider.io) {
@@ -86,9 +86,9 @@ class QuarterliesViewModel @Inject constructor(
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun groupQuarterlies(resource: Resource<List<SSQuarterly>>): Resource<GroupedQuarterlies> {
+    private fun groupQuarterlies(resource: Resource<List<SSQuarterly>>): GroupedQuarterlies {
         val data = resource.data ?: run {
-            return resource.error?.let { error -> Resource.error(error) } ?: Resource.loading()
+            return GroupedQuarterlies.Empty
         }
         val grouped = data
             .groupBy { it.quarterly_group }
@@ -114,7 +114,7 @@ class QuarterliesViewModel @Inject constructor(
 
         handleBrandingPrompt()
 
-        return Resource.success(groupType)
+        return groupType
     }
 
     fun languageSelected(languageCode: String) {
