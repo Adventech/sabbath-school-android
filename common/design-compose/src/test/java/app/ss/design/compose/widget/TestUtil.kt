@@ -20,36 +20,35 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.theme
+package app.ss.design.compose.widget
 
-import androidx.compose.material3.ColorScheme
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.unit.Dp
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlin.math.ln
+import app.ss.design.compose.theme.SsTheme
 
-val BaseBlue = Color(0xFF2E5797)
-val BaseGrey1 = Color(0xFFEFEFEF)
-val BaseGrey2 = Color(0xFF8F8E94)
-val BaseGrey3 = Color(0xFF606060)
-val BaseGrey4 = Color(0xFF383838)
-val BaseGrey5 = Color(0xFF1A1A1A)
-val BaseRed = Color(0xFFF1706B)
-val OffWhite = Color(0xFFE2E2E5)
-
-internal fun ColorScheme.applyTonalElevation(backgroundColor: Color, elevation: Dp): Color {
-    return if (backgroundColor == surface) {
-        surfaceColorAtElevation(elevation)
-    } else {
-        backgroundColor
+@Composable
+internal fun TestSurface(
+    darkTheme: Boolean = false,
+    content: @Composable () -> Unit
+) {
+    SsTheme(darkTheme = darkTheme) {
+        Surface {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(vertical = 16.dp, horizontal = 16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                content()
+            }
+        }
     }
-}
-
-internal fun ColorScheme.surfaceColorAtElevation(
-    elevation: Dp,
-): Color {
-    if (elevation == 0.dp) return surface
-    val alpha = ((4.5f * ln(elevation.value + 1)) + 2f) / 100f
-    return surfaceTint.copy(alpha = alpha).compositeOver(surface)
 }

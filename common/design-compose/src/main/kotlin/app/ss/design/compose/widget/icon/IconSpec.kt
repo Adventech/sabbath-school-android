@@ -20,35 +20,14 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.widget.button
+package app.ss.design.compose.widget.icon
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import app.ss.design.compose.theme.SsTheme
+import androidx.compose.runtime.Immutable
+import androidx.compose.ui.graphics.vector.ImageVector
 
-@Composable
-internal fun TestSurface(
-    darkTheme: Boolean = false,
-    content: @Composable () -> Unit
-) {
-    SsTheme(darkTheme = darkTheme) {
-        Surface {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(vertical = 16.dp, horizontal = 16.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                content()
-            }
-        }
-    }
-}
+@Immutable
+data class IconSpec(
+    val imageVector: ImageVector,
+    val contentDescription: String,
+    val onClick: () -> Unit,
+)
