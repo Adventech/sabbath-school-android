@@ -61,13 +61,14 @@ class QuarterliesViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val quarterlyGroup: QuarterlyGroup?
-        get() = savedStateHandle.get(SSConstants.SS_QUARTERLY_GROUP)
+        get() = savedStateHandle[SSConstants.SS_QUARTERLY_GROUP]
 
     private val _photoUrl = MutableStateFlow<QuarterliesAppbarData>(QuarterliesAppbarData.Empty)
     val photoUrlFlow: StateFlow<QuarterliesAppbarData> = _photoUrl.asStateFlow()
 
     private val _groupTitle = MutableStateFlow(QuarterliesAppbarData.Title(quarterlyGroup?.name))
     val groupTitleFlow: StateFlow<QuarterliesAppbarData> = _groupTitle.asStateFlow()
+    val groupTitle get() = quarterlyGroup?.name
 
     private val _appReBranding = MutableSharedFlow<Boolean>()
     val appReBrandingFlow: SharedFlow<Boolean> get() = _appReBranding.asSharedFlow()

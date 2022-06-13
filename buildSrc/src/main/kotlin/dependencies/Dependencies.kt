@@ -25,6 +25,7 @@ object Dependencies {
         const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.LIFECYCLE}"
         const val LIFECYCLE_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.AndroidX.LIFECYCLE}"
         const val ACTIVITY = "androidx.activity:activity-ktx:${Versions.AndroidX.ACTIVITY}"
+        const val ACTIVITY_COMPOSE = "androidx.activity:activity-compose:${Versions.AndroidX.ACTIVITY}"
         const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Versions.AndroidX.FRAGMENT}"
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.AndroidX.CONSTRAINT_LAYOUT}"
         const val START_UP = "androidx.startup:startup-runtime:${Versions.AndroidX.START_UP}"
@@ -63,7 +64,7 @@ object Dependencies {
 
     object Compose {
         private const val constraintLayoutVersion = "1.0.1"
-        private const val material3Version = "1.0.0-alpha10"
+        private const val material3Version = "1.0.0-alpha13"
         private const val snapperVersion = "0.2.1"
 
         const val foundation = "androidx.compose.foundation:foundation:${Versions.COMPOSE}"

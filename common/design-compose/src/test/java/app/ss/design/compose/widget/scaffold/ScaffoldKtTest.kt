@@ -36,6 +36,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -75,7 +76,7 @@ class ScaffoldKtTest {
         darkTheme: Boolean = false
     ) {
 
-        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior { true }
+        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarScrollState())
 
         SsTheme(darkTheme = darkTheme) {
             SsScaffold(

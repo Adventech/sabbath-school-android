@@ -39,6 +39,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -59,7 +60,6 @@ import app.ss.design.compose.widget.icon.IconSpec
  *
  * @param modifier the [Modifier] to be applied to this scaffold
  * @param topBar top app bar of the screen. Use [SsTopAppBar]
- * @param scrollBehaviorEnabled if scroll behavior should be enabled
  * @param scrollBehavior a [TopAppBarScrollBehavior] which holds various offset values
  * @param content content of your screen. The lambda receives an [PaddingValues] that should be
  * applied to the content root via Modifier.padding to properly offset top and bottom bars. If
@@ -70,8 +70,7 @@ import app.ss.design.compose.widget.icon.IconSpec
 fun SsScaffold(
     modifier: Modifier = Modifier,
     topBar: @Composable () -> Unit = {},
-    scrollBehaviorEnabled: Boolean = false,
-    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior { scrollBehaviorEnabled },
+    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarScrollState()),
     content: @Composable (PaddingValues) -> Unit
 ) {
 
@@ -88,7 +87,7 @@ fun SsScaffold(
 @Composable
 private fun PreviewScaffold() {
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior { true }
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarScrollState())
 
     SsTheme {
         SsScaffold(

@@ -25,53 +25,30 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
-import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
-import com.cryart.design.ext.rememberViewInteropNestedScrollConnection
 import com.cryart.design.ext.thenIf
-import com.cryart.design.theme.SSTheme
-import com.cryart.sabbathschool.lessons.databinding.SsQuarterliesListBinding
-import kotlinx.coroutines.flow.Flow
 
 interface QuarterlyListCallbacks {
     fun onReadClick(index: String)
-    fun onSeeAllClick(group: QuarterlyGroup)
 }
 
-class QuarterlyListComponent(
-    binding: SsQuarterliesListBinding,
-    private val dataFlow: Flow<GroupedQuarterlies>,
-    callbacks: QuarterlyListCallbacks
-) {
+interface QuarterliesGroupCallback : QuarterlyListCallbacks {
+    fun onSeeAllClick(group: QuarterlyGroup)
+    fun profileClick()
+    fun filterLanguages()
+}
 
-    init {
-        binding.ssQuarterliesList.setContent {
-            SSTheme {
-                Surface(modifier = Modifier.nestedScroll(rememberViewInteropNestedScrollConnection())) {
-                    val data by rememberFlowWithLifecycle(dataFlow)
-                        .collectAsState(initial = GroupedQuarterlies.TypeList(placeHolderQuarterlies()))
-
-                    QuarterlyList(
-                        data = data,
-                        callbacks = callbacks
-                    )
-                }
-            }
-        }
-    }
+interface QuarterliesListCallback : QuarterlyListCallbacks {
+    fun backNavClick()
 }
 
 @Composable
 fun QuarterlyList(
-    modifier: Modifier = Modifier,
     data: GroupedQuarterlies,
+    modifier: Modifier = Modifier,
     callbacks: QuarterlyListCallbacks? = null
 ) {
     LazyColumn(modifier = modifier) {
@@ -100,7 +77,7 @@ fun QuarterlyList(
                             index == groupData.lastIndex
                         )
                     ) {
-                        callbacks?.onSeeAllClick(group.group)
+                        (callbacks as? QuarterliesGroupCallback)?.onSeeAllClick(group.group)
                     }
                 }
             }
