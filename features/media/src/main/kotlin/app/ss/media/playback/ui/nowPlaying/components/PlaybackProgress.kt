@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.theme.TitleSmall
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.millisToDuration
 import app.ss.media.playback.model.PlaybackProgressState
@@ -58,7 +59,6 @@ import com.cryart.design.theme.OffWhite
 import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.Spacing4
 import com.cryart.design.theme.Spacing8
-import com.cryart.design.theme.TitleSmall
 import com.cryart.design.theme.darker
 import com.cryart.design.widgets.material.Slider
 import com.cryart.design.widgets.material.SliderDefaults

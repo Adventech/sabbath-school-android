@@ -22,7 +22,6 @@
 
 package app.ss.design.compose.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -33,6 +32,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import app.ss.design.compose.extensions.isS
 
 private val DarkColorScheme = darkColorScheme(
     primary = Color.White,
@@ -63,7 +63,7 @@ fun SsTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+        isS() -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }

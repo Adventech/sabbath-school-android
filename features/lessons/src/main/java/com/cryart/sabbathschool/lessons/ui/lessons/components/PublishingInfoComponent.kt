@@ -47,7 +47,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.ss.models.PublishingInfo
 import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.LabelXSmall
+import app.ss.design.compose.theme.LabelXSmall
 import com.cryart.design.theme.SSTheme
 import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.onSurfaceSecondaryColor

@@ -42,12 +42,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
@@ -64,21 +64,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.theme.BodyMedium1
+import app.ss.design.compose.theme.LabelSmall
+import app.ss.design.compose.theme.Title
+import app.ss.design.compose.theme.TitleSmall
+import app.ss.design.compose.theme.iconTint
 import app.ss.models.SSQuarterly
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.cryart.design.theme.BaseGrey2
-import com.cryart.design.theme.BodyMedium1
 import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.LabelSmall
 import com.cryart.design.theme.OffWhite
 import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.Spacing8
-import com.cryart.design.theme.Title
-import com.cryart.design.theme.TitleSmall
-import com.cryart.design.theme.iconTint
 import com.cryart.design.theme.isLargeScreen
-import com.cryart.design.theme.navTitle
 import com.cryart.design.theme.parse
 import com.cryart.design.widgets.list.SnappingLazyRow
 import com.cryart.sabbathschool.lessons.R
@@ -203,6 +201,7 @@ fun QuarterlyRow(
                 text = spec.date.uppercase(),
                 style = BodyMedium1.copy(
                     fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -215,7 +214,7 @@ fun QuarterlyRow(
             Text(
                 text = spec.title,
                 style = Title.copy(
-                    color = MaterialTheme.colors.onSurface
+                    color = MaterialTheme.colorScheme.onSurface
                 ),
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
@@ -271,7 +270,7 @@ fun QuarterlyColumn(
                 .padding(horizontal = Dimens.grid_1),
             text = spec.title,
             style = TitleSmall.copy(
-                color = navTitle(),
+                color = MaterialTheme.colorScheme.onSurface,
                 lineHeight = 18.sp
             ),
             maxLines = 2,
@@ -374,7 +373,7 @@ private fun GroupTitle(
         Text(
             text = title.uppercase(),
             style = Title.copy(
-                color = BaseGrey2,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 13.sp
             ),
             maxLines = 1,
@@ -391,7 +390,7 @@ private fun GroupTitle(
             Text(
                 text = stringResource(id = R.string.ss_see_all),
                 style = LabelSmall.copy(
-                    color = MaterialTheme.colors.primary,
+                    color = MaterialTheme.colorScheme.primary,
                 ),
             )
 

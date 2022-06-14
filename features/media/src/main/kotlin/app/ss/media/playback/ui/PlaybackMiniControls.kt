@@ -48,6 +48,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.theme.Body
+import app.ss.design.compose.theme.LabelMedium
 import app.ss.media.R
 import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
 import app.ss.media.playback.PlaybackConnection
@@ -65,9 +67,7 @@ import app.ss.media.playback.ui.spec.toSpec
 import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey2
-import com.cryart.design.theme.Body
 import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.LabelMedium
 import com.cryart.design.theme.Spacing12
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.isLargeScreen

@@ -39,11 +39,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cryart.design.theme.BaseGrey2
-import com.cryart.design.theme.LabelSmall
+import app.ss.design.compose.theme.LabelSmall
 import com.cryart.design.theme.SSTheme
 import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.Spacing8
-import com.cryart.design.theme.TitleSmall
+import app.ss.design.compose.theme.TitleSmall
 import com.cryart.design.theme.onSurfaceSecondaryColor
 import com.cryart.design.theme.surfaceSecondaryColor
 import com.cryart.sabbathschool.lessons.R

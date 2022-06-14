@@ -77,6 +77,7 @@ dependencies {
 
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.DESIGN_COMPOSE))
     implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Common.STORAGE))
     implementation(project(BuildModules.Common.TRANSLATIONS))
@@ -102,11 +103,7 @@ dependencies {
     implementation(Coil.core)
     implementation(Coil.compose)
 
-    implementation(Compose.ui)
     implementation(Compose.material)
-    implementation(Compose.tooling)
-    implementation(Compose.icons)
-    implementation(Compose.iconsExtended)
     implementation(Compose.constraintLayout)
     implementation(Accompanist.placeholder)
 

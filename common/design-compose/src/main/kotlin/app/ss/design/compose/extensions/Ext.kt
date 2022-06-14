@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,39 +20,10 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.design.theme
+package app.ss.design.compose.extensions
 
-import androidx.compose.material.Typography
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
-import com.cryart.design.R
+import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
 
-val LatoFontFamily = FontFamily(
-    Font(R.font.lato_regular, FontWeight.Normal),
-    Font(R.font.lato_medium, FontWeight.Medium),
-    Font(R.font.lato_bold, FontWeight.Bold),
-    Font(R.font.lato_black, FontWeight.Black),
-)
-
-val Typography = Typography(
-    body1 = TextStyle(
-        fontFamily = LatoFontFamily,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    ),
-    body2 = TextStyle(
-        fontFamily = LatoFontFamily,
-        fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
-        letterSpacing = 0.25.sp
-    ),
-    h5 = TextStyle(
-        fontFamily = LatoFontFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 24.sp,
-        letterSpacing = 0.sp
-    )
-)
+@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
+fun isS() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S

@@ -39,9 +39,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.theme.Body
 import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.models.media.AudioFile
-import com.cryart.design.theme.Body
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.LatoFontFamily
 import com.cryart.design.theme.Spacing24

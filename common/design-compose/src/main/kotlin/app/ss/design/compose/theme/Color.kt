@@ -22,12 +22,19 @@
 
 package app.ss.design.compose.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.isS
 import kotlin.math.ln
+import kotlin.math.max
+import kotlin.math.min
 
 val BaseBlue = Color(0xFF2E5797)
 val BaseGrey1 = Color(0xFFEFEFEF)
@@ -37,6 +44,28 @@ val BaseGrey4 = Color(0xFF383838)
 val BaseGrey5 = Color(0xFF1A1A1A)
 val BaseRed = Color(0xFFF1706B)
 val OffWhite = Color(0xFFE2E2E5)
+
+fun Color.darker(componentDelta: Float = 0.1f): Color = makeColor(-1 * componentDelta)
+
+fun Color.lighter(componentDelta: Float = 0.1f): Color = makeColor(componentDelta)
+
+fun Color.Companion.parse(colorString: String): Color =
+    Color(color = android.graphics.Color.parseColor(colorString))
+
+/**
+ * Create a new [Color] modifying each component
+ * by componentDelta, making it either lighter or darker
+ */
+fun Color.makeColor(componentDelta: Float): Color = Color(
+    red.add(componentDelta),
+    green.add(componentDelta),
+    blue.add(componentDelta),
+    alpha
+)
+
+private fun Float.add(toComponent: Float): Float {
+    return max(0f, min(1f, toComponent + this))
+}
 
 internal fun ColorScheme.applyTonalElevation(backgroundColor: Color, elevation: Dp): Color {
     return if (backgroundColor == surface) {
@@ -52,4 +81,16 @@ internal fun ColorScheme.surfaceColorAtElevation(
     if (elevation == 0.dp) return surface
     val alpha = ((4.5f * ln(elevation.value + 1)) + 2f) / 100f
     return surfaceTint.copy(alpha = alpha).compositeOver(surface)
+}
+
+@Composable
+@Stable
+fun iconTint(
+    isDark: Boolean = isSystemInDarkTheme()
+): Color {
+    return when {
+        isS() -> MaterialTheme.colorScheme.primary
+        isDark -> Color.White
+        else -> BaseGrey2.lighter(0.2f)
+    }
 }

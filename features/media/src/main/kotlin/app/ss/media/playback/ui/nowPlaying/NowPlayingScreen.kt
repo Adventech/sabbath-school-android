@@ -75,6 +75,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
+import app.ss.design.compose.theme.TitleMedium
 import app.ss.media.R
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
 import app.ss.media.playback.extensions.isPlaying
@@ -98,7 +99,6 @@ import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.Spacing32
 import com.cryart.design.theme.Spacing8
-import com.cryart.design.theme.TitleMedium
 import com.cryart.design.widgets.DragHandle
 
 @OptIn(ExperimentalComposeUiApi::class)

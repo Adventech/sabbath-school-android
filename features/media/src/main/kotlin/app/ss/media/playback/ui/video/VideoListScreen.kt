@@ -57,6 +57,9 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import app.ss.design.compose.theme.Body
+import app.ss.design.compose.theme.Title
+import app.ss.design.compose.theme.TitleSmall
 import app.ss.media.R
 import app.ss.media.playback.ui.common.CoilImage
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
@@ -67,15 +70,12 @@ import app.ss.models.media.SSVideo
 import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.BaseGrey2
-import com.cryart.design.theme.Body
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.Spacing24
 import com.cryart.design.theme.Spacing32
 import com.cryart.design.theme.Spacing4
 import com.cryart.design.theme.Spacing8
-import com.cryart.design.theme.Title
-import com.cryart.design.theme.TitleSmall
 import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.theme.navTitle
 import com.cryart.design.widgets.DragHandle
