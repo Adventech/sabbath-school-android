@@ -20,6 +20,8 @@
  * THE SOFTWARE.
  */
 
+@file:OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import android.content.Context
@@ -27,6 +29,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import app.ss.design.compose.theme.SsTheme
 import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
@@ -53,7 +57,9 @@ class QuarterliesActivity : SSBaseActivity(), QuarterliesGroupCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SsTheme {
+            SsTheme(
+                windowWidthSizeClass = calculateWindowSizeClass(activity = this).widthSizeClass
+            ) {
                 QuarterliesScreen(
                     viewModel = viewModel,
                     callbacks = this
