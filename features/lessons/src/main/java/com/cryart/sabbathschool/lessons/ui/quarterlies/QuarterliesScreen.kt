@@ -25,12 +25,20 @@
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import androidx.compose.animation.rememberSplineBasedDecay
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarScrollState
@@ -38,11 +46,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
-import app.ss.design.compose.widget.icon.IconSpec
+import app.ss.design.compose.widget.content.ContentBox
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.IconButton
+import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import com.cryart.sabbathschool.lessons.R
@@ -65,12 +78,19 @@ fun QuarterliesScreen(
     val data by rememberFlowWithLifecycle(viewModel.quarterliesFlow)
         .collectAsState(initial = GroupedQuarterlies.TypeList(placeHolderQuarterlies()))
 
+    val photoUrl by rememberFlowWithLifecycle(viewModel.photoUrlFlow)
+        .collectAsState(initial = null)
+
     SsScaffold(
         topBar = {
             QuarterliesTopAppBar(
                 scrollBehavior = scrollBehavior,
                 type = callbacks,
-                title = viewModel.groupTitle ?: stringResource(id = R.string.ss_app_name)
+                title = viewModel.groupTitle ?: stringResource(id = R.string.ss_app_name),
+                photoUrl = photoUrl,
+                modifier = Modifier.windowInsetsPadding(
+                    WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
+                )
             )
         },
         scrollBehavior = scrollBehavior
@@ -87,20 +107,31 @@ fun QuarterliesScreen(
 private fun QuarterliesTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     type: QuarterlyListCallbacks,
-    title: String
+    title: String,
+    photoUrl: String?,
+    modifier: Modifier = Modifier
 ) {
-    val navIcon: IconSpec
-    val actions: List<IconSpec>
+    val navigationIcon: @Composable () -> Unit
+    val actions: List<IconButton>
 
     when (type) {
         is QuarterliesGroupCallback -> {
-            navIcon = IconSpec(
-                imageVector = Icons.Rounded.AccountCircle,
-                contentDescription = stringResource(id = R.string.ss_about), // todo: Add strings
-                onClick = { type.profileClick() }
-            )
+            navigationIcon = {
+                ContentBox(
+                    content = RemoteImage(
+                        data = photoUrl,
+                        errorRes = R.drawable.ic_account_circle,
+                        contentDescription = stringResource(id = R.string.ss_about), // todo: Add strings
+                        shape = CircleShape
+                    ),
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .size(32.dp)
+                        .clickable { type.profileClick() }
+                )
+            }
             actions = listOf(
-                IconSpec(
+                IconButton(
                     imageVector = Icons.Rounded.Translate,
                     contentDescription = stringResource(id = R.string.ss_quarterlies_filter_languages),
                     onClick = { type.filterLanguages() }
@@ -108,11 +139,15 @@ private fun QuarterliesTopAppBar(
             )
         }
         is QuarterliesListCallback -> {
-            navIcon = IconSpec(
-                imageVector = Icons.Rounded.ArrowBack,
-                contentDescription = stringResource(id = R.string.blank), // todo: Add strings
-                onClick = { type.backNavClick() }
-            )
+            navigationIcon = {
+                IconBox(
+                    icon = IconButton(
+                        imageVector = Icons.Rounded.ArrowBack,
+                        contentDescription = "Back", // todo: Add strings
+                        onClick = { type.backNavClick() },
+                    )
+                )
+            }
             actions = emptyList()
         }
         else -> return
@@ -120,11 +155,15 @@ private fun QuarterliesTopAppBar(
 
     SsTopAppBar(
         spec = TopAppBarSpec(
-            title = title,
             topAppBarType = TopAppBarType.Large,
-            navIconSpec = navIcon,
             actions = actions
         ),
-        scrollBehavior = scrollBehavior
+        modifier = modifier,
+        title = { Text(text = title) },
+        navigationIcon = navigationIcon,
+        scrollBehavior = scrollBehavior,
+        colors = TopAppBarDefaults.largeTopAppBarColors(
+            containerColor = Color.Transparent
+        )
     )
 }
