@@ -64,7 +64,7 @@ import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.media.playback.ui.spec.toSpec
-import com.cryart.design.ext.thenIf
+import app.ss.design.compose.extensions.modifier.thenIf
 import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens

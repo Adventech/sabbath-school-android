@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,9 +20,13 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.design.ext
+package app.ss.design.compose.extensions.modifier
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.Shape
+import com.google.accompanist.placeholder.material.placeholder
 
 /**
  * Conditionally applies the [builder] block if [condition].
@@ -31,3 +35,17 @@ inline fun Modifier.thenIf(
     condition: Boolean,
     builder: Modifier.() -> Modifier,
 ) = if (condition) builder() else this
+
+/**
+ * Applies a placeholder modifier
+ */
+fun Modifier.asPlaceholder(
+    visible: Boolean,
+    shape: Shape? = null,
+) = composed {
+    placeholder(
+        visible = visible,
+        color = MaterialTheme.colorScheme.inverseOnSurface,
+        shape = shape
+    )
+}

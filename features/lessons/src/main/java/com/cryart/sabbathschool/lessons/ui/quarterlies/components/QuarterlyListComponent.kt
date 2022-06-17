@@ -29,7 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
-import com.cryart.design.ext.thenIf
+import app.ss.design.compose.extensions.modifier.thenIf
 
 interface QuarterlyListCallbacks {
     fun onReadClick(index: String)
