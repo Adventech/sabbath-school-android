@@ -22,18 +22,22 @@
 
 package app.ss.design.compose.widget.icon
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material.icons.Icons as MaterialIcons
 
 enum class Icons(
-    val imageVector: ImageVector,
+    private val imageVector: ImageVector,
     private val contentDescription: String?
 ) : IconSlot {
 
+    AccountCircle(MaterialIcons.Rounded.AccountCircle, "Account"),
     ArrowBack(MaterialIcons.Rounded.ArrowBack, "Arrow Back");
 
     @Composable
@@ -41,7 +45,8 @@ enum class Icons(
         Icon(
             imageVector = imageVector,
             contentDescription = contentDescription,
-            tint = contentColor
+            tint = contentColor,
+            modifier = Modifier.fillMaxSize()
         )
     }
 }

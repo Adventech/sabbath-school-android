@@ -23,6 +23,7 @@
 package app.ss.design.compose.widget.icon
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -46,7 +47,7 @@ fun IconBox(
     modifier: Modifier = Modifier,
     contentColor: Color = LocalContentColor.current
 ) {
-    Box(modifier = modifier) {
+    Box(modifier = modifier.wrapContentSize()) {
         icon.Content(contentColor = contentColor)
     }
 }

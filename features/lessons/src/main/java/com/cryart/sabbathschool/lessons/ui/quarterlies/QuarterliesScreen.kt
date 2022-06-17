@@ -26,6 +26,7 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.only
@@ -34,7 +35,6 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -46,15 +46,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
+import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
@@ -65,6 +68,7 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesLis
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyList
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListCallbacks
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.placeHolderQuarterlies
+import androidx.compose.material.icons.Icons as MaterialIcons
 
 @Composable
 fun QuarterliesScreen(
@@ -120,19 +124,35 @@ private fun QuarterliesTopAppBar(
                 ContentBox(
                     content = RemoteImage(
                         data = photoUrl,
-                        errorRes = R.drawable.ic_account_circle,
-                        contentDescription = stringResource(id = R.string.ss_about), // todo: Add strings
-                        shape = CircleShape
+                        contentDescription = stringResource(id = R.string.ss_about),
+                        loading = {
+                            Spacer(
+                                modifier = Modifier
+                                    .size(AccountImgSize)
+                                    .asPlaceholder(
+                                        visible = true,
+                                        shape = CircleShape
+                                    )
+                            )
+                        },
+                        error = {
+                            IconBox(
+                                icon = Icons.AccountCircle,
+                                modifier = Modifier
+                                    .clickable { type.profileClick() }
+                            )
+                        }
                     ),
                     modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .size(32.dp)
+                        .padding(horizontal = 16.dp)
+                        .size(AccountImgSize)
+                        .clip(CircleShape)
                         .clickable { type.profileClick() }
                 )
             }
             actions = listOf(
                 IconButton(
-                    imageVector = Icons.Rounded.Translate,
+                    imageVector = MaterialIcons.Rounded.Translate,
                     contentDescription = stringResource(id = R.string.ss_quarterlies_filter_languages),
                     onClick = { type.filterLanguages() }
                 )
@@ -142,7 +162,7 @@ private fun QuarterliesTopAppBar(
             navigationIcon = {
                 IconBox(
                     icon = IconButton(
-                        imageVector = Icons.Rounded.ArrowBack,
+                        imageVector = MaterialIcons.Rounded.ArrowBack,
                         contentDescription = "Back", // todo: Add strings
                         onClick = { type.backNavClick() },
                     )
@@ -167,3 +187,5 @@ private fun QuarterliesTopAppBar(
         )
     )
 }
+
+private val AccountImgSize = 32.dp
