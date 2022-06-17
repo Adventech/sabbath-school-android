@@ -25,23 +25,26 @@ package app.ss.design.compose.widget.icon
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
  * An IconButton [IconSlot]
- *
- * @param spec the IconButton config
  */
+@Immutable
 data class IconButton(
-    val spec: IconSpec
+    val imageVector: ImageVector,
+    val contentDescription: String,
+    val onClick: () -> Unit,
 ) : IconSlot {
 
     @Composable
     override fun Content(contentColor: Color) {
-        IconButton(onClick = spec.onClick) {
+        IconButton(onClick = onClick) {
             Icon(
-                imageVector = spec.imageVector,
-                contentDescription = spec.contentDescription,
+                imageVector = imageVector,
+                contentDescription = contentDescription,
                 tint = contentColor
             )
         }

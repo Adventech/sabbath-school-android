@@ -49,7 +49,8 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
-import app.ss.design.compose.widget.icon.IconSpec
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.IconButton
 
 /**
  * Scaffold implements the basic material design visual layout structure.
@@ -94,21 +95,25 @@ private fun PreviewScaffold() {
             topBar = {
                 SsTopAppBar(
                     spec = TopAppBarSpec(
-                        "Title",
                         TopAppBarType.CenterAligned,
-                        navIconSpec = IconSpec(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = "Back",
-                            onClick = {},
-                        ),
                         actions = listOf(
-                            IconSpec(
+                            IconButton(
                                 imageVector = Icons.Rounded.AccountCircle,
                                 contentDescription = "Profile",
                                 onClick = {},
                             ),
                         )
                     ),
+                    title = { Text(text = "Title") },
+                    navigationIcon = {
+                        IconBox(
+                            icon = IconButton(
+                                imageVector = Icons.Rounded.ArrowBack,
+                                contentDescription = "Back",
+                                onClick = {},
+                            )
+                        )
+                    },
                     scrollBehavior = scrollBehavior
                 )
             },

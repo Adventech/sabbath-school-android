@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
-import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -63,8 +62,8 @@ class QuarterliesViewModel @Inject constructor(
     private val quarterlyGroup: QuarterlyGroup?
         get() = savedStateHandle[SSConstants.SS_QUARTERLY_GROUP]
 
-    private val _photoUrl = MutableStateFlow<QuarterliesAppbarData>(QuarterliesAppbarData.Empty)
-    val photoUrlFlow: StateFlow<QuarterliesAppbarData> = _photoUrl.asStateFlow()
+    private val _photoUrl = MutableStateFlow<String?>(null)
+    val photoUrlFlow: StateFlow<String?> = _photoUrl.asStateFlow()
 
     private val _groupTitle = MutableStateFlow(QuarterliesAppbarData.Title(quarterlyGroup?.name))
     val groupTitleFlow: StateFlow<QuarterliesAppbarData> = _groupTitle.asStateFlow()
@@ -80,8 +79,8 @@ class QuarterliesViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(dispatcherProvider.io) {
-            val photoUrl = authRepository.getUser().data?.photo?.toUri()
-            _photoUrl.emit(QuarterliesAppbarData.Photo(photoUrl))
+            val photoUrl = authRepository.getUser().data?.photo
+            _photoUrl.emit(photoUrl)
         }
     }
 

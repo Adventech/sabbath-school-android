@@ -24,15 +24,15 @@ package app.ss.design.compose.widget.appbar
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.SmallTopAppBar
-import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import app.ss.design.compose.widget.icon.IconBox
 
 /**
  * Top app bars display information and actions at the top of a screen.
@@ -44,22 +44,16 @@ import androidx.compose.ui.Modifier
 @Composable
 fun SsTopAppBar(
     spec: TopAppBarSpec,
+    title: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    scrollBehavior: TopAppBarScrollBehavior? = null
+    navigationIcon: @Composable () -> Unit = {},
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+    colors: TopAppBarColors? = null,
 ) {
-    val navIcon: @Composable () -> Unit = {
-        val (imageVector, contentDescription, onClick) = spec.navIconSpec
-        IconButton(onClick = onClick) {
-            Icon(imageVector = imageVector, contentDescription = contentDescription)
-        }
-    }
-    val title: @Composable () -> Unit = { Text(text = spec.title) }
+
     val actions: @Composable RowScope.() -> Unit = {
         spec.actions.take(MAX_ACTIONS).forEach { icon ->
-            val (imageVector, contentDescription, onClick) = icon
-            IconButton(onClick = onClick) {
-                Icon(imageVector = imageVector, contentDescription = contentDescription)
-            }
+            IconBox(icon = icon)
         }
     }
 
@@ -68,8 +62,9 @@ fun SsTopAppBar(
             SmallTopAppBar(
                 title = title,
                 modifier = modifier,
-                navigationIcon = navIcon,
+                navigationIcon = navigationIcon,
                 actions = actions,
+                colors = colors ?: TopAppBarDefaults.smallTopAppBarColors(),
                 scrollBehavior = scrollBehavior
             )
         }
@@ -77,8 +72,9 @@ fun SsTopAppBar(
             MediumTopAppBar(
                 title = title,
                 modifier = modifier,
-                navigationIcon = navIcon,
+                navigationIcon = navigationIcon,
                 actions = actions,
+                colors = colors ?: TopAppBarDefaults.mediumTopAppBarColors(),
                 scrollBehavior = scrollBehavior
             )
         }
@@ -86,8 +82,9 @@ fun SsTopAppBar(
             CenterAlignedTopAppBar(
                 title = title,
                 modifier = modifier,
-                navigationIcon = navIcon,
+                navigationIcon = navigationIcon,
                 actions = actions,
+                colors = colors ?: TopAppBarDefaults.centerAlignedTopAppBarColors(),
                 scrollBehavior = scrollBehavior
             )
         }
@@ -95,8 +92,9 @@ fun SsTopAppBar(
             LargeTopAppBar(
                 title = title,
                 modifier = modifier,
-                navigationIcon = navIcon,
+                navigationIcon = navigationIcon,
                 actions = actions,
+                colors = colors ?: TopAppBarDefaults.largeTopAppBarColors(),
                 scrollBehavior = scrollBehavior
             )
         }
