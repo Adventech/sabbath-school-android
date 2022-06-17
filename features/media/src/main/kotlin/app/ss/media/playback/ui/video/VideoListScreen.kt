@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.Body
 import app.ss.design.compose.theme.Title
 import app.ss.design.compose.theme.TitleSmall
@@ -67,7 +68,6 @@ import app.ss.media.playback.ui.spec.VideoSpec
 import app.ss.media.playback.ui.spec.VideosInfoSpec
 import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.SSVideo
-import com.cryart.design.ext.thenIf
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
