@@ -22,60 +22,71 @@
 
 package app.ss.design.compose.widget.image
 
-import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import app.ss.design.compose.widget.content.ContentSlot
-import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
 
+/**
+ * A remote image [ContentSlot]
+ *
+ * Sample usage:
+ * ```kotlin
+ *      ContentBox(
+ *          content = RemoteImage(
+ *              data = "url",
+ *              contentDescription = "description",
+ *              loading = { },
+ *              error = { }
+ *          ),
+ *          modifier = Modifier.size(40.dp)
+ *      )
+ * ```
+ */
+@Immutable
 data class RemoteImage(
     val data: String?,
-    @DrawableRes val errorRes: Int,
-    @DrawableRes val placeholderRes: Int = errorRes,
     val contentDescription: String? = null,
-    val cornerRadius: Float = 0f,
     val contentScale: ContentScale = ContentScale.Crop,
-    val shape: Shape = RoundedCornerShape(cornerRadius),
     val scale: Scale = Scale.FIT,
-    val elevation: Dp = 0.dp,
+    val loading: @Composable () -> Unit = {},
+    val error: @Composable () -> Unit = {}
 ) : ContentSlot {
 
     @Composable
     override fun Content() {
-        Surface(
-            modifier = Modifier,
-            color = MaterialTheme.colorScheme.inverseOnSurface,
-            tonalElevation = elevation,
-            shadowElevation = elevation,
-            shape = shape,
-        ) {
-            val builder = ImageRequest.Builder(LocalContext.current)
+        val painter = rememberAsyncImagePainter(
+            model = ImageRequest.Builder(LocalContext.current)
                 .data(data)
                 .crossfade(true)
                 .scale(scale = scale)
-                .placeholder(placeholderRes)
-                .error(errorRes)
+                .build()
+        )
 
-            AsyncImage(
-                model = builder.build(),
-                contentDescription = contentDescription,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(shape),
-                contentScale = contentScale
-            )
+        when (painter.state) {
+            is AsyncImagePainter.State.Loading -> {
+                loading()
+            }
+            AsyncImagePainter.State.Empty,
+            is AsyncImagePainter.State.Error -> {
+                error()
+            }
+            is AsyncImagePainter.State.Success -> {}
         }
+
+        Image(
+            painter = painter,
+            contentDescription = contentDescription,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = contentScale
+        )
     }
 }
