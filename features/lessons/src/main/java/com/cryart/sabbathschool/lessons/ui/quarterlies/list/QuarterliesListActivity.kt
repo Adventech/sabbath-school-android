@@ -31,6 +31,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.core.view.WindowCompat
 import app.ss.design.compose.theme.SsTheme
 import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -48,6 +49,7 @@ class QuarterliesListActivity : SlidingActivity(), QuarterliesListCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             SsTheme(
                 windowWidthSizeClass = calculateWindowSizeClass(activity = this).widthSizeClass

@@ -26,5 +26,5 @@ import android.app.Activity
 import androidx.core.view.WindowCompat
 
 fun Activity.setLightStatusBar(light: Boolean) {
-    WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = light
+    WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = light
 }
