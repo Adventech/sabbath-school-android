@@ -25,8 +25,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.matcher.BoundedMatcher
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
@@ -56,18 +54,6 @@ fun isTextInLines(lines: Int): TypeSafeMatcher<View> {
 
         override fun matchesSafely(item: View): Boolean {
             return (item as TextView).lineCount == lines
-        }
-    }
-}
-
-fun withCollapsingToolbarTitle(title: String): Matcher<Any?> {
-    return object : BoundedMatcher<Any?, CollapsingToolbarLayout>(CollapsingToolbarLayout::class.java) {
-        override fun describeTo(description: Description) {
-            description.appendText("with toolbar title: ")
-        }
-
-        override fun matchesSafely(toolbarLayout: CollapsingToolbarLayout): Boolean {
-            return title == toolbarLayout.title
         }
     }
 }
