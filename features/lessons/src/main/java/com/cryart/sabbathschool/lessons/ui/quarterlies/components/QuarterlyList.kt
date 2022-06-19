@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
@@ -57,9 +58,9 @@ interface QuarterliesListCallback : QuarterlyListCallbacks {
 fun QuarterlyList(
     data: GroupedQuarterlies,
     modifier: Modifier = Modifier,
-    callbacks: QuarterlyListCallbacks? = null
+    callbacks: QuarterlyListCallbacks? = null,
+    state: LazyListState = rememberLazyListState()
 ) {
-    val state = rememberLazyListState()
 
     LazyColumn(
         modifier = modifier
