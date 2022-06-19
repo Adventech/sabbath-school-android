@@ -25,6 +25,7 @@ package app.ss.design.compose.widget.icon
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -38,7 +39,8 @@ enum class Icons(
 ) : IconSlot {
 
     AccountCircle(MaterialIcons.Rounded.AccountCircle, "Account"),
-    ArrowBack(MaterialIcons.Rounded.ArrowBack, "Arrow Back");
+    ArrowBack(MaterialIcons.Rounded.ArrowBack, "Arrow Back"),
+    ArrowRight(MaterialIcons.Rounded.KeyboardArrowRight, "Arrow Right");
 
     @Composable
     override fun Content(contentColor: Color) {
