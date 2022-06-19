@@ -25,6 +25,7 @@ package app.ss.design.compose.extensions.modifier
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import com.google.accompanist.placeholder.material.placeholder
 
@@ -41,11 +42,12 @@ inline fun Modifier.thenIf(
  */
 fun Modifier.asPlaceholder(
     visible: Boolean,
+    color: Color? = null,
     shape: Shape? = null,
 ) = composed {
     placeholder(
         visible = visible,
-        color = MaterialTheme.colorScheme.inverseOnSurface,
+        color = color ?: MaterialTheme.colorScheme.inverseOnSurface,
         shape = shape
     )
 }
