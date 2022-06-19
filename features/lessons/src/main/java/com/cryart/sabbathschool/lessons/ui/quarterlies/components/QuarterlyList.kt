@@ -25,11 +25,13 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import app.ss.design.compose.extensions.modifier.thenIf
+import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
-import app.ss.design.compose.extensions.modifier.thenIf
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroup
@@ -57,7 +59,13 @@ fun QuarterlyList(
     modifier: Modifier = Modifier,
     callbacks: QuarterlyListCallbacks? = null
 ) {
-    LazyColumn(modifier = modifier) {
+    val state = rememberLazyListState()
+
+    LazyColumn(
+        modifier = modifier
+            .drawVerticalScrollbar(state),
+        state = state
+    ) {
         when (data) {
             GroupedQuarterlies.Empty -> { /* No op */ }
             is GroupedQuarterlies.TypeGroup -> {
