@@ -22,8 +22,12 @@
 
 package app.ss.design.compose.extensions.surface
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.SsTheme
 
 @Composable
@@ -33,5 +37,19 @@ fun ThemeSurface(
 ) {
     SsTheme(darkTheme = darkTheme) {
         Surface(content = content)
+    }
+}
+
+@Composable
+fun BottomSheetSurface(content: @Composable () -> Unit) {
+    SsTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            shape = RoundedCornerShape(
+                topStart = 16.dp,
+                topEnd = 16.dp
+            ),
+            content = content
+        )
     }
 }
