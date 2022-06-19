@@ -24,12 +24,13 @@ package app.ss.design.compose.widget.icon
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 interface IconSlot {
 
     @Composable
-    fun Content(contentColor: Color)
+    fun Content(contentColor: Color, modifier: Modifier)
 
     companion object {
 

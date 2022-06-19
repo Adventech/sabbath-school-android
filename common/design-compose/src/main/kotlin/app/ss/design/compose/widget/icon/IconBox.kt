@@ -47,7 +47,10 @@ fun IconBox(
     modifier: Modifier = Modifier,
     contentColor: Color = LocalContentColor.current
 ) {
-    Box(modifier = modifier.wrapContentSize()) {
-        icon.Content(contentColor = contentColor)
+    Box(modifier = Modifier.wrapContentSize()) {
+        icon.Content(
+            contentColor = contentColor,
+            modifier = modifier
+        )
     }
 }
