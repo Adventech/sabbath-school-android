@@ -23,18 +23,22 @@
 package app.ss.media.playback.ui.nowPlaying.components
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import app.ss.media.playback.ui.common.CoilImage
+import app.ss.design.compose.extensions.modifier.asPlaceholder
+import app.ss.design.compose.widget.content.ContentBox
+import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.media.playback.ui.spec.CoverImageSpec
 import coil.size.Scale
-import coil.size.Size
 import com.cryart.design.theme.Dimens
 
 private interface Sizes {
@@ -75,26 +79,31 @@ internal fun CoverImage(
         CoverOrientation.SQUARE -> Scale.FILL
         CoverOrientation.PORTRAIT -> Scale.FIT
     }
-    val size = with(LocalDensity.current) {
-        Size(
-            width.toPx().toInt(),
-            height.toPx().toInt()
+
+    val placeholder: @Composable () -> Unit = {
+        Spacer(
+            modifier = Modifier
+                .fillMaxSize()
+                .asPlaceholder(visible = true)
         )
     }
 
-    CoilImage(
-        data = spec.image,
+    ContentBox(
+        content = RemoteImage(
+            data = spec.image,
+            contentDescription = spec.title,
+            scale = scale,
+            loading = placeholder,
+            error = placeholder
+        ),
         modifier = modifier
             .size(
                 width = animatedWidth,
                 height = animatedHeight
             )
-            .padding(Dimens.grid_1),
-        contentDescription = spec.title,
-        cornerRadius = CoverCornerRadius,
-        scale = scale,
-        size = size
+            .padding(Dimens.grid_1)
+            .clip(RoundedCornerShape(CoverCornerRadius))
     )
 }
 
-private const val CoverCornerRadius = 6f
+private val CoverCornerRadius = 6.dp

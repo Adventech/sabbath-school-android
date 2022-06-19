@@ -44,6 +44,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.WindowInsetsControllerCompat
+import app.ss.design.compose.theme.SsTheme
 import app.ss.media.R
 import app.ss.models.media.SSVideo
 import app.ss.media.playback.BACKWARD
@@ -107,13 +108,15 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             val onEnterPiP: () -> Unit = {
                 enterPiP()
             }
-            VideoPlayerControls(
-                videoPlayer = videoPlayer,
-                onClose = {
-                    finish()
-                },
-                onEnterPiP = if (supportsPiP) onEnterPiP else null
-            )
+            SsTheme {
+                VideoPlayerControls(
+                    videoPlayer = videoPlayer,
+                    onClose = {
+                        finish()
+                    },
+                    onEnterPiP = if (supportsPiP) onEnterPiP else null
+                )
+            }
         }
 
         val video = intent.getParcelableExtra<SSVideo>(ARG_VIDEO) ?: run {

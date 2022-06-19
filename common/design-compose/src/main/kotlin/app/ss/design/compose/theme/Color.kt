@@ -27,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
+import app.ss.design.compose.extensions.isS
 import kotlin.math.max
 import kotlin.math.min
 
@@ -69,5 +70,16 @@ fun iconTint(
     return when {
         isDark -> MaterialTheme.colorScheme.primary
         else -> BaseGrey2.lighter(0.2f)
+    }
+}
+
+@Composable
+@Stable
+fun navTitle(
+    isDark: Boolean = isSystemInDarkTheme()
+): Color = when {
+    isS() -> MaterialTheme.colorScheme.onSurface
+    else -> {
+        if (isDark) Color.White else Color.Black
     }
 }
