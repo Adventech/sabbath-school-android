@@ -72,10 +72,10 @@ dependencies {
     api(Compose.iconsExtended)
     api(Compose.windowSizeClass)
     debugApi(Compose.tooling)
-    debugImplementation(Compose.Preview.customView)
-    debugImplementation(Compose.Preview.customViewContainer)
-    debugImplementation(Compose.Preview.viewModel)
-    debugImplementation(Compose.Preview.savedState)
+    debugApi(Compose.Preview.customView)
+    debugApi(Compose.Preview.customViewContainer)
+    debugApi(Compose.Preview.viewModel)
+    debugApi(Compose.Preview.savedState)
 
     testImplementation(TestAndroidDependencies.Compose.junit)
 }
