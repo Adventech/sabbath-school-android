@@ -71,7 +71,7 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.model.placeHolderQuarterl
 import androidx.compose.material.icons.Icons as MaterialIcons
 
 @Composable
-fun QuarterliesScreen(
+internal fun QuarterliesScreen(
     viewModel: QuarterliesViewModel,
     callbacks: QuarterlyListCallbacks
 ) {
@@ -85,12 +85,29 @@ fun QuarterliesScreen(
     val photoUrl by rememberFlowWithLifecycle(viewModel.photoUrlFlow)
         .collectAsState(initial = null)
 
+    QuarterliesScreen(
+        quarterlies = data,
+        title = viewModel.groupTitle ?: stringResource(id = R.string.ss_app_name),
+        photoUrl = photoUrl,
+        callbacks = callbacks,
+        scrollBehavior = scrollBehavior,
+    )
+}
+
+@Composable
+internal fun QuarterliesScreen(
+    quarterlies: GroupedQuarterlies,
+    title: String,
+    callbacks: QuarterlyListCallbacks,
+    photoUrl: String? = null,
+    scrollBehavior: TopAppBarScrollBehavior? = null
+) {
     SsScaffold(
         topBar = {
             QuarterliesTopAppBar(
                 scrollBehavior = scrollBehavior,
                 type = callbacks,
-                title = viewModel.groupTitle ?: stringResource(id = R.string.ss_app_name),
+                title = title,
                 photoUrl = photoUrl,
                 modifier = Modifier.windowInsetsPadding(
                     WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
@@ -100,7 +117,7 @@ fun QuarterliesScreen(
         scrollBehavior = scrollBehavior
     ) { innerPadding ->
         QuarterlyList(
-            data = data,
+            data = quarterlies,
             callbacks = callbacks,
             modifier = Modifier.padding(innerPadding)
         )
@@ -108,12 +125,12 @@ fun QuarterliesScreen(
 }
 
 @Composable
-private fun QuarterliesTopAppBar(
-    scrollBehavior: TopAppBarScrollBehavior,
-    type: QuarterlyListCallbacks,
+internal fun QuarterliesTopAppBar(
     title: String,
-    photoUrl: String?,
-    modifier: Modifier = Modifier
+    type: QuarterlyListCallbacks,
+    modifier: Modifier = Modifier,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+    photoUrl: String? = null
 ) {
     val navigationIcon: @Composable () -> Unit
     val actions: List<IconButton>

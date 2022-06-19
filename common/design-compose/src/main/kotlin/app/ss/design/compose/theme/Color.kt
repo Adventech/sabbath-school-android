@@ -23,16 +23,9 @@
 package app.ss.design.compose.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import app.ss.design.compose.extensions.isS
-import kotlin.math.ln
 import kotlin.math.max
 import kotlin.math.min
 
@@ -67,29 +60,12 @@ private fun Float.add(toComponent: Float): Float {
     return max(0f, min(1f, toComponent + this))
 }
 
-internal fun ColorScheme.applyTonalElevation(backgroundColor: Color, elevation: Dp): Color {
-    return if (backgroundColor == surface) {
-        surfaceColorAtElevation(elevation)
-    } else {
-        backgroundColor
-    }
-}
-
-internal fun ColorScheme.surfaceColorAtElevation(
-    elevation: Dp,
-): Color {
-    if (elevation == 0.dp) return surface
-    val alpha = ((4.5f * ln(elevation.value + 1)) + 2f) / 100f
-    return surfaceTint.copy(alpha = alpha).compositeOver(surface)
-}
-
 @Composable
 @Stable
 fun iconTint(
     isDark: Boolean = isSystemInDarkTheme()
 ): Color {
     return when {
-        isS() -> MaterialTheme.colorScheme.primary
         isDark -> Color.White
         else -> BaseGrey2.lighter(0.2f)
     }
