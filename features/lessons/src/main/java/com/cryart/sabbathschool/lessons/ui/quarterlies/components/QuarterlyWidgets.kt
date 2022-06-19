@@ -41,100 +41,42 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.BodyMedium1
 import app.ss.design.compose.theme.LabelSmall
 import app.ss.design.compose.theme.Title
 import app.ss.design.compose.theme.TitleSmall
 import app.ss.design.compose.theme.iconTint
-import app.ss.models.SSQuarterly
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import app.ss.design.compose.widget.content.ContentBox
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.Icons
+import app.ss.design.compose.widget.image.RemoteImage
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.OffWhite
 import com.cryart.design.theme.Spacing16
 import com.cryart.design.theme.Spacing8
 import com.cryart.design.theme.isLargeScreen
-import com.cryart.design.theme.parse
 import com.cryart.design.widgets.list.SnappingLazyRow
 import com.cryart.sabbathschool.lessons.R
-import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.placeholder
-import com.google.accompanist.placeholder.material.shimmer
-
-fun SSQuarterly.spec(
-    type: QuarterlySpec.Type,
-    onClick: () -> Unit = {}
-): QuarterlySpec = QuarterlySpec(
-    title,
-    human_date,
-    cover,
-    Color.parse(color_primary),
-    isPlaceholder = isPlaceholder,
-    type,
-    onClick
-)
-
-@Immutable
-data class QuarterlySpec(
-    val title: String,
-    val date: String,
-    val cover: String,
-    val color: Color,
-    val isPlaceholder: Boolean = false,
-    val type: Type = Type.NORMAL,
-    val onClick: () -> Unit = {}
-) {
-    enum class Type {
-        NORMAL,
-        LARGE;
-
-        fun width(largeScreen: Boolean): Dp = when {
-            largeScreen && this == NORMAL -> 150.dp
-            largeScreen && this == LARGE -> 198.dp
-            this == NORMAL -> 100.dp
-            this == LARGE -> 148.dp
-            else -> Dp.Unspecified
-        }
-
-        fun height(largeScreen: Boolean): Dp = when {
-            largeScreen && this == NORMAL -> 198.dp
-            largeScreen && this == LARGE -> 276.dp
-            this == NORMAL -> 146.dp
-            this == LARGE -> 226.dp
-            else -> Dp.Unspecified
-        }
-    }
-}
-
-@Immutable
-data class GroupedQuarterliesSpec(
-    val title: String,
-    val items: List<QuarterlySpec>,
-    val lastIndex: Boolean,
-)
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterlySpec
 
 @Composable
 private fun CoverBox(
@@ -164,13 +106,12 @@ private fun CoverBox(
 }
 
 @Composable
-fun QuarterlyRow(
+internal fun QuarterlyRow(
     spec: QuarterlySpec,
     modifier: Modifier = Modifier
 ) {
-    val loadingModifier = Modifier.placeholder(
+    val loadingModifier = Modifier.asPlaceholder(
         visible = spec.isPlaceholder,
-        highlight = PlaceholderHighlight.shimmer(),
     )
 
     Row(
@@ -249,7 +190,7 @@ fun QuarterlyRowPreview() {
 
 // begin column
 @Composable
-fun QuarterlyColumn(
+internal fun QuarterlyColumn(
     spec: QuarterlySpec,
     modifier: Modifier = Modifier
 ) {
@@ -311,22 +252,38 @@ private fun QuarterlyCover(
         color = spec.color,
         modifier = modifier
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(spec.cover)
-                .crossfade(true)
-                .build(),
+        ContentBox(
+            content = RemoteImage(
+                data = spec.cover,
+                contentDescription = spec.title,
+                contentScale = ContentScale.Crop,
+                loading = {
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .asPlaceholder(
+                                visible = true,
+                                color = spec.color
+                            )
+                    )
+                },
+                error = {
+                    Spacer(
+                        modifier = Modifier
+                            .background(color = spec.color)
+                            .fillMaxSize()
+                    )
+                }
+            ),
             modifier = Modifier
                 .fillMaxSize()
                 .clip(RoundedCornerShape(18f)),
-            contentDescription = spec.title,
-            contentScale = ContentScale.Crop
         )
     }
 }
 
 @Composable
-fun GroupedQuarterliesColumn(
+internal fun GroupedQuarterliesColumn(
     spec: GroupedQuarterliesSpec,
     modifier: Modifier = Modifier,
     seeAllClick: () -> Unit = {}
@@ -394,10 +351,10 @@ private fun GroupTitle(
                 ),
             )
 
-            Icon(
-                Icons.Rounded.KeyboardArrowRight,
-                contentDescription = "Arrow Right",
-                tint = iconTint()
+            IconBox(
+                icon = Icons.ArrowRight,
+                contentColor = iconTint(),
+                modifier = Modifier.size(24.dp)
             )
         }
     }

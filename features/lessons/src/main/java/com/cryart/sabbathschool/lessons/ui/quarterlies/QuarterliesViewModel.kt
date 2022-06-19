@@ -34,10 +34,9 @@ import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesAppbarData
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroup
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.placeHolderQuarterlies
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroup
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.placeHolderQuarterlies
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -65,8 +64,6 @@ class QuarterliesViewModel @Inject constructor(
     private val _photoUrl = MutableStateFlow<String?>(null)
     val photoUrlFlow: StateFlow<String?> = _photoUrl.asStateFlow()
 
-    private val _groupTitle = MutableStateFlow(QuarterliesAppbarData.Title(quarterlyGroup?.name))
-    val groupTitleFlow: StateFlow<QuarterliesAppbarData> = _groupTitle.asStateFlow()
     val groupTitle get() = quarterlyGroup?.name
 
     private val _appReBranding = MutableSharedFlow<Boolean>()
