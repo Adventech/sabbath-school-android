@@ -30,6 +30,12 @@ import androidx.compose.ui.Modifier
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.design.compose.extensions.modifier.thenIf
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroup
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterlySpec
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.isPlaceholder
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.spec
 
 interface QuarterlyListCallbacks {
     fun onReadClick(index: String)

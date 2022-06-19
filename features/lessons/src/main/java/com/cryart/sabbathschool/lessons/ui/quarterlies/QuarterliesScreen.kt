@@ -62,12 +62,12 @@ import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroupCallback
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesListCallback
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyList
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListCallbacks
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.placeHolderQuarterlies
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.placeHolderQuarterlies
 import androidx.compose.material.icons.Icons as MaterialIcons
 
 @Composable

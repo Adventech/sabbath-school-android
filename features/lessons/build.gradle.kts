@@ -120,8 +120,6 @@ dependencies {
     implementation(Compose.material)
     implementation(Compose.tooling)
 
-    implementation(Accompanist.placeholder)
-
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }
