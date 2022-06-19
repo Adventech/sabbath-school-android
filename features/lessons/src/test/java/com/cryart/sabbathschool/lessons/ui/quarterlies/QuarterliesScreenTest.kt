@@ -24,7 +24,7 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.Paparazzi
-import app.ss.design.compose.extensions.test.ThemeSurface
+import app.ss.design.compose.extensions.surface.ThemeSurface
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroupCallback

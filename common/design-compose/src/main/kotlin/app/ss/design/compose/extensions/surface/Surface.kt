@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.extensions.test
+package app.ss.design.compose.extensions.surface
 
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
