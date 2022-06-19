@@ -23,6 +23,7 @@
 package app.ss.design.compose.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
@@ -66,7 +67,7 @@ fun iconTint(
     isDark: Boolean = isSystemInDarkTheme()
 ): Color {
     return when {
-        isDark -> Color.White
+        isDark -> MaterialTheme.colorScheme.primary
         else -> BaseGrey2.lighter(0.2f)
     }
 }
