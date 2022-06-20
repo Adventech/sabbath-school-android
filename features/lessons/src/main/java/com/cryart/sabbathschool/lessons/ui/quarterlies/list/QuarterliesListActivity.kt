@@ -28,7 +28,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.view.WindowCompat
@@ -38,14 +37,11 @@ import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesScreen
-import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesViewModel
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesListCallback
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class QuarterliesListActivity : SlidingActivity(), QuarterliesListCallback {
-
-    private val viewModel by viewModels<QuarterliesViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +50,7 @@ class QuarterliesListActivity : SlidingActivity(), QuarterliesListCallback {
             SsTheme(
                 windowWidthSizeClass = calculateWindowSizeClass(activity = this).widthSizeClass
             ) {
-                QuarterliesScreen(
-                    viewModel = viewModel,
-                    callbacks = this
-                )
+                QuarterliesScreen(callbacks = this)
             }
         }
     }

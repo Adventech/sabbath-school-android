@@ -22,31 +22,10 @@
 
 package com.cryart.design.base
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import com.cryart.design.R
-import com.cryart.design.theme.SSTheme
-import com.cryart.design.theme.Spacing16
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 open class TransparentBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun getTheme() = R.style.TransparentBottomSheetDialogTheme
-}
-
-@Composable
-fun TransparentBottomSheetSurface(content: @Composable () -> Unit) {
-    SSTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            shape = RoundedCornerShape(
-                topStart = Spacing16,
-                topEnd = Spacing16
-            ),
-            content = content
-        )
-    }
 }

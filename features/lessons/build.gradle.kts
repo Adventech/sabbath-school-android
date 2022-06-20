@@ -96,6 +96,7 @@ dependencies {
     implementation(AndroidX.ACTIVITY)
     implementation(AndroidX.ACTIVITY_COMPOSE)
     implementation(AndroidX.FRAGMENT_KTX)
+    implementation(AndroidX.LIFECYCLE_COMPOSE)
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
     implementation(AndroidX.LIFECYCLE_EXTENSIONS)
     implementation(AndroidX.RECYCLER_VIEW)

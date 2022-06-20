@@ -62,18 +62,6 @@ private fun Float.add(toComponent: Float): Float {
 
 @Composable
 @Stable
-fun navTitle(
-    isDark: Boolean = isSystemInDarkTheme()
-): Color = if (isDark) Color.White else Color.Black
-
-@Composable
-@Stable
-fun iconTint(
-    isDark: Boolean = isSystemInDarkTheme()
-): Color = if (isDark) Color.White else BaseGrey2.lighter(0.2f)
-
-@Composable
-@Stable
 fun dividerColor(
     isDark: Boolean = isSystemInDarkTheme()
 ): Color = if (isDark) Color(0x1FFFFFFF) else Color(0x80D7D7D7)

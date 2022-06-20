@@ -22,9 +22,9 @@
 
 package app.ss.design.compose.widget.icon
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -40,15 +40,16 @@ enum class Icons(
 
     AccountCircle(MaterialIcons.Rounded.AccountCircle, "Account"),
     ArrowBack(MaterialIcons.Rounded.ArrowBack, "Arrow Back"),
-    ArrowRight(MaterialIcons.Rounded.KeyboardArrowRight, "Arrow Right");
+    ArrowRight(MaterialIcons.Rounded.KeyboardArrowRight, "Arrow Right"),
+    Close(MaterialIcons.Rounded.Close, "Close");
 
     @Composable
-    override fun Content(contentColor: Color) {
+    override fun Content(contentColor: Color, modifier: Modifier) {
         Icon(
             imageVector = imageVector,
             contentDescription = contentDescription,
             tint = contentColor,
-            modifier = Modifier.fillMaxSize()
+            modifier = modifier
         )
     }
 }

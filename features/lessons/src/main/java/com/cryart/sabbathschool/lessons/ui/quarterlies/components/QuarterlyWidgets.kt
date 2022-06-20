@@ -353,8 +353,7 @@ private fun GroupTitle(
 
             IconBox(
                 icon = Icons.ArrowRight,
-                contentColor = iconTint(),
-                modifier = Modifier.size(24.dp)
+                contentColor = iconTint()
             )
         }
     }

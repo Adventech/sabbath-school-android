@@ -38,6 +38,7 @@ plugins {
     id(BuildPlugins.Kotlin.KAPT)
     id(BuildPlugins.DAGGER_HILT)
     id(BuildPlugins.Kotlin.PARCELIZE)
+    id(BuildPlugins.PAPARAZZI)
 }
 
 android {
@@ -105,7 +106,6 @@ dependencies {
 
     implementation(Compose.material)
     implementation(Compose.constraintLayout)
-    implementation(Accompanist.placeholder)
 
     implementation(ExoPlayer.core)
     implementation(ExoPlayer.ui)
@@ -113,4 +113,5 @@ dependencies {
     implementation(ExoPlayer.mediaSession)
 
     addTestsDependencies()
+    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }
