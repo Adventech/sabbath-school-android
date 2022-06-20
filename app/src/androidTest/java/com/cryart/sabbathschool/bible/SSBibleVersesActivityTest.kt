@@ -2,16 +2,12 @@ package com.cryart.sabbathschool.bible
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.test.di.mock.MockDataFactory
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -45,13 +41,7 @@ class SSBibleVersesActivityTest {
     }
 
     @Test
-    fun closeScreen() = launch {
-        onView(withId(R.id.root)).perform(click())
-
-        scenario?.onActivity { activity ->
-            assertTrue(activity.isFinishing)
-        }
-    }
+    fun launchScreen() = launch {}
 
     private fun launch(block: (ActivityScenario<SSBibleVersesActivity>) -> Unit) {
         val intent = SSBibleVersesActivity.launchIntent(

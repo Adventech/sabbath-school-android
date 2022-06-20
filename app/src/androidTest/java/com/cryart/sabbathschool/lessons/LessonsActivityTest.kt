@@ -26,25 +26,18 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.cryart.sabbathschool.actions.clickChildViewWithId
-import com.cryart.sabbathschool.actions.isTextInLines
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -72,31 +65,7 @@ class LessonsActivityTest {
     }
 
     @Test
-    fun verify_quarterly_info_is_displayed() = launch {
-        // onView(allOf(withText("Rest In Christ"))).check(matches(isDisplayed()))
-        onView(withId(R.id.ss_quarterly_item_cover_card)).check(doesNotExist())
-        onView(withText("READ")).check(matches(isDisplayed()))
-        onView(withText("July · August · September 2021")).check(matches(isDisplayed()))
-        onView(withId(R.id.ss_lessons_app_bar_description)).check(
-            matches(
-                isTextInLines(3)
-            )
-        )
-    }
-
-    @Test
-    fun verify_non_splash_quarterly_info_is_displayed() = launch(index = "en-2021-03-er") {
-        onView(withId(R.id.ss_quarterly_item_cover_card)).check(matches(isDisplayed()))
-        onView(withId(R.id.ss_quarterly_splash)).check(doesNotExist())
-    }
-
-    @Test
-    @Ignore("flaky")
-    fun launch_Read_screen_from_Read_button_click() = launch {
-        onView(withText("READ")).perform(click())
-
-        Intents.intended(IntentMatchers.hasComponent(SSReadingActivity::class.java.name))
-    }
+    fun launchScreen() = launch {}
 
     @Test
     fun launch_Read_screen_from_Lessons_list_item_click() = launch {

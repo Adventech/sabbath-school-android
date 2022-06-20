@@ -22,12 +22,9 @@
 package com.cryart.sabbathschool.actions
 
 import android.view.View
-import android.widget.TextView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import org.hamcrest.Description
 import org.hamcrest.Matcher
-import org.hamcrest.TypeSafeMatcher
 
 fun clickChildViewWithId(id: Int): ViewAction {
     return object : ViewAction {
@@ -42,18 +39,6 @@ fun clickChildViewWithId(id: Int): ViewAction {
         override fun perform(uiController: UiController, view: View) {
             val v = view.findViewById<View>(id)
             v.performClick()
-        }
-    }
-}
-
-fun isTextInLines(lines: Int): TypeSafeMatcher<View> {
-    return object : TypeSafeMatcher<View>() {
-        override fun describeTo(description: Description) {
-            description.appendText("isTextInLines")
-        }
-
-        override fun matchesSafely(item: View): Boolean {
-            return (item as TextView).lineCount == lines
         }
     }
 }

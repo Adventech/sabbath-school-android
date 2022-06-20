@@ -47,10 +47,7 @@ class QuarterliesListActivityTest {
     }
 
     @Test
-    fun verify_group_quarterlies_list() = launch(QuarterlyGroup("Standard Adult", 100)) {}
-
-    @Test
-    fun verify_empty_state_shown() = launch(QuarterlyGroup("Invalid", 100)) {}
+    fun launchScreen() = launch(QuarterlyGroup("Standard Adult", 100)) {}
 
     private fun launch(
         group: QuarterlyGroup,
