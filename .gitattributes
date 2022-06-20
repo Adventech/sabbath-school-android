@@ -6,3 +6,5 @@ features/lessons/src/test/snapshots/images/com.cryart.sabbathschool.lessons.ui.q
 features/lessons/src/test/snapshots/images/com.cryart.sabbathschool.lessons.ui.quarterlies_QuarterliesScreenTest_quarterlies_group_top_app_bar.png filter=lfs diff=lfs merge=lfs -text
 features/lessons/src/test/snapshots/images/com.cryart.sabbathschool.lessons.ui.quarterlies_QuarterliesScreenTest_quarterlies_list_top_app_bar.png filter=lfs diff=lfs merge=lfs -text
 features/lessons/src/test/snapshots/images/com.cryart.sabbathschool.lessons.ui.quarterlies_QuarterliesScreenTest_quarterly_group.png filter=lfs diff=lfs merge=lfs -text
+features/media/src/test/snapshots/images/app.ss.media.playback.ui.video_VideoListScreenTest_video_list_grouped.png filter=lfs diff=lfs merge=lfs -text
+features/media/src/test/snapshots/images/app.ss.media.playback.ui.video_VideoListScreenTest_video_list_single.png filter=lfs diff=lfs merge=lfs -text

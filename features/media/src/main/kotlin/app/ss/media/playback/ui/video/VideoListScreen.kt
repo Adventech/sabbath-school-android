@@ -110,8 +110,8 @@ internal fun VideoListScreen(
 @Composable
 internal fun VideoListScreen(
     videoList: VideoListData,
-    onVideoClick: (SSVideo) -> Unit,
     modifier: Modifier = Modifier,
+    onVideoClick: (SSVideo) -> Unit = {},
     isAtTop: (Boolean) -> Unit = {},
     listState: LazyListState = rememberLazyListState(),
 ) {
