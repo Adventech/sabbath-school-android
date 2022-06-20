@@ -49,14 +49,35 @@ class VideoListScreenTest {
     }
 
     @Test
-    fun video_list_grouped() = launch("en-2022-02-13", "videos.json")
+    fun video_list_grouped() = launch(
+        lessonIndex = "en-2022-02-13",
+        fileName = "videos.json"
+    )
 
     @Test
-    fun video_list_single() = launch("en-2022-02-cq-13", "videos_cq.json")
+    fun video_list_grouped_dark() = launch(
+        lessonIndex = "en-2022-02-13",
+        fileName = "videos.json",
+        darkTheme = true
+    )
+
+    @Test
+    fun video_list_single() = launch(
+        lessonIndex = "en-2022-02-cq-13",
+        fileName = "videos_cq.json"
+    )
+
+    @Test
+    fun video_list_single_dark() = launch(
+        lessonIndex = "en-2022-02-cq-13",
+        fileName = "videos_cq.json",
+        darkTheme = true
+    )
 
     private fun launch(
         lessonIndex: String,
-        fileName: String
+        fileName: String,
+        darkTheme: Boolean = false
     ) {
         val videos = mockData.getVideos(fileName).mapIndexed { index, model ->
             SSVideosInfo(
@@ -67,8 +88,9 @@ class VideoListScreenTest {
             )
         }
         val data = videos.toData(lessonIndex)
+
         paparazzi.snapshot {
-            ThemeSurface {
+            ThemeSurface(darkTheme = darkTheme) {
                 VideoListScreen(videoList = data)
             }
         }
