@@ -70,8 +70,8 @@ import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.OffWhite
-import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.Spacing8
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing8
 import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.widgets.list.SnappingLazyRow
 import com.cryart.sabbathschool.lessons.R

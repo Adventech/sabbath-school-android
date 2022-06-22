@@ -51,7 +51,7 @@ import app.ss.media.playback.players.isBuffering
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControlsDefaults
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
-import com.cryart.design.theme.Spacing32
+import app.ss.design.compose.theme.Spacing32
 
 @Composable
 fun VideoPlayerControls(

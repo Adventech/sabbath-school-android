@@ -41,8 +41,8 @@ import androidx.compose.ui.unit.dp
 import com.cryart.design.theme.BaseGrey2
 import app.ss.design.compose.theme.LabelSmall
 import com.cryart.design.theme.SSTheme
-import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.Spacing8
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing8
 import app.ss.design.compose.theme.TitleSmall
 import com.cryart.design.theme.onSurfaceSecondaryColor
 import com.cryart.design.theme.surfaceSecondaryColor

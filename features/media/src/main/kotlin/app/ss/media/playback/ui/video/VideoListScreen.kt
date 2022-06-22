@@ -80,11 +80,11 @@ import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.SSVideo
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.Spacing24
-import com.cryart.design.theme.Spacing32
-import com.cryart.design.theme.Spacing4
-import com.cryart.design.theme.Spacing8
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing24
+import app.ss.design.compose.theme.Spacing32
+import app.ss.design.compose.theme.Spacing4
+import app.ss.design.compose.theme.Spacing8
 import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.widgets.DragHandle
 import com.cryart.design.widgets.list.SnappingLazyRow

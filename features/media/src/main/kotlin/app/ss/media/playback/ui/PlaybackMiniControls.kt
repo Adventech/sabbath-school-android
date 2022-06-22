@@ -68,8 +68,8 @@ import app.ss.design.compose.extensions.modifier.thenIf
 import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.Spacing12
-import com.cryart.design.theme.Spacing8
+import app.ss.design.compose.theme.Spacing12
+import app.ss.design.compose.theme.Spacing8
 import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.theme.lighter
 

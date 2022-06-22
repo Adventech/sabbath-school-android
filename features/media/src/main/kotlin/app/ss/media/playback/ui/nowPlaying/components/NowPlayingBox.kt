@@ -44,8 +44,8 @@ import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.models.media.AudioFile
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.LatoFontFamily
-import com.cryart.design.theme.Spacing24
-import com.cryart.design.theme.Spacing8
+import app.ss.design.compose.theme.Spacing24
+import app.ss.design.compose.theme.Spacing8
 
 internal enum class BoxState { Collapsed, Expanded }
 

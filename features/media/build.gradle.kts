@@ -101,7 +101,6 @@ dependencies {
     kapt(Hilt.COMPILER)
 
     implementation(Dependencies.TIMBER)
-    implementation(Coil.core)
     implementation(Coil.compose)
 
     implementation(Compose.material)

@@ -49,7 +49,7 @@ import app.ss.models.PublishingInfo
 import com.cryart.design.theme.Dimens
 import app.ss.design.compose.theme.LabelXSmall
 import com.cryart.design.theme.SSTheme
-import com.cryart.design.theme.Spacing16
+import app.ss.design.compose.theme.Spacing16
 import com.cryart.design.theme.onSurfaceSecondaryColor
 import com.cryart.design.theme.parse
 import com.cryart.design.widgets.Divider

@@ -65,10 +65,10 @@ import app.ss.media.playback.ui.spec.PlaybackQueueSpec
 import app.ss.media.playback.ui.spec.toSpec
 import com.cryart.design.theme.BaseBlue
 import app.ss.design.compose.theme.Body
-import com.cryart.design.theme.SSTheme
-import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.Spacing4
-import com.cryart.design.theme.Spacing6
+import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing4
+import app.ss.design.compose.theme.Spacing6
 import app.ss.design.compose.theme.TitleSmall
 import kotlinx.coroutines.launch
 
@@ -177,7 +177,7 @@ private fun AudioRow(
 )
 @Composable
 private fun AudioRowPreview() {
-    SSTheme {
+    SsTheme {
         Surface {
             AudioRow(
                 spec = sampleAudio.toSpec(),
@@ -192,7 +192,7 @@ private fun AudioRowPreview() {
 )
 @Composable
 private fun AudioRowPreviewPlaying() {
-    SSTheme {
+    SsTheme {
         Surface {
             AudioRow(
                 spec = sampleAudio.toSpec(),

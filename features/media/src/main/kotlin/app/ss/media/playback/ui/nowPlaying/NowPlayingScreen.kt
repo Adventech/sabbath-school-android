@@ -96,9 +96,9 @@ import app.ss.models.media.AudioFile
 import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.Spacing32
-import com.cryart.design.theme.Spacing8
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing32
+import app.ss.design.compose.theme.Spacing8
 import com.cryart.design.widgets.DragHandle
 
 @OptIn(ExperimentalComposeUiApi::class)

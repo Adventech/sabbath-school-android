@@ -38,8 +38,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.cryart.design.theme.Spacing12
-import com.cryart.design.theme.Spacing16
+import app.ss.design.compose.theme.Spacing12
+import app.ss.design.compose.theme.Spacing16
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.FeatureSpec
 
 @Immutable

@@ -56,9 +56,9 @@ import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.BaseGrey3
 import com.cryart.design.theme.OffWhite
-import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.Spacing4
-import com.cryart.design.theme.Spacing8
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing4
+import app.ss.design.compose.theme.Spacing8
 import com.cryart.design.theme.darker
 import com.cryart.design.widgets.material.Slider
 import com.cryart.design.widgets.material.SliderDefaults
