@@ -83,3 +83,17 @@ fun navTitle(
         if (isDark) Color.White else Color.Black
     }
 }
+
+@Composable
+@Stable
+fun dividerColor(
+    isDark: Boolean = isSystemInDarkTheme()
+): Color = if (isDark) Color(0x1FFFFFFF) else Color(0x80D7D7D7)
+
+@Composable
+@Stable
+fun onSurfaceSecondary(
+    isDark: Boolean = isSystemInDarkTheme()
+): Color = if (isDark)
+    MaterialTheme.colorScheme.onSurface.darker(0.3f)
+else MaterialTheme.colorScheme.onSurface.lighter(0.3f)

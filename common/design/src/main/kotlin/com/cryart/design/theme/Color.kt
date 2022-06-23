@@ -62,12 +62,6 @@ private fun Float.add(toComponent: Float): Float {
 
 @Composable
 @Stable
-fun dividerColor(
-    isDark: Boolean = isSystemInDarkTheme()
-): Color = if (isDark) Color(0x1FFFFFFF) else Color(0x80D7D7D7)
-
-@Composable
-@Stable
 fun surfaceSecondaryColor(
     isDark: Boolean = isSystemInDarkTheme()
 ): Color = if (isDark) Color.Black.lighter() else BaseGrey1
