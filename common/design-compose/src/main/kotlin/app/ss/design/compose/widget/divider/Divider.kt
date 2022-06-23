@@ -20,12 +20,12 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.design.widgets
+package app.ss.design.compose.widget.divider
 
+import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
-import androidx.compose.material.Divider
 import androidx.compose.ui.unit.dp
-import com.cryart.design.theme.dividerColor
+import app.ss.design.compose.theme.dividerColor
 
 @Composable
 fun Divider() {
