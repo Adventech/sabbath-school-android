@@ -43,8 +43,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -66,10 +66,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
-import app.ss.design.compose.theme.Body
-import app.ss.design.compose.theme.Title
-import app.ss.design.compose.theme.TitleSmall
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing24
+import app.ss.design.compose.theme.Spacing32
+import app.ss.design.compose.theme.Spacing4
+import app.ss.design.compose.theme.Spacing8
 import app.ss.design.compose.theme.navTitle
+import app.ss.design.compose.theme.onSurfaceSecondary
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.media.R
@@ -80,11 +83,6 @@ import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.SSVideo
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
-import app.ss.design.compose.theme.Spacing16
-import app.ss.design.compose.theme.Spacing24
-import app.ss.design.compose.theme.Spacing32
-import app.ss.design.compose.theme.Spacing4
-import app.ss.design.compose.theme.Spacing8
 import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.widgets.DragHandle
 import com.cryart.design.widgets.list.SnappingLazyRow
@@ -142,10 +140,10 @@ internal fun VideoListScreen(
         item {
             Text(
                 text = stringResource(id = R.string.ss_media_video),
-                style = Title.copy(
-                    color = navTitle(),
+                style = MaterialTheme.typography.titleLarge.copy(
                     fontSize = 30.sp
                 ),
+                color = navTitle(),
                 modifier = Modifier.padding(horizontal = Spacing24)
             )
         }
@@ -215,10 +213,10 @@ private fun VideosInfoList(
     ) {
         Text(
             text = spec.artist.uppercase(),
-            style = Title.copy(
+            style = MaterialTheme.typography.titleLarge.copy(
                 fontSize = 13.sp,
-                color = if (isSystemInDarkTheme()) BaseGrey2 else MaterialTheme.colorScheme.primary
             ),
+            color = if (isSystemInDarkTheme()) BaseGrey2 else MaterialTheme.colorScheme.primary,
             modifier = Modifier
                 .padding(horizontal = Spacing24)
                 .padding(top = Spacing16)
@@ -292,16 +290,17 @@ private fun VideoColumn(
 
         Text(
             text = video.title,
-            style = TitleSmall.copy(
-                color = navTitle(),
+            style = MaterialTheme.typography.titleSmall.copy(
                 fontSize = if (featured) 19.sp else 16.sp
-            )
+            ),
+            color = navTitle(),
         )
         Text(
             text = video.artist,
-            style = Body.copy(
+            style = MaterialTheme.typography.bodySmall.copy(
                 fontSize = 14.sp
-            )
+            ),
+            color = onSurfaceSecondary()
         )
     }
 }
@@ -334,19 +333,20 @@ private fun VideoRow(
         ) {
             Text(
                 text = video.title,
-                style = TitleSmall.copy(
-                    color = navTitle(),
+                style = MaterialTheme.typography.titleSmall.copy(
                     fontSize = 16.sp,
                     lineHeight = TextUnit.Unspecified
                 ),
+                color = navTitle(),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = video.artist,
-                style = Body.copy(
+                style = MaterialTheme.typography.bodySmall.copy(
                     fontSize = 14.sp
                 ),
+                color = onSurfaceSecondary(),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
