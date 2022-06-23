@@ -43,10 +43,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -66,16 +65,21 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
-import app.ss.design.compose.theme.TitleMedium
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing32
+import app.ss.design.compose.theme.Spacing8
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.IconButton
+import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.media.R
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
 import app.ss.media.playback.extensions.isPlaying
@@ -93,12 +97,8 @@ import app.ss.media.playback.ui.spec.PlaybackQueueSpec
 import app.ss.media.playback.ui.spec.toImageSpec
 import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.AudioFile
-import com.cryart.design.theme.BaseBlue
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
-import app.ss.design.compose.theme.Spacing16
-import app.ss.design.compose.theme.Spacing32
-import app.ss.design.compose.theme.Spacing8
 import com.cryart.design.widgets.DragHandle
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -351,18 +351,21 @@ private fun BottomControls(
             ) { targetSpeed ->
                 Text(
                     text = targetSpeed.label,
-                    style = TitleMedium.copy(
-                        color = tintColor()
-                    )
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontSize = 18.sp
+                    ),
+                    color = tintColor()
                 )
             }
         }
 
         IconButton(onClick = toggleExpand) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_audio_icon_playlist),
-                contentDescription = "PlayList",
-                tint = tintColor()
+            IconBox(
+                icon = IconSlot.fromResource(
+                    R.drawable.ic_audio_icon_playlist,
+                    contentDescription = "PlayList",
+                ),
+                contentColor = tintColor()
             )
         }
     }
@@ -371,4 +374,4 @@ private fun BottomControls(
 @Composable
 private fun tintColor(
     isDark: Boolean = isSystemInDarkTheme()
-): Color = if (isDark) BaseGrey2 else BaseBlue
+): Color = if (isDark) BaseGrey2 else MaterialTheme.colorScheme.primary

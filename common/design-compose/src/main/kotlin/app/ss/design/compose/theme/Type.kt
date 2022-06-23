@@ -153,14 +153,10 @@ private sealed class TextSize(
     val fontSize: TextUnit,
     val lineHeight: TextUnit,
 ) {
-    object Size10 : TextSize(10.sp, 14.sp)
-    object Size12 : TextSize(12.sp, 18.sp)
     object Size13 : TextSize(13.sp, 20.sp)
     object Size15 : TextSize(15.sp, 22.sp)
     object Size16 : TextSize(16.sp, 24.sp)
-    object Size18 : TextSize(18.sp, 26.sp)
     object Size24 : TextSize(24.sp, 28.sp)
-    object Size32 : TextSize(32.sp, 40.sp)
 }
 
 private fun textStyle(
@@ -185,9 +181,6 @@ val Title = textStyle(
 val TitleSmall = Title.copy(
     fontSize = TextSize.Size15.fontSize
 )
-val TitleMedium = Title.copy(
-    fontSize = TextSize.Size18.fontSize
-)
 
 val BodyMedium1 = textStyle(
     textSize = TextSize.Size13,
@@ -206,9 +199,4 @@ val LabelSmall = textStyle(
 val LabelXSmall = textStyle(
     textSize = TextSize.Size13,
     fontWeight = FontWeight.Normal,
-)
-val Body = textStyle(
-    textSize = TextSize.Size13,
-    fontWeight = FontWeight.Normal,
-    color = BaseGrey2
 )

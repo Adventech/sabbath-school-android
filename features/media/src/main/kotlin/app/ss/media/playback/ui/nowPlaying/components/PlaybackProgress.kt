@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -46,19 +47,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ss.design.compose.theme.TitleSmall
+import app.ss.design.compose.extensions.isS
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing4
+import app.ss.design.compose.theme.Spacing8
+import app.ss.design.compose.theme.onSurfaceSecondary
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.millisToDuration
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import com.cryart.design.theme.BaseGrey1
-import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.BaseGrey3
 import com.cryart.design.theme.OffWhite
-import app.ss.design.compose.theme.Spacing16
-import app.ss.design.compose.theme.Spacing4
-import app.ss.design.compose.theme.Spacing8
 import com.cryart.design.theme.darker
 import com.cryart.design.widgets.material.Slider
 import com.cryart.design.widgets.material.SliderDefaults
@@ -68,6 +69,7 @@ private object ProgressColors {
     @Composable
     fun thumbColor(forceDark: Boolean): Color {
         return when {
+            isS() -> MaterialTheme.colorScheme.onSurfaceVariant
             isSystemInDarkTheme() -> BaseGrey1
             forceDark -> BaseGrey1
             else -> OffWhite.darker()
@@ -80,6 +82,7 @@ private object ProgressColors {
     @Composable
     fun inactiveTrackColor(forceDark: Boolean): Color {
         return when {
+            isS() -> MaterialTheme.colorScheme.inverseOnSurface
             isSystemInDarkTheme() -> BaseGrey3
             forceDark -> BaseGrey3
             else -> BaseGrey1
@@ -191,17 +194,18 @@ private fun BoxScope.PlaybackProgressDuration(
                 true -> (progressState.total.toFloat() * (draggingProgress)).toLong().millisToDuration()
                 else -> progressState.currentDuration
             }
-            val textStyle = TitleSmall.copy(
-                color = BaseGrey2,
+            val textStyle = MaterialTheme.typography.titleSmall.copy(
                 fontSize = 14.sp
             )
             Text(
                 currentDuration,
                 style = textStyle,
+                color = onSurfaceSecondary(),
             )
             Text(
                 progressState.totalDuration,
                 style = textStyle,
+                color = onSurfaceSecondary(),
             )
         }
     }

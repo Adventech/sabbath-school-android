@@ -153,7 +153,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         MiniPlayerComponent(
             binding.ssPlayerView,
             playbackViewModel.playbackConnection,
-            ssPrefs.displayOptionsFlow(),
             onExpand = {
                 supportFragmentManager.showNowPlaying(
                     viewModel.lessonIndex,

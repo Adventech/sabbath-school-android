@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -40,7 +39,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import app.ss.design.compose.theme.Spacing32
 import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.media.R
@@ -51,7 +52,6 @@ import app.ss.media.playback.players.isBuffering
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControlsDefaults
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
-import app.ss.design.compose.theme.Spacing32
 
 @Composable
 fun VideoPlayerControls(
@@ -106,7 +106,7 @@ private fun BoxScope.TopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.align(Alignment.TopCenter)
     ) {
-        IconButton(onClick = onClose,) {
+        IconButton(onClick = onClose) {
             IconBox(
                 icon = Icons.Close,
                 contentColor = contentColor

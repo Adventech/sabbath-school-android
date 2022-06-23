@@ -28,8 +28,6 @@ import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.ProgressIndicatorDefaults
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.HourglassBottom
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -46,11 +44,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.extensions.isS
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.Spacing12
 import app.ss.design.compose.theme.Spacing8
 import app.ss.design.compose.theme.onSurfaceSecondary
 import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.media.R
@@ -86,7 +86,6 @@ private object PlaybackMiniControlsDefaults {
 fun PlaybackMiniControls(
     modifier: Modifier = Modifier,
     playbackConnection: PlaybackConnection,
-    readerContentColor: Color,
     onExpand: () -> Unit
 ) {
     val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState).collectAsState(NONE_PLAYBACK_STATE)
@@ -103,7 +102,6 @@ fun PlaybackMiniControls(
             spec = playbackState.toSpec(),
             nowPlayingSpec = nowPlaying.toSpec(),
             playbackConnection = playbackConnection,
-            readerContentColor = readerContentColor,
             onExpand = onExpand
         )
     }
@@ -116,7 +114,6 @@ fun PlaybackMiniControls(
     modifier: Modifier = Modifier,
     height: Dp = PlaybackMiniControlsDefaults.height,
     playbackConnection: PlaybackConnection = LocalPlaybackConnection.current,
-    readerContentColor: Color,
     onExpand: () -> Unit
 ) {
     val cancel: () -> Unit = { playbackConnection.transportControls?.stop() }
@@ -177,7 +174,7 @@ fun PlaybackMiniControls(
                     }
                     PlaybackProgress(
                         spec = spec,
-                        color = readerContentColor,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         playbackConnection = playbackConnection
                     )
                 }
@@ -199,12 +196,11 @@ private fun playbackMiniBackgroundColor(
 @Composable
 internal fun playbackContentColor(
     isDark: Boolean = isSystemInDarkTheme()
-): Color =
-    if (isDark) {
-        Color.White
-    } else {
-        Color.Black
-    }
+): Color = when {
+    isS() -> MaterialTheme.colorScheme.onSurface
+    isDark -> Color.White
+    else -> Color.Black
+}
 
 @Composable
 private fun playbackButtonSpacing(
@@ -317,11 +313,13 @@ private fun PlaybackReplay(
     onRewind: () -> Unit
 ) {
     IconButton(onClick = onRewind) {
-        Icon(
-            painterResource(id = R.drawable.ic_audio_icon_backward),
-            contentDescription = "Rewind",
-            tint = contentColor,
-            modifier = Modifier.size(size)
+        IconBox(
+            icon = IconSlot.fromResource(
+                R.drawable.ic_audio_icon_backward,
+                contentDescription = "Rewind"
+            ),
+            modifier = Modifier.size(size),
+            contentColor = contentColor,
         )
     }
 }
