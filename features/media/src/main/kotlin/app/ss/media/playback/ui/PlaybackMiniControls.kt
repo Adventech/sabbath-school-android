@@ -23,18 +23,16 @@ import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ProgressIndicatorDefaults
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.HourglassBottom
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -48,8 +46,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ss.design.compose.theme.Body
-import app.ss.design.compose.theme.LabelMedium
+import app.ss.design.compose.extensions.modifier.thenIf
+import app.ss.design.compose.theme.Spacing12
+import app.ss.design.compose.theme.Spacing8
+import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.IconSlot
+import app.ss.design.compose.widget.icon.Icons
 import app.ss.media.R
 import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
 import app.ss.media.playback.PlaybackConnection
@@ -64,14 +67,12 @@ import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.media.playback.ui.spec.toSpec
-import app.ss.design.compose.extensions.modifier.thenIf
 import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
-import app.ss.design.compose.theme.Spacing12
-import app.ss.design.compose.theme.Spacing8
 import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.theme.lighter
+import androidx.compose.material.icons.Icons as MaterialIcons
 
 private object PlaybackMiniControlsDefaults {
     val height = 60.dp
@@ -257,14 +258,11 @@ private fun RowScope.NowPlayingColumn(
         modifier = Modifier.weight(1f),
     ) {
 
-        IconButton(
-            onClick = onCancel
-        ) {
-            Icon(
-                Icons.Rounded.Cancel,
-                contentDescription = "Cancel",
+        IconButton(onClick = onCancel) {
+            IconBox(
+                icon = Icons.Cancel,
                 modifier = Modifier.size(PlaybackMiniControlsDefaults.cancelSize),
-                tint = BaseGrey2
+                contentColor = BaseGrey2
             )
         }
 
@@ -291,10 +289,10 @@ private fun NowPlayingColumn(
             spec.title,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            style = LabelMedium.copy(
-                color = MaterialTheme.colors.onSurface,
+            style = MaterialTheme.typography.labelMedium.copy(
                 fontSize = 15.sp
-            )
+            ),
+            color = MaterialTheme.colorScheme.onSurface,
         )
 
         Spacer(modifier = Modifier.height(2.dp))
@@ -304,7 +302,8 @@ private fun NowPlayingColumn(
                 spec.artist,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = Body
+                style = MaterialTheme.typography.bodySmall,
+                color = onSurfaceSecondary()
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
@@ -317,10 +316,7 @@ private fun PlaybackReplay(
     contentColor: Color,
     onRewind: () -> Unit
 ) {
-    IconButton(
-        onClick = onRewind,
-        modifier = Modifier.size(size)
-    ) {
+    IconButton(onClick = onRewind) {
         Icon(
             painterResource(id = R.drawable.ic_audio_icon_backward),
             contentDescription = "Rewind",
@@ -337,21 +333,20 @@ private fun PlaybackPlayPause(
     contentColor: Color,
     onPlayPause: () -> Unit
 ) {
-    IconButton(
-        onClick = onPlayPause,
-        modifier = Modifier.size(size),
-    ) {
+    IconButton(onClick = onPlayPause) {
         val painter = when {
             spec.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
             spec.isPlayEnabled -> painterResource(id = R.drawable.ic_audio_icon_play)
-            spec.isError -> rememberVectorPainter(Icons.Rounded.ErrorOutline)
-            else -> rememberVectorPainter(Icons.Rounded.HourglassBottom)
+            spec.isError -> rememberVectorPainter(MaterialIcons.Rounded.ErrorOutline)
+            else -> rememberVectorPainter(MaterialIcons.Rounded.HourglassBottom)
         }
-        Icon(
-            painter = painter,
+        IconBox(
+            icon = IconSlot.fromPainter(
+                painter = painter,
+                contentDescription = "Play/Pause",
+            ),
             modifier = Modifier.size(size),
-            contentDescription = "Play/Pause",
-            tint = contentColor
+            contentColor = contentColor
         )
     }
 }

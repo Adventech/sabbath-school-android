@@ -129,7 +129,7 @@ val SsTypography = Typography(
     bodySmall = TextStyle(
         fontFamily = LatoFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
+        fontSize = 13.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.4.sp,
     ),

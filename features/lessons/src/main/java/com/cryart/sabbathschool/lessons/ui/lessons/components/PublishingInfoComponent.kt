@@ -52,7 +52,7 @@ import com.cryart.design.theme.SSTheme
 import app.ss.design.compose.theme.Spacing16
 import com.cryart.design.theme.onSurfaceSecondaryColor
 import com.cryart.design.theme.parse
-import com.cryart.design.widgets.Divider
+import app.ss.design.compose.widget.divider.Divider
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.lessons.databinding.SsComposeComponentBinding
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.PublishingInfoSpec

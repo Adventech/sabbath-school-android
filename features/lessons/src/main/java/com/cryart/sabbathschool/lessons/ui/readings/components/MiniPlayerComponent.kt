@@ -29,10 +29,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import app.ss.design.compose.theme.SsTheme
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.ui.PlaybackMiniControls
 import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
-import com.cryart.design.theme.SSTheme
 import com.cryart.design.theme.parse
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.core.model.themeColor
@@ -46,7 +46,7 @@ class MiniPlayerComponent(
 ) {
     init {
         composeView.setContent {
-            SSTheme {
+            SsTheme {
                 val options by rememberFlowWithLifecycle(displayOptionsFlow)
                     .collectAsState(initial = SSReadingDisplayOptions(isSystemInDarkTheme()))
 
