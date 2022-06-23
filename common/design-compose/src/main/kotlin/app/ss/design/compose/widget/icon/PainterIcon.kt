@@ -22,30 +22,24 @@
 
 package app.ss.design.compose.widget.icon
 
-import androidx.annotation.DrawableRes
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 
-interface IconSlot {
+data class PainterIcon(
+    val painter: Painter,
+    val contentDescription: String?
+) : IconSlot {
 
     @Composable
-    fun Content(contentColor: Color, modifier: Modifier)
-
-    companion object {
-
-        /**
-         * Creates an [IconSlot] from Resources
-         */
-        fun fromResource(
-            @DrawableRes res: Int,
-            contentDescription: String?
-        ): IconSlot = ResIcon(res, contentDescription)
-
-        fun fromPainter(
-            painter: Painter,
-            contentDescription: String?
-        ): IconSlot = PainterIcon(painter, contentDescription)
+    override fun Content(contentColor: Color, modifier: Modifier) {
+        Icon(
+            painter = painter,
+            contentDescription = contentDescription,
+            tint = contentColor,
+            modifier = modifier
+        )
     }
 }

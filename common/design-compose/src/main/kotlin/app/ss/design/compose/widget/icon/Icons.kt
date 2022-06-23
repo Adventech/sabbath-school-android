@@ -25,6 +25,7 @@ package app.ss.design.compose.widget.icon
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowDropDown
+import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
@@ -44,6 +45,7 @@ enum class Icons(
     ArrowBack(MaterialIcons.Rounded.ArrowBack, "Arrow Back"),
     ArrowDropDown(MaterialIcons.Rounded.ArrowDropDown, "Arrow Drop Down"),
     ArrowRight(MaterialIcons.Rounded.KeyboardArrowRight, "Arrow Right"),
+    Cancel(MaterialIcons.Rounded.Cancel, "Cancel"),
     Check(MaterialIcons.Rounded.Check, "Selected"),
     Close(MaterialIcons.Rounded.Close, "Close");
 
