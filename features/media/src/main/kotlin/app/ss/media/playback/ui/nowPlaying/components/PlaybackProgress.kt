@@ -32,11 +32,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,11 +51,8 @@ import app.ss.design.compose.theme.Spacing16
 import app.ss.design.compose.theme.Spacing4
 import app.ss.design.compose.theme.Spacing8
 import app.ss.design.compose.theme.onSurfaceSecondary
-import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.millisToDuration
 import app.ss.media.playback.model.PlaybackProgressState
-import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
-import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey3
 import com.cryart.design.theme.OffWhite
@@ -88,23 +84,6 @@ private object ProgressColors {
             else -> BaseGrey1
         }
     }
-}
-
-@Composable
-internal fun PlaybackProgress(
-    spec: PlaybackStateSpec,
-    playbackConnection: PlaybackConnection
-) {
-    val progressState by rememberFlowWithLifecycle(playbackConnection.playbackProgress)
-        .collectAsState(PlaybackProgressState())
-
-    PlaybackProgressDuration(
-        isBuffering = spec.isBuffering,
-        progressState,
-        onSeekTo = { position ->
-            playbackConnection.transportControls?.seekTo(position)
-        }
-    )
 }
 
 @Composable
