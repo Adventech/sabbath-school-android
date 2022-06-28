@@ -27,6 +27,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import app.ss.design.compose.extensions.surface.BottomSheetSurface
@@ -45,6 +46,7 @@ class VideoListFragment : TransparentBottomSheetFragment() {
         savedInstanceState: Bundle?
     ): View {
         return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 BottomSheetSurface {
                     VideoListScreen(
