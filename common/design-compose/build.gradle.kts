@@ -22,8 +22,10 @@
 
 import dependencies.Dependencies
 import dependencies.Dependencies.Accompanist
+import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Compose
+import dependencies.Dependencies.Kotlin
 import dependencies.Versions
 import dependencies.TestAndroidDependencies
 
@@ -59,7 +61,9 @@ android {
 dependencies {
     implementation(Dependencies.TIMBER)
     implementation(Accompanist.placeholder)
+    implementation(AndroidX.LIFECYCLE_KTX)
     implementation(Coil.compose)
+    implementation(Kotlin.COROUTINES)
 
     api(Compose.foundation)
     api(Compose.foundationLayout)
