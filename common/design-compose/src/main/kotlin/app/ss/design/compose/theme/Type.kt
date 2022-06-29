@@ -87,8 +87,8 @@ val SsTypography = Typography(
     titleLarge = TextStyle(
         fontFamily = LatoFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
+        fontSize = 20.sp,
+        lineHeight = 26.sp,
         letterSpacing = 0.sp,
     ),
     titleMedium = TextStyle(
