@@ -20,12 +20,13 @@
  * THE SOFTWARE.
  */
 
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 
 package com.cryart.sabbathschool.lessons.ui.lessons
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -74,6 +75,7 @@ import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import com.cryart.sabbathschool.lessons.R
+import com.cryart.sabbathschool.lessons.ui.lessons.components.PublishingInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
 import com.google.accompanist.systemuicontroller.SystemUiController
@@ -110,6 +112,12 @@ fun LessonsScreen(
         QuarterlyInfoState.Error,
         QuarterlyInfoState.Loading -> null
         is QuarterlyInfoState.Success -> state.quarterlyInfo.quarterlyInfo
+    }
+
+    val publishingInfo = when (state.publishingInfo) {
+        PublishingInfoState.Error,
+        PublishingInfoState.Loading -> null
+        is PublishingInfoState.Success -> state.publishingInfo.publishingInfo
     }
 
     val quarterlyTitle = quarterlyInfo?.quarterly?.title ?: ""
@@ -168,6 +176,16 @@ fun LessonsScreen(
             quarterlyInfo?.let {
                 item {
                     QuarterlyInfo(spec = it.toSpec())
+                }
+
+                publishingInfo?.let {
+                    item {
+                        PublishingInfo(
+                            spec = it.toSpec(),
+                            primaryColorHex = quarterlyInfo.quarterly.color_primary,
+                            modifier = Modifier.animateItemPlacement()
+                        )
+                    }
                 }
             }
 
