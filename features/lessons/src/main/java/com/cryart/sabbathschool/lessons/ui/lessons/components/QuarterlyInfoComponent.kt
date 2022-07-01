@@ -23,9 +23,7 @@
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.GradientDrawable
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -50,6 +48,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -71,14 +70,14 @@ import app.ss.design.compose.widget.button.SsButtonColors
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.models.SSQuarterlyInfo
-import com.cryart.design.color.withAlpha
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.addMoreEllipses
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsLessonsQuarterlyInfoBinding
-import com.cryart.sabbathschool.lessons.ui.base.loadCover
+import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
+import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.QuarterlyInfoSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.showLessonIntro
@@ -86,7 +85,6 @@ import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import kotlinx.coroutines.flow.Flow
 import org.joda.time.DateTime
 import org.joda.time.Interval
-import android.graphics.Color as AndroidColor
 
 internal class QuarterlyInfoComponent(
     lifecycleOwner: LifecycleOwner,
@@ -135,30 +133,8 @@ internal class QuarterlyInfoComponent(
             quarterly.title,
             quarterly.introduction ?: quarterly.description
         )
-        val primaryColor = AndroidColor.parseColor(quarterly.color_primary)
-        val primaryDarkColor = AndroidColor.parseColor(quarterly.color_primary_dark)
 
         binding.root.apply {
-            quarterly.splash?.let { url ->
-                findViewById<ImageView?>(R.id.ss_quarterly_splash)
-                    ?.loadCover(url, primaryColor)
-
-                val array = arrayListOf(
-                    primaryDarkColor,
-                    primaryColor,
-                    AndroidColor.BLACK.withAlpha(40),
-                    AndroidColor.TRANSPARENT
-                )
-                val background = GradientDrawable(
-                    GradientDrawable.Orientation.BOTTOM_TOP,
-                    array.toIntArray()
-                )
-                findViewById<View?>(R.id.ss_quarterly_splash_gradient)?.background = background
-            } ?: run {
-                setBackgroundColor(primaryColor)
-                findViewById<ImageView?>(R.id.ss_lessons_app_bar_cover)
-                    ?.loadCover(quarterly.cover, primaryDarkColor)
-            }
 
             findViewById<TextView>(R.id.ss_lessons_app_bar_description)?.apply {
                 text = quarterly.description
@@ -175,11 +151,6 @@ internal class QuarterlyInfoComponent(
     }
 }
 
-// view.setContent {
-//    QuarterlyFeaturesRow(spec = QuarterlyFeaturesSpec(features))
-// }
-// view.isVisible = features.isNotEmpty()
-
 @Composable
 fun QuarterlyInfo(
     spec: QuarterlyInfoSpec,
@@ -187,12 +158,7 @@ fun QuarterlyInfo(
 ) {
 
     val content: @Composable ColumnScope.() -> Unit = {
-        Content(
-            title = spec.title,
-            date = spec.date,
-            description = spec.description,
-            primaryDarkColor = Color.parse(spec.colorDark)
-        )
+        Content(spec = spec)
     }
 
     CoverBox(
@@ -208,6 +174,8 @@ fun QuarterlyInfo(
             )
         } else {
             ContentPrimary(
+                primaryColor = Color.parse(spec.color),
+                primaryDarkColor = Color.parse(spec.colorDark),
                 content = content,
                 modifier = Modifier.align(Alignment.BottomCenter)
             )
@@ -244,9 +212,20 @@ private fun CoverBox(
 
 @Composable
 private fun ContentPrimary(
+    primaryColor: Color,
+    primaryDarkColor: Color,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,
 ) {
+
+    val gradient = Brush.verticalGradient(
+        colors = listOf(
+            Color.Transparent,
+            Color.Black.copy(0.4f),
+            primaryColor,
+            primaryDarkColor,
+        ),
+    )
 
     ConstraintLayout(modifier = modifier) {
         val container = createRef()
@@ -261,6 +240,7 @@ private fun ContentPrimary(
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
+                .background(gradient)
         ) {
             content()
         }
@@ -308,15 +288,12 @@ private val CoverImageShape = RoundedCornerShape(6.dp)
 
 @Composable
 fun ColumnScope.Content(
-    title: String,
-    date: String,
-    description: String,
-    primaryDarkColor: Color,
+    spec: QuarterlyInfoSpec,
     readClick: () -> Unit = {},
     readMoreClick: () -> Unit = {},
 ) {
     Text(
-        text = title,
+        text = spec.title,
         style = MaterialTheme.typography.headlineMedium,
         color = Color.White,
         textAlign = TextAlign.Center,
@@ -327,7 +304,7 @@ fun ColumnScope.Content(
     )
 
     Text(
-        text = date.uppercase(),
+        text = spec.date.uppercase(),
         style = MaterialTheme.typography.titleSmall,
         color = SsColor.White70,
         textAlign = TextAlign.Center,
@@ -341,7 +318,7 @@ fun ColumnScope.Content(
         spec = ButtonSpec(
             text = stringResource(id = R.string.ss_lessons_read),
             colors = SsButtonColors(
-                containerColor = primaryDarkColor,
+                containerColor = Color.parse(spec.colorDark),
             ),
             onClick = readClick
         ),
@@ -349,7 +326,7 @@ fun ColumnScope.Content(
     )
 
     Text(
-        text = description,
+        text = spec.description,
         style = MaterialTheme.typography.bodyMedium,
         color = Color.White,
         maxLines = 3,
@@ -359,6 +336,10 @@ fun ColumnScope.Content(
             .padding(16.dp)
             .clickable { readMoreClick() }
     )
+
+    if (spec.features.isNotEmpty()) {
+        QuarterlyFeaturesRow(spec = QuarterlyFeaturesSpec(spec.features))
+    }
 }
 
 @Preview(

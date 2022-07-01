@@ -34,12 +34,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import app.ss.design.compose.theme.Spacing12
-import app.ss.design.compose.theme.Spacing16
+import androidx.compose.ui.unit.dp
+import app.ss.design.compose.widget.content.ContentBox
+import app.ss.design.compose.widget.image.RemoteImage
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.FeatureSpec
 
 @Immutable
@@ -56,9 +54,9 @@ fun QuarterlyFeaturesRow(
         modifier = modifier
             .horizontalScroll(rememberScrollState())
             .padding(
-                start = Spacing16,
-                bottom = Spacing16,
-                end = Spacing16
+                start = 16.dp,
+                bottom = 16.dp,
+                end = 16.dp
             )
     ) {
         spec.features.forEach { feature ->
@@ -70,13 +68,13 @@ fun QuarterlyFeaturesRow(
                 )
             )
 
-            Spacer(modifier = Modifier.size(Spacing12))
+            Spacer(modifier = Modifier.size(12.dp))
         }
     }
 }
 
-private val ImageWidth = Spacing16
-private val ImageHeight = Spacing12
+private val ImageWidth = 16.dp
+private val ImageHeight = 12.dp
 
 @Composable
 fun FeatureImage(
@@ -84,15 +82,14 @@ fun FeatureImage(
     modifier: Modifier,
     tint: Color = Color.White.copy(alpha = 0.5f)
 ) {
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(feature.image)
-            .crossfade(true)
-            .build(),
-        contentDescription = feature.title,
-        contentScale = ContentScale.Inside,
+    ContentBox(
+        content = RemoteImage(
+            data = feature.image,
+            contentDescription = feature.title,
+            contentScale = ContentScale.Inside,
+            colorFilter = ColorFilter.tint(tint)
+        ),
         modifier = modifier,
-        colorFilter = ColorFilter.tint(tint)
     )
 }
 
