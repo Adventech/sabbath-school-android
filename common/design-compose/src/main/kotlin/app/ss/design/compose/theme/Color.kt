@@ -38,7 +38,20 @@ val BaseGrey3 = Color(0xFF606060)
 val BaseGrey4 = Color(0xFF383838)
 val BaseGrey5 = Color(0xFF1A1A1A)
 val BaseRed = Color(0xFFF1706B)
-val OffWhite = Color(0xFFE2E2E5)
+
+object SsColor {
+    val BaseBlue = Color(0xFF2E5797)
+    val BaseGrey1 = Color(0xFFEFEFEF)
+    val BaseGrey2 = Color(0xFF8F8E94)
+    val BaseGrey3 = Color(0xFF606060)
+    val BaseGrey4 = Color(0xFF383838)
+    val BaseGrey5 = Color(0xFF1A1A1A)
+    val BaseRed = Color(0xFFF1706B)
+
+    val OffWhite = Color(0xFFE2E2E5)
+    val White70 = Color(0xB3FFFFFF)
+    val TextLink = Color(0xFF94BDFD)
+}
 
 fun Color.darker(componentDelta: Float = 0.1f): Color = makeColor(-1 * componentDelta)
 
