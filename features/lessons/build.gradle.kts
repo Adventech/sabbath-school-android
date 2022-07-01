@@ -119,6 +119,7 @@ dependencies {
     implementation(Dependencies.Facebook.SHIMMER)
     implementation(Dependencies.MarkWorm.core)
 
+    implementation(Compose.constraintLayout)
     implementation(Compose.material)
     implementation(Accompanist.systemUiController)
 
