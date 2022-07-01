@@ -28,6 +28,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -55,6 +56,8 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.TopAppBarScrollState
 import androidx.compose.material3.rememberTopAppBarScrollState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -74,6 +77,8 @@ import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import com.cryart.sabbathschool.lessons.R
+import com.google.accompanist.systemuicontroller.SystemUiController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun LessonsScreen(
@@ -112,10 +117,10 @@ fun LessonsScreen(
 
     val scrollAlpha = scrollBehavior.scrollAlpha()
     val alpha by animateFloatAsState(
-        targetValue = if (scrollAlpha > 0.80f) 1f else scrollAlpha
+        targetValue = if (scrollAlpha > MIN_SOLID_ALPHA) 1f else scrollAlpha
     )
     val elevation by animateDpAsState(
-        targetValue = if (alpha > 0.80f) 4.dp else 0.dp
+        targetValue = if (scrollAlpha > MIN_SOLID_ALPHA) 4.dp else 0.dp
     )
 
     SsScaffold(
@@ -199,6 +204,7 @@ private fun LessonsTopBar(
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier,
     scrollAlpha: Float = 0.0f,
+    systemUiController: SystemUiController = rememberSystemUiController(),
     onNavClick: () -> Unit = {},
     onShareClick: () -> Unit = {},
 ) {
@@ -211,13 +217,15 @@ private fun LessonsTopBar(
                     imageVector = Icons.Rounded.Share,
                     contentDescription = stringResource(id = R.string.ss_share),
                     onClick = onShareClick,
+                    tint = toolbarIconColor(alpha = scrollAlpha)
                 )
             ).takeIf { title.isNotEmpty() } ?: emptyList(),
         ),
         title = {
             Text(
                 text = title,
-                modifier = Modifier.alpha(scrollAlpha)
+                modifier = Modifier.alpha(scrollAlpha),
+                color = toolbarContentColor(alpha = scrollAlpha),
             )
         },
         modifier = modifier,
@@ -227,6 +235,7 @@ private fun LessonsTopBar(
                     imageVector = Icons.Rounded.ArrowBack,
                     contentDescription = "Back", // todo: Add strings
                     onClick = onNavClick,
+                    tint = toolbarIconColor(alpha = scrollAlpha)
                 )
             )
         },
@@ -235,9 +244,37 @@ private fun LessonsTopBar(
             containerColor = Color.Transparent,
         )
     )
+
+    val useDarkIcons = when {
+        isSystemInDarkTheme() -> false
+        else -> scrollAlpha > MIN_SOLID_ALPHA
+    }
+
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = useDarkIcons
+        )
+    }
+}
+
+@Stable
+@Composable
+private fun toolbarContentColor(alpha: Float): Color {
+    return if (alpha > MIN_SOLID_ALPHA) MaterialTheme.colorScheme.onSurface.copy(alpha = alpha)
+    else Color.White.copy(alpha = 1f - alpha)
+}
+
+@Stable
+@Composable
+private fun toolbarIconColor(alpha: Float): Color {
+    return if (alpha > MIN_SOLID_ALPHA) MaterialTheme.colorScheme.onSurface
+    else Color.White
 }
 
 private fun TopAppBarScrollBehavior.scrollAlpha(): Float {
     return 1f - (state.offsetLimit / (state.contentOffset.coerceAtMost(-0.9f))).coerceAtLeast(0f)
         .coerceIn(0f, 1f)
 }
+
+private const val MIN_SOLID_ALPHA = 0.8f

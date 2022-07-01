@@ -120,7 +120,7 @@ dependencies {
     implementation(Dependencies.MarkWorm.core)
 
     implementation(Compose.material)
-    implementation(Compose.tooling)
+    implementation(Accompanist.systemUiController)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))
