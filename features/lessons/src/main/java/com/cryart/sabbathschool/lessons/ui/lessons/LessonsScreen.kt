@@ -26,7 +26,6 @@ package com.cryart.sabbathschool.lessons.ui.lessons
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +36,6 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -69,7 +67,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
-import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
@@ -77,6 +74,8 @@ import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import com.cryart.sabbathschool.lessons.R
+import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfo
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -166,14 +165,10 @@ fun LessonsScreen(
             )
         ) {
 
-            item {
-                Spacer(
-                    modifier = Modifier
-                        .height(400.dp)
-                        .fillMaxWidth()
-                        .background(Color.Blue)
-                        .asPlaceholder(state.quarterlyInfo is QuarterlyInfoState.Loading)
-                )
+            quarterlyInfo?.let {
+                item {
+                    QuarterlyInfo(spec = it.toSpec())
+                }
             }
 
             val list = (0..50).map { it.toString() }
