@@ -41,12 +41,12 @@ import app.ss.design.compose.widget.image.RemoteImage
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.FeatureSpec
 
 @Immutable
-data class QuarterlyFeaturesSpec(
+internal data class QuarterlyFeaturesSpec(
     val features: List<FeatureSpec>
 )
 
 @Composable
-fun QuarterlyFeaturesRow(
+internal fun QuarterlyFeaturesRow(
     modifier: Modifier = Modifier,
     spec: QuarterlyFeaturesSpec
 ) {
@@ -77,7 +77,7 @@ private val ImageWidth = 16.dp
 private val ImageHeight = 12.dp
 
 @Composable
-fun FeatureImage(
+internal fun FeatureImage(
     feature: FeatureSpec,
     modifier: Modifier,
     tint: Color = Color.White.copy(alpha = 0.5f)

@@ -33,7 +33,6 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.view.WindowCompat
 import app.ss.design.compose.theme.SsTheme
-import app.ss.models.SSLesson
 import app.ss.pdf.PdfReader
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
@@ -43,14 +42,14 @@ import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsCallback
+import com.cryart.sabbathschool.lessons.ui.lessons.intro.showLessonIntro
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SSLessonsActivity : SlidingActivity(), ShareableScreen, LessonsCallback {
+class SSLessonsActivity : SlidingActivity(), ShareableScreen {
 
     @Inject
     lateinit var pdfReader: PdfReader
@@ -77,11 +76,14 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen, LessonsCallback {
                     },
                     onLessonClick = { lesson ->
                         if (lesson.pdfOnly) {
-                            openPdf(lesson)
+                            viewModel.pdfLessonSelected(lesson)
                         } else {
                             val ssReadingIntent = SSReadingActivity.launchIntent(this, lesson.index)
                             startActivity(ssReadingIntent)
                         }
+                    },
+                    onReadMoreClick = {
+                        supportFragmentManager.showLessonIntro(it)
                     }
                 )
             }
@@ -106,10 +108,6 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen, LessonsCallback {
 
     override fun getShareWebUri(): Uri {
         return "${getString(R.string.ss_app_host)}/${viewModel.quarterlyShareIndex}".toWebUri()
-    }
-
-    override fun openPdf(lesson: SSLesson) {
-        viewModel.pdfLessonSelected(lesson)
     }
 
     companion object {

@@ -22,9 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
-import android.annotation.SuppressLint
-import android.view.View
-import android.widget.TextView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -57,9 +54,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.core.view.isVisible
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LifecycleOwner
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.SsColor
@@ -69,90 +63,13 @@ import app.ss.design.compose.widget.button.SsButton
 import app.ss.design.compose.widget.button.SsButtonColors
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
-import app.ss.models.SSQuarterlyInfo
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
-import com.cryart.sabbathschool.core.extensions.view.addMoreEllipses
-import com.cryart.sabbathschool.core.misc.DateHelper
-import com.cryart.sabbathschool.core.ui.BaseComponent
 import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.databinding.SsLessonsQuarterlyInfoBinding
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.QuarterlyInfoSpec
-import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
-import com.cryart.sabbathschool.lessons.ui.lessons.intro.showLessonIntro
-import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
-import kotlinx.coroutines.flow.Flow
-import org.joda.time.DateTime
-import org.joda.time.Interval
-
-internal class QuarterlyInfoComponent(
-    lifecycleOwner: LifecycleOwner,
-    private val fragmentManager: FragmentManager,
-    private val binding: SsLessonsQuarterlyInfoBinding,
-    private val lessonsCallback: LessonsCallback,
-) : BaseComponent<SSQuarterlyInfo?>(lifecycleOwner) {
-
-    override fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<SSQuarterlyInfo?>) {
-        visibilityFlow.collectIn(owner) { visible ->
-            binding.root.isVisible = visible
-        }
-
-        dataFlow.collectIn(owner) { data ->
-            data?.let { quarterlyInfo ->
-                setQuarterlyInfo(quarterlyInfo)
-
-                val today = DateTime.now().withTimeAtStartOfDay()
-                val todayLessonIndex = quarterlyInfo.lessons.find { lesson ->
-                    val startDate = DateHelper.parseDate(lesson.start_date)
-                    val endDate = DateHelper.parseDate(lesson.end_date)
-                    Interval(startDate, endDate?.plusDays(1)).contains(today)
-                }?.index ?: quarterlyInfo.lessons.firstOrNull()?.index
-
-                binding.root.findViewById<View?>(R.id.ss_lessons_app_bar_read)
-                    ?.setOnClickListener { view ->
-                        todayLessonIndex?.let index@{ index ->
-                            val lesson = quarterlyInfo.lessons.firstOrNull { it.index == index } ?: return@index
-                            if (lesson.pdfOnly) {
-                                lessonsCallback.openPdf(lesson)
-                            } else {
-                                val context = view.context
-                                val ssReadingIntent = SSReadingActivity.launchIntent(context, index)
-                                context.startActivity(ssReadingIntent)
-                            }
-                        }
-                    }
-            }
-        }
-    }
-
-    @SuppressLint("Range")
-    private fun setQuarterlyInfo(quarterlyInfo: SSQuarterlyInfo) {
-        val quarterly = quarterlyInfo.quarterly
-        val introModel = LessonIntroModel(
-            quarterly.title,
-            quarterly.introduction ?: quarterly.description
-        )
-
-        binding.root.apply {
-
-            findViewById<TextView>(R.id.ss_lessons_app_bar_description)?.apply {
-                text = quarterly.description
-                addMoreEllipses(
-                    3,
-                    R.string.ss_more,
-                    R.color.text_link
-                )
-                setOnClickListener {
-                    fragmentManager.showLessonIntro(introModel)
-                }
-            }
-        }
-    }
-}
 
 @Composable
-fun QuarterlyInfo(
+internal fun QuarterlyInfo(
     spec: QuarterlyInfoSpec,
     modifier: Modifier = Modifier,
 ) {
@@ -289,8 +206,6 @@ private val CoverImageShape = RoundedCornerShape(6.dp)
 @Composable
 fun ColumnScope.Content(
     spec: QuarterlyInfoSpec,
-    readClick: () -> Unit = {},
-    readMoreClick: () -> Unit = {},
 ) {
     Text(
         text = spec.title,
@@ -320,7 +235,7 @@ fun ColumnScope.Content(
             colors = SsButtonColors(
                 containerColor = Color.parse(spec.colorDark),
             ),
-            onClick = readClick
+            onClick = spec.readClick
         ),
         modifier = Modifier.align(Alignment.CenterHorizontally)
     )
@@ -334,7 +249,7 @@ fun ColumnScope.Content(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .clickable { readMoreClick() }
+            .clickable { spec.readMoreClick() }
     )
 
     if (spec.features.isNotEmpty()) {

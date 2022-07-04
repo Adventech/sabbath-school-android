@@ -43,7 +43,9 @@ data class QuarterlyInfoSpec(
     val readMoreClick: () -> Unit = {},
 )
 
-internal fun SSQuarterlyInfo.toSpec() = QuarterlyInfoSpec(
+internal fun SSQuarterlyInfo.toSpec(
+    readMoreClick: () -> Unit = {}
+) = QuarterlyInfoSpec(
     title = quarterly.title,
     description = quarterly.description,
     date = quarterly.human_date,
@@ -56,5 +58,6 @@ internal fun SSQuarterlyInfo.toSpec() = QuarterlyInfoSpec(
         val startDate = DateHelper.parseDate(lesson.start_date)
         val endDate = DateHelper.parseDate(lesson.end_date)
         Interval(startDate, endDate?.plusDays(1)).contains(DateTime.now().withTimeAtStartOfDay())
-    }?.index ?: lessons.firstOrNull()?.index
+    }?.index ?: lessons.firstOrNull()?.index,
+    readMoreClick = readMoreClick
 )
