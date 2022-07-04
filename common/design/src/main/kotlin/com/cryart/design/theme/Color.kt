@@ -22,9 +22,6 @@
 
 package com.cryart.design.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import kotlin.math.max
 import kotlin.math.min
@@ -59,15 +56,3 @@ fun Color.makeColor(componentDelta: Float): Color = Color(
 private fun Float.add(toComponent: Float): Float {
     return max(0f, min(1f, toComponent + this))
 }
-
-@Composable
-@Stable
-fun surfaceSecondaryColor(
-    isDark: Boolean = isSystemInDarkTheme()
-): Color = if (isDark) Color.Black.lighter() else BaseGrey1
-
-@Composable
-@Stable
-fun onSurfaceSecondaryColor(
-    isDark: Boolean = isSystemInDarkTheme()
-): Color = if (isDark) BaseGrey3 else BaseGrey2

@@ -27,7 +27,6 @@ package com.cryart.sabbathschool.lessons.ui.lessons
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -176,7 +175,6 @@ fun LessonsScreen(
                 innerPadding.calculateEndPadding(LayoutDirection.Ltr),
                 innerPadding.calculateBottomPadding()
             ),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier.windowInsetsPadding(
                 WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
             )
