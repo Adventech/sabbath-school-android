@@ -69,6 +69,10 @@ internal fun LazyListScope.footer(
     spec: LessonsFooterSpec,
 ) {
 
+    if (spec.credits.isEmpty() && spec.features.isEmpty()) {
+        return
+    }
+
     item {
         Spacer(
             modifier = Modifier
