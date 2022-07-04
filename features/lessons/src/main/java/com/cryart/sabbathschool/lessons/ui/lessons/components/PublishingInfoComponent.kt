@@ -20,8 +20,11 @@
  * THE SOFTWARE.
  */
 
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -29,11 +32,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -47,13 +52,30 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.onSurfaceSecondary
 import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconButton
+import app.ss.models.PublishingInfo
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.parse
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.PublishingInfoSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
+
+internal fun LazyListScope.publishingInfo(
+    publishingInfo: PublishingInfo?,
+    primaryColorHex: String,
+) {
+    publishingInfo?.let {
+        item {
+            PublishingInfo(
+                spec = it.toSpec(),
+                primaryColorHex = primaryColorHex,
+                modifier = Modifier.animateItemPlacement()
+            )
+        }
+    }
+}
 
 @Composable
-internal fun PublishingInfo(
+private fun PublishingInfo(
     spec: PublishingInfoSpec,
     primaryColorHex: String,
     modifier: Modifier = Modifier,
@@ -107,13 +129,15 @@ internal fun PublishingInfo(
 @Composable
 private fun PreviewPublishingInfo() {
     SsTheme {
-        PublishingInfo(
-            spec = PublishingInfoSpec(
-                message = "The right to print and distribute this Sabbath School resource in the " +
-                    "United States belongs to the Pacific Press Publishing Association.",
-                url = "http://www.sabbathschoolmaterials.com"
-            ),
-            primaryColorHex = "#385bb2"
-        )
+        Surface {
+            PublishingInfo(
+                spec = PublishingInfoSpec(
+                    message = "The right to print and distribute this Sabbath School resource in the " +
+                        "United States belongs to the Pacific Press Publishing Association.",
+                    url = "http://www.sabbathschoolmaterials.com"
+                ),
+                primaryColorHex = "#385bb2"
+            )
+        }
     }
 }

@@ -20,14 +20,12 @@
  * THE SOFTWARE.
  */
 
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.cryart.sabbathschool.lessons.ui.lessons
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -43,7 +41,6 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Share
@@ -72,17 +69,17 @@ import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
-import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.models.SSLesson
 import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItem
-import com.cryart.sabbathschool.lessons.ui.lessons.components.PublishingInfo
-import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfo
+import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooterSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.components.footer
+import com.cryart.sabbathschool.lessons.ui.lessons.components.lessons
+import com.cryart.sabbathschool.lessons.ui.lessons.components.publishingInfo
+import com.cryart.sabbathschool.lessons.ui.lessons.components.quarterlyInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
-import com.cryart.sabbathschool.lessons.ui.lessons.components.toSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -186,49 +183,28 @@ fun LessonsScreen(
         ) {
 
             quarterlyInfo?.let { ssQuarterlyInfo ->
-                item {
-                    val spec = ssQuarterlyInfo.toSpec(
-                        readMoreClick = {
-                            onReadMoreClick(
-                                LessonIntroModel(
-                                    ssQuarterlyInfo.quarterly.title,
-                                    ssQuarterlyInfo.quarterly.introduction ?: ssQuarterlyInfo.quarterly.description
-                                )
-                            )
-                        },
-                    )
-                    QuarterlyInfo(
-                        spec = spec.copy(
-                            readClick = {
-                                spec.todayLessonIndex?.let index@{ index ->
-                                    val lesson = quarterlyInfo.lessons.firstOrNull { it.index == index } ?: return@index
-                                    onLessonClick(lesson)
-                                }
-                            },
-                        )
-                    )
-                }
+                quarterlyInfo(
+                    info = ssQuarterlyInfo,
+                    onReadMoreClick = onReadMoreClick,
+                    onLessonClick = onLessonClick,
+                )
 
-                publishingInfo?.let {
-                    item {
-                        PublishingInfo(
-                            spec = it.toSpec(),
-                            primaryColorHex = quarterlyInfo.quarterly.color_primary,
-                            modifier = Modifier.animateItemPlacement()
-                        )
-                    }
-                }
+                publishingInfo(
+                    publishingInfo,
+                    primaryColorHex = ssQuarterlyInfo.quarterly.color_primary
+                )
 
-                itemsIndexed(ssQuarterlyInfo.lessons, key = { _: Int, spec: SSLesson -> spec.index }) { _, item ->
-                    LessonItem(
-                        spec = item.toSpec(),
-                        modifier = Modifier
-                            .animateItemPlacement()
-                            .clickable { onLessonClick(item) }
+                lessons(
+                    lessons = ssQuarterlyInfo.lessons,
+                    onClick = onLessonClick
+                )
+
+                footer(
+                    spec = LessonsFooterSpec(
+                        credits = quarterlyInfo.quarterly.credits.map { it.toSpec() },
+                        features = quarterlyInfo.quarterly.features.map { it.toSpec() },
                     )
-
-                    Divider()
-                }
+                )
 
                 item {
                     Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing))

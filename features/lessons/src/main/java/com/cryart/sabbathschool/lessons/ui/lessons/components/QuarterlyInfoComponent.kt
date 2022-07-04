@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -63,13 +64,46 @@ import app.ss.design.compose.widget.button.SsButton
 import app.ss.design.compose.widget.button.SsButtonColors
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
+import app.ss.models.SSLesson
+import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.QuarterlyInfoSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
+
+internal fun LazyListScope.quarterlyInfo(
+    info: SSQuarterlyInfo,
+    onLessonClick: (SSLesson) -> Unit = {},
+    onReadMoreClick: (LessonIntroModel) -> Unit = {}
+) {
+    item {
+        val spec = info.toSpec(
+            readMoreClick = {
+                onReadMoreClick(
+                    LessonIntroModel(
+                        info.quarterly.title,
+                        info.quarterly.introduction ?: info.quarterly.description
+                    )
+                )
+            },
+        )
+        QuarterlyInfo(
+            spec = spec.copy(
+                readClick = {
+                    spec.todayLessonIndex?.let index@{ index ->
+                        val lesson = info.lessons.firstOrNull { it.index == index } ?: return@index
+                        onLessonClick(lesson)
+                    }
+                },
+            )
+        )
+    }
+}
 
 @Composable
-internal fun QuarterlyInfo(
+private fun QuarterlyInfo(
     spec: QuarterlyInfoSpec,
     modifier: Modifier = Modifier,
 ) {

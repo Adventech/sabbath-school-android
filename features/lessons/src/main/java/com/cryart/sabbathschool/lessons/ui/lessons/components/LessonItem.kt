@@ -20,14 +20,20 @@
  * THE SOFTWARE.
  */
 
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -42,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.widget.divider.Divider
 import app.ss.models.SSLesson
 import com.cryart.sabbathschool.core.misc.SSConstants
 import org.joda.time.format.DateTimeFormat
@@ -79,8 +86,27 @@ private fun SSLesson.dateDisplay(): String {
     return "$startDateOut - $endDateOut".replaceFirstChar { it.uppercase() }
 }
 
+internal fun LazyListScope.lessons(
+    lessons: List<SSLesson>,
+    onClick: (SSLesson) -> Unit,
+) {
+    itemsIndexed(
+        lessons,
+        key = { _: Int, spec: SSLesson -> spec.index }
+    ) { _, item ->
+        LessonItem(
+            spec = item.toSpec(),
+            modifier = Modifier
+                .animateItemPlacement()
+                .clickable { onClick(item) }
+        )
+
+        Divider()
+    }
+}
+
 @Composable
-fun LessonItem(
+private fun LessonItem(
     spec: LessonItemSpec,
     modifier: Modifier = Modifier,
 ) {
