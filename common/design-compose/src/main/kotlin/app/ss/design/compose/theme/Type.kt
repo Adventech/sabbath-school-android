@@ -136,7 +136,7 @@ val SsTypography = Typography(
     labelMedium = TextStyle(
         fontFamily = LatoFontFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 12.sp,
+        fontSize = 17.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp,
     ),
@@ -194,9 +194,5 @@ val LabelMedium = textStyle(
 )
 val LabelSmall = textStyle(
     textSize = TextSize.Size15,
-    fontWeight = FontWeight.Normal,
-)
-val LabelXSmall = textStyle(
-    textSize = TextSize.Size13,
     fontWeight = FontWeight.Normal,
 )
