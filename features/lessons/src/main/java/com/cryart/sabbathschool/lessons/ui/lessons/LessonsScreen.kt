@@ -82,6 +82,8 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItem
 import com.cryart.sabbathschool.lessons.ui.lessons.components.PublishingInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.components.toSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -91,6 +93,7 @@ fun LessonsScreen(
     onNavClick: () -> Unit,
     onShareClick: (String) -> Unit,
     onLessonClick: (SSLesson) -> Unit,
+    onReadMoreClick: (LessonIntroModel) -> Unit
 ) {
     val state by rememberFlowWithLifecycle(flow = viewModel.uiState)
         .collectAsState(initial = LessonsScreenState())
@@ -99,7 +102,8 @@ fun LessonsScreen(
         state = state,
         onNavClick = onNavClick,
         onShareClick = onShareClick,
-        onLessonClick = onLessonClick
+        onLessonClick = onLessonClick,
+        onReadMoreClick = onReadMoreClick
     )
 }
 
@@ -114,6 +118,7 @@ fun LessonsScreen(
     onNavClick: () -> Unit = {},
     onShareClick: (String) -> Unit = {},
     onLessonClick: (SSLesson) -> Unit = {},
+    onReadMoreClick: (LessonIntroModel) -> Unit = {},
 ) {
     val quarterlyInfo = when (state.quarterlyInfo) {
         QuarterlyInfoState.Error,
@@ -180,9 +185,28 @@ fun LessonsScreen(
             )
         ) {
 
-            quarterlyInfo?.let {
+            quarterlyInfo?.let { ssQuarterlyInfo ->
                 item {
-                    QuarterlyInfo(spec = it.toSpec())
+                    val spec = ssQuarterlyInfo.toSpec(
+                        readMoreClick = {
+                            onReadMoreClick(
+                                LessonIntroModel(
+                                    ssQuarterlyInfo.quarterly.title,
+                                    ssQuarterlyInfo.quarterly.introduction ?: ssQuarterlyInfo.quarterly.description
+                                )
+                            )
+                        },
+                    )
+                    QuarterlyInfo(
+                        spec = spec.copy(
+                            readClick = {
+                                spec.todayLessonIndex?.let index@{ index ->
+                                    val lesson = quarterlyInfo.lessons.firstOrNull { it.index == index } ?: return@index
+                                    onLessonClick(lesson)
+                                }
+                            },
+                        )
+                    )
                 }
 
                 publishingInfo?.let {
@@ -195,7 +219,7 @@ fun LessonsScreen(
                     }
                 }
 
-                itemsIndexed(it.lessons, key = { _: Int, spec: SSLesson -> spec.index }) { _, item ->
+                itemsIndexed(ssQuarterlyInfo.lessons, key = { _: Int, spec: SSLesson -> spec.index }) { _, item ->
                     LessonItem(
                         spec = item.toSpec(),
                         modifier = Modifier

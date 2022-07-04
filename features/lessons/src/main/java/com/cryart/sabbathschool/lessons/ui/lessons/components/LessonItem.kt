@@ -32,19 +32,51 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.text.isDigitsOnly
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.onSurfaceSecondary
 import app.ss.models.SSLesson
-import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.LessonItemSpec
+import com.cryart.sabbathschool.core.misc.SSConstants
+import org.joda.time.format.DateTimeFormat
 
-internal interface LessonsCallback {
-    fun openPdf(lesson: SSLesson)
+@Immutable
+data class LessonItemSpec(
+    val index: String,
+    val title: String,
+    val date: String,
+)
+
+internal fun SSLesson.toSpec(): LessonItemSpec = LessonItemSpec(
+    index = if (id.isDigitsOnly()) {
+        "${id.toInt()}"
+    } else {
+        "•"
+    },
+    title = title,
+    date = dateDisplay(),
+)
+
+private fun SSLesson.dateDisplay(): String {
+    val startDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+        .print(
+            DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                .parseLocalDate(start_date)
+        )
+
+    val endDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
+        .print(
+            DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                .parseLocalDate(end_date)
+        )
+
+    return "$startDateOut - $endDateOut".replaceFirstChar { it.uppercase() }
 }
 
 @Composable
