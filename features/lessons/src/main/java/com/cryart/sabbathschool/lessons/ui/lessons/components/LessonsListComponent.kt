@@ -22,117 +22,95 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
-import android.view.ViewGroup
-import androidx.core.text.isDigitsOnly
-import androidx.lifecycle.LifecycleOwner
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.theme.onSurfaceSecondary
 import app.ss.models.SSLesson
-import com.cryart.design.dividers
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
-import com.cryart.sabbathschool.core.extensions.view.inflate
-import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.ui.BaseDataComponent
-import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.databinding.SsLessonItemBinding
-import com.cryart.sabbathschool.lessons.databinding.SsLessonsListBinding
-import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
-import kotlinx.coroutines.flow.Flow
-import org.joda.time.format.DateTimeFormat
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.LessonItemSpec
 
 internal interface LessonsCallback {
     fun openPdf(lesson: SSLesson)
 }
 
-internal class LessonsListComponent constructor(
-    lifecycleOwner: LifecycleOwner,
-    binding: SsLessonsListBinding,
-    lessonsCallback: LessonsCallback,
-) : BaseDataComponent<List<SSLesson>>(lifecycleOwner) {
-
-    private val listAdapter = LessonsListAdapter(lessonsCallback)
-
-    init {
-        binding.ssLessonInfoList.apply {
-            dividers()
-            adapter = listAdapter
-        }
-    }
-
-    override fun collect(dataFlow: Flow<List<SSLesson>>) {
-        dataFlow.collectIn(owner) { data ->
-            listAdapter.submitList(data)
-        }
-    }
-}
-
-private class LessonsListAdapter(
-    private val callback: LessonsCallback
-) : ListAdapter<SSLesson, LessonInfoHolder>(object : DiffUtil.ItemCallback<SSLesson>() {
-    override fun areItemsTheSame(oldItem: SSLesson, newItem: SSLesson): Boolean {
-        return oldItem.id == newItem.id
-    }
-
-    override fun areContentsTheSame(oldItem: SSLesson, newItem: SSLesson): Boolean {
-        return oldItem == newItem
-    }
-}) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LessonInfoHolder {
-        return LessonInfoHolder.create(parent).also { holder ->
-            holder.itemView.setOnClickListener { view ->
-                val position = holder.absoluteAdapterPosition
-                val item = getItem(position)
-
-                if (item.pdfOnly) {
-                    callback.openPdf(item)
-                } else {
-                    val ssReadingIntent = SSReadingActivity.launchIntent(view.context, item.index)
-                    view.context.startActivity(ssReadingIntent)
-                }
-            }
-        }
-    }
-
-    override fun onBindViewHolder(holder: LessonInfoHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
-    }
-}
-
-private class LessonInfoHolder(
-    private val binding: SsLessonItemBinding
-) : RecyclerView.ViewHolder(binding.root) {
-
-    fun bind(item: SSLesson) {
-        binding.ssLessonItemIndex.text = if (item.id.isDigitsOnly()) {
-            "${item.id.toInt()}"
-        } else {
-            "•"
-        }
-        binding.ssLessonItemTitle.text = item.title
-        binding.ssLessonItemNormalDate.text = item.dateDisplay()
-    }
-
-    private fun SSLesson.dateDisplay(): String {
-        val startDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
-            .print(
-                DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                    .parseLocalDate(start_date)
-            )
-
-        val endDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT)
-            .print(
-                DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                    .parseLocalDate(end_date)
-            )
-
-        return "$startDateOut - $endDateOut".replaceFirstChar { it.uppercase() }
-    }
-
-    companion object {
-        fun create(parent: ViewGroup): LessonInfoHolder = LessonInfoHolder(
-            SsLessonItemBinding.bind(parent.inflate(R.layout.ss_lesson_item))
+@Composable
+fun LessonItem(
+    spec: LessonItemSpec,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = spec.index,
+            style = MaterialTheme.typography.titleLarge,
+            color = onSurfaceSecondary().copy(alpha = 0.5f),
+            maxLines = 1,
+            modifier = Modifier.padding(horizontal = 20.dp)
         )
+
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(vertical = 12.dp)
+                .padding(end = 20.dp)
+        ) {
+            Text(
+                text = spec.title,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = spec.date,
+                style = MaterialTheme.typography.bodySmall.copy(
+                    fontSize = 14.sp
+                ),
+                color = onSurfaceSecondary(),
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+            )
+        }
+    }
+}
+
+@Preview(
+    name = "Lesson Item"
+)
+@Preview(
+    name = "Lesson Item ~ dark",
+    uiMode = UI_MODE_NIGHT_YES
+)
+@Composable
+private fun LessonItemPreview() {
+    SsTheme {
+        Surface {
+            LessonItem(
+                spec = LessonItemSpec(
+                    index = "1",
+                    title = "Lesson Title",
+                    date = "June 25 - July 01",
+                ),
+            )
+        }
     }
 }

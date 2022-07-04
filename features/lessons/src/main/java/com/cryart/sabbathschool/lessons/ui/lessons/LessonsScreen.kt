@@ -43,6 +43,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Share
@@ -71,10 +72,13 @@ import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
+import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.scaffold.SsScaffold
+import app.ss.models.SSLesson
 import com.cryart.sabbathschool.lessons.R
+import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItem
 import com.cryart.sabbathschool.lessons.ui.lessons.components.PublishingInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.QuarterlyInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
@@ -86,6 +90,7 @@ fun LessonsScreen(
     viewModel: LessonsViewModel = viewModel(),
     onNavClick: () -> Unit,
     onShareClick: (String) -> Unit,
+    onLessonClick: (SSLesson) -> Unit,
 ) {
     val state by rememberFlowWithLifecycle(flow = viewModel.uiState)
         .collectAsState(initial = LessonsScreenState())
@@ -94,6 +99,7 @@ fun LessonsScreen(
         state = state,
         onNavClick = onNavClick,
         onShareClick = onShareClick,
+        onLessonClick = onLessonClick
     )
 }
 
@@ -107,6 +113,7 @@ fun LessonsScreen(
     ),
     onNavClick: () -> Unit = {},
     onShareClick: (String) -> Unit = {},
+    onLessonClick: (SSLesson) -> Unit = {},
 ) {
     val quarterlyInfo = when (state.quarterlyInfo) {
         QuarterlyInfoState.Error,
@@ -187,25 +194,21 @@ fun LessonsScreen(
                         )
                     }
                 }
-            }
 
-            val list = (0..50).map { it.toString() }
-            items(count = list.size) {
-                Text(
-                    text = "Hello world ${list[it]}",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { }
-                        .padding(
-                            horizontal = 16.dp,
-                            vertical = 12.dp
-                        )
-                )
-            }
+                itemsIndexed(it.lessons, key = { _: Int, spec: SSLesson -> spec.index }) { _, item ->
+                    LessonItem(
+                        spec = item.toSpec(),
+                        modifier = Modifier
+                            .animateItemPlacement()
+                            .clickable { onLessonClick(item) }
+                    )
 
-            item {
-                Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing))
+                    Divider()
+                }
+
+                item {
+                    Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing))
+                }
             }
         }
     }

@@ -44,6 +44,7 @@ import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsCallback
+import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
 import javax.inject.Inject
@@ -73,6 +74,14 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen, LessonsCallback {
                             "$quarterlyTitle\n${getShareWebUri()}",
                             getString(R.string.ss_menu_share_app)
                         )
+                    },
+                    onLessonClick = { lesson ->
+                        if (lesson.pdfOnly) {
+                            openPdf(lesson)
+                        } else {
+                            val ssReadingIntent = SSReadingActivity.launchIntent(this, lesson.index)
+                            startActivity(ssReadingIntent)
+                        }
                     }
                 )
             }
