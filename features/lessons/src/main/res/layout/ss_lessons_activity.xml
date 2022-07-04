@@ -37,10 +37,6 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <include
-        android:id="@+id/ss_lessons_toolbar"
-        layout="@layout/ss_lessons_toolbar" />
-
 
     <include
         android:id="@+id/ss_lessons_error"
