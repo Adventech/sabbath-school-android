@@ -23,14 +23,10 @@
 package app.ss.design.compose.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.R
 
@@ -147,52 +143,4 @@ val SsTypography = Typography(
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp,
     ),
-)
-
-private sealed class TextSize(
-    val fontSize: TextUnit,
-    val lineHeight: TextUnit,
-) {
-    object Size13 : TextSize(13.sp, 20.sp)
-    object Size15 : TextSize(15.sp, 22.sp)
-    object Size16 : TextSize(16.sp, 24.sp)
-    object Size24 : TextSize(24.sp, 28.sp)
-}
-
-private fun textStyle(
-    color: Color = Color.Unspecified,
-    textSize: TextSize,
-    fontWeight: FontWeight,
-    textDecoration: TextDecoration? = null,
-) = TextStyle(
-    color = color,
-    fontFamily = LatoFontFamily,
-    fontSize = textSize.fontSize,
-    lineHeight = textSize.lineHeight,
-    fontStyle = FontStyle.Normal,
-    fontWeight = fontWeight,
-    textDecoration = textDecoration,
-)
-
-val Title = textStyle(
-    textSize = TextSize.Size24,
-    fontWeight = FontWeight.Bold,
-)
-val TitleSmall = Title.copy(
-    fontSize = TextSize.Size15.fontSize
-)
-
-val BodyMedium1 = textStyle(
-    textSize = TextSize.Size13,
-    fontWeight = FontWeight.SemiBold,
-    color = BaseGrey2
-)
-
-val LabelMedium = textStyle(
-    textSize = TextSize.Size16,
-    fontWeight = FontWeight.Medium,
-)
-val LabelSmall = textStyle(
-    textSize = TextSize.Size15,
-    fontWeight = FontWeight.Normal,
 )

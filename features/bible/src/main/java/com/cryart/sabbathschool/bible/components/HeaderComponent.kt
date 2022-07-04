@@ -56,7 +56,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.ss.design.compose.theme.LabelMedium
+import androidx.compose.ui.unit.sp
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
@@ -164,7 +164,9 @@ private fun BibleVersionsMenu(
         TextButton(onClick = { expanded = true }) {
             Text(
                 selected,
-                style = LabelMedium
+                style = MaterialTheme.typography.labelMedium.copy(
+                    fontSize = 16.sp
+                ),
             )
             IconBox(
                 Icons.ArrowDropDown,
@@ -182,7 +184,9 @@ private fun BibleVersionsMenu(
                     text = {
                         Text(
                             verse.name,
-                            style = LabelMedium,
+                            style = MaterialTheme.typography.labelMedium.copy(
+                                fontSize = 16.sp
+                            ),
                             color = MaterialTheme.colorScheme.onSurface
                         )
                     },
