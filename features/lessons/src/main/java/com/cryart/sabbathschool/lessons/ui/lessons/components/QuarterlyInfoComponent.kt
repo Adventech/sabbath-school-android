@@ -20,8 +20,11 @@
  * THE SOFTWARE.
  */
 
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -64,6 +67,7 @@ import app.ss.design.compose.widget.button.SsButton
 import app.ss.design.compose.widget.button.SsButtonColors
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
+import app.ss.models.PublishingInfo
 import app.ss.models.SSLesson
 import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.lessons.R
@@ -75,16 +79,19 @@ import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
 
 internal fun LazyListScope.quarterlyInfo(
     info: SSQuarterlyInfo,
+    publishingInfo: PublishingInfo?,
     onLessonClick: (SSLesson) -> Unit = {},
     onReadMoreClick: (LessonIntroModel) -> Unit = {}
 ) {
+    val quarterly = info.quarterly
+
     item {
         val spec = info.toSpec(
             readMoreClick = {
                 onReadMoreClick(
                     LessonIntroModel(
-                        info.quarterly.title,
-                        info.quarterly.introduction ?: info.quarterly.description
+                        quarterly.title,
+                        quarterly.introduction ?: quarterly.description
                     )
                 )
             },
@@ -97,9 +104,15 @@ internal fun LazyListScope.quarterlyInfo(
                         onLessonClick(lesson)
                     }
                 },
-            )
+            ),
+            modifier = Modifier.animateItemPlacement()
         )
     }
+
+    publishingInfo(
+        publishingInfo,
+        primaryColorHex = quarterly.color_primary
+    )
 }
 
 @Composable
@@ -146,7 +159,7 @@ private fun CoverBox(
         modifier = modifier
             .background(Color.parse(color))
             .thenIf(splashImage != null) {
-                Modifier.height(480.dp)
+                Modifier.height(540.dp)
             },
     ) {
         ContentBox(

@@ -78,7 +78,6 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooterSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.footer
 import com.cryart.sabbathschool.lessons.ui.lessons.components.lessons
 import com.cryart.sabbathschool.lessons.ui.lessons.components.loading
-import com.cryart.sabbathschool.lessons.ui.lessons.components.publishingInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.quarterlyInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
@@ -185,13 +184,9 @@ fun LessonsScreen(
             quarterlyInfo?.let { ssQuarterlyInfo ->
                 quarterlyInfo(
                     info = ssQuarterlyInfo,
+                    publishingInfo = publishingInfo,
                     onReadMoreClick = onReadMoreClick,
                     onLessonClick = onLessonClick,
-                )
-
-                publishingInfo(
-                    publishingInfo,
-                    primaryColorHex = ssQuarterlyInfo.quarterly.color_primary
                 )
 
                 lessons(
