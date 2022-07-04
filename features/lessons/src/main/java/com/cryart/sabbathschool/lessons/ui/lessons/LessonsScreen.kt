@@ -61,6 +61,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -76,6 +77,7 @@ import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooterSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.footer
 import com.cryart.sabbathschool.lessons.ui.lessons.components.lessons
+import com.cryart.sabbathschool.lessons.ui.lessons.components.loading
 import com.cryart.sabbathschool.lessons.ui.lessons.components.publishingInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.quarterlyInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
@@ -207,6 +209,8 @@ fun LessonsScreen(
                 item {
                     Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing))
                 }
+            } ?: run {
+                loading()
             }
         }
     }
@@ -240,6 +244,8 @@ private fun LessonsTopBar(
                 text = title,
                 modifier = Modifier.alpha(scrollAlpha),
                 color = toolbarContentColor(alpha = scrollAlpha),
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
             )
         },
         modifier = modifier,
