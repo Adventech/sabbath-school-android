@@ -51,6 +51,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -80,6 +81,7 @@ import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
 internal fun LazyListScope.quarterlyInfo(
     info: SSQuarterlyInfo,
     publishingInfo: PublishingInfo?,
+    scrollOffset: Float,
     onLessonClick: (SSLesson) -> Unit = {},
     onReadMoreClick: (LessonIntroModel) -> Unit = {}
 ) {
@@ -105,6 +107,7 @@ internal fun LazyListScope.quarterlyInfo(
                     }
                 },
             ),
+            scrollOffset = scrollOffset,
             modifier = Modifier.animateItemPlacement()
         )
     }
@@ -119,6 +122,7 @@ internal fun LazyListScope.quarterlyInfo(
 private fun QuarterlyInfo(
     spec: QuarterlyInfoSpec,
     modifier: Modifier = Modifier,
+    scrollOffset: Float = 0f,
 ) {
 
     val content: @Composable ColumnScope.() -> Unit = {
@@ -129,6 +133,7 @@ private fun QuarterlyInfo(
         color = spec.color,
         splashImage = spec.splashImage,
         contentDescription = spec.title,
+        scrollOffset = scrollOffset,
         modifier = modifier
     ) {
         if (spec.splashImage.isNullOrEmpty()) {
@@ -153,6 +158,7 @@ private fun CoverBox(
     splashImage: String?,
     contentDescription: String,
     modifier: Modifier = Modifier,
+    scrollOffset: Float = 0f,
     content: @Composable BoxScope.() -> Unit,
 ) {
     Box(
@@ -168,6 +174,9 @@ private fun CoverBox(
                 contentDescription = contentDescription,
             ),
             modifier = Modifier
+                .graphicsLayer {
+                    translationY = scrollOffset * 0.5f
+                }
         )
 
         content()

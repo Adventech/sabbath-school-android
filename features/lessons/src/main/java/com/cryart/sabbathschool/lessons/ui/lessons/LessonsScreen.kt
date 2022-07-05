@@ -40,6 +40,8 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Share
@@ -116,6 +118,7 @@ fun LessonsScreen(
     onShareClick: (String) -> Unit = {},
     onLessonClick: (SSLesson) -> Unit = {},
     onReadMoreClick: (LessonIntroModel) -> Unit = {},
+    listState: LazyListState = rememberLazyListState(),
 ) {
     val quarterlyInfo = when (state.quarterlyInfo) {
         QuarterlyInfoState.Error,
@@ -178,13 +181,15 @@ fun LessonsScreen(
             ),
             modifier = Modifier.windowInsetsPadding(
                 WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
-            )
+            ),
+            state = listState,
         ) {
 
             quarterlyInfo?.let { ssQuarterlyInfo ->
                 quarterlyInfo(
                     info = ssQuarterlyInfo,
                     publishingInfo = publishingInfo,
+                    scrollOffset = listState.firstVisibleItemScrollOffset.toFloat(),
                     onReadMoreClick = onReadMoreClick,
                     onLessonClick = onLessonClick,
                 )

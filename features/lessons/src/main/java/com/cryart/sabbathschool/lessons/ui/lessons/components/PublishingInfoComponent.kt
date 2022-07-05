@@ -65,11 +65,14 @@ internal fun LazyListScope.publishingInfo(
 ) {
     publishingInfo?.let {
         item {
-            PublishingInfo(
-                spec = it.toSpec(),
-                primaryColorHex = primaryColorHex,
-                modifier = Modifier.animateItemPlacement()
-            )
+            Surface {
+                PublishingInfo(
+                    spec = it.toSpec(),
+                    primaryColorHex = primaryColorHex,
+                    modifier = Modifier
+                        .animateItemPlacement()
+                )
+            }
         }
     }
 }

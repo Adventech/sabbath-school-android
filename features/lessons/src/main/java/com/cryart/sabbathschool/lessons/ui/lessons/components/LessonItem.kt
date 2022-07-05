@@ -94,14 +94,16 @@ internal fun LazyListScope.lessons(
         lessons,
         key = { _: Int, spec: SSLesson -> spec.index }
     ) { _, item ->
-        LessonItem(
-            spec = item.toSpec(),
-            modifier = Modifier
-                .animateItemPlacement()
-                .clickable { onClick(item) }
-        )
+        Surface {
+            LessonItem(
+                spec = item.toSpec(),
+                modifier = Modifier
+                    .animateItemPlacement()
+                    .clickable { onClick(item) }
+            )
 
-        Divider()
+            Divider()
+        }
     }
 }
 
