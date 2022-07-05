@@ -24,8 +24,11 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -57,9 +60,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -107,7 +112,7 @@ fun LessonsScreen(
 }
 
 @Composable
-fun LessonsScreen(
+internal fun LessonsScreen(
     state: LessonsScreenState,
     scrollState: TopAppBarScrollState = rememberTopAppBarScrollState(),
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
@@ -119,6 +124,7 @@ fun LessonsScreen(
     onLessonClick: (SSLesson) -> Unit = {},
     onReadMoreClick: (LessonIntroModel) -> Unit = {},
     listState: LazyListState = rememberLazyListState(),
+    scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState),
 ) {
     val quarterlyInfo = when (state.quarterlyInfo) {
         QuarterlyInfoState.Error,
@@ -134,13 +140,8 @@ fun LessonsScreen(
 
     val quarterlyTitle = quarterlyInfo?.quarterly?.title ?: ""
 
-    val scrollAlpha = scrollBehavior.scrollAlpha()
-    val alpha by animateFloatAsState(
-        targetValue = if (scrollAlpha > MIN_SOLID_ALPHA) 1f else scrollAlpha
-    )
-    val elevation by animateDpAsState(
-        targetValue = if (scrollAlpha > MIN_SOLID_ALPHA) 4.dp else 0.dp
-    )
+    val alpha = if (scrollAlpha.alpha > MIN_SOLID_ALPHA) 1f else scrollAlpha.alpha
+    val elevation = if (scrollAlpha.alpha > MIN_SOLID_ALPHA) 4.dp else 0.dp
 
     SsScaffold(
         modifier = Modifier,
@@ -209,6 +210,7 @@ fun LessonsScreen(
                 item {
                     Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing))
                 }
+
             } ?: run {
                 loading()
             }
@@ -240,13 +242,25 @@ private fun LessonsTopBar(
             ).takeIf { title.isNotEmpty() } ?: emptyList(),
         ),
         title = {
-            Text(
-                text = title,
-                modifier = Modifier.alpha(scrollAlpha),
-                color = toolbarContentColor(alpha = scrollAlpha),
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1
-            )
+            val density = LocalDensity.current
+            AnimatedVisibility(
+                visible = scrollAlpha == 1f,
+                enter = slideInVertically {
+                    with(density) { -40.dp.roundToPx() }
+                } + expandVertically(
+                    expandFrom = Alignment.Top
+                ) + fadeIn(
+                    initialAlpha = 0.3f
+                ),
+                exit = fadeOut()
+            ) {
+                Text(
+                    text = title,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1
+                )
+            }
         },
         modifier = modifier,
         navigationIcon = {
@@ -280,21 +294,37 @@ private fun LessonsTopBar(
 
 @Stable
 @Composable
-private fun toolbarContentColor(alpha: Float): Color {
-    return if (alpha > MIN_SOLID_ALPHA) MaterialTheme.colorScheme.onSurface.copy(alpha = alpha)
-    else Color.White.copy(alpha = 1f - alpha)
-}
-
-@Stable
-@Composable
 private fun toolbarIconColor(alpha: Float): Color {
     return if (alpha > MIN_SOLID_ALPHA) MaterialTheme.colorScheme.onSurface
     else Color.White
 }
 
-private fun TopAppBarScrollBehavior.scrollAlpha(): Float {
-    return 1f - (state.offsetLimit / (state.contentOffset.coerceAtMost(-0.9f))).coerceAtLeast(0f)
-        .coerceIn(0f, 1f)
+private const val MIN_SOLID_ALPHA = 0.8f
+
+internal data class ScrollAlpha(
+    val alpha: Float,
+)
+
+@Composable
+internal fun rememberScrollAlpha(
+    listState: LazyListState
+): ScrollAlpha {
+    val scrollAlpha by remember {
+        derivedStateOf {
+            ScrollAlpha(alpha = listState.scrollAlpha())
+        }
+    }
+    return scrollAlpha
 }
 
-private const val MIN_SOLID_ALPHA = 0.8f
+private fun LazyListState.scrollAlpha(): Float {
+    return when (firstVisibleItemIndex) {
+        0 -> {
+            val size = layoutInfo.visibleItemsInfo.firstOrNull()?.size ?: run {
+                return 0f
+            }
+            (firstVisibleItemScrollOffset.toFloat() / size.toFloat()).coerceIn(0f, 1f)
+        }
+        else -> 1f
+    }
+}

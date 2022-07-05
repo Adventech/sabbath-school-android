@@ -194,7 +194,7 @@ private fun ContentPrimary(
     val gradient = Brush.verticalGradient(
         colors = listOf(
             Color.Transparent,
-            Color.Black.copy(0.4f),
+            Color.Black.copy(0.1f),
             primaryColor,
             primaryDarkColor,
         ),
