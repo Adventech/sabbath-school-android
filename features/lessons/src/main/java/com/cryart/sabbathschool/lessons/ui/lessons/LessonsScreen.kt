@@ -210,7 +210,6 @@ internal fun LessonsScreen(
                 item {
                     Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing))
                 }
-
             } ?: run {
                 loading()
             }
