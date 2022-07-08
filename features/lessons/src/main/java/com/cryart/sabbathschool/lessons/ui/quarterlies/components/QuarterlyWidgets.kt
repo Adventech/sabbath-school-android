@@ -59,16 +59,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
+import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.Spacing16
 import app.ss.design.compose.theme.Spacing8
+import app.ss.design.compose.theme.SsColor
 import app.ss.design.compose.theme.iconTint
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
-import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.OffWhite
-import com.cryart.design.widgets.list.SnappingLazyRow
+import app.ss.design.compose.widget.list.SnappingLazyRow
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterlySpec
@@ -368,7 +368,7 @@ private fun Modifier.groupBackground(
             Brush.verticalGradient(
                 colors = listOf(
                     Color.White,
-                    OffWhite.copy(alpha = 0.2f)
+                    SsColor.OffWhite.copy(alpha = 0.2f)
                 )
             )
         )

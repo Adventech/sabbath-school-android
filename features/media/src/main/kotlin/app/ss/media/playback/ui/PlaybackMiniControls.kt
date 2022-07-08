@@ -48,8 +48,11 @@ import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.isS
 import app.ss.design.compose.extensions.modifier.thenIf
+import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.Spacing12
 import app.ss.design.compose.theme.Spacing8
+import app.ss.design.compose.theme.SsColor
+import app.ss.design.compose.theme.lighter
 import app.ss.design.compose.theme.onSurfaceSecondary
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
@@ -68,10 +71,6 @@ import app.ss.media.playback.ui.common.LocalPlaybackConnection
 import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.media.playback.ui.spec.toSpec
-import com.cryart.design.theme.BaseGrey1
-import com.cryart.design.theme.BaseGrey2
-import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.lighter
 import androidx.compose.material.icons.Icons as MaterialIcons
 
 private object PlaybackMiniControlsDefaults {
@@ -190,7 +189,7 @@ private fun playbackMiniBackgroundColor(
     if (isDark) {
         Color.Black.lighter()
     } else {
-        BaseGrey1
+        SsColor.BaseGrey1
     }
 
 @Composable
@@ -258,7 +257,7 @@ private fun RowScope.NowPlayingColumn(
             IconBox(
                 icon = Icons.Cancel,
                 modifier = Modifier.size(PlaybackMiniControlsDefaults.cancelSize),
-                contentColor = BaseGrey2
+                contentColor = SsColor.BaseGrey2
             )
         }
 

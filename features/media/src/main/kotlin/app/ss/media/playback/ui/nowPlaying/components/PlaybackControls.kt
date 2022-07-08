@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
@@ -45,7 +46,6 @@ import app.ss.media.R
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.playPause
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
-import com.cryart.design.theme.Dimens
 
 internal object PlayBackControlsDefaults {
     val nonPlayButtonSize = 38.dp

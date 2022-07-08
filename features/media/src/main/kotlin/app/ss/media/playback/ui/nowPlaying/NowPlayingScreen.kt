@@ -83,6 +83,7 @@ import app.ss.design.compose.theme.Spacing16
 import app.ss.design.compose.theme.Spacing32
 import app.ss.design.compose.theme.Spacing8
 import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.widget.DragHandle
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
@@ -105,7 +106,6 @@ import app.ss.media.playback.ui.spec.PlaybackQueueSpec
 import app.ss.media.playback.ui.spec.toImageSpec
 import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.AudioFile
-import com.cryart.design.widgets.DragHandle
 
 @Immutable
 data class NowPlayingScreenSpec(

@@ -35,11 +35,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.modifier.asPlaceholder
+import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.media.playback.ui.spec.CoverImageSpec
 import coil.size.Scale
-import com.cryart.design.theme.Dimens
 
 private interface Sizes {
     val width: Dp

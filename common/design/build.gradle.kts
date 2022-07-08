@@ -22,8 +22,6 @@
 
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Compose
-import dependencies.Versions
 
 plugins {
     id(BuildPlugins.Android.LIBRARY)
@@ -36,20 +34,7 @@ android {
     defaultConfig {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
-    sourceSets {
-        getByName("main") {
-            java {
-                srcDirs("src/main/kotlin")
-            }
-        }
-    }
 
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
-    }
     kotlinOptions {
         jvmTarget = JavaOptions.version.toString()
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.OPT_IN
@@ -63,10 +48,4 @@ android {
 dependencies {
     implementation(Dependencies.MATERIAL)
     implementation(AndroidX.CORE)
-
-    implementation(Compose.ui)
-    implementation(Compose.uiUtil)
-    implementation(Compose.material)
-    implementation(Compose.tooling)
-    implementation(Compose.snapper)
 }

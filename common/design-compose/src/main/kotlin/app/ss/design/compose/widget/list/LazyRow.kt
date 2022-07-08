@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.design.widgets.list
+package app.ss.design.compose.widget.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

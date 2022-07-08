@@ -68,13 +68,16 @@ import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
+import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.Spacing16
 import app.ss.design.compose.theme.Spacing24
 import app.ss.design.compose.theme.Spacing32
 import app.ss.design.compose.theme.Spacing4
 import app.ss.design.compose.theme.Spacing8
+import app.ss.design.compose.theme.SsColor
 import app.ss.design.compose.theme.navTitle
 import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.widget.DragHandle
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.media.R
@@ -82,10 +85,7 @@ import app.ss.media.playback.ui.spec.VideoSpec
 import app.ss.media.playback.ui.spec.VideosInfoSpec
 import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.SSVideo
-import com.cryart.design.theme.BaseGrey2
-import com.cryart.design.theme.Dimens
-import com.cryart.design.widgets.DragHandle
-import com.cryart.design.widgets.list.SnappingLazyRow
+import app.ss.design.compose.widget.list.SnappingLazyRow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
@@ -216,7 +216,7 @@ private fun VideosInfoList(
             style = MaterialTheme.typography.titleLarge.copy(
                 fontSize = 13.sp,
             ),
-            color = if (isSystemInDarkTheme()) BaseGrey2 else MaterialTheme.colorScheme.primary,
+            color = if (isSystemInDarkTheme()) SsColor.BaseGrey2 else MaterialTheme.colorScheme.primary,
             modifier = Modifier
                 .padding(horizontal = Spacing24)
                 .padding(top = Spacing16)

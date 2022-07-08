@@ -64,6 +64,9 @@ dependencies {
     implementation(Coil.compose)
     implementation(Kotlin.COROUTINES)
 
+    implementation(Compose.material)
+    implementation(Compose.snapper)
+
     api(Compose.foundation)
     api(Compose.foundationLayout)
     api(Compose.ui)

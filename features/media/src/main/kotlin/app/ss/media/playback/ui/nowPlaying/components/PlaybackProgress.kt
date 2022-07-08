@@ -32,8 +32,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -50,15 +50,13 @@ import app.ss.design.compose.extensions.isS
 import app.ss.design.compose.theme.Spacing16
 import app.ss.design.compose.theme.Spacing4
 import app.ss.design.compose.theme.Spacing8
+import app.ss.design.compose.theme.SsColor
+import app.ss.design.compose.theme.darker
 import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.widget.material.Slider
+import app.ss.design.compose.widget.material.SliderDefaults
 import app.ss.media.playback.extensions.millisToDuration
 import app.ss.media.playback.model.PlaybackProgressState
-import com.cryart.design.theme.BaseGrey1
-import com.cryart.design.theme.BaseGrey3
-import com.cryart.design.theme.OffWhite
-import com.cryart.design.theme.darker
-import com.cryart.design.widgets.material.Slider
-import com.cryart.design.widgets.material.SliderDefaults
 import kotlin.math.roundToLong
 
 private object ProgressColors {
@@ -66,9 +64,9 @@ private object ProgressColors {
     fun thumbColor(forceDark: Boolean): Color {
         return when {
             isS() -> MaterialTheme.colorScheme.onSurfaceVariant
-            isSystemInDarkTheme() -> BaseGrey1
-            forceDark -> BaseGrey1
-            else -> OffWhite.darker()
+            isSystemInDarkTheme() -> SsColor.BaseGrey1
+            forceDark -> SsColor.BaseGrey1
+            else -> SsColor.OffWhite.darker()
         }
     }
 
@@ -79,9 +77,9 @@ private object ProgressColors {
     fun inactiveTrackColor(forceDark: Boolean): Color {
         return when {
             isS() -> MaterialTheme.colorScheme.inverseOnSurface
-            isSystemInDarkTheme() -> BaseGrey3
-            forceDark -> BaseGrey3
-            else -> BaseGrey1
+            isSystemInDarkTheme() -> SsColor.BaseGrey3
+            forceDark -> SsColor.BaseGrey3
+            else -> SsColor.BaseGrey1
         }
     }
 }

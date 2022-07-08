@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,40 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.design.theme
+package app.ss.design.compose.widget
 
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Shapes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.theme.SsColor
 
-val Shapes = Shapes(
-    small = RoundedCornerShape(4.dp),
-    medium = RoundedCornerShape(8.dp),
-    large = RoundedCornerShape(12.dp)
-)
+private object DragHandleDefaults {
+    val width = 48.dp
+    val height = 4.dp
+}
+
+@Composable
+fun DragHandle(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .size(
+                width = DragHandleDefaults.width,
+                height = DragHandleDefaults.height
+            )
+            .background(backgroundColor(), CircleShape)
+    )
+}
+
+@Composable
+private fun backgroundColor(): Color =
+    if (isSystemInDarkTheme()) {
+        SsColor.BaseGrey2
+    } else {
+        SsColor.BaseGrey1
+    }

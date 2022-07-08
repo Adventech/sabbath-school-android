@@ -39,13 +39,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.theme.Dimens
+import app.ss.design.compose.theme.LatoFontFamily
 import app.ss.design.compose.theme.Spacing24
 import app.ss.design.compose.theme.Spacing8
 import app.ss.design.compose.theme.onSurfaceSecondary
 import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.models.media.AudioFile
-import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.LatoFontFamily
 
 internal enum class BoxState { Collapsed, Expanded }
 
