@@ -64,8 +64,8 @@ object Dependencies {
 
     object Compose {
         private const val constraintLayoutVersion = "1.0.1"
-        private const val material3Version = "1.0.0-alpha13"
-        private const val snapperVersion = "0.2.1"
+        private const val material3Version = "1.0.0-alpha14"
+        private const val snapperVersion = "0.2.2"
 
         const val foundation = "androidx.compose.foundation:foundation:${Versions.COMPOSE}"
         const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Versions.COMPOSE}"
@@ -87,8 +87,8 @@ object Dependencies {
         object Preview {
             const val customView = "androidx.customview:customview:1.2.0-alpha01"
             const val customViewContainer = "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-beta01"
-            const val savedState = "androidx.savedstate:savedstate-ktx:1.1.0"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0"
+            const val savedState = "androidx.savedstate:savedstate-ktx:1.2.0"
         }
     }
 

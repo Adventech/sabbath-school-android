@@ -27,7 +27,6 @@ import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Compose
 import dependencies.Dependencies.Kotlin
 import dependencies.Versions
-import dependencies.TestAndroidDependencies
 
 plugins {
     id(BuildPlugins.Android.LIBRARY)
@@ -80,6 +79,4 @@ dependencies {
     debugApi(Compose.Preview.customViewContainer)
     debugApi(Compose.Preview.viewModel)
     debugApi(Compose.Preview.savedState)
-
-    testImplementation(TestAndroidDependencies.Compose.junit)
 }
