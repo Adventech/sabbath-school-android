@@ -107,7 +107,8 @@ fun LessonsScreen(
         onNavClick = onNavClick,
         onShareClick = onShareClick,
         onLessonClick = onLessonClick,
-        onReadMoreClick = onReadMoreClick
+        onReadMoreClick = onReadMoreClick,
+        systemUiController = rememberSystemUiController()
     )
 }
 
@@ -123,6 +124,7 @@ internal fun LessonsScreen(
     onShareClick: (String) -> Unit = {},
     onLessonClick: (SSLesson) -> Unit = {},
     onReadMoreClick: (LessonIntroModel) -> Unit = {},
+    systemUiController: SystemUiController? = null,
     listState: LazyListState = rememberLazyListState(),
     scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState),
 ) {
@@ -163,6 +165,7 @@ internal fun LessonsScreen(
                     ),
                     scrollAlpha = alpha,
                     scrollBehavior = scrollBehavior,
+                    systemUiController = systemUiController,
                     onNavClick = onNavClick,
                     onShareClick = {
                         onShareClick(quarterlyTitle)
@@ -223,7 +226,7 @@ private fun LessonsTopBar(
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier,
     scrollAlpha: Float = 0.0f,
-    systemUiController: SystemUiController = rememberSystemUiController(),
+    systemUiController: SystemUiController? = null,
     onNavClick: () -> Unit = {},
     onShareClick: () -> Unit = {},
 ) {
@@ -284,7 +287,7 @@ private fun LessonsTopBar(
     }
 
     SideEffect {
-        systemUiController.setSystemBarsColor(
+        systemUiController?.setSystemBarsColor(
             color = Color.Transparent,
             darkIcons = useDarkIcons
         )

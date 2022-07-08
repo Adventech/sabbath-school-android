@@ -35,6 +35,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
@@ -196,6 +197,13 @@ private fun CoverBox(
     scrollOffset: Float = 0f,
     content: @Composable BoxScope.() -> Unit,
 ) {
+    val placeholder: @Composable () -> Unit = {
+        Spacer(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.parse(color))
+        )
+    }
     Box(
         modifier = modifier
             .background(Color.parse(color))
@@ -207,6 +215,8 @@ private fun CoverBox(
             content = RemoteImage(
                 data = splashImage,
                 contentDescription = contentDescription,
+                loading = placeholder,
+                error = placeholder
             ),
             modifier = Modifier
                 .graphicsLayer {
