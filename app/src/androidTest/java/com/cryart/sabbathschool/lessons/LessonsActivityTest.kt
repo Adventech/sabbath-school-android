@@ -22,18 +22,10 @@
 
 package com.cryart.sabbathschool.lessons
 
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.cryart.sabbathschool.actions.clickChildViewWithId
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
-import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
@@ -54,30 +46,15 @@ class LessonsActivityTest {
     @Before
     fun setup() {
         hiltRule.inject()
-
-        Intents.init()
     }
 
     @After
     fun cleanUp() {
-        Intents.release()
         scenario?.close()
     }
 
     @Test
     fun launchScreen() = launch {}
-
-    @Test
-    fun launch_Read_screen_from_Lessons_list_item_click() = launch {
-        onView(withId(R.id.ss_lesson_info_list)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                0,
-                clickChildViewWithId(R.id.ss_lesson_item)
-            )
-        )
-
-        Intents.intended(IntentMatchers.hasComponent(SSReadingActivity::class.java.name))
-    }
 
     private fun launch(
         index: String = "en-2021-03",
