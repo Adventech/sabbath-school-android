@@ -36,24 +36,24 @@ import app.ss.design.compose.extensions.isS
 
 private val DarkColorScheme = darkColorScheme(
     primary = Color.White,
-    secondary = BaseBlue,
+    secondary = SsColor.BaseBlue,
     background = Color.Black,
     surface = Color.Black,
-    onBackground = BaseGrey1,
-    onSurface = BaseGrey1,
-    error = BaseRed,
+    onBackground = SsColor.BaseGrey1,
+    onSurface = SsColor.BaseGrey1,
+    error = SsColor.BaseRed,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = BaseBlue,
-    secondary = BaseBlue,
+    primary = SsColor.BaseBlue,
+    secondary = SsColor.BaseBlue,
     background = Color.White,
     surface = Color.White,
     onPrimary = Color.White,
     onSecondary = Color.White,
-    onBackground = BaseGrey3,
-    onSurface = BaseGrey3,
-    error = BaseRed,
+    onBackground = SsColor.BaseGrey3,
+    onSurface = SsColor.BaseGrey3,
+    error = SsColor.BaseRed,
 )
 
 @Composable

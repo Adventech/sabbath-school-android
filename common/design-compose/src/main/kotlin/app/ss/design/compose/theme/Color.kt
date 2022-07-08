@@ -31,14 +31,6 @@ import app.ss.design.compose.extensions.isS
 import kotlin.math.max
 import kotlin.math.min
 
-val BaseBlue = Color(0xFF2E5797)
-val BaseGrey1 = Color(0xFFEFEFEF)
-val BaseGrey2 = Color(0xFF8F8E94)
-val BaseGrey3 = Color(0xFF606060)
-val BaseGrey4 = Color(0xFF383838)
-val BaseGrey5 = Color(0xFF1A1A1A)
-val BaseRed = Color(0xFFF1706B)
-
 object SsColor {
     val BaseBlue = Color(0xFF2E5797)
     val BaseGrey1 = Color(0xFFEFEFEF)
@@ -82,7 +74,7 @@ fun iconTint(
 ): Color {
     return when {
         isDark -> MaterialTheme.colorScheme.primary
-        else -> BaseGrey2.lighter(0.2f)
+        else -> SsColor.BaseGrey2.lighter(0.2f)
     }
 }
 
