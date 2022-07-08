@@ -44,6 +44,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.isS
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.Spacing12
@@ -70,7 +71,6 @@ import app.ss.media.playback.ui.spec.toSpec
 import com.cryart.design.theme.BaseGrey1
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.theme.lighter
 import androidx.compose.material.icons.Icons as MaterialIcons
 

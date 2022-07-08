@@ -24,6 +24,11 @@ package app.ss.design.compose.extensions
 
 import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
 
 @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
 fun isS() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+
+@Composable
+fun isLargeScreen(): Boolean = LocalConfiguration.current.screenWidthDp >= 600
