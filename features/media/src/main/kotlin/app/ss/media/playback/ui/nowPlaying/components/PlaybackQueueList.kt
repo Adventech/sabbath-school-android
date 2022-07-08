@@ -22,6 +22,7 @@
 
 package app.ss.media.playback.ui.nowPlaying.components
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.core.InfiniteTransition
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -29,7 +30,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,15 +41,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.Divider
-import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -60,16 +58,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing4
+import app.ss.design.compose.theme.Spacing6
+import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.theme.dividerColor
+import app.ss.design.compose.theme.onSurfaceSecondary
 import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.media.playback.ui.spec.PlaybackQueueSpec
 import app.ss.media.playback.ui.spec.toSpec
-import com.cryart.design.theme.BaseBlue
-import com.cryart.design.theme.Body
-import com.cryart.design.theme.SSTheme
-import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.Spacing4
-import com.cryart.design.theme.Spacing6
-import com.cryart.design.theme.TitleSmall
 import kotlinx.coroutines.launch
 
 private const val scrollToItemKey = "playbackQueue"
@@ -100,6 +97,7 @@ internal fun PlaybackQueueList(
                 }
             )
             Divider(
+                color = dividerColor(),
                 thickness = 0.5.dp
             )
         }
@@ -130,11 +128,7 @@ private fun AudioRow(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = Spacing4)
-            .clickable {
-                if (isSelected.not()) {
-                    onClick()
-                }
-            }
+            .selectable(selected = isSelected, onClick = onClick)
     ) {
 
         Column(
@@ -145,24 +139,25 @@ private fun AudioRow(
             Spacer(modifier = Modifier.height(Spacing6))
             Text(
                 text = spec.title,
-                style = TitleSmall.copy(
-                    color = MaterialTheme.colors.onSurface,
+                style = MaterialTheme.typography.titleSmall.copy(
                     fontWeight = if (isSelected) FontWeight.Black else FontWeight.Medium,
                     fontSize = 16.sp
                 ),
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
-            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                Text(
-                    text = spec.artist,
-                    style = Body.copy(
-                        fontSize = 14.sp
-                    ),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
+
+            Text(
+                text = spec.artist,
+                style = MaterialTheme.typography.bodySmall.copy(
+                    fontSize = 14.sp
+                ),
+                color = onSurfaceSecondary(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+
             Spacer(modifier = Modifier.height(Spacing6))
         }
 
@@ -175,9 +170,13 @@ private fun AudioRow(
 @Preview(
     name = "Queue"
 )
+@Preview(
+    name = "Queue ~ Dark",
+    uiMode = UI_MODE_NIGHT_YES
+)
 @Composable
 private fun AudioRowPreview() {
-    SSTheme {
+    SsTheme {
         Surface {
             AudioRow(
                 spec = sampleAudio.toSpec(),
@@ -190,9 +189,13 @@ private fun AudioRowPreview() {
 @Preview(
     name = "Queue ~ Playing"
 )
+@Preview(
+    name = "Queue ~ Playing ~ Dark",
+    uiMode = UI_MODE_NIGHT_YES
+)
 @Composable
 private fun AudioRowPreviewPlaying() {
-    SSTheme {
+    SsTheme {
         Surface {
             AudioRow(
                 spec = sampleAudio.toSpec(),
@@ -246,7 +249,7 @@ fun InfiniteTransition.PulsingLine(
                 height = (8 * scale).dp
             )
             .background(
-                BaseBlue,
+                MaterialTheme.colorScheme.primary,
                 shape = RoundedCornerShape(50)
             )
     )

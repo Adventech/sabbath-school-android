@@ -22,37 +22,21 @@
 
 package com.cryart.sabbathschool.lessons.ui.readings.components
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.contentColorFor
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
+import app.ss.design.compose.theme.SsTheme
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.ui.PlaybackMiniControls
-import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
-import com.cryart.design.theme.SSTheme
-import com.cryart.design.theme.parse
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
-import com.cryart.sabbathschool.core.model.themeColor
-import kotlinx.coroutines.flow.Flow
 
 class MiniPlayerComponent(
     composeView: ComposeView,
     private val playbackConnection: PlaybackConnection,
-    private val displayOptionsFlow: Flow<SSReadingDisplayOptions>,
     private val onExpand: () -> Unit
 ) {
     init {
         composeView.setContent {
-            SSTheme {
-                val options by rememberFlowWithLifecycle(displayOptionsFlow)
-                    .collectAsState(initial = SSReadingDisplayOptions(isSystemInDarkTheme()))
-
+            SsTheme {
                 PlaybackMiniControls(
                     playbackConnection = playbackConnection,
-                    readerContentColor = contentColorFor(backgroundColor = Color.parse(options.themeColor(LocalContext.current))),
                     onExpand = onExpand
                 )
             }

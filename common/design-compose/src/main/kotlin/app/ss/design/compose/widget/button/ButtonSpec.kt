@@ -22,11 +22,13 @@
 
 package app.ss.design.compose.widget.button
 
+import androidx.compose.material3.ButtonColors
 import androidx.compose.runtime.Immutable
 
 @Immutable
 data class ButtonSpec(
     val text: String,
     val onClick: () -> Unit,
-    val enabled: Boolean = true
+    val enabled: Boolean = true,
+    val colors: ButtonColors? = null,
 )

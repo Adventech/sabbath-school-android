@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
-import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -35,10 +34,9 @@ import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesAppbarData
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroup
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.placeHolderQuarterlies
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroup
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.placeHolderQuarterlies
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -61,33 +59,32 @@ class QuarterliesViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val quarterlyGroup: QuarterlyGroup?
-        get() = savedStateHandle.get(SSConstants.SS_QUARTERLY_GROUP)
+        get() = savedStateHandle[SSConstants.SS_QUARTERLY_GROUP]
 
-    private val _photoUrl = MutableStateFlow<QuarterliesAppbarData>(QuarterliesAppbarData.Empty)
-    val photoUrlFlow: StateFlow<QuarterliesAppbarData> = _photoUrl.asStateFlow()
+    private val _photoUrl = MutableStateFlow<String?>(null)
+    val photoUrlFlow: StateFlow<String?> = _photoUrl.asStateFlow()
 
-    private val _groupTitle = MutableStateFlow(QuarterliesAppbarData.Title(quarterlyGroup?.name))
-    val groupTitleFlow: StateFlow<QuarterliesAppbarData> = _groupTitle.asStateFlow()
+    val groupTitle get() = quarterlyGroup?.name
 
     private val _appReBranding = MutableSharedFlow<Boolean>()
     val appReBrandingFlow: SharedFlow<Boolean> get() = _appReBranding.asSharedFlow()
 
-    val quarterliesFlow: StateFlow<Resource<GroupedQuarterlies>> = ssPrefs.getLanguageCodeFlow()
+    val quarterliesFlow: StateFlow<GroupedQuarterlies> = ssPrefs.getLanguageCodeFlow()
         .flatMapLatest { language -> repository.getQuarterlies(language, quarterlyGroup) }
         .map(this::groupQuarterlies)
-        .stateIn(viewModelScope, Resource.success(GroupedQuarterlies.TypeList(placeHolderQuarterlies())))
+        .stateIn(viewModelScope, GroupedQuarterlies.TypeList(placeHolderQuarterlies()))
 
     init {
         viewModelScope.launch(dispatcherProvider.io) {
-            val photoUrl = authRepository.getUser().data?.photo?.toUri()
-            _photoUrl.emit(QuarterliesAppbarData.Photo(photoUrl))
+            val photoUrl = authRepository.getUser().data?.photo
+            _photoUrl.emit(photoUrl)
         }
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun groupQuarterlies(resource: Resource<List<SSQuarterly>>): Resource<GroupedQuarterlies> {
+    private fun groupQuarterlies(resource: Resource<List<SSQuarterly>>): GroupedQuarterlies {
         val data = resource.data ?: run {
-            return resource.error?.let { error -> Resource.error(error) } ?: Resource.loading()
+            return GroupedQuarterlies.Empty
         }
         val grouped = data
             .groupBy { it.quarterly_group }
@@ -113,7 +110,7 @@ class QuarterliesViewModel @Inject constructor(
 
         handleBrandingPrompt()
 
-        return Resource.success(groupType)
+        return groupType
     }
 
     fun languageSelected(languageCode: String) {

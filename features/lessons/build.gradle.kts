@@ -38,6 +38,7 @@ plugins {
     id(BuildPlugins.Kotlin.KAPT)
     id(BuildPlugins.DAGGER_HILT)
     id(BuildPlugins.Kotlin.PARCELIZE)
+    id(BuildPlugins.PAPARAZZI)
 }
 
 android {
@@ -76,6 +77,7 @@ dependencies {
     implementation(project(BuildModules.Common.AUTH))
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.DESIGN_COMPOSE))
     implementation(project(BuildModules.Common.TRANSLATIONS))
     implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Features.APP_WIDGETS))
@@ -92,7 +94,9 @@ dependencies {
     implementation(AndroidX.APPCOMPAT)
     implementation(AndroidX.CONSTRAINT_LAYOUT)
     implementation(AndroidX.ACTIVITY)
+    implementation(AndroidX.ACTIVITY_COMPOSE)
     implementation(AndroidX.FRAGMENT_KTX)
+    implementation(AndroidX.LIFECYCLE_COMPOSE)
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
     implementation(AndroidX.LIFECYCLE_EXTENSIONS)
     implementation(AndroidX.RECYCLER_VIEW)
@@ -103,7 +107,6 @@ dependencies {
     implementation(Dependencies.JODA)
     implementation(Dependencies.TIMBER)
     implementation(Coil.core)
-    implementation(Coil.compose)
     implementation(Dependencies.TAP_TARGET)
     implementation(Iconics.CORE)
     implementation(Iconics.VIEWS)
@@ -115,11 +118,9 @@ dependencies {
     implementation(Dependencies.Facebook.SHIMMER)
     implementation(Dependencies.MarkWorm.core)
 
-    implementation(Compose.ui)
+    implementation(Compose.constraintLayout)
     implementation(Compose.material)
-    implementation(Compose.tooling)
-
-    implementation(Accompanist.placeholder)
+    implementation(Accompanist.systemUiController)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))

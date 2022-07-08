@@ -26,6 +26,7 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,6 +47,7 @@ fun SsButton(
             minWidth = ButtonMinWidth
         ),
         shape = RoundedCornerShape(ButtonCornerRadius),
+        colors = spec.colors ?: ButtonDefaults.buttonColors(),
         enabled = spec.enabled
     ) {
         Text(

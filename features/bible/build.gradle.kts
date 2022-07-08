@@ -22,10 +22,9 @@
 
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Compose
-import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.Iconics
+import dependencies.Dependencies.Kotlin
 import dependencies.Versions
 import extensions.addTestsDependencies
 import extensions.kapt
@@ -35,6 +34,7 @@ plugins {
     id(BuildPlugins.Kotlin.ANDROID)
     id(BuildPlugins.Kotlin.KAPT)
     id(BuildPlugins.DAGGER_HILT)
+    id(BuildPlugins.PAPARAZZI)
 }
 
 android {
@@ -66,6 +66,7 @@ dependencies {
 
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.DESIGN_COMPOSE))
     implementation(project(BuildModules.Common.TRANSLATIONS))
     implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Features.READER))
@@ -85,10 +86,6 @@ dependencies {
 
     implementation(Dependencies.TIMBER)
     implementation(Iconics.VIEWS)
-
-    implementation(Compose.ui)
-    implementation(Compose.material)
-    implementation(Compose.tooling)
 
     addTestsDependencies()
 }

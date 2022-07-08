@@ -32,28 +32,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
+import app.ss.design.compose.theme.Spacing32
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.IconButton
+import app.ss.design.compose.widget.icon.IconSlot
+import app.ss.design.compose.widget.icon.Icons
 import app.ss.media.R
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.players.SSVideoPlayer
 import app.ss.media.playback.players.VideoPlaybackState
 import app.ss.media.playback.players.isBuffering
-import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControlsDefaults
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
-import com.cryart.design.theme.SSTheme
-import com.cryart.design.theme.Spacing32
 
 @Composable
 fun VideoPlayerControls(
@@ -61,41 +59,39 @@ fun VideoPlayerControls(
     onClose: () -> Unit = {},
     onEnterPiP: (() -> Unit)? = null,
 ) {
-    SSTheme {
-        val playbackState by rememberFlowWithLifecycle(videoPlayer.playbackState)
-            .collectAsState(initial = VideoPlaybackState())
-        val progressState by rememberFlowWithLifecycle(videoPlayer.playbackProgress)
-            .collectAsState(PlaybackProgressState())
+    val playbackState by rememberFlowWithLifecycle(videoPlayer.playbackState)
+        .collectAsState(initial = VideoPlaybackState())
+    val progressState by rememberFlowWithLifecycle(videoPlayer.playbackProgress)
+        .collectAsState(PlaybackProgressState())
 
-        Surface(color = Color.Black.copy(0.6f)) {
-            Box(modifier = Modifier.fillMaxSize()) {
+    Surface(color = Color.Black.copy(0.6f)) {
+        Box(modifier = Modifier.fillMaxSize()) {
 
-                TopBar(
-                    onClose = onClose,
-                    onEnterPiP = onEnterPiP
-                )
+            TopBar(
+                onClose = onClose,
+                onEnterPiP = onEnterPiP
+            )
 
-                Controls(
-                    onPlayPause = {
-                        videoPlayer.playPause()
-                    },
-                    onRewind = {
-                        videoPlayer.rewind()
-                    },
-                    onForward = {
-                        videoPlayer.fastForward()
-                    },
-                    playbackState = playbackState
-                )
+            Controls(
+                onPlayPause = {
+                    videoPlayer.playPause()
+                },
+                onRewind = {
+                    videoPlayer.rewind()
+                },
+                onForward = {
+                    videoPlayer.fastForward()
+                },
+                playbackState = playbackState
+            )
 
-                PlayBackProgress(
-                    progressState = progressState,
-                    playbackState = playbackState,
-                    onSeekTo = { position ->
-                        videoPlayer.seekTo(position)
-                    }
-                )
-            }
+            PlayBackProgress(
+                progressState = progressState,
+                playbackState = playbackState,
+                onSeekTo = { position ->
+                    videoPlayer.seekTo(position)
+                }
+            )
         }
     }
 }
@@ -111,10 +107,9 @@ private fun BoxScope.TopBar(
         modifier = Modifier.align(Alignment.TopCenter)
     ) {
         IconButton(onClick = onClose) {
-            Icon(
-                Icons.Rounded.Close,
-                contentDescription = "Close",
-                tint = contentColor,
+            IconBox(
+                icon = Icons.Close,
+                contentColor = contentColor
             )
         }
 
@@ -122,10 +117,12 @@ private fun BoxScope.TopBar(
 
         onEnterPiP?.let {
             IconButton(onClick = onEnterPiP) {
-                Icon(
-                    painterResource(id = R.drawable.ic_video_icon_pip),
-                    contentDescription = "Picture In Picture",
-                    tint = contentColor,
+                IconBox(
+                    icon = IconSlot.fromResource(
+                        R.drawable.ic_video_icon_pip,
+                        contentDescription = "Picture In Picture",
+                    ),
+                    contentColor = contentColor,
                 )
             }
         }
@@ -145,15 +142,14 @@ private fun BoxScope.Controls(
         modifier = Modifier.align(Alignment.Center)
     ) {
 
-        IconButton(
-            onClick = onRewind,
-            modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
-        ) {
-            Icon(
-                painterResource(id = R.drawable.ic_audio_icon_backward),
-                contentDescription = "Rewind",
-                tint = contentColor,
-                modifier = Modifier.fillMaxSize()
+        IconButton(onClick = onRewind) {
+            IconBox(
+                icon = IconSlot.fromResource(
+                    R.drawable.ic_audio_icon_backward,
+                    contentDescription = "Rewind"
+                ),
+                contentColor = contentColor,
+                modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
             )
         }
 
@@ -165,23 +161,22 @@ private fun BoxScope.Controls(
         ) {
 
             if (playbackState.isBuffering) {
-                CircularProgressIndicator(
-                    color = contentColor
-                )
+                CircularProgressIndicator(color = contentColor)
             } else {
                 IconButton(
                     onClick = onPlayPause,
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    val painter = when {
-                        playbackState.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
-                        else -> painterResource(id = R.drawable.ic_audio_icon_play)
-                    }
-                    Icon(
-                        painter = painter,
+                    IconBox(
+                        icon = IconSlot.fromResource(
+                            res = when {
+                                playbackState.isPlaying -> R.drawable.ic_audio_icon_pause
+                                else -> R.drawable.ic_audio_icon_play
+                            },
+                            contentDescription = "Play/Pause"
+                        ),
+                        contentColor = contentColor,
                         modifier = Modifier.fillMaxSize(),
-                        contentDescription = "Play/Pause",
-                        tint = contentColor
                     )
                 }
             }
@@ -189,15 +184,14 @@ private fun BoxScope.Controls(
 
         Spacer(modifier = Modifier.width(PlayBackControlsDefaults.playButtonHorizontalPadding))
 
-        IconButton(
-            onClick = onForward,
-            modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
-        ) {
-            Icon(
-                painterResource(id = R.drawable.ic_audio_icon_forward),
-                contentDescription = "Forward",
-                tint = contentColor,
-                modifier = Modifier.fillMaxSize()
+        IconButton(onClick = onForward) {
+            IconBox(
+                icon = IconSlot.fromResource(
+                    R.drawable.ic_audio_icon_forward,
+                    contentDescription = "Forward"
+                ),
+                contentColor = contentColor,
+                modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
             )
         }
     }

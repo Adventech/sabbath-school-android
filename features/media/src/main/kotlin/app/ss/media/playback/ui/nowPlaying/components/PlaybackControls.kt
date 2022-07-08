@@ -25,13 +25,10 @@ package app.ss.media.playback.ui.nowPlaying.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.runtime.Composable
@@ -41,15 +38,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.theme.Dimens
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.IconButton
+import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.media.R
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.playPause
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
-import com.cryart.design.theme.Dimens
 
 internal object PlayBackControlsDefaults {
     val nonPlayButtonSize = 38.dp
+    val nonPlayButtonStateLayerSize = 54.dp
     val playButtonSize = 46.dp
+    val playButtonStateLayerSize = 62.dp
     val playButtonHorizontalPadding = 46.dp
 }
 
@@ -72,13 +74,15 @@ internal fun PlayBackControls(
 
         IconButton(
             onClick = { playbackConnection.transportControls?.rewind() },
-            modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
+            stateLayerSize = PlayBackControlsDefaults.nonPlayButtonStateLayerSize,
         ) {
-            Icon(
-                painterResource(id = R.drawable.ic_audio_icon_backward),
-                contentDescription = "Rewind",
-                tint = contentColor,
-                modifier = Modifier.fillMaxSize()
+            IconBox(
+                icon = IconSlot.fromResource(
+                    R.drawable.ic_audio_icon_backward,
+                    contentDescription = "Rewind"
+                ),
+                contentColor = contentColor,
+                modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
             )
         }
 
@@ -86,7 +90,7 @@ internal fun PlayBackControls(
 
         IconButton(
             onClick = { playbackConnection.mediaController?.playPause() },
-            modifier = Modifier.size(PlayBackControlsDefaults.playButtonSize),
+            stateLayerSize = PlayBackControlsDefaults.playButtonStateLayerSize
         ) {
             val painter = when {
                 spec.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
@@ -94,11 +98,13 @@ internal fun PlayBackControls(
                 spec.isPlayEnabled -> painterResource(id = R.drawable.ic_audio_icon_play)
                 else -> painterResource(id = R.drawable.ic_audio_icon_play)
             }
-            Icon(
-                painter = painter,
-                tint = contentColor,
-                modifier = Modifier.fillMaxSize(),
-                contentDescription = "Play/Pause"
+            IconBox(
+                icon = IconSlot.fromPainter(
+                    painter = painter,
+                    contentDescription = "Play/Pause"
+                ),
+                contentColor = contentColor,
+                modifier = Modifier.size(PlayBackControlsDefaults.playButtonSize),
             )
         }
 
@@ -106,13 +112,15 @@ internal fun PlayBackControls(
 
         IconButton(
             onClick = { playbackConnection.transportControls?.fastForward() },
-            modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
+            stateLayerSize = PlayBackControlsDefaults.nonPlayButtonStateLayerSize
         ) {
-            Icon(
-                painterResource(id = R.drawable.ic_audio_icon_forward),
-                contentDescription = "Forward",
-                tint = contentColor,
-                modifier = Modifier.fillMaxSize()
+            IconBox(
+                icon = IconSlot.fromResource(
+                    R.drawable.ic_audio_icon_forward,
+                    contentDescription = "Forward"
+                ),
+                contentColor = contentColor,
+                modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
             )
         }
 

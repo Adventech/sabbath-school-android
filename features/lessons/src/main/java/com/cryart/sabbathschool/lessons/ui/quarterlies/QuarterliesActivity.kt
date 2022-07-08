@@ -20,71 +20,59 @@
  * THE SOFTWARE.
  */
 
+@file:OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.core.view.isVisible
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.core.view.WindowCompat
+import app.ss.design.compose.theme.SsTheme
 import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
-import com.cryart.sabbathschool.core.extensions.view.viewBinding
-import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.navigation.AppNavigator
+import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.ui.SSBaseActivity
-import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.databinding.SsActivityQuarterliesBinding
 import com.cryart.sabbathschool.lessons.databinding.SsPromptAppReBrandingBinding
 import com.cryart.sabbathschool.lessons.ui.languages.LanguagesListFragment
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.GroupedQuarterlies
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesAppbarComponent
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListCallbacks
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListComponent
+import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroupCallback
 import com.cryart.sabbathschool.lessons.ui.quarterlies.list.QuarterliesListActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
+class QuarterliesActivity : SSBaseActivity(), QuarterliesGroupCallback {
 
     @Inject
     lateinit var appNavigator: AppNavigator
 
     private val viewModel by viewModels<QuarterliesViewModel>()
 
-    private val binding by viewBinding(SsActivityQuarterliesBinding::inflate)
-
-    private val appbarComponent: QuarterliesAppbarComponent by lazy {
-        QuarterliesAppbarComponent(this, binding.appBar, appNavigator)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        setContent {
+            SsTheme(
+                windowWidthSizeClass = calculateWindowSizeClass(activity = this).widthSizeClass
+            ) {
+                QuarterliesScreen(
+                    viewModel = viewModel,
+                    callbacks = this
+                )
+            }
+        }
 
         collectData()
     }
 
     private fun collectData() {
-        val stateFlow = viewModel.quarterliesFlow.map { it.status }
-        stateFlow.collectIn(this) { status ->
-            binding.ssQuarterliesErrorState.isVisible = status == Status.ERROR
-        }
-
-        appbarComponent.collect(viewModel.photoUrlFlow)
-
-        QuarterlyListComponent(
-            binding = binding.ssQuarterliesList,
-            dataFlow = viewModel.quarterliesFlow.map { it.data ?: GroupedQuarterlies.Empty },
-            callbacks = this
-        )
-
         viewModel.appReBrandingFlow
             .collectIn(this) { show ->
                 if (show) {
@@ -107,23 +95,6 @@ class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
         alertDialog.show()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.ss_quarterlies_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (item.itemId == R.id.ss_quarterlies_menu_filter) {
-            val fragment = LanguagesListFragment.newInstance {
-                viewModel.languageSelected(it)
-            }
-            fragment.show(supportFragmentManager, fragment.tag)
-            true
-        } else {
-            super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onReadClick(index: String) {
         val lessonsIntent = SSLessonsActivity.launchIntent(this, index)
         startActivity(lessonsIntent)
@@ -132,6 +103,17 @@ class QuarterliesActivity : SSBaseActivity(), QuarterlyListCallbacks {
     override fun onSeeAllClick(group: QuarterlyGroup) {
         val intent = QuarterliesListActivity.launchIntent(this, group)
         startActivity(intent)
+    }
+
+    override fun profileClick() {
+        appNavigator.navigate(this, Destination.ACCOUNT)
+    }
+
+    override fun filterLanguages() {
+        val fragment = LanguagesListFragment.newInstance {
+            viewModel.languageSelected(it)
+        }
+        fragment.show(supportFragmentManager, fragment.tag)
     }
 
     companion object {

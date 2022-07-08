@@ -39,16 +39,19 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
-import app.ss.design.compose.widget.icon.IconSpec
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.IconButton
 
 /**
  * Scaffold implements the basic material design visual layout structure.
@@ -59,7 +62,6 @@ import app.ss.design.compose.widget.icon.IconSpec
  *
  * @param modifier the [Modifier] to be applied to this scaffold
  * @param topBar top app bar of the screen. Use [SsTopAppBar]
- * @param scrollBehaviorEnabled if scroll behavior should be enabled
  * @param scrollBehavior a [TopAppBarScrollBehavior] which holds various offset values
  * @param content content of your screen. The lambda receives an [PaddingValues] that should be
  * applied to the content root via Modifier.padding to properly offset top and bottom bars. If
@@ -70,13 +72,14 @@ import app.ss.design.compose.widget.icon.IconSpec
 fun SsScaffold(
     modifier: Modifier = Modifier,
     topBar: @Composable () -> Unit = {},
-    scrollBehaviorEnabled: Boolean = false,
-    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior { scrollBehaviorEnabled },
+    scrollBehavior: TopAppBarScrollBehavior? = null,
     content: @Composable (PaddingValues) -> Unit
 ) {
 
     Scaffold(
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = modifier.thenIf(scrollBehavior != null) {
+            Modifier.nestedScroll(scrollBehavior!!.nestedScrollConnection)
+        },
         topBar = topBar,
         content = content
     )
@@ -88,28 +91,32 @@ fun SsScaffold(
 @Composable
 private fun PreviewScaffold() {
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior { true }
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarScrollState())
 
     SsTheme {
         SsScaffold(
             topBar = {
                 SsTopAppBar(
                     spec = TopAppBarSpec(
-                        "Title",
                         TopAppBarType.CenterAligned,
-                        navIconSpec = IconSpec(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = "Back",
-                            onClick = {},
-                        ),
                         actions = listOf(
-                            IconSpec(
+                            IconButton(
                                 imageVector = Icons.Rounded.AccountCircle,
                                 contentDescription = "Profile",
                                 onClick = {},
                             ),
                         )
                     ),
+                    title = { Text(text = "Title") },
+                    navigationIcon = {
+                        IconBox(
+                            icon = IconButton(
+                                imageVector = Icons.Rounded.ArrowBack,
+                                contentDescription = "Back",
+                                onClick = {},
+                            )
+                        )
+                    },
                     scrollBehavior = scrollBehavior
                 )
             },

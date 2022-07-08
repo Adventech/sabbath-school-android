@@ -12,9 +12,4 @@ object TestAndroidDependencies {
         const val contrib = "androidx.test.espresso:espresso-contrib:${Versions.ESPRESSO}"
         const val intents = "androidx.test.espresso:espresso-intents:${Versions.ESPRESSO}"
     }
-
-    object Compose {
-        const val junit = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE}"
-        const val manifest = "androidx.compose.ui:ui-test-manifest:${Versions.COMPOSE}"
-    }
 }

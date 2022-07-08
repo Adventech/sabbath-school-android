@@ -25,6 +25,7 @@ object Dependencies {
         const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.LIFECYCLE}"
         const val LIFECYCLE_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.AndroidX.LIFECYCLE}"
         const val ACTIVITY = "androidx.activity:activity-ktx:${Versions.AndroidX.ACTIVITY}"
+        const val ACTIVITY_COMPOSE = "androidx.activity:activity-compose:${Versions.AndroidX.ACTIVITY}"
         const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Versions.AndroidX.FRAGMENT}"
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.AndroidX.CONSTRAINT_LAYOUT}"
         const val START_UP = "androidx.startup:startup-runtime:${Versions.AndroidX.START_UP}"
@@ -63,8 +64,8 @@ object Dependencies {
 
     object Compose {
         private const val constraintLayoutVersion = "1.0.1"
-        private const val material3Version = "1.0.0-alpha10"
-        private const val snapperVersion = "0.2.1"
+        private const val material3Version = "1.0.0-alpha14"
+        private const val snapperVersion = "0.2.2"
 
         const val foundation = "androidx.compose.foundation:foundation:${Versions.COMPOSE}"
         const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Versions.COMPOSE}"
@@ -86,13 +87,14 @@ object Dependencies {
         object Preview {
             const val customView = "androidx.customview:customview:1.2.0-alpha01"
             const val customViewContainer = "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-beta01"
-            const val savedState = "androidx.savedstate:savedstate-ktx:1.1.0"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0"
+            const val savedState = "androidx.savedstate:savedstate-ktx:1.2.0"
         }
     }
 
     object Accompanist {
         const val placeholder = "com.google.accompanist:accompanist-placeholder-material:${Versions.ACCOMPANIST}"
+        const val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:${Versions.ACCOMPANIST}"
     }
 
     object Coil {

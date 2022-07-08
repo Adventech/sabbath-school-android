@@ -23,7 +23,6 @@
 package com.cryart.sabbathschool.bible.components
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -32,16 +31,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowDropDown
-import androidx.compose.material.icons.rounded.Check
-import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -59,11 +56,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.theme.parse
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.Icons
 import app.ss.models.SSBibleVerses
-import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.LabelMedium
-import com.cryart.design.theme.SSTheme
-import com.cryart.design.theme.parse
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.core.model.displayTheme
 import com.cryart.sabbathschool.core.model.themeColor
@@ -84,14 +82,15 @@ class HeaderComponent(
 
     init {
         composeView.setContent {
-            SSTheme {
+            SsTheme {
                 val displayOptions by displayOptionsFlow.collectAsState(initial = SSReadingDisplayOptions(isSystemInDarkTheme()))
                 val bibleVerses by bibleVersesFlow.collectAsState(initial = emptyList())
                 val backgroundColor = Color.parse(displayOptions.themeColor(LocalContext.current))
+                val contentColor = contentColor(displayOptions.displayTheme(LocalContext.current))
 
                 Surface(
                     color = backgroundColor,
-                    contentColor = contentColor(displayOptions.displayTheme(LocalContext.current))
+                    contentColor = contentColor
                 ) {
                     HeaderRow(
                         spec = HeaderRowSpec(
@@ -119,6 +118,7 @@ private fun contentColor(theme: String): Color {
 fun HeaderRow(
     spec: HeaderRowSpec,
     modifier: Modifier = Modifier,
+    contentColor: Color = LocalContentColor.current
 ) {
 
     Row(
@@ -132,7 +132,10 @@ fun HeaderRow(
                 spec.callbacks.onClose()
             }
         ) {
-            Icon(Icons.Rounded.Close, contentDescription = "Close")
+            IconBox(
+                icon = Icons.Close,
+                contentColor = contentColor,
+            )
         }
 
         Spacer(modifier = Modifier.weight(1f))
@@ -144,6 +147,7 @@ fun HeaderRow(
 @Composable
 private fun BibleVersionsMenu(
     spec: HeaderRowSpec,
+    contentColor: Color = LocalContentColor.current
 ) {
     val (bibleVerses, lastBibleUsed, callbacks) = spec
     var expanded by remember { mutableStateOf(false) }
@@ -156,30 +160,36 @@ private fun BibleVersionsMenu(
         modifier = Modifier
             .wrapContentSize(Alignment.CenterEnd)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(Dimens.grid_2)
-                .clickable { expanded = true }
-                .testTag("drop-down")
-        ) {
+
+        TextButton(onClick = { expanded = true }) {
             Text(
                 selected,
-                style = LabelMedium
+                style = MaterialTheme.typography.labelMedium.copy(
+                    fontSize = 16.sp
+                ),
             )
-            Icon(
-                Icons.Rounded.ArrowDropDown,
-                contentDescription = "Arrow Drop-Down",
-                modifier = Modifier.rotate(iconRotation)
+            IconBox(
+                Icons.ArrowDropDown,
+                modifier = Modifier.rotate(iconRotation),
+                contentColor = contentColor,
             )
         }
+
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
             bibleVerses.forEach { verse ->
                 DropdownMenuItem(
+                    text = {
+                        Text(
+                            verse.name,
+                            style = MaterialTheme.typography.labelMedium.copy(
+                                fontSize = 16.sp
+                            ),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    },
                     onClick = {
                         val version = verse.name
                         selected = version
@@ -187,21 +197,13 @@ private fun BibleVersionsMenu(
                         callbacks.versionSelected(version)
                     },
                     modifier = Modifier
-                        .testTag("DropdownMenuItem-${verse.name}")
-                ) {
-                    Text(
-                        verse.name,
-                        style = LabelMedium,
-                    )
-                    if (verse.name == selected) {
-                        Spacer(modifier = Modifier.weight(1f))
-                        Icon(
-                            Icons.Rounded.Check,
-                            contentDescription = "Selected",
-                            tint = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                        )
-                    }
-                }
+                        .testTag("DropdownMenuItem-${verse.name}"),
+                    trailingIcon = {
+                        if (verse.name == selected) {
+                            IconBox(Icons.Check)
+                        }
+                    },
+                )
             }
         }
     }
@@ -221,7 +223,7 @@ private fun BibleVersionsMenu(
 )
 @Composable
 private fun HeaderRowPreview() {
-    SSTheme {
+    SsTheme {
         HeaderRow(
             spec = HeaderRowSpec(
                 bibleVerses = emptyList(),

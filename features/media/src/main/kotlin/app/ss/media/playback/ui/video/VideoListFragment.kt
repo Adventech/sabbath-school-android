@@ -27,11 +27,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
+import app.ss.design.compose.extensions.surface.BottomSheetSurface
 import app.ss.media.playback.ui.video.player.VideoPlayerActivity
 import com.cryart.design.base.TransparentBottomSheetFragment
-import com.cryart.design.base.TransparentBottomSheetSurface
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,9 +46,10 @@ class VideoListFragment : TransparentBottomSheetFragment() {
         savedInstanceState: Bundle?
     ): View {
         return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                TransparentBottomSheetSurface {
-                    ViewListScreen(
+                BottomSheetSurface {
+                    VideoListScreen(
                         isAtTop = { isAtTop ->
                             (dialog as? BottomSheetDialog)?.behavior?.isDraggable = isAtTop
                         },

@@ -27,13 +27,11 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -49,7 +47,6 @@ class SplashActivityTest {
 
     @Before
     fun setup() {
-        // Populate @Inject fields in test class
         hiltRule.inject()
 
         Intents.init()
@@ -65,14 +62,5 @@ class SplashActivityTest {
     fun shouldLaunchLogin() {
         scenario = ActivityScenario.launch(SplashActivity::class.java)
         intended(hasComponent(LoginActivity::class.java.name))
-    }
-
-    @Test
-    @Ignore("Resolve signed in state")
-    fun shouldLaunchQuarterliesActivity() {
-        // Requires signed-in user
-
-        scenario = ActivityScenario.launch(SplashActivity::class.java)
-        intended(hasComponent(QuarterliesActivity::class.java.name))
     }
 }
