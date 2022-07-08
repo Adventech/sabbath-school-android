@@ -59,7 +59,6 @@ import androidx.compose.material3.rememberTopAppBarScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -71,8 +70,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
@@ -94,15 +91,12 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun LessonsScreen(
-    viewModel: LessonsViewModel = viewModel(),
+    state: LessonsScreenState,
     onNavClick: () -> Unit,
     onShareClick: (String) -> Unit,
     onLessonClick: (SSLesson) -> Unit,
     onReadMoreClick: (LessonIntroModel) -> Unit
 ) {
-    val state by rememberFlowWithLifecycle(flow = viewModel.uiState)
-        .collectAsState(initial = LessonsScreenState())
-
     LessonsScreen(
         state = state,
         onNavClick = onNavClick,

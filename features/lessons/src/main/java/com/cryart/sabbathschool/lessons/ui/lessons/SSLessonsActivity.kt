@@ -31,7 +31,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
+import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.theme.SsTheme
 import app.ss.pdf.PdfReader
 import com.cryart.sabbathschool.core.extensions.context.shareContent
@@ -60,11 +63,14 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
+            val state by rememberFlowWithLifecycle(flow = viewModel.uiState)
+                .collectAsState(initial = LessonsScreenState())
+
             SsTheme(
                 windowWidthSizeClass = calculateWindowSizeClass(activity = this).widthSizeClass
             ) {
                 LessonsScreen(
-                    viewModel = viewModel,
+                    state = state,
                     onNavClick = {
                         finishAfterTransition()
                     },
