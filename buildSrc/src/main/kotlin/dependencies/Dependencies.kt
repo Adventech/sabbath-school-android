@@ -94,6 +94,7 @@ object Dependencies {
 
     object Accompanist {
         const val placeholder = "com.google.accompanist:accompanist-placeholder-material:${Versions.ACCOMPANIST}"
+        const val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:${Versions.ACCOMPANIST}"
     }
 
     object Coil {

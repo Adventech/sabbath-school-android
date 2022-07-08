@@ -20,15 +20,23 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.extensions
+package app.ss.design.compose.extensions.flow
 
-import android.os.Build
-import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalConfiguration
-
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
-fun isS() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import kotlinx.coroutines.flow.Flow
 
 @Composable
-fun isLargeScreen(): Boolean = LocalConfiguration.current.screenWidthDp >= 600
+fun <T> rememberFlowWithLifecycle(
+    flow: Flow<T>,
+    lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED
+): Flow<T> = remember(flow, lifecycle) {
+    flow.flowWithLifecycle(
+        lifecycle = lifecycle,
+        minActiveState = minActiveState
+    )
+}

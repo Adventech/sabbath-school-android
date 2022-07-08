@@ -13,6 +13,13 @@ val LocalPlaybackConnection = staticCompositionLocalOf<PlaybackConnection> {
     error("No LocalPlaybackConnection provided")
 }
 
+@Deprecated(
+    "Use method from common:design-compose instead rememberFlowWithLifecycle",
+    replaceWith = ReplaceWith(
+        "app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle",
+        imports = ["app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle"]
+    ),
+)
 @Composable
 fun <T> rememberFlowWithLifecycle(
     flow: Flow<T>,

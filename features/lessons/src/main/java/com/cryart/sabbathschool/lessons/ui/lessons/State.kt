@@ -20,15 +20,30 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.extensions
+package com.cryart.sabbathschool.lessons.ui.lessons
 
-import android.os.Build
-import androidx.annotation.ChecksSdkIntAtLeast
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.runtime.Immutable
+import app.ss.models.PublishingInfo
+import app.ss.models.SSQuarterlyInfo
 
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
-fun isS() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+@Immutable
+sealed class PublishingInfoState {
+    data class Success(val publishingInfo: PublishingInfo) : PublishingInfoState()
+    object Loading : PublishingInfoState()
+    object Error : PublishingInfoState()
+}
 
-@Composable
-fun isLargeScreen(): Boolean = LocalConfiguration.current.screenWidthDp >= 600
+@Immutable
+sealed class QuarterlyInfoState {
+    data class Success(val quarterlyInfo: SSQuarterlyInfo) : QuarterlyInfoState()
+    object Loading : QuarterlyInfoState()
+    object Error : QuarterlyInfoState()
+}
+
+@Immutable
+data class LessonsScreenState(
+    val isLoading: Boolean = true,
+    val isError: Boolean = false,
+    val quarterlyInfo: QuarterlyInfoState = QuarterlyInfoState.Loading,
+    val publishingInfo: PublishingInfoState = PublishingInfoState.Loading,
+)

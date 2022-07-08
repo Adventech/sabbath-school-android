@@ -63,6 +63,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
@@ -83,7 +84,6 @@ import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.SSVideo
 import com.cryart.design.theme.BaseGrey2
 import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.widgets.DragHandle
 import com.cryart.design.widgets.list.SnappingLazyRow
 import kotlinx.coroutines.flow.distinctUntilChanged

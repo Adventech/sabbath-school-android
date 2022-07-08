@@ -54,7 +54,8 @@ data class IconButton(
     val imageVector: ImageVector,
     val contentDescription: String,
     val onClick: () -> Unit,
-    val enabled: Boolean = true
+    val enabled: Boolean = true,
+    val tint: Color? = null,
 ) : IconSlot {
 
     @Composable
@@ -67,7 +68,7 @@ data class IconButton(
             Icon(
                 imageVector = imageVector,
                 contentDescription = contentDescription,
-                tint = contentColor,
+                tint = tint ?: contentColor,
                 modifier = modifier
             )
         }

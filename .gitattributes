@@ -12,3 +12,5 @@ features/media/src/test/snapshots/images/app.ss.media.playback.ui.video_VideoLis
 features/media/src/test/snapshots/images/app.ss.media.playback.ui.video_VideoListScreenTest_video_list_single_dark.png filter=lfs diff=lfs merge=lfs -text
 features/media/src/test/snapshots/images/app.ss.media.playback.ui.nowPlaying_NowPlayingScreenTest_now_playing_screen.png filter=lfs diff=lfs merge=lfs -text
 features/media/src/test/snapshots/images/app.ss.media.playback.ui.nowPlaying_NowPlayingScreenTest_now_playing_screen_dark.png filter=lfs diff=lfs merge=lfs -text
+features/lessons/src/test/snapshots/images/com.cryart.sabbathschool.lessons.ui.lessons_LessonsScreenTest_lessons_screen_splash.png filter=lfs diff=lfs merge=lfs -text
+features/lessons/src/test/snapshots/images/com.cryart.sabbathschool.lessons.ui.lessons_LessonsScreenTest_lessons_screen.png filter=lfs diff=lfs merge=lfs -text

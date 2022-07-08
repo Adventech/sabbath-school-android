@@ -107,7 +107,6 @@ dependencies {
     implementation(Dependencies.JODA)
     implementation(Dependencies.TIMBER)
     implementation(Coil.core)
-    implementation(Coil.compose)
     implementation(Dependencies.TAP_TARGET)
     implementation(Iconics.CORE)
     implementation(Iconics.VIEWS)
@@ -119,8 +118,9 @@ dependencies {
     implementation(Dependencies.Facebook.SHIMMER)
     implementation(Dependencies.MarkWorm.core)
 
+    implementation(Compose.constraintLayout)
     implementation(Compose.material)
-    implementation(Compose.tooling)
+    implementation(Accompanist.systemUiController)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))

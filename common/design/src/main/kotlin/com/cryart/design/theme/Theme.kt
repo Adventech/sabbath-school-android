@@ -61,16 +61,12 @@ fun SSTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () 
         LightColorPalette
     }
 
-    val dimensions = if (isLargeScreen()) sw600Dimensions else smallDimensions
-
-    ProvideDimens(dimensions = dimensions) {
-        MaterialTheme(
-            colors = colors,
-            typography = Typography,
-            shapes = Shapes,
-            content = content
-        )
-    }
+    MaterialTheme(
+        colors = colors,
+        typography = Typography,
+        shapes = Shapes,
+        content = content
+    )
 }
 
 object SsTheme {

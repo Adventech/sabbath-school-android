@@ -20,15 +20,9 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.extensions
+package app.ss.design.compose.extensions.color
 
-import android.os.Build
-import androidx.annotation.ChecksSdkIntAtLeast
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.graphics.Color
 
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
-fun isS() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-
-@Composable
-fun isLargeScreen(): Boolean = LocalConfiguration.current.screenWidthDp >= 600
+fun Color.Companion.parse(colorString: String): Color =
+    Color(color = android.graphics.Color.parseColor(colorString))

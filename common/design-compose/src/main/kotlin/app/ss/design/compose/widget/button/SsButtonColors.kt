@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,28 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.design.theme
+package app.ss.design.compose.widget.button
 
+import androidx.compose.material3.ButtonColors
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.runtime.State
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.graphics.Color
 
-@Composable
-fun isLargeScreen(): Boolean = LocalConfiguration.current.screenWidthDp >= 600
+class SsButtonColors(
+    private val containerColor: Color,
+    private val contentColor: Color = Color.White,
+    private val disabledContainerColor: Color = containerColor.copy(0.4f),
+    private val disabledContentColor: Color = Color.White.copy(0.4f),
+) : ButtonColors {
+
+    @Composable
+    override fun containerColor(enabled: Boolean): State<Color> {
+        return rememberUpdatedState(if (enabled) containerColor else disabledContainerColor)
+    }
+
+    @Composable
+    override fun contentColor(enabled: Boolean): State<Color> {
+        return rememberUpdatedState(if (enabled) contentColor else disabledContentColor)
+    }
+}

@@ -45,85 +45,8 @@
     <dimen name="ss_language_menu_item_title_text_size">15sp</dimen>
     <dimen name="ss_language_menu_item_date_text_size">12sp</dimen>
 
-    <dimen name="ss_quarterly_item_featured_height">242dp</dimen>
-    <dimen name="ss_quarterly_item_featured_background_height">120dp</dimen>
-
-    <dimen name="ss_quarterly_item_featured_cover_width">125dp</dimen>
-    <dimen name="ss_quarterly_item_featured_cover_height">187dp</dimen>
-    <dimen name="ss_quarterly_item_featured_cover_margin_left">15dp</dimen>
-    <dimen name="ss_quarterly_item_featured_cover_margin_top">35dp</dimen>
-    <dimen name="ss_quarterly_item_featured_cover_margin_bottom">20dp</dimen>
-    <dimen name="ss_quarterly_item_featured_cover_padding">4dp</dimen>
-    <dimen name="ss_quarterly_item_featured_cover_radius">6dp</dimen>
-
-    <dimen name="ss_quarterly_item_featured_title_text_size">25sp</dimen>
-    <dimen name="ss_quarterly_item_featured_title_padding_top">5dp</dimen>
-    <dimen name="ss_quarterly_item_featured_title_padding_left">10dp</dimen>
-    <dimen name="ss_quarterly_item_featured_title_padding_right">10dp</dimen>
-    <dimen name="ss_quarterly_item_featured_title_padding_bottom">10dp</dimen>
-
-    <dimen name="ss_quarterly_item_featured_date_text_size">12sp</dimen>
-    <dimen name="ss_quarterly_item_featured_date_padding_left">10dp</dimen>
-    <dimen name="ss_quarterly_item_featured_date_padding_right">10dp</dimen>
-
-    <dimen name="ss_quarterly_item_featured_description_text_size">12sp</dimen>
-    <dimen name="ss_quarterly_item_featured_description_padding">10dp</dimen>
-
-    <dimen name="ss_quarterly_item_featured_read_height">28dp</dimen>
-    <dimen name="ss_quarterly_item_featured_read_min_width">140dp</dimen>
-    <dimen name="ss_quarterly_item_featured_read_border_width">0dp</dimen>
-    <dimen name="ss_quarterly_item_featured_read_margin_bottom">20dp</dimen>
-    <dimen name="ss_quarterly_item_featured_read_margin_left">10dp</dimen>
-    <dimen name="ss_quarterly_item_featured_read_radius">20dp</dimen>
-
-    <dimen name="ss_quarterly_item_normal_padding">5dp</dimen>
-    <dimen name="ss_quarterly_item_normal_margin_top">0dp</dimen>
-    <dimen name="ss_quarterly_item_normal_margin_bottom">10dp</dimen>
-    <dimen name="ss_quarterly_item_normal_margin_left">0dp</dimen>
-    <dimen name="ss_quarterly_item_normal_margin_right">0dp</dimen>
-
-    <dimen name="ss_quarterly_item_normal_cover_width">90dp</dimen>
-    <dimen name="ss_quarterly_item_normal_cover_height">135dp</dimen>
-    <dimen name="ss_quarterly_item_normal_cover_margin_top">15dp</dimen>
-    <dimen name="ss_quarterly_item_normal_cover_margin_left">15dp</dimen>
-    <dimen name="ss_quarterly_item_normal_cover_margin_right">15dp</dimen>
-
-    <dimen name="ss_quarterly_item_normal_title_margin_left">80dp</dimen>
-    <dimen name="ss_quarterly_item_normal_title_margin_top">5dp</dimen>
-    <dimen name="ss_quarterly_item_normal_title_padding">10dp</dimen>
-    <dimen name="ss_quarterly_item_normal_title_padding_bottom">5dp</dimen>
-    <dimen name="ss_quarterly_item_normal_title_text_size">20sp</dimen>
-
-    <dimen name="ss_quarterly_item_normal_corner_radius">0dp</dimen>
-    <dimen name="ss_quarterly_item_normal_date_margin_left">80dp</dimen>
-    <dimen name="ss_quarterly_item_normal_date_padding_left">10dp</dimen>
-    <dimen name="ss_quarterly_item_normal_date_padding_right">10dp</dimen>
-    <dimen name="ss_quarterly_item_normal_date_text_size">13sp</dimen>
-
-    <dimen name="ss_quarterly_item_normal_description_padding">10dp</dimen>
-    <dimen name="ss_quarterly_item_normal_description_margin_left">80dp</dimen>
-    <dimen name="ss_quarterly_item_normal_description_text_size">13sp</dimen>
-
     <!-- LESSONS SCREEN RELATED -->
-    <dimen name="ss_lessons_toolbar_cover_height">210dp</dimen>
-    <dimen name="ss_lessons_toolbar_cover_width">145dp</dimen>
-    <dimen name="ss_lessons_toolbar_cover_margin_top">20dp</dimen>
-    <dimen name="ss_lessons_toolbar_cover_padding">@dimen/ss_quarterly_item_featured_cover_padding</dimen>
-    <dimen name="ss_lessons_toolbar_read_margin">20dp</dimen>
-    <dimen name="ss_lessons_toolbar_read_min_width">140dp</dimen>
-    <dimen name="ss_lessons_toolbar_read_border">0dp</dimen>
-    <dimen name="ss_lessons_toolbar_read_radius">20dp</dimen>
-    <dimen name="ss_lessons_toolbar_date_text_size">13sp</dimen>
-    <dimen name="ss_lessons_toolbar_description_text_size">15sp</dimen>
 
-    <dimen name="ss_lesson_item_content_padding_top">12dp</dimen>
-    <dimen name="ss_lesson_item_content_padding_bottom">12dp</dimen>
-    <dimen name="ss_lesson_item_content_padding_left">20dp</dimen>
-    <dimen name="ss_lesson_item_content_padding_right">20dp</dimen>
-    <dimen name="ss_lesson_item_index_text_size">20sp</dimen>
-    <dimen name="ss_lesson_item_index_margin_start">20dp</dimen>
-    <dimen name="ss_lesson_item_title_text_size">17sp</dimen>
-    <dimen name="ss_lesson_item_date_text_size">14sp</dimen>
     <dimen name="ss_lesson_item_menu_width">64dp</dimen>
     <dimen name="ss_lesson_item_menu_icon_size">12dp</dimen>
 

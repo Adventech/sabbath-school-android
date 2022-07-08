@@ -53,16 +53,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
-import app.ss.design.compose.theme.BodyMedium1
-import app.ss.design.compose.theme.LabelSmall
-import app.ss.design.compose.theme.Title
-import app.ss.design.compose.theme.TitleSmall
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing8
 import app.ss.design.compose.theme.iconTint
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.icon.IconBox
@@ -70,9 +68,6 @@ import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.OffWhite
-import app.ss.design.compose.theme.Spacing16
-import app.ss.design.compose.theme.Spacing8
-import com.cryart.design.theme.isLargeScreen
 import com.cryart.design.widgets.list.SnappingLazyRow
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
@@ -140,10 +135,10 @@ internal fun QuarterlyRow(
         ) {
             Text(
                 text = spec.date.uppercase(),
-                style = BodyMedium1.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontSize = 13.sp
                 ),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
@@ -154,9 +149,10 @@ internal fun QuarterlyRow(
 
             Text(
                 text = spec.title,
-                style = Title.copy(
-                    color = MaterialTheme.colorScheme.onSurface
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontSize = 24.sp
                 ),
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
@@ -210,10 +206,11 @@ internal fun QuarterlyColumn(
                 .sizeIn(minHeight = TitleMinHeight)
                 .padding(horizontal = Dimens.grid_1),
             text = spec.title,
-            style = TitleSmall.copy(
-                color = MaterialTheme.colorScheme.onSurface,
-                lineHeight = 18.sp
+            style = MaterialTheme.typography.titleSmall.copy(
+                fontSize = 15.sp
             ),
+            color = MaterialTheme.colorScheme.onSurface,
+            lineHeight = 18.sp,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
@@ -329,10 +326,10 @@ private fun GroupTitle(
     ) {
         Text(
             text = title.uppercase(),
-            style = Title.copy(
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.titleSmall.copy(
                 fontSize = 13.sp
             ),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(
@@ -346,9 +343,10 @@ private fun GroupTitle(
         ) {
             Text(
                 text = stringResource(id = R.string.ss_see_all),
-                style = LabelSmall.copy(
-                    color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.bodySmall.copy(
+                    fontSize = 15.sp
                 ),
+                color = MaterialTheme.colorScheme.primary,
             )
 
             IconBox(

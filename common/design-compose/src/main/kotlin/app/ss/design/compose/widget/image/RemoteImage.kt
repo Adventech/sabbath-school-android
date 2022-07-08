@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import app.ss.design.compose.widget.content.ContentSlot
@@ -57,6 +58,7 @@ data class RemoteImage(
     val contentDescription: String? = null,
     val contentScale: ContentScale = ContentScale.Crop,
     val scale: Scale = Scale.FIT,
+    val colorFilter: ColorFilter? = null,
     val loading: @Composable () -> Unit = {},
     val error: @Composable () -> Unit = {}
 ) : ContentSlot {
@@ -86,7 +88,8 @@ data class RemoteImage(
             painter = painter,
             contentDescription = contentDescription,
             modifier = Modifier.fillMaxSize(),
-            contentScale = contentScale
+            contentScale = contentScale,
+            colorFilter = colorFilter,
         )
     }
 }

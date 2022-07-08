@@ -20,8 +20,11 @@
  * THE SOFTWARE.
  */
 
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -29,15 +32,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,37 +48,25 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.ss.models.PublishingInfo
-import com.cryart.design.theme.Dimens
-import app.ss.design.compose.theme.LabelXSmall
-import com.cryart.design.theme.SSTheme
-import app.ss.design.compose.theme.Spacing16
-import com.cryart.design.theme.onSurfaceSecondaryColor
-import com.cryart.design.theme.parse
+import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.theme.onSurfaceSecondary
 import app.ss.design.compose.widget.divider.Divider
+import app.ss.design.compose.widget.icon.IconButton
+import com.cryart.design.theme.Dimens
+import com.cryart.design.theme.parse
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
-import com.cryart.sabbathschool.lessons.databinding.SsComposeComponentBinding
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.PublishingInfoSpec
-import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
-import kotlinx.coroutines.flow.Flow
 
-class PublishingInfoComponent(
-    binding: SsComposeComponentBinding,
-    private val dataFlow: Flow<PublishingInfo?>,
-    private val colorFlow: Flow<String?>
+internal fun LazyListScope.publishingInfo(
+    publishingInfo: PublishingInfoSpec?,
 ) {
-
-    init {
-        binding.composeView.setContent {
-            val publishingInfo by dataFlow.collectAsState(initial = null)
-            val color by colorFlow.collectAsState(initial = null)
-            val data = publishingInfo ?: return@setContent
-            val primaryColor = color ?: return@setContent
-
-            SSTheme {
+    publishingInfo?.let {
+        item {
+            Surface {
                 PublishingInfo(
-                    spec = data.toSpec(),
-                    primaryColorHex = primaryColor
+                    spec = publishingInfo,
+                    modifier = Modifier
+                        .animateItemPlacement()
                 )
             }
         }
@@ -85,7 +76,6 @@ class PublishingInfoComponent(
 @Composable
 private fun PublishingInfo(
     spec: PublishingInfoSpec,
-    primaryColorHex: String,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -101,25 +91,23 @@ private fun PublishingInfo(
                 ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Spacer(modifier = Modifier.size(Dimens.grid_4))
 
             Text(
                 text = spec.message,
-                style = LabelXSmall.copy(
-                    color = onSurfaceSecondaryColor(),
-                ),
+                style = MaterialTheme.typography.bodySmall,
+                color = onSurfaceSecondary(),
                 modifier = Modifier
                     .weight(1f)
-                    .padding(vertical = Spacing16)
+                    .padding(vertical = 16.dp)
+                    .padding(start = Dimens.grid_4, end = 16.dp)
             )
-
-            Spacer(modifier = Modifier.size(Spacing16))
 
             IconButton(
                 onClick = onclick,
                 modifier = Modifier
-                    .background(Color.parse(primaryColorHex), CircleShape)
-                    .size(32.dp)
+                    .background(Color.parse(spec.primaryColorHex), CircleShape)
+                    .size(32.dp),
+                stateLayerSize = 48.dp,
             ) {
                 Icon(
                     Icons.Rounded.KeyboardArrowRight,
@@ -135,17 +123,19 @@ private fun PublishingInfo(
     }
 }
 
-@Preview
+@Preview(name = "Publishing Info")
 @Composable
 private fun PreviewPublishingInfo() {
-    SSTheme {
-        PublishingInfo(
-            spec = PublishingInfoSpec(
-                message = "The right to print and distribute this Sabbath School resource in the " +
-                    "United States belongs to the Pacific Press Publishing Association.",
-                url = "http://www.sabbathschoolmaterials.com"
-            ),
-            primaryColorHex = "#385bb2"
-        )
+    SsTheme {
+        Surface {
+            PublishingInfo(
+                spec = PublishingInfoSpec(
+                    message = "The right to print and distribute this Sabbath School resource in the " +
+                        "United States belongs to the Pacific Press Publishing Association.",
+                    url = "http://www.sabbathschoolmaterials.com",
+                    primaryColorHex = "#385bb2"
+                ),
+            )
+        }
     }
 }
