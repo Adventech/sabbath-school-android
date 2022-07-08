@@ -51,6 +51,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
@@ -61,7 +62,6 @@ import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.scaffold.SsScaffold
-import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroupCallback
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesListCallback
