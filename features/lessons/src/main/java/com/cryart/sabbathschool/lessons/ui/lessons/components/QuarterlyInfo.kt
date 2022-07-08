@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -40,6 +41,7 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -56,10 +58,13 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import app.ss.design.compose.extensions.color.parse
+import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.SsColor
 import app.ss.design.compose.theme.SsTheme
@@ -77,6 +82,12 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.features.Quarterly
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.QuarterlyInfoSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
+
+private enum class QuarterlyInfoType {
+    Primary,
+    Secondary,
+    SecondaryLarge
+}
 
 internal fun LazyListScope.quarterlyInfo(
     info: SSQuarterlyInfo,
@@ -123,10 +134,25 @@ private fun QuarterlyInfo(
     spec: QuarterlyInfoSpec,
     modifier: Modifier = Modifier,
     scrollOffset: Float = 0f,
+    isLargeScreen: Boolean = isLargeScreen(),
 ) {
 
+    val type = when {
+        spec.splashImage.isNullOrEmpty() -> {
+            if (isLargeScreen) {
+                QuarterlyInfoType.SecondaryLarge
+            } else {
+                QuarterlyInfoType.Secondary
+            }
+        }
+        else -> QuarterlyInfoType.Primary
+    }
+
     val content: @Composable ColumnScope.() -> Unit = {
-        Content(spec = spec)
+        Content(
+            spec = spec,
+            type = type,
+        )
     }
 
     CoverBox(
@@ -136,18 +162,27 @@ private fun QuarterlyInfo(
         scrollOffset = scrollOffset,
         modifier = modifier
     ) {
-        if (spec.splashImage.isNullOrEmpty()) {
-            ContentSecondary(
-                spec = spec,
-                content = content
-            )
-        } else {
-            ContentPrimary(
-                primaryColor = Color.parse(spec.color),
-                primaryDarkColor = Color.parse(spec.colorDark),
-                content = content,
-                modifier = Modifier.align(Alignment.BottomCenter)
-            )
+        when (type) {
+            QuarterlyInfoType.Primary -> {
+                ContentPrimary(
+                    primaryColor = Color.parse(spec.color),
+                    primaryDarkColor = Color.parse(spec.colorDark),
+                    content = content,
+                    modifier = Modifier.align(Alignment.BottomCenter)
+                )
+            }
+            QuarterlyInfoType.Secondary -> {
+                ContentSecondary(
+                    spec = spec,
+                    content = content
+                )
+            }
+            QuarterlyInfoType.SecondaryLarge -> {
+                ContentSecondaryLarge(
+                    spec = spec,
+                    content = content
+                )
+            }
         }
     }
 }
@@ -257,65 +292,146 @@ private fun ContentSecondary(
     }
 }
 
+@Composable
+private fun ContentSecondaryLarge(
+    spec: QuarterlyInfoSpec,
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    val insetsPadding = with(LocalDensity.current) {
+        WindowInsets.safeDrawing
+            .only(WindowInsetsSides.Top)
+            .getTop(this)
+            .toDp()
+    }
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = insetsPadding + 64.dp, bottom = 32.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        Spacer(modifier = Modifier.width(32.dp))
+
+        ContentBox(
+            content = RemoteImage(
+                data = spec.cover
+            ),
+            modifier = Modifier
+                .size(width = 195.dp, height = 270.dp)
+                .background(Color.parse(spec.color))
+                .shadow(12.dp, CoverImageShape)
+                .clip(CoverImageShape)
+        )
+
+        Spacer(modifier = Modifier.width(16.dp))
+
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            content()
+        }
+    }
+}
+
 private val CoverImageShape = RoundedCornerShape(6.dp)
 
 @Composable
-fun ColumnScope.Content(
+private fun ColumnScope.Content(
     spec: QuarterlyInfoSpec,
+    type: QuarterlyInfoType
 ) {
+    val textAlign: TextAlign
+    val alignment: Alignment.Horizontal
+    val paddingTop: Dp
+
+    when (type) {
+        QuarterlyInfoType.Primary, QuarterlyInfoType.Secondary -> {
+            textAlign = TextAlign.Center
+            alignment = Alignment.CenterHorizontally
+            paddingTop = 16.dp
+        }
+        QuarterlyInfoType.SecondaryLarge -> {
+            textAlign = TextAlign.Start
+            alignment = Alignment.Start
+            paddingTop = 0.dp
+        }
+    }
+
+    val description: @Composable () -> Unit = {
+        Text(
+            text = spec.description,
+            style = MaterialTheme.typography.bodyMedium,
+            color = Color.White,
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .clickable { spec.readMoreClick() }
+        )
+    }
+
+    val readButton: @Composable () -> Unit = {
+        SsButton(
+            spec = ButtonSpec(
+                text = stringResource(id = R.string.ss_lessons_read),
+                colors = SsButtonColors(
+                    containerColor = Color.parse(spec.colorDark),
+                ),
+                onClick = spec.readClick
+            ),
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .align(alignment)
+        )
+    }
+
+    val featuresRow: @Composable () -> Unit = {
+        if (spec.features.isNotEmpty()) {
+            QuarterlyFeaturesRow(spec = QuarterlyFeaturesSpec(spec.features))
+        }
+    }
+
     Text(
         text = spec.title,
         style = MaterialTheme.typography.headlineMedium,
         color = Color.White,
-        textAlign = TextAlign.Center,
+        textAlign = textAlign,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .padding(top = 16.dp, bottom = 8.dp)
+            .padding(top = paddingTop, bottom = 8.dp)
     )
 
     Text(
         text = spec.date.uppercase(),
         style = MaterialTheme.typography.titleSmall,
         color = SsColor.White70,
-        textAlign = TextAlign.Center,
+        textAlign = textAlign,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .padding(top = 8.dp, bottom = 16.dp)
     )
 
-    SsButton(
-        spec = ButtonSpec(
-            text = stringResource(id = R.string.ss_lessons_read),
-            colors = SsButtonColors(
-                containerColor = Color.parse(spec.colorDark),
-            ),
-            onClick = spec.readClick
-        ),
-        modifier = Modifier.align(Alignment.CenterHorizontally)
-    )
-
-    Text(
-        text = spec.description,
-        style = MaterialTheme.typography.bodyMedium,
-        color = Color.White,
-        maxLines = 3,
-        overflow = TextOverflow.Ellipsis,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .clickable { spec.readMoreClick() }
-    )
-
-    if (spec.features.isNotEmpty()) {
-        QuarterlyFeaturesRow(spec = QuarterlyFeaturesSpec(spec.features))
+    if (type == QuarterlyInfoType.SecondaryLarge) {
+        description()
+        featuresRow()
+        readButton()
+    } else {
+        readButton()
+        description()
+        featuresRow()
     }
 }
 
 @Preview(
     name = "Quarterly Info",
-    showBackground = true
+)
+@Preview(
+    name = "Quarterly Info ~ Large",
+    device = Devices.PIXEL_C
 )
 @Composable
 private fun QuarterlyInfoPreview() {
@@ -324,14 +440,12 @@ private fun QuarterlyInfoPreview() {
             spec = sampleSpec.copy(
                 splashImage = null
             ),
-            modifier = Modifier.height(480.dp)
         )
     }
 }
 
 @Preview(
     name = "Quarterly Info Splash",
-    showBackground = true
 )
 @Composable
 private fun QuarterlyInfoSplashPreview() {
