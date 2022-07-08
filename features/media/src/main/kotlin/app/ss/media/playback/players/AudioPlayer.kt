@@ -75,7 +75,7 @@ internal class AudioPlayerImpl(
         })
             .build().apply {
                 val attr = AudioAttributes.Builder().apply {
-                    setContentType(C.CONTENT_TYPE_MUSIC)
+                    setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
                     setUsage(C.USAGE_MEDIA)
                 }.build()
 

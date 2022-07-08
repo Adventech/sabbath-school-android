@@ -226,6 +226,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     override fun onPictureInPictureModeChanged(
         isInPictureInPictureMode: Boolean,
         newConfig: Configuration
