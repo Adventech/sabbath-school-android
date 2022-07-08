@@ -52,23 +52,19 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.onSurfaceSecondary
 import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconButton
-import app.ss.models.PublishingInfo
 import com.cryart.design.theme.Dimens
 import com.cryart.design.theme.parse
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.PublishingInfoSpec
-import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
 
 internal fun LazyListScope.publishingInfo(
-    publishingInfo: PublishingInfo?,
-    primaryColorHex: String,
+    publishingInfo: PublishingInfoSpec?,
 ) {
     publishingInfo?.let {
         item {
             Surface {
                 PublishingInfo(
-                    spec = it.toSpec(),
-                    primaryColorHex = primaryColorHex,
+                    spec = publishingInfo,
                     modifier = Modifier
                         .animateItemPlacement()
                 )
@@ -80,7 +76,6 @@ internal fun LazyListScope.publishingInfo(
 @Composable
 private fun PublishingInfo(
     spec: PublishingInfoSpec,
-    primaryColorHex: String,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -110,7 +105,7 @@ private fun PublishingInfo(
             IconButton(
                 onClick = onclick,
                 modifier = Modifier
-                    .background(Color.parse(primaryColorHex), CircleShape)
+                    .background(Color.parse(spec.primaryColorHex), CircleShape)
                     .size(32.dp),
                 stateLayerSize = 48.dp,
             ) {
@@ -137,9 +132,9 @@ private fun PreviewPublishingInfo() {
                 spec = PublishingInfoSpec(
                     message = "The right to print and distribute this Sabbath School resource in the " +
                         "United States belongs to the Pacific Press Publishing Association.",
-                    url = "http://www.sabbathschoolmaterials.com"
+                    url = "http://www.sabbathschoolmaterials.com",
+                    primaryColorHex = "#385bb2"
                 ),
-                primaryColorHex = "#385bb2"
             )
         }
     }

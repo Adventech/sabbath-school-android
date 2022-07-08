@@ -74,15 +74,12 @@ import app.ss.design.compose.widget.button.SsButton
 import app.ss.design.compose.widget.button.SsButtonColors
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
-import app.ss.models.PublishingInfo
 import app.ss.models.SSLesson
-import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.PublishingInfoSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.QuarterlyInfoSpec
-import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
-import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
 
 private enum class QuarterlyInfoType {
     Primary,
@@ -91,29 +88,17 @@ private enum class QuarterlyInfoType {
 }
 
 internal fun LazyListScope.quarterlyInfo(
-    info: SSQuarterlyInfo,
-    publishingInfo: PublishingInfo?,
+    info: QuarterlyInfoSpec,
+    publishingInfo: PublishingInfoSpec?,
     scrollOffset: Float,
     onLessonClick: (SSLesson) -> Unit = {},
-    onReadMoreClick: (LessonIntroModel) -> Unit = {}
 ) {
-    val quarterly = info.quarterly
 
     item {
-        val spec = info.toSpec(
-            readMoreClick = {
-                onReadMoreClick(
-                    LessonIntroModel(
-                        quarterly.title,
-                        quarterly.introduction ?: quarterly.description
-                    )
-                )
-            },
-        )
         QuarterlyInfo(
-            spec = spec.copy(
+            spec = info.copy(
                 readClick = {
-                    spec.todayLessonIndex?.let index@{ index ->
+                    info.todayLessonIndex?.let index@{ index ->
                         val lesson = info.lessons.firstOrNull { it.index == index } ?: return@index
                         onLessonClick(lesson)
                     }
@@ -124,10 +109,7 @@ internal fun LazyListScope.quarterlyInfo(
         )
     }
 
-    publishingInfo(
-        publishingInfo,
-        primaryColorHex = quarterly.color_primary
-    )
+    publishingInfo(publishingInfo)
 }
 
 @Composable
@@ -474,6 +456,7 @@ private val sampleSpec = QuarterlyInfoSpec(
     color = "#ffaa00",
     colorDark = "#4B3521",
     splashImage = "splash",
+    lessons = emptyList(),
     cover = "cover",
     features = emptyList()
 )

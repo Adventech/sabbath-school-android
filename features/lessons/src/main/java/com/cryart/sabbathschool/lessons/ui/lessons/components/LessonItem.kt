@@ -60,6 +60,11 @@ data class LessonItemSpec(
     val date: String,
 )
 
+@Immutable
+data class LessonItemsSpec(
+    val lessons: List<SSLesson>,
+)
+
 internal fun SSLesson.toSpec(): LessonItemSpec = LessonItemSpec(
     index = if (id.isDigitsOnly()) {
         "${id.toInt()}"
@@ -87,11 +92,11 @@ private fun SSLesson.dateDisplay(): String {
 }
 
 internal fun LazyListScope.lessons(
-    lessons: List<SSLesson>,
+    lessonsSpec: LessonItemsSpec,
     onClick: (SSLesson) -> Unit,
 ) {
     itemsIndexed(
-        lessons,
+        lessonsSpec.lessons,
         key = { _: Int, spec: SSLesson -> spec.index }
     ) { _, item ->
         Surface {

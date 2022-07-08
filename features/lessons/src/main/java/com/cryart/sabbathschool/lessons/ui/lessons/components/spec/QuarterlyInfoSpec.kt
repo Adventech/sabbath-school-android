@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.lessons.ui.lessons.components.spec
 
 import androidx.compose.runtime.Immutable
+import app.ss.models.SSLesson
 import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.misc.DateHelper
 import org.joda.time.DateTime
@@ -37,6 +38,7 @@ data class QuarterlyInfoSpec(
     val colorDark: String,
     val cover: String,
     val splashImage: String?,
+    val lessons: List<SSLesson>,
     val features: List<FeatureSpec> = emptyList(),
     val todayLessonIndex: String? = null,
     val readClick: () -> Unit = {},
@@ -53,6 +55,7 @@ internal fun SSQuarterlyInfo.toSpec(
     colorDark = quarterly.color_primary_dark,
     cover = quarterly.cover,
     splashImage = quarterly.splash,
+    lessons = lessons,
     features = quarterly.features.map { it.toSpec() },
     todayLessonIndex = lessons.find { lesson ->
         val startDate = DateHelper.parseDate(lesson.start_date)

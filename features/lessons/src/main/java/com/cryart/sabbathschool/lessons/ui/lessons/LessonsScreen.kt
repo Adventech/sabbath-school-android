@@ -81,6 +81,7 @@ import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.models.SSLesson
 import com.cryart.sabbathschool.lessons.R
+import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemsSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooterSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.footer
 import com.cryart.sabbathschool.lessons.ui.lessons.components.lessons
@@ -190,16 +191,27 @@ internal fun LessonsScreen(
         ) {
 
             quarterlyInfo?.let { ssQuarterlyInfo ->
+                val quarterly = ssQuarterlyInfo.quarterly
                 quarterlyInfo(
-                    info = ssQuarterlyInfo,
-                    publishingInfo = publishingInfo,
+                    info = ssQuarterlyInfo.toSpec(
+                        readMoreClick = {
+                            onReadMoreClick(
+                                LessonIntroModel(
+                                    quarterly.title,
+                                    quarterly.introduction ?: quarterly.description
+                                )
+                            )
+                        },
+                    ),
+                    publishingInfo = publishingInfo?.toSpec(
+                        primaryColorHex = ssQuarterlyInfo.quarterly.color_primary
+                    ),
                     scrollOffset = listState.firstVisibleItemScrollOffset.toFloat(),
-                    onReadMoreClick = onReadMoreClick,
                     onLessonClick = onLessonClick,
                 )
 
                 lessons(
-                    lessons = ssQuarterlyInfo.lessons,
+                    lessonsSpec = LessonItemsSpec(ssQuarterlyInfo.lessons),
                     onClick = onLessonClick
                 )
 
@@ -308,6 +320,7 @@ internal data class ScrollAlpha(
 )
 
 @Composable
+@Stable
 internal fun rememberScrollAlpha(
     listState: LazyListState
 ): ScrollAlpha {

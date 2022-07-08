@@ -28,7 +28,10 @@ import app.ss.models.PublishingInfo
 @Immutable
 data class PublishingInfoSpec(
     val message: String,
-    val url: String
+    val url: String,
+    val primaryColorHex: String
 )
 
-internal fun PublishingInfo.toSpec() = PublishingInfoSpec(message, url)
+internal fun PublishingInfo.toSpec(
+    primaryColorHex: String
+) = PublishingInfoSpec(message, url, primaryColorHex)
