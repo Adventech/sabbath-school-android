@@ -39,11 +39,11 @@
     <string name="ss_login_anonymously_dialog_title">"အမည်ဝှက် Login?"</string>
     <string name="ss_login_anonymously_dialog_description">"သငျသညျအမည်ဝှက် login လျှင်, သင် devices တွေကိုဖြတ်ပြီး (ထိုကဲ့သို့သောမှတ်ချက်နှင့်ပျေါလှငျကဲ့သို့) သင့်ရဲ့ဒေတာတွေကိုတပြိုင်တည်းအလုပ်လုပ်နိုင်လိမ့်မည်မဟုတ်, ဒါမှမဟုတ် app ကို uninstall လုပ်ပြီးနောက်။ သငျသညျဆက်လက်ဆောင်ရွက်လိုသောသေချာလား?"</string>
     <string name="ss_quarterlies_filter_languages">"ဘာသာစကားများ"</string>
-    <string name="ss_quarterlies_downloading">"သုံးလတစ်ကြိမ်ရယူခြင်း ..."</string>
+    <string name="ss_quarterlies_downloading">"သုံးလတစ်ကြိမ်ရယူခြင်း …"</string>
     <string name="ss_quarterlies_error">"အမည်မသိအမှားဖြစ်ပွားခဲ့သည်။ ထပ်ကြိုးစားပါ။"</string>
     <string name="ss_quarterlies_empty">"ဤအချိန်တွင်ရရှိနိုင်မျှသုံးလတစ်ကြိမ်ရှိပါတယ်"</string>
     <string name="ss_quarterly_item_read_text">"ဖွင့်လှစ်"</string>
-    <string name="ss_lessons_downloading">"သုံးလတစ်ကြိမ်ဖွင့်လှစ် ..."</string>
+    <string name="ss_lessons_downloading">"သုံးလတစ်ကြိမ်ဖွင့်လှစ် …"</string>
     <string name="ss_lessons_error">"သုံးလတစ်ကြိမ်ဖွင့်လှစ်နေစဉ်အမှားဖြစ်ပွားခဲ့သည်"</string>
     <string name="ss_lessons_empty">"ဤအချိန်တွင်ရရှိနိုင်မျှသုံးလတစ်ကြိမ်ရှိပါတယ်"</string>
     <string name="ss_lessons_read">"ဖတ်"</string>
@@ -58,10 +58,7 @@
     <string name="ss_reading_copied">"ရွေးချယ်ရေးကူးယူ"</string>
     <string name="ss_reading_share_to">"ဝေမျှမယ်ရွေးချယ်ရေးမှ:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"မကြာမှီလာမည်"</string>
-    <string name="ss_coming_soon_subheader">"ကျနော်တို့လက်ရှိပေါ်မှာအလုပ်လုပ်နေကြသည်။ ဖမ်းယူနားဆင်နေပါသောကြောင့်မကြာမီလာမယ့်ပါတယ်။"</string>
-    <string name="ss_about_app_version">"ဗားရှင်း 3.0"</string>
+
     <string name="ss_about_made">"Adventech အားဖြင့်❤နှင့်ဖွဲ့"</string>
     <string name="ss_settings_display_options">"ကြည့်ရန်ဦးစားပေး"</string>
     <string name="ss_settings_color_theme_light">"အလင်း"</string>

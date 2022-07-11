@@ -41,11 +41,11 @@
     <string name="ss_login_anonymously_dialog_title">"Log ind anonymt?"</string>
     <string name="ss_login_anonymously_dialog_description">"Ved at logge ind anonymt kan du ikke synkronisere dine data, f.eks. kommentarer, highlights og noter på tværs af enheder eller ved geninstallation af denne applikationen. Er du sikker på, at du vil fortsætte?"</string>
     <string name="ss_quarterlies_filter_languages">"Filtrer sprog"</string>
-    <string name="ss_quarterlies_downloading">"Henter studie..."</string>
+    <string name="ss_quarterlies_downloading">"Henter studie…"</string>
     <string name="ss_quarterlies_error">"Ukendt fejl opstod. Prøv igen."</string>
     <string name="ss_quarterlies_empty">"Studiet ikke er tilgængelig i øjeblikket"</string>
     <string name="ss_quarterly_item_read_text">"Åben"</string>
-    <string name="ss_lessons_downloading">"Åbner ugens studie..."</string>
+    <string name="ss_lessons_downloading">"Åbner ugens studie…"</string>
     <string name="ss_lessons_error">"Der opstod en fejl under åbningen"</string>
     <string name="ss_lessons_empty">"Studiet er ikke tilgængelig i øjeblikket"</string>
     <string name="ss_lessons_read">"Læs"</string>
@@ -60,10 +60,6 @@
     <string name="ss_reading_copied">"Sektionen er kopieret"</string>
     <string name="ss_reading_share_to">"Del:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Kommer snart"</string>
-    <string name="ss_coming_soon_subheader">"Vi arbejder på denne funktion lige nu."</string>
-    <string name="ss_about_app_version">"Version 3.0"</string>
     <string name="ss_about_made">"Made with ❤ by Adventech"</string>
     <string name="ss_settings_display_options">"Display muligheder"</string>
     <string name="ss_settings_color_theme_light">"Lys"</string>

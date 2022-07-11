@@ -40,11 +40,11 @@
     <string name="ss_login_anonymously_dialog_title">"Login anoniem?"</string>
     <string name="ss_login_anonymously_dialog_description">"Als u anoniem inlogt, kunt u uw gegevens (zoals opmerkingen en markeringen) niet op verschillende apparaten synchroniseren of nadat u de app hebt verwijderd. Weet je zeker dat je verder wilt gaan?"</string>
     <string name="ss_quarterlies_filter_languages">"Talen"</string>
-    <string name="ss_quarterlies_downloading">"Kwartaal krijgen ..."</string>
+    <string name="ss_quarterlies_downloading">"Kwartaal krijgen …"</string>
     <string name="ss_quarterlies_error">"Er is een onbekende fout opgetreden. Probeer het opnieuw."</string>
     <string name="ss_quarterlies_empty">"Er zijn op dit moment geen quarterlies beschikbaar"</string>
     <string name="ss_quarterly_item_read_text">"Open"</string>
-    <string name="ss_lessons_downloading">"Elk kwartaal openen ..."</string>
+    <string name="ss_lessons_downloading">"Elk kwartaal openen …"</string>
     <string name="ss_lessons_error">"Er is een fout opgetreden bij het openen van elk kwartaal"</string>
     <string name="ss_lessons_empty">"Er zijn op dit moment geen quarterlies beschikbaar"</string>
     <string name="ss_lessons_read">"Lezen"</string>
@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Selectie gekopieerd"</string>
     <string name="ss_reading_share_to">"Deel selectie aan:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Binnenkort beschikbaar"</string>
-    <string name="ss_coming_soon_subheader">"We werken momenteel aan deze functie. Blijf op de hoogte, het komt eraan."</string>
-    <string name="ss_about_app_version">"versie 3.0"</string>
+
     <string name="ss_about_made">"Gemaakt met ❤ door Adventech"</string>
     <string name="ss_settings_display_options">"weergaveopties"</string>
     <string name="ss_settings_color_theme_light">"Licht"</string>

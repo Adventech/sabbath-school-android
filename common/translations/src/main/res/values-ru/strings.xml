@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Выделения скопировано"</string>
     <string name="ss_reading_share_to">"Поделиться в:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Скоро"</string>
-    <string name="ss_coming_soon_subheader">"Мы работаем над этой функцией прямо сейчас. Скоро завершим, оставайтесь с нами"</string>
-    <string name="ss_about_app_version">"версия 3.0"</string>
+
     <string name="ss_about_made">"Сделано с ❤ - Adventech"</string>
     <string name="ss_settings_display_options">"Настройки просмотра"</string>
     <string name="ss_settings_color_theme_light">"Светлая"</string>

@@ -40,11 +40,11 @@
     <string name="ss_login_anonymously_dialog_title">"Daftar tanpa Nama"</string>
     <string name="ss_login_anonymously_dialog_description">"Jikalau anda mendaftar masuk tanpa nama, anda tidak akan dapat  menyegerakkan data anda (seperti komen, dan sorotan) di peranti yang lain, atau selepas anda memadam aplikasi ini. Adakah anda ingin teruskan?"</string>
     <string name="ss_quarterlies_filter_languages">"Bahasa"</string>
-    <string name="ss_quarterlies_downloading">"Mendapatkan pelajaran..."</string>
+    <string name="ss_quarterlies_downloading">"Mendapatkan pelajaran…"</string>
     <string name="ss_quarterlies_error">"Ralat yang tidak diketahui. Cuba lagi."</string>
     <string name="ss_quarterlies_empty">"Tidak ada pelajaran pada masa ini"</string>
     <string name="ss_quarterly_item_read_text">"Buka"</string>
-    <string name="ss_lessons_downloading">"Membuka pelajaran..."</string>
+    <string name="ss_lessons_downloading">"Membuka pelajaran…"</string>
     <string name="ss_lessons_error">"Ralat berlaku sementara membuka pelajaran"</string>
     <string name="ss_lessons_empty">"Tidak ada pelajaran pada masa ini"</string>
     <string name="ss_lessons_read">"Baca"</string>
@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Pilihan disalin"</string>
     <string name="ss_reading_share_to">"Kongsikan pilihan ke:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Akan Datang"</string>
-    <string name="ss_coming_soon_subheader">"Kami sedang mengusahakan bahagian ini. Sila kembali lagi."</string>
-    <string name="ss_about_app_version">"versi 3.0"</string>
+
     <string name="ss_about_made">"Dibuat dengan ❤ oleh Adventech"</string>
     <string name="ss_settings_display_options">"Aturan Paparan"</string>
     <string name="ss_settings_color_theme_light">"Terang"</string>

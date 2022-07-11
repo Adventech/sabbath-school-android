@@ -42,11 +42,11 @@
     <string name="ss_login_anonymously_dialog_title">"Teken anoniem in?"</string>
     <string name="ss_login_anonymously_dialog_description">"As jy anoniem inskakel, sal jy nie jou data (soos opmerkings en hoogtepunte) oor toestelle kan sinkroniseer nie, of nadat jy die program gedeïnstalleer het. Is jy seker jy wil voortgaan?"</string>
     <string name="ss_quarterlies_filter_languages">"Tale"</string>
-    <string name="ss_quarterlies_downloading">"Kry kwartaalliks ..."</string>
+    <string name="ss_quarterlies_downloading">"Kry kwartaalliks …"</string>
     <string name="ss_quarterlies_error">"Onbekende fout het voorgekom. Probeer asseblief weer."</string>
     <string name="ss_quarterlies_empty">"Daar is tans geen kwartaallikse beskikbaar nie"</string>
     <string name="ss_quarterly_item_read_text">"Oop"</string>
-    <string name="ss_lessons_downloading">"Opening kwartaalliks ..."</string>
+    <string name="ss_lessons_downloading">"Opening kwartaalliks …"</string>
     <string name="ss_lessons_error">"Kon nie kwartaalliks begin nie"</string>
     <string name="ss_lessons_empty">"Daar is tans geen kwartaallikse beskikbaar nie"</string>
     <string name="ss_lessons_read">"Lees"</string>
@@ -61,10 +61,6 @@
     <string name="ss_reading_copied">"Seleksie gekopieer"</string>
     <string name="ss_reading_share_to">"Deel seleksie na:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Kom binnekort"</string>
-    <string name="ss_coming_soon_subheader">"Ons werk tans aan hierdie funksie. Bly stil, dit kom binnekort."</string>
-    <string name="ss_about_app_version">"weergawe 3.0"</string>
     <string name="ss_about_made">"Gemaak met ❤ deur Adventech"</string>
     <string name="ss_settings_display_options">"Wys opsies"</string>
     <string name="ss_settings_color_theme_light">"Lig"</string>

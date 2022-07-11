@@ -41,11 +41,11 @@
     <string name="ss_login_anonymously_dialog_title">"Prihlásiť sa anonymne?"</string>
     <string name="ss_login_anonymously_dialog_description">"Ak sa prihlásite anonymne, nebudete môcť synchronizovať dáta (napríklad komentáre a zvýraznenia) v rôznych zariadeniach alebo po odinštalovaní aplikácie. Naozaj chcete pokračovať?"</string>
     <string name="ss_quarterlies_filter_languages">"Filtrovať jazyky"</string>
-    <string name="ss_quarterlies_downloading">"Načítam štvrťrok..."</string>
+    <string name="ss_quarterlies_downloading">"Načítam štvrťrok…"</string>
     <string name="ss_quarterlies_error">"Došlo k neznámej chybe. Prosím skúste to znova."</string>
     <string name="ss_quarterlies_empty">"V tejto chvíli nie sú k dispozícii žiadne štvrťroky"</string>
     <string name="ss_quarterly_item_read_text">"Otvoriť"</string>
-    <string name="ss_lessons_downloading">"Otváranie štvrťroku..."</string>
+    <string name="ss_lessons_downloading">"Otváranie štvrťroku…"</string>
     <string name="ss_lessons_error">"Pri otváraní štvrťroku došlo k chybe"</string>
     <string name="ss_lessons_empty">"V tejto chvíli nie sú k dispozícii žiadne lekcie"</string>
     <string name="ss_lessons_read">"Prečítať"</string>
@@ -60,10 +60,7 @@
     <string name="ss_reading_copied">"Výber bol skopírovaný."</string>
     <string name="ss_reading_share_to">"Zdieľať výber:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Už čoskoro"</string>
-    <string name="ss_coming_soon_subheader">"V súčasnej dobe pracujeme na tejto funkcii. Zostaňte naladení, čoskoro príde."</string>
-    <string name="ss_about_app_version">"verzia 3.0"</string>
+
     <string name="ss_about_made">"Vyrobené s ❤ od Adventech"</string>
     <string name="ss_settings_display_options">"Možnosti zobrazenia"</string>
     <string name="ss_settings_color_theme_light">"Svetlý"</string>

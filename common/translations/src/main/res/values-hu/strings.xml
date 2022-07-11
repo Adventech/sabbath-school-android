@@ -42,11 +42,11 @@
     <string name="ss_login_anonymously_dialog_title">"Névtelen bejelentkezés?"</string>
     <string name="ss_login_anonymously_dialog_description">"Ha névtelenül jelentkezik be, nem tudja szinkronizálni az adatokat (például a megjegyzéseket és a kiemelkedéseket) az eszközök között, vagy az alkalmazás eltávolítása után. Biztosan folytatja?"</string>
     <string name="ss_quarterlies_filter_languages">"Nyelvek"</string>
-    <string name="ss_quarterlies_downloading">"Negyedévek beszerzése ..."</string>
+    <string name="ss_quarterlies_downloading">"Negyedévek beszerzése …"</string>
     <string name="ss_quarterlies_error">"Ismeretlen hiba történt. Kérlek próbáld újra."</string>
     <string name="ss_quarterlies_empty">"Jelenleg nincsenek negyedéves elérhetők"</string>
     <string name="ss_quarterly_item_read_text">"Nyisd ki"</string>
-    <string name="ss_lessons_downloading">"Negyedéves megnyitása ..."</string>
+    <string name="ss_lessons_downloading">"Negyedéves megnyitása …"</string>
     <string name="ss_lessons_error">"Hiba történt negyedéves megnyitáskor"</string>
     <string name="ss_lessons_empty">"Jelenleg nincsenek negyedéves elérhetők"</string>
     <string name="ss_lessons_read">"Olvas"</string>
@@ -61,10 +61,7 @@
     <string name="ss_reading_copied">"A kiválasztás másolt"</string>
     <string name="ss_reading_share_to">"Ossza meg a következőket:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Hamarosan"</string>
-    <string name="ss_coming_soon_subheader">"Jelenleg ezen a funkción dolgozunk. Maradjon hangosan, hamarosan jön."</string>
-    <string name="ss_about_app_version">"verzió 3.0"</string>
+
     <string name="ss_about_made">"Az Adventech által készített ❤"</string>
     <string name="ss_settings_display_options">"megjelenítési lehetőségek"</string>
     <string name="ss_settings_color_theme_light">"Fény"</string>

@@ -41,11 +41,11 @@
     <string name="ss_login_anonymously_dialog_title">"Masuk tanpa nama?"</string>
     <string name="ss_login_anonymously_dialog_description">"Dengan masuk tanpa nama anda tidak dapat melakukan sinkronisasi data anda, seperti komentar dan penanda, antar perangkat ataupun setelah menguninstall aplikasi. Apakah anda yakin untuk melanjutkan?"</string>
     <string name="ss_quarterlies_filter_languages">"Saring Bahasa"</string>
-    <string name="ss_quarterlies_downloading">"Mendapatkan triwulan..."</string>
+    <string name="ss_quarterlies_downloading">"Mendapatkan triwulan…"</string>
     <string name="ss_quarterlies_error">"Error tidak diketahui. Silahkan coba lagi"</string>
     <string name="ss_quarterlies_empty">"Sepertinya tidak ada triwulan pada saat ini"</string>
     <string name="ss_quarterly_item_read_text">"Buka"</string>
-    <string name="ss_lessons_downloading">"Buka triwulan..."</string>
+    <string name="ss_lessons_downloading">"Buka triwulan…"</string>
     <string name="ss_lessons_error">"Error muncul ketika membuka triwulan"</string>
     <string name="ss_lessons_empty">"Sepertinya tidak ada pelajaran saat ini"</string>
     <string name="ss_lessons_read">"Baca"</string>
@@ -60,10 +60,7 @@
     <string name="ss_reading_copied">"Yang dipilih sudah di copy"</string>
     <string name="ss_reading_share_to">"Bagikan yang dipilih ke:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Akan datang segera"</string>
-    <string name="ss_coming_soon_subheader">"Kami sedang mengerjakan fitur ini. Tetaplah disini, akan datang segera"</string>
-    <string name="ss_about_app_version">"versi 3.0"</string>
+
     <string name="ss_about_made">"Dibuat dengan ❤ oleh Adventech"</string>
     <string name="ss_settings_display_options">"Opsi tampilan"</string>
     <string name="ss_settings_color_theme_light">"Terang"</string>

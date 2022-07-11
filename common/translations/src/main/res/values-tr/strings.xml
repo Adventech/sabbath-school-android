@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Vurguladıklarınız kopyalandı"</string>
     <string name="ss_reading_share_to">"Paylaş:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Yakında"</string>
-    <string name="ss_coming_soon_subheader">"Şu anda bu fonksiyon üzerinde çalışıyoruz. Ayrılmayin, bitmek üzere"</string>
-    <string name="ss_about_app_version">"Sürüm 3.0"</string>
+
     <string name="ss_about_made">"Adventech tarafından ❤ ile yapıldı"</string>
     <string name="ss_settings_display_options">"Görüntüleme ayarları"</string>
     <string name="ss_settings_color_theme_light">"Açık"</string>

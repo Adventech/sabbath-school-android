@@ -41,11 +41,11 @@
     <string name="ss_login_anonymously_dialog_title">"להתחבר באופן אנונימי?"</string>
     <string name="ss_login_anonymously_dialog_description">"באמצעות כניסה אנונימי אתה לא תוכל לסנכרן את הנתונים שלך, כגון הערות ונקודות מרכזיות, במכשירים שונים או לאחר הסרת יישום. האם אתה בטוח שברצונך להמשיך?"</string>
     <string name="ss_quarterlies_filter_languages">"שפות מסנן"</string>
-    <string name="ss_quarterlies_downloading">"איך רבעונים ..."</string>
+    <string name="ss_quarterlies_downloading">"איך רבעונים …"</string>
     <string name="ss_quarterlies_error">"אירעה שגיאה לא מוכרת. אנא נסה שנית"</string>
     <string name="ss_quarterlies_empty">"זה נראה כאילו יש לא ברבעונים כרגע"</string>
     <string name="ss_quarterly_item_read_text">"פתח"</string>
-    <string name="ss_lessons_downloading">"ותחילת הרבעונים ..."</string>
+    <string name="ss_lessons_downloading">"ותחילת הרבעונים …"</string>
     <string name="ss_lessons_error">"אירעה שגיאה בעת פתיחת רבעוני"</string>
     <string name="ss_lessons_empty">"זה נראה כאילו אין שיעורים כרגע"</string>
     <string name="ss_lessons_read">"לקרוא"</string>
@@ -60,10 +60,7 @@
     <string name="ss_reading_copied">"הבחירה הועתקה."</string>
     <string name="ss_reading_share_to">"שתף בחירה:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"בקרוב"</string>
-    <string name="ss_coming_soon_subheader">"אנחנו עובדים על תכונה זו מיד. השארו, היא תהיה זמינה בקרוב"</string>
-    <string name="ss_about_app_version">"גרסה 3.0"</string>
+
     <string name="ss_about_made">"נעשה ב ❤ על ידי Adventech"</string>
     <string name="ss_settings_display_options">"אפשרויות תצוגה"</string>
     <string name="ss_settings_color_theme_light">"אוֹר"</string>

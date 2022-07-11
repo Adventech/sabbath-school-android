@@ -44,7 +44,7 @@
     <string name="ss_quarterlies_error">"ເກີດຄວາມຜິດພາດທີ່ບໍ່ຮູ້ຕົວ. ກະລຸນາລອງອີກເທື່ອຫນຶ່ງ."</string>
     <string name="ss_quarterlies_empty">"ບໍ່ມີການແຂ່ງຂັນທີ່ມີຢູ່ໃນເວລານີ້"</string>
     <string name="ss_quarterly_item_read_text">"ເປີດ"</string>
-    <string name="ss_lessons_downloading">"ເປີດຕົວໄຕມາດ ..."</string>
+    <string name="ss_lessons_downloading">"ເປີດຕົວໄຕມາດ …"</string>
     <string name="ss_lessons_error">"ຂໍ້ຜິດພາດເກີດຂຶ້ນໃນຂະນະທີ່ເປີດ"</string>
     <string name="ss_lessons_empty">"ບໍ່ມີການແຂ່ງຂັນທີ່ມີຢູ່ໃນເວລານີ້"</string>
     <string name="ss_lessons_read">"ອ່ານ"</string>
@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"ການຄັດເລືອກຄັດເລືອກ"</string>
     <string name="ss_reading_share_to">"ແບ່ງປັນໃຫ້ກັບ:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"ມາໃນໄວໆນີ້"</string>
-    <string name="ss_coming_soon_subheader">"ພວກເຮົາກໍາລັງເຮັດວຽກຢູ່ໃນຄຸນະລັກສະນະນີ້. ເຂົ້າໃຈ, ມັນຈະມາໃນໄວໆນີ້."</string>
-    <string name="ss_about_app_version">"ຮຸ່ນ 3.0"</string>
+
     <string name="ss_about_made">"Made with by Adventech"</string>
     <string name="ss_settings_display_options">"ຕົວເລືອກສະແດງ"</string>
     <string name="ss_settings_color_theme_light">"ແສງສະຫວ່າງ"</string>

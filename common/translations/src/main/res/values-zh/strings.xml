@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"选择复制。"</string>
     <string name="ss_reading_share_to">"共享选择："</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"快来了"</string>
-    <string name="ss_coming_soon_subheader">"我们正在研究这个功能。 请继续关注，即将到来。"</string>
-    <string name="ss_about_app_version">"版本3.0"</string>
+
     <string name="ss_about_made">"用Adventech的❤做出来"</string>
     <string name="ss_settings_display_options">"显示选项"</string>
     <string name="ss_settings_color_theme_light">"光"</string>

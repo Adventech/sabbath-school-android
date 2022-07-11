@@ -41,11 +41,11 @@
     <string name="ss_login_anonymously_dialog_title">"अनाम रूप से लॉगिन करें?"</string>
     <string name="ss_login_anonymously_dialog_description">"यदि आप गुमनाम रूप से लॉगिन करते हैं, तो आप अपने डेटा (जैसे टिप्पणियां और हाइलाइट्स) को डिवाइस पर या ऐप को अनइंस्टॉल करने के बाद सिंक्रोनाइज़ नहीं कर पाएंगे। क्या आप सुनिश्चित रूप से आगे बढ़ना चाहते हैं?"</string>
     <string name="ss_quarterlies_filter_languages">"बोली"</string>
-    <string name="ss_quarterlies_downloading">"तिमाही हो रही है ..."</string>
+    <string name="ss_quarterlies_downloading">"तिमाही हो रही है …"</string>
     <string name="ss_quarterlies_error">"अज्ञात त्रुटि हुई। कृपया पुन: प्रयास करें।"</string>
     <string name="ss_quarterlies_empty">"इस समय कोई तिमाही उपलब्ध नहीं हैं"</string>
     <string name="ss_quarterly_item_read_text">"खुला"</string>
-    <string name="ss_lessons_downloading">"त्रैमासिक खुल रहा है ..."</string>
+    <string name="ss_lessons_downloading">"त्रैमासिक खुल रहा है …"</string>
     <string name="ss_lessons_error">"त्रैमासिक खोलते समय त्रुटि हुई"</string>
     <string name="ss_lessons_empty">"इस समय कोई तिमाही उपलब्ध नहीं हैं"</string>
     <string name="ss_lessons_read">"पढ़ना"</string>
@@ -60,10 +60,7 @@
     <string name="ss_reading_copied">"चयन की प्रतिलिपि बनाई गई"</string>
     <string name="ss_reading_share_to">"इसके लिए चयन साझा करें:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"जल्द आ रहा है"</string>
-    <string name="ss_coming_soon_subheader">"हम वर्तमान में इस सुविधा पर काम कर रहे हैं। बने रहें, यह जल्द ही आ रहा है।"</string>
-    <string name="ss_about_app_version">"संस्करण 3.0"</string>
+
     <string name="ss_about_made">"Adventech द्वारा Ad के साथ बनाया गया"</string>
     <string name="ss_settings_display_options">"प्रदर्शित विकल्प"</string>
     <string name="ss_settings_color_theme_light">"रोशनी"</string>

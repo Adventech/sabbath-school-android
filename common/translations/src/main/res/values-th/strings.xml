@@ -40,11 +40,11 @@
     <string name="ss_login_anonymously_dialog_title">"ลงชื่อเข้าใช้โดยไม่ระบุชื่อหรือไม่"</string>
     <string name="ss_login_anonymously_dialog_description">"หากคุณลงชื่อเข้าใช้โดยไม่ระบุตัวตนคุณจะไม่สามารถซิงโครไนซ์ข้อมูล (เช่นความคิดเห็นและไฮไลต์) ในอุปกรณ์ต่างๆหรือหลังจากถอนการติดตั้งแอพ คุณแน่ใจหรือไม่ว่าต้องการดำเนินการต่อ"</string>
     <string name="ss_quarterlies_filter_languages">"ภาษา"</string>
-    <string name="ss_quarterlies_downloading">"กำลังได้รับบทเรียน ..."</string>
+    <string name="ss_quarterlies_downloading">"กำลังได้รับบทเรียน …"</string>
     <string name="ss_quarterlies_error">"เกิดข้อผิดพลาดที่ไม่รู้จัก กรุณาลองอีกครั้ง."</string>
     <string name="ss_quarterlies_empty">"ไม่มีไตรมาสที่พร้อมใช้งานในขณะนี้"</string>
     <string name="ss_quarterly_item_read_text">"เปิด"</string>
-    <string name="ss_lessons_downloading">"เปิดไตรมาส ..."</string>
+    <string name="ss_lessons_downloading">"เปิดไตรมาส …"</string>
     <string name="ss_lessons_error">"เกิดข้อผิดพลาดขณะเปิดรายไตรมาส"</string>
     <string name="ss_lessons_empty">"ไม่มีไตรมาสที่พร้อมใช้งานในขณะนี้"</string>
     <string name="ss_lessons_read">"อ่าน"</string>
@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"คัดลอกแล้ว"</string>
     <string name="ss_reading_share_to">"แบ่งปันให้กับ:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"เร็ว ๆ นี้"</string>
-    <string name="ss_coming_soon_subheader">"ขณะนี้เรากำลังดำเนินการเกี่ยวกับคุณลักษณะนี้ คอยติดตามกันเร็ว ๆ นี้"</string>
-    <string name="ss_about_app_version">"เวอร์ชัน 3.0"</string>
+
     <string name="ss_about_made">"ทำด้วย❤โดย Adventech"</string>
     <string name="ss_settings_display_options">"ตัวเลือกการแสดงผล"</string>
     <string name="ss_settings_color_theme_light">"เบา"</string>

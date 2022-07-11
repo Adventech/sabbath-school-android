@@ -40,11 +40,11 @@
     <string name="ss_login_anonymously_dialog_title">"Autentificare anonimă?"</string>
     <string name="ss_login_anonymously_dialog_description">"Dacă vă autentificați în mod anonim, nu veți putea să vă sincronizați datele, cum ar fi comentariile și evidențierile, pe dispozitive sau după dezinstalarea aplicației. Sunteți sigur că doriți să continuați?"</string>
     <string name="ss_quarterlies_filter_languages">"Filtrați limbile"</string>
-    <string name="ss_quarterlies_downloading">"Pregătirea trimestrelor ..."</string>
+    <string name="ss_quarterlies_downloading">"Pregătirea trimestrelor …"</string>
     <string name="ss_quarterlies_error">"S-a produs o eroare necunoscută. Vă rugăm să încercați din nou."</string>
     <string name="ss_quarterlies_empty">"Se pare că în acest moment nu există trimestre"</string>
     <string name="ss_quarterly_item_read_text">"Deschide"</string>
-    <string name="ss_lessons_downloading">"Deschiderea trimestrului ..."</string>
+    <string name="ss_lessons_downloading">"Deschiderea trimestrului …"</string>
     <string name="ss_lessons_error">"A apărut o eroare la deschiderea trimestrului"</string>
     <string name="ss_lessons_empty">"Se pare că nu există lecții în acest moment"</string>
     <string name="ss_lessons_read">"Citește"</string>
@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Selectarea a fost copiată."</string>
     <string name="ss_reading_share_to">"Distribuiți selecția la:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"În curând"</string>
-    <string name="ss_coming_soon_subheader">"Lucrăm la această funcție chiar acum. Rămâneți aproape, va fi disponibilă în curând"</string>
-    <string name="ss_about_app_version">"Versiunea 3.0"</string>
+
     <string name="ss_about_made">"Realizat cu ❤ de Adventech"</string>
     <string name="ss_settings_display_options">"Opțiuni de afișare"</string>
     <string name="ss_settings_color_theme_light">"Luminoasă"</string>

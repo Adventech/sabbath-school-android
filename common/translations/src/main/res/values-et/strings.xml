@@ -60,10 +60,6 @@
     <string name="ss_reading_copied">"Valik on kopeeritud"</string>
     <string name="ss_reading_share_to">"Jaga valikut:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Tulekul"</string>
-    <string name="ss_coming_soon_subheader">"Me töötame selle funktsiooni kallal. Peatselt tulekul."</string>
-    <string name="ss_about_app_version">"Versioon 3.0"</string>
     <string name="ss_about_made">"Tehtud ❤ Adventech'i poolt"</string>
     <string name="ss_settings_display_options">"Kuva valikud"</string>
     <string name="ss_settings_color_theme_light">"Hele"</string>

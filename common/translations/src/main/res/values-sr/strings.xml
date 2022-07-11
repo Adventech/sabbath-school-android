@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Kopirano"</string>
     <string name="ss_reading_share_to">"Podelite na:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Uskoro"</string>
-    <string name="ss_coming_soon_subheader">"Trenutno radimo na ovoj mogućnosti."</string>
-    <string name="ss_about_app_version">"verzija 3.0"</string>
+
     <string name="ss_about_made">"Napravio sa ❤ Adventech"</string>
     <string name="ss_settings_display_options">"Opcije prikaza"</string>
     <string name="ss_settings_color_theme_light">"Svetlo"</string>
