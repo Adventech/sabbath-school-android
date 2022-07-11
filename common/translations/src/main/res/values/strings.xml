@@ -62,10 +62,6 @@
     <string name="ss_reading_copied">"Selection copied."</string>
     <string name="ss_reading_share_to">"Share selection to:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Coming Soon"</string>
-    <string name="ss_coming_soon_subheader">"We are working on this feature right now. Stay tuned, it's coming soon"</string>
-    <string name="ss_about_app_version">"version 3.0"</string>
     <string name="ss_about_made">"Made with ❤ by Adventech"</string>
     <string name="ss_settings_display_options">"Display options"</string>
     <string name="ss_settings_color_theme_light">"Light"</string>
