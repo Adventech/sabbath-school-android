@@ -108,4 +108,10 @@ Tunaamini kweli kwamba Mungu ameongeza ujuzi wa dunia ya kisasa na anataka tuutu
     <string name="ss_settings_theme">Mandhari</string>
     <string name="ss_settings_theme_default">Chaguo-msingi</string>
     <string name="ss_get_printed_resources">Pata Rasilimali Zilizochapishwa</string>
+    <string name="ss_account">Akaunti</string>
+    <string name="ss_action_arrow_back">Mshale Nyuma</string>
+    <string name="ss_action_arrow_drop_down">Arrow Drop Down</string>
+    <string name="ss_action_arrow_right">Mshale wa Kulia</string>
+    <string name="ss_action_close">Funga</string>
+    <string name="ss_action_selected">Imechaguliwa</string>
 </resources>

@@ -113,5 +113,11 @@
 
     <string name="ss_pdf_original">Rozvržení tištěné verze</string>
     <string name="ss_get_printed_resources">Získejte tištěné zdroje</string>
+    <string name="ss_account">Účet</string>
+    <string name="ss_action_arrow_back">Šipka zpět</string>
+    <string name="ss_action_arrow_drop_down">Rozbalovací šipka dolů</string>
+    <string name="ss_action_arrow_right">Šipka doprava</string>
+    <string name="ss_action_close">Zavřít</string>
+    <string name="ss_action_selected">Vybraný</string>
 
 </resources>

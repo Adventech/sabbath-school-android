@@ -108,4 +108,10 @@ Naprawdę wierzymy, że Bóg zwiększył wiedzę o współczesnym świecie i chc
     <string name="ss_settings_theme">Temat</string>
     <string name="ss_settings_theme_default">Domyślny</string>
     <string name="ss_get_printed_resources">Pobierz materiały drukowane</string>
+    <string name="ss_account">Rachunek</string>
+    <string name="ss_action_arrow_back">Strzałka Wstecz</string>
+    <string name="ss_action_arrow_drop_down">Strzałka w dół</string>
+    <string name="ss_action_arrow_right">Strzałka w prawo</string>
+    <string name="ss_action_close">Blisko</string>
+    <string name="ss_action_selected">Wybrany</string>
 </resources>

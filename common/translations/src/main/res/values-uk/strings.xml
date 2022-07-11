@@ -108,4 +108,10 @@
     <string name="ss_settings_theme">Тема</string>
     <string name="ss_settings_theme_default">За замовчуванням</string>
     <string name="ss_get_printed_resources">Отримати друковані ресурси</string>
+    <string name="ss_account">Обліковий запис</string>
+    <string name="ss_action_arrow_back">Стрілка назад</string>
+    <string name="ss_action_arrow_drop_down">Стрілка вниз</string>
+    <string name="ss_action_arrow_right">Стрілка вправо</string>
+    <string name="ss_action_close">Закрити</string>
+    <string name="ss_action_selected">Вибране</string>
 </resources>

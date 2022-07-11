@@ -108,4 +108,10 @@ Kami benar-benar percaya bahawa Tuhan telah meningkatkan pengetahuan tentang dun
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Lalai</string>
     <string name="ss_get_printed_resources">Dapatkan Sumber Bercetak</string>
+    <string name="ss_account">Akaun</string>
+    <string name="ss_action_arrow_back">Anak panah Belakang</string>
+    <string name="ss_action_arrow_drop_down">Anak panah Jatuh Ke Bawah</string>
+    <string name="ss_action_arrow_right">Anak panah Kanan</string>
+    <string name="ss_action_close">tutup</string>
+    <string name="ss_action_selected">Dipilih</string>
 </resources>

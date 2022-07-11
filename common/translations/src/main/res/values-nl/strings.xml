@@ -108,4 +108,10 @@ We geloven echt dat God de kennis van de moderne wereld heeft vergroot en wil da
     <string name="ss_settings_theme">Thema</string>
     <string name="ss_settings_theme_default">Standaard</string>
     <string name="ss_get_printed_resources">Gedrukte bronnen ophalen</string>
+    <string name="ss_account">Account</string>
+    <string name="ss_action_arrow_back">Pijl terug</string>
+    <string name="ss_action_arrow_drop_down">Pijl omlaag</string>
+    <string name="ss_action_arrow_right">Pijl naar rechts</string>
+    <string name="ss_action_close">Dichtbij</string>
+    <string name="ss_action_selected">Geselecteerd</string>
 </resources>

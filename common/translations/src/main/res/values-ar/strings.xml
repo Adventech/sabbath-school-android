@@ -105,4 +105,10 @@
     <string name="ss_settings_theme">سمة</string>
     <string name="ss_settings_theme_default">تقصير</string>
     <string name="ss_get_printed_resources">احصل على موارد مطبوعة</string>
+    <string name="ss_account">الحساب</string>
+    <string name="ss_action_arrow_back">ﺓﺩﻮﻌﻟﺍ ﻢﻬﺳ</string>
+    <string name="ss_action_arrow_drop_down">ﺔﻟﺪﺴﻨﻣ ﻢﻬﺳ</string>
+    <string name="ss_action_arrow_right">ﻦﻤﻳﻷ﻿ﺍ ﻢﻬﺴﻟ</string>
+    <string name="ss_action_close">ﺐﻳﺮﻗ</string>
+    <string name="ss_action_selected">ﺩﺪﺤﻤﻟﺍ</string>
 </resources>

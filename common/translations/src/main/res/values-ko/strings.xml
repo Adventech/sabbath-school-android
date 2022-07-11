@@ -112,4 +112,10 @@
     <string name="ss_settings_theme">주제</string>
     <string name="ss_settings_theme_default">기본</string>
     <string name="ss_get_printed_resources">인쇄된 리소스 가져오기</string>
+    <string name="ss_account">계정</string>
+    <string name="ss_action_arrow_back">애로우 백</string>
+    <string name="ss_action_arrow_drop_down">화살표 드롭다운</string>
+    <string name="ss_action_arrow_right">화살표 오른쪽</string>
+    <string name="ss_action_close">닫다</string>
+    <string name="ss_action_selected">선택된</string>
 </resources>

@@ -108,4 +108,10 @@ Re lumela kannete hore Molimo o ekelitse tsebo ea lefats'e la kajeno ebile o bat
     <string name="ss_settings_theme">Sehlooho</string>
     <string name="ss_settings_theme_default">Ka botlalo</string>
     <string name="ss_get_printed_resources">Fumana Lisebelisoa tse Hatisitsoeng</string>
+    <string name="ss_account">Akhaonto</string>
+    <string name="ss_action_arrow_back">Motsu Morao</string>
+    <string name="ss_action_arrow_drop_down">Motsu oa Fatše</string>
+    <string name="ss_action_arrow_right">Motsu ka ho Le letona</string>
+    <string name="ss_action_close">Koala</string>
+    <string name="ss_action_selected">E kgethiloeng</string>
 </resources>

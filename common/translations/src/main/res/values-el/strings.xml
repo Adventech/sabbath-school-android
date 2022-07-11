@@ -109,4 +109,10 @@
     <string name="ss_settings_theme">Θέμα</string>
     <string name="ss_settings_theme_default">Προκαθορισμένο</string>
     <string name="ss_get_printed_resources">Λάβετε εκτυπωμένους πόρους</string>
+    <string name="ss_account">λογαριασμός</string>
+    <string name="ss_action_arrow_back">Βέλος Πίσω</string>
+    <string name="ss_action_arrow_drop_down">Αναπτυσσόμενο βέλος</string>
+    <string name="ss_action_arrow_right">Βέλος Δεξιά</string>
+    <string name="ss_action_close">Κλείσε</string>
+    <string name="ss_action_selected">Επιλεγμένο</string>
 </resources>

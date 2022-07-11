@@ -108,4 +108,10 @@ Kami percaya bahwa Tuhan menambahkan pengetahuan tentang dunia modern dan ingin 
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Bawaan</string>
     <string name="ss_get_printed_resources">Dapatkan Sumber Daya Cetak</string>
+    <string name="ss_account">Akun</string>
+    <string name="ss_action_arrow_back">Panah Kembali</string>
+    <string name="ss_action_arrow_drop_down">Panah Drop Down</string>
+    <string name="ss_action_arrow_right">"Panah Kanan "</string>
+    <string name="ss_action_close">Menutup</string>
+    <string name="ss_action_selected">Terpilih</string>
 </resources>

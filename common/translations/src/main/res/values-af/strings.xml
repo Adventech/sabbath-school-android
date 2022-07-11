@@ -110,4 +110,10 @@ Ons glo werklik dat God die kennis van die moderne wÃªreld verhoog het en wil hÃ
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Verstek</string>
     <string name="ss_get_printed_resources">Kry Gedrukte Hulpbronne</string>
+    <string name="ss_account">Rekening</string>
+    <string name="ss_action_arrow_back">Pyltjie Terug</string>
+    <string name="ss_action_arrow_drop_down">Pyltjie Drop Down</string>
+    <string name="ss_action_arrow_right">Pyltjie regs</string>
+    <string name="ss_action_close">Naby</string>
+    <string name="ss_action_selected">Gekies</string>
 </resources>

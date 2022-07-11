@@ -108,4 +108,10 @@ Talagang naniniwala kami na pinalaki ng Diyos ang kaalaman sa modernong mundo at
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Default</string>
     <string name="ss_get_printed_resources">Gedruckte Ressourcen abrufen</string>
+    <string name="ss_account">Account</string>
+    <string name="ss_action_arrow_back">Arrow Pabalik</string>
+    <string name="ss_action_arrow_drop_down">Arrow Drop Down</string>
+    <string name="ss_action_arrow_right">Arrow Pakanan</string>
+    <string name="ss_action_close">Isara</string>
+    <string name="ss_action_selected">Napili</string>
 </resources>

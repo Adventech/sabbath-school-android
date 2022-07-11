@@ -108,4 +108,10 @@
     <string name="ss_settings_theme">தீம்</string>
     <string name="ss_settings_theme_default">இயல்புநிலை</string>
     <string name="ss_get_printed_resources">அச்சிடப்பட்ட வளங்களைப் பெறுங்கள்</string>
+    <string name="ss_account">கணக்கு</string>
+    <string name="ss_action_arrow_back">"அம்பு மீண்டும் "</string>
+    <string name="ss_action_arrow_drop_down">"அம்பு ட்ராப் டவுன் "</string>
+    <string name="ss_action_arrow_right">"அம்பு வலது "</string>
+    <string name="ss_action_close">"நெருக்கமான "</string>
+    <string name="ss_action_selected">"தேர்ந்தெடுக்கப்பட்டது "</string>
 </resources>

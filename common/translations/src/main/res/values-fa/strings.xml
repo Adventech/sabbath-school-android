@@ -109,4 +109,10 @@
     <string name="ss_settings_theme">موضوع</string>
     <string name="ss_settings_theme_default">پیش فرض</string>
     <string name="ss_get_printed_resources">دریافت منابع چاپی</string>
+    <string name="ss_account">حساب</string>
+    <string name="ss_action_arrow_back">ﺖﺸﮔﺮﺑ ﻥﺎﮑﯿﭘ</string>
+    <string name="ss_action_arrow_drop_down">ﯽﯾﻮﺸﮐ ﺶﻠﻓ</string>
+    <string name="ss_action_arrow_right">ﺖﺳﺍﺭ ﺖﻤﺳ ﺶﻠﻓ</string>
+    <string name="ss_action_close">ﮏﯾﺩﺰﻧ</string>
+    <string name="ss_action_selected">ﺪﺷ ﺏﺎﺨﺘﻧﺍ</string>
 </resources>

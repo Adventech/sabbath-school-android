@@ -109,4 +109,10 @@ Wir glauben wirklich, dass Gott die Erkenntnis der modernen Welt erhöht hat und
     <string name="ss_settings_theme">Thema</string>
     <string name="ss_settings_theme_default">Standard</string>
     <string name="ss_get_printed_resources">Gedruckte Ressourcen abrufen</string>
+    <string name="ss_account">Konto</string>
+    <string name="ss_action_arrow_back">Pfeil zurück</string>
+    <string name="ss_action_arrow_drop_down">Pfeil nach unten</string>
+    <string name="ss_action_arrow_right">Pfeil rechts</string>
+    <string name="ss_action_close">Nah dran</string>
+    <string name="ss_action_selected">Ausgewählt</string>
 </resources>

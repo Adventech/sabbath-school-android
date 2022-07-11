@@ -108,4 +108,10 @@
     <string name="ss_settings_theme">主题</string>
     <string name="ss_settings_theme_default">默认</string>
     <string name="ss_get_printed_resources">获取印刷资源</string>
+    <string name="ss_account">帐户</string>
+    <string name="ss_action_arrow_back">箭头返回</string>
+    <string name="ss_action_arrow_drop_down">箭头下拉</string>
+    <string name="ss_action_arrow_right">向右箭头</string>
+    <string name="ss_action_close">关</string>
+    <string name="ss_action_selected">已选中</string>
 </resources>

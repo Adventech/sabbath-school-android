@@ -108,4 +108,10 @@ Mes tikime, kad Dievas padidino šiuolaikinio pasaulio žinias ir nori, kad mes 
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Numatytas</string>
     <string name="ss_get_printed_resources">Gauti spausdintus išteklius</string>
+    <string name="ss_account">sąskaita</string>
+    <string name="ss_action_arrow_back">Rodyklė atgal</string>
+    <string name="ss_action_arrow_drop_down">Rodyklės išskleidžiamasis žemyn</string>
+    <string name="ss_action_arrow_right">Rodyklė į dešinę</string>
+    <string name="ss_action_close">Uždaryti</string>
+    <string name="ss_action_selected">Pasirinkta</string>
 </resources>

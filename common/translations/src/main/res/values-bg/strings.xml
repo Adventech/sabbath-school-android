@@ -109,4 +109,10 @@
     <string name="ss_settings_theme">Тема</string>
     <string name="ss_settings_theme_default">По подразбиране</string>
     <string name="ss_get_printed_resources">Вземете печатни ресурси</string>
+    <string name="ss_account">Сметка</string>
+    <string name="ss_action_arrow_back">Стрелка назад</string>
+    <string name="ss_action_arrow_drop_down">Стрелка падащо надолу</string>
+    <string name="ss_action_arrow_right">Стрелка надясно</string>
+    <string name="ss_action_close">Близо</string>
+    <string name="ss_action_selected">Избрано</string>
 </resources>

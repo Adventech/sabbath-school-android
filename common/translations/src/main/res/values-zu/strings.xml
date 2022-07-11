@@ -109,4 +109,10 @@ Siyakholwa ngempela ukuthi uNkulunkulu ukwandise ulwazi lwezwe lwanamuhla futhi 
     <string name="ss_settings_theme">Ingqikithi</string>
     <string name="ss_settings_theme_default">Okuzenzakalelayo</string>
     <string name="ss_get_printed_resources">Thola Izinsiza Eziphrintiwe</string>
+    <string name="ss_account">I-akhawunti</string>
+    <string name="ss_action_arrow_back">Umcibisholo Emuva</string>
+    <string name="ss_action_arrow_drop_down">Umcibisholo Wehlela Phansi</string>
+    <string name="ss_action_arrow_right">Umcibisholo Wesokudla</string>
+    <string name="ss_action_close">Vala</string>
+    <string name="ss_action_selected">Ikhethiwe</string>
 </resources>

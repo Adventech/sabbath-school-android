@@ -104,4 +104,10 @@
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Misligholde</string>
     <string name="ss_get_printed_resources">Få trykte ressurser</string>
+    <string name="ss_account">Konto</string>
+    <string name="ss_action_arrow_back">Pil tilbake</string>
+    <string name="ss_action_arrow_drop_down">Pil nedtrekk</string>
+    <string name="ss_action_arrow_right">Pil høyre</string>
+    <string name="ss_action_close">Lukk</string>
+    <string name="ss_action_selected">Valgt</string>
 </resources>

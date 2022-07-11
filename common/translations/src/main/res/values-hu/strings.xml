@@ -109,4 +109,10 @@ Igazán hiszünk abban, hogy Isten megnövelte a modern világ tudását, és az
     <string name="ss_settings_theme">Téma</string>
     <string name="ss_settings_theme_default">Alapértelmezett</string>
     <string name="ss_get_printed_resources">Nyomtatott erőforrások beszerzése</string>
+    <string name="ss_account">fiók</string>
+    <string name="ss_action_arrow_back">Nyíl Vissza</string>
+    <string name="ss_action_arrow_drop_down">Nyíl legördülő</string>
+    <string name="ss_action_arrow_right">Nyíl jobbra</string>
+    <string name="ss_action_close">Bezárás</string>
+    <string name="ss_action_selected">Kiválasztott</string>
 </resources>

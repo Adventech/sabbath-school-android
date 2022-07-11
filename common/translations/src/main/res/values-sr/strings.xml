@@ -108,4 +108,10 @@
     <string name="ss_settings_theme">Тхеме</string>
     <string name="ss_settings_theme_default">Уобичајено</string>
     <string name="ss_get_printed_resources">Набавите штампане ресурсе</string>
+    <string name="ss_account">Налог</string>
+    <string name="ss_action_arrow_back">Арров Бацк</string>
+    <string name="ss_action_arrow_drop_down">Арров Дроп Довн</string>
+    <string name="ss_action_arrow_right">Стрелица десно</string>
+    <string name="ss_action_close">Близу</string>
+    <string name="ss_action_selected">Изабрано</string>
 </resources>

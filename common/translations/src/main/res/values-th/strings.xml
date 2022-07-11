@@ -108,4 +108,10 @@
     <string name="ss_settings_theme">ธีม</string>
     <string name="ss_settings_theme_default">ค่าเริ่มต้น</string>
     <string name="ss_get_printed_resources">รับสื่อสิ่งพิมพ์</string>
+    <string name="ss_account">บัญชี</string>
+    <string name="ss_action_arrow_back">ลูกศรกลับ</string>
+    <string name="ss_action_arrow_drop_down">ลูกศรแบบเลื่อนลง</string>
+    <string name="ss_action_arrow_right">ลูกศรขวา</string>
+    <string name="ss_action_close">"ปิด I "</string>
+    <string name="ss_action_selected">เลือกแล้ว</string>
 </resources>

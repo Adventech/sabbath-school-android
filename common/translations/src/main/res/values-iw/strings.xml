@@ -108,4 +108,10 @@
     <string name="ss_settings_theme">נושא</string>
     <string name="ss_settings_theme_default">בְּרִירַת מֶחדָל</string>
     <string name="ss_get_printed_resources">קבל משאבים מודפסים</string>
+    <string name="ss_account">חֶשְׁבּוֹן</string>
+    <string name="ss_action_arrow_back">הרוחא ץח</string>
+    <string name="ss_action_arrow_drop_down">חתפנ ץח</string>
+    <string name="ss_action_arrow_right">הנימי ץח</string>
+    <string name="ss_action_close">רוגס</string>
+    <string name="ss_action_selected">רחבנ</string>
 </resources>

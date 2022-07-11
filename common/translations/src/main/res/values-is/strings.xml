@@ -108,4 +108,10 @@ Við trúum því sannarlega að Guð hafi aukið þekkingu á nútímanum og vi
     <string name="ss_settings_theme">Þema</string>
     <string name="ss_settings_theme_default">Sjálfgefið</string>
     <string name="ss_get_printed_resources">Sækja prentaðar tilföng</string>
+    <string name="ss_account">Reikningur</string>
+    <string name="ss_action_arrow_back">Ör til baka</string>
+    <string name="ss_action_arrow_drop_down">Arrow Drop Down</string>
+    <string name="ss_action_arrow_right">Ör til hægri</string>
+    <string name="ss_action_close">Loka</string>
+    <string name="ss_action_selected">Valið</string>
 </resources>

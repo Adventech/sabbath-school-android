@@ -108,4 +108,10 @@ Nós realmente acreditamos que Deus aumentou o conhecimento do mundo moderno e q
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Predefinição</string>
     <string name="ss_get_printed_resources">Obtenha recursos impressos</string>
+    <string name="ss_account">Conta</string>
+    <string name="ss_action_arrow_back">Seta para trás</string>
+    <string name="ss_action_arrow_drop_down">Seta suspensa</string>
+    <string name="ss_action_arrow_right">Seta para a direita</string>
+    <string name="ss_action_close">Perto</string>
+    <string name="ss_action_selected">Selecionado</string>
 </resources>

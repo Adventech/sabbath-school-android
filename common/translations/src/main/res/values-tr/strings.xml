@@ -108,4 +108,10 @@ Gerçekten, Tanrı'nın modern dünya bilgisini arttırdığına ve O'nun ihtiş
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Varsayılan</string>
     <string name="ss_get_printed_resources">Basılı Kaynakları Alın</string>
+    <string name="ss_account">Hesap</string>
+    <string name="ss_action_arrow_back">Geri Ok</string>
+    <string name="ss_action_arrow_drop_down">Aşağı Açılan Ok</string>
+    <string name="ss_action_arrow_right">Sağ Ok</string>
+    <string name="ss_action_close">Kapat</string>
+    <string name="ss_action_selected">Seçildi</string>
 </resources>

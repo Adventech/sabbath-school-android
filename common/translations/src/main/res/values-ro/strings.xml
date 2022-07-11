@@ -107,5 +107,11 @@ Credem cu adevărat că Dumnezeu a mărit cunoașterea lumii moderne și doreșt
     <string name="ss_settings_theme">Temă</string>
     <string name="ss_settings_theme_default">Mod implicit</string>
     <string name="ss_get_printed_resources">Obțineți resurse tipărite</string>
+    <string name="ss_account">Cont</string>
+    <string name="ss_action_arrow_back">Săgeată înapoi</string>
+    <string name="ss_action_arrow_drop_down">Săgeată drop-down</string>
+    <string name="ss_action_arrow_right">Săgeată la dreapta</string>
+    <string name="ss_action_close">Închide</string>
+    <string name="ss_action_selected">Selectat</string>
 
 </resources>

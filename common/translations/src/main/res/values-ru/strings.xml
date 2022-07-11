@@ -109,4 +109,10 @@
     <string name="ss_settings_theme">Тема</string>
     <string name="ss_settings_theme_default">Дефолт</string>
     <string name="ss_get_printed_resources">Получить печатные ресурсы</string>
+    <string name="ss_account">Счет</string>
+    <string name="ss_action_arrow_back">Стрелка назад</string>
+    <string name="ss_action_arrow_drop_down">Стрелка вниз</string>
+    <string name="ss_action_arrow_right">Стрелка вправо</string>
+    <string name="ss_action_close">Закрывать</string>
+    <string name="ss_action_selected">Выбрано</string>
 </resources>

@@ -116,4 +116,10 @@
     <string name="ss_settings_theme">テーマ</string>
     <string name="ss_settings_theme_default">ディフォルト</string>
     <string name="ss_get_printed_resources">印刷されたリソースの取得</string>
+    <string name="ss_account">アカウント</string>
+    <string name="ss_action_arrow_back">矢印戻る</string>
+    <string name="ss_action_arrow_drop_down">矢印ドロップダウン</string>
+    <string name="ss_action_arrow_right">右矢印</string>
+    <string name="ss_action_close">近い</string>
+    <string name="ss_action_selected">選択済み</string>
 </resources>

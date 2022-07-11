@@ -109,5 +109,11 @@
     <string name="ss_settings_theme">ຫົວຂໍ້</string>
     <string name="ss_settings_theme_default">ຄ່າເລີ່ມຕົ້ນ</string>
     <string name="ss_get_printed_resources">ໄດ້ ຮັບ ການ ພິມ ຊັບ ພະ ຍາ ກອນ</string>
+    <string name="ss_account">ບັນຊີ</string>
+    <string name="ss_action_arrow_back">ລູກສອນກັບຄືນ</string>
+    <string name="ss_action_arrow_drop_down">ລູກສອນເລື່ອນລົງ</string>
+    <string name="ss_action_arrow_right">ລູກສອນຂວາ</string>
+    <string name="ss_action_close">ປິດ</string>
+    <string name="ss_action_selected">ເລືອກແລ້ວ</string>
 
 </resources>

@@ -108,4 +108,10 @@
     <string name="ss_settings_theme">തീം</string>
     <string name="ss_settings_theme_default">ഡിഫോൾട്ട്</string>
     <string name="ss_get_printed_resources">അച്ചടിച്ച വിഭവങ്ങൾ നേടുക</string>
+    <string name="ss_account">അക്കൗണ്ട്</string>
+    <string name="ss_action_arrow_back">"ആരോ ബാക്ക് "</string>
+    <string name="ss_action_arrow_drop_down">"ആരോ ഡ്രോപ്പ് ഡൗൺ "</string>
+    <string name="ss_action_arrow_right">"അമ്പടയാളം വലത് "</string>
+    <string name="ss_action_close">അടയ്ക്കുക</string>
+    <string name="ss_action_selected">തിരഞ്ഞെടുത്തു</string>
 </resources>

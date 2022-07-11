@@ -108,4 +108,10 @@ Nous croyons vraiment que Dieu a augmenté la connaissance du monde moderne et v
     <string name="ss_settings_theme">Thème</string>
     <string name="ss_settings_theme_default">Défaut</string>
     <string name="ss_get_printed_resources">Obtenir des ressources imprimées</string>
+    <string name="ss_account">Compte</string>
+    <string name="ss_action_arrow_back">Flèche Retour</string>
+    <string name="ss_action_arrow_drop_down">Flèche déroulante vers le bas</string>
+    <string name="ss_action_arrow_right">Flèche vers la droite</string>
+    <string name="ss_action_close">proche</string>
+    <string name="ss_action_selected">Choisi</string>
 </resources>

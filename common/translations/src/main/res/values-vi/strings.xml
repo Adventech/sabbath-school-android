@@ -108,4 +108,10 @@ Chúng tôi thực sự tin rằng Chúa đã gia tăng kiến thức về thế
     <string name="ss_settings_theme">Chủ đề</string>
     <string name="ss_settings_theme_default">Vỡ nợ</string>
     <string name="ss_get_printed_resources">Nhận tài nguyên in</string>
+    <string name="ss_account">Tài khoản</string>
+    <string name="ss_action_arrow_back">Mũi tên quay lại</string>
+    <string name="ss_action_arrow_drop_down">Mũi tên thả xuống</string>
+    <string name="ss_action_arrow_right">Mũi tên phải</string>
+    <string name="ss_action_close">Đóng</string>
+    <string name="ss_action_selected">Đã chọn</string>
 </resources>

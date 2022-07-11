@@ -108,4 +108,10 @@ Siyakholwa ngokwenene ukuba uThixo ukwandise ulwazi lwehlabathi lanamhlanje kway
     <string name="ss_settings_theme">Umxholo</string>
     <string name="ss_settings_theme_default">Ukungagqibeki</string>
     <string name="ss_get_printed_resources">Fumana izixhobo eziprintiweyo</string>
+    <string name="ss_account">Iakhawunti</string>
+    <string name="ss_action_arrow_back">Utolo Emva</string>
+    <string name="ss_action_arrow_drop_down">Utolo Lwehla Ezantsi</string>
+    <string name="ss_action_arrow_right">Utolo lwasekunene</string>
+    <string name="ss_action_close">Vala</string>
+    <string name="ss_action_selected">Ikhethiwe</string>
 </resources>

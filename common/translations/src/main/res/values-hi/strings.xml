@@ -108,4 +108,10 @@
     <string name="ss_settings_theme">विषय</string>
     <string name="ss_settings_theme_default">चूक जाना</string>
     <string name="ss_get_printed_resources">मुद्रित संसाधन प्राप्त करें</string>
+    <string name="ss_account">खाता</string>
+    <string name="ss_action_arrow_back">एरो बैक</string>
+    <string name="ss_action_arrow_drop_down">एरो ड्रॉप डाउन</string>
+    <string name="ss_action_arrow_right">तीर दाएँ</string>
+    <string name="ss_action_close">बंद करना</string>
+    <string name="ss_action_selected">चयनित</string>
 </resources>

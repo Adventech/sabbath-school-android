@@ -115,5 +115,11 @@
 
     <string name="ss_pdf_original">Original layout</string>
     <string name="ss_get_printed_resources">Get Printed Resources</string>
+    <string name="ss_account">Account</string>
+    <string name="ss_action_arrow_back">Arrow Back</string>
+    <string name="ss_action_arrow_drop_down">Arrow Drop Down</string>
+    <string name="ss_action_arrow_right">Arrow Right</string>
+    <string name="ss_action_close">Close</string>
+    <string name="ss_action_selected">Selected</string>
 
 </resources>

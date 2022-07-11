@@ -104,4 +104,10 @@
     <string name="ss_settings_theme">iToko</string>
     <string name="ss_settings_theme_default">Sega ni Tiko</string>
     <string name="ss_get_printed_resources">Rawata na iVurevure Tabaki</string>
+    <string name="ss_account">Akaude</string>
+    <string name="ss_action_arrow_back">iTuvatuva e Muri</string>
+    <string name="ss_action_arrow_drop_down">Vakalutuka Sobu na dakai titi</string>
+    <string name="ss_action_arrow_right">iTuvatuva Ena Imatau</string>
+    <string name="ss_action_close">Sogo</string>
+    <string name="ss_action_selected">Digitaki</string>
 </resources>

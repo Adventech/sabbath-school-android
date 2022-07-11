@@ -102,5 +102,11 @@
     <string name="ss_settings_theme">အပြင်အဆင်</string>
     <string name="ss_settings_theme_default">ပုံသေ</string>
     <string name="ss_get_printed_resources">ပုံနှိပ်ထားသော အရင်းအမြစ်များကို ရယူပါ။</string>
+    <string name="ss_account">အကောင့်</string>
+    <string name="ss_action_selected">"ရွေးချယ်ခဲ့သည်။ "</string>
+    <string name="ss_action_close">"ပိတ်လိုက် "</string>
+    <string name="ss_action_arrow_right">"မြှားမှန် "</string>
+    <string name="ss_action_arrow_drop_down">Arrow Drop Down</string>
+    <string name="ss_action_arrow_back">"မြှားနောက်ပြန် "</string>
 
 </resources>
