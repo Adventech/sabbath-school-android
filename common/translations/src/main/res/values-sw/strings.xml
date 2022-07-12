@@ -40,11 +40,11 @@
     <string name="ss_login_anonymously_dialog_title">"Ingia bila kujulikana?"</string>
     <string name="ss_login_anonymously_dialog_description">"Ukiingia bila kujulikana, huwezi kuunganisha data zako (kama maoni na mambo muhimu) kwenye vifaa, au baada ya kufuta programu. Una uhakika unataka kuendelea?"</string>
     <string name="ss_quarterlies_filter_languages">"Lugha"</string>
-    <string name="ss_quarterlies_downloading">"Kupata robo ya ..."</string>
+    <string name="ss_quarterlies_downloading">"Kupata robo ya …"</string>
     <string name="ss_quarterlies_error">"Kosa isiyojulikana ilitokea. Tafadhali jaribu tena."</string>
     <string name="ss_quarterlies_empty">"Hakuna robo tatu zinazopatikana kwa wakati huu"</string>
     <string name="ss_quarterly_item_read_text">"Fungua"</string>
-    <string name="ss_lessons_downloading">"Inafungua kila mwezi ..."</string>
+    <string name="ss_lessons_downloading">"Inafungua kila mwezi …"</string>
     <string name="ss_lessons_error">"Hitilafu ilitokea wakati wa ufunguzi wa kila robo"</string>
     <string name="ss_lessons_empty">"Hakuna robo tatu zinazopatikana kwa wakati huu"</string>
     <string name="ss_lessons_read">"Soma"</string>
@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Uchaguzi ulikopiwa"</string>
     <string name="ss_reading_share_to">"Shiriki uteuzi kwa:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Kuja Hivi karibuni"</string>
-    <string name="ss_coming_soon_subheader">"Kwa sasa tunafanya kazi kwenye kipengele hiki. Endelea kuzingatia, inakuja hivi karibuni."</string>
-    <string name="ss_about_app_version">"toleo 3.0"</string>
+
     <string name="ss_about_made">"Imefanywa na ❤ na Adventech"</string>
     <string name="ss_settings_display_options">"Chaguo za kuonyesha"</string>
     <string name="ss_settings_color_theme_light">"Mwanga"</string>
@@ -108,4 +105,10 @@ Tunaamini kweli kwamba Mungu ameongeza ujuzi wa dunia ya kisasa na anataka tuutu
     <string name="ss_settings_theme">Mandhari</string>
     <string name="ss_settings_theme_default">Chaguo-msingi</string>
     <string name="ss_get_printed_resources">Pata Rasilimali Zilizochapishwa</string>
+    <string name="ss_account">Akaunti</string>
+    <string name="ss_action_arrow_back">Mshale Nyuma</string>
+    <string name="ss_action_arrow_drop_down">Arrow Drop Down</string>
+    <string name="ss_action_arrow_right">Mshale wa Kulia</string>
+    <string name="ss_action_close">Funga</string>
+    <string name="ss_action_selected">Imechaguliwa</string>
 </resources>

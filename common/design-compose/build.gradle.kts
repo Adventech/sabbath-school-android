@@ -58,6 +58,8 @@ android {
 }
 
 dependencies {
+    implementation(project(BuildModules.Common.TRANSLATIONS))
+
     implementation(Dependencies.TIMBER)
     implementation(Accompanist.placeholder)
     implementation(AndroidX.LIFECYCLE_KTX)

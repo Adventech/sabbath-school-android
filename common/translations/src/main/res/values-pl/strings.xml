@@ -40,11 +40,11 @@
     <string name="ss_login_anonymously_dialog_title">"Zaloguj się anonimowo?"</string>
     <string name="ss_login_anonymously_dialog_description">"Jeśli zalogujesz się anonimowo, nie będziesz w stanie zsynchronizować swoich danych (takich jak komentarze i najciekawsze miejsca) między urządzeniami lub po odinstalowaniu aplikacji. Na pewno chcesz kontynuować?"</string>
     <string name="ss_quarterlies_filter_languages">"Języki"</string>
-    <string name="ss_quarterlies_downloading">"Pobieranie kwartalników..."</string>
+    <string name="ss_quarterlies_downloading">"Pobieranie kwartalników…"</string>
     <string name="ss_quarterlies_error">"Wystąpił nieznany błąd. Proszę spróbuj ponownie."</string>
     <string name="ss_quarterlies_empty">"W tej chwili nie ma dostępnych kwartałów"</string>
     <string name="ss_quarterly_item_read_text">"Otwórz"</string>
-    <string name="ss_lessons_downloading">"Otwieranie kwartalnika..."</string>
+    <string name="ss_lessons_downloading">"Otwieranie kwartalnika…"</string>
     <string name="ss_lessons_error">"Wystąpił błąd podczas otwierania kwartalnika"</string>
     <string name="ss_lessons_empty">"W tej chwili nie ma dostępnych kwartalników"</string>
     <string name="ss_lessons_read">"Czytaj"</string>
@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Wybór został skopiowany"</string>
     <string name="ss_reading_share_to">"Udostępnij wybór:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Wkrótce"</string>
-    <string name="ss_coming_soon_subheader">"Obecnie pracujemy nad tą funkcją. Już wkrótce będzie dostępna."</string>
-    <string name="ss_about_app_version">"wersja 3.0"</string>
+
     <string name="ss_about_made">"Wykonane z ❤ przez Adventech"</string>
     <string name="ss_settings_display_options">"Opcje wyświetlania"</string>
     <string name="ss_settings_color_theme_light">"Lekki"</string>
@@ -108,4 +105,10 @@ Naprawdę wierzymy, że Bóg zwiększył wiedzę o współczesnym świecie i chc
     <string name="ss_settings_theme">Temat</string>
     <string name="ss_settings_theme_default">Domyślny</string>
     <string name="ss_get_printed_resources">Pobierz materiały drukowane</string>
+    <string name="ss_account">Rachunek</string>
+    <string name="ss_action_arrow_back">Strzałka Wstecz</string>
+    <string name="ss_action_arrow_drop_down">Strzałka w dół</string>
+    <string name="ss_action_arrow_right">Strzałka w prawo</string>
+    <string name="ss_action_close">Blisko</string>
+    <string name="ss_action_selected">Wybrany</string>
 </resources>

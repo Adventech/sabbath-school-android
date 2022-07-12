@@ -60,10 +60,7 @@
     <string name="ss_reading_copied">"Odabir je kopiran"</string>
     <string name="ss_reading_share_to">"Dijeli odabir za:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Dolazi uskoro"</string>
-    <string name="ss_coming_soon_subheader">"Trenutno radimo na ovoj značajki. Ostanite s nama, uskoro će doći."</string>
-    <string name="ss_about_app_version">"verzija 3.0"</string>
+
     <string name="ss_about_made">"Napravljeno od ❤ Adventech"</string>
     <string name="ss_settings_display_options">"Postavke zaslona"</string>
     <string name="ss_settings_color_theme_light">"Svjetlo"</string>
@@ -108,4 +105,10 @@ Mi doista vjerujemo da je Bog povećao znanje o suvremenom svijetu i želi da ga
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Zadano</string>
     <string name="ss_get_printed_resources">Nabavite tiskane resurse</string>
+    <string name="ss_account">Račun</string>
+    <string name="ss_action_arrow_back">Strelica natrag</string>
+    <string name="ss_action_arrow_drop_down">Strelica Drop Down</string>
+    <string name="ss_action_arrow_right">Strelica desno</string>
+    <string name="ss_action_close">Zatvoriti</string>
+    <string name="ss_action_selected">Odabran</string>
 </resources>

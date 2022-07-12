@@ -40,11 +40,11 @@
     <string name="ss_login_anonymously_dialog_title">"गुमनाम रूपमा लगइन गर्नुहोस्?"</string>
     <string name="ss_login_anonymously_dialog_description">"यदि तपाईं गुमनाम रूपमा लगइन गर्नुहुन्छ भने, तपाइँ यन्त्रहरूमा भरिएको डेटा (जस्तै टिप्पणीहरू र हाइलाइटहरू) सिङ्क्रोनाइज गर्न सक्षम हुनुहुँदैन, वा एप स्थापना रद्द गरेपछि। के तपाईं पक्का अगाडि बढ्न चाहनुहुन्छ?"</string>
     <string name="ss_quarterlies_filter_languages">"भाषाहरु"</string>
-    <string name="ss_quarterlies_downloading">"क्वाटरलाइजहरू प्राप्त गर्दै ..."</string>
+    <string name="ss_quarterlies_downloading">"क्वाटरलाइजहरू प्राप्त गर्दै …"</string>
     <string name="ss_quarterlies_error">"अज्ञात त्रुटि भयो। फेरि प्रयास गर्नुहोस।"</string>
     <string name="ss_quarterlies_empty">"यस समयमा कुनै तिमाही उपलब्ध छैन"</string>
     <string name="ss_quarterly_item_read_text">"खोल्नुहोस्"</string>
-    <string name="ss_lessons_downloading">"तिमाही खोल्दै ..."</string>
+    <string name="ss_lessons_downloading">"तिमाही खोल्दै …"</string>
     <string name="ss_lessons_error">"तिमाही खोल्दा त्रुटि भयो"</string>
     <string name="ss_lessons_empty">"यस समयमा कुनै तिमाही उपलब्ध छैन"</string>
     <string name="ss_lessons_read">"पढ्नुहोस्"</string>
@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"चयन प्रतिलिपि गरियो"</string>
     <string name="ss_reading_share_to">"निम्नमा चयन साझेदारी गर्नुहोस्:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"आउदैछ"</string>
-    <string name="ss_coming_soon_subheader">"हामी हाल यस सुविधामा काम गरिरहेका छौं। घनिष्ठ रहनुहोस्, चाँडै आउँदैछ।"</string>
-    <string name="ss_about_app_version">"संस्करण 3.0"</string>
+
     <string name="ss_about_made">"Adventech द्वारा प्यार संग"</string>
     <string name="ss_settings_display_options">"विकल्पहरू प्रदर्शन गर्नुहोस्"</string>
     <string name="ss_settings_color_theme_light">"लाइट"</string>
@@ -108,5 +105,11 @@
     <string name="ss_settings_theme">विषयवस्तु</string>
     <string name="ss_settings_theme_default">पूर्वनिर्धारित</string>
     <string name="ss_get_printed_resources">मुद्रित स्रोतहरू प्राप्त गर्नुहोस्</string>
+    <string name="ss_account">खाता</string>
+    <string name="ss_action_arrow_back">"एरो ब्याक "</string>
+    <string name="ss_action_arrow_drop_down">"तीर ड्रप डाउन "</string>
+    <string name="ss_action_arrow_right">"दायाँ तीर "</string>
+    <string name="ss_action_close">"बन्द गर्नुहोस् "</string>
+    <string name="ss_action_selected">"चयन गरियो "</string>
 
 </resources>

@@ -40,7 +40,7 @@
     <string name="ss_login_anonymously_dialog_title">"അജ്ഞാതമായി ലോഗിൻ ചെയ്യുക?"</string>
     <string name="ss_login_anonymously_dialog_description">"നിങ്ങൾ അജ്ഞാതമായി ലോഗിൻ ചെയ്താൽ, ഉപകരണങ്ങളിൽ ഉടനീളം അല്ലെങ്കിൽ അപ്ലിക്കേഷൻ അൺഇൻസ്റ്റാൾ ചെയ്ത ശേഷം നിങ്ങളുടെ ഡാറ്റ (അഭിപ്രായങ്ങൾ, ഹൈലൈറ്റുകൾ എന്നിവ പോലുള്ളവ) സമന്വയിപ്പിക്കാനാവില്ല. നിങ്ങൾക്ക് തുടരണമെന്ന് തീർച്ചയാണോ?"</string>
     <string name="ss_quarterlies_filter_languages">"ഭാഷകൾ"</string>
-    <string name="ss_quarterlies_downloading">"ക്വാർട്ടർ ലഭിക്കുന്നു ..."</string>
+    <string name="ss_quarterlies_downloading">"ക്വാർട്ടർ ലഭിക്കുന്നു …"</string>
     <string name="ss_quarterlies_error">"അജ്ഞാത പിശക് സംഭവിച്ചു. വീണ്ടും ശ്രമിക്കുക."</string>
     <string name="ss_quarterlies_empty">"ഈ സമയത്ത് ക്വാർട്ടറികളൊന്നും ലഭ്യമല്ല"</string>
     <string name="ss_quarterly_item_read_text">"തുറക്കുക"</string>
@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"തിരഞ്ഞെടുപ്പ് പകർത്തി"</string>
     <string name="ss_reading_share_to">"തിരഞ്ഞെടുക്കൽ ഇതിൽ പങ്കുവയ്ക്കുക:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"ഉടൻ വരുന്നു"</string>
-    <string name="ss_coming_soon_subheader">"ഞങ്ങൾ ഇപ്പോൾ ഈ സവിശേഷതയിൽ പ്രവർത്തിക്കുന്നു. കാത്തിരിക്കുക, ഇത് ഉടൻ വരുന്നു."</string>
-    <string name="ss_about_app_version">"പതിപ്പ് 3.0"</string>
+
     <string name="ss_about_made">"ഉപയോഗിച്ച് ❤ കൊണ്ട്"</string>
     <string name="ss_settings_display_options">"ഡിസ്പ്ലേ ഓപ്ഷനുകൾ"</string>
     <string name="ss_settings_color_theme_light">"വെളിച്ചം"</string>
@@ -108,4 +105,10 @@
     <string name="ss_settings_theme">തീം</string>
     <string name="ss_settings_theme_default">ഡിഫോൾട്ട്</string>
     <string name="ss_get_printed_resources">അച്ചടിച്ച വിഭവങ്ങൾ നേടുക</string>
+    <string name="ss_account">അക്കൗണ്ട്</string>
+    <string name="ss_action_arrow_back">"ആരോ ബാക്ക് "</string>
+    <string name="ss_action_arrow_drop_down">"ആരോ ഡ്രോപ്പ് ഡൗൺ "</string>
+    <string name="ss_action_arrow_right">"അമ്പടയാളം വലത് "</string>
+    <string name="ss_action_close">അടയ്ക്കുക</string>
+    <string name="ss_action_selected">തിരഞ്ഞെടുത്തു</string>
 </resources>

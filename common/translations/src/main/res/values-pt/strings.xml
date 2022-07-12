@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Selecção copiado."</string>
     <string name="ss_reading_share_to">"selecção Partilhar no:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Em breve"</string>
-    <string name="ss_coming_soon_subheader">"Estamos a trabalhar sobre este recurso agora. Fique atento, está vindo em breve"</string>
-    <string name="ss_about_app_version">"versão 3.0"</string>
+
     <string name="ss_about_made">"Feito com ❤ por Adventech"</string>
     <string name="ss_settings_display_options">"Opções de exibição"</string>
     <string name="ss_settings_color_theme_light">"Leve"</string>
@@ -108,4 +105,10 @@ Nós realmente acreditamos que Deus aumentou o conhecimento do mundo moderno e q
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Predefinição</string>
     <string name="ss_get_printed_resources">Obtenha recursos impressos</string>
+    <string name="ss_account">Conta</string>
+    <string name="ss_action_arrow_back">Seta para trás</string>
+    <string name="ss_action_arrow_drop_down">Seta suspensa</string>
+    <string name="ss_action_arrow_right">Seta para a direita</string>
+    <string name="ss_action_close">Perto</string>
+    <string name="ss_action_selected">Selecionado</string>
 </resources>

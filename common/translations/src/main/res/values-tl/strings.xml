@@ -40,11 +40,11 @@
     <string name="ss_login_anonymously_dialog_title">"Mag-login nang hindi nagpapakilala?"</string>
     <string name="ss_login_anonymously_dialog_description">"Kung nag-login ka nang hindi nagpapakilala, hindi mo ma-synchronize ang iyong data (tulad ng mga komento at mga highlight) sa mga device, o pagkatapos i-uninstall ang app. Sigurado ka bang gusto mong magpatuloy?"</string>
     <string name="ss_quarterlies_filter_languages">"Mga Wika"</string>
-    <string name="ss_quarterlies_downloading">"Pagkuha ng quarterlies ..."</string>
+    <string name="ss_quarterlies_downloading">"Pagkuha ng quarterlies …"</string>
     <string name="ss_quarterlies_error">"Ang hindi kilalang error ay naganap. Ulitin mo ulit."</string>
     <string name="ss_quarterlies_empty">"Walang mga quarterlies na magagamit sa oras na ito"</string>
     <string name="ss_quarterly_item_read_text">"Buksan"</string>
-    <string name="ss_lessons_downloading">"Buksan ang quarterly ..."</string>
+    <string name="ss_lessons_downloading">"Buksan ang quarterly …"</string>
     <string name="ss_lessons_error">"Naganap ang error habang binubuksan ang quarterly"</string>
     <string name="ss_lessons_empty">"Walang mga quarterlies na magagamit sa oras na ito"</string>
     <string name="ss_lessons_read">"Basahin"</string>
@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Pinili kinopya"</string>
     <string name="ss_reading_share_to">"Ibahagi ang pagpipilian sa:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Malapit na"</string>
-    <string name="ss_coming_soon_subheader">"Kasalukuyan kaming nagtatrabaho sa tampok na ito. Manatiling nakatutok, darating ito sa lalong madaling panahon."</string>
-    <string name="ss_about_app_version">"bersyon 3.0"</string>
+
     <string name="ss_about_made">"Ginawa gamit ang ❤ sa Adventech"</string>
     <string name="ss_settings_display_options">"Mga pagpipilian sa display"</string>
     <string name="ss_settings_color_theme_light">"Banayad"</string>
@@ -108,4 +105,10 @@ Talagang naniniwala kami na pinalaki ng Diyos ang kaalaman sa modernong mundo at
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Default</string>
     <string name="ss_get_printed_resources">Gedruckte Ressourcen abrufen</string>
+    <string name="ss_account">Account</string>
+    <string name="ss_action_arrow_back">Arrow Pabalik</string>
+    <string name="ss_action_arrow_drop_down">Arrow Drop Down</string>
+    <string name="ss_action_arrow_right">Arrow Pakanan</string>
+    <string name="ss_action_close">Isara</string>
+    <string name="ss_action_selected">Napili</string>
 </resources>

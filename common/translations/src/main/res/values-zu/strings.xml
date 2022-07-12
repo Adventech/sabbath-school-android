@@ -40,11 +40,11 @@
     <string name="ss_login_anonymously_dialog_title">"Ngena ngemvume ngokungaziwa?"</string>
     <string name="ss_login_anonymously_dialog_description">"Uma ungena ngokungaziwa, ngeke ukwazi ukuvumelanisa idatha yakho (njengamazwana kanye nokugqama) kuwo wonke amadivaysi, noma ngemuva kokukhipha uhlelo lokusebenza. Uqinisekile ukuthi ufuna ukuqhubeka?"</string>
     <string name="ss_quarterlies_filter_languages">"Izilimi"</string>
-    <string name="ss_quarterlies_downloading">"Ithola izinyanga ezintathu ..."</string>
+    <string name="ss_quarterlies_downloading">"Ithola izinyanga ezintathu …"</string>
     <string name="ss_quarterlies_error">"Kuvele iphutha elingaziwa. Ngicela uzame futhi."</string>
     <string name="ss_quarterlies_empty">"Azikho izinkota zonyaka ezitholakalayo ngalesi sikhathi"</string>
     <string name="ss_quarterly_item_read_text">"Vula"</string>
-    <string name="ss_lessons_downloading">"Ivula i-quarterly ..."</string>
+    <string name="ss_lessons_downloading">"Ivula i-quarterly …"</string>
     <string name="ss_lessons_error">"Kuvele iphutha ngenkathi kuvulwa ngekota"</string>
     <string name="ss_lessons_empty">"Azikho izinkota zonyaka ezitholakalayo ngalesi sikhathi"</string>
     <string name="ss_lessons_read">"Funda"</string>
@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Ukukhetha kukopishiwe"</string>
     <string name="ss_reading_share_to">"Yabelana ngokukhethwa ku:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Kuyeza maduze"</string>
-    <string name="ss_coming_soon_subheader">"Okwamanje sisebenza kule sici. Hlala ubukele, buyeza maduzane."</string>
-    <string name="ss_about_app_version">"version 3.0"</string>
+
     <string name="ss_about_made">"Yenziwe nge-❤ ngu-Adventech"</string>
     <string name="ss_settings_display_options">"Izinketho zokubonisa"</string>
     <string name="ss_settings_color_theme_light">"Ukukhanya"</string>
@@ -109,4 +106,10 @@ Siyakholwa ngempela ukuthi uNkulunkulu ukwandise ulwazi lwezwe lwanamuhla futhi 
     <string name="ss_settings_theme">Ingqikithi</string>
     <string name="ss_settings_theme_default">Okuzenzakalelayo</string>
     <string name="ss_get_printed_resources">Thola Izinsiza Eziphrintiwe</string>
+    <string name="ss_account">I-akhawunti</string>
+    <string name="ss_action_arrow_back">Umcibisholo Emuva</string>
+    <string name="ss_action_arrow_drop_down">Umcibisholo Wehlela Phansi</string>
+    <string name="ss_action_arrow_right">Umcibisholo Wesokudla</string>
+    <string name="ss_action_close">Vala</string>
+    <string name="ss_action_selected">Ikhethiwe</string>
 </resources>

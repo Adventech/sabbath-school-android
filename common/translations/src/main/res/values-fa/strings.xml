@@ -41,11 +41,11 @@
     <string name="ss_login_anonymously_dialog_title">"ورود ناشناس؟"</string>
     <string name="ss_login_anonymously_dialog_description">"با ورود به صورت مخفی شما نمی خواهد قادر به همگام سازی داده های خود را، از جمله نظرات و برجسته، در سراسر دستگاه و یا بعد از پاک کردن نرم افزار. آیا مطمئن هستید که می خواهید ادامه دهید؟"</string>
     <string name="ss_quarterlies_filter_languages">"فیلتر زبانها"</string>
-    <string name="ss_quarterlies_downloading">"گرفتن فصلنامه ..."</string>
+    <string name="ss_quarterlies_downloading">"گرفتن فصلنامه …"</string>
     <string name="ss_quarterlies_error">"خطای ناشناخته رخ داده است. لطفا دوباره تلاش کنید"</string>
     <string name="ss_quarterlies_empty">"به نظر میرسد در فصلنامه در حال حاضر وجود ندارد"</string>
     <string name="ss_quarterly_item_read_text">"باز کن"</string>
-    <string name="ss_lessons_downloading">"باز کردن سه ماهه ..."</string>
+    <string name="ss_lessons_downloading">"باز کردن سه ماهه …"</string>
     <string name="ss_lessons_error">"خطا در هنگام باز کردن سه ماهه رخ داده است"</string>
     <string name="ss_lessons_empty">"به نظر می رسد هیچ درس در حال حاضر وجود دارد"</string>
     <string name="ss_lessons_read">"خواندن"</string>
@@ -60,10 +60,6 @@
     <string name="ss_reading_copied">"انتخاب کپی شده است."</string>
     <string name="ss_reading_share_to">"به اشتراک انتخاب به:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"به زودی"</string>
-    <string name="ss_coming_soon_subheader">"ما در حال کار بر روی این ویژگی در حال حاضر. در ارتباط باشید، به زودی"</string>
-    <string name="ss_about_app_version">"نسخه 3.0"</string>
     <string name="ss_about_made">"ساخته شده با ❤ توسط Adventech"</string>
     <string name="ss_settings_display_options">"گزینه های نمایش"</string>
     <string name="ss_settings_color_theme_light">"سبک"</string>
@@ -109,4 +105,10 @@
     <string name="ss_settings_theme">موضوع</string>
     <string name="ss_settings_theme_default">پیش فرض</string>
     <string name="ss_get_printed_resources">دریافت منابع چاپی</string>
+    <string name="ss_account">حساب</string>
+    <string name="ss_action_arrow_back">ﺖﺸﮔﺮﺑ ﻥﺎﮑﯿﭘ</string>
+    <string name="ss_action_arrow_drop_down">ﯽﯾﻮﺸﮐ ﺶﻠﻓ</string>
+    <string name="ss_action_arrow_right">ﺖﺳﺍﺭ ﺖﻤﺳ ﺶﻠﻓ</string>
+    <string name="ss_action_close">ﮏﯾﺩﺰﻧ</string>
+    <string name="ss_action_selected">ﺪﺷ ﺏﺎﺨﺘﻧﺍ</string>
 </resources>

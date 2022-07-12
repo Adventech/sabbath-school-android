@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Vurguladıklarınız kopyalandı"</string>
     <string name="ss_reading_share_to">"Paylaş:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Yakında"</string>
-    <string name="ss_coming_soon_subheader">"Şu anda bu fonksiyon üzerinde çalışıyoruz. Ayrılmayin, bitmek üzere"</string>
-    <string name="ss_about_app_version">"Sürüm 3.0"</string>
+
     <string name="ss_about_made">"Adventech tarafından ❤ ile yapıldı"</string>
     <string name="ss_settings_display_options">"Görüntüleme ayarları"</string>
     <string name="ss_settings_color_theme_light">"Açık"</string>
@@ -108,4 +105,10 @@ Gerçekten, Tanrı'nın modern dünya bilgisini arttırdığına ve O'nun ihtiş
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Varsayılan</string>
     <string name="ss_get_printed_resources">Basılı Kaynakları Alın</string>
+    <string name="ss_account">Hesap</string>
+    <string name="ss_action_arrow_back">Geri Ok</string>
+    <string name="ss_action_arrow_drop_down">Aşağı Açılan Ok</string>
+    <string name="ss_action_arrow_right">Sağ Ok</string>
+    <string name="ss_action_close">Kapat</string>
+    <string name="ss_action_selected">Seçildi</string>
 </resources>

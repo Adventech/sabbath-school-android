@@ -61,10 +61,6 @@
     <string name="ss_reading_copied">"تم نسخ المقطع"</string>
     <string name="ss_reading_share_to">"شارك المقطع إلى:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"قريباًً"</string>
-    <string name="ss_coming_soon_subheader">"نحن نعمل على هذه الخاصية الآن. ترّقب، قريباً"</string>
-    <string name="ss_about_app_version">"نسخة ٣.٠"</string>
     <string name="ss_about_made">"صنع ب ❤ بواسطة أدفنتيك"</string>
     <string name="ss_settings_display_options">"خيارات العرض"</string>
     <string name="ss_settings_color_theme_light">"فاتح"</string>
@@ -105,4 +101,10 @@
     <string name="ss_settings_theme">سمة</string>
     <string name="ss_settings_theme_default">تقصير</string>
     <string name="ss_get_printed_resources">احصل على موارد مطبوعة</string>
+    <string name="ss_account">الحساب</string>
+    <string name="ss_action_arrow_back">ﺓﺩﻮﻌﻟﺍ ﻢﻬﺳ</string>
+    <string name="ss_action_arrow_drop_down">ﺔﻟﺪﺴﻨﻣ ﻢﻬﺳ</string>
+    <string name="ss_action_arrow_right">"ﻦﻤﻳﻷﺍ ﻢﻬﺴﻟ"</string>
+    <string name="ss_action_close">ﺐﻳﺮﻗ</string>
+    <string name="ss_action_selected">ﺩﺪﺤﻤﻟﺍ</string>
 </resources>
