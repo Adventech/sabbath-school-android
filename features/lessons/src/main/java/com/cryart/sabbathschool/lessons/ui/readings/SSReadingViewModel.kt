@@ -35,13 +35,13 @@ import androidx.databinding.ObservableInt
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import app.ss.bible.BibleVersesActivity
 import app.ss.lessons.data.model.SSContextMenu
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
-import com.cryart.sabbathschool.bible.SSBibleVersesActivity
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
@@ -114,7 +114,7 @@ class SSReadingViewModel @AssistedInject constructor(
         debounceUntilLast(
             scope = ViewTreeLifecycleOwner.get(ssReadingActivityBinding.root)?.lifecycleScope ?: MainScope()
         ) { verse ->
-            val intent = SSBibleVersesActivity.launchIntent(
+            val intent = BibleVersesActivity.launchIntent(
                 context,
                 verse,
                 ssReads[ssReadingActivityBinding.ssReadingViewPager.currentItem].index

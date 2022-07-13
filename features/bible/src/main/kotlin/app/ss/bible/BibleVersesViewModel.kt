@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cryart.sabbathschool.bible
+package app.ss.bible
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -45,7 +45,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class SSBibleVersesViewModel @Inject constructor(
+class BibleVersesViewModel @Inject constructor(
     preferences: SSPrefs,
     private val lessonsRepository: LessonsRepository,
     private val savedStateHandle: SavedStateHandle

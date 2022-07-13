@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.bible
+package app.ss.bible
 
 import androidx.compose.runtime.Immutable
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
