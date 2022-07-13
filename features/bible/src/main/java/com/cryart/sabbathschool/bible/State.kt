@@ -20,14 +20,35 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.bible.components
+package com.cryart.sabbathschool.bible
 
 import androidx.compose.runtime.Immutable
-import app.ss.models.SSBibleVerses
+import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 
 @Immutable
-data class HeaderRowSpec(
-    val bibleVerses: List<SSBibleVerses>,
-    val lastBibleUsed: String,
-    val callbacks: HeaderComponent.Callbacks,
+internal data class ToolbarSpec(
+    val bibleVersions: Set<String>,
+    val preferredBible: String,
+    val callbacks: ToolbarComponent.Callbacks,
+)
+
+@Immutable
+internal sealed class ToolbarState {
+    data class Success(
+        val displayOptions: SSReadingDisplayOptions? = null,
+        val bibleVersions: Set<String> = emptySet(),
+        val preferredBibleVersion: String
+    ) : ToolbarState()
+
+    object Loading : ToolbarState()
+    object Error : ToolbarState()
+}
+
+@Immutable
+internal data class BibleVersesScreenState(
+    val isLoading: Boolean = true,
+    val isError: Boolean = false,
+    val toolbarState: ToolbarState = ToolbarState.Loading,
+    val displayOptions: SSReadingDisplayOptions? = null,
+    val content: String = ""
 )

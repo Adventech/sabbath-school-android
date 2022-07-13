@@ -26,17 +26,19 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.cryart.sabbathschool.bible.components.HeaderComponent
 import com.cryart.sabbathschool.bible.databinding.SsBibleVersesActivityBinding
+import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent.track
+import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.core.model.colorTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.map
 
 @AndroidEntryPoint
-class SSBibleVersesActivity : AppCompatActivity(), HeaderComponent.Callbacks {
+class SSBibleVersesActivity : AppCompatActivity(), ToolbarComponent.Callbacks {
 
     private val viewModel by viewModels<SSBibleVersesViewModel>()
     private val binding by viewBinding(SsBibleVersesActivityBinding::inflate)
@@ -49,24 +51,18 @@ class SSBibleVersesActivity : AppCompatActivity(), HeaderComponent.Callbacks {
 
         binding.root.setOnClickListener { onClose() }
 
-        HeaderComponent(
-            binding.ssBibleVersesHeader,
-            viewModel.readingOptionsFlow,
-            viewModel.bibleVersesFlow,
-            viewModel.getLastBibleUsed(),
+        ToolbarComponent(
+            composeView = binding.ssBibleVersesHeader,
+            stateFlow = viewModel.uiState.map { it.toolbarState },
             this
         )
 
-        viewModel.versesContentFlow.collectIn(this) { content ->
-            viewModel.displayOptions { options ->
-                runOnUiThread {
-                    binding.ssBibleVersesView.loadContent(content, options)
-                }
+        viewModel.uiState.collectIn(this) { uiState ->
+            val options = uiState.displayOptions ?: SSReadingDisplayOptions(isDarkTheme())
+            runOnUiThread {
+                binding.ssBibleVersesView.setBackgroundColor(options.colorTheme(this@SSBibleVersesActivity))
+                binding.ssBibleVersesView.loadContent(uiState.content, options)
             }
-        }
-
-        viewModel.displayOptions { options ->
-            binding.ssBibleVersesView.setBackgroundColor(options.colorTheme(this))
         }
     }
 
