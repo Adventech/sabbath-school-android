@@ -60,7 +60,7 @@ class BibleVersesViewModel @Inject constructor(
             val version = lessonsRepository.getPreferredBibleVersion() ?: bibleVerses.firstOrNull()?.name ?: ""
             val verse = savedStateHandle.get<String>(SSConstants.SS_READ_VERSE_EXTRA)
             val content = bibleVerses.find { it.name == version }?.verses?.get(verse) ?: ""
-            bibleContent.emit(content)
+            bibleContent.emit(BibleVersesState(version, content))
 
             bibleVerses
         } ?: emptyList()
@@ -71,7 +71,7 @@ class BibleVersesViewModel @Inject constructor(
     private val displayOptions: Flow<Result<SSReadingDisplayOptions>> = preferences.displayOptionsFlow()
         .asResult()
 
-    private val bibleContent = MutableStateFlow("")
+    private val bibleContent = MutableStateFlow(BibleVersesState())
 
     internal val uiState: StateFlow<BibleVersesScreenState> = combine(
         bibleVerses, displayOptions, bibleContent
@@ -89,17 +89,15 @@ class BibleVersesViewModel @Inject constructor(
             else -> null
         }
 
-        val version = lessonsRepository.getPreferredBibleVersion() ?: bibleVerses.firstOrNull()?.name ?: ""
-
         BibleVersesScreenState(
             isLoading = false,
             toolbarState = ToolbarState.Success(
                 displayOptions = displayOptions,
                 bibleVersions = bibleVerses.map { it.name }.toSet(),
-                preferredBibleVersion = version
+                preferredBibleVersion = content.version
             ),
             displayOptions = displayOptions,
-            content = content
+            content = content.content
         )
     }
         .catch { Timber.e(it) }
@@ -109,18 +107,15 @@ class BibleVersesViewModel @Inject constructor(
         )
 
     fun versionSelected(version: String) {
-        val list = when (bibleVerses.value) {
-            is Result.Success -> (bibleVerses.value as Result.Success<List<SSBibleVerses>>).data
-            else -> return
-        }
-        val bibleVerses = list.find { it.name == version } ?: return
+        val verses = (bibleVerses.value as? Result.Success<List<SSBibleVerses>>)?.data
+        val bibleVerses = verses?.find { it.name == version } ?: return
         val verse = savedStateHandle.get<String>(SSConstants.SS_READ_VERSE_EXTRA)
 
         viewModelScope.launch {
             lessonsRepository.savePreferredBibleVersion(bibleVerses.name)
 
             val content = bibleVerses.verses[verse] ?: ""
-            bibleContent.emit(content)
+            bibleContent.emit(BibleVersesState(version, content))
         }
     }
 }

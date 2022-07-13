@@ -26,6 +26,12 @@ import androidx.compose.runtime.Immutable
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 
 @Immutable
+data class BibleVersesState(
+    val version: String = "",
+    val content: String = "",
+)
+
+@Immutable
 internal data class ToolbarSpec(
     val bibleVersions: Set<String>,
     val preferredBible: String,
