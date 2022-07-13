@@ -20,14 +20,13 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.bible.components
+package app.ss.storage.db.entity
 
-import androidx.compose.runtime.Immutable
-import app.ss.models.SSBibleVerses
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Immutable
-data class HeaderRowSpec(
-    val bibleVerses: List<SSBibleVerses>,
-    val lastBibleUsed: String,
-    val callbacks: HeaderComponent.Callbacks,
+@Entity(tableName = "bible_version")
+data class BibleVersionEntity(
+    @PrimaryKey val language: String,
+    val version: String,
 )

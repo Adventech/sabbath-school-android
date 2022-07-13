@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.bible.components
+package app.ss.bible
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -28,8 +28,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -53,25 +51,20 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.parse
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
-import app.ss.models.SSBibleVerses
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.core.model.displayTheme
 import com.cryart.sabbathschool.core.model.themeColor
 import kotlinx.coroutines.flow.Flow
 
-class HeaderComponent(
+internal class ToolbarComponent(
     composeView: ComposeView,
-    private val displayOptionsFlow: Flow<SSReadingDisplayOptions>,
-    private val bibleVersesFlow: Flow<List<SSBibleVerses>>,
-    private val lastBibleUsed: String?,
+    private val stateFlow: Flow<ToolbarState>,
     private val callbacks: Callbacks
 ) {
 
@@ -83,25 +76,54 @@ class HeaderComponent(
     init {
         composeView.setContent {
             SsTheme {
-                val displayOptions by displayOptionsFlow.collectAsState(initial = SSReadingDisplayOptions(isSystemInDarkTheme()))
-                val bibleVerses by bibleVersesFlow.collectAsState(initial = emptyList())
-                val backgroundColor = Color.parse(displayOptions.themeColor(LocalContext.current))
-                val contentColor = contentColor(displayOptions.displayTheme(LocalContext.current))
+                val uiState by stateFlow.collectAsState(ToolbarState.Loading)
 
-                Surface(
-                    color = backgroundColor,
-                    contentColor = contentColor
-                ) {
-                    HeaderRow(
-                        spec = HeaderRowSpec(
-                            bibleVerses = bibleVerses,
-                            lastBibleUsed = lastBibleUsed ?: "",
-                            callbacks = callbacks,
-                        )
-                    )
-                }
+                BibleToolbar(
+                    state = uiState,
+                    callbacks = callbacks,
+                    modifier = Modifier
+                )
             }
         }
+    }
+}
+
+@Composable
+internal fun BibleToolbar(
+    state: ToolbarState,
+    callbacks: ToolbarComponent.Callbacks,
+    modifier: Modifier = Modifier
+) {
+    var displayOptions: SSReadingDisplayOptions? = null
+
+    val spec = when (state) {
+        is ToolbarState.Success -> {
+            displayOptions = state.displayOptions
+            ToolbarSpec(
+                bibleVersions = state.bibleVersions,
+                preferredBible = state.preferredBibleVersion,
+                callbacks = callbacks,
+            )
+        }
+        else -> {
+            ToolbarSpec(
+                bibleVersions = emptySet(),
+                preferredBible = "",
+                callbacks = callbacks,
+            )
+        }
+    }
+
+    val options = displayOptions ?: SSReadingDisplayOptions(isSystemInDarkTheme())
+    val backgroundColor = Color.parse(options.themeColor(LocalContext.current))
+    val contentColor = contentColor(options.displayTheme(LocalContext.current))
+
+    Surface(
+        color = backgroundColor,
+        contentColor = contentColor,
+        modifier = modifier
+    ) {
+        BibleToolbarRow(spec = spec)
     }
 }
 
@@ -115,8 +137,8 @@ private fun contentColor(theme: String): Color {
 }
 
 @Composable
-fun HeaderRow(
-    spec: HeaderRowSpec,
+internal fun BibleToolbarRow(
+    spec: ToolbarSpec,
     modifier: Modifier = Modifier,
     contentColor: Color = LocalContentColor.current
 ) {
@@ -140,24 +162,27 @@ fun HeaderRow(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        BibleVersionsMenu(spec = spec)
+        if (spec.bibleVersions.isNotEmpty()) {
+            BibleVersionsMenu(spec = spec)
+        }
     }
 }
 
 @Composable
 private fun BibleVersionsMenu(
-    spec: HeaderRowSpec,
+    spec: ToolbarSpec,
+    modifier: Modifier = Modifier,
     contentColor: Color = LocalContentColor.current
 ) {
-    val (bibleVerses, lastBibleUsed, callbacks) = spec
+    val (bibleVersions, preferredBible, callbacks) = spec
     var expanded by remember { mutableStateOf(false) }
-    var selected by remember { mutableStateOf(lastBibleUsed) }
+    var selected by remember { mutableStateOf(preferredBible) }
     val iconRotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f
     )
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .wrapContentSize(Alignment.CenterEnd)
     ) {
 
@@ -167,6 +192,7 @@ private fun BibleVersionsMenu(
                 style = MaterialTheme.typography.labelMedium.copy(
                     fontSize = 16.sp
                 ),
+                color = contentColor
             )
             IconBox(
                 Icons.ArrowDropDown,
@@ -179,11 +205,11 @@ private fun BibleVersionsMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
-            bibleVerses.forEach { verse ->
+            bibleVersions.forEach { version ->
                 DropdownMenuItem(
                     text = {
                         Text(
-                            verse.name,
+                            version,
                             style = MaterialTheme.typography.labelMedium.copy(
                                 fontSize = 16.sp
                             ),
@@ -191,15 +217,13 @@ private fun BibleVersionsMenu(
                         )
                     },
                     onClick = {
-                        val version = verse.name
                         selected = version
                         expanded = false
                         callbacks.versionSelected(version)
                     },
-                    modifier = Modifier
-                        .testTag("DropdownMenuItem-${verse.name}"),
+                    modifier = Modifier,
                     trailingIcon = {
-                        if (verse.name == selected) {
+                        if (version == selected) {
                             IconBox(Icons.Check)
                         }
                     },
@@ -208,11 +232,11 @@ private fun BibleVersionsMenu(
         }
     }
 
-    if (selected.isEmpty() && bibleVerses.isNotEmpty()) {
+    if (selected.isEmpty() && bibleVersions.isNotEmpty()) {
         LaunchedEffect(
             key1 = Any(),
             block = {
-                selected = bibleVerses.first().name
+                selected = bibleVersions.first()
             }
         )
     }
@@ -224,21 +248,21 @@ private fun BibleVersionsMenu(
 @Composable
 private fun HeaderRowPreview() {
     SsTheme {
-        HeaderRow(
-            spec = HeaderRowSpec(
-                bibleVerses = emptyList(),
-                lastBibleUsed = "KJV",
-                callbacks = object : HeaderComponent.Callbacks {
+        Surface {
+            BibleToolbar(
+                state = ToolbarState.Success(
+                    bibleVersions = setOf("NKJV", "KJV"),
+                    preferredBibleVersion = "KJV",
+                ),
+                callbacks = object : ToolbarComponent.Callbacks {
                     override fun onClose() {
                     }
 
                     override fun versionSelected(version: String) {
                     }
                 },
-            ),
-            modifier = Modifier
-                .height(50.dp)
-                .padding(6.dp),
-        )
+                modifier = Modifier
+            )
+        }
     }
 }
