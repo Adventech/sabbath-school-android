@@ -35,14 +35,12 @@ interface SSPrefs {
     fun getLanguageCode(): String
     fun getLanguageCodeFlow(): Flow<String>
     fun setLanguageCode(languageCode: String)
-    fun getLastBibleUsed(): String?
     fun getLastQuarterlyType(): String?
     fun getLastQuarterlyIndex(): String?
     fun getReaderArtifactLastModified(): String?
     fun reminderEnabled(): Boolean
     fun isAppReBrandingPromptShown(): Boolean
     fun isReminderScheduled(): Boolean
-    fun setLastBibleUsed(bibleId: String)
     fun setLastQuarterlyType(type: String)
     fun setLastQuarterlyIndex(index: String)
     fun setReaderArtifactLastModified(lastModified: String)

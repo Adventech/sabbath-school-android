@@ -26,6 +26,7 @@ import app.ss.lessons.data.model.QuarterlyLessonInfo
 import app.ss.lessons.data.repository.quarterly.QuarterliesDataSource
 import app.ss.lessons.data.repository.quarterly.QuarterlyInfoDataSource
 import app.ss.models.PdfAnnotations
+import app.ss.models.PreferredBibleVersion
 import app.ss.models.SSDay
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSQuarterlyInfo
@@ -57,6 +58,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
     private val pdfAnnotationsDataSource: PdfAnnotationsDataSource,
     private val readCommentsDataSource: ReadCommentsDataSource,
     private val readHighlightsDataSource: ReadHighlightsDataSource,
+    private val bibleVersionDataSource: BibleVersionDataSource,
     private val dispatcherProvider: DispatcherProvider,
     private val readerArtifactHelper: ReaderArtifactHelper
 ) : LessonsRepository {
@@ -221,5 +223,18 @@ internal class LessonsRepositoryImpl @Inject constructor(
 
     override fun checkReaderArtifact() {
         readerArtifactHelper.sync()
+    }
+
+    override suspend fun getPreferredBibleVersion(): String? = withContext(dispatcherProvider.io) {
+        bibleVersionDataSource
+            .cache
+            .getItem(BibleVersionDataSource.Request(ssPrefs.getLanguageCode()))
+            .data?.version
+    }
+
+    override suspend fun savePreferredBibleVersion(version: String) = withContext(dispatcherProvider.io) {
+        bibleVersionDataSource
+            .cache
+            .updateItem(PreferredBibleVersion(version, ssPrefs.getLanguageCode()))
     }
 }

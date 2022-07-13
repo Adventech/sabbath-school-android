@@ -225,16 +225,6 @@ internal class SSPrefsImpl(
         }
     }
 
-    override fun getLastBibleUsed(): String? {
-        return sharedPreferences.getString(SSConstants.SS_LAST_BIBLE_VERSION_USED, null)
-    }
-
-    override fun setLastBibleUsed(bibleId: String) {
-        sharedPreferences.edit {
-            putString(SSConstants.SS_LAST_BIBLE_VERSION_USED, bibleId)
-        }
-    }
-
     override fun isAppReBrandingPromptShown(): Boolean = sharedPreferences.getBoolean(
         SSConstants.SS_APP_RE_BRANDING_PROMPT_SEEN, false
     )

@@ -58,4 +58,8 @@ interface LessonsRepository {
     suspend fun saveHighlights(highlights: SSReadHighlights)
 
     fun checkReaderArtifact()
+
+    suspend fun getPreferredBibleVersion(): String?
+
+    suspend fun savePreferredBibleVersion(version: String)
 }

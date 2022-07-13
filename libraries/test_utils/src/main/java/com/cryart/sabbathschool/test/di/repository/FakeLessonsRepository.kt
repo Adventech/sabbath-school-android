@@ -56,4 +56,8 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
     override suspend fun saveHighlights(highlights: SSReadHighlights) {}
 
     override fun checkReaderArtifact() {}
+
+    override suspend fun getPreferredBibleVersion(): String? = null
+
+    override suspend fun savePreferredBibleVersion(version: String) {}
 }

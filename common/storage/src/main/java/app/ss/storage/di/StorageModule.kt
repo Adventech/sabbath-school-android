@@ -25,6 +25,7 @@ package app.ss.storage.di
 import android.content.Context
 import app.ss.storage.db.SabbathSchoolDatabase
 import app.ss.storage.db.dao.AudioDao
+import app.ss.storage.db.dao.BibleVersionDao
 import app.ss.storage.db.dao.LanguagesDao
 import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.dao.PdfAnnotationsDao
@@ -111,6 +112,12 @@ object StorageModule {
     fun providePublishingInfoDao(
         @ApplicationContext context: Context,
     ): PublishingInfoDao = context.database().publishingInfoDao()
+
+    @Provides
+    @Singleton
+    fun provideBibleVersionDao(
+        @ApplicationContext context: Context,
+    ): BibleVersionDao = context.database().bibleVersionDao()
 }
 
 private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)
