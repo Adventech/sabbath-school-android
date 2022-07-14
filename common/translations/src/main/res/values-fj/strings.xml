@@ -106,4 +106,11 @@
     <string name="ss_action_arrow_right">iTuvatuva Ena Imatau</string>
     <string name="ss_action_close">Sogo</string>
     <string name="ss_action_selected">Digitaki</string>
+    <string name="ss_action_back">E muri</string>
+    <string name="ss_action_open">Dolava</string>
+    <string name="ss_action_rewind">Talesu</string>
+    <string name="ss_action_play_pause">Vakatagitaka se Cegu Vakalailai</string>
+    <string name="ss_action_playlist">iTuvatuva ni iTu</string>
+    <string name="ss_action_forward">Toso ki Liu</string>
+    <string name="ss_picture_in_picture">iYaloyalo Ena iYaloyalo</string>
 </resources>

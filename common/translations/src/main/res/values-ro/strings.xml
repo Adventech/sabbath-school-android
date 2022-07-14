@@ -110,5 +110,12 @@ Credem cu adevărat că Dumnezeu a mărit cunoașterea lumii moderne și doreșt
     <string name="ss_action_arrow_right">Săgeată la dreapta</string>
     <string name="ss_action_close">Închide</string>
     <string name="ss_action_selected">Selectat</string>
+    <string name="ss_action_back">Înapoi</string>
+    <string name="ss_action_open">Deschis</string>
+    <string name="ss_action_rewind">Derulează înapoi</string>
+    <string name="ss_action_play_pause">Redați sau întrerupeți</string>
+    <string name="ss_action_playlist">Lista de redare</string>
+    <string name="ss_action_forward">Redirecţiona</string>
+    <string name="ss_picture_in_picture">Imagine în imagine</string>
 
 </resources>

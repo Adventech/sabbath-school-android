@@ -107,4 +107,11 @@
     <string name="ss_action_arrow_right">"ﻦﻤﻳﻷﺍ ﻢﻬﺴﻟ"</string>
     <string name="ss_action_close">ﺐﻳﺮﻗ</string>
     <string name="ss_action_selected">ﺩﺪﺤﻤﻟﺍ</string>
+    <string name="ss_action_back">ﻒﻠﺧ</string>
+    <string name="ss_action_open">ﺢﺘﻓ</string>
+    <string name="ss_action_rewind">ﻊﻴﺟﺮﺘﻟﺍ</string>
+    <string name="ss_action_play_pause">ﺖﻗﺆﻣ ﻑﺎﻘﻳﺇ ﻭﺃ ﻞﻴﻐﺸﺗ</string>
+    <string name="ss_action_playlist">ﻞﻴﻐﺸﺘﻟﺍ ﺔﻤﺋﺎﻗ</string>
+    <string name="ss_action_forward">ﻡﺎﻣﻷ﻿ﺍ ﻰﻟﺇ</string>
+    <string name="ss_picture_in_picture">ﺭﻮﺻ ﻲﻓ ﺭﻮﺻ</string>
 </resources>

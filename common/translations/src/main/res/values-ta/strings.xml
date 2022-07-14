@@ -111,4 +111,11 @@
     <string name="ss_action_arrow_right">"அம்பு வலது "</string>
     <string name="ss_action_close">"நெருக்கமான "</string>
     <string name="ss_action_selected">"தேர்ந்தெடுக்கப்பட்டது "</string>
+    <string name="ss_action_back">"மீண்டும் "</string>
+    <string name="ss_action_open">திற</string>
+    <string name="ss_action_rewind">"ரீவைண்ட் "</string>
+    <string name="ss_action_play_pause">"விளையாடவும் அல்லது இடைநிறுத்தவும் "</string>
+    <string name="ss_action_playlist">"பிளேலிஸ்ட் "</string>
+    <string name="ss_action_forward">"முன்னோக்கி "</string>
+    <string name="ss_picture_in_picture">"படத்தில் உள்ள படம் "</string>
 </resources>

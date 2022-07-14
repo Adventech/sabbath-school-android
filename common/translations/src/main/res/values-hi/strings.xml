@@ -111,4 +111,11 @@
     <string name="ss_action_arrow_right">तीर दाएँ</string>
     <string name="ss_action_close">बंद करना</string>
     <string name="ss_action_selected">चयनित</string>
+    <string name="ss_action_back">"पीछे "</string>
+    <string name="ss_action_open">"खुला हुआ "</string>
+    <string name="ss_action_rewind">"रिवाइंड "</string>
+    <string name="ss_action_play_pause">"खेलें या रोकें "</string>
+    <string name="ss_action_playlist">"प्लेलिस्ट "</string>
+    <string name="ss_action_forward">आगे</string>
+    <string name="ss_picture_in_picture">"चित्र में चित्र "</string>
 </resources>

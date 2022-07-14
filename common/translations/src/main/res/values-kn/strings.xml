@@ -107,4 +107,11 @@
     <string name="ss_action_arrow_right">"ಬಾಣ ಬಲ "</string>
     <string name="ss_action_close">"ಮುಚ್ಚಿ "</string>
     <string name="ss_action_selected">"ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ "</string>
+    <string name="ss_action_back">"ಹಿಂದೆ "</string>
+    <string name="ss_action_open">ತೆರೆಯಿರಿ</string>
+    <string name="ss_action_rewind">"ರಿವೈಂಡ್ "</string>
+    <string name="ss_action_play_pause">"ಪ್ಲೇ ಮಾಡಿ ಅಥವಾ ವಿರಾಮಗೊಳಿಸಿ "</string>
+    <string name="ss_action_playlist">"ಪ್ಲೇಪಟ್ಟಿ "</string>
+    <string name="ss_action_forward">"ಮುಂದೆ "</string>
+    <string name="ss_picture_in_picture">ಚಿತ್ರದಲ್ಲಿ ಚಿತ್ರ</string>
 </resources>

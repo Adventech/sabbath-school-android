@@ -62,7 +62,6 @@ import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.scaffold.SsScaffold
-import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroupCallback
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesListCallback
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyList
@@ -70,6 +69,7 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListC
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.placeHolderQuarterlies
 import androidx.compose.material.icons.Icons as MaterialIcons
+import app.ss.translations.R.string as RString
 
 @Composable
 internal fun QuarterliesScreen(
@@ -88,7 +88,7 @@ internal fun QuarterliesScreen(
 
     QuarterliesScreen(
         quarterlies = data,
-        title = viewModel.groupTitle ?: stringResource(id = R.string.ss_app_name),
+        title = viewModel.groupTitle ?: stringResource(id = RString.ss_app_name),
         photoUrl = photoUrl,
         callbacks = callbacks,
         scrollBehavior = scrollBehavior,
@@ -142,7 +142,7 @@ internal fun QuarterliesTopAppBar(
                 ContentBox(
                     content = RemoteImage(
                         data = photoUrl,
-                        contentDescription = stringResource(id = R.string.ss_about),
+                        contentDescription = stringResource(id = RString.ss_about),
                         loading = {
                             Spacer(
                                 modifier = Modifier
@@ -171,7 +171,7 @@ internal fun QuarterliesTopAppBar(
             actions = listOf(
                 IconButton(
                     imageVector = MaterialIcons.Rounded.Translate,
-                    contentDescription = stringResource(id = R.string.ss_quarterlies_filter_languages),
+                    contentDescription = stringResource(id = RString.ss_quarterlies_filter_languages),
                     onClick = { type.filterLanguages() }
                 )
             )
@@ -181,7 +181,7 @@ internal fun QuarterliesTopAppBar(
                 IconBox(
                     icon = IconButton(
                         imageVector = MaterialIcons.Rounded.ArrowBack,
-                        contentDescription = "Back", // todo: Add strings
+                        contentDescription = stringResource(id = RString.ss_action_back),
                         onClick = { type.backNavClick() },
                     )
                 )

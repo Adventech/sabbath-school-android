@@ -77,7 +77,6 @@ import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.models.SSLesson
-import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemsSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooterSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.footer
@@ -88,6 +87,7 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import app.ss.translations.R.string as RString
 
 @Composable
 fun LessonsScreen(
@@ -243,7 +243,7 @@ private fun LessonsTopBar(
             actions = listOf(
                 IconButton(
                     imageVector = Icons.Rounded.Share,
-                    contentDescription = stringResource(id = R.string.ss_share),
+                    contentDescription = stringResource(id = RString.ss_share),
                     onClick = onShareClick,
                     tint = toolbarIconColor(alpha = scrollAlpha)
                 )
@@ -275,7 +275,7 @@ private fun LessonsTopBar(
             IconBox(
                 icon = IconButton(
                     imageVector = Icons.Rounded.ArrowBack,
-                    contentDescription = "Back", // todo: Add strings
+                    contentDescription = stringResource(id = RString.ss_action_back),
                     onClick = onNavClick,
                     tint = toolbarIconColor(alpha = scrollAlpha)
                 )

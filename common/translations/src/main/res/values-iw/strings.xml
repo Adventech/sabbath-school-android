@@ -111,4 +111,11 @@
     <string name="ss_action_arrow_right">הנימי ץח</string>
     <string name="ss_action_close">רוגס</string>
     <string name="ss_action_selected">רחבנ</string>
+    <string name="ss_action_back">רוזח</string>
+    <string name="ss_action_open">חַוֹתפְלִ</string>
+    <string name="ss_action_rewind">רוחאל רזחה</string>
+    <string name="ss_action_play_pause">ההשה וא לעפה</string>
+    <string name="ss_action_playlist">העמשה תמישר</string>
+    <string name="ss_action_forward">המָידִקָ</string>
+    <string name="ss_picture_in_picture">הנומתב הנומת</string>
 </resources>

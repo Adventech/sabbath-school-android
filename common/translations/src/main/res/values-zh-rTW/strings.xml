@@ -112,4 +112,11 @@
     <string name="ss_action_arrow_right">向右箭头</string>
     <string name="ss_action_arrow_drop_down">箭头下拉</string>
     <string name="ss_action_arrow_back">箭头返回</string>
+    <string name="ss_action_back">后退</string>
+    <string name="ss_action_open">打开</string>
+    <string name="ss_action_rewind">倒带</string>
+    <string name="ss_action_play_pause">播放或暂停</string>
+    <string name="ss_action_playlist">播放列表</string>
+    <string name="ss_action_forward">向前</string>
+    <string name="ss_picture_in_picture">画中画</string>
 </resources>

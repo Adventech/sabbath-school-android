@@ -112,4 +112,11 @@ Igazán hiszünk abban, hogy Isten megnövelte a modern világ tudását, és az
     <string name="ss_action_arrow_right">Nyíl jobbra</string>
     <string name="ss_action_close">Bezárás</string>
     <string name="ss_action_selected">Kiválasztott</string>
+    <string name="ss_action_back">Vissza</string>
+    <string name="ss_action_open">Nyisd ki</string>
+    <string name="ss_action_rewind">Visszatekerés</string>
+    <string name="ss_action_play_pause">Lejátszás vagy Szünet</string>
+    <string name="ss_action_playlist">lejátszási lista</string>
+    <string name="ss_action_forward">Előre</string>
+    <string name="ss_picture_in_picture">Kép a Képben</string>
 </resources>

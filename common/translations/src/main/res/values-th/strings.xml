@@ -111,4 +111,11 @@
     <string name="ss_action_arrow_right">ลูกศรขวา</string>
     <string name="ss_action_close">"ปิด I "</string>
     <string name="ss_action_selected">เลือกแล้ว</string>
+    <string name="ss_action_back">กลับ</string>
+    <string name="ss_action_open">เปิด</string>
+    <string name="ss_action_rewind">กรอกลับ</string>
+    <string name="ss_action_play_pause">เล่นหรือหยุดชั่วคราว</string>
+    <string name="ss_action_playlist">เพลย์ลิสต์</string>
+    <string name="ss_action_forward">ซึ่งไปข้างหน้า</string>
+    <string name="ss_picture_in_picture">รูปภาพในภาพ</string>
 </resources>

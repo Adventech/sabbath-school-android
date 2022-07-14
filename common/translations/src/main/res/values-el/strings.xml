@@ -111,4 +111,11 @@
     <string name="ss_action_arrow_right">Βέλος Δεξιά</string>
     <string name="ss_action_close">Κλείσε</string>
     <string name="ss_action_selected">Επιλεγμένο</string>
+    <string name="ss_action_back">Πίσω</string>
+    <string name="ss_action_open">Ανοιξε</string>
+    <string name="ss_action_rewind">Πίσω</string>
+    <string name="ss_action_play_pause">Αναπαραγωγή ή Παύση</string>
+    <string name="ss_action_playlist">Λίστα αναπαραγωγής</string>
+    <string name="ss_action_forward">Προς τα εμπρός</string>
+    <string name="ss_picture_in_picture">Εικόνα σε εικόνα</string>
 </resources>

@@ -110,4 +110,11 @@ Realmente creemos que Dios ha aumentado el conocimiento del mundo moderno y quie
     <string name="ss_action_arrow_right">flecha derecha</string>
     <string name="ss_action_close">Cerca</string>
     <string name="ss_action_selected">Seleccionado</string>
+    <string name="ss_action_back">atrás</string>
+    <string name="ss_action_open">Abierto</string>
+    <string name="ss_action_rewind">Rebobinar</string>
+    <string name="ss_action_play_pause">Reproducir o pausar</string>
+    <string name="ss_action_playlist">lista de reproducción</string>
+    <string name="ss_action_forward">Delantero</string>
+    <string name="ss_picture_in_picture">Imagen en imagen</string>
 </resources>
