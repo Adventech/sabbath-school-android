@@ -111,5 +111,12 @@
     <string name="ss_action_arrow_right">"दायाँ तीर "</string>
     <string name="ss_action_close">"बन्द गर्नुहोस् "</string>
     <string name="ss_action_selected">"चयन गरियो "</string>
+    <string name="ss_action_back">"पछाडि "</string>
+    <string name="ss_action_open">"खोल्नुहोस् "</string>
+    <string name="ss_action_rewind">"रिवाइन्ड गर्नुहोस् "</string>
+    <string name="ss_action_play_pause">"प्ले गर्नुहोस् वा पज गर्नुहोस् "</string>
+    <string name="ss_action_playlist">"प्लेलिस्ट "</string>
+    <string name="ss_action_forward">"अगाडि "</string>
+    <string name="ss_picture_in_picture">"चित्रमा चित्र "</string>
 
 </resources>

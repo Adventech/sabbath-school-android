@@ -111,4 +111,11 @@ Re lumela kannete hore Molimo o ekelitse tsebo ea lefats'e la kajeno ebile o bat
     <string name="ss_action_arrow_right">Motsu ka ho Le letona</string>
     <string name="ss_action_close">Koala</string>
     <string name="ss_action_selected">E kgethiloeng</string>
+    <string name="ss_action_back">Morao</string>
+    <string name="ss_action_open">Bula</string>
+    <string name="ss_action_rewind">"Khutlisetsa morao "</string>
+    <string name="ss_action_play_pause">Bapala kapa Emisa</string>
+    <string name="ss_action_playlist">Lenane la dipina</string>
+    <string name="ss_action_forward">Tsoela pele</string>
+    <string name="ss_picture_in_picture">Setšoantšo ka Sets\'oants\'o</string>
 </resources>

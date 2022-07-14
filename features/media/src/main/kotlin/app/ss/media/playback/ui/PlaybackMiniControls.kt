@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -72,6 +73,7 @@ import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.media.playback.ui.spec.toSpec
 import androidx.compose.material.icons.Icons as MaterialIcons
+import app.ss.translations.R.string as RString
 
 private object PlaybackMiniControlsDefaults {
     val height = 60.dp
@@ -315,7 +317,7 @@ private fun PlaybackReplay(
         IconBox(
             icon = IconSlot.fromResource(
                 R.drawable.ic_audio_icon_backward,
-                contentDescription = "Rewind"
+                contentDescription = stringResource(id = RString.ss_action_rewind)
             ),
             modifier = Modifier.size(size),
             contentColor = contentColor,
@@ -340,7 +342,7 @@ private fun PlaybackPlayPause(
         IconBox(
             icon = IconSlot.fromPainter(
                 painter = painter,
-                contentDescription = "Play/Pause",
+                contentDescription = stringResource(id = RString.ss_action_play_pause)
             ),
             modifier = Modifier.size(size),
             contentColor = contentColor

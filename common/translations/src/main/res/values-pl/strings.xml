@@ -111,4 +111,11 @@ Naprawdę wierzymy, że Bóg zwiększył wiedzę o współczesnym świecie i chc
     <string name="ss_action_arrow_right">Strzałka w prawo</string>
     <string name="ss_action_close">Blisko</string>
     <string name="ss_action_selected">Wybrany</string>
+    <string name="ss_action_back">Z powrotem</string>
+    <string name="ss_action_open">otwarty</string>
+    <string name="ss_action_rewind">Przewijanie do tyłu</string>
+    <string name="ss_action_play_pause">Odtwórz lub wstrzymaj</string>
+    <string name="ss_action_playlist">Lista odtwarzania</string>
+    <string name="ss_action_forward">Do przodu</string>
+    <string name="ss_picture_in_picture">Obrazek w obrazku</string>
 </resources>

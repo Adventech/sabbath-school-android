@@ -111,4 +111,11 @@ Crediamo veramente che Dio abbia accresciuto la conoscenza del mondo moderno e c
     <string name="ss_action_arrow_right">Freccia a destra</string>
     <string name="ss_action_close">Chiudere</string>
     <string name="ss_action_selected">Selezionato</string>
+    <string name="ss_action_back">Di ritorno</string>
+    <string name="ss_action_open">Aprire</string>
+    <string name="ss_action_rewind">Riavvolgi</string>
+    <string name="ss_action_play_pause">Riproduci o Pausa</string>
+    <string name="ss_action_playlist">elenco di riproduzione</string>
+    <string name="ss_action_forward">Inoltrare</string>
+    <string name="ss_picture_in_picture">Immagine nell\'immagine</string>
 </resources>

@@ -111,4 +111,11 @@
     <string name="ss_action_arrow_right">Стрелка надясно</string>
     <string name="ss_action_close">Близо</string>
     <string name="ss_action_selected">Избрано</string>
+    <string name="ss_action_back">обратно</string>
+    <string name="ss_action_open">Отворете</string>
+    <string name="ss_action_rewind">Превъртане назад</string>
+    <string name="ss_action_play_pause">Възпроизвеждане или пауза</string>
+    <string name="ss_action_playlist">Плейлист</string>
+    <string name="ss_action_forward">Напред</string>
+    <string name="ss_picture_in_picture">Картина в картината</string>
 </resources>

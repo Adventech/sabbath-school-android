@@ -111,4 +111,11 @@ Gerçekten, Tanrı'nın modern dünya bilgisini arttırdığına ve O'nun ihtiş
     <string name="ss_action_arrow_right">Sağ Ok</string>
     <string name="ss_action_close">Kapat</string>
     <string name="ss_action_selected">Seçildi</string>
+    <string name="ss_action_back">Geri</string>
+    <string name="ss_action_open">Açık</string>
+    <string name="ss_action_rewind">Geri sarma</string>
+    <string name="ss_action_play_pause">Oynat veya Duraklat</string>
+    <string name="ss_action_playlist">çalma listesi</string>
+    <string name="ss_action_forward">İleri</string>
+    <string name="ss_picture_in_picture">Fotoğraf içinde fotoğraf</string>
 </resources>

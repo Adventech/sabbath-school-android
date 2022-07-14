@@ -111,4 +111,11 @@ Vi tror verkligen att Gud har ökat den moderna världens kunskap och vill att v
     <string name="ss_action_arrow_right">Högerpil</string>
     <string name="ss_action_close">Stänga</string>
     <string name="ss_action_selected">Vald</string>
+    <string name="ss_action_back">Tillbaka</string>
+    <string name="ss_action_open">Öppna</string>
+    <string name="ss_action_rewind">Spola tillbaka</string>
+    <string name="ss_action_play_pause">Spela eller pausa</string>
+    <string name="ss_action_playlist">Spellista</string>
+    <string name="ss_action_forward">Fram</string>
+    <string name="ss_picture_in_picture">"Bild I Bild "</string>
 </resources>

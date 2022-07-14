@@ -111,4 +111,11 @@ Við trúum því sannarlega að Guð hafi aukið þekkingu á nútímanum og vi
     <string name="ss_action_arrow_right">Ör til hægri</string>
     <string name="ss_action_close">Loka</string>
     <string name="ss_action_selected">Valið</string>
+    <string name="ss_action_back">Til baka</string>
+    <string name="ss_action_open">Opið</string>
+    <string name="ss_action_rewind">Spóla til baka</string>
+    <string name="ss_action_play_pause">Spila eða gera hlé</string>
+    <string name="ss_action_playlist">Lagalisti</string>
+    <string name="ss_action_forward">Áfram</string>
+    <string name="ss_picture_in_picture">Mynd í mynd</string>
 </resources>

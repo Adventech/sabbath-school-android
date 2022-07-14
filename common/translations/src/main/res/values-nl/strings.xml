@@ -111,4 +111,11 @@ We geloven echt dat God de kennis van de moderne wereld heeft vergroot en wil da
     <string name="ss_action_arrow_right">Pijl naar rechts</string>
     <string name="ss_action_close">Dichtbij</string>
     <string name="ss_action_selected">Geselecteerd</string>
+    <string name="ss_action_back">Rug</string>
+    <string name="ss_action_open">Open</string>
+    <string name="ss_action_rewind">Terugspoelen</string>
+    <string name="ss_action_play_pause">Afspelen of Pauzeren</string>
+    <string name="ss_action_playlist">afspeellijst</string>
+    <string name="ss_action_forward">Naar voren</string>
+    <string name="ss_picture_in_picture">Foto in foto</string>
 </resources>

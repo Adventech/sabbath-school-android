@@ -112,5 +112,12 @@
     <string name="ss_action_arrow_right">ລູກສອນຂວາ</string>
     <string name="ss_action_close">ປິດ</string>
     <string name="ss_action_selected">ເລືອກແລ້ວ</string>
+    <string name="ss_action_back">ກັບຄືນໄປບ່ອນ</string>
+    <string name="ss_action_open">ເປີດ</string>
+    <string name="ss_action_rewind">ຖອຍຫຼັງ</string>
+    <string name="ss_action_play_pause">ຫຼິ້ນ ຫຼື ຢຸດຊົ່ວຄາວ</string>
+    <string name="ss_action_playlist">ລາຍການຫຼິ້ນ</string>
+    <string name="ss_action_forward">ສົ່ງຕໍ່</string>
+    <string name="ss_picture_in_picture">ຮູບພາບຢູ່ໃນຮູບ</string>
 
 </resources>

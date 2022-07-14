@@ -39,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.theme.Spacing32
 import app.ss.design.compose.widget.icon.IconBox
@@ -52,6 +53,7 @@ import app.ss.media.playback.players.VideoPlaybackState
 import app.ss.media.playback.players.isBuffering
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControlsDefaults
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
+import app.ss.translations.R.string as RString
 
 @Composable
 fun VideoPlayerControls(
@@ -120,7 +122,7 @@ private fun BoxScope.TopBar(
                 IconBox(
                     icon = IconSlot.fromResource(
                         R.drawable.ic_video_icon_pip,
-                        contentDescription = "Picture In Picture",
+                        contentDescription = stringResource(id = RString.ss_picture_in_picture)
                     ),
                     contentColor = contentColor,
                 )
@@ -146,7 +148,7 @@ private fun BoxScope.Controls(
             IconBox(
                 icon = IconSlot.fromResource(
                     R.drawable.ic_audio_icon_backward,
-                    contentDescription = "Rewind"
+                    contentDescription = stringResource(id = RString.ss_action_rewind)
                 ),
                 contentColor = contentColor,
                 modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
@@ -173,7 +175,7 @@ private fun BoxScope.Controls(
                                 playbackState.isPlaying -> R.drawable.ic_audio_icon_pause
                                 else -> R.drawable.ic_audio_icon_play
                             },
-                            contentDescription = "Play/Pause"
+                            contentDescription = stringResource(id = RString.ss_action_play_pause)
                         ),
                         contentColor = contentColor,
                         modifier = Modifier.fillMaxSize(),
@@ -188,7 +190,7 @@ private fun BoxScope.Controls(
             IconBox(
                 icon = IconSlot.fromResource(
                     R.drawable.ic_audio_icon_forward,
-                    contentDescription = "Forward"
+                    contentDescription = stringResource(id = RString.ss_action_forward)
                 ),
                 contentColor = contentColor,
                 modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)

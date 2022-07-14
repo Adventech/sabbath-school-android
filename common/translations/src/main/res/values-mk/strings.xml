@@ -111,4 +111,11 @@
     <string name="ss_action_arrow_right">Стрелка десно</string>
     <string name="ss_action_close">Затвори</string>
     <string name="ss_action_selected">Избрани</string>
+    <string name="ss_action_back">Назад</string>
+    <string name="ss_action_open">Отвори</string>
+    <string name="ss_action_rewind">Премотајте назад</string>
+    <string name="ss_action_play_pause">Пушти или паузирај</string>
+    <string name="ss_action_playlist">"Плејлиста "</string>
+    <string name="ss_action_forward">Напред</string>
+    <string name="ss_picture_in_picture">Слика во слика</string>
 </resources>

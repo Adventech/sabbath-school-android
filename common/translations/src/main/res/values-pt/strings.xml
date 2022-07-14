@@ -111,4 +111,11 @@ Nós realmente acreditamos que Deus aumentou o conhecimento do mundo moderno e q
     <string name="ss_action_arrow_right">Seta para a direita</string>
     <string name="ss_action_close">Perto</string>
     <string name="ss_action_selected">Selecionado</string>
+    <string name="ss_action_back">De volta</string>
+    <string name="ss_action_open">Abrir</string>
+    <string name="ss_action_rewind">Retroceder</string>
+    <string name="ss_action_play_pause">Reproduzir ou Pausar</string>
+    <string name="ss_action_playlist">Lista de reprodução</string>
+    <string name="ss_action_forward">Avançar</string>
+    <string name="ss_picture_in_picture">Imagem na imagem</string>
 </resources>

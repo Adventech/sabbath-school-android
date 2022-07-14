@@ -37,20 +37,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.material.icons.Icons as MaterialIcons
-import app.ss.translations.R.string as Translations
+import app.ss.translations.R.string as RString
 
 enum class Icons(
     private val imageVector: ImageVector,
     @StringRes private val contentDescription: Int?,
 ) : IconSlot {
 
-    AccountCircle(MaterialIcons.Rounded.AccountCircle, Translations.ss_account),
-    ArrowBack(MaterialIcons.Rounded.ArrowBack, Translations.ss_action_arrow_back),
-    ArrowDropDown(MaterialIcons.Rounded.ArrowDropDown, Translations.ss_action_arrow_drop_down),
-    ArrowRight(MaterialIcons.Rounded.KeyboardArrowRight, Translations.ss_action_arrow_right),
+    AccountCircle(MaterialIcons.Rounded.AccountCircle, RString.ss_account),
+    ArrowBack(MaterialIcons.Rounded.ArrowBack, RString.ss_action_arrow_back),
+    ArrowDropDown(MaterialIcons.Rounded.ArrowDropDown, RString.ss_action_arrow_drop_down),
+    ArrowRight(MaterialIcons.Rounded.KeyboardArrowRight, RString.ss_action_arrow_right),
     Cancel(MaterialIcons.Rounded.Cancel, android.R.string.cancel),
-    Check(MaterialIcons.Rounded.Check, Translations.ss_action_selected),
-    Close(MaterialIcons.Rounded.Close, Translations.ss_action_close);
+    Check(MaterialIcons.Rounded.Check, RString.ss_action_selected),
+    Close(MaterialIcons.Rounded.Close, RString.ss_action_close);
 
     @Composable
     override fun Content(contentColor: Color, modifier: Modifier) {

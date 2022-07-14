@@ -111,4 +111,11 @@
     <string name="ss_action_arrow_right">ﺖﺳﺍﺭ ﺖﻤﺳ ﺶﻠﻓ</string>
     <string name="ss_action_close">ﮏﯾﺩﺰﻧ</string>
     <string name="ss_action_selected">ﺪﺷ ﺏﺎﺨﺘﻧﺍ</string>
+    <string name="ss_action_back">ﺖﺸﮔﺯﺎﺑ</string>
+    <string name="ss_action_open">ﻦﮐ ﺯﺎﺑ</string>
+    <string name="ss_action_rewind">ﯽﭽﯿﭘ ﺯﺎﺑ</string>
+    <string name="ss_action_play_pause">"ﺚﮑﻣ ﺎﯾ ﺶﺨﭘ "</string>
+    <string name="ss_action_playlist">ﺶﺨﭘ ﺖﺴﯿﻟ</string>
+    <string name="ss_action_forward">ﻮﻠﺟ ﻪﺑ ﻭﺭ</string>
+    <string name="ss_picture_in_picture">ﺮﯾﻮﺼﺗ ﺭﺩ ﺮﯾﻮﺼﺗ</string>
 </resources>

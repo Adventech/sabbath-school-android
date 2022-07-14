@@ -111,4 +111,11 @@ Kami benar-benar percaya bahawa Tuhan telah meningkatkan pengetahuan tentang dun
     <string name="ss_action_arrow_right">Anak panah Kanan</string>
     <string name="ss_action_close">tutup</string>
     <string name="ss_action_selected">Dipilih</string>
+    <string name="ss_action_back">belakang</string>
+    <string name="ss_action_open">Buka</string>
+    <string name="ss_action_rewind">Putar balik</string>
+    <string name="ss_action_play_pause">Main atau Jeda</string>
+    <string name="ss_action_playlist">Senarai main</string>
+    <string name="ss_action_forward">ke hadapan</string>
+    <string name="ss_picture_in_picture">Gambar Dalam Gambar</string>
 </resources>

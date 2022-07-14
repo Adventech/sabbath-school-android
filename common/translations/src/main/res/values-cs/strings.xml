@@ -115,5 +115,12 @@
     <string name="ss_action_arrow_right">Šipka doprava</string>
     <string name="ss_action_close">Zavřít</string>
     <string name="ss_action_selected">Vybraný</string>
+    <string name="ss_action_back">Zadní</string>
+    <string name="ss_action_open">OTEVŘENO</string>
+    <string name="ss_action_rewind">Přetočit</string>
+    <string name="ss_action_play_pause">Přehrát nebo Pozastavit</string>
+    <string name="ss_action_playlist">Seznam skladeb</string>
+    <string name="ss_action_forward">Vpřed</string>
+    <string name="ss_picture_in_picture">Obraz V obraze</string>
 
 </resources>

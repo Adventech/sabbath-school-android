@@ -112,4 +112,11 @@ Ons glo werklik dat God die kennis van die moderne wÃªreld verhoog het en wil hÃ
     <string name="ss_action_arrow_right">Pyltjie regs</string>
     <string name="ss_action_close">Naby</string>
     <string name="ss_action_selected">Gekies</string>
+    <string name="ss_action_back">Terug</string>
+    <string name="ss_action_open">Maak oop</string>
+    <string name="ss_action_rewind">Spoel terug</string>
+    <string name="ss_action_play_pause">Speel of Pouse</string>
+    <string name="ss_action_playlist">Snitlys</string>
+    <string name="ss_action_forward">Vorentoe</string>
+    <string name="ss_picture_in_picture">Prent in Beeld</string>
 </resources>

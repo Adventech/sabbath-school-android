@@ -45,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,6 +57,7 @@ import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconButton
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.PublishingInfoSpec
+import app.ss.translations.R.string as RString
 
 internal fun LazyListScope.publishingInfo(
     publishingInfo: PublishingInfoSpec?,
@@ -111,7 +113,7 @@ private fun PublishingInfo(
             ) {
                 Icon(
                     Icons.Rounded.KeyboardArrowRight,
-                    contentDescription = "Open",
+                    contentDescription = stringResource(id = RString.ss_action_open),
                     tint = Color.White
                 )
             }

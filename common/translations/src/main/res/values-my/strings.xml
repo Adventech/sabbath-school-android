@@ -105,5 +105,12 @@
     <string name="ss_action_arrow_right">"မြှားမှန် "</string>
     <string name="ss_action_arrow_drop_down">Arrow Drop Down</string>
     <string name="ss_action_arrow_back">"မြှားနောက်ပြန် "</string>
+    <string name="ss_action_back">"ကျော "</string>
+    <string name="ss_action_open">"ဖွင့်သည်။ "</string>
+    <string name="ss_action_rewind">"ပြန်လှည့်ပါ။ "</string>
+    <string name="ss_action_play_pause">"ကစားရန် သို့မဟုတ် ခေတ္တရပ်ပါ။ "</string>
+    <string name="ss_action_playlist">အစီအစဉ်</string>
+    <string name="ss_action_forward">"ရှေ့သို့ "</string>
+    <string name="ss_picture_in_picture">"ရုပ်ပုံပါ ရုပ်ပုံ "</string>
 
 </resources>

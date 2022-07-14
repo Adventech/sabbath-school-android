@@ -111,4 +111,11 @@ Chúng tôi thực sự tin rằng Chúa đã gia tăng kiến thức về thế
     <string name="ss_action_arrow_right">Mũi tên phải</string>
     <string name="ss_action_close">Đóng</string>
     <string name="ss_action_selected">Đã chọn</string>
+    <string name="ss_action_back">Mặt sau</string>
+    <string name="ss_action_open">Mở</string>
+    <string name="ss_action_rewind">Tua lại</string>
+    <string name="ss_action_play_pause">Phát hoặc Tạm dừng</string>
+    <string name="ss_action_playlist">Danh sách phát</string>
+    <string name="ss_action_forward">Ở đằng trước</string>
+    <string name="ss_picture_in_picture">Hình ảnh trong ảnh</string>
 </resources>

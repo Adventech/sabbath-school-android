@@ -111,4 +111,11 @@ Siyakholwa ngokwenene ukuba uThixo ukwandise ulwazi lwehlabathi lanamhlanje kway
     <string name="ss_action_arrow_right">Utolo lwasekunene</string>
     <string name="ss_action_close">Vala</string>
     <string name="ss_action_selected">Ikhethiwe</string>
+    <string name="ss_action_back">Emva</string>
+    <string name="ss_action_open">Vula</string>
+    <string name="ss_action_rewind">Buyela umva</string>
+    <string name="ss_action_play_pause">Dlala okanye Unqumame</string>
+    <string name="ss_action_playlist">Uluhlu lokudlala</string>
+    <string name="ss_action_forward">Phambili</string>
+    <string name="ss_picture_in_picture">Umfanekiso Emfanekisweni</string>
 </resources>

@@ -111,4 +111,11 @@ Kami percaya bahwa Tuhan menambahkan pengetahuan tentang dunia modern dan ingin 
     <string name="ss_action_arrow_right">"Panah Kanan "</string>
     <string name="ss_action_close">Menutup</string>
     <string name="ss_action_selected">Terpilih</string>
+    <string name="ss_action_back">Kembali</string>
+    <string name="ss_action_open">Membuka</string>
+    <string name="ss_action_rewind">Memutar ulang</string>
+    <string name="ss_action_play_pause">Putar atau Jeda</string>
+    <string name="ss_action_playlist">Daftar putar</string>
+    <string name="ss_action_forward">Maju</string>
+    <string name="ss_picture_in_picture">Gambar di dalam gambar</string>
 </resources>

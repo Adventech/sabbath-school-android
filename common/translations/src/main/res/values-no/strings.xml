@@ -107,4 +107,11 @@
     <string name="ss_action_arrow_right">Pil høyre</string>
     <string name="ss_action_close">Lukk</string>
     <string name="ss_action_selected">Valgt</string>
+    <string name="ss_action_back">Tilbake</string>
+    <string name="ss_action_open">Åpen</string>
+    <string name="ss_action_rewind">Spole</string>
+    <string name="ss_action_play_pause">Spill av eller pause</string>
+    <string name="ss_action_playlist">Spilleliste</string>
+    <string name="ss_action_forward">Framover</string>
+    <string name="ss_picture_in_picture">Bilde i bilde</string>
 </resources>

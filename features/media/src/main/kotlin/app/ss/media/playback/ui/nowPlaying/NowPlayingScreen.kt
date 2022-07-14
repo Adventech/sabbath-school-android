@@ -68,6 +68,7 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
@@ -106,6 +107,7 @@ import app.ss.media.playback.ui.spec.PlaybackQueueSpec
 import app.ss.media.playback.ui.spec.toImageSpec
 import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.AudioFile
+import app.ss.translations.R.string as RString
 
 @Immutable
 data class NowPlayingScreenSpec(
@@ -401,7 +403,7 @@ private fun BottomControls(
             IconBox(
                 icon = IconSlot.fromResource(
                     R.drawable.ic_audio_icon_playlist,
-                    contentDescription = "PlayList",
+                    contentDescription = stringResource(id = RString.ss_action_playlist),
                 ),
                 contentColor = tintColor(
                     isDark = isDarkTheme,

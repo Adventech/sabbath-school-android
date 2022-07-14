@@ -77,6 +77,7 @@ internal class AudioFocusHelperImpl(
 
     override var isAudioFocusGranted: Boolean = false
 
+    @Suppress("DEPRECATION")
     override fun requestPlayback(): Boolean {
         val state = if (isOreo()) {
             val attr = AudioAttributes.Builder().apply {
@@ -96,6 +97,7 @@ internal class AudioFocusHelperImpl(
         return state == AUDIOFOCUS_REQUEST_GRANTED
     }
 
+    @Suppress("DEPRECATION")
     override fun abandonPlayback() {
         if (isOreo()) {
             val attr = AudioAttributes.Builder().apply {

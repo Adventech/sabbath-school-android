@@ -111,4 +111,11 @@
     <string name="ss_action_arrow_right">"അമ്പടയാളം വലത് "</string>
     <string name="ss_action_close">അടയ്ക്കുക</string>
     <string name="ss_action_selected">തിരഞ്ഞെടുത്തു</string>
+    <string name="ss_action_back">"തിരികെ "</string>
+    <string name="ss_action_open">തുറക്കുക</string>
+    <string name="ss_action_rewind">"റിവൈൻഡ് ചെയ്യുക "</string>
+    <string name="ss_action_play_pause">"പ്ലേ ചെയ്യുക അല്ലെങ്കിൽ താൽക്കാലികമായി നിർത്തുക "</string>
+    <string name="ss_action_playlist">"പ്ലേലിസ്റ്റ് "</string>
+    <string name="ss_action_forward">"മുന്നോട്ട് "</string>
+    <string name="ss_picture_in_picture">"ചിത്രത്തിലുള്ള ചിത്രം "</string>
 </resources>

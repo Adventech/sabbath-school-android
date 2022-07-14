@@ -111,4 +111,11 @@ Mes tikime, kad Dievas padidino šiuolaikinio pasaulio žinias ir nori, kad mes 
     <string name="ss_action_arrow_right">Rodyklė į dešinę</string>
     <string name="ss_action_close">Uždaryti</string>
     <string name="ss_action_selected">Pasirinkta</string>
+    <string name="ss_action_back">Atgal</string>
+    <string name="ss_action_open">Atviras</string>
+    <string name="ss_action_rewind">Atsukti</string>
+    <string name="ss_action_play_pause">Leisti arba pristabdyti</string>
+    <string name="ss_action_playlist">Grojaraštis</string>
+    <string name="ss_action_forward">Persiųsti</string>
+    <string name="ss_picture_in_picture">Paveikslėlis paveikslėlyje</string>
 </resources>

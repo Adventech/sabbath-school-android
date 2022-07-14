@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.widget.icon.IconBox
@@ -46,6 +47,7 @@ import app.ss.media.R
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.playPause
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
+import app.ss.translations.R.string as RString
 
 internal object PlayBackControlsDefaults {
     val nonPlayButtonSize = 38.dp
@@ -79,7 +81,7 @@ internal fun PlayBackControls(
             IconBox(
                 icon = IconSlot.fromResource(
                     R.drawable.ic_audio_icon_backward,
-                    contentDescription = "Rewind"
+                    contentDescription = stringResource(id = RString.ss_action_rewind)
                 ),
                 contentColor = contentColor,
                 modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
@@ -101,7 +103,7 @@ internal fun PlayBackControls(
             IconBox(
                 icon = IconSlot.fromPainter(
                     painter = painter,
-                    contentDescription = "Play/Pause"
+                    contentDescription = stringResource(id = RString.ss_action_play_pause)
                 ),
                 contentColor = contentColor,
                 modifier = Modifier.size(PlayBackControlsDefaults.playButtonSize),
@@ -117,7 +119,7 @@ internal fun PlayBackControls(
             IconBox(
                 icon = IconSlot.fromResource(
                     R.drawable.ic_audio_icon_forward,
-                    contentDescription = "Forward"
+                    contentDescription = stringResource(id = RString.ss_action_forward)
                 ),
                 contentColor = contentColor,
                 modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)

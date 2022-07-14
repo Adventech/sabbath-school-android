@@ -115,4 +115,11 @@
     <string name="ss_action_arrow_right">화살표 오른쪽</string>
     <string name="ss_action_close">닫다</string>
     <string name="ss_action_selected">선택된</string>
+    <string name="ss_action_back">뒤</string>
+    <string name="ss_action_open">열려 있는</string>
+    <string name="ss_action_rewind">되감기</string>
+    <string name="ss_action_play_pause">재생 또는 일시 중지</string>
+    <string name="ss_action_playlist">재생 목록</string>
+    <string name="ss_action_forward">앞으로</string>
+    <string name="ss_picture_in_picture">픽처 인 픽처</string>
 </resources>

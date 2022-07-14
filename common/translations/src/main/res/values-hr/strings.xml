@@ -111,4 +111,11 @@ Mi doista vjerujemo da je Bog povećao znanje o suvremenom svijetu i želi da ga
     <string name="ss_action_arrow_right">Strelica desno</string>
     <string name="ss_action_close">Zatvoriti</string>
     <string name="ss_action_selected">Odabran</string>
+    <string name="ss_action_back">leđa</string>
+    <string name="ss_action_open">Otvorena</string>
+    <string name="ss_action_rewind">Premotati</string>
+    <string name="ss_action_play_pause">Reproduciraj ili pauziraj</string>
+    <string name="ss_action_playlist">Popis pjesama</string>
+    <string name="ss_action_forward">Naprijed</string>
+    <string name="ss_picture_in_picture">Slika u slici</string>
 </resources>

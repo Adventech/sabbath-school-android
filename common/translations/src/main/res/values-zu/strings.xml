@@ -112,4 +112,11 @@ Siyakholwa ngempela ukuthi uNkulunkulu ukwandise ulwazi lwezwe lwanamuhla futhi 
     <string name="ss_action_arrow_right">Umcibisholo Wesokudla</string>
     <string name="ss_action_close">Vala</string>
     <string name="ss_action_selected">Ikhethiwe</string>
+    <string name="ss_action_back">Emuva</string>
+    <string name="ss_action_open">Vula</string>
+    <string name="ss_action_rewind">Hlehlisa</string>
+    <string name="ss_action_play_pause">Dlala noma Misa isikhashana</string>
+    <string name="ss_action_playlist">Uhlu lwadlalwayo</string>
+    <string name="ss_action_forward">Phambili</string>
+    <string name="ss_picture_in_picture">Isithombe Esithombeni</string>
 </resources>

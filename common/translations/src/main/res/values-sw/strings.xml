@@ -111,4 +111,11 @@ Tunaamini kweli kwamba Mungu ameongeza ujuzi wa dunia ya kisasa na anataka tuutu
     <string name="ss_action_arrow_right">Mshale wa Kulia</string>
     <string name="ss_action_close">Funga</string>
     <string name="ss_action_selected">Imechaguliwa</string>
+    <string name="ss_action_back">Nyuma</string>
+    <string name="ss_action_open">Fungua</string>
+    <string name="ss_action_rewind">Rudisha nyuma</string>
+    <string name="ss_action_play_pause">Cheza au Sitisha</string>
+    <string name="ss_action_playlist">Orodha ya kucheza</string>
+    <string name="ss_action_forward">Mbele</string>
+    <string name="ss_picture_in_picture">Pichani Katika Picha</string>
 </resources>
