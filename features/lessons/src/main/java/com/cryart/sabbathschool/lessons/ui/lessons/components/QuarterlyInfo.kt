@@ -58,11 +58,11 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.isLargeScreen
@@ -74,6 +74,7 @@ import app.ss.design.compose.widget.button.SsButton
 import app.ss.design.compose.widget.button.SsButtonColors
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
+import app.ss.design.compose.widget.text.ReadMoreText
 import app.ss.models.SSLesson
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
@@ -351,12 +352,13 @@ private fun ColumnScope.Content(
     }
 
     val description: @Composable () -> Unit = {
-        Text(
+        ReadMoreText(
             text = spec.description,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium.copy(
+                fontSize = 15.sp
+            ),
             color = Color.White,
-            maxLines = 3,
-            overflow = TextOverflow.Ellipsis,
+            readMoreMaxLines = 3,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -375,6 +377,7 @@ private fun ColumnScope.Content(
             ),
             modifier = Modifier
                 .padding(horizontal = 16.dp)
+                .shadow(12.dp, RoundedCornerShape(20.dp))
                 .align(alignment)
         )
     }
