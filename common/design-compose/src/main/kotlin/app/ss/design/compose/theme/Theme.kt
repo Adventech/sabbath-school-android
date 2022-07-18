@@ -34,7 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import app.ss.design.compose.extensions.isS
 
-private val DarkColorScheme = darkColorScheme(
+val DarkColorScheme = darkColorScheme(
     primary = Color.White,
     secondary = SsColor.BaseBlue,
     background = Color.Black,
@@ -44,7 +44,7 @@ private val DarkColorScheme = darkColorScheme(
     error = SsColor.BaseRed,
 )
 
-private val LightColorScheme = lightColorScheme(
+val LightColorScheme = lightColorScheme(
     primary = SsColor.BaseBlue,
     secondary = SsColor.BaseBlue,
     background = Color.White,

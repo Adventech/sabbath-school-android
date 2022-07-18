@@ -22,7 +22,6 @@
 
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Compose
 import dependencies.Dependencies.Compose.Glance
 import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Hilt
@@ -68,6 +67,7 @@ android {
 dependencies {
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.DESIGN_COMPOSE))
     implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Common.TRANSLATIONS))
 
@@ -84,8 +84,6 @@ dependencies {
     implementation(Coil.core)
     implementation(Coil.compose)
 
-    implementation(Compose.tooling)
-    implementation(Compose.material3)
     implementation(Glance.core)
     implementation(Glance.appwidget)
 

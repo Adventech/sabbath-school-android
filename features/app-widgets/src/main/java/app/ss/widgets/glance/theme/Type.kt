@@ -34,20 +34,6 @@ import androidx.glance.text.TextDecoration
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 
-private sealed class TextSize(
-    val fontSize: TextUnit,
-    val lineHeight: TextUnit,
-) {
-    object Size10 : TextSize(10.sp, 14.sp)
-    object Size12 : TextSize(12.sp, 18.sp)
-    object Size13 : TextSize(13.sp, 20.sp)
-    object Size15 : TextSize(15.sp, 22.sp)
-    object Size16 : TextSize(16.sp, 24.sp)
-    object Size18 : TextSize(18.sp, 26.sp)
-    object Size24 : TextSize(24.sp, 28.sp)
-    object Size32 : TextSize(32.sp, 40.sp)
-}
-
 internal fun TextStyle.copy(
     color: ColorProvider? = this.color,
     fontSize: TextUnit? = this.fontSize,
@@ -66,12 +52,12 @@ internal fun TextStyle.copy(
 
 private fun textStyle(
     color: Color,
-    textSize: TextSize,
+    fontSize: TextUnit,
     fontWeight: FontWeight,
     textDecoration: TextDecoration? = null,
 ) = TextStyle(
     color = ColorProvider(color),
-    fontSize = textSize.fontSize,
+    fontSize = fontSize,
     fontStyle = FontStyle.Normal,
     fontWeight = fontWeight,
     textDecoration = textDecoration,
@@ -82,7 +68,7 @@ fun todayTitle(
     color: Color? = null
 ) = textStyle(
     color = color ?: MaterialTheme.colorScheme.onSurface,
-    textSize = TextSize.Size18,
+    fontSize = 18.sp,
     fontWeight = FontWeight.Bold
 )
 
@@ -91,6 +77,6 @@ fun todayBody(
     color: Color? = null
 ) = textStyle(
     color = color ?: MaterialTheme.colorScheme.onSurfaceVariant,
-    textSize = TextSize.Size15,
+    fontSize = 15.sp,
     fontWeight = FontWeight.Normal
 )
