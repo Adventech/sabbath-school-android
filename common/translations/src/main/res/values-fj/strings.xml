@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Wili Vola VakaSigatabu"</string>
     <string name="ss_share">"veiwasei"</string>
     <string name="ss_login_button_google">"Curu ena mona livaliva"</string>
-    <string name="ss_login_button_facebook">"Curu  ena volamata"</string>
     <string name="ss_login_button_anonymous">"Curu ka sega ni vakatakila na yacana"</string>
     <string name="ss_menu_anonymous_name">"Sega ni vakatakila na yacana"</string>
     <string name="ss_menu_sign_out">"Suka lesu"</string>
@@ -61,10 +60,6 @@
     <string name="ss_reading_copied">"Tarai ira kece na digitaki"</string>
     <string name="ss_reading_share_to">"Wasea vei ira na digitaki"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Vakarau yaco mai"</string>
-    <string name="ss_coming_soon_subheader">"Keitou sa cakacaka tiko kina sara ga oqo, qai veitaratara mai, sega ni dede sana yaco yani"</string>
-    <string name="ss_about_app_version">"Vakatutu naba tolu"</string>
     <string name="ss_about_made">"Vakarautaka na Adventech"</string>
     <string name="ss_settings_display_options">"Veika mo digidigi mai kina"</string>
     <string name="ss_settings_color_theme_light">"Rarama"</string>
@@ -104,4 +99,18 @@
     <string name="ss_pdf_original">iTuvatuva taumada</string>
     <string name="ss_settings_theme">iToko</string>
     <string name="ss_settings_theme_default">Sega ni Tiko</string>
+    <string name="ss_get_printed_resources">Rawata na iVurevure Tabaki</string>
+    <string name="ss_account">Akaude</string>
+    <string name="ss_action_arrow_back">iTuvatuva e Muri</string>
+    <string name="ss_action_arrow_drop_down">Vakalutuka Sobu na dakai titi</string>
+    <string name="ss_action_arrow_right">iTuvatuva Ena Imatau</string>
+    <string name="ss_action_close">Sogo</string>
+    <string name="ss_action_selected">Digitaki</string>
+    <string name="ss_action_back">E muri</string>
+    <string name="ss_action_open">Dolava</string>
+    <string name="ss_action_rewind">Talesu</string>
+    <string name="ss_action_play_pause">Vakatagitaka se Cegu Vakalailai</string>
+    <string name="ss_action_playlist">iTuvatuva ni iTu</string>
+    <string name="ss_action_forward">Toso ki Liu</string>
+    <string name="ss_picture_in_picture">iYaloyalo Ena iYaloyalo</string>
 </resources>

@@ -1,9 +1,6 @@
 package app.ss.media.playback.ui
 
-import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.session.PlaybackStateCompat
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -26,19 +23,14 @@ import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ProgressIndicatorDefaults
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.HourglassBottom
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -48,37 +40,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
+import app.ss.design.compose.extensions.isLargeScreen
+import app.ss.design.compose.extensions.isS
+import app.ss.design.compose.extensions.modifier.thenIf
+import app.ss.design.compose.theme.Dimens
+import app.ss.design.compose.theme.Spacing12
+import app.ss.design.compose.theme.Spacing8
+import app.ss.design.compose.theme.SsColor
+import app.ss.design.compose.theme.lighter
+import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.IconButton
+import app.ss.design.compose.widget.icon.IconSlot
+import app.ss.design.compose.widget.icon.Icons
 import app.ss.media.R
 import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
 import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.extensions.isActive
-import app.ss.media.playback.extensions.isBuffering
-import app.ss.media.playback.extensions.isError
-import app.ss.media.playback.extensions.isPlayEnabled
-import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.extensions.playPause
-import app.ss.media.playback.model.AudioFile
 import app.ss.media.playback.model.PlaybackProgressState
-import app.ss.media.playback.model.toAudio
 import app.ss.media.playback.ui.common.Dismissible
 import app.ss.media.playback.ui.common.LocalPlaybackConnection
-import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
-import com.cryart.design.ext.thenIf
-import com.cryart.design.theme.BaseGrey1
-import com.cryart.design.theme.BaseGrey2
-import com.cryart.design.theme.Body
-import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.LabelMedium
-import com.cryart.design.theme.Spacing12
-import com.cryart.design.theme.Spacing8
-import com.cryart.design.theme.isLargeScreen
-import com.cryart.design.theme.lighter
+import app.ss.media.playback.ui.spec.NowPlayingSpec
+import app.ss.media.playback.ui.spec.PlaybackStateSpec
+import app.ss.media.playback.ui.spec.toSpec
+import androidx.compose.material.icons.Icons as MaterialIcons
+import app.ss.translations.R.string as RString
 
 private object PlaybackMiniControlsDefaults {
     val height = 60.dp
@@ -88,12 +83,10 @@ private object PlaybackMiniControlsDefaults {
     val cancelSize = 20.dp
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PlaybackMiniControls(
     modifier: Modifier = Modifier,
     playbackConnection: PlaybackConnection,
-    readerContentColor: Color,
     onExpand: () -> Unit
 ) {
     val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState).collectAsState(NONE_PLAYBACK_STATE)
@@ -107,24 +100,21 @@ fun PlaybackMiniControls(
         exit = slideOutVertically(targetOffsetY = { it / 2 })
     ) {
         PlaybackMiniControls(
-            playbackState = playbackState,
-            nowPlaying = nowPlaying,
+            spec = playbackState.toSpec(),
+            nowPlayingSpec = nowPlaying.toSpec(),
             playbackConnection = playbackConnection,
-            readerContentColor = readerContentColor,
             onExpand = onExpand
         )
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PlaybackMiniControls(
-    playbackState: PlaybackStateCompat,
-    nowPlaying: MediaMetadataCompat,
+    spec: PlaybackStateSpec,
+    nowPlayingSpec: NowPlayingSpec,
     modifier: Modifier = Modifier,
     height: Dp = PlaybackMiniControlsDefaults.height,
     playbackConnection: PlaybackConnection = LocalPlaybackConnection.current,
-    readerContentColor: Color,
     onExpand: () -> Unit
 ) {
     val cancel: () -> Unit = { playbackConnection.transportControls?.stop() }
@@ -163,7 +153,7 @@ fun PlaybackMiniControls(
                             .background(backgroundColor)
                     ) {
                         NowPlayingColumn(
-                            nowPlaying = nowPlaying,
+                            spec = nowPlayingSpec,
                             onCancel = cancel
                         )
                         PlaybackReplay(
@@ -174,7 +164,7 @@ fun PlaybackMiniControls(
                         )
 
                         PlaybackPlayPause(
-                            playbackState = playbackState,
+                            spec = spec,
                             contentColor = contentColor,
                             onPlayPause = {
                                 playbackConnection.mediaController?.playPause()
@@ -184,8 +174,8 @@ fun PlaybackMiniControls(
                         Spacer(modifier = Modifier.width(Dimens.grid_2))
                     }
                     PlaybackProgress(
-                        playbackState = playbackState,
-                        color = readerContentColor,
+                        spec = spec,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         playbackConnection = playbackConnection
                     )
                 }
@@ -195,24 +185,29 @@ fun PlaybackMiniControls(
 }
 
 @Composable
-private fun playbackMiniBackgroundColor(): Color =
-    if (isSystemInDarkTheme()) {
+private fun playbackMiniBackgroundColor(
+    isDark: Boolean = isSystemInDarkTheme()
+): Color =
+    if (isDark) {
         Color.Black.lighter()
     } else {
-        BaseGrey1
+        SsColor.BaseGrey1
     }
 
 @Composable
-internal fun playbackContentColor(): Color =
-    if (isSystemInDarkTheme()) {
-        Color.White
-    } else {
-        Color.Black
-    }
+internal fun playbackContentColor(
+    isDark: Boolean = isSystemInDarkTheme()
+): Color = when {
+    isS() -> MaterialTheme.colorScheme.onSurface
+    isDark -> Color.White
+    else -> Color.Black
+}
 
 @Composable
-private fun playbackButtonSpacing(): Dp {
-    return if (isLargeScreen()) {
+private fun playbackButtonSpacing(
+    isLargeScreen: Boolean = isLargeScreen()
+): Dp {
+    return if (isLargeScreen) {
         Spacing12
     } else {
         Spacing8
@@ -221,7 +216,7 @@ private fun playbackButtonSpacing(): Dp {
 
 @Composable
 private fun PlaybackProgress(
-    playbackState: PlaybackStateCompat,
+    spec: PlaybackStateSpec,
     color: Color,
     playbackConnection: PlaybackConnection = LocalPlaybackConnection.current,
 ) {
@@ -230,8 +225,9 @@ private fun PlaybackProgress(
     val sizeModifier = Modifier
         .height(2.dp)
         .fillMaxWidth()
+
     when {
-        playbackState.isBuffering -> {
+        spec.isBuffering -> {
             LinearProgressIndicator(
                 color = color,
                 modifier = sizeModifier
@@ -250,7 +246,7 @@ private fun PlaybackProgress(
 
 @Composable
 private fun RowScope.NowPlayingColumn(
-    nowPlaying: MediaMetadataCompat,
+    spec: NowPlayingSpec,
     onCancel: () -> Unit
 ) {
     Row(
@@ -259,19 +255,16 @@ private fun RowScope.NowPlayingColumn(
         modifier = Modifier.weight(1f),
     ) {
 
-        IconButton(
-            onClick = onCancel
-        ) {
-            Icon(
-                Icons.Rounded.Cancel,
-                contentDescription = "Cancel",
+        IconButton(onClick = onCancel) {
+            IconBox(
+                icon = Icons.Cancel,
                 modifier = Modifier.size(PlaybackMiniControlsDefaults.cancelSize),
-                tint = BaseGrey2
+                contentColor = SsColor.BaseGrey2
             )
         }
 
         NowPlayingColumn(
-            audio = nowPlaying.toAudio(),
+            spec = spec,
             modifier = Modifier
                 .weight(1f),
         )
@@ -280,7 +273,7 @@ private fun RowScope.NowPlayingColumn(
 
 @Composable
 private fun NowPlayingColumn(
-    audio: AudioFile,
+    spec: NowPlayingSpec,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -290,23 +283,24 @@ private fun NowPlayingColumn(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            audio.title,
+            spec.title,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            style = LabelMedium.copy(
-                color = MaterialTheme.colors.onSurface,
+            style = MaterialTheme.typography.labelMedium.copy(
                 fontSize = 15.sp
-            )
+            ),
+            color = MaterialTheme.colorScheme.onSurface,
         )
 
         Spacer(modifier = Modifier.height(2.dp))
 
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             Text(
-                audio.artist,
+                spec.artist,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = Body
+                style = MaterialTheme.typography.bodySmall,
+                color = onSurfaceSecondary()
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
@@ -319,41 +313,39 @@ private fun PlaybackReplay(
     contentColor: Color,
     onRewind: () -> Unit
 ) {
-    IconButton(
-        onClick = onRewind,
-        modifier = Modifier.size(size)
-    ) {
-        Icon(
-            painterResource(id = R.drawable.ic_audio_icon_backward),
-            contentDescription = "Rewind",
-            tint = contentColor,
-            modifier = Modifier.size(size)
+    IconButton(onClick = onRewind) {
+        IconBox(
+            icon = IconSlot.fromResource(
+                R.drawable.ic_audio_icon_backward,
+                contentDescription = stringResource(id = RString.ss_action_rewind)
+            ),
+            modifier = Modifier.size(size),
+            contentColor = contentColor,
         )
     }
 }
 
 @Composable
 private fun PlaybackPlayPause(
-    playbackState: PlaybackStateCompat,
+    spec: PlaybackStateSpec,
     size: Dp = PlaybackMiniControlsDefaults.playPauseSize,
     contentColor: Color,
     onPlayPause: () -> Unit
 ) {
-    IconButton(
-        onClick = onPlayPause,
-        modifier = Modifier.size(size),
-    ) {
+    IconButton(onClick = onPlayPause) {
         val painter = when {
-            playbackState.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
-            playbackState.isPlayEnabled -> painterResource(id = R.drawable.ic_audio_icon_play)
-            playbackState.isError -> rememberVectorPainter(Icons.Rounded.ErrorOutline)
-            else -> rememberVectorPainter(Icons.Rounded.HourglassBottom)
+            spec.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
+            spec.isPlayEnabled -> painterResource(id = R.drawable.ic_audio_icon_play)
+            spec.isError -> rememberVectorPainter(MaterialIcons.Rounded.ErrorOutline)
+            else -> rememberVectorPainter(MaterialIcons.Rounded.HourglassBottom)
         }
-        Icon(
-            painter = painter,
+        IconBox(
+            icon = IconSlot.fromPainter(
+                painter = painter,
+                contentDescription = stringResource(id = RString.ss_action_play_pause)
+            ),
             modifier = Modifier.size(size),
-            contentDescription = "Play/Pause",
-            tint = contentColor
+            contentColor = contentColor
         )
     }
 }

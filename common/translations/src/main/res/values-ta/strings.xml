@@ -24,7 +24,6 @@
     <string name="ss_app_name">"ஓய்வுநாட் பள்ளி"</string>
     <string name="ss_share">"பகிர்"</string>
     <string name="ss_login_button_google">"Google உடன் உள்நுழைக"</string>
-    <string name="ss_login_button_facebook">"பேஸ்பு கொண்டு உள்நுழையவும்"</string>
     <string name="ss_login_button_anonymous">"அநாமதேயமாக உள்நுழைக"</string>
     <string name="ss_menu_anonymous_name">"அநாமதேய"</string>
     <string name="ss_menu_sign_out">"வெளியேறு"</string>
@@ -41,11 +40,11 @@
     <string name="ss_login_anonymously_dialog_title">"அநாமதேயமாக உள்நுழையவா?"</string>
     <string name="ss_login_anonymously_dialog_description">"நீங்கள் அநாமதேயாக உள்நுழைந்தால், சாதனங்கள் முழுவதும் (உங்கள் கருத்துகள் மற்றும் சிறப்பம்சங்கள்) உங்கள் தரவை ஒத்திசைக்க முடியாது அல்லது பயன்பாட்டை நிறுவல் நீக்கிய பிறகு. நீங்கள் தொடர விரும்புகிறீர்களா?"</string>
     <string name="ss_quarterlies_filter_languages">"மொழிகள்"</string>
-    <string name="ss_quarterlies_downloading">"காலாண்டுகள் பெறுகிறது ..."</string>
+    <string name="ss_quarterlies_downloading">"காலாண்டுகள் பெறுகிறது …"</string>
     <string name="ss_quarterlies_error">"தெரியாத பிழை ஏற்பட்டது. தயவுசெய்து மீண்டும் முயற்சி செய்க."</string>
     <string name="ss_quarterlies_empty">"இந்த நேரத்தில் எந்த காலாவதியும் கிடைக்கவில்லை"</string>
     <string name="ss_quarterly_item_read_text">"திறந்த"</string>
-    <string name="ss_lessons_downloading">"காலாண்டுத் திறப்பு ..."</string>
+    <string name="ss_lessons_downloading">"காலாண்டுத் திறப்பு …"</string>
     <string name="ss_lessons_error">"காலாண்டு திறக்கும்போது பிழை ஏற்பட்டது"</string>
     <string name="ss_lessons_empty">"இந்த நேரத்தில் எந்த காலாவதியும் கிடைக்கவில்லை"</string>
     <string name="ss_lessons_read">"படிக்க"</string>
@@ -60,10 +59,7 @@
     <string name="ss_reading_copied">"தேர்வு நகல்"</string>
     <string name="ss_reading_share_to">"தேர்வை தேர்வு செய்ய:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"விரைவில் வருகிறேன்"</string>
-    <string name="ss_coming_soon_subheader">"நாங்கள் தற்போது இந்த அம்சத்தில் வேலை செய்கிறோம். காத்திருங்கள், அது விரைவில் வரும்."</string>
-    <string name="ss_about_app_version">"பதிப்பு 3.0"</string>
+
     <string name="ss_about_made">"❤ கொண்டு டம்ட் மூலம்"</string>
     <string name="ss_settings_display_options">"காட்சி விருப்பங்கள்"</string>
     <string name="ss_settings_color_theme_light">"ஒளி"</string>
@@ -108,4 +104,18 @@
     <string name="ss_pdf_original">அசல் வடிவமைப்பு</string>
     <string name="ss_settings_theme">தீம்</string>
     <string name="ss_settings_theme_default">இயல்புநிலை</string>
+    <string name="ss_get_printed_resources">அச்சிடப்பட்ட வளங்களைப் பெறுங்கள்</string>
+    <string name="ss_account">கணக்கு</string>
+    <string name="ss_action_arrow_back">"அம்பு மீண்டும் "</string>
+    <string name="ss_action_arrow_drop_down">"அம்பு ட்ராப் டவுன் "</string>
+    <string name="ss_action_arrow_right">"அம்பு வலது "</string>
+    <string name="ss_action_close">"நெருக்கமான "</string>
+    <string name="ss_action_selected">"தேர்ந்தெடுக்கப்பட்டது "</string>
+    <string name="ss_action_back">"மீண்டும் "</string>
+    <string name="ss_action_open">திற</string>
+    <string name="ss_action_rewind">"ரீவைண்ட் "</string>
+    <string name="ss_action_play_pause">"விளையாடவும் அல்லது இடைநிறுத்தவும் "</string>
+    <string name="ss_action_playlist">"பிளேலிஸ்ட் "</string>
+    <string name="ss_action_forward">"முன்னோக்கி "</string>
+    <string name="ss_picture_in_picture">"படத்தில் உள்ள படம் "</string>
 </resources>

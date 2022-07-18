@@ -26,12 +26,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.annotation.Keep
-import app.ss.lessons.data.model.LessonPdf
-import app.ss.media.model.MediaAvailability
+import app.ss.models.LessonPdf
+import app.ss.models.media.MediaAvailability
 import app.ss.pdf.ui.ARG_MEDIA_AVAILABILITY
 import app.ss.pdf.ui.ARG_PDF_FILES
 import app.ss.pdf.ui.SSReadPdfActivity
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
 import com.pspdfkit.annotations.AnnotationType
@@ -70,7 +70,7 @@ interface PdfReader {
 internal class PdfReaderImpl(
     private val context: Context,
     private val readerPrefs: PdfReaderPrefs,
-    private val schedulerProvider: SchedulerProvider
+    private val dispatcherProvider: DispatcherProvider
 ) : PdfReader, DownloadJob.ProgressListenerAdapter() {
 
     private val allowedAnnotations = listOf(
@@ -127,7 +127,7 @@ internal class PdfReaderImpl(
         }.catch {
             Timber.e(it)
             emit(Resource.error(it))
-        }.flowOn(schedulerProvider.default)
+        }.flowOn(dispatcherProvider.default)
     }
 
     private suspend fun downloadFile(

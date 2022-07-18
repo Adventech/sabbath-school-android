@@ -24,7 +24,6 @@
     <string name="ss_app_name">"安息日学校"</string>
     <string name="ss_share">"共享"</string>
     <string name="ss_login_button_google">"用Google登入"</string>
-    <string name="ss_login_button_facebook">"用Facebook登入"</string>
     <string name="ss_login_button_anonymous">"匿名登录"</string>
     <string name="ss_menu_anonymous_name">"匿名"</string>
     <string name="ss_menu_sign_out">"登出"</string>
@@ -60,10 +59,7 @@
     <string name="ss_reading_copied">"选择复制。"</string>
     <string name="ss_reading_share_to">"共享选择："</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"快来了"</string>
-    <string name="ss_coming_soon_subheader">"我们正在研究这个功能。 请继续关注，即将到来。"</string>
-    <string name="ss_about_app_version">"版本3.0"</string>
+
     <string name="ss_about_made">"用Adventech的❤做出来"</string>
     <string name="ss_settings_display_options">"显示选项"</string>
     <string name="ss_settings_color_theme_light">"光"</string>
@@ -108,4 +104,18 @@
     <string name="ss_pdf_original">原始布局</string>
     <string name="ss_settings_theme">主题</string>
     <string name="ss_settings_theme_default">默认</string>
+    <string name="ss_get_printed_resources">获取印刷资源</string>
+    <string name="ss_account">帐户</string>
+    <string name="ss_action_arrow_back">箭头返回</string>
+    <string name="ss_action_arrow_drop_down">箭头下拉</string>
+    <string name="ss_action_arrow_right">向右箭头</string>
+    <string name="ss_action_close">关</string>
+    <string name="ss_action_selected">已选中</string>
+    <string name="ss_action_back">后退</string>
+    <string name="ss_action_open">打开</string>
+    <string name="ss_action_rewind">倒带</string>
+    <string name="ss_action_play_pause">播放或暂停</string>
+    <string name="ss_action_playlist">播放列表</string>
+    <string name="ss_action_forward">向前</string>
+    <string name="ss_picture_in_picture">画中画</string>
 </resources>

@@ -24,7 +24,6 @@
     <string name="ss_app_name">"ಸಬ್ಬತ್ ಶಾಲೆ"</string>
     <string name="ss_share">"ಹಂಚಿಕೊಳ್ಳಿ"</string>
     <string name="ss_login_button_google">"Google ನೊಂದಿಗೆ ಸೈನ್ ಇನ್ ಮಾಡಿ"</string>
-    <string name="ss_login_button_facebook">"ಫೇಸ್ಬುಕ್ ಜೊತೆ ಸೈನ್ ಇನ್ ಮಾಡಿ"</string>
     <string name="ss_login_button_anonymous">"ಅನಾಮಧೇಯವಾಗಿ ಲಾಗಿನ್ ಮಾಡಿ"</string>
     <string name="ss_menu_anonymous_name">"ಅನಾಮಧೇಯ"</string>
     <string name="ss_menu_sign_out">"ಸೈನ್ ಔಟ್ ಮಾಡಿ"</string>
@@ -41,11 +40,11 @@
     <string name="ss_login_anonymously_dialog_title">"ಅನಾಮಧೇಯವಾಗಿ ಲಾಗಿನ್ ಆಗಿ?"</string>
     <string name="ss_login_anonymously_dialog_description">"ನೀವು ಅನಾಮಧೇಯವಾಗಿ ಲಾಗಿನ್ ಮಾಡಿದರೆ, ಸಾಧನಗಳಾದ್ಯಂತ ಅಥವಾ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಅಸ್ಥಾಪಿಸಿದ ನಂತರ ನಿಮ್ಮ ಡೇಟಾವನ್ನು (ಕಾಮೆಂಟ್ಗಳು ಮತ್ತು ಮುಖ್ಯಾಂಶಗಳು ಮುಂತಾದವು) ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಲು ನಿಮಗೆ ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ. ಮುಂದುವರಿಯಲು ನೀವು ಖಚಿತವಾಗಿ ಬಯಸುವಿರಾ?"</string>
     <string name="ss_quarterlies_filter_languages">"ಭಾಷೆಗಳು"</string>
-    <string name="ss_quarterlies_downloading">"ಕ್ವಾರ್ಟರ್ಲಿಗಳನ್ನು ಪಡೆಯಲಾಗುತ್ತಿದೆ ..."</string>
+    <string name="ss_quarterlies_downloading">"ಕ್ವಾರ್ಟರ್ಲಿಗಳನ್ನು ಪಡೆಯಲಾಗುತ್ತಿದೆ …"</string>
     <string name="ss_quarterlies_error">"ಅಜ್ಞಾತ ದೋಷ ಸಂಭವಿಸಿದೆ. ದಯವಿಟ್ಟು ಪುನಃ ಪ್ರಯತ್ನಿಸಿ."</string>
     <string name="ss_quarterlies_empty">"ಈ ಸಮಯದಲ್ಲಿ ಯಾವುದೇ ಕ್ವಾರ್ಟರ್ಲೀಸ್ ಲಭ್ಯವಿಲ್ಲ"</string>
     <string name="ss_quarterly_item_read_text">"ತೆರೆಯಿರಿ"</string>
-    <string name="ss_lessons_downloading">"ತ್ರೈಮಾಸಿಕ ತೆರೆಯಲಾಗುತ್ತಿದೆ ..."</string>
+    <string name="ss_lessons_downloading">"ತ್ರೈಮಾಸಿಕ ತೆರೆಯಲಾಗುತ್ತಿದೆ …"</string>
     <string name="ss_lessons_error">"ತ್ರೈಮಾಸಿಕ ತೆರೆಯುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ"</string>
     <string name="ss_lessons_empty">"ಈ ಸಮಯದಲ್ಲಿ ಯಾವುದೇ ಕ್ವಾರ್ಟರ್ಲೀಸ್ ಲಭ್ಯವಿಲ್ಲ"</string>
     <string name="ss_lessons_read">"ಓದಿ"</string>
@@ -60,10 +59,7 @@
     <string name="ss_reading_copied">"ಆಯ್ಕೆ ನಕಲಿಸಲಾಗಿದೆ"</string>
     <string name="ss_reading_share_to">"ಈ ಆಯ್ಕೆಯನ್ನು ಹಂಚಿಕೊಳ್ಳಿ:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"ಶೀಘ್ರದಲ್ಲೇ ಬರಲಿದೆ"</string>
-    <string name="ss_coming_soon_subheader">"ನಾವು ಪ್ರಸ್ತುತ ಈ ವೈಶಿಷ್ಟ್ಯವನ್ನು ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿದ್ದೇವೆ. ಎಂದರೆ ಸ್ಟೇ, ಇದು ಶೀಘ್ರದಲ್ಲೇ ಬರಲಿದೆ."</string>
-    <string name="ss_about_app_version">"ಆವೃತ್ತಿ 3.0"</string>
+
     <string name="ss_about_made">"Adventech ಮೂಲಕ ❤ ಮಾಡಿದ"</string>
     <string name="ss_settings_display_options">"ಪ್ರದರ್ಶನ ಆಯ್ಕೆಗಳು"</string>
     <string name="ss_settings_color_theme_light">"ಬೆಳಕು"</string>
@@ -104,4 +100,18 @@
     <string name="ss_pdf_original">ಮೂಲ ವಿನ್ಯಾಸ</string>
     <string name="ss_settings_theme">ಥೀಮ್</string>
     <string name="ss_settings_theme_default">ಡೀಫಾಲ್ಟ್</string>
+    <string name="ss_get_printed_resources">ಮುದ್ರಿತ ಸಂಪನ್ಮೂಲಗಳನ್ನು ಪಡೆಯಿರಿ</string>
+    <string name="ss_account">ಖಾತೆ</string>
+    <string name="ss_action_arrow_back">"ಬಾಣ ಬ್ಯಾಕ್ "</string>
+    <string name="ss_action_arrow_drop_down">"ಬಾಣದ ಡ್ರಾಪ್ ಡೌನ್ "</string>
+    <string name="ss_action_arrow_right">"ಬಾಣ ಬಲ "</string>
+    <string name="ss_action_close">"ಮುಚ್ಚಿ "</string>
+    <string name="ss_action_selected">"ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ "</string>
+    <string name="ss_action_back">"ಹಿಂದೆ "</string>
+    <string name="ss_action_open">ತೆರೆಯಿರಿ</string>
+    <string name="ss_action_rewind">"ರಿವೈಂಡ್ "</string>
+    <string name="ss_action_play_pause">"ಪ್ಲೇ ಮಾಡಿ ಅಥವಾ ವಿರಾಮಗೊಳಿಸಿ "</string>
+    <string name="ss_action_playlist">"ಪ್ಲೇಪಟ್ಟಿ "</string>
+    <string name="ss_action_forward">"ಮುಂದೆ "</string>
+    <string name="ss_picture_in_picture">ಚಿತ್ರದಲ್ಲಿ ಚಿತ್ರ</string>
 </resources>

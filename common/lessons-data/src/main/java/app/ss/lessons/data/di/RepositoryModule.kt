@@ -24,33 +24,25 @@ package app.ss.lessons.data.di
 
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.lessons.LessonsRepositoryImpl
+import app.ss.lessons.data.repository.media.MediaRepository
+import app.ss.lessons.data.repository.media.MediaRepositoryImpl
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepositoryImpl
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+abstract class RepositoryModule {
 
-    @Provides
-    @Singleton
-    fun provideQuarterliesRepository(
-        database: FirebaseDatabase,
-        ssPrefs: SSPrefs
-    ): QuarterliesRepository = QuarterliesRepositoryImpl(database, ssPrefs)
+    @Binds
+    internal abstract fun bindQuarterliesRepository(impl: QuarterliesRepositoryImpl): QuarterliesRepository
 
-    @Provides
-    @Singleton
-    fun provideLessonsRepository(
-        database: FirebaseDatabase,
-        auth: FirebaseAuth,
-        ssPrefs: SSPrefs
-    ): LessonsRepository = LessonsRepositoryImpl(database, auth, ssPrefs)
+    @Binds
+    internal abstract fun bindLessonsRepository(impl: LessonsRepositoryImpl): LessonsRepository
+
+    @Binds
+    internal abstract fun bindMediaRepository(impl: MediaRepositoryImpl): MediaRepository
 }

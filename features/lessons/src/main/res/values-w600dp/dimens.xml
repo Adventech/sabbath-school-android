@@ -21,7 +21,5 @@
   -->
 
 <resources>
-    <dimen name="ss_lessons_toolbar_cover_height">235dp</dimen>
-    <dimen name="ss_lessons_toolbar_cover_width">165dp</dimen>
     <dimen name="ss_reading_toolbar_title_margin_left">40dp</dimen>
 </resources>

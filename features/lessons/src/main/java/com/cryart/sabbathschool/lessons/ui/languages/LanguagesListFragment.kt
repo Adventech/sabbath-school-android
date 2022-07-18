@@ -30,7 +30,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.cryart.sabbathschool.core.extensions.arch.observeNonNull
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsFragmentLangaugesListBinding
 import com.google.android.material.transition.MaterialFadeThrough
@@ -83,7 +83,7 @@ class LanguagesListFragment : DialogFragment(R.layout.ss_fragment_langauges_list
             )
         }
 
-        viewModel.languagesLiveData.observeNonNull(viewLifecycleOwner) {
+        viewModel.languagesFlow.collectIn(this) {
             languagesListAdapter.setData(it)
         }
     }

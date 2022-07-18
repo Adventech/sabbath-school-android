@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Sabato Mokykla"</string>
     <string name="ss_share">"Dalintis"</string>
     <string name="ss_login_button_google">"Prisijunkite naudodami „Google“"</string>
-    <string name="ss_login_button_facebook">"Prisijunkite naudodami „Facebook“"</string>
     <string name="ss_login_button_anonymous">"Prisijungti anonimiškai"</string>
     <string name="ss_menu_anonymous_name">"Anoniminis"</string>
     <string name="ss_menu_sign_out">"Atsijungti"</string>
@@ -60,10 +59,7 @@
     <string name="ss_reading_copied">"Pasirinkta kopija"</string>
     <string name="ss_reading_share_to">"Bendrinkite pasirinkimą:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Netrukus"</string>
-    <string name="ss_coming_soon_subheader">"Šiuo metu dirbame su šia funkcija. Palaukite, netrukus pasirodys."</string>
-    <string name="ss_about_app_version">"3.0 versija"</string>
+
     <string name="ss_about_made">"Pagaminta iš „Adventech“"</string>
     <string name="ss_settings_display_options">"Vaizdo parinktys"</string>
     <string name="ss_settings_color_theme_light">"Šviesa"</string>
@@ -108,4 +104,18 @@ Mes tikime, kad Dievas padidino šiuolaikinio pasaulio žinias ir nori, kad mes 
     <string name="ss_pdf_original">Originalus išdėstymas</string>
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Numatytas</string>
+    <string name="ss_get_printed_resources">Gauti spausdintus išteklius</string>
+    <string name="ss_account">sąskaita</string>
+    <string name="ss_action_arrow_back">Rodyklė atgal</string>
+    <string name="ss_action_arrow_drop_down">Rodyklės išskleidžiamasis žemyn</string>
+    <string name="ss_action_arrow_right">Rodyklė į dešinę</string>
+    <string name="ss_action_close">Uždaryti</string>
+    <string name="ss_action_selected">Pasirinkta</string>
+    <string name="ss_action_back">Atgal</string>
+    <string name="ss_action_open">Atviras</string>
+    <string name="ss_action_rewind">Atsukti</string>
+    <string name="ss_action_play_pause">Leisti arba pristabdyti</string>
+    <string name="ss_action_playlist">Grojaraštis</string>
+    <string name="ss_action_forward">Persiųsti</string>
+    <string name="ss_picture_in_picture">Paveikslėlis paveikslėlyje</string>
 </resources>

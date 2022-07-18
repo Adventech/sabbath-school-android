@@ -20,8 +20,13 @@
  * THE SOFTWARE.
  */
 
+import dependencies.Dependencies
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.AndroidX.Room
+import dependencies.Dependencies.Square.Moshi
+import extensions.addTestsDependencies
+import extensions.implementation
+import extensions.kapt
 
 plugins {
     id(BuildPlugins.Android.LIBRARY)
@@ -56,10 +61,20 @@ android {
 }
 
 dependencies {
+    api(project(BuildModules.Common.MODELS))
+
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
 
     implementation(Room.runtime)
     implementation(Room.ktx)
     kapt(Room.compiler)
+
+    implementation(Moshi.kotlin)
+    kapt(Moshi.codegen)
+
+    implementation(Dependencies.TIMBER)
+
+    addTestsDependencies()
+    kaptTest(Moshi.codegen)
 }

@@ -22,90 +22,106 @@
 
 <resources>
     <string name="ss_app_name">"Sobotná škola"</string>
-    <string name="ss_share">"Zdieľam"</string>
-    <string name="ss_login_button_google">"Prihláste sa Google"</string>
-    <string name="ss_login_button_facebook">"Prihláste sa Facebook"</string>
-    <string name="ss_login_button_anonymous">"Prihlásiť sa ako anonymný"</string>
+    <string name="ss_share">"Zdieľať"</string>
+    <string name="ss_login_button_google">"Prihlásiť sa s účtom Google"</string>
+    <string name="ss_login_button_anonymous">"Pokračovať bez prihlásenia"</string>
     <string name="ss_menu_anonymous_name">"Anonymný"</string>
     <string name="ss_menu_sign_out">"Odhlásiť Sa"</string>
-    <string name="ss_menu_read_now">"Prečítajte si teraz"</string>
+    <string name="ss_menu_read_now">"Čítať teraz"</string>
     <string name="ss_menu_share_app">"Zdieľať aplikáciu"</string>
-    <string name="ss_menu_share_app_text">"Pozrite sa, používam túto aplikáciu Sobotná škola - %1$s"</string>
-    <string name="ss_my_highlights">"Moje hlavné prvky"</string>
+    <string name="ss_menu_share_app_text">"Pozri sa na aplikáciu Sobotná škola, ktorú používam - %1$s"</string>
+    <string name="ss_more">Viac</string>
+    <string name="ss_my_highlights">"Moje zvýraznenie"</string>
     <string name="ss_my_notes">"Moje poznámky"</string>
     <string name="ss_settings">"Nastavenie"</string>
-    <string name="ss_about">"O"</string>
-    <string name="ss_login_failed">"Prihlásenie zlyhalo. Prosím skúste znova"</string>
+    <string name="ss_about">"O aplikácii"</string>
+    <string name="ss_login_failed">"Prihlásenie zlyhalo. Prosím skúste to znova."</string>
     <string name="ss_login_anonymously_dialog_positive">"Áno"</string>
-    <string name="ss_login_anonymously_dialog_negative">"Žiadny"</string>
+    <string name="ss_login_anonymously_dialog_negative">"Nie"</string>
     <string name="ss_login_anonymously_dialog_title">"Prihlásiť sa anonymne?"</string>
-    <string name="ss_login_anonymously_dialog_description">"Prihlásením sa anonymne nebudete môcť synchronizovať vaše dáta, napríklad komentáre a zvýrazňovanie, medzi zariadeniami alebo po odinštalovaní aplikácie. Naozaj chcete pokračovať?"</string>
-    <string name="ss_quarterlies_filter_languages">"Filtrovanie jazykov"</string>
-    <string name="ss_quarterlies_downloading">"Získanie štvrťročných ..."</string>
-    <string name="ss_quarterlies_error">"Vyskytla sa neznáma chyba. Prosím skúste znova"</string>
-    <string name="ss_quarterlies_empty">"Zdá sa, že v súčasnosti nie sú štvrťročné"</string>
-    <string name="ss_quarterly_item_read_text">"Otvorený"</string>
-    <string name="ss_lessons_downloading">"Otvára sa štvrťročne ..."</string>
-    <string name="ss_lessons_error">"Pri otvorení štvrťročne došlo k chybe"</string>
-    <string name="ss_lessons_empty">"Zdá sa, že momentálne nie sú žiadne lekcie"</string>
+    <string name="ss_login_anonymously_dialog_description">"Ak sa prihlásite anonymne, nebudete môcť synchronizovať dáta (napríklad komentáre a zvýraznenia) v rôznych zariadeniach alebo po odinštalovaní aplikácie. Naozaj chcete pokračovať?"</string>
+    <string name="ss_quarterlies_filter_languages">"Filtrovať jazyky"</string>
+    <string name="ss_quarterlies_downloading">"Načítam štvrťrok…"</string>
+    <string name="ss_quarterlies_error">"Došlo k neznámej chybe. Prosím skúste to znova."</string>
+    <string name="ss_quarterlies_empty">"V tejto chvíli nie sú k dispozícii žiadne štvrťroky"</string>
+    <string name="ss_quarterly_item_read_text">"Otvoriť"</string>
+    <string name="ss_lessons_downloading">"Otváranie štvrťroku…"</string>
+    <string name="ss_lessons_error">"Pri otváraní štvrťroku došlo k chybe"</string>
+    <string name="ss_lessons_empty">"V tejto chvíli nie sú k dispozícii žiadne lekcie"</string>
     <string name="ss_lessons_read">"Prečítať"</string>
-    <string name="ss_reading_empty">"Zdá sa, že táto lekcia je prázdna. Pozrite sa neskôr"</string>
+    <string name="ss_reading_empty">"Zdá sa, že táto lekcia je prázdna. Skontrolujte prosím neskôr."</string>
     <string name="ss_reading_error">"Pri otvorení lekcie sa vyskytla chyba"</string>
-    <string name="ss_reading_downloading">"Sťahovanie lekcie pre offline"</string>
+    <string name="ss_reading_downloading">"Stiahnutie lekcie na čítanie offline"</string>
     <string name="ss_reading_suggest_edit">"Navrhnúť úpravu alebo opravu"</string>
-    <string name="ss_reading_suggest_edit_hint">"Opíšte svoju opravu alebo návrh"</string>
-    <string name="ss_reading_suggest_edit_done">"Ďakujem! Váš návrh bude preskúmaný"</string>
+    <string name="ss_reading_suggest_edit_hint">"Popíšte prosím svoju opravu alebo návrh"</string>
+    <string name="ss_reading_suggest_edit_done">"Ďakujeme! Váš návrh bude preskúmaný."</string>
     <string name="ss_reading_comment">"Komentár"</string>
     <string name="ss_reading_enter_comment">"Zadajte svoj komentár"</string>
     <string name="ss_reading_copied">"Výber bol skopírovaný."</string>
-    <string name="ss_reading_share_to">"Zdieľanie výberu na:"</string>
+    <string name="ss_reading_share_to">"Zdieľať výber:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Už čoskoro"</string>
-    <string name="ss_coming_soon_subheader">"Túto funkciu práve teraz pracujeme. Zostaňte naladení, príde čoskoro"</string>
-    <string name="ss_about_app_version">"Verzia 3.0"</string>
+
     <string name="ss_about_made">"Vyrobené s ❤ od Adventech"</string>
     <string name="ss_settings_display_options">"Možnosti zobrazenia"</string>
-    <string name="ss_settings_color_theme_light">"Svetlo"</string>
+    <string name="ss_settings_color_theme_light">"Svetlý"</string>
     <string name="ss_settings_color_theme_sepia">"Sépia"</string>
-    <string name="ss_settings_color_theme_dark">"Tmavá"</string>
-    <string name="ss_settings_typeface">"Písmo"</string>
+    <string name="ss_settings_color_theme_dark">"Tmavý"</string>
+    <string name="ss_settings_typeface">"Druh písma"</string>
     <string name="ss_settings_font_size">"Veľkosť písma"</string>
-    <string name="ss_settings_font_size_tiny">"Maličký"</string>
+    <string name="ss_settings_font_size_tiny">"Drobný"</string>
     <string name="ss_settings_font_size_small">"Malý"</string>
-    <string name="ss_settings_font_size_medium">"Stredná"</string>
+    <string name="ss_settings_font_size_medium">"Stredný"</string>
     <string name="ss_settings_font_size_large">"Veľký"</string>
     <string name="ss_settings_font_size_huge">"Obrovský"</string>
-    <string name="ss_settings_version">"Verzia"</string>
-
-    <!-- RATE APP -->
-    <string name="rate_dialog_title">"Hodnoťte Sobotná škola"</string>
-    <string name="rate_dialog_message">"Ak sa vám páči Sobotná škola, bolo by vám zbytočné chvíľu, aby ste to ohodnotili? Ďakujem za tvoju podporu!"</string>
-    <string name="rate_dialog_ok">"Ohodnoť to"</string>
-    <string name="rate_dialog_cancel">"Neskôr"</string>
-    <string name="rate_dialog_no">"Žiadny"</string>
-    <string name="ss_settings_website">"Webové stránky"</string>
-    <string name="ss_quarterlies_filter_languages_prompt_title">"Čítajte vo viacerých jazykoch"</string>
-    <string name="ss_quarterlies_filter_languages_prompt_description">"Klepnutím na ikonu filtra zobrazíte všetky dostupné jazyky"</string>
-    <string name="ss_bible">"Biblie"</string>
-    <string name="ss_settings_reminder">"Denná pripomenutie"</string>
-    <string name="ss_settings_reminder_summary">"Začiarknite, ak chcete povoliť pripomenutie denného štúdia lekcie Sabbath School"</string>
-    <string name="ss_settings_reminder_time">"Čas pripomenutia"</string>
-    <string name="ss_settings_reminder_text">"Čas študovať Sobotná škola"</string>
-    <string name="ss_reading_offline">"Ste offline. Prečítajte si túto lekciu"</string>
-    <string name="ss_reading_offline_retry">"Skúsiť znova"</string>
-    <string name="ss_about_text">"Misia Advenca je v prvom rade - dať slávu nášmu Lᴏʀᴅovi, starému dňu. Sme odhodlaní robiť naše služby prostredníctvom technológie. Naším cieľom je zjednotiť náš cirkev adventistov siedmeho dňa. Naším cieľom je vyhlásiť dobré správy tomuto svetu prostredníctvom technológie a pokroku v komunikácii. Naším cieľom je svedčiť o druhom príchode Ježiša.
-
-Sme inšpirovaní príkladom a metódami Ježiša, keď tu slúžil na Zemi. Preto sme sa zaviazali dodávať vysokú kvalitu všetkých našich projektov bez lásky a oddanosti. Sme odhodlaní dať slávu nášmu Otcovi, pretože je hoden najvyššej chvály.
-
-Naozaj veríme, že Boh rozšíril poznanie moderného sveta a chce, aby sme ho použili na Jeho slávu, aby sme hlásili Jeho skoro návrat!"</string>
-    <string name="ss_settings_version_with_param_string">Verzia: %1$s</string>
-    <string name="ss_more">Viac</string>
-    <string name="ss_copyright">%1$s Generálna konferencia adventistov siedmeho dňa®</string>
-    <string name="ss_see_all">Vidieť všetko</string>
-    <string name="ss_media_audio">Zvuk</string>
-    <string name="ss_media_video">Video</string>
-    <string name="ss_pdf_original">Pôvodné rozloženie</string>
     <string name="ss_settings_theme">Téma</string>
     <string name="ss_settings_theme_default">Predvolené</string>
+    <string name="ss_settings_version">Verzia</string>
+    <string name="ss_settings_version_with_param_string">Verzia: %1$s</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Ohodnoťte aplikáciu Sobotná škola"</string>
+    <string name="rate_dialog_message">"Ak sa vám páči aplikácia Sobotná škola, nájdete si chvíľku, aby ste ju ohodnotili? Ďakujeme za vašu podporu!"</string>
+    <string name="rate_dialog_ok">"Ohodnoťte ju"</string>
+    <string name="rate_dialog_cancel">"Neskôr"</string>
+    <string name="rate_dialog_no">"Nie"</string>
+    <string name="ss_settings_website">"Webová stránka"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Čítajte vo viacerých jazykoch"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Klepnutím na ikonu filtra zobrazíte dostupné jazyky"</string>
+    <string name="ss_bible">"Biblie"</string>
+    <string name="ss_settings_reminder">"Denné pripomenutie"</string>
+    <string name="ss_settings_reminder_summary">"Začiarknite, ak chcete zapnúť pripomenutie denného štúdia"</string>
+    <string name="ss_settings_reminder_time">"Čas pripomenutia"</string>
+    <string name="ss_settings_reminder_text">"Je čas na štúdium Sobotnej školy"</string>
+    <string name="ss_reading_offline">"Ste offline. Znovu sa pripojte, aby ste mohli čítať túto lekciu."</string>
+    <string name="ss_reading_offline_retry">"Skúsiť znova"</string>
+    <string name="ss_about_text">"Adventech je nezisková organizácia v Kanade, ktorá sa venuje využívaniu technológií v službe. Poslaním Adventechu, ako oddaných Adventistov siedmeho dňa, je predovšetkým vzdávať slávu Bohu. Naším cieľom je tiež prostredníctvom našej služby prinášať jednotu celosvetovej Cirkvi adventistov siedmeho dňa. Naším hlavným cieľom je hlásať večné evanjelium prostredníctvom technológií a pokrokov v oznamovacích prostriedkoch a prispieť svojím dielom k príprave sveta na druhý príchod Ježiša."</string>
+
+    <string name="sspm_logo_content_description" translatable="false">Sabbath School Personal Ministries Logo</string>
+    <string name="sspm_re_branding_message" translatable="false">Vitajte v oficiálnej aplikácii Oddelenie sobotnej školy a osobné služby Generálnej konferencie. Aplikácia, ktorú stále poháňa Adventech, čoskoro získa nové vylepšenia obsahu a funkcií, pričom zostane jednoduchá a ľahká v používaní.\nŠtudovať a zdieľať Božie slovo nebolo nikdy jednoduchšie!</string>
+    <string name="gc_sspm_logo_content_description" translatable="false">General Conference Sabbath School and Personal Ministries logo</string>
+    <string name="gc_sspm_about" translatable="false">Poslaním Oddelenia sobotnej školy a osobnej služby Generálnej konferencie je vytvárať učeníkov, ktorí potom vytvárajú ďalších učeníkov. To chceme dosiahnuť tým, že pomáhame miestnym zborom Cirkvi adventistov siedmeho dňa a ich členom objavovať zmysel a moc Sobotnej školy a že inšpirujeme a zapájame každého člena do aktívnej osobnej služby získavania duší.\n\nOddelenie sobotnej školy a osobnej služby vytvára zdroje, ktoré pomáhajú členom Cirkvi adventistov siedmeho dňa v ich ceste s Kristom a vo svedectve svetu. Cieľom aplikácie Sobotnej školy a osobné služby je spojiť mnohé z týchto zdrojov na jednom vhodnom mieste. Ako budú pribúdať ďalšie zdroje, členovia cirkvi a ich rodiny budú mať čoskoro k dispozícii bohaté zdroje, ktoré im pomôžu pri štúdiu a zdieľaní Božieho slova.\n\nPre uľahčenie údržby a vývoja aplikácie je Oddelenie sobotnej školy a osobné služby rado, že môže spolupracovať s oddaným a talentovaným tímom v Adventoch.</string>
+    <string name="ss_copyright">%1$s Generálna konferencia adventistov siedmeho dňa®</string>
+    <string name="ss_see_all">Vidieť všetko</string>
+
+    <string name="ss_media_notification_channel" translatable="false">Teraz sa prehráva</string>
+    <string name="ss_media_notification_channel_description" translatable="false">Zobrazuje, aké médiá sa práve prehrávajú</string>
+    <string name="ss_media_audio">Audio</string>
+    <string name="ss_media_video">Video</string>
+
+    <string name="ss_pdf_original">Rozvrhnutie tlačenej verzie</string>
+    <string name="ss_get_printed_resources">Získajte tlačené zdroje</string>
+    <string name="ss_account">účtu</string>
+    <string name="ss_action_arrow_back">Šípka späť</string>
+    <string name="ss_action_arrow_drop_down">Rozbaľovacia šípka nadol</string>
+    <string name="ss_action_arrow_right">Šípka doprava</string>
+    <string name="ss_action_close">Zavrieť</string>
+    <string name="ss_action_selected">Vybraný</string>
+    <string name="ss_action_back">späť</string>
+    <string name="ss_action_open">OTVORENÉ</string>
+    <string name="ss_action_rewind">Pretočiť späť</string>
+    <string name="ss_action_play_pause">Prehrať alebo Pozastaviť</string>
+    <string name="ss_action_playlist">Zoznam skladieb</string>
+    <string name="ss_action_forward">Vpred</string>
+    <string name="ss_picture_in_picture">Obraz v obraze</string>
+
 </resources>

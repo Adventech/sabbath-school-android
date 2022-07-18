@@ -26,13 +26,14 @@ import android.content.Context
 import android.media.AudioManager
 import android.net.Uri
 import android.support.v4.media.session.MediaSessionCompat
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import app.ss.media.model.SSVideo
 import app.ss.media.playback.AudioFocusHelper
 import app.ss.media.playback.AudioFocusHelperImpl
 import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
 import app.ss.media.playback.model.PlaybackProgressState
+import app.ss.models.media.SSVideo
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.flowInterval
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -40,15 +41,15 @@ import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
-import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.ui.StyledPlayerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@Immutable
 data class VideoPlaybackState(
     @Player.State val state: Int = Player.STATE_IDLE,
     val isPlaying: Boolean = false
@@ -60,7 +61,7 @@ val VideoPlaybackState.hasEnded: Boolean get() = state == Player.STATE_ENDED
 interface SSVideoPlayer {
     val playbackState: StateFlow<VideoPlaybackState>
     val playbackProgress: StateFlow<PlaybackProgressState>
-    fun playVideo(video: SSVideo, playerView: PlayerView)
+    fun playVideo(video: SSVideo, playerView: StyledPlayerView)
     fun playPause()
     fun seekTo(position: Long)
     fun fastForward()
@@ -123,7 +124,7 @@ internal class SSVideoPlayerImpl(
         startPlaybackProgress()
     }
 
-    override fun playVideo(video: SSVideo, playerView: PlayerView) {
+    override fun playVideo(video: SSVideo, playerView: StyledPlayerView) {
         if (exoPlayer.isPlaying) {
             exoPlayer.pause()
         }

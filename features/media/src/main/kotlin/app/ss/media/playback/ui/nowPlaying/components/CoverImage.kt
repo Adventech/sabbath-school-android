@@ -23,19 +23,23 @@
 package app.ss.media.playback.ui.nowPlaying.components
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import app.ss.media.playback.model.AudioFile
-import app.ss.media.playback.ui.common.CoilImage
-import coil.size.PixelSize
+import app.ss.design.compose.extensions.modifier.asPlaceholder
+import app.ss.design.compose.theme.Dimens
+import app.ss.design.compose.widget.content.ContentBox
+import app.ss.design.compose.widget.image.RemoteImage
+import app.ss.media.playback.ui.spec.CoverImageSpec
 import coil.size.Scale
-import com.cryart.design.theme.Dimens
 
 private interface Sizes {
     val width: Dp
@@ -61,37 +65,45 @@ private enum class CoverOrientation(val key: String) : Sizes {
 
 @Composable
 internal fun CoverImage(
+    spec: CoverImageSpec,
     modifier: Modifier = Modifier,
-    audio: AudioFile,
     boxState: BoxState = BoxState.Expanded,
 ) {
-    val orientation = CoverOrientation.fromKey(audio.imageRatio) ?: CoverOrientation.PORTRAIT
+    val orientation = CoverOrientation.fromKey(spec.imageRatio) ?: CoverOrientation.PORTRAIT
     val collapsed = boxState == BoxState.Collapsed
     val width = if (collapsed) orientation.width / 2 else orientation.width
     val height = if (collapsed) orientation.height / 2 else orientation.height
     val animatedWidth by animateDpAsState(width)
     val animatedHeight by animateDpAsState(height)
-    val scale = if (orientation == CoverOrientation.PORTRAIT) Scale.FIT else Scale.FILL
-    val size = with(LocalDensity.current) {
-        PixelSize(
-            width.toPx().toInt(),
-            height.toPx().toInt()
+    val scale = when (orientation) {
+        CoverOrientation.SQUARE -> Scale.FILL
+        CoverOrientation.PORTRAIT -> Scale.FIT
+    }
+
+    val placeholder: @Composable () -> Unit = {
+        Spacer(
+            modifier = Modifier
+                .fillMaxSize()
+                .asPlaceholder(visible = true)
         )
     }
 
-    CoilImage(
-        data = audio.image,
+    ContentBox(
+        content = RemoteImage(
+            data = spec.image,
+            contentDescription = spec.title,
+            scale = scale,
+            loading = placeholder,
+            error = placeholder
+        ),
         modifier = modifier
             .size(
                 width = animatedWidth,
                 height = animatedHeight
             )
-            .padding(Dimens.grid_1),
-        contentDescription = audio.title,
-        cornerRadius = CoverCornerRadius,
-        scale = scale,
-        size = size
+            .padding(Dimens.grid_1)
+            .clip(RoundedCornerShape(CoverCornerRadius))
     )
 }
 
-private const val CoverCornerRadius = 6f
+private val CoverCornerRadius = 6.dp

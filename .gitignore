@@ -13,6 +13,7 @@
 bin/
 gen/
 out/
+*.DS_Store
 
 # Gradle files
 .gradle/
@@ -44,6 +45,3 @@ captures/
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
-
-# Google Services (e.g. APIs or Firebase)
-google-services.json

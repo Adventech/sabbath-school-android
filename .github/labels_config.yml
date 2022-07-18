@@ -1,5 +1,7 @@
 ci:
   - '.github/*'
+auth:
+  - 'common/auth/*'
 core:
   - 'common/core/*'
 design:
@@ -28,6 +30,8 @@ dependencies:
   - 'buildSrc/src/main/kotlin/dependencies/*'
 test:
   - any: ['*/src/test/*','*/src/androidTest/*']
+testing:
+  - 'libraries/test_utils/*'
 gradle:
   - all: ['*.gradle.kts']
 layouts:

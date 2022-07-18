@@ -27,20 +27,15 @@ import com.cryart.sabbathschool.core.annotations.OpenClass
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.GoogleAuthProvider
+import javax.inject.Inject
 
 /**
  * Google Sign In wrapper for testing
  */
 @OpenClass
-class GoogleSignInWrapper {
+class GoogleSignInWrapper @Inject constructor() {
 
     fun getSignedInAccountFromIntent(data: Intent?): Task<GoogleSignInAccount> {
         return GoogleSignIn.getSignedInAccountFromIntent(data)
-    }
-
-    fun getCredential(token: String): AuthCredential {
-        return GoogleAuthProvider.getCredential(token, null)
     }
 }

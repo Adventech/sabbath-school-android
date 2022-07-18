@@ -18,11 +18,6 @@ jobs:
         with:
           java-version: 11
 
-      - name: Decode Firebase google-services.json
-        env:
-          FIREBASE_CONFIG: ${{secrets.FIREBASE_CONFIG}}
-        run: echo $FIREBASE_CONFIG > app/google-services.json
-
       - name: Decrypt secrets
         run: ./release/decrypt-secrets.sh
         env:
@@ -58,7 +53,7 @@ jobs:
 
       - name: Publish to Alpha track
         if: github.ref == 'refs/heads/main'
-        uses: r0adkll/upload-google-play@v1
+        uses: r0adkll/upload-google-play@v1.0.15
         with:
           serviceAccountJson: release/play-account.json
           packageName: com.cryart.sabbathschool

@@ -22,20 +22,10 @@
 
 package com.cryart.design
 
-import android.widget.EdgeEffect
-import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-
-fun RecyclerView.setEdgeEffect(@ColorInt color: Int) {
-    this.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
-        override fun createEdgeEffect(view: RecyclerView, direction: Int): EdgeEffect {
-            return EdgeEffect(view.context).apply { setColor(color) }
-        }
-    }
-}
 
 fun RecyclerView.dividers(
     @DrawableRes dividerRes: Int = R.drawable.list_divider,

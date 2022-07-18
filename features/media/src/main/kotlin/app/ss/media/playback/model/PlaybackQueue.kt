@@ -2,6 +2,7 @@ package app.ss.media.playback.model
 
 import android.support.v4.media.MediaMetadataCompat.METADATA_KEY_MEDIA_ID
 import android.support.v4.media.session.MediaControllerCompat
+import app.ss.models.media.AudioFile
 import app.ss.media.playback.extensions.currentIndex
 
 data class PlaybackQueue(

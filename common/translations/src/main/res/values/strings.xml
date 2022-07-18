@@ -26,14 +26,13 @@
     <string name="ss_app_name">"Sabbath School"</string>
     <string name="ss_share">"Share"</string>
     <string name="ss_login_button_google">"Sign in with Google"</string>
-    <string name="ss_login_button_facebook">"Sign in with Facebook"</string>
     <string name="ss_login_button_anonymous">"Continue without login"</string>
     <string name="ss_menu_anonymous_name">"Anonymous"</string>
     <string name="ss_menu_sign_out">"Sign Out"</string>
     <string name="ss_menu_read_now">"Read Now"</string>
     <string name="ss_menu_share_app">"Share App"</string>
     <string name="ss_menu_share_app_text">"I am using this Sabbath School app. Check it out! - %1$s"</string>
-    <string name="ss_more">More</string>
+    <string name="ss_more">more</string>
     <string name="ss_my_highlights">"My Highlights"</string>
     <string name="ss_my_notes">"My Notes"</string>
     <string name="ss_settings">"Settings"</string>
@@ -63,10 +62,6 @@
     <string name="ss_reading_copied">"Selection copied."</string>
     <string name="ss_reading_share_to">"Share selection to:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Coming Soon"</string>
-    <string name="ss_coming_soon_subheader">"We are working on this feature right now. Stay tuned, it's coming soon"</string>
-    <string name="ss_about_app_version">"version 3.0"</string>
     <string name="ss_about_made">"Made with ❤ by Adventech"</string>
     <string name="ss_settings_display_options">"Display options"</string>
     <string name="ss_settings_color_theme_light">"Light"</string>
@@ -115,5 +110,19 @@
     <string name="ss_media_video">Video</string>
 
     <string name="ss_pdf_original">Original layout</string>
+    <string name="ss_get_printed_resources">Get Printed Resources</string>
+    <string name="ss_account">Account</string>
+    <string name="ss_action_arrow_back">Arrow Back</string>
+    <string name="ss_action_arrow_drop_down">Arrow Drop Down</string>
+    <string name="ss_action_arrow_right">Arrow Right</string>
+    <string name="ss_action_close">Close</string>
+    <string name="ss_action_selected">Selected</string>
+    <string name="ss_action_back">Back</string>
+    <string name="ss_action_open">Open</string>
+    <string name="ss_action_rewind">Rewind</string>
+    <string name="ss_action_play_pause">Play or Pause</string>
+    <string name="ss_action_playlist">Playlist</string>
+    <string name="ss_action_forward">Forward</string>
+    <string name="ss_picture_in_picture">Picture In Picture</string>
 
 </resources>

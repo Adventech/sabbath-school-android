@@ -21,11 +21,9 @@
   -->
 
 <resources>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupMenuStyle" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
-        <item name="android:dropDownHorizontalOffset">-4dp</item>
-        <item name="android:dropDownVerticalOffset">4dp</item>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="popupMenuStyle">@style/Widget.SS.PopupMenuStyle</item>
     </style>
 
     <style name="AppThemeAppBarTextStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -38,10 +36,6 @@
         <item name="android:textSize">30sp</item>
         <item name="fontFamily">@font/lato_bold</item>
         <item name="android:fontFamily">@font/lato_bold</item>
-    </style>
-
-    <style name="Theme.SS.Lessons" parent="Theme.SS.Full">
-        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="display_options_text_view">

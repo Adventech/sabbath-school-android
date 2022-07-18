@@ -22,7 +22,6 @@
 
 package app.ss.media.playback.ui.nowPlaying.components
 
-import android.support.v4.media.session.PlaybackStateCompat
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,10 +32,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,31 +46,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.extensions.isBuffering
+import app.ss.design.compose.extensions.isS
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing4
+import app.ss.design.compose.theme.Spacing8
+import app.ss.design.compose.theme.SsColor
+import app.ss.design.compose.theme.darker
+import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.widget.material.Slider
+import app.ss.design.compose.widget.material.SliderDefaults
 import app.ss.media.playback.extensions.millisToDuration
 import app.ss.media.playback.model.PlaybackProgressState
-import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
-import com.cryart.design.theme.BaseGrey1
-import com.cryart.design.theme.BaseGrey2
-import com.cryart.design.theme.BaseGrey3
-import com.cryart.design.theme.OffWhite
-import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.Spacing4
-import com.cryart.design.theme.Spacing8
-import com.cryart.design.theme.TitleSmall
-import com.cryart.design.theme.darker
-import com.cryart.design.widgets.material.Slider
-import com.cryart.design.widgets.material.SliderDefaults
 import kotlin.math.roundToLong
 
 private object ProgressColors {
     @Composable
     fun thumbColor(forceDark: Boolean): Color {
         return when {
-            isSystemInDarkTheme() -> BaseGrey1
-            forceDark -> BaseGrey1
-            else -> OffWhite.darker()
+            isS() -> MaterialTheme.colorScheme.onSurfaceVariant
+            isSystemInDarkTheme() -> SsColor.BaseGrey1
+            forceDark -> SsColor.BaseGrey1
+            else -> SsColor.OffWhite.darker()
         }
     }
 
@@ -81,28 +76,12 @@ private object ProgressColors {
     @Composable
     fun inactiveTrackColor(forceDark: Boolean): Color {
         return when {
-            isSystemInDarkTheme() -> BaseGrey3
-            forceDark -> BaseGrey3
-            else -> BaseGrey1
+            isS() -> MaterialTheme.colorScheme.inverseOnSurface
+            isSystemInDarkTheme() -> SsColor.BaseGrey3
+            forceDark -> SsColor.BaseGrey3
+            else -> SsColor.BaseGrey1
         }
     }
-}
-
-@Composable
-internal fun PlaybackProgress(
-    playbackState: PlaybackStateCompat,
-    playbackConnection: PlaybackConnection
-) {
-    val progressState by rememberFlowWithLifecycle(playbackConnection.playbackProgress)
-        .collectAsState(PlaybackProgressState())
-
-    PlaybackProgressDuration(
-        isBuffering = playbackState.isBuffering,
-        progressState,
-        onSeekTo = { position ->
-            playbackConnection.transportControls?.seekTo(position)
-        }
-    )
 }
 
 @Composable
@@ -192,17 +171,18 @@ private fun BoxScope.PlaybackProgressDuration(
                 true -> (progressState.total.toFloat() * (draggingProgress)).toLong().millisToDuration()
                 else -> progressState.currentDuration
             }
-            val textStyle = TitleSmall.copy(
-                color = BaseGrey2,
+            val textStyle = MaterialTheme.typography.titleSmall.copy(
                 fontSize = 14.sp
             )
             Text(
                 currentDuration,
                 style = textStyle,
+                color = onSurfaceSecondary(),
             )
             Text(
                 progressState.totalDuration,
                 style = textStyle,
+                color = onSurfaceSecondary(),
             )
         }
     }

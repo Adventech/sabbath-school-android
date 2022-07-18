@@ -25,7 +25,6 @@
     <string name="ss_app_name">"مدرسة السبت"</string>
     <string name="ss_share">"شارك"</string>
     <string name="ss_login_button_google">"تسجيل الدخول بحساب جوجل"</string>
-    <string name="ss_login_button_facebook">"تسجيل الدخول بحساب الفيسبوك"</string>
     <string name="ss_login_button_anonymous">"تسجيل الدخول كمجهول"</string>
     <string name="ss_menu_anonymous_name">"مجهول"</string>
     <string name="ss_menu_sign_out">"تسجيل الخروج "</string>
@@ -47,13 +46,13 @@
     <string name="ss_quarterlies_error">"حدث خطأ غير معروف. الرجاء المحاولة مجدداً"</string>
     <string name="ss_quarterlies_empty">"يبدو أنه لا توجد دروس متاحة الآن"</string>
     <string name="ss_quarterly_item_read_text">"افتح"</string>
-    <string name="ss_lessons_downloading">"يتم الفتح..."</string>
+    <string name="ss_lessons_downloading">"يتم الفتح…"</string>
     <string name="ss_lessons_error">"حدثت مشكلة في أثناء فتح الدرس"</string>
     <string name="ss_lessons_empty">"يبدو أنه لا توجد دروس في هذه اللحظة "</string>
     <string name="ss_lessons_read">"اقرأ"</string>
     <string name="ss_reading_empty">"يبدو أن هذا الدرس فارغ. الرجاء المعاودة لاحقاً"</string>
     <string name="ss_reading_error">"حدثت مشكلة في أثناء فتح الدرس"</string>
-    <string name="ss_reading_downloading">"يتم الفتح..."</string>
+    <string name="ss_reading_downloading">"يتم الفتح…"</string>
     <string name="ss_reading_suggest_edit">"اقترح تعديل أو تصحيح "</string>
     <string name="ss_reading_suggest_edit_hint">"الرجاء وصف تصحيحك أو تعديلك"</string>
     <string name="ss_reading_suggest_edit_done">"شكراً! سيتم النظر في اقتراحاك"</string>
@@ -62,10 +61,6 @@
     <string name="ss_reading_copied">"تم نسخ المقطع"</string>
     <string name="ss_reading_share_to">"شارك المقطع إلى:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"قريباًً"</string>
-    <string name="ss_coming_soon_subheader">"نحن نعمل على هذه الخاصية الآن. ترّقب، قريباً"</string>
-    <string name="ss_about_app_version">"نسخة ٣.٠"</string>
     <string name="ss_about_made">"صنع ب ❤ بواسطة أدفنتيك"</string>
     <string name="ss_settings_display_options">"خيارات العرض"</string>
     <string name="ss_settings_color_theme_light">"فاتح"</string>
@@ -98,11 +93,25 @@
     <string name="ss_reading_offline_retry">"أعد المحاولة"</string>
     <string name="ss_about_text">مهمة Adventech هي أولاً وقبل كل شيء - أعط المجد لربنا ، أيام الأيام القديمة. نحن ملتزمون بالقيام بوزارتنا من خلال التكنولوجيا. هدفنا هو توحيد كنيستنا السبتية. هدفنا هو الإعلان عن أخبار جيدة لهذا العالم من خلال التكنولوجيا والتقدم في الاتصالات. هدفنا هو رؤية المجيء الثاني ليسوع.  لقد ألهمنا مثال يسوع وأساليبه عندما خدم هنا على الأرض. لذلك ، نحن ملتزمون بتقديم درجة عالية من الجودة لجميع مشاريعنا دون أي تكلفة على الإطلاق مع الحب والتفاني. نحن ملتزمون بإعطاء المجد لأبينا ، لأنه يستحق أعلى الثناء.  نحن نؤمن حقًا أن الله قد زاد معرفة العالم الحديث ويريدنا أن نستخدمه لمجده لإعلان عودته قريبًا!</string>
     <string name="ss_settings_version_with_param_string">الإصدار: %1$s</string>
-    <string name="ss_copyright"> ®المؤتمر العام للسبتيين %1$</string>
+    <string name="ss_copyright"> ®المؤتمر العام للسبتيين %1$s</string>
     <string name="ss_see_all">اظهار الكل</string>
     <string name="ss_media_audio">صوتي</string>
     <string name="ss_media_video">فيديو</string>
     <string name="ss_pdf_original">التخطيط الأصلي</string>
     <string name="ss_settings_theme">سمة</string>
     <string name="ss_settings_theme_default">تقصير</string>
+    <string name="ss_get_printed_resources">احصل على موارد مطبوعة</string>
+    <string name="ss_account">الحساب</string>
+    <string name="ss_action_arrow_back">ﺓﺩﻮﻌﻟﺍ ﻢﻬﺳ</string>
+    <string name="ss_action_arrow_drop_down">ﺔﻟﺪﺴﻨﻣ ﻢﻬﺳ</string>
+    <string name="ss_action_arrow_right">"ﻦﻤﻳﻷﺍ ﻢﻬﺴﻟ"</string>
+    <string name="ss_action_close">ﺐﻳﺮﻗ</string>
+    <string name="ss_action_selected">ﺩﺪﺤﻤﻟﺍ</string>
+    <string name="ss_action_back">ﻒﻠﺧ</string>
+    <string name="ss_action_open">ﺢﺘﻓ</string>
+    <string name="ss_action_rewind">ﻊﻴﺟﺮﺘﻟﺍ</string>
+    <string name="ss_action_play_pause">ﺖﻗﺆﻣ ﻑﺎﻘﻳﺇ ﻭﺃ ﻞﻴﻐﺸﺗ</string>
+    <string name="ss_action_playlist">ﻞﻴﻐﺸﺘﻟﺍ ﺔﻤﺋﺎﻗ</string>
+    <string name="ss_action_forward">ﻡﺎﻣﻷﺍ ﻰﻟﺇ</string>
+    <string name="ss_picture_in_picture">ﺭﻮﺻ ﻲﻓ ﺭﻮﺻ</string>
 </resources>

@@ -9,8 +9,13 @@ interface BuildType {
 }
 
 object KotlinOptions {
-    const val COROUTINES = "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    const val OPT_IN = "-Xopt-in=kotlin.RequiresOptIn"
+    const val COROUTINES = "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+    const val OPT_IN = "-opt-in=kotlin.RequiresOptIn"
+
+    object Compose {
+        const val ReportsDestination = "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination"
+        const val MetricsDestination = "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination"
+    }
 }
 
 object JavaOptions {

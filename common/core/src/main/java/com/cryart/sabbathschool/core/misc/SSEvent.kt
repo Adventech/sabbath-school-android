@@ -22,10 +22,6 @@
 package com.cryart.sabbathschool.core.misc
 
 import android.content.Context
-import androidx.core.os.bundleOf
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.auth.FirebaseAuth
-import java.util.HashMap
 
 object SSEvent {
 
@@ -34,29 +30,9 @@ object SSEvent {
         track(context, event_name, HashMap<String, Any>())
     }
 
+    @SuppressWarnings("unused")
     @JvmStatic
     fun track(context: Context, event_name: String, values: HashMap<String, *>) {
-        val ssFirebaseAuth = FirebaseAuth.getInstance()
-        val ssUser = ssFirebaseAuth.currentUser
-
-        val params = ssUser?.let { user ->
-            bundleOf(
-                SSConstants.SS_EVENT_PARAM_USER_ID to user.uid,
-                SSConstants.SS_EVENT_PARAM_USER_NAME to user.displayName
-            )
-        } ?: bundleOf(
-            SSConstants.SS_EVENT_PARAM_USER_NAME to "Anonymous"
-        )
-
-        values.forEach { (key, value) ->
-            if (value is Int) {
-                params.putInt(key, value)
-            } else if (value is String) {
-                params.putString(key, value)
-            }
-        }
-
-        FirebaseAnalytics.getInstance(context)
-            .logEvent(event_name, params)
+        // Replace Analytics
     }
 }

@@ -21,9 +21,13 @@
  */
 include(
     ":app",
+    ":common:auth",
     ":common:core",
     ":common:design",
+    ":common:design-compose",
     ":common:lessons-data",
+    ":common:models",
+    ":common:network",
     ":common:storage",
     ":common:translations",
     ":features:account",
@@ -33,7 +37,6 @@ include(
     ":features:media",
     ":features:pdf",
     ":features:reader",
-    ":features:readings",
     ":features:settings",
     ":libraries:test_utils"
 )

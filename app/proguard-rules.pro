@@ -11,8 +11,6 @@
 
 -dontwarn org.conscrypt.**
 
--dontwarn com.github.pwittchen.reactivenetwork.library.ReactiveNetwork
-
 # Dagger
 -dontwarn com.google.errorprone.annotations.*
 
@@ -55,9 +53,8 @@
 
 -keep class net.danlew.android.joda.R$raw { *; }
 
-#Required for firebase db issue
--keep class org.json.* { *; }
-
 -keepclassmembers class com.cryart.sabbathschool.** {
   *;
 }
+
+-keep @android.support.annotation.Keep class * {*;}

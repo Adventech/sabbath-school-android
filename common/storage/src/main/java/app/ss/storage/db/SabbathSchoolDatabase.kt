@@ -23,22 +23,88 @@
 package app.ss.storage.db
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import app.ss.storage.db.dao.AudioDao
+import app.ss.storage.db.dao.BibleVersionDao
+import app.ss.storage.db.dao.LanguagesDao
+import app.ss.storage.db.dao.LessonsDao
+import app.ss.storage.db.dao.PdfAnnotationsDao
+import app.ss.storage.db.dao.PublishingInfoDao
+import app.ss.storage.db.dao.QuarterliesDao
+import app.ss.storage.db.dao.ReadCommentsDao
+import app.ss.storage.db.dao.ReadHighlightsDao
+import app.ss.storage.db.dao.ReadsDao
+import app.ss.storage.db.dao.UserDao
+import app.ss.storage.db.dao.VideoInfoDao
 import app.ss.storage.db.entity.AudioFileEntity
+import app.ss.storage.db.entity.BibleVersionEntity
+import app.ss.storage.db.entity.LanguageEntity
+import app.ss.storage.db.entity.LessonEntity
+import app.ss.storage.db.entity.PdfAnnotationsEntity
+import app.ss.storage.db.entity.PublishingInfoEntity
+import app.ss.storage.db.entity.QuarterlyEntity
+import app.ss.storage.db.entity.ReadCommentsEntity
+import app.ss.storage.db.entity.ReadEntity
+import app.ss.storage.db.entity.ReadHighlightsEntity
+import app.ss.storage.db.entity.UserEntity
+import app.ss.storage.db.entity.VideoInfoEntity
 
 @Database(
     entities = [
-        AudioFileEntity::class
+        AudioFileEntity::class,
+        LanguageEntity::class,
+        QuarterlyEntity::class,
+        LessonEntity::class,
+        ReadEntity::class,
+        PdfAnnotationsEntity::class,
+        ReadCommentsEntity::class,
+        ReadHighlightsEntity::class,
+        UserEntity::class,
+        VideoInfoEntity::class,
+        PublishingInfoEntity::class,
+        BibleVersionEntity::class,
     ],
-    version = 2,
-    exportSchema = true
+    version = 8,
+    exportSchema = true,
+    autoMigrations = [
+        AutoMigration(from = 2, to = 3),
+        AutoMigration(from = 3, to = 4),
+        AutoMigration(from = 4, to = 5),
+        AutoMigration(from = 5, to = 6),
+        AutoMigration(from = 6, to = 7),
+        AutoMigration(from = 7, to = 8),
+    ]
 )
+@TypeConverters(Converters::class)
 internal abstract class SabbathSchoolDatabase : RoomDatabase() {
 
     abstract fun audioDao(): AudioDao
+
+    abstract fun languagesDao(): LanguagesDao
+
+    abstract fun quarterliesDao(): QuarterliesDao
+
+    abstract fun lessonsDao(): LessonsDao
+
+    abstract fun readsDao(): ReadsDao
+
+    abstract fun pdfAnnotationsDao(): PdfAnnotationsDao
+
+    abstract fun readCommentsDao(): ReadCommentsDao
+
+    abstract fun readHighlightsDao(): ReadHighlightsDao
+
+    abstract fun videoInfoDao(): VideoInfoDao
+
+    abstract fun userDao(): UserDao
+
+    abstract fun publishingInfoDao(): PublishingInfoDao
+
+    abstract fun bibleVersionDao(): BibleVersionDao
 
     companion object {
         private const val DATABASE_NAME = "sabbath_school_db"

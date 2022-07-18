@@ -26,18 +26,21 @@ import android.app.Activity
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import app.ss.auth.AuthRepository
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
+import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.settings.SSSettingsActivity
+import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import com.cryart.sabbathschool.ui.login.LoginActivity
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.testing.HiltAndroidTest
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import org.amshove.kluent.shouldBeEqualTo
@@ -54,11 +57,12 @@ import org.robolectric.android.controller.ActivityController
 @RunWith(AndroidJUnit4::class)
 class AppNavigatorImplTest {
 
-    private val mockFirebaseAuth: FirebaseAuth = mockk()
     private val mockSSPrefs: SSPrefs = mockk()
+    private val mockAuthRepository: AuthRepository = mockk()
 
     private lateinit var controller: ActivityController<AppCompatActivity>
     private lateinit var activity: Activity
+    private val dispatcherProvider = TestDispatcherProvider()
 
     private lateinit var navigator: AppNavigator
 
@@ -68,8 +72,13 @@ class AppNavigatorImplTest {
         activity = controller.create().start().resume().get()
 
         every { mockSSPrefs.getLastQuarterlyIndex() }.returns("index")
+        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(mockk()))
 
-        navigator = AppNavigatorImpl(mockFirebaseAuth, mockSSPrefs)
+        navigator = AppNavigatorImpl(
+            ssPrefs = mockSSPrefs,
+            authRepository = mockAuthRepository,
+            dispatcherProvider = dispatcherProvider
+        )
     }
 
     @After
@@ -80,7 +89,7 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to Login destination`() {
-        every { mockFirebaseAuth.currentUser }.returns(null)
+        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(null))
 
         navigator.navigate(activity, Destination.LOGIN)
 
@@ -93,8 +102,6 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to settings destination`() {
-        every { mockFirebaseAuth.currentUser }.returns(mockk())
-
         navigator.navigate(activity, Destination.SETTINGS)
 
         val shadow = Shadows.shadowOf(activity)
@@ -106,7 +113,7 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to login when not authenticated`() {
-        every { mockFirebaseAuth.currentUser }.returns(null)
+        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(null))
 
         navigator.navigate(activity, Destination.SETTINGS)
 
@@ -119,8 +126,6 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to settings destination via deep-link`() {
-        every { mockFirebaseAuth.currentUser }.returns(mockk())
-
         val uri = Destination.SETTINGS.toUri()
         navigator.navigate(activity, uri)
 
@@ -133,8 +138,6 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should add extras from deep-link into intent extras`() {
-        every { mockFirebaseAuth.currentUser }.returns(mockk())
-
         val uri = Destination.READ.toUri("key" to "value")
         navigator.navigate(activity, uri)
 
@@ -146,8 +149,6 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should ignore invalid deep-link`() {
-        every { mockFirebaseAuth.currentUser }.returns(mockk())
-
         val uri = Uri.parse("https://stackoverflow.com/")
         navigator.navigate(activity, uri)
 
@@ -159,7 +160,7 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to login when not authenticated - web-link`() {
-        every { mockFirebaseAuth.currentUser }.returns(null)
+        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(null))
 
         val uri = Uri.parse("https://sabbath-school.adventech.io/en/2021-03")
 
@@ -174,8 +175,6 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to lessons screen - web-link`() {
-        every { mockFirebaseAuth.currentUser }.returns(mockk())
-
         val uri = Uri.parse("https://sabbath-school.adventech.io/en/2021-03")
         navigator.navigate(activity, uri)
 
@@ -190,8 +189,6 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to read screen - web-link`() {
-        every { mockFirebaseAuth.currentUser }.returns(mockk())
-
         val uri = Uri.parse("https://sabbath-school.adventech.io/en/2021-03/03/07-friday-further-thought/")
         navigator.navigate(activity, uri)
 
@@ -207,8 +204,6 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should launch normal flow for invalid web-link`() {
-        every { mockFirebaseAuth.currentUser }.returns(mockk())
-
         val uri = Uri.parse("https://sabbath-school.adventech.io/03/07-friday-further-thought/")
         navigator.navigate(activity, uri)
 

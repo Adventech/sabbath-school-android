@@ -50,6 +50,7 @@ android {
 }
 
 dependencies {
+    implementation(project(BuildModules.Common.AUTH))
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.LESSONS_DATA))
 
@@ -67,4 +68,6 @@ dependencies {
 
     implementation(TestDependencies.JUNIT)
     implementation(TestDependencies.COROUTINES_TEST)
+
+    kaptTest(Moshi.codegen)
 }

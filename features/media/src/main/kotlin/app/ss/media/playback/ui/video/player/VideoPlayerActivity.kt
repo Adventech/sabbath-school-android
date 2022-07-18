@@ -44,21 +44,22 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.WindowInsetsControllerCompat
+import app.ss.design.compose.theme.SsTheme
 import app.ss.media.R
-import app.ss.media.model.SSVideo
 import app.ss.media.playback.BACKWARD
 import app.ss.media.playback.FORWARD
 import app.ss.media.playback.PLAY_PAUSE
 import app.ss.media.playback.players.SSVideoPlayer
 import app.ss.media.playback.players.SSVideoPlayerImpl
 import app.ss.media.playback.players.hasEnded
+import app.ss.models.media.SSVideo
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
-import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.ui.StyledPlayerView
 
 class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
 
-    private lateinit var exoPlayerView: PlayerView
+    private lateinit var exoPlayerView: StyledPlayerView
     private lateinit var composeView: ComposeView
 
     private val videoPlayer: SSVideoPlayer by lazy {
@@ -107,13 +108,15 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             val onEnterPiP: () -> Unit = {
                 enterPiP()
             }
-            VideoPlayerControls(
-                videoPlayer = videoPlayer,
-                onClose = {
-                    finish()
-                },
-                onEnterPiP = if (supportsPiP) onEnterPiP else null
-            )
+            SsTheme {
+                VideoPlayerControls(
+                    videoPlayer = videoPlayer,
+                    onClose = {
+                        finish()
+                    },
+                    onEnterPiP = if (supportsPiP) onEnterPiP else null
+                )
+            }
         }
 
         val video = intent.getParcelableExtra<SSVideo>(ARG_VIDEO) ?: run {
@@ -223,9 +226,10 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     override fun onPictureInPictureModeChanged(
         isInPictureInPictureMode: Boolean,
-        newConfig: Configuration?
+        newConfig: Configuration
     ) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
 

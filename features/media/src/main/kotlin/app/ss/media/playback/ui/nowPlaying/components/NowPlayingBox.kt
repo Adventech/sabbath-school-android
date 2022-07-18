@@ -26,9 +26,10 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,12 +39,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ss.media.playback.model.AudioFile
-import com.cryart.design.theme.Body
-import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.LatoFontFamily
-import com.cryart.design.theme.Spacing24
-import com.cryart.design.theme.Spacing8
+import app.ss.design.compose.theme.Dimens
+import app.ss.design.compose.theme.LatoFontFamily
+import app.ss.design.compose.theme.Spacing24
+import app.ss.design.compose.theme.Spacing8
+import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.media.playback.ui.spec.NowPlayingSpec
+import app.ss.models.media.AudioFile
 
 internal enum class BoxState { Collapsed, Expanded }
 
@@ -56,9 +58,9 @@ internal val sampleAudio = AudioFile(
 
 @Composable
 internal fun NowPlayingColumn(
-    modifier: Modifier = Modifier,
-    audio: AudioFile,
-    boxState: BoxState
+    spec: NowPlayingSpec,
+    boxState: BoxState,
+    modifier: Modifier = Modifier
 ) {
     val horizontalAlignment: Alignment.Horizontal
     val titleStyle: TextStyle
@@ -73,7 +75,7 @@ internal fun NowPlayingColumn(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium
             )
-            artistStyle = Body.copy(
+            artistStyle = MaterialTheme.typography.bodySmall.copy(
                 fontSize = 14.sp,
             )
             textAlign = TextAlign.Start
@@ -85,7 +87,7 @@ internal fun NowPlayingColumn(
                 fontSize = 21.sp,
                 fontWeight = FontWeight.Black
             )
-            artistStyle = Body.copy(
+            artistStyle = MaterialTheme.typography.bodySmall.copy(
                 fontSize = 17.sp,
             )
             textAlign = TextAlign.Center
@@ -105,21 +107,23 @@ internal fun NowPlayingColumn(
         verticalArrangement = Arrangement.spacedBy(animatedSpacing)
     ) {
         Text(
-            text = audio.title,
+            text = spec.title,
             style = titleStyle,
             textAlign = textAlign
         )
         Text(
-            text = audio.artist,
+            text = spec.artist,
             style = artistStyle,
-            textAlign = textAlign
+            textAlign = textAlign,
+            color = onSurfaceSecondary()
         )
     }
 }
 
 @Composable
+@Stable
 private fun textStyle(): TextStyle = TextStyle(
-    color = MaterialTheme.colors.onSurface,
+    color = MaterialTheme.colorScheme.onSurface,
     fontFamily = LatoFontFamily,
     fontWeight = FontWeight.Medium
 )

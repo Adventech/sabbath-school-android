@@ -25,27 +25,29 @@ package com.cryart.sabbathschool.lessons.ui.lessons
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.lessons.data.model.LessonPdf
-import app.ss.lessons.data.model.SSLesson
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.model.SSQuarterlyInfo
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import app.ss.models.LessonPdf
+import app.ss.models.PublishingInfo
+import app.ss.models.SSLesson
+import app.ss.models.SSQuarterlyInfo
 import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.response.Resource
+import com.cryart.sabbathschool.core.response.Result
+import com.cryart.sabbathschool.core.response.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.joda.time.DateTime
-import org.joda.time.Interval
 import javax.inject.Inject
 
 @HiltViewModel
@@ -62,33 +64,50 @@ class LessonsViewModel @Inject constructor(
             SSConstants.SS_QUARTERLY_INDEX_EXTRA
         ) ?: ssPrefs.getLastQuarterlyIndex()
 
-    val quarterlyInfoFlow: StateFlow<Resource<SSQuarterlyInfo>> = flowOf(quarterlyIndex)
-        .map { index ->
-            val resource = index?.let {
+    private val publishingInfo: Flow<Result<PublishingInfo?>> = repository.getPublishingInfo()
+        .mapNotNull { it.data }
+        .asResult()
+
+    private val quarterlyInfo: Flow<Result<SSQuarterlyInfo?>> = flowOf(quarterlyIndex)
+        .flatMapLatest { index ->
+            index?.run {
                 repository.getQuarterlyInfo(index)
-            } ?: Resource.error(Throwable())
-
-            if (resource.isSuccessFul) {
-                appWidgetHelper.refreshAll()
-                ssPrefs.setLastQuarterlyIndex(index!!)
-                resource.data?.let {
-                    ssPrefs.setThemeColor(
-                        it.quarterly.color_primary,
-                        it.quarterly.color_primary_dark
-                    )
-                    ssPrefs.setReadingLatestQuarterly(it.quarterly.isLatest)
-                }
-            }
-            resource
+                    .mapNotNull { it.data }
+            } ?: flowOf(null)
         }
-        .stateIn(viewModelScope, Resource.loading())
-
-    private val ssQuarterlyInfo: SSQuarterlyInfo? get() = quarterlyInfoFlow.value.data
-    val quarterlyShareIndex: String get() = ssQuarterlyInfo?.shareIndex() ?: ""
-    val quarterlyTitle: String get() = ssQuarterlyInfo?.quarterly?.title ?: ""
+        .onEach { info ->
+            info?.run { appWidgetHelper.refreshAll() }
+        }
+        .asResult()
 
     private val _selectedPdfs = MutableSharedFlow<Pair<String, List<LessonPdf>>>()
     val selectedPdfsFlow: SharedFlow<Pair<String, List<LessonPdf>>> = _selectedPdfs
+
+    val uiState: StateFlow<LessonsScreenState> = combine(
+        publishingInfo, quarterlyInfo
+    ) { publishingInfo, quarterlyInfo ->
+
+        val publishingInfoState = when (publishingInfo) {
+            is Result.Error -> PublishingInfoState.Error
+            Result.Loading -> PublishingInfoState.Loading
+            is Result.Success -> PublishingInfoState.Success(publishingInfo.data!!)
+        }
+        val quarterlyInfoState = when (quarterlyInfo) {
+            is Result.Error -> QuarterlyInfoState.Error
+            Result.Loading -> QuarterlyInfoState.Loading
+            is Result.Success -> QuarterlyInfoState.Success(quarterlyInfo.data!!)
+        }
+
+        LessonsScreenState(
+            isLoading = quarterlyInfoState == QuarterlyInfoState.Loading,
+            isError = quarterlyInfoState == QuarterlyInfoState.Error,
+            publishingInfo = publishingInfoState,
+            quarterlyInfo = quarterlyInfoState
+        )
+    }.stateIn(viewModelScope, LessonsScreenState())
+
+    private val ssQuarterlyInfo: SSQuarterlyInfo? get() = (uiState.value.quarterlyInfo as? QuarterlyInfoState.Success)?.quarterlyInfo
+    val quarterlyShareIndex: String get() = ssQuarterlyInfo?.shareIndex() ?: ""
 
     init {
         // cache DisplayOptions for read screen launch
@@ -102,14 +121,4 @@ class LessonsViewModel @Inject constructor(
             _selectedPdfs.emit(lesson.index to (data?.pdfs ?: emptyList()))
         }
     }
-
-    private val SSQuarterly.isLatest: Boolean
-        get() {
-            val today = DateTime.now().withTimeAtStartOfDay()
-
-            val startDate = DateHelper.parseDate(start_date)
-            val endDate = DateHelper.parseDate(end_date)
-
-            return Interval(startDate, endDate?.plusDays(1)).contains(today)
-        }
 }

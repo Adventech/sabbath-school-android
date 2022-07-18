@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -33,7 +32,6 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -41,98 +39,39 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.KeyboardArrowRight
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ss.lessons.data.model.SSQuarterly
-import coil.compose.rememberImagePainter
-import coil.transform.RoundedCornersTransformation
-import com.cryart.design.theme.BaseGrey2
-import com.cryart.design.theme.BodyMedium1
-import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.LabelSmall
-import com.cryart.design.theme.OffWhite
-import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.Spacing8
-import com.cryart.design.theme.Title
-import com.cryart.design.theme.TitleSmall
-import com.cryart.design.theme.iconTint
-import com.cryart.design.theme.isLargeScreen
-import com.cryart.design.theme.navTitle
-import com.cryart.design.theme.parse
+import app.ss.design.compose.extensions.isLargeScreen
+import app.ss.design.compose.extensions.modifier.asPlaceholder
+import app.ss.design.compose.theme.Dimens
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing8
+import app.ss.design.compose.theme.SsColor
+import app.ss.design.compose.theme.iconTint
+import app.ss.design.compose.widget.content.ContentBox
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.Icons
+import app.ss.design.compose.widget.image.RemoteImage
+import app.ss.design.compose.widget.list.SnappingLazyRow
 import com.cryart.sabbathschool.lessons.R
-import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.placeholder
-import com.google.accompanist.placeholder.material.shimmer
-import dev.chrisbanes.snapper.ExperimentalSnapperApi
-import dev.chrisbanes.snapper.SnapOffsets
-import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
-
-fun SSQuarterly.spec(
-    type: QuarterlySpec.Type,
-    onClick: () -> Unit = {}
-): QuarterlySpec = QuarterlySpec(
-    title,
-    human_date,
-    cover,
-    Color.parse(color_primary),
-    isPlaceholder = isPlaceholder,
-    type,
-    onClick
-)
-
-data class QuarterlySpec(
-    val title: String,
-    val date: String,
-    val cover: String,
-    val color: Color,
-    val isPlaceholder: Boolean = false,
-    val type: Type = Type.NORMAL,
-    val onClick: () -> Unit = {}
-) {
-    enum class Type {
-        NORMAL,
-        LARGE;
-
-        fun width(largeScreen: Boolean): Dp = when {
-            largeScreen && this == NORMAL -> 150.dp
-            largeScreen && this == LARGE -> 198.dp
-            this == NORMAL -> 98.dp
-            this == LARGE -> 148.dp
-            else -> Dp.Unspecified
-        }
-
-        fun height(largeScreen: Boolean): Dp = when {
-            largeScreen && this == NORMAL -> 198.dp
-            largeScreen && this == LARGE -> 276.dp
-            this == NORMAL -> 146.dp
-            this == LARGE -> 226.dp
-            else -> Dp.Unspecified
-        }
-    }
-}
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterlySpec
 
 @Composable
 private fun CoverBox(
@@ -162,13 +101,12 @@ private fun CoverBox(
 }
 
 @Composable
-fun QuarterlyRow(
+internal fun QuarterlyRow(
     spec: QuarterlySpec,
     modifier: Modifier = Modifier
 ) {
-    val loadingModifier = Modifier.placeholder(
+    val loadingModifier = Modifier.asPlaceholder(
         visible = spec.isPlaceholder,
-        highlight = PlaceholderHighlight.shimmer(),
     )
 
     Row(
@@ -197,9 +135,10 @@ fun QuarterlyRow(
         ) {
             Text(
                 text = spec.date.uppercase(),
-                style = BodyMedium1.copy(
-                    fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontSize = 13.sp
                 ),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
@@ -210,9 +149,10 @@ fun QuarterlyRow(
 
             Text(
                 text = spec.title,
-                style = Title.copy(
-                    color = MaterialTheme.colors.onSurface
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontSize = 24.sp
                 ),
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
@@ -246,7 +186,7 @@ fun QuarterlyRowPreview() {
 
 // begin column
 @Composable
-fun QuarterlyColumn(
+internal fun QuarterlyColumn(
     spec: QuarterlySpec,
     modifier: Modifier = Modifier
 ) {
@@ -266,10 +206,11 @@ fun QuarterlyColumn(
                 .sizeIn(minHeight = TitleMinHeight)
                 .padding(horizontal = Dimens.grid_1),
             text = spec.title,
-            style = TitleSmall.copy(
-                color = navTitle(),
-                lineHeight = 18.sp
+            style = MaterialTheme.typography.titleSmall.copy(
+                fontSize = 15.sp
             ),
+            color = MaterialTheme.colorScheme.onSurface,
+            lineHeight = 18.sp,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
@@ -308,25 +249,39 @@ private fun QuarterlyCover(
         color = spec.color,
         modifier = modifier
     ) {
-        Image(
-            painter = rememberImagePainter(
+        ContentBox(
+            content = RemoteImage(
                 data = spec.cover,
-                builder = {
-                    crossfade(true)
-                    transformations(RoundedCornersTransformation(18f))
+                contentDescription = spec.title,
+                contentScale = ContentScale.Crop,
+                loading = {
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .asPlaceholder(
+                                visible = true,
+                                color = spec.color
+                            )
+                    )
+                },
+                error = {
+                    Spacer(
+                        modifier = Modifier
+                            .background(color = spec.color)
+                            .fillMaxSize()
+                    )
                 }
             ),
-            contentDescription = spec.title,
-            contentScale = ContentScale.Fit
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(18f)),
         )
     }
 }
 
 @Composable
-fun GroupedQuarterliesColumn(
-    title: String,
-    items: List<QuarterlySpec>,
-    lastIndex: Boolean,
+internal fun GroupedQuarterliesColumn(
+    spec: GroupedQuarterliesSpec,
     modifier: Modifier = Modifier,
     seeAllClick: () -> Unit = {}
 ) {
@@ -334,48 +289,27 @@ fun GroupedQuarterliesColumn(
         modifier = modifier
             .groupBackground(
                 darkTheme = isSystemInDarkTheme(),
-                lastIndex = lastIndex
+                lastIndex = spec.lastIndex
             )
     ) {
-        GroupTitle(title, seeAllClick)
+        GroupTitle(spec.title, seeAllClick)
 
         Spacer(modifier = Modifier.height(Dimens.grid_2))
 
-        GroupQuarterlies(items)
+        SnappingLazyRow(
+            contentPadding = PaddingValues(horizontal = Dimens.grid_4),
+            horizontalArrangement = Arrangement.spacedBy(Dimens.grid_4)
+        ) {
+            itemsIndexed(spec.items, key = { _: Int, spec: QuarterlySpec -> spec.title }) { _, item ->
+                QuarterlyColumn(
+                    spec = item,
+                    modifier = Modifier
+                        .clickable(onClick = item.onClick),
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(Dimens.grid_4))
-    }
-}
-
-@OptIn(ExperimentalSnapperApi::class)
-@Composable
-private fun GroupQuarterlies(
-    items: List<QuarterlySpec>,
-    modifier: Modifier = Modifier,
-) {
-    val lazyListState = rememberLazyListState()
-    val contentPadding = PaddingValues(
-        horizontal = Dimens.grid_4,
-    )
-
-    LazyRow(
-        state = lazyListState,
-        flingBehavior = rememberSnapperFlingBehavior(
-            lazyListState = lazyListState,
-            snapOffsetForItem = SnapOffsets.Start,
-            endContentPadding = contentPadding.calculateEndPadding(LayoutDirection.Ltr),
-        ),
-        contentPadding = contentPadding,
-        horizontalArrangement = Arrangement.spacedBy(Dimens.grid_4),
-        modifier = modifier
-    ) {
-        itemsIndexed(items, key = { _: Int, spec: QuarterlySpec -> spec.title }) { _, item ->
-            QuarterlyColumn(
-                spec = item,
-                modifier = Modifier
-                    .clickable(onClick = item.onClick),
-            )
-        }
     }
 }
 
@@ -392,10 +326,10 @@ private fun GroupTitle(
     ) {
         Text(
             text = title.uppercase(),
-            style = Title.copy(
-                color = BaseGrey2,
+            style = MaterialTheme.typography.titleSmall.copy(
                 fontSize = 13.sp
             ),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(
@@ -409,15 +343,15 @@ private fun GroupTitle(
         ) {
             Text(
                 text = stringResource(id = R.string.ss_see_all),
-                style = LabelSmall.copy(
-                    color = MaterialTheme.colors.primary,
+                style = MaterialTheme.typography.bodySmall.copy(
+                    fontSize = 15.sp
                 ),
+                color = MaterialTheme.colorScheme.primary,
             )
 
-            Icon(
-                Icons.Rounded.KeyboardArrowRight,
-                contentDescription = "Arrow Right",
-                tint = iconTint()
+            IconBox(
+                icon = Icons.ArrowRight,
+                contentColor = iconTint()
             )
         }
     }
@@ -434,7 +368,7 @@ private fun Modifier.groupBackground(
             Brush.verticalGradient(
                 colors = listOf(
                     Color.White,
-                    OffWhite.copy(alpha = 0.2f)
+                    SsColor.OffWhite.copy(alpha = 0.2f)
                 )
             )
         )
@@ -449,9 +383,11 @@ private fun Modifier.groupBackground(
 @Composable
 private fun GroupedQuarterliesColumnPreview() {
     GroupedQuarterliesColumn(
-        "Grouping",
-        emptyList(),
-        true,
+        spec = GroupedQuarterliesSpec(
+            "Grouping",
+            emptyList(),
+            true
+        ),
         Modifier
             .padding(4.dp)
             .fillMaxWidth()

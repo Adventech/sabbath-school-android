@@ -23,30 +23,48 @@
 package com.cryart.sabbathschool.ui.splash
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import app.ss.auth.AuthRepository
+import app.ss.models.auth.SSUser
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.reminder.DailyReminderManager
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val firebaseAuth: FirebaseAuth,
     private val ssPrefs: SSPrefs,
-    dailyReminderManager: DailyReminderManager,
+    private val authRepository: AuthRepository,
+    private val dailyReminderManager: DailyReminderManager,
+    private val dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
 
-    init {
-        if (firebaseAuth.currentUser != null && ssPrefs.reminderEnabled() && ssPrefs.isReminderScheduled().not()) {
+    private val _launchState: MutableStateFlow<LaunchState> = MutableStateFlow(LaunchState.Loading)
+    val launchStateFlow: StateFlow<LaunchState> = _launchState
+
+    fun launch() = viewModelScope.launch(dispatcherProvider.default) {
+        val resource = authRepository.getUser()
+        val user = resource.data
+
+        if (user != null && ssPrefs.reminderEnabled() && ssPrefs.isReminderScheduled().not()) {
             dailyReminderManager.scheduleReminder()
         }
+
+        updateState(user)
     }
 
-    val launchState: LaunchState
-        get() = when {
-            firebaseAuth.currentUser == null -> LaunchState.Login
+    private suspend fun updateState(user: SSUser?) {
+        val state = when {
+            user == null -> LaunchState.Login
             ssPrefs.getLastQuarterlyIndex() != null && ssPrefs.isReadingLatestQuarterly() ->
                 LaunchState.Lessons(ssPrefs.getLastQuarterlyIndex()!!)
             else -> LaunchState.Quarterlies
         }
+
+        _launchState.emit(state)
+    }
 }

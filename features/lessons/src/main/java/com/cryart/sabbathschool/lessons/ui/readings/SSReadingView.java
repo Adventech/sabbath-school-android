@@ -50,12 +50,13 @@ import androidx.core.view.GestureDetectorCompat;
 import com.cryart.sabbathschool.core.extensions.context.ContextHelper;
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.lessons.R;
-import app.ss.lessons.data.model.SSComment;
-import app.ss.lessons.data.model.SSReadComments;
-import app.ss.lessons.data.model.SSReadHighlights;
+import app.ss.models.SSComment;
+import app.ss.models.SSReadComments;
+import app.ss.models.SSReadHighlights;
 import com.cryart.sabbathschool.reader.SSWebView;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
@@ -412,7 +413,10 @@ public class SSReadingView extends SSWebView {
                     }
                 }
                 if (!found) {
-                    ssReadComments.getComments().add(new SSComment(inputId, commentReceived));
+                    ArrayList<SSComment> commentsList = new ArrayList<>();
+                    commentsList.addAll(ssReadComments.getComments());
+                    commentsList.add(new SSComment(inputId, commentReceived));
+                    ssReadComments.setComments(commentsList);
                 }
                 highlightsCommentsCallback.onCommentsReceived(ssReadComments);
 

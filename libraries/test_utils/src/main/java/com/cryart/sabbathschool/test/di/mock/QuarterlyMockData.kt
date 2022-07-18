@@ -23,15 +23,17 @@
 package com.cryart.sabbathschool.test.di.mock
 
 import android.content.Context
-import app.ss.lessons.data.model.QuarterlyGroup
-import app.ss.lessons.data.model.SSQuarterly
-import app.ss.lessons.data.model.SSQuarterlyInfo
+import app.ss.lessons.data.model.api.VideosInfoModel
+import app.ss.models.QuarterlyGroup
+import app.ss.models.SSQuarterly
+import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.test.di.repository.fromJson
 import com.squareup.moshi.Moshi
 
 interface QuarterlyMockData {
     fun getQuarterlies(group: QuarterlyGroup? = null): List<SSQuarterly>
     fun getQuarterlyInfo(index: String): SSQuarterlyInfo?
+    fun getVideos(fileName: String): List<VideosInfoModel>
 }
 
 class QuarterlyMockDataImpl(
@@ -53,6 +55,8 @@ class QuarterlyMockDataImpl(
             SSQuarterlyInfo(quarterly, moshi.fromJson(context, FILE_LESSONS))
         }
     }
+
+    override fun getVideos(fileName: String): List<VideosInfoModel> = moshi.fromJson(context, fileName)
 
     companion object {
         private const val FILE_QUARTERLIES = "quarterlies.json"

@@ -25,7 +25,6 @@ import dependencies.Dependencies.Accompanist
 import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Compose
-import dependencies.Dependencies.Firebase
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.Iconics
 import dependencies.Dependencies.Kotlin
@@ -39,6 +38,7 @@ plugins {
     id(BuildPlugins.Kotlin.KAPT)
     id(BuildPlugins.DAGGER_HILT)
     id(BuildPlugins.Kotlin.PARCELIZE)
+    id(BuildPlugins.PAPARAZZI)
 }
 
 android {
@@ -66,12 +66,18 @@ android {
         dataBinding = true
         compose = true
     }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
 
+    implementation(project(BuildModules.Common.AUTH))
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.DESIGN_COMPOSE))
     implementation(project(BuildModules.Common.TRANSLATIONS))
     implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Features.APP_WIDGETS))
@@ -82,32 +88,25 @@ dependencies {
 
     implementation(Kotlin.COROUTINES)
     implementation(Kotlin.COROUTINES_ANDROID)
-    implementation(Kotlin.COROUTINES_PLAY_SERVICES)
 
     implementation(Dependencies.MATERIAL)
     implementation(AndroidX.CORE)
     implementation(AndroidX.APPCOMPAT)
     implementation(AndroidX.CONSTRAINT_LAYOUT)
     implementation(AndroidX.ACTIVITY)
+    implementation(AndroidX.ACTIVITY_COMPOSE)
     implementation(AndroidX.FRAGMENT_KTX)
+    implementation(AndroidX.LIFECYCLE_COMPOSE)
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
     implementation(AndroidX.LIFECYCLE_EXTENSIONS)
-    implementation(AndroidX.LIFECYCLE_LIVEDATA)
     implementation(AndroidX.RECYCLER_VIEW)
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
 
-    implementation(platform(Firebase.BOM))
-    implementation(Firebase.DATABASE)
-    implementation(Firebase.STORAGE)
-    implementation(Firebase.ANALYTICS)
-    implementation(Firebase.AUTH)
-
     implementation(Dependencies.JODA)
     implementation(Dependencies.TIMBER)
     implementation(Coil.core)
-    implementation(Coil.compose)
     implementation(Dependencies.TAP_TARGET)
     implementation(Iconics.CORE)
     implementation(Iconics.VIEWS)
@@ -115,16 +114,13 @@ dependencies {
     implementation(Iconics.MATERIAL_TYPEFACE)
     implementation("com.github.hotchemi:android-rate:1.0.1")
     implementation("com.afollestad.material-dialogs:input:3.3.0")
-    implementation("ru.beryukhov:flowreactivenetwork:1.0.4")
+    implementation(Dependencies.Cascade)
     implementation(Dependencies.Facebook.SHIMMER)
     implementation(Dependencies.MarkWorm.core)
 
-    implementation(Compose.ui)
+    implementation(Compose.constraintLayout)
     implementation(Compose.material)
-    implementation(Compose.tooling)
-    implementation(Compose.snapper)
-
-    implementation(Accompanist.placeholder)
+    implementation(Accompanist.systemUiController)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))

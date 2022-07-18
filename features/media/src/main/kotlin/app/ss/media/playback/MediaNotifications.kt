@@ -29,12 +29,10 @@ import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.DrawableRes
-import androidx.media.app.NotificationCompat
 import app.ss.media.R
 import app.ss.media.playback.extensions.artist
 import app.ss.media.playback.extensions.artwork
@@ -49,6 +47,8 @@ import com.cryart.sabbathschool.core.extensions.context.systemService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import androidx.core.app.NotificationCompat as CoreNotificationCompat
+import androidx.media.app.NotificationCompat as MediaNotificationCompat
 
 private const val CHANNEL_ID = "app.ss.media.NOW_PLAYING"
 const val NOTIFICATION_ID = 0xb339
@@ -81,9 +81,8 @@ internal class MediaNotificationsImpl constructor(
     private val notificationManager: NotificationManager = context.systemService(Context.NOTIFICATION_SERVICE)
 
     override fun updateNotification(mediaSession: MediaSessionCompat) {
-        if (!MusicService.IS_FOREGROUND) return
-        launch {
-            notificationManager.notify(NOTIFICATION_ID, buildNotification(mediaSession))
+        if (MusicService.IS_FOREGROUND) {
+            launch { notificationManager.notify(NOTIFICATION_ID, buildNotification(mediaSession)) }
         }
     }
 
@@ -99,19 +98,20 @@ internal class MediaNotificationsImpl constructor(
         val isBuffering = mediaSession.isBuffering()
         val description = mediaSession.controller.metadata.displayDescription
 
-        val pm: PackageManager = context.packageManager
-        val nowPlayingIntent = pm.getLaunchIntentForPackage(context.packageName)
+        val packageManager = context.packageManager
+        val nowPlayingIntent = packageManager.getLaunchIntentForPackage(context.packageName)
         val clickIntent = PendingIntent.getActivity(context, 0, nowPlayingIntent, FLAG_UPDATE_CURRENT or SAFE_FLAG_IMMUTABLE)
+        val cancelIntent = buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP)
 
         createNotificationChannel()
 
-        val style = NotificationCompat.MediaStyle()
+        val style = MediaNotificationCompat.MediaStyle()
             .setMediaSession(mediaSession.sessionToken)
             .setShowCancelButton(true)
             .setShowActionsInCompactView(0, 1, 2)
-            .setCancelButtonIntent(buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP))
+            .setCancelButtonIntent(cancelIntent)
 
-        val builder = androidx.core.app.NotificationCompat.Builder(context, CHANNEL_ID).apply {
+        val builder = CoreNotificationCompat.Builder(context, CHANNEL_ID).apply {
             setStyle(style)
             setSmallIcon(R.drawable.ic_stat_notification)
             setLargeIcon(artwork)
@@ -121,8 +121,8 @@ internal class MediaNotificationsImpl constructor(
             setSubText(description)
             setColorized(true)
             setShowWhen(false)
-            setVisibility(androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC)
-            setDeleteIntent(buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP))
+            setVisibility(CoreNotificationCompat.VISIBILITY_PUBLIC)
+            setDeleteIntent(cancelIntent)
             addAction(getBackwardAction(context))
             if (isBuffering) {
                 addAction(getBufferingAction())
@@ -140,47 +140,47 @@ internal class MediaNotificationsImpl constructor(
         notificationManager.cancel(NOTIFICATION_ID)
     }
 
-    private fun getBufferingAction(): androidx.core.app.NotificationCompat.Action {
-        return androidx.core.app.NotificationCompat.Action(R.drawable.ic_hourglass_empty, "", null)
+    private fun getBufferingAction(): CoreNotificationCompat.Action {
+        return CoreNotificationCompat.Action(R.drawable.ic_hourglass_empty, "", null)
     }
 
-    private fun getStopAction(context: Context): androidx.core.app.NotificationCompat.Action {
+    private fun getStopAction(context: Context): CoreNotificationCompat.Action {
         val actionIntent = Intent(context, MusicService::class.java).apply { action = STOP_PLAYBACK }
         val pendingIntent = PendingIntent.getService(context, 0, actionIntent, SAFE_FLAG_IMMUTABLE)
-        return androidx.core.app.NotificationCompat.Action(R.drawable.ic_stop, "", pendingIntent)
+        return CoreNotificationCompat.Action(R.drawable.ic_stop, "", pendingIntent)
     }
 
-    private fun getBackwardAction(context: Context): androidx.core.app.NotificationCompat.Action {
+    private fun getBackwardAction(context: Context): CoreNotificationCompat.Action {
         val actionIntent = Intent(context, MusicService::class.java).apply { action = BACKWARD }
         val pendingIntent = PendingIntent.getService(context, 0, actionIntent, SAFE_FLAG_IMMUTABLE)
-        return androidx.core.app.NotificationCompat.Action(R.drawable.ic_audio_icon_backward, "", pendingIntent)
+        return CoreNotificationCompat.Action(R.drawable.ic_audio_icon_backward, "", pendingIntent)
     }
 
     private fun getPlayPauseAction(
         context: Context,
         @DrawableRes playButtonResId: Int
-    ): androidx.core.app.NotificationCompat.Action {
+    ): CoreNotificationCompat.Action {
         val actionIntent = Intent(context, MusicService::class.java).apply { action = PLAY_PAUSE }
         val pendingIntent = PendingIntent.getService(context, 0, actionIntent, SAFE_FLAG_IMMUTABLE)
-        return androidx.core.app.NotificationCompat.Action(playButtonResId, "", pendingIntent)
+        return CoreNotificationCompat.Action(playButtonResId, "", pendingIntent)
     }
 
-    private fun getForwardAction(context: Context): androidx.core.app.NotificationCompat.Action {
+    private fun getForwardAction(context: Context): CoreNotificationCompat.Action {
         val actionIntent = Intent(context, MusicService::class.java).apply {
             action = FORWARD
         }
         val pendingIntent = PendingIntent.getService(context, 0, actionIntent, SAFE_FLAG_IMMUTABLE)
-        return androidx.core.app.NotificationCompat.Action(R.drawable.ic_audio_icon_forward, "", pendingIntent)
+        return CoreNotificationCompat.Action(R.drawable.ic_audio_icon_forward, "", pendingIntent)
     }
 
     private fun createEmptyNotification(): Notification {
         createNotificationChannel()
-        return androidx.core.app.NotificationCompat.Builder(context, CHANNEL_ID).apply {
+        return CoreNotificationCompat.Builder(context, CHANNEL_ID).apply {
             setSmallIcon(R.drawable.ic_stat_notification)
             setContentTitle(context.getString(R.string.ss_app_name))
             setColorized(true)
             setShowWhen(false)
-            setVisibility(androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC)
+            setVisibility(CoreNotificationCompat.VISIBILITY_PUBLIC)
         }.build()
     }
 

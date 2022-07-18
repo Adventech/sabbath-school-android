@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Σχολή Σαββάτου"</string>
     <string name="ss_share">"Κοινοποίησε"</string>
     <string name="ss_login_button_google">"Συνδεθείτε μέσω Google"</string>
-    <string name="ss_login_button_facebook">"Συνδεθείτε μέσω Facebook"</string>
     <string name="ss_login_button_anonymous">"Συνδεθείτε ανώνυμα"</string>
     <string name="ss_menu_anonymous_name">"Ανώνυμος"</string>
     <string name="ss_menu_sign_out">"Αποσύνδεση"</string>
@@ -42,11 +41,11 @@
     <string name="ss_login_anonymously_dialog_title">"Ανώνυμη σύνδεση;"</string>
     <string name="ss_login_anonymously_dialog_description">"Εάν συνδεθείτε ανώνυμα, δεν θα μπορείτε να συγχρονίσετε τα δεδομένα σας (όπως σχόλια και υπογραμμίσεις) ανάμεσα στις συσκευές σας ή μετά την απεγκατάσταση της εφαρμογής. Είστε βέβαιως ότι θέλετε να προχωρήσετε;"</string>
     <string name="ss_quarterlies_filter_languages">"Γλώσσες"</string>
-    <string name="ss_quarterlies_downloading">"Λήψη τριμηνιών ..."</string>
+    <string name="ss_quarterlies_downloading">"Λήψη τριμηνιών …"</string>
     <string name="ss_quarterlies_error">"Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά."</string>
     <string name="ss_quarterlies_empty">"Δεν υπάρχουν διαθέσιμες τριμηνίες"</string>
     <string name="ss_quarterly_item_read_text">"Άνοιξε"</string>
-    <string name="ss_lessons_downloading">"Άνοιγμα τριμηνίας..."</string>
+    <string name="ss_lessons_downloading">"Άνοιγμα τριμηνίας…"</string>
     <string name="ss_lessons_error">"Παρουσιάστηκε σφάλμα κατά το άνοιγμα της τριμηνίας"</string>
     <string name="ss_lessons_empty">"Δεν υπάρχουν διαθέσιμες τριμηνίες"</string>
     <string name="ss_lessons_read">"Διάβασε"</string>
@@ -61,10 +60,6 @@
     <string name="ss_reading_copied">"Το επιλεγμένο κείμενο αντιγράφηκε"</string>
     <string name="ss_reading_share_to">"Κοινοποίησε το επιλεγμένο κείμενο σε:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Σύντομα διαθέσιμο"</string>
-    <string name="ss_coming_soon_subheader">"Εργαζόμαστε για αυτή τη λειτουργεία. Μείνετε συντονισμένοι."</string>
-    <string name="ss_about_app_version">"έκδοση 3.0"</string>
     <string name="ss_about_made">"Κατασκευάστηκε με ❤ από την Adventech"</string>
     <string name="ss_settings_display_options">"Επιλογές προβολής"</string>
     <string name="ss_settings_color_theme_light">"Φωτεινό"</string>
@@ -109,4 +104,18 @@
     <string name="ss_pdf_original">Αρχική διάταξη</string>
     <string name="ss_settings_theme">Θέμα</string>
     <string name="ss_settings_theme_default">Προκαθορισμένο</string>
+    <string name="ss_get_printed_resources">Λάβετε εκτυπωμένους πόρους</string>
+    <string name="ss_account">λογαριασμός</string>
+    <string name="ss_action_arrow_back">Βέλος Πίσω</string>
+    <string name="ss_action_arrow_drop_down">Αναπτυσσόμενο βέλος</string>
+    <string name="ss_action_arrow_right">Βέλος Δεξιά</string>
+    <string name="ss_action_close">Κλείσε</string>
+    <string name="ss_action_selected">Επιλεγμένο</string>
+    <string name="ss_action_back">Πίσω</string>
+    <string name="ss_action_open">Ανοιξε</string>
+    <string name="ss_action_rewind">Πίσω</string>
+    <string name="ss_action_play_pause">Αναπαραγωγή ή Παύση</string>
+    <string name="ss_action_playlist">Λίστα αναπαραγωγής</string>
+    <string name="ss_action_forward">Προς τα εμπρός</string>
+    <string name="ss_picture_in_picture">Εικόνα σε εικόνα</string>
 </resources>

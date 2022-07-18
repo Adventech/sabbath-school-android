@@ -44,24 +44,31 @@
 
     <item
         android:id="@+id/ss_reading_menu_pdf"
-        android:icon="@drawable/ic_read_options"
+        android:icon="@drawable/ic_round_article"
         android:orderInCategory="100"
         android:title="@string/ss_pdf_original"
         android:visible="false"
-        app:showAsAction="never"
-        tools:ignore="AlwaysShowAction" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/ss_reading_menu_display_options"
         android:icon="@drawable/ic_read_options"
         android:orderInCategory="101"
         android:title="@string/ss_settings_display_options"
-        app:showAsAction="never"
-        tools:ignore="AlwaysShowAction" />
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/ss_reading_menu_printed_resources"
+        android:icon="@drawable/ic_chevron_right_circle_outline"
+        android:orderInCategory="102"
+        android:title="@string/ss_get_printed_resources"
+        android:visible="false"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/ss_reading_menu_share"
-        android:orderInCategory="102"
+        android:icon="@drawable/ic_share"
+        android:orderInCategory="103"
         android:title="@string/ss_share"
         app:showAsAction="never" />
 </menu>

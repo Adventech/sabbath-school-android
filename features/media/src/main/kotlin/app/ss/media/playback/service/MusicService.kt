@@ -5,11 +5,12 @@ import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
-import app.ss.media.playback.MediaNotifications
+import app.ss.lessons.data.repository.media.MediaRepository
+import app.ss.media.playback.BACKWARD
 import app.ss.media.playback.FORWARD
+import app.ss.media.playback.MediaNotifications
 import app.ss.media.playback.NOTIFICATION_ID
 import app.ss.media.playback.PLAY_PAUSE
-import app.ss.media.playback.BACKWARD
 import app.ss.media.playback.STOP_PLAYBACK
 import app.ss.media.playback.extensions.isIdle
 import app.ss.media.playback.extensions.playPause
@@ -18,17 +19,13 @@ import app.ss.media.playback.model.MediaId.Companion.CALLER_OTHER
 import app.ss.media.playback.model.MediaId.Companion.CALLER_SELF
 import app.ss.media.playback.players.SSAudioPlayer
 import app.ss.media.playback.receivers.BecomingNoisyReceiver
-import app.ss.media.repository.SSMediaRepository
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MusicService : MediaBrowserServiceCompat(), CoroutineScope by MainScope() {
+class MusicService : MediaBrowserServiceCompat() {
 
     @Inject
     lateinit var musicPlayer: SSAudioPlayer
@@ -37,10 +34,10 @@ class MusicService : MediaBrowserServiceCompat(), CoroutineScope by MainScope() 
     lateinit var mediaNotifications: MediaNotifications
 
     @Inject
-    lateinit var repository: SSMediaRepository
+    lateinit var repository: MediaRepository
 
     @Inject
-    lateinit var schedulerProvider: SchedulerProvider
+    lateinit var dispatcherProvider: DispatcherProvider
 
     private var becomingNoisyReceiver: BecomingNoisyReceiver? = null
 
@@ -120,17 +117,13 @@ class MusicService : MediaBrowserServiceCompat(), CoroutineScope by MainScope() 
     }
 
     override fun onTaskRemoved(rootIntent: Intent) {
-        launch {
-            musicPlayer.pause()
-            musicPlayer.stop(false)
-        }
+        musicPlayer.pause()
+        musicPlayer.stop(false)
         super.onTaskRemoved(rootIntent)
     }
 
     override fun onDestroy() {
-        launch {
-            musicPlayer.release()
-        }
+        musicPlayer.release()
     }
 
     companion object {

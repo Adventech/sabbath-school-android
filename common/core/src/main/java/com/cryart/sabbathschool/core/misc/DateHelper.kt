@@ -15,15 +15,18 @@ object DateHelper {
         null
     }
 
-    fun formatDate(date: String, format: String = SSConstants.SS_DATE_FORMAT_OUTPUT_DAY): String = try {
-        DateTimeFormat.forPattern(format)
-            .print(
-                DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                    .parseLocalDate(date)
-            ).replaceFirstChar { it.uppercase() }
-    } catch (ex: IllegalArgumentException) {
-        Timber.e(ex)
-        ""
+    fun formatDate(date: String, format: String = SSConstants.SS_DATE_FORMAT_OUTPUT_DAY): String {
+        return try {
+            DateTimeFormat.forPattern(format)
+                .print(
+                    DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                        .parseLocalDate(date)
+                ).replace("Saturday", "Sabbath")
+                .replaceFirstChar { it.uppercase() }
+        } catch (ex: IllegalArgumentException) {
+            Timber.e(ex)
+            return ""
+        }
     }
 
     fun today() = formatDate(LocalDate.now().toString(SSConstants.SS_DATE_FORMAT))

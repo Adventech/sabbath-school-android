@@ -28,9 +28,6 @@ import dependencies.Dependencies.Compose
 import dependencies.Dependencies.ExoPlayer
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.Kotlin
-import dependencies.Dependencies.Square.Moshi
-import dependencies.Dependencies.Square.Okhttp
-import dependencies.Dependencies.Square.Retrofit
 import dependencies.Versions
 import extensions.addTestsDependencies
 import extensions.kapt
@@ -41,6 +38,7 @@ plugins {
     id(BuildPlugins.Kotlin.KAPT)
     id(BuildPlugins.DAGGER_HILT)
     id(BuildPlugins.Kotlin.PARCELIZE)
+    id(BuildPlugins.PAPARAZZI)
 }
 
 android {
@@ -80,6 +78,8 @@ dependencies {
 
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.DESIGN_COMPOSE))
+    implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Common.STORAGE))
     implementation(project(BuildModules.Common.TRANSLATIONS))
 
@@ -94,7 +94,6 @@ dependencies {
     implementation(AndroidX.FRAGMENT_KTX)
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
     implementation(AndroidX.LIFECYCLE_EXTENSIONS)
-    implementation(AndroidX.LIFECYCLE_LIVEDATA)
     implementation(AndroidX.LIFECYCLE_COMPOSE)
     api(AndroidX.MEDIA)
 
@@ -102,26 +101,10 @@ dependencies {
     kapt(Hilt.COMPILER)
 
     implementation(Dependencies.TIMBER)
-    implementation(Coil.core)
     implementation(Coil.compose)
 
-    implementation(Compose.ui)
     implementation(Compose.material)
-    implementation(Compose.tooling)
-    implementation(Compose.icons)
-    implementation(Compose.iconsExtended)
     implementation(Compose.constraintLayout)
-    implementation(Compose.snapper)
-    implementation(Accompanist.placeholder)
-
-    implementation(Moshi.kotlin)
-    kapt(Moshi.codegen)
-
-    api(Okhttp.okhttp)
-    implementation(Okhttp.logging)
-
-    implementation(Retrofit.retrofit2)
-    implementation(Retrofit.moshiConverter)
 
     implementation(ExoPlayer.core)
     implementation(ExoPlayer.ui)

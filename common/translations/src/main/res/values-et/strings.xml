@@ -24,7 +24,6 @@
     <string name="ss_app_name">"Hingamispäevakooli õppetükk"</string>
     <string name="ss_share">"Jaga"</string>
     <string name="ss_login_button_google">"Google sisselogimine"</string>
-    <string name="ss_login_button_facebook">"Facebook sisselogimine"</string>
     <string name="ss_login_button_anonymous">"Logi sisse anonüümsena"</string>
     <string name="ss_menu_anonymous_name">"Anonüümne"</string>
     <string name="ss_menu_sign_out">"Logi välja"</string>
@@ -61,10 +60,6 @@
     <string name="ss_reading_copied">"Valik on kopeeritud"</string>
     <string name="ss_reading_share_to">"Jaga valikut:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Tulekul"</string>
-    <string name="ss_coming_soon_subheader">"Me töötame selle funktsiooni kallal. Peatselt tulekul."</string>
-    <string name="ss_about_app_version">"Versioon 3.0"</string>
     <string name="ss_about_made">"Tehtud ❤ Adventech'i poolt"</string>
     <string name="ss_settings_display_options">"Kuva valikud"</string>
     <string name="ss_settings_color_theme_light">"Hele"</string>
@@ -108,4 +103,18 @@ Me usume, et Jumal on andnud tänapäeva maailmale nii palju teadmisi ning  me t
     <string name="ss_pdf_original">Algne paigutus</string>
     <string name="ss_settings_theme">Teema</string>
     <string name="ss_settings_theme_default">Vaikimisi</string>
+    <string name="ss_get_printed_resources">Hankige trükitud ressursse</string>
+    <string name="ss_account">Konto</string>
+    <string name="ss_action_arrow_back">Nool tagasi</string>
+    <string name="ss_action_arrow_drop_down">Noolega rippmenüü</string>
+    <string name="ss_action_arrow_right">Nool paremale</string>
+    <string name="ss_action_close">Sulge</string>
+    <string name="ss_action_selected">Valitud</string>
+    <string name="ss_action_back">tagasi</string>
+    <string name="ss_action_open">Avatud</string>
+    <string name="ss_action_rewind">Keri tagasi</string>
+    <string name="ss_action_play_pause">Esita või peata</string>
+    <string name="ss_action_playlist">Esitusloend</string>
+    <string name="ss_action_forward">Edasi</string>
+    <string name="ss_picture_in_picture">Pilt pildis</string>
 </resources>

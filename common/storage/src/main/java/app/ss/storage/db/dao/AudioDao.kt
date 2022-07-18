@@ -29,6 +29,9 @@ import app.ss.storage.db.entity.AudioFileEntity
 @Dao
 interface AudioDao : BaseDao<AudioFileEntity> {
 
+    @Query("SELECT * FROM audios")
+    fun get(): List<AudioFileEntity>
+
     @Query("SELECT * FROM audios WHERE id = :id")
     fun findBy(id: String): AudioFileEntity?
 
