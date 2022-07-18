@@ -21,6 +21,7 @@
  */
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
+import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Kotlin
 import dependencies.Dependencies.Hilt
 import extensions.addTestsDependencies
@@ -66,6 +67,7 @@ dependencies {
     kapt(Hilt.COMPILER)
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.JODA)
+    implementation(Coil.core)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))
