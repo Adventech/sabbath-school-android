@@ -193,7 +193,7 @@ internal fun NowPlayingScreen(
 
         DragHandle()
 
-        BoxWithConstraints(
+        /*BoxWithConstraints(
             modifier = Modifier
                 .weight(1f)
                 .onGloballyPositioned { coordinates ->
@@ -268,7 +268,18 @@ internal fun NowPlayingScreen(
                         .layoutId("queue"),
                 )
             }
-        }
+        }*/
+
+        NowPlayingDetail(
+            spec = spec,
+            boxState = boxState,
+            listState = listState,
+            modifier = Modifier
+                .weight(1f)
+                .padding(
+                    horizontal = Dimens.grid_4
+                )
+        )
 
         PlaybackProgressDuration(
             isBuffering = playbackState.isBuffering,

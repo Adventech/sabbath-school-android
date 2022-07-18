@@ -106,4 +106,46 @@ internal fun CoverImage(
     )
 }
 
+@Composable
+internal fun CoverImageStatic(
+    spec: CoverImageSpec,
+    boxState: BoxState,
+    modifier: Modifier = Modifier,
+) {
+
+    val orientation = CoverOrientation.fromKey(spec.imageRatio) ?: CoverOrientation.PORTRAIT
+    val collapsed = boxState == BoxState.Collapsed
+    val width = if (collapsed) orientation.width / 2 else orientation.width
+    val height = if (collapsed) orientation.height / 2 else orientation.height
+    val scale = when (orientation) {
+        CoverOrientation.SQUARE -> Scale.FILL
+        CoverOrientation.PORTRAIT -> Scale.FIT
+    }
+
+    val placeholder: @Composable () -> Unit = {
+        Spacer(
+            modifier = Modifier
+                .fillMaxSize()
+                .asPlaceholder(visible = true)
+        )
+    }
+
+    ContentBox(
+        content = RemoteImage(
+            data = spec.image,
+            contentDescription = spec.title,
+            scale = scale,
+            loading = placeholder,
+            error = placeholder
+        ),
+        modifier = modifier
+            .size(
+                width = width,
+                height = height
+            )
+            .padding(Dimens.grid_1)
+            .clip(RoundedCornerShape(CoverCornerRadius))
+    )
+}
+
 private val CoverCornerRadius = 6.dp

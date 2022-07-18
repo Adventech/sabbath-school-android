@@ -50,7 +50,8 @@ class QuarterliesListActivity : SlidingActivity(), QuarterliesListCallback {
             SsTheme(
                 windowWidthSizeClass = calculateWindowSizeClass(activity = this).widthSizeClass
             ) {
-                QuarterliesScreen(callbacks = this)
+               // QuarterliesScreen(callbacks = this)
+                AnimPlaygroundScreen()
             }
         }
     }
