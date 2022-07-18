@@ -57,6 +57,7 @@ abstract class BaseWidgetProvider<M> : AppWidgetProvider() {
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,

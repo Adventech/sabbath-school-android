@@ -4,7 +4,7 @@ import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.widgets.model.TodayWidgetModel
 import app.ss.widgets.model.WeekDayWidgetModel
 import app.ss.widgets.model.WeekLessonWidgetModel
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
@@ -20,10 +20,10 @@ internal interface WidgetDataProvider {
 
 internal class WidgetDataProviderImpl constructor(
     private val repository: LessonsRepository,
-    private val schedulerProvider: SchedulerProvider
+    private val dispatcherProvider: DispatcherProvider
 ) : WidgetDataProvider {
 
-    override suspend fun getTodayModel(): TodayWidgetModel? = withContext(schedulerProvider.default) {
+    override suspend fun getTodayModel(): TodayWidgetModel? = withContext(dispatcherProvider.default) {
         try {
             repository.getTodayRead(cached = true).data?.let { data ->
                 TodayWidgetModel(
@@ -39,7 +39,7 @@ internal class WidgetDataProviderImpl constructor(
         }
     }
 
-    override suspend fun getWeekLessonModel(): WeekLessonWidgetModel? = withContext(schedulerProvider.default) {
+    override suspend fun getWeekLessonModel(): WeekLessonWidgetModel? = withContext(dispatcherProvider.default) {
         try {
             repository.getWeekData(cached = true).data?.let { data ->
                 val days = data.days.mapIndexed { index, day ->

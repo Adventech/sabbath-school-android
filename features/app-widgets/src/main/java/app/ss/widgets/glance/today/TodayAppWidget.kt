@@ -51,19 +51,14 @@ import androidx.glance.text.Text
 import app.ss.widgets.R
 import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.BaseGlanceAppWidget
-import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
 import app.ss.widgets.glance.extensions.clickable
+import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
 import app.ss.widgets.glance.extensions.toAction
-import app.ss.widgets.glance.theme.SsAppWidgetTheme
+import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.glance.theme.copy
 import app.ss.widgets.glance.theme.todayBody
 import app.ss.widgets.glance.theme.todayTitle
 import app.ss.widgets.model.TodayWidgetModel
-import com.cryart.design.theme.Spacing12
-import com.cryart.design.theme.Spacing20
-import com.cryart.design.theme.Spacing32
-import com.cryart.design.theme.Spacing4
-import com.cryart.design.theme.Spacing6
 import com.cryart.sabbathschool.core.misc.DateHelper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -84,7 +79,7 @@ internal class TodayAppWidget @AssistedInject constructor(
 
     @Composable
     override fun Content(data: Data?) {
-        SsAppWidgetTheme {
+        SsGlanceTheme {
             Column(
                 modifier = GlanceModifier
                     .modifyAppWidgetBackground()
@@ -139,9 +134,9 @@ internal fun TodayInfo(
         modifier = modifier
             .fillMaxSize()
             .padding(
-                start = Spacing12,
-                end = Spacing12,
-                bottom = Spacing12
+                start = 12.dp,
+                end = 12.dp,
+                bottom = 12.dp
             ),
         verticalAlignment = Alignment.Bottom,
     ) {
@@ -153,7 +148,7 @@ internal fun TodayInfo(
             maxLines = 2
         )
 
-        Spacer(modifier = GlanceModifier.height(Spacing6))
+        Spacer(modifier = GlanceModifier.height(6.dp))
 
         Text(
             text = model.title,
@@ -161,7 +156,7 @@ internal fun TodayInfo(
             maxLines = 3
         )
 
-        Spacer(modifier = GlanceModifier.height(Spacing12))
+        Spacer(modifier = GlanceModifier.height(12.dp))
 
         Button(
             text = context.getString(R.string.ss_lessons_read).uppercase(),
@@ -172,9 +167,9 @@ internal fun TodayInfo(
             onClick = model.uri.toAction(),
             modifier = GlanceModifier
                 .background(MaterialTheme.colorScheme.primary)
-                .cornerRadius(Spacing20)
-                .padding(horizontal = Spacing32, vertical = Spacing4)
-                .height(Spacing32)
+                .cornerRadius(20.dp)
+                .padding(horizontal = 32.dp, vertical = 4.dp)
+                .height(32.dp)
         )
     }
 }

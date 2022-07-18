@@ -37,7 +37,10 @@ import androidx.glance.LocalContext
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.itemsIndexed
+import androidx.glance.background
+import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
+import androidx.glance.layout.ContentScale
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxWidth
@@ -50,19 +53,15 @@ import androidx.glance.text.Text
 import app.ss.widgets.R
 import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.BaseGlanceAppWidget
+import app.ss.widgets.glance.extensions.clickable
 import app.ss.widgets.glance.extensions.divider
 import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
-import app.ss.widgets.glance.extensions.clickable
-import app.ss.widgets.glance.theme.SsAppWidgetTheme
+import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.glance.theme.copy
 import app.ss.widgets.glance.theme.todayBody
 import app.ss.widgets.glance.theme.todayTitle
 import app.ss.widgets.model.WeekDayWidgetModel
 import app.ss.widgets.model.WeekLessonWidgetModel
-import com.cryart.design.theme.Spacing12
-import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.Spacing4
-import com.cryart.design.theme.Spacing8
 import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -81,7 +80,7 @@ internal class LessonInfoWidget @AssistedInject constructor(
     override suspend fun loadData(): Data {
         val model = dataProvider.getWeekLessonModel()
         val cover = context.fetchBitmap(model?.cover)
-        return Data(model = model, cover = null) // struggling to show Bitmap in this widget 😢
+        return Data(model = model, cover = cover)
     }
 
     @Composable
@@ -90,11 +89,11 @@ internal class LessonInfoWidget @AssistedInject constructor(
         val model = data?.model
         val cover = data?.cover
 
-        SsAppWidgetTheme {
+        SsGlanceTheme {
             LazyColumn(
                 modifier = GlanceModifier
                     .modifyAppWidgetBackground()
-                    .padding(vertical = Spacing8)
+                    .padding(vertical = 8.dp)
             ) {
                 item {
                     LessonInfoRow(
@@ -106,7 +105,7 @@ internal class LessonInfoWidget @AssistedInject constructor(
                 }
 
                 item {
-                    Spacer(modifier = GlanceModifier.size(Spacing16))
+                    Spacer(modifier = GlanceModifier.size(16.dp))
                 }
 
                 item {
@@ -118,7 +117,7 @@ internal class LessonInfoWidget @AssistedInject constructor(
                     Column(
                         modifier = GlanceModifier
                             .fillMaxWidth()
-                            .padding(horizontal = Spacing12)
+                            .padding(horizontal = 12.dp)
                             .clickable(uri = item.uri)
                     ) {
                         DayInfo(
@@ -150,19 +149,30 @@ private fun LessonInfoRow(
     modifier: GlanceModifier = GlanceModifier
 ) {
     Row(
-        modifier = modifier.padding(Spacing12),
+        modifier = modifier.padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Spacer(modifier = GlanceModifier.width(Spacing12))
 
         cover?.let { bitmap ->
             Image(
                 provider = BitmapImageProvider(bitmap),
                 contentDescription = quarterlyTitle,
                 modifier = GlanceModifier
+                    .background(color = MaterialTheme.colorScheme.surfaceVariant)
                     .size(width = CoverWidth, height = CoverHeight)
-                    .cornerRadius(Spacing4)
+                    .cornerRadius(6.dp),
+                contentScale = ContentScale.Crop
+            )
+        } ?: run {
+            Spacer(
+                modifier = GlanceModifier
+                    .background(color = MaterialTheme.colorScheme.surfaceVariant)
+                    .size(width = CoverWidth, height = CoverHeight)
+                    .cornerRadius(8.dp)
             )
         }
+
+        Spacer(modifier = GlanceModifier.width(8.dp))
 
         Column(
             modifier = GlanceModifier.defaultWeight(),
@@ -176,7 +186,7 @@ private fun LessonInfoRow(
 
             Spacer(
                 modifier = GlanceModifier
-                    .height(Spacing8)
+                    .height(4.dp)
                     .fillMaxWidth()
             )
 
@@ -195,14 +205,12 @@ private fun LessonInfoRow(
             contentDescription = LocalContext.current.getString(R.string.ss_app_name),
             modifier = GlanceModifier.size(AppLogoSize)
         )
-
-        Spacer(modifier = GlanceModifier.width(Spacing12))
     }
 }
 
 private val CoverWidth = 64.dp
 private val CoverHeight = 100.dp
-private val AppLogoSize = 64.dp
+private val AppLogoSize = 56.dp
 
 @Composable
 private fun DayInfo(
@@ -217,7 +225,7 @@ private fun DayInfo(
             .copy(fontWeight = FontWeight.Bold)
     } else textStyle
 
-    Row(modifier = modifier.padding(vertical = Spacing12)) {
+    Row(modifier = modifier.padding(vertical = 12.dp)) {
         Text(
             text = model.title,
             style = titleStyle,
@@ -225,7 +233,7 @@ private fun DayInfo(
             modifier = GlanceModifier.defaultWeight()
         )
 
-        Spacer(modifier = GlanceModifier.width(Spacing8))
+        Spacer(modifier = GlanceModifier.width(8.dp))
 
         Text(
             text = model.date,

@@ -39,9 +39,9 @@ import androidx.glance.layout.ContentScale
 import androidx.glance.layout.fillMaxSize
 import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.BaseGlanceAppWidget
-import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
 import app.ss.widgets.glance.extensions.clickable
-import app.ss.widgets.glance.theme.SsAppWidgetTheme
+import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
+import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.model.TodayWidgetModel
 import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
 import dagger.assisted.Assisted
@@ -74,7 +74,7 @@ internal class TodayImageAppWidget @AssistedInject constructor(
         val model = data?.model
         val modelCover = data?.modelCover
 
-        SsAppWidgetTheme {
+        SsGlanceTheme {
             Box(
                 modifier = GlanceModifier
                     .modifyAppWidgetBackground()

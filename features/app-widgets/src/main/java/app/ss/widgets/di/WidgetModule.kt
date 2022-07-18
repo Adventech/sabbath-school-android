@@ -6,7 +6,7 @@ import app.ss.widgets.AppWidgetHelper
 import app.ss.widgets.AppWidgetHelperImpl
 import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.WidgetDataProviderImpl
-import com.cryart.sabbathschool.core.extensions.coroutines.SchedulerProvider
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,10 +22,10 @@ object WidgetModule {
     @Singleton
     internal fun provideWidgetDataProvider(
         repository: LessonsRepository,
-        schedulerProvider: SchedulerProvider,
+        dispatcherProvider: DispatcherProvider,
     ): WidgetDataProvider = WidgetDataProviderImpl(
         repository = repository,
-        schedulerProvider = schedulerProvider,
+        dispatcherProvider = dispatcherProvider,
     )
 
     @Provides
