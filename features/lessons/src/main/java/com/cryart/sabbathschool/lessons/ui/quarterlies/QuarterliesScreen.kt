@@ -20,10 +20,11 @@
  * THE SOFTWARE.
  */
 
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +39,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -49,10 +51,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.extensions.modifier.asPlaceholder
+import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
@@ -62,6 +66,7 @@ import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.scaffold.SsScaffold
+import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroupCallback
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesListCallback
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyList
@@ -157,6 +162,7 @@ internal fun QuarterliesTopAppBar(
                             IconBox(
                                 icon = Icons.AccountCircle,
                                 modifier = Modifier
+                                    .size(AccountImgSize)
                                     .clickable { type.profileClick() }
                             )
                         }
@@ -207,3 +213,36 @@ internal fun QuarterliesTopAppBar(
 }
 
 private val AccountImgSize = 32.dp
+
+@Preview(
+    name = "TopAppBar",
+)
+@Preview(
+    name = "TopAppBar ~ dark",
+    uiMode = UI_MODE_NIGHT_YES
+)
+@Composable
+private fun TopAppBarPreview() {
+    SsTheme {
+        Surface {
+            QuarterliesTopAppBar(
+                title = "Sabbath School",
+                type = object : QuarterliesGroupCallback {
+                    override fun onSeeAllClick(group: QuarterlyGroup) {
+                        // do nothing
+                    }
+                    override fun profileClick() {
+                        // do nothing
+                    }
+                    override fun filterLanguages() {
+                        // do nothing
+                    }
+                    override fun onReadClick(index: String) {
+                        // do nothing
+                    }
+                },
+                modifier = Modifier
+            )
+        }
+    }
+}
