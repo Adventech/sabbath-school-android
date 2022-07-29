@@ -22,11 +22,12 @@
 
 package app.ss.media.playback.ui.video
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.models.media.SSVideosInfo
 import app.ss.lessons.data.repository.media.MediaRepository
+import app.ss.models.media.SSVideosInfo
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
@@ -54,21 +55,22 @@ class VideoListViewModel @Inject constructor(
                 }
             } ?: Resource.success(emptyList())
         }.map { resource ->
-            (resource.data ?: emptyList()).toData()
+            (resource.data ?: emptyList()).toData(savedStateHandle.lessonIndex)
         }
         .stateIn(viewModelScope, VideoListData.Empty)
+}
 
-    private fun List<SSVideosInfo>.toData(): VideoListData {
-        return if (size == 1 && first().clips.isNotEmpty()) {
-            return VideoListData.Vertical(
-                featured = first().clips.first(),
-                clips = first().clips.subList(1)
-            )
-        } else {
-            VideoListData.Horizontal(
-                data = this,
-                target = savedStateHandle.lessonIndex
-            )
-        }
-    }
+@VisibleForTesting
+internal fun List<SSVideosInfo>.toData(
+    lessonIndex: String?
+): VideoListData = if (size == 1 && first().clips.isNotEmpty()) {
+    VideoListData.Vertical(
+        featured = first().clips.first(),
+        clips = first().clips.subList(1)
+    )
+} else {
+    VideoListData.Horizontal(
+        data = this,
+        target = lessonIndex
+    )
 }

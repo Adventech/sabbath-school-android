@@ -1,0 +1,16 @@
+common/design-compose/src/test/snapshots/images/app.ss.design.compose.widget.button_SsButtonTest_button.png filter=lfs diff=lfs merge=lfs -text
+common/design-compose/src/test/snapshots/images/app.ss.design.compose.widget.button_SsButtonTest_button_night.png filter=lfs diff=lfs merge=lfs -text
+common/design-compose/src/test/snapshots/images/app.ss.design.compose.widget.scaffold_ScaffoldKtTest_scaffold.png filter=lfs diff=lfs merge=lfs -text
+common/design-compose/src/test/snapshots/images/app.ss.design.compose.widget.scaffold_ScaffoldKtTest_scaffold_dark.png filter=lfs diff=lfs merge=lfs -text
+features/lessons/src/test/snapshots/images/com.cryart.sabbathschool.lessons.ui.quarterlies_QuarterliesScreenTest_grouped_quarterlies.png filter=lfs diff=lfs merge=lfs -text
+features/lessons/src/test/snapshots/images/com.cryart.sabbathschool.lessons.ui.quarterlies_QuarterliesScreenTest_quarterlies_group_top_app_bar.png filter=lfs diff=lfs merge=lfs -text
+features/lessons/src/test/snapshots/images/com.cryart.sabbathschool.lessons.ui.quarterlies_QuarterliesScreenTest_quarterlies_list_top_app_bar.png filter=lfs diff=lfs merge=lfs -text
+features/lessons/src/test/snapshots/images/com.cryart.sabbathschool.lessons.ui.quarterlies_QuarterliesScreenTest_quarterly_group.png filter=lfs diff=lfs merge=lfs -text
+features/media/src/test/snapshots/images/app.ss.media.playback.ui.video_VideoListScreenTest_video_list_grouped.png filter=lfs diff=lfs merge=lfs -text
+features/media/src/test/snapshots/images/app.ss.media.playback.ui.video_VideoListScreenTest_video_list_single.png filter=lfs diff=lfs merge=lfs -text
+features/media/src/test/snapshots/images/app.ss.media.playback.ui.video_VideoListScreenTest_video_list_grouped_dark.png filter=lfs diff=lfs merge=lfs -text
+features/media/src/test/snapshots/images/app.ss.media.playback.ui.video_VideoListScreenTest_video_list_single_dark.png filter=lfs diff=lfs merge=lfs -text
+features/media/src/test/snapshots/images/app.ss.media.playback.ui.nowPlaying_NowPlayingScreenTest_now_playing_screen.png filter=lfs diff=lfs merge=lfs -text
+features/media/src/test/snapshots/images/app.ss.media.playback.ui.nowPlaying_NowPlayingScreenTest_now_playing_screen_dark.png filter=lfs diff=lfs merge=lfs -text
+features/lessons/src/test/snapshots/images/com.cryart.sabbathschool.lessons.ui.lessons_LessonsScreenTest_lessons_screen_splash.png filter=lfs diff=lfs merge=lfs -text
+features/lessons/src/test/snapshots/images/com.cryart.sabbathschool.lessons.ui.lessons_LessonsScreenTest_lessons_screen.png filter=lfs diff=lfs merge=lfs -text

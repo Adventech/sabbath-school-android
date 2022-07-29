@@ -40,11 +40,11 @@
     <string name="ss_login_anonymously_dialog_title">"Logga in anonymt?"</string>
     <string name="ss_login_anonymously_dialog_description">"Om du loggar in anonymt kan du inte synkronisera dina data (t.ex. kommentarer och höjdpunkter) över enheter eller efter avinstallation av appen. Är du säker på att du vill fortsätta?"</string>
     <string name="ss_quarterlies_filter_languages">"Språk"</string>
-    <string name="ss_quarterlies_downloading">"Att få kvartalsvis ..."</string>
+    <string name="ss_quarterlies_downloading">"Att få kvartalsvis …"</string>
     <string name="ss_quarterlies_error">"Okänt fel har inträffat. Var god försök igen."</string>
     <string name="ss_quarterlies_empty">"Det finns inga kvartalslistor tillgängliga just nu"</string>
     <string name="ss_quarterly_item_read_text">"Öppen"</string>
-    <string name="ss_lessons_downloading">"Öppnar kvartalsvis ..."</string>
+    <string name="ss_lessons_downloading">"Öppnar kvartalsvis …"</string>
     <string name="ss_lessons_error">"Ett fel uppstod när du öppnade kvartalsvis"</string>
     <string name="ss_lessons_empty">"Det finns inga kvartalslistor tillgängliga just nu"</string>
     <string name="ss_lessons_read">"Läsa"</string>
@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Urval kopierat"</string>
     <string name="ss_reading_share_to">"Dela urval till:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Kommer snart"</string>
-    <string name="ss_coming_soon_subheader">"Vi arbetar för närvarande med den här funktionen. Håll dig igång, det kommer snart."</string>
-    <string name="ss_about_app_version">"version 3.0"</string>
+
     <string name="ss_about_made">"Gjord med ❤ av Adventech"</string>
     <string name="ss_settings_display_options">"Skärmalternativ"</string>
     <string name="ss_settings_color_theme_light">"Ljus"</string>
@@ -108,4 +105,17 @@ Vi tror verkligen att Gud har ökat den moderna världens kunskap och vill att v
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Standard</string>
     <string name="ss_get_printed_resources">Skaffa tryckta resurser</string>
+    <string name="ss_account">konto</string>
+    <string name="ss_action_arrow_back">Pil tillbaka</string>
+    <string name="ss_action_arrow_drop_down">Pil nedrullningsbara</string>
+    <string name="ss_action_arrow_right">Högerpil</string>
+    <string name="ss_action_close">Stänga</string>
+    <string name="ss_action_selected">Vald</string>
+    <string name="ss_action_back">Tillbaka</string>
+    <string name="ss_action_open">Öppna</string>
+    <string name="ss_action_rewind">Spola tillbaka</string>
+    <string name="ss_action_play_pause">Spela eller pausa</string>
+    <string name="ss_action_playlist">Spellista</string>
+    <string name="ss_action_forward">Fram</string>
+    <string name="ss_picture_in_picture">"Bild I Bild "</string>
 </resources>

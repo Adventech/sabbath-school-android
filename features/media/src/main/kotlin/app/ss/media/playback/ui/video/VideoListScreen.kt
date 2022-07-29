@@ -31,16 +31,20 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -49,6 +53,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
@@ -57,45 +63,60 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
+import app.ss.design.compose.extensions.isLargeScreen
+import app.ss.design.compose.extensions.modifier.asPlaceholder
+import app.ss.design.compose.extensions.modifier.thenIf
+import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
+import app.ss.design.compose.theme.Dimens
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing24
+import app.ss.design.compose.theme.Spacing32
+import app.ss.design.compose.theme.Spacing4
+import app.ss.design.compose.theme.Spacing8
+import app.ss.design.compose.theme.SsColor
+import app.ss.design.compose.theme.navTitle
+import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.widget.DragHandle
+import app.ss.design.compose.widget.content.ContentBox
+import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.media.R
-import app.ss.media.playback.ui.common.CoilImage
-import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import app.ss.media.playback.ui.spec.VideoSpec
 import app.ss.media.playback.ui.spec.VideosInfoSpec
 import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.SSVideo
-import com.cryart.design.ext.thenIf
-import com.cryart.design.theme.BaseBlue
-import com.cryart.design.theme.BaseGrey2
-import com.cryart.design.theme.Body
-import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.Spacing24
-import com.cryart.design.theme.Spacing32
-import com.cryart.design.theme.Spacing4
-import com.cryart.design.theme.Spacing8
-import com.cryart.design.theme.Title
-import com.cryart.design.theme.TitleSmall
-import com.cryart.design.theme.isLargeScreen
-import com.cryart.design.theme.navTitle
-import com.cryart.design.widgets.DragHandle
-import com.cryart.design.widgets.list.SnappingLazyRow
+import app.ss.design.compose.widget.list.SnappingLazyRow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 @Composable
-internal fun ViewListScreen(
+internal fun VideoListScreen(
     viewModel: VideoListViewModel = viewModel(),
     isAtTop: (Boolean) -> Unit = {},
     onVideoClick: (SSVideo) -> Unit
 ) {
-
     val videoList by rememberFlowWithLifecycle(viewModel.videoListFlow)
         .collectAsState(VideoListData.Empty)
 
-    val listState = rememberLazyListState()
+    VideoListScreen(
+        videoList = videoList,
+        isAtTop = isAtTop,
+        onVideoClick = onVideoClick
+    )
+}
+
+@Composable
+internal fun VideoListScreen(
+    videoList: VideoListData,
+    modifier: Modifier = Modifier,
+    onVideoClick: (SSVideo) -> Unit = {},
+    isAtTop: (Boolean) -> Unit = {},
+    listState: LazyListState = rememberLazyListState(),
+) {
 
     LazyColumn(
+        modifier = modifier
+            .drawVerticalScrollbar(listState),
         contentPadding = PaddingValues(
             horizontal = 0.dp,
             vertical = Spacing16
@@ -119,10 +140,10 @@ internal fun ViewListScreen(
         item {
             Text(
                 text = stringResource(id = R.string.ss_media_video),
-                style = Title.copy(
-                    color = navTitle(),
+                style = MaterialTheme.typography.titleLarge.copy(
                     fontSize = 30.sp
                 ),
+                color = navTitle(),
                 modifier = Modifier.padding(horizontal = Spacing24)
             )
         }
@@ -136,19 +157,17 @@ internal fun ViewListScreen(
                 // todo: show empty view?
             }
             is VideoListData.Horizontal -> {
-                val data = videoList as VideoListData.Horizontal
-                items(data.data) { videosInfo ->
+                items(videoList.data) { videosInfo ->
                     VideosInfoList(
                         spec = videosInfo.toSpec(),
-                        target = data.target,
+                        target = videoList.target,
                         onVideoClick = onVideoClick
                     )
                 }
             }
             is VideoListData.Vertical -> {
-                val data = videoList as VideoListData.Vertical
                 item {
-                    val video = data.featured
+                    val video = videoList.featured
                     VideoColumn(
                         video = video.toSpec(),
                         featured = true,
@@ -161,7 +180,7 @@ internal fun ViewListScreen(
                     Spacer(modifier = Modifier.height(Spacing32))
                 }
 
-                items(data.clips) { video ->
+                items(videoList.clips) { video ->
                     VideoRow(
                         video = video.toSpec(),
                         onVideoClick = { onVideoClick(video) }
@@ -186,19 +205,18 @@ private fun VideosInfoList(
     spec: VideosInfoSpec,
     target: String?,
     modifier: Modifier = Modifier,
-    onVideoClick: (SSVideo) -> Unit
+    onVideoClick: (SSVideo) -> Unit,
+    listState: LazyListState = rememberLazyListState()
 ) {
-    val listState = rememberLazyListState()
-
     Column(
         modifier = modifier,
     ) {
         Text(
             text = spec.artist.uppercase(),
-            style = Title.copy(
+            style = MaterialTheme.typography.titleLarge.copy(
                 fontSize = 13.sp,
-                color = if (isSystemInDarkTheme()) BaseGrey2 else BaseBlue
             ),
+            color = if (isSystemInDarkTheme()) SsColor.BaseGrey2 else MaterialTheme.colorScheme.primary,
             modifier = Modifier
                 .padding(horizontal = Spacing24)
                 .padding(top = Spacing16)
@@ -266,31 +284,23 @@ private fun VideoColumn(
             }
     ) {
 
-        CoilImage(
-            data = video.thumbnail,
-            contentDescription = video.title,
-            modifier = modifier
-                .size(
-                    width = size.width.dp,
-                    height = size.height.dp
-                ),
-            cornerRadius = CoverCornerRadius
-        )
+        VideoImage(video, size)
 
         Spacer(modifier = Modifier.height(Spacing16))
 
         Text(
             text = video.title,
-            style = TitleSmall.copy(
-                color = navTitle(),
+            style = MaterialTheme.typography.titleSmall.copy(
                 fontSize = if (featured) 19.sp else 16.sp
-            )
+            ),
+            color = navTitle(),
         )
         Text(
             text = video.artist,
-            style = Body.copy(
+            style = MaterialTheme.typography.bodySmall.copy(
                 fontSize = 14.sp
-            )
+            ),
+            color = onSurfaceSecondary()
         )
     }
 }
@@ -314,15 +324,8 @@ private fun VideoRow(
                 onVideoClick()
             }
     ) {
-        CoilImage(
-            data = video.thumbnail,
-            contentDescription = video.title,
-            modifier = modifier
-                .size(
-                    width = size.width.dp,
-                    height = size.height.dp
-                ),
-        )
+
+        VideoImage(video, size)
 
         Column(
             modifier = Modifier.weight(1f),
@@ -330,19 +333,20 @@ private fun VideoRow(
         ) {
             Text(
                 text = video.title,
-                style = TitleSmall.copy(
-                    color = navTitle(),
+                style = MaterialTheme.typography.titleSmall.copy(
                     fontSize = 16.sp,
                     lineHeight = TextUnit.Unspecified
                 ),
+                color = navTitle(),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = video.artist,
-                style = Body.copy(
+                style = MaterialTheme.typography.bodySmall.copy(
                     fontSize = 14.sp
                 ),
+                color = onSurfaceSecondary(),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -350,7 +354,39 @@ private fun VideoRow(
     }
 }
 
-private const val CoverCornerRadius = 6f
+@Composable
+private fun VideoImage(
+    video: VideoSpec,
+    size: Size
+) {
+    val placeholder: @Composable () -> Unit = {
+        Spacer(
+            modifier = Modifier
+                .fillMaxSize()
+                .asPlaceholder(visible = true)
+                .shadow(CoverCornerRadius, CoverImageShape)
+        )
+    }
+
+    ContentBox(
+        content = RemoteImage(
+            data = video.thumbnail,
+            contentDescription = video.title,
+            loading = placeholder,
+            error = placeholder
+        ),
+        modifier = Modifier
+            .size(
+                width = size.width.dp,
+                height = size.height.dp
+            )
+            .shadow(CoverCornerRadius, CoverImageShape)
+            .clip(CoverImageShape),
+    )
+}
+
+private val CoverCornerRadius = 6.dp
+private val CoverImageShape = RoundedCornerShape(CoverCornerRadius)
 
 @Composable
 @Stable

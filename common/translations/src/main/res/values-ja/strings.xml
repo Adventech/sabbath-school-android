@@ -63,10 +63,7 @@
     <string name="ss_reading_copied">"コピーしました。"</string>
     <string name="ss_reading_share_to">"選択したテキストの共有先"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"すぐです"</string>
-    <string name="ss_coming_soon_subheader">"現在、この機能は完了されています。もうすぐので、待ってください。"</string>
-    <string name="ss_about_app_version">"3.0バージョン"</string>
+
     <string name="ss_about_made">"Adventechによって❤に作りました。"</string>
     <string name="ss_settings_display_options">"表示設定"</string>
     <string name="ss_settings_color_theme_light">"明色"</string>
@@ -116,4 +113,17 @@
     <string name="ss_settings_theme">テーマ</string>
     <string name="ss_settings_theme_default">ディフォルト</string>
     <string name="ss_get_printed_resources">印刷されたリソースの取得</string>
+    <string name="ss_account">アカウント</string>
+    <string name="ss_action_arrow_back">矢印戻る</string>
+    <string name="ss_action_arrow_drop_down">矢印ドロップダウン</string>
+    <string name="ss_action_arrow_right">右矢印</string>
+    <string name="ss_action_close">近い</string>
+    <string name="ss_action_selected">選択済み</string>
+    <string name="ss_action_back">戻る</string>
+    <string name="ss_action_open">開ける</string>
+    <string name="ss_action_rewind">巻き戻し</string>
+    <string name="ss_action_play_pause">再生または一時停止</string>
+    <string name="ss_action_playlist">プレイリスト</string>
+    <string name="ss_action_forward">前方</string>
+    <string name="ss_picture_in_picture">ピクチャーインピクチャー</string>
 </resources>

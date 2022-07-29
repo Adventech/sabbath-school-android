@@ -22,33 +22,37 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons.components.features
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.cryart.design.theme.Spacing12
-import com.cryart.design.theme.Spacing16
+import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.modifier.asPlaceholder
+import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.widget.content.ContentBox
+import app.ss.design.compose.widget.image.RemoteImage
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.FeatureSpec
 
 @Immutable
-data class QuarterlyFeaturesSpec(
+internal data class QuarterlyFeaturesSpec(
     val features: List<FeatureSpec>
 )
 
 @Composable
-fun QuarterlyFeaturesRow(
+internal fun QuarterlyFeaturesRow(
     modifier: Modifier = Modifier,
     spec: QuarterlyFeaturesSpec
 ) {
@@ -56,66 +60,80 @@ fun QuarterlyFeaturesRow(
         modifier = modifier
             .horizontalScroll(rememberScrollState())
             .padding(
-                start = Spacing16,
-                bottom = Spacing16,
-                end = Spacing16
+                start = 16.dp,
+                bottom = 16.dp,
+                end = 16.dp
             )
     ) {
         spec.features.forEach { feature ->
             FeatureImage(
-                feature = feature,
+                image = feature.image,
+                contentDescription = feature.title,
                 modifier = Modifier.size(
                     width = ImageWidth,
                     height = ImageHeight
                 )
             )
 
-            Spacer(modifier = Modifier.size(Spacing12))
+            Spacer(modifier = Modifier.size(12.dp))
         }
     }
 }
 
-private val ImageWidth = Spacing16
-private val ImageHeight = Spacing12
+private val ImageWidth = 16.dp
+private val ImageHeight = 12.dp
 
 @Composable
-fun FeatureImage(
-    feature: FeatureSpec,
+internal fun FeatureImage(
+    image: String,
+    contentDescription: String,
     modifier: Modifier,
-    tint: Color = Color.White.copy(alpha = 0.5f)
+    tint: Color = Color.White.copy(alpha = 0.5f),
+    placeholder: @Composable () -> Unit = {
+        Spacer(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 4.dp, vertical = 2.dp)
+                .asPlaceholder(visible = true, shape = CircleShape)
+        )
+    }
 ) {
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(feature.image)
-            .crossfade(true)
-            .build(),
-        contentDescription = feature.title,
-        contentScale = ContentScale.Inside,
+    ContentBox(
+        content = RemoteImage(
+            data = image,
+            contentDescription = contentDescription,
+            contentScale = ContentScale.Inside,
+            colorFilter = ColorFilter.tint(tint),
+            loading = placeholder,
+            error = placeholder
+        ),
         modifier = modifier,
-        colorFilter = ColorFilter.tint(tint)
     )
 }
 
 @Preview(
     name = "Features",
-    showBackground = true,
-    backgroundColor = 0x999999
+    uiMode = UI_MODE_NIGHT_YES
 )
 @Composable
 fun FeaturesRowPreview() {
-    QuarterlyFeaturesRow(
-        spec = QuarterlyFeaturesSpec(
-            features = listOf(
-                FeatureSpec(
-                    image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_egw.png",
-                    name = "", title = "", description = ""
+    SsTheme {
+        Surface {
+            QuarterlyFeaturesRow(
+                spec = QuarterlyFeaturesSpec(
+                    features = listOf(
+                        FeatureSpec(
+                            image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_egw.png",
+                            name = "", title = "", description = ""
 
-                ),
-                FeatureSpec(
-                    name = "", title = "", description = "",
-                    image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_inside_story.png"
+                        ),
+                        FeatureSpec(
+                            name = "", title = "", description = "",
+                            image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_inside_story.png"
+                        )
+                    )
                 )
             )
-        )
-    )
+        }
+    }
 }

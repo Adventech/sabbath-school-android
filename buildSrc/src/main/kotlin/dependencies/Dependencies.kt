@@ -7,7 +7,6 @@ object Dependencies {
     const val JODA = "net.danlew:android.joda:${Versions.JODA}"
     const val TAP_TARGET = "uk.co.samuelwall:material-tap-target-prompt:${Versions.TAP_TARGET}"
     const val PDF_KIT = "com.pspdfkit:pspdfkit:${Versions.pdfKit}"
-    const val Cascade = "me.saket.cascade:cascade:${Versions.Cascade}"
 
     object Hilt {
         const val ANDROID = "com.google.dagger:hilt-android:${Versions.HILT}"
@@ -25,6 +24,7 @@ object Dependencies {
         const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.LIFECYCLE}"
         const val LIFECYCLE_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.AndroidX.LIFECYCLE}"
         const val ACTIVITY = "androidx.activity:activity-ktx:${Versions.AndroidX.ACTIVITY}"
+        const val ACTIVITY_COMPOSE = "androidx.activity:activity-compose:${Versions.AndroidX.ACTIVITY}"
         const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Versions.AndroidX.FRAGMENT}"
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.AndroidX.CONSTRAINT_LAYOUT}"
         const val START_UP = "androidx.startup:startup-runtime:${Versions.AndroidX.START_UP}"
@@ -53,31 +53,29 @@ object Dependencies {
         const val MATERIAL_TYPEFACE = "com.mikepenz:google-material-typeface:4.0.0.2-kotlin@aar"
     }
 
-    object Facebook {
-        const val SHIMMER = "com.facebook.shimmer:shimmer:${Versions.Facebook.SHIMMER}"
-    }
-
-    object MarkWorm {
-        const val core = "io.noties.markwon:core:${Versions.MARK_WORM}"
+    object MarkWon {
+        private const val version = "4.6.2"
+        const val core = "io.noties.markwon:core:$version"
     }
 
     object Compose {
+        private const val version = "1.2.0"
         private const val constraintLayoutVersion = "1.0.1"
-        private const val material3Version = "1.0.0-alpha10"
-        private const val snapperVersion = "0.2.1"
+        private const val material3Version = "1.0.0-alpha14"
+        private const val snapperVersion = "0.2.2"
 
-        const val foundation = "androidx.compose.foundation:foundation:${Versions.COMPOSE}"
-        const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Versions.COMPOSE}"
-        const val ui = "androidx.compose.ui:ui:${Versions.COMPOSE}"
-        const val uiUtil = "androidx.compose.ui:ui-util:${Versions.COMPOSE}"
-        const val material = "androidx.compose.material:material:${Versions.COMPOSE}"
+        const val foundation = "androidx.compose.foundation:foundation:$version"
+        const val foundationLayout = "androidx.compose.foundation:foundation-layout:$version"
+        const val ui = "androidx.compose.ui:ui:$version"
+        const val uiUtil = "androidx.compose.ui:ui-util:$version"
+        const val material = "androidx.compose.material:material:$version"
         const val material3 = "androidx.compose.material3:material3:$material3Version"
         const val windowSizeClass = "androidx.compose.material3:material3-window-size-class:$material3Version"
-        const val runtime = "androidx.compose.runtime:runtime:${Versions.COMPOSE}"
-        const val tooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
-        const val toolingPreview = "androidx.compose.ui:ui-tooling-preview:${Versions.COMPOSE}"
-        const val icons = "androidx.compose.material:material-icons-core:${Versions.COMPOSE}"
-        const val iconsExtended = "androidx.compose.material:material-icons-extended:${Versions.COMPOSE}"
+        const val runtime = "androidx.compose.runtime:runtime:$version"
+        const val tooling = "androidx.compose.ui:ui-tooling:$version"
+        const val toolingPreview = "androidx.compose.ui:ui-tooling-preview:$version"
+        const val icons = "androidx.compose.material:material-icons-core:$version"
+        const val iconsExtended = "androidx.compose.material:material-icons-extended:$version"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:$constraintLayoutVersion"
         const val snapper = "dev.chrisbanes.snapper:snapper:$snapperVersion"
 
@@ -86,13 +84,14 @@ object Dependencies {
         object Preview {
             const val customView = "androidx.customview:customview:1.2.0-alpha01"
             const val customViewContainer = "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-beta01"
-            const val savedState = "androidx.savedstate:savedstate-ktx:1.1.0"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0"
+            const val savedState = "androidx.savedstate:savedstate-ktx:1.2.0"
         }
     }
 
     object Accompanist {
         const val placeholder = "com.google.accompanist:accompanist-placeholder-material:${Versions.ACCOMPANIST}"
+        const val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:${Versions.ACCOMPANIST}"
     }
 
     object Coil {

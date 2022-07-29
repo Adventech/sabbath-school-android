@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.R
 
-private val LatoFontFamily = FontFamily(
+val LatoFontFamily = FontFamily(
     Font(R.font.lato_regular, FontWeight.Normal),
     Font(R.font.lato_medium, FontWeight.Medium),
     Font(R.font.lato_bold, FontWeight.Bold),
@@ -61,21 +61,21 @@ val SsTypography = Typography(
     ),
     headlineLarge = TextStyle(
         fontFamily = LatoFontFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         fontSize = 32.sp,
         lineHeight = 40.sp,
         letterSpacing = 0.sp,
     ),
     headlineMedium = TextStyle(
         fontFamily = LatoFontFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         fontSize = 28.sp,
         lineHeight = 36.sp,
         letterSpacing = 0.sp,
     ),
     headlineSmall = TextStyle(
         fontFamily = LatoFontFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         fontSize = 24.sp,
         lineHeight = 32.sp,
         letterSpacing = 0.sp,
@@ -83,8 +83,8 @@ val SsTypography = Typography(
     titleLarge = TextStyle(
         fontFamily = LatoFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
+        fontSize = 20.sp,
+        lineHeight = 26.sp,
         letterSpacing = 0.sp,
     ),
     titleMedium = TextStyle(
@@ -96,7 +96,7 @@ val SsTypography = Typography(
     ),
     titleSmall = TextStyle(
         fontFamily = LatoFontFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp,
@@ -125,14 +125,14 @@ val SsTypography = Typography(
     bodySmall = TextStyle(
         fontFamily = LatoFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
+        fontSize = 13.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.4.sp,
     ),
     labelMedium = TextStyle(
         fontFamily = LatoFontFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 12.sp,
+        fontSize = 17.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp,
     ),

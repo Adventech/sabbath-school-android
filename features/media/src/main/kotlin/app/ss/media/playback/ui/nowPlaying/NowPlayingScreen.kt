@@ -22,6 +22,7 @@
 
 package app.ss.media.playback.ui.nowPlaying
 
+import android.support.v4.media.session.PlaybackStateCompat
 import android.view.MotionEvent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -42,12 +43,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -66,48 +68,63 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
+import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
+import app.ss.design.compose.theme.Dimens
+import app.ss.design.compose.theme.Spacing16
+import app.ss.design.compose.theme.Spacing32
+import app.ss.design.compose.theme.Spacing8
+import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.widget.DragHandle
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.IconButton
+import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.media.R
+import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
+import app.ss.media.playback.extensions.isBuffering
 import app.ss.media.playback.extensions.isPlaying
+import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
-import app.ss.media.playback.ui.common.rememberFlowWithLifecycle
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
 import app.ss.media.playback.ui.nowPlaying.components.CoverImage
 import app.ss.media.playback.ui.nowPlaying.components.NowPlayingColumn
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControls
-import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgress
+import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackQueueList
 import app.ss.media.playback.ui.playbackContentColor
 import app.ss.media.playback.ui.spec.PlaybackQueueSpec
 import app.ss.media.playback.ui.spec.toImageSpec
 import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.AudioFile
-import com.cryart.design.theme.BaseBlue
-import com.cryart.design.theme.BaseGrey2
-import com.cryart.design.theme.Dimens
-import com.cryart.design.theme.Spacing16
-import com.cryart.design.theme.Spacing32
-import com.cryart.design.theme.Spacing8
-import com.cryart.design.theme.TitleMedium
-import com.cryart.design.widgets.DragHandle
+import app.ss.translations.R.string as RString
 
-@OptIn(ExperimentalComposeUiApi::class)
+@Immutable
+data class NowPlayingScreenSpec(
+    val nowPlayingAudio: AudioFile,
+    val playbackQueue: PlaybackQueue,
+    val playbackState: PlaybackStateCompat,
+    val playbackProgressState: PlaybackProgressState,
+    val playbackConnection: PlaybackConnection,
+    val playbackSpeed: PlaybackSpeed,
+    val isDraggable: (Boolean) -> Unit,
+)
+
 @Composable
 internal fun NowPlayingScreen(
     viewModel: NowPlayingViewModel = viewModel(),
     isDraggable: (Boolean) -> Unit = {},
 ) {
-    val listState = rememberLazyListState()
     val playbackConnection = viewModel.playbackConnection
     val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState)
         .collectAsState(NONE_PLAYBACK_STATE)
@@ -115,14 +132,42 @@ internal fun NowPlayingScreen(
         .collectAsState(AudioFile(""))
     val playbackQueue by rememberFlowWithLifecycle(playbackConnection.playbackQueue)
         .collectAsState(PlaybackQueue())
+    val playbackSpeed by rememberFlowWithLifecycle(playbackConnection.playbackSpeed)
+        .collectAsState(PlaybackSpeed.NORMAL)
+    val playbackProgressState by rememberFlowWithLifecycle(playbackConnection.playbackProgress)
+        .collectAsState(PlaybackProgressState())
     val nowPlayingAudio = if (nowPlaying.id.isEmpty()) {
         playbackQueue.currentAudio ?: nowPlaying
     } else {
         nowPlaying
     }
 
+    NowPlayingScreen(
+        spec = NowPlayingScreenSpec(
+            nowPlayingAudio, playbackQueue, playbackState, playbackProgressState, playbackConnection, playbackSpeed, isDraggable
+        )
+    )
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+internal fun NowPlayingScreen(
+    spec: NowPlayingScreenSpec,
+    listState: LazyListState = rememberLazyListState(),
+    isDarkTheme: Boolean = isSystemInDarkTheme(),
+) {
+    val (nowPlayingAudio, playbackQueue, playbackState, playbackProgressState, playbackConnection, playbackSpeed, isDraggable) = spec
+
     var boxState by remember { mutableStateOf(BoxState.Expanded) }
+    var heightState by remember { mutableStateOf(HeightState()) }
     val expanded = boxState == BoxState.Expanded
+
+    val marginTop by animateDpAsState(
+        if (expanded) 0.dp else Dimens.grid_2
+    )
+    val spacing by animateDpAsState(
+        if (expanded) Spacing32 else 0.dp
+    )
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -146,8 +191,6 @@ internal fun NowPlayingScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        var heightState by remember { mutableStateOf(HeightState()) }
-
         DragHandle()
 
         BoxWithConstraints(
@@ -159,16 +202,13 @@ internal fun NowPlayingScreen(
                     )
                 }
         ) {
-            val marginTop by animateDpAsState(
-                if (expanded) 0.dp else Dimens.grid_2
-            )
 
-            val constrains = decoupledConstraints(
+            val constraints = decoupledConstraints(
                 expanded = expanded,
                 marginTop = marginTop
             )
             ConstraintLayout(
-                constraintSet = constrains,
+                constraintSet = constraints,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(
@@ -198,7 +238,7 @@ internal fun NowPlayingScreen(
                     spec = PlaybackQueueSpec(
                         listState = listState,
                         queue = playbackQueue.audiosList.map { it.toSpec() },
-                        nowPlayingId = nowPlaying.id,
+                        nowPlayingId = nowPlayingAudio.id,
                         isPlaying = playbackState.isPlaying,
                         onPlayAudio = { position ->
                             playbackConnection.transportControls?.skipToQueueItem(position.toLong())
@@ -230,13 +270,12 @@ internal fun NowPlayingScreen(
             }
         }
 
-        val spacing by animateDpAsState(
-            if (expanded) Spacing32 else 0.dp
-        )
-
-        PlaybackProgress(
-            spec = playbackState.toSpec(),
-            playbackConnection = playbackConnection
+        PlaybackProgressDuration(
+            isBuffering = playbackState.isBuffering,
+            progressState = playbackProgressState,
+            onSeekTo = { progress ->
+                playbackConnection.transportControls?.seekTo(progress)
+            }
         )
 
         Spacer(modifier = Modifier.height(spacing))
@@ -249,11 +288,9 @@ internal fun NowPlayingScreen(
 
         Spacer(modifier = Modifier.height(spacing))
 
-        val playbackSpeed by rememberFlowWithLifecycle(playbackConnection.playbackSpeed)
-            .collectAsState(PlaybackSpeed.NORMAL)
-
         BottomControls(
             playbackSpeed = playbackSpeed,
+            isDarkTheme = isDarkTheme,
             toggleSpeed = { speed ->
                 playbackConnection.toggleSpeed(speed)
             },
@@ -320,6 +357,7 @@ private fun decoupledConstraints(
 private fun BottomControls(
     modifier: Modifier = Modifier,
     playbackSpeed: PlaybackSpeed,
+    isDarkTheme: Boolean = isSystemInDarkTheme(),
     toggleSpeed: (PlaybackSpeed) -> Unit = {},
     toggleExpand: () -> Unit = {}
 ) {
@@ -351,18 +389,25 @@ private fun BottomControls(
             ) { targetSpeed ->
                 Text(
                     text = targetSpeed.label,
-                    style = TitleMedium.copy(
-                        color = tintColor()
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontSize = 18.sp
+                    ),
+                    color = tintColor(
+                        isDark = isDarkTheme,
                     )
                 )
             }
         }
 
         IconButton(onClick = toggleExpand) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_audio_icon_playlist),
-                contentDescription = "PlayList",
-                tint = tintColor()
+            IconBox(
+                icon = IconSlot.fromResource(
+                    R.drawable.ic_audio_icon_playlist,
+                    contentDescription = stringResource(id = RString.ss_action_playlist),
+                ),
+                contentColor = tintColor(
+                    isDark = isDarkTheme,
+                )
             )
         }
     }
@@ -371,4 +416,4 @@ private fun BottomControls(
 @Composable
 private fun tintColor(
     isDark: Boolean = isSystemInDarkTheme()
-): Color = if (isDark) BaseGrey2 else BaseBlue
+): Color = if (isDark) onSurfaceSecondary() else MaterialTheme.colorScheme.primary

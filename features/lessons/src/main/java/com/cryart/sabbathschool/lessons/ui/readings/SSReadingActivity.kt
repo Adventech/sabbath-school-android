@@ -62,8 +62,6 @@ import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.components.MiniPlayerComponent
 import dagger.hilt.android.AndroidEntryPoint
-import me.saket.cascade.CascadePopupMenu
-import me.saket.cascade.overrideAllPopupMenus
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -148,12 +146,9 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
             binding.ssReadingViewPager.currentItem = it
         }
 
-        binding.ssReadingAppBar.ssReadingToolbar.overrideAllPopupMenus(with = ::CascadePopupMenu)
-
         MiniPlayerComponent(
             binding.ssPlayerView,
             playbackViewModel.playbackConnection,
-            ssPrefs.displayOptionsFlow(),
             onExpand = {
                 supportFragmentManager.showNowPlaying(
                     viewModel.lessonIndex,
@@ -227,11 +222,11 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.ss_reading_menu_audio)?.isVisible = viewModel.audioAvailableFlow.value
-        menu?.findItem(R.id.ss_reading_menu_video)?.isVisible = viewModel.videoAvailableFlow.value
-        menu?.findItem(R.id.ss_reading_menu_pdf)?.isVisible = viewModel.pdfAvailableFlow.value
-        menu?.findItem(R.id.ss_reading_menu_printed_resources)?.isVisible = viewModel.publishingInfo.value != null
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.ss_reading_menu_audio)?.isVisible = viewModel.audioAvailableFlow.value
+        menu.findItem(R.id.ss_reading_menu_video)?.isVisible = viewModel.videoAvailableFlow.value
+        menu.findItem(R.id.ss_reading_menu_pdf)?.isVisible = viewModel.pdfAvailableFlow.value
+        menu.findItem(R.id.ss_reading_menu_printed_resources)?.isVisible = viewModel.publishingInfo.value != null
         return super.onPrepareOptionsMenu(menu)
     }
 

@@ -38,6 +38,7 @@ plugins {
     id(BuildPlugins.Kotlin.KAPT)
     id(BuildPlugins.DAGGER_HILT)
     id(BuildPlugins.Kotlin.PARCELIZE)
+    id(BuildPlugins.PAPARAZZI)
 }
 
 android {
@@ -77,6 +78,7 @@ dependencies {
 
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.DESIGN_COMPOSE))
     implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Common.STORAGE))
     implementation(project(BuildModules.Common.TRANSLATIONS))
@@ -99,16 +101,10 @@ dependencies {
     kapt(Hilt.COMPILER)
 
     implementation(Dependencies.TIMBER)
-    implementation(Coil.core)
     implementation(Coil.compose)
 
-    implementation(Compose.ui)
     implementation(Compose.material)
-    implementation(Compose.tooling)
-    implementation(Compose.icons)
-    implementation(Compose.iconsExtended)
     implementation(Compose.constraintLayout)
-    implementation(Accompanist.placeholder)
 
     implementation(ExoPlayer.core)
     implementation(ExoPlayer.ui)
@@ -116,4 +112,5 @@ dependencies {
     implementation(ExoPlayer.mediaSession)
 
     addTestsDependencies()
+    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }

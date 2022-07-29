@@ -40,11 +40,11 @@
     <string name="ss_login_anonymously_dialog_title">"Ho kena ka lebitso le sa tsejoe?"</string>
     <string name="ss_login_anonymously_dialog_description">"Haeba o kena ka lebitso, o ke ke oa khona ho lumellana le lintlha tsa hau (tse kang maikutlo le lintlha-khōlō) hohle lisebelisoa, kapa ka mor'a ho tlosa lisebelisoa. Na u netefatsa hore u batla ho tsoela pele?"</string>
     <string name="ss_quarterlies_filter_languages">"Lipuo"</string>
-    <string name="ss_quarterlies_downloading">"Ho qeta kotara ..."</string>
+    <string name="ss_quarterlies_downloading">"Ho qeta kotara …"</string>
     <string name="ss_quarterlies_error">"Phoso e sa tsejoeng e etsahala. Ka kopo leka hape."</string>
     <string name="ss_quarterlies_empty">"Ha ho na li-quarterly tse fumanehang ka nako ena"</string>
     <string name="ss_quarterly_item_read_text">"Bula"</string>
-    <string name="ss_lessons_downloading">"Ho bula libeke tse robeli ..."</string>
+    <string name="ss_lessons_downloading">"Ho bula libeke tse robeli …"</string>
     <string name="ss_lessons_error">"Phoso e hlahile ha e ntse e buloa ka kotloloho"</string>
     <string name="ss_lessons_empty">"Ha ho na li-quarterly tse fumanehang ka nako ena"</string>
     <string name="ss_lessons_read">"Bala"</string>
@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Selection e kopitsoe"</string>
     <string name="ss_reading_share_to">"Kopanela khetho ho:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"E fihla haufinyane"</string>
-    <string name="ss_coming_soon_subheader">"Hona joale re sebetsa tšobetsing ena. Lula u talimile, o tla kapele."</string>
-    <string name="ss_about_app_version">"version 3.0"</string>
+
     <string name="ss_about_made">"E entsoe ka ❤ ka Adventech"</string>
     <string name="ss_settings_display_options">"Hlahisa dikgetho"</string>
     <string name="ss_settings_color_theme_light">"Leseli"</string>
@@ -108,4 +105,17 @@ Re lumela kannete hore Molimo o ekelitse tsebo ea lefats'e la kajeno ebile o bat
     <string name="ss_settings_theme">Sehlooho</string>
     <string name="ss_settings_theme_default">Ka botlalo</string>
     <string name="ss_get_printed_resources">Fumana Lisebelisoa tse Hatisitsoeng</string>
+    <string name="ss_account">Akhaonto</string>
+    <string name="ss_action_arrow_back">Motsu Morao</string>
+    <string name="ss_action_arrow_drop_down">Motsu oa Fatše</string>
+    <string name="ss_action_arrow_right">Motsu ka ho Le letona</string>
+    <string name="ss_action_close">Koala</string>
+    <string name="ss_action_selected">E kgethiloeng</string>
+    <string name="ss_action_back">Morao</string>
+    <string name="ss_action_open">Bula</string>
+    <string name="ss_action_rewind">"Khutlisetsa morao "</string>
+    <string name="ss_action_play_pause">Bapala kapa Emisa</string>
+    <string name="ss_action_playlist">Lenane la dipina</string>
+    <string name="ss_action_forward">Tsoela pele</string>
+    <string name="ss_picture_in_picture">Setšoantšo ka Sets\'oants\'o</string>
 </resources>

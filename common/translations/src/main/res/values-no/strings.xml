@@ -40,11 +40,11 @@
     <string name="ss_login_anonymously_dialog_title">"Logg inn anonymt?"</string>
     <string name="ss_login_anonymously_dialog_description">"Ved å logge inn anonymt vil du ikke kunne synkronisere dataene dine, for eksempel kommentarer og høydepunkter, på tvers av enheter eller etter avinstallering av programmet. Er du sikker på at du vil fortsette?"</string>
     <string name="ss_quarterlies_filter_languages">"Filtrer språk"</string>
-    <string name="ss_quarterlies_downloading">"Å få kvartaler ..."</string>
+    <string name="ss_quarterlies_downloading">"Å få kvartaler …"</string>
     <string name="ss_quarterlies_error">"Ukjent feil oppstod. Vær så snill, prøv på nytt"</string>
     <string name="ss_quarterlies_empty">"Det ser ut til at det ikke finnes kvartaler i øyeblikket"</string>
     <string name="ss_quarterly_item_read_text">"Åpen"</string>
-    <string name="ss_lessons_downloading">"Åpner kvartalsvis ..."</string>
+    <string name="ss_lessons_downloading">"Åpner kvartalsvis …"</string>
     <string name="ss_lessons_error">"Feil oppstod under åpning kvartalsvis"</string>
     <string name="ss_lessons_empty">"Det ser ut til at det ikke er noen leksjoner for øyeblikket"</string>
     <string name="ss_lessons_read">"Lese"</string>
@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Valget er kopiert."</string>
     <string name="ss_reading_share_to">"Del utvalg til:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Kommer snart"</string>
-    <string name="ss_coming_soon_subheader">"Vi jobber med denne funksjonen akkurat nå. Hold deg oppdatert, det kommer snart"</string>
-    <string name="ss_about_app_version">"Versjon 3.0"</string>
+
     <string name="ss_about_made">"Laget med ❤ av Adventech"</string>
     <string name="ss_settings_display_options">"Skjermalternativer"</string>
     <string name="ss_settings_color_theme_light">"Lett"</string>
@@ -104,4 +101,17 @@
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Misligholde</string>
     <string name="ss_get_printed_resources">Få trykte ressurser</string>
+    <string name="ss_account">Konto</string>
+    <string name="ss_action_arrow_back">Pil tilbake</string>
+    <string name="ss_action_arrow_drop_down">Pil nedtrekk</string>
+    <string name="ss_action_arrow_right">Pil høyre</string>
+    <string name="ss_action_close">Lukk</string>
+    <string name="ss_action_selected">Valgt</string>
+    <string name="ss_action_back">Tilbake</string>
+    <string name="ss_action_open">Åpen</string>
+    <string name="ss_action_rewind">Spole</string>
+    <string name="ss_action_play_pause">Spill av eller pause</string>
+    <string name="ss_action_playlist">Spilleliste</string>
+    <string name="ss_action_forward">Framover</string>
+    <string name="ss_picture_in_picture">Bilde i bilde</string>
 </resources>

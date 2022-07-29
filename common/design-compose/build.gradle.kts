@@ -22,13 +22,16 @@
 
 import dependencies.Dependencies
 import dependencies.Dependencies.Accompanist
+import dependencies.Dependencies.AndroidX
 import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Compose
+import dependencies.Dependencies.Kotlin
 import dependencies.Versions
 
 plugins {
     id(BuildPlugins.Android.LIBRARY)
     id(BuildPlugins.Kotlin.ANDROID)
+    id(BuildPlugins.PAPARAZZI)
 }
 
 android {
@@ -55,9 +58,16 @@ android {
 }
 
 dependencies {
+    implementation(project(BuildModules.Common.TRANSLATIONS))
+
     implementation(Dependencies.TIMBER)
     implementation(Accompanist.placeholder)
+    implementation(AndroidX.LIFECYCLE_KTX)
     implementation(Coil.compose)
+    implementation(Kotlin.COROUTINES)
+
+    implementation(Compose.material)
+    implementation(Compose.snapper)
 
     api(Compose.foundation)
     api(Compose.foundationLayout)
@@ -70,8 +80,8 @@ dependencies {
     api(Compose.iconsExtended)
     api(Compose.windowSizeClass)
     debugApi(Compose.tooling)
-    debugImplementation(Compose.Preview.customView)
-    debugImplementation(Compose.Preview.customViewContainer)
-    debugImplementation(Compose.Preview.viewModel)
-    debugImplementation(Compose.Preview.savedState)
+    debugApi(Compose.Preview.customView)
+    debugApi(Compose.Preview.customViewContainer)
+    debugApi(Compose.Preview.viewModel)
+    debugApi(Compose.Preview.savedState)
 }

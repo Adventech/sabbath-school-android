@@ -41,11 +41,11 @@
     <string name="ss_login_anonymously_dialog_title">"Анонимно влизате ли?"</string>
     <string name="ss_login_anonymously_dialog_description">"При анонимно влизане няма да можете да синхронизирате данните си, като например коментари и акценти, на различни устройства или след деинсталиране на приложението. Наистина ли искате да продължите?"</string>
     <string name="ss_quarterlies_filter_languages">"Филтриране на езици"</string>
-    <string name="ss_quarterlies_downloading">"Първи тримесечия ..."</string>
+    <string name="ss_quarterlies_downloading">"Първи тримесечия …"</string>
     <string name="ss_quarterlies_error">"Появи се неизвестна грешка. Моля, опитайте отново"</string>
     <string name="ss_quarterlies_empty">"Изглежда, че в момента няма тримесечия"</string>
     <string name="ss_quarterly_item_read_text">"Отворено"</string>
-    <string name="ss_lessons_downloading">"Открива се тримесечие ..."</string>
+    <string name="ss_lessons_downloading">"Открива се тримесечие …"</string>
     <string name="ss_lessons_error">"Възникна грешка при отварянето тримесечно"</string>
     <string name="ss_lessons_empty">"Изглежда, че в момента няма уроци"</string>
     <string name="ss_lessons_read">"Прочети"</string>
@@ -60,10 +60,6 @@
     <string name="ss_reading_copied">"Изборът бе копиран."</string>
     <string name="ss_reading_share_to">"Споделяне на селекцията на:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Очаквайте скоро"</string>
-    <string name="ss_coming_soon_subheader">"Понастоящем работим върху тази функция. Остани настроен, скоро ще дойде"</string>
-    <string name="ss_about_app_version">"Версия 3.0"</string>
     <string name="ss_about_made">"Направено с ❤ от Адвентех"</string>
     <string name="ss_settings_display_options">"Опции за показване"</string>
     <string name="ss_settings_color_theme_light">"Светлина"</string>
@@ -109,4 +105,17 @@
     <string name="ss_settings_theme">Тема</string>
     <string name="ss_settings_theme_default">По подразбиране</string>
     <string name="ss_get_printed_resources">Вземете печатни ресурси</string>
+    <string name="ss_account">Сметка</string>
+    <string name="ss_action_arrow_back">Стрелка назад</string>
+    <string name="ss_action_arrow_drop_down">Стрелка падащо надолу</string>
+    <string name="ss_action_arrow_right">Стрелка надясно</string>
+    <string name="ss_action_close">Близо</string>
+    <string name="ss_action_selected">Избрано</string>
+    <string name="ss_action_back">обратно</string>
+    <string name="ss_action_open">Отворете</string>
+    <string name="ss_action_rewind">Превъртане назад</string>
+    <string name="ss_action_play_pause">Възпроизвеждане или пауза</string>
+    <string name="ss_action_playlist">Плейлист</string>
+    <string name="ss_action_forward">Напред</string>
+    <string name="ss_picture_in_picture">Картина в картината</string>
 </resources>

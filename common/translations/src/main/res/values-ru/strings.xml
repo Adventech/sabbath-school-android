@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Выделения скопировано"</string>
     <string name="ss_reading_share_to">"Поделиться в:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Скоро"</string>
-    <string name="ss_coming_soon_subheader">"Мы работаем над этой функцией прямо сейчас. Скоро завершим, оставайтесь с нами"</string>
-    <string name="ss_about_app_version">"версия 3.0"</string>
+
     <string name="ss_about_made">"Сделано с ❤ - Adventech"</string>
     <string name="ss_settings_display_options">"Настройки просмотра"</string>
     <string name="ss_settings_color_theme_light">"Светлая"</string>
@@ -109,4 +106,17 @@
     <string name="ss_settings_theme">Тема</string>
     <string name="ss_settings_theme_default">Дефолт</string>
     <string name="ss_get_printed_resources">Получить печатные ресурсы</string>
+    <string name="ss_account">Счет</string>
+    <string name="ss_action_arrow_back">Стрелка назад</string>
+    <string name="ss_action_arrow_drop_down">Стрелка вниз</string>
+    <string name="ss_action_arrow_right">Стрелка вправо</string>
+    <string name="ss_action_close">Закрывать</string>
+    <string name="ss_action_selected">Выбрано</string>
+    <string name="ss_action_back">Назад</string>
+    <string name="ss_action_open">Открытым</string>
+    <string name="ss_action_rewind">Перемотка назад</string>
+    <string name="ss_action_play_pause">Воспроизведение или пауза</string>
+    <string name="ss_action_playlist">Плейлист</string>
+    <string name="ss_action_forward">Вперед</string>
+    <string name="ss_picture_in_picture">Картинка в картинке</string>
 </resources>

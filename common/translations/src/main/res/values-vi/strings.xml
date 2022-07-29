@@ -59,10 +59,7 @@
     <string name="ss_reading_copied">"Lựa chọn sao chép"</string>
     <string name="ss_reading_share_to">"Chia sẻ lựa chọn để:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Sắp ra mắt"</string>
-    <string name="ss_coming_soon_subheader">"Chúng tôi hiện đang làm việc trên tính năng này. Hãy theo dõi, nó sẽ đến sớm."</string>
-    <string name="ss_about_app_version">"phiên bản 3.0"</string>
+
     <string name="ss_about_made">"Được làm bằng bởi Adventech"</string>
     <string name="ss_settings_display_options">"Tùy chọn hiển thị"</string>
     <string name="ss_settings_color_theme_light">"Ánh sáng"</string>
@@ -108,4 +105,17 @@ Chúng tôi thực sự tin rằng Chúa đã gia tăng kiến thức về thế
     <string name="ss_settings_theme">Chủ đề</string>
     <string name="ss_settings_theme_default">Vỡ nợ</string>
     <string name="ss_get_printed_resources">Nhận tài nguyên in</string>
+    <string name="ss_account">Tài khoản</string>
+    <string name="ss_action_arrow_back">Mũi tên quay lại</string>
+    <string name="ss_action_arrow_drop_down">Mũi tên thả xuống</string>
+    <string name="ss_action_arrow_right">Mũi tên phải</string>
+    <string name="ss_action_close">Đóng</string>
+    <string name="ss_action_selected">Đã chọn</string>
+    <string name="ss_action_back">Mặt sau</string>
+    <string name="ss_action_open">Mở</string>
+    <string name="ss_action_rewind">Tua lại</string>
+    <string name="ss_action_play_pause">Phát hoặc Tạm dừng</string>
+    <string name="ss_action_playlist">Danh sách phát</string>
+    <string name="ss_action_forward">Ở đằng trước</string>
+    <string name="ss_picture_in_picture">Hình ảnh trong ảnh</string>
 </resources>

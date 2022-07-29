@@ -60,10 +60,6 @@
     <string name="ss_reading_copied">"Sélection copiée."</string>
     <string name="ss_reading_share_to">"Sélection Partager sur:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Arrive bientôt"</string>
-    <string name="ss_coming_soon_subheader">"Nous travaillons sur cette fonctionnalité dès maintenant. Restez à l'écoute, il est à venir bientôt"</string>
-    <string name="ss_about_app_version">"version 3.0"</string>
     <string name="ss_about_made">"Fabriqué avec ❤ par Adventech"</string>
     <string name="ss_settings_display_options">"Option d'affichage"</string>
     <string name="ss_settings_color_theme_light">"Lumière"</string>
@@ -108,4 +104,17 @@ Nous croyons vraiment que Dieu a augmenté la connaissance du monde moderne et v
     <string name="ss_settings_theme">Thème</string>
     <string name="ss_settings_theme_default">Défaut</string>
     <string name="ss_get_printed_resources">Obtenir des ressources imprimées</string>
+    <string name="ss_account">Compte</string>
+    <string name="ss_action_arrow_back">Flèche Retour</string>
+    <string name="ss_action_arrow_drop_down">Flèche déroulante vers le bas</string>
+    <string name="ss_action_arrow_right">Flèche vers la droite</string>
+    <string name="ss_action_close">proche</string>
+    <string name="ss_action_selected">Choisi</string>
+    <string name="ss_action_back">Retour</string>
+    <string name="ss_action_open">Ouvert</string>
+    <string name="ss_action_rewind">Rembobiner</string>
+    <string name="ss_action_play_pause">Lecture ou pause</string>
+    <string name="ss_action_playlist">Playlist</string>
+    <string name="ss_action_forward">Vers l\'avant</string>
+    <string name="ss_picture_in_picture">Image dans l\'image</string>
 </resources>

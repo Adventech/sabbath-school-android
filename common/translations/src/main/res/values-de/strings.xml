@@ -41,7 +41,7 @@
     <string name="ss_login_anonymously_dialog_title">"Anonym anmelden?"</string>
     <string name="ss_login_anonymously_dialog_description">"Mit der anonymen Anmeldung werden Sie nicht in der Lage sein Ihre Daten, wie zum Beispiel Kommentare und Hervorhebungen, auf verschiedenen Geräten zu synchronisieren oder nach einer Deinstallation zu verwenden. Sind Sie sicher, dass Sie fortfahren möchten?"</string>
     <string name="ss_quarterlies_filter_languages">"Sprachenfilter"</string>
-    <string name="ss_quarterlies_downloading">"Lade die Liste der Lektionen runter..."</string>
+    <string name="ss_quarterlies_downloading">"Lade die Liste der Lektionen runter…"</string>
     <string name="ss_quarterlies_error">"Ein unbekannter Fehler ist aufgetreten. Bitte versuche es erneut"</string>
     <string name="ss_quarterlies_empty">"Zur Zeit wurden keine Lektionen gefunden"</string>
     <string name="ss_quarterly_item_read_text">"Öffnen"</string>
@@ -60,10 +60,6 @@
     <string name="ss_reading_copied">"Auswahl wurde kopiert"</string>
     <string name="ss_reading_share_to">"Auswahl teilen über:"</string>
 
-    <!-- TODO: remove when done -->
-    <string name="ss_coming_soon_header">"Demnächst"</string>
-    <string name="ss_coming_soon_subheader">"Zur Zeit arbeiten wir an dieser Funktion. Haben Sie Geduld, bald wird diese verfügbar sein"</string>
-    <string name="ss_about_app_version">"version 3.0"</string>
     <string name="ss_about_made">"Entwickelt mit ❤ von Adventech"</string>
     <string name="ss_settings_display_options">"Darstellungsoptionen"</string>
     <string name="ss_settings_color_theme_light">"Hell"</string>
@@ -109,4 +105,17 @@ Wir glauben wirklich, dass Gott die Erkenntnis der modernen Welt erhöht hat und
     <string name="ss_settings_theme">Thema</string>
     <string name="ss_settings_theme_default">Standard</string>
     <string name="ss_get_printed_resources">Gedruckte Ressourcen abrufen</string>
+    <string name="ss_account">Konto</string>
+    <string name="ss_action_arrow_back">Pfeil zurück</string>
+    <string name="ss_action_arrow_drop_down">Pfeil nach unten</string>
+    <string name="ss_action_arrow_right">Pfeil rechts</string>
+    <string name="ss_action_close">Nah dran</string>
+    <string name="ss_action_selected">Ausgewählt</string>
+    <string name="ss_action_back">Der Rücken</string>
+    <string name="ss_action_open">Offen</string>
+    <string name="ss_action_rewind">Zurückspulen</string>
+    <string name="ss_action_play_pause">Wiedergabe oder Pause</string>
+    <string name="ss_action_playlist">Wiedergabeliste</string>
+    <string name="ss_action_forward">Nach vorne</string>
+    <string name="ss_picture_in_picture">Bild im Bild</string>
 </resources>
