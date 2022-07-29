@@ -114,9 +114,7 @@ dependencies {
     implementation(Iconics.MATERIAL_TYPEFACE)
     implementation("com.github.hotchemi:android-rate:1.0.1")
     implementation("com.afollestad.material-dialogs:input:3.3.0")
-    implementation(Dependencies.Cascade)
-    implementation(Dependencies.Facebook.SHIMMER)
-    implementation(Dependencies.MarkWorm.core)
+    implementation(Dependencies.MarkWon.core)
 
     implementation(Compose.constraintLayout)
     implementation(Compose.material)
