@@ -21,8 +21,6 @@
  */
 package com.cryart.sabbathschool.lessons.ui.readings.options
 
-import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.core.view.children
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
@@ -38,30 +36,35 @@ class SSReadingDisplayOptionsViewModel(
     init {
         ssPrefs.getDisplayOptions { options -> updateWidget(options) }
 
-        binding.ssReadingMenuDisplayOptionsSize.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                when (i) {
-                    0 -> {
-                        setSizeTiny()
-                    }
-                    1 -> {
-                        setSizeSmall()
-                    }
-                    3 -> {
-                        setSizeLarge()
-                    }
-                    4 -> {
-                        setSizeHuge()
-                    }
-                    else -> {
-                        setSizeMedium()
-                    }
+        binding.ssReadingMenuDisplayOptionsSize.addOnChangeListener { _, value, _ ->
+            when (value) {
+                0f -> {
+                    setSizeTiny()
+                }
+                1f -> {
+                    setSizeSmall()
+                }
+                3f -> {
+                    setSizeLarge()
+                }
+                4f -> {
+                    setSizeHuge()
+                }
+                else -> {
+                    setSizeMedium()
                 }
             }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar) {}
-        })
+        }
+        binding.ssReadingMenuDisplayOptionsSize.setLabelFormatter { value ->
+            when (value) {
+                0f -> "XS"
+                1f -> "S"
+                2f -> "M"
+                3f -> "L"
+                4f -> "XL"
+                else -> ""
+            }
+        }
     }
 
     private fun updateWidget(ssReadingDisplayOptions: SSReadingDisplayOptions) {
@@ -69,19 +72,19 @@ class SSReadingDisplayOptionsViewModel(
 
         when (ssReadingDisplayOptions.size) {
             SSReadingDisplayOptions.SS_SIZE_TINY -> {
-                binding.ssReadingMenuDisplayOptionsSize.progress = 0
+                binding.ssReadingMenuDisplayOptionsSize.value = 0.0f
             }
             SSReadingDisplayOptions.SS_SIZE_SMALL -> {
-                binding.ssReadingMenuDisplayOptionsSize.progress = 1
+                binding.ssReadingMenuDisplayOptionsSize.value = 1f
             }
             SSReadingDisplayOptions.SS_SIZE_MEDIUM -> {
-                binding.ssReadingMenuDisplayOptionsSize.progress = 2
+                binding.ssReadingMenuDisplayOptionsSize.value = 2f
             }
             SSReadingDisplayOptions.SS_SIZE_LARGE -> {
-                binding.ssReadingMenuDisplayOptionsSize.progress = 3
+                binding.ssReadingMenuDisplayOptionsSize.value = 3f
             }
             SSReadingDisplayOptions.SS_SIZE_HUGE -> {
-                binding.ssReadingMenuDisplayOptionsSize.progress = 4
+                binding.ssReadingMenuDisplayOptionsSize.value = 4f
             }
         }
 
