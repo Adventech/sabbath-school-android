@@ -48,6 +48,7 @@ internal class ConnectivityHelperImpl @Inject constructor(
 val ConnectivityManager.isConnected: Boolean
     get() = isConnectedToWifi || isConnectedToCellular
 
+@Suppress("DEPRECATION")
 val ConnectivityManager.isConnectedToWifi: Boolean
     get() {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -59,6 +60,7 @@ val ConnectivityManager.isConnectedToWifi: Boolean
         }
     }
 
+@Suppress("DEPRECATION")
 val ConnectivityManager.isConnectedToCellular: Boolean
     get() {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

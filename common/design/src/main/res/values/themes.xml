@@ -54,6 +54,7 @@
         <item name="textInputStyle">@style/Widget.SS.TextInput</item>
         <item name="popupTheme">@style/Theme.SS.PopupOverlay</item>
         <item name="popupMenuStyle">@style/Widget.SS.PopupMenuStyle</item>
+        <item name="sliderStyle">@style/Widget.SS.Slider</item>
     </style>
 
     <style name="Theme.SS" parent="Base.Theme.SS">
