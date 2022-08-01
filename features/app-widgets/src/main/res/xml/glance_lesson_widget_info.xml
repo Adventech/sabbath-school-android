@@ -25,9 +25,11 @@
     android:minWidth="300dp"
     android:minHeight="55dp"
     android:previewImage="@drawable/week_lesson_app_widget_preview"
+    android:previewLayout="@layout/week_lesson_app_widget"
     android:resizeMode="horizontal|vertical"
     android:targetCellWidth="3"
     android:targetCellHeight="2"
     android:updatePeriodMillis="180000"
     android:widgetCategory="home_screen"
-    tools:ignore="MissingDefaultResource" />
+    tools:ignore="MissingDefaultResource"
+    tools:targetApi="s" />

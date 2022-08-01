@@ -22,4 +22,5 @@
 
 <resources>
     <bool name="legacy_appwidget">true</bool>
+    <bool name="glance_appwidget">false</bool>
 </resources>

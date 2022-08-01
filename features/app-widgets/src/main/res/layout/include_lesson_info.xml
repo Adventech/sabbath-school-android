@@ -24,7 +24,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    tools:ignore="HardcodedText">
 
     <ImageView
         android:id="@+id/widget_lesson_cover"
@@ -32,7 +33,7 @@
         android:layout_height="@dimen/ss_widget_book_cover_height"
         android:layout_margin="@dimen/spacing_medium"
         android:contentDescription="@string/blank"
-        tools:src="@drawable/bg_img_placeholder" />
+        android:src="@drawable/bg_img_placeholder" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -43,13 +44,13 @@
         <TextView
             android:id="@+id/widget_quarterly_title"
             style="@style/AppWidget.Text.Primary"
-            tools:text="Rest in Christ" />
+            android:text="Rest in Christ" />
 
         <TextView
             android:id="@+id/widget_lesson_title"
             style="@style/AppWidget.Text.Secondary"
             android:layout_marginTop="@dimen/spacing_normal"
-            tools:text="Living in a 24-7 Society" />
+            android:text="Living in a 24-7 Society" />
     </LinearLayout>
 
     <ImageView

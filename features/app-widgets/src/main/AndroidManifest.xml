@@ -45,7 +45,7 @@
 
         <receiver
             android:name=".glance.today.TodayAppWidgetReceiver"
-            android:enabled="@bool/glance_appwidget_available"
+            android:enabled="@bool/glance_appwidget"
             android:exported="true"
             android:label="Today's Lesson">
             <intent-filter>
@@ -59,7 +59,7 @@
 
         <receiver
             android:name=".glance.today.TodayImageAppWidgetReceiver"
-            android:enabled="@bool/glance_appwidget_available"
+            android:enabled="@bool/glance_appwidget"
             android:exported="true"
             android:label="Today's Lesson">
             <intent-filter>
@@ -73,7 +73,7 @@
 
         <receiver
             android:name=".glance.week.LessonInfoWidgetReceiver"
-            android:enabled="@bool/glance_appwidget_available"
+            android:enabled="@bool/glance_appwidget"
             android:exported="true"
             android:label="This Week's Lesson">
             <intent-filter>
