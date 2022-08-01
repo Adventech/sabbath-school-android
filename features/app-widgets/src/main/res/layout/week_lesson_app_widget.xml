@@ -28,6 +28,7 @@
     android:layout_gravity="center"
     android:background="@drawable/bg_widget"
     android:orientation="vertical"
+    tools:ignore="HardcodedText"
     tools:layout_height="wrap_content"
     tools:layout_width="300dp">
 
@@ -43,12 +44,12 @@
         <TextView
             android:id="@+id/widget_day_one"
             style="@style/DayContainer.Title"
-            tools:text="Living in a 24-7 Society" />
+            android:text="Living in a 24-7 Society" />
 
         <TextView
             android:id="@+id/widget_day_one_date"
             style="@style/DayContainer.Date"
-            tools:text="Sat. June 26" />
+            android:text="Sat. June 26" />
     </LinearLayout>
 
     <include
@@ -62,12 +63,12 @@
         <TextView
             android:id="@+id/widget_day_two"
             style="@style/DayContainer.Title"
-            tools:text="Living in a 24-7 Society" />
+            android:text="Living in a 24-7 Society" />
 
         <TextView
             android:id="@+id/widget_day_two_date"
             style="@style/DayContainer.Date"
-            tools:text="Sunday. June 27" />
+            android:text="Sunday. June 27" />
     </LinearLayout>
 
     <include
@@ -81,12 +82,12 @@
         <TextView
             android:id="@+id/widget_day_three"
             style="@style/DayContainer.Title"
-            tools:text="Living in a 24-7 Society" />
+            android:text="Living in a 24-7 Society" />
 
         <TextView
             android:id="@+id/widget_day_three_date"
             style="@style/DayContainer.Date"
-            tools:text="Mon. June 28" />
+            android:text="Mon. June 28" />
     </LinearLayout>
 
     <include
@@ -100,12 +101,12 @@
         <TextView
             android:id="@+id/widget_day_four"
             style="@style/DayContainer.Title"
-            tools:text="Living in a 24-7 Society" />
+            android:text="Living in a 24-7 Society" />
 
         <TextView
             android:id="@+id/widget_day_four_date"
             style="@style/DayContainer.Date"
-            tools:text="Tue. June 29" />
+            android:text="Tue. June 29" />
     </LinearLayout>
 
     <include
@@ -119,12 +120,12 @@
         <TextView
             android:id="@+id/widget_day_five"
             style="@style/DayContainer.Title"
-            tools:text="Living in a 24-7 Society" />
+            android:text="Living in a 24-7 Society" />
 
         <TextView
             android:id="@+id/widget_day_five_date"
             style="@style/DayContainer.Date"
-            tools:text="Wed. June 30" />
+            android:text="Wed. June 30" />
     </LinearLayout>
 
     <include
@@ -138,12 +139,12 @@
         <TextView
             android:id="@+id/widget_day_six"
             style="@style/DayContainer.Title"
-            tools:text="Living in a 24-7 Society" />
+            android:text="Living in a 24-7 Society" />
 
         <TextView
             android:id="@+id/widget_day_six_date"
             style="@style/DayContainer.Date"
-            tools:text="Thu. July 01" />
+            android:text="Thu. July 01" />
     </LinearLayout>
 
     <include
@@ -157,12 +158,12 @@
         <TextView
             android:id="@+id/widget_day_seven"
             style="@style/DayContainer.Title"
-            tools:text="Living in a 24-7 Society" />
+            android:text="Living in a 24-7 Society" />
 
         <TextView
             android:id="@+id/widget_day_seven_date"
             style="@style/DayContainer.Date"
-            tools:text="Fri. July 02" />
+            android:text="Fri. July 02" />
     </LinearLayout>
 
 </LinearLayout>

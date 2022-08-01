@@ -25,6 +25,9 @@ package app.ss.widgets
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import app.ss.widgets.glance.today.TodayAppWidgetReceiver
+import app.ss.widgets.glance.today.TodayImageAppWidgetReceiver
+import app.ss.widgets.glance.week.LessonInfoWidgetReceiver
 import app.ss.widgets.today.TodayAppWidget
 import app.ss.widgets.today.TodayImgAppWidget
 import app.ss.widgets.week.WeekLessonWidget
@@ -38,7 +41,11 @@ internal class AppWidgetHelperImpl(private val context: Context) : AppWidgetHelp
     private val widgets = listOf(
         TodayAppWidget::class.java,
         TodayImgAppWidget::class.java,
-        WeekLessonWidget::class.java
+        WeekLessonWidget::class.java,
+
+        TodayAppWidgetReceiver::class.java,
+        TodayImageAppWidgetReceiver::class.java,
+        LessonInfoWidgetReceiver::class.java
     )
 
     override fun refreshAll() {

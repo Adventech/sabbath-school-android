@@ -29,23 +29,24 @@
         android:background="@drawable/bg_widget_content"
         android:gravity="bottom"
         android:orientation="vertical"
-        android:padding="@dimen/spacing_medium">
+        android:padding="@dimen/spacing_medium"
+        tools:ignore="HardcodedText">
 
         <TextView
             android:id="@+id/widget_lesson_date"
             style="@style/AppWidget.Text.Secondary"
+            android:text="Sunday, June 27"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_medium"
-            tools:text="Sunday, June 27" />
+            android:textSize="@dimen/text_size_medium" />
 
         <TextView
             android:id="@+id/widget_lesson_title"
             style="@style/AppWidget.Text.Primary"
             android:layout_marginVertical="@dimen/spacing_normal"
             android:maxLines="3"
+            android:text="Worn and Weary"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_large"
-            tools:text="Worn and Weary" />
+            android:textSize="@dimen/text_size_large" />
 
         <include
             android:id="@+id/button_read"

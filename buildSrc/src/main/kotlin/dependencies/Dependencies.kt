@@ -79,6 +79,13 @@ object Dependencies {
         const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:$constraintLayoutVersion"
         const val snapper = "dev.chrisbanes.snapper:snapper:$snapperVersion"
 
+        object Glance {
+            private const val version = "1.0.0-alpha03"
+
+            const val core = "androidx.glance:glance:$version"
+            const val appwidget = "androidx.glance:glance-appwidget:$version"
+        }
+
         // TODO : Remove these dependencies once we upgrade to Android Studio Dolphin b/228889042
         // These dependencies are currently necessary to render Compose previews
         object Preview {

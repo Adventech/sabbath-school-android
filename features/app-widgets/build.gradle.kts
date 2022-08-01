@@ -22,8 +22,11 @@
 
 import dependencies.Dependencies
 import dependencies.Dependencies.AndroidX
+import dependencies.Dependencies.Compose.Glance
+import dependencies.Dependencies.Coil
 import dependencies.Dependencies.Hilt
 import dependencies.Dependencies.Kotlin
+import dependencies.Versions
 import extensions.addTestsDependencies
 import extensions.kapt
 
@@ -52,11 +55,19 @@ android {
         jvmTarget = JavaOptions.version.toString()
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.COMPOSE
+    }
+
+    buildFeatures {
+        compose = true
+    }
 }
 
 dependencies {
     implementation(project(BuildModules.Common.CORE))
     implementation(project(BuildModules.Common.DESIGN))
+    implementation(project(BuildModules.Common.DESIGN_COMPOSE))
     implementation(project(BuildModules.Common.LESSONS_DATA))
     implementation(project(BuildModules.Common.TRANSLATIONS))
 
@@ -70,7 +81,11 @@ dependencies {
     kapt(Hilt.COMPILER)
 
     implementation(Dependencies.TIMBER)
-    implementation(Dependencies.Coil.core)
+    implementation(Coil.core)
+    implementation(Coil.compose)
+
+    implementation(Glance.core)
+    implementation(Glance.appwidget)
 
     addTestsDependencies()
     testImplementation(project(BuildModules.Libraries.TEST_UTILS))
