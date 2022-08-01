@@ -10,21 +10,21 @@ object Versions {
         const val ANNOTATIONS = "1.4.0"
         const val APPCOMPAT = "1.4.2"
         const val RECYCLER_VIEW = "1.2.1"
-        const val LIFECYCLE = "2.5.0"
+        const val LIFECYCLE = "2.5.1"
         const val LIFECYCLE_EXT = "2.2.0"
         const val CORE = "1.8.0"
-        const val FRAGMENT = "1.5.0"
-        const val ACTIVITY = "1.5.0"
+        const val FRAGMENT = "1.5.1"
+        const val ACTIVITY = "1.5.1"
         const val CONSTRAINT_LAYOUT = "2.1.4"
         const val START_UP = "1.1.1"
         const val PREFERENCE = "1.2.0"
         const val BROWSER = "1.4.0"
         const val DATASTORE_PREFS = "1.0.0"
         const val MEDIA = "1.6.0"
-        const val ROOM = "2.4.2"
+        const val ROOM = "2.4.3"
     }
 
-    const val HILT = "2.43" // Also update [build.gradle.kts]
+    const val HILT = "2.43.1" // Also update [build.gradle.kts]
 
     const val TIMBER = "5.0.1"
     const val COIL = "2.1.0"
@@ -49,7 +49,7 @@ object Versions {
     const val ARCH_CORE = "2.1.0"
     const val JUNIT = "4.13.2"
     const val ROBOELECTRIC = "4.8.1"
-    const val MOCKK = "1.12.4"
+    const val MOCKK = "1.12.5"
     const val ESPRESSO = "3.4.0"
     const val FRAGMENT_TEST = "1.5.0"
     const val KLUENT = "1.68"
