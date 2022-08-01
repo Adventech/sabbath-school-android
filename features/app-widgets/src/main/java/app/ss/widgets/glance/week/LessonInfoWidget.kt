@@ -27,6 +27,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.BitmapImageProvider
@@ -34,6 +35,8 @@ import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
+import androidx.glance.LocalSize
+import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.itemsIndexed
@@ -77,6 +80,10 @@ internal class LessonInfoWidget @AssistedInject constructor(
         val cover: Bitmap? = null
     )
 
+    override val sizeMode: SizeMode = SizeMode.Responsive(
+        setOf(smallMode, mediumMode, largeMode)
+    )
+
     override suspend fun loadData(): Data {
         val model = dataProvider.getWeekLessonModel()
         val cover = context.fetchBitmap(model?.cover)
@@ -88,6 +95,8 @@ internal class LessonInfoWidget @AssistedInject constructor(
         val default = context.getString(R.string.ss_widget_error_label)
         val model = data?.model
         val cover = data?.cover
+
+        val size = LocalSize.current
 
         SsGlanceTheme {
             LazyColumn(
@@ -112,7 +121,20 @@ internal class LessonInfoWidget @AssistedInject constructor(
                     Spacer(modifier = GlanceModifier.divider())
                 }
 
-                val items = model?.days ?: emptyList()
+                val days = model?.days ?: emptyList()
+                val items = when (size) {
+                    smallMode -> days.filter { it.today }
+                    mediumMode -> {
+                        when (val middle = days.indexOfFirst { it.today }.takeIf { it != -1 }) {
+                            null -> emptyList()
+                            0 -> days.take(2)
+                            days.size - 1 -> days.takeLast(2)
+                            else -> days.subList(middle - 1, middle + 2)
+                        }
+                    }
+                    largeMode -> days
+                    else -> emptyList()
+                }
                 itemsIndexed(items) { index, item ->
                     Column(
                         modifier = GlanceModifier
@@ -137,6 +159,12 @@ internal class LessonInfoWidget @AssistedInject constructor(
     @AssistedFactory
     interface Factory {
         fun create(context: Context): LessonInfoWidget
+    }
+
+    companion object {
+        private val smallMode = DpSize(300.dp, 220.dp)
+        private val mediumMode = DpSize(300.dp, 300.dp)
+        private val largeMode = DpSize(300.dp, 400.dp)
     }
 }
 

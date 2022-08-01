@@ -32,11 +32,13 @@ import androidx.compose.ui.unit.dp
 import androidx.glance.BitmapImageProvider
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
+import androidx.glance.ImageProvider
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.background
 import androidx.glance.layout.Box
 import androidx.glance.layout.ContentScale
 import androidx.glance.layout.fillMaxSize
+import app.ss.widgets.R
 import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.extensions.clickable
@@ -91,7 +93,7 @@ internal class TodayImageAppWidget @AssistedInject constructor(
 
                 val (modifier: GlanceModifier, textColor: Color?) = if (modelCover != null) {
                     GlanceModifier.background(
-                        Color.Black.copy(alpha = 0.6f)
+                        ImageProvider(R.drawable.bg_img_foreground)
                     ) to Color.White
                 } else {
                     GlanceModifier to null

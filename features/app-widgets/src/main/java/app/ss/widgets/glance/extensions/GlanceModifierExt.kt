@@ -24,6 +24,7 @@ package app.ss.widgets.glance.extensions
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
@@ -38,14 +39,22 @@ import androidx.glance.background
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
-import app.ss.widgets.glance.theme.AppWidgetCornerRadius
 
 @Composable
 fun GlanceModifier.modifyAppWidgetBackground() = this
     .fillMaxSize()
-    .background(MaterialTheme.colorScheme.surface)
     .appWidgetBackground()
-    .cornerRadius(AppWidgetCornerRadius)
+    .background(MaterialTheme.colorScheme.surface)
+    .appWidgetBackgroundCornerRadius()
+
+fun GlanceModifier.appWidgetBackgroundCornerRadius(): GlanceModifier {
+    if (Build.VERSION.SDK_INT >= 31) {
+        cornerRadius(android.R.dimen.system_app_widget_background_radius)
+    } else {
+        cornerRadius(16.dp)
+    }
+    return this
+}
 
 @Composable
 fun GlanceModifier.divider(height: Dp = 0.5.dp) = this
