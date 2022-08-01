@@ -5,6 +5,7 @@
     <application>
         <receiver
             android:name=".today.TodayAppWidget"
+            android:enabled="@bool/legacy_appwidget"
             android:exported="true"
             android:label="Today's Lesson">
             <intent-filter>
@@ -17,6 +18,7 @@
         </receiver>
         <receiver
             android:name=".today.TodayImgAppWidget"
+            android:enabled="@bool/legacy_appwidget"
             android:exported="true"
             android:label="Today's Lesson">
             <intent-filter>
@@ -29,6 +31,7 @@
         </receiver>
         <receiver
             android:name=".week.WeekLessonWidget"
+            android:enabled="@bool/legacy_appwidget"
             android:exported="true"
             android:label="This Week's Lesson">
             <intent-filter>
@@ -43,7 +46,8 @@
         <receiver
             android:name=".glance.today.TodayAppWidgetReceiver"
             android:enabled="@bool/glance_appwidget_available"
-            android:exported="true">
+            android:exported="true"
+            android:label="Today's Lesson">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -56,7 +60,8 @@
         <receiver
             android:name=".glance.today.TodayImageAppWidgetReceiver"
             android:enabled="@bool/glance_appwidget_available"
-            android:exported="true">
+            android:exported="true"
+            android:label="Today's Lesson">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -66,9 +71,11 @@
                 android:resource="@xml/glance_today_img_widget_info" />
         </receiver>
 
-        <receiver android:name=".glance.week.LessonInfoWidgetReceiver"
+        <receiver
+            android:name=".glance.week.LessonInfoWidgetReceiver"
             android:enabled="@bool/glance_appwidget_available"
-            android:exported="true">
+            android:exported="true"
+            android:label="This Week's Lesson">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
