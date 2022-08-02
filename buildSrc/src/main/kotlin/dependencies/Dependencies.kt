@@ -91,7 +91,7 @@ object Dependencies {
         object Preview {
             const val customView = "androidx.customview:customview:1.2.0-alpha01"
             const val customViewContainer = "androidx.customview:customview-poolingcontainer:1.0.0"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
             const val savedState = "androidx.savedstate:savedstate-ktx:1.2.0"
         }
     }
