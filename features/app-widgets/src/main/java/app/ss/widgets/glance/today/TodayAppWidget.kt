@@ -26,7 +26,6 @@ import android.content.Context
 import android.net.Uri
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,7 +33,7 @@ import androidx.glance.Button
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
-import androidx.glance.LocalContext
+import androidx.glance.LocalSize
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
@@ -53,6 +52,7 @@ import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.extensions.clickable
 import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
+import app.ss.widgets.glance.extensions.stringResource
 import app.ss.widgets.glance.extensions.toAction
 import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.glance.theme.copy
@@ -63,6 +63,7 @@ import com.cryart.sabbathschool.core.misc.DateHelper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import app.ss.translations.R as TranslationsR
 
 private typealias Data = TodayWidgetModel
 
@@ -72,13 +73,15 @@ internal class TodayAppWidget @AssistedInject constructor(
 ) : BaseGlanceAppWidget<Data?>(context = context) {
 
     override val sizeMode = SizeMode.Responsive(
-        setOf(DpSize(180.dp, 110.dp), DpSize(300.dp, 110.dp))
+        setOf(smallMode, mediumMode, largeMode)
     )
 
     override suspend fun loadData(): Data? = dataProvider.getTodayModel()
 
     @Composable
     override fun Content(data: Data?) {
+        val isSmallMode = LocalSize.current == smallMode
+
         SsGlanceTheme {
             Column(
                 modifier = GlanceModifier
@@ -87,7 +90,14 @@ internal class TodayAppWidget @AssistedInject constructor(
             ) {
                 WidgetAppLogo()
 
-                TodayInfo(infoModel = data)
+                TodayInfo(
+                    spec = TodayInfoSpec(
+                        model = data,
+                        titleMaxLines = if (isSmallMode) 2 else 3,
+                        bodyMaxLines = if (isSmallMode) 1 else 2,
+                        showReadButton = !isSmallMode,
+                    ),
+                )
             }
         }
     }
@@ -96,19 +106,24 @@ internal class TodayAppWidget @AssistedInject constructor(
     interface Factory {
         fun create(context: Context): TodayAppWidget
     }
+
+    companion object {
+        private val smallMode = DpSize(180.dp, 55.dp)
+        private val mediumMode = DpSize(180.dp, 110.dp)
+        private val largeMode = DpSize(300.dp, 110.dp)
+    }
 }
 
 @Composable
 private fun WidgetAppLogo(
     modifier: GlanceModifier = GlanceModifier,
-    context: Context = LocalContext.current,
 ) {
     Row(modifier = modifier.fillMaxWidth()) {
         Spacer(modifier = GlanceModifier.defaultWeight())
 
         Image(
             provider = ImageProvider(R.drawable.ic_widget_logo),
-            contentDescription = context.getString(R.string.ss_app_name),
+            contentDescription = stringResource(TranslationsR.string.ss_app_name),
             modifier = GlanceModifier
                 .size(AppLogoSize)
                 .padding(
@@ -123,12 +138,15 @@ private val AppLogoSize = 70.dp
 
 @Composable
 internal fun TodayInfo(
-    infoModel: TodayWidgetModel?,
-    context: Context = LocalContext.current,
+    spec: TodayInfoSpec,
     modifier: GlanceModifier = GlanceModifier,
-    textColor: Color? = null,
 ) {
-    val model = infoModel ?: errorModel()
+    val model = spec.model ?: TodayWidgetModel(
+        stringResource(R.string.ss_widget_error_label),
+        DateHelper.today(),
+        "",
+        Uri.EMPTY
+    )
 
     Column(
         modifier = modifier
@@ -144,42 +162,34 @@ internal fun TodayInfo(
 
         Text(
             text = model.date,
-            style = todayBody(textColor),
-            maxLines = 2
+            style = todayBody(spec.textColor),
+            maxLines = spec.bodyMaxLines
         )
 
         Spacer(modifier = GlanceModifier.height(6.dp))
 
         Text(
             text = model.title,
-            style = todayTitle(textColor),
-            maxLines = 3
+            style = todayTitle(spec.textColor),
+            maxLines = spec.titleMaxLines
         )
 
         Spacer(modifier = GlanceModifier.height(12.dp))
 
-        Button(
-            text = context.getString(R.string.ss_lessons_read).uppercase(),
-            style = todayTitle(
-                MaterialTheme.colorScheme.onPrimary
-            ).copy(fontSize = 14.sp),
-            maxLines = 1,
-            onClick = model.uri.toAction(),
-            modifier = GlanceModifier
-                .background(MaterialTheme.colorScheme.primary)
-                .cornerRadius(20.dp)
-                .padding(horizontal = 32.dp, vertical = 4.dp)
-                .height(32.dp)
-        )
+        if (spec.showReadButton) {
+            Button(
+                text = stringResource(TranslationsR.string.ss_lessons_read).uppercase(),
+                style = todayTitle(
+                    MaterialTheme.colorScheme.onPrimary
+                ).copy(fontSize = 14.sp),
+                maxLines = 1,
+                onClick = model.uri.toAction(),
+                modifier = GlanceModifier
+                    .background(MaterialTheme.colorScheme.primary)
+                    .cornerRadius(20.dp)
+                    .padding(horizontal = 32.dp, vertical = 4.dp)
+                    .height(32.dp)
+            )
+        }
     }
 }
-
-@Composable
-private fun errorModel(
-    context: Context = LocalContext.current,
-): TodayWidgetModel = TodayWidgetModel(
-    context.getString(R.string.ss_widget_error_label),
-    DateHelper.today(),
-    "",
-    Uri.EMPTY
-)

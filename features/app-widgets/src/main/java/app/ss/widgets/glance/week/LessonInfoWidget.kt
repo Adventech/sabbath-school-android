@@ -34,7 +34,6 @@ import androidx.glance.BitmapImageProvider
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
-import androidx.glance.LocalContext
 import androidx.glance.LocalSize
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
@@ -59,6 +58,7 @@ import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.extensions.clickable
 import app.ss.widgets.glance.extensions.divider
 import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
+import app.ss.widgets.glance.extensions.stringResource
 import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.glance.theme.copy
 import app.ss.widgets.glance.theme.todayBody
@@ -69,6 +69,7 @@ import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import app.ss.translations.R as TranslationsR
 
 internal class LessonInfoWidget @AssistedInject constructor(
     private val dataProvider: WidgetDataProvider,
@@ -92,7 +93,7 @@ internal class LessonInfoWidget @AssistedInject constructor(
 
     @Composable
     override fun Content(data: Data?) {
-        val default = context.getString(R.string.ss_widget_error_label)
+        val default = stringResource(R.string.ss_widget_error_label)
         val model = data?.model
         val cover = data?.cover
 
@@ -230,7 +231,7 @@ private fun LessonInfoRow(
 
         Image(
             provider = ImageProvider(R.drawable.ic_widget_logo),
-            contentDescription = LocalContext.current.getString(R.string.ss_app_name),
+            contentDescription = stringResource(TranslationsR.string.ss_app_name),
             modifier = GlanceModifier.size(AppLogoSize)
         )
     }

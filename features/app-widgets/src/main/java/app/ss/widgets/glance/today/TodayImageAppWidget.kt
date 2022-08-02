@@ -61,7 +61,7 @@ internal class TodayImageAppWidget @AssistedInject constructor(
     )
 
     override val sizeMode = SizeMode.Responsive(
-        setOf(DpSize(180.dp, 110.dp), DpSize(300.dp, 110.dp))
+        setOf(DpSize(180.dp, 55.dp), DpSize(180.dp, 110.dp), DpSize(300.dp, 110.dp))
     )
 
     override suspend fun loadData(): Data {
@@ -100,9 +100,12 @@ internal class TodayImageAppWidget @AssistedInject constructor(
                 }
 
                 TodayInfo(
-                    infoModel = model,
+                    spec = TodayInfoSpec(
+                        model = model,
+                        textColor = textColor,
+                        showReadButton = false,
+                    ),
                     modifier = modifier,
-                    textColor = textColor
                 )
             }
         }

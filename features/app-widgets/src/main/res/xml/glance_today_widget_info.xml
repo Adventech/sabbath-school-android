@@ -24,8 +24,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:minWidth="180dp"
     android:minHeight="55dp"
-    android:minResizeWidth="180dp"
-    android:minResizeHeight="55dp"
     android:previewImage="@drawable/today_app_widget_preview"
     android:resizeMode="horizontal|vertical"
     android:targetCellWidth="2"

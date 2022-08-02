@@ -72,5 +72,4 @@ private val fallbackIntent: Intent = Intent().apply {
 internal fun Uri?.toAction(): Action =
     actionStartActivity(this?.launchIntent() ?: fallbackIntent)
 
-@Composable
 fun GlanceModifier.clickable(uri: Uri?) = this.clickable(uri.toAction())

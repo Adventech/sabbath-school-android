@@ -23,7 +23,9 @@
 package app.ss.widgets.model
 
 import android.net.Uri
+import androidx.compose.runtime.Immutable
 
+@Immutable
 internal data class WeekDayWidgetModel(
     val title: String,
     val date: String,
