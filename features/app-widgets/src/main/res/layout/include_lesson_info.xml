@@ -24,8 +24,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    tools:ignore="HardcodedText">
+    android:gravity="center_vertical">
 
     <ImageView
         android:id="@+id/widget_lesson_cover"
@@ -44,13 +43,13 @@
         <TextView
             android:id="@+id/widget_quarterly_title"
             style="@style/AppWidget.Text.Primary"
-            android:text="Rest in Christ" />
+            tools:text="Rest in Christ" />
 
         <TextView
             android:id="@+id/widget_lesson_title"
             style="@style/AppWidget.Text.Secondary"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:text="Living in a 24-7 Society" />
+            tools:text="Living in a 24-7 Society" />
     </LinearLayout>
 
     <ImageView

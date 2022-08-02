@@ -27,7 +27,6 @@
     android:minResizeWidth="180dp"
     android:minResizeHeight="55dp"
     android:previewImage="@drawable/today_img_app_widget_preview"
-    android:previewLayout="@layout/today_app_widget_img"
     android:targetCellWidth="2"
     android:targetCellHeight="2"
     android:resizeMode="horizontal|vertical"
