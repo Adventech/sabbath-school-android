@@ -25,10 +25,6 @@ package app.ss.widgets.glance
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.unit.DpSize
-import androidx.glance.GlanceId
-import androidx.glance.LocalGlanceId
-import androidx.glance.LocalSize
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.updateAll
 import kotlinx.coroutines.CoroutineScope
@@ -40,8 +36,6 @@ abstract class BaseGlanceAppWidget<T>(
     initialData: T? = null
 ) : GlanceAppWidget(), CoroutineScope by MainScope() {
 
-    private val glanceId = mutableStateOf<GlanceId?>(null)
-    private val size = mutableStateOf<DpSize?>(null)
     private val data = mutableStateOf(initialData)
 
     abstract suspend fun loadData(): T
@@ -53,9 +47,6 @@ abstract class BaseGlanceAppWidget<T>(
 
     @Composable
     override fun Content() {
-        glanceId.value = LocalGlanceId.current
-        size.value = LocalSize.current
-
         Content(data.value)
     }
 
