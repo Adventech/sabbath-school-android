@@ -11,7 +11,6 @@ object TestDependencies {
     const val EXT = "androidx.test.ext:junit:${Versions.EXT}"
     const val COROUTINES_TEST = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINES}"
     const val ARCH_CORE = "androidx.arch.core:core-testing:${Versions.ARCH_CORE}"
-    const val FRAGMENT_TEST = "androidx.fragment:fragment-testing:${Versions.FRAGMENT_TEST}"
     const val KLUENT = "org.amshove.kluent:kluent-android:${Versions.KLUENT}"
     const val HILT = "com.google.dagger:hilt-android-testing:${Versions.HILT}"
     const val HILT_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"

@@ -51,7 +51,6 @@ object Versions {
     const val ROBOELECTRIC = "4.8.1"
     const val MOCKK = "1.12.5"
     const val ESPRESSO = "3.4.0"
-    const val FRAGMENT_TEST = "1.5.0"
     const val KLUENT = "1.68"
-    const val TURBINE = "0.8.0"
+    const val TURBINE = "0.9.0"
 }
