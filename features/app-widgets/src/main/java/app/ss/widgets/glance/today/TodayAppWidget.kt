@@ -38,6 +38,7 @@ import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
 import androidx.glance.layout.Alignment
+import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
@@ -83,7 +84,7 @@ internal class TodayAppWidget @AssistedInject constructor(
         val isSmallMode = LocalSize.current == smallMode
 
         SsGlanceTheme {
-            Column(
+            Box(
                 modifier = GlanceModifier
                     .modifyAppWidgetBackground()
                     .clickable(uri = data?.uri)
