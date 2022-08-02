@@ -31,12 +31,16 @@ import app.ss.widgets.glance.week.LessonInfoWidgetReceiver
 import app.ss.widgets.today.TodayAppWidget
 import app.ss.widgets.today.TodayImgAppWidget
 import app.ss.widgets.week.WeekLessonWidget
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 interface AppWidgetHelper {
     fun refreshAll()
 }
 
-internal class AppWidgetHelperImpl(private val context: Context) : AppWidgetHelper {
+internal class AppWidgetHelperImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
+) : AppWidgetHelper {
 
     private val widgets = listOf(
         TodayAppWidget::class.java,

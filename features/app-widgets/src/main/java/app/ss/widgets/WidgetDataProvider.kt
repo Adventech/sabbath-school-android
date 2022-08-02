@@ -10,6 +10,7 @@ import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import javax.inject.Inject
 
 internal interface WidgetDataProvider {
 
@@ -18,7 +19,7 @@ internal interface WidgetDataProvider {
     suspend fun getWeekLessonModel(): WeekLessonWidgetModel?
 }
 
-internal class WidgetDataProviderImpl constructor(
+internal class WidgetDataProviderImpl @Inject constructor(
     private val repository: LessonsRepository,
     private val dispatcherProvider: DispatcherProvider
 ) : WidgetDataProvider {
