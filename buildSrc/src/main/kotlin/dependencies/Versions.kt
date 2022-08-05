@@ -22,9 +22,10 @@ object Versions {
         const val DATASTORE_PREFS = "1.0.0"
         const val MEDIA = "1.6.0"
         const val ROOM = "2.4.3"
+        const val WORK = "2.7.1"
     }
 
-    const val HILT = "2.43.1" // Also update [build.gradle.kts]
+    const val HILT = "2.43.2" // Also update [build.gradle.kts]
 
     const val TIMBER = "5.0.1"
     const val COIL = "2.1.0"

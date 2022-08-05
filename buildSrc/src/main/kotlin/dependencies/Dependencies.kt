@@ -32,11 +32,19 @@ object Dependencies {
         const val BROWSER = "androidx.browser:browser:${Versions.AndroidX.BROWSER}"
         const val DATASTORE_PREFS = "androidx.datastore:datastore-preferences:${Versions.AndroidX.DATASTORE_PREFS}"
         const val MEDIA = "androidx.media:media:${Versions.AndroidX.MEDIA}"
+        const val WORK = "androidx.work:work-runtime-ktx:${Versions.AndroidX.WORK}"
 
         object Room {
             const val runtime = "androidx.room:room-runtime:${Versions.AndroidX.ROOM}"
             const val compiler = "androidx.room:room-compiler:${Versions.AndroidX.ROOM}"
             const val ktx = "androidx.room:room-ktx:${Versions.AndroidX.ROOM}"
+        }
+
+        object Hilt {
+            private const val version = "1.0.0"
+
+            const val work = "androidx.hilt:hilt-work:$version"
+            const val compiler = "androidx.hilt:hilt-compiler:$version"
         }
     }
 
