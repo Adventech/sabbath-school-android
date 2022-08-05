@@ -95,5 +95,4 @@ internal class WidgetUpdateWorker @AssistedInject constructor(
             WorkManager.getInstance(context).cancelUniqueWork(uniqueWorkName)
         }
     }
-
 }
