@@ -22,6 +22,7 @@
 
 package app.ss.widgets
 
+import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -31,11 +32,13 @@ import app.ss.widgets.glance.week.LessonInfoWidgetReceiver
 import app.ss.widgets.today.TodayAppWidget
 import app.ss.widgets.today.TodayImgAppWidget
 import app.ss.widgets.week.WeekLessonWidget
+import app.ss.widgets.work.WidgetUpdateWorker
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 interface AppWidgetHelper {
     fun refreshAll()
+    fun isAdded(): Boolean
 }
 
 internal class AppWidgetHelperImpl @Inject constructor(
@@ -53,13 +56,27 @@ internal class AppWidgetHelperImpl @Inject constructor(
     )
 
     override fun refreshAll() {
-        with(context.applicationContext) {
+        with(context) {
             widgets.forEach { clazz ->
                 sendBroadcast(
                     Intent(BaseWidgetProvider.REFRESH_ACTION)
                         .setComponent(ComponentName(context, clazz))
                 )
             }
+        }
+
+        if (isAdded()) {
+            WidgetUpdateWorker.enqueue(context)
+        } else {
+            WidgetUpdateWorker.cancel(context)
+        }
+    }
+
+    override fun isAdded(): Boolean {
+        val manager = AppWidgetManager.getInstance(context)
+        return widgets.any { clazz ->
+            val widgetIds = manager.getAppWidgetIds(ComponentName(context, clazz))
+            widgetIds.isNotEmpty()
         }
     }
 }

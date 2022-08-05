@@ -76,6 +76,9 @@ dependencies {
 
     implementation(Dependencies.MATERIAL)
     implementation(AndroidX.CORE)
+    implementation(AndroidX.WORK)
+    implementation(AndroidX.Hilt.work)
+    kapt(AndroidX.Hilt.compiler)
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)

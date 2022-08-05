@@ -17,6 +17,8 @@ internal interface WidgetDataProvider {
     suspend fun getTodayModel(): TodayWidgetModel?
 
     suspend fun getWeekLessonModel(): WeekLessonWidgetModel?
+
+    suspend fun sync()
 }
 
 internal class WidgetDataProviderImpl @Inject constructor(
@@ -24,9 +26,11 @@ internal class WidgetDataProviderImpl @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : WidgetDataProvider {
 
-    override suspend fun getTodayModel(): TodayWidgetModel? = withContext(dispatcherProvider.default) {
+    override suspend fun getTodayModel(): TodayWidgetModel? = fetchTodayModel(cached = true)
+
+    private suspend fun fetchTodayModel(cached: Boolean) = withContext(dispatcherProvider.default) {
         try {
-            repository.getTodayRead(cached = true).data?.let { data ->
+            repository.getTodayRead(cached).data?.let { data ->
                 TodayWidgetModel(
                     data.title,
                     data.date,
@@ -40,9 +44,11 @@ internal class WidgetDataProviderImpl @Inject constructor(
         }
     }
 
-    override suspend fun getWeekLessonModel(): WeekLessonWidgetModel? = withContext(dispatcherProvider.default) {
+    override suspend fun getWeekLessonModel(): WeekLessonWidgetModel? = fetchWeekLessonModel(cached = true)
+
+    private suspend fun fetchWeekLessonModel(cached: Boolean) = withContext(dispatcherProvider.default) {
         try {
-            repository.getWeekData(cached = true).data?.let { data ->
+            repository.getWeekData(cached = cached).data?.let { data ->
                 val days = data.days.mapIndexed { index, day ->
                     WeekDayWidgetModel(
                         day.title,
@@ -69,5 +75,10 @@ internal class WidgetDataProviderImpl @Inject constructor(
             Timber.e(ex)
             null
         }
+    }
+
+    override suspend fun sync() {
+        fetchTodayModel(cached = false)
+        fetchWeekLessonModel(cached = false)
     }
 }
