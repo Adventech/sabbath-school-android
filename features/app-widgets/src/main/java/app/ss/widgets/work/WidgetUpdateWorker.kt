@@ -36,7 +36,7 @@ import app.ss.widgets.WidgetDataProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import timber.log.Timber
-import java.time.Duration
+import java.util.concurrent.TimeUnit
 
 @HiltWorker
 internal class WidgetUpdateWorker @AssistedInject constructor(
@@ -73,7 +73,8 @@ internal class WidgetUpdateWorker @AssistedInject constructor(
         fun enqueue(context: Context, force: Boolean = false) {
             val manager = WorkManager.getInstance(context)
             val requestBuilder = PeriodicWorkRequestBuilder<WidgetUpdateWorker>(
-                Duration.ofHours(1)
+                4,
+                TimeUnit.HOURS
             ).setConstraints(
                 Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
