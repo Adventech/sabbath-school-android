@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons
 
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -45,7 +46,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -65,14 +66,14 @@ class LessonsViewModel @Inject constructor(
         ) ?: ssPrefs.getLastQuarterlyIndex()
 
     private val publishingInfo: Flow<Result<PublishingInfo?>> = repository.getPublishingInfo()
-        .mapNotNull { it.data }
+        .map { it.data }
         .asResult()
 
-    private val quarterlyInfo: Flow<Result<SSQuarterlyInfo?>> = flowOf(quarterlyIndex)
+    private val quarterlyInfo: Flow<Result<SSQuarterlyInfo?>> = snapshotFlow { quarterlyIndex }
         .flatMapLatest { index ->
             index?.run {
                 repository.getQuarterlyInfo(index)
-                    .mapNotNull { it.data }
+                    .map { it.data }
             } ?: flowOf(null)
         }
         .onEach { info ->
@@ -90,12 +91,16 @@ class LessonsViewModel @Inject constructor(
         val publishingInfoState = when (publishingInfo) {
             is Result.Error -> PublishingInfoState.Error
             Result.Loading -> PublishingInfoState.Loading
-            is Result.Success -> PublishingInfoState.Success(publishingInfo.data!!)
+            is Result.Success -> publishingInfo.data?.let {
+                PublishingInfoState.Success(it)
+            } ?: PublishingInfoState.Error
         }
         val quarterlyInfoState = when (quarterlyInfo) {
             is Result.Error -> QuarterlyInfoState.Error
             Result.Loading -> QuarterlyInfoState.Loading
-            is Result.Success -> QuarterlyInfoState.Success(quarterlyInfo.data!!)
+            is Result.Success -> quarterlyInfo.data?.let {
+                QuarterlyInfoState.Success(it)
+            } ?: QuarterlyInfoState.Error
         }
 
         LessonsScreenState(
