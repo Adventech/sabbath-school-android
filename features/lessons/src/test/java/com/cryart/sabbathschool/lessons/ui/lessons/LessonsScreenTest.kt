@@ -51,6 +51,7 @@ class LessonsScreenTest {
     }
 
     @Test
+    @Ignore("flaky")
     fun lessons_screen() = runTest {
         launch(index = INDEX)
     }
