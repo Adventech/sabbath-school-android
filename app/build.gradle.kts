@@ -27,6 +27,7 @@ import dependencies.Dependencies.Hilt
 import dependencies.TestAndroidDependencies
 import dependencies.Versions
 import extensions.addTestsDependencies
+import extensions.kapt
 import extensions.readPropertyValue
 import java.io.FileInputStream
 import java.util.Properties
@@ -167,6 +168,9 @@ dependencies {
     implementation(AndroidX.LIFECYCLE_VIEWMODEL)
     implementation(AndroidX.LIFECYCLE_EXTENSIONS)
     implementation(AndroidX.START_UP)
+    implementation(AndroidX.WORK)
+    implementation(AndroidX.Hilt.work)
+    kapt(AndroidX.Hilt.compiler)
 
     implementation(Hilt.ANDROID)
     kapt(Hilt.COMPILER)
