@@ -30,6 +30,7 @@ import com.cryart.sabbathschool.test.di.repository.FakeQuarterliesRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
@@ -55,6 +56,7 @@ class LessonsScreenTest {
     }
 
     @Test
+    @Ignore("flaky")
     fun lessons_screen_splash() = runTest {
         launch(index = INDEX_SPLASH)
     }
