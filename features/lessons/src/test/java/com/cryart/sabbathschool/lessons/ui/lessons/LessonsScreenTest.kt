@@ -34,6 +34,7 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
+@Ignore("flaky")
 class LessonsScreenTest {
 
     @get:Rule
@@ -51,13 +52,11 @@ class LessonsScreenTest {
     }
 
     @Test
-    @Ignore("flaky")
     fun lessons_screen() = runTest {
         launch(index = INDEX)
     }
 
     @Test
-    @Ignore("flaky")
     fun lessons_screen_splash() = runTest {
         launch(index = INDEX_SPLASH)
     }
