@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,29 +20,37 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool
+package app.ss.widgets.glance
 
-import android.app.Application
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.hilt.work.HiltWorkerFactory
-import androidx.work.Configuration
-import dagger.hilt.android.HiltAndroidApp
+import android.content.Context
+import android.content.Intent
+import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import androidx.glance.appwidget.updateAll
+import app.ss.widgets.BaseWidgetProvider
+import app.ss.widgets.WidgetDataProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltAndroidApp
-class SSApp : Application(), Configuration.Provider {
+abstract class BaseGlanceAppWidgetReceiver<T : BaseGlanceAppWidget<*>> :
+    GlanceAppWidgetReceiver(),
+    CoroutineScope by MainScope() {
 
     @Inject
-    lateinit var workerFactory: HiltWorkerFactory
+    internal lateinit var widgetDataProvider: WidgetDataProvider
 
-    override fun onCreate() {
-        super.onCreate()
+    override val glanceAppWidget: GlanceAppWidget
+        get() = createWidget().also { it.initiateLoad() }
 
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+    abstract fun createWidget(): T
+
+    override fun onReceive(context: Context, intent: Intent) {
+        super.onReceive(context, intent)
+
+        if (intent.action == BaseWidgetProvider.REFRESH_ACTION) {
+            launch { glanceAppWidget.updateAll(context) }
+        }
     }
-
-    override fun getWorkManagerConfiguration() =
-        Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
 }

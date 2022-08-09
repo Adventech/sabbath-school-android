@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,16 +20,36 @@
  * THE SOFTWARE.
  */
 
-package app.ss.widgets.model
+package app.ss.widgets.glance
 
-import android.net.Uri
-import androidx.compose.runtime.Immutable
+import android.content.Context
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.updateAll
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
-@Immutable
-internal data class WeekLessonWidgetModel(
-    val quarterlyTitle: String,
-    val lessonTitle: String,
-    val cover: String,
-    val days: List<WeekDayWidgetModel>,
-    val uri: Uri?
-)
+abstract class BaseGlanceAppWidget<T>(
+    private val context: Context,
+    initialData: T? = null
+) : GlanceAppWidget(), CoroutineScope by MainScope() {
+
+    private val data = mutableStateOf(initialData)
+
+    abstract suspend fun loadData(): T
+
+    fun initiateLoad() = launch {
+        data.value = loadData()
+        updateAll(context)
+    }
+
+    @Composable
+    override fun Content() {
+        Content(data.value)
+    }
+
+    @Composable
+    abstract fun Content(data: T?)
+}

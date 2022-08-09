@@ -20,73 +20,37 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.theme
+package app.ss.widgets.glance.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.glance.LocalContext
 import app.ss.design.compose.extensions.isS
-
-val DarkColorScheme = darkColorScheme(
-    primary = Color.White,
-    secondary = SsColor.BaseBlue,
-    background = Color.Black,
-    surface = Color.Black,
-    onBackground = SsColor.BaseGrey1,
-    onSurface = SsColor.BaseGrey1,
-    error = SsColor.BaseRed,
-)
-
-val LightColorScheme = lightColorScheme(
-    primary = SsColor.BaseBlue,
-    secondary = SsColor.BaseBlue,
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onBackground = SsColor.BaseGrey3,
-    onSurface = SsColor.BaseGrey3,
-    error = SsColor.BaseRed,
-)
+import app.ss.design.compose.theme.DarkColorScheme
+import app.ss.design.compose.theme.LightColorScheme
+import app.ss.design.compose.theme.SsTypography
+import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 
 @Composable
-fun SsTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    windowWidthSizeClass: WindowWidthSizeClass? = WindowWidthSizeClass.Compact,
+internal fun SsGlanceTheme(
     content: @Composable () -> Unit
 ) {
+    val context = LocalContext.current
+    val darkTheme = context.isDarkTheme()
+
     val colorScheme = when {
         isS() -> {
-            val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
 
-    val dimensions = when (windowWidthSizeClass) {
-        WindowWidthSizeClass.Medium -> sw600Dimensions
-        else -> smallDimensions
-    }
-
-    ProvideDimens(dimensions = dimensions) {
-        MaterialTheme(
-            colorScheme = colorScheme,
-            typography = SsTypography,
-            content = content
-        )
-    }
-}
-
-object SsTheme {
-    val dimens: Dimensions
-        @Composable
-        get() = LocalAppDimens.current
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = SsTypography,
+        content = content
+    )
 }

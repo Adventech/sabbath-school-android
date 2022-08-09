@@ -32,11 +32,19 @@ object Dependencies {
         const val BROWSER = "androidx.browser:browser:${Versions.AndroidX.BROWSER}"
         const val DATASTORE_PREFS = "androidx.datastore:datastore-preferences:${Versions.AndroidX.DATASTORE_PREFS}"
         const val MEDIA = "androidx.media:media:${Versions.AndroidX.MEDIA}"
+        const val WORK = "androidx.work:work-runtime-ktx:${Versions.AndroidX.WORK}"
 
         object Room {
             const val runtime = "androidx.room:room-runtime:${Versions.AndroidX.ROOM}"
             const val compiler = "androidx.room:room-compiler:${Versions.AndroidX.ROOM}"
             const val ktx = "androidx.room:room-ktx:${Versions.AndroidX.ROOM}"
+        }
+
+        object Hilt {
+            private const val version = "1.0.0"
+
+            const val work = "androidx.hilt:hilt-work:$version"
+            const val compiler = "androidx.hilt:hilt-compiler:$version"
         }
     }
 
@@ -79,12 +87,19 @@ object Dependencies {
         const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:$constraintLayoutVersion"
         const val snapper = "dev.chrisbanes.snapper:snapper:$snapperVersion"
 
+        object Glance {
+            private const val version = "1.0.0-alpha03"
+
+            const val core = "androidx.glance:glance:$version"
+            const val appwidget = "androidx.glance:glance-appwidget:$version"
+        }
+
         // TODO : Remove these dependencies once we upgrade to Android Studio Dolphin b/228889042
         // These dependencies are currently necessary to render Compose previews
         object Preview {
             const val customView = "androidx.customview:customview:1.2.0-alpha01"
-            const val customViewContainer = "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0"
+            const val customViewContainer = "androidx.customview:customview-poolingcontainer:1.0.0"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
             const val savedState = "androidx.savedstate:savedstate-ktx:1.2.0"
         }
     }

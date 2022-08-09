@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,16 +20,13 @@
  * THE SOFTWARE.
  */
 
-package app.ss.widgets.model
+package app.ss.widgets.glance.extensions
 
-import android.net.Uri
-import androidx.compose.runtime.Immutable
+import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import androidx.glance.LocalContext
 
-@Immutable
-internal data class WeekLessonWidgetModel(
-    val quarterlyTitle: String,
-    val lessonTitle: String,
-    val cover: String,
-    val days: List<WeekDayWidgetModel>,
-    val uri: Uri?
-)
+@Composable
+fun stringResource(@StringRes id: Int, vararg args: Any): String {
+    return LocalContext.current.getString(id, args)
+}

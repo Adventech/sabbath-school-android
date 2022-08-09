@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,16 +20,17 @@
  * THE SOFTWARE.
  */
 
-package app.ss.widgets.model
+package app.ss.widgets.glance.today
 
-import android.net.Uri
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.graphics.Color
+import app.ss.widgets.model.TodayWidgetModel
 
 @Immutable
-internal data class WeekLessonWidgetModel(
-    val quarterlyTitle: String,
-    val lessonTitle: String,
-    val cover: String,
-    val days: List<WeekDayWidgetModel>,
-    val uri: Uri?
+internal data class TodayInfoSpec(
+    val model: TodayWidgetModel?,
+    val textColor: Color? = null,
+    val titleMaxLines: Int = 3,
+    val bodyMaxLines: Int = 2,
+    val showReadButton: Boolean = true,
 )

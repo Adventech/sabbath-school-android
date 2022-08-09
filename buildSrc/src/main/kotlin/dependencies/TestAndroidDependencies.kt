@@ -5,7 +5,6 @@ object TestAndroidDependencies {
     const val RUNNER = "androidx.test:runner:${Versions.ANDROIDX_TEST}"
     const val RULES = "androidx.test:rules:${Versions.ANDROIDX_TEST}"
     const val JUNIT = "androidx.test.ext:junit:${Versions.EXT}"
-    const val FRAGMENT_TEST = "androidx.fragment:fragment-testing:${Versions.FRAGMENT_TEST}"
 
     object Espresso {
         const val core = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO}"
