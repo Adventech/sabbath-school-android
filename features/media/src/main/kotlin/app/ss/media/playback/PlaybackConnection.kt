@@ -37,7 +37,6 @@ import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.extensions.duration
 import app.ss.media.playback.extensions.isBuffering
 import app.ss.media.playback.extensions.isPlaying
-import app.ss.models.media.AudioFile
 import app.ss.media.playback.model.MEDIA_TYPE_AUDIO
 import app.ss.media.playback.model.MediaId
 import app.ss.media.playback.model.PlaybackModeState
@@ -46,6 +45,7 @@ import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.media.playback.players.AudioPlayer
 import app.ss.media.playback.players.QUEUE_LIST_KEY
+import app.ss.models.media.AudioFile
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.flowInterval
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -106,6 +106,8 @@ internal class PlaybackConnectionImpl(
         context, serviceComponent, mediaBrowserConnectionCallback, null
     ).apply { connect() }
 
+    private var progressInterval: Long = 1_000L
+
     init {
         startPlaybackProgress()
     }
@@ -133,6 +135,8 @@ internal class PlaybackConnectionImpl(
         }
         audioPlayer.setPlaybackSpeed(nextSpeed.speed)
         this.playbackSpeed.value = nextSpeed
+
+        resetPlaybackProgressInterval()
     }
 
     override fun setQueue(audios: List<AudioFile>, index: Int) {
@@ -160,18 +164,27 @@ internal class PlaybackConnectionImpl(
             playbackProgress.value = initial
 
             if (state.isPlaying && !state.isBuffering) {
-                starPlaybackProgressInterval(initial)
+                startPlaybackProgressInterval(initial)
             }
         }
     }
 
-    private fun starPlaybackProgressInterval(initial: PlaybackProgressState) {
+    private fun startPlaybackProgressInterval(initial: PlaybackProgressState) {
         playbackProgressInterval = launch {
-            flowInterval(PLAYBACK_PROGRESS_INTERVAL).collect { ticks ->
-                val elapsed = PLAYBACK_PROGRESS_INTERVAL * (ticks + 1)
+            flowInterval(progressInterval).collect {
+                val current = playbackProgress.value.elapsed
+                val elapsed = current + PLAYBACK_PROGRESS_INTERVAL
                 playbackProgress.value = initial.copy(elapsed = elapsed, buffered = audioPlayer.bufferedPosition())
             }
         }
+    }
+
+    private fun resetPlaybackProgressInterval() {
+        val speed = playbackSpeed.value.speed
+        progressInterval = (PLAYBACK_PROGRESS_INTERVAL.toDouble() / speed).toLong()
+
+        playbackProgressInterval.cancel()
+        startPlaybackProgressInterval(playbackProgress.value)
     }
 
     private inner class MediaBrowserConnectionCallback(private val context: Context) :
