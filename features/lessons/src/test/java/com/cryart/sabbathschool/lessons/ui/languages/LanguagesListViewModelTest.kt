@@ -88,8 +88,8 @@ class LanguagesListViewModelTest {
 
     @Test
     fun `should format native language name correctly`() {
-        viewModel.getNativeLanguageName("en") shouldBeEqualTo "English"
-        viewModel.getNativeLanguageName("es") shouldBeEqualTo "Español"
-        viewModel.getNativeLanguageName("fr") shouldBeEqualTo "Français"
+        viewModel.getNativeLanguageName(Language("en", "English")) shouldBeEqualTo "English"
+        viewModel.getNativeLanguageName(Language("es", "Spanish")) shouldBeEqualTo "Español"
+        viewModel.getNativeLanguageName(Language("fr", "French")) shouldBeEqualTo "Français"
     }
 }
