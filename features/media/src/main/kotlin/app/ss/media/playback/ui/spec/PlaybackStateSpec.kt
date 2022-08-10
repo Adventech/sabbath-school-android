@@ -38,5 +38,8 @@ data class PlaybackStateSpec(
 )
 
 internal fun PlaybackStateCompat.toSpec() = PlaybackStateSpec(
-    isPlaying, isPlayEnabled, isError, isBuffering
+    isPlaying = isPlaying,
+    isPlayEnabled = isPlayEnabled,
+    isError = isError,
+    isBuffering = isBuffering,
 )
