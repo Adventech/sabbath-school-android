@@ -106,7 +106,7 @@ internal class PlaybackConnectionImpl(
         context, serviceComponent, mediaBrowserConnectionCallback, null
     ).apply { connect() }
 
-    private var progressInterval: Long = 1_000L
+    private var currentProgressInterval: Long = PLAYBACK_PROGRESS_INTERVAL
 
     init {
         startPlaybackProgress()
@@ -171,7 +171,7 @@ internal class PlaybackConnectionImpl(
 
     private fun startPlaybackProgressInterval(initial: PlaybackProgressState) {
         playbackProgressInterval = launch {
-            flowInterval(progressInterval).collect {
+            flowInterval(currentProgressInterval).collect {
                 val current = playbackProgress.value.elapsed
                 val elapsed = current + PLAYBACK_PROGRESS_INTERVAL
                 playbackProgress.value = initial.copy(elapsed = elapsed, buffered = audioPlayer.bufferedPosition())
@@ -181,7 +181,7 @@ internal class PlaybackConnectionImpl(
 
     private fun resetPlaybackProgressInterval() {
         val speed = playbackSpeed.value.speed
-        progressInterval = (PLAYBACK_PROGRESS_INTERVAL.toDouble() / speed).toLong()
+        currentProgressInterval = (PLAYBACK_PROGRESS_INTERVAL.toDouble() / speed).toLong()
 
         playbackProgressInterval.cancel()
         startPlaybackProgressInterval(playbackProgress.value)
