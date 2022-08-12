@@ -89,7 +89,7 @@ data class RemoteImage(
             contentDescription = contentDescription,
             modifier = Modifier.fillMaxSize(),
             contentScale = contentScale,
-            colorFilter = colorFilter,
+            colorFilter = colorFilter
         )
     }
 }

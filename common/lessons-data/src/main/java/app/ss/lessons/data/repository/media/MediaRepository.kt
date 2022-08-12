@@ -94,7 +94,7 @@ fun SSAudio.toEntity(): AudioFileEntity = AudioFileEntity(
     src = src,
     target = target,
     targetIndex = targetIndex,
-    title = title,
+    title = title
 )
 
 fun AudioFileEntity.toAudio(): AudioFile = AudioFile(
@@ -105,7 +105,7 @@ fun AudioFileEntity.toAudio(): AudioFile = AudioFile(
     source = Uri.parse(src),
     target = target,
     targetIndex = targetIndex,
-    title = title,
+    title = title
 )
 
 fun AudioFileEntity.toSSAudio(): SSAudio = SSAudio(
@@ -116,5 +116,5 @@ fun AudioFileEntity.toSSAudio(): SSAudio = SSAudio(
     src = src,
     target = target,
     targetIndex = targetIndex,
-    title = title,
+    title = title
 )

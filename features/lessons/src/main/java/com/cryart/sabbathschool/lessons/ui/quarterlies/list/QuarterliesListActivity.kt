@@ -69,7 +69,8 @@ class QuarterliesListActivity : SlidingActivity(), QuarterliesListCallback {
             context: Context,
             group: QuarterlyGroup
         ): Intent = Intent(
-            context, QuarterliesListActivity::class.java
+            context,
+            QuarterliesListActivity::class.java
         ).apply {
             putExtra(SSConstants.SS_QUARTERLY_GROUP, group)
         }

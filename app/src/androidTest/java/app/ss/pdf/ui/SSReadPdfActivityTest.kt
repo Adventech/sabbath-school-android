@@ -62,7 +62,8 @@ class SSReadPdfActivityTest {
         scenario?.close()
     }
 
-    @Test @Ignore("flaky")
+    @Test
+    @Ignore("flaky")
     fun launchPdfScreen() = launch(
         listOf(
             LessonPdf(

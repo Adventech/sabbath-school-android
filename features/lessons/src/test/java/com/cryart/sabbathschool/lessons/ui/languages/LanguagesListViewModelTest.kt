@@ -47,7 +47,8 @@ class LanguagesListViewModelTest {
     private val mockSSPrefs: SSPrefs = mockk()
 
     private val languagesFlow = MutableSharedFlow<Resource<List<Language>>>(
-        replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
     private lateinit var viewModel: LanguagesListViewModel
@@ -59,7 +60,7 @@ class LanguagesListViewModelTest {
 
         viewModel = LanguagesListViewModel(
             repository = mockRepository,
-            ssPrefs = mockSSPrefs,
+            ssPrefs = mockSSPrefs
         )
     }
 

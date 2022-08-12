@@ -50,73 +50,73 @@ object StorageModule {
     @Provides
     @Singleton
     fun provideAudioDao(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): AudioDao = context.database().audioDao()
 
     @Provides
     @Singleton
     fun provideLanguagesDao(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): LanguagesDao = context.database().languagesDao()
 
     @Provides
     @Singleton
     fun provideQuarterliesDao(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): QuarterliesDao = context.database().quarterliesDao()
 
     @Provides
     @Singleton
     fun provideLessonsDao(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): LessonsDao = context.database().lessonsDao()
 
     @Provides
     @Singleton
     fun provideReadsDao(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): ReadsDao = context.database().readsDao()
 
     @Provides
     @Singleton
     fun providePdfAnnotationsDao(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): PdfAnnotationsDao = context.database().pdfAnnotationsDao()
 
     @Provides
     @Singleton
     fun provideReadCommentsDao(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): ReadCommentsDao = context.database().readCommentsDao()
 
     @Provides
     @Singleton
     fun provideReadHighlightsDao(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): ReadHighlightsDao = context.database().readHighlightsDao()
 
     @Provides
     @Singleton
     fun provideUserDao(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): UserDao = context.database().userDao()
 
     @Provides
     @Singleton
     fun provideVideoInfoDao(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): VideoInfoDao = context.database().videoInfoDao()
 
     @Provides
     @Singleton
     fun providePublishingInfoDao(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): PublishingInfoDao = context.database().publishingInfoDao()
 
     @Provides
     @Singleton
     fun provideBibleVersionDao(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): BibleVersionDao = context.database().bibleVersionDao()
 }
 

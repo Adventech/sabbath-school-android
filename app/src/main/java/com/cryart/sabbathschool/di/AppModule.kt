@@ -48,7 +48,7 @@ object AppModule {
         alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager,
         notificationManager = NotificationManagerCompat.from(context),
         context = context,
-        ssPrefs = ssPrefs,
+        ssPrefs = ssPrefs
     )
 
     @Provides
@@ -57,6 +57,6 @@ object AppModule {
     @Provides
     fun provideAppConfig() = AppConfig(
         BuildConfig.VERSION_NAME,
-        BuildConfig.WEB_CLIENT_ID,
+        BuildConfig.WEB_CLIENT_ID
     )
 }

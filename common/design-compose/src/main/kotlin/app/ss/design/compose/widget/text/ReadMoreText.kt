@@ -172,12 +172,12 @@ fun ReadMoreText(
         softWrap = softWrap,
         readMoreText = readMoreText,
         readMoreMaxLines = readMoreMaxLines,
-        readMoreStyle = mergedReadMoreStyle,
+        readMoreStyle = mergedReadMoreStyle
     )
 }
 
 @Preview(
-    name = "Read More Text",
+    name = "Read More Text"
 )
 @Composable
 private fun ReadMoreTextPreview() {
@@ -188,7 +188,7 @@ private fun ReadMoreTextPreview() {
                 modifier = Modifier
                     .padding(16.dp)
                     .fillMaxWidth()
-                    .clickable { /* do nothing */ },
+                    .clickable { /* do nothing */ }
             )
         }
     }

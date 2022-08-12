@@ -82,7 +82,7 @@ internal class PlaybackConnectionImpl(
     context: Context,
     serviceComponent: ComponentName,
     private val audioPlayer: AudioPlayer,
-    coroutineScope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope,
+    coroutineScope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope
 ) : PlaybackConnection, CoroutineScope by coroutineScope {
 
     override val isConnected = MutableStateFlow(false)
@@ -103,7 +103,10 @@ internal class PlaybackConnectionImpl(
 
     private val mediaBrowserConnectionCallback = MediaBrowserConnectionCallback(context)
     private val mediaBrowser = MediaBrowserCompat(
-        context, serviceComponent, mediaBrowserConnectionCallback, null
+        context,
+        serviceComponent,
+        mediaBrowserConnectionCallback,
+        null
     ).apply { connect() }
 
     private var currentProgressInterval: Long = PLAYBACK_PROGRESS_INTERVAL
@@ -157,8 +160,9 @@ internal class PlaybackConnectionImpl(
             val duration = current.duration
             val position = state.position
 
-            if (state == NONE_PLAYBACK_STATE || current == NONE_PLAYING || duration < 1)
+            if (state == NONE_PLAYBACK_STATE || current == NONE_PLAYING || duration < 1) {
                 return@collect
+            }
 
             val initial = PlaybackProgressState(duration, position, buffered = audioPlayer.bufferedPosition())
             playbackProgress.value = initial

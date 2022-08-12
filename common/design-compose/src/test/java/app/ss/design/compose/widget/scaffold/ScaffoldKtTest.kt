@@ -76,7 +76,6 @@ class ScaffoldKtTest {
     private fun TestScaffold(
         darkTheme: Boolean = false
     ) {
-
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarScrollState())
 
         SsTheme(darkTheme = darkTheme) {
@@ -89,8 +88,8 @@ class ScaffoldKtTest {
                                 IconButton(
                                     imageVector = Icons.Rounded.AccountCircle,
                                     contentDescription = "Profile",
-                                    onClick = {},
-                                ),
+                                    onClick = {}
+                                )
                             )
                         ),
                         title = { Text(text = "Title") },
@@ -99,7 +98,7 @@ class ScaffoldKtTest {
                                 icon = IconButton(
                                     imageVector = Icons.Rounded.ArrowBack,
                                     contentDescription = "Back",
-                                    onClick = {},
+                                    onClick = {}
                                 )
                             )
                         },
@@ -113,7 +112,6 @@ class ScaffoldKtTest {
                     contentPadding = innerPadding,
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-
                     val list = (0..50).map { it.toString() }
                     items(count = list.size) {
                         Text(

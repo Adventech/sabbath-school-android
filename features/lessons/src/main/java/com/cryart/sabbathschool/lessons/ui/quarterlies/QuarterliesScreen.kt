@@ -96,7 +96,7 @@ internal fun QuarterliesScreen(
         title = viewModel.groupTitle ?: stringResource(id = RString.ss_app_name),
         photoUrl = photoUrl,
         callbacks = callbacks,
-        scrollBehavior = scrollBehavior,
+        scrollBehavior = scrollBehavior
     )
 }
 
@@ -188,7 +188,7 @@ internal fun QuarterliesTopAppBar(
                     icon = IconButton(
                         imageVector = MaterialIcons.Rounded.ArrowBack,
                         contentDescription = stringResource(id = RString.ss_action_back),
-                        onClick = { type.backNavClick() },
+                        onClick = { type.backNavClick() }
                     )
                 )
             }
@@ -215,7 +215,7 @@ internal fun QuarterliesTopAppBar(
 private val AccountImgSize = 32.dp
 
 @Preview(
-    name = "TopAppBar",
+    name = "TopAppBar"
 )
 @Preview(
     name = "TopAppBar ~ dark",

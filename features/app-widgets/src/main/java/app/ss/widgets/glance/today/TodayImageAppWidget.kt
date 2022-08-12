@@ -52,7 +52,7 @@ import dagger.assisted.AssistedInject
 
 internal class TodayImageAppWidget @AssistedInject constructor(
     private val dataProvider: WidgetDataProvider,
-    @Assisted private val context: Context,
+    @Assisted private val context: Context
 ) : BaseGlanceAppWidget<TodayImageAppWidget.Data>(context = context) {
 
     data class Data(
@@ -103,9 +103,9 @@ internal class TodayImageAppWidget @AssistedInject constructor(
                     spec = TodayInfoSpec(
                         model = model,
                         textColor = textColor,
-                        showReadButton = false,
+                        showReadButton = false
                     ),
-                    modifier = modifier,
+                    modifier = modifier
                 )
             }
         }

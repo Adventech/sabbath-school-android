@@ -64,7 +64,7 @@ object PlaybackModule {
         okHttpClient: OkHttpClient
     ): AudioPlayer = AudioPlayerImpl(
         context,
-        okHttpClient,
+        okHttpClient
     )
 
     @Provides
@@ -86,11 +86,11 @@ object PlaybackModule {
     @Singleton
     fun playbackConnection(
         @ApplicationContext context: Context,
-        audioPlayer: AudioPlayer,
+        audioPlayer: AudioPlayer
     ): PlaybackConnection = PlaybackConnectionImpl(
         context = context,
         serviceComponent = ComponentName(context, MusicService::class.java),
-        audioPlayer = audioPlayer,
+        audioPlayer = audioPlayer
     )
 
     @Provides

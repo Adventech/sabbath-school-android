@@ -111,9 +111,8 @@ internal fun VideoListScreen(
     modifier: Modifier = Modifier,
     onVideoClick: (SSVideo) -> Unit = {},
     isAtTop: (Boolean) -> Unit = {},
-    listState: LazyListState = rememberLazyListState(),
+    listState: LazyListState = rememberLazyListState()
 ) {
-
     LazyColumn(
         modifier = modifier
             .drawVerticalScrollbar(listState),
@@ -209,12 +208,12 @@ private fun VideosInfoList(
     listState: LazyListState = rememberLazyListState()
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
     ) {
         Text(
             text = spec.artist.uppercase(),
             style = MaterialTheme.typography.titleLarge.copy(
-                fontSize = 13.sp,
+                fontSize = 13.sp
             ),
             color = if (isSystemInDarkTheme()) SsColor.BaseGrey2 else MaterialTheme.colorScheme.primary,
             modifier = Modifier
@@ -257,7 +256,7 @@ private fun VideoColumn(
     modifier: Modifier = Modifier,
     featured: Boolean = false,
     vertical: Boolean = false,
-    onVideoClick: () -> Unit,
+    onVideoClick: () -> Unit
 ) {
     val defSize = getThumbnailSize(vertical = vertical)
     val size = if (featured) {
@@ -283,7 +282,6 @@ private fun VideoColumn(
                 onVideoClick()
             }
     ) {
-
         VideoImage(video, size)
 
         Spacer(modifier = Modifier.height(Spacing16))
@@ -293,7 +291,7 @@ private fun VideoColumn(
             style = MaterialTheme.typography.titleSmall.copy(
                 fontSize = if (featured) 19.sp else 16.sp
             ),
-            color = navTitle(),
+            color = navTitle()
         )
         Text(
             text = video.artist,
@@ -318,13 +316,12 @@ private fun VideoRow(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .padding(
-                horizontal = Spacing24,
+                horizontal = Spacing24
             )
             .clickable {
                 onVideoClick()
             }
     ) {
-
         VideoImage(video, size)
 
         Column(
@@ -381,7 +378,7 @@ private fun VideoImage(
                 height = size.height.dp
             )
             .shadow(CoverCornerRadius, CoverImageShape)
-            .clip(CoverImageShape),
+            .clip(CoverImageShape)
     )
 }
 

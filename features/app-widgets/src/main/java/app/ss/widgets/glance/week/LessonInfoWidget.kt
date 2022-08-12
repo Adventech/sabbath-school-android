@@ -73,7 +73,7 @@ import app.ss.translations.R as TranslationsR
 
 internal class LessonInfoWidget @AssistedInject constructor(
     private val dataProvider: WidgetDataProvider,
-    @Assisted private val context: Context,
+    @Assisted private val context: Context
 ) : BaseGlanceAppWidget<LessonInfoWidget.Data>(context = context) {
 
     data class Data(
@@ -181,7 +181,6 @@ private fun LessonInfoRow(
         modifier = modifier.padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         cover?.let { bitmap ->
             Image(
                 provider = BitmapImageProvider(bitmap),
@@ -204,7 +203,7 @@ private fun LessonInfoRow(
         Spacer(modifier = GlanceModifier.width(8.dp))
 
         Column(
-            modifier = GlanceModifier.defaultWeight(),
+            modifier = GlanceModifier.defaultWeight()
         ) {
             Text(
                 text = quarterlyTitle,

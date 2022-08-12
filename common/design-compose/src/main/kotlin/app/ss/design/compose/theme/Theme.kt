@@ -41,7 +41,7 @@ val DarkColorScheme = darkColorScheme(
     surface = Color.Black,
     onBackground = SsColor.BaseGrey1,
     onSurface = SsColor.BaseGrey1,
-    error = SsColor.BaseRed,
+    error = SsColor.BaseRed
 )
 
 val LightColorScheme = lightColorScheme(
@@ -53,7 +53,7 @@ val LightColorScheme = lightColorScheme(
     onSecondary = Color.White,
     onBackground = SsColor.BaseGrey3,
     onSurface = SsColor.BaseGrey3,
-    error = SsColor.BaseRed,
+    error = SsColor.BaseRed
 )
 
 @Composable

@@ -69,7 +69,7 @@ class SSReadingViewModel @AssistedInject constructor(
     @Assisted private val ssLessonIndex: String,
     @Assisted private val dataListener: DataListener,
     @Assisted private val ssReadingActivityBinding: SsReadingActivityBinding,
-    @Assisted private val activity: FragmentActivity,
+    @Assisted private val activity: FragmentActivity
 ) : SSReadingView.ContextMenuCallback,
     SSReadingView.HighlightsCommentsCallback,
     CoroutineScope by MainScope() {

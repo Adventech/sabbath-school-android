@@ -82,7 +82,6 @@ class LoginViewModelTest {
         coEvery { mockAuthRepository.signIn() }.returns(Resource.error(Throwable("Error")))
 
         viewModel.viewStateFlow.test {
-
             viewModel.handleAnonymousLogin()
 
             awaitItem() shouldBeEqualTo null

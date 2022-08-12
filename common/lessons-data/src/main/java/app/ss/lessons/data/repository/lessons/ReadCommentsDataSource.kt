@@ -43,7 +43,7 @@ internal class ReadCommentsDataSource @Inject constructor(
     private val readCommentsDao: ReadCommentsDao
 ) : DataSourceMediator<SSReadComments, ReadCommentsDataSource.Request>(
     dispatcherProvider = dispatcherProvider,
-    connectivityHelper = connectivityHelper,
+    connectivityHelper = connectivityHelper
 ) {
 
     data class Request(val readIndex: String)

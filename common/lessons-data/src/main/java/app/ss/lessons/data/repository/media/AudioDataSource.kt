@@ -43,7 +43,7 @@ internal class AudioDataSource @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : DataSourceMediator<SSAudio, AudioDataSource.Request>(
     dispatcherProvider = dispatcherProvider,
-    connectivityHelper = connectivityHelper,
+    connectivityHelper = connectivityHelper
 ) {
 
     data class Request(val lessonIndex: String)

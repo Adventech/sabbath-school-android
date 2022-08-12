@@ -43,7 +43,7 @@ internal class WidgetUpdateWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val dataProvider: WidgetDataProvider,
-    private val helper: AppWidgetHelper,
+    private val helper: AppWidgetHelper
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result = try {

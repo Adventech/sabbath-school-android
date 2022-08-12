@@ -32,5 +32,5 @@ internal data class TodayInfoSpec(
     val textColor: Color? = null,
     val titleMaxLines: Int = 3,
     val bodyMaxLines: Int = 2,
-    val showReadButton: Boolean = true,
+    val showReadButton: Boolean = true
 )

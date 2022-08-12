@@ -42,7 +42,7 @@ data class QuarterlyInfoSpec(
     val features: List<FeatureSpec> = emptyList(),
     val todayLessonIndex: String? = null,
     val readClick: () -> Unit = {},
-    val readMoreClick: () -> Unit = {},
+    val readMoreClick: () -> Unit = {}
 )
 
 internal fun SSQuarterlyInfo.toSpec(

@@ -69,14 +69,13 @@ internal fun PlayBackControls(
             .fillMaxWidth()
             .padding(horizontal = Dimens.grid_6),
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-
         Spacer(modifier = Modifier.weight(1f))
 
         IconButton(
             onClick = { playbackConnection.transportControls?.rewind() },
-            stateLayerSize = PlayBackControlsDefaults.nonPlayButtonStateLayerSize,
+            stateLayerSize = PlayBackControlsDefaults.nonPlayButtonStateLayerSize
         ) {
             IconBox(
                 icon = IconSlot.fromResource(
@@ -106,7 +105,7 @@ internal fun PlayBackControls(
                     contentDescription = stringResource(id = RString.ss_action_play_pause)
                 ),
                 contentColor = contentColor,
-                modifier = Modifier.size(PlayBackControlsDefaults.playButtonSize),
+                modifier = Modifier.size(PlayBackControlsDefaults.playButtonSize)
             )
         }
 

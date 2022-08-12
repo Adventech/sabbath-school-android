@@ -48,9 +48,8 @@ fun SsTopAppBar(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior? = null,
-    colors: TopAppBarColors? = null,
+    colors: TopAppBarColors? = null
 ) {
-
     val actions: @Composable RowScope.() -> Unit = {
         spec.actions.take(MAX_ACTIONS).forEach { icon ->
             IconBox(icon = icon)

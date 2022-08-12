@@ -31,5 +31,5 @@ data class AccountToken(
     val apiKey: String,
     val refreshToken: String,
     val accessToken: String,
-    val expirationTime: Long,
+    val expirationTime: Long
 )

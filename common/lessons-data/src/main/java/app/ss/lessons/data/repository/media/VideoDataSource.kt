@@ -41,10 +41,10 @@ internal class VideoDataSource @Inject constructor(
     private val mediaApi: SSMediaApi,
     private val videoInfoDao: VideoInfoDao,
     dispatcherProvider: DispatcherProvider,
-    connectivityHelper: ConnectivityHelper,
+    connectivityHelper: ConnectivityHelper
 ) : DataSourceMediator<SSVideosInfo, VideoDataSource.Request>(
     dispatcherProvider = dispatcherProvider,
-    connectivityHelper = connectivityHelper,
+    connectivityHelper = connectivityHelper
 ) {
 
     data class Request(val lessonIndex: String)
@@ -86,7 +86,7 @@ private fun VideoInfoEntity.toModel(): SSVideosInfo = SSVideosInfo(
 
 private fun VideosInfoModel.toModel(
     id: String,
-    lessonIndex: String,
+    lessonIndex: String
 ): SSVideosInfo = SSVideosInfo(
     id = id,
     artist = artist,

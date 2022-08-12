@@ -123,7 +123,6 @@ fun PlaybackMiniControls(
     val contentColor = playbackContentColor()
 
     Dismissible(onDismiss = cancel) {
-
         Box(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -218,7 +217,7 @@ private fun playbackButtonSpacing(
 private fun PlaybackProgress(
     spec: PlaybackStateSpec,
     color: Color,
-    playbackConnection: PlaybackConnection = LocalPlaybackConnection.current,
+    playbackConnection: PlaybackConnection = LocalPlaybackConnection.current
 ) {
     val progressState by rememberFlowWithLifecycle(playbackConnection.playbackProgress)
         .collectAsState(PlaybackProgressState())
@@ -252,9 +251,8 @@ private fun RowScope.NowPlayingColumn(
     Row(
         horizontalArrangement = Arrangement.spacedBy(Dimens.grid_1),
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.weight(1f),
+        modifier = Modifier.weight(1f)
     ) {
-
         IconButton(onClick = onCancel) {
             IconBox(
                 icon = Icons.Cancel,
@@ -266,7 +264,7 @@ private fun RowScope.NowPlayingColumn(
         NowPlayingColumn(
             spec = spec,
             modifier = Modifier
-                .weight(1f),
+                .weight(1f)
         )
     }
 }
@@ -289,7 +287,7 @@ private fun NowPlayingColumn(
             style = MaterialTheme.typography.labelMedium.copy(
                 fontSize = 15.sp
             ),
-            color = MaterialTheme.colorScheme.onSurface,
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         Spacer(modifier = Modifier.height(2.dp))
@@ -320,7 +318,7 @@ private fun PlaybackReplay(
                 contentDescription = stringResource(id = RString.ss_action_rewind)
             ),
             modifier = Modifier.size(size),
-            contentColor = contentColor,
+            contentColor = contentColor
         )
     }
 }

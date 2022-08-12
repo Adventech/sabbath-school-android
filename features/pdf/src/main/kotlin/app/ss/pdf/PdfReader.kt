@@ -79,7 +79,7 @@ internal class PdfReaderImpl(
         AnnotationType.NOTE,
         AnnotationType.WATERMARK,
         AnnotationType.STRIKEOUT,
-        AnnotationType.FREETEXT,
+        AnnotationType.FREETEXT
     )
 
     override fun launchIntent(pdfs: List<LessonPdf>, lessonIndex: String, mediaAvailability: MediaAvailability): Intent {

@@ -52,7 +52,7 @@ fun SnappingLazyRow(
         flingBehavior = rememberSnapperFlingBehavior(
             lazyListState = state,
             snapOffsetForItem = SnapOffsets.Start,
-            endContentPadding = contentPadding.calculateEndPadding(LayoutDirection.Ltr),
+            endContentPadding = contentPadding.calculateEndPadding(LayoutDirection.Ltr)
         ),
         contentPadding = contentPadding,
         horizontalArrangement = horizontalArrangement,

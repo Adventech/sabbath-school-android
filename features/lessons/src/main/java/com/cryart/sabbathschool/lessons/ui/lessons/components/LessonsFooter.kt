@@ -66,9 +66,8 @@ internal data class LessonsFooterSpec(
 )
 
 internal fun LazyListScope.footer(
-    spec: LessonsFooterSpec,
+    spec: LessonsFooterSpec
 ) {
-
     if (spec.credits.isEmpty() && spec.features.isEmpty()) {
         return
     }
@@ -130,13 +129,15 @@ internal fun LazyListScope.footer(
 
 @Stable
 @Composable
-private fun backgroundColor(): Color = if (isSystemInDarkTheme())
-    Color.Black.lighter() else SsColor.BaseGrey1
+private fun backgroundColor(): Color = if (isSystemInDarkTheme()) {
+    Color.Black.lighter()
+} else SsColor.BaseGrey1
 
 @Composable
 @Stable
-fun foregroundColor(): Color = if (isSystemInDarkTheme())
-    SsColor.BaseGrey3 else SsColor.BaseGrey2
+fun foregroundColor(): Color = if (isSystemInDarkTheme()) {
+    SsColor.BaseGrey3
+} else SsColor.BaseGrey2
 
 private val year: String = "© ${Calendar.getInstance().get(Calendar.YEAR)}"
 
@@ -204,7 +205,7 @@ private val ImageWidth = 26.dp
 private val ImageHeight = 22.dp
 
 @Preview(
-    name = "Feature",
+    name = "Feature"
 )
 @Preview(
     name = "Feature ~ dark",
@@ -224,7 +225,7 @@ private fun FeatureItemPreview() {
 }
 
 @Preview(
-    name = "Credit",
+    name = "Credit"
 )
 @Preview(
     name = "Credit ~ dark",
@@ -236,7 +237,7 @@ private fun CreditItemPreview() {
         Surface {
             FooterItem(
                 title = "Principal Contributor",
-                description = "Gavin Anthony",
+                description = "Gavin Anthony"
             )
         }
     }

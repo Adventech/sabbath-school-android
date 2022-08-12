@@ -35,5 +35,5 @@ data class SSLesson(
     val index: String = "",
     val path: String = "",
     val full_path: String = "",
-    val pdfOnly: Boolean = false,
+    val pdfOnly: Boolean = false
 )

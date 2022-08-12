@@ -27,7 +27,7 @@ class MediaSessionCallback(
     private val mediaSession: MediaSessionCompat,
     private val audioPlayer: SSAudioPlayer,
     private val audioFocusHelper: AudioFocusHelper,
-    private val audioQueueManager: AudioQueueManager,
+    private val audioQueueManager: AudioQueueManager
 ) : MediaSessionCompat.Callback(), CoroutineScope by MainScope() {
 
     init {
@@ -142,7 +142,8 @@ class MediaSessionCallback(
     }
 
     private fun playOnFocus(extras: Bundle = bundleOf(BY_UI_KEY to true)) {
-        if (audioFocusHelper.requestPlayback())
+        if (audioFocusHelper.requestPlayback()) {
             audioPlayer.playAudio(extras)
+        }
     }
 }

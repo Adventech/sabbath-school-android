@@ -30,5 +30,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class VideosInfoModel(
     val artist: String,
-    val clips: List<SSVideo>,
+    val clips: List<SSVideo>
 )
