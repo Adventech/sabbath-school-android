@@ -20,22 +20,12 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
-import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Compose.Glance
-import dependencies.Dependencies.Coil
-import dependencies.Dependencies.Hilt
-import dependencies.Dependencies.Kotlin
-import dependencies.Versions
-import extensions.addTestsDependencies
-import extensions.kapt
-
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-    id(BuildPlugins.Kotlin.KAPT)
-    id(BuildPlugins.Kotlin.PARCELIZE)
-    id(BuildPlugins.DAGGER_HILT)
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -43,20 +33,14 @@ android {
 
     defaultConfig {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
-
-        testInstrumentationRunner = BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER
     }
 
-    compileOptions {
-        sourceCompatibility = JavaOptions.version
-        targetCompatibility = JavaOptions.version
-    }
     kotlinOptions {
-        jvmTarget = JavaOptions.version.toString()
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
+        jvmTarget = libs.versions.jvmTarget.get()
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
 
     buildFeatures {
@@ -65,31 +49,33 @@ android {
 }
 
 dependencies {
-    implementation(project(BuildModules.Common.CORE))
-    implementation(project(BuildModules.Common.DESIGN))
-    implementation(project(BuildModules.Common.DESIGN_COMPOSE))
-    implementation(project(BuildModules.Common.LESSONS_DATA))
-    implementation(project(BuildModules.Common.TRANSLATIONS))
+    implementation(project(":common:core"))
+    implementation(project(":common:design"))
+    implementation(project(":common:design-compose"))
+    implementation(project(":common:lessons-data"))
+    implementation(project(":common:translations"))
 
-    implementation(Kotlin.COROUTINES)
-    implementation(Kotlin.COROUTINES_ANDROID)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.kotlin.coroutines.android)
 
-    implementation(Dependencies.MATERIAL)
-    implementation(AndroidX.CORE)
-    implementation(AndroidX.WORK)
-    implementation(AndroidX.Hilt.work)
-    kapt(AndroidX.Hilt.compiler)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.glance)
+    implementation(libs.androidx.glance.appwidget)
+    implementation(libs.androidx.hilt.work)
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.work)
 
-    implementation(Hilt.ANDROID)
-    kapt(Hilt.COMPILER)
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
+    implementation(libs.google.material)
 
-    implementation(Dependencies.TIMBER)
-    implementation(Coil.core)
-    implementation(Coil.compose)
+    implementation(libs.timber)
+    implementation(libs.coil.core)
+    implementation(libs.coil.compose)
 
-    implementation(Glance.core)
-    implementation(Glance.appwidget)
-
-    addTestsDependencies()
-    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
+    testImplementation(libs.bundles.testing.common)
+    kaptTest(libs.google.hilt.compiler)
+    androidTestImplementation(libs.bundles.testing.android.common)
+    kaptAndroidTest(libs.google.hilt.compiler)
+    testImplementation(project(":libraries:test_utils"))
 }

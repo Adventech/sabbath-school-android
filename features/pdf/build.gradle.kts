@@ -20,19 +20,13 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
-import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Hilt
-import dependencies.Dependencies.Kotlin
-import extensions.addTestsDependencies
-import extensions.kapt
 import extensions.readPropertyValue
 
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-    id(BuildPlugins.Kotlin.KAPT)
-    id(BuildPlugins.DAGGER_HILT)
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 val psPdfKitKey = readPropertyValue(
@@ -58,42 +52,41 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaOptions.version
-        targetCompatibility = JavaOptions.version
-    }
     kotlinOptions {
-        jvmTarget = JavaOptions.version.toString()
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OPT_IN
+        jvmTarget = libs.versions.jvmTarget.get()
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
 }
 
 dependencies {
 
-    implementation(project(BuildModules.Common.CORE))
-    implementation(project(BuildModules.Common.DESIGN))
-    implementation(project(BuildModules.Common.LESSONS_DATA))
-    implementation(project(BuildModules.Features.MEDIA))
-    implementation(project(BuildModules.Common.TRANSLATIONS))
+    implementation(project(":common:core"))
+    implementation(project(":common:design"))
+    implementation(project(":common:lessons-data"))
+    implementation(project(":features:media"))
+    implementation(project(":common:translations"))
 
-    implementation(AndroidX.ACTIVITY)
-    implementation(AndroidX.APPCOMPAT)
-    implementation(AndroidX.CORE)
-    implementation(AndroidX.LIFECYCLE_VIEWMODEL)
-    implementation(Dependencies.MATERIAL)
-    implementation(AndroidX.PREFERENCE)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.google.material)
+    implementation(libs.androidx.preference)
 
-    implementation(Hilt.ANDROID)
-    kapt(Hilt.COMPILER)
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
 
-    implementation(Dependencies.TIMBER)
+    implementation(libs.timber)
 
-    implementation(Kotlin.COROUTINES)
-    implementation(Kotlin.COROUTINES_ANDROID)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.kotlin.coroutines.android)
 
-    api(Dependencies.PDF_KIT)
+    api(libs.pdfkit)
 
-    addTestsDependencies()
-    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
+    testImplementation(libs.bundles.testing.common)
+    kaptTest(libs.google.hilt.compiler)
+    androidTestImplementation(libs.bundles.testing.android.common)
+    kaptAndroidTest(libs.google.hilt.compiler)
+    testImplementation(project(":libraries:test_utils"))
 }

@@ -20,18 +20,10 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
-import dependencies.Dependencies.Accompanist
-import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Coil
-import dependencies.Dependencies.Compose
-import dependencies.Dependencies.Kotlin
-import dependencies.Versions
-
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-    id(BuildPlugins.PAPARAZZI)
+    id("com.android.library")
+    id("kotlin-android")
+    id("app.cash.paparazzi")
 }
 
 android {
@@ -45,43 +37,26 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
     kotlinOptions {
-        jvmTarget = JavaOptions.version.toString()
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OPT_IN
-    }
-    compileOptions {
-        sourceCompatibility = JavaOptions.version
-        targetCompatibility = JavaOptions.version
+        jvmTarget = libs.versions.jvmTarget.get()
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
 }
 
 dependencies {
-    implementation(project(BuildModules.Common.TRANSLATIONS))
+    implementation(project(":common:translations"))
 
-    implementation(Dependencies.TIMBER)
-    implementation(Accompanist.placeholder)
-    implementation(AndroidX.LIFECYCLE_KTX)
-    implementation(Coil.compose)
-    implementation(Kotlin.COROUTINES)
+    implementation(libs.timber)
+    implementation(libs.google.accompanist.placeholder)
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.coil.compose)
+    implementation(libs.kotlin.coroutines)
 
-    implementation(Compose.material)
-    implementation(Compose.snapper)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.snapper)
 
-    api(Compose.foundation)
-    api(Compose.foundationLayout)
-    api(Compose.ui)
-    api(Compose.uiUtil)
-    api(Compose.runtime)
-    api(Compose.material3)
-    api(Compose.toolingPreview)
-    api(Compose.icons)
-    api(Compose.iconsExtended)
-    api(Compose.windowSizeClass)
-    debugApi(Compose.tooling)
-    debugApi(Compose.Preview.customView)
-    debugApi(Compose.Preview.customViewContainer)
-    debugApi(Compose.Preview.viewModel)
-    debugApi(Compose.Preview.savedState)
+    api(libs.bundles.compose)
+    debugApi(libs.bundles.compose.tooling)
 }

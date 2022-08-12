@@ -20,14 +20,11 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
-import extensions.kapt
-
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-    id(BuildPlugins.Kotlin.KAPT)
-    id(BuildPlugins.DAGGER_HILT)
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -36,14 +33,10 @@ android {
     defaultConfig {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
-
-    compileOptions {
-        sourceCompatibility = JavaOptions.version
-        targetCompatibility = JavaOptions.version
-    }
+    
     kotlinOptions {
-        jvmTarget = JavaOptions.version.toString()
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
+        jvmTarget = libs.versions.jvmTarget.get()
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
 
     buildFeatures {
@@ -52,26 +45,26 @@ android {
 }
 
 dependencies {
-    implementation(project(BuildModules.Common.AUTH))
-    implementation(project(BuildModules.Common.CORE))
-    implementation(project(BuildModules.Common.DESIGN))
-    implementation(project(BuildModules.Common.MODELS))
-    implementation(project(BuildModules.Common.TRANSLATIONS))
+    implementation(project(":common:auth"))
+    implementation(project(":common:core"))
+    implementation(project(":common:design"))
+    implementation(project(":common:models"))
+    implementation(project(":common:translations"))
 
-    implementation(Dependencies.MATERIAL)
-    implementation(Dependencies.AndroidX.CORE)
-    implementation(Dependencies.AndroidX.APPCOMPAT)
-    implementation(Dependencies.AndroidX.FRAGMENT_KTX)
+    implementation(libs.google.material)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.fragment)
 
-    implementation(Dependencies.PLAY_AUTH)
+    implementation(libs.google.play.auth)
 
-    implementation(Dependencies.Hilt.ANDROID)
-    kapt(Dependencies.Hilt.COMPILER)
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
 
-    implementation(Dependencies.Kotlin.COROUTINES)
-    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
-    implementation(Dependencies.Kotlin.COROUTINES_PLAY_SERVICES)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.kotlin.coroutines.android)
+    implementation(libs.kotlin.coroutines.playservices)
 
-    implementation(Dependencies.Coil.core)
-    implementation(Dependencies.TIMBER)
+    implementation(libs.coil.core)
+    implementation(libs.timber)
 }
