@@ -181,6 +181,7 @@ testing-common = [
     "test-mockk", "test-robolectric", "test-turbine", "joda-time"
 ]
 testing-android-common = [
-    "test-androidx-runner", "test-androidx-rules", "test-androidx-ext", "test-androidx-espresso-contrib",
-    "test-androidx-espresso-core", "test-androidx-espresso-intents",
+    "test-androidx-runner", "test-androidx-rules", "test-androidx-ext", "test-junit",
+    "test-coroutines", "test-androidx-espresso-core", "test-androidx-espresso-intents",
+    "test-androidx-archcore", "test-google-hilt",
 ]
