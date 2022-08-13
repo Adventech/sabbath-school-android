@@ -41,7 +41,9 @@ class MediaButtonReceiver : BroadcastReceiver() {
             val connectionCallback = MediaButtonConnectionCallback(applicationContext, intent, pendingResult)
             val mediaBrowser = MediaBrowserCompat(
                 applicationContext,
-                mediaBrowserServiceComponentName, connectionCallback, null
+                mediaBrowserServiceComponentName,
+                connectionCallback,
+                null
             )
             connectionCallback.setMediaBrowser(mediaBrowser)
             mediaBrowser.connect()

@@ -54,7 +54,6 @@ internal class WeekLessonWidget : BaseWidgetProvider<WeekLessonWidgetModel>() {
         appWidgetId: Int,
         model: WeekLessonWidgetModel?
     ) {
-
         val views = RemoteViews(context.packageName, R.layout.week_lesson_app_widget)
         views.setTextViewText(R.id.widget_quarterly_title, model?.quarterlyTitle ?: context.getString(R.string.ss_widget_error_label))
         views.setTextViewText(R.id.widget_lesson_title, model?.lessonTitle ?: context.getString(R.string.ss_widget_error_label))

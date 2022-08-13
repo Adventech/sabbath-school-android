@@ -40,7 +40,7 @@ class SplashViewModel @Inject constructor(
     private val ssPrefs: SSPrefs,
     private val authRepository: AuthRepository,
     private val dailyReminderManager: DailyReminderManager,
-    private val dispatcherProvider: DispatcherProvider,
+    private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
     private val _launchState: MutableStateFlow<LaunchState> = MutableStateFlow(LaunchState.Loading)

@@ -74,7 +74,7 @@ internal class SSAudioPlayerImpl(
     private val audioPlayer: AudioPlayer,
     private val audioFocusHelper: AudioFocusHelper,
     private val queueManager: AudioQueueManager,
-    private val repository: MediaRepository,
+    private val repository: MediaRepository
 ) : SSAudioPlayer, CoroutineScope by MainScope() {
 
     private var isInitialized: Boolean = false
@@ -133,7 +133,7 @@ internal class SSAudioPlayerImpl(
             }
         }
         audioPlayer.onIsPlaying { playing, byUi ->
-            if (playing)
+            if (playing) {
                 updatePlaybackState {
                     setState(PlaybackStateCompat.STATE_PLAYING, mediaSession.position(), 1F)
                     setExtras(
@@ -143,6 +143,7 @@ internal class SSAudioPlayerImpl(
                         )
                     )
                 }
+            }
             isPlayingCallback(playing, byUi)
         }
         audioPlayer.onReady {
@@ -296,10 +297,11 @@ internal class SSAudioPlayerImpl(
     }
 
     override suspend fun previousAudio() {
-        if (queueManager.queue.isNotEmpty())
+        if (queueManager.queue.isNotEmpty()) {
             queueManager.previousAudioIndex?.let {
                 playAudio(queueManager.queue[it])
             } ?: repeatAudio()
+        }
     }
 
     override suspend fun repeatAudio() {
@@ -362,7 +364,7 @@ internal class SSAudioPlayerImpl(
             stateBuilder.build().extras + bundleOf(
                 QUEUE_CURRENT_INDEX to queueManager.currentAudioIndex,
                 QUEUE_HAS_PREVIOUS to (queueManager.previousAudioIndex != null),
-                QUEUE_HAS_NEXT to (queueManager.nextAudioIndex != null),
+                QUEUE_HAS_NEXT to (queueManager.nextAudioIndex != null)
             )
         )
         setPlaybackState(stateBuilder.build())

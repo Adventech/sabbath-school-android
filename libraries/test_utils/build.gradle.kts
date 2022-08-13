@@ -20,16 +20,11 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
-import dependencies.Dependencies.Square.Moshi
-import dependencies.TestDependencies
-import extensions.kapt
-
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-    id(BuildPlugins.Kotlin.KAPT)
-    id(BuildPlugins.DAGGER_HILT)
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -39,35 +34,31 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
-    compileOptions {
-        sourceCompatibility = JavaOptions.version
-        targetCompatibility = JavaOptions.version
-    }
     kotlinOptions {
-        jvmTarget = JavaOptions.version.toString()
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
+        jvmTarget = libs.versions.jvmTarget.get()
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
 }
 
 dependencies {
-    implementation(project(BuildModules.Common.AUTH))
-    implementation(project(BuildModules.Common.CORE))
-    implementation(project(BuildModules.Common.LESSONS_DATA))
+    implementation(project(":common:auth"))
+    implementation(project(":common:core"))
+    implementation(project(":common:lessons-data"))
 
-    implementation(Dependencies.Kotlin.COROUTINES)
-    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.kotlin.coroutines.android)
 
-    implementation(Dependencies.Hilt.ANDROID)
-    implementation(TestDependencies.HILT)
-    kapt(Dependencies.Hilt.COMPILER)
+    implementation(libs.google.hilt.android)
+    implementation(libs.test.google.hilt)
+    kapt(libs.google.hilt.compiler)
 
-    implementation(Dependencies.TIMBER)
+    implementation(libs.timber)
 
-    implementation(Moshi.kotlin)
-    kapt(Moshi.codegen)
+    implementation(libs.square.moshi.kotlin)
+    kapt(libs.square.moshi.codegen)
 
-    implementation(TestDependencies.JUNIT)
-    implementation(TestDependencies.COROUTINES_TEST)
+    implementation(libs.test.junit)
+    implementation(libs.test.coroutines)
 
-    kaptTest(Moshi.codegen)
+    kaptTest(libs.square.moshi.codegen)
 }

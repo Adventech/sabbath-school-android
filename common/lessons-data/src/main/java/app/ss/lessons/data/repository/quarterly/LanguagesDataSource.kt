@@ -40,7 +40,7 @@ internal class LanguagesDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     connectivityHelper: ConnectivityHelper,
     private val languagesDao: LanguagesDao,
-    private val quarterliesApi: SSQuarterliesApi,
+    private val quarterliesApi: SSQuarterliesApi
 ) : DataSourceMediator<Language, LanguagesDataSource.Request>(
     dispatcherProvider = dispatcherProvider,
     connectivityHelper = connectivityHelper

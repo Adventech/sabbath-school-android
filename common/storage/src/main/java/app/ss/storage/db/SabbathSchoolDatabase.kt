@@ -66,7 +66,7 @@ import app.ss.storage.db.entity.VideoInfoEntity
         UserEntity::class,
         VideoInfoEntity::class,
         PublishingInfoEntity::class,
-        BibleVersionEntity::class,
+        BibleVersionEntity::class
     ],
     version = 8,
     exportSchema = true,
@@ -76,7 +76,7 @@ import app.ss.storage.db.entity.VideoInfoEntity
         AutoMigration(from = 4, to = 5),
         AutoMigration(from = 5, to = 6),
         AutoMigration(from = 6, to = 7),
-        AutoMigration(from = 7, to = 8),
+        AutoMigration(from = 7, to = 8)
     ]
 )
 @TypeConverters(Converters::class)

@@ -74,7 +74,7 @@ private const val scrollToItemKey = "playbackQueue"
 @Composable
 internal fun PlaybackQueueList(
     spec: PlaybackQueueSpec,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val coroutine = rememberCoroutineScope()
     val (playbackQueue, listState, nowPlayingId, isPlaying, onPlayAudio) = spec
@@ -82,7 +82,7 @@ internal fun PlaybackQueueList(
     LazyColumn(
         modifier = modifier
             .padding(vertical = Spacing16),
-        state = listState,
+        state = listState
     ) {
         itemsIndexed(
             playbackQueue,
@@ -130,7 +130,6 @@ private fun AudioRow(
             .padding(horizontal = Spacing4)
             .selectable(selected = isSelected, onClick = onClick)
     ) {
-
         Column(
             modifier = Modifier
                 .weight(1f),
@@ -145,7 +144,7 @@ private fun AudioRow(
                 ),
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+                overflow = TextOverflow.Ellipsis
             )
 
             Text(
@@ -155,7 +154,7 @@ private fun AudioRow(
                 ),
                 color = onSurfaceSecondary(),
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+                overflow = TextOverflow.Ellipsis
             )
 
             Spacer(modifier = Modifier.height(Spacing6))

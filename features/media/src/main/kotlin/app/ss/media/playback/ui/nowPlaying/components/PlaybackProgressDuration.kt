@@ -96,7 +96,7 @@ internal fun PlaybackProgressDuration(
 
     Box(
         modifier = modifier.padding(
-            horizontal = Spacing16,
+            horizontal = Spacing16
         )
     ) {
         PlaybackProgressSlider(
@@ -156,7 +156,7 @@ private fun BoxScope.PlaybackProgressSlider(
 @Composable
 private fun BoxScope.PlaybackProgressDuration(
     progressState: PlaybackProgressState,
-    draggingProgress: Float?,
+    draggingProgress: Float?
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -177,12 +177,12 @@ private fun BoxScope.PlaybackProgressDuration(
             Text(
                 currentDuration,
                 style = textStyle,
-                color = onSurfaceSecondary(),
+                color = onSurfaceSecondary()
             )
             Text(
                 progressState.totalDuration,
                 style = textStyle,
-                color = onSurfaceSecondary(),
+                color = onSurfaceSecondary()
             )
         }
     }

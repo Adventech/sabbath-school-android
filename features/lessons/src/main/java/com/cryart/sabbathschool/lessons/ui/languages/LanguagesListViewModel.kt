@@ -38,7 +38,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LanguagesListViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
-    private val ssPrefs: SSPrefs,
+    private val ssPrefs: SSPrefs
 ) : ViewModel() {
 
     val languagesFlow: StateFlow<List<LanguageModel>>

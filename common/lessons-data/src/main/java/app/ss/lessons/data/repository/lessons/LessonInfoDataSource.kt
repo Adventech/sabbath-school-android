@@ -41,7 +41,7 @@ internal class LessonInfoDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     connectivityHelper: ConnectivityHelper,
     private val lessonsApi: SSLessonsApi,
-    private val lessonsDao: LessonsDao,
+    private val lessonsDao: LessonsDao
 ) : DataSourceMediator<SSLessonInfo, LessonInfoDataSource.Request>(
     dispatcherProvider = dispatcherProvider,
     connectivityHelper = connectivityHelper

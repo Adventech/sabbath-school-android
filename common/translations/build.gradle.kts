@@ -22,7 +22,7 @@
 
 
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
+    id("com.android.library")
 }
 
 android {

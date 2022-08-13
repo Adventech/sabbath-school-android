@@ -99,6 +99,6 @@ fun dividerColor(
 @Stable
 fun onSurfaceSecondary(
     isDark: Boolean = isSystemInDarkTheme()
-): Color = if (isDark)
+): Color = if (isDark) {
     MaterialTheme.colorScheme.onSurface.darker(0.3f)
-else MaterialTheme.colorScheme.onSurface.lighter(0.3f)
+} else MaterialTheme.colorScheme.onSurface.lighter(0.3f)

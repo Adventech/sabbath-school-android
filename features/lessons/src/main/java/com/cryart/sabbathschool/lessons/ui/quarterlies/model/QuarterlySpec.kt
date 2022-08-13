@@ -78,5 +78,5 @@ internal fun SSQuarterly.spec(
 internal data class GroupedQuarterliesSpec(
     val title: String,
     val items: List<QuarterlySpec>,
-    val lastIndex: Boolean,
+    val lastIndex: Boolean
 )

@@ -70,7 +70,7 @@ private typealias Data = TodayWidgetModel
 
 internal class TodayAppWidget @AssistedInject constructor(
     private val dataProvider: WidgetDataProvider,
-    @Assisted context: Context,
+    @Assisted context: Context
 ) : BaseGlanceAppWidget<Data?>(context = context) {
 
     override val sizeMode = SizeMode.Responsive(
@@ -96,8 +96,8 @@ internal class TodayAppWidget @AssistedInject constructor(
                         model = data,
                         titleMaxLines = if (isSmallMode) 2 else 3,
                         bodyMaxLines = if (isSmallMode) 1 else 2,
-                        showReadButton = !isSmallMode,
-                    ),
+                        showReadButton = !isSmallMode
+                    )
                 )
             }
         }
@@ -117,7 +117,7 @@ internal class TodayAppWidget @AssistedInject constructor(
 
 @Composable
 private fun WidgetAppLogo(
-    modifier: GlanceModifier = GlanceModifier,
+    modifier: GlanceModifier = GlanceModifier
 ) {
     Row(modifier = modifier.fillMaxWidth()) {
         Spacer(modifier = GlanceModifier.defaultWeight())
@@ -140,7 +140,7 @@ private val AppLogoSize = 70.dp
 @Composable
 internal fun TodayInfo(
     spec: TodayInfoSpec,
-    modifier: GlanceModifier = GlanceModifier,
+    modifier: GlanceModifier = GlanceModifier
 ) {
     val model = spec.model ?: TodayWidgetModel(
         stringResource(R.string.ss_widget_error_label),
@@ -157,7 +157,7 @@ internal fun TodayInfo(
                 end = 12.dp,
                 bottom = 12.dp
             ),
-        verticalAlignment = Alignment.Bottom,
+        verticalAlignment = Alignment.Bottom
     ) {
         Spacer(modifier = GlanceModifier.defaultWeight())
 

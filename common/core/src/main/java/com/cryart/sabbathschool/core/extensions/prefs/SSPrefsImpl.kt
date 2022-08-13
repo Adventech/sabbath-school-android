@@ -70,7 +70,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
 internal class SSPrefsImpl(
     private val dataStore: DataStore<Preferences>,
     private val sharedPreferences: SharedPreferences,
-    private val coroutineScope: CoroutineScope,
+    private val coroutineScope: CoroutineScope
 ) : SSPrefs {
 
     @Inject
@@ -87,7 +87,8 @@ internal class SSPrefsImpl(
         }
 
     override fun reminderEnabled(): Boolean = sharedPreferences.getBoolean(
-        SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY, true
+        SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY,
+        true
     )
 
     override fun getReminderTime(): ReminderTime {
@@ -226,11 +227,13 @@ internal class SSPrefsImpl(
     }
 
     override fun isAppReBrandingPromptShown(): Boolean = sharedPreferences.getBoolean(
-        SSConstants.SS_APP_RE_BRANDING_PROMPT_SEEN, false
+        SSConstants.SS_APP_RE_BRANDING_PROMPT_SEEN,
+        false
     )
 
     override fun isReminderScheduled(): Boolean = sharedPreferences.getBoolean(
-        SSConstants.SS_REMINDER_SCHEDULED, false
+        SSConstants.SS_REMINDER_SCHEDULED,
+        false
     )
 
     override fun setAppReBrandingShown() = sharedPreferences.edit {

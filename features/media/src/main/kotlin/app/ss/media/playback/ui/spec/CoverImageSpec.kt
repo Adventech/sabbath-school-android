@@ -29,7 +29,7 @@ import app.ss.models.media.AudioFile
 data class CoverImageSpec(
     val imageRatio: String,
     val image: String,
-    val title: String,
+    val title: String
 )
 
 internal fun AudioFile.toImageSpec() = CoverImageSpec(

@@ -65,7 +65,6 @@ fun QuarterlyList(
     callbacks: QuarterlyListCallbacks? = null,
     state: LazyListState = rememberLazyListState()
 ) {
-
     LazyColumn(
         modifier = modifier
             .drawVerticalScrollbar(state),
@@ -112,7 +111,7 @@ fun QuarterlyList(
                                 clickable {
                                     callbacks?.onReadClick(item.index)
                                 }
-                            },
+                            }
                     )
                 }
             }

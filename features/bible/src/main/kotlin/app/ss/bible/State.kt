@@ -28,14 +28,14 @@ import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 @Immutable
 data class BibleVersesState(
     val version: String = "",
-    val content: String = "",
+    val content: String = ""
 )
 
 @Immutable
 internal data class ToolbarSpec(
     val bibleVersions: Set<String>,
     val preferredBible: String,
-    val callbacks: ToolbarComponent.Callbacks,
+    val callbacks: ToolbarComponent.Callbacks
 )
 
 @Immutable

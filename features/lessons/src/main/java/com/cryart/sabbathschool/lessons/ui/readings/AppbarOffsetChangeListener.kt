@@ -40,7 +40,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 class AppbarOffsetChangeListener(
     private val activity: Activity,
     private val collapsingToolbar: CollapsingToolbarLayout,
-    private val toolbar: Toolbar,
+    private val toolbar: Toolbar
 ) : AppBarLayout.OnOffsetChangedListener {
 
     private var isCollapsed: Boolean = false

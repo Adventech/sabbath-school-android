@@ -153,7 +153,7 @@ private fun LoadingListItem() {
 private val ProgressShape = RoundedCornerShape(16.dp)
 
 @Preview(
-    name = "Lessons",
+    name = "Lessons"
 )
 @Preview(
     name = "Lessons ~ Dark",

@@ -34,6 +34,7 @@ internal class TodayImageAppWidgetReceiver : BaseGlanceAppWidgetReceiver<TodayIm
     @Inject
     @ApplicationContext
     lateinit var context: Context
+
     @Inject
     lateinit var widgetFactory: TodayImageAppWidget.Factory
 

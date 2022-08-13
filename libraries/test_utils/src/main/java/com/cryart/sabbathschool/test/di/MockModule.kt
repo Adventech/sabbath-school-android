@@ -45,6 +45,7 @@ object MockModule {
     fun provideQuarterlyMockData(
         @ApplicationContext context: Context
     ): QuarterlyMockData = QuarterlyMockDataImpl(
-        moshi, context
+        moshi,
+        context
     )
 }

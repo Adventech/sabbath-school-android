@@ -20,25 +20,13 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
-import dependencies.Dependencies.Accompanist
-import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Coil
-import dependencies.Dependencies.Compose
-import dependencies.Dependencies.Hilt
-import dependencies.Dependencies.Iconics
-import dependencies.Dependencies.Kotlin
-import dependencies.Versions
-import extensions.addTestsDependencies
-import extensions.kapt
-
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-    id(BuildPlugins.Kotlin.KAPT)
-    id(BuildPlugins.DAGGER_HILT)
-    id(BuildPlugins.Kotlin.PARCELIZE)
-    id(BuildPlugins.PAPARAZZI)
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
+    id("app.cash.paparazzi")
 }
 
 android {
@@ -48,17 +36,14 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
-    compileOptions {
-        sourceCompatibility = JavaOptions.version
-        targetCompatibility = JavaOptions.version
-    }
+
     kotlinOptions {
-        jvmTarget = JavaOptions.version.toString()
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OPT_IN
+        jvmTarget = libs.versions.jvmTarget.get()
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
 
     buildFeatures {
@@ -74,52 +59,55 @@ android {
 
 dependencies {
 
-    implementation(project(BuildModules.Common.AUTH))
-    implementation(project(BuildModules.Common.CORE))
-    implementation(project(BuildModules.Common.DESIGN))
-    implementation(project(BuildModules.Common.DESIGN_COMPOSE))
-    implementation(project(BuildModules.Common.TRANSLATIONS))
-    implementation(project(BuildModules.Common.LESSONS_DATA))
-    implementation(project(BuildModules.Features.APP_WIDGETS))
-    implementation(project(BuildModules.Features.BIBLE))
-    implementation(project(BuildModules.Features.READER))
-    implementation(project(BuildModules.Features.MEDIA))
-    implementation(project(BuildModules.Features.PDF))
+    implementation(project(":common:auth"))
+    implementation(project(":common:core"))
+    implementation(project(":common:design"))
+    implementation(project(":common:design-compose"))
+    implementation(project(":common:translations"))
+    implementation(project(":common:lessons-data"))
+    implementation(project(":features:app-widgets"))
+    implementation(project(":features:bible"))
+    implementation(project(":features:reader"))
+    implementation(project(":features:media"))
+    implementation(project(":features:pdf"))
 
-    implementation(Kotlin.COROUTINES)
-    implementation(Kotlin.COROUTINES_ANDROID)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.kotlin.coroutines.android)
 
-    implementation(Dependencies.MATERIAL)
-    implementation(AndroidX.CORE)
-    implementation(AndroidX.APPCOMPAT)
-    implementation(AndroidX.CONSTRAINT_LAYOUT)
-    implementation(AndroidX.ACTIVITY)
-    implementation(AndroidX.ACTIVITY_COMPOSE)
-    implementation(AndroidX.FRAGMENT_KTX)
-    implementation(AndroidX.LIFECYCLE_COMPOSE)
-    implementation(AndroidX.LIFECYCLE_VIEWMODEL)
-    implementation(AndroidX.LIFECYCLE_EXTENSIONS)
-    implementation(AndroidX.RECYCLER_VIEW)
+    implementation(libs.google.material)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.fragment)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.androidx.recyclerview)
 
-    implementation(Hilt.ANDROID)
-    kapt(Hilt.COMPILER)
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
 
-    implementation(Dependencies.JODA)
-    implementation(Dependencies.TIMBER)
-    implementation(Coil.core)
-    implementation(Dependencies.TAP_TARGET)
-    implementation(Iconics.CORE)
-    implementation(Iconics.VIEWS)
-    implementation(Iconics.TYPEFACE)
-    implementation(Iconics.MATERIAL_TYPEFACE)
+    implementation(libs.joda.android)
+    implementation(libs.timber)
+    implementation(libs.coil.core)
+    implementation(libs.tapTarget)
+    implementation("com.mikepenz:iconics-core:5.3.4@aar")
+    implementation("com.mikepenz:iconics-views:5.3.4@aar")
+    implementation("com.mikepenz:iconics-typeface-api:5.3.4@aar")
+    implementation("com.mikepenz:google-material-typeface:4.0.0.2-kotlin@aar")
     implementation("com.github.hotchemi:android-rate:1.0.1")
     implementation("com.afollestad.material-dialogs:input:3.3.0")
-    implementation(Dependencies.MarkWon.core)
+    implementation(libs.markwon.core)
 
-    implementation(Compose.constraintLayout)
-    implementation(Compose.material)
-    implementation(Accompanist.systemUiController)
+    implementation(libs.androidx.compose.constraintlayout)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.google.accompanist.systemUiController)
 
-    addTestsDependencies()
-    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
+    testImplementation(libs.bundles.testing.common)
+    kaptTest(libs.google.hilt.compiler)
+    androidTestImplementation(libs.bundles.testing.android.common)
+    kaptAndroidTest(libs.google.hilt.compiler)
+    testImplementation(project(":libraries:test_utils"))
 }

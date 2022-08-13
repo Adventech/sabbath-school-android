@@ -67,9 +67,11 @@ object ApiModule {
         .writeTimeout(2, TimeUnit.MINUTES)
         .addInterceptor(
             HttpLoggingInterceptor().apply {
-                level = if (BuildConfig.DEBUG)
-                    HttpLoggingInterceptor.Level.BODY else
+                level = if (BuildConfig.DEBUG) {
+                    HttpLoggingInterceptor.Level.BODY
+                } else {
                     HttpLoggingInterceptor.Level.NONE
+                }
             }
         )
         .addInterceptor { chain ->

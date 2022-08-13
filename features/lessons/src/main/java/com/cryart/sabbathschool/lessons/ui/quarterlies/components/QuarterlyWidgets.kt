@@ -106,7 +106,7 @@ internal fun QuarterlyRow(
     modifier: Modifier = Modifier
 ) {
     val loadingModifier = Modifier.asPlaceholder(
-        visible = spec.isPlaceholder,
+        visible = spec.isPlaceholder
     )
 
     Row(
@@ -117,9 +117,8 @@ internal fun QuarterlyRow(
             )
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-
         QuarterlyCover(
             spec,
             modifier = Modifier
@@ -190,7 +189,6 @@ internal fun QuarterlyColumn(
     spec: QuarterlySpec,
     modifier: Modifier = Modifier
 ) {
-
     Column(
         modifier = modifier
             .width(IntrinsicSize.Min)
@@ -274,7 +272,7 @@ private fun QuarterlyCover(
             ),
             modifier = Modifier
                 .fillMaxSize()
-                .clip(RoundedCornerShape(18f)),
+                .clip(RoundedCornerShape(18f))
         )
     }
 }
@@ -304,7 +302,7 @@ internal fun GroupedQuarterliesColumn(
                 QuarterlyColumn(
                     spec = item,
                     modifier = Modifier
-                        .clickable(onClick = item.onClick),
+                        .clickable(onClick = item.onClick)
                 )
             }
         }
@@ -339,14 +337,14 @@ private fun GroupTitle(
         )
 
         TextButton(
-            onClick = seeAllClick,
+            onClick = seeAllClick
         ) {
             Text(
                 text = stringResource(id = R.string.ss_see_all),
                 style = MaterialTheme.typography.bodySmall.copy(
                     fontSize = 15.sp
                 ),
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.primary
             )
 
             IconBox(

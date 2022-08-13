@@ -92,9 +92,8 @@ internal fun LazyListScope.quarterlyInfo(
     info: QuarterlyInfoSpec,
     publishingInfo: PublishingInfoSpec?,
     scrollOffset: Float,
-    onLessonClick: (SSLesson) -> Unit = {},
+    onLessonClick: (SSLesson) -> Unit = {}
 ) {
-
     item {
         QuarterlyInfo(
             spec = info.copy(
@@ -103,7 +102,7 @@ internal fun LazyListScope.quarterlyInfo(
                         val lesson = info.lessons.firstOrNull { it.index == index } ?: return@index
                         onLessonClick(lesson)
                     }
-                },
+                }
             ),
             scrollOffset = scrollOffset,
             modifier = Modifier.animateItemPlacement()
@@ -118,9 +117,8 @@ private fun QuarterlyInfo(
     spec: QuarterlyInfoSpec,
     modifier: Modifier = Modifier,
     scrollOffset: Float = 0f,
-    isLargeScreen: Boolean = isLargeScreen(),
+    isLargeScreen: Boolean = isLargeScreen()
 ) {
-
     val type = when {
         spec.splashImage.isNullOrEmpty() -> {
             if (isLargeScreen) {
@@ -135,7 +133,7 @@ private fun QuarterlyInfo(
     val content: @Composable ColumnScope.() -> Unit = {
         Content(
             spec = spec,
-            type = type,
+            type = type
         )
     }
 
@@ -178,7 +176,7 @@ private fun CoverBox(
     contentDescription: String,
     modifier: Modifier = Modifier,
     scrollOffset: Float = 0f,
-    content: @Composable BoxScope.() -> Unit,
+    content: @Composable BoxScope.() -> Unit
 ) {
     val placeholder: @Composable () -> Unit = {
         Spacer(
@@ -192,7 +190,7 @@ private fun CoverBox(
             .background(Color.parse(color))
             .thenIf(splashImage != null) {
                 Modifier.height(540.dp)
-            },
+            }
     ) {
         ContentBox(
             content = RemoteImage(
@@ -216,16 +214,15 @@ private fun ContentPrimary(
     primaryColor: Color,
     primaryDarkColor: Color,
     modifier: Modifier = Modifier,
-    content: @Composable ColumnScope.() -> Unit,
+    content: @Composable ColumnScope.() -> Unit
 ) {
-
     val gradient = Brush.verticalGradient(
         colors = listOf(
             Color.Transparent,
             Color.Black.copy(0.1f),
             primaryColor,
-            primaryDarkColor,
-        ),
+            primaryDarkColor
+        )
     )
 
     ConstraintLayout(modifier = modifier) {
@@ -266,7 +263,6 @@ private fun ContentSecondary(
                 }
             )
     ) {
-
         Spacer(modifier = Modifier.height(64.dp))
 
         ContentBox(
@@ -303,7 +299,6 @@ private fun ContentSecondaryLarge(
             .padding(top = insetsPadding + 64.dp, bottom = 32.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Spacer(modifier = Modifier.width(32.dp))
 
         ContentBox(
@@ -371,7 +366,7 @@ private fun ColumnScope.Content(
             spec = ButtonSpec(
                 text = stringResource(id = R.string.ss_lessons_read),
                 colors = SsButtonColors(
-                    containerColor = Color.parse(spec.colorDark),
+                    containerColor = Color.parse(spec.colorDark)
                 ),
                 onClick = spec.readClick
             ),
@@ -422,7 +417,7 @@ private fun ColumnScope.Content(
 }
 
 @Preview(
-    name = "Quarterly Info",
+    name = "Quarterly Info"
 )
 @Preview(
     name = "Quarterly Info ~ Large",
@@ -434,13 +429,13 @@ private fun QuarterlyInfoPreview() {
         QuarterlyInfo(
             spec = sampleSpec.copy(
                 splashImage = null
-            ),
+            )
         )
     }
 }
 
 @Preview(
-    name = "Quarterly Info Splash",
+    name = "Quarterly Info Splash"
 )
 @Composable
 private fun QuarterlyInfoSplashPreview() {

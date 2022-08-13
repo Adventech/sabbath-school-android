@@ -70,7 +70,6 @@ private class MinimumTouchTargetModifier(val size: DpSize) : LayoutModifier {
         measurable: Measurable,
         constraints: Constraints
     ): MeasureResult {
-
         val placeable = measurable.measure(constraints)
 
         // Be at least as big as the minimum dimension in both dimensions

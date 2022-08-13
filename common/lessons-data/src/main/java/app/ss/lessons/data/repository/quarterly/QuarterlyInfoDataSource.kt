@@ -43,10 +43,10 @@ internal class QuarterlyInfoDataSource @Inject constructor(
     connectivityHelper: ConnectivityHelper,
     private val quarterliesApi: SSQuarterliesApi,
     private val quarterliesDao: QuarterliesDao,
-    private val lessonsDao: LessonsDao,
+    private val lessonsDao: LessonsDao
 ) : DataSourceMediator<SSQuarterlyInfo, QuarterlyInfoDataSource.Request>(
     dispatcherProvider = dispatcherProvider,
-    connectivityHelper = connectivityHelper,
+    connectivityHelper = connectivityHelper
 ) {
 
     data class Request(val index: String)

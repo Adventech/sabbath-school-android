@@ -69,7 +69,7 @@ class NowPlayingScreenTest {
             ),
             playbackConnection = mockk(),
             playbackSpeed = PlaybackSpeed.NORMAL,
-            isDraggable = { },
+            isDraggable = { }
         )
     }
 

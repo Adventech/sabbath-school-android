@@ -46,7 +46,7 @@ interface PdfReaderPrefs {
 
 internal class PdfReaderPrefsImpl(
     private val context: Context,
-    private val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context),
+    private val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 ) : PdfReaderPrefs {
 
     override fun scrollMode(): PageScrollMode =

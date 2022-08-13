@@ -62,13 +62,13 @@ class LessonsScreenTest {
     }
 
     private suspend fun launch(
-        index: String,
+        index: String
     ) {
         val quarterlyInfo = repository.getQuarterlyInfo(index).first().data!!
 
         val state = LessonsScreenState(
             isLoading = false,
-            quarterlyInfo = QuarterlyInfoState.Success(quarterlyInfo),
+            quarterlyInfo = QuarterlyInfoState.Success(quarterlyInfo)
         )
         paparazzi.snapshot {
             SsTheme {

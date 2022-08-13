@@ -88,7 +88,6 @@ class ReadingViewHolder(
         readingOptions: SSReadingDisplayOptions,
         readingViewModel: SSReadingViewModel
     ) {
-
         val context = binding.root.context
         binding.ssReadingViewScroll.setBackgroundColor(readingOptions.colorTheme(context))
         binding.ssReadingView.apply {

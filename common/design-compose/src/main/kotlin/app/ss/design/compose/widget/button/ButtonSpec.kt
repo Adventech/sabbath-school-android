@@ -30,5 +30,5 @@ data class ButtonSpec(
     val text: String,
     val onClick: () -> Unit,
     val enabled: Boolean = true,
-    val colors: ButtonColors? = null,
+    val colors: ButtonColors? = null
 )

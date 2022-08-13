@@ -50,7 +50,6 @@ class TokenAuthenticator @Inject constructor(
 
             when (val resource = getUpdatedToken(user.toUserModel())) {
                 is NetworkResource.Success -> {
-
                     withContext(dispatcherProvider.io) {
                         userDao.clear()
                         userDao.insertItem(resource.value.toEntity())

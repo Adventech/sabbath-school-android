@@ -30,9 +30,12 @@ data class FeatureSpec(
     val name: String,
     val title: String,
     val description: String,
-    val image: String,
+    val image: String
 )
 
 internal fun Feature.toSpec() = FeatureSpec(
-    name, title, description, image
+    name,
+    title,
+    description,
+    image
 )

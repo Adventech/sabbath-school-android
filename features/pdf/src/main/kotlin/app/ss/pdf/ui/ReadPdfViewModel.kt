@@ -47,7 +47,7 @@ import javax.inject.Inject
 class ReadPdfViewModel @Inject constructor(
     pdfReader: PdfReader,
     private val lessonsRepository: LessonsRepository,
-    private val savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     val pdfsFilesFlow: StateFlow<Resource<List<LocalFile>>> = pdfReader.downloadFlow(savedStateHandle.pdfs)

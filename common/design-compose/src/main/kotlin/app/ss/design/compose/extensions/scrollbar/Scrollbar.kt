@@ -93,7 +93,8 @@ private fun Modifier.drawScrollbar(
     orientation: Orientation,
     reverseScrolling: Boolean
 ): Modifier = drawScrollbar(
-    orientation, reverseScrolling
+    orientation,
+    reverseScrolling
 ) { reverseDirection, atEnd, thickness, color, alpha ->
     val showScrollbar = state.maxValue > 0
     val canvasSize = if (orientation == Orientation.Horizontal) size.width else size.height
@@ -115,7 +116,8 @@ private fun Modifier.drawScrollbar(
     orientation: Orientation,
     reverseScrolling: Boolean
 ): Modifier = drawScrollbar(
-    orientation, reverseScrolling
+    orientation,
+    reverseScrolling
 ) { reverseDirection, atEnd, thickness, color, alpha ->
     val layoutInfo = state.layoutInfo
     val viewportSize = layoutInfo.viewportEndOffset - layoutInfo.viewportStartOffset
@@ -248,7 +250,7 @@ fun ScrollbarPreview() {
     Column(
         modifier = Modifier
             .drawVerticalScrollbar(state)
-            .verticalScroll(state),
+            .verticalScroll(state)
     ) {
         repeat(50) {
             Text(

@@ -28,5 +28,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class PublishingInfoRequest(
     @Json(name = "country") val country: String,
-    @Json(name = "language") val language: String,
+    @Json(name = "language") val language: String
 )

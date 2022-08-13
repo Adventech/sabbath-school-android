@@ -42,7 +42,7 @@ interface AppWidgetHelper {
 }
 
 internal class AppWidgetHelperImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @ApplicationContext private val context: Context
 ) : AppWidgetHelper {
 
     private val widgets = listOf(

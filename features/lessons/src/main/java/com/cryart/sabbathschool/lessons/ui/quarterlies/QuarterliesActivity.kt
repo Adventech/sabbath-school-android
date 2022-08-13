@@ -118,9 +118,10 @@ class QuarterliesActivity : SSBaseActivity(), QuarterliesGroupCallback {
 
     companion object {
         fun launchIntent(
-            context: Context,
+            context: Context
         ): Intent = Intent(
-            context, QuarterliesActivity::class.java
+            context,
+            QuarterliesActivity::class.java
         )
     }
 }

@@ -48,7 +48,7 @@ interface AudioPlayer {
 
 internal class AudioPlayerImpl(
     private val context: Context,
-    private val okHttpClient: OkHttpClient,
+    private val okHttpClient: OkHttpClient
 ) : AudioPlayer, Player.Listener {
 
     private var playerBase: ExoPlayer? = null

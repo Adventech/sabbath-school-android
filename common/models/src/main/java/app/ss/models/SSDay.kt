@@ -34,5 +34,5 @@ data class SSDay(
     val path: String = "",
     val full_path: String = "",
     val read_path: String = "",
-    val full_read_path: String = "",
+    val full_read_path: String = ""
 )

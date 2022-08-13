@@ -40,7 +40,7 @@ internal fun TextStyle.copy(
     fontWeight: FontWeight? = this.fontWeight,
     fontStyle: FontStyle? = this.fontStyle,
     textAlign: TextAlign? = this.textAlign,
-    textDecoration: TextDecoration? = this.textDecoration,
+    textDecoration: TextDecoration? = this.textDecoration
 ) = TextStyle(
     color = color,
     fontSize = fontSize,
@@ -54,13 +54,13 @@ private fun textStyle(
     color: Color,
     fontSize: TextUnit,
     fontWeight: FontWeight,
-    textDecoration: TextDecoration? = null,
+    textDecoration: TextDecoration? = null
 ) = TextStyle(
     color = ColorProvider(color),
     fontSize = fontSize,
     fontStyle = FontStyle.Normal,
     fontWeight = fontWeight,
-    textDecoration = textDecoration,
+    textDecoration = textDecoration
 )
 
 @Composable

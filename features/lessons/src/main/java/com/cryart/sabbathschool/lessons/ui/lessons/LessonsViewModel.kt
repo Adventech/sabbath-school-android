@@ -85,7 +85,8 @@ class LessonsViewModel @Inject constructor(
     val selectedPdfsFlow: SharedFlow<Pair<String, List<LessonPdf>>> = _selectedPdfs
 
     val uiState: StateFlow<LessonsScreenState> = combine(
-        publishingInfo, quarterlyInfo
+        publishingInfo,
+        quarterlyInfo
     ) { publishingInfo, quarterlyInfo ->
 
         val publishingInfoState = when (publishingInfo) {

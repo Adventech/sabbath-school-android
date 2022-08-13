@@ -263,7 +263,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
                         "Forward",
                         FORWARD,
                         3
-                    ),
+                    )
                 )
             )
             .setAspectRatio(Rational(16, 9))
@@ -303,7 +303,8 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             context: Context,
             video: SSVideo
         ): Intent = Intent(
-            context, VideoPlayerActivity::class.java
+            context,
+            VideoPlayerActivity::class.java
         ).apply {
             putExtra(ARG_VIDEO, video)
         }
