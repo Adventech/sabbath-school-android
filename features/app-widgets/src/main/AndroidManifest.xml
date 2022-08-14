@@ -31,7 +31,7 @@
         </receiver>
         <receiver
             android:name=".week.WeekLessonWidget"
-            android:enabled="@bool/legacy_appwidget"
+            android:enabled="true"
             android:exported="true"
             android:label="This Week's Lesson">
             <intent-filter>
@@ -73,7 +73,7 @@
 
         <receiver
             android:name=".glance.week.LessonInfoWidgetReceiver"
-            android:enabled="@bool/glance_appwidget"
+            android:enabled="false"
             android:exported="true"
             android:label="This Week's Lesson">
             <intent-filter>
