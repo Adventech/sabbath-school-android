@@ -20,25 +20,13 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
-import dependencies.Dependencies.Accompanist
-import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Coil
-import dependencies.Dependencies.Compose
-import dependencies.Dependencies.ExoPlayer
-import dependencies.Dependencies.Hilt
-import dependencies.Dependencies.Kotlin
-import dependencies.Versions
-import extensions.addTestsDependencies
-import extensions.kapt
-
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-    id(BuildPlugins.Kotlin.KAPT)
-    id(BuildPlugins.DAGGER_HILT)
-    id(BuildPlugins.Kotlin.PARCELIZE)
-    id(BuildPlugins.PAPARAZZI)
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
+    id("app.cash.paparazzi")
 }
 
 android {
@@ -55,18 +43,14 @@ android {
             }
         }
     }
-
-    compileOptions {
-        sourceCompatibility = JavaOptions.version
-        targetCompatibility = JavaOptions.version
-    }
+    
     kotlinOptions {
-        jvmTarget = JavaOptions.version.toString()
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OPT_IN
+        jvmTarget = libs.versions.jvmTarget.get()
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
 
     buildFeatures {
@@ -76,41 +60,44 @@ android {
 
 dependencies {
 
-    implementation(project(BuildModules.Common.CORE))
-    implementation(project(BuildModules.Common.DESIGN))
-    implementation(project(BuildModules.Common.DESIGN_COMPOSE))
-    implementation(project(BuildModules.Common.LESSONS_DATA))
-    implementation(project(BuildModules.Common.STORAGE))
-    implementation(project(BuildModules.Common.TRANSLATIONS))
+    implementation(project(":common:core"))
+    implementation(project(":common:design"))
+    implementation(project(":common:design-compose"))
+    implementation(project(":common:lessons-data"))
+    implementation(project(":common:storage"))
+    implementation(project(":common:translations"))
 
-    implementation(Kotlin.COROUTINES)
-    implementation(Kotlin.COROUTINES_ANDROID)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.kotlin.coroutines.android)
 
-    implementation(Dependencies.MATERIAL)
-    implementation(AndroidX.CORE)
-    implementation(AndroidX.APPCOMPAT)
-    implementation(AndroidX.CONSTRAINT_LAYOUT)
-    implementation(AndroidX.ACTIVITY)
-    implementation(AndroidX.FRAGMENT_KTX)
-    implementation(AndroidX.LIFECYCLE_VIEWMODEL)
-    implementation(AndroidX.LIFECYCLE_EXTENSIONS)
-    implementation(AndroidX.LIFECYCLE_COMPOSE)
-    api(AndroidX.MEDIA)
+    implementation(libs.google.material)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.fragment)
+    implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    api(libs.androidx.media)
 
-    implementation(Hilt.ANDROID)
-    kapt(Hilt.COMPILER)
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
 
-    implementation(Dependencies.TIMBER)
-    implementation(Coil.compose)
+    implementation(libs.timber)
+    implementation(libs.coil.compose)
 
-    implementation(Compose.material)
-    implementation(Compose.constraintLayout)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.constraintlayout)
 
-    implementation(ExoPlayer.core)
-    implementation(ExoPlayer.ui)
-    implementation(ExoPlayer.okhttp)
-    implementation(ExoPlayer.mediaSession)
+    implementation(libs.google.exoplayer.core)
+    implementation(libs.google.exoplayer.ui)
+    implementation(libs.google.exoplayer.okhttp)
+    implementation(libs.google.exoplayer.mediasession)
 
-    addTestsDependencies()
-    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
+    testImplementation(libs.bundles.testing.common)
+    kaptTest(libs.google.hilt.compiler)
+    androidTestImplementation(libs.bundles.testing.android.common)
+    kaptAndroidTest(libs.google.hilt.compiler)
+    testImplementation(project(":libraries:test_utils"))
 }

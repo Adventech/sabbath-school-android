@@ -107,7 +107,7 @@ internal fun FeatureImage(
             loading = placeholder,
             error = placeholder
         ),
-        modifier = modifier,
+        modifier = modifier
     )
 }
 
@@ -124,11 +124,15 @@ fun FeaturesRowPreview() {
                     features = listOf(
                         FeatureSpec(
                             image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_egw.png",
-                            name = "", title = "", description = ""
+                            name = "",
+                            title = "",
+                            description = ""
 
                         ),
                         FeatureSpec(
-                            name = "", title = "", description = "",
+                            name = "",
+                            title = "",
+                            description = "",
                             image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_inside_story.png"
                         )
                     )

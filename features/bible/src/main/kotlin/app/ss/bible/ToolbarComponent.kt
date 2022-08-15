@@ -102,14 +102,14 @@ internal fun BibleToolbar(
             ToolbarSpec(
                 bibleVersions = state.bibleVersions,
                 preferredBible = state.preferredBibleVersion,
-                callbacks = callbacks,
+                callbacks = callbacks
             )
         }
         else -> {
             ToolbarSpec(
                 bibleVersions = emptySet(),
                 preferredBible = "",
-                callbacks = callbacks,
+                callbacks = callbacks
             )
         }
     }
@@ -142,13 +142,11 @@ internal fun BibleToolbarRow(
     modifier: Modifier = Modifier,
     contentColor: Color = LocalContentColor.current
 ) {
-
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
     ) {
-
         IconButton(
             onClick = {
                 spec.callbacks.onClose()
@@ -156,7 +154,7 @@ internal fun BibleToolbarRow(
         ) {
             IconBox(
                 icon = Icons.Close,
-                contentColor = contentColor,
+                contentColor = contentColor
             )
         }
 
@@ -185,7 +183,6 @@ private fun BibleVersionsMenu(
         modifier = modifier
             .wrapContentSize(Alignment.CenterEnd)
     ) {
-
         TextButton(onClick = { expanded = true }) {
             Text(
                 selected,
@@ -197,7 +194,7 @@ private fun BibleVersionsMenu(
             IconBox(
                 Icons.ArrowDropDown,
                 modifier = Modifier.rotate(iconRotation),
-                contentColor = contentColor,
+                contentColor = contentColor
             )
         }
 
@@ -226,7 +223,7 @@ private fun BibleVersionsMenu(
                         if (version == selected) {
                             IconBox(Icons.Check)
                         }
-                    },
+                    }
                 )
             }
         }
@@ -252,7 +249,7 @@ private fun HeaderRowPreview() {
             BibleToolbar(
                 state = ToolbarState.Success(
                     bibleVersions = setOf("NKJV", "KJV"),
-                    preferredBibleVersion = "KJV",
+                    preferredBibleVersion = "KJV"
                 ),
                 callbacks = object : ToolbarComponent.Callbacks {
                     override fun onClose() {

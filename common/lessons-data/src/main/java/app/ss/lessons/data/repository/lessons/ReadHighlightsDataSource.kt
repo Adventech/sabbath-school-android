@@ -40,7 +40,7 @@ internal class ReadHighlightsDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     connectivityHelper: ConnectivityHelper,
     private val lessonsApi: SSLessonsApi,
-    private val readHighlightsDao: ReadHighlightsDao,
+    private val readHighlightsDao: ReadHighlightsDao
 ) : DataSourceMediator<SSReadHighlights, ReadHighlightsDataSource.Request>(
     dispatcherProvider = dispatcherProvider,
     connectivityHelper = connectivityHelper

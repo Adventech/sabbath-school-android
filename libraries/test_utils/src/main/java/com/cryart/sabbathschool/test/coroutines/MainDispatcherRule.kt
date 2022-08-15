@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,32 +20,24 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.base
+package com.cryart.sabbathschool.test.coroutines
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.viewbinding.ViewBinding
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
-import com.cryart.sabbathschool.core.extensions.view.fadeTo
-import com.cryart.sabbathschool.core.ui.VisibilityComponent
-import com.facebook.shimmer.ShimmerFrameLayout
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 
-class StatusComponent(
-    lifecycleOwner: LifecycleOwner,
-    private val binding: ViewBinding
-) : VisibilityComponent(lifecycleOwner) {
+class MainDispatcherRule(
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
+) : TestWatcher() {
+    override fun starting(description: Description) {
+        Dispatchers.setMain(testDispatcher)
+    }
 
-    override fun collect(visibilityFlow: Flow<Boolean>) {
-        visibilityFlow.collectIn(owner) { visible ->
-            binding.root.fadeTo(visible)
-
-            (binding.root as? ShimmerFrameLayout)?.let { layout ->
-                if (visible) {
-                    layout.startShimmer()
-                } else {
-                    layout.stopShimmer()
-                }
-            }
-        }
+    override fun finished(description: Description) {
+        Dispatchers.resetMain()
     }
 }

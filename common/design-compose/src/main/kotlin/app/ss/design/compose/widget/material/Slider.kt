@@ -198,7 +198,13 @@ fun Slider(
         }
 
         val press = Modifier.sliderPressModifier(
-            draggableState, interactionSource, maxPx, isRtl, rawOffset, gestureEndAction, enabled
+            draggableState,
+            interactionSource,
+            maxPx,
+            isRtl,
+            rawOffset,
+            gestureEndAction,
+            enabled
         )
 
         val drag = Modifier.draggable(
@@ -551,8 +557,9 @@ private fun CorrectValueSideEffect(
     SideEffect {
         val error = (valueRange.endInclusive - valueRange.start) / 1000
         val newOffset = scaleToOffset(value)
-        if (abs(newOffset - valueState.value) > error)
+        if (abs(newOffset - valueState.value) > error) {
             valueState.value = newOffset
+        }
     }
 }
 

@@ -27,43 +27,58 @@ import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.Language
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.response.Resource
+import com.cryart.sabbathschool.test.coroutines.MainDispatcherRule
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
-import org.junit.Ignore
+import org.junit.Rule
 import org.junit.Test
 
 class LanguagesListViewModelTest {
 
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
     private val mockRepository: QuarterliesRepository = mockk()
     private val mockSSPrefs: SSPrefs = mockk()
+
+    private val languagesFlow = MutableSharedFlow<Resource<List<Language>>>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     private lateinit var viewModel: LanguagesListViewModel
 
     @Before
     fun setup() {
-        val languageList = listOf(
-            Language("en", "English"),
-            Language("es", "Spanish"),
-            Language("fr", "French")
-        )
         every { mockSSPrefs.getLanguageCode() }.returns("en")
-        every { mockRepository.getLanguages() }.returns(flowOf(Resource.success(languageList)))
+        every { mockRepository.getLanguages() }.returns(languagesFlow)
 
         viewModel = LanguagesListViewModel(
-            mockRepository,
-            mockSSPrefs,
+            repository = mockRepository,
+            ssPrefs = mockSSPrefs
         )
     }
 
     @Test
-    @Ignore("Flow test emitting on vm init")
     fun `should emit models with properly formatted native language name`() = runTest {
         viewModel.languagesFlow.test {
             awaitItem() shouldBeEqualTo emptyList()
+
+            languagesFlow.emit(
+                Resource.success(
+                    listOf(
+                        Language("en", "English"),
+                        Language("es", "Spanish"),
+                        Language("fr", "French")
+                    )
+                )
+            )
+
             awaitItem() shouldBeEqualTo listOf(
                 LanguageModel("en", "English", "English", true),
                 LanguageModel("es", "Español", "Spanish", false),
@@ -74,8 +89,8 @@ class LanguagesListViewModelTest {
 
     @Test
     fun `should format native language name correctly`() {
-        viewModel.getNativeLanguageName("en") shouldBeEqualTo "English"
-        viewModel.getNativeLanguageName("es") shouldBeEqualTo "Español"
-        viewModel.getNativeLanguageName("fr") shouldBeEqualTo "Français"
+        viewModel.getNativeLanguageName(Language("en", "English")) shouldBeEqualTo "English"
+        viewModel.getNativeLanguageName(Language("es", "Spanish")) shouldBeEqualTo "Español"
+        viewModel.getNativeLanguageName(Language("fr", "French")) shouldBeEqualTo "Français"
     }
 }

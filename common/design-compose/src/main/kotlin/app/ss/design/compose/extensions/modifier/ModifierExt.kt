@@ -34,7 +34,7 @@ import com.google.accompanist.placeholder.material.placeholder
  */
 inline fun Modifier.thenIf(
     condition: Boolean,
-    builder: Modifier.() -> Modifier,
+    builder: Modifier.() -> Modifier
 ) = if (condition) builder() else this
 
 /**
@@ -43,7 +43,7 @@ inline fun Modifier.thenIf(
 fun Modifier.asPlaceholder(
     visible: Boolean,
     color: Color? = null,
-    shape: Shape? = null,
+    shape: Shape? = null
 ) = composed {
     placeholder(
         visible = visible,

@@ -39,7 +39,8 @@ class AboutActivity : SSBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<SsAboutActivityBinding>(
-            this, R.layout.ss_about_activity
+            this,
+            R.layout.ss_about_activity
         )
 
         with(binding.ssToolbar) {

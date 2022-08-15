@@ -40,15 +40,15 @@ internal class ReadsDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     connectivityHelper: ConnectivityHelper,
     private val lessonsApi: SSLessonsApi,
-    private val readsDao: ReadsDao,
+    private val readsDao: ReadsDao
 ) : DataSourceMediator<SSRead, ReadsDataSource.Request>(
     dispatcherProvider = dispatcherProvider,
-    connectivityHelper = connectivityHelper,
+    connectivityHelper = connectivityHelper
 ) {
 
     data class Request(
         val dayIndex: String,
-        val fullPath: String,
+        val fullPath: String
     )
 
     override val cache: LocalDataSource<SSRead, Request> = object : LocalDataSource<SSRead, Request> {

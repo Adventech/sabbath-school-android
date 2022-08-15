@@ -64,7 +64,8 @@ class SSTimePickerPreference(
                 minute = timePicker.currentMinute
             }
             sharedPreferences?.edit()?.putString(
-                SSConstants.SS_SETTINGS_REMINDER_TIME_KEY, String.format(Locale.getDefault(), "%02d:%02d", hour, minute)
+                SSConstants.SS_SETTINGS_REMINDER_TIME_KEY,
+                String.format(Locale.getDefault(), "%02d:%02d", hour, minute)
             )?.apply()
             summary = summary
         }

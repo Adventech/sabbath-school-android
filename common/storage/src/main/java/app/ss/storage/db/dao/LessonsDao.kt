@@ -38,6 +38,6 @@ interface LessonsDao : BaseDao<LessonEntity> {
     fun updateInfo(
         lessonIndex: String,
         days: List<SSDay>,
-        pdfs: List<LessonPdf>,
+        pdfs: List<LessonPdf>
     )
 }

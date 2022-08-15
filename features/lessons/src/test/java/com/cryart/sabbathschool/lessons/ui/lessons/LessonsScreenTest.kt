@@ -30,9 +30,11 @@ import com.cryart.sabbathschool.test.di.repository.FakeQuarterliesRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
+@Ignore("flaky")
 class LessonsScreenTest {
 
     @get:Rule
@@ -60,13 +62,13 @@ class LessonsScreenTest {
     }
 
     private suspend fun launch(
-        index: String,
+        index: String
     ) {
         val quarterlyInfo = repository.getQuarterlyInfo(index).first().data!!
 
         val state = LessonsScreenState(
             isLoading = false,
-            quarterlyInfo = QuarterlyInfoState.Success(quarterlyInfo),
+            quarterlyInfo = QuarterlyInfoState.Success(quarterlyInfo)
         )
         paparazzi.snapshot {
             SsTheme {

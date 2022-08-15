@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlaybackViewModel @Inject constructor(
-    val playbackConnection: PlaybackConnection,
+    val playbackConnection: PlaybackConnection
 ) : ViewModel() {
 
     init {

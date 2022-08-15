@@ -51,15 +51,17 @@ class DailyReminderManager constructor(
         create: Boolean
     ): PendingIntent? = Intent(context, ReminderReceiver::class.java).let { intent ->
         val flag = if (create) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 PendingIntent.FLAG_IMMUTABLE
-            else
+            } else {
                 PendingIntent.FLAG_UPDATE_CURRENT
+            }
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
-            else
+            } else {
                 PendingIntent.FLAG_NO_CREATE
+            }
         }
 
         PendingIntent.getBroadcast(context, 0, intent, flag)
@@ -112,14 +114,17 @@ class DailyReminderManager constructor(
         val contentIntent = Intent(context, SplashActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
-        val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PendingIntent.FLAG_IMMUTABLE
-        else
+        } else {
             PendingIntent.FLAG_CANCEL_CURRENT
+        }
 
         val pendingIntent = PendingIntent.getActivity(
-            context, 0,
-            contentIntent, flag
+            context,
+            0,
+            contentIntent,
+            flag
         )
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)

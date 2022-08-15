@@ -45,5 +45,5 @@ data class LessonsScreenState(
     val isLoading: Boolean = true,
     val isError: Boolean = false,
     val quarterlyInfo: QuarterlyInfoState = QuarterlyInfoState.Loading,
-    val publishingInfo: PublishingInfoState = PublishingInfoState.Loading,
+    val publishingInfo: PublishingInfoState = PublishingInfoState.Loading
 )

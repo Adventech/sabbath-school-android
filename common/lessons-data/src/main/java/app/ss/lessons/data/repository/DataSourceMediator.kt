@@ -38,7 +38,7 @@ import timber.log.Timber
 
 internal abstract class DataSourceMediator<T, R>(
     private val dispatcherProvider: DispatcherProvider,
-    private val connectivityHelper: ConnectivityHelper,
+    private val connectivityHelper: ConnectivityHelper
 ) : CoroutineScope by CoroutineScope(dispatcherProvider.default) {
 
     abstract val cache: LocalDataSource<T, R>

@@ -41,7 +41,7 @@ import app.ss.translations.R.string as RString
 
 enum class Icons(
     private val imageVector: ImageVector,
-    @StringRes private val contentDescription: Int?,
+    @StringRes private val contentDescription: Int?
 ) : IconSlot {
 
     AccountCircle(MaterialIcons.Rounded.AccountCircle, RString.ss_account),

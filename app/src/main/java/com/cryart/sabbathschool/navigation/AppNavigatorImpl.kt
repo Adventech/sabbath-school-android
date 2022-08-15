@@ -54,7 +54,7 @@ import javax.inject.Singleton
 class AppNavigatorImpl @Inject constructor(
     private val ssPrefs: SSPrefs,
     private val authRepository: AuthRepository,
-    private val dispatcherProvider: DispatcherProvider,
+    private val dispatcherProvider: DispatcherProvider
 ) : AppNavigator, CoroutineScope by MainScope() {
 
     private suspend fun isSignedIn(): Boolean {

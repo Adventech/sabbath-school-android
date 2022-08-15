@@ -74,7 +74,7 @@ interface SSVideoPlayer {
 internal class SSVideoPlayerImpl(
     private val context: Context,
     private val audioFocusHelper: AudioFocusHelper = AudioFocusHelperImpl(context),
-    coroutineScope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope,
+    coroutineScope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope
 ) : SSVideoPlayer, Player.Listener, CoroutineScope by coroutineScope {
 
     private val exoPlayer: ExoPlayer by lazy {
@@ -222,8 +222,9 @@ internal class SSVideoPlayerImpl(
             val duration = exoPlayer.duration
             val position = exoPlayer.currentPosition
 
-            if (state.state == Player.STATE_IDLE || duration < 1)
+            if (state.state == Player.STATE_IDLE || duration < 1) {
                 return@collect
+            }
 
             val initial = PlaybackProgressState(duration, position, buffered = exoPlayer.bufferedPosition)
             playbackProgress.value = initial

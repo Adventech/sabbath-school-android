@@ -26,6 +26,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import app.ss.models.Language
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,7 +38,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LanguagesListViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
-    private val ssPrefs: SSPrefs,
+    private val ssPrefs: SSPrefs
 ) : ViewModel() {
 
     val languagesFlow: StateFlow<List<LanguageModel>>
@@ -46,7 +47,7 @@ class LanguagesListViewModel @Inject constructor(
                 resource.data?.map {
                     LanguageModel(
                         code = it.code,
-                        nativeName = getNativeLanguageName(it.code),
+                        nativeName = getNativeLanguageName(it),
                         name = it.name,
                         selected = it.code == ssPrefs.getLanguageCode()
                     )
@@ -54,9 +55,9 @@ class LanguagesListViewModel @Inject constructor(
             }.stateIn(viewModelScope, emptyList())
 
     @VisibleForTesting
-    fun getNativeLanguageName(code: String): String {
-        val loc = Locale(code)
-        val name = loc.getDisplayLanguage(loc)
+    fun getNativeLanguageName(language: Language): String {
+        val loc = Locale(language.code)
+        val name = loc.getDisplayLanguage(loc).takeUnless { it == language.code } ?: language.name
         return name.replaceFirstChar { it.uppercase() }
     }
 }

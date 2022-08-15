@@ -19,18 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import dependencies.Dependencies
-import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Kotlin
-import dependencies.Dependencies.Hilt
-import extensions.addTestsDependencies
 
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-    id(BuildPlugins.Kotlin.KAPT)
-    id(BuildPlugins.Kotlin.PARCELIZE)
-    id(BuildPlugins.DAGGER_HILT)
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -40,13 +35,9 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
-    compileOptions {
-        sourceCompatibility = JavaOptions.version
-        targetCompatibility = JavaOptions.version
-    }
     kotlinOptions {
-        jvmTarget = JavaOptions.version.toString()
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
+        jvmTarget = libs.versions.jvmTarget.get()
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
     buildFeatures {
         viewBinding = true
@@ -54,20 +45,24 @@ android {
 }
 
 dependencies {
-    implementation(AndroidX.LIFECYCLE_COMMON)
-    implementation(AndroidX.LIFECYCLE_KTX)
-    implementation(AndroidX.PREFERENCE)
-    implementation(AndroidX.BROWSER)
-    implementation(AndroidX.CORE)
-    implementation(AndroidX.DATASTORE_PREFS)
-    implementation(Kotlin.COROUTINES)
-    implementation(Kotlin.COROUTINES_ANDROID)
-    implementation(Hilt.ANDROID)
-    kapt(Hilt.COMPILER)
-    implementation(Dependencies.TIMBER)
-    implementation(Dependencies.JODA)
+    implementation(libs.androidx.lifecycle.common)
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.preference)
+    implementation(libs.androidx.browser)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.datastore.prefs)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.kotlin.coroutines.android)
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
+    implementation(libs.timber)
+    implementation(libs.joda.android)
+    implementation(libs.coil.core)
 
-    addTestsDependencies()
-    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
-    androidTestImplementation(project(BuildModules.Libraries.TEST_UTILS))
+    testImplementation(libs.bundles.testing.common)
+    kaptTest(libs.google.hilt.compiler)
+    androidTestImplementation(libs.bundles.testing.android.common)
+    kaptAndroidTest(libs.google.hilt.compiler)
+    testImplementation(project(":libraries:test_utils"))
+    androidTestImplementation(project(":libraries:test_utils"))
 }

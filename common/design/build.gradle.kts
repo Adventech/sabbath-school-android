@@ -20,12 +20,9 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
-import dependencies.Dependencies.AndroidX
-
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
+    id("com.android.library")
+    id("kotlin-android")
 }
 
 android {
@@ -36,16 +33,12 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaOptions.version.toString()
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OPT_IN
-    }
-    compileOptions {
-        sourceCompatibility = JavaOptions.version
-        targetCompatibility = JavaOptions.version
+        jvmTarget = libs.versions.jvmTarget.get()
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
 }
 
 dependencies {
-    implementation(Dependencies.MATERIAL)
-    implementation(AndroidX.CORE)
+    implementation(libs.google.material)
+    implementation(libs.androidx.core)
 }

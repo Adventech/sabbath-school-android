@@ -146,47 +146,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_medium_large"
             android:paddingTop="@dimen/ss_reading_display_options_seekbar_padding_top"
-            android:paddingBottom="@dimen/ss_reading_display_options_seekbar_padding_bottom"
-            android:weightSum="7">
+            android:paddingBottom="@dimen/ss_reading_display_options_seekbar_padding_bottom">
 
-            <FrameLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1">
+                android:gravity="center|end"
+                android:text="@string/ss_reading_display_options_aa"
+                android:textAlignment="textEnd" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center|end"
-                    android:text="@string/ss_reading_display_options_aa"
-                    android:textAlignment="textEnd" />
-
-            </FrameLayout>
-
-            <com.cryart.sabbathschool.lessons.ui.readings.options.SSSeekBar
+            <com.google.android.material.slider.Slider
                 android:id="@+id/ss_reading_menu_display_options_size"
+                style="@style/Widget.SS.Slider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:stepSize="1.0"
+                android:valueFrom="0.0"
+                android:valueTo="4.0" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|center_vertical"
-                android:layout_weight="5"
-                android:max="4" />
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="start|center"
-                    android:text="@string/ss_reading_display_options_aa"
-                    android:textAlignment="textStart"
-                    android:textSize="@dimen/ss_reading_display_options_seekbar_aa_increase" />
-            </FrameLayout>
+                android:gravity="start|center"
+                android:text="@string/ss_reading_display_options_aa"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/ss_reading_display_options_seekbar_aa_increase" />
         </LinearLayout>
     </LinearLayout>
 </layout>

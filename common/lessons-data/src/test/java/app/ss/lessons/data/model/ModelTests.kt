@@ -36,7 +36,7 @@ class ModelTests {
     fun `should format quarterly info share index`() {
         val quarterly = SSQuarterly(
             id = "en-2021-03",
-            index = "en-2021-03",
+            index = "en-2021-03"
         )
         val quarterlyInfo = SSQuarterlyInfo(quarterly, emptyList())
 
@@ -47,7 +47,7 @@ class ModelTests {
     fun `should format lesson info share index`() {
         val lesson = SSLesson(
             title = "",
-            index = "en-2021-03-04",
+            index = "en-2021-03-04"
         )
 
         val lessonInfo = SSLessonInfo(lesson, emptyList())
@@ -59,7 +59,7 @@ class ModelTests {
     fun `should format Read share index`() {
         val read = SSRead(
             id = "",
-            index = "en-2021-03-04-02",
+            index = "en-2021-03-04-02"
         )
 
         read.shareIndex("en/2021-03/04", 2) shouldBeEqualTo "en/2021-03/04/02"

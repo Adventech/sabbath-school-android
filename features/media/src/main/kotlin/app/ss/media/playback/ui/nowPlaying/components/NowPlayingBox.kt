@@ -76,7 +76,7 @@ internal fun NowPlayingColumn(
                 fontWeight = FontWeight.Medium
             )
             artistStyle = MaterialTheme.typography.bodySmall.copy(
-                fontSize = 14.sp,
+                fontSize = 14.sp
             )
             textAlign = TextAlign.Start
             spacing = 2.dp
@@ -88,7 +88,7 @@ internal fun NowPlayingColumn(
                 fontWeight = FontWeight.Black
             )
             artistStyle = MaterialTheme.typography.bodySmall.copy(
-                fontSize = 17.sp,
+                fontSize = 17.sp
             )
             textAlign = TextAlign.Center
             spacing = Spacing8

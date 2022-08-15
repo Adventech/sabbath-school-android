@@ -28,5 +28,5 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "bible_version")
 data class BibleVersionEntity(
     @PrimaryKey val language: String,
-    val version: String,
+    val version: String
 )

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,23 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.design.color
+package app.ss.widgets.glance.today
 
-import androidx.annotation.ColorInt
-import androidx.core.graphics.ColorUtils
+import android.content.Context
+import app.ss.widgets.glance.BaseGlanceAppWidgetReceiver
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-@ColorInt
-fun Int.withAlpha(alpha: Int) = ColorUtils.setAlphaComponent(this, alpha)
+@AndroidEntryPoint
+internal class TodayAppWidgetReceiver : BaseGlanceAppWidgetReceiver<TodayAppWidget>() {
+
+    @Inject
+    @ApplicationContext
+    lateinit var context: Context
+
+    @Inject
+    lateinit var widgetFactory: TodayAppWidget.Factory
+
+    override fun createWidget(): TodayAppWidget = widgetFactory.create(context = context)
+}

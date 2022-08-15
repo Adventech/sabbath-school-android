@@ -20,19 +20,11 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
-import dependencies.Dependencies.Hilt
-import dependencies.Dependencies.AndroidX.Room
-import dependencies.Dependencies.Square.Moshi
-import extensions.addTestsDependencies
-import extensions.implementation
-import extensions.kapt
-
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-    id(BuildPlugins.Kotlin.KAPT)
-    id(BuildPlugins.DAGGER_HILT)
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -51,30 +43,29 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaOptions.version
-        targetCompatibility = JavaOptions.version
-    }
     kotlinOptions {
-        jvmTarget = JavaOptions.version.toString()
+        jvmTarget = libs.versions.jvmTarget.get()
     }
 }
 
 dependencies {
-    api(project(BuildModules.Common.MODELS))
+    api(project(":common:models"))
 
-    implementation(Hilt.ANDROID)
-    kapt(Hilt.COMPILER)
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
 
-    implementation(Room.runtime)
-    implementation(Room.ktx)
-    kapt(Room.compiler)
+    implementation(libs.androidx.room)
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
 
-    implementation(Moshi.kotlin)
-    kapt(Moshi.codegen)
+    implementation(libs.square.moshi.kotlin)
+    kapt(libs.square.moshi.codegen)
 
-    implementation(Dependencies.TIMBER)
+    implementation(libs.timber)
 
-    addTestsDependencies()
-    kaptTest(Moshi.codegen)
+    testImplementation(libs.bundles.testing.common)
+    kaptTest(libs.google.hilt.compiler)
+    androidTestImplementation(libs.bundles.testing.android.common)
+    kaptAndroidTest(libs.google.hilt.compiler)
+    kaptTest(libs.square.moshi.codegen)
 }

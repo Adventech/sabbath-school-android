@@ -117,13 +117,13 @@ data class NowPlayingScreenSpec(
     val playbackProgressState: PlaybackProgressState,
     val playbackConnection: PlaybackConnection,
     val playbackSpeed: PlaybackSpeed,
-    val isDraggable: (Boolean) -> Unit,
+    val isDraggable: (Boolean) -> Unit
 )
 
 @Composable
 internal fun NowPlayingScreen(
     viewModel: NowPlayingViewModel = viewModel(),
-    isDraggable: (Boolean) -> Unit = {},
+    isDraggable: (Boolean) -> Unit = {}
 ) {
     val playbackConnection = viewModel.playbackConnection
     val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState)
@@ -144,7 +144,13 @@ internal fun NowPlayingScreen(
 
     NowPlayingScreen(
         spec = NowPlayingScreenSpec(
-            nowPlayingAudio, playbackQueue, playbackState, playbackProgressState, playbackConnection, playbackSpeed, isDraggable
+            nowPlayingAudio,
+            playbackQueue,
+            playbackState,
+            playbackProgressState,
+            playbackConnection,
+            playbackSpeed,
+            isDraggable
         )
     )
 }
@@ -154,7 +160,7 @@ internal fun NowPlayingScreen(
 internal fun NowPlayingScreen(
     spec: NowPlayingScreenSpec,
     listState: LazyListState = rememberLazyListState(),
-    isDarkTheme: Boolean = isSystemInDarkTheme(),
+    isDarkTheme: Boolean = isSystemInDarkTheme()
 ) {
     val (nowPlayingAudio, playbackQueue, playbackState, playbackProgressState, playbackConnection, playbackSpeed, isDraggable) = spec
 
@@ -190,7 +196,6 @@ internal fun NowPlayingScreen(
             .nestedScroll(connection = nestedScrollConnection),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         DragHandle()
 
         /*BoxWithConstraints(
@@ -202,7 +207,6 @@ internal fun NowPlayingScreen(
                     )
                 }
         ) {
-
             val constraints = decoupledConstraints(
                 expanded = expanded,
                 marginTop = marginTop
@@ -215,7 +219,6 @@ internal fun NowPlayingScreen(
                         horizontal = Dimens.grid_4
                     )
             ) {
-
                 CoverImage(
                     spec = nowPlayingAudio.toImageSpec(),
                     boxState = boxState,
@@ -265,7 +268,7 @@ internal fun NowPlayingScreen(
                             }
                             false
                         }
-                        .layoutId("queue"),
+                        .layoutId("queue")
                 )
             }
         }*/
@@ -404,7 +407,7 @@ private fun BottomControls(
                         fontSize = 18.sp
                     ),
                     color = tintColor(
-                        isDark = isDarkTheme,
+                        isDark = isDarkTheme
                     )
                 )
             }
@@ -414,10 +417,10 @@ private fun BottomControls(
             IconBox(
                 icon = IconSlot.fromResource(
                     R.drawable.ic_audio_icon_playlist,
-                    contentDescription = stringResource(id = RString.ss_action_playlist),
+                    contentDescription = stringResource(id = RString.ss_action_playlist)
                 ),
                 contentColor = tintColor(
-                    isDark = isDarkTheme,
+                    isDark = isDarkTheme
                 )
             )
         }

@@ -121,4 +121,17 @@
         <item name="android:popupElevation">8dp</item>
     </style>
 
+    <style name="Widget.SS.Slider" parent="Widget.MaterialComponents.Slider">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.SS.PrimarySecondary</item>
+        <item name="labelStyle">@style/Widget.SS.Slider.Tooltip</item>
+    </style>
+
+    <style name="Widget.SS.Slider.Tooltip" parent="Widget.MaterialComponents.Tooltip">
+        <item name="android:textAppearance">@style/TextAppearance.SS.Slider</item>
+        <item name="backgroundTint">@color/ss_theme_secondary</item>
+    </style>
+
+    <style name="TextAppearance.SS.Slider" parent="TextAppearance.SS.Headline6">
+        <item name="android:textColor">@color/ss_theme_color_background</item>
+    </style>
 </resources>

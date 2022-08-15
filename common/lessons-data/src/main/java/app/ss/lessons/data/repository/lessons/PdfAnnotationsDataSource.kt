@@ -41,7 +41,7 @@ internal class PdfAnnotationsDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     connectivityHelper: ConnectivityHelper,
     private val lessonsApi: SSLessonsApi,
-    private val pdfAnnotationsDao: PdfAnnotationsDao,
+    private val pdfAnnotationsDao: PdfAnnotationsDao
 ) : DataSourceMediator<PdfAnnotations, PdfAnnotationsDataSource.Request>(
     dispatcherProvider = dispatcherProvider,
     connectivityHelper = connectivityHelper
