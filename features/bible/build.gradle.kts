@@ -20,21 +20,12 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
-import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Hilt
-import dependencies.Dependencies.Iconics
-import dependencies.Dependencies.Kotlin
-import dependencies.Versions
-import extensions.addTestsDependencies
-import extensions.kapt
-
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-    id(BuildPlugins.Kotlin.KAPT)
-    id(BuildPlugins.DAGGER_HILT)
-    id(BuildPlugins.PAPARAZZI)
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+    id("app.cash.paparazzi")
 }
 
 android {
@@ -44,16 +35,13 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
-    compileOptions {
-        sourceCompatibility = JavaOptions.version
-        targetCompatibility = JavaOptions.version
-    }
+
     kotlinOptions {
-        jvmTarget = JavaOptions.version.toString()
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
+        jvmTarget = libs.versions.jvmTarget.get()
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
 
     buildFeatures {
@@ -64,28 +52,30 @@ android {
 
 dependencies {
 
-    implementation(project(BuildModules.Common.CORE))
-    implementation(project(BuildModules.Common.DESIGN))
-    implementation(project(BuildModules.Common.DESIGN_COMPOSE))
-    implementation(project(BuildModules.Common.TRANSLATIONS))
-    implementation(project(BuildModules.Common.LESSONS_DATA))
-    implementation(project(BuildModules.Features.READER))
+    implementation(project(":common:core"))
+    implementation(project(":common:design"))
+    implementation(project(":common:design-compose"))
+    implementation(project(":common:translations"))
+    implementation(project(":common:lessons-data"))
+    implementation(project(":features:reader"))
 
-    implementation(Kotlin.COROUTINES)
-    implementation(Kotlin.COROUTINES_ANDROID)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.kotlin.coroutines.android)
 
-    implementation(Dependencies.MATERIAL)
-    implementation(AndroidX.CORE)
-    implementation(AndroidX.APPCOMPAT)
-    implementation(AndroidX.CONSTRAINT_LAYOUT)
-    implementation(AndroidX.ACTIVITY)
-    implementation(AndroidX.LIFECYCLE_VIEWMODEL)
+    implementation(libs.google.material)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.lifecycle.viewmodel)
 
-    implementation(Hilt.ANDROID)
-    kapt(Hilt.COMPILER)
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
 
-    implementation(Dependencies.TIMBER)
-    implementation(Iconics.VIEWS)
+    implementation(libs.timber)
 
-    addTestsDependencies()
+    testImplementation(libs.bundles.testing.common)
+    kaptTest(libs.google.hilt.compiler)
+    androidTestImplementation(libs.bundles.testing.android.common)
+    kaptAndroidTest(libs.google.hilt.compiler)
 }

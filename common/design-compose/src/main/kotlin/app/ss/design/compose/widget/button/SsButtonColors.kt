@@ -32,7 +32,7 @@ class SsButtonColors(
     private val containerColor: Color,
     private val contentColor: Color = Color.White,
     private val disabledContainerColor: Color = containerColor.copy(0.4f),
-    private val disabledContentColor: Color = Color.White.copy(0.4f),
+    private val disabledContentColor: Color = Color.White.copy(0.4f)
 ) : ButtonColors {
 
     @Composable

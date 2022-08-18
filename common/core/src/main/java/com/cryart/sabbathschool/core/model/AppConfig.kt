@@ -28,5 +28,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class AppConfig(
     val version: String,
-    val webClientId: String,
+    val webClientId: String
 ) : Parcelable

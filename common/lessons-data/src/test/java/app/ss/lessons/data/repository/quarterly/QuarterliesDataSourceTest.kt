@@ -76,7 +76,7 @@ class QuarterliesDataSourceTest {
             dispatcherProvider = dispatcherProvider,
             connectivityHelper = connectivityHelper,
             quarterliesDao = mockQuarterliesDao,
-            quarterliesApi = mockQuarterliesApi,
+            quarterliesApi = mockQuarterliesApi
         )
     }
 

@@ -58,16 +58,19 @@ fun String.toMediaId(): MediaId {
     val type = parts[0]
 
     val knownTypes = listOf(
-        MEDIA_TYPE_AUDIO, MEDIA_TYPE_ARTIST,
-        MEDIA_TYPE_ALBUM, MEDIA_TYPE_AUDIO_QUERY,
-        MEDIA_TYPE_AUDIO_MINERVA_QUERY, MEDIA_TYPE_AUDIO_FLACS_QUERY
+        MEDIA_TYPE_AUDIO,
+        MEDIA_TYPE_ARTIST,
+        MEDIA_TYPE_ALBUM,
+        MEDIA_TYPE_AUDIO_QUERY,
+        MEDIA_TYPE_AUDIO_MINERVA_QUERY,
+        MEDIA_TYPE_AUDIO_FLACS_QUERY
     )
     if (type !in knownTypes) {
         Timber.e("Unknown media type: $type")
         return MediaId()
     }
 
-    return if (parts.size > 1)
+    return if (parts.size > 1) {
         MediaId(type, parts[1], parts[2].toInt(), parts[3])
-    else MediaId()
+    } else MediaId()
 }

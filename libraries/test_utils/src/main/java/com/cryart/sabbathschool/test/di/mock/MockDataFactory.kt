@@ -37,7 +37,9 @@ import app.ss.models.WeekDay
 object MockDataFactory {
 
     val versions = listOf(
-        "NASB", "NKJV", "KJV"
+        "NASB",
+        "NKJV",
+        "KJV"
     )
     private val verses = mapOf(
         "1John14" to "<h2>1 John 1:4</h2><sup>4</sup> These things we write, so that our joy may be made complete."

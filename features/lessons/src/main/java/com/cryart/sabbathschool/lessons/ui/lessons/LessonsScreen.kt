@@ -113,7 +113,7 @@ internal fun LessonsScreen(
     scrollState: TopAppBarScrollState = rememberTopAppBarScrollState(),
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
         state = scrollState,
-        canScroll = { true },
+        canScroll = { true }
     ),
     onNavClick: () -> Unit = {},
     onShareClick: (String) -> Unit = {},
@@ -121,7 +121,7 @@ internal fun LessonsScreen(
     onReadMoreClick: (LessonIntroModel) -> Unit = {},
     systemUiController: SystemUiController? = null,
     listState: LazyListState = rememberLazyListState(),
-    scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState),
+    scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState)
 ) {
     val quarterlyInfo = when (state.quarterlyInfo) {
         QuarterlyInfoState.Error,
@@ -149,14 +149,14 @@ internal fun LessonsScreen(
                 color = MaterialTheme.colorScheme.surface.copy(
                     alpha = alpha
                 ),
-                tonalElevation = elevation,
+                tonalElevation = elevation
             ) {
                 LessonsTopBar(
                     title = quarterlyTitle,
                     modifier = Modifier.padding(
                         top = with(LocalDensity.current) {
                             WindowInsets.safeDrawing.only(WindowInsetsSides.Top).getTop(this).toDp()
-                        },
+                        }
                     ),
                     scrollAlpha = alpha,
                     scrollBehavior = scrollBehavior,
@@ -168,7 +168,7 @@ internal fun LessonsScreen(
                 )
             }
         },
-        scrollBehavior = scrollBehavior,
+        scrollBehavior = scrollBehavior
     ) { innerPadding ->
 
         LazyColumn(
@@ -181,9 +181,8 @@ internal fun LessonsScreen(
             modifier = Modifier.windowInsetsPadding(
                 WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
             ),
-            state = listState,
+            state = listState
         ) {
-
             quarterlyInfo?.let { ssQuarterlyInfo ->
                 val quarterly = ssQuarterlyInfo.quarterly
                 quarterlyInfo(
@@ -195,13 +194,13 @@ internal fun LessonsScreen(
                                     quarterly.introduction ?: quarterly.description
                                 )
                             )
-                        },
+                        }
                     ),
                     publishingInfo = publishingInfo?.toSpec(
                         primaryColorHex = ssQuarterlyInfo.quarterly.color_primary
                     ),
                     scrollOffset = listState.firstVisibleItemScrollOffset.toFloat(),
-                    onLessonClick = onLessonClick,
+                    onLessonClick = onLessonClick
                 )
 
                 lessons(
@@ -212,7 +211,7 @@ internal fun LessonsScreen(
                 footer(
                     spec = LessonsFooterSpec(
                         credits = quarterlyInfo.quarterly.credits.map { it.toSpec() },
-                        features = quarterlyInfo.quarterly.features.map { it.toSpec() },
+                        features = quarterlyInfo.quarterly.features.map { it.toSpec() }
                     )
                 )
 
@@ -234,9 +233,8 @@ private fun LessonsTopBar(
     scrollAlpha: Float = 0.0f,
     systemUiController: SystemUiController? = null,
     onNavClick: () -> Unit = {},
-    onShareClick: () -> Unit = {},
+    onShareClick: () -> Unit = {}
 ) {
-
     SsTopAppBar(
         spec = TopAppBarSpec(
             topAppBarType = TopAppBarType.Small,
@@ -247,7 +245,7 @@ private fun LessonsTopBar(
                     onClick = onShareClick,
                     tint = toolbarIconColor(alpha = scrollAlpha)
                 )
-            ).takeIf { title.isNotEmpty() } ?: emptyList(),
+            ).takeIf { title.isNotEmpty() } ?: emptyList()
         ),
         title = {
             val density = LocalDensity.current
@@ -283,7 +281,7 @@ private fun LessonsTopBar(
         },
         scrollBehavior = scrollBehavior,
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = Color.Transparent,
+            containerColor = Color.Transparent
         )
     )
 
@@ -310,7 +308,7 @@ private fun toolbarIconColor(alpha: Float): Color {
 private const val MIN_SOLID_ALPHA = 0.8f
 
 internal data class ScrollAlpha(
-    val alpha: Float,
+    val alpha: Float
 )
 
 @Composable

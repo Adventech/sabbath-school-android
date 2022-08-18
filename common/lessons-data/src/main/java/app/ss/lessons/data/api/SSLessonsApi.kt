@@ -42,7 +42,7 @@ interface SSLessonsApi {
     suspend fun getLessonInfo(
         @Path("lang") language: String,
         @Path("quarterlyId") quarterlyId: String,
-        @Path("lessonId") lessonId: String,
+        @Path("lessonId") lessonId: String
     ): Response<SSLessonInfo>
 
     @GET
@@ -51,7 +51,7 @@ interface SSLessonsApi {
     @GET("api/v2/annotations/{lessonIndex}/{pdfId}")
     suspend fun getPdfAnnotations(
         @Path("lessonIndex") lessonIndex: String,
-        @Path("pdfId") pdfId: String,
+        @Path("pdfId") pdfId: String
     ): Response<List<PdfAnnotations>>
 
     @POST("api/v2/annotations/{lessonIndex}/{pdfId}")

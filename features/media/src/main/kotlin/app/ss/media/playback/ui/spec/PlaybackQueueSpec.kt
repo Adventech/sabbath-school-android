@@ -31,5 +31,5 @@ data class PlaybackQueueSpec(
     val listState: LazyListState,
     val nowPlayingId: String? = null,
     val isPlaying: Boolean = false,
-    val onPlayAudio: (Int) -> Unit,
+    val onPlayAudio: (Int) -> Unit
 )

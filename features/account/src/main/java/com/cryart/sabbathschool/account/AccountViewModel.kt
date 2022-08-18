@@ -39,7 +39,7 @@ import javax.inject.Inject
 internal class AccountViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val ssPrefs: SSPrefs,
-    private val dispatcherProvider: DispatcherProvider,
+    private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
     private val _userInfo: MutableStateFlow<UserInfo> = MutableStateFlow(UserInfo())
@@ -50,7 +50,9 @@ internal class AccountViewModel @Inject constructor(
             authRepository.getUser().data?.let { user ->
                 _userInfo.emit(
                     UserInfo(
-                        user.displayName, user.email, user.photo?.toUri()
+                        user.displayName,
+                        user.email,
+                        user.photo?.toUri()
                     )
                 )
             }

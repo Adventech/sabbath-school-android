@@ -67,7 +67,7 @@ private enum class CoverOrientation(val key: String) : Sizes {
 internal fun CoverImage(
     spec: CoverImageSpec,
     modifier: Modifier = Modifier,
-    boxState: BoxState = BoxState.Expanded,
+    boxState: BoxState = BoxState.Expanded
 ) {
     val orientation = CoverOrientation.fromKey(spec.imageRatio) ?: CoverOrientation.PORTRAIT
     val collapsed = boxState == BoxState.Collapsed

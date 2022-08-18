@@ -59,7 +59,7 @@ import app.ss.translations.R.string as RString
 fun VideoPlayerControls(
     videoPlayer: SSVideoPlayer,
     onClose: () -> Unit = {},
-    onEnterPiP: (() -> Unit)? = null,
+    onEnterPiP: (() -> Unit)? = null
 ) {
     val playbackState by rememberFlowWithLifecycle(videoPlayer.playbackState)
         .collectAsState(initial = VideoPlaybackState())
@@ -68,7 +68,6 @@ fun VideoPlayerControls(
 
     Surface(color = Color.Black.copy(0.6f)) {
         Box(modifier = Modifier.fillMaxSize()) {
-
             TopBar(
                 onClose = onClose,
                 onEnterPiP = onEnterPiP
@@ -124,7 +123,7 @@ private fun BoxScope.TopBar(
                         R.drawable.ic_video_icon_pip,
                         contentDescription = stringResource(id = RString.ss_picture_in_picture)
                     ),
-                    contentColor = contentColor,
+                    contentColor = contentColor
                 )
             }
         }
@@ -143,7 +142,6 @@ private fun BoxScope.Controls(
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier.align(Alignment.Center)
     ) {
-
         IconButton(onClick = onRewind) {
             IconBox(
                 icon = IconSlot.fromResource(
@@ -161,13 +159,12 @@ private fun BoxScope.Controls(
             modifier = Modifier.size(PlayBackControlsDefaults.playButtonSize),
             contentAlignment = Alignment.Center
         ) {
-
             if (playbackState.isBuffering) {
                 CircularProgressIndicator(color = contentColor)
             } else {
                 IconButton(
                     onClick = onPlayPause,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     IconBox(
                         icon = IconSlot.fromResource(
@@ -178,7 +175,7 @@ private fun BoxScope.Controls(
                             contentDescription = stringResource(id = RString.ss_action_play_pause)
                         ),
                         contentColor = contentColor,
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize()
                     )
                 }
             }
@@ -212,6 +209,6 @@ private fun BoxScope.PlayBackProgress(
         modifier = Modifier
             .align(Alignment.BottomCenter)
             .padding(bottom = Spacing32),
-        forceDark = true,
+        forceDark = true
     )
 }

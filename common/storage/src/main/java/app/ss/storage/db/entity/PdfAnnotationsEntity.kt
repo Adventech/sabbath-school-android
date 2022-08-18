@@ -30,5 +30,5 @@ data class PdfAnnotationsEntity(
     @PrimaryKey val index: String,
     val pdfIndex: String,
     val pageIndex: Int,
-    val annotations: List<String>,
+    val annotations: List<String>
 )

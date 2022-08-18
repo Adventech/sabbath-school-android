@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,35 +20,25 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.base
+package app.ss.widgets.glance.today
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import android.os.Build
-import android.widget.ImageView
-import androidx.core.content.ContextCompat
-import coil.load
-import com.cryart.sabbathschool.core.extensions.view.tint
-import com.cryart.sabbathschool.lessons.R
+import app.ss.widgets.glance.BaseGlanceAppWidgetReceiver
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-fun ImageView.loadCover(coverUrl: String?, primaryColor: Int? = null) {
-    load(coverUrl) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-            allowHardware(true)
-            crossfade(true)
-        }
-        bitmapConfig(Bitmap.Config.ARGB_8888)
-        primaryColor?.let {
-            val drawable = placeholderDrawable(context, it)
-            placeholder(drawable)
-            error(drawable)
-        }
-    }
-}
+@AndroidEntryPoint
+internal class TodayImageAppWidgetReceiver : BaseGlanceAppWidgetReceiver<TodayImageAppWidget>() {
 
-private fun placeholderDrawable(context: Context, color: Int): Drawable? {
-    val drawable = ContextCompat.getDrawable(context, R.drawable.bg_cover)
-    drawable?.tint(color)
-    return drawable
+    @Inject
+    @ApplicationContext
+    lateinit var context: Context
+
+    @Inject
+    lateinit var widgetFactory: TodayImageAppWidget.Factory
+
+    override fun createWidget(): TodayImageAppWidget = widgetFactory.create(
+        context = context
+    )
 }

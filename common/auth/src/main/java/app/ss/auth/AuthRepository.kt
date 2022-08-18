@@ -64,7 +64,7 @@ interface AuthRepository {
 internal class AuthRepositoryImpl @Inject constructor(
     private val authApi: SSAuthApi,
     private val userDao: UserDao,
-    private val dispatcherProvider: DispatcherProvider,
+    private val dispatcherProvider: DispatcherProvider
 ) : AuthRepository {
 
     override suspend fun getUser(): Resource<SSUser?> = withContext(dispatcherProvider.io) {

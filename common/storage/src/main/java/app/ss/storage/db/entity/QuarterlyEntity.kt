@@ -48,5 +48,5 @@ data class QuarterlyEntity(
     val quarterly_name: String,
     val quarterly_group: QuarterlyGroup?,
     val features: List<Feature>,
-    val credits: List<Credit>,
+    val credits: List<Credit>
 )

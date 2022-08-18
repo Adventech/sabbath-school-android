@@ -50,10 +50,10 @@ object PdfModule {
     fun provideReader(
         @ApplicationContext context: Context,
         readerPrefs: PdfReaderPrefs,
-        dispatcherProvider: DispatcherProvider,
+        dispatcherProvider: DispatcherProvider
     ): PdfReader = PdfReaderImpl(
         context = context,
         readerPrefs = readerPrefs,
-        dispatcherProvider = dispatcherProvider,
+        dispatcherProvider = dispatcherProvider
     )
 }

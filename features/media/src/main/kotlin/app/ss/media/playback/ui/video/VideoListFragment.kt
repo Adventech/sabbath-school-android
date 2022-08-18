@@ -68,11 +68,11 @@ class VideoListFragment : TransparentBottomSheetFragment() {
 }
 
 fun FragmentManager.showVideoList(
-    lessonIndex: String,
+    lessonIndex: String
 ) {
     val fragment = VideoListFragment().apply {
         arguments = bundleOf(
-            SSConstants.SS_LESSON_INDEX_EXTRA to lessonIndex,
+            SSConstants.SS_LESSON_INDEX_EXTRA to lessonIndex
         )
     }
     fragment.show(this, "VideoList")

@@ -25,11 +25,15 @@ package com.cryart.sabbathschool.core.extensions.context
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
 import androidx.core.net.toUri
+import coil.imageLoader
+import coil.request.ImageRequest
 import com.cryart.sabbathschool.core.R
 import com.cryart.sabbathschool.core.misc.SSColorTheme
 import timber.log.Timber
@@ -103,4 +107,14 @@ fun Context.shareContent(content: String, chooser: String = "") {
 @SuppressWarnings("UNCHECKED_CAST")
 fun <T> Context.systemService(name: String): T {
     return getSystemService(name) as T
+}
+
+suspend fun Context.fetchBitmap(source: Any?): Bitmap? {
+    val request = ImageRequest.Builder(this)
+        .data(source)
+        .build()
+
+    val drawable = imageLoader.execute(request).drawable
+
+    return (drawable as? BitmapDrawable)?.bitmap
 }

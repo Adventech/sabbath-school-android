@@ -30,8 +30,4 @@ enum class PlaybackSpeed(
     NORMAL("1×", 1f),
     FAST("1½×", 1.5f),
     FASTEST("2×", 2f);
-
-    companion object {
-        fun fromSpeed(speed: Float): PlaybackSpeed = values().find { it.speed == speed } ?: NORMAL
-    }
 }

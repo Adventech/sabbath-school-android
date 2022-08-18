@@ -74,7 +74,9 @@ class BibleVersesViewModel @Inject constructor(
     private val bibleContent = MutableStateFlow(BibleVersesState())
 
     internal val uiState: StateFlow<BibleVersesScreenState> = combine(
-        bibleVerses, displayOptions, bibleContent
+        bibleVerses,
+        displayOptions,
+        bibleContent
     ) { bibleVersesResult, displayOptionsResult, content ->
 
         val bibleVerses = when (bibleVersesResult) {

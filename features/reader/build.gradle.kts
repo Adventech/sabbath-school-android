@@ -20,14 +20,10 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies
-import extensions.addTestsDependencies
-import extensions.kapt
-
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-    id(BuildPlugins.Kotlin.KAPT)
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -37,17 +33,13 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
-    compileOptions {
-        sourceCompatibility = JavaOptions.version
-        targetCompatibility = JavaOptions.version
-    }
     kotlinOptions {
-        jvmTarget = JavaOptions.version.toString()
+        jvmTarget = libs.versions.jvmTarget.get()
     }
 }
 
 dependencies {
-    implementation(project(BuildModules.Common.CORE))
+    implementation(project(":common:core"))
 
-    implementation(Dependencies.TIMBER)
+    implementation(libs.timber)
 }

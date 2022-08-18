@@ -57,12 +57,12 @@ import org.joda.time.format.DateTimeFormat
 data class LessonItemSpec(
     val index: String,
     val title: String,
-    val date: String,
+    val date: String
 )
 
 @Immutable
 data class LessonItemsSpec(
-    val lessons: List<SSLesson>,
+    val lessons: List<SSLesson>
 )
 
 internal fun SSLesson.toSpec(): LessonItemSpec = LessonItemSpec(
@@ -72,7 +72,7 @@ internal fun SSLesson.toSpec(): LessonItemSpec = LessonItemSpec(
         "•"
     },
     title = title,
-    date = dateDisplay(),
+    date = dateDisplay()
 )
 
 private fun SSLesson.dateDisplay(): String {
@@ -93,7 +93,7 @@ private fun SSLesson.dateDisplay(): String {
 
 internal fun LazyListScope.lessons(
     lessonsSpec: LessonItemsSpec,
-    onClick: (SSLesson) -> Unit,
+    onClick: (SSLesson) -> Unit
 ) {
     itemsIndexed(
         lessonsSpec.lessons,
@@ -115,7 +115,7 @@ internal fun LazyListScope.lessons(
 @Composable
 private fun LessonItem(
     spec: LessonItemSpec,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier,
@@ -140,7 +140,7 @@ private fun LessonItem(
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
+                maxLines = 1
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -152,7 +152,7 @@ private fun LessonItem(
                 ),
                 color = onSurfaceSecondary(),
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
+                maxLines = 1
             )
         }
     }
@@ -173,8 +173,8 @@ private fun LessonItemPreview() {
                 spec = LessonItemSpec(
                     index = "1",
                     title = "Lesson Title",
-                    date = "June 25 - July 01",
-                ),
+                    date = "June 25 - July 01"
+                )
             )
         }
     }

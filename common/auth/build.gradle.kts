@@ -19,22 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import dependencies.Dependencies
-import dependencies.Dependencies.Kotlin
-import dependencies.Dependencies.Hilt
-import dependencies.Dependencies.Square.Moshi
-import dependencies.Dependencies.Square.Okhttp
-import dependencies.Dependencies.Square.Retrofit
-import extensions.addTestsDependencies
-import extensions.implementation
-import extensions.kapt
 
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-    id(BuildPlugins.Kotlin.KAPT)
-    id(BuildPlugins.Kotlin.PARCELIZE)
-    id(BuildPlugins.DAGGER_HILT)
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -44,35 +35,35 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
-    compileOptions {
-        sourceCompatibility = JavaOptions.version
-        targetCompatibility = JavaOptions.version
-    }
+
     kotlinOptions {
-        jvmTarget = JavaOptions.version.toString()
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.COROUTINES
+        jvmTarget = libs.versions.jvmTarget.get()
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
 }
 
 dependencies {
-    implementation(project(BuildModules.Common.CORE))
-    implementation(project(BuildModules.Common.MODELS))
-    implementation(project(BuildModules.Common.NETWORK))
-    implementation(project(BuildModules.Common.STORAGE))
+    implementation(project(":common:core"))
+    implementation(project(":common:models"))
+    implementation(project(":common:network"))
+    implementation(project(":common:storage"))
 
-    implementation(Kotlin.COROUTINES)
-    implementation(Kotlin.COROUTINES_ANDROID)
-    implementation(Hilt.ANDROID)
-    kapt(Hilt.COMPILER)
-    implementation(Dependencies.TIMBER)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.kotlin.coroutines.android)
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
+    implementation(libs.timber)
 
-    implementation(Moshi.kotlin)
-    kapt(Moshi.codegen)
+    implementation(libs.square.moshi.kotlin)
+    kapt(libs.square.moshi.codegen)
 
-    implementation(Retrofit.retrofit2)
-    implementation(Okhttp.okhttp)
-    implementation(Retrofit.moshiConverter)
+    implementation(libs.square.retrofit.converter.moshi)
+    implementation(libs.square.retrofit)
+    implementation(libs.square.okhttp)
 
-    addTestsDependencies()
-    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
+    testImplementation(libs.bundles.testing.common)
+    kaptTest(libs.google.hilt.compiler)
+    androidTestImplementation(libs.bundles.testing.android.common)
+    kaptAndroidTest(libs.google.hilt.compiler)
+    testImplementation(project(":libraries:test_utils"))
 }

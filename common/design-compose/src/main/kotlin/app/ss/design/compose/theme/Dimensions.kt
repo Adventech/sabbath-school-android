@@ -37,7 +37,7 @@ class Dimensions(
     val grid_5: Dp,
     val grid_6: Dp,
     val grid_7: Dp,
-    val grid_8: Dp,
+    val grid_8: Dp
 )
 
 internal val smallDimensions = Dimensions(
@@ -48,7 +48,7 @@ internal val smallDimensions = Dimensions(
     grid_5 = 20.dp,
     grid_6 = 24.dp,
     grid_7 = 28.dp,
-    grid_8 = 32.dp,
+    grid_8 = 32.dp
 )
 
 internal val sw600Dimensions = Dimensions(
@@ -59,7 +59,7 @@ internal val sw600Dimensions = Dimensions(
     grid_5 = 40.dp,
     grid_6 = 48.dp,
     grid_7 = 56.dp,
-    grid_8 = 64.dp,
+    grid_8 = 64.dp
 )
 
 @Composable

@@ -34,9 +34,12 @@ data class PlaybackStateSpec(
     val isPlaying: Boolean,
     val isPlayEnabled: Boolean,
     val isError: Boolean,
-    val isBuffering: Boolean,
+    val isBuffering: Boolean
 )
 
 internal fun PlaybackStateCompat.toSpec() = PlaybackStateSpec(
-    isPlaying, isPlayEnabled, isError, isBuffering
+    isPlaying = isPlaying,
+    isPlayEnabled = isPlayEnabled,
+    isError = isError,
+    isBuffering = isBuffering
 )

@@ -41,7 +41,7 @@ internal class PublishingInfoDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     connectivityHelper: ConnectivityHelper,
     private val publishingInfoDao: PublishingInfoDao,
-    private val quarterliesApi: SSQuarterliesApi,
+    private val quarterliesApi: SSQuarterliesApi
 ) : DataSourceMediator<PublishingInfo, PublishingInfoDataSource.Request>(
     dispatcherProvider = dispatcherProvider,
     connectivityHelper = connectivityHelper
@@ -76,7 +76,8 @@ internal class PublishingInfoDataSource @Inject constructor(
         override suspend fun getItem(request: Request): Resource<PublishingInfo> {
             val response = quarterliesApi.getPublishingInfo(
                 PublishingInfoRequest(
-                    request.country, request.language
+                    request.country,
+                    request.language
                 )
             )
             return response.body()?.data?.let { Resource.success(it) } ?: Resource.error(Throwable(""))

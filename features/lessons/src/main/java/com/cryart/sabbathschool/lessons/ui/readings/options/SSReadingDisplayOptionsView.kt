@@ -46,7 +46,9 @@ class SSReadingDisplayOptionsView : SsBottomSheetDialogFragment() {
     ): View {
         val binding: SsReadingDisplayOptionsBinding = DataBindingUtil.inflate(
             inflater,
-            R.layout.ss_reading_display_options, null, false
+            R.layout.ss_reading_display_options,
+            null,
+            false
         )
         binding.viewModel = SSReadingDisplayOptionsViewModel(
             binding,

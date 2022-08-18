@@ -60,7 +60,7 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.PublishingInf
 import app.ss.translations.R.string as RString
 
 internal fun LazyListScope.publishingInfo(
-    publishingInfo: PublishingInfoSpec?,
+    publishingInfo: PublishingInfoSpec?
 ) {
     publishingInfo?.let {
         item {
@@ -78,7 +78,7 @@ internal fun LazyListScope.publishingInfo(
 @Composable
 private fun PublishingInfo(
     spec: PublishingInfoSpec,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val onclick: () -> Unit = { context.launchWebUrl(spec.url) }
@@ -93,7 +93,6 @@ private fun PublishingInfo(
                 ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             Text(
                 text = spec.message,
                 style = MaterialTheme.typography.bodySmall,
@@ -109,7 +108,7 @@ private fun PublishingInfo(
                 modifier = Modifier
                     .background(Color.parse(spec.primaryColorHex), CircleShape)
                     .size(32.dp),
-                stateLayerSize = 48.dp,
+                stateLayerSize = 48.dp
             ) {
                 Icon(
                     Icons.Rounded.KeyboardArrowRight,
@@ -136,7 +135,7 @@ private fun PreviewPublishingInfo() {
                         "United States belongs to the Pacific Press Publishing Association.",
                     url = "http://www.sabbathschoolmaterials.com",
                     primaryColorHex = "#385bb2"
-                ),
+                )
             )
         }
     }

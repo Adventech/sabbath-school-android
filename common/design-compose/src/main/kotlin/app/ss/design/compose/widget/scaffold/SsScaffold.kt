@@ -75,7 +75,6 @@ fun SsScaffold(
     scrollBehavior: TopAppBarScrollBehavior? = null,
     content: @Composable (PaddingValues) -> Unit
 ) {
-
     Scaffold(
         modifier = modifier.thenIf(scrollBehavior != null) {
             Modifier.nestedScroll(scrollBehavior!!.nestedScrollConnection)
@@ -90,7 +89,6 @@ fun SsScaffold(
 )
 @Composable
 private fun PreviewScaffold() {
-
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarScrollState())
 
     SsTheme {
@@ -103,8 +101,8 @@ private fun PreviewScaffold() {
                             IconButton(
                                 imageVector = Icons.Rounded.AccountCircle,
                                 contentDescription = "Profile",
-                                onClick = {},
-                            ),
+                                onClick = {}
+                            )
                         )
                     ),
                     title = { Text(text = "Title") },
@@ -113,7 +111,7 @@ private fun PreviewScaffold() {
                             icon = IconButton(
                                 imageVector = Icons.Rounded.ArrowBack,
                                 contentDescription = "Back",
-                                onClick = {},
+                                onClick = {}
                             )
                         )
                     },
@@ -127,7 +125,6 @@ private fun PreviewScaffold() {
                 contentPadding = innerPadding,
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-
                 val list = (0..50).map { it.toString() }
                 items(count = list.size) {
                     Text(

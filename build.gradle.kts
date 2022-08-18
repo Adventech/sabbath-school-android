@@ -42,9 +42,9 @@ subprojects {
             if (findProperty("ss.enableComposeCompilerReports") == "true") {
                 freeCompilerArgs = freeCompilerArgs + listOf(
                     "-P",
-                    "${KotlinOptions.Compose.ReportsDestination}=$buildDir/compose_metrics",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$buildDir/compose_metrics",
                     "-P",
-                    "${KotlinOptions.Compose.MetricsDestination}=$buildDir/compose_metrics"
+                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=$buildDir/compose_metrics"
                 )
             }
         }

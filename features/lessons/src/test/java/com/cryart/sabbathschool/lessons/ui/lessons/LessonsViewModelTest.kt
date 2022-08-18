@@ -64,10 +64,12 @@ class LessonsViewModelTest {
     private val mockSavedStateHandle: SavedStateHandle = mockk()
 
     private val publishingInfoFlow = MutableSharedFlow<Resource<PublishingInfo>>(
-        replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     private val quarterlyInfoFlow = MutableSharedFlow<Resource<SSQuarterlyInfo>>(
-        replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
     private lateinit var viewModel: LessonsViewModel
@@ -85,7 +87,7 @@ class LessonsViewModelTest {
             lessonsRepository = mockLessonsRepository,
             ssPrefs = mockPrefs,
             appWidgetHelper = mockWidgetHelper,
-            savedStateHandle = mockSavedStateHandle,
+            savedStateHandle = mockSavedStateHandle
         )
     }
 

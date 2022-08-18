@@ -20,13 +20,10 @@
  * THE SOFTWARE.
  */
 
-import dependencies.Dependencies.AndroidX
-import dependencies.Dependencies.Square.Moshi
-
 plugins {
-    id(BuildPlugins.Android.LIBRARY)
-    id(BuildPlugins.Kotlin.ANDROID)
-    id(BuildPlugins.Kotlin.PARCELIZE)
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -36,16 +33,12 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
-    compileOptions {
-        sourceCompatibility = JavaOptions.version
-        targetCompatibility = JavaOptions.version
-    }
     kotlinOptions {
-        jvmTarget = JavaOptions.version.toString()
+        jvmTarget = libs.versions.jvmTarget.get()
     }
 }
 
 dependencies {
-    implementation(AndroidX.ANNOTATIONS)
-    implementation(Moshi.kotlin)
+    implementation(libs.androidx.annotations)
+    implementation(libs.square.moshi.kotlin)
 }
