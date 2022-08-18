@@ -20,7 +20,6 @@
  * THE SOFTWARE.
  */
 
-
 package com.cryart.sabbathschool.lessons.ui.quarterlies.list
 
 import androidx.compose.animation.core.animateDpAsState
@@ -59,7 +58,6 @@ private enum class BoxState {
 
 @Composable
 fun AnimPlaygroundScreen() {
-
     var contentState by remember { mutableStateOf(BoxState.Collapsed) }
 
     SsTheme {
@@ -72,9 +70,8 @@ fun AnimPlaygroundScreen() {
                             BoxState.Collapsed -> BoxState.Expanded
                             BoxState.Expanded -> BoxState.Collapsed
                         }
-                    },
+                    }
             ) {
-
                 Spacer(
                     modifier = Modifier
                         .height(300.dp)
@@ -85,11 +82,9 @@ fun AnimPlaygroundScreen() {
                     boxState = contentState,
                     modifier = Modifier.weight(1f)
                 )
-
             }
         }
     }
-
 }
 
 @Composable
@@ -101,19 +96,18 @@ private fun PlayerSample(
     val imageWidth by animateDpAsState(
         targetValue = if (expanded) 100.dp / 2 else 100.dp,
         animationSpec = tween(
-            durationMillis = 600,
+            durationMillis = 600
         )
     )
     val imageHeight by animateDpAsState(
         targetValue = if (expanded) 200.dp / 2 else 200.dp,
         animationSpec = tween(
-            durationMillis = 600,
+            durationMillis = 600
         )
     )
 
     Layout(
         content = {
-
             Spacer(
                 modifier = Modifier
                     .size(imageWidth, imageHeight)
@@ -123,16 +117,16 @@ private fun PlayerSample(
             Text(
                 text = "Hello World - title",
                 style = MaterialTheme.typography.titleSmall,
-                textAlign = if (expanded) TextAlign.Start else TextAlign.Center,
+                textAlign = if (expanded) TextAlign.Start else TextAlign.Center
             )
 
             Text(
                 text = "Adult Bible Study guides",
                 style = MaterialTheme.typography.bodySmall,
-                textAlign = if (expanded) TextAlign.Start else TextAlign.Center,
+                textAlign = if (expanded) TextAlign.Start else TextAlign.Center
             )
-
-        }, modifier = modifier
+        },
+        modifier = modifier
     ) { measurables, constraints ->
         /*val image = measurables[0].measure(constraints)
         val title = measurables[1].measure(constraints)
@@ -180,11 +174,11 @@ enum class AlignmentState { Rowed, Columned }
 
 @Composable
 fun Sample(state: AlignmentState) {
-    //Dimensions of the static/stable box
+    // Dimensions of the static/stable box
     val redWidth = 50
     val redHeight = 50
 
-    //Animated Coordinates of the dynamic box
+    // Animated Coordinates of the dynamic box
     val blueX by animateDpAsState(targetValue = (if (state == AlignmentState.Rowed) (redWidth * 1.25f).roundToInt() else 0).dp)
     val blueY by animateDpAsState(targetValue = (if (state == AlignmentState.Rowed) 0 else redHeight).dp)
 
@@ -209,9 +203,5 @@ fun Sample(state: AlignmentState) {
             red.place(0, 0)
             blue.place(blueX.value.roundToInt(), blueY.value.roundToInt())
         }
-
     }
-
 }
-
-

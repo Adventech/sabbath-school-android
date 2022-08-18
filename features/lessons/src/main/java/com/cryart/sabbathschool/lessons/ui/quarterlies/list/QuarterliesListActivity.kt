@@ -36,7 +36,6 @@ import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
-import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesScreen
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesListCallback
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -50,7 +49,7 @@ class QuarterliesListActivity : SlidingActivity(), QuarterliesListCallback {
             SsTheme(
                 windowWidthSizeClass = calculateWindowSizeClass(activity = this).widthSizeClass
             ) {
-               // QuarterliesScreen(callbacks = this)
+                // QuarterliesScreen(callbacks = this)
                 AnimPlaygroundScreen()
             }
         }

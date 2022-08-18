@@ -29,11 +29,8 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
-import androidx.compose.animation.shrinkOut
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.with
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,7 +41,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.unit.dp
 import app.ss.media.playback.extensions.isPlaying
@@ -61,19 +57,19 @@ internal fun NowPlayingDetail(
     spec: NowPlayingScreenSpec,
     boxState: BoxState,
     listState: LazyListState,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     AnimatedContent(
         targetState = boxState,
         modifier = modifier,
         transitionSpec = {
             if (targetState == BoxState.Collapsed) {
-               expandVertically { it } with fadeOut(animationSpec = tween(100))
+                expandVertically { it } with fadeOut(animationSpec = tween(100))
             } else {
                 scaleIn(
                     animationSpec = tween(500),
                     initialScale = 0.3f,
-                    transformOrigin = TransformOrigin(0f, 0f),
+                    transformOrigin = TransformOrigin(0f, 0f)
                 ) with fadeOut(animationSpec = tween(100))
             }.using(SizeTransform(clip = false))
         }
@@ -83,13 +79,13 @@ internal fun NowPlayingDetail(
                 NowPlayingDetailCollapsed(
                     spec = spec,
                     boxState = boxState,
-                    listState = listState,
+                    listState = listState
                 )
             }
             BoxState.Expanded -> {
                 NowPlayingDetailExpanded(
                     spec = spec,
-                    boxState = boxState,
+                    boxState = boxState
                 )
             }
         }
@@ -100,7 +96,7 @@ internal fun NowPlayingDetail(
 internal fun NowPlayingDetailExpanded(
     spec: NowPlayingScreenSpec,
     boxState: BoxState,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val nowPlayingAudio = spec.nowPlayingAudio
 
@@ -131,7 +127,7 @@ private fun NowPlayingDetailCollapsed(
     spec: NowPlayingScreenSpec,
     boxState: BoxState,
     listState: LazyListState,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val nowPlayingAudio = spec.nowPlayingAudio
     val playbackQueue = spec.playbackQueue
@@ -168,6 +164,7 @@ private fun NowPlayingDetailCollapsed(
             ),
             modifier = Modifier
                 .padding(top = 16.dp)
+                .weight(1f)
         )
     }
 }

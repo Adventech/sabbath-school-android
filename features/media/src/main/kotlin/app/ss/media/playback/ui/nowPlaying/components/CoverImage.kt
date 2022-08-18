@@ -110,9 +110,8 @@ internal fun CoverImage(
 internal fun CoverImageStatic(
     spec: CoverImageSpec,
     boxState: BoxState,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
-
     val orientation = CoverOrientation.fromKey(spec.imageRatio) ?: CoverOrientation.PORTRAIT
     val collapsed = boxState == BoxState.Collapsed
     val width = if (collapsed) orientation.width / 2 else orientation.width
