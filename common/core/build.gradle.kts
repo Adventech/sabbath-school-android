@@ -63,6 +63,6 @@ dependencies {
     kaptTest(libs.google.hilt.compiler)
     androidTestImplementation(libs.bundles.testing.android.common)
     kaptAndroidTest(libs.google.hilt.compiler)
-    testImplementation(project(":libraries:test_utils"))
-    androidTestImplementation(project(":libraries:test_utils"))
+    testImplementation(projects.libraries.testUtils)
+    androidTestImplementation(projects.libraries.testUtils)
 }

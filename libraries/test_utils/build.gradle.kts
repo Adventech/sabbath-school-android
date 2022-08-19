@@ -41,9 +41,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":common:auth"))
-    implementation(project(":common:core"))
-    implementation(project(":common:lessons-data"))
+    implementation(projects.common.auth)
+    implementation(projects.common.core)
+    implementation(projects.common.lessonsData)
 
     implementation(libs.kotlin.coroutines)
     implementation(libs.kotlin.coroutines.android)

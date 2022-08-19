@@ -49,11 +49,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":common:core"))
-    implementation(project(":common:design"))
-    implementation(project(":common:design-compose"))
-    implementation(project(":common:lessons-data"))
-    implementation(project(":common:translations"))
+    implementation(projects.common.core)
+    implementation(projects.common.design)
+    implementation(projects.common.designCompose)
+    implementation(projects.common.lessonsData)
+    implementation(projects.common.translations)
 
     implementation(libs.kotlin.coroutines)
     implementation(libs.kotlin.coroutines.android)
@@ -77,5 +77,5 @@ dependencies {
     kaptTest(libs.google.hilt.compiler)
     androidTestImplementation(libs.bundles.testing.android.common)
     kaptAndroidTest(libs.google.hilt.compiler)
-    testImplementation(project(":libraries:test_utils"))
+    testImplementation(projects.libraries.testUtils)
 }

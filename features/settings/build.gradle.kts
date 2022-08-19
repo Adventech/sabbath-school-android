@@ -45,9 +45,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":common:core"))
-    implementation(project(":common:design"))
-    implementation(project(":common:translations"))
+    implementation(projects.common.core)
+    implementation(projects.common.design)
+    implementation(projects.common.translations)
 
     implementation(libs.google.material)
     implementation(libs.androidx.core)
