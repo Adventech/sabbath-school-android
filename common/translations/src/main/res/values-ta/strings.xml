@@ -118,4 +118,5 @@
     <string name="ss_action_playlist">"பிளேலிஸ்ட் "</string>
     <string name="ss_action_forward">"முன்னோக்கி "</string>
     <string name="ss_picture_in_picture">"படத்தில் உள்ள படம் "</string>
+    <string name="ss_auto">"ஆட்டோ "</string>
 </resources>

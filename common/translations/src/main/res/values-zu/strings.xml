@@ -119,4 +119,5 @@ Siyakholwa ngempela ukuthi uNkulunkulu ukwandise ulwazi lwezwe lwanamuhla futhi 
     <string name="ss_action_playlist">Uhlu lwadlalwayo</string>
     <string name="ss_action_forward">Phambili</string>
     <string name="ss_picture_in_picture">Isithombe Esithombeni</string>
+    <string name="ss_auto">Ngokuzenzekelayo</string>
 </resources>

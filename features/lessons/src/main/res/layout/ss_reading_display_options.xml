@@ -71,7 +71,7 @@
                 android:id="@+id/themeDefault"
                 style="@style/display_options_text_view"
                 android:onClick="@{() -> viewModel.setThemeDefault()}"
-                android:text="@string/ss_reading_display_options_theme_default" />
+                android:text="@string/ss_auto" />
 
         </LinearLayout>
 

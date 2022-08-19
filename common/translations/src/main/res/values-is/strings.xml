@@ -118,4 +118,5 @@ Við trúum því sannarlega að Guð hafi aukið þekkingu á nútímanum og vi
     <string name="ss_action_playlist">Lagalisti</string>
     <string name="ss_action_forward">Áfram</string>
     <string name="ss_picture_in_picture">Mynd í mynd</string>
+    <string name="ss_auto">Sjálfvirk</string>
 </resources>

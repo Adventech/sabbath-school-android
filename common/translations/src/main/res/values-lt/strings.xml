@@ -118,4 +118,5 @@ Mes tikime, kad Dievas padidino šiuolaikinio pasaulio žinias ir nori, kad mes 
     <string name="ss_action_playlist">Grojaraštis</string>
     <string name="ss_action_forward">Persiųsti</string>
     <string name="ss_picture_in_picture">Paveikslėlis paveikslėlyje</string>
+    <string name="ss_auto">Automatinis</string>
 </resources>

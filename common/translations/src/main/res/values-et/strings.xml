@@ -117,4 +117,5 @@ Me usume, et Jumal on andnud tänapäeva maailmale nii palju teadmisi ning  me t
     <string name="ss_action_playlist">Esitusloend</string>
     <string name="ss_action_forward">Edasi</string>
     <string name="ss_picture_in_picture">Pilt pildis</string>
+    <string name="ss_auto">Automaatne</string>
 </resources>
