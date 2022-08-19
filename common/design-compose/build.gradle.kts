@@ -46,7 +46,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":common:translations"))
+    implementation(projects.common.translations)
 
     implementation(libs.timber)
     implementation(libs.google.accompanist.placeholder)
