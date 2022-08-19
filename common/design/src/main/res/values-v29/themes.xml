@@ -33,7 +33,7 @@
     <style name="Theme.SS.Full">
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:statusBarColor">@color/color_navigation_full</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/ss_theme_color_background</item>
     </style>
 
 </resources>

@@ -29,12 +29,12 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.theme.SsTheme
@@ -97,8 +97,9 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
                     }
                 )
 
+                val navigationBarColor = MaterialTheme.colorScheme.surface
                 SideEffect {
-                    systemUiController.setNavigationBarColor(Color.Transparent)
+                    systemUiController.setNavigationBarColor(navigationBarColor)
                 }
             }
         }

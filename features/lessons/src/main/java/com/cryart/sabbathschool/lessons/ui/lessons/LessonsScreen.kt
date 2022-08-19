@@ -282,7 +282,7 @@ private fun LessonsTopBar(
     }
 
     SideEffect {
-        systemUiController?.setSystemBarsColor(
+        systemUiController?.setStatusBarColor(
             color = Color.Transparent,
             darkIcons = useDarkIcons
         )

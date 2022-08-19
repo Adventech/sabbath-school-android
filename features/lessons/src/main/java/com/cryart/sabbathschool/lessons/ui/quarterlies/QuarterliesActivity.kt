@@ -29,10 +29,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import app.ss.design.compose.theme.SsTheme
 import app.ss.models.QuarterlyGroup
@@ -71,8 +71,9 @@ class QuarterliesActivity : SSBaseActivity(), QuarterliesGroupCallback {
                     callbacks = this
                 )
 
+                val navigationBarColor = MaterialTheme.colorScheme.surface
                 SideEffect {
-                    systemUiController.setNavigationBarColor(Color.Transparent)
+                    systemUiController.setNavigationBarColor(navigationBarColor)
                 }
             }
         }
