@@ -31,6 +31,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import app.ss.design.compose.theme.SsTheme
 import app.ss.models.QuarterlyGroup
@@ -43,6 +45,7 @@ import com.cryart.sabbathschool.lessons.ui.languages.LanguagesListFragment
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroupCallback
 import com.cryart.sabbathschool.lessons.ui.quarterlies.list.QuarterliesListActivity
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -59,6 +62,7 @@ class QuarterliesActivity : SSBaseActivity(), QuarterliesGroupCallback {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
+            val systemUiController = rememberSystemUiController()
             SsTheme(
                 windowWidthSizeClass = calculateWindowSizeClass(activity = this).widthSizeClass
             ) {
@@ -66,6 +70,10 @@ class QuarterliesActivity : SSBaseActivity(), QuarterliesGroupCallback {
                     viewModel = viewModel,
                     callbacks = this
                 )
+
+                SideEffect {
+                    systemUiController.setNavigationBarColor(Color.Transparent)
+                }
             }
         }
 
