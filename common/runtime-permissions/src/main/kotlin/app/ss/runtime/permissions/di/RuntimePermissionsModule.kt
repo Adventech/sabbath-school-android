@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,33 +20,19 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.reminder
+package app.ss.runtime.permissions.di
 
-import android.Manifest
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.os.Build
 import app.ss.runtime.permissions.RuntimePermissions
-import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import app.ss.runtime.permissions.RuntimePermissionsImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-@AndroidEntryPoint
-class ReminderReceiver : BroadcastReceiver() {
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class RuntimePermissionsModule {
 
-    @Inject
-    lateinit var dailyReminderManager: DailyReminderManager
-
-    @Inject
-    lateinit var runtimePermissions: RuntimePermissions
-
-    override fun onReceive(context: Context, intent: Intent) {
-        if (isAtLeastApi(Build.VERSION_CODES.TIRAMISU) && runtimePermissions.isGranted(Manifest.permission.POST_NOTIFICATIONS).not()) {
-            dailyReminderManager.cancel()
-        } else {
-            dailyReminderManager.showNotification(context)
-            dailyReminderManager.reSchedule()
-        }
-    }
+    @Binds
+    internal abstract fun bindRuntimePermissions(impl: RuntimePermissionsImpl): RuntimePermissions
 }

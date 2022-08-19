@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,33 +20,28 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.reminder
+plugins {
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+}
 
-import android.Manifest
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.os.Build
-import app.ss.runtime.permissions.RuntimePermissions
-import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+android {
+    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
 
-@AndroidEntryPoint
-class ReminderReceiver : BroadcastReceiver() {
-
-    @Inject
-    lateinit var dailyReminderManager: DailyReminderManager
-
-    @Inject
-    lateinit var runtimePermissions: RuntimePermissions
-
-    override fun onReceive(context: Context, intent: Intent) {
-        if (isAtLeastApi(Build.VERSION_CODES.TIRAMISU) && runtimePermissions.isGranted(Manifest.permission.POST_NOTIFICATIONS).not()) {
-            dailyReminderManager.cancel()
-        } else {
-            dailyReminderManager.showNotification(context)
-            dailyReminderManager.reSchedule()
-        }
+    defaultConfig {
+        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
+
+    kotlinOptions {
+        jvmTarget = libs.versions.jvmTarget.get()
+    }
+}
+
+dependencies {
+    implementation(libs.androidx.activity)
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
+    implementation(libs.timber)
 }

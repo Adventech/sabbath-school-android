@@ -22,16 +22,20 @@
 
 package com.cryart.sabbathschool.ui.login
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import app.ss.runtime.permissions.RuntimePermissions
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
+import com.cryart.sabbathschool.core.extensions.sdk.isAtBelowApi
 import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding
@@ -43,6 +47,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -50,6 +55,9 @@ class LoginActivity : AppCompatActivity() {
 
     @Inject
     lateinit var appConfig: AppConfig
+
+    @Inject
+    lateinit var runtimePermissions: RuntimePermissions
 
     private val viewModel: LoginViewModel by viewModels()
 
@@ -104,6 +112,8 @@ class LoginActivity : AppCompatActivity() {
                 null -> {}
             }
         }
+
+        checkNotificationsPermission()
     }
 
     private fun initUi() {
@@ -122,6 +132,32 @@ class LoginActivity : AppCompatActivity() {
                     .create()
                     .show()
             }
+        }
+    }
+
+    private fun checkNotificationsPermission() {
+        if (isAtBelowApi(Build.VERSION_CODES.TIRAMISU)) {
+            return
+        }
+        when (runtimePermissions.isGranted(this, Manifest.permission.POST_NOTIFICATIONS)) {
+            RuntimePermissions.Result.GRANTED -> {
+                Timber.i("Notifications permission granted.")
+            }
+            RuntimePermissions.Result.SHOW_RATIONALE -> {
+                Timber.i("SHOW_RATIONALE for Notifications permission.")
+            }
+            RuntimePermissions.Result.DENIED -> runtimePermissions.request(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS,
+                object : RuntimePermissions.Listener {
+                    override fun onPermissionGranted() {
+                        viewModel.handleNotificationsPermissionGranted()
+                    }
+                    override fun onPermissionDenied() {
+                        viewModel.handleNotificationsPermissionDenied()
+                    }
+                }
+            )
         }
     }
 

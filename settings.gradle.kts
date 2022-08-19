@@ -28,6 +28,7 @@ include(
     ":common:lessons-data",
     ":common:models",
     ":common:network",
+    ":common:runtime-permissions",
     ":common:storage",
     ":common:translations",
     ":features:account",

@@ -138,6 +138,7 @@ dependencies {
     implementation(project(":common:design-compose"))
     implementation(project(":common:lessons-data"))
     implementation(project(":common:network"))
+    implementation(project(":common:runtime-permissions"))
     implementation(project(":common:storage"))
     implementation(project(":common:translations"))
     implementation(project(":features:app-widgets"))

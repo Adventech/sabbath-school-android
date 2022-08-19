@@ -29,10 +29,10 @@
     </queries>
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:name=".SSApp"
-        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/ss_app_name"
         android:largeHeap="true"
