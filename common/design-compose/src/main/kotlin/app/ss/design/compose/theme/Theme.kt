@@ -39,8 +39,8 @@ val DarkColorScheme = darkColorScheme(
     secondary = SsColor.BaseBlue,
     background = Color.Black,
     surface = Color.Black,
-    onBackground = SsColor.BaseGrey1,
-    onSurface = SsColor.BaseGrey1,
+    onBackground = Color.White,
+    onSurface = Color.White,
     error = SsColor.BaseRed
 )
 
@@ -51,8 +51,8 @@ val LightColorScheme = lightColorScheme(
     surface = Color.White,
     onPrimary = Color.White,
     onSecondary = Color.White,
-    onBackground = SsColor.BaseGrey3,
-    onSurface = SsColor.BaseGrey3,
+    onBackground = Color.Black,
+    onSurface = Color.Black,
     error = SsColor.BaseRed
 )
 
