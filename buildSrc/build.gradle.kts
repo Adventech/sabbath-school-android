@@ -16,7 +16,7 @@ object PluginVersions {
     const val KTLINT = "0.40.0"
     const val HILT = "2.43.2"
     const val PAPARAZZI = "1.0.0"
-    const val VCU = "0.5.3"
+    const val VCU = "0.6.0"
 }
 
 dependencies {
