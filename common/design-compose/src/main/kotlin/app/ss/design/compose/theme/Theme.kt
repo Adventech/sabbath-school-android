@@ -51,8 +51,8 @@ val LightColorScheme = lightColorScheme(
     surface = Color.White,
     onPrimary = Color.White,
     onSecondary = Color.White,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
+    onBackground = SsColor.BaseGrey3,
+    onSurface = SsColor.BaseGrey3,
     error = SsColor.BaseRed
 )
 
