@@ -17,6 +17,7 @@ object PluginVersions {
     const val HILT = "2.43.2"
     const val PAPARAZZI = "1.0.0"
     const val VCU = "0.6.0"
+    const val BENCHMARK = "1.2.0-alpha01"
 }
 
 dependencies {
@@ -27,4 +28,5 @@ dependencies {
     implementation("com.github.ben-manes:gradle-versions-plugin:${PluginVersions.GRADLE_VERSIONS}")
     implementation("app.cash.paparazzi:paparazzi-gradle-plugin:${PluginVersions.PAPARAZZI}")
     implementation("nl.littlerobots.vcu:plugin:${PluginVersions.VCU}")
+    implementation("androidx.benchmark:benchmark-gradle-plugin:${PluginVersions.BENCHMARK}")
 }

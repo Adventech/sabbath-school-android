@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,36 +20,6 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        maven("https://plugins.gradle.org/m2/")
-        gradlePluginPortal()
-    }
-}
+package com.cryart.sabbathschool.benchmark
 
-include(
-    ":app",
-    ":benchmark",
-    ":common:auth",
-    ":common:core",
-    ":common:design",
-    ":common:design-compose",
-    ":common:lessons-data",
-    ":common:models",
-    ":common:network",
-    ":common:storage",
-    ":common:translations",
-    ":features:account",
-    ":features:app-widgets",
-    ":features:bible",
-    ":features:lessons",
-    ":features:media",
-    ":features:pdf",
-    ":features:reader",
-    ":features:settings",
-    ":libraries:test_utils"
-)
-rootProject.buildFileName = "build.gradle.kts"
-
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+const val PACKAGE_NAME = "com.cryart.sabbathschool.benchmark"

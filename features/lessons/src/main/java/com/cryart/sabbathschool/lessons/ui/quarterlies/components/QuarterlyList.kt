@@ -33,6 +33,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
 import app.ss.models.QuarterlyGroup
@@ -59,7 +60,7 @@ interface QuarterliesListCallback : QuarterlyListCallbacks {
 }
 
 @Composable
-fun QuarterlyList(
+internal fun QuarterlyList(
     data: GroupedQuarterlies,
     modifier: Modifier = Modifier,
     callbacks: QuarterlyListCallbacks? = null,
@@ -67,7 +68,8 @@ fun QuarterlyList(
 ) {
     LazyColumn(
         modifier = modifier
-            .drawVerticalScrollbar(state),
+            .drawVerticalScrollbar(state)
+            .testTag("quarterlies:list"),
         state = state
     ) {
         when (data) {
