@@ -21,9 +21,11 @@
  */
 
 import extensions.applyDefault
+import nl.littlerobots.vcu.plugin.versionCatalogUpdate
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins.apply(BuildPlugins.UPDATE_DEPENDENCIES)
+plugins.apply(BuildPlugins.VERSION_CATALOG_UPDATE)
 
 allprojects {
     repositories.applyDefault()
@@ -48,5 +50,18 @@ subprojects {
                 )
             }
         }
+    }
+}
+
+versionCatalogUpdate {
+    sortByKey.set(true)
+    pin {}
+    keep {
+        // keep versions without any library or plugin reference
+        keepUnusedVersions.set(true)
+        // keep all libraries that aren't used in the project
+        keepUnusedLibraries.set(true)
+        // keep all plugins that aren't used in the project
+        keepUnusedPlugins.set(true)
     }
 }
