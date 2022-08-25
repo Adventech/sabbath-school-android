@@ -32,6 +32,7 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesLis
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyList
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroupModel
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.spec
 import com.cryart.sabbathschool.test.di.MockModule
 import com.cryart.sabbathschool.test.di.repository.FakeQuarterliesRepository
 import kotlinx.coroutines.flow.first
@@ -138,7 +139,8 @@ class QuarterliesScreenTest {
 
         val groupType = when {
             grouped.keys.size == 1 -> {
-                GroupedQuarterlies.TypeList(grouped[grouped.firstKey()] ?: emptyList())
+                val specs = grouped[grouped.firstKey()]?.map { it.spec() }
+                GroupedQuarterlies.TypeList(specs ?: emptyList())
             }
             grouped.keys.size > 1 -> {
                 val filtered = grouped.filterKeys { it != null } as Map<QuarterlyGroup, List<SSQuarterly>>
@@ -148,7 +150,8 @@ class QuarterliesScreenTest {
                     }
                     GroupedQuarterlies.TypeGroup(groups)
                 } else {
-                    GroupedQuarterlies.TypeList(filtered[filtered.keys.first()] ?: emptyList())
+                    val specs = filtered[filtered.keys.first()]?.map { it.spec() }
+                    GroupedQuarterlies.TypeList(specs ?: emptyList())
                 }
             }
             else -> GroupedQuarterlies.Empty

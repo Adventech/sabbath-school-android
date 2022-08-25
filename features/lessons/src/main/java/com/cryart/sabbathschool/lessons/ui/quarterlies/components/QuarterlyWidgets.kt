@@ -172,11 +172,13 @@ internal fun QuarterlyRow(
 fun QuarterlyRowPreview() {
     QuarterlyRow(
         QuarterlySpec(
-            "Rest In Christ",
-            "July · August · September 2021",
-            "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
-            Color.Cyan,
-            false,
+            id = "id",
+            title = "Rest In Christ",
+            date = "July · August · September 2021",
+            cover = "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
+            color = Color.Cyan,
+            index = "index",
+            isPlaceholder = false,
             QuarterlySpec.Type.NORMAL
         ),
         modifier = Modifier.padding(6.dp)
@@ -226,12 +228,14 @@ private val TitleMinHeight = 40.dp
 fun QuarterlyColumnPreview() {
     QuarterlyColumn(
         QuarterlySpec(
-            "Rest In Christ",
-            "July · August · September 2021",
-            "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
-            Color.Magenta,
-            false,
-            QuarterlySpec.Type.LARGE
+            id = "id",
+            title = "Rest In Christ",
+            date = "July · August · September 2021",
+            cover = "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
+            color = Color.Magenta,
+            index = "index",
+            isPlaceholder = false,
+            type = QuarterlySpec.Type.LARGE
         ),
         modifier = Modifier.padding(6.dp)
     )

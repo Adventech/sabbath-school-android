@@ -71,8 +71,6 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGro
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesListCallback
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyList
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListCallbacks
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.placeHolderQuarterlies
 import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R.string as RString
 
@@ -85,16 +83,13 @@ internal fun QuarterliesScreen(
         rememberSplineBasedDecay(),
         rememberTopAppBarScrollState()
     )
-    val data by rememberFlowWithLifecycle(viewModel.quarterliesFlow)
-        .collectAsState(initial = GroupedQuarterlies.TypeList(placeHolderQuarterlies()))
-
-    val photoUrl by rememberFlowWithLifecycle(viewModel.photoUrlFlow)
-        .collectAsState(initial = null)
+    val state by rememberFlowWithLifecycle(viewModel.uiState)
+        .collectAsState(initial = QuarterliesUiState())
 
     QuarterliesScreen(
-        quarterlies = data,
-        title = viewModel.groupTitle ?: stringResource(id = RString.ss_app_name),
-        photoUrl = photoUrl,
+        state = state.copy(
+            title = viewModel.groupTitle ?: stringResource(id = RString.ss_app_name)
+        ),
         callbacks = callbacks,
         scrollBehavior = scrollBehavior
     )
@@ -102,10 +97,8 @@ internal fun QuarterliesScreen(
 
 @Composable
 internal fun QuarterliesScreen(
-    quarterlies: GroupedQuarterlies,
-    title: String,
+    state: QuarterliesUiState,
     callbacks: QuarterlyListCallbacks,
-    photoUrl: String? = null,
     scrollBehavior: TopAppBarScrollBehavior? = null
 ) {
     SsScaffold(
@@ -113,8 +106,8 @@ internal fun QuarterliesScreen(
             QuarterliesTopAppBar(
                 scrollBehavior = scrollBehavior,
                 type = callbacks,
-                title = title,
-                photoUrl = photoUrl,
+                title = state.title,
+                photoUrl = state.photoUrl,
                 modifier = Modifier.windowInsetsPadding(
                     WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
                 )
@@ -123,7 +116,7 @@ internal fun QuarterliesScreen(
         scrollBehavior = scrollBehavior
     ) { innerPadding ->
         QuarterlyList(
-            data = quarterlies,
+            data = state.type,
             callbacks = callbacks,
             modifier = Modifier.padding(innerPadding)
         )

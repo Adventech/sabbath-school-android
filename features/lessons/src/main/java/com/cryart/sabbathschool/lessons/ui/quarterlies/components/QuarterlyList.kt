@@ -60,7 +60,7 @@ interface QuarterliesListCallback : QuarterlyListCallbacks {
 }
 
 @Composable
-fun QuarterlyList(
+internal fun QuarterlyList(
     data: GroupedQuarterlies,
     modifier: Modifier = Modifier,
     callbacks: QuarterlyListCallbacks? = null,
@@ -106,13 +106,13 @@ fun QuarterlyList(
                 items(
                     data.data,
                     key = { item -> item.id }
-                ) { item ->
+                ) { spec ->
                     QuarterlyRow(
-                        spec = item.spec(QuarterlySpec.Type.NORMAL),
+                        spec = spec,
                         modifier = Modifier
-                            .thenIf(item.isPlaceholder.not()) {
+                            .thenIf(spec.isPlaceholder.not()) {
                                 clickable {
-                                    callbacks?.onReadClick(item.index)
+                                    callbacks?.onReadClick(spec.index)
                                 }
                             }
                     )
