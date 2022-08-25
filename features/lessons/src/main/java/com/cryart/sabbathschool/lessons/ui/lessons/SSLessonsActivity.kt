@@ -33,10 +33,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
-import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.theme.SsTheme
 import app.ss.pdf.PdfReader
 import com.cryart.sabbathschool.core.extensions.context.shareContent
@@ -62,12 +62,12 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
 
     private val viewModel by viewModels<LessonsViewModel>()
 
+    @OptIn(ExperimentalLifecycleComposeApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            val state by rememberFlowWithLifecycle(flow = viewModel.uiState)
-                .collectAsState(initial = LessonsScreenState())
+            val state by viewModel.uiState.collectAsStateWithLifecycle()
             val systemUiController = rememberSystemUiController()
 
             SsTheme(
