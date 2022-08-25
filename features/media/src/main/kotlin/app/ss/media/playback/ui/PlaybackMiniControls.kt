@@ -33,7 +33,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,7 +44,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.isS
 import app.ss.design.compose.extensions.modifier.thenIf
@@ -62,11 +62,8 @@ import app.ss.design.compose.widget.icon.Icons
 import app.ss.media.R
 import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
-import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.extensions.isActive
 import app.ss.media.playback.extensions.playPause
-import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.ui.common.Dismissible
 import app.ss.media.playback.ui.common.LocalPlaybackConnection
 import app.ss.media.playback.ui.spec.NowPlayingSpec
@@ -83,14 +80,15 @@ private object PlaybackMiniControlsDefaults {
     val cancelSize = 20.dp
 }
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun PlaybackMiniControls(
     modifier: Modifier = Modifier,
     playbackConnection: PlaybackConnection,
     onExpand: () -> Unit
 ) {
-    val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState).collectAsState(NONE_PLAYBACK_STATE)
-    val nowPlaying by rememberFlowWithLifecycle(playbackConnection.nowPlaying).collectAsState(NONE_PLAYING)
+    val playbackState by playbackConnection.playbackState.collectAsStateWithLifecycle()
+    val nowPlaying by playbackConnection.nowPlaying.collectAsStateWithLifecycle()
 
     val visible = (playbackState to nowPlaying).isActive
     AnimatedVisibility(
@@ -213,14 +211,14 @@ private fun playbackButtonSpacing(
     }
 }
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 private fun PlaybackProgress(
     spec: PlaybackStateSpec,
     color: Color,
     playbackConnection: PlaybackConnection = LocalPlaybackConnection.current
 ) {
-    val progressState by rememberFlowWithLifecycle(playbackConnection.playbackProgress)
-        .collectAsState(PlaybackProgressState())
+    val progressState by playbackConnection.playbackProgress.collectAsStateWithLifecycle()
     val sizeModifier = Modifier
         .height(2.dp)
         .fillMaxWidth()

@@ -45,7 +45,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarScrollState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,8 +52,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
@@ -74,6 +74,7 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListC
 import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R.string as RString
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 internal fun QuarterliesScreen(
     viewModel: QuarterliesViewModel = viewModel(),
@@ -83,8 +84,7 @@ internal fun QuarterliesScreen(
         rememberSplineBasedDecay(),
         rememberTopAppBarScrollState()
     )
-    val state by rememberFlowWithLifecycle(viewModel.uiState)
-        .collectAsState(initial = QuarterliesUiState())
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     QuarterliesScreen(
         state = state.copy(

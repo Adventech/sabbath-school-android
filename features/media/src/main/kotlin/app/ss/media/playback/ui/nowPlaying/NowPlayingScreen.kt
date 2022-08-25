@@ -50,7 +50,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -77,8 +76,9 @@ import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.Spacing16
 import app.ss.design.compose.theme.Spacing32
@@ -90,7 +90,6 @@ import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.media.R
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
 import app.ss.media.playback.extensions.isBuffering
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.PlaybackProgressState
@@ -120,22 +119,23 @@ data class NowPlayingScreenSpec(
     val isDraggable: (Boolean) -> Unit
 )
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 internal fun NowPlayingScreen(
     viewModel: NowPlayingViewModel = viewModel(),
     isDraggable: (Boolean) -> Unit = {}
 ) {
     val playbackConnection = viewModel.playbackConnection
-    val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState)
-        .collectAsState(NONE_PLAYBACK_STATE)
-    val nowPlaying by rememberFlowWithLifecycle(viewModel.nowPlayingAudio)
-        .collectAsState(AudioFile(""))
-    val playbackQueue by rememberFlowWithLifecycle(playbackConnection.playbackQueue)
-        .collectAsState(PlaybackQueue())
-    val playbackSpeed by rememberFlowWithLifecycle(playbackConnection.playbackSpeed)
-        .collectAsState(PlaybackSpeed.NORMAL)
-    val playbackProgressState by rememberFlowWithLifecycle(playbackConnection.playbackProgress)
-        .collectAsState(PlaybackProgressState())
+    val playbackState by playbackConnection.playbackState
+        .collectAsStateWithLifecycle()
+    val nowPlaying by viewModel.nowPlayingAudio
+        .collectAsStateWithLifecycle()
+    val playbackQueue by playbackConnection.playbackQueue
+        .collectAsStateWithLifecycle()
+    val playbackSpeed by playbackConnection.playbackSpeed
+        .collectAsStateWithLifecycle()
+    val playbackProgressState by playbackConnection.playbackProgress
+        .collectAsStateWithLifecycle()
     val nowPlayingAudio = if (nowPlaying.id.isEmpty()) {
         playbackQueue.currentAudio ?: nowPlaying
     } else {
