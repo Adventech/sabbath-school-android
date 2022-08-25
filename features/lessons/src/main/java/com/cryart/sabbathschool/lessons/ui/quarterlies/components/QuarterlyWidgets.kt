@@ -78,9 +78,9 @@ private fun CoverBox(
     modifier: Modifier = Modifier,
     type: QuarterlySpec.Type,
     color: Color,
+    isLargeScreen: Boolean = isLargeScreen(),
     content: @Composable () -> Unit
 ) {
-    val isLargeScreen = isLargeScreen()
     Box(
         modifier = modifier
             .size(
@@ -281,12 +281,13 @@ private fun QuarterlyCover(
 internal fun GroupedQuarterliesColumn(
     spec: GroupedQuarterliesSpec,
     modifier: Modifier = Modifier,
+    darkTheme: Boolean = isSystemInDarkTheme(),
     seeAllClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
             .groupBackground(
-                darkTheme = isSystemInDarkTheme(),
+                darkTheme = darkTheme,
                 lastIndex = spec.lastIndex
             )
     ) {

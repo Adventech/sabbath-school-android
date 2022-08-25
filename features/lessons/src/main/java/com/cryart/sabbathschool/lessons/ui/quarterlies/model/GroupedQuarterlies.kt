@@ -26,16 +26,18 @@ import androidx.compose.runtime.Immutable
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 
+@Immutable
 sealed interface GroupedQuarterlies {
     @Immutable
     data class TypeList(val data: List<SSQuarterly>) : GroupedQuarterlies
 
     @Immutable
-    data class TypeGroup(val data: List<QuarterliesGroup>) : GroupedQuarterlies
+    data class TypeGroup(val data: List<QuarterliesGroupModel>) : GroupedQuarterlies
     object Empty : GroupedQuarterlies
 }
 
-data class QuarterliesGroup(
+@Immutable
+data class QuarterliesGroupModel(
     val group: QuarterlyGroup,
     val quarterlies: List<SSQuarterly>
 )

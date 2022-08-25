@@ -35,7 +35,7 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroup
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroupModel
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.placeHolderQuarterlies
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -98,7 +98,7 @@ class QuarterliesViewModel @Inject constructor(
                 val filtered = grouped.filterKeys { it != null } as Map<QuarterlyGroup, List<SSQuarterly>>
                 if (filtered.keys.size > 1) {
                     val groups = filtered.map { map ->
-                        QuarterliesGroup(map.key, map.value)
+                        QuarterliesGroupModel(map.key, map.value)
                     }
                     GroupedQuarterlies.TypeGroup(groups)
                 } else {
