@@ -46,6 +46,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -246,34 +247,37 @@ private fun QuarterlyCover(
     spec: QuarterlySpec,
     modifier: Modifier = Modifier
 ) {
+    val image = remember(spec.cover) {
+        RemoteImage(
+            data = spec.cover,
+            contentDescription = spec.title,
+            contentScale = ContentScale.Crop,
+            loading = {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .asPlaceholder(
+                            visible = true,
+                            color = spec.color
+                        )
+                )
+            },
+            error = {
+                Spacer(
+                    modifier = Modifier
+                        .background(color = spec.color)
+                        .fillMaxSize()
+                )
+            }
+        )
+    }
     CoverBox(
         type = spec.type,
         color = spec.color,
         modifier = modifier
     ) {
         ContentBox(
-            content = RemoteImage(
-                data = spec.cover,
-                contentDescription = spec.title,
-                contentScale = ContentScale.Crop,
-                loading = {
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .asPlaceholder(
-                                visible = true,
-                                color = spec.color
-                            )
-                    )
-                },
-                error = {
-                    Spacer(
-                        modifier = Modifier
-                            .background(color = spec.color)
-                            .fillMaxSize()
-                    )
-                }
-            ),
+            content = image,
             modifier = Modifier
                 .fillMaxSize()
                 .clip(RoundedCornerShape(18f))
