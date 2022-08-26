@@ -31,16 +31,15 @@ import app.ss.storage.db.dao.AudioDao
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class AudioDataSource @Inject constructor(
-    connectivityHelper: ConnectivityHelper,
     private val mediaApi: SSMediaApi,
     private val audioDao: AudioDao,
-    private val dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
+    connectivityHelper: ConnectivityHelper
 ) : DataSourceMediator<SSAudio, AudioDataSource.Request>(
     dispatcherProvider = dispatcherProvider,
     connectivityHelper = connectivityHelper
@@ -55,7 +54,8 @@ internal class AudioDataSource @Inject constructor(
             return if (data.isNotEmpty()) Resource.success(data.map { it.toSSAudio() }) else Resource.loading()
         }
 
-        override suspend fun update(data: List<SSAudio>) {
+        override suspend fun update(request: Request, data: List<SSAudio>) {
+            audioDao.delete(request.lessonIndex)
             audioDao.insertAll(data.map { it.toEntity() })
         }
     }
@@ -65,8 +65,6 @@ internal class AudioDataSource @Inject constructor(
             val data = request.lessonIndex.toMediaRequest()?.let {
                 mediaApi.getAudio(it.language, it.quarterlyId).body()
             } ?: emptyList()
-
-            withContext(dispatcherProvider.io) { audioDao.insertAll(data.map { it.toEntity() }) }
 
             val lessonAudios = data.filter { it.targetIndex.startsWith(request.lessonIndex) }
 

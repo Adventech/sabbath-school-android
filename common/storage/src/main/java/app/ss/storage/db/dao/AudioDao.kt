@@ -40,4 +40,7 @@ interface AudioDao : BaseDao<AudioFileEntity> {
 
     @Query("UPDATE audios SET duration = :duration WHERE id = :forId")
     fun update(duration: Long, forId: String)
+
+    @Query("DELETE FROM audios WHERE targetIndex LIKE :index")
+    suspend fun delete(index: String)
 }
