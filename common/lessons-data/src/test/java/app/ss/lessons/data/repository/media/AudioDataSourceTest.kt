@@ -75,7 +75,7 @@ class AudioDataSourceTest {
     fun `should clear cache before updating`() = runTest {
         coEvery { mockMediaApi.getAudio("en", "2022-03") }
             .returns(Response.success(listOf(ssAudio)))
-        coEvery { mockAudioDao.delete(LESSON_INDEX) }
+        coEvery { mockAudioDao.delete("$LESSON_INDEX%") }
             .returns(Unit)
         every { mockAudioDao.insertAll(listOf(audioEntity)) }
             .returns(Unit)
@@ -85,7 +85,7 @@ class AudioDataSourceTest {
         resource.data shouldBeEqualTo listOf(ssAudio)
 
         coVerifyOrder {
-            mockAudioDao.delete(LESSON_INDEX)
+            mockAudioDao.delete("$LESSON_INDEX%")
             mockAudioDao.insertAll(listOf(audioEntity))
         }
     }

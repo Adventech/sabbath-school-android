@@ -49,13 +49,13 @@ internal class AudioDataSource @Inject constructor(
 
     override val cache: LocalDataSource<SSAudio, Request> = object : LocalDataSource<SSAudio, Request> {
         override suspend fun get(request: Request): Resource<List<SSAudio>> {
-            val data = audioDao.get().filter { it.targetIndex.startsWith(request.lessonIndex) }
+            val data = audioDao.getBy(request.queryIndex)
 
             return if (data.isNotEmpty()) Resource.success(data.map { it.toSSAudio() }) else Resource.loading()
         }
 
         override suspend fun update(request: Request, data: List<SSAudio>) {
-            audioDao.delete(request.lessonIndex)
+            audioDao.delete(request.queryIndex)
             audioDao.insertAll(data.map { it.toEntity() })
         }
     }
@@ -71,4 +71,6 @@ internal class AudioDataSource @Inject constructor(
             return Resource.success(lessonAudios)
         }
     }
+
+    private val Request.queryIndex: String get() = "$lessonIndex%"
 }

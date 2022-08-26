@@ -64,7 +64,7 @@ internal class MediaRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPlayList(lessonIndex: String): List<AudioFile> = withContext(dispatcherProvider.io) {
-        audioDao.searchBy("%$lessonIndex%").map {
+        audioDao.getBy("$lessonIndex%").map {
             it.toAudio()
         }
     }
