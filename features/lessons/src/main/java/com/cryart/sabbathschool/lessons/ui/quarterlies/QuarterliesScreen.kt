@@ -39,7 +39,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -208,34 +207,33 @@ internal fun QuarterliesTopAppBar(
 private val AccountImgSize = 32.dp
 
 @Preview(
-    name = "TopAppBar"
+    name = "Screen"
 )
 @Preview(
-    name = "TopAppBar ~ dark",
+    name = "Screen ~ dark",
     uiMode = UI_MODE_NIGHT_YES
 )
 @Composable
-private fun TopAppBarPreview() {
+private fun ScreenPreview() {
     SsTheme {
-        Surface {
-            QuarterliesTopAppBar(
-                title = "Sabbath School",
-                type = object : QuarterliesGroupCallback {
-                    override fun onSeeAllClick(group: QuarterlyGroup) {
-                        // do nothing
-                    }
-                    override fun profileClick() {
-                        // do nothing
-                    }
-                    override fun filterLanguages() {
-                        // do nothing
-                    }
-                    override fun onReadClick(index: String) {
-                        // do nothing
-                    }
-                },
-                modifier = Modifier
-            )
-        }
+        QuarterliesScreen(
+            state = QuarterliesUiState(
+                title = "Sabbath School"
+            ),
+            callbacks = object : QuarterliesGroupCallback {
+                override fun onSeeAllClick(group: QuarterlyGroup) {
+                    // do nothing
+                }
+                override fun profileClick() {
+                    // do nothing
+                }
+                override fun filterLanguages() {
+                    // do nothing
+                }
+                override fun onReadClick(index: String) {
+                    // do nothing
+                }
+            }
+        )
     }
 }

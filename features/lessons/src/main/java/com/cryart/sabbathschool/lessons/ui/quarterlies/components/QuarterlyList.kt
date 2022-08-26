@@ -42,7 +42,6 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroupModel
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterlySpec
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.isPlaceholder
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.spec
 
 interface QuarterlyListCallbacks {

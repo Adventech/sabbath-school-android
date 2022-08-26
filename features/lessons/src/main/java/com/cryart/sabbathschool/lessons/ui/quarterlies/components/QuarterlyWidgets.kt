@@ -39,7 +39,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -307,7 +307,7 @@ internal fun GroupedQuarterliesColumn(
             contentPadding = PaddingValues(horizontal = Dimens.grid_4),
             horizontalArrangement = Arrangement.spacedBy(Dimens.grid_4)
         ) {
-            itemsIndexed(spec.items, key = { _: Int, spec: QuarterlySpec -> spec.title }) { _, item ->
+            items(spec.items, key = { spec -> spec.id }) { item ->
                 QuarterlyColumn(
                     spec = item,
                     modifier = Modifier
