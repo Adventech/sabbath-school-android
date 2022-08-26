@@ -29,15 +29,15 @@ import app.ss.storage.db.entity.AudioFileEntity
 @Dao
 interface AudioDao : BaseDao<AudioFileEntity> {
 
-    @Query("SELECT * FROM audios")
-    fun get(): List<AudioFileEntity>
-
     @Query("SELECT * FROM audios WHERE id = :id")
     fun findBy(id: String): AudioFileEntity?
 
     @Query("SELECT * FROM audios WHERE targetIndex LIKE :index ORDER BY targetIndex")
-    fun searchBy(index: String): List<AudioFileEntity>
+    fun getBy(index: String): List<AudioFileEntity>
 
     @Query("UPDATE audios SET duration = :duration WHERE id = :forId")
     fun update(duration: Long, forId: String)
+
+    @Query("DELETE FROM audios WHERE targetIndex LIKE :index")
+    suspend fun delete(index: String)
 }

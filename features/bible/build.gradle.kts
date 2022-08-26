@@ -52,12 +52,12 @@ android {
 
 dependencies {
 
-    implementation(project(":common:core"))
-    implementation(project(":common:design"))
-    implementation(project(":common:design-compose"))
-    implementation(project(":common:translations"))
-    implementation(project(":common:lessons-data"))
-    implementation(project(":features:reader"))
+    implementation(projects.common.core)
+    implementation(projects.common.design)
+    implementation(projects.common.designCompose)
+    implementation(projects.common.translations)
+    implementation(projects.common.lessonsData)
+    implementation(projects.features.reader)
 
     implementation(libs.kotlin.coroutines)
     implementation(libs.kotlin.coroutines.android)

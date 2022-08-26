@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-    api(project(":common:models"))
+    api(projects.common.models)
 
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,17 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.ui
+package com.cryart.sabbathschool.lessons.ui.quarterlies
 
-import androidx.lifecycle.LifecycleOwner
-import kotlinx.coroutines.flow.Flow
+import androidx.compose.runtime.Immutable
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.placeHolderQuarterlies
 
-abstract class BaseComponent<T>(val owner: LifecycleOwner) {
-    abstract fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<T>)
-}
-
-abstract class BaseDataComponent<T>(val owner: LifecycleOwner) {
-    abstract fun collect(dataFlow: Flow<T>)
-}
-
-abstract class VisibilityComponent(val owner: LifecycleOwner) {
-    abstract fun collect(visibilityFlow: Flow<Boolean>)
-}
+@Immutable
+data class QuarterliesUiState(
+    val isLoading: Boolean = true,
+    val isError: Boolean = false,
+    val photoUrl: String? = null,
+    val type: GroupedQuarterlies = GroupedQuarterlies.TypeList(placeHolderQuarterlies()),
+    val title: String = ""
+)

@@ -55,6 +55,7 @@ import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.core.model.colorTheme
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.core.ui.SlidingActivity
@@ -280,8 +281,8 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         ssPrefs.displayOptionsFlow().collectIn(this) { displayOptions ->
             readingViewAdapter.readingOptions = displayOptions
             appbarChangeListener?.readingOptions = displayOptions
-            // updateColorScheme(displayOptions)
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
+            window.navigationBarColor = displayOptions.colorTheme(this@SSReadingActivity)
         }
 
         viewModel.audioAvailableFlow.collectIn(this) { available ->

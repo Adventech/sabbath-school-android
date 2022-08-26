@@ -118,4 +118,5 @@
     <string name="ss_action_playlist">Список відтворення</string>
     <string name="ss_action_forward">вперед</string>
     <string name="ss_picture_in_picture">Картинка в картинці</string>
+    <string name="ss_auto">Авто</string>
 </resources>

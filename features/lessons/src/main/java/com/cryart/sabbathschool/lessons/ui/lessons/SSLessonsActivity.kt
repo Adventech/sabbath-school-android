@@ -29,12 +29,14 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
-import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.theme.SsTheme
 import app.ss.pdf.PdfReader
 import com.cryart.sabbathschool.core.extensions.context.shareContent
@@ -47,6 +49,7 @@ import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.showLessonIntro
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
 import javax.inject.Inject
@@ -59,12 +62,13 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
 
     private val viewModel by viewModels<LessonsViewModel>()
 
+    @OptIn(ExperimentalLifecycleComposeApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            val state by rememberFlowWithLifecycle(flow = viewModel.uiState)
-                .collectAsState(initial = LessonsScreenState())
+            val state by viewModel.uiState.collectAsStateWithLifecycle()
+            val systemUiController = rememberSystemUiController()
 
             SsTheme(
                 windowWidthSizeClass = calculateWindowSizeClass(activity = this).widthSizeClass
@@ -92,6 +96,11 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
                         supportFragmentManager.showLessonIntro(it)
                     }
                 )
+
+                val navigationBarColor = MaterialTheme.colorScheme.surface
+                SideEffect {
+                    systemUiController.setNavigationBarColor(navigationBarColor)
+                }
             }
         }
 

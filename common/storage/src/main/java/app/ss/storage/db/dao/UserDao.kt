@@ -25,6 +25,7 @@ package app.ss.storage.db.dao
 import androidx.room.Dao
 import androidx.room.Query
 import app.ss.storage.db.entity.UserEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao : BaseDao<UserEntity> {
@@ -34,6 +35,9 @@ interface UserDao : BaseDao<UserEntity> {
 
     @Query("SELECT * FROM user LIMIT 1")
     suspend fun get(): UserEntity?
+
+    @Query("SELECT * FROM user LIMIT 1")
+    fun getAsFlow(): Flow<UserEntity>
 
     @Query("DELETE FROM user")
     suspend fun clear()

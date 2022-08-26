@@ -122,5 +122,6 @@
     <string name="ss_action_playlist">Seznam skladeb</string>
     <string name="ss_action_forward">Vpřed</string>
     <string name="ss_picture_in_picture">Obraz V obraze</string>
+    <string name="ss_auto">Auto</string>
 
 </resources>

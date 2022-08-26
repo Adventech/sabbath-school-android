@@ -19,6 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
+pluginManagement {
+    repositories {
+        mavenCentral()
+        maven("https://plugins.gradle.org/m2/")
+        gradlePluginPortal()
+    }
+}
+
 include(
     ":app",
     ":common:auth",
@@ -41,3 +50,5 @@ include(
     ":libraries:test_utils"
 )
 rootProject.buildFileName = "build.gradle.kts"
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

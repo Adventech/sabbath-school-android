@@ -31,7 +31,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.calculateEndPadding
@@ -40,8 +39,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -178,9 +175,7 @@ internal fun LessonsScreen(
                 innerPadding.calculateEndPadding(LayoutDirection.Ltr),
                 innerPadding.calculateBottomPadding()
             ),
-            modifier = Modifier.windowInsetsPadding(
-                WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
-            ),
+            modifier = Modifier,
             state = listState
         ) {
             quarterlyInfo?.let { ssQuarterlyInfo ->
@@ -214,10 +209,6 @@ internal fun LessonsScreen(
                         features = quarterlyInfo.quarterly.features.map { it.toSpec() }
                     )
                 )
-
-                item {
-                    Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing))
-                }
             } ?: run {
                 loading()
             }
@@ -291,7 +282,7 @@ private fun LessonsTopBar(
     }
 
     SideEffect {
-        systemUiController?.setSystemBarsColor(
+        systemUiController?.setStatusBarColor(
             color = Color.Transparent,
             darkIcons = useDarkIcons
         )

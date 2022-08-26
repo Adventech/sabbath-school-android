@@ -42,11 +42,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":common:auth"))
-    implementation(project(":common:core"))
-    api(project(":common:models"))
-    implementation(project(":common:network"))
-    implementation(project(":common:storage"))
+    implementation(projects.common.auth)
+    implementation(projects.common.core)
+    api(projects.common.models)
+    implementation(projects.common.network)
+    implementation(projects.common.storage)
 
     implementation(libs.kotlin.coroutines)
     implementation(libs.kotlin.coroutines.android)
@@ -68,5 +68,5 @@ dependencies {
     kaptTest(libs.google.hilt.compiler)
     androidTestImplementation(libs.bundles.testing.android.common)
     kaptAndroidTest(libs.google.hilt.compiler)
-    testImplementation(project(":libraries:test_utils"))
+    testImplementation(projects.libraries.testUtils)
 }

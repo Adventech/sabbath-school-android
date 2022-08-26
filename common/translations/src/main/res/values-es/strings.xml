@@ -117,4 +117,5 @@ Realmente creemos que Dios ha aumentado el conocimiento del mundo moderno y quie
     <string name="ss_action_playlist">lista de reproducción</string>
     <string name="ss_action_forward">Delantero</string>
     <string name="ss_picture_in_picture">Imagen en imagen</string>
+    <string name="ss_auto">Auto</string>
 </resources>

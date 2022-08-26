@@ -29,19 +29,19 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
 import app.ss.models.QuarterlyGroup
-import app.ss.models.SSQuarterly
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroup
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroupModel
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterlySpec
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.isPlaceholder
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.spec
 
 interface QuarterlyListCallbacks {
@@ -59,7 +59,7 @@ interface QuarterliesListCallback : QuarterlyListCallbacks {
 }
 
 @Composable
-fun QuarterlyList(
+internal fun QuarterlyList(
     data: GroupedQuarterlies,
     modifier: Modifier = Modifier,
     callbacks: QuarterlyListCallbacks? = null,
@@ -76,40 +76,42 @@ fun QuarterlyList(
                 val groupData = data.data
                 itemsIndexed(
                     groupData,
-                    key = { _: Int, item: QuarterliesGroup -> item.group.name }
-                ) { index, group ->
+                    key = { _: Int, item: QuarterliesGroupModel -> item.group.name }
+                ) { index, model ->
 
-                    val items = group.quarterlies.map { quarterly ->
-                        quarterly.spec(
-                            QuarterlySpec.Type.LARGE,
-                            onClick = {
-                                callbacks?.onReadClick(quarterly.index)
-                            }
-                        )
+                    val items = remember(model.group.name) {
+                        model.quarterlies.map { quarterly ->
+                            quarterly.spec(
+                                QuarterlySpec.Type.LARGE,
+                                onClick = {
+                                    callbacks?.onReadClick(quarterly.index)
+                                }
+                            )
+                        }
                     }
 
                     GroupedQuarterliesColumn(
                         spec = GroupedQuarterliesSpec(
-                            title = group.group.name,
+                            title = model.group.name,
                             items = items,
                             index == groupData.lastIndex
                         )
                     ) {
-                        (callbacks as? QuarterliesGroupCallback)?.onSeeAllClick(group.group)
+                        (callbacks as? QuarterliesGroupCallback)?.onSeeAllClick(model.group)
                     }
                 }
             }
             is GroupedQuarterlies.TypeList -> {
-                itemsIndexed(
+                items(
                     data.data,
-                    key = { _: Int, item: SSQuarterly -> item.id }
-                ) { _, item ->
+                    key = { item -> item.id }
+                ) { spec ->
                     QuarterlyRow(
-                        spec = item.spec(QuarterlySpec.Type.NORMAL),
+                        spec = spec,
                         modifier = Modifier
-                            .thenIf(item.isPlaceholder.not()) {
+                            .thenIf(spec.isPlaceholder.not()) {
                                 clickable {
-                                    callbacks?.onReadClick(item.index)
+                                    callbacks?.onReadClick(spec.index)
                                 }
                             }
                     )

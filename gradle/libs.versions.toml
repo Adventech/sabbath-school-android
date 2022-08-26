@@ -1,5 +1,4 @@
 [versions]
-appVersion = "4.12.0"
 androidx-activity = "1.5.1"
 androidx-annotations = "1.4.0"
 androidx-appcompat = "1.5.0"
@@ -10,21 +9,23 @@ androidx-compose-constraintlayout = "1.0.1"
 androidx-compose-material3 = "1.0.0-alpha14"
 androidx-constraintlayout = "2.1.4"
 androidx-core = "1.8.0"
+# @keep this version
 androidx-customview = "1.2.0-alpha01"
 androidx-customview-container = "1.0.0"
 androidx-datastore-prefs = "1.0.0"
 androidx-fragment = "1.5.2"
 androidx-glance = "1.0.0-alpha03"
 androidx-hilt = "1.0.0"
-androidx-lifecyle = "2.5.1"
+androidx-lifecyle = "2.6.0-alpha01"
 androidx-lifecyle-ext = "2.2.0"
 androidx-media = "1.6.0"
 androidx-preference = "1.2.0"
 androidx-recyclerview = "1.2.1"
 androidx-room = "2.4.3"
-androidx-startup = "1.1.1"
 androidx-savedstate = "1.2.0"
+androidx-startup = "1.1.1"
 androidx-work = "2.7.1"
+appVersion = "4.12.0"
 cash-app-paparazzi = "1.0.0"
 cash-app-turbine = "0.9.0"
 coil = "2.2.0"
@@ -34,45 +35,38 @@ google-hilt = "2.43.2"
 google-material = "1.6.1"
 google-play-auth = "20.2.0"
 gradle-android = "7.2.2"
-gradle-versions = "0.39.0"
-iconics = "5.3.4@aar"
-iconics-material = "4.0.0.2-kotlin@aar"
+gradle-versions = "0.42.0"
+iconics = "5.3.4"
+iconics-material = "4.0.0.2-kotlin"
+# @keep this version
 joda-android = "2.10.12.2"
 joda-time = "2.11.0"
 jvmTarget = "11"
 kotlin = "1.7.10"
 kotlin-coroutines = "1.6.4"
+# @keep this version
 ktlint = "0.40.0"
 markwon = "4.6.2"
 orbital = "0.2.0"
+# @keep this version
 pdfkit = "8.2.1"
-snapper = "0.2.2"
+snapper = "0.3.0"
 square-moshi = "1.13.0"
 square-okhttp3 = "4.10.0"
 square-retrofit = "2.9.0"
 tapTarget = "3.3.2"
-timber = "5.0.1"
-
 test-androidx = "1.4.0"
 test-androidx-archcore = "2.1.0"
 test-androidx-espresso = "3.4.0"
 test-androidx-ext = "1.1.3"
 test-junit = "4.13.2"
 test-kluent = "1.68"
-test-mockk = "1.12.5"
-test-robolectric = "4.8.1"
-
-[plugins]
-android-application = { id = "com.android.application", version.ref = "gradle-android" }
-android-library = { id = "com.android.library", version.ref = "gradle-android" }
+test-mockk = "1.12.7"
+test-robolectric = "4.8.2"
+timber = "5.0.1"
+version-catalog-update = "0.5.3"
 
 [libraries]
-gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
-kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-ktlint = { module = "com.pinterest:ktlint", version.ref = "ktlint" }
-paparazzi = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "cash-app-paparazzi" }
-#versions = { module = "com.github.ben-manes.versions", version.ref = "gradle-versions" }
-
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-annotations = { module = "androidx.annotation:annotation", version.ref = "androidx-annotations" }
@@ -91,8 +85,8 @@ androidx-compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-pr
 androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "androidx-compose" }
 androidx-compose-ui-util = { module = "androidx.compose.ui:ui-util", version.ref = "androidx-compose" }
 androidx-compose-windowSizeClass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "androidx-compose-material3" }
-androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
+androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-customview = { module = "androidx.customview:customview", version.ref = "androidx-customview" }
 androidx-customview-container = { module = "androidx.customview:customview-poolingcontainer", version.ref = "androidx-customview-container" }
 androidx-datastore-prefs = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore-prefs" }
@@ -104,6 +98,7 @@ androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "androi
 androidx-lifecycle-common = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "androidx-lifecyle" }
 androidx-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "androidx-lifecyle-ext" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecyle" }
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecyle" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecyle" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecyle" }
 androidx-media = { module = "androidx.media:media", version.ref = "androidx-media" }
@@ -128,6 +123,7 @@ google-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", ver
 google-hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "google-hilt" }
 google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
 google-play-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "google-play-auth" }
+gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
 iconics-core = { module = "com.mikepenz:iconics-core", version.ref = "iconics" }
 iconics-typeface = { module = "com.mikepenz:iconics-typeface-api", version.ref = "iconics" }
 iconics-typeface-material = { module = "com.mikepenz:google-material-typeface", version.ref = "iconics-material" }
@@ -137,8 +133,11 @@ joda-time = { module = "joda-time:joda-time", version.ref = "joda-time" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-playservices = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlin-coroutines" }
+kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+ktlint = { module = "com.pinterest:ktlint", version.ref = "ktlint" }
 markwon-core = { module = "io.noties.markwon:core", version.ref = "markwon" }
 orbital = { module = "com.github.skydoves:orbital", version.ref = "orbital" }
+paparazzi = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "cash-app-paparazzi" }
 pdfkit = { module = "com.pspdfkit:pspdfkit", version.ref = "pdfkit" }
 snapper = { module = "dev.chrisbanes.snapper:snapper", version.ref = "snapper" }
 square-moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "square-moshi" }
@@ -148,8 +147,6 @@ square-okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", v
 square-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "square-retrofit" }
 square-retrofit-converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "square-retrofit" }
 tapTarget = { module = "uk.co.samuelwall:material-tap-target-prompt", version.ref = "tapTarget" }
-timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-
 test-androidx-archcore = { module = "androidx.arch.core:core-testing", version.ref = "test-androidx-archcore" }
 test-androidx-core = { module = "androidx.test:core", version.ref = "test-androidx" }
 test-androidx-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "test-androidx-espresso" }
@@ -165,25 +162,58 @@ test-kluent = { module = "org.amshove.kluent:kluent-android", version.ref = "tes
 test-mockk = { module = "io.mockk:mockk", version.ref = "test-mockk" }
 test-robolectric = { module = "org.robolectric:robolectric", version.ref = "test-robolectric" }
 test-turbine = { module = "app.cash.turbine:turbine", version.ref = "cash-app-turbine" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 [bundles]
 compose = [
-    "androidx-compose-foundation", "androidx-compose-foundation-layout", "androidx-compose-ui",
-    "androidx-compose-ui-util", "androidx-compose-runtime", "androidx-compose-material3",
-    "androidx-compose-tooling-preview", "androidx-compose-icons", "androidx-compose-icons-extended",
-    "androidx-compose-windowSizeClass"
+    "androidx-compose-foundation",
+    "androidx-compose-foundation-layout",
+    "androidx-compose-icons",
+    "androidx-compose-icons-extended",
+    "androidx-compose-material3",
+    "androidx-compose-runtime",
+    "androidx-compose-tooling-preview",
+    "androidx-compose-ui",
+    "androidx-compose-ui-util",
+    "androidx-compose-windowSizeClass",
+    "androidx-lifecycle-runtime-compose"
 ]
 compose-tooling = [
-    "androidx-compose-tooling", "androidx-customview", "androidx-customview-container",
-    "androidx-lifecycle-viewmodel-compose", "androidx-savedstate",
-]
-testing-common = [
-    "test-androidx-archcore", "test-androidx-core", "test-androidx-ext", "test-androidx-rules",
-    "test-androidx-runner", "test-coroutines", "test-google-hilt", "test-junit", "test-kluent",
-    "test-mockk", "test-robolectric", "test-turbine", "joda-time"
+    "androidx-compose-tooling",
+    "androidx-customview",
+    "androidx-customview-container",
+    "androidx-lifecycle-viewmodel-compose",
+    "androidx-savedstate",
 ]
 testing-android-common = [
-    "test-androidx-runner", "test-androidx-rules", "test-androidx-ext", "test-junit",
-    "test-coroutines", "test-androidx-espresso-core", "test-androidx-espresso-intents",
-    "test-androidx-archcore", "test-google-hilt",
+    "test-androidx-archcore",
+    "test-androidx-espresso-core",
+    "test-androidx-espresso-intents",
+    "test-androidx-ext",
+    "test-androidx-rules",
+    "test-androidx-runner",
+    "test-coroutines",
+    "test-google-hilt",
+    "test-junit",
 ]
+testing-common = [
+    "joda-time",
+    "test-androidx-archcore",
+    "test-androidx-core",
+    "test-androidx-ext",
+    "test-androidx-rules",
+    "test-androidx-runner",
+    "test-coroutines",
+    "test-google-hilt",
+    "test-junit",
+    "test-kluent",
+    "test-mockk",
+    "test-robolectric",
+    "test-turbine",
+]
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "gradle-android" }
+android-library = { id = "com.android.library", version.ref = "gradle-android" }
+version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
+versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-versions" }

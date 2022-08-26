@@ -118,4 +118,5 @@
     <string name="ss_action_playlist">"പ്ലേലിസ്റ്റ് "</string>
     <string name="ss_action_forward">"മുന്നോട്ട് "</string>
     <string name="ss_picture_in_picture">"ചിത്രത്തിലുള്ള ചിത്രം "</string>
+    <string name="ss_auto">"ഓട്ടോ "</string>
 </resources>

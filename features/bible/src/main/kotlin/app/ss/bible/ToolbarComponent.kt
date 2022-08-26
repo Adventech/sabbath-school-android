@@ -40,7 +40,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,6 +52,8 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.parse
 import app.ss.design.compose.widget.icon.IconBox
@@ -62,6 +63,7 @@ import com.cryart.sabbathschool.core.model.displayTheme
 import com.cryart.sabbathschool.core.model.themeColor
 import kotlinx.coroutines.flow.Flow
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 internal class ToolbarComponent(
     composeView: ComposeView,
     private val stateFlow: Flow<ToolbarState>,
@@ -76,7 +78,7 @@ internal class ToolbarComponent(
     init {
         composeView.setContent {
             SsTheme {
-                val uiState by stateFlow.collectAsState(ToolbarState.Loading)
+                val uiState by stateFlow.collectAsStateWithLifecycle(ToolbarState.Loading)
 
                 BibleToolbar(
                     state = uiState,

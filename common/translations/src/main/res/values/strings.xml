@@ -124,5 +124,6 @@
     <string name="ss_action_playlist">Playlist</string>
     <string name="ss_action_forward">Forward</string>
     <string name="ss_picture_in_picture">Picture In Picture</string>
+    <string name="ss_auto">Auto</string>
 
 </resources>
