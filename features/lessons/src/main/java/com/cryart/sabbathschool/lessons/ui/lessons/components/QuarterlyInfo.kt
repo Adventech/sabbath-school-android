@@ -70,7 +70,7 @@ import app.ss.design.compose.theme.SsColor
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.button.ButtonSpec
 import app.ss.design.compose.widget.button.SsButton
-import app.ss.design.compose.widget.button.SsButtonColors
+import app.ss.design.compose.widget.button.SsButtonDefaults
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.text.ReadMoreText
@@ -366,7 +366,7 @@ private fun ColumnScope.Content(
         SsButton(
             spec = ButtonSpec(
                 text = stringResource(id = R.string.ss_lessons_read),
-                colors = SsButtonColors(
+                colors = SsButtonDefaults.colors(
                     containerColor = Color.parse(spec.colorDark)
                 ),
                 onClick = spec.readClick

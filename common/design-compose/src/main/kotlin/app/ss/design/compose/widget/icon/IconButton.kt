@@ -30,8 +30,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonColors
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -76,7 +74,7 @@ data class IconButton(
 }
 
 /**
- * An [androidx.compose.material3.IconButton] with a customizable @param stateLayerSize.
+ * An [androidx.compose.material3.IconButton] with a customizable [stateLayerSize].
  */
 @Composable
 fun IconButton(
@@ -84,13 +82,12 @@ fun IconButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    colors: IconButtonColors = IconButtonDefaults.iconButtonColors(),
+    colors: SsIconButtonColors = SsIconButtonColorsDefaults.iconButtonColors(),
     stateLayerSize: Dp = StateLayerSize,
     content: @Composable () -> Unit
 ) {
     Box(
-        modifier =
-        modifier
+        modifier = modifier
             .minimumTouchTargetSize()
             .size(stateLayerSize)
             .background(color = colors.containerColor(enabled).value)
