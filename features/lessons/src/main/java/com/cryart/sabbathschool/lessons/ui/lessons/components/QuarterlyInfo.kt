@@ -20,11 +20,8 @@
  * THE SOFTWARE.
  */
 
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -48,6 +45,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,6 +53,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -105,7 +104,7 @@ internal fun LazyListScope.quarterlyInfo(
                 }
             ),
             scrollOffset = scrollOffset,
-            modifier = Modifier.animateItemPlacement()
+            modifier = Modifier
         )
     }
 
@@ -216,14 +215,16 @@ private fun ContentPrimary(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val gradient = Brush.verticalGradient(
-        colors = listOf(
-            Color.Transparent,
-            Color.Black.copy(0.1f),
-            primaryColor,
-            primaryDarkColor
+    val gradient = remember(primaryColor.toArgb()) {
+        Brush.verticalGradient(
+            colors = listOf(
+                Color.Transparent,
+                Color.Black.copy(0.1f),
+                primaryColor,
+                primaryDarkColor
+            )
         )
-    )
+    }
 
     ConstraintLayout(modifier = modifier) {
         val container = createRef()

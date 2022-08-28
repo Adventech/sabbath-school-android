@@ -115,7 +115,7 @@ internal fun QuarterliesScreen(
         scrollBehavior = scrollBehavior
     ) { innerPadding ->
         QuarterlyList(
-            data = state.type,
+            quarterlies = state.type,
             callbacks = callbacks,
             modifier = Modifier.padding(innerPadding)
         )

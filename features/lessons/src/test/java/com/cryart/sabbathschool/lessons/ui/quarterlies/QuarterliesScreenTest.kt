@@ -73,7 +73,7 @@ class QuarterliesScreenTest {
 
         paparazzi.snapshot {
             ThemeSurface {
-                QuarterlyList(data = quarterlies)
+                QuarterlyList(quarterlies = quarterlies)
             }
         }
     }
@@ -86,7 +86,7 @@ class QuarterliesScreenTest {
 
         paparazzi.snapshot {
             ThemeSurface {
-                QuarterlyList(data = quarterlies)
+                QuarterlyList(quarterlies = quarterlies)
             }
         }
     }
