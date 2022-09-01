@@ -73,6 +73,7 @@ class ScaffoldKtTest {
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun TestScaffold(
         darkTheme: Boolean = false
