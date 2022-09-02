@@ -20,6 +20,8 @@
  * THE SOFTWARE.
  */
 
+import com.android.build.gradle.internal.dsl.ManagedVirtualDevice
+
 plugins {
     id("com.android.test")
     id("org.jetbrains.kotlin.android")
@@ -56,6 +58,20 @@ android {
 
     targetProjectPath = ":app"
     experimentalProperties["android.experimental.self-instrumenting"] = true
+
+    testOptions {
+        managedDevices {
+            devices {
+                add(
+                    ManagedVirtualDevice("pixel2Api31").apply {
+                        device = "Pixel 2"
+                        apiLevel = 31
+                        systemImageSource = "aosp"
+                    }
+                )
+            }
+        }
+    }
 }
 
 dependencies {
