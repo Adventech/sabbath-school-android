@@ -34,10 +34,12 @@ import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.models.media.AudioFile
 import io.mockk.mockk
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import java.util.concurrent.TimeUnit
 
+@Ignore("Target sdk 33")
 class NowPlayingScreenTest {
 
     @get:Rule
