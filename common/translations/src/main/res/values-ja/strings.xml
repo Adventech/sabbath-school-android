@@ -126,4 +126,5 @@
     <string name="ss_action_playlist">プレイリスト</string>
     <string name="ss_action_forward">前方</string>
     <string name="ss_picture_in_picture">ピクチャーインピクチャー</string>
+    <string name="ss_auto">自動</string>
 </resources>

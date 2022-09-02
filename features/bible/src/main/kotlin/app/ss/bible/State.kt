@@ -40,6 +40,7 @@ internal data class ToolbarSpec(
 
 @Immutable
 internal sealed class ToolbarState {
+    @Immutable
     data class Success(
         val displayOptions: SSReadingDisplayOptions? = null,
         val bibleVersions: Set<String> = emptySet(),

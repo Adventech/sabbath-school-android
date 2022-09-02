@@ -71,7 +71,7 @@ class MediaRepositoryImplTest {
         val response = repository.getAudio(lessonIndex)
 
         response.isSuccessFul shouldBeEqualTo true
-        response.data?.size ?: 0 shouldBeEqualTo 2
+        response.data?.size ?: (0 shouldBeEqualTo 2)
     }
 
     private fun buildAudio(

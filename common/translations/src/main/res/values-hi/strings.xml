@@ -118,4 +118,5 @@
     <string name="ss_action_playlist">"प्लेलिस्ट "</string>
     <string name="ss_action_forward">आगे</string>
     <string name="ss_picture_in_picture">"चित्र में चित्र "</string>
+    <string name="ss_auto">"ऑटो "</string>
 </resources>

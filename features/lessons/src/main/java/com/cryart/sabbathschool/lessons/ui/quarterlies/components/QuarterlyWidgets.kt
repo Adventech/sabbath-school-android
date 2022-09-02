@@ -39,13 +39,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -78,9 +79,9 @@ private fun CoverBox(
     modifier: Modifier = Modifier,
     type: QuarterlySpec.Type,
     color: Color,
+    isLargeScreen: Boolean = isLargeScreen(),
     content: @Composable () -> Unit
 ) {
-    val isLargeScreen = isLargeScreen()
     Box(
         modifier = modifier
             .size(
@@ -172,11 +173,13 @@ internal fun QuarterlyRow(
 fun QuarterlyRowPreview() {
     QuarterlyRow(
         QuarterlySpec(
-            "Rest In Christ",
-            "July · August · September 2021",
-            "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
-            Color.Cyan,
-            false,
+            id = "id",
+            title = "Rest In Christ",
+            date = "July · August · September 2021",
+            cover = "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
+            color = Color.Cyan,
+            index = "index",
+            isPlaceholder = false,
             QuarterlySpec.Type.NORMAL
         ),
         modifier = Modifier.padding(6.dp)
@@ -226,12 +229,14 @@ private val TitleMinHeight = 40.dp
 fun QuarterlyColumnPreview() {
     QuarterlyColumn(
         QuarterlySpec(
-            "Rest In Christ",
-            "July · August · September 2021",
-            "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
-            Color.Magenta,
-            false,
-            QuarterlySpec.Type.LARGE
+            id = "id",
+            title = "Rest In Christ",
+            date = "July · August · September 2021",
+            cover = "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
+            color = Color.Magenta,
+            index = "index",
+            isPlaceholder = false,
+            type = QuarterlySpec.Type.LARGE
         ),
         modifier = Modifier.padding(6.dp)
     )
@@ -242,34 +247,37 @@ private fun QuarterlyCover(
     spec: QuarterlySpec,
     modifier: Modifier = Modifier
 ) {
+    val image = remember(spec.cover) {
+        RemoteImage(
+            data = spec.cover,
+            contentDescription = spec.title,
+            contentScale = ContentScale.Crop,
+            loading = {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .asPlaceholder(
+                            visible = true,
+                            color = spec.color
+                        )
+                )
+            },
+            error = {
+                Spacer(
+                    modifier = Modifier
+                        .background(color = spec.color)
+                        .fillMaxSize()
+                )
+            }
+        )
+    }
     CoverBox(
         type = spec.type,
         color = spec.color,
         modifier = modifier
     ) {
         ContentBox(
-            content = RemoteImage(
-                data = spec.cover,
-                contentDescription = spec.title,
-                contentScale = ContentScale.Crop,
-                loading = {
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .asPlaceholder(
-                                visible = true,
-                                color = spec.color
-                            )
-                    )
-                },
-                error = {
-                    Spacer(
-                        modifier = Modifier
-                            .background(color = spec.color)
-                            .fillMaxSize()
-                    )
-                }
-            ),
+            content = image,
             modifier = Modifier
                 .fillMaxSize()
                 .clip(RoundedCornerShape(18f))
@@ -281,12 +289,13 @@ private fun QuarterlyCover(
 internal fun GroupedQuarterliesColumn(
     spec: GroupedQuarterliesSpec,
     modifier: Modifier = Modifier,
+    darkTheme: Boolean = isSystemInDarkTheme(),
     seeAllClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
             .groupBackground(
-                darkTheme = isSystemInDarkTheme(),
+                darkTheme = darkTheme,
                 lastIndex = spec.lastIndex
             )
     ) {
@@ -298,7 +307,7 @@ internal fun GroupedQuarterliesColumn(
             contentPadding = PaddingValues(horizontal = Dimens.grid_4),
             horizontalArrangement = Arrangement.spacedBy(Dimens.grid_4)
         ) {
-            itemsIndexed(spec.items, key = { _: Int, spec: QuarterlySpec -> spec.title }) { _, item ->
+            items(spec.items, key = { spec -> spec.id }) { item ->
                 QuarterlyColumn(
                     spec = item,
                     modifier = Modifier

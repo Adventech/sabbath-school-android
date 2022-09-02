@@ -114,4 +114,5 @@
     <string name="ss_action_playlist">Spilleliste</string>
     <string name="ss_action_forward">Framover</string>
     <string name="ss_picture_in_picture">Bilde i bilde</string>
+    <string name="ss_auto">Auto</string>
 </resources>

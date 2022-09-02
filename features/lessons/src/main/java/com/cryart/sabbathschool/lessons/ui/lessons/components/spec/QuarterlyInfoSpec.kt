@@ -22,11 +22,13 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons.components.spec
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Immutable
 import app.ss.models.SSLesson
 import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.misc.DateHelper
 import org.joda.time.DateTime
+import org.joda.time.DateTimeConstants
 import org.joda.time.Interval
 
 @Immutable
@@ -57,10 +59,29 @@ internal fun SSQuarterlyInfo.toSpec(
     splashImage = quarterly.splash,
     lessons = lessons,
     features = quarterly.features.map { it.toSpec() },
-    todayLessonIndex = lessons.find { lesson ->
-        val startDate = DateHelper.parseDate(lesson.start_date)
-        val endDate = DateHelper.parseDate(lesson.end_date)
-        Interval(startDate, endDate?.plusDays(1)).contains(DateTime.now().withTimeAtStartOfDay())
-    }?.index ?: lessons.firstOrNull()?.index,
+    todayLessonIndex = findIndex(lessons),
     readMoreClick = readMoreClick
 )
+
+@VisibleForTesting
+fun findIndex(
+    lessons: List<SSLesson>,
+    today: DateTime = DateTime.now()
+): String? {
+    val isSabbathMorning = today.dayOfWeek().get() == DateTimeConstants.SATURDAY && today.hourOfDay().get() < 12
+    var prevLessonIndex: String? = null
+
+    val index = lessons.find { lesson ->
+        val startDate = DateHelper.parseDate(lesson.start_date)
+        val endDate = DateHelper.parseDate(lesson.end_date)
+        val fallsBetween = Interval(startDate, endDate?.plusDays(1)).contains(today)
+
+        if (!fallsBetween) {
+            prevLessonIndex = lesson.index
+        }
+
+        fallsBetween
+    }?.index ?: lessons.firstOrNull()?.index
+
+    return index.takeUnless { isSabbathMorning } ?: prevLessonIndex
+}

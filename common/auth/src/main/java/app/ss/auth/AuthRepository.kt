@@ -31,6 +31,9 @@ import app.ss.models.auth.SSUser
 import app.ss.storage.db.dao.UserDao
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 import timber.log.Timber
@@ -43,6 +46,11 @@ interface AuthRepository {
      * Get the signed in user
      */
     suspend fun getUser(): Resource<SSUser?>
+
+    /**
+     * Get the signed in user
+     */
+    fun getUserFlow(): Flow<SSUser>
 
     /**
      * Sign in anonymously
@@ -71,6 +79,11 @@ internal class AuthRepositoryImpl @Inject constructor(
         val user = userDao.get()
         Resource.success(user?.toModel())
     }
+
+    override fun getUserFlow(): Flow<SSUser> = userDao
+        .getAsFlow()
+        .map { it.toModel() }
+        .flowOn(dispatcherProvider.io)
 
     override suspend fun signIn(): Resource<AuthResponse> = makeAuthRequest { authApi.signIn() }
 

@@ -119,5 +119,6 @@
     <string name="ss_action_playlist">ລາຍການຫຼິ້ນ</string>
     <string name="ss_action_forward">ສົ່ງຕໍ່</string>
     <string name="ss_picture_in_picture">ຮູບພາບຢູ່ໃນຮູບ</string>
+    <string name="ss_auto">ອັດຕະໂນມັດ</string>
 
 </resources>

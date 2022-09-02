@@ -26,16 +26,19 @@ import androidx.compose.runtime.Immutable
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 
+@Immutable
 sealed interface GroupedQuarterlies {
     @Immutable
-    data class TypeList(val data: List<SSQuarterly>) : GroupedQuarterlies
+    data class TypeList(val data: List<QuarterlySpec>) : GroupedQuarterlies
 
     @Immutable
-    data class TypeGroup(val data: List<QuarterliesGroup>) : GroupedQuarterlies
+    data class TypeGroup(val data: List<QuarterliesGroupModel>) : GroupedQuarterlies
+
     object Empty : GroupedQuarterlies
 }
 
-data class QuarterliesGroup(
+@Immutable
+data class QuarterliesGroupModel(
     val group: QuarterlyGroup,
     val quarterlies: List<SSQuarterly>
 )
@@ -44,7 +47,7 @@ private const val PLACEHOLDER_ID = "PLACEHOLDER_QUARTERLY"
 
 internal val SSQuarterly.isPlaceholder: Boolean get() = id.startsWith(PLACEHOLDER_ID)
 
-internal fun placeHolderQuarterlies(): List<SSQuarterly> {
+internal fun placeHolderQuarterlies(): List<QuarterlySpec> {
     val placeHolders = mutableListOf<SSQuarterly>()
     for (i in 0 until 10) {
         placeHolders.add(
@@ -56,5 +59,5 @@ internal fun placeHolderQuarterlies(): List<SSQuarterly> {
             )
         )
     }
-    return placeHolders
+    return placeHolders.map { it.spec() }
 }

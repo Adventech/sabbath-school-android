@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,24 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.ui
+package app.ss.design.compose.widget.button
 
-import androidx.lifecycle.LifecycleOwner
-import kotlinx.coroutines.flow.Flow
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
-abstract class BaseComponent<T>(val owner: LifecycleOwner) {
-    abstract fun collect(visibilityFlow: Flow<Boolean>, dataFlow: Flow<T>)
-}
+object SsButtonDefaults {
 
-abstract class BaseDataComponent<T>(val owner: LifecycleOwner) {
-    abstract fun collect(dataFlow: Flow<T>)
-}
-
-abstract class VisibilityComponent(val owner: LifecycleOwner) {
-    abstract fun collect(visibilityFlow: Flow<Boolean>)
+    @Composable
+    fun colors(
+        containerColor: Color,
+        contentColor: Color = Color.White,
+        disabledContainerColor: Color = containerColor.copy(0.4f),
+        disabledContentColor: Color = Color.White.copy(0.4f)
+    ) = ButtonDefaults.buttonColors(
+        containerColor = containerColor,
+        contentColor = contentColor,
+        disabledContainerColor = disabledContainerColor,
+        disabledContentColor = disabledContentColor
+    )
 }

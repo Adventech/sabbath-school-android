@@ -118,4 +118,5 @@
     <string name="ss_action_playlist">Λίστα αναπαραγωγής</string>
     <string name="ss_action_forward">Προς τα εμπρός</string>
     <string name="ss_picture_in_picture">Εικόνα σε εικόνα</string>
+    <string name="ss_auto">Αυτο</string>
 </resources>

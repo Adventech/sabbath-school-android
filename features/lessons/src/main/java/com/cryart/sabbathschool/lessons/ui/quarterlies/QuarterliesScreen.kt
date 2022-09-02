@@ -25,7 +25,6 @@
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -39,13 +38,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
-import androidx.compose.material3.rememberTopAppBarScrollState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,8 +49,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
@@ -71,30 +68,22 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGro
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesListCallback
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyList
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListCallbacks
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.placeHolderQuarterlies
 import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R.string as RString
 
+@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun QuarterliesScreen(
     viewModel: QuarterliesViewModel = viewModel(),
     callbacks: QuarterlyListCallbacks
 ) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberSplineBasedDecay(),
-        rememberTopAppBarScrollState()
-    )
-    val data by rememberFlowWithLifecycle(viewModel.quarterliesFlow)
-        .collectAsState(initial = GroupedQuarterlies.TypeList(placeHolderQuarterlies()))
-
-    val photoUrl by rememberFlowWithLifecycle(viewModel.photoUrlFlow)
-        .collectAsState(initial = null)
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     QuarterliesScreen(
-        quarterlies = data,
-        title = viewModel.groupTitle ?: stringResource(id = RString.ss_app_name),
-        photoUrl = photoUrl,
+        state = state.copy(
+            title = viewModel.groupTitle ?: stringResource(id = RString.ss_app_name)
+        ),
         callbacks = callbacks,
         scrollBehavior = scrollBehavior
     )
@@ -102,10 +91,8 @@ internal fun QuarterliesScreen(
 
 @Composable
 internal fun QuarterliesScreen(
-    quarterlies: GroupedQuarterlies,
-    title: String,
+    state: QuarterliesUiState,
     callbacks: QuarterlyListCallbacks,
-    photoUrl: String? = null,
     scrollBehavior: TopAppBarScrollBehavior? = null
 ) {
     SsScaffold(
@@ -113,8 +100,8 @@ internal fun QuarterliesScreen(
             QuarterliesTopAppBar(
                 scrollBehavior = scrollBehavior,
                 type = callbacks,
-                title = title,
-                photoUrl = photoUrl,
+                title = state.title,
+                photoUrl = state.photoUrl,
                 modifier = Modifier.windowInsetsPadding(
                     WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
                 )
@@ -123,7 +110,7 @@ internal fun QuarterliesScreen(
         scrollBehavior = scrollBehavior
     ) { innerPadding ->
         QuarterlyList(
-            data = quarterlies,
+            quarterlies = state.type,
             callbacks = callbacks,
             modifier = Modifier.padding(innerPadding)
         )
@@ -215,34 +202,33 @@ internal fun QuarterliesTopAppBar(
 private val AccountImgSize = 32.dp
 
 @Preview(
-    name = "TopAppBar"
+    name = "Screen"
 )
 @Preview(
-    name = "TopAppBar ~ dark",
+    name = "Screen ~ dark",
     uiMode = UI_MODE_NIGHT_YES
 )
 @Composable
-private fun TopAppBarPreview() {
+private fun ScreenPreview() {
     SsTheme {
-        Surface {
-            QuarterliesTopAppBar(
-                title = "Sabbath School",
-                type = object : QuarterliesGroupCallback {
-                    override fun onSeeAllClick(group: QuarterlyGroup) {
-                        // do nothing
-                    }
-                    override fun profileClick() {
-                        // do nothing
-                    }
-                    override fun filterLanguages() {
-                        // do nothing
-                    }
-                    override fun onReadClick(index: String) {
-                        // do nothing
-                    }
-                },
-                modifier = Modifier
-            )
-        }
+        QuarterliesScreen(
+            state = QuarterliesUiState(
+                title = "Sabbath School"
+            ),
+            callbacks = object : QuarterliesGroupCallback {
+                override fun onSeeAllClick(group: QuarterlyGroup) {
+                    // do nothing
+                }
+                override fun profileClick() {
+                    // do nothing
+                }
+                override fun filterLanguages() {
+                    // do nothing
+                }
+                override fun onReadClick(index: String) {
+                    // do nothing
+                }
+            }
+        )
     }
 }

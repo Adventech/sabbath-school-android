@@ -119,4 +119,5 @@ Igazán hiszünk abban, hogy Isten megnövelte a modern világ tudását, és az
     <string name="ss_action_playlist">lejátszási lista</string>
     <string name="ss_action_forward">Előre</string>
     <string name="ss_picture_in_picture">Kép a Képben</string>
+    <string name="ss_auto">Auto</string>
 </resources>

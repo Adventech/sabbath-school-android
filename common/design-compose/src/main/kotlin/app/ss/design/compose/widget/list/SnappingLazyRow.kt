@@ -20,39 +20,37 @@
  * THE SOFTWARE.
  */
 
+@file:OptIn(ExperimentalSnapperApi::class)
+
 package app.ss.design.compose.widget.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
 import dev.chrisbanes.snapper.SnapOffsets
 import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 
-@OptIn(ExperimentalSnapperApi::class)
 @Composable
 fun SnappingLazyRow(
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     reverseLayout: Boolean = false,
-    horizontalArrangement: Arrangement.Horizontal = if (!reverseLayout) Arrangement.Start else Arrangement.End,
+    horizontalArrangement: Arrangement.Horizontal = if (reverseLayout) Arrangement.End else Arrangement.Start,
     content: LazyListScope.() -> Unit
 ) {
     LazyRow(
         state = state,
         flingBehavior = rememberSnapperFlingBehavior(
             lazyListState = state,
-            snapOffsetForItem = SnapOffsets.Start,
-            endContentPadding = contentPadding.calculateEndPadding(LayoutDirection.Ltr)
+            snapOffsetForItem = SnapOffsets.Start
         ),
         contentPadding = contentPadding,
         horizontalArrangement = horizontalArrangement,

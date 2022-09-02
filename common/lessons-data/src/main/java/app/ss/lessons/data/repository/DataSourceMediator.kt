@@ -49,8 +49,8 @@ internal abstract class DataSourceMediator<T, R>(
         val network = withContext(dispatcherProvider.default) { safeNetworkGet { network.get(request) } }
 
         return if (network.isSuccessFul) {
-            network.also {
-                it.data?.let {
+            network.also { resource ->
+                resource.data?.takeIf { it.isNotEmpty() }?.let {
                     withContext(dispatcherProvider.io) {
                         cache.update(it)
                         cache.update(request, it)

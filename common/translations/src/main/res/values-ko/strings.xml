@@ -122,4 +122,5 @@
     <string name="ss_action_playlist">재생 목록</string>
     <string name="ss_action_forward">앞으로</string>
     <string name="ss_picture_in_picture">픽처 인 픽처</string>
+    <string name="ss_auto">자동</string>
 </resources>

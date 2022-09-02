@@ -28,13 +28,16 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -81,7 +84,7 @@ internal fun LazyListScope.footer(
         )
     }
 
-    itemsIndexed(spec.features, key = { _: Int, feature: FeatureSpec -> feature.name }) { _, feature ->
+    items(spec.features, key = { feature -> feature.name }) { feature ->
         FooterItem(
             title = feature.title,
             description = feature.description,
@@ -91,7 +94,7 @@ internal fun LazyListScope.footer(
         )
     }
 
-    itemsIndexed(spec.credits, key = { _: Int, credit: CreditSpec -> credit.name }) { _, credit ->
+    items(spec.credits, key = { credit -> credit.name }) { credit ->
         FooterItem(
             title = credit.name,
             description = credit.value,
@@ -121,6 +124,15 @@ internal fun LazyListScope.footer(
         Spacer(
             modifier = Modifier
                 .height(48.dp)
+                .fillMaxWidth()
+                .background(backgroundColor())
+        )
+    }
+
+    item {
+        Spacer(
+            Modifier
+                .windowInsetsBottomHeight(WindowInsets.safeDrawing)
                 .fillMaxWidth()
                 .background(backgroundColor())
         )

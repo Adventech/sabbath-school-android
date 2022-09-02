@@ -20,28 +20,17 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.widget.button
+package com.cryart.sabbathschool.lessons.ui.quarterlies
 
-import androidx.compose.material3.ButtonColors
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.Immutable
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.placeHolderQuarterlies
 
-class SsButtonColors(
-    private val containerColor: Color,
-    private val contentColor: Color = Color.White,
-    private val disabledContainerColor: Color = containerColor.copy(0.4f),
-    private val disabledContentColor: Color = Color.White.copy(0.4f)
-) : ButtonColors {
-
-    @Composable
-    override fun containerColor(enabled: Boolean): State<Color> {
-        return rememberUpdatedState(if (enabled) containerColor else disabledContainerColor)
-    }
-
-    @Composable
-    override fun contentColor(enabled: Boolean): State<Color> {
-        return rememberUpdatedState(if (enabled) contentColor else disabledContentColor)
-    }
-}
+@Immutable
+data class QuarterliesUiState(
+    val isLoading: Boolean = true,
+    val isError: Boolean = false,
+    val photoUrl: String? = null,
+    val type: GroupedQuarterlies = GroupedQuarterlies.TypeList(placeHolderQuarterlies()),
+    val title: String = ""
+)
