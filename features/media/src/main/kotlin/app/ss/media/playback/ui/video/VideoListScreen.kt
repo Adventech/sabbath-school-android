@@ -48,7 +48,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -62,8 +61,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.extensions.modifier.thenIf
@@ -80,23 +80,23 @@ import app.ss.design.compose.theme.onSurfaceSecondary
 import app.ss.design.compose.widget.DragHandle
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
+import app.ss.design.compose.widget.list.SnappingLazyRow
 import app.ss.media.R
 import app.ss.media.playback.ui.spec.VideoSpec
 import app.ss.media.playback.ui.spec.VideosInfoSpec
 import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.SSVideo
-import app.ss.design.compose.widget.list.SnappingLazyRow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 internal fun VideoListScreen(
     viewModel: VideoListViewModel = viewModel(),
     isAtTop: (Boolean) -> Unit = {},
     onVideoClick: (SSVideo) -> Unit
 ) {
-    val videoList by rememberFlowWithLifecycle(viewModel.videoListFlow)
-        .collectAsState(VideoListData.Empty)
+    val videoList by viewModel.videoListFlow.collectAsStateWithLifecycle()
 
     VideoListScreen(
         videoList = videoList,

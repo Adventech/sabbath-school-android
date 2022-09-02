@@ -20,6 +20,8 @@
  * THE SOFTWARE.
  */
 
+@file:OptIn(ExperimentalSnapperApi::class)
+
 package app.ss.design.compose.widget.list
 
 import androidx.compose.foundation.layout.Arrangement
@@ -35,14 +37,13 @@ import dev.chrisbanes.snapper.ExperimentalSnapperApi
 import dev.chrisbanes.snapper.SnapOffsets
 import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 
-@OptIn(ExperimentalSnapperApi::class)
 @Composable
 fun SnappingLazyRow(
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     reverseLayout: Boolean = false,
-    horizontalArrangement: Arrangement.Horizontal = if (!reverseLayout) Arrangement.Start else Arrangement.End,
+    horizontalArrangement: Arrangement.Horizontal = if (reverseLayout) Arrangement.End else Arrangement.Start,
     content: LazyListScope.() -> Unit
 ) {
     LazyRow(

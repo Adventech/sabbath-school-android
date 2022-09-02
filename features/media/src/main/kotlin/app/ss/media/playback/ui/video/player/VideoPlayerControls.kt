@@ -34,13 +34,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.theme.Spacing32
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
@@ -55,16 +55,15 @@ import app.ss.media.playback.ui.nowPlaying.components.PlayBackControlsDefaults
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
 import app.ss.translations.R.string as RString
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun VideoPlayerControls(
     videoPlayer: SSVideoPlayer,
     onClose: () -> Unit = {},
     onEnterPiP: (() -> Unit)? = null
 ) {
-    val playbackState by rememberFlowWithLifecycle(videoPlayer.playbackState)
-        .collectAsState(initial = VideoPlaybackState())
-    val progressState by rememberFlowWithLifecycle(videoPlayer.playbackProgress)
-        .collectAsState(PlaybackProgressState())
+    val playbackState by videoPlayer.playbackState.collectAsStateWithLifecycle()
+    val progressState by videoPlayer.playbackProgress.collectAsStateWithLifecycle()
 
     Surface(color = Color.Black.copy(0.6f)) {
         Box(modifier = Modifier.fillMaxSize()) {

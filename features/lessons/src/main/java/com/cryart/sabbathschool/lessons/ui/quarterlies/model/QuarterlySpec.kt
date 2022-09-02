@@ -30,11 +30,13 @@ import app.ss.design.compose.theme.parse
 import app.ss.models.SSQuarterly
 
 @Immutable
-internal data class QuarterlySpec(
+data class QuarterlySpec(
+    val id: String,
     val title: String,
     val date: String,
     val cover: String,
     val color: Color,
+    val index: String,
     val isPlaceholder: Boolean = false,
     val type: Type = Type.NORMAL,
     val onClick: () -> Unit = {}
@@ -62,13 +64,15 @@ internal data class QuarterlySpec(
 }
 
 internal fun SSQuarterly.spec(
-    type: QuarterlySpec.Type,
+    type: QuarterlySpec.Type = QuarterlySpec.Type.NORMAL,
     onClick: () -> Unit = {}
 ): QuarterlySpec = QuarterlySpec(
-    title,
-    human_date,
-    cover,
-    Color.parse(color_primary),
+    id = id,
+    title = title,
+    date = human_date,
+    cover = cover,
+    color = Color.parse(color_primary),
+    index = index,
     isPlaceholder = isPlaceholder,
     type,
     onClick

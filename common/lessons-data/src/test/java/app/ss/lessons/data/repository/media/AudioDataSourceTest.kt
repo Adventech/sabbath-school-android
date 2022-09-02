@@ -22,69 +22,71 @@
 
 package app.ss.lessons.data.repository.media
 
+import app.ss.lessons.data.api.SSMediaApi
 import app.ss.models.media.SSAudio
 import app.ss.storage.db.dao.AudioDao
-import com.cryart.sabbathschool.core.response.Resource
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
+import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
+import retrofit2.Response
 
-class MediaRepositoryImplTest {
+private const val LESSON_INDEX = "en-2022-03-09"
 
-    private val dispatcherProvider = TestDispatcherProvider()
+class AudioDataSourceTest {
 
-    private val mockAudioDataSource: AudioDataSource = mockk()
-    private val mockVideoDataSource: VideoDataSource = mockk()
+    private val mockMediaApi: SSMediaApi = mockk()
     private val mockAudioDao: AudioDao = mockk()
+    private val mockConnectivityHelper: ConnectivityHelper = mockk()
 
-    private lateinit var repository: MediaRepository
+    private lateinit var dataSource: AudioDataSource
+
+    private val ssAudio = SSAudio(
+        id = "id",
+        artist = "",
+        image = "",
+        imageRatio = "",
+        src = "",
+        target = LESSON_INDEX,
+        targetIndex = "$LESSON_INDEX-1",
+        title = "Audio title"
+    )
+    private val audioEntity = ssAudio.toEntity()
 
     @Before
     fun setup() {
-        repository = MediaRepositoryImpl(
-            audioDataSource = mockAudioDataSource,
-            videoDataSource = mockVideoDataSource,
+        every { mockConnectivityHelper.isConnected() }.returns(true)
+
+        dataSource = AudioDataSource(
+            mediaApi = mockMediaApi,
             audioDao = mockAudioDao,
-            dispatcherProvider = dispatcherProvider
+            dispatcherProvider = TestDispatcherProvider(),
+            connectivityHelper = mockConnectivityHelper
         )
     }
 
     @Test
-    fun `should filter audios by targetIndex`() = runTest {
-        val lessonIndex = "en-2021-03-09"
+    fun `should clear cache before updating`() = runTest {
+        coEvery { mockMediaApi.getAudio("en", "2022-03") }
+            .returns(Response.success(listOf(ssAudio)))
+        coEvery { mockAudioDao.delete("$LESSON_INDEX%") }
+            .returns(Unit)
+        every { mockAudioDao.insertAll(listOf(audioEntity)) }
+            .returns(Unit)
 
-        val result = listOf(
-            buildAudio(id = "1", targetIndex = "en-2021-03-09-01"),
-            buildAudio(id = "2", targetIndex = "en-2021-03-09-02"),
-            buildAudio(id = "3", targetIndex = "en-2021-04-03-01")
-        )
+        val resource = dataSource.get(AudioDataSource.Request(LESSON_INDEX))
 
-        coEvery { mockAudioDataSource.get(AudioDataSource.Request("en-2021-03-09")) }
-            .returns(Resource.success(result))
-        every { mockAudioDao.insertAll(any()) }.returns(Unit)
+        resource.data shouldBeEqualTo listOf(ssAudio)
 
-        val response = repository.getAudio(lessonIndex)
-
-        response.isSuccessFul shouldBeEqualTo true
-        response.data?.size ?: (0 shouldBeEqualTo 2)
+        coVerifyOrder {
+            mockAudioDao.delete("$LESSON_INDEX%")
+            mockAudioDao.insertAll(listOf(audioEntity))
+        }
     }
-
-    private fun buildAudio(
-        id: String = "id",
-        targetIndex: String
-    ): SSAudio = SSAudio(
-        id = id,
-        image = "",
-        imageRatio = "",
-        artist = "",
-        src = "",
-        target = "",
-        targetIndex = targetIndex,
-        title = ""
-    )
 }

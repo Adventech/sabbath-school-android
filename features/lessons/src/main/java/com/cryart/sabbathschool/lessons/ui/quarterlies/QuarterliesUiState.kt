@@ -20,23 +20,17 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.extensions.flow
+package com.cryart.sabbathschool.lessons.ui.quarterlies
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import kotlinx.coroutines.flow.Flow
+import androidx.compose.runtime.Immutable
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.placeHolderQuarterlies
 
-@Composable
-fun <T> rememberFlowWithLifecycle(
-    flow: Flow<T>,
-    lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
-    minActiveState: Lifecycle.State = Lifecycle.State.STARTED
-): Flow<T> = remember(flow, lifecycle) {
-    flow.flowWithLifecycle(
-        lifecycle = lifecycle,
-        minActiveState = minActiveState
-    )
-}
+@Immutable
+data class QuarterliesUiState(
+    val isLoading: Boolean = true,
+    val isError: Boolean = false,
+    val photoUrl: String? = null,
+    val type: GroupedQuarterlies = GroupedQuarterlies.TypeList(placeHolderQuarterlies()),
+    val title: String = ""
+)
