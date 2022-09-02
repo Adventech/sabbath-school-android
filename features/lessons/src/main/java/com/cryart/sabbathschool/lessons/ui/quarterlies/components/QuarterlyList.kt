@@ -41,7 +41,6 @@ import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
 import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroupModel
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterlySpec
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.spec
 
@@ -61,7 +60,7 @@ interface QuarterliesListCallback : QuarterlyListCallbacks {
 
 @Composable
 internal fun QuarterlyList(
-    data: GroupedQuarterlies,
+    quarterlies: GroupedQuarterlies,
     modifier: Modifier = Modifier,
     callbacks: QuarterlyListCallbacks? = null,
     state: LazyListState = rememberLazyListState()
@@ -72,41 +71,40 @@ internal fun QuarterlyList(
             .testTag("quarterlies:list"),
         state = state
     ) {
-        when (data) {
+        when (quarterlies) {
             GroupedQuarterlies.Empty -> { /* No op */ }
             is GroupedQuarterlies.TypeGroup -> {
-                val groupData = data.data
                 itemsIndexed(
-                    groupData,
-                    key = { _: Int, item: QuarterliesGroupModel -> item.group.name }
-                ) { index, model ->
+                    quarterlies.data,
+                    key = { _, model -> model.group.name },
+                    itemContent = { index, model ->
+                        val items = remember(model.group.name) {
+                            model.quarterlies.map { quarterly ->
+                                quarterly.spec(
+                                    QuarterlySpec.Type.LARGE,
+                                    onClick = {
+                                        callbacks?.onReadClick(quarterly.index)
+                                    }
+                                )
+                            }
+                        }
 
-                    val items = remember(model.group.name) {
-                        model.quarterlies.map { quarterly ->
-                            quarterly.spec(
-                                QuarterlySpec.Type.LARGE,
-                                onClick = {
-                                    callbacks?.onReadClick(quarterly.index)
-                                }
+                        GroupedQuarterliesColumn(
+                            spec = GroupedQuarterliesSpec(
+                                title = model.group.name,
+                                items = items,
+                                index == quarterlies.data.lastIndex
                             )
+                        ) {
+                            (callbacks as? QuarterliesGroupCallback)?.onSeeAllClick(model.group)
                         }
                     }
-
-                    GroupedQuarterliesColumn(
-                        spec = GroupedQuarterliesSpec(
-                            title = model.group.name,
-                            items = items,
-                            index == groupData.lastIndex
-                        )
-                    ) {
-                        (callbacks as? QuarterliesGroupCallback)?.onSeeAllClick(model.group)
-                    }
-                }
+                )
             }
             is GroupedQuarterlies.TypeList -> {
                 items(
-                    data.data,
-                    key = { item -> item.id }
+                    quarterlies.data,
+                    key = { spec -> spec.id }
                 ) { spec ->
                     QuarterlyRow(
                         spec = spec,

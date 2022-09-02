@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
+import androidx.compose.material3.ExperimentalMaterial3Api
 import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.Paparazzi
 import app.ss.design.compose.extensions.surface.ThemeSurface
@@ -73,7 +74,7 @@ class QuarterliesScreenTest {
 
         paparazzi.snapshot {
             ThemeSurface {
-                QuarterlyList(data = quarterlies)
+                QuarterlyList(quarterlies = quarterlies)
             }
         }
     }
@@ -86,11 +87,12 @@ class QuarterliesScreenTest {
 
         paparazzi.snapshot {
             ThemeSurface {
-                QuarterlyList(data = quarterlies)
+                QuarterlyList(quarterlies = quarterlies)
             }
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Test
     fun quarterlies_group_top_app_bar() {
         paparazzi.snapshot {
@@ -111,6 +113,7 @@ class QuarterliesScreenTest {
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Test
     fun quarterlies_list_top_app_bar() {
         paparazzi.snapshot {

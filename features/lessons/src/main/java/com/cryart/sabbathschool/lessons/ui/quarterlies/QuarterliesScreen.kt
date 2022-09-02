@@ -25,7 +25,6 @@
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -42,7 +41,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
-import androidx.compose.material3.rememberTopAppBarScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -73,16 +71,13 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListC
 import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R.string as RString
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
+@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun QuarterliesScreen(
     viewModel: QuarterliesViewModel = viewModel(),
     callbacks: QuarterlyListCallbacks
 ) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberSplineBasedDecay(),
-        rememberTopAppBarScrollState()
-    )
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     QuarterliesScreen(
@@ -115,7 +110,7 @@ internal fun QuarterliesScreen(
         scrollBehavior = scrollBehavior
     ) { innerPadding ->
         QuarterlyList(
-            data = state.type,
+            quarterlies = state.type,
             callbacks = callbacks,
             modifier = Modifier.padding(innerPadding)
         )

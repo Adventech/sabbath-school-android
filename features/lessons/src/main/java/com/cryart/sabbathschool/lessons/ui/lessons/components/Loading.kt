@@ -20,12 +20,9 @@
  * THE SOFTWARE.
  */
 
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,9 +43,7 @@ import app.ss.design.compose.widget.divider.Divider
 
 internal fun LazyListScope.loading() {
     item {
-        LessonsLoading(
-            modifier = Modifier.animateItemPlacement()
-        )
+        LessonsLoading(modifier = Modifier)
     }
 }
 
