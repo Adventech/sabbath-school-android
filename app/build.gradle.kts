@@ -105,7 +105,6 @@ android {
             // Only use benchmark proguard rules
             proguardFiles("benchmark-proguard-rules.pro")
             isMinifyEnabled = true
-            applicationIdSuffix = ".benchmark"
         }
     }
 

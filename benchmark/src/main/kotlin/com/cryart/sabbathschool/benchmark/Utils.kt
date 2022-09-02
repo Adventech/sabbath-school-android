@@ -22,4 +22,4 @@
 
 package com.cryart.sabbathschool.benchmark
 
-const val PACKAGE_NAME = "com.cryart.sabbathschool.benchmark"
+const val PACKAGE_NAME = "com.cryart.sabbathschool"
