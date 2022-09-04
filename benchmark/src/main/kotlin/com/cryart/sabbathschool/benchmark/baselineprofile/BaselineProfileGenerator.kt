@@ -25,6 +25,7 @@ package com.cryart.sabbathschool.benchmark.baselineprofile
 import androidx.benchmark.macro.ExperimentalBaselineProfilesApi
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import com.cryart.sabbathschool.benchmark.PACKAGE_NAME
+import com.cryart.sabbathschool.benchmark.quarterlies.startApplicationJourney
 import org.junit.Rule
 import org.junit.Test
 
@@ -36,7 +37,8 @@ class BaselineProfileGenerator {
 
     @Test
     fun generate() = baselineProfileRule.collectBaselineProfile(PACKAGE_NAME) {
-        pressHome()
-        startActivityAndWait()
+        startApplicationJourney()
+
+        // quarterliesScrollListDownUp()
     }
 }

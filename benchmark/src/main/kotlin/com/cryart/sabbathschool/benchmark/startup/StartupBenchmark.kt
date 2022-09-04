@@ -29,7 +29,7 @@ import androidx.benchmark.macro.StartupTimingMetric
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.cryart.sabbathschool.benchmark.PACKAGE_NAME
-import com.cryart.sabbathschool.benchmark.quarterlies.quarterliesWaitForContent
+import com.cryart.sabbathschool.benchmark.quarterlies.startApplicationJourney
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -90,8 +90,6 @@ abstract class AbstractStartupBenchmark(
             pressHome()
         }
     ) {
-        startActivityAndWait()
-        // Waits until the content is ready to capture Time To Full Display
-        quarterliesWaitForContent()
+        startApplicationJourney()
     }
 }

@@ -94,7 +94,8 @@ internal fun QuarterlyList(
                                 title = model.group.name,
                                 items = items,
                                 index == quarterlies.data.lastIndex
-                            )
+                            ),
+                            modifier = Modifier.testTag("quarterlies:group")
                         ) {
                             (callbacks as? QuarterliesGroupCallback)?.onSeeAllClick(model.group)
                         }
