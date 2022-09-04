@@ -22,6 +22,8 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -131,6 +133,10 @@ class QuarterliesViewModel @Inject constructor(
 
     fun languageSelected(languageCode: String) {
         ssPrefs.setLanguageCode(languageCode)
+        ssPrefs.setLastQuarterlyIndex(null)
+
+        val appLocale = LocaleListCompat.forLanguageTags(languageCode)
+        AppCompatDelegate.setApplicationLocales(appLocale)
     }
 
     private fun handleBrandingPrompt() {

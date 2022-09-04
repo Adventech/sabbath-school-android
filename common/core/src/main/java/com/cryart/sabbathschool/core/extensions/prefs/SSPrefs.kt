@@ -35,14 +35,12 @@ interface SSPrefs {
     fun getLanguageCode(): String
     fun getLanguageCodeFlow(): Flow<String>
     fun setLanguageCode(languageCode: String)
-    fun getLastQuarterlyType(): String?
     fun getLastQuarterlyIndex(): String?
     fun getReaderArtifactLastModified(): String?
     fun reminderEnabled(): Boolean
     fun isAppReBrandingPromptShown(): Boolean
     fun isReminderScheduled(): Boolean
-    fun setLastQuarterlyType(type: String)
-    fun setLastQuarterlyIndex(index: String)
+    fun setLastQuarterlyIndex(index: String?)
     fun setReaderArtifactLastModified(lastModified: String)
     fun setAppReBrandingShown()
     fun setThemeColor(primary: String, primaryDark: String)

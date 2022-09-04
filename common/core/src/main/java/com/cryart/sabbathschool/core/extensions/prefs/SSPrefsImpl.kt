@@ -22,8 +22,10 @@
 
 package com.cryart.sabbathschool.core.extensions.prefs
 
+import android.app.LocaleManager
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import androidx.core.content.edit
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.SharedPreferencesMigration
@@ -33,6 +35,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.preference.PreferenceManager
+import com.cryart.sabbathschool.core.extensions.context.systemService
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.ReminderTime
@@ -70,15 +73,21 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
 internal class SSPrefsImpl(
     private val dataStore: DataStore<Preferences>,
     private val sharedPreferences: SharedPreferences,
-    private val coroutineScope: CoroutineScope
+    private val coroutineScope: CoroutineScope,
+    private val context: Context
 ) : SSPrefs {
 
     @Inject
     constructor(@ApplicationContext context: Context) : this(
         dataStore = context.dataStore,
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context),
-        coroutineScope = CoroutineScope(Dispatchers.IO)
+        coroutineScope = CoroutineScope(Dispatchers.IO),
+        context = context
     )
+
+    init {
+        handleAppLocalesPref()
+    }
 
     private fun preferencesFlow(): Flow<Preferences> = dataStore.data
         .catch { exception ->
@@ -147,22 +156,9 @@ internal class SSPrefsImpl(
         return sharedPreferences.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, null)
     }
 
-    override fun setLastQuarterlyIndex(index: String) {
+    override fun setLastQuarterlyIndex(index: String?) {
         sharedPreferences.edit {
             putString(SSConstants.SS_LAST_QUARTERLY_INDEX, index)
-        }
-    }
-
-    override fun getLastQuarterlyType(): String? {
-        return sharedPreferences.getString(
-            SSConstants.SS_LAST_QUARTERLY_TYPE,
-            null
-        )
-    }
-
-    override fun setLastQuarterlyType(type: String) {
-        sharedPreferences.edit {
-            putString(SSConstants.SS_LAST_QUARTERLY_TYPE, type)
         }
     }
 
@@ -263,6 +259,16 @@ internal class SSPrefsImpl(
         sharedPreferences.edit { clear() }
         coroutineScope.launch {
             dataStore.edit { it.clear() }
+        }
+    }
+
+    private fun handleAppLocalesPref() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val locale = context.systemService<LocaleManager>(Context.LOCALE_SERVICE)
+                .applicationLocales
+                .takeUnless { it.isEmpty }?.get(0) ?: Locale.forLanguageTag(getLanguageCode())
+
+            setLanguageCode(locale.language)
         }
     }
 }
