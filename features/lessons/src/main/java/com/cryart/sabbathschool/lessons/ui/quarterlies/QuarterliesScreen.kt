@@ -24,6 +24,7 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
+import android.app.Activity
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
@@ -42,13 +43,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -114,6 +118,16 @@ internal fun QuarterliesScreen(
             callbacks = callbacks,
             modifier = Modifier.padding(innerPadding)
         )
+
+        if (!state.isLoading) {
+            val localView = LocalView.current
+            LaunchedEffect(Unit) {
+                // We're leveraging the fact, that the current view is directly set as content of Activity.
+                val activity = localView.context as? Activity ?: return@LaunchedEffect
+                // To be sure not to call in the middle of a frame draw.
+                localView.doOnPreDraw { activity.reportFullyDrawn() }
+            }
+        }
     }
 }
 

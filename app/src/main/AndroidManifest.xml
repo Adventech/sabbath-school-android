@@ -40,6 +40,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SS">
 
+        <profileable android:shell="true" tools:targetApi="q" />
+
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"

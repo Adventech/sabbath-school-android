@@ -35,6 +35,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
 import app.ss.models.QuarterlyGroup
@@ -66,7 +67,8 @@ internal fun QuarterlyList(
 ) {
     LazyColumn(
         modifier = modifier
-            .drawVerticalScrollbar(state),
+            .drawVerticalScrollbar(state)
+            .testTag("quarterlies:list"),
         state = state
     ) {
         when (quarterlies) {
@@ -92,7 +94,8 @@ internal fun QuarterlyList(
                                 title = model.group.name,
                                 items = items,
                                 index == quarterlies.data.lastIndex
-                            )
+                            ),
+                            modifier = Modifier.testTag("quarterlies:group")
                         ) {
                             (callbacks as? QuarterliesGroupCallback)?.onSeeAllClick(model.group)
                         }
