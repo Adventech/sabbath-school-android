@@ -104,6 +104,8 @@ class LoginActivity : AppCompatActivity() {
                 null -> {}
             }
         }
+
+        reportFullyDrawn()
     }
 
     private fun initUi() {
