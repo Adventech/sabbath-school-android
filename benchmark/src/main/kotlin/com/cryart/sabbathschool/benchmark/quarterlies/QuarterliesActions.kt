@@ -20,28 +20,30 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.widget.button
+package com.cryart.sabbathschool.benchmark.quarterlies
 
-import androidx.compose.material3.ButtonColors
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.graphics.Color
+import androidx.benchmark.macro.MacrobenchmarkScope
+import androidx.test.uiautomator.By
+import androidx.test.uiautomator.Direction
+import androidx.test.uiautomator.Until
 
-class SsButtonColors(
-    private val containerColor: Color,
-    private val contentColor: Color = Color.White,
-    private val disabledContainerColor: Color = containerColor.copy(0.4f),
-    private val disabledContentColor: Color = Color.White.copy(0.4f)
-) : ButtonColors {
+fun MacrobenchmarkScope.startApplicationJourney() {
+    pressHome()
+    startActivityAndWait()
 
-    @Composable
-    override fun containerColor(enabled: Boolean): State<Color> {
-        return rememberUpdatedState(if (enabled) containerColor else disabledContainerColor)
-    }
+    // Wait until content is loaded
+    device.wait(Until.hasObject(By.text("STANDARD ADULT")), 30_000)
 
-    @Composable
-    override fun contentColor(enabled: Boolean): State<Color> {
-        return rememberUpdatedState(if (enabled) contentColor else disabledContentColor)
-    }
+    // device.wait(Until.hasObject(By.res("quarterlies:list")), 15_000)
+
+    // Wait until the quarterlies group item within the list is rendered
+    // val quarterliesList = device.findObject(By.res("quarterlies:list"))
+    // quarterliesList.wait(Until.hasObject(By.res("quarterlies:group")), 15_000)
+}
+
+fun MacrobenchmarkScope.quarterliesScrollListDownUp() {
+    val quarterliesList = device.findObject(By.res("quarterlies:list"))
+    quarterliesList.fling(Direction.DOWN)
+    device.waitForIdle()
+    quarterliesList.fling(Direction.UP)
 }

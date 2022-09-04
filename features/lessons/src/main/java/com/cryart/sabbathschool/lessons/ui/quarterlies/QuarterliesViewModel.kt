@@ -29,21 +29,22 @@ import app.ss.auth.AuthRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
+import com.cryart.sabbathschool.core.response.Result
+import com.cryart.sabbathschool.core.response.asResult
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroup
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroupModel
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.placeHolderQuarterlies
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.spec
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -53,33 +54,46 @@ import javax.inject.Inject
 class QuarterliesViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
     private val ssPrefs: SSPrefs,
-    private val authRepository: AuthRepository,
     private val savedStateHandle: SavedStateHandle,
-    dispatcherProvider: DispatcherProvider
+    authRepository: AuthRepository
 ) : ViewModel() {
 
     private val quarterlyGroup: QuarterlyGroup?
         get() = savedStateHandle[SSConstants.SS_QUARTERLY_GROUP]
 
-    private val _photoUrl = MutableStateFlow<String?>(null)
-    val photoUrlFlow: StateFlow<String?> = _photoUrl.asStateFlow()
-
     val groupTitle get() = quarterlyGroup?.name
+
+    private val photo: Flow<Result<String?>> = authRepository.getUserFlow()
+        .map { it.photo }
+        .asResult()
+
+    private val quarterlies: Flow<Result<GroupedQuarterlies>> = ssPrefs.getLanguageCodeFlow()
+        .flatMapLatest { language -> repository.getQuarterlies(language, quarterlyGroup) }
+        .map(this::groupQuarterlies)
+        .asResult()
+
+    val uiState = combine(quarterlies, photo) { quarterliesResult, photoResult ->
+        val type = when (quarterliesResult) {
+            is Result.Error -> GroupedQuarterlies.Empty
+            Result.Loading -> GroupedQuarterlies.TypeList(placeHolderQuarterlies())
+            is Result.Success -> quarterliesResult.data
+        }
+        val photoUrl = when (photoResult) {
+            is Result.Error,
+            Result.Loading -> null
+            is Result.Success -> photoResult.data
+        }
+
+        QuarterliesUiState(
+            isLoading = quarterliesResult is Result.Loading,
+            isError = quarterliesResult is Result.Error,
+            photoUrl = photoUrl,
+            type = type
+        )
+    }.stateIn(viewModelScope, QuarterliesUiState())
 
     private val _appReBranding = MutableSharedFlow<Boolean>()
     val appReBrandingFlow: SharedFlow<Boolean> get() = _appReBranding.asSharedFlow()
-
-    val quarterliesFlow: StateFlow<GroupedQuarterlies> = ssPrefs.getLanguageCodeFlow()
-        .flatMapLatest { language -> repository.getQuarterlies(language, quarterlyGroup) }
-        .map(this::groupQuarterlies)
-        .stateIn(viewModelScope, GroupedQuarterlies.TypeList(placeHolderQuarterlies()))
-
-    init {
-        viewModelScope.launch(dispatcherProvider.io) {
-            val photoUrl = authRepository.getUser().data?.photo
-            _photoUrl.emit(photoUrl)
-        }
-    }
 
     @Suppress("UNCHECKED_CAST")
     private fun groupQuarterlies(resource: Resource<List<SSQuarterly>>): GroupedQuarterlies {
@@ -92,17 +106,19 @@ class QuarterliesViewModel @Inject constructor(
 
         val groupType = when {
             grouped.keys.size == 1 -> {
-                GroupedQuarterlies.TypeList(grouped[grouped.firstKey()] ?: emptyList())
+                val specs = grouped[grouped.firstKey()]?.map { it.spec() }
+                GroupedQuarterlies.TypeList(specs ?: emptyList())
             }
             grouped.keys.size > 1 -> {
                 val filtered = grouped.filterKeys { it != null } as Map<QuarterlyGroup, List<SSQuarterly>>
                 if (filtered.keys.size > 1) {
                     val groups = filtered.map { map ->
-                        QuarterliesGroup(map.key, map.value)
+                        QuarterliesGroupModel(map.key, map.value)
                     }
                     GroupedQuarterlies.TypeGroup(groups)
                 } else {
-                    GroupedQuarterlies.TypeList(filtered[filtered.keys.first()] ?: emptyList())
+                    val specs = filtered[filtered.keys.first()]?.map { it.spec() }
+                    GroupedQuarterlies.TypeList(specs ?: emptyList())
                 }
             }
             else -> GroupedQuarterlies.Empty

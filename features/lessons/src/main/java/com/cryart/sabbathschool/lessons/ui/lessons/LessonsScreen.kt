@@ -31,17 +31,9 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -54,8 +46,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
-import androidx.compose.material3.TopAppBarScrollState
-import androidx.compose.material3.rememberTopAppBarScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
@@ -110,11 +100,6 @@ fun LessonsScreen(
 @Composable
 internal fun LessonsScreen(
     state: LessonsScreenState,
-    scrollState: TopAppBarScrollState = rememberTopAppBarScrollState(),
-    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
-        state = scrollState,
-        canScroll = { true }
-    ),
     onNavClick: () -> Unit = {},
     onShareClick: (String) -> Unit = {},
     onLessonClick: (SSLesson) -> Unit = {},
@@ -123,6 +108,7 @@ internal fun LessonsScreen(
     listState: LazyListState = rememberLazyListState(),
     scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState)
 ) {
+    val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val quarterlyInfo = when (state.quarterlyInfo) {
         QuarterlyInfoState.Error,
         QuarterlyInfoState.Loading -> null
@@ -153,11 +139,7 @@ internal fun LessonsScreen(
             ) {
                 LessonsTopBar(
                     title = quarterlyTitle,
-                    modifier = Modifier.padding(
-                        top = with(LocalDensity.current) {
-                            WindowInsets.safeDrawing.only(WindowInsetsSides.Top).getTop(this).toDp()
-                        }
-                    ),
+                    modifier = Modifier,
                     scrollAlpha = alpha,
                     scrollBehavior = scrollBehavior,
                     systemUiController = systemUiController,
@@ -178,9 +160,7 @@ internal fun LessonsScreen(
                 innerPadding.calculateEndPadding(LayoutDirection.Ltr),
                 innerPadding.calculateBottomPadding()
             ),
-            modifier = Modifier.windowInsetsPadding(
-                WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
-            ),
+            modifier = Modifier,
             state = listState
         ) {
             quarterlyInfo?.let { ssQuarterlyInfo ->
@@ -214,10 +194,6 @@ internal fun LessonsScreen(
                         features = quarterlyInfo.quarterly.features.map { it.toSpec() }
                     )
                 )
-
-                item {
-                    Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing))
-                }
             } ?: run {
                 loading()
             }
@@ -225,6 +201,7 @@ internal fun LessonsScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LessonsTopBar(
     title: String,
@@ -291,7 +268,7 @@ private fun LessonsTopBar(
     }
 
     SideEffect {
-        systemUiController?.setSystemBarsColor(
+        systemUiController?.setStatusBarColor(
             color = Color.Transparent,
             darkIcons = useDarkIcons
         )

@@ -112,5 +112,6 @@
     <string name="ss_action_playlist">အစီအစဉ်</string>
     <string name="ss_action_forward">"ရှေ့သို့ "</string>
     <string name="ss_picture_in_picture">"ရုပ်ပုံပါ ရုပ်ပုံ "</string>
+    <string name="ss_auto">"အော်တို "</string>
 
 </resources>

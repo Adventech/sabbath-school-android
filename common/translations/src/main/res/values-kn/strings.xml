@@ -114,4 +114,5 @@
     <string name="ss_action_playlist">"ಪ್ಲೇಪಟ್ಟಿ "</string>
     <string name="ss_action_forward">"ಮುಂದೆ "</string>
     <string name="ss_picture_in_picture">ಚಿತ್ರದಲ್ಲಿ ಚಿತ್ರ</string>
+    <string name="ss_auto">"ಆಟೋ "</string>
 </resources>

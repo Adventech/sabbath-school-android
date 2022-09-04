@@ -1,7 +1,6 @@
 plugins {
     `java-gradle-plugin`
     `kotlin-dsl`
-    `kotlin-dsl-precompiled-script-plugins`
 }
 
 repositories {
@@ -11,12 +10,14 @@ repositories {
 }
 
 object PluginVersions {
-    const val GRADLE_ANDROID = "7.2.2"
-    const val GRADLE_VERSIONS = "0.39.0"
+    const val GRADLE_ANDROID = "7.3.0-rc01"
+    const val GRADLE_VERSIONS = "0.42.0"
     const val KOTLIN = "1.7.10"
     const val KTLINT = "0.40.0"
     const val HILT = "2.43.2"
     const val PAPARAZZI = "1.0.0"
+    const val VCU = "0.6.0"
+    const val BENCHMARK = "1.2.0-alpha01"
 }
 
 dependencies {
@@ -26,4 +27,6 @@ dependencies {
     implementation("com.pinterest:ktlint:${PluginVersions.KTLINT}")
     implementation("com.github.ben-manes:gradle-versions-plugin:${PluginVersions.GRADLE_VERSIONS}")
     implementation("app.cash.paparazzi:paparazzi-gradle-plugin:${PluginVersions.PAPARAZZI}")
+    implementation("nl.littlerobots.vcu:plugin:${PluginVersions.VCU}")
+    implementation("androidx.benchmark:benchmark-gradle-plugin:${PluginVersions.BENCHMARK}")
 }

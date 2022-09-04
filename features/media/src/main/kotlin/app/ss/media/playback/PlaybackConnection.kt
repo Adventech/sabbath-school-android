@@ -50,7 +50,6 @@ import com.cryart.sabbathschool.core.extensions.coroutines.flow.flowInterval
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
@@ -62,7 +61,7 @@ interface PlaybackConnection {
     val playbackState: StateFlow<PlaybackStateCompat>
     val nowPlaying: StateFlow<MediaMetadataCompat>
 
-    val playbackQueue: SharedFlow<PlaybackQueue>
+    val playbackQueue: StateFlow<PlaybackQueue>
 
     val playbackProgress: StateFlow<PlaybackProgressState>
     val playbackMode: StateFlow<PlaybackModeState>

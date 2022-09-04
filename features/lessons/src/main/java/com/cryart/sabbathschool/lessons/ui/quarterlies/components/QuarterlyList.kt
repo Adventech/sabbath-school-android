@@ -29,19 +29,19 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
 import app.ss.models.QuarterlyGroup
-import app.ss.models.SSQuarterly
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroup
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterlySpec
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.isPlaceholder
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.spec
 
 interface QuarterlyListCallbacks {
@@ -59,57 +59,60 @@ interface QuarterliesListCallback : QuarterlyListCallbacks {
 }
 
 @Composable
-fun QuarterlyList(
-    data: GroupedQuarterlies,
+internal fun QuarterlyList(
+    quarterlies: GroupedQuarterlies,
     modifier: Modifier = Modifier,
     callbacks: QuarterlyListCallbacks? = null,
     state: LazyListState = rememberLazyListState()
 ) {
     LazyColumn(
         modifier = modifier
-            .drawVerticalScrollbar(state),
+            .drawVerticalScrollbar(state)
+            .testTag("quarterlies:list"),
         state = state
     ) {
-        when (data) {
+        when (quarterlies) {
             GroupedQuarterlies.Empty -> { /* No op */ }
             is GroupedQuarterlies.TypeGroup -> {
-                val groupData = data.data
                 itemsIndexed(
-                    groupData,
-                    key = { _: Int, item: QuarterliesGroup -> item.group.name }
-                ) { index, group ->
-
-                    val items = group.quarterlies.map { quarterly ->
-                        quarterly.spec(
-                            QuarterlySpec.Type.LARGE,
-                            onClick = {
-                                callbacks?.onReadClick(quarterly.index)
+                    quarterlies.data,
+                    key = { _, model -> model.group.name },
+                    itemContent = { index, model ->
+                        val items = remember(model.group.name) {
+                            model.quarterlies.map { quarterly ->
+                                quarterly.spec(
+                                    QuarterlySpec.Type.LARGE,
+                                    onClick = {
+                                        callbacks?.onReadClick(quarterly.index)
+                                    }
+                                )
                             }
-                        )
-                    }
+                        }
 
-                    GroupedQuarterliesColumn(
-                        spec = GroupedQuarterliesSpec(
-                            title = group.group.name,
-                            items = items,
-                            index == groupData.lastIndex
-                        )
-                    ) {
-                        (callbacks as? QuarterliesGroupCallback)?.onSeeAllClick(group.group)
+                        GroupedQuarterliesColumn(
+                            spec = GroupedQuarterliesSpec(
+                                title = model.group.name,
+                                items = items,
+                                index == quarterlies.data.lastIndex
+                            ),
+                            modifier = Modifier.testTag("quarterlies:group")
+                        ) {
+                            (callbacks as? QuarterliesGroupCallback)?.onSeeAllClick(model.group)
+                        }
                     }
-                }
+                )
             }
             is GroupedQuarterlies.TypeList -> {
-                itemsIndexed(
-                    data.data,
-                    key = { _: Int, item: SSQuarterly -> item.id }
-                ) { _, item ->
+                items(
+                    quarterlies.data,
+                    key = { spec -> spec.id }
+                ) { spec ->
                     QuarterlyRow(
-                        spec = item.spec(QuarterlySpec.Type.NORMAL),
+                        spec = spec,
                         modifier = Modifier
-                            .thenIf(item.isPlaceholder.not()) {
+                            .thenIf(spec.isPlaceholder.not()) {
                                 clickable {
-                                    callbacks?.onReadClick(item.index)
+                                    callbacks?.onReadClick(spec.index)
                                 }
                             }
                     )

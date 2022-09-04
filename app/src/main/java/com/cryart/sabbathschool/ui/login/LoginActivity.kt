@@ -113,6 +113,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        reportFullyDrawn()
         checkNotificationsPermission()
     }
 

@@ -20,23 +20,24 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.extensions.flow
+package app.ss.design.compose.widget.button
 
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import kotlinx.coroutines.flow.Flow
+import androidx.compose.ui.graphics.Color
 
-@Composable
-fun <T> rememberFlowWithLifecycle(
-    flow: Flow<T>,
-    lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
-    minActiveState: Lifecycle.State = Lifecycle.State.STARTED
-): Flow<T> = remember(flow, lifecycle) {
-    flow.flowWithLifecycle(
-        lifecycle = lifecycle,
-        minActiveState = minActiveState
+object SsButtonDefaults {
+
+    @Composable
+    fun colors(
+        containerColor: Color,
+        contentColor: Color = Color.White,
+        disabledContainerColor: Color = containerColor.copy(0.4f),
+        disabledContentColor: Color = Color.White.copy(0.4f)
+    ) = ButtonDefaults.buttonColors(
+        containerColor = containerColor,
+        contentColor = contentColor,
+        disabledContainerColor = disabledContainerColor,
+        disabledContentColor = disabledContentColor
     )
 }

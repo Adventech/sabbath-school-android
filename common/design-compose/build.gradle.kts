@@ -46,11 +46,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":common:translations"))
+    implementation(projects.common.translations)
 
     implementation(libs.timber)
     implementation(libs.google.accompanist.placeholder)
-    implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.coil.compose)
     implementation(libs.kotlin.coroutines)
 

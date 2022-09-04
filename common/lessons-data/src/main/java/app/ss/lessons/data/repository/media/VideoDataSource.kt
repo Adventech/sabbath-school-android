@@ -57,7 +57,10 @@ internal class VideoDataSource @Inject constructor(
             return if (data.isNotEmpty()) Resource.success(data.map { it.toModel() }) else Resource.loading()
         }
 
-        override suspend fun update(data: List<SSVideosInfo>) {
+        override suspend fun update(request: Request, data: List<SSVideosInfo>) {
+            request.lessonIndex.toMediaRequest()?.let { ssMediaRequest ->
+                videoInfoDao.delete("${ssMediaRequest.language}-${ssMediaRequest.quarterlyId}")
+            }
             videoInfoDao.insertAll(data.map { it.toEntity() })
         }
     }

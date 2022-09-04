@@ -88,6 +88,23 @@ class DataSourceMediatorTest {
     }
 
     @Test
+    fun `should not cache empty data`() = runTest {
+        val data = emptyList<String>()
+        val networkResource = Resource.success(data)
+        val request = Any()
+
+        coEvery { networkSource.get(request) }.returns(networkResource)
+
+        val resource = mediator.get(request)
+
+        resource.shouldBeEqualTo(networkResource)
+        coVerify(inverse = true) {
+            cacheSource.update(data)
+            cacheSource.update(request, data)
+        }
+    }
+
+    @Test
     fun `should emit cached resource then network resource when completed`() = runTest {
         val data = listOf("3", "4", "5")
         val cacheResource = Resource.success(listOf("1", "2"))
