@@ -38,13 +38,14 @@ interface SSPrefs {
     fun getLastQuarterlyIndex(): String?
     fun getReaderArtifactLastModified(): String?
     fun reminderEnabled(): Boolean
+    fun setReminderEnabled(enabled: Boolean)
     fun isAppReBrandingPromptShown(): Boolean
     fun isReminderScheduled(): Boolean
     fun setLastQuarterlyIndex(index: String?)
     fun setReaderArtifactLastModified(lastModified: String)
     fun setAppReBrandingShown()
     fun setThemeColor(primary: String, primaryDark: String)
-    fun setReminderScheduled()
+    fun setReminderScheduled(scheduled: Boolean = true)
     fun isReadingLatestQuarterly(): Boolean
     fun setReadingLatestQuarterly(state: Boolean)
 }

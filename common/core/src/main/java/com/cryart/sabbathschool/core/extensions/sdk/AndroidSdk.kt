@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,37 +20,12 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        maven("https://plugins.gradle.org/m2/")
-        gradlePluginPortal()
-    }
-}
+package com.cryart.sabbathschool.core.extensions.sdk
 
-include(
-    ":app",
-    ":benchmark",
-    ":common:auth",
-    ":common:core",
-    ":common:design",
-    ":common:design-compose",
-    ":common:lessons-data",
-    ":common:models",
-    ":common:network",
-    ":common:runtime-permissions",
-    ":common:storage",
-    ":common:translations",
-    ":features:account",
-    ":features:app-widgets",
-    ":features:bible",
-    ":features:lessons",
-    ":features:media",
-    ":features:pdf",
-    ":features:reader",
-    ":features:settings",
-    ":libraries:test_utils"
-)
-rootProject.buildFileName = "build.gradle.kts"
+import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+fun isBelowApi(sdk: Int): Boolean = Build.VERSION.SDK_INT < sdk
+
+@ChecksSdkIntAtLeast(parameter = 0)
+fun isAtLeastApi(sdk: Int): Boolean = Build.VERSION.SDK_INT >= sdk

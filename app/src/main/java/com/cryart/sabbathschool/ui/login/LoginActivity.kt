@@ -22,16 +22,20 @@
 
 package com.cryart.sabbathschool.ui.login
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import app.ss.runtime.permissions.RuntimePermissions
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
+import com.cryart.sabbathschool.core.extensions.sdk.isBelowApi
 import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding
@@ -50,6 +54,9 @@ class LoginActivity : AppCompatActivity() {
 
     @Inject
     lateinit var appConfig: AppConfig
+
+    @Inject
+    lateinit var runtimePermissions: RuntimePermissions
 
     private val viewModel: LoginViewModel by viewModels()
 
@@ -106,6 +113,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         reportFullyDrawn()
+        checkNotificationsPermission()
     }
 
     private fun initUi() {
@@ -123,6 +131,31 @@ class LoginActivity : AppCompatActivity() {
                     .setNegativeButton(R.string.ss_login_anonymously_dialog_negative, null)
                     .create()
                     .show()
+            }
+        }
+    }
+
+    private fun checkNotificationsPermission() {
+        if (isBelowApi(Build.VERSION_CODES.TIRAMISU)) {
+            return
+        }
+
+        with(runtimePermissions) {
+            if (!isGranted(Manifest.permission.POST_NOTIFICATIONS)) {
+                setup(
+                    this@LoginActivity,
+                    object : RuntimePermissions.Listener {
+                        override fun onPermissionGranted() {
+                            viewModel.handleNotificationsPermissionGranted()
+                        }
+
+                        override fun onPermissionDenied() {
+                            viewModel.handleNotificationsPermissionDenied()
+                        }
+                    }
+                )
+
+                request(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
     }

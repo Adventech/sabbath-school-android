@@ -100,6 +100,10 @@ internal class SSPrefsImpl(
         true
     )
 
+    override fun setReminderEnabled(enabled: Boolean) = sharedPreferences.edit {
+        putBoolean(SSConstants.SS_SETTINGS_REMINDER_ENABLED_KEY, enabled)
+    }
+
     override fun getReminderTime(): ReminderTime {
         val timeStr = sharedPreferences.getString(
             SSConstants.SS_SETTINGS_REMINDER_TIME_KEY,
@@ -243,8 +247,8 @@ internal class SSPrefsImpl(
         }
     }
 
-    override fun setReminderScheduled() = sharedPreferences.edit {
-        putBoolean(SSConstants.SS_REMINDER_SCHEDULED, true)
+    override fun setReminderScheduled(scheduled: Boolean) = sharedPreferences.edit {
+        putBoolean(SSConstants.SS_REMINDER_SCHEDULED, scheduled)
     }
 
     override fun isReadingLatestQuarterly(): Boolean {

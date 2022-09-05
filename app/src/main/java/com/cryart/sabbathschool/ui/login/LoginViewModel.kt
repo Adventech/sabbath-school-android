@@ -29,6 +29,7 @@ import app.ss.auth.AuthRepository
 import app.ss.auth.AuthResponse
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.reminder.DailyReminderManager
@@ -45,7 +46,8 @@ class LoginViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val googleSignIn: GoogleSignInWrapper,
     private val reminderManager: DailyReminderManager,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val ssPrefs: SSPrefs
 ) : ViewModel() {
 
     private val _viewState: MutableStateFlow<ViewState?> = MutableStateFlow(null)
@@ -83,5 +85,13 @@ class LoginViewModel @Inject constructor(
         }
 
         _viewState.emit(state)
+    }
+
+    fun handleNotificationsPermissionDenied() {
+        reminderManager.cancel()
+    }
+
+    fun handleNotificationsPermissionGranted() {
+        ssPrefs.setReminderEnabled(true)
     }
 }

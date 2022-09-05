@@ -34,6 +34,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import com.cryart.sabbathschool.settings.DailyReminder
 import com.cryart.sabbathschool.ui.splash.SplashActivity
 import org.joda.time.DateTime
@@ -104,7 +105,7 @@ class DailyReminderManager constructor(
     }
 
     override fun showNotification(context: Context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (isAtLeastApi(Build.VERSION_CODES.O)) {
             val channelName: String = context.getString(R.string.ss_app_name)
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(CHANNEL_ID, channelName, importance)
@@ -114,7 +115,7 @@ class DailyReminderManager constructor(
         val contentIntent = Intent(context, SplashActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
-        val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val flag = if (isAtLeastApi(Build.VERSION_CODES.M)) {
             PendingIntent.FLAG_IMMUTABLE
         } else {
             PendingIntent.FLAG_CANCEL_CURRENT
@@ -138,6 +139,15 @@ class DailyReminderManager constructor(
             .setContentText(context.getString(R.string.ss_settings_reminder_text))
 
         notificationManager.notify(1, builder.build())
+    }
+
+    override fun cancel() {
+        getPendingIntent(false)?.let {
+            Timber.i("Cancelling Alarm...")
+            alarmManager.cancel(it)
+        }
+        ssPrefs.setReminderEnabled(false)
+        ssPrefs.setReminderScheduled(false)
     }
 
     companion object {
