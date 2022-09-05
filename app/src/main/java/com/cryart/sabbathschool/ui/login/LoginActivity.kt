@@ -35,7 +35,7 @@ import androidx.core.view.isVisible
 import app.ss.runtime.permissions.RuntimePermissions
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
-import com.cryart.sabbathschool.core.extensions.sdk.isAtBelowApi
+import com.cryart.sabbathschool.core.extensions.sdk.isBelowApi
 import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding
@@ -136,7 +136,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun checkNotificationsPermission() {
-        if (isAtBelowApi(Build.VERSION_CODES.TIRAMISU)) {
+        if (isBelowApi(Build.VERSION_CODES.TIRAMISU)) {
             return
         }
 

@@ -25,7 +25,7 @@ package com.cryart.sabbathschool.core.extensions.sdk
 import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
 
-fun isAtBelowApi(sdk: Int): Boolean = Build.VERSION.SDK_INT < sdk
+fun isBelowApi(sdk: Int): Boolean = Build.VERSION.SDK_INT < sdk
 
 @ChecksSdkIntAtLeast(parameter = 0)
 fun isAtLeastApi(sdk: Int): Boolean = Build.VERSION.SDK_INT >= sdk
