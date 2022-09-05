@@ -36,6 +36,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.preference.PreferenceManager
 import com.cryart.sabbathschool.core.extensions.context.systemService
+import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSHelper
 import com.cryart.sabbathschool.core.model.ReminderTime
@@ -267,7 +268,7 @@ internal class SSPrefsImpl(
     }
 
     private fun handleAppLocalesPref() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (isAtLeastApi(Build.VERSION_CODES.TIRAMISU)) {
             val locale = context.systemService<LocaleManager>(Context.LOCALE_SERVICE)
                 .applicationLocales
                 .takeUnless { it.isEmpty }?.get(0) ?: Locale.forLanguageTag(getLanguageCode())
