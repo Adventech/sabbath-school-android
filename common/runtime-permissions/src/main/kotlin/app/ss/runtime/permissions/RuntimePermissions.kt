@@ -24,25 +24,21 @@ package app.ss.runtime.permissions
 
 import android.content.Context
 import android.content.pm.PackageManager
-import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResultCaller
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import app.ss.runtime.permissions.RuntimePermissions.Result
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 interface RuntimePermissions {
     fun isGranted(permission: String): Boolean
-    fun isGranted(activity: ComponentActivity, permission: String): Result
-    fun request(activity: ComponentActivity, permission: String, listener: Listener)
+    fun setup(caller: ActivityResultCaller, listener: Listener)
+    fun request(permission: String)
 
     interface Listener {
         fun onPermissionGranted()
         fun onPermissionDenied()
-    }
-
-    enum class Result {
-        GRANTED, SHOW_RATIONALE, DENIED
     }
 }
 
@@ -50,30 +46,16 @@ internal class RuntimePermissionsImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : RuntimePermissions {
 
+    private var requestPermissionLauncher: ActivityResultLauncher<String>? = null
+
     override fun isGranted(permission: String): Boolean = ContextCompat.checkSelfPermission(
         context,
         permission
     ) == PackageManager.PERMISSION_GRANTED
 
-    override fun isGranted(
-        activity: ComponentActivity,
-        permission: String
-    ): Result = when {
-        ContextCompat.checkSelfPermission(
-            context,
-            permission
-        ) == PackageManager.PERMISSION_GRANTED -> Result.GRANTED
-        activity.shouldShowRequestPermissionRationale(permission) -> Result.SHOW_RATIONALE
-        else -> Result.DENIED
-    }
-
-    override fun request(
-        activity: ComponentActivity,
-        permission: String,
-        listener: RuntimePermissions.Listener
-    ) {
-        val requestPermissionLauncher =
-            activity.registerForActivityResult(
+    override fun setup(caller: ActivityResultCaller, listener: RuntimePermissions.Listener) {
+        requestPermissionLauncher =
+            caller.registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
             ) { isGranted: Boolean ->
                 if (isGranted) {
@@ -82,6 +64,11 @@ internal class RuntimePermissionsImpl @Inject constructor(
                     listener.onPermissionDenied()
                 }
             }
-        requestPermissionLauncher.launch(permission)
+    }
+
+    override fun request(permission: String) {
+        if (requestPermissionLauncher == null) throw IllegalStateException("Call setup before requesting permissions")
+
+        requestPermissionLauncher?.launch(permission)
     }
 }

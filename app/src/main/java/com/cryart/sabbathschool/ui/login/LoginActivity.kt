@@ -47,7 +47,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -140,25 +139,24 @@ class LoginActivity : AppCompatActivity() {
         if (isAtBelowApi(Build.VERSION_CODES.TIRAMISU)) {
             return
         }
-        when (runtimePermissions.isGranted(this, Manifest.permission.POST_NOTIFICATIONS)) {
-            RuntimePermissions.Result.GRANTED -> {
-                Timber.i("Notifications permission granted.")
-            }
-            RuntimePermissions.Result.SHOW_RATIONALE -> {
-                Timber.i("SHOW_RATIONALE for Notifications permission.")
-            }
-            RuntimePermissions.Result.DENIED -> runtimePermissions.request(
-                this,
-                Manifest.permission.POST_NOTIFICATIONS,
-                object : RuntimePermissions.Listener {
-                    override fun onPermissionGranted() {
-                        viewModel.handleNotificationsPermissionGranted()
+
+        with(runtimePermissions) {
+            if (!isGranted(Manifest.permission.POST_NOTIFICATIONS)) {
+                setup(
+                    this@LoginActivity,
+                    object : RuntimePermissions.Listener {
+                        override fun onPermissionGranted() {
+                            viewModel.handleNotificationsPermissionGranted()
+                        }
+
+                        override fun onPermissionDenied() {
+                            viewModel.handleNotificationsPermissionDenied()
+                        }
                     }
-                    override fun onPermissionDenied() {
-                        viewModel.handleNotificationsPermissionDenied()
-                    }
-                }
-            )
+                )
+
+                request(Manifest.permission.POST_NOTIFICATIONS)
+            }
         }
     }
 

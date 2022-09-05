@@ -29,6 +29,7 @@ import app.ss.auth.AuthResponse
 import app.ss.models.auth.SSUser
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.reminder.DailyReminderManager
@@ -50,6 +51,7 @@ class LoginViewModelTest {
     private val mockGoogleSignIn: GoogleSignInWrapper = mockk()
     private val mockReminderManager: DailyReminderManager = mockk()
     private val mockAuthRepository: AuthRepository = mockk()
+    private val mockPrefs: SSPrefs = mockk()
 
     private val dispatcherProvider: DispatcherProvider = TestDispatcherProvider()
 
@@ -63,7 +65,8 @@ class LoginViewModelTest {
             authRepository = mockAuthRepository,
             googleSignIn = mockGoogleSignIn,
             reminderManager = mockReminderManager,
-            dispatcherProvider = dispatcherProvider
+            dispatcherProvider = dispatcherProvider,
+            ssPrefs = mockPrefs
         )
     }
 
@@ -145,5 +148,23 @@ class LoginViewModelTest {
 
             verify { mockReminderManager.scheduleReminder() }
         }
+    }
+
+    @Test
+    fun handleNotificationsPermissionDenied() {
+        every { mockReminderManager.cancel() }.returns(Unit)
+
+        viewModel.handleNotificationsPermissionDenied()
+
+        verify { mockReminderManager.cancel() }
+    }
+
+    @Test
+    fun handleNotificationsPermissionGranted() {
+        every { mockPrefs.setReminderEnabled(true) }.returns(Unit)
+
+        viewModel.handleNotificationsPermissionGranted()
+
+        verify { mockPrefs.setReminderEnabled(true) }
     }
 }
