@@ -20,7 +20,6 @@
  * THE SOFTWARE.
  */
 
-
 plugins {
     id("com.android.library")
 }

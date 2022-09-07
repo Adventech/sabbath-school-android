@@ -45,8 +45,7 @@ joda-time = "2.11.0"
 jvmTarget = "11"
 kotlin = "1.7.10"
 kotlin-coroutines = "1.6.4"
-# @keep this version
-ktlint = "0.40.0"
+ktlint = "11.0.0"
 markwon = "4.6.2"
 orbital = "0.2.0"
 # @keep this version
@@ -139,7 +138,7 @@ kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", 
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-playservices = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlin-coroutines" }
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-ktlint = { module = "com.pinterest:ktlint", version.ref = "ktlint" }
+ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint" }
 markwon-core = { module = "io.noties.markwon:core", version.ref = "markwon" }
 orbital = { module = "com.github.skydoves:orbital", version.ref = "orbital" }
 paparazzi = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "cash-app-paparazzi" }
@@ -225,3 +224,4 @@ android-application = { id = "com.android.application", version.ref = "gradle-an
 android-library = { id = "com.android.library", version.ref = "gradle-android" }
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-versions" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }

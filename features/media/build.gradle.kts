@@ -43,7 +43,7 @@ android {
             }
         }
     }
-    
+
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"

@@ -27,7 +27,7 @@ media:
 pdf:
   - 'features/pdf/*'
 dependencies:
-  - 'buildSrc/src/main/kotlin/dependencies/*'
+  - 'gradle/libs.versions.toml'
 test:
   - any: ['*/src/test/*','*/src/androidTest/*']
 testing:

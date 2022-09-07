@@ -82,7 +82,6 @@ dependencies {
     implementation(libs.test.androidx.runner)
     implementation(libs.test.androidx.uiautomator)
     implementation(libs.test.junit)
-
 }
 
 androidComponents {
