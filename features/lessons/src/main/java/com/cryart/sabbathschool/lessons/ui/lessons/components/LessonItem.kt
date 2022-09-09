@@ -53,6 +53,7 @@ import org.joda.time.format.DateTimeFormat
 @Immutable
 data class LessonItemSpec(
     val index: String,
+    val displayIndex: String,
     val title: String,
     val date: String,
     val pdfOnly: Boolean
@@ -64,7 +65,8 @@ internal data class LessonItemsSpec(
 )
 
 internal fun SSLesson.toSpec(): LessonItemSpec = LessonItemSpec(
-    index = if (id.isDigitsOnly()) {
+    index = index,
+    displayIndex = if (id.isDigitsOnly()) {
         "${id.toInt()}"
     } else {
         "•"
@@ -120,7 +122,7 @@ private fun LessonItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = spec.index,
+            text = spec.displayIndex,
             style = MaterialTheme.typography.titleLarge,
             color = onSurfaceSecondary().copy(alpha = 0.5f),
             maxLines = 1,
@@ -169,7 +171,8 @@ private fun LessonItemPreview() {
         Surface {
             LessonItem(
                 spec = LessonItemSpec(
-                    index = "1",
+                    index = "index",
+                    displayIndex = "1",
                     title = "Lesson Title",
                     date = "June 25 - July 01",
                     pdfOnly = false

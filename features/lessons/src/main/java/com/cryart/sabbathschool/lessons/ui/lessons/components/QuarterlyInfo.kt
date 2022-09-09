@@ -90,7 +90,7 @@ internal fun LazyListScope.quarterlyInfo(
     info: QuarterlyInfoSpec,
     publishingInfo: PublishingInfoSpec?,
     scrollOffset: () -> Float,
-    onLessonClick: (LessonItemSpec) -> Unit = {}
+    onLessonClick: (LessonItemSpec) -> Unit
 ) {
     item {
         QuarterlyInfo(
@@ -98,7 +98,7 @@ internal fun LazyListScope.quarterlyInfo(
                 readClick = {
                     info.todayLessonIndex?.let index@{ index ->
                         val lesson = info.lessons.firstOrNull { it.index == index } ?: return@index
-                        onLessonClick(lesson.toSpec())
+                        onLessonClick(lesson)
                     }
                 }
             ),
