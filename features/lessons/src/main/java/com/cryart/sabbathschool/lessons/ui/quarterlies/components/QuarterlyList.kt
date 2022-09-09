@@ -41,8 +41,7 @@ import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
 import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterlySpec
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.spec
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.group
 
 interface QuarterlyListCallbacks {
     fun onReadClick(index: String)
@@ -72,7 +71,8 @@ internal fun QuarterlyList(
         state = state
     ) {
         when (quarterlies) {
-            GroupedQuarterlies.Empty -> { /* No op */ }
+            GroupedQuarterlies.Empty -> { /* No op */
+            }
             is GroupedQuarterlies.TypeGroup -> {
                 itemsIndexed(
                     quarterlies.data,
@@ -80,8 +80,7 @@ internal fun QuarterlyList(
                     itemContent = { index, model ->
                         val items = remember(model.group.name) {
                             model.quarterlies.map { quarterly ->
-                                quarterly.spec(
-                                    QuarterlySpec.Type.LARGE,
+                                quarterly.copy(
                                     onClick = {
                                         callbacks?.onReadClick(quarterly.index)
                                     }
@@ -97,7 +96,7 @@ internal fun QuarterlyList(
                             ),
                             modifier = Modifier.testTag("quarterlies:group")
                         ) {
-                            (callbacks as? QuarterliesGroupCallback)?.onSeeAllClick(model.group)
+                            (callbacks as? QuarterliesGroupCallback)?.onSeeAllClick(model.group.group())
                         }
                     }
                 )
@@ -105,7 +104,7 @@ internal fun QuarterlyList(
             is GroupedQuarterlies.TypeList -> {
                 items(
                     quarterlies.data,
-                    key = { spec -> spec.id }
+                    key = { it.id }
                 ) { spec ->
                     QuarterlyRow(
                         spec = spec,

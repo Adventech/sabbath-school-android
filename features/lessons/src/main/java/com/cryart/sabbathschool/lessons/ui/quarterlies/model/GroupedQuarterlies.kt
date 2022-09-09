@@ -23,7 +23,6 @@
 package com.cryart.sabbathschool.lessons.ui.quarterlies.model
 
 import androidx.compose.runtime.Immutable
-import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 
 @Immutable
@@ -34,13 +33,20 @@ sealed interface GroupedQuarterlies {
     @Immutable
     data class TypeGroup(val data: List<QuarterliesGroupModel>) : GroupedQuarterlies
 
+    @Immutable
     object Empty : GroupedQuarterlies
 }
 
 @Immutable
 data class QuarterliesGroupModel(
-    val group: QuarterlyGroup,
-    val quarterlies: List<SSQuarterly>
+    val group: QuarterlyGroupSpec,
+    val quarterlies: List<QuarterlySpec>
+)
+
+@Immutable
+data class QuarterlyGroupSpec(
+    val name: String,
+    val order: Int
 )
 
 private const val PLACEHOLDER_ID = "PLACEHOLDER_QUARTERLY"

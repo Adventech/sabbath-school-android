@@ -20,8 +20,6 @@
  * THE SOFTWARE.
  */
 
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import android.app.Activity
@@ -93,6 +91,7 @@ internal fun QuarterliesScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun QuarterliesScreen(
     state: QuarterliesUiState,
@@ -102,10 +101,12 @@ internal fun QuarterliesScreen(
     SsScaffold(
         topBar = {
             QuarterliesTopAppBar(
-                scrollBehavior = scrollBehavior,
-                type = callbacks,
                 title = state.title,
-                photoUrl = state.photoUrl,
+                spec = getTopAppBarSpec(type = callbacks),
+                navigationIcon = {
+                    NavIcon(photoUrl = state.photoUrl, type = callbacks)
+                },
+                scrollBehavior = scrollBehavior,
                 modifier = Modifier.windowInsetsPadding(
                     WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
                 )
@@ -131,78 +132,18 @@ internal fun QuarterliesScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun QuarterliesTopAppBar(
     title: String,
-    type: QuarterlyListCallbacks,
+    spec: TopAppBarSpec,
+    navigationIcon: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior? = null,
-    photoUrl: String? = null
 ) {
-    val navigationIcon: @Composable () -> Unit
-    val actions: List<IconButton>
-
-    when (type) {
-        is QuarterliesGroupCallback -> {
-            navigationIcon = {
-                ContentBox(
-                    content = RemoteImage(
-                        data = photoUrl,
-                        contentDescription = stringResource(id = RString.ss_about),
-                        loading = {
-                            Spacer(
-                                modifier = Modifier
-                                    .size(AccountImgSize)
-                                    .asPlaceholder(
-                                        visible = true,
-                                        shape = CircleShape
-                                    )
-                            )
-                        },
-                        error = {
-                            IconBox(
-                                icon = Icons.AccountCircle,
-                                modifier = Modifier
-                                    .size(AccountImgSize)
-                                    .clickable { type.profileClick() }
-                            )
-                        }
-                    ),
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .size(AccountImgSize)
-                        .clip(CircleShape)
-                        .clickable { type.profileClick() }
-                )
-            }
-            actions = listOf(
-                IconButton(
-                    imageVector = MaterialIcons.Rounded.Translate,
-                    contentDescription = stringResource(id = RString.ss_quarterlies_filter_languages),
-                    onClick = { type.filterLanguages() }
-                )
-            )
-        }
-        is QuarterliesListCallback -> {
-            navigationIcon = {
-                IconBox(
-                    icon = IconButton(
-                        imageVector = MaterialIcons.Rounded.ArrowBack,
-                        contentDescription = stringResource(id = RString.ss_action_back),
-                        onClick = { type.backNavClick() }
-                    )
-                )
-            }
-            actions = emptyList()
-        }
-        else -> return
-    }
 
     SsTopAppBar(
-        spec = TopAppBarSpec(
-            topAppBarType = TopAppBarType.Large,
-            actions = actions
-        ),
+        spec = spec,
         modifier = modifier,
         title = { Text(text = title) },
         navigationIcon = navigationIcon,
@@ -213,8 +154,75 @@ internal fun QuarterliesTopAppBar(
     )
 }
 
+@Composable
+private fun getTopAppBarSpec(
+    type: QuarterlyListCallbacks,
+) = TopAppBarSpec(
+    topAppBarType = TopAppBarType.Large,
+    actions = when (type) {
+        is QuarterliesGroupCallback -> listOf(
+            IconButton(
+                imageVector = MaterialIcons.Rounded.Translate,
+                contentDescription = stringResource(id = RString.ss_quarterlies_filter_languages),
+                onClick = { type.filterLanguages() }
+            )
+        )
+        else -> emptyList()
+    }
+)
+
+@Composable
+private fun NavIcon(
+    photoUrl: String?,
+    type: QuarterlyListCallbacks,
+) {
+    when (type) {
+        is QuarterliesGroupCallback -> {
+            ContentBox(
+                content = RemoteImage(
+                    data = photoUrl,
+                    contentDescription = stringResource(id = RString.ss_about),
+                    loading = {
+                        Spacer(
+                            modifier = Modifier
+                                .size(AccountImgSize)
+                                .asPlaceholder(
+                                    visible = true,
+                                    shape = CircleShape
+                                )
+                        )
+                    },
+                    error = {
+                        IconBox(
+                            icon = Icons.AccountCircle,
+                            modifier = Modifier
+                                .size(AccountImgSize)
+                                .clickable { type.profileClick() }
+                        )
+                    }
+                ),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .size(AccountImgSize)
+                    .clip(CircleShape)
+                    .clickable { type.profileClick() }
+            )
+        }
+        is QuarterliesListCallback -> {
+            IconBox(
+                icon = IconButton(
+                    imageVector = MaterialIcons.Rounded.ArrowBack,
+                    contentDescription = stringResource(id = RString.ss_action_back),
+                    onClick = { type.backNavClick() }
+                )
+            )
+        }
+    }
+}
+
 private val AccountImgSize = 32.dp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
     name = "Screen"
 )
@@ -233,12 +241,15 @@ private fun ScreenPreview() {
                 override fun onSeeAllClick(group: QuarterlyGroup) {
                     // do nothing
                 }
+
                 override fun profileClick() {
                     // do nothing
                 }
+
                 override fun filterLanguages() {
                     // do nothing
                 }
+
                 override fun onReadClick(index: String) {
                     // do nothing
                 }

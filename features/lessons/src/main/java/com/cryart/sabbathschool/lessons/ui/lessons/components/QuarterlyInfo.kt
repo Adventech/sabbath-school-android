@@ -74,7 +74,6 @@ import app.ss.design.compose.widget.button.SsButtonDefaults
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.text.ReadMoreText
-import app.ss.models.SSLesson
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesSpec
@@ -90,8 +89,8 @@ private enum class QuarterlyInfoType {
 internal fun LazyListScope.quarterlyInfo(
     info: QuarterlyInfoSpec,
     publishingInfo: PublishingInfoSpec?,
-    scrollOffset: Float,
-    onLessonClick: (SSLesson) -> Unit = {}
+    scrollOffset: () -> Float,
+    onLessonClick: (LessonItemSpec) -> Unit
 ) {
     item {
         QuarterlyInfo(
@@ -115,7 +114,7 @@ internal fun LazyListScope.quarterlyInfo(
 private fun QuarterlyInfo(
     spec: QuarterlyInfoSpec,
     modifier: Modifier = Modifier,
-    scrollOffset: Float = 0f,
+    scrollOffset: () -> Float = { 0f },
     isLargeScreen: Boolean = isLargeScreen()
 ) {
     val type = when {
@@ -174,7 +173,7 @@ private fun CoverBox(
     splashImage: String?,
     contentDescription: String,
     modifier: Modifier = Modifier,
-    scrollOffset: Float = 0f,
+    scrollOffset: () -> Float = { 0f },
     content: @Composable BoxScope.() -> Unit
 ) {
     val placeholder: @Composable () -> Unit = {
@@ -200,7 +199,7 @@ private fun CoverBox(
             ),
             modifier = Modifier
                 .graphicsLayer {
-                    translationY = scrollOffset * 0.5f
+                    translationY = scrollOffset() * 0.5f
                 }
         )
 

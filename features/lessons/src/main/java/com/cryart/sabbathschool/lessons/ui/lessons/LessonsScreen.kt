@@ -45,10 +45,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -66,7 +65,7 @@ import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.scaffold.SsScaffold
-import app.ss.models.SSLesson
+import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemsSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooterSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.footer
@@ -74,6 +73,7 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.lessons
 import com.cryart.sabbathschool.lessons.ui.lessons.components.loading
 import com.cryart.sabbathschool.lessons.ui.lessons.components.quarterlyInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.components.toSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.LessonIntroModel
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -84,47 +84,41 @@ fun LessonsScreen(
     state: LessonsScreenState,
     onNavClick: () -> Unit,
     onShareClick: (String) -> Unit,
-    onLessonClick: (SSLesson) -> Unit,
+    onLessonClick: (LessonItemSpec) -> Unit,
     onReadMoreClick: (LessonIntroModel) -> Unit
 ) {
+    val listState: LazyListState = rememberLazyListState()
+    val scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState)
+
     LessonsScreen(
         state = state,
+        listState = listState,
+        scrollAlpha = scrollAlpha,
         onNavClick = onNavClick,
         onShareClick = onShareClick,
         onLessonClick = onLessonClick,
         onReadMoreClick = onReadMoreClick,
-        systemUiController = rememberSystemUiController()
+        systemUiController = rememberSystemUiController(),
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun LessonsScreen(
     state: LessonsScreenState,
+    listState: LazyListState,
+    scrollAlpha: ScrollAlpha,
     onNavClick: () -> Unit = {},
     onShareClick: (String) -> Unit = {},
-    onLessonClick: (SSLesson) -> Unit = {},
+    onLessonClick: (LessonItemSpec) -> Unit = {},
     onReadMoreClick: (LessonIntroModel) -> Unit = {},
     systemUiController: SystemUiController? = null,
-    listState: LazyListState = rememberLazyListState(),
-    scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState)
+    isSystemInDarkTheme: Boolean = isSystemInDarkTheme(),
 ) {
-    val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val quarterlyInfo = when (state.quarterlyInfo) {
-        QuarterlyInfoState.Error,
-        QuarterlyInfoState.Loading -> null
-        is QuarterlyInfoState.Success -> state.quarterlyInfo.quarterlyInfo
-    }
-
-    val publishingInfo = when (state.publishingInfo) {
-        PublishingInfoState.Error,
-        PublishingInfoState.Loading -> null
-        is PublishingInfoState.Success -> state.publishingInfo.publishingInfo
-    }
-
-    val quarterlyTitle = quarterlyInfo?.quarterly?.title ?: ""
-
-    val alpha = if (scrollAlpha.alpha > MIN_SOLID_ALPHA) 1f else scrollAlpha.alpha
-    val elevation = if (scrollAlpha.alpha > MIN_SOLID_ALPHA) 4.dp else 0.dp
+    val quarterlyTitle = state.quarterlyTitle
+    val scrollCollapsed by remember { derivedStateOf { scrollAlpha.alpha > MIN_SOLID_ALPHA } }
+    val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
+    val iconTint by remember { derivedStateOf { Color.White.takeUnless { collapsed } } }
 
     SsScaffold(
         modifier = Modifier,
@@ -133,16 +127,15 @@ internal fun LessonsScreen(
                 modifier = Modifier
                     .fillMaxWidth(),
                 color = MaterialTheme.colorScheme.surface.copy(
-                    alpha = alpha
+                    alpha = if (scrollCollapsed) 1f else scrollAlpha.alpha
                 ),
-                tonalElevation = elevation
+                tonalElevation = if (scrollCollapsed) 4.dp else 0.dp
             ) {
                 LessonsTopBar(
                     title = quarterlyTitle,
+                    showTitle = collapsed,
+                    iconTint = iconTint,
                     modifier = Modifier,
-                    scrollAlpha = alpha,
-                    scrollBehavior = scrollBehavior,
-                    systemUiController = systemUiController,
                     onNavClick = onNavClick,
                     onShareClick = {
                         onShareClick(quarterlyTitle)
@@ -150,54 +143,33 @@ internal fun LessonsScreen(
                 )
             }
         },
-        scrollBehavior = scrollBehavior
     ) { innerPadding ->
 
-        LazyColumn(
-            contentPadding = PaddingValues(
-                innerPadding.calculateStartPadding(LayoutDirection.Ltr),
-                0.dp,
-                innerPadding.calculateEndPadding(LayoutDirection.Ltr),
-                innerPadding.calculateBottomPadding()
-            ),
-            modifier = Modifier,
-            state = listState
-        ) {
-            quarterlyInfo?.let { ssQuarterlyInfo ->
-                val quarterly = ssQuarterlyInfo.quarterly
-                quarterlyInfo(
-                    info = ssQuarterlyInfo.toSpec(
-                        readMoreClick = {
-                            onReadMoreClick(
-                                LessonIntroModel(
-                                    quarterly.title,
-                                    quarterly.introduction ?: quarterly.description
-                                )
-                            )
-                        }
-                    ),
-                    publishingInfo = publishingInfo?.toSpec(
-                        primaryColorHex = ssQuarterlyInfo.quarterly.color_primary
-                    ),
-                    scrollOffset = listState.firstVisibleItemScrollOffset.toFloat(),
-                    onLessonClick = onLessonClick
-                )
+        LessonsLazyColumn(
+            quarterlyInfoState = state.quarterlyInfo,
+            publishingInfoState = state.publishingInfo,
+            innerPadding = innerPadding,
+            listState = listState,
+            onLessonClick = onLessonClick,
+            onReadMoreClick = onReadMoreClick,
+            modifier = Modifier
+        )
+    }
 
-                lessons(
-                    lessonsSpec = LessonItemsSpec(ssQuarterlyInfo.lessons),
-                    onClick = onLessonClick
-                )
-
-                footer(
-                    spec = LessonsFooterSpec(
-                        credits = quarterlyInfo.quarterly.credits.map { it.toSpec() },
-                        features = quarterlyInfo.quarterly.features.map { it.toSpec() }
-                    )
-                )
-            } ?: run {
-                loading()
+    val useDarkIcons by remember {
+        derivedStateOf {
+            when {
+                isSystemInDarkTheme -> false
+                else -> collapsed
             }
         }
+    }
+
+    SideEffect {
+        systemUiController?.setStatusBarColor(
+            color = Color.Transparent,
+            darkIcons = useDarkIcons
+        )
     }
 }
 
@@ -205,12 +177,11 @@ internal fun LessonsScreen(
 @Composable
 private fun LessonsTopBar(
     title: String,
-    scrollBehavior: TopAppBarScrollBehavior,
+    showTitle: Boolean,
     modifier: Modifier = Modifier,
-    scrollAlpha: Float = 0.0f,
-    systemUiController: SystemUiController? = null,
+    iconTint: Color? = MaterialTheme.colorScheme.onSurface,
     onNavClick: () -> Unit = {},
-    onShareClick: () -> Unit = {}
+    onShareClick: () -> Unit = {},
 ) {
     SsTopAppBar(
         spec = TopAppBarSpec(
@@ -220,14 +191,14 @@ private fun LessonsTopBar(
                     imageVector = Icons.Rounded.Share,
                     contentDescription = stringResource(id = RString.ss_share),
                     onClick = onShareClick,
-                    tint = toolbarIconColor(alpha = scrollAlpha)
+                    tint = iconTint
                 )
             ).takeIf { title.isNotEmpty() } ?: emptyList()
         ),
         title = {
             val density = LocalDensity.current
             AnimatedVisibility(
-                visible = scrollAlpha == 1f,
+                visible = showTitle,
                 enter = slideInVertically {
                     with(density) { -40.dp.roundToPx() }
                 } + expandVertically(
@@ -252,45 +223,96 @@ private fun LessonsTopBar(
                     imageVector = Icons.Rounded.ArrowBack,
                     contentDescription = stringResource(id = RString.ss_action_back),
                     onClick = onNavClick,
-                    tint = toolbarIconColor(alpha = scrollAlpha)
+                    tint = iconTint
                 )
             )
         },
-        scrollBehavior = scrollBehavior,
+        scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
         colors = TopAppBarDefaults.smallTopAppBarColors(
             containerColor = Color.Transparent
         )
     )
-
-    val useDarkIcons = when {
-        isSystemInDarkTheme() -> false
-        else -> scrollAlpha > MIN_SOLID_ALPHA
-    }
-
-    SideEffect {
-        systemUiController?.setStatusBarColor(
-            color = Color.Transparent,
-            darkIcons = useDarkIcons
-        )
-    }
 }
 
-@Stable
 @Composable
-private fun toolbarIconColor(alpha: Float): Color {
-    return if (alpha > MIN_SOLID_ALPHA) MaterialTheme.colorScheme.onSurface
-    else Color.White
+private fun LessonsLazyColumn(
+    quarterlyInfoState: QuarterlyInfoState,
+    publishingInfoState: PublishingInfoState,
+    innerPadding: PaddingValues,
+    listState: LazyListState,
+    onLessonClick: (LessonItemSpec) -> Unit,
+    onReadMoreClick: (LessonIntroModel) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val quarterlyInfo = when (quarterlyInfoState) {
+        QuarterlyInfoState.Error,
+        QuarterlyInfoState.Loading -> null
+        is QuarterlyInfoState.Success -> quarterlyInfoState.quarterlyInfo
+    }
+
+    val publishingInfo = when (publishingInfoState) {
+        PublishingInfoState.Error,
+        PublishingInfoState.Loading -> null
+        is PublishingInfoState.Success -> publishingInfoState.publishingInfo
+    }
+
+    LazyColumn(
+        contentPadding = PaddingValues(
+            innerPadding.calculateStartPadding(LayoutDirection.Ltr),
+            0.dp,
+            innerPadding.calculateEndPadding(LayoutDirection.Ltr),
+            innerPadding.calculateBottomPadding()
+        ),
+        modifier = modifier,
+        state = listState
+    ) {
+
+        quarterlyInfo?.let { ssQuarterlyInfo ->
+            val quarterly = ssQuarterlyInfo.quarterly
+            quarterlyInfo(
+                info = ssQuarterlyInfo.toSpec(
+                    readMoreClick = {
+                        onReadMoreClick(
+                            LessonIntroModel(
+                                quarterly.title,
+                                quarterly.introduction ?: quarterly.description
+                            )
+                        )
+                    }
+                ),
+                publishingInfo = publishingInfo?.toSpec(
+                    primaryColorHex = ssQuarterlyInfo.quarterly.color_primary
+                ),
+                scrollOffset = { listState.firstVisibleItemScrollOffset.toFloat() },
+                onLessonClick = onLessonClick
+            )
+
+            lessons(
+                lessonsSpec = LessonItemsSpec(ssQuarterlyInfo.lessons.map { it.toSpec() }),
+                onClick = onLessonClick
+            )
+
+            footer(
+                spec = LessonsFooterSpec(
+                    credits = quarterlyInfo.quarterly.credits.map { it.toSpec() },
+                    features = quarterlyInfo.quarterly.features.map { it.toSpec() }
+                )
+            )
+        } ?: run {
+            loading()
+        }
+    }
 }
 
 private const val MIN_SOLID_ALPHA = 0.8f
 
-internal data class ScrollAlpha(
+@Immutable
+data class ScrollAlpha(
     val alpha: Float
 )
 
 @Composable
-@Stable
-internal fun rememberScrollAlpha(
+private fun rememberScrollAlpha(
     listState: LazyListState
 ): ScrollAlpha {
     val scrollAlpha by remember {

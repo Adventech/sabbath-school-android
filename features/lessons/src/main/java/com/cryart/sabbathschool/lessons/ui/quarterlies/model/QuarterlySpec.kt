@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.parse
+import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 
 @Immutable
@@ -76,6 +77,14 @@ internal fun SSQuarterly.spec(
     isPlaceholder = isPlaceholder,
     type,
     onClick
+)
+
+internal fun QuarterlyGroup.spec() = QuarterlyGroupSpec(
+    name, order
+)
+
+internal fun QuarterlyGroupSpec.group() = QuarterlyGroup(
+    name, order
 )
 
 @Immutable

@@ -50,6 +50,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -77,23 +78,22 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterlySpec
 @Composable
 private fun CoverBox(
     modifier: Modifier = Modifier,
-    type: QuarterlySpec.Type,
-    color: Color,
+    spec: QuarterlySpec,
     isLargeScreen: Boolean = isLargeScreen(),
     content: @Composable () -> Unit
 ) {
     Box(
         modifier = modifier
             .size(
-                type.width(isLargeScreen),
-                type.height(isLargeScreen)
+                spec.type.width(isLargeScreen),
+                spec.type.height(isLargeScreen)
             )
             .padding(Dimens.grid_1)
     ) {
         Surface(
             modifier = Modifier
                 .fillMaxSize(),
-            color = color,
+            color = spec.color,
             elevation = Spacing8,
             shape = RoundedCornerShape(Spacing8),
             content = content
@@ -272,8 +272,7 @@ private fun QuarterlyCover(
         )
     }
     CoverBox(
-        type = spec.type,
-        color = spec.color,
+        spec = spec,
         modifier = modifier
     ) {
         ContentBox(
@@ -307,7 +306,7 @@ internal fun GroupedQuarterliesColumn(
             contentPadding = PaddingValues(horizontal = Dimens.grid_4),
             horizontalArrangement = Arrangement.spacedBy(Dimens.grid_4)
         ) {
-            items(spec.items, key = { spec -> spec.id }) { item ->
+            items(spec.items, key = { it.id }) { item ->
                 QuarterlyColumn(
                     spec = item,
                     modifier = Modifier
@@ -371,14 +370,17 @@ private fun Modifier.groupBackground(
     if (darkTheme || lastIndex) {
         Modifier
     } else {
-        Modifier.background(
-            Brush.verticalGradient(
-                colors = listOf(
-                    Color.White,
-                    SsColor.OffWhite.copy(alpha = 0.2f)
+        Modifier
+            .drawBehind {
+                drawRect(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.White,
+                            SsColor.OffWhite.copy(alpha = 0.2f)
+                        )
+                    )
                 )
-            )
-        )
+            }
     }
 )
 
