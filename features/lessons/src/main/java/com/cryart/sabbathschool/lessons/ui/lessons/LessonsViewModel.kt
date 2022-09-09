@@ -30,7 +30,6 @@ import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.LessonPdf
 import app.ss.models.PublishingInfo
-import app.ss.models.SSLesson
 import app.ss.models.SSQuarterlyInfo
 import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
@@ -120,11 +119,11 @@ class LessonsViewModel @Inject constructor(
         ssPrefs.getDisplayOptions { }
     }
 
-    fun pdfLessonSelected(lesson: SSLesson) = viewModelScope.launch {
-        val resource = lessonsRepository.getLessonInfo(lesson.index)
+    fun pdfLessonSelected(lessonIndex: String) = viewModelScope.launch {
+        val resource = lessonsRepository.getLessonInfo(lessonIndex)
         if (resource.isSuccessFul) {
             val data = resource.data
-            _selectedPdfs.emit(lesson.index to (data?.pdfs ?: emptyList()))
+            _selectedPdfs.emit(lessonIndex to (data?.pdfs ?: emptyList()))
         }
     }
 }

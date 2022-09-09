@@ -20,12 +20,9 @@
  * THE SOFTWARE.
  */
 
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -57,12 +54,13 @@ import org.joda.time.format.DateTimeFormat
 data class LessonItemSpec(
     val index: String,
     val title: String,
-    val date: String
+    val date: String,
+    val pdfOnly: Boolean
 )
 
 @Immutable
-data class LessonItemsSpec(
-    val lessons: List<SSLesson>
+internal data class LessonItemsSpec(
+    val lessons: List<LessonItemSpec>
 )
 
 internal fun SSLesson.toSpec(): LessonItemSpec = LessonItemSpec(
@@ -72,7 +70,8 @@ internal fun SSLesson.toSpec(): LessonItemSpec = LessonItemSpec(
         "•"
     },
     title = title,
-    date = dateDisplay()
+    date = dateDisplay(),
+    pdfOnly = pdfOnly
 )
 
 private fun SSLesson.dateDisplay(): String {
@@ -93,17 +92,16 @@ private fun SSLesson.dateDisplay(): String {
 
 internal fun LazyListScope.lessons(
     lessonsSpec: LessonItemsSpec,
-    onClick: (SSLesson) -> Unit
+    onClick: (LessonItemSpec) -> Unit
 ) {
     items(
         lessonsSpec.lessons,
-        key = { spec -> spec.index }
+        key = { it.index }
     ) { item ->
         Surface {
             LessonItem(
-                spec = item.toSpec(),
+                spec = item,
                 modifier = Modifier
-                    .animateItemPlacement()
                     .clickable { onClick(item) }
             )
 
@@ -173,7 +171,8 @@ private fun LessonItemPreview() {
                 spec = LessonItemSpec(
                     index = "1",
                     title = "Lesson Title",
-                    date = "June 25 - July 01"
+                    date = "June 25 - July 01",
+                    pdfOnly = false
                 )
             )
         }

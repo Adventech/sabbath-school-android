@@ -86,7 +86,7 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
                     },
                     onLessonClick = { lesson ->
                         if (lesson.pdfOnly) {
-                            viewModel.pdfLessonSelected(lesson)
+                            viewModel.pdfLessonSelected(lesson.index)
                         } else {
                             val ssReadingIntent = SSReadingActivity.launchIntent(this, lesson.index)
                             startActivity(ssReadingIntent)

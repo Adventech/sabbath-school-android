@@ -93,6 +93,7 @@ internal fun QuarterliesScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun QuarterliesScreen(
     state: QuarterliesUiState,
@@ -131,6 +132,7 @@ internal fun QuarterliesScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun QuarterliesTopAppBar(
     title: String,

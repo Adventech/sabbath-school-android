@@ -84,7 +84,7 @@ internal fun LazyListScope.footer(
         )
     }
 
-    items(spec.features, key = { feature -> feature.name }) { feature ->
+    items(spec.features, key = { it.name }) { feature ->
         FooterItem(
             title = feature.title,
             description = feature.description,
@@ -94,7 +94,7 @@ internal fun LazyListScope.footer(
         )
     }
 
-    items(spec.credits, key = { credit -> credit.name }) { credit ->
+    items(spec.credits, key = { it.name }) { credit ->
         FooterItem(
             title = credit.name,
             description = credit.value,
@@ -109,7 +109,9 @@ internal fun LazyListScope.footer(
             style = MaterialTheme.typography.bodySmall.copy(
                 fontSize = 15.sp
             ),
-            color = foregroundColor(),
+            color = if (isSystemInDarkTheme()) {
+                SsColor.BaseGrey3
+            } else SsColor.BaseGrey2,
             modifier = Modifier
                 .fillMaxWidth()
                 .background(backgroundColor())
@@ -144,12 +146,6 @@ internal fun LazyListScope.footer(
 private fun backgroundColor(): Color = if (isSystemInDarkTheme()) {
     Color.Black.lighter()
 } else SsColor.BaseGrey1
-
-@Composable
-@Stable
-fun foregroundColor(): Color = if (isSystemInDarkTheme()) {
-    SsColor.BaseGrey3
-} else SsColor.BaseGrey2
 
 private val year: String = "© ${Calendar.getInstance().get(Calendar.YEAR)}"
 
