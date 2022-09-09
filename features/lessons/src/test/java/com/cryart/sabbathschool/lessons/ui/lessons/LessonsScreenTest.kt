@@ -72,7 +72,13 @@ class LessonsScreenTest {
         )
         paparazzi.snapshot {
             SsTheme {
-                LessonsScreen(state = state)
+                LessonsScreen(
+                    state = state,
+                    onNavClick = {},
+                    onShareClick = {},
+                    onLessonClick = {},
+                    onReadMoreClick = {}
+                )
             }
         }
     }
