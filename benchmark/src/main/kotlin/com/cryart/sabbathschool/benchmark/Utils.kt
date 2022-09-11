@@ -20,28 +20,6 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.widget.button
+package com.cryart.sabbathschool.benchmark
 
-import androidx.compose.material3.ButtonColors
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.graphics.Color
-
-class SsButtonColors(
-    private val containerColor: Color,
-    private val contentColor: Color = Color.White,
-    private val disabledContainerColor: Color = containerColor.copy(0.4f),
-    private val disabledContentColor: Color = Color.White.copy(0.4f)
-) : ButtonColors {
-
-    @Composable
-    override fun containerColor(enabled: Boolean): State<Color> {
-        return rememberUpdatedState(if (enabled) containerColor else disabledContainerColor)
-    }
-
-    @Composable
-    override fun contentColor(enabled: Boolean): State<Color> {
-        return rememberUpdatedState(if (enabled) contentColor else disabledContentColor)
-    }
-}
+const val PACKAGE_NAME = "com.cryart.sabbathschool"

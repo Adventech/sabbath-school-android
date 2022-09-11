@@ -85,7 +85,7 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        val release by getting {
             isShrinkResources = true
             isMinifyEnabled = true
             proguardFiles("proguard-rules.pro")
@@ -94,6 +94,17 @@ android {
             }
 
             ndk { debugSymbolLevel = "FULL" }
+        }
+
+        val benchmark by creating {
+            // Enable all the optimizations from release build through initWith(release).
+            initWith(release)
+            matchingFallbacks.add("release")
+            // Debug key signing is available to everyone.
+            signingConfig = signingConfigs.getByName("debug")
+            // Only use benchmark proguard rules
+            proguardFiles("benchmark-proguard-rules.pro")
+            isMinifyEnabled = true
         }
     }
 
@@ -128,7 +139,6 @@ android {
         resources.excludes += "/META-INF/AL2.0"
         resources.excludes += "/META-INF/LGPL2.1"
     }
-
 }
 
 dependencies {
@@ -138,6 +148,7 @@ dependencies {
     implementation(projects.common.designCompose)
     implementation(projects.common.lessonsData)
     implementation(projects.common.network)
+    implementation(projects.common.runtimePermissions)
     implementation(projects.common.storage)
     implementation(projects.common.translations)
     implementation(projects.features.appWidgets)
@@ -159,6 +170,7 @@ dependencies {
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.startup)
     implementation(libs.androidx.work)
     implementation(libs.androidx.hilt.work)

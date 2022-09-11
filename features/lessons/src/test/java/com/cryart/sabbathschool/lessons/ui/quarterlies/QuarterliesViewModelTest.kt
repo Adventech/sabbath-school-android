@@ -103,9 +103,14 @@ class QuarterliesViewModelTest {
 
     @Test
     fun `should update selected language`() {
+        every { mockSSPrefs.setLastQuarterlyIndex(null) }.returns(Unit)
+
         viewModel.languageSelected("de")
 
-        verify { mockSSPrefs.setLanguageCode("de") }
+        verify {
+            mockSSPrefs.setLanguageCode("de")
+            mockSSPrefs.setLastQuarterlyIndex(null)
+        }
     }
 
     @Test

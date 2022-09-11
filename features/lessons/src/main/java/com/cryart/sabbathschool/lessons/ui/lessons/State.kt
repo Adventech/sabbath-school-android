@@ -47,3 +47,6 @@ data class LessonsScreenState(
     val quarterlyInfo: QuarterlyInfoState = QuarterlyInfoState.Loading,
     val publishingInfo: PublishingInfoState = PublishingInfoState.Loading
 )
+
+internal val LessonsScreenState.quarterlyTitle: String get() =
+    (quarterlyInfo as? QuarterlyInfoState.Success)?.quarterlyInfo?.quarterly?.title ?: ""

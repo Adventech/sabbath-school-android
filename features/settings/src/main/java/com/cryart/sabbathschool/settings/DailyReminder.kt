@@ -29,4 +29,6 @@ interface DailyReminder {
     fun reSchedule()
 
     fun showNotification(context: Context)
+
+    fun cancel()
 }

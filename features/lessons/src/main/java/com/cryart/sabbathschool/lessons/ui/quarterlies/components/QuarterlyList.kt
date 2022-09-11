@@ -35,14 +35,13 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
 import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroupModel
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterlySpec
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.spec
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.group
 
 interface QuarterlyListCallbacks {
     fun onReadClick(index: String)
@@ -60,51 +59,52 @@ interface QuarterliesListCallback : QuarterlyListCallbacks {
 
 @Composable
 internal fun QuarterlyList(
-    data: GroupedQuarterlies,
+    quarterlies: GroupedQuarterlies,
     modifier: Modifier = Modifier,
     callbacks: QuarterlyListCallbacks? = null,
     state: LazyListState = rememberLazyListState()
 ) {
     LazyColumn(
         modifier = modifier
-            .drawVerticalScrollbar(state),
+            .drawVerticalScrollbar(state)
+            .testTag("quarterlies:list"),
         state = state
     ) {
-        when (data) {
-            GroupedQuarterlies.Empty -> { /* No op */ }
+        when (quarterlies) {
+            GroupedQuarterlies.Empty -> { /* No op */
+            }
             is GroupedQuarterlies.TypeGroup -> {
-                val groupData = data.data
                 itemsIndexed(
-                    groupData,
-                    key = { _: Int, item: QuarterliesGroupModel -> item.group.name }
-                ) { index, model ->
+                    quarterlies.data,
+                    key = { _, model -> model.group.name },
+                    itemContent = { index, model ->
+                        val items = remember(model.group.name) {
+                            model.quarterlies.map { quarterly ->
+                                quarterly.copy(
+                                    onClick = {
+                                        callbacks?.onReadClick(quarterly.index)
+                                    }
+                                )
+                            }
+                        }
 
-                    val items = remember(model.group.name) {
-                        model.quarterlies.map { quarterly ->
-                            quarterly.spec(
-                                QuarterlySpec.Type.LARGE,
-                                onClick = {
-                                    callbacks?.onReadClick(quarterly.index)
-                                }
-                            )
+                        GroupedQuarterliesColumn(
+                            spec = GroupedQuarterliesSpec(
+                                title = model.group.name,
+                                items = items,
+                                index == quarterlies.data.lastIndex
+                            ),
+                            modifier = Modifier.testTag("quarterlies:group")
+                        ) {
+                            (callbacks as? QuarterliesGroupCallback)?.onSeeAllClick(model.group.group())
                         }
                     }
-
-                    GroupedQuarterliesColumn(
-                        spec = GroupedQuarterliesSpec(
-                            title = model.group.name,
-                            items = items,
-                            index == groupData.lastIndex
-                        )
-                    ) {
-                        (callbacks as? QuarterliesGroupCallback)?.onSeeAllClick(model.group)
-                    }
-                }
+                )
             }
             is GroupedQuarterlies.TypeList -> {
                 items(
-                    data.data,
-                    key = { item -> item.id }
+                    quarterlies.data,
+                    key = { it.id }
                 ) { spec ->
                     QuarterlyRow(
                         spec = spec,

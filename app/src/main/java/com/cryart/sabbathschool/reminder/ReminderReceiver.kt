@@ -22,19 +22,31 @@
 
 package com.cryart.sabbathschool.reminder
 
+import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import app.ss.runtime.permissions.RuntimePermissions
+import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ReminderReceiver : BroadcastReceiver() {
 
-    @Inject lateinit var dailyReminderManager: DailyReminderManager
+    @Inject
+    lateinit var dailyReminderManager: DailyReminderManager
+
+    @Inject
+    lateinit var runtimePermissions: RuntimePermissions
 
     override fun onReceive(context: Context, intent: Intent) {
-        dailyReminderManager.showNotification(context)
-        dailyReminderManager.reSchedule()
+        if (isAtLeastApi(Build.VERSION_CODES.TIRAMISU) && runtimePermissions.isGranted(Manifest.permission.POST_NOTIFICATIONS).not()) {
+            dailyReminderManager.cancel()
+        } else {
+            dailyReminderManager.showNotification(context)
+            dailyReminderManager.reSchedule()
+        }
     }
 }

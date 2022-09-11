@@ -1,12 +1,12 @@
 [versions]
 androidx-activity = "1.5.1"
 androidx-annotations = "1.4.0"
-androidx-appcompat = "1.5.0"
+androidx-appcompat = "1.6.0-beta01"
 androidx-browser = "1.4.0"
-androidx-compose = "1.2.1"
+androidx-compose = "1.3.0-beta01"
 androidx-compose-compiler = "1.3.0"
 androidx-compose-constraintlayout = "1.0.1"
-androidx-compose-material3 = "1.0.0-alpha14"
+androidx-compose-material3 = "1.0.0-beta01"
 androidx-constraintlayout = "2.1.4"
 androidx-core = "1.8.0"
 # @keep this version
@@ -20,6 +20,7 @@ androidx-lifecyle = "2.6.0-alpha01"
 androidx-lifecyle-ext = "2.2.0"
 androidx-media = "1.6.0"
 androidx-preference = "1.2.0"
+androidx-profileinstaller = "1.2.0-rc01"
 androidx-recyclerview = "1.2.1"
 androidx-room = "2.4.3"
 androidx-savedstate = "1.2.0"
@@ -29,7 +30,7 @@ appVersion = "4.12.0"
 cash-app-paparazzi = "1.0.0"
 cash-app-turbine = "0.9.0"
 coil = "2.2.0"
-google-accompanist = "0.25.1"
+google-accompanist = "0.26.2-beta"
 google-exoplayer = "2.18.1"
 google-hilt = "2.43.2"
 google-material = "1.6.1"
@@ -44,8 +45,7 @@ joda-time = "2.11.0"
 jvmTarget = "11"
 kotlin = "1.7.10"
 kotlin-coroutines = "1.6.4"
-# @keep this version
-ktlint = "0.40.0"
+ktlint = "11.0.0"
 markwon = "4.6.2"
 orbital = "0.2.0"
 # @keep this version
@@ -58,7 +58,10 @@ tapTarget = "3.3.2"
 test-androidx = "1.4.0"
 test-androidx-archcore = "2.1.0"
 test-androidx-espresso = "3.4.0"
+test-androidx-benchmark = "1.2.0-alpha01"
+test-androidx-benchmark-macro = "1.1.0"
 test-androidx-ext = "1.1.3"
+test-androidx-uiautomator = "2.2.0"
 test-junit = "4.13.2"
 test-kluent = "1.68"
 test-mockk = "1.12.7"
@@ -103,6 +106,7 @@ androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmode
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecyle" }
 androidx-media = { module = "androidx.media:media", version.ref = "androidx-media" }
 androidx-preference = { module = "androidx.preference:preference-ktx", version.ref = "androidx-preference" }
+androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "androidx-profileinstaller" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recyclerview" }
 androidx-room = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
@@ -134,7 +138,7 @@ kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", 
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-playservices = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlin-coroutines" }
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-ktlint = { module = "com.pinterest:ktlint", version.ref = "ktlint" }
+ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint" }
 markwon-core = { module = "io.noties.markwon:core", version.ref = "markwon" }
 orbital = { module = "com.github.skydoves:orbital", version.ref = "orbital" }
 paparazzi = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "cash-app-paparazzi" }
@@ -148,6 +152,8 @@ square-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "s
 square-retrofit-converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "square-retrofit" }
 tapTarget = { module = "uk.co.samuelwall:material-tap-target-prompt", version.ref = "tapTarget" }
 test-androidx-archcore = { module = "androidx.arch.core:core-testing", version.ref = "test-androidx-archcore" }
+test-androidx-benchmark = { module = "androidx.benchmark:benchmark-junit4", version.ref = "test-androidx-benchmark" }
+test-androidx-benchmark-macro = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "test-androidx-benchmark-macro" }
 test-androidx-core = { module = "androidx.test:core", version.ref = "test-androidx" }
 test-androidx-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "test-androidx-espresso" }
 test-androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "test-androidx-espresso" }
@@ -155,6 +161,7 @@ test-androidx-espresso-intents = { module = "androidx.test.espresso:espresso-int
 test-androidx-ext = { module = "androidx.test.ext:junit", version.ref = "test-androidx-ext" }
 test-androidx-rules = { module = "androidx.test:rules", version.ref = "test-androidx" }
 test-androidx-runner = { module = "androidx.test:runner", version.ref = "test-androidx" }
+test-androidx-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "test-androidx-uiautomator" }
 test-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 test-google-hilt = { module = "com.google.dagger:hilt-android-testing", version.ref = "google-hilt" }
 test-junit = { module = "junit:junit", version.ref = "test-junit" }
@@ -217,3 +224,4 @@ android-application = { id = "com.android.application", version.ref = "gradle-an
 android-library = { id = "com.android.library", version.ref = "gradle-android" }
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-versions" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
