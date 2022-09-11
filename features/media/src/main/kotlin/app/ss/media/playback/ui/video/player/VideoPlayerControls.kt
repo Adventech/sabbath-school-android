@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.Surface
@@ -66,7 +67,11 @@ fun VideoPlayerControls(
     val progressState by videoPlayer.playbackProgress.collectAsStateWithLifecycle()
 
     Surface(color = Color.Black.copy(0.6f)) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .systemBarsPadding()
+        ) {
             TopBar(
                 onClose = onClose,
                 onEnterPiP = onEnterPiP
