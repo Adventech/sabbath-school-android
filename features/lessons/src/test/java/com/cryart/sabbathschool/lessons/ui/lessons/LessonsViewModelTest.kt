@@ -182,7 +182,7 @@ class LessonsViewModelTest {
             .returns(Resource.success(mockLessonInfo))
 
         viewModel.selectedPdfsFlow.test {
-            viewModel.pdfLessonSelected(lesson)
+            viewModel.pdfLessonSelected(lesson.index)
 
             awaitItem() shouldBeEqualTo (lessonIndex to lessonPdfs)
         }

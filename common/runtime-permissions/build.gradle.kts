@@ -20,23 +20,28 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.extensions.flow
+plugins {
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+}
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import kotlinx.coroutines.flow.Flow
+android {
+    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
 
-@Composable
-fun <T> rememberFlowWithLifecycle(
-    flow: Flow<T>,
-    lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
-    minActiveState: Lifecycle.State = Lifecycle.State.STARTED
-): Flow<T> = remember(flow, lifecycle) {
-    flow.flowWithLifecycle(
-        lifecycle = lifecycle,
-        minActiveState = minActiveState
-    )
+    defaultConfig {
+        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
+    }
+
+    kotlinOptions {
+        jvmTarget = libs.versions.jvmTarget.get()
+    }
+}
+
+dependencies {
+    implementation(libs.androidx.activity)
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
+    implementation(libs.timber)
 }

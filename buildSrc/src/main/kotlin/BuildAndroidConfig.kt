@@ -3,15 +3,15 @@ object BuildAndroidConfig {
     const val KEYSTORE_PROPS_FILE = "../release/keystore.properties"
     const val API_KEYS_PROPS_FILE = "release/ss_public_keys.properties"
 
-    const val COMPILE_SDK_VERSION = 32
+    const val COMPILE_SDK_VERSION = 33
     const val MIN_SDK_VERSION = 21
-    const val TARGET_SDK_VERSION = 32
+    const val TARGET_SDK_VERSION = 33
 
     const val TEST_INSTRUMENTATION_RUNNER = "com.cryart.sabbathschool.SSAppTestRunner"
 
     object Version {
         private const val MAJOR = 4
-        private const val MINOR = 12
+        private const val MINOR = 15
         private const val PATCH = 0
 
         const val name = "$MAJOR.$MINOR.$PATCH"

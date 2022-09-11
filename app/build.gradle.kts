@@ -85,7 +85,7 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        val release by getting {
             isShrinkResources = true
             isMinifyEnabled = true
             proguardFiles("proguard-rules.pro")
@@ -94,6 +94,17 @@ android {
             }
 
             ndk { debugSymbolLevel = "FULL" }
+        }
+
+        val benchmark by creating {
+            // Enable all the optimizations from release build through initWith(release).
+            initWith(release)
+            matchingFallbacks.add("release")
+            // Debug key signing is available to everyone.
+            signingConfig = signingConfigs.getByName("debug")
+            // Only use benchmark proguard rules
+            proguardFiles("benchmark-proguard-rules.pro")
+            isMinifyEnabled = true
         }
     }
 
@@ -128,25 +139,25 @@ android {
         resources.excludes += "/META-INF/AL2.0"
         resources.excludes += "/META-INF/LGPL2.1"
     }
-
 }
 
 dependencies {
-    implementation(project(":common:auth"))
-    implementation(project(":common:core"))
-    implementation(project(":common:design"))
-    implementation(project(":common:design-compose"))
-    implementation(project(":common:lessons-data"))
-    implementation(project(":common:network"))
-    implementation(project(":common:storage"))
-    implementation(project(":common:translations"))
-    implementation(project(":features:app-widgets"))
-    implementation(project(":features:account"))
-    implementation(project(":features:bible"))
-    implementation(project(":features:lessons"))
-    implementation(project(":features:media"))
-    implementation(project(":features:pdf"))
-    implementation(project(":features:settings"))
+    implementation(projects.common.auth)
+    implementation(projects.common.core)
+    implementation(projects.common.design)
+    implementation(projects.common.designCompose)
+    implementation(projects.common.lessonsData)
+    implementation(projects.common.network)
+    implementation(projects.common.runtimePermissions)
+    implementation(projects.common.storage)
+    implementation(projects.common.translations)
+    implementation(projects.features.appWidgets)
+    implementation(projects.features.account)
+    implementation(projects.features.bible)
+    implementation(projects.features.lessons)
+    implementation(projects.features.media)
+    implementation(projects.features.pdf)
+    implementation(projects.features.settings)
 
     implementation(libs.kotlin.coroutines)
     implementation(libs.kotlin.coroutines.android)
@@ -159,6 +170,7 @@ dependencies {
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.startup)
     implementation(libs.androidx.work)
     implementation(libs.androidx.hilt.work)
@@ -174,11 +186,11 @@ dependencies {
     implementation(libs.joda.android)
 
     testImplementation(libs.bundles.testing.common)
-    testImplementation(project(":libraries:test_utils"))
+    testImplementation(projects.libraries.testUtils)
     kaptTest(libs.google.hilt.compiler)
     androidTestImplementation(libs.bundles.testing.android.common)
     kaptAndroidTest(libs.google.hilt.compiler)
-    androidTestImplementation(project(":libraries:test_utils"))
+    androidTestImplementation(projects.libraries.testUtils)
     androidTestImplementation(libs.test.androidx.espresso.contrib) {
         exclude(group = "org.checkerframework", module = "checker")
     }

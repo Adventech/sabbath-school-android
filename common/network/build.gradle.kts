@@ -34,7 +34,6 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
-
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
@@ -42,7 +41,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":common:core"))
+    implementation(projects.common.core)
 
     implementation(libs.kotlin.coroutines)
     implementation(libs.kotlin.coroutines.android)

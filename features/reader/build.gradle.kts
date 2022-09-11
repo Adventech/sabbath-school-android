@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":common:core"))
+    implementation(projects.common.core)
 
     implementation(libs.timber)
 }

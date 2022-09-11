@@ -20,11 +20,8 @@
  * THE SOFTWARE.
  */
 
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -48,6 +45,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,6 +53,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -71,11 +70,10 @@ import app.ss.design.compose.theme.SsColor
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.button.ButtonSpec
 import app.ss.design.compose.widget.button.SsButton
-import app.ss.design.compose.widget.button.SsButtonColors
+import app.ss.design.compose.widget.button.SsButtonDefaults
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.text.ReadMoreText
-import app.ss.models.SSLesson
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesSpec
@@ -91,8 +89,8 @@ private enum class QuarterlyInfoType {
 internal fun LazyListScope.quarterlyInfo(
     info: QuarterlyInfoSpec,
     publishingInfo: PublishingInfoSpec?,
-    scrollOffset: Float,
-    onLessonClick: (SSLesson) -> Unit = {}
+    scrollOffset: () -> Float,
+    onLessonClick: (LessonItemSpec) -> Unit
 ) {
     item {
         QuarterlyInfo(
@@ -105,7 +103,7 @@ internal fun LazyListScope.quarterlyInfo(
                 }
             ),
             scrollOffset = scrollOffset,
-            modifier = Modifier.animateItemPlacement()
+            modifier = Modifier
         )
     }
 
@@ -116,7 +114,7 @@ internal fun LazyListScope.quarterlyInfo(
 private fun QuarterlyInfo(
     spec: QuarterlyInfoSpec,
     modifier: Modifier = Modifier,
-    scrollOffset: Float = 0f,
+    scrollOffset: () -> Float = { 0f },
     isLargeScreen: Boolean = isLargeScreen()
 ) {
     val type = when {
@@ -175,7 +173,7 @@ private fun CoverBox(
     splashImage: String?,
     contentDescription: String,
     modifier: Modifier = Modifier,
-    scrollOffset: Float = 0f,
+    scrollOffset: () -> Float = { 0f },
     content: @Composable BoxScope.() -> Unit
 ) {
     val placeholder: @Composable () -> Unit = {
@@ -201,7 +199,7 @@ private fun CoverBox(
             ),
             modifier = Modifier
                 .graphicsLayer {
-                    translationY = scrollOffset * 0.5f
+                    translationY = scrollOffset() * 0.5f
                 }
         )
 
@@ -216,14 +214,16 @@ private fun ContentPrimary(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val gradient = Brush.verticalGradient(
-        colors = listOf(
-            Color.Transparent,
-            Color.Black.copy(0.1f),
-            primaryColor,
-            primaryDarkColor
+    val gradient = remember(primaryColor.toArgb()) {
+        Brush.verticalGradient(
+            colors = listOf(
+                Color.Transparent,
+                Color.Black.copy(0.1f),
+                primaryColor,
+                primaryDarkColor
+            )
         )
-    )
+    }
 
     ConstraintLayout(modifier = modifier) {
         val container = createRef()
@@ -365,7 +365,7 @@ private fun ColumnScope.Content(
         SsButton(
             spec = ButtonSpec(
                 text = stringResource(id = R.string.ss_lessons_read),
-                colors = SsButtonColors(
+                colors = SsButtonDefaults.colors(
                     containerColor = Color.parse(spec.colorDark)
                 ),
                 onClick = spec.readClick

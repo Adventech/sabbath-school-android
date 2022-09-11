@@ -28,15 +28,19 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.SideEffect
 import androidx.core.view.WindowCompat
 import app.ss.design.compose.theme.SsTheme
 import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
+import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesScreen
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesListCallback
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -46,11 +50,16 @@ class QuarterliesListActivity : SlidingActivity(), QuarterliesListCallback {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
+            val systemUiController = rememberSystemUiController()
             SsTheme(
                 windowWidthSizeClass = calculateWindowSizeClass(activity = this).widthSizeClass
             ) {
-                // QuarterliesScreen(callbacks = this)
-                AnimPlaygroundScreen()
+                QuarterliesScreen(callbacks = this)
+
+                val navigationBarColor = MaterialTheme.colorScheme.surface
+                SideEffect {
+                    systemUiController.setNavigationBarColor(navigationBarColor)
+                }
             }
         }
     }

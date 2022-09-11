@@ -36,7 +36,8 @@ class SSPrefsImplTest {
         impl = SSPrefsImpl(
             mockDataStore,
             mockSharedPreferences,
-            CoroutineScope(testDispatcherProvider.testDispatcher)
+            CoroutineScope(testDispatcherProvider.testDispatcher),
+            mockk()
         )
     }
 

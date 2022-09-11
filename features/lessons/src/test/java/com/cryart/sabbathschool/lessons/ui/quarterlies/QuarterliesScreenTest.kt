@@ -27,11 +27,11 @@ import app.cash.paparazzi.Paparazzi
 import app.ss.design.compose.extensions.surface.ThemeSurface
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroupCallback
-import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesListCallback
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyList
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroup
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterliesGroupModel
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterlySpec
+import com.cryart.sabbathschool.lessons.ui.quarterlies.model.spec
 import com.cryart.sabbathschool.test.di.MockModule
 import com.cryart.sabbathschool.test.di.repository.FakeQuarterliesRepository
 import kotlinx.coroutines.flow.first
@@ -72,7 +72,7 @@ class QuarterliesScreenTest {
 
         paparazzi.snapshot {
             ThemeSurface {
-                QuarterlyList(data = quarterlies)
+                QuarterlyList(quarterlies = quarterlies)
             }
         }
     }
@@ -85,43 +85,7 @@ class QuarterliesScreenTest {
 
         paparazzi.snapshot {
             ThemeSurface {
-                QuarterlyList(data = quarterlies)
-            }
-        }
-    }
-
-    @Test
-    fun quarterlies_group_top_app_bar() {
-        paparazzi.snapshot {
-            ThemeSurface {
-                QuarterliesTopAppBar(
-                    title = "Sabbath School",
-                    type = object : QuarterliesGroupCallback {
-                        override fun onSeeAllClick(group: QuarterlyGroup) {}
-
-                        override fun profileClick() {}
-
-                        override fun filterLanguages() {}
-
-                        override fun onReadClick(index: String) {}
-                    }
-                )
-            }
-        }
-    }
-
-    @Test
-    fun quarterlies_list_top_app_bar() {
-        paparazzi.snapshot {
-            ThemeSurface {
-                QuarterliesTopAppBar(
-                    title = "Standard Adult",
-                    type = object : QuarterliesListCallback {
-                        override fun backNavClick() {}
-
-                        override fun onReadClick(index: String) {}
-                    }
-                )
+                QuarterlyList(quarterlies = quarterlies)
             }
         }
     }
@@ -138,17 +102,22 @@ class QuarterliesScreenTest {
 
         val groupType = when {
             grouped.keys.size == 1 -> {
-                GroupedQuarterlies.TypeList(grouped[grouped.firstKey()] ?: emptyList())
+                val specs = grouped[grouped.firstKey()]?.map { it.spec() }
+                GroupedQuarterlies.TypeList(specs ?: emptyList())
             }
             grouped.keys.size > 1 -> {
                 val filtered = grouped.filterKeys { it != null } as Map<QuarterlyGroup, List<SSQuarterly>>
                 if (filtered.keys.size > 1) {
                     val groups = filtered.map { map ->
-                        QuarterliesGroup(map.key, map.value)
+                        QuarterliesGroupModel(
+                            group = map.key.spec(),
+                            quarterlies = map.value.map { it.spec(QuarterlySpec.Type.LARGE) }
+                        )
                     }
                     GroupedQuarterlies.TypeGroup(groups)
                 } else {
-                    GroupedQuarterlies.TypeList(filtered[filtered.keys.first()] ?: emptyList())
+                    val specs = filtered[filtered.keys.first()]?.map { it.spec() }
+                    GroupedQuarterlies.TypeList(specs ?: emptyList())
                 }
             }
             else -> GroupedQuarterlies.Empty

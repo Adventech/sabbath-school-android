@@ -118,4 +118,5 @@
     <string name="ss_action_playlist">เพลย์ลิสต์</string>
     <string name="ss_action_forward">ซึ่งไปข้างหน้า</string>
     <string name="ss_picture_in_picture">รูปภาพในภาพ</string>
+    <string name="ss_auto">รถยนต์</string>
 </resources>

@@ -31,4 +31,7 @@ interface VideoInfoDao : BaseDao<VideoInfoEntity> {
 
     @Query("SELECT * FROM video_info WHERE lessonIndex = :lessonIndex")
     fun get(lessonIndex: String): List<VideoInfoEntity>
+
+    @Query("DELETE FROM video_info WHERE lessonIndex = :index")
+    suspend fun delete(index: String)
 }

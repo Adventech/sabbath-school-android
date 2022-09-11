@@ -23,6 +23,7 @@
 package app.ss.media.playback.ui.nowPlaying
 
 import android.support.v4.media.session.PlaybackStateCompat
+import android.view.MotionEvent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
@@ -34,6 +35,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.with
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -48,7 +50,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,17 +57,28 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInteropFilter
+import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ChainStyle
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
+import androidx.constraintlayout.compose.Dimension
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.Spacing16
 import app.ss.design.compose.theme.Spacing32
@@ -78,15 +90,20 @@ import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.media.R
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
 import app.ss.media.playback.extensions.isBuffering
+import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
+import app.ss.media.playback.ui.nowPlaying.components.CoverImage
+import app.ss.media.playback.ui.nowPlaying.components.NowPlayingColumn
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControls
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
+import app.ss.media.playback.ui.nowPlaying.components.PlaybackQueueList
 import app.ss.media.playback.ui.playbackContentColor
+import app.ss.media.playback.ui.spec.PlaybackQueueSpec
+import app.ss.media.playback.ui.spec.toImageSpec
 import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.AudioFile
 import app.ss.translations.R.string as RString
@@ -102,22 +119,23 @@ data class NowPlayingScreenSpec(
     val isDraggable: (Boolean) -> Unit
 )
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 internal fun NowPlayingScreen(
     viewModel: NowPlayingViewModel = viewModel(),
     isDraggable: (Boolean) -> Unit = {}
 ) {
     val playbackConnection = viewModel.playbackConnection
-    val playbackState by rememberFlowWithLifecycle(playbackConnection.playbackState)
-        .collectAsState(NONE_PLAYBACK_STATE)
-    val nowPlaying by rememberFlowWithLifecycle(viewModel.nowPlayingAudio)
-        .collectAsState(AudioFile(""))
-    val playbackQueue by rememberFlowWithLifecycle(playbackConnection.playbackQueue)
-        .collectAsState(PlaybackQueue())
-    val playbackSpeed by rememberFlowWithLifecycle(playbackConnection.playbackSpeed)
-        .collectAsState(PlaybackSpeed.NORMAL)
-    val playbackProgressState by rememberFlowWithLifecycle(playbackConnection.playbackProgress)
-        .collectAsState(PlaybackProgressState())
+    val playbackState by playbackConnection.playbackState
+        .collectAsStateWithLifecycle()
+    val nowPlaying by viewModel.nowPlayingAudio
+        .collectAsStateWithLifecycle()
+    val playbackQueue by playbackConnection.playbackQueue
+        .collectAsStateWithLifecycle()
+    val playbackSpeed by playbackConnection.playbackSpeed
+        .collectAsStateWithLifecycle()
+    val playbackProgressState by playbackConnection.playbackProgress
+        .collectAsStateWithLifecycle()
     val nowPlayingAudio = if (nowPlaying.id.isEmpty()) {
         playbackQueue.currentAudio ?: nowPlaying
     } else {
@@ -180,16 +198,80 @@ internal fun NowPlayingScreen(
     ) {
         DragHandle()
 
-        NowPlayingDetail(
-            spec = spec,
-            boxState = boxState,
-            listState = listState,
+        BoxWithConstraints(
             modifier = Modifier
                 .weight(1f)
-                .padding(
-                    horizontal = Dimens.grid_4
+                .onGloballyPositioned { coordinates ->
+                    heightState = heightState.copy(
+                        container = coordinates.size.height
+                    )
+                }
+        ) {
+            val constraints = decoupledConstraints(
+                expanded = expanded,
+                marginTop = marginTop
+            )
+            ConstraintLayout(
+                constraintSet = constraints,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        horizontal = Dimens.grid_4
+                    )
+            ) {
+                CoverImage(
+                    spec = nowPlayingAudio.toImageSpec(),
+                    boxState = boxState,
+                    modifier = Modifier
+                        .layoutId("image")
+                        .onGloballyPositioned { imageCoordinates ->
+                            heightState = heightState.copy(
+                                image = imageCoordinates.size.height
+                            )
+                        }
                 )
-        )
+
+                NowPlayingColumn(
+                    spec = nowPlayingAudio.toSpec(),
+                    boxState = boxState,
+                    modifier = Modifier.layoutId("text")
+                )
+
+                PlaybackQueueList(
+                    spec = PlaybackQueueSpec(
+                        listState = listState,
+                        queue = playbackQueue.audiosList.map { it.toSpec() },
+                        nowPlayingId = nowPlayingAudio.id,
+                        isPlaying = playbackState.isPlaying,
+                        onPlayAudio = { position ->
+                            playbackConnection.transportControls?.skipToQueueItem(position.toLong())
+                        }
+                    ),
+                    modifier = Modifier
+                        .alpha(if (expanded) 0f else 1f)
+                        .padding(top = Spacing16)
+                        .height(
+                            with(LocalDensity.current) {
+                                (heightState.container - heightState.image).toDp()
+                            }
+                        )
+                        .pointerInteropFilter { event ->
+                            when (event.action) {
+                                MotionEvent.ACTION_DOWN -> {
+                                    if (listState.firstVisibleItemIndex > 0) {
+                                        isDraggable(false)
+                                    }
+                                }
+                                MotionEvent.ACTION_UP -> {
+                                    isDraggable(true)
+                                }
+                            }
+                            false
+                        }
+                        .layoutId("queue")
+                )
+            }
+        }
 
         PlaybackProgressDuration(
             isBuffering = playbackState.isBuffering,
@@ -229,6 +311,49 @@ private data class HeightState(
     val container: Int = 0,
     val image: Int = 0
 )
+
+private fun decoupledConstraints(
+    expanded: Boolean,
+    marginTop: Dp = 0.dp
+): ConstraintSet {
+    return ConstraintSet {
+        val image = createRefFor("image")
+        val text = createRefFor("text")
+        val queue = createRefFor("queue")
+        val endGuideline = createGuidelineFromEnd(Spacing16)
+
+        if (expanded) {
+            createVerticalChain(image, text, chainStyle = ChainStyle.Spread)
+        }
+
+        constrain(image) {
+            if (expanded) {
+                centerHorizontallyTo(parent)
+            } else {
+                top.linkTo(parent.top, margin = marginTop)
+                start.linkTo(parent.start)
+            }
+        }
+
+        constrain(text) {
+            if (expanded) {
+                centerHorizontallyTo(parent)
+            } else {
+                top.linkTo(image.top)
+                bottom.linkTo(image.bottom)
+                start.linkTo(image.end)
+                end.linkTo(endGuideline)
+                width = Dimension.fillToConstraints
+            }
+        }
+
+        constrain(queue) {
+            centerHorizontallyTo(parent)
+            top.linkTo(image.bottom, margin = Spacing16)
+            bottom.linkTo(parent.bottom, margin = Spacing16)
+        }
+    }
+}
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

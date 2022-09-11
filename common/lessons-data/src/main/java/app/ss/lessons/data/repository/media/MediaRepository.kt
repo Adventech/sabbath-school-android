@@ -32,7 +32,6 @@ import app.ss.storage.db.entity.AudioFileEntity
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -61,12 +60,11 @@ internal class MediaRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateDuration(id: String, duration: Long) = withContext(dispatcherProvider.io) {
-        Timber.i("Updating duration...$duration")
         audioDao.update(duration, id)
     }
 
     override suspend fun getPlayList(lessonIndex: String): List<AudioFile> = withContext(dispatcherProvider.io) {
-        audioDao.searchBy("%$lessonIndex%").map {
+        audioDao.getBy("$lessonIndex%").map {
             it.toAudio()
         }
     }

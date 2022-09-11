@@ -33,7 +33,7 @@ android {
     defaultConfig {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
-    
+
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
@@ -45,11 +45,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":common:auth"))
-    implementation(project(":common:core"))
-    implementation(project(":common:design"))
-    implementation(project(":common:models"))
-    implementation(project(":common:translations"))
+    implementation(projects.common.auth)
+    implementation(projects.common.core)
+    implementation(projects.common.design)
+    implementation(projects.common.models)
+    implementation(projects.common.translations)
 
     implementation(libs.google.material)
     implementation(libs.androidx.core)

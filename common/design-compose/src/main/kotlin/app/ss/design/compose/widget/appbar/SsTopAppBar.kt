@@ -24,6 +24,7 @@ package app.ss.design.compose.widget.appbar
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.SmallTopAppBar
@@ -41,6 +42,7 @@ import app.ss.design.compose.widget.icon.IconBox
  * @param modifier the [Modifier] to be applied to this top app bar
  * @param scrollBehavior a [TopAppBarScrollBehavior] which holds various offset values
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SsTopAppBar(
     spec: TopAppBarSpec,

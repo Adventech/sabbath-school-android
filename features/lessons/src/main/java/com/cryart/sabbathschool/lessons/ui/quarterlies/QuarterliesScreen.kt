@@ -20,12 +20,10 @@
  * THE SOFTWARE.
  */
 
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
+import android.app.Activity
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -39,22 +37,23 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
-import androidx.compose.material3.rememberTopAppBarScrollState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.view.doOnPreDraw
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import app.ss.design.compose.extensions.flow.rememberFlowWithLifecycle
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
@@ -71,50 +70,43 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGro
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesListCallback
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyList
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListCallbacks
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
-import com.cryart.sabbathschool.lessons.ui.quarterlies.model.placeHolderQuarterlies
 import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R.string as RString
 
+@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun QuarterliesScreen(
     viewModel: QuarterliesViewModel = viewModel(),
     callbacks: QuarterlyListCallbacks
 ) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberSplineBasedDecay(),
-        rememberTopAppBarScrollState()
-    )
-    val data by rememberFlowWithLifecycle(viewModel.quarterliesFlow)
-        .collectAsState(initial = GroupedQuarterlies.TypeList(placeHolderQuarterlies()))
-
-    val photoUrl by rememberFlowWithLifecycle(viewModel.photoUrlFlow)
-        .collectAsState(initial = null)
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     QuarterliesScreen(
-        quarterlies = data,
-        title = viewModel.groupTitle ?: stringResource(id = RString.ss_app_name),
-        photoUrl = photoUrl,
+        state = state.copy(
+            title = viewModel.groupTitle ?: stringResource(id = RString.ss_app_name)
+        ),
         callbacks = callbacks,
         scrollBehavior = scrollBehavior
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun QuarterliesScreen(
-    quarterlies: GroupedQuarterlies,
-    title: String,
+    state: QuarterliesUiState,
     callbacks: QuarterlyListCallbacks,
-    photoUrl: String? = null,
     scrollBehavior: TopAppBarScrollBehavior? = null
 ) {
     SsScaffold(
         topBar = {
             QuarterliesTopAppBar(
+                title = state.title,
+                spec = getTopAppBarSpec(type = callbacks),
+                navigationIcon = {
+                    NavIcon(photoUrl = state.photoUrl, type = callbacks)
+                },
                 scrollBehavior = scrollBehavior,
-                type = callbacks,
-                title = title,
-                photoUrl = photoUrl,
                 modifier = Modifier.windowInsetsPadding(
                     WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
                 )
@@ -123,85 +115,35 @@ internal fun QuarterliesScreen(
         scrollBehavior = scrollBehavior
     ) { innerPadding ->
         QuarterlyList(
-            data = quarterlies,
+            quarterlies = state.type,
             callbacks = callbacks,
             modifier = Modifier.padding(innerPadding)
         )
+
+        if (!state.isLoading) {
+            val localView = LocalView.current
+            LaunchedEffect(Unit) {
+                // We're leveraging the fact, that the current view is directly set as content of Activity.
+                val activity = localView.context as? Activity ?: return@LaunchedEffect
+                // To be sure not to call in the middle of a frame draw.
+                localView.doOnPreDraw { activity.reportFullyDrawn() }
+            }
+        }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun QuarterliesTopAppBar(
     title: String,
-    type: QuarterlyListCallbacks,
+    spec: TopAppBarSpec,
+    navigationIcon: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior? = null,
-    photoUrl: String? = null
 ) {
-    val navigationIcon: @Composable () -> Unit
-    val actions: List<IconButton>
-
-    when (type) {
-        is QuarterliesGroupCallback -> {
-            navigationIcon = {
-                ContentBox(
-                    content = RemoteImage(
-                        data = photoUrl,
-                        contentDescription = stringResource(id = RString.ss_about),
-                        loading = {
-                            Spacer(
-                                modifier = Modifier
-                                    .size(AccountImgSize)
-                                    .asPlaceholder(
-                                        visible = true,
-                                        shape = CircleShape
-                                    )
-                            )
-                        },
-                        error = {
-                            IconBox(
-                                icon = Icons.AccountCircle,
-                                modifier = Modifier
-                                    .size(AccountImgSize)
-                                    .clickable { type.profileClick() }
-                            )
-                        }
-                    ),
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .size(AccountImgSize)
-                        .clip(CircleShape)
-                        .clickable { type.profileClick() }
-                )
-            }
-            actions = listOf(
-                IconButton(
-                    imageVector = MaterialIcons.Rounded.Translate,
-                    contentDescription = stringResource(id = RString.ss_quarterlies_filter_languages),
-                    onClick = { type.filterLanguages() }
-                )
-            )
-        }
-        is QuarterliesListCallback -> {
-            navigationIcon = {
-                IconBox(
-                    icon = IconButton(
-                        imageVector = MaterialIcons.Rounded.ArrowBack,
-                        contentDescription = stringResource(id = RString.ss_action_back),
-                        onClick = { type.backNavClick() }
-                    )
-                )
-            }
-            actions = emptyList()
-        }
-        else -> return
-    }
 
     SsTopAppBar(
-        spec = TopAppBarSpec(
-            topAppBarType = TopAppBarType.Large,
-            actions = actions
-        ),
+        spec = spec,
         modifier = modifier,
         title = { Text(text = title) },
         navigationIcon = navigationIcon,
@@ -212,37 +154,106 @@ internal fun QuarterliesTopAppBar(
     )
 }
 
+@Composable
+private fun getTopAppBarSpec(
+    type: QuarterlyListCallbacks,
+) = TopAppBarSpec(
+    topAppBarType = TopAppBarType.Large,
+    actions = when (type) {
+        is QuarterliesGroupCallback -> listOf(
+            IconButton(
+                imageVector = MaterialIcons.Rounded.Translate,
+                contentDescription = stringResource(id = RString.ss_quarterlies_filter_languages),
+                onClick = { type.filterLanguages() }
+            )
+        )
+        else -> emptyList()
+    }
+)
+
+@Composable
+private fun NavIcon(
+    photoUrl: String?,
+    type: QuarterlyListCallbacks,
+) {
+    when (type) {
+        is QuarterliesGroupCallback -> {
+            ContentBox(
+                content = RemoteImage(
+                    data = photoUrl,
+                    contentDescription = stringResource(id = RString.ss_about),
+                    loading = {
+                        Spacer(
+                            modifier = Modifier
+                                .size(AccountImgSize)
+                                .asPlaceholder(
+                                    visible = true,
+                                    shape = CircleShape
+                                )
+                        )
+                    },
+                    error = {
+                        IconBox(
+                            icon = Icons.AccountCircle,
+                            modifier = Modifier
+                                .size(AccountImgSize)
+                                .clickable { type.profileClick() }
+                        )
+                    }
+                ),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .size(AccountImgSize)
+                    .clip(CircleShape)
+                    .clickable { type.profileClick() }
+            )
+        }
+        is QuarterliesListCallback -> {
+            IconBox(
+                icon = IconButton(
+                    imageVector = MaterialIcons.Rounded.ArrowBack,
+                    contentDescription = stringResource(id = RString.ss_action_back),
+                    onClick = { type.backNavClick() }
+                )
+            )
+        }
+    }
+}
+
 private val AccountImgSize = 32.dp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
-    name = "TopAppBar"
+    name = "Screen"
 )
 @Preview(
-    name = "TopAppBar ~ dark",
+    name = "Screen ~ dark",
     uiMode = UI_MODE_NIGHT_YES
 )
 @Composable
-private fun TopAppBarPreview() {
+private fun ScreenPreview() {
     SsTheme {
-        Surface {
-            QuarterliesTopAppBar(
-                title = "Sabbath School",
-                type = object : QuarterliesGroupCallback {
-                    override fun onSeeAllClick(group: QuarterlyGroup) {
-                        // do nothing
-                    }
-                    override fun profileClick() {
-                        // do nothing
-                    }
-                    override fun filterLanguages() {
-                        // do nothing
-                    }
-                    override fun onReadClick(index: String) {
-                        // do nothing
-                    }
-                },
-                modifier = Modifier
-            )
-        }
+        QuarterliesScreen(
+            state = QuarterliesUiState(
+                title = "Sabbath School"
+            ),
+            callbacks = object : QuarterliesGroupCallback {
+                override fun onSeeAllClick(group: QuarterlyGroup) {
+                    // do nothing
+                }
+
+                override fun profileClick() {
+                    // do nothing
+                }
+
+                override fun filterLanguages() {
+                    // do nothing
+                }
+
+                override fun onReadClick(index: String) {
+                    // do nothing
+                }
+            }
+        )
     }
 }
