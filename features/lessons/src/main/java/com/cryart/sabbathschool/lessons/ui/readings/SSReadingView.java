@@ -263,7 +263,6 @@ public class SSReadingView extends SSWebView {
 
     private class SSWebViewClient extends WebViewClient {
 
-        @SuppressWarnings("deprecation")
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             ContextHelper.launchWebUrl(view.getContext(), url);
