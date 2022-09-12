@@ -88,7 +88,6 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.constraintlayout)
 
     implementation(libs.google.exoplayer.core)
     implementation(libs.google.exoplayer.ui)

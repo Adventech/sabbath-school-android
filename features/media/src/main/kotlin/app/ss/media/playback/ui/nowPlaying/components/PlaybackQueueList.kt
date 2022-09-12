@@ -58,9 +58,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ss.design.compose.theme.Spacing16
-import app.ss.design.compose.theme.Spacing4
-import app.ss.design.compose.theme.Spacing6
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.dividerColor
 import app.ss.design.compose.theme.onSurfaceSecondary
@@ -80,8 +77,7 @@ internal fun PlaybackQueueList(
     val (playbackQueue, listState, nowPlayingId, isPlaying, onPlayAudio) = spec
 
     LazyColumn(
-        modifier = modifier
-            .padding(vertical = Spacing16),
+        modifier = modifier,
         state = listState
     ) {
         itemsIndexed(
@@ -127,15 +123,15 @@ private fun AudioRow(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = Spacing4)
+            .padding(horizontal = 4.dp)
             .selectable(selected = isSelected, onClick = onClick)
     ) {
         Column(
             modifier = Modifier
                 .weight(1f),
-            verticalArrangement = Arrangement.spacedBy(Spacing4)
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Spacer(modifier = Modifier.height(Spacing6))
+            Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = spec.title,
                 style = MaterialTheme.typography.titleSmall.copy(
@@ -157,7 +153,7 @@ private fun AudioRow(
                 overflow = TextOverflow.Ellipsis
             )
 
-            Spacer(modifier = Modifier.height(Spacing6))
+            Spacer(modifier = Modifier.height(6.dp))
         }
 
         if (isSelected && isPlaying) {

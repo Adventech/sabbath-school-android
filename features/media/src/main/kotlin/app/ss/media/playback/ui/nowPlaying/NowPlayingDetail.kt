@@ -20,38 +20,42 @@
  * THE SOFTWARE.
  */
 
-@file:OptIn(ExperimentalAnimationApi::class)
-
 package app.ss.media.playback.ui.nowPlaying
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.SizeTransform
+import android.view.MotionEvent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.with
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.input.pointer.pointerInteropFilter
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.theme.Dimens
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
-import app.ss.media.playback.ui.nowPlaying.components.CoverImageStatic
+import app.ss.media.playback.ui.nowPlaying.components.CoverImage
 import app.ss.media.playback.ui.nowPlaying.components.NowPlayingColumn
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackQueueList
 import app.ss.media.playback.ui.spec.PlaybackQueueSpec
 import app.ss.media.playback.ui.spec.toImageSpec
 import app.ss.media.playback.ui.spec.toSpec
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun NowPlayingDetail(
     spec: NowPlayingScreenSpec,
@@ -59,112 +63,87 @@ internal fun NowPlayingDetail(
     listState: LazyListState,
     modifier: Modifier = Modifier
 ) {
-    AnimatedContent(
-        targetState = boxState,
-        modifier = modifier,
-        transitionSpec = {
-            if (targetState == BoxState.Collapsed) {
-                expandVertically { it } with fadeOut(animationSpec = tween(100))
-            } else {
-                scaleIn(
-                    animationSpec = tween(500),
-                    initialScale = 0.3f,
-                    transformOrigin = TransformOrigin(0f, 0f)
-                ) with fadeOut(animationSpec = tween(100))
-            }.using(SizeTransform(clip = false))
-        }
+    val (nowPlayingAudio, playbackQueue, playbackState, _, playbackConnection, _, isDraggable) = spec
+    val expanded = boxState == BoxState.Expanded
+    var imageSize by remember { mutableStateOf(DpSize(0.dp, 0.dp)) }
+    val alignment = if (expanded) Alignment.TopCenter else Alignment.TopStart
+    val paddingTop by animateDpAsState(
+        if (expanded) 64.dp else 0.dp,
+        animationSpec = spring(
+            Spring.DampingRatioMediumBouncy,
+            stiffness = if (expanded) Spring.StiffnessVeryLow else Spring.StiffnessHigh
+        )
+    )
+    val textPaddingTop by animateDpAsState(
+        targetValue = if (expanded) imageSize.height.plus(16.dp) else
+            imageSize.height.div(4).minus(16.dp),
+        animationSpec = if (expanded) tween(50) else spring(
+            Spring.DampingRatioLowBouncy,
+            stiffness = Spring.StiffnessLow
+        )
+    )
+    val textPaddingStart by animateDpAsState(targetValue = if (expanded) 0.dp else imageSize.width)
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)
+            .padding(horizontal = Dimens.grid_4)
+            .padding(top = paddingTop.coerceAtLeast(0.dp))
     ) {
-        when (it) {
-            BoxState.Collapsed -> {
-                NowPlayingDetailCollapsed(
-                    spec = spec,
-                    boxState = boxState,
-                    listState = listState
-                )
-            }
-            BoxState.Expanded -> {
-                NowPlayingDetailExpanded(
-                    spec = spec,
-                    boxState = boxState
-                )
-            }
-        }
-    }
-}
 
-@Composable
-internal fun NowPlayingDetailExpanded(
-    spec: NowPlayingScreenSpec,
-    boxState: BoxState,
-    modifier: Modifier = Modifier
-) {
-    val nowPlayingAudio = spec.nowPlayingAudio
-
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(modifier = Modifier.weight(1f))
-
-        CoverImageStatic(
+        CoverImage(
             spec = nowPlayingAudio.toImageSpec(),
             boxState = boxState,
-            modifier = Modifier
+            modifier = Modifier.align(alignment),
+            heightCallback = {
+                imageSize = it
+            }
         )
 
         NowPlayingColumn(
             spec = nowPlayingAudio.toSpec(),
             boxState = boxState,
             modifier = Modifier
+                .padding(
+                    start = textPaddingStart,
+                    top = textPaddingTop.coerceAtLeast(0.dp)
+                )
+                .align(alignment)
         )
 
-        Spacer(modifier = Modifier.weight(1f))
-    }
-}
-
-@Composable
-private fun NowPlayingDetailCollapsed(
-    spec: NowPlayingScreenSpec,
-    boxState: BoxState,
-    listState: LazyListState,
-    modifier: Modifier = Modifier
-) {
-    val nowPlayingAudio = spec.nowPlayingAudio
-    val playbackQueue = spec.playbackQueue
-    val playbackState = spec.playbackState
-    val playbackConnection = spec.playbackConnection
-
-    Column(modifier = modifier.fillMaxWidth()) {
-        Row(
-            modifier = modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+        AnimatedVisibility(
+            visible = !expanded,
+            enter = fadeIn(spring(stiffness = Spring.StiffnessVeryLow)),
+            exit = fadeOut(spring(stiffness = Spring.StiffnessHigh))
         ) {
-            CoverImageStatic(
-                spec = nowPlayingAudio.toImageSpec(),
-                boxState = boxState,
-                modifier = Modifier
-            )
 
-            NowPlayingColumn(
-                spec = nowPlayingAudio.toSpec(),
-                boxState = boxState,
-                modifier = Modifier.weight(1f)
+            PlaybackQueueList(
+                spec = PlaybackQueueSpec(
+                    listState = listState,
+                    queue = playbackQueue.audiosList.map { it.toSpec() },
+                    nowPlayingId = nowPlayingAudio.id,
+                    isPlaying = playbackState.isPlaying,
+                    onPlayAudio = { position ->
+                        playbackConnection.transportControls?.skipToQueueItem(position.toLong())
+                    }
+                ),
+                modifier = Modifier
+                    .padding(top = imageSize.height.plus(16.dp))
+                    .pointerInteropFilter { event ->
+                        when (event.action) {
+                            MotionEvent.ACTION_DOWN -> {
+                                if (listState.firstVisibleItemIndex > 0) {
+                                    isDraggable(false)
+                                }
+                            }
+                            MotionEvent.ACTION_UP -> {
+                                isDraggable(true)
+                            }
+                        }
+                        false
+                    }
             )
         }
-
-        PlaybackQueueList(
-            spec = PlaybackQueueSpec(
-                listState = listState,
-                queue = playbackQueue.audiosList.map { it.toSpec() },
-                nowPlayingId = nowPlayingAudio.id,
-                isPlaying = playbackState.isPlaying,
-                onPlayAudio = { position ->
-                    playbackConnection.transportControls?.skipToQueueItem(position.toLong())
-                }
-            ),
-            modifier = Modifier
-                .padding(top = 16.dp)
-                .weight(1f)
-        )
     }
 }

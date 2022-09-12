@@ -47,7 +47,6 @@ kotlin = "1.7.10"
 kotlin-coroutines = "1.6.4"
 ktlint = "11.0.0"
 markwon = "4.6.2"
-orbital = "0.2.0"
 # @keep this version
 pdfkit = "8.2.1"
 snapper = "0.3.0"
@@ -140,7 +139,6 @@ kotlin-coroutines-playservices = { module = "org.jetbrains.kotlinx:kotlinx-corou
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint" }
 markwon-core = { module = "io.noties.markwon:core", version.ref = "markwon" }
-orbital = { module = "com.github.skydoves:orbital", version.ref = "orbital" }
 paparazzi = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "cash-app-paparazzi" }
 pdfkit = { module = "com.pspdfkit:pspdfkit", version.ref = "pdfkit" }
 snapper = { module = "dev.chrisbanes.snapper:snapper", version.ref = "snapper" }

@@ -29,10 +29,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.Dimens
@@ -67,7 +69,8 @@ private enum class CoverOrientation(val key: String) : Sizes {
 internal fun CoverImage(
     spec: CoverImageSpec,
     modifier: Modifier = Modifier,
-    boxState: BoxState = BoxState.Expanded
+    boxState: BoxState = BoxState.Expanded,
+    heightCallback: (DpSize) -> Unit
 ) {
     val orientation = CoverOrientation.fromKey(spec.imageRatio) ?: CoverOrientation.PORTRAIT
     val collapsed = boxState == BoxState.Collapsed
@@ -104,47 +107,10 @@ internal fun CoverImage(
             .padding(Dimens.grid_1)
             .clip(RoundedCornerShape(CoverCornerRadius))
     )
-}
 
-@Composable
-internal fun CoverImageStatic(
-    spec: CoverImageSpec,
-    boxState: BoxState,
-    modifier: Modifier = Modifier
-) {
-    val orientation = CoverOrientation.fromKey(spec.imageRatio) ?: CoverOrientation.PORTRAIT
-    val collapsed = boxState == BoxState.Collapsed
-    val width = if (collapsed) orientation.width / 2 else orientation.width
-    val height = if (collapsed) orientation.height / 2 else orientation.height
-    val scale = when (orientation) {
-        CoverOrientation.SQUARE -> Scale.FILL
-        CoverOrientation.PORTRAIT -> Scale.FIT
+    SideEffect {
+        heightCallback(DpSize(animatedWidth, animatedHeight))
     }
-
-    val placeholder: @Composable () -> Unit = {
-        Spacer(
-            modifier = Modifier
-                .fillMaxSize()
-                .asPlaceholder(visible = true)
-        )
-    }
-
-    ContentBox(
-        content = RemoteImage(
-            data = spec.image,
-            contentDescription = spec.title,
-            scale = scale,
-            loading = placeholder,
-            error = placeholder
-        ),
-        modifier = modifier
-            .size(
-                width = width,
-                height = height
-            )
-            .padding(Dimens.grid_1)
-            .clip(RoundedCornerShape(CoverCornerRadius))
-    )
 }
 
 private val CoverCornerRadius = 6.dp
