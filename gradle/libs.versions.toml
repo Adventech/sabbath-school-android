@@ -26,7 +26,6 @@ androidx-room = "2.4.3"
 androidx-savedstate = "1.2.0"
 androidx-startup = "1.1.1"
 androidx-work = "2.7.1"
-appVersion = "4.12.0"
 cash-app-paparazzi = "1.0.0"
 cash-app-turbine = "0.9.0"
 coil = "2.2.0"
@@ -36,7 +35,6 @@ google-hilt = "2.43.2"
 google-material = "1.6.1"
 google-play-auth = "20.2.0"
 gradle-android = "7.2.2"
-gradle-versions = "0.42.0"
 iconics = "5.3.4"
 iconics-material = "4.0.0.2-kotlin"
 # @keep this version
@@ -66,7 +64,6 @@ test-kluent = "1.68"
 test-mockk = "1.12.7"
 test-robolectric = "4.8.2"
 timber = "5.0.1"
-version-catalog-update = "0.5.3"
 
 [libraries]
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
@@ -220,6 +217,4 @@ testing-common = [
 [plugins]
 android-application = { id = "com.android.application", version.ref = "gradle-android" }
 android-library = { id = "com.android.library", version.ref = "gradle-android" }
-version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
-versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-versions" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
