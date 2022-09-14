@@ -48,7 +48,7 @@ markwon = "4.6.2"
 # @keep this version
 pdfkit = "8.2.1"
 snapper = "0.3.0"
-square-moshi = "1.13.0"
+square-moshi = "1.14.0"
 square-okhttp3 = "4.10.0"
 square-retrofit = "2.9.0"
 tapTarget = "3.3.2"
