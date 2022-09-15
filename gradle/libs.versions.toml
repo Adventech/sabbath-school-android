@@ -38,7 +38,7 @@ gradle-android = "7.2.2"
 iconics = "5.3.4"
 iconics-material = "4.0.0.2-kotlin"
 # @keep this version
-joda-android = "2.10.12.2"
+joda-android = "2.11.0.1"
 joda-time = "2.11.1"
 jvmTarget = "11"
 kotlin = "1.7.10"
