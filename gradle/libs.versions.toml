@@ -34,7 +34,7 @@ google-exoplayer = "2.18.1"
 google-hilt = "2.43.2"
 google-material = "1.6.1"
 google-play-auth = "20.3.0"
-gradle-android = "7.2.2"
+gradle-android = "7.3.0"
 iconics = "5.3.4"
 iconics-material = "4.0.0.2-kotlin"
 # @keep this version
