@@ -29,26 +29,9 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.glance.text.FontStyle
 import androidx.glance.text.FontWeight
-import androidx.glance.text.TextAlign
 import androidx.glance.text.TextDecoration
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-
-internal fun TextStyle.copy(
-    color: ColorProvider? = this.color,
-    fontSize: TextUnit? = this.fontSize,
-    fontWeight: FontWeight? = this.fontWeight,
-    fontStyle: FontStyle? = this.fontStyle,
-    textAlign: TextAlign? = this.textAlign,
-    textDecoration: TextDecoration? = this.textDecoration
-) = TextStyle(
-    color = color,
-    fontSize = fontSize,
-    fontWeight = fontWeight,
-    fontStyle = fontStyle,
-    textAlign = textAlign,
-    textDecoration = textDecoration
-)
 
 private fun textStyle(
     color: Color,

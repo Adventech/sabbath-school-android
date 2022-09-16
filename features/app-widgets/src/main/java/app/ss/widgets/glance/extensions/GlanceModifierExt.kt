@@ -39,6 +39,7 @@ import androidx.glance.background
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
+import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 
 @Composable
 fun GlanceModifier.modifyAppWidgetBackground() = this
@@ -48,7 +49,7 @@ fun GlanceModifier.modifyAppWidgetBackground() = this
     .appWidgetBackgroundCornerRadius()
 
 fun GlanceModifier.appWidgetBackgroundCornerRadius(): GlanceModifier {
-    if (Build.VERSION.SDK_INT >= 31) {
+    if (isAtLeastApi(Build.VERSION_CODES.S)) {
         cornerRadius(android.R.dimen.system_app_widget_background_radius)
     } else {
         cornerRadius(16.dp)

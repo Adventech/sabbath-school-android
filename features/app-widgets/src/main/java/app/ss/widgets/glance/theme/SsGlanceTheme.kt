@@ -22,16 +22,17 @@
 
 package app.ss.widgets.glance.theme
 
+import android.os.Build
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.glance.LocalContext
-import app.ss.design.compose.extensions.isS
 import app.ss.design.compose.theme.DarkColorScheme
 import app.ss.design.compose.theme.LightColorScheme
 import app.ss.design.compose.theme.SsTypography
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
+import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 
 @Composable
 internal fun SsGlanceTheme(
@@ -41,7 +42,7 @@ internal fun SsGlanceTheme(
     val darkTheme = context.isDarkTheme()
 
     val colorScheme = when {
-        isS() -> {
+        isAtLeastApi(Build.VERSION_CODES.S) -> {
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
         darkTheme -> DarkColorScheme
