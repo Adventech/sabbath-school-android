@@ -37,7 +37,6 @@ import androidx.glance.ImageProvider
 import androidx.glance.LocalSize
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
-import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -191,7 +190,6 @@ internal fun TodayInfo(
                 maxLines = 1,
                 onClick = model.uri.toAction(),
                 modifier = GlanceModifier
-                    .background(MaterialTheme.colorScheme.primary)
                     .cornerRadius(20.dp)
                     .padding(horizontal = 32.dp)
                     .height(32.dp)
