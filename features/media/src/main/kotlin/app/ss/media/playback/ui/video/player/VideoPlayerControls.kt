@@ -142,6 +142,8 @@ private fun BoxScope.Controls(
     playbackState: VideoPlaybackState,
     contentColor: Color = Color.White
 ) {
+    // TODO: Add playback speed control
+
     Row(
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier.align(Alignment.Center)
