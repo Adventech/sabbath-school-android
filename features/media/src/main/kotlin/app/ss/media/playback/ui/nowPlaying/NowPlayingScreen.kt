@@ -23,17 +23,9 @@
 package app.ss.media.playback.ui.nowPlaying
 
 import android.support.v4.media.session.PlaybackStateCompat
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.with
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -46,8 +38,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
@@ -64,7 +54,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -79,6 +68,7 @@ import app.ss.media.playback.extensions.isBuffering
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
+import app.ss.media.playback.ui.common.PlaybackSpeedLabel
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControls
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
@@ -203,9 +193,7 @@ internal fun NowPlayingScreen(
         BottomControls(
             playbackSpeed = playbackSpeed,
             isDarkTheme = isDarkTheme,
-            toggleSpeed = { speed ->
-                playbackConnection.toggleSpeed(speed)
-            },
+            toggleSpeed = { playbackConnection.toggleSpeed() },
             toggleExpand = {
                 boxState = when (boxState) {
                     BoxState.Collapsed -> BoxState.Expanded
@@ -216,13 +204,12 @@ internal fun NowPlayingScreen(
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun BottomControls(
     modifier: Modifier = Modifier,
     playbackSpeed: PlaybackSpeed,
     isDarkTheme: Boolean = isSystemInDarkTheme(),
-    toggleSpeed: (PlaybackSpeed) -> Unit = {},
+    toggleSpeed: () -> Unit = {},
     toggleExpand: () -> Unit = {}
 ) {
     Row(
@@ -232,36 +219,12 @@ private fun BottomControls(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        TextButton(
-            onClick = {
-                toggleSpeed(playbackSpeed)
-            }
-        ) {
-            AnimatedContent(
-                targetState = playbackSpeed,
-                transitionSpec = {
-                    if (targetState.speed > initialState.speed) {
-                        slideInVertically(initialOffsetY = { height -> height }) + fadeIn() with
-                            slideOutVertically(targetOffsetY = { height -> -height }) + fadeOut()
-                    } else {
-                        slideInVertically(initialOffsetY = { height -> -height }) + fadeIn() with
-                            slideOutVertically(targetOffsetY = { height -> height }) + fadeOut()
-                    }.using(
-                        SizeTransform(clip = false)
-                    )
-                }
-            ) { targetSpeed ->
-                Text(
-                    text = targetSpeed.label,
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontSize = 18.sp
-                    ),
-                    color = tintColor(
-                        isDark = isDarkTheme
-                    )
-                )
-            }
-        }
+
+        PlaybackSpeedLabel(
+            playbackSpeed = playbackSpeed,
+            toggleSpeed = { toggleSpeed() },
+            contentColor = tintColor(isDark = isDarkTheme)
+        )
 
         IconButton(onClick = toggleExpand) {
             IconBox(
