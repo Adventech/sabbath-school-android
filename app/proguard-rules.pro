@@ -58,3 +58,8 @@
 }
 
 -keep @android.support.annotation.Keep class * {*;}
+
+# Temporary for Glance
+-keepclassmembers class * extends androidx.glance.appwidget.protobuf.GeneratedMessageLite {
+  <fields>;
+}

@@ -94,6 +94,13 @@ android {
             }
 
             ndk { debugSymbolLevel = "FULL" }
+
+            // Temporary for Glance
+            optimization {
+                keepRules {
+                    ignoreExternalDependencies("androidx.glance:glance-appwidget")
+                }
+            }
         }
 
         val benchmark by creating {
