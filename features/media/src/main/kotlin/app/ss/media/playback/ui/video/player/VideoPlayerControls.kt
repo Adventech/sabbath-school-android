@@ -48,23 +48,19 @@ import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.media.R
-import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.players.SSVideoPlayer
-import app.ss.media.playback.players.VideoPlaybackState
 import app.ss.media.playback.players.isBuffering
+import app.ss.media.playback.ui.common.PlaybackSpeedLabel
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControlsDefaults
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
 import app.ss.translations.R.string as RString
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun VideoPlayerControls(
     videoPlayer: SSVideoPlayer,
     onClose: () -> Unit = {},
     onEnterPiP: (() -> Unit)? = null
 ) {
-    val playbackState by videoPlayer.playbackState.collectAsStateWithLifecycle()
-    val progressState by videoPlayer.playbackProgress.collectAsStateWithLifecycle()
 
     Surface(color = Color.Black.copy(0.6f)) {
         Box(
@@ -73,40 +69,32 @@ fun VideoPlayerControls(
                 .systemBarsPadding()
         ) {
             TopBar(
+                videoPlayer = videoPlayer,
                 onClose = onClose,
-                onEnterPiP = onEnterPiP
+                onEnterPiP = onEnterPiP,
             )
 
             Controls(
-                onPlayPause = {
-                    videoPlayer.playPause()
-                },
-                onRewind = {
-                    videoPlayer.rewind()
-                },
-                onForward = {
-                    videoPlayer.fastForward()
-                },
-                playbackState = playbackState
+                videoPlayer = videoPlayer
             )
 
             PlayBackProgress(
-                progressState = progressState,
-                playbackState = playbackState,
-                onSeekTo = { position ->
-                    videoPlayer.seekTo(position)
-                }
+                videoPlayer = videoPlayer
             )
         }
     }
 }
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 private fun BoxScope.TopBar(
+    videoPlayer: SSVideoPlayer,
     onClose: () -> Unit,
     onEnterPiP: (() -> Unit)? = null,
-    contentColor: Color = Color.White
+    contentColor: Color = Color.White,
 ) {
+    val playbackSpeed by videoPlayer.playbackSpeed.collectAsStateWithLifecycle()
+
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.align(Alignment.TopCenter)
@@ -119,6 +107,12 @@ private fun BoxScope.TopBar(
         }
 
         Spacer(modifier = Modifier.weight(1f))
+
+        PlaybackSpeedLabel(
+            playbackSpeed = playbackSpeed,
+            toggleSpeed = { videoPlayer.toggleSpeed() },
+            contentColor = Color.White
+        )
 
         onEnterPiP?.let {
             IconButton(onClick = onEnterPiP) {
@@ -134,21 +128,19 @@ private fun BoxScope.TopBar(
     }
 }
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 private fun BoxScope.Controls(
-    onPlayPause: () -> Unit,
-    onRewind: () -> Unit,
-    onForward: () -> Unit,
-    playbackState: VideoPlaybackState,
+    videoPlayer: SSVideoPlayer,
     contentColor: Color = Color.White
 ) {
-    // TODO: Add playback speed control
+    val playbackState by videoPlayer.playbackState.collectAsStateWithLifecycle()
 
     Row(
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier.align(Alignment.Center)
     ) {
-        IconButton(onClick = onRewind) {
+        IconButton(onClick = { videoPlayer.rewind() }) {
             IconBox(
                 icon = IconSlot.fromResource(
                     R.drawable.ic_audio_icon_backward,
@@ -169,7 +161,7 @@ private fun BoxScope.Controls(
                 CircularProgressIndicator(color = contentColor)
             } else {
                 IconButton(
-                    onClick = onPlayPause,
+                    onClick = { videoPlayer.playPause() },
                     modifier = Modifier.fillMaxSize()
                 ) {
                     IconBox(
@@ -189,7 +181,7 @@ private fun BoxScope.Controls(
 
         Spacer(modifier = Modifier.width(PlayBackControlsDefaults.playButtonHorizontalPadding))
 
-        IconButton(onClick = onForward) {
+        IconButton(onClick = { videoPlayer.fastForward() }) {
             IconBox(
                 icon = IconSlot.fromResource(
                     R.drawable.ic_audio_icon_forward,
@@ -202,16 +194,18 @@ private fun BoxScope.Controls(
     }
 }
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 private fun BoxScope.PlayBackProgress(
-    progressState: PlaybackProgressState,
-    playbackState: VideoPlaybackState,
-    onSeekTo: (Long) -> Unit
+    videoPlayer: SSVideoPlayer,
 ) {
+    val progressState by videoPlayer.playbackProgress.collectAsStateWithLifecycle()
+    val playbackState by videoPlayer.playbackState.collectAsStateWithLifecycle()
+
     PlaybackProgressDuration(
         isBuffering = playbackState.isBuffering,
         progressState = progressState,
-        onSeekTo = onSeekTo,
+        onSeekTo = { videoPlayer.seekTo(it) },
         modifier = Modifier
             .align(Alignment.BottomCenter)
             .padding(bottom = Spacing32),
