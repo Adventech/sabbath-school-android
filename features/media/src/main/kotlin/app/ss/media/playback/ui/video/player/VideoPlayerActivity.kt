@@ -54,6 +54,7 @@ import app.ss.media.playback.players.SSVideoPlayerImpl
 import app.ss.media.playback.players.hasEnded
 import app.ss.models.media.SSVideo
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
+import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.google.android.exoplayer2.ui.StyledPlayerView
 
@@ -79,10 +80,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     private val broadcastReceiver = object : BroadcastReceiver() {
 
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent == null || intent.action != ACTION_PIP_CONTROLS) {
-                return
-            }
-            when (intent.getStringExtra(ACTION_TYPE)) {
+            when (intent?.getStringExtra(ACTION_TYPE)) {
                 PLAY_PAUSE -> videoPlayer.playPause()
                 BACKWARD -> videoPlayer.rewind()
                 FORWARD -> videoPlayer.fastForward()
@@ -92,6 +90,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     private var onStopCalled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         exoPlayerView = findViewById(R.id.playerView)
         composeView = findViewById(R.id.composeView)
@@ -119,6 +118,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             }
         }
 
+        @Suppress("DEPRECATION")
         val video = intent.getParcelableExtra<SSVideo>(ARG_VIDEO) ?: run {
             finish()
             return
@@ -147,6 +147,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        @Suppress("DEPRECATION")
         val video = intent?.getParcelableExtra<SSVideo>(ARG_VIDEO) ?: return
         videoPlayer.playVideo(video, exoPlayerView)
     }
@@ -155,10 +156,9 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         composeView.fadeTo(false)
 
         val view: View = findViewById(R.id.root)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowInsetsControllerCompat(window, view).let { controller ->
-            controller.hide(systemBars())
-            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        WindowInsetsControllerCompat(window, view).run {
+            hide(systemBars())
+            systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
         systemUiVisible = false
     }
@@ -167,7 +167,6 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         if (pictureInPictureEnabled) return
 
         val view: View = findViewById(R.id.root)
-        WindowCompat.setDecorFitsSystemWindows(window, true)
         WindowInsetsControllerCompat(window, view).show(systemBars())
         composeView.fadeTo(true)
 
@@ -313,6 +312,6 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
 
 private val Context.supportsPiP: Boolean
     get() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+        return isAtLeastApi(Build.VERSION_CODES.O) &&
             packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
     }

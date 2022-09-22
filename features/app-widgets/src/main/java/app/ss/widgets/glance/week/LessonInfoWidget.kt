@@ -60,7 +60,6 @@ import app.ss.widgets.glance.extensions.divider
 import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
 import app.ss.widgets.glance.extensions.stringResource
 import app.ss.widgets.glance.theme.SsGlanceTheme
-import app.ss.widgets.glance.theme.copy
 import app.ss.widgets.glance.theme.todayBody
 import app.ss.widgets.glance.theme.todayTitle
 import app.ss.widgets.model.WeekDayWidgetModel

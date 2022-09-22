@@ -30,13 +30,13 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.Button
+import androidx.glance.ButtonColors
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalSize
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
-import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -48,6 +48,7 @@ import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.text.Text
+import androidx.glance.unit.ColorProvider
 import app.ss.widgets.R
 import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.BaseGlanceAppWidget
@@ -56,7 +57,6 @@ import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
 import app.ss.widgets.glance.extensions.stringResource
 import app.ss.widgets.glance.extensions.toAction
 import app.ss.widgets.glance.theme.SsGlanceTheme
-import app.ss.widgets.glance.theme.copy
 import app.ss.widgets.glance.theme.todayBody
 import app.ss.widgets.glance.theme.todayTitle
 import app.ss.widgets.model.TodayWidgetModel
@@ -183,12 +183,15 @@ internal fun TodayInfo(
                 style = todayTitle(
                     MaterialTheme.colorScheme.onPrimary
                 ).copy(fontSize = 14.sp),
+                colors = ButtonColors(
+                    backgroundColor = ColorProvider(MaterialTheme.colorScheme.primary),
+                    contentColor = ColorProvider(MaterialTheme.colorScheme.onPrimary),
+                ),
                 maxLines = 1,
                 onClick = model.uri.toAction(),
                 modifier = GlanceModifier
-                    .background(MaterialTheme.colorScheme.primary)
                     .cornerRadius(20.dp)
-                    .padding(horizontal = 32.dp, vertical = 4.dp)
+                    .padding(horizontal = 32.dp)
                     .height(32.dp)
             )
         }
