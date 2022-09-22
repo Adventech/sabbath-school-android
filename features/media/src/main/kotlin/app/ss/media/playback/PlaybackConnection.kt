@@ -73,7 +73,7 @@ interface PlaybackConnection {
     fun playAudio(audio: AudioFile)
     fun playAudios(audios: List<AudioFile>, index: Int = 0)
 
-    fun toggleSpeed(playbackSpeed: PlaybackSpeed)
+    fun toggleSpeed()
     fun setQueue(audios: List<AudioFile>, index: Int = 0)
 }
 
@@ -128,17 +128,18 @@ internal class PlaybackConnectionImpl(
         transportControls?.sendCustomAction(UPDATE_QUEUE, bundleOf())
     }
 
-    override fun toggleSpeed(playbackSpeed: PlaybackSpeed) {
-        val nextSpeed = when (playbackSpeed) {
+    override fun toggleSpeed() {
+        val nextSpeed = when (playbackSpeed.value) {
             PlaybackSpeed.SLOW -> PlaybackSpeed.NORMAL
             PlaybackSpeed.NORMAL -> PlaybackSpeed.FAST
             PlaybackSpeed.FAST -> PlaybackSpeed.FASTEST
             PlaybackSpeed.FASTEST -> PlaybackSpeed.SLOW
         }
-        audioPlayer.setPlaybackSpeed(nextSpeed.speed)
-        this.playbackSpeed.value = nextSpeed
 
-        resetPlaybackProgressInterval()
+        if (playbackSpeed.tryEmit(nextSpeed)) {
+            audioPlayer.setPlaybackSpeed(nextSpeed.speed)
+            resetPlaybackProgressInterval()
+        }
     }
 
     override fun setQueue(audios: List<AudioFile>, index: Int) {
@@ -164,7 +165,7 @@ internal class PlaybackConnectionImpl(
             }
 
             val initial = PlaybackProgressState(duration, position, buffered = audioPlayer.bufferedPosition())
-            playbackProgress.value = initial
+            playbackProgress.emit(initial)
 
             if (state.isPlaying && !state.isBuffering) {
                 startPlaybackProgressInterval(initial)
@@ -177,7 +178,7 @@ internal class PlaybackConnectionImpl(
             flowInterval(currentProgressInterval).collect {
                 val current = playbackProgress.value.elapsed
                 val elapsed = current + PLAYBACK_PROGRESS_INTERVAL
-                playbackProgress.value = initial.copy(elapsed = elapsed, buffered = audioPlayer.bufferedPosition())
+                playbackProgress.emit(initial.copy(elapsed = elapsed, buffered = audioPlayer.bufferedPosition()))
             }
         }
     }
