@@ -33,6 +33,7 @@ import app.ss.media.playback.AudioFocusHelper
 import app.ss.media.playback.AudioFocusHelperImpl
 import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
 import app.ss.media.playback.model.PlaybackProgressState
+import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.models.media.SSVideo
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.flowInterval
 import com.google.android.exoplayer2.ExoPlayer
@@ -61,11 +62,13 @@ val VideoPlaybackState.hasEnded: Boolean get() = state == Player.STATE_ENDED
 interface SSVideoPlayer {
     val playbackState: StateFlow<VideoPlaybackState>
     val playbackProgress: StateFlow<PlaybackProgressState>
+    val playbackSpeed: StateFlow<PlaybackSpeed>
     fun playVideo(video: SSVideo, playerView: StyledPlayerView)
     fun playPause()
     fun seekTo(position: Long)
     fun fastForward()
     fun rewind()
+    fun toggleSpeed()
     fun onPause()
     fun onResume()
     fun release()
@@ -85,9 +88,12 @@ internal class SSVideoPlayerImpl(
     }
 
     override val playbackState = MutableStateFlow(VideoPlaybackState())
+    override val playbackProgress = MutableStateFlow(PlaybackProgressState())
+    override val playbackSpeed = MutableStateFlow(PlaybackSpeed.NORMAL)
 
     private var playbackProgressInterval: Job = Job()
-    override val playbackProgress = MutableStateFlow(PlaybackProgressState())
+
+    private var currentProgressInterval: Long = PLAYBACK_PROGRESS_INTERVAL
 
     init {
         val mediaSession = MediaSessionCompat(context, "ss-video-player")
@@ -169,6 +175,20 @@ internal class SSVideoPlayerImpl(
         }
     }
 
+    override fun toggleSpeed() {
+        val nextSpeed = when (this.playbackSpeed.value) {
+            PlaybackSpeed.SLOW -> PlaybackSpeed.NORMAL
+            PlaybackSpeed.NORMAL -> PlaybackSpeed.FAST
+            PlaybackSpeed.FAST -> PlaybackSpeed.FASTEST
+            PlaybackSpeed.FASTEST -> PlaybackSpeed.SLOW
+        }
+
+        if (playbackSpeed.tryEmit(nextSpeed)) {
+            exoPlayer.setPlaybackSpeed(nextSpeed.speed)
+            resetPlaybackProgressInterval()
+        }
+    }
+
     override fun onPause() {
         if (exoPlayer.isPlaying) {
             exoPlayer.pause()
@@ -176,8 +196,7 @@ internal class SSVideoPlayerImpl(
     }
 
     override fun onResume() {
-        val state = playbackState.value
-        if (exoPlayer.isPlaying.not() && state.state == Player.STATE_READY) {
+        if (exoPlayer.isPlaying.not() && playbackState.value.state == Player.STATE_READY) {
             playOnFocus()
         }
     }
@@ -199,8 +218,8 @@ internal class SSVideoPlayerImpl(
 
     override fun onPlaybackStateChanged(state: Int) {
         super.onPlaybackStateChanged(state)
-        playbackState.value = playbackState.value.copy(
-            state = state
+        playbackState.tryEmit(
+            playbackState.value.copy(state = state)
         )
 
         if (state == Player.STATE_READY) {
@@ -210,8 +229,8 @@ internal class SSVideoPlayerImpl(
 
     override fun onIsPlayingChanged(isPlaying: Boolean) {
         super.onIsPlayingChanged(isPlaying)
-        playbackState.value = playbackState.value.copy(
-            isPlaying = isPlaying
+        playbackState.tryEmit(
+            playbackState.value.copy(isPlaying = isPlaying)
         )
     }
 
@@ -227,20 +246,29 @@ internal class SSVideoPlayerImpl(
             }
 
             val initial = PlaybackProgressState(duration, position, buffered = exoPlayer.bufferedPosition)
-            playbackProgress.value = initial
+            playbackProgress.emit(initial)
 
             if (state.isPlaying && !state.isBuffering) {
-                starPlaybackProgressInterval(initial)
+                startPlaybackProgressInterval(initial)
             }
         }
     }
 
-    private fun starPlaybackProgressInterval(initial: PlaybackProgressState) {
+    private fun startPlaybackProgressInterval(initial: PlaybackProgressState) {
         playbackProgressInterval = launch {
-            flowInterval(PLAYBACK_PROGRESS_INTERVAL).collect { ticks ->
-                val elapsed = PLAYBACK_PROGRESS_INTERVAL * (ticks + 1)
-                playbackProgress.value = initial.copy(elapsed = elapsed, buffered = exoPlayer.bufferedPosition)
+            flowInterval(currentProgressInterval).collect {
+                val current = playbackProgress.value.elapsed
+                val elapsed = current + PLAYBACK_PROGRESS_INTERVAL
+                playbackProgress.emit(initial.copy(elapsed = elapsed, buffered = exoPlayer.bufferedPosition))
             }
         }
+    }
+
+    private fun resetPlaybackProgressInterval() {
+        val speed = playbackSpeed.value.speed
+        currentProgressInterval = (PLAYBACK_PROGRESS_INTERVAL.toDouble() / speed).toLong()
+
+        playbackProgressInterval.cancel()
+        startPlaybackProgressInterval(playbackProgress.value)
     }
 }
