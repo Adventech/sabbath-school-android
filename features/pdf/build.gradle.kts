@@ -44,13 +44,7 @@ android {
         manifestPlaceholders["psPdfKitKey"] = psPdfKitKey
     }
 
-    sourceSets {
-        getByName("main") {
-            java {
-                srcDirs("src/main/kotlin")
-            }
-        }
-    }
+    namespace = "app.ss.pdf"
 
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()

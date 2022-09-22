@@ -34,6 +34,8 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
+    namespace = "app.ss.runtime.permissions"
+
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
     }

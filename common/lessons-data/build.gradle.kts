@@ -35,6 +35,8 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
+    namespace = "app.ss.lessons.data"
+
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
