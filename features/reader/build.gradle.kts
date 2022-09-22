@@ -33,6 +33,8 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
+    namespace = "com.cryart.sabbathschool.reader"
+
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
     }

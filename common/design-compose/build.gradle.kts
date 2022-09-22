@@ -33,6 +33,8 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
+    namespace = "app.ss.design.compose"
+
     buildFeatures {
         compose = true
     }

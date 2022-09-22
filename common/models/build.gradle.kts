@@ -33,6 +33,8 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
+    namespace = "app.ss.models"
+
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
     }

@@ -32,6 +32,8 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
+    namespace = "com.cryart.design"
+
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
