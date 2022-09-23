@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
@@ -49,9 +48,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.SsColor
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.lighter
@@ -212,13 +211,7 @@ private fun FooterItem(
 private val ImageWidth = 26.dp
 private val ImageHeight = 22.dp
 
-@Preview(
-    name = "Feature"
-)
-@Preview(
-    name = "Feature ~ dark",
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
+@ThemePreviews
 @Composable
 private fun FeatureItemPreview() {
     SsTheme {
@@ -232,13 +225,7 @@ private fun FeatureItemPreview() {
     }
 }
 
-@Preview(
-    name = "Credit"
-)
-@Preview(
-    name = "Credit ~ dark",
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
+@ThemePreviews
 @Composable
 private fun CreditItemPreview() {
     SsTheme {
