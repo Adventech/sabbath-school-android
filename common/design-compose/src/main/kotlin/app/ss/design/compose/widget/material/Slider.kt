@@ -144,7 +144,6 @@ fun Slider(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
-    /*@IntRange(from = 0)*/
     steps: Int = 0,
     onValueChangeFinished: (() -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -517,18 +516,6 @@ private fun snapValueToTick(
         .minByOrNull { abs(lerp(minPx, maxPx, it) - current) }
         ?.run { lerp(minPx, maxPx, this) }
         ?: current
-}
-
-private suspend fun AwaitPointerEventScope.awaitSlop(
-    id: PointerId
-): Pair<PointerInputChange, Float>? {
-    var initialDelta = 0f
-    val postTouchSlop = { pointerInput: PointerInputChange, offset: Float ->
-        pointerInput.consumePositionChange()
-        initialDelta = offset
-    }
-    val afterSlopResult = awaitHorizontalTouchSlopOrCancellation(id, postTouchSlop)
-    return if (afterSlopResult != null) afterSlopResult to initialDelta else null
 }
 
 private fun stepsToTickFractions(steps: Int): List<Float> {

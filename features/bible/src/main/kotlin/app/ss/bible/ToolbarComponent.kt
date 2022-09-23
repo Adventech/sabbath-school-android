@@ -50,10 +50,10 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.parse
 import app.ss.design.compose.widget.icon.IconBox
@@ -241,9 +241,7 @@ private fun BibleVersionsMenu(
     }
 }
 
-@Preview(
-    name = "Header"
-)
+@ThemePreviews
 @Composable
 private fun HeaderRowPreview() {
     SsTheme {

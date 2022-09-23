@@ -30,13 +30,17 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.with
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.extensions.previews.ThemePreviews
+import app.ss.design.compose.theme.SsTheme
 import app.ss.media.playback.model.PlaybackSpeed
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -73,6 +77,20 @@ fun PlaybackSpeedLabel(
                     fontSize = 18.sp
                 ),
                 color = contentColor
+            )
+        }
+    }
+}
+
+@ThemePreviews
+@Composable
+private fun Preview() {
+    SsTheme {
+        Surface {
+            PlaybackSpeedLabel(
+                playbackSpeed = PlaybackSpeed.NORMAL,
+                toggleSpeed = {  },
+                contentColor = LocalContentColor.current
             )
         }
     }

@@ -36,10 +36,10 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.R
+import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.LatoFontFamily
 import app.ss.design.compose.theme.SsColor
 import app.ss.design.compose.theme.SsTheme
@@ -176,11 +176,9 @@ fun ReadMoreText(
     )
 }
 
-@Preview(
-    name = "Read More Text"
-)
+@ThemePreviews
 @Composable
-private fun ReadMoreTextPreview() {
+private fun Preview() {
     SsTheme {
         Surface {
             ReadMoreText(
