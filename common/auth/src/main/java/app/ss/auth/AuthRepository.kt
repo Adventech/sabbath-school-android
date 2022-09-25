@@ -58,7 +58,7 @@ interface AuthRepository {
     suspend fun signIn(): Resource<AuthResponse>
 
     /**
-     * Sign in with a provider token
+     * Sign in with a provider [token]
      */
     suspend fun signIn(token: String): Resource<AuthResponse>
 
@@ -66,6 +66,11 @@ interface AuthRepository {
      * Sign out
      */
     suspend fun logout()
+
+    /**
+     * Deletes the user account and then calls [logout]
+     */
+    suspend fun deleteAccount()
 }
 
 @Singleton
@@ -109,5 +114,15 @@ internal class AuthRepositoryImpl @Inject constructor(
         userDao.insertItem(user.toEntity())
     }
 
-    override suspend fun logout() = userDao.clear()
+    override suspend fun logout() = withContext(dispatcherProvider.io) { userDao.clear() }
+
+    override suspend fun deleteAccount() = withContext(dispatcherProvider.default) {
+        try {
+            if (authApi.deleteAccount().isSuccessful) {
+                logout()
+            }
+        } catch (error: Throwable) {
+            Timber.e(error)
+        }
+    }
 }

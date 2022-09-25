@@ -20,33 +20,40 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.test.di.repository
+package com.cryart.sabbathschool.settings
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import app.ss.auth.AuthRepository
-import app.ss.auth.AuthResponse
-import app.ss.models.auth.SSUser
-import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class FakeAuthRepository @Inject constructor() : AuthRepository {
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    private val ssPrefs: SSPrefs,
+    private val authRepository: AuthRepository,
+) : ViewModel() {
 
-    override suspend fun getUser(): Resource<SSUser?> {
-        return Resource.success(null)
+    private val _viewState: MutableStateFlow<SettingsState> = MutableStateFlow(SettingsState())
+    internal val viewStateFlow: StateFlow<SettingsState> = _viewState
+
+    fun deleteAccount() {
+        _viewState.tryEmit(SettingsState(showProgress = true))
+
+        viewModelScope.launch {
+            authRepository.deleteAccount()
+            ssPrefs.clear()
+
+            _viewState.emit(SettingsState(false))
+        }
     }
-
-    override fun getUserFlow(): Flow<SSUser> = emptyFlow()
-
-    override suspend fun signIn(): Resource<AuthResponse> {
-        return Resource.success(AuthResponse.Error)
-    }
-
-    override suspend fun signIn(token: String): Resource<AuthResponse> {
-        return Resource.success(AuthResponse.Error)
-    }
-
-    override suspend fun logout() {}
-
-    override suspend fun deleteAccount() {}
 }
+
+internal data class SettingsState(
+    val authenticated: Boolean = true,
+    val showProgress: Boolean = false
+)

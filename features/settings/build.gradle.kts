@@ -47,6 +47,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.translations)
@@ -61,5 +62,14 @@ dependencies {
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
 
+    implementation(libs.google.play.auth)
+    implementation(libs.kotlin.coroutines.playservices)
+
     implementation(libs.timber)
+
+    testImplementation(libs.bundles.testing.common)
+    kaptTest(libs.google.hilt.compiler)
+    androidTestImplementation(libs.bundles.testing.android.common)
+    kaptAndroidTest(libs.google.hilt.compiler)
+    testImplementation(projects.libraries.testUtils)
 }
