@@ -24,8 +24,6 @@ package app.ss.lessons.data.di
 
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.lessons.LessonsRepositoryImpl
-import app.ss.lessons.data.repository.UserDataRepository
-import app.ss.lessons.data.repository.UserDataRepositoryImpl
 import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.lessons.data.repository.media.MediaRepositoryImpl
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
@@ -47,7 +45,4 @@ abstract class RepositoryModule {
 
     @Binds
     internal abstract fun bindMediaRepository(impl: MediaRepositoryImpl): MediaRepository
-
-    @Binds
-    internal abstract fun bindUserDataRepository(impl: UserDataRepositoryImpl): UserDataRepository
 }

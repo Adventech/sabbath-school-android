@@ -34,27 +34,24 @@ import javax.inject.Singleton
 /**
  * Responsible for user stored lesson data (Highlights, Comments, Annotations).
  */
-interface UserDataRepository {
-
-    /**
-     * Clears all cached user data.
-     */
-    suspend fun clear()
-}
-
 @Singleton
-internal class UserDataRepositoryImpl @Inject constructor(
+class UserDataRepository @Inject constructor(
     private val readHighlightsDao: ReadHighlightsDao,
     private val readCommentsDao: ReadCommentsDao,
     private val pdfAnnotationsDao: PdfAnnotationsDao,
     private val ssPrefs: SSPrefs,
     private val dispatcherProvider: DispatcherProvider,
-) : UserDataRepository {
+) {
 
-    override suspend fun clear() = withContext(dispatcherProvider.io) {
-        readHighlightsDao.clear()
-        readCommentsDao.clear()
-        pdfAnnotationsDao.clear()
-        ssPrefs.clear()
+    /**
+     * Clears all cached user data.
+     */
+    suspend fun clear() {
+        withContext(dispatcherProvider.io) {
+            readHighlightsDao.clear()
+            readCommentsDao.clear()
+            pdfAnnotationsDao.clear()
+            ssPrefs.clear()
+        }
     }
 }

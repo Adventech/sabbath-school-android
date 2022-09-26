@@ -46,7 +46,7 @@ class UserDataRepositoryTest {
 
     @Before
     fun setup() {
-        repository = UserDataRepositoryImpl(
+        repository = UserDataRepository(
             readHighlightsDao = readHighlightsDao,
             readCommentsDao = readCommentsDao,
             pdfAnnotationsDao = pdfAnnotationsDao,
