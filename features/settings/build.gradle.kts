@@ -50,6 +50,7 @@ dependencies {
     implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.design)
+    implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
 
     implementation(libs.google.material)

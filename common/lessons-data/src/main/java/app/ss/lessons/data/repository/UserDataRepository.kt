@@ -20,18 +20,41 @@
  * THE SOFTWARE.
  */
 
-package app.ss.storage.db.dao
+package app.ss.lessons.data.repository
 
-import androidx.room.Dao
-import androidx.room.Query
-import app.ss.storage.db.entity.ReadCommentsEntity
+import app.ss.storage.db.dao.PdfAnnotationsDao
+import app.ss.storage.db.dao.ReadCommentsDao
+import app.ss.storage.db.dao.ReadHighlightsDao
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
+import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-@Dao
-interface ReadCommentsDao : BaseDao<ReadCommentsEntity> {
+/**
+ * Responsible for user stored lesson data (Highlights, Comments, Annotations).
+ */
+interface UserDataRepository {
 
-    @Query("SELECT * FROM comments WHERE readIndex = :readIndex")
-    fun get(readIndex: String): ReadCommentsEntity?
-
-    @Query("DELETE FROM comments")
+    /**
+     * Clears all cached user data.
+     */
     suspend fun clear()
+}
+
+@Singleton
+internal class UserDataRepositoryImpl @Inject constructor(
+    private val readHighlightsDao: ReadHighlightsDao,
+    private val readCommentsDao: ReadCommentsDao,
+    private val pdfAnnotationsDao: PdfAnnotationsDao,
+    private val ssPrefs: SSPrefs,
+    private val dispatcherProvider: DispatcherProvider,
+) : UserDataRepository {
+
+    override suspend fun clear() = withContext(dispatcherProvider.io) {
+        readHighlightsDao.clear()
+        readCommentsDao.clear()
+        pdfAnnotationsDao.clear()
+        ssPrefs.clear()
+    }
 }

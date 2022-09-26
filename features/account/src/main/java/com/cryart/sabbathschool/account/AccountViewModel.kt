@@ -26,41 +26,38 @@ import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.auth.AuthRepository
+import app.ss.lessons.data.repository.UserDataRepository
 import com.cryart.sabbathschool.account.model.UserInfo
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 internal class AccountViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val ssPrefs: SSPrefs,
-    private val dispatcherProvider: DispatcherProvider
+    private val userDataRepository: UserDataRepository,
 ) : ViewModel() {
 
-    private val _userInfo: MutableStateFlow<UserInfo> = MutableStateFlow(UserInfo())
-    val userInfoFlow: StateFlow<UserInfo> = _userInfo
-
-    init {
-        viewModelScope.launch(dispatcherProvider.io) {
-            authRepository.getUser().data?.let { user ->
-                _userInfo.emit(
-                    UserInfo(
-                        user.displayName,
-                        user.email,
-                        user.photo?.toUri()
-                    )
+    val userInfoFlow: StateFlow<UserInfo> = authRepository
+        .getUserFlow()
+        .map { user ->
+            user?.let {
+                UserInfo(
+                    user.displayName,
+                    user.email,
+                    user.photo?.toUri()
                 )
-            }
+            } ?: UserInfo()
         }
-    }
+        .stateIn(viewModelScope, UserInfo())
 
-    fun logoutClicked() = viewModelScope.launch(dispatcherProvider.io) {
-        ssPrefs.clear()
-        authRepository.logout()
+    fun logoutClicked() {
+        viewModelScope.launch {
+            userDataRepository.clear()
+            authRepository.logout()
+        }
     }
 }

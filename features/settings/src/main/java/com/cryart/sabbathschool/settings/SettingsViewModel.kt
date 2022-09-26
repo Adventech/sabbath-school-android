@@ -25,7 +25,7 @@ package com.cryart.sabbathschool.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.auth.AuthRepository
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import app.ss.lessons.data.repository.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -34,8 +34,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val ssPrefs: SSPrefs,
     private val authRepository: AuthRepository,
+    private val userDataRepository: UserDataRepository
 ) : ViewModel() {
 
     private val _viewState: MutableStateFlow<SettingsState> = MutableStateFlow(SettingsState())
@@ -46,7 +46,7 @@ class SettingsViewModel @Inject constructor(
 
         viewModelScope.launch {
             authRepository.deleteAccount()
-            ssPrefs.clear()
+            userDataRepository.clear()
 
             _viewState.emit(SettingsState(false))
         }

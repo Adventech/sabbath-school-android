@@ -37,7 +37,7 @@ interface UserDao : BaseDao<UserEntity> {
     suspend fun get(): UserEntity?
 
     @Query("SELECT * FROM user LIMIT 1")
-    fun getAsFlow(): Flow<UserEntity>
+    fun getAsFlow(): Flow<UserEntity?>
 
     @Query("DELETE FROM user")
     suspend fun clear()

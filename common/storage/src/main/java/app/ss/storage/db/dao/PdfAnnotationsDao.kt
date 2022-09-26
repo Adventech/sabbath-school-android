@@ -31,4 +31,7 @@ interface PdfAnnotationsDao : BaseDao<PdfAnnotationsEntity> {
 
     @Query("SELECT * FROM annotations WHERE `index` = :pdfIndex")
     fun get(pdfIndex: String): List<PdfAnnotationsEntity>
+
+    @Query("DELETE FROM annotations")
+    suspend fun clear()
 }

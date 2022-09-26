@@ -52,7 +52,7 @@ interface AuthRepository {
     /**
      * Get the signed in user
      */
-    fun getUserFlow(): Flow<SSUser>
+    fun getUserFlow(): Flow<SSUser?>
 
     /**
      * Sign in anonymously
@@ -88,9 +88,9 @@ internal class AuthRepositoryImpl @Inject constructor(
         Resource.success(user?.toModel())
     }
 
-    override fun getUserFlow(): Flow<SSUser> = userDao
+    override fun getUserFlow(): Flow<SSUser?> = userDao
         .getAsFlow()
-        .map { it.toModel() }
+        .map { it?.toModel() }
         .flowOn(dispatcherProvider.io)
 
     override suspend fun signIn(): Resource<AuthResponse> = makeAuthRequest { authApi.signIn() }

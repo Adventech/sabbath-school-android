@@ -20,14 +20,20 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.settings
+package com.cryart.sabbathschool.account
 
 import app.cash.turbine.test
 import app.ss.auth.AuthRepository
 import app.ss.lessons.data.repository.UserDataRepository
+import app.ss.models.auth.SSUser
+import com.cryart.sabbathschool.account.model.UserInfo
 import com.cryart.sabbathschool.test.coroutines.MainDispatcherRule
 import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -37,7 +43,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class SettingsViewModelTest {
+class AccountViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -45,45 +51,58 @@ class SettingsViewModelTest {
     private val mockAuthRepository: AuthRepository = mockk()
     private val mockUserDataRepository: UserDataRepository = mockk()
 
-    private lateinit var viewModel: SettingsViewModel
+    private lateinit var viewModel: AccountViewModel
+
+    private val userFlow = MutableSharedFlow<SSUser>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+
 
     @Before
     fun setup() {
-        coEvery { mockUserDataRepository.clear() }.returns(Unit)
-        coEvery { mockAuthRepository.deleteAccount() }.returns(Unit)
+        every { mockAuthRepository.getUserFlow() }.returns(userFlow)
 
-        viewModel = SettingsViewModel(
+        viewModel = AccountViewModel(
             authRepository = mockAuthRepository,
             userDataRepository = mockUserDataRepository
         )
     }
 
     @Test
-    fun initialState() = runTest {
-        val job = launch(UnconfinedTestDispatcher()) { viewModel.viewStateFlow.collect() }
+    fun userInfoState() = runTest {
+        val job = launch(UnconfinedTestDispatcher()) { viewModel.userInfoFlow.collect() }
 
-        viewModel.viewStateFlow.test {
-            awaitItem() shouldBeEqualTo SettingsState()
+        val user: SSUser = mockk()
+        every { user.displayName }.returns("Display Name")
+        every { user.email }.returns("test@email.com")
+        every { user.photo }.returns(null)
+
+        viewModel.userInfoFlow.test {
+            awaitItem() shouldBeEqualTo UserInfo()
+
+            userFlow.emit(user)
+
+            awaitItem() shouldBeEqualTo UserInfo(
+                displayName = "Display Name",
+                email = "test@email.com",
+                photo = null
+            )
         }
 
         job.cancel()
     }
 
     @Test
-    fun deleteAccount() = runTest {
-        val job = launch(UnconfinedTestDispatcher()) { viewModel.viewStateFlow.collect() }
+    fun logoutClicked() = runTest {
+        coEvery { mockUserDataRepository.clear() }.returns(Unit)
+        coEvery { mockAuthRepository.logout() }.returns(Unit)
 
-        viewModel.viewStateFlow.test {
-            awaitItem() shouldBeEqualTo SettingsState()
+        viewModel.logoutClicked()
 
-            viewModel.deleteAccount()
-
-            awaitItem() shouldBeEqualTo SettingsState(showProgress = true)
-
-            awaitItem() shouldBeEqualTo SettingsState(false)
+        coVerify {
+            mockUserDataRepository.clear()
+            mockAuthRepository.logout()
         }
-
-        job.cancel()
     }
-
 }
