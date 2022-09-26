@@ -127,4 +127,7 @@
     <string name="ss_action_forward">前方</string>
     <string name="ss_picture_in_picture">ピクチャーインピクチャー</string>
     <string name="ss_auto">自動</string>
+    <string name="ss_delete_account_question">アカウントを削除する？</string>
+    <string name="ss_delete_account">アカウントを削除する</string>
+    <string name="ss_delete_account_warning">アカウントを削除すると、コメントやハイライトなどのすべてのデータが完全に削除されます。続行してもよろしいですか？</string>
 </resources>

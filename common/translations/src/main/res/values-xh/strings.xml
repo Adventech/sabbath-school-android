@@ -119,4 +119,7 @@ Siyakholwa ngokwenene ukuba uThixo ukwandise ulwazi lwehlabathi lanamhlanje kway
     <string name="ss_action_forward">Phambili</string>
     <string name="ss_picture_in_picture">Umfanekiso Emfanekisweni</string>
     <string name="ss_auto">Ngokuzenzekelayo</string>
+    <string name="ss_delete_account">Cima iakhawunti</string>
+    <string name="ss_delete_account_question">"Cima iakhawunti? "</string>
+    <string name="ss_delete_account_warning">Ngokucima i-akhawunti yakho yonke idatha yakho, efana nezimvo kunye namagqabantshintshi aya kususwa umphelo. Uqinisekile ukuba ufuna ukuqhubeka?</string>
 </resources>

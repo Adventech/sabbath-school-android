@@ -120,4 +120,7 @@ Ons glo werklik dat God die kennis van die moderne wÃªreld verhoog het en wil hÃ
     <string name="ss_action_forward">Vorentoe</string>
     <string name="ss_picture_in_picture">Prent in Beeld</string>
     <string name="ss_auto">Outo</string>
+    <string name="ss_delete_account">Verwyder rekening</string>
+    <string name="ss_delete_account_question">Verwyder rekening?</string>
+    <string name="ss_delete_account_warning">Deur jou rekening uit te vee, sal al jou data, soos opmerkings en hoogtepunte, permanent uitgevee word. Is jy seker jy wil voortgaan?</string>
 </resources>

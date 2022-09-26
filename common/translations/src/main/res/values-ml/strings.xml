@@ -119,4 +119,7 @@
     <string name="ss_action_forward">"മുന്നോട്ട് "</string>
     <string name="ss_picture_in_picture">"ചിത്രത്തിലുള്ള ചിത്രം "</string>
     <string name="ss_auto">"ഓട്ടോ "</string>
+    <string name="ss_delete_account">"അക്കൗണ്ട് ഇല്ലാതാക്കുക "</string>
+    <string name="ss_delete_account_question">"അക്കൗണ്ട് ഇല്ലാതാക്കണോ? "</string>
+    <string name="ss_delete_account_warning">"നിങ്ങളുടെ അക്കൗണ്ട് ഇല്ലാതാക്കുന്നതിലൂടെ, അഭിപ്രായങ്ങളും ഹൈലൈറ്റുകളും പോലുള്ള നിങ്ങളുടെ എല്ലാ ഡാറ്റയും ശാശ്വതമായി ഇല്ലാതാക്കപ്പെടും. നിങ്ങൾക്ക് തുടരണമെന്ന് തീർച്ചയാണോ? "</string>
 </resources>

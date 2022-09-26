@@ -119,4 +119,7 @@ Mi doista vjerujemo da je Bog povećao znanje o suvremenom svijetu i želi da ga
     <string name="ss_action_forward">Naprijed</string>
     <string name="ss_picture_in_picture">Slika u slici</string>
     <string name="ss_auto">Auto</string>
+    <string name="ss_delete_account">Izbriši račun</string>
+    <string name="ss_delete_account_question">Izbriši račun?</string>
+    <string name="ss_delete_account_warning">Brisanjem vašeg računa svi vaši podaci, poput komentara i istaknutih stavki, bit će trajno izbrisani. Jeste li sigurni da želite nastaviti?</string>
 </resources>

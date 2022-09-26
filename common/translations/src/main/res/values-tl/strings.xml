@@ -119,4 +119,7 @@ Talagang naniniwala kami na pinalaki ng Diyos ang kaalaman sa modernong mundo at
     <string name="ss_action_forward">Pasulong</string>
     <string name="ss_picture_in_picture">Larawan Sa Larawan</string>
     <string name="ss_auto">Auto</string>
+    <string name="ss_delete_account">Tanggalin ang account</string>
+    <string name="ss_delete_account_question">Tanggalin ang account?</string>
+    <string name="ss_delete_account_warning">Sa pamamagitan ng pagtanggal sa iyong account, ang lahat ng iyong data, gaya ng mga komento at mga highlight ay permanenteng tatanggalin. Sigurado ka bang gusto mong magpatuloy?</string>
 </resources>

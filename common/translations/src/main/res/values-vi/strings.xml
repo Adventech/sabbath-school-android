@@ -119,4 +119,7 @@ Chúng tôi thực sự tin rằng Chúa đã gia tăng kiến thức về thế
     <string name="ss_action_forward">Ở đằng trước</string>
     <string name="ss_picture_in_picture">Hình ảnh trong ảnh</string>
     <string name="ss_auto">Tự động</string>
+    <string name="ss_delete_account">Xóa tài khoản</string>
+    <string name="ss_delete_account_question">Xóa tài khoản?</string>
+    <string name="ss_delete_account_warning">Bằng cách xóa tài khoản của bạn, tất cả dữ liệu của bạn, chẳng hạn như nhận xét và đánh dấu sẽ bị xóa vĩnh viễn. Bạn có chắc muốn tiếp tục?</string>
 </resources>
