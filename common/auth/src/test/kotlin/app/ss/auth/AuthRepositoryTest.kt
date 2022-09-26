@@ -24,6 +24,7 @@ package app.ss.auth
 
 import app.ss.auth.api.SSAuthApi
 import app.ss.storage.db.dao.UserDao
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -39,17 +40,20 @@ class AuthRepositoryTest {
 
     private val mockAuthApi: SSAuthApi = mockk()
     private val mockUserDao: UserDao = mockk()
+    private val mockConnectivityHelper: ConnectivityHelper = mockk()
 
     private lateinit var repository: AuthRepository
 
     @Before
     fun setup() {
         coEvery { mockUserDao.clear() }.returns(Unit)
+        every { mockConnectivityHelper.isConnected() }.returns(true)
 
         repository = AuthRepositoryImpl(
             authApi = mockAuthApi,
             userDao = mockUserDao,
-            dispatcherProvider = TestDispatcherProvider()
+            dispatcherProvider = TestDispatcherProvider(),
+            connectivityHelper = mockConnectivityHelper
         )
     }
 

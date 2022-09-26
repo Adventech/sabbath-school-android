@@ -28,7 +28,9 @@ import app.ss.auth.api.UserModel
 import app.ss.auth.api.toEntity
 import app.ss.auth.api.toModel
 import app.ss.models.auth.SSUser
+import app.ss.network.safeApiCall
 import app.ss.storage.db.dao.UserDao
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
@@ -77,7 +79,8 @@ interface AuthRepository {
 internal class AuthRepositoryImpl @Inject constructor(
     private val authApi: SSAuthApi,
     private val userDao: UserDao,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val connectivityHelper: ConnectivityHelper
 ) : AuthRepository {
 
     override suspend fun getUser(): Resource<SSUser?> = withContext(dispatcherProvider.io) {
@@ -116,13 +119,13 @@ internal class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun logout() = withContext(dispatcherProvider.io) { userDao.clear() }
 
-    override suspend fun deleteAccount() = withContext(dispatcherProvider.default) {
-        try {
-            if (authApi.deleteAccount().isSuccessful) {
-                logout()
+    override suspend fun deleteAccount() {
+        withContext(dispatcherProvider.default) {
+            safeApiCall(connectivityHelper) {
+                if (authApi.deleteAccount().isSuccessful) {
+                    logout()
+                }
             }
-        } catch (error: Throwable) {
-            Timber.e(error)
         }
     }
 }
