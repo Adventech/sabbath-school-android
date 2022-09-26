@@ -120,5 +120,8 @@
     <string name="ss_action_forward">ສົ່ງຕໍ່</string>
     <string name="ss_picture_in_picture">ຮູບພາບຢູ່ໃນຮູບ</string>
     <string name="ss_auto">ອັດຕະໂນມັດ</string>
+    <string name="ss_delete_account_question">ລຶບບັນຊີບໍ?</string>
+    <string name="ss_delete_account">ລຶບບັນຊີ</string>
+    <string name="ss_delete_account_warning">"ໂດຍການລຶບບັນຊີຂອງທ່ານທັງໝົດຂໍ້ມູນຂອງທ່ານ, ເຊັ່ນ: ຄຳເຫັນ ແລະຈຸດເດັ່ນຈະຖືກລຶບຢ່າງຖາວອນ. ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການດຳເນີນການຕໍ່? "</string>
 
 </resources>

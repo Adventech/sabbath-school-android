@@ -119,4 +119,7 @@
     <string name="ss_action_forward">Напред</string>
     <string name="ss_picture_in_picture">Слика во слика</string>
     <string name="ss_auto">Автоматски</string>
+    <string name="ss_delete_account">Избриши сметка</string>
+    <string name="ss_delete_account_question">Избриши сметка?</string>
+    <string name="ss_delete_account_warning">Со бришење на вашата сметка, сите ваши податоци, како што се коментарите и главните моменти, ќе бидат трајно избришани. Дали сте сигурни дека сакате да продолжите?</string>
 </resources>

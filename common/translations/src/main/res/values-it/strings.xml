@@ -119,4 +119,7 @@ Crediamo veramente che Dio abbia accresciuto la conoscenza del mondo moderno e c
     <string name="ss_action_forward">Inoltrare</string>
     <string name="ss_picture_in_picture">Immagine nell\'immagine</string>
     <string name="ss_auto">Auto</string>
+    <string name="ss_delete_account_question">Eliminare l\'account?</string>
+    <string name="ss_delete_account">Eliminare l\'account</string>
+    <string name="ss_delete_account_warning">Eliminando il tuo account tutti i tuoi dati, come commenti ed evidenziazioni, verranno eliminati definitivamente. Sei sicuro di voler procedere?</string>
 </resources>

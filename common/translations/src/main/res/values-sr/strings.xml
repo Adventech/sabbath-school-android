@@ -119,4 +119,7 @@
     <string name="ss_action_forward">Напред</string>
     <string name="ss_picture_in_picture">Слика у слици</string>
     <string name="ss_auto">Ауто</string>
+    <string name="ss_delete_account">Обрисати налог</string>
+    <string name="ss_delete_account_question">Обрисати налог?</string>
+    <string name="ss_delete_account_warning">Брисањем налога сви ваши подаци, као што су коментари и истакнути садржаји, биће трајно избрисани. Да ли сте сигурни да желите да наставите?</string>
 </resources>

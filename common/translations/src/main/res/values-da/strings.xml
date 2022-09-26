@@ -119,4 +119,7 @@ Vi tror virkelig, at Gud har øget kendskabet til den moderne verden og vil have
     <string name="ss_action_forward">Frem</string>
     <string name="ss_picture_in_picture">Billede i billede</string>
     <string name="ss_auto">Auto</string>
+    <string name="ss_delete_account_question">Slet konto?</string>
+    <string name="ss_delete_account">Slet konto</string>
+    <string name="ss_delete_account_warning">Ved at slette din konto vil alle dine data, såsom kommentarer og highlights blive slettet permanent. Er du sikker på, at du vil fortsætte?</string>
 </resources>

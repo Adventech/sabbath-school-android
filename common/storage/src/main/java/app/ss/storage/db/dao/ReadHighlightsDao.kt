@@ -31,4 +31,7 @@ interface ReadHighlightsDao : BaseDao<ReadHighlightsEntity> {
 
     @Query("SELECT * FROM highlights WHERE readIndex = :readIndex")
     fun get(readIndex: String): ReadHighlightsEntity?
+
+    @Query("DELETE FROM highlights")
+    suspend fun clear()
 }

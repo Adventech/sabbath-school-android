@@ -50,6 +50,7 @@ dependencies {
     implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.design)
+    implementation(projects.common.lessonsData)
     implementation(projects.common.models)
     implementation(projects.common.translations)
 
@@ -69,4 +70,10 @@ dependencies {
 
     implementation(libs.coil.core)
     implementation(libs.timber)
+
+    testImplementation(libs.bundles.testing.common)
+    kaptTest(libs.google.hilt.compiler)
+    androidTestImplementation(libs.bundles.testing.android.common)
+    kaptAndroidTest(libs.google.hilt.compiler)
+    testImplementation(projects.libraries.testUtils)
 }

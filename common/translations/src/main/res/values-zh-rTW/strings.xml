@@ -120,4 +120,7 @@
     <string name="ss_action_forward">向前</string>
     <string name="ss_picture_in_picture">画中画</string>
     <string name="ss_auto">汽车</string>
+    <string name="ss_delete_account_warning">通过删除您的帐户，您的所有数据（例如评论和亮点）将被永久删除。您确定要继续吗？</string>
+    <string name="ss_delete_account">删除帐户</string>
+    <string name="ss_delete_account_question">删除帐户？</string>
 </resources>

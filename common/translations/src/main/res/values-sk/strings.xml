@@ -124,5 +124,8 @@
     <string name="ss_action_forward">Vpred</string>
     <string name="ss_picture_in_picture">Obraz v obraze</string>
     <string name="ss_auto">Auto</string>
+    <string name="ss_delete_account">Zmazať účet</string>
+    <string name="ss_delete_account_question">Zmazať účet?</string>
+    <string name="ss_delete_account_warning">Odstránením účtu sa natrvalo odstránia všetky vaše údaje, ako sú komentáre a zvýraznenia. Naozaj chcete pokračovať?</string>
 
 </resources>

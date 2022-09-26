@@ -67,7 +67,7 @@ class QuarterliesViewModel @Inject constructor(
     val groupTitle get() = quarterlyGroup?.name
 
     private val photo: Flow<Result<String?>> = authRepository.getUserFlow()
-        .map { it.photo }
+        .map { it?.photo }
         .asResult()
 
     private val quarterlies: Flow<Result<GroupedQuarterlies>> = ssPrefs.getLanguageCodeFlow()

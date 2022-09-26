@@ -36,7 +36,7 @@ class FakeAuthRepository @Inject constructor() : AuthRepository {
         return Resource.success(null)
     }
 
-    override fun getUserFlow(): Flow<SSUser> = emptyFlow()
+    override fun getUserFlow(): Flow<SSUser?> = emptyFlow()
 
     override suspend fun signIn(): Resource<AuthResponse> {
         return Resource.success(AuthResponse.Error)
@@ -47,4 +47,6 @@ class FakeAuthRepository @Inject constructor() : AuthRepository {
     }
 
     override suspend fun logout() {}
+
+    override suspend fun deleteAccount() {}
 }

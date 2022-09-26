@@ -113,5 +113,8 @@
     <string name="ss_action_forward">"ရှေ့သို့ "</string>
     <string name="ss_picture_in_picture">"ရုပ်ပုံပါ ရုပ်ပုံ "</string>
     <string name="ss_auto">"အော်တို "</string>
+    <string name="ss_delete_account">"အကောင့်ဖျက်ပါ။ "</string>
+    <string name="ss_delete_account_question">"အကောင့်ဖျက်မလား။ "</string>
+    <string name="ss_delete_account_warning">"သင့်အကောင့်ကို ဖျက်ခြင်းဖြင့် မှတ်ချက်များနှင့် အသားပေးဖော်ပြချက်များကဲ့သို့သော သင့်ဒေတာအားလုံးကို အပြီးအပိုင် ဖျက်လိုက်ပါမည်။ ရှေ့ဆက်လိုသည်မှာ သေချာပါသလား။ "</string>
 
 </resources>

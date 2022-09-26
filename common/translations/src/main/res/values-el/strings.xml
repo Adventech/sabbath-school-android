@@ -119,4 +119,7 @@
     <string name="ss_action_forward">Προς τα εμπρός</string>
     <string name="ss_picture_in_picture">Εικόνα σε εικόνα</string>
     <string name="ss_auto">Αυτο</string>
+    <string name="ss_delete_account_question">Διαγραφή λογαριασμού?</string>
+    <string name="ss_delete_account">Διαγραφή λογαριασμού</string>
+    <string name="ss_delete_account_warning">Με τη διαγραφή του λογαριασμού σας, όλα τα δεδομένα σας, όπως σχόλια και επισημάνσεις, θα διαγραφούν οριστικά. Είστε βέβαιοι ότι θέλετε να συνεχίσετε;</string>
 </resources>

@@ -119,4 +119,7 @@
     <string name="ss_action_forward">вперед</string>
     <string name="ss_picture_in_picture">Картинка в картинці</string>
     <string name="ss_auto">Авто</string>
+    <string name="ss_delete_account">Видалити аккаунт</string>
+    <string name="ss_delete_account_question">Видалити аккаунт?</string>
+    <string name="ss_delete_account_warning">Після видалення облікового запису всі ваші дані, як-от коментарі та основні моменти, буде видалено назавжди. Ви впевнені, що бажаєте продовжити?</string>
 </resources>

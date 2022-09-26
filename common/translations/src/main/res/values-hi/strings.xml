@@ -119,4 +119,7 @@
     <string name="ss_action_forward">आगे</string>
     <string name="ss_picture_in_picture">"चित्र में चित्र "</string>
     <string name="ss_auto">"ऑटो "</string>
+    <string name="ss_delete_account_question">"खाता हटा दो? "</string>
+    <string name="ss_delete_account">"खाता हटा दो "</string>
+    <string name="ss_delete_account_warning">"अपना खाता हटाने से आपका सारा डेटा, जैसे टिप्पणियाँ और हाइलाइट स्थायी रूप से हटा दिया जाएगा। क्या आप सुनिश्चित रूप से आगे बढ़ना चाहते हैं? "</string>
 </resources>

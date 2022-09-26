@@ -119,4 +119,7 @@
     <string name="ss_action_forward">ซึ่งไปข้างหน้า</string>
     <string name="ss_picture_in_picture">รูปภาพในภาพ</string>
     <string name="ss_auto">รถยนต์</string>
+    <string name="ss_delete_account">ลบบัญชี</string>
+    <string name="ss_delete_account_question">ลบบัญชี?</string>
+    <string name="ss_delete_account_warning">"การลบบัญชีของคุณ ข้อมูลทั้งหมดของคุณ เช่น ความคิดเห็นและไฮไลท์ จะถูกลบอย่างถาวร คุณแน่ใจหรือไม่ว่าต้องการดำเนินการต่อ "</string>
 </resources>
