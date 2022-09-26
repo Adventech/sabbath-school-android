@@ -39,7 +39,7 @@ iconics = "5.3.4"
 iconics-material = "4.0.0.2-kotlin"
 # @keep this version
 joda-android = "2.11.0.1"
-joda-time = "2.11.1"
+joda-time = "2.11.2"
 jvmTarget = "11"
 kotlin = "1.7.10"
 kotlin-coroutines = "1.6.4"
