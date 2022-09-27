@@ -69,6 +69,8 @@ android {
         buildConfigField("String", "WEB_CLIENT_ID", "\"$webClientId\"")
     }
 
+    namespace = BuildAndroidConfig.APP_ID
+
     signingConfigs {
         if (useReleaseKeystore) {
             val keyProps = Properties().apply {

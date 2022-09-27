@@ -119,4 +119,7 @@ Wir glauben wirklich, dass Gott die Erkenntnis der modernen Welt erhöht hat und
     <string name="ss_action_forward">Nach vorne</string>
     <string name="ss_picture_in_picture">Bild im Bild</string>
     <string name="ss_auto">Auto</string>
+    <string name="ss_delete_account">Konto löschen</string>
+    <string name="ss_delete_account_question">Konto löschen?</string>
+    <string name="ss_delete_account_warning">Durch das Löschen Ihres Kontos werden alle Ihre Daten wie Kommentare und Highlights dauerhaft gelöscht. Sind Sie sicher, dass Sie fortfahren möchten?</string>
 </resources>

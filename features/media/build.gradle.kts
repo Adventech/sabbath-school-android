@@ -36,13 +36,7 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
-    sourceSets {
-        getByName("main") {
-            java {
-                srcDirs("src/main/kotlin")
-            }
-        }
-    }
+    namespace = "app.ss.media"
 
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()

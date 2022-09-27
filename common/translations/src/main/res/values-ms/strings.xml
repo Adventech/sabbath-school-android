@@ -119,4 +119,7 @@ Kami benar-benar percaya bahawa Tuhan telah meningkatkan pengetahuan tentang dun
     <string name="ss_action_forward">ke hadapan</string>
     <string name="ss_picture_in_picture">Gambar Dalam Gambar</string>
     <string name="ss_auto">Auto</string>
+    <string name="ss_delete_account">Padam akaun</string>
+    <string name="ss_delete_account_question">Padam akaun?</string>
+    <string name="ss_delete_account_warning">Dengan memadamkan akaun anda semua data anda, seperti ulasan dan sorotan akan dipadamkan secara kekal. Adakah anda pasti mahu meneruskan?</string>
 </resources>

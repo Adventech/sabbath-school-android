@@ -115,4 +115,7 @@
     <string name="ss_action_forward">"ಮುಂದೆ "</string>
     <string name="ss_picture_in_picture">ಚಿತ್ರದಲ್ಲಿ ಚಿತ್ರ</string>
     <string name="ss_auto">"ಆಟೋ "</string>
+    <string name="ss_delete_account_question">"ಖಾತೆಯನ್ನು ಅಳಿಸುವುದೇ? "</string>
+    <string name="ss_delete_account">"ಖಾತೆಯನ್ನು ಅಳಿಸಿ "</string>
+    <string name="ss_delete_account_warning">"ನಿಮ್ಮ ಖಾತೆಯನ್ನು ಅಳಿಸುವ ಮೂಲಕ ಕಾಮೆಂಟ್u200cಗಳು ಮತ್ತು ಮುಖ್ಯಾಂಶಗಳಂತಹ ನಿಮ್ಮ ಎಲ್ಲಾ ಡೇಟಾವನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಲಾಗುತ್ತದೆ. ನೀವು ಮುಂದುವರೆಯಲು ಖಚಿತವಾಗಿ ಬಯಸುವಿರಾ? "</string>
 </resources>

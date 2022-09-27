@@ -119,4 +119,7 @@ Mes tikime, kad Dievas padidino šiuolaikinio pasaulio žinias ir nori, kad mes 
     <string name="ss_action_forward">Persiųsti</string>
     <string name="ss_picture_in_picture">Paveikslėlis paveikslėlyje</string>
     <string name="ss_auto">Automatinis</string>
+    <string name="ss_delete_account_question">Ištrinti paskyrą?</string>
+    <string name="ss_delete_account">Ištrinti paskyrą</string>
+    <string name="ss_delete_account_warning">Ištrynus paskyrą visi jūsų duomenys, pvz., komentarai ir akcentai, bus visam laikui ištrinti. Ar tikrai norite tęsti?</string>
 </resources>

@@ -24,7 +24,7 @@ package app.ss.auth
 
 import app.ss.models.auth.SSUser
 
-sealed class AuthResponse {
-    data class Authenticated(val user: SSUser) : AuthResponse()
-    object Error : AuthResponse()
+sealed interface AuthResponse {
+    data class Authenticated(val user: SSUser) : AuthResponse
+    object Error : AuthResponse
 }

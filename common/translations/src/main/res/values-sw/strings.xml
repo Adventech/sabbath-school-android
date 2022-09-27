@@ -119,4 +119,7 @@ Tunaamini kweli kwamba Mungu ameongeza ujuzi wa dunia ya kisasa na anataka tuutu
     <string name="ss_action_forward">Mbele</string>
     <string name="ss_picture_in_picture">Pichani Katika Picha</string>
     <string name="ss_auto">Otomatiki</string>
+    <string name="ss_delete_account">Futa akaunti</string>
+    <string name="ss_delete_account_question">Ungependa kufuta akaunti?</string>
+    <string name="ss_delete_account_warning">Kwa kufuta akaunti yako data yako yote, kama vile maoni na vivutio vitafutwa kabisa. Je, una uhakika unataka kuendelea?</string>
 </resources>

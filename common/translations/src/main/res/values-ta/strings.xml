@@ -119,4 +119,7 @@
     <string name="ss_action_forward">"முன்னோக்கி "</string>
     <string name="ss_picture_in_picture">"படத்தில் உள்ள படம் "</string>
     <string name="ss_auto">"ஆட்டோ "</string>
+    <string name="ss_delete_account">"கணக்கை நீக்குக "</string>
+    <string name="ss_delete_account_question">"கணக்கை நீக்குக? "</string>
+    <string name="ss_delete_account_warning">"உங்கள் கணக்கை நீக்குவதன் மூலம், கருத்துகள் மற்றும் சிறப்பம்சங்கள் போன்ற உங்களின் எல்லாத் தரவும் நிரந்தரமாக நீக்கப்படும். நீங்கள் நிச்சயமாக தொடர விரும்புகிறீர்களா? "</string>
 </resources>

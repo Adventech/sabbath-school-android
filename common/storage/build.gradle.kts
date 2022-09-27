@@ -43,6 +43,8 @@ android {
         }
     }
 
+    namespace = "app.ss.storage"
+
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
     }

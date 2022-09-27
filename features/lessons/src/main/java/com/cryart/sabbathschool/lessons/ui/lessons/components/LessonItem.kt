@@ -22,7 +22,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,10 +38,10 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
+import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.onSurfaceSecondary
 import app.ss.design.compose.widget.divider.Divider
@@ -158,13 +157,7 @@ private fun LessonItem(
     }
 }
 
-@Preview(
-    name = "Lesson Item"
-)
-@Preview(
-    name = "Lesson Item ~ dark",
-    uiMode = UI_MODE_NIGHT_YES
-)
+@ThemePreviews
 @Composable
 private fun LessonItemPreview() {
     SsTheme {

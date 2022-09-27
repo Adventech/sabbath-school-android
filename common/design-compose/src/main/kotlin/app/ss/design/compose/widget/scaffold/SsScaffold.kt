@@ -42,9 +42,9 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.modifier.thenIf
+import app.ss.design.compose.extensions.previews.DevicePreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
@@ -83,11 +83,9 @@ fun SsScaffold(
     )
 }
 
-@Preview(
-    name = "Scaffold"
-)
+@DevicePreviews
 @Composable
-private fun PreviewScaffold() {
+private fun Preview() {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     SsTheme {

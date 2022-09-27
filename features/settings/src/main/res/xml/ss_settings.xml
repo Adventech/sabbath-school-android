@@ -100,4 +100,15 @@
                 android:data="@string/ss_app_playstore_url" />
         </Preference>
     </PreferenceCategory>
+    <PreferenceCategory app:iconSpaceReserved="false"
+        app:title="@string/ss_account">
+
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="@string/ss_settings_delete_account_key"
+            app:persistent="false"
+            app:selectable="true"
+            app:summary="@string/blank"
+            app:title="@string/ss_delete_account" />
+    </PreferenceCategory>
 </PreferenceScreen>

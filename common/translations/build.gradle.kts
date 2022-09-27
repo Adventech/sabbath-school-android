@@ -30,4 +30,5 @@ android {
     defaultConfig {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
+    namespace = "app.ss.translations"
 }

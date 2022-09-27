@@ -115,4 +115,7 @@
     <string name="ss_action_forward">Framover</string>
     <string name="ss_picture_in_picture">Bilde i bilde</string>
     <string name="ss_auto">Auto</string>
+    <string name="ss_delete_account">Slett konto</string>
+    <string name="ss_delete_account_question">Slett konto?</string>
+    <string name="ss_delete_account_warning">Ved å slette kontoen din vil alle dataene dine, for eksempel kommentarer og høydepunkter, bli slettet permanent. Er du sikker på at du vil fortsette?</string>
 </resources>

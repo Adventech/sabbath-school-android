@@ -22,6 +22,7 @@
 
 package app.ss.auth.api
 
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -33,4 +34,7 @@ internal interface SSAuthApi {
 
     @POST("api/v2/auth/signin/google")
     suspend fun signIn(@Body request: AuthRequest): Response<UserModel>
+
+    @POST("api/v2/auth/delete")
+    suspend fun deleteAccount(): Response<ResponseBody>
 }
