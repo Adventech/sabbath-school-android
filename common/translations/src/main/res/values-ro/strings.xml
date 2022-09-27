@@ -118,5 +118,8 @@ Credem cu adevărat că Dumnezeu a mărit cunoașterea lumii moderne și doreșt
     <string name="ss_action_forward">Redirecţiona</string>
     <string name="ss_picture_in_picture">Imagine în imagine</string>
     <string name="ss_auto">Auto</string>
+    <string name="ss_delete_account">Șterge cont</string>
+    <string name="ss_delete_account_question">Șterge cont?</string>
+    <string name="ss_delete_account_warning">"Prin ștergerea contului, toate datele dvs., cum ar fi comentariile și evidențierile, vor fi șterse definitiv. Sunteți sigur că doriți să continuați? "</string>
 
 </resources>

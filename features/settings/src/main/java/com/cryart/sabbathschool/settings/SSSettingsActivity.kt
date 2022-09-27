@@ -24,17 +24,48 @@ package com.cryart.sabbathschool.settings
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
+import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.misc.SSEvent
+import com.cryart.sabbathschool.core.model.AppConfig
+import com.cryart.sabbathschool.core.navigation.AppNavigator
+import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import com.cryart.sabbathschool.settings.databinding.SsSettingsActivityBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SSSettingsActivity : SSBaseActivity() {
 
+    @Inject
+    lateinit var appNavigator: AppNavigator
+
+    @Inject
+    lateinit var appConfig: AppConfig
+
     private val binding by viewBinding(SsSettingsActivityBinding::inflate)
+
+    private val viewModel: SettingsViewModel by viewModels()
+
+    private val googleSignInClient: GoogleSignInClient by lazy {
+        val gso = GoogleSignInOptions.Builder(
+            GoogleSignInOptions.DEFAULT_SIGN_IN
+        )
+            .requestIdToken(appConfig.webClientId)
+            .requestEmail()
+            .build()
+        GoogleSignIn.getClient(this, gso)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +79,8 @@ class SSSettingsActivity : SSBaseActivity() {
             SSSettingsFragment.newInstance()
         ).commit()
 
+        viewModel.viewStateFlow.collectIn(this) { handleState(it) }
+
         SSEvent.track(this, SSConstants.SS_EVENT_SETTINGS_OPEN)
     }
 
@@ -59,5 +92,17 @@ class SSSettingsActivity : SSBaseActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun handleState(state: SettingsState) {
+        if (!state.authenticated) {
+            lifecycleScope.launch {
+                googleSignInClient.signOut().await()
+                appNavigator.navigate(this@SSSettingsActivity, Destination.LOGIN)
+                finish()
+            }
+        }
+
+        binding.progress.fadeTo(state.showProgress)
     }
 }

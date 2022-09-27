@@ -115,4 +115,7 @@
     <string name="ss_action_forward">ﻡﺎﻣﻷﺍ ﻰﻟﺇ</string>
     <string name="ss_picture_in_picture">ﺭﻮﺻ ﻲﻓ ﺭﻮﺻ</string>
     <string name="ss_auto">ﻲﻟﺁ</string>
+    <string name="ss_delete_account_question">؟ﺏﺎﺴﺤﻟﺍ ﻑﺬﺣ</string>
+    <string name="ss_delete_account">ﺏﺎﺴﺤﻟﺍ ﻑﺬﺣ</string>
+    <string name="ss_delete_account_warning">؟ﺔﻌﺑﺎﺘﻤﻟﺍ ﺪﻳﺮﺗ ﻚﻧﺍ ﺪﻛﺄﺘﻣ ﺖﻧﺍ ﻞﻫ .ﻢﺋﺍﺩ ﻞﻜﺸﺑ ﺕﺍﺰﻴﻤﻟﺍﻭ ﺕﺎﻘﻴﻠﻌﺘﻟﺍ ﻞﺜﻣ ، ﻚﺗﺎﻧﺎﻴﺑ ﻊﻴ</string>
 </resources>

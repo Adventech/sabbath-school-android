@@ -119,4 +119,7 @@
     <string name="ss_action_forward">ﻮﻠﺟ ﻪﺑ ﻭﺭ</string>
     <string name="ss_picture_in_picture">ﺮﯾﻮﺼﺗ ﺭﺩ ﺮﯾﻮﺼﺗ</string>
     <string name="ss_auto">ﺭﺎﮐﺩﻮﺧ</string>
+    <string name="ss_delete_account">ﯼﺮﺑﺭﺎﮐ ﺏﺎﺴﺣ ﻑﺬﺣ</string>
+    <string name="ss_delete_account_question">؟ﯼﺮﺑﺭﺎﮐ ﺏﺎﺴﺣ ﻑﺬﺣ</string>
+    <string name="ss_delete_account_warning">؟ﺪﯿﻫﺩ ﻪﻣﺍﺩﺍ ﺪﯿﻫﺍﻮﺧ ﯽﻣ ﻪﮐ ﺪﯿﺘﺴﻫ ﻦﺌﻤﻄﻣ ﺎﯾﺁ .ﺩﻮﺷ ﯽﻣ ﻑﺬﺣ ﻪﺸﯿﻤﻫ ﯼﺍﺮﺑ ﻪﺘﺴﺟﺮﺑ ﺕﺎﮑﻧ ﻭ</string>
 </resources>

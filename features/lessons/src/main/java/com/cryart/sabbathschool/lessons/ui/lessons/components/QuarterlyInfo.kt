@@ -57,8 +57,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -66,6 +64,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.thenIf
+import app.ss.design.compose.extensions.previews.DevicePreviews
 import app.ss.design.compose.theme.SsColor
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.button.ButtonSpec
@@ -74,11 +73,11 @@ import app.ss.design.compose.widget.button.SsButtonDefaults
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.text.ReadMoreText
-import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.PublishingInfoSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.QuarterlyInfoSpec
+import app.ss.translations.R as L10n
 
 private enum class QuarterlyInfoType {
     Primary,
@@ -364,7 +363,7 @@ private fun ColumnScope.Content(
     val readButton: @Composable () -> Unit = {
         SsButton(
             spec = ButtonSpec(
-                text = stringResource(id = R.string.ss_lessons_read),
+                text = stringResource(id = L10n.string.ss_lessons_read),
                 colors = SsButtonDefaults.colors(
                     containerColor = Color.parse(spec.colorDark)
                 ),
@@ -416,13 +415,7 @@ private fun ColumnScope.Content(
     }
 }
 
-@Preview(
-    name = "Quarterly Info"
-)
-@Preview(
-    name = "Quarterly Info ~ Large",
-    device = Devices.PIXEL_C
-)
+@DevicePreviews
 @Composable
 private fun QuarterlyInfoPreview() {
     SsTheme {
@@ -434,9 +427,7 @@ private fun QuarterlyInfoPreview() {
     }
 }
 
-@Preview(
-    name = "Quarterly Info Splash"
-)
+@DevicePreviews
 @Composable
 private fun QuarterlyInfoSplashPreview() {
     SsTheme {

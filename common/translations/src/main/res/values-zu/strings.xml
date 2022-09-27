@@ -120,4 +120,7 @@ Siyakholwa ngempela ukuthi uNkulunkulu ukwandise ulwazi lwezwe lwanamuhla futhi 
     <string name="ss_action_forward">Phambili</string>
     <string name="ss_picture_in_picture">Isithombe Esithombeni</string>
     <string name="ss_auto">Ngokuzenzekelayo</string>
+    <string name="ss_delete_account_question">Susa i-akhawunti?</string>
+    <string name="ss_delete_account">Susa i-akhawunti</string>
+    <string name="ss_delete_account_warning">Ngokususa i-akhawunti yakho yonke idatha yakho, njengamazwana nokubekwe obala kuzosuswa unomphela. Uqinisekile ukuthi ufuna ukuqhubeka?</string>
 </resources>

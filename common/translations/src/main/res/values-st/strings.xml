@@ -119,4 +119,7 @@ Re lumela kannete hore Molimo o ekelitse tsebo ea lefats'e la kajeno ebile o bat
     <string name="ss_action_forward">Tsoela pele</string>
     <string name="ss_picture_in_picture">Setšoantšo ka Sets\'oants\'o</string>
     <string name="ss_auto">Auto</string>
+    <string name="ss_delete_account">Hlakola akhaonto</string>
+    <string name="ss_delete_account_question">Hlakola akhaonto?</string>
+    <string name="ss_delete_account_warning">Ka ho hlakola ak\'haonte ea hau lintlha tsohle tsa hau, joalo ka maikutlo le lintlha tsa bohlokoa li tla hlakoloa ka ho sa feleng. Na ehlile u batla ho tsoela pele?</string>
 </resources>

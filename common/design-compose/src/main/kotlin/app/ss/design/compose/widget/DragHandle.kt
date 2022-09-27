@@ -25,13 +25,17 @@ package app.ss.design.compose.widget
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.SsColor
+import app.ss.design.compose.theme.SsTheme
 
 private object DragHandleDefaults {
     val width = 48.dp
@@ -57,3 +61,15 @@ private fun backgroundColor(): Color =
     } else {
         SsColor.BaseGrey1
     }
+
+@ThemePreviews
+@Composable
+private fun Preview() {
+    SsTheme {
+        Surface {
+            DragHandle(
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+    }
+}

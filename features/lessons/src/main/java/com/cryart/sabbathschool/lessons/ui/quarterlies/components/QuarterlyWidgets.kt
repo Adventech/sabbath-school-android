@@ -41,10 +41,10 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -56,24 +56,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
+import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.Dimens
-import app.ss.design.compose.theme.Spacing16
-import app.ss.design.compose.theme.Spacing8
 import app.ss.design.compose.theme.SsColor
+import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.iconTint
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.list.SnappingLazyRow
-import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.QuarterlySpec
+import app.ss.translations.R as L10n
 
 @Composable
 private fun CoverBox(
@@ -94,8 +93,8 @@ private fun CoverBox(
             modifier = Modifier
                 .fillMaxSize(),
             color = spec.color,
-            elevation = Spacing8,
-            shape = RoundedCornerShape(Spacing8),
+            shadowElevation = 8.dp,
+            shape = RoundedCornerShape(8.dp),
             content = content
         )
     }
@@ -130,7 +129,7 @@ internal fun QuarterlyRow(
 
         Column(
             modifier = Modifier.padding(
-                end = Spacing16
+                end = 16.dp
             )
         ) {
             Text(
@@ -164,26 +163,26 @@ internal fun QuarterlyRow(
     }
 }
 
-@Preview(
-    name = "Quarterly",
-    showBackground = true,
-    backgroundColor = 0xFFFFFF
-)
+@ThemePreviews
 @Composable
 fun QuarterlyRowPreview() {
-    QuarterlyRow(
-        QuarterlySpec(
-            id = "id",
-            title = "Rest In Christ",
-            date = "July · August · September 2021",
-            cover = "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
-            color = Color.Cyan,
-            index = "index",
-            isPlaceholder = false,
-            QuarterlySpec.Type.NORMAL
-        ),
-        modifier = Modifier.padding(6.dp)
-    )
+    SsTheme {
+        Surface {
+            QuarterlyRow(
+                QuarterlySpec(
+                    id = "id",
+                    title = "Rest In Christ",
+                    date = "July · August · September 2021",
+                    cover = "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
+                    color = Color.Cyan,
+                    index = "index",
+                    isPlaceholder = false,
+                    QuarterlySpec.Type.NORMAL
+                ),
+                modifier = Modifier.padding(6.dp)
+            )
+        }
+    }
 }
 
 // begin column
@@ -220,26 +219,26 @@ internal fun QuarterlyColumn(
 
 private val TitleMinHeight = 40.dp
 
-@Preview(
-    name = "Quarterly Column",
-    showBackground = true,
-    backgroundColor = 0xFFFFFF
-)
+@ThemePreviews
 @Composable
 fun QuarterlyColumnPreview() {
-    QuarterlyColumn(
-        QuarterlySpec(
-            id = "id",
-            title = "Rest In Christ",
-            date = "July · August · September 2021",
-            cover = "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
-            color = Color.Magenta,
-            index = "index",
-            isPlaceholder = false,
-            type = QuarterlySpec.Type.LARGE
-        ),
-        modifier = Modifier.padding(6.dp)
-    )
+    SsTheme {
+        Surface {
+            QuarterlyColumn(
+                QuarterlySpec(
+                    id = "id",
+                    title = "Rest In Christ",
+                    date = "July · August · September 2021",
+                    cover = "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
+                    color = Color.Magenta,
+                    index = "index",
+                    isPlaceholder = false,
+                    type = QuarterlySpec.Type.LARGE
+                ),
+                modifier = Modifier.padding(6.dp)
+            )
+        }
+    }
 }
 
 @Composable
@@ -348,7 +347,7 @@ private fun GroupTitle(
             onClick = seeAllClick
         ) {
             Text(
-                text = stringResource(id = R.string.ss_see_all),
+                text = stringResource(id = L10n.string.ss_see_all),
                 style = MaterialTheme.typography.bodySmall.copy(
                     fontSize = 15.sp
                 ),
@@ -384,21 +383,21 @@ private fun Modifier.groupBackground(
     }
 )
 
-@Preview(
-    name = "Grouped Quarterlies",
-    showBackground = true,
-    backgroundColor = 0xFFFFFF
-)
+@ThemePreviews
 @Composable
 private fun GroupedQuarterliesColumnPreview() {
-    GroupedQuarterliesColumn(
-        spec = GroupedQuarterliesSpec(
-            "Grouping",
-            emptyList(),
-            true
-        ),
-        Modifier
-            .padding(4.dp)
-            .fillMaxWidth()
-    )
+    SsTheme {
+        Surface {
+            GroupedQuarterliesColumn(
+                spec = GroupedQuarterliesSpec(
+                    "Grouping",
+                    emptyList(),
+                    true
+                ),
+                Modifier
+                    .padding(4.dp)
+                    .fillMaxWidth()
+            )
+        }
+    }
 }

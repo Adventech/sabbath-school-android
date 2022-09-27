@@ -28,7 +28,9 @@ import app.ss.auth.api.UserModel
 import app.ss.auth.api.toEntity
 import app.ss.auth.api.toModel
 import app.ss.models.auth.SSUser
+import app.ss.network.safeApiCall
 import app.ss.storage.db.dao.UserDao
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
@@ -50,7 +52,7 @@ interface AuthRepository {
     /**
      * Get the signed in user
      */
-    fun getUserFlow(): Flow<SSUser>
+    fun getUserFlow(): Flow<SSUser?>
 
     /**
      * Sign in anonymously
@@ -58,7 +60,7 @@ interface AuthRepository {
     suspend fun signIn(): Resource<AuthResponse>
 
     /**
-     * Sign in with a provider token
+     * Sign in with a provider [token]
      */
     suspend fun signIn(token: String): Resource<AuthResponse>
 
@@ -66,13 +68,19 @@ interface AuthRepository {
      * Sign out
      */
     suspend fun logout()
+
+    /**
+     * Deletes the user account and then calls [logout]
+     */
+    suspend fun deleteAccount()
 }
 
 @Singleton
 internal class AuthRepositoryImpl @Inject constructor(
     private val authApi: SSAuthApi,
     private val userDao: UserDao,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val connectivityHelper: ConnectivityHelper
 ) : AuthRepository {
 
     override suspend fun getUser(): Resource<SSUser?> = withContext(dispatcherProvider.io) {
@@ -80,9 +88,9 @@ internal class AuthRepositoryImpl @Inject constructor(
         Resource.success(user?.toModel())
     }
 
-    override fun getUserFlow(): Flow<SSUser> = userDao
+    override fun getUserFlow(): Flow<SSUser?> = userDao
         .getAsFlow()
-        .map { it.toModel() }
+        .map { it?.toModel() }
         .flowOn(dispatcherProvider.io)
 
     override suspend fun signIn(): Resource<AuthResponse> = makeAuthRequest { authApi.signIn() }
@@ -109,5 +117,15 @@ internal class AuthRepositoryImpl @Inject constructor(
         userDao.insertItem(user.toEntity())
     }
 
-    override suspend fun logout() = userDao.clear()
+    override suspend fun logout() = withContext(dispatcherProvider.io) { userDao.clear() }
+
+    override suspend fun deleteAccount() {
+        withContext(dispatcherProvider.default) {
+            safeApiCall(connectivityHelper) {
+                if (authApi.deleteAccount().isSuccessful) {
+                    logout()
+                }
+            }
+        }
+    }
 }

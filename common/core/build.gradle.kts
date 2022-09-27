@@ -35,10 +35,13 @@ android {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
+    namespace = "com.cryart.sabbathschool.core"
+
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
+
     buildFeatures {
         viewBinding = true
     }

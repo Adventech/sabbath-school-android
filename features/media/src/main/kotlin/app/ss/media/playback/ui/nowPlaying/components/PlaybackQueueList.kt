@@ -22,7 +22,6 @@
 
 package app.ss.media.playback.ui.nowPlaying.components
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.core.InfiniteTransition
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -55,9 +54,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.dividerColor
 import app.ss.design.compose.theme.onSurfaceSecondary
@@ -162,13 +161,7 @@ private fun AudioRow(
     }
 }
 
-@Preview(
-    name = "Queue"
-)
-@Preview(
-    name = "Queue ~ Dark",
-    uiMode = UI_MODE_NIGHT_YES
-)
+@ThemePreviews
 @Composable
 private fun AudioRowPreview() {
     SsTheme {
@@ -181,13 +174,7 @@ private fun AudioRowPreview() {
     }
 }
 
-@Preview(
-    name = "Queue ~ Playing"
-)
-@Preview(
-    name = "Queue ~ Playing ~ Dark",
-    uiMode = UI_MODE_NIGHT_YES
-)
+@ThemePreviews
 @Composable
 private fun AudioRowPreviewPlaying() {
     SsTheme {

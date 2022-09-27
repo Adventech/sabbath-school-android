@@ -114,4 +114,7 @@
     <string name="ss_action_forward">Toso ki Liu</string>
     <string name="ss_picture_in_picture">iYaloyalo Ena iYaloyalo</string>
     <string name="ss_auto">Auto</string>
+    <string name="ss_delete_account_question">Bokoca na akaude?</string>
+    <string name="ss_delete_account">Bokoca na akaude</string>
+    <string name="ss_delete_account_warning">Ena bokoci ni nomu akaude na nomu itukutuku taucoko, me vaka na ivakamacala kei na ivakatakilakila ena bokoci vakadua. O vinakata dina mo tomana?</string>
 </resources>

@@ -22,7 +22,6 @@
 
 package app.ss.design.compose.widget.button
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -32,8 +31,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.SsTheme
 
 @Composable
@@ -62,15 +61,9 @@ fun SsButton(
 private val ButtonMinWidth = 140.dp
 private val ButtonCornerRadius = 20.dp
 
-@Preview(
-    name = "Button"
-)
-@Preview(
-    name = "Button ~ dark",
-    uiMode = UI_MODE_NIGHT_YES
-)
+@ThemePreviews
 @Composable
-private fun PreviewButton() {
+private fun Preview() {
     SsTheme {
         SsButton(spec = ButtonSpec("Read", {}))
     }

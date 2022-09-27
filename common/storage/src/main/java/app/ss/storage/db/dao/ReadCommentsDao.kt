@@ -31,4 +31,7 @@ interface ReadCommentsDao : BaseDao<ReadCommentsEntity> {
 
     @Query("SELECT * FROM comments WHERE readIndex = :readIndex")
     fun get(readIndex: String): ReadCommentsEntity?
+
+    @Query("DELETE FROM comments")
+    suspend fun clear()
 }

@@ -118,4 +118,7 @@ Nous croyons vraiment que Dieu a augmenté la connaissance du monde moderne et v
     <string name="ss_action_forward">Vers l\'avant</string>
     <string name="ss_picture_in_picture">Image dans l\'image</string>
     <string name="ss_auto">Auto</string>
+    <string name="ss_delete_account_question">Supprimer le compte?</string>
+    <string name="ss_delete_account">Supprimer le compte</string>
+    <string name="ss_delete_account_warning">En supprimant votre compte, toutes vos données, telles que les commentaires et les faits saillants, seront définitivement supprimées. Êtes-vous sur de vouloir continuer?</string>
 </resources>

@@ -118,4 +118,7 @@ Realmente creemos que Dios ha aumentado el conocimiento del mundo moderno y quie
     <string name="ss_action_forward">Delantero</string>
     <string name="ss_picture_in_picture">Imagen en imagen</string>
     <string name="ss_auto">Auto</string>
+    <string name="ss_delete_account">Borrar cuenta</string>
+    <string name="ss_delete_account_question">¿Borrar cuenta?</string>
+    <string name="ss_delete_account_warning">Al eliminar su cuenta, todos sus datos, como los comentarios y los momentos destacados, se eliminarán de forma permanente. ¿Estas seguro que deseas continuar?</string>
 </resources>

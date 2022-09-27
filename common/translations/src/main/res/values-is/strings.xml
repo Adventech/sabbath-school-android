@@ -119,4 +119,7 @@ Við trúum því sannarlega að Guð hafi aukið þekkingu á nútímanum og vi
     <string name="ss_action_forward">Áfram</string>
     <string name="ss_picture_in_picture">Mynd í mynd</string>
     <string name="ss_auto">Sjálfvirk</string>
+    <string name="ss_delete_account_question">Eyða reikningi?</string>
+    <string name="ss_delete_account">Eyða reikningi</string>
+    <string name="ss_delete_account_warning">Með því að eyða reikningnum þínum verður öllum gögnum þínum, svo sem athugasemdum og hápunktum, eytt varanlega. Ertu viss um að þú viljir halda áfram?</string>
 </resources>

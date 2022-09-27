@@ -119,4 +119,7 @@
     <string name="ss_action_forward">Напред</string>
     <string name="ss_picture_in_picture">Картина в картината</string>
     <string name="ss_auto">Автоматичен</string>
+    <string name="ss_delete_account_question">Изтриване на акаунт?</string>
+    <string name="ss_delete_account">Изтриване на акаунт</string>
+    <string name="ss_delete_account_warning">"С изтриването на вашия акаунт всички ваши данни, като коментари и акценти, ще бъдат изтрити за постоянно. Сигурни ли сте, че искате да продължите? "</string>
 </resources>

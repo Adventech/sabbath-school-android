@@ -119,5 +119,8 @@
     <string name="ss_action_forward">"अगाडि "</string>
     <string name="ss_picture_in_picture">"चित्रमा चित्र "</string>
     <string name="ss_auto">"अटो "</string>
+    <string name="ss_delete_account">"खाता मेटाउनुहोस् "</string>
+    <string name="ss_delete_account_question">"खाता मेट्ने हो? "</string>
+    <string name="ss_delete_account_warning">"तपाईंको खाता मेटाएर तपाईंको सबै डेटा, जस्तै टिप्पणीहरू र हाइलाइटहरू स्थायी रूपमा मेटिने छन्। के तपाइँ निश्चित रूपमा अगाडि बढ्न चाहनुहुन्छ? "</string>
 
 </resources>

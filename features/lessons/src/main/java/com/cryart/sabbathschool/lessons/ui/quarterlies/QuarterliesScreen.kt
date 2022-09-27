@@ -23,7 +23,6 @@
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import android.app.Activity
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -48,13 +47,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.extensions.modifier.asPlaceholder
+import app.ss.design.compose.extensions.previews.DevicePreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
@@ -223,13 +222,7 @@ private fun NavIcon(
 private val AccountImgSize = 32.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    name = "Screen"
-)
-@Preview(
-    name = "Screen ~ dark",
-    uiMode = UI_MODE_NIGHT_YES
-)
+@DevicePreviews
 @Composable
 private fun ScreenPreview() {
     SsTheme {

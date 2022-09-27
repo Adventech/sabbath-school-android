@@ -22,12 +22,15 @@
 
 package com.cryart.sabbathschool.settings
 
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.fragment.app.activityViewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.AppConfig
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -39,6 +42,8 @@ class SSSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnShare
 
     @Inject
     lateinit var appConfig: AppConfig
+
+    private val viewModel: SettingsViewModel by activityViewModels()
 
     override fun onResume() {
         super.onResume()
@@ -55,6 +60,20 @@ class SSSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnShare
 
         val aboutPref = findPreference<Preference>(getString(R.string.ss_settings_version_key))
         aboutPref?.summary = appConfig.version
+
+        findPreference<Preference>(getString(R.string.ss_settings_delete_account_key))
+            ?.setOnPreferenceClickListener {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(R.string.ss_delete_account_question)
+                    .setMessage(R.string.ss_delete_account_warning)
+                    .setPositiveButton(R.string.ss_login_anonymously_dialog_positive) { _: DialogInterface?, _: Int ->
+                        viewModel.deleteAccount()
+                    }
+                    .setNegativeButton(R.string.ss_login_anonymously_dialog_negative, null)
+                    .create()
+                    .show()
+                true
+            }
     }
 
     override fun onSharedPreferenceChanged(pref: SharedPreferences?, key: String?) {
