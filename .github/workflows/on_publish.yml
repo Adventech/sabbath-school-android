@@ -30,6 +30,16 @@ jobs:
       - name: Build Release
         run: ./gradlew app:bundleRelease --stacktrace
 
+      - name: Publish to Alpha track
+        uses: r0adkll/upload-google-play@v1.0.18
+        with:
+          serviceAccountJson: release/play-account.json
+          packageName: com.cryart.sabbathschool
+          track: alpha
+          whatsNewDirectory: distribution/whatsnew
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          mappingFile: app/build/outputs/mapping/release/mapping.txt
+
       - name: Upload aab
         uses: actions/upload-release-asset@v1
         with:
