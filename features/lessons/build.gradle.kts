@@ -94,7 +94,7 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.coil.core)
     implementation(libs.tapTarget)
-    implementation("com.mikepenz:iconics-core:5.3.4@aar")
+    implementation("com.mikepenz:iconics-core:5.4.0@aar")
     implementation("com.mikepenz:iconics-views:5.3.4@aar")
     implementation("com.mikepenz:iconics-typeface-api:5.3.4@aar")
     implementation("com.mikepenz:google-material-typeface:4.0.0.2-kotlin@aar")
