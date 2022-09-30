@@ -35,7 +35,7 @@ google-hilt = "2.44"
 google-material = "1.6.1"
 google-play-auth = "20.3.0"
 gradle-android = "7.3.0"
-iconics = "5.3.4"
+iconics = "5.4.0"
 iconics-material = "4.0.0.2-kotlin"
 # @keep this version
 joda-android = "2.11.2"
