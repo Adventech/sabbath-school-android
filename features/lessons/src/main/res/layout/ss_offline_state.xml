@@ -50,13 +50,14 @@
             android:background="@{viewModel.secondaryColor}"
             app:showInLightTheme="@{true}" />
 
-        <com.mikepenz.iconics.view.IconicsImageView
+        <ImageView
             android:layout_width="@dimen/ss_misc_top_image_size"
             android:layout_height="@dimen/ss_misc_top_image_size"
             android:layout_gravity="center|center_horizontal"
             android:layout_marginTop="@dimen/ss_misc_top_image_margin_top"
-            app:iiv_color="@color/ss_color_secondary_light"
-            app:iiv_icon="gmd-cloud-off" />
+            android:contentDescription="@string/ss_reading_offline"
+            app:srcCompat="@drawable/ic_round_cloud_off"
+            app:tint="@color/ss_color_secondary_light" />
 
         <TextView
             android:layout_width="wrap_content"

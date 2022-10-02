@@ -45,23 +45,6 @@
     <dimen name="ss_language_menu_item_title_text_size">15sp</dimen>
     <dimen name="ss_language_menu_item_date_text_size">12sp</dimen>
 
-    <!-- LESSONS SCREEN RELATED -->
-
-    <dimen name="ss_lesson_item_menu_width">64dp</dimen>
-    <dimen name="ss_lesson_item_menu_icon_size">12dp</dimen>
-
-    <!-- ABOUT SCREEN RELATED -->
-
-    <dimen name="ss_about_app_logo_size">80dp</dimen>
-    <dimen name="ss_about_app_name_text_size">20sp</dimen>
-    <dimen name="ss_about_app_name_margin_top">20dp</dimen>
-    <dimen name="ss_about_app_version_margin_top">10dp</dimen>
-    <dimen name="ss_about_app_version_margin_bottom">30dp</dimen>
-    <dimen name="ss_about_list_padding">10dp</dimen>
-    <dimen name="ss_about_list_title_text_size">16sp</dimen>
-    <dimen name="ss_about_list_link_text_size">12sp</dimen>
-    <dimen name="ss_about_made_margin">20dp</dimen>
-
     <!-- READING SCREEN RELATED -->
 
     <dimen name="ss_reading_app_bar_subtitle_size">15sp</dimen>
@@ -96,7 +79,6 @@
     <dimen name="ss_reading_context_extra_padding_bottom">13dp</dimen>
     <dimen name="ss_reading_context_extra_padding_left">18dp</dimen>
     <dimen name="ss_reading_context_extra_padding_right">18dp</dimen>
-    <dimen name="ss_reading_context_extra_size">20dp</dimen>
 
     <dimen name="ss_reading_display_options_subtitle_margin">20dp</dimen>
     <dimen name="ss_reading_display_options_button_padding">20dp</dimen>
@@ -110,35 +92,6 @@
 
     <dimen name="ss_reading_navigation_menu_size">60dp</dimen>
     <dimen name="ss_reading_navigation_menu_icon_size">24dp</dimen>
-
-    <!-- BIBLE SCREEN RELATED -->
-
-    <dimen name="ss_bible_verses_margin">20dp</dimen>
-    <dimen name="ss_bible_verses_title_margin">20dp</dimen>
-    <dimen name="ss_bible_verses_close_padding">24dp</dimen>
-    <dimen name="ss_bible_verses_close_icon_size">14dp</dimen>
-    <dimen name="ss_bible_version_item_height">48dp</dimen>
-    <dimen name="ss_bible_version_item_drawable_padding">8dp</dimen>
-    <dimen name="ss_bible_version_item_side_padding">16dp</dimen>
-    <dimen name="ss_bible_version_item_text_size">16sp</dimen>
-    <dimen name="ss_bible_version_item_min_width">120dp</dimen>
-
-    <!-- standard metrics -->
-    <dimen name="spacing_normal">8dp</dimen>
-    <dimen name="spacing_micro">4dp</dimen>
-    <dimen name="spacing_medium">16dp</dimen>
-    <dimen name="spacing_medium_large">24dp</dimen>
-    <dimen name="spacing_large">32dp</dimen>
-    <dimen name="spacing_list">12dp</dimen>
-    <dimen name="spacing_xlarge">48dp</dimen>
-    <dimen name="spacing_huge">64dp</dimen>
-
-    <dimen name="text_size_xsmall">11sp</dimen>
-    <dimen name="text_size_small">13sp</dimen>
-    <dimen name="text_size_body">16sp</dimen>
-    <dimen name="text_size_medium">18sp</dimen>
-    <dimen name="text_size_large">20sp</dimen>
-    <dimen name="text_size_xlarge">24sp</dimen>
 
     <!-- Dialogs -->
     <dimen name="dialog_corner_radius">16dp</dimen>
