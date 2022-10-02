@@ -1,4 +1,5 @@
 [versions]
+android-rate = "1.0.1"
 androidx-activity = "1.6.0"
 androidx-annotations = "1.5.0"
 androidx-appcompat = "1.6.0-rc01"
@@ -35,8 +36,6 @@ google-hilt = "2.44"
 google-material = "1.6.1"
 google-play-auth = "20.3.0"
 gradle-android = "7.3.0"
-iconics = "5.3.4"
-iconics-material = "4.0.0.2-kotlin"
 # @keep this version
 joda-android = "2.11.2"
 joda-time = "2.11.2"
@@ -45,6 +44,7 @@ kotlin = "1.7.10"
 kotlin-coroutines = "1.6.4"
 ktlint = "11.0.0"
 markwon = "4.6.2"
+material-dialogs = "3.3.0"
 # @keep this version
 pdfkit = "8.2.1"
 snapper = "0.3.0"
@@ -66,6 +66,7 @@ test-robolectric = "4.8.2"
 timber = "5.0.1"
 
 [libraries]
+android-rate = { module = "com.github.hotchemi:android-rate", version.ref = "android-rate" }
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-annotations = { module = "androidx.annotation:annotation", version.ref = "androidx-annotations" }
@@ -124,10 +125,6 @@ google-hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", 
 google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
 google-play-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "google-play-auth" }
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
-iconics-core = { module = "com.mikepenz:iconics-core", version.ref = "iconics" }
-iconics-typeface = { module = "com.mikepenz:iconics-typeface-api", version.ref = "iconics" }
-iconics-typeface-material = { module = "com.mikepenz:google-material-typeface", version.ref = "iconics-material" }
-iconics-views = { module = "com.mikepenz:iconics-views", version.ref = "iconics" }
 joda-android = { module = "net.danlew:android.joda", version.ref = "joda-android" }
 joda-time = { module = "joda-time:joda-time", version.ref = "joda-time" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
@@ -136,6 +133,7 @@ kotlin-coroutines-playservices = { module = "org.jetbrains.kotlinx:kotlinx-corou
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint" }
 markwon-core = { module = "io.noties.markwon:core", version.ref = "markwon" }
+material-dialogs-input = { module = "com.afollestad.material-dialogs:input", version.ref = "material-dialogs" }
 paparazzi = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "cash-app-paparazzi" }
 pdfkit = { module = "com.pspdfkit:pspdfkit", version.ref = "pdfkit" }
 snapper = { module = "dev.chrisbanes.snapper:snapper", version.ref = "snapper" }
