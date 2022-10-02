@@ -20,8 +20,7 @@
   ~ THE SOFTWARE.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -45,7 +44,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/ss_reading_context_controls_padding">
+                android:padding="@dimen/ss_reading_context_controls_padding"
+                android:gravity="center_vertical">
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -111,39 +111,21 @@
 
                 </FrameLayout>
 
-                <FrameLayout
+                <androidx.appcompat.widget.AppCompatImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
                     android:onClick="@{() -> viewModel.underline()}"
-                    android:padding="@dimen/ss_reading_context_highlight_button_padding">
+                    android:padding="@dimen/ss_reading_context_highlight_button_padding"
+                    android:src="@drawable/ic_round_text_format" />
 
-                    <com.mikepenz.iconics.view.IconicsImageView
-                        android:layout_width="@dimen/ss_reading_context_highlight_button_size"
-                        android:layout_height="@dimen/ss_reading_context_highlight_button_size"
-                        app:iiv_color="?attr/colorControlNormal"
-                        app:iiv_icon="gmd-text-format" />
-
-                </FrameLayout>
-
-                <FrameLayout
+                <androidx.appcompat.widget.AppCompatImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
                     android:onClick="@{() -> viewModel.unHighlightSelection()}"
-                    android:padding="@dimen/ss_reading_context_highlight_button_padding">
-
-                    <com.mikepenz.iconics.view.IconicsImageView
-                        android:layout_width="@dimen/ss_reading_context_highlight_button_size"
-                        android:layout_height="@dimen/ss_reading_context_highlight_button_size"
-                        app:iiv_color="?attr/colorControlNormal"
-                        app:iiv_icon="gmd-highlight-off" />
-
-                </FrameLayout>
+                    android:padding="@dimen/ss_reading_context_highlight_button_padding"
+                    android:src="@drawable/ic_round_highlight_off" />
             </LinearLayout>
 
             <include layout="@layout/ss_horizontal_line" />
@@ -154,62 +136,38 @@
                 android:layout_gravity="center"
                 android:padding="@dimen/ss_reading_context_controls_padding">
 
-                <FrameLayout
+                <androidx.appcompat.widget.AppCompatImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
                     android:onClick="@{() -> viewModel.share()}"
                     android:paddingStart="@dimen/ss_reading_context_extra_padding_left"
                     android:paddingTop="@dimen/ss_reading_context_extra_padding_top"
                     android:paddingEnd="@dimen/ss_reading_context_extra_padding_right"
-                    android:paddingBottom="@dimen/ss_reading_context_extra_padding_bottom">
+                    android:paddingBottom="@dimen/ss_reading_context_extra_padding_bottom"
+                    android:src="@drawable/ic_share" />
 
-                    <com.mikepenz.iconics.view.IconicsImageView
-                        android:layout_width="@dimen/ss_reading_context_extra_size"
-                        android:layout_height="@dimen/ss_reading_context_extra_size"
-                        app:iiv_color="?attr/colorControlNormal"
-                        app:iiv_icon="gmd-share" />
-                </FrameLayout>
-
-                <FrameLayout
+                <androidx.appcompat.widget.AppCompatImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
                     android:onClick="@{() -> viewModel.copy()}"
                     android:paddingStart="@dimen/ss_reading_context_extra_padding_left"
                     android:paddingTop="@dimen/ss_reading_context_extra_padding_top"
                     android:paddingEnd="@dimen/ss_reading_context_extra_padding_right"
-                    android:paddingBottom="@dimen/ss_reading_context_extra_padding_bottom">
+                    android:paddingBottom="@dimen/ss_reading_context_extra_padding_bottom"
+                    android:src="@drawable/ic_round_content_copy" />
 
-                    <com.mikepenz.iconics.view.IconicsImageView
-                        android:layout_width="@dimen/ss_reading_context_extra_size"
-                        android:layout_height="@dimen/ss_reading_context_extra_size"
-                        app:iiv_color="?attr/colorControlNormal"
-                        app:iiv_icon="gmd-content-copy" />
-                </FrameLayout>
-
-                <FrameLayout
+                <androidx.appcompat.widget.AppCompatImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
                     android:onClick="@{() -> viewModel.search()}"
                     android:paddingStart="@dimen/ss_reading_context_extra_padding_left"
                     android:paddingTop="@dimen/ss_reading_context_extra_padding_top"
                     android:paddingEnd="@dimen/ss_reading_context_extra_padding_right"
-                    android:paddingBottom="@dimen/ss_reading_context_extra_padding_bottom">
-
-                    <com.mikepenz.iconics.view.IconicsImageView
-                        android:layout_width="@dimen/ss_reading_context_extra_size"
-                        android:layout_height="@dimen/ss_reading_context_extra_size"
-                        app:iiv_color="?attr/colorControlNormal"
-                        app:iiv_icon="gmd-search" />
-                </FrameLayout>
+                    android:paddingBottom="@dimen/ss_reading_context_extra_padding_bottom"
+                    android:src="@drawable/ic_round_search" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

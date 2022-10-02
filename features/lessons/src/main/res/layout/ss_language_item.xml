@@ -57,16 +57,17 @@
         app:layout_constraintTop_toBottomOf="@id/ss_language_menu_item_title"
         tools:text="@tools:sample/lorem" />
 
-    <com.mikepenz.iconics.view.IconicsImageView
+    <ImageView
         android:id="@+id/ss_language_menu_item_check"
-        android:layout_width="@dimen/ss_lesson_item_menu_icon_size"
-        android:layout_height="@dimen/ss_lesson_item_menu_icon_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/ss_action_selected"
         android:visibility="gone"
-        app:iiv_color="@color/ss_color_secondary"
-        app:iiv_icon="gmd-check"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_round_check"
+        app:tint="@color/ss_color_secondary"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
