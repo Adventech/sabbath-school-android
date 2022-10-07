@@ -23,7 +23,6 @@
 package com.cryart.sabbathschool.ui.login
 
 import android.content.Intent
-import com.cryart.sabbathschool.core.annotations.OpenClass
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
@@ -32,7 +31,6 @@ import javax.inject.Inject
 /**
  * Google Sign In wrapper for testing
  */
-@OpenClass
 class GoogleSignInWrapper @Inject constructor() {
 
     fun getSignedInAccountFromIntent(data: Intent?): Task<GoogleSignInAccount> {
