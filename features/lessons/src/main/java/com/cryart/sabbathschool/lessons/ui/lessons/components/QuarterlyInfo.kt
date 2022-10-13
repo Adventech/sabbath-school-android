@@ -65,7 +65,7 @@ import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.extensions.previews.DevicePreviews
-import app.ss.design.compose.theme.SsColor
+import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.button.ButtonSpec
 import app.ss.design.compose.widget.button.SsButton
@@ -396,7 +396,7 @@ private fun ColumnScope.Content(
     Text(
         text = spec.date.uppercase(),
         style = MaterialTheme.typography.titleSmall,
-        color = SsColor.White70,
+        color = SsColors.White70,
         textAlign = textAlign,
         modifier = Modifier
             .fillMaxWidth()

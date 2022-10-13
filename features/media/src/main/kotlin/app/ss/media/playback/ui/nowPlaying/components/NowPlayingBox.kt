@@ -43,7 +43,7 @@ import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.LatoFontFamily
 import app.ss.design.compose.theme.Spacing24
 import app.ss.design.compose.theme.Spacing8
-import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.theme.SsTheme
 import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.models.media.AudioFile
 
@@ -115,7 +115,7 @@ internal fun NowPlayingColumn(
             text = spec.artist,
             style = artistStyle,
             textAlign = textAlign,
-            color = onSurfaceSecondary()
+            color = SsTheme.colors.onSurfaceSecondary
         )
     }
 }

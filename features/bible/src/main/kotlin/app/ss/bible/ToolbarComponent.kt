@@ -55,7 +55,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.theme.parse
+import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions

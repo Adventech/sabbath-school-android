@@ -57,7 +57,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.DragHandle
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
@@ -243,4 +243,6 @@ private fun BottomControls(
 @Composable
 private fun tintColor(
     isDark: Boolean
-): Color = if (isDark) onSurfaceSecondary() else MaterialTheme.colorScheme.primary
+): Color = if (isDark) {
+    SsTheme.colors.onSurfaceSecondary
+} else MaterialTheme.colorScheme.primary

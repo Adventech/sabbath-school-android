@@ -23,7 +23,6 @@
 package app.ss.media.playback.ui.video
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -74,9 +73,8 @@ import app.ss.design.compose.theme.Spacing24
 import app.ss.design.compose.theme.Spacing32
 import app.ss.design.compose.theme.Spacing4
 import app.ss.design.compose.theme.Spacing8
-import app.ss.design.compose.theme.SsColor
-import app.ss.design.compose.theme.navTitle
-import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.DragHandle
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
@@ -142,7 +140,7 @@ internal fun VideoListScreen(
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontSize = 30.sp
                 ),
-                color = navTitle(),
+                color = SsTheme.colors.navTitle,
                 modifier = Modifier.padding(horizontal = Spacing24)
             )
         }
@@ -215,7 +213,7 @@ private fun VideosInfoList(
             style = MaterialTheme.typography.titleLarge.copy(
                 fontSize = 13.sp
             ),
-            color = if (isSystemInDarkTheme()) SsColor.BaseGrey2 else MaterialTheme.colorScheme.primary,
+            color = if (SsTheme.colors.isDark) SsColors.BaseGrey2 else MaterialTheme.colorScheme.primary,
             modifier = Modifier
                 .padding(horizontal = Spacing24)
                 .padding(top = Spacing16)
@@ -291,14 +289,14 @@ private fun VideoColumn(
             style = MaterialTheme.typography.titleSmall.copy(
                 fontSize = if (featured) 19.sp else 16.sp
             ),
-            color = navTitle()
+            color = SsTheme.colors.navTitle
         )
         Text(
             text = video.artist,
             style = MaterialTheme.typography.bodySmall.copy(
                 fontSize = 14.sp
             ),
-            color = onSurfaceSecondary()
+            color = SsTheme.colors.onSurfaceSecondary
         )
     }
 }
@@ -334,7 +332,7 @@ private fun VideoRow(
                     fontSize = 16.sp,
                     lineHeight = TextUnit.Unspecified
                 ),
-                color = navTitle(),
+                color = SsTheme.colors.navTitle,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
@@ -343,7 +341,7 @@ private fun VideoRow(
                 style = MaterialTheme.typography.bodySmall.copy(
                     fontSize = 14.sp
                 ),
-                color = onSurfaceSecondary(),
+                color = SsTheme.colors.onSurfaceSecondary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

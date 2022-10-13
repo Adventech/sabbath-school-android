@@ -26,7 +26,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import app.ss.design.compose.theme.parse
+import app.ss.design.compose.extensions.color.parse
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 

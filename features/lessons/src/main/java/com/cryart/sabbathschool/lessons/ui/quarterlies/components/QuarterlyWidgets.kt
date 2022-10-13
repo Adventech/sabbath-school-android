@@ -62,9 +62,8 @@ import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.Dimens
-import app.ss.design.compose.theme.SsColor
+import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.theme.iconTint
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
@@ -356,7 +355,7 @@ private fun GroupTitle(
 
             IconBox(
                 icon = Icons.ArrowRight,
-                contentColor = iconTint()
+                contentColor = SsTheme.colors.icons
             )
         }
     }
@@ -375,7 +374,7 @@ private fun Modifier.groupBackground(
                     Brush.verticalGradient(
                         colors = listOf(
                             Color.White,
-                            SsColor.OffWhite.copy(alpha = 0.2f)
+                            SsColors.OffWhite.copy(alpha = 0.2f)
                         )
                     )
                 )

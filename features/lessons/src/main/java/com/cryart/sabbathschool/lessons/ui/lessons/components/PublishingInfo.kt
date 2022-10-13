@@ -48,8 +48,7 @@ import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.theme.onSurfaceSecondary
-import app.ss.design.compose.theme.parse
+import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconButton
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
@@ -92,7 +91,7 @@ private fun PublishingInfo(
             Text(
                 text = spec.message,
                 style = MaterialTheme.typography.bodySmall,
-                color = onSurfaceSecondary(),
+                color = SsTheme.colors.onSurfaceSecondary,
                 modifier = Modifier
                     .weight(1f)
                     .padding(vertical = 16.dp)

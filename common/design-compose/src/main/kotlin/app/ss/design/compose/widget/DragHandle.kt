@@ -34,7 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.previews.ThemePreviews
-import app.ss.design.compose.theme.SsColor
+import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.theme.SsTheme
 
 private object DragHandleDefaults {
@@ -57,9 +57,9 @@ fun DragHandle(modifier: Modifier = Modifier) {
 @Composable
 private fun backgroundColor(): Color =
     if (isSystemInDarkTheme()) {
-        SsColor.BaseGrey2
+        SsColors.BaseGrey2
     } else {
-        SsColor.BaseGrey1
+        SsColors.BaseGrey1
     }
 
 @ThemePreviews

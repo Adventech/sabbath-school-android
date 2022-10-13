@@ -50,9 +50,9 @@ import app.ss.design.compose.extensions.isS
 import app.ss.design.compose.theme.Spacing16
 import app.ss.design.compose.theme.Spacing4
 import app.ss.design.compose.theme.Spacing8
-import app.ss.design.compose.theme.SsColor
-import app.ss.design.compose.theme.darker
-import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.theme.color.SsColors
+import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.extensions.color.darker
 import app.ss.design.compose.widget.material.Slider
 import app.ss.design.compose.widget.material.SliderDefaults
 import app.ss.media.playback.extensions.millisToDuration
@@ -64,9 +64,9 @@ private object ProgressColors {
     fun thumbColor(forceDark: Boolean): Color {
         return when {
             isS() -> MaterialTheme.colorScheme.onSurfaceVariant
-            isSystemInDarkTheme() -> SsColor.BaseGrey1
-            forceDark -> SsColor.BaseGrey1
-            else -> SsColor.OffWhite.darker()
+            isSystemInDarkTheme() -> SsColors.BaseGrey1
+            forceDark -> SsColors.BaseGrey1
+            else -> SsColors.OffWhite.darker()
         }
     }
 
@@ -77,9 +77,9 @@ private object ProgressColors {
     fun inactiveTrackColor(forceDark: Boolean): Color {
         return when {
             isS() -> MaterialTheme.colorScheme.inverseOnSurface
-            isSystemInDarkTheme() -> SsColor.BaseGrey3
-            forceDark -> SsColor.BaseGrey3
-            else -> SsColor.BaseGrey1
+            isSystemInDarkTheme() -> SsColors.BaseGrey3
+            forceDark -> SsColors.BaseGrey3
+            else -> SsColors.BaseGrey1
         }
     }
 }
@@ -177,12 +177,12 @@ private fun BoxScope.PlaybackProgressDuration(
             Text(
                 currentDuration,
                 style = textStyle,
-                color = onSurfaceSecondary()
+                color = SsTheme.colors.onSurfaceSecondary
             )
             Text(
                 progressState.totalDuration,
                 style = textStyle,
-                color = onSurfaceSecondary()
+                color = SsTheme.colors.onSurfaceSecondary
             )
         }
     }

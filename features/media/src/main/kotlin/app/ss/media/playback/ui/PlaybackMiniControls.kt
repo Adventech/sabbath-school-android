@@ -52,9 +52,9 @@ import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.Spacing12
 import app.ss.design.compose.theme.Spacing8
-import app.ss.design.compose.theme.SsColor
-import app.ss.design.compose.theme.lighter
-import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.theme.color.SsColors
+import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.extensions.color.lighter
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
@@ -188,7 +188,7 @@ private fun playbackMiniBackgroundColor(
     if (isDark) {
         Color.Black.lighter()
     } else {
-        SsColor.BaseGrey1
+        SsColors.BaseGrey1
     }
 
 @Composable
@@ -255,7 +255,7 @@ private fun RowScope.NowPlayingColumn(
             IconBox(
                 icon = Icons.Cancel,
                 modifier = Modifier.size(PlaybackMiniControlsDefaults.cancelSize),
-                contentColor = SsColor.BaseGrey2
+                contentColor = SsColors.BaseGrey2
             )
         }
 
@@ -296,7 +296,7 @@ private fun NowPlayingColumn(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodySmall,
-                color = onSurfaceSecondary()
+                color = SsTheme.colors.onSurfaceSecondary
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
