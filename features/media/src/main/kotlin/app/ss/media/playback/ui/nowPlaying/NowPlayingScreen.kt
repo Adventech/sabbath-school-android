@@ -26,7 +26,6 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,7 +36,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
@@ -47,7 +45,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -72,7 +69,6 @@ import app.ss.media.playback.ui.common.PlaybackSpeedLabel
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControls
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
-import app.ss.media.playback.ui.playbackContentColor
 import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.AudioFile
 import app.ss.translations.R.string as RString
@@ -128,7 +124,6 @@ internal fun NowPlayingScreen(
 internal fun NowPlayingScreen(
     spec: NowPlayingScreenSpec,
     listState: LazyListState = rememberLazyListState(),
-    isDarkTheme: Boolean = isSystemInDarkTheme()
 ) {
     val (_, _, playbackState, playbackProgressState, playbackConnection, playbackSpeed, isDraggable) = spec
 
@@ -184,7 +179,7 @@ internal fun NowPlayingScreen(
 
         PlayBackControls(
             spec = playbackState.toSpec(),
-            contentColor = playbackContentColor(),
+            contentColor = SsTheme.colors.playbackMiniContent,
             playbackConnection = playbackConnection
         )
 
@@ -192,7 +187,6 @@ internal fun NowPlayingScreen(
 
         BottomControls(
             playbackSpeed = playbackSpeed,
-            isDarkTheme = isDarkTheme,
             toggleSpeed = { playbackConnection.toggleSpeed() },
             toggleExpand = {
                 boxState = when (boxState) {
@@ -208,7 +202,6 @@ internal fun NowPlayingScreen(
 private fun BottomControls(
     modifier: Modifier = Modifier,
     playbackSpeed: PlaybackSpeed,
-    isDarkTheme: Boolean = isSystemInDarkTheme(),
     toggleSpeed: () -> Unit = {},
     toggleExpand: () -> Unit = {}
 ) {
@@ -223,7 +216,7 @@ private fun BottomControls(
         PlaybackSpeedLabel(
             playbackSpeed = playbackSpeed,
             toggleSpeed = { toggleSpeed() },
-            contentColor = tintColor(isDark = isDarkTheme)
+            contentColor = SsTheme.colors.iconsSecondary
         )
 
         IconButton(onClick = toggleExpand) {
@@ -232,17 +225,8 @@ private fun BottomControls(
                     R.drawable.ic_audio_icon_playlist,
                     contentDescription = stringResource(id = RString.ss_action_playlist)
                 ),
-                contentColor = tintColor(
-                    isDark = isDarkTheme
-                )
+                contentColor = SsTheme.colors.iconsSecondary
             )
         }
     }
 }
-
-@Composable
-private fun tintColor(
-    isDark: Boolean
-): Color = if (isDark) {
-    SsTheme.colors.onSurfaceSecondary
-} else MaterialTheme.colorScheme.primary

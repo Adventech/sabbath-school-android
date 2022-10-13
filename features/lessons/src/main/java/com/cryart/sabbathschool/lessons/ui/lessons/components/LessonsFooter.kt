@@ -23,7 +23,6 @@
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -50,10 +49,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ss.design.compose.extensions.previews.ThemePreviews
-import app.ss.design.compose.theme.color.SsColors
-import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.extensions.color.lighter
+import app.ss.design.compose.extensions.previews.ThemePreviews
+import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.theme.color.SsColors
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.FeatureImage
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.CreditSpec
@@ -107,7 +106,7 @@ internal fun LazyListScope.footer(
             style = MaterialTheme.typography.bodySmall.copy(
                 fontSize = 15.sp
             ),
-            color = if (isSystemInDarkTheme()) {
+            color = if (SsTheme.colors.isDark) {
                 SsColors.BaseGrey3
             } else SsColors.BaseGrey2,
             modifier = Modifier
@@ -141,7 +140,7 @@ internal fun LazyListScope.footer(
 
 @Stable
 @Composable
-private fun backgroundColor(): Color = if (isSystemInDarkTheme()) {
+private fun backgroundColor(): Color = if (SsTheme.colors.isDark) {
     Color.Black.lighter()
 } else SsColors.BaseGrey1
 

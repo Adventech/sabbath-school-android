@@ -42,20 +42,33 @@ import app.ss.design.compose.extensions.isS
 class SsColors(
     isDark: Boolean,
     dividers: Color,
+    dragHandle: Color,
     icons: Color,
+    iconsSecondary: Color,
     navTitle: Color,
 
     onSurfaceSecondary: Color,
+
+    playbackMiniBackground: Color,
+    playbackMiniContent: Color
 ) {
     var isDark by mutableStateOf(isDark)
         private set
     var dividers by mutableStateOf(dividers)
         private set
+    var dragHandle by mutableStateOf(dragHandle)
+        private set
     var icons by mutableStateOf(icons)
+        private set
+    var iconsSecondary by mutableStateOf(iconsSecondary)
         private set
     var navTitle by mutableStateOf(navTitle)
         private set
     var onSurfaceSecondary by mutableStateOf(onSurfaceSecondary)
+        private set
+    var playbackMiniBackground by mutableStateOf(playbackMiniBackground)
+        private set
+    var playbackMiniContent by mutableStateOf(playbackMiniContent)
         private set
 
     companion object {
@@ -70,32 +83,47 @@ class SsColors(
         val OffWhite = Color(0xFFE2E2E5)
         val White70 = Color(0xB3FFFFFF)
         val TextLink = Color(0xFF94BDFD)
-
-        internal fun light(colorScheme: ColorScheme) = SsColors(
-            isDark = false,
-            dividers = Color(0x80D7D7D7),
-            icons = BaseGrey2.lighter(0.2f),
-            navTitle = if (isS()) colorScheme.onSurface else Color.Black,
-            onSurfaceSecondary = colorScheme.onSurface.lighter(0.3f)
-        )
-
-        internal fun dark(colorScheme: ColorScheme) = SsColors(
-            isDark = true,
-            dividers = Color(0x1FFFFFFF),
-            icons = colorScheme.primary,
-            navTitle = if (isS()) colorScheme.onSurface else Color.White,
-            onSurfaceSecondary = colorScheme.onSurface.darker(0.3f)
-        )
     }
 }
+
+/**
+ * Creates and returns [SsColors] as an extension of the [ColorScheme].
+ */
+internal fun ColorScheme.extend(
+    isDark: Boolean
+): SsColors = if (isDark) SsColors(
+    isDark = true,
+    dividers = Color(0x1FFFFFFF),
+    dragHandle = SsColors.BaseGrey2,
+    icons = primary,
+    iconsSecondary = onSurface.darker(0.3f), // onSurfaceSecondary
+    navTitle = if (isS()) onSurface else Color.White,
+    onSurfaceSecondary = onSurface.darker(0.3f),
+    playbackMiniBackground = Color.Black.lighter(),
+    playbackMiniContent = if (isS()) onSurface else Color.White
+) else SsColors(
+    isDark = false,
+    dividers = Color(0x80D7D7D7),
+    dragHandle = SsColors.BaseGrey1,
+    icons = SsColors.BaseGrey2.lighter(0.2f),
+    iconsSecondary = primary,
+    navTitle = if (isS()) onSurface else Color.Black,
+    onSurfaceSecondary = onSurface.lighter(0.3f),
+    playbackMiniBackground = SsColors.BaseGrey1,
+    playbackMiniContent = if (isS()) onSurface else Color.Black
+)
 
 internal val LocalSsColors = staticCompositionLocalOf {
     SsColors(
         isDark = false,
         dividers = Color.Unspecified,
+        dragHandle = Color.Unspecified,
         icons = Color.Unspecified,
+        iconsSecondary = Color.Unspecified,
         navTitle = Color.Unspecified,
-        onSurfaceSecondary = Color.Unspecified
+        onSurfaceSecondary = Color.Unspecified,
+        playbackMiniBackground = Color.Unspecified,
+        playbackMiniContent = Color.Unspecified,
     )
 }
 

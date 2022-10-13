@@ -35,6 +35,7 @@ import app.ss.design.compose.theme.color.LightColorScheme
 import app.ss.design.compose.theme.color.LocalSsColors
 import app.ss.design.compose.theme.color.ProvideSsColors
 import app.ss.design.compose.theme.color.SsColors
+import app.ss.design.compose.theme.color.extend
 
 @Composable
 fun SsTheme(
@@ -57,9 +58,7 @@ fun SsTheme(
     }
 
     ProvideDimens(dimensions = dimensions) {
-        ProvideSsColors(
-            ssColors = if (darkTheme) SsColors.dark(colorScheme) else SsColors.light(colorScheme)
-        ) {
+        ProvideSsColors(ssColors = colorScheme.extend(darkTheme)) {
             MaterialTheme(
                 colorScheme = colorScheme,
                 typography = SsTypography,

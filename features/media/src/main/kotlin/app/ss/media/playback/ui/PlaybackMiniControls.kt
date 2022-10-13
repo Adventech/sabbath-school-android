@@ -8,7 +8,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,14 +46,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.extensions.isLargeScreen
-import app.ss.design.compose.extensions.isS
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.Dimens
-import app.ss.design.compose.theme.Spacing12
-import app.ss.design.compose.theme.Spacing8
-import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.extensions.color.lighter
+import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
@@ -117,9 +112,6 @@ fun PlaybackMiniControls(
 ) {
     val cancel: () -> Unit = { playbackConnection.transportControls?.stop() }
 
-    val backgroundColor = playbackMiniBackgroundColor()
-    val contentColor = playbackContentColor()
-
     Dismissible(onDismiss = cancel) {
         Box(
             modifier = Modifier.fillMaxWidth()
@@ -147,14 +139,14 @@ fun PlaybackMiniControls(
                         modifier = Modifier
                             .height(height)
                             .fillMaxWidth()
-                            .background(backgroundColor)
+                            .background(SsTheme.colors.playbackMiniBackground)
                     ) {
                         NowPlayingColumn(
                             spec = nowPlayingSpec,
                             onCancel = cancel
                         )
                         PlaybackReplay(
-                            contentColor = contentColor,
+                            contentColor = SsTheme.colors.playbackMiniContent,
                             onRewind = {
                                 playbackConnection.transportControls?.rewind()
                             }
@@ -162,7 +154,7 @@ fun PlaybackMiniControls(
 
                         PlaybackPlayPause(
                             spec = spec,
-                            contentColor = contentColor,
+                            contentColor = SsTheme.colors.playbackMiniContent,
                             onPlayPause = {
                                 playbackConnection.mediaController?.playPause()
                             }
@@ -182,34 +174,9 @@ fun PlaybackMiniControls(
 }
 
 @Composable
-private fun playbackMiniBackgroundColor(
-    isDark: Boolean = isSystemInDarkTheme()
-): Color =
-    if (isDark) {
-        Color.Black.lighter()
-    } else {
-        SsColors.BaseGrey1
-    }
-
-@Composable
-internal fun playbackContentColor(
-    isDark: Boolean = isSystemInDarkTheme()
-): Color = when {
-    isS() -> MaterialTheme.colorScheme.onSurface
-    isDark -> Color.White
-    else -> Color.Black
-}
-
-@Composable
 private fun playbackButtonSpacing(
     isLargeScreen: Boolean = isLargeScreen()
-): Dp {
-    return if (isLargeScreen) {
-        Spacing12
-    } else {
-        Spacing8
-    }
-}
+): Dp = if (isLargeScreen) 12.dp else 8.dp
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable

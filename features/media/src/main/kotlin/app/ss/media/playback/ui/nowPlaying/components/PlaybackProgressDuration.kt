@@ -22,7 +22,6 @@
 
 package app.ss.media.playback.ui.nowPlaying.components
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -46,13 +45,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.extensions.color.darker
 import app.ss.design.compose.extensions.isS
 import app.ss.design.compose.theme.Spacing16
 import app.ss.design.compose.theme.Spacing4
 import app.ss.design.compose.theme.Spacing8
-import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.extensions.color.darker
+import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.material.Slider
 import app.ss.design.compose.widget.material.SliderDefaults
 import app.ss.media.playback.extensions.millisToDuration
@@ -64,7 +63,7 @@ private object ProgressColors {
     fun thumbColor(forceDark: Boolean): Color {
         return when {
             isS() -> MaterialTheme.colorScheme.onSurfaceVariant
-            isSystemInDarkTheme() -> SsColors.BaseGrey1
+            SsTheme.colors.isDark -> SsColors.BaseGrey1
             forceDark -> SsColors.BaseGrey1
             else -> SsColors.OffWhite.darker()
         }
@@ -77,7 +76,7 @@ private object ProgressColors {
     fun inactiveTrackColor(forceDark: Boolean): Color {
         return when {
             isS() -> MaterialTheme.colorScheme.inverseOnSurface
-            isSystemInDarkTheme() -> SsColors.BaseGrey3
+            SsTheme.colors.isDark -> SsColors.BaseGrey3
             forceDark -> SsColors.BaseGrey3
             else -> SsColors.BaseGrey1
         }
