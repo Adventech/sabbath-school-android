@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import app.ss.design.compose.R
 import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.LatoFontFamily
-import app.ss.design.compose.theme.SsColor
+import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.theme.SsTheme
 
 /**
@@ -123,7 +123,7 @@ fun ReadMoreText(
     onTextLayout: (TextLayoutResult) -> Unit = {},
     style: TextStyle = LocalTextStyle.current,
     readMoreText: String = stringResource(id = R.string.ss_more),
-    readMoreColor: Color = SsColor.TextLink,
+    readMoreColor: Color = SsColors.TextLink,
     readMoreFontSize: TextUnit = TextUnit.Unspecified,
     readMoreFontStyle: FontStyle? = FontStyle.Normal,
     readMoreFontWeight: FontWeight? = FontWeight.Light,

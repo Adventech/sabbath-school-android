@@ -28,8 +28,8 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.glance.LocalContext
-import app.ss.design.compose.theme.DarkColorScheme
-import app.ss.design.compose.theme.LightColorScheme
+import app.ss.design.compose.theme.color.DarkColorScheme
+import app.ss.design.compose.theme.color.LightColorScheme
 import app.ss.design.compose.theme.SsTypography
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi

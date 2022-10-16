@@ -88,10 +88,7 @@ class NowPlayingScreenTest {
         paparazzi.snapshot {
             SsTheme(darkTheme = darkTheme) {
                 Surface {
-                    NowPlayingScreen(
-                        spec = spec,
-                        isDarkTheme = darkTheme
-                    )
+                    NowPlayingScreen(spec = spec)
                 }
             }
         }

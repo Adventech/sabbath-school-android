@@ -29,7 +29,6 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -59,6 +58,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
@@ -113,7 +113,7 @@ internal fun LessonsScreen(
     onLessonClick: (LessonItemSpec) -> Unit = {},
     onReadMoreClick: (LessonIntroModel) -> Unit = {},
     systemUiController: SystemUiController? = null,
-    isSystemInDarkTheme: Boolean = isSystemInDarkTheme(),
+    isDarkTheme: Boolean = SsTheme.colors.isDark,
 ) {
     val quarterlyTitle = state.quarterlyTitle
     val scrollCollapsed by remember { derivedStateOf { scrollAlpha.alpha > MIN_SOLID_ALPHA } }
@@ -159,7 +159,7 @@ internal fun LessonsScreen(
     val useDarkIcons by remember {
         derivedStateOf {
             when {
-                isSystemInDarkTheme -> false
+                isDarkTheme -> false
                 else -> collapsed
             }
         }

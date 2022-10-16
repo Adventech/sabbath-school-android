@@ -42,7 +42,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -58,8 +57,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.theme.dividerColor
-import app.ss.design.compose.theme.onSurfaceSecondary
+import app.ss.design.compose.widget.divider.Divider
 import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.media.playback.ui.spec.PlaybackQueueSpec
 import app.ss.media.playback.ui.spec.toSpec
@@ -91,10 +89,7 @@ internal fun PlaybackQueueList(
                     onPlayAudio(index)
                 }
             )
-            Divider(
-                color = dividerColor(),
-                thickness = 0.5.dp
-            )
+            Divider()
         }
     }
 
@@ -147,7 +142,7 @@ private fun AudioRow(
                 style = MaterialTheme.typography.bodySmall.copy(
                     fontSize = 14.sp
                 ),
-                color = onSurfaceSecondary(),
+                color = SsTheme.colors.onSurfaceSecondary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

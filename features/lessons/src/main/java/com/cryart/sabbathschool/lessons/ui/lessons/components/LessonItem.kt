@@ -43,7 +43,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
 import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.theme.onSurfaceSecondary
 import app.ss.design.compose.widget.divider.Divider
 import app.ss.models.SSLesson
 import com.cryart.sabbathschool.core.misc.SSConstants
@@ -123,7 +122,7 @@ private fun LessonItem(
         Text(
             text = spec.displayIndex,
             style = MaterialTheme.typography.titleLarge,
-            color = onSurfaceSecondary().copy(alpha = 0.5f),
+            color = SsTheme.colors.onSurfaceSecondary.copy(alpha = 0.5f),
             maxLines = 1,
             modifier = Modifier.padding(horizontal = 20.dp)
         )
@@ -149,7 +148,7 @@ private fun LessonItem(
                 style = MaterialTheme.typography.bodySmall.copy(
                     fontSize = 14.sp
                 ),
-                color = onSurfaceSecondary(),
+                color = SsTheme.colors.onSurfaceSecondary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )

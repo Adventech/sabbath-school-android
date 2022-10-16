@@ -24,7 +24,6 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -62,9 +61,8 @@ import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.extensions.previews.ThemePreviews
 import app.ss.design.compose.theme.Dimens
-import app.ss.design.compose.theme.SsColor
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.theme.iconTint
+import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
@@ -287,13 +285,12 @@ private fun QuarterlyCover(
 internal fun GroupedQuarterliesColumn(
     spec: GroupedQuarterliesSpec,
     modifier: Modifier = Modifier,
-    darkTheme: Boolean = isSystemInDarkTheme(),
     seeAllClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
             .groupBackground(
-                darkTheme = darkTheme,
+                darkTheme = SsTheme.colors.isDark,
                 lastIndex = spec.lastIndex
             )
     ) {
@@ -356,7 +353,7 @@ private fun GroupTitle(
 
             IconBox(
                 icon = Icons.ArrowRight,
-                contentColor = iconTint()
+                contentColor = SsTheme.colors.icons
             )
         }
     }
@@ -375,7 +372,7 @@ private fun Modifier.groupBackground(
                     Brush.verticalGradient(
                         colors = listOf(
                             Color.White,
-                            SsColor.OffWhite.copy(alpha = 0.2f)
+                            SsColors.OffWhite.copy(alpha = 0.2f)
                         )
                     )
                 )

@@ -23,6 +23,27 @@
 package app.ss.design.compose.extensions.color
 
 import androidx.compose.ui.graphics.Color
+import kotlin.math.max
+import kotlin.math.min
+
+fun Color.darker(componentDelta: Float = 0.1f): Color = makeColor(-1 * componentDelta)
+
+fun Color.lighter(componentDelta: Float = 0.1f): Color = makeColor(componentDelta)
 
 fun Color.Companion.parse(colorString: String): Color =
     Color(color = android.graphics.Color.parseColor(colorString))
+
+/**
+ * Create a new [Color] modifying each component
+ * by componentDelta, making it either lighter or darker
+ */
+fun Color.makeColor(componentDelta: Float): Color = Color(
+    red.add(componentDelta),
+    green.add(componentDelta),
+    blue.add(componentDelta),
+    alpha
+)
+
+private fun Float.add(toComponent: Float): Float {
+    return max(0f, min(1f, toComponent + this))
+}

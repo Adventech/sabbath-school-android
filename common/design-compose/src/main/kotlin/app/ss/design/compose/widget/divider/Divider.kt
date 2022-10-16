@@ -25,12 +25,12 @@ package app.ss.design.compose.widget.divider
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import app.ss.design.compose.theme.dividerColor
+import app.ss.design.compose.theme.SsTheme
 
 @Composable
 fun Divider() {
     Divider(
-        color = dividerColor(),
+        color = SsTheme.colors.dividers,
         thickness = 0.5.dp
     )
 }

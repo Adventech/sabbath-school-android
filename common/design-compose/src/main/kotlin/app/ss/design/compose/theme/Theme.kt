@@ -24,37 +24,18 @@ package app.ss.design.compose.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import app.ss.design.compose.extensions.isS
-
-val DarkColorScheme = darkColorScheme(
-    primary = Color.White,
-    secondary = SsColor.BaseBlue,
-    background = Color.Black,
-    surface = Color.Black,
-    onBackground = Color.White,
-    onSurface = Color.White,
-    error = SsColor.BaseRed
-)
-
-val LightColorScheme = lightColorScheme(
-    primary = SsColor.BaseBlue,
-    secondary = SsColor.BaseBlue,
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onBackground = SsColor.BaseGrey3,
-    onSurface = SsColor.BaseGrey3,
-    error = SsColor.BaseRed
-)
+import app.ss.design.compose.theme.color.DarkColorScheme
+import app.ss.design.compose.theme.color.LightColorScheme
+import app.ss.design.compose.theme.color.LocalSsColors
+import app.ss.design.compose.theme.color.ProvideSsColors
+import app.ss.design.compose.theme.color.SsColors
+import app.ss.design.compose.theme.color.extend
 
 @Composable
 fun SsTheme(
@@ -77,11 +58,13 @@ fun SsTheme(
     }
 
     ProvideDimens(dimensions = dimensions) {
-        MaterialTheme(
-            colorScheme = colorScheme,
-            typography = SsTypography,
-            content = content
-        )
+        ProvideSsColors(ssColors = colorScheme.extend(darkTheme)) {
+            MaterialTheme(
+                colorScheme = colorScheme,
+                typography = SsTypography,
+                content = content
+            )
+        }
     }
 }
 
@@ -89,4 +72,8 @@ object SsTheme {
     val dimens: Dimensions
         @Composable
         get() = LocalAppDimens.current
+
+    val colors: SsColors
+        @Composable
+        get() = LocalSsColors.current
 }
