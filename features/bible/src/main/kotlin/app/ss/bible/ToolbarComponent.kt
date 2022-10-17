@@ -53,7 +53,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import app.ss.design.compose.extensions.previews.ThemePreviews
+import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.widget.icon.IconBox
@@ -241,7 +241,7 @@ private fun BibleVersionsMenu(
     }
 }
 
-@ThemePreviews
+@DayNightPreviews
 @Composable
 private fun HeaderRowPreview() {
     SsTheme {

@@ -50,7 +50,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.color.lighter
-import app.ss.design.compose.extensions.previews.ThemePreviews
+import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
 import com.cryart.sabbathschool.lessons.R
@@ -209,7 +209,7 @@ private fun FooterItem(
 private val ImageWidth = 26.dp
 private val ImageHeight = 22.dp
 
-@ThemePreviews
+@DayNightPreviews
 @Composable
 private fun FeatureItemPreview() {
     SsTheme {
@@ -223,7 +223,7 @@ private fun FeatureItemPreview() {
     }
 }
 
-@ThemePreviews
+@DayNightPreviews
 @Composable
 private fun CreditItemPreview() {
     SsTheme {

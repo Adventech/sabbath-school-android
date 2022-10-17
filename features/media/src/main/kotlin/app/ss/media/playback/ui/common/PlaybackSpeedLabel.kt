@@ -39,7 +39,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
-import app.ss.design.compose.extensions.previews.ThemePreviews
+import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.media.playback.model.PlaybackSpeed
 
@@ -82,7 +82,7 @@ fun PlaybackSpeedLabel(
     }
 }
 
-@ThemePreviews
+@DayNightPreviews
 @Composable
 private fun Preview() {
     SsTheme {

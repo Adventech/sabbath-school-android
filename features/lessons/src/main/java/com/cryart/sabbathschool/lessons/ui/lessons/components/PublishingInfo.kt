@@ -45,7 +45,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import app.ss.design.compose.extensions.previews.ThemePreviews
+import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.extensions.color.parse
@@ -119,7 +119,7 @@ private fun PublishingInfo(
     }
 }
 
-@ThemePreviews
+@DayNightPreviews
 @Composable
 private fun PreviewPublishingInfo() {
     SsTheme {
