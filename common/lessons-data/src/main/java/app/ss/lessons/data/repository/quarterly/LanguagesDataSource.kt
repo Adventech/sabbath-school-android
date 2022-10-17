@@ -45,7 +45,7 @@ internal class LanguagesDataSource @Inject constructor(
     dispatcherProvider = dispatcherProvider,
     connectivityHelper = connectivityHelper
 ) {
-    class Request
+    data class Request(val query: String? = null)
 
     override val cache: LocalDataSource<Language, Request> = object : LocalDataSource<Language, Request> {
         override suspend fun get(request: Request): Resource<List<Language>> {

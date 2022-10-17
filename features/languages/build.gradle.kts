@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,21 +26,18 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
-    id("app.cash.paparazzi")
 }
 
 android {
+    namespace = "app.ss.languages"
     compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
 
     defaultConfig {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
 
-    namespace = "com.cryart.sabbathschool.lessons"
-
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
     composeOptions {
@@ -48,60 +45,27 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
-        dataBinding = true
         compose = true
-    }
-
-    testOptions {
-        unitTests.isReturnDefaultValues = true
     }
 }
 
 dependencies {
-
-    implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.designCompose)
-    implementation(projects.common.translations)
     implementation(projects.common.lessonsData)
-    implementation(projects.features.appWidgets)
-    implementation(projects.features.bible)
-    implementation(projects.features.languages)
-    implementation(projects.features.media)
-    implementation(projects.features.pdf)
-    implementation(projects.features.reader)
+    implementation(projects.common.translations)
 
-    implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.android)
-
-    implementation(libs.google.material)
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.activity)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.fragment)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.extensions)
-    implementation(libs.androidx.recyclerview)
-
+    implementation(libs.google.material)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
-
-    implementation(libs.joda.android)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.kotlin.coroutines.android)
     implementation(libs.timber)
-    implementation(libs.coil.core)
-    implementation(libs.tapTarget)
-    implementation(libs.android.rate)
-    implementation(libs.material.dialogs.input)
-    implementation(libs.markwon.core)
-
-    implementation(libs.androidx.compose.constraintlayout)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.google.accompanist.systemUiController)
 
     testImplementation(libs.bundles.testing.common)
     kaptTest(libs.google.hilt.compiler)

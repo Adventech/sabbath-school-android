@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,14 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    id("com.android.library")
-    id("kotlin-android")
-}
+package app.ss.languages.state
 
-android {
-    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
-    namespace = "com.cryart.design"
+import androidx.compose.runtime.Immutable
 
-    defaultConfig {
-        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
-    }
-
-    kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
-    }
-}
-
-dependencies {
-    implementation(libs.google.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.core)
-}
+@Immutable
+internal data class LanguageModel(
+    val code: String,
+    val name: String,
+    val nativeName: String,
+    val selected: Boolean
+)
