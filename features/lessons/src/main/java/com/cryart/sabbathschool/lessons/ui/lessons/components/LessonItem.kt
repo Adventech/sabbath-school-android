@@ -41,7 +41,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
-import app.ss.design.compose.extensions.previews.ThemePreviews
+import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
 import app.ss.models.SSLesson
@@ -156,7 +156,7 @@ private fun LessonItem(
     }
 }
 
-@ThemePreviews
+@DayNightPreviews
 @Composable
 private fun LessonItemPreview() {
     SsTheme {

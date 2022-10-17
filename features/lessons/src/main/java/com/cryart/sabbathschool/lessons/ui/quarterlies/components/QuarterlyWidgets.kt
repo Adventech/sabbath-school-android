@@ -59,7 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
-import app.ss.design.compose.extensions.previews.ThemePreviews
+import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
@@ -161,7 +161,7 @@ internal fun QuarterlyRow(
     }
 }
 
-@ThemePreviews
+@DayNightPreviews
 @Composable
 fun QuarterlyRowPreview() {
     SsTheme {
@@ -217,7 +217,7 @@ internal fun QuarterlyColumn(
 
 private val TitleMinHeight = 40.dp
 
-@ThemePreviews
+@DayNightPreviews
 @Composable
 fun QuarterlyColumnPreview() {
     SsTheme {
@@ -380,7 +380,7 @@ private fun Modifier.groupBackground(
     }
 )
 
-@ThemePreviews
+@DayNightPreviews
 @Composable
 private fun GroupedQuarterliesColumnPreview() {
     SsTheme {

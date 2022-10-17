@@ -31,7 +31,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.ss.design.compose.extensions.previews.ThemePreviews
+import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 
 private object DragHandleDefaults {
@@ -54,7 +54,7 @@ fun DragHandle(modifier: Modifier = Modifier) {
     )
 }
 
-@ThemePreviews
+@DayNightPreviews
 @Composable
 private fun Preview() {
     SsTheme {
