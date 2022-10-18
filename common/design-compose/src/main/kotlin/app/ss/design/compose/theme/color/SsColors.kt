@@ -23,6 +23,7 @@
 package app.ss.design.compose.theme.color
 
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -40,17 +41,20 @@ import app.ss.design.compose.extensions.isS
 
 @Immutable
 class SsColors(
+    // Custom
     isDark: Boolean,
     dividers: Color,
     dragHandle: Color,
     icons: Color,
     iconsSecondary: Color,
     navTitle: Color,
-
-    onSurfaceSecondary: Color,
-
     playbackMiniBackground: Color,
-    playbackMiniContent: Color
+    playbackMiniContent: Color,
+
+    // MaterialTheme overrides
+    onSurfacePrimary: Color,
+    onSurfaceSecondary: Color,
+    primary: Color
 ) {
     var isDark by mutableStateOf(isDark)
         private set
@@ -64,11 +68,15 @@ class SsColors(
         private set
     var navTitle by mutableStateOf(navTitle)
         private set
+    var onSurfacePrimary by mutableStateOf(onSurfacePrimary)
+        private set
     var onSurfaceSecondary by mutableStateOf(onSurfaceSecondary)
         private set
     var playbackMiniBackground by mutableStateOf(playbackMiniBackground)
         private set
     var playbackMiniContent by mutableStateOf(playbackMiniContent)
+        private set
+    var primary by mutableStateOf(primary)
         private set
 
     companion object {
@@ -98,9 +106,11 @@ internal fun ColorScheme.extend(
     icons = primary,
     iconsSecondary = onSurface.darker(0.3f), // onSurfaceSecondary
     navTitle = if (isS()) onSurface else Color.White,
-    onSurfaceSecondary = onSurface.darker(0.3f),
     playbackMiniBackground = Color.Black.lighter(),
-    playbackMiniContent = if (isS()) onSurface else Color.White
+    playbackMiniContent = if (isS()) onSurface else Color.White,
+    onSurfacePrimary = onSurface,
+    onSurfaceSecondary = onSurface.darker(0.3f),
+    primary = primary,
 ) else SsColors(
     isDark = false,
     dividers = Color(0x80D7D7D7),
@@ -108,9 +118,11 @@ internal fun ColorScheme.extend(
     icons = SsColors.BaseGrey2.lighter(0.2f),
     iconsSecondary = primary,
     navTitle = if (isS()) onSurface else Color.Black,
-    onSurfaceSecondary = onSurface.lighter(0.3f),
     playbackMiniBackground = SsColors.BaseGrey1,
-    playbackMiniContent = if (isS()) onSurface else Color.Black
+    playbackMiniContent = if (isS()) onSurface else Color.Black,
+    onSurfacePrimary = onSurface,
+    onSurfaceSecondary = onSurface.lighter(0.3f),
+    primary = primary,
 )
 
 internal val LocalSsColors = staticCompositionLocalOf {
@@ -121,9 +133,11 @@ internal val LocalSsColors = staticCompositionLocalOf {
         icons = Color.Unspecified,
         iconsSecondary = Color.Unspecified,
         navTitle = Color.Unspecified,
-        onSurfaceSecondary = Color.Unspecified,
         playbackMiniBackground = Color.Unspecified,
         playbackMiniContent = Color.Unspecified,
+        onSurfacePrimary = Color.Unspecified,
+        onSurfaceSecondary = Color.Unspecified,
+        primary = Color.Unspecified,
     )
 }
 
