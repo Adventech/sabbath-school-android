@@ -62,7 +62,7 @@ class LanguagesViewModelTest {
     @Before
     fun setup() {
         every { mockSSPrefs.getLanguageCode() }.returns("en")
-        every { mockRepository.getLanguages("") }.returns(languagesFlow)
+        every { mockRepository.getLanguages(null) }.returns(languagesFlow)
 
         viewModel = LanguagesViewModel(
             repository = mockRepository,
@@ -78,9 +78,9 @@ class LanguagesViewModelTest {
             languagesFlow.emit(
                 Resource.success(
                     listOf(
-                        Language("en", "English"),
-                        Language("es", "Spanish"),
-                        Language("fr", "French")
+                        Language("en", "English", "English"),
+                        Language("es", "Spanish", "Español"),
+                        Language("fr", "French", "Français")
                     )
                 )
             )
@@ -133,14 +133,6 @@ class LanguagesViewModelTest {
         }
 
         job.cancel()
-    }
-
-
-    @Test
-    fun `should format native language name correctly`() {
-        viewModel.getNativeLanguageName(Language("en", "English")) shouldBeEqualTo "English"
-        viewModel.getNativeLanguageName(Language("es", "Spanish")) shouldBeEqualTo "Español"
-        viewModel.getNativeLanguageName(Language("fr", "French")) shouldBeEqualTo "Français"
     }
 
     @Test

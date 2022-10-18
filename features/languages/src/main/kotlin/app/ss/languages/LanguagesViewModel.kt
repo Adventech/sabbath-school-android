@@ -22,7 +22,6 @@
 
 package app.ss.languages
 
-import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
@@ -31,7 +30,6 @@ import app.ss.languages.state.LanguageModel
 import app.ss.languages.state.LanguagesState
 import app.ss.languages.state.ListState
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
-import app.ss.models.Language
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,7 +40,6 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,8 +48,8 @@ internal class LanguagesViewModel @Inject constructor(
     private val ssPrefs: SSPrefs
 ) : ViewModel() {
 
-    private val searchQuery = MutableStateFlow("")
-    private val queryFlow: SharedFlow<String> = searchQuery
+    private val searchQuery = MutableStateFlow<String?>(null)
+    private val queryFlow: SharedFlow<String?> = searchQuery
 
     internal val uiState: StateFlow<LanguagesState> = queryFlow
         .debounce(250L)
@@ -61,7 +58,7 @@ internal class LanguagesViewModel @Inject constructor(
             val list = resource.data?.map {
                 LanguageModel(
                     code = it.code,
-                    nativeName = getNativeLanguageName(it),
+                    nativeName = it.nativeName,
                     name = it.name,
                     selected = it.code == ssPrefs.getLanguageCode()
                 )
@@ -72,13 +69,6 @@ internal class LanguagesViewModel @Inject constructor(
                 listState = ListState(list)
             )
         }.stateIn(viewModelScope, LanguagesState())
-
-    @VisibleForTesting
-    internal fun getNativeLanguageName(language: Language): String {
-        val loc = Locale(language.code)
-        val name = loc.getDisplayLanguage(loc).takeUnless { it == language.code } ?: language.name
-        return name.replaceFirstChar { it.uppercase() }
-    }
 
     internal fun searchFor(query: String) {
         viewModelScope.launch { searchQuery.emit(query.trim()) }

@@ -22,6 +22,7 @@
 
 package app.ss.lessons.data.repository.quarterly
 
+import androidx.annotation.VisibleForTesting
 import app.ss.lessons.data.api.SSQuarterliesApi
 import app.ss.lessons.data.repository.DataSource
 import app.ss.lessons.data.repository.DataSourceMediator
@@ -32,6 +33,7 @@ import app.ss.storage.db.entity.LanguageEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -50,21 +52,26 @@ internal class LanguagesDataSource @Inject constructor(
     override val cache: LocalDataSource<Language, Request> = object : LocalDataSource<Language, Request> {
         override suspend fun get(request: Request): Resource<List<Language>> {
             val query = request.query
-            val data = (
+            val data =
                 if (query.isNullOrEmpty()) {
                     languagesDao.get()
                 } else {
                     languagesDao.search("%$query%")
                 }
-                ).map {
-                Language(it.code, it.name)
-            }
 
-            return Resource.success(data)
+            return Resource.success(
+                data.map { language ->
+                    Language(
+                        code = language.code,
+                        name = language.name,
+                        nativeName = language.nativeName.takeUnless { it.isEmpty() } ?: getNativeLanguageName(language.code, language.name)
+                    )
+                }
+            )
         }
 
         override suspend fun update(data: List<Language>) {
-            languagesDao.insertAll(data.map { LanguageEntity(it.code, it.name) })
+            languagesDao.insertAll(data.map { LanguageEntity(it.code, it.name, it.nativeName) })
         }
     }
 
@@ -73,9 +80,16 @@ internal class LanguagesDataSource @Inject constructor(
             if (request.query != null) return Resource.loading()
 
             val data = quarterliesApi.getLanguages().body()?.map {
-                Language(it.code, it.name)
+                Language(it.code, it.name, getNativeLanguageName(it.code, it.name))
             } ?: emptyList()
             return Resource.success(data)
         }
+    }
+
+    @VisibleForTesting
+    internal fun getNativeLanguageName(languageCode: String, languageName: String): String {
+        val loc = Locale(languageCode)
+        val name = loc.getDisplayLanguage(loc).takeUnless { it == languageCode } ?: languageName
+        return name.replaceFirstChar { it.uppercase() }
     }
 }

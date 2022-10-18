@@ -27,7 +27,7 @@ import androidx.compose.runtime.Immutable
 @Immutable
 internal data class LanguagesState(
     val isLoading: Boolean = true,
-    val query: String = "",
+    val query: String? = null,
     val listState: ListState = ListState()
 )
 
