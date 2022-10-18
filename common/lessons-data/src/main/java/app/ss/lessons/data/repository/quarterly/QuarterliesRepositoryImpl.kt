@@ -49,7 +49,8 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
     private val deviceHelper: DeviceHelper
 ) : QuarterliesRepository {
 
-    override fun getLanguages(): Flow<Resource<List<Language>>> = languagesSource.getAsFlow(LanguagesDataSource.Request())
+    override fun getLanguages(query: String?): Flow<Resource<List<Language>>> =
+        languagesSource.getAsFlow(LanguagesDataSource.Request(query = query))
 
     override fun getQuarterlies(
         languageCode: String?,
