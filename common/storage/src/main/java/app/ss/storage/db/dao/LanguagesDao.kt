@@ -32,6 +32,12 @@ interface LanguagesDao : BaseDao<LanguageEntity> {
     @Query("SELECT * FROM languages")
     fun get(): List<LanguageEntity>
 
-    @Query("SELECT * FROM languages WHERE name LIKE :query")
+    @Query(
+        """
+        SELECT * FROM languages 
+        WHERE name LIKE :query
+        OR nativeName LIKE :query
+    """
+    )
     fun search(query: String): List<LanguageEntity>
 }
