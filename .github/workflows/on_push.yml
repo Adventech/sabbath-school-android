@@ -43,7 +43,7 @@ jobs:
 
       - name: Publish to Internal track
         if: github.ref == 'refs/heads/main'
-        uses: r0adkll/upload-google-play@v1.0.18
+        uses: r0adkll/upload-google-play@v1.0.19
         with:
           serviceAccountJson: release/play-account.json
           packageName: com.cryart.sabbathschool
