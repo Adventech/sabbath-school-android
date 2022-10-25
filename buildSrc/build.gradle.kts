@@ -15,7 +15,7 @@ object PluginVersions {
     const val KTLINT = "11.0.0"
     const val HILT = "2.44"
     const val PAPARAZZI = "1.1.0"
-    const val BENCHMARK = "1.2.0-alpha05"
+    const val BENCHMARK = "1.2.0-alpha06"
 }
 
 dependencies {
