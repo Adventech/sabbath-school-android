@@ -59,4 +59,4 @@ jobs:
           script: ./gradlew app:connectedCheck --stacktrace
 
       - name: Build Release
-          run: ./gradlew app:bundleRelease --stacktrace
+        run: ./gradlew app:bundleRelease --stacktrace
