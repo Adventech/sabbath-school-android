@@ -113,7 +113,6 @@ private fun SearchView(
                     queryValue = it
                     onQuery(it)
                 },
-                onQuerySubmit = { /* No-op */ },
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = "Search Languages"
             )

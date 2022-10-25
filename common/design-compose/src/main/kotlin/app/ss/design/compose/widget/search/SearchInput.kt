@@ -59,8 +59,8 @@ import app.ss.design.compose.widget.icon.Icons
 fun SearchInput(
     value: String,
     onQueryChange: (String) -> Unit,
-    onQuerySubmit: (String) -> Unit,
     modifier: Modifier = Modifier,
+    onQuerySubmit: (String) -> Unit = {},
     placeholder: String = "",
     enabled: Boolean = true,
     readOnly: Boolean = false,
