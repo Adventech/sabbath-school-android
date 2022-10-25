@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2022. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.19228487"
+        android:scaleY="0.19228487"
+        android:translateX="21.6"
+        android:translateY="34.9638">
+        <path
+            android:fillColor="#000000"
+            android:fillType="evenOdd"
+            android:pathData="M143.94,46.215a54.208,54.208 0,0 0,-16.617 13.14h9.39c2.014,-4.938 4.441,-9.37 7.227,-13.14M164.129,40.936c-7.182,1.915 -13.624,8.721 -18.238,18.421h18.238V40.936M48.282,85.896h58.488a61.83,61.83 0,0 1,2.212 -9.997h8.736a52.92,52.92 0,0 0,-2.589 9.997h15.555c0.269,-3.44 0.714,-6.774 1.301,-9.997h8.509a88.744,88.744 0,0 0,-1.473 9.997h25.107v-9.997h8.273v9.997h25.112a89.2,89.2 0,0 0,-1.475 -9.997h8.51a97.88,97.88 0,0 1,1.297 9.997h15.559a53.126,53.126 0,0 0,-4.326 -14.223,52.12 52.12,0 0,0 -2.077,-4.047H22.551v8.273h25.731v9.997M209.207,59.355a54.208,54.208 0,0 0,-16.617 -13.14c2.786,3.77 5.217,8.202 7.231,13.14h9.386M172.402,40.936v18.421h18.238c-4.614,-9.7 -11.056,-16.506 -18.238,-18.421" />
+        <path
+            android:fillColor="#000000"
+            android:fillType="evenOdd"
+            android:pathData="M285.437,0.603h-87.113c-8.709,0 -16.759,2.065 -22.876,6.536 -2.953,2.156 -5.355,4.947 -7.095,8.214 -1.74,-3.267 -4.143,-6.058 -7.096,-8.214C155.153,2.668 147.09,0.603 138.381,0.603H51.269c-1.997,0.06 -2.977,1.729 -2.988,2.988v55.766h68.631c11.179,-16.435 30.024,-27.252 51.354,-27.252 34.221,0 62.063,27.838 62.063,62.063 0,34.221 -27.842,62.064 -62.063,62.064 -21.322,0 -40.14,-10.825 -51.318,-27.248h10.433c4.591,5.39 10.192,9.893 16.558,13.136 -2.783,-3.766 -5.209,-8.197 -7.223,-13.136h9.2c4.611,9.691 11.036,16.502 18.215,18.417v-18.417h8.269v18.417c7.178,-1.915 13.604,-8.726 18.215,-18.417h9.2c-2.014,4.939 -4.44,9.37 -7.223,13.136 7.781,-3.963 14.433,-9.794 19.459,-16.859 0.107,-0.15 0.219,-0.297 0.325,-0.447a55.065,55.065 0,0 0,2.624 -4.103H22.55v8.269h25.731v47.896c0,1.562 1.422,2.985 2.988,2.985h87.112c7.271,0 13.901,0.983 18.579,3.361 4.682,2.383 7.528,5.78 8.404,11.952 0.036,1.554 1.435,2.616 2.989,2.616 1.553,0 2.965,-1.062 2.989,-2.616 0.871,-6.172 3.722,-9.569 8.399,-11.952 4.682,-2.378 11.309,-3.361 18.583,-3.361h87.113c1.565,0 2.988,-1.423 2.988,-2.985V3.591c0,-1.565 -1.423,-2.988 -2.988,-2.988" />
+        <path
+            android:fillColor="#000000"
+            android:fillType="evenOdd"
+            android:pathData="M48.282,112.439h60.671c-0.999,-3.227 -1.708,-6.572 -2.168,-9.997h8.369c0.539,3.443 1.371,6.798 2.532,9.997h14.286a99.396,99.396 0,0 1,-1.276 -9.997h8.325a89.91,89.91 0,0 0,1.454 9.997h23.653v-9.997h8.273v9.997h23.657c0.662,-3.212 1.141,-6.561 1.455,-9.997h8.324c-0.273,3.428 -0.689,6.777 -1.276,9.997h14.286a53.445,53.445 0,0 0,3.02 -14.041c0.123,-1.396 0.191,-2.803 0.191,-4.23H0.425v8.274h47.857v9.997" />
+    </group>
+</vector>
