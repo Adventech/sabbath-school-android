@@ -37,9 +37,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -55,6 +57,7 @@ import app.ss.design.compose.widget.icon.Icons
 /**
  * A Search input Composable.
  */
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SearchInput(
     value: String,
@@ -68,6 +71,8 @@ fun SearchInput(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
+    val keyboard = LocalSoftwareKeyboardController.current
+
     BasicTextField(
         value = value,
         onValueChange = onQueryChange,
@@ -84,13 +89,15 @@ fun SearchInput(
             imeAction = ImeAction.Search
         ),
         keyboardActions = KeyboardActions(
-            onSearch = { onQuerySubmit(value) }
+            onSearch = {
+                onQuerySubmit(value)
+                keyboard?.hide()
+            }
         ),
         interactionSource = interactionSource,
         cursorBrush = SolidColor(SsTheme.colors.primary),
         decorationBox =
         @Composable { innerTextField ->
-            @OptIn(ExperimentalMaterial3Api::class)
             TextFieldDefaults.TextFieldDecorationBox(
                 value = value,
                 visualTransformation = visualTransformation,
