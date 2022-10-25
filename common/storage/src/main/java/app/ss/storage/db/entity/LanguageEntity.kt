@@ -22,11 +22,17 @@
 
 package app.ss.storage.db.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "languages")
 data class LanguageEntity(
-    @PrimaryKey val code: String,
-    val name: String
+    @PrimaryKey
+    val code: String,
+
+    val name: String,
+
+    @ColumnInfo(defaultValue = "")
+    val nativeName: String
 )

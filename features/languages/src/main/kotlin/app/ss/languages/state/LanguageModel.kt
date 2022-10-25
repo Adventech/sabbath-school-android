@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,30 +20,14 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.languages
+package app.ss.languages.state
 
-import android.view.ViewGroup
-import androidx.core.view.isVisible
-import androidx.recyclerview.widget.RecyclerView
-import com.cryart.sabbathschool.core.extensions.view.inflate
-import com.cryart.sabbathschool.lessons.R
-import com.cryart.sabbathschool.lessons.databinding.SsLanguageItemBinding
+import androidx.compose.runtime.Immutable
 
-class LanguageItemHolder(
-    private val binding: SsLanguageItemBinding
-) : RecyclerView.ViewHolder(binding.root) {
-
-    fun bind(model: LanguageModel) {
-        binding.apply {
-            ssLanguageMenuItemTitle.text = model.nativeName
-            ssLanguageMenuItemName.text = model.name
-            ssLanguageMenuItemCheck.isVisible = model.selected
-        }
-    }
-
-    companion object {
-        fun create(parent: ViewGroup): LanguageItemHolder = LanguageItemHolder(
-            SsLanguageItemBinding.bind(parent.inflate(R.layout.ss_language_item))
-        )
-    }
-}
+@Immutable
+internal data class LanguageModel(
+    val code: String,
+    val name: String,
+    val nativeName: String,
+    val selected: Boolean
+)

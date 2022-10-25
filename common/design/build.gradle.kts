@@ -27,12 +27,11 @@ plugins {
 
 android {
     compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
+    namespace = "com.cryart.design"
 
     defaultConfig {
         minSdk = BuildAndroidConfig.MIN_SDK_VERSION
     }
-
-    namespace = "com.cryart.design"
 
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
@@ -42,5 +41,6 @@ android {
 
 dependencies {
     implementation(libs.google.material)
+    implementation(libs.androidx.activity)
     implementation(libs.androidx.core)
 }

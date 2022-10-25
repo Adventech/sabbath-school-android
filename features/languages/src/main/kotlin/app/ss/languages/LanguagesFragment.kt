@@ -20,24 +20,35 @@
  * THE SOFTWARE.
  */
 
-package app.ss.storage.db.dao
+package app.ss.languages
 
-import androidx.room.Dao
-import androidx.room.Query
-import app.ss.storage.db.entity.LanguageEntity
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
+import app.ss.design.compose.theme.SsTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-@Dao
-interface LanguagesDao : BaseDao<LanguageEntity> {
+@AndroidEntryPoint
+internal class LanguagesFragment : DialogFragment() {
 
-    @Query("SELECT * FROM languages")
-    fun get(): List<LanguageEntity>
+    override fun getTheme(): Int = R.style.Theme_SS_DialogFragment
 
-    @Query(
-        """
-        SELECT * FROM languages 
-        WHERE name LIKE :query
-        OR nativeName LIKE :query
-    """
-    )
-    fun search(query: String): List<LanguageEntity>
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = ComposeView(requireContext()).apply {
+        setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+        setContent { SsTheme { LanguagesScreen { this@LanguagesFragment.dismiss() } } }
+    }
+}
+
+fun FragmentManager.showLanguagesList() {
+    val fragment = LanguagesFragment()
+    fragment.show(this, "ss-languages")
 }

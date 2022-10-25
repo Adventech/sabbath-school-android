@@ -30,27 +30,29 @@ import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.material.icons.Icons as MaterialIcons
-import app.ss.translations.R.string as RString
+import androidx.compose.material.icons.Icons.Rounded as MaterialIcons
+import app.ss.translations.R.string as L10n
 
 enum class Icons(
     private val imageVector: ImageVector,
     @StringRes private val contentDescription: Int?
 ) : IconSlot {
 
-    AccountCircle(MaterialIcons.Rounded.AccountCircle, RString.ss_account),
-    ArrowBack(MaterialIcons.Rounded.ArrowBack, RString.ss_action_arrow_back),
-    ArrowDropDown(MaterialIcons.Rounded.ArrowDropDown, RString.ss_action_arrow_drop_down),
-    ArrowRight(MaterialIcons.Rounded.KeyboardArrowRight, RString.ss_action_arrow_right),
-    Cancel(MaterialIcons.Rounded.Cancel, android.R.string.cancel),
-    Check(MaterialIcons.Rounded.Check, RString.ss_action_selected),
-    Close(MaterialIcons.Rounded.Close, RString.ss_action_close);
+    AccountCircle(MaterialIcons.AccountCircle, L10n.ss_account),
+    ArrowBack(MaterialIcons.ArrowBack, L10n.ss_action_arrow_back),
+    ArrowDropDown(MaterialIcons.ArrowDropDown, L10n.ss_action_arrow_drop_down),
+    ArrowRight(MaterialIcons.KeyboardArrowRight, L10n.ss_action_arrow_right),
+    Cancel(MaterialIcons.Cancel, android.R.string.cancel),
+    Check(MaterialIcons.Check, L10n.ss_action_selected),
+    Close(MaterialIcons.Close, L10n.ss_action_close),
+    Search(MaterialIcons.Search, android.R.string.search_go);
 
     @Composable
     override fun Content(contentColor: Color, modifier: Modifier) {

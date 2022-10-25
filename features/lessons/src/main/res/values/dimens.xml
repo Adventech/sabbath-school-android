@@ -27,24 +27,6 @@
     <dimen name="ss_misc_top_image_margin_top">150dp</dimen>
     <dimen name="ss_misc_subheader_margin">20dp</dimen>
 
-    <dimen name="ss_language_menu_margin_left">20dp</dimen>
-    <dimen name="ss_language_menu_margin_right">20dp</dimen>
-    <dimen name="ss_language_menu_margin_top">40dp</dimen>
-    <dimen name="ss_language_menu_margin_bottom">40dp</dimen>
-    <dimen name="ss_language_menu_header_padding_top">15dp</dimen>
-    <dimen name="ss_language_menu_header_padding_bottom">15dp</dimen>
-    <dimen name="ss_language_menu_header_padding_left">20dp</dimen>
-    <dimen name="ss_language_menu_header_padding_right">20dp</dimen>
-    <dimen name="ss_language_menu_header_title_text_size">13sp</dimen>
-    <dimen name="ss_language_menu_header_date_text_size">12sp</dimen>
-
-    <dimen name="ss_language_menu_item_padding_top">10dp</dimen>
-    <dimen name="ss_language_menu_item_padding_bottom">10dp</dimen>
-    <dimen name="ss_language_menu_item_padding_left">20dp</dimen>
-    <dimen name="ss_language_menu_item_padding_right">20dp</dimen>
-    <dimen name="ss_language_menu_item_title_text_size">15sp</dimen>
-    <dimen name="ss_language_menu_item_date_text_size">12sp</dimen>
-
     <!-- READING SCREEN RELATED -->
 
     <dimen name="ss_reading_app_bar_subtitle_size">15sp</dimen>

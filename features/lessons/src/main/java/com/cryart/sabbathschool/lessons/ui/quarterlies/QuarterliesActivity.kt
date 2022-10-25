@@ -35,13 +35,13 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.SideEffect
 import androidx.core.view.WindowCompat
 import app.ss.design.compose.theme.SsTheme
+import app.ss.languages.showLanguagesList
 import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import com.cryart.sabbathschool.lessons.databinding.SsPromptAppReBrandingBinding
-import com.cryart.sabbathschool.lessons.ui.languages.LanguagesListFragment
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroupCallback
 import com.cryart.sabbathschool.lessons.ui.quarterlies.list.QuarterliesListActivity
@@ -119,10 +119,7 @@ class QuarterliesActivity : SSBaseActivity(), QuarterliesGroupCallback {
     }
 
     override fun filterLanguages() {
-        val fragment = LanguagesListFragment.newInstance {
-            viewModel.languageSelected(it)
-        }
-        fragment.show(supportFragmentManager, fragment.tag)
+        supportFragmentManager.showLanguagesList()
     }
 
     companion object {

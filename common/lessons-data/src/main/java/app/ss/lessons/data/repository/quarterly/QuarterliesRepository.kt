@@ -32,7 +32,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface QuarterliesRepository {
 
-    fun getLanguages(): Flow<Resource<List<Language>>>
+    fun getLanguages(query: String? = null): Flow<Resource<List<Language>>>
 
     fun getQuarterlies(
         languageCode: String? = null,

@@ -39,7 +39,7 @@ class FakeQuarterliesRepository @Inject constructor(
     private val mockData: QuarterlyMockData
 ) : QuarterliesRepository {
 
-    override fun getLanguages(): Flow<Resource<List<Language>>> {
+    override fun getLanguages(query: String?): Flow<Resource<List<Language>>> {
         return flowOf(Resource.success(emptyList()))
     }
 
