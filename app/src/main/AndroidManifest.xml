@@ -35,7 +35,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/ss_app_name"
         android:largeHeap="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SS"
         android:localeConfig="@xml/locales_config"
