@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,29 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.ui.splash
+package com.cryart.sabbathschool.navigation
 
-sealed interface LaunchState {
-    object Loading : LaunchState
-    object Login : LaunchState
-    object Quarterlies : LaunchState
-    data class Lessons(val index: String) : LaunchState
-    object Home : LaunchState
+import app.ss.design.compose.widget.icon.IconSlot
+import app.ss.design.compose.widget.icon.Icons
+
+enum class TopLevelDestination(
+    val selectedIcon: IconSlot,
+    val unselectedIcon: IconSlot,
+) {
+    SABBATH_SCHOOL(
+        Icons.HomeFilled,
+        Icons.Home
+    ),
+    PERSONAL_MINISTRIES(
+        Icons.Search,
+        Icons.Search
+    ),
+    DEVOTIONAL(
+        Icons.Search,
+        Icons.Search
+    ),
+    ACCOUNT(
+        Icons.Search,
+        Icons.Search
+    )
 }
