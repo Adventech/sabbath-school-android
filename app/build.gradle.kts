@@ -179,6 +179,7 @@ dependencies {
     kapt(libs.androidx.hilt.compiler)
     implementation(libs.androidx.navigation.compose)
 
+    implementation(libs.google.accompanist.navigation.animation)
     implementation(libs.google.accompanist.systemUiController)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)

@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
@@ -33,9 +34,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import app.ss.design.compose.theme.SsTheme
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 
 /**
  * Temporary routes:
@@ -49,16 +50,20 @@ private const val accountRoute = "route_account"
 fun NavController.navigateToSabbathSchool(navOptions: NavOptions? = null) {
     navigate(sabbathSchoolRoute, navOptions)
 }
+
 fun NavController.navigateToPersonalMinistries(navOptions: NavOptions? = null) {
     navigate(personalMinistriesRoute, navOptions)
 }
+
 fun NavController.navigateToDevotional(navOptions: NavOptions? = null) {
     navigate(devotionalRoute, navOptions)
 }
+
 fun NavController.navigateToAccount(navOptions: NavOptions? = null) {
     navigate(accountRoute, navOptions)
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun SsNavHost(
     navController: NavHostController,
@@ -66,7 +71,7 @@ internal fun SsNavHost(
     modifier: Modifier = Modifier,
     startDestination: String = sabbathSchoolRoute
 ) {
-    NavHost(
+    AnimatedNavHost(
         navController = navController,
         startDestination = startDestination,
         modifier = modifier,
@@ -78,6 +83,7 @@ internal fun SsNavHost(
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.sampleScreen(route: String) {
     composable(route = route) {
         SampleScreen(title = route)

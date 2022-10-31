@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.ui
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -32,7 +33,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.cryart.sabbathschool.navigation.TopLevelDestination
 import com.cryart.sabbathschool.navigation.TopLevelDestination.ACCOUNT
@@ -43,11 +43,13 @@ import com.cryart.sabbathschool.navigation.navigateToAccount
 import com.cryart.sabbathschool.navigation.navigateToDevotional
 import com.cryart.sabbathschool.navigation.navigateToPersonalMinistries
 import com.cryart.sabbathschool.navigation.navigateToSabbathSchool
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun rememberSsAppState(
     windowSizeClass: WindowSizeClass,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberAnimatedNavController()
 ): SsAppState {
     return remember(navController, windowSizeClass) {
         SsAppState(navController, windowSizeClass)

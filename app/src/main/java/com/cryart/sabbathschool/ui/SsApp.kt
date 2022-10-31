@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumedWindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -41,7 +42,10 @@ import app.ss.design.compose.widget.navigation.SsNavigationBarItem
 import com.cryart.sabbathschool.navigation.SsNavHost
 import com.cryart.sabbathschool.navigation.TopLevelDestination
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalLayoutApi::class
+)
 @Composable
 fun SsApp(
     windowSizeClass: WindowSizeClass,
@@ -69,6 +73,7 @@ fun SsApp(
             navController = appState.navController,
             onBackClick = appState::onBackClick,
             modifier = Modifier
+                .statusBarsPadding()
                 .padding(padding)
                 .consumedWindowInsets(padding)
         )
