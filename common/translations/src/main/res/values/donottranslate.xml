@@ -80,4 +80,9 @@
 
     <string name="ss_settings_delete_account_key" translatable="false">ss_settings_logout</string>
 
+    <string name="ss_data_consent">
+        By continuing, you agree to our Terms of Service as described in our <a href="https://adventech.io/privacy-policy">Privacy Policy</a>.\n
+        Sabbath School collects User IDs to help identify and restore user saved content.
+    </string>
+
 </resources>
