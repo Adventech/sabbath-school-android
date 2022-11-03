@@ -28,12 +28,12 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import app.ss.runtime.permissions.RuntimePermissions
-import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.sdk.isBelowApi
 import com.cryart.sabbathschool.core.model.AppConfig
@@ -48,6 +48,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import app.ss.translations.R as L10n
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -123,15 +124,17 @@ class LoginActivity : AppCompatActivity() {
             }
             anonymous.setOnClickListener {
                 MaterialAlertDialogBuilder(this@LoginActivity)
-                    .setTitle(R.string.ss_login_anonymously_dialog_title)
-                    .setMessage(R.string.ss_login_anonymously_dialog_description)
-                    .setPositiveButton(R.string.ss_login_anonymously_dialog_positive) { _: DialogInterface?, _: Int ->
+                    .setTitle(L10n.string.ss_login_anonymously_dialog_title)
+                    .setMessage(L10n.string.ss_login_anonymously_dialog_description)
+                    .setPositiveButton(L10n.string.ss_login_anonymously_dialog_positive) { _: DialogInterface?, _: Int ->
                         viewModel.handleAnonymousLogin()
                     }
-                    .setNegativeButton(R.string.ss_login_anonymously_dialog_negative, null)
+                    .setNegativeButton(L10n.string.ss_login_anonymously_dialog_negative, null)
                     .create()
                     .show()
             }
+
+            tvTerms.movementMethod = LinkMovementMethod.getInstance()
         }
     }
 

@@ -74,6 +74,19 @@
             app:cornerRadius="@dimen/spacing_micro"
             app:textAllCaps="false" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTerms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:gravity="center"
+            android:lineSpacingExtra="0sp"
+            android:paddingHorizontal="@dimen/spacing_large"
+            android:paddingVertical="@dimen/spacing_normal"
+            android:text="@string/ss_data_consent"
+            android:textSize="@dimen/text_size_xsmall"
+            app:fontFamily="@font/lato_regular" />
+
     </LinearLayout>
 
 
