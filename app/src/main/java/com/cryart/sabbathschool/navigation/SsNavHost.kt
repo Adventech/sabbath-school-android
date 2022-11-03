@@ -85,7 +85,13 @@ internal fun SsNavHost(
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.sampleScreen(route: String) {
-    composable(route = route) {
+    composable(
+        route = route,
+        enterTransition = { scaleInEnterTransition() },
+        exitTransition = { scaleOutExitTransition() },
+        popEnterTransition = { scaleInPopEnterTransition() },
+        popExitTransition = { scaleOutPopExitTransition() }
+    ) {
         SampleScreen(title = route)
     }
 }
