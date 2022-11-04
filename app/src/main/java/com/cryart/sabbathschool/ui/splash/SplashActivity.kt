@@ -31,6 +31,7 @@ import androidx.core.app.TaskStackBuilder
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
+import com.cryart.sabbathschool.ui.home.HomeActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -64,6 +65,7 @@ class SplashActivity : AppCompatActivity() {
             LaunchState.Login -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
             LaunchState.Quarterlies -> startActivity(QuarterliesActivity.launchIntent(this@SplashActivity))
             LaunchState.Loading -> return
+            LaunchState.Home -> startActivity(Intent(this, HomeActivity::class.java), null)
         }
 
         finish()

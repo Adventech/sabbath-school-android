@@ -28,20 +28,22 @@
     </queries>
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".SSApp"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/ss_app_name"
         android:largeHeap="true"
+        android:localeConfig="@xml/locales_config"
         android:supportsRtl="true"
         android:theme="@style/Theme.SS"
-        android:localeConfig="@xml/locales_config"
-        android:enableOnBackInvokedCallback="true"
         tools:ignore="UnusedAttribute">
 
-        <profileable android:shell="true" tools:targetApi="q" />
+        <profileable
+            android:shell="true"
+            tools:targetApi="q" />
 
         <activity
             android:name=".ui.splash.SplashActivity"
@@ -90,6 +92,11 @@
             android:name=".ui.about.AboutActivity"
             android:exported="false"
             android:label="@string/ss_about" />
+
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:exported="false"
+            android:label="@string/ss_app_name" />
 
         <!-- Initializers -->
         <provider

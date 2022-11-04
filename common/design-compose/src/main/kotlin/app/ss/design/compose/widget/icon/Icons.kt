@@ -23,6 +23,8 @@
 package app.ss.design.compose.widget.icon
 
 import androidx.annotation.StringRes
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowDropDown
@@ -37,7 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.material.icons.Icons.Rounded as MaterialIcons
+import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R.string as L10n
 
 enum class Icons(
@@ -45,14 +47,18 @@ enum class Icons(
     @StringRes private val contentDescription: Int?
 ) : IconSlot {
 
-    AccountCircle(MaterialIcons.AccountCircle, L10n.ss_account),
-    ArrowBack(MaterialIcons.ArrowBack, L10n.ss_action_arrow_back),
-    ArrowDropDown(MaterialIcons.ArrowDropDown, L10n.ss_action_arrow_drop_down),
-    ArrowRight(MaterialIcons.KeyboardArrowRight, L10n.ss_action_arrow_right),
-    Cancel(MaterialIcons.Cancel, android.R.string.cancel),
-    Check(MaterialIcons.Check, L10n.ss_action_selected),
-    Close(MaterialIcons.Close, L10n.ss_action_close),
-    Search(MaterialIcons.Search, android.R.string.search_go);
+    AccountCircle(MaterialIcons.Rounded.AccountCircle, L10n.ss_account),
+    ArrowBack(MaterialIcons.Rounded.ArrowBack, L10n.ss_action_arrow_back),
+    ArrowDropDown(MaterialIcons.Rounded.ArrowDropDown, L10n.ss_action_arrow_drop_down),
+    ArrowRight(MaterialIcons.Rounded.KeyboardArrowRight, L10n.ss_action_arrow_right),
+    Cancel(MaterialIcons.Rounded.Cancel, android.R.string.cancel),
+    Check(MaterialIcons.Rounded.Check, L10n.ss_action_selected),
+    Close(MaterialIcons.Rounded.Close, L10n.ss_action_close),
+    Search(MaterialIcons.Rounded.Search, android.R.string.search_go),
+
+    Home(MaterialIcons.Outlined.Home, L10n.ss_app_name),
+    HomeFilled(MaterialIcons.Filled.Home, L10n.ss_app_name)
+    ;
 
     @Composable
     override fun Content(contentColor: Color, modifier: Modifier) {
