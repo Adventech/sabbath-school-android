@@ -6,6 +6,8 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 
 private const val AnimDurationLong = 500
 
@@ -41,6 +43,20 @@ fun scaleInPopEnterTransition() = scaleIn(
 fun scaleOutPopExitTransition() = scaleOut(
     targetScale = .9f,
     animationSpec = tween()
+) + fadeOut(
+    animationSpec = tween()
+)
+
+// Enter slide in transition for a screen
+fun slideInTransition() = slideInHorizontally(
+    initialOffsetX = { 500 }
+) + fadeIn(
+    animationSpec = tween()
+)
+
+// Exit slide out transition for a screen
+fun slideOutTransition() = slideOutHorizontally(
+    targetOffsetX = { 500 }
 ) + fadeOut(
     animationSpec = tween()
 )

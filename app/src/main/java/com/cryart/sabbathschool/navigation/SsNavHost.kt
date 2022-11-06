@@ -46,6 +46,8 @@ import app.ss.design.compose.transitions.scaleOutExitTransition
 import app.ss.design.compose.transitions.scaleOutPopExitTransition
 import app.ss.languages.navigation.languagesScreen
 import app.ss.languages.navigation.navigateToLanguages
+import com.cryart.sabbathschool.lessons.navigation.lessonsScreen
+import com.cryart.sabbathschool.lessons.navigation.navigateToLessons
 import com.cryart.sabbathschool.lessons.navigation.sabbathSchoolGraph
 import com.cryart.sabbathschool.lessons.navigation.sabbathSchoolRoutePattern
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -89,10 +91,15 @@ internal fun SsNavHost(
     ) {
         sabbathSchoolGraph(
             navigateToLanguages = { navController.navigateToLanguages() },
-            navigateToLesson = {},
+            navigateToLesson = { navController.navigateToLessons(it) },
             mainPadding = mainPadding,
             nestedGraphs = {
                 languagesScreen(
+                    mainPadding = mainPadding,
+                    onBackClick = onBackClick
+                )
+
+                lessonsScreen(
                     mainPadding = mainPadding,
                     onBackClick = onBackClick
                 )

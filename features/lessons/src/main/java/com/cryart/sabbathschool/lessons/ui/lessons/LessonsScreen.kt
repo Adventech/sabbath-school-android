@@ -45,8 +45,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -58,6 +58,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
@@ -79,13 +82,36 @@ import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import app.ss.translations.R.string as RString
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun LessonsScreen(
+internal fun LessonsRoute(
+    viewModel: LessonsViewModel = hiltViewModel(),
+    onNavClick: () -> Unit,
+    onShareClick: (String) -> Unit,
+    onLessonClick: (LessonItemSpec) -> Unit,
+    onReadMoreClick: (LessonIntroModel) -> Unit,
+    mainPadding: PaddingValues,
+) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LessonsScreen(
+        state = state,
+        onNavClick = onNavClick,
+        onShareClick = onShareClick,
+        onLessonClick = onLessonClick,
+        onReadMoreClick = onReadMoreClick,
+        mainPadding = mainPadding
+    )
+}
+
+@Composable
+internal fun LessonsScreen(
     state: LessonsScreenState,
     onNavClick: () -> Unit,
     onShareClick: (String) -> Unit,
     onLessonClick: (LessonItemSpec) -> Unit,
-    onReadMoreClick: (LessonIntroModel) -> Unit
+    onReadMoreClick: (LessonIntroModel) -> Unit,
+    mainPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     val listState: LazyListState = rememberLazyListState()
     val scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState)
@@ -99,6 +125,7 @@ fun LessonsScreen(
         onLessonClick = onLessonClick,
         onReadMoreClick = onReadMoreClick,
         systemUiController = rememberSystemUiController(),
+        mainPadding = mainPadding
     )
 }
 
@@ -114,8 +141,9 @@ internal fun LessonsScreen(
     onReadMoreClick: (LessonIntroModel) -> Unit = {},
     systemUiController: SystemUiController? = null,
     isDarkTheme: Boolean = SsTheme.colors.isDark,
+    mainPadding: PaddingValues = PaddingValues(0.dp)
 ) {
-    val quarterlyTitle = state.quarterlyTitle
+    val quarterlyTitle = remember(state.quarterlyTitle) { state.quarterlyTitle }
     val scrollCollapsed by remember { derivedStateOf { scrollAlpha.alpha > MIN_SOLID_ALPHA } }
     val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     val iconTint by remember { derivedStateOf { Color.White.takeUnless { collapsed } } }
@@ -152,7 +180,8 @@ internal fun LessonsScreen(
             listState = listState,
             onLessonClick = onLessonClick,
             onReadMoreClick = onReadMoreClick,
-            modifier = Modifier
+            modifier = Modifier,
+            mainPadding = mainPadding
         )
     }
 
@@ -165,11 +194,12 @@ internal fun LessonsScreen(
         }
     }
 
-    SideEffect {
-        systemUiController?.setStatusBarColor(
-            color = Color.Transparent,
+    DisposableEffect(systemUiController, useDarkIcons) {
+        systemUiController?.setSystemBarsColor(
+            Color.Transparent,
             darkIcons = useDarkIcons
         )
+        onDispose {}
     }
 }
 
@@ -243,6 +273,7 @@ private fun LessonsLazyColumn(
     onLessonClick: (LessonItemSpec) -> Unit,
     onReadMoreClick: (LessonIntroModel) -> Unit,
     modifier: Modifier = Modifier,
+    mainPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     val quarterlyInfo = when (quarterlyInfoState) {
         QuarterlyInfoState.Error,
@@ -296,7 +327,8 @@ private fun LessonsLazyColumn(
                 spec = LessonsFooterSpec(
                     credits = quarterlyInfo.quarterly.credits.map { it.toSpec() },
                     features = quarterlyInfo.quarterly.features.map { it.toSpec() }
-                )
+                ),
+                mainPadding = mainPadding
             )
         } ?: run {
             loading()
