@@ -156,6 +156,7 @@ dependencies {
     implementation(projects.features.appWidgets)
     implementation(projects.features.account)
     implementation(projects.features.bible)
+    implementation(projects.features.languages)
     implementation(projects.features.lessons)
     implementation(projects.features.media)
     implementation(projects.features.pdf)

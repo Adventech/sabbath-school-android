@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import android.app.Activity
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -49,6 +50,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.doOnPreDraw
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -74,6 +76,26 @@ import app.ss.translations.R.string as RString
 
 @OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
+internal fun QuarterliesRoute(
+    viewModel: QuarterliesViewModel = hiltViewModel(),
+    callbacks: QuarterlyListCallbacks,
+    mainPadding: PaddingValues
+) {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    QuarterliesScreen(
+        state = state.copy(
+            title = viewModel.groupTitle ?: stringResource(id = RString.ss_app_name)
+        ),
+        callbacks = callbacks,
+        scrollBehavior = scrollBehavior,
+        mainPadding = mainPadding
+    )
+}
+
+@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
+@Composable
 internal fun QuarterliesScreen(
     viewModel: QuarterliesViewModel = viewModel(),
     callbacks: QuarterlyListCallbacks
@@ -95,7 +117,8 @@ internal fun QuarterliesScreen(
 internal fun QuarterliesScreen(
     state: QuarterliesUiState,
     callbacks: QuarterlyListCallbacks,
-    scrollBehavior: TopAppBarScrollBehavior? = null
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+    mainPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     SsScaffold(
         topBar = {
@@ -116,7 +139,8 @@ internal fun QuarterliesScreen(
         QuarterlyList(
             quarterlies = state.type,
             callbacks = callbacks,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
+            mainPadding = mainPadding
         )
 
         if (!state.isLoading) {

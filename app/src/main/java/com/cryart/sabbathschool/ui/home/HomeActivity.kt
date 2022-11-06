@@ -33,7 +33,9 @@ import androidx.core.view.WindowCompat
 import app.ss.design.compose.theme.SsTheme
 import com.cryart.sabbathschool.ui.SsApp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)

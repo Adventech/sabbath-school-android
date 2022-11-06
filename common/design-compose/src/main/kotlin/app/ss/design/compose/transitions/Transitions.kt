@@ -1,4 +1,4 @@
-package com.cryart.sabbathschool.navigation
+package app.ss.design.compose.transitions
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween

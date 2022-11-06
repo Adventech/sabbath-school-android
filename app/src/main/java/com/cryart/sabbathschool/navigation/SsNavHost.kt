@@ -24,17 +24,30 @@ package com.cryart.sabbathschool.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.transitions.scaleInEnterTransition
+import app.ss.design.compose.transitions.scaleInPopEnterTransition
+import app.ss.design.compose.transitions.scaleOutExitTransition
+import app.ss.design.compose.transitions.scaleOutPopExitTransition
+import app.ss.languages.navigation.languagesScreen
+import app.ss.languages.navigation.navigateToLanguages
+import com.cryart.sabbathschool.lessons.navigation.sabbathSchoolGraph
+import com.cryart.sabbathschool.lessons.navigation.sabbathSchoolRoutePattern
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
@@ -42,14 +55,9 @@ import com.google.accompanist.navigation.animation.composable
  * Temporary routes:
  * TODO: Move to feature modules
  */
-private const val sabbathSchoolRoute = "route_sabbath_school"
 private const val personalMinistriesRoute = "route_personal_ministries"
 private const val devotionalRoute = "route_devotional"
 private const val accountRoute = "route_account"
-
-fun NavController.navigateToSabbathSchool(navOptions: NavOptions? = null) {
-    navigate(sabbathSchoolRoute, navOptions)
-}
 
 fun NavController.navigateToPersonalMinistries(navOptions: NavOptions? = null) {
     navigate(personalMinistriesRoute, navOptions)
@@ -69,14 +77,27 @@ internal fun SsNavHost(
     navController: NavHostController,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    startDestination: String = sabbathSchoolRoute
+    startDestination: String = sabbathSchoolRoutePattern
 ) {
+    val bottomPadding = 80.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+    val mainPadding = PaddingValues(bottom = bottomPadding)
+
     AnimatedNavHost(
         navController = navController,
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        sampleScreen(sabbathSchoolRoute)
+        sabbathSchoolGraph(
+            navigateToLanguages = { navController.navigateToLanguages() },
+            navigateToLesson = {},
+            mainPadding = mainPadding,
+            nestedGraphs = {
+                languagesScreen(
+                    mainPadding = mainPadding,
+                    onBackClick = onBackClick
+                )
+            }
+        )
         sampleScreen(personalMinistriesRoute)
         sampleScreen(devotionalRoute)
         sampleScreen(accountRoute)

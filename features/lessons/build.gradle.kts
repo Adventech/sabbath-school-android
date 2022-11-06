@@ -79,15 +79,21 @@ dependencies {
     implementation(libs.google.material)
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.compose.constraintlayout)
+    implementation(libs.androidx.compose.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.fragment)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.recyclerview)
 
+    implementation(libs.google.accompanist.navigation.animation)
+    implementation(libs.google.accompanist.systemUiController)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
 
@@ -98,10 +104,6 @@ dependencies {
     implementation(libs.android.rate)
     implementation(libs.material.dialogs.input)
     implementation(libs.markwon.core)
-
-    implementation(libs.androidx.compose.constraintlayout)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.google.accompanist.systemUiController)
 
     testImplementation(libs.bundles.testing.common)
     kaptTest(libs.google.hilt.compiler)

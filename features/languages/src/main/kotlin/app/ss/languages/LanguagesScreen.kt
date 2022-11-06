@@ -23,6 +23,7 @@
 package app.ss.languages
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,6 +40,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -54,8 +57,29 @@ import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.design.compose.widget.search.SearchInput
 import app.ss.languages.list.LanguagesList
+import app.ss.languages.state.LanguageModel
+import app.ss.languages.state.LanguagesState
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
+@OptIn(ExperimentalLifecycleComposeApi::class)
+@Composable
+internal fun LanguagesRoute(
+    viewModel: LanguagesViewModel = hiltViewModel(),
+    mainPadding: PaddingValues,
+    onNavBack: () -> Unit
+) {
+    val viewState by viewModel.uiState
+        .collectAsStateWithLifecycle()
+
+    LanguagesScreen(
+        viewState = viewState,
+        onSearch = { viewModel.searchFor(it) },
+        onModelSelected = { viewModel.modelSelected(it) },
+        onNavBack = onNavBack,
+        mainPadding = mainPadding
+    )
+}
+
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 internal fun LanguagesScreen(
     viewModel: LanguagesViewModel = viewModel(),
@@ -64,10 +88,27 @@ internal fun LanguagesScreen(
     val viewState by viewModel.uiState
         .collectAsStateWithLifecycle()
 
+    LanguagesScreen(
+        viewState = viewState,
+        onSearch = { viewModel.searchFor(it) },
+        onModelSelected = { viewModel.modelSelected(it) },
+        onNavBack = onNavBack
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun LanguagesScreen(
+    viewState: LanguagesState,
+    onSearch: (String) -> Unit,
+    onModelSelected: (LanguageModel) -> Unit,
+    onNavBack: () -> Unit,
+    mainPadding: PaddingValues = PaddingValues(0.dp)
+) {
     SsScaffold(
         topBar = {
             SearchView(
-                onQuery = { viewModel.searchFor(it) },
+                onQuery = { onSearch(it) },
                 onNavBack = onNavBack,
                 modifier = Modifier.windowInsetsPadding(
                     WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
@@ -86,10 +127,11 @@ internal fun LanguagesScreen(
             LanguagesList(
                 state = viewState.listState,
                 onItemClick = {
-                    viewModel.modelSelected(it)
+                    onModelSelected(it)
                     onNavBack()
                 },
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                mainPadding = mainPadding
             )
         }
     }
