@@ -34,6 +34,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navOptions
+import com.cryart.sabbathschool.lessons.navigation.navigateToSabbathSchool
 import com.cryart.sabbathschool.navigation.TopLevelDestination
 import com.cryart.sabbathschool.navigation.TopLevelDestination.ACCOUNT
 import com.cryart.sabbathschool.navigation.TopLevelDestination.DEVOTIONAL
@@ -42,7 +43,6 @@ import com.cryart.sabbathschool.navigation.TopLevelDestination.SABBATH_SCHOOL
 import com.cryart.sabbathschool.navigation.navigateToAccount
 import com.cryart.sabbathschool.navigation.navigateToDevotional
 import com.cryart.sabbathschool.navigation.navigateToPersonalMinistries
-import com.cryart.sabbathschool.navigation.navigateToSabbathSchool
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
 @OptIn(ExperimentalAnimationApi::class)
