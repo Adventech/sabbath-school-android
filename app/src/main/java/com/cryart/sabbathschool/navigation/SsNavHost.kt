@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -41,8 +40,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import app.ss.design.compose.theme.SsTheme
-import com.cryart.sabbathschool.lessons.navigation.sabbathSchoolRoute
-import com.cryart.sabbathschool.lessons.navigation.sabbathSchoolScreen
+import app.ss.languages.navigation.languagesScreen
+import app.ss.languages.navigation.navigateToLanguages
+import com.cryart.sabbathschool.lessons.navigation.sabbathSchoolGraph
+import com.cryart.sabbathschool.lessons.navigation.sabbathSchoolRoutePattern
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
@@ -72,17 +73,27 @@ internal fun SsNavHost(
     navController: NavHostController,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    startDestination: String = sabbathSchoolRoute
+    startDestination: String = sabbathSchoolRoutePattern
 ) {
-    val bottomPadding = 48.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-    val mainPadding = remember { PaddingValues(bottom = bottomPadding) }
+    val bottomPadding = 80.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+    val mainPadding = PaddingValues(bottom = bottomPadding)
 
     AnimatedNavHost(
         navController = navController,
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        sabbathSchoolScreen(mainPadding = mainPadding)
+        sabbathSchoolGraph(
+            navigateToLanguages = { navController.navigateToLanguages() },
+            navigateToLesson = {},
+            mainPadding = mainPadding,
+            nestedGraphs = {
+                languagesScreen(
+                    mainPadding = mainPadding,
+                    onBackClick = onBackClick
+                )
+            }
+        )
         sampleScreen(personalMinistriesRoute)
         sampleScreen(devotionalRoute)
         sampleScreen(accountRoute)
