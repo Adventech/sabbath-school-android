@@ -25,10 +25,11 @@ package com.cryart.sabbathschool.ui.home
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import app.ss.design.compose.theme.SsTheme
 import com.cryart.sabbathschool.ui.SsApp
@@ -46,6 +47,15 @@ class HomeActivity : ComponentActivity() {
         setContent {
             val windowSizeClass = calculateWindowSizeClass(activity = this)
             val systemUiController = rememberSystemUiController()
+            val useDarkIcons = !isSystemInDarkTheme()
+
+            DisposableEffect(systemUiController, useDarkIcons) {
+                systemUiController.setSystemBarsColor(
+                    Color.Transparent,
+                    darkIcons = useDarkIcons
+                )
+                onDispose {}
+            }
 
             SsTheme(
                 windowWidthSizeClass = windowSizeClass.widthSizeClass
@@ -53,12 +63,6 @@ class HomeActivity : ComponentActivity() {
                 SsApp(
                     windowSizeClass = windowSizeClass
                 )
-
-                val navigationBarColor = MaterialTheme.colorScheme.surface
-                DisposableEffect(systemUiController) {
-                    systemUiController.setNavigationBarColor(navigationBarColor)
-                    onDispose {}
-                }
             }
         }
     }
