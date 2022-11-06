@@ -33,8 +33,8 @@ import app.ss.models.SSLessonInfo
 import app.ss.models.SSQuarterlyInfo
 import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
+import com.cryart.sabbathschool.lessons.navigation.lessonIndexArg
 import com.cryart.sabbathschool.test.coroutines.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.every
@@ -76,7 +76,7 @@ class LessonsViewModelTest {
 
     @Before
     fun setUp() {
-        every { mockSavedStateHandle.get<String>(SSConstants.SS_QUARTERLY_INDEX_EXTRA) }.returns(QUARTERLY_INDEX)
+        every { mockSavedStateHandle.get<String>(lessonIndexArg) }.returns(QUARTERLY_INDEX)
         every { mockWidgetHelper.refreshAll() } returns Unit
         every { mockPrefs.getDisplayOptions(any()) }.returns(Unit)
         every { mockQuarterliesRepository.getPublishingInfo() } returns publishingInfoFlow

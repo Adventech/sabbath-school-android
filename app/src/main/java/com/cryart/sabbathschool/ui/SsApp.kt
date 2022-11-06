@@ -22,17 +22,15 @@
 
 package com.cryart.sabbathschool.ui
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumedWindowInsets
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import app.ss.design.compose.widget.icon.IconBox
@@ -54,8 +52,6 @@ fun SsApp(
 ) {
     Scaffold(
         modifier = Modifier,
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
             if (appState.shouldShowBottomBar) {
@@ -72,7 +68,6 @@ fun SsApp(
             navController = appState.navController,
             onBackClick = appState::onBackClick,
             modifier = Modifier
-                .statusBarsPadding()
                 .consumedWindowInsets(padding)
         )
     }
@@ -92,13 +87,15 @@ private fun BottomNavigationBar(
                 selected = selected,
                 onClick = { onNavigateToDestination(destination) },
                 icon = {
-                    IconBox(
-                        icon = if (selected) {
-                            destination.selectedIcon
-                        } else {
-                            destination.unselectedIcon
-                        }
-                    )
+                    Crossfade(targetState = selected) { isSelected ->
+                        IconBox(
+                            icon = if (isSelected) {
+                                destination.selectedIcon
+                            } else {
+                                destination.unselectedIcon
+                            }
+                        )
+                    }
                 },
             )
         }

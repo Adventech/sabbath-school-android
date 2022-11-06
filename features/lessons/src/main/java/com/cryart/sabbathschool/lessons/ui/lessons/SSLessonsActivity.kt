@@ -47,6 +47,7 @@ import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
+import com.cryart.sabbathschool.lessons.navigation.lessonIndexArg
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.showLessonIntro
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -134,7 +135,7 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
             context,
             SSLessonsActivity::class.java
         ).apply {
-            putExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA, quarterlyIndex)
+            putExtra(lessonIndexArg, quarterlyIndex)
         }
     }
 }

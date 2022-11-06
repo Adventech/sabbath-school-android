@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.lessons.ui.lessons.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -66,7 +67,8 @@ internal data class LessonsFooterSpec(
 )
 
 internal fun LazyListScope.footer(
-    spec: LessonsFooterSpec
+    spec: LessonsFooterSpec,
+    mainPadding: PaddingValues
 ) {
     if (spec.credits.isEmpty() && spec.features.isEmpty()) {
         return
@@ -132,6 +134,15 @@ internal fun LazyListScope.footer(
         Spacer(
             Modifier
                 .windowInsetsBottomHeight(WindowInsets.safeDrawing)
+                .fillMaxWidth()
+                .background(backgroundColor())
+        )
+    }
+
+    item {
+        Spacer(
+            modifier = Modifier
+                .height(mainPadding.calculateBottomPadding())
                 .fillMaxWidth()
                 .background(backgroundColor())
         )

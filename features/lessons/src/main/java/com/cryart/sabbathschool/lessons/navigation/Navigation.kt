@@ -22,17 +22,24 @@
 
 package com.cryart.sabbathschool.lessons.navigation
 
+import android.net.Uri
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import app.ss.design.compose.transitions.scaleInEnterTransition
-import app.ss.design.compose.transitions.scaleInPopEnterTransition
-import app.ss.design.compose.transitions.scaleOutExitTransition
 import app.ss.design.compose.transitions.scaleOutPopExitTransition
+import app.ss.design.compose.transitions.slideInTransition
+import app.ss.design.compose.transitions.slideOutTransition
 import app.ss.models.QuarterlyGroup
+import com.cryart.sabbathschool.core.misc.SSConstants.SS_QUARTERLY_INDEX_EXTRA
+import com.cryart.sabbathschool.lessons.ui.lessons.LessonsRoute
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesRoute
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroupCallback
 import com.google.accompanist.navigation.animation.composable
@@ -58,8 +65,8 @@ fun NavGraphBuilder.sabbathSchoolGraph(
         composable(
             route = quarterliesRoute,
             enterTransition = { scaleInEnterTransition() },
-            exitTransition = { scaleOutExitTransition() },
-            popEnterTransition = { scaleInPopEnterTransition() },
+            exitTransition = { fadeOut() },
+            popEnterTransition = { fadeIn() },
             popExitTransition = { scaleOutPopExitTransition() }
         ) {
             QuarterliesRoute(
@@ -85,4 +92,37 @@ fun NavGraphBuilder.sabbathSchoolGraph(
         }
         nestedGraphs()
     }
+}
+
+// Lessons
+private const val lessonsRoute = "lessons_route"
+internal const val lessonIndexArg = SS_QUARTERLY_INDEX_EXTRA
+
+@OptIn(ExperimentalAnimationApi::class)
+fun NavGraphBuilder.lessonsScreen(
+    mainPadding: PaddingValues,
+    onBackClick: () -> Unit,
+) {
+    composable(
+        route = "$lessonsRoute/{$lessonIndexArg}",
+        arguments = listOf(
+            navArgument(lessonIndexArg) { type = NavType.StringType }
+        ),
+        enterTransition = { slideInTransition() },
+        popEnterTransition = { fadeIn() },
+        popExitTransition = { slideOutTransition() }
+    ) {
+        LessonsRoute(
+            onNavClick = onBackClick,
+            onShareClick = {},
+            onLessonClick = {},
+            onReadMoreClick = {},
+            mainPadding = mainPadding
+        )
+    }
+}
+
+fun NavController.navigateToLessons(index: String) {
+    val encodedIndex = Uri.encode(index)
+    navigate("$lessonsRoute/$encodedIndex")
 }

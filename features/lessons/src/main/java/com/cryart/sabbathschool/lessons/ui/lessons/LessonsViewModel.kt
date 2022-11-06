@@ -34,9 +34,9 @@ import app.ss.models.SSQuarterlyInfo
 import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Result
 import com.cryart.sabbathschool.core.response.asResult
+import com.cryart.sabbathschool.lessons.navigation.lessonIndexArg
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -60,9 +60,7 @@ class LessonsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val quarterlyIndex: String?
-        get() = savedStateHandle.get<String>(
-            SSConstants.SS_QUARTERLY_INDEX_EXTRA
-        ) ?: ssPrefs.getLastQuarterlyIndex()
+        get() = savedStateHandle.get<String>(lessonIndexArg) ?: ssPrefs.getLastQuarterlyIndex()
 
     private val publishingInfo: Flow<Result<PublishingInfo?>> = repository.getPublishingInfo()
         .map { it.data }

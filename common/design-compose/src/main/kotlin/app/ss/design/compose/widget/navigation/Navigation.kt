@@ -23,25 +23,10 @@
 package app.ss.design.compose.widget.navigation
 
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-
-/**
- * Navigation default values.
- */
-private object SsNavigationDefaults {
-    @Composable
-    fun navigationContentColor() = MaterialTheme.colorScheme.onSurfaceVariant
-    @Composable
-    fun navigationSelectedItemColor() = MaterialTheme.colorScheme.onPrimaryContainer
-    @Composable
-    fun navigationIndicatorColor() = MaterialTheme.colorScheme.primaryContainer
-}
 
 /**
  * A navigation bar composable that wraps Material 3 [NavigationBar].
@@ -56,8 +41,6 @@ fun SsNavigationBar(
 ) {
     NavigationBar(
         modifier = modifier,
-        contentColor = SsNavigationDefaults.navigationContentColor(),
-        tonalElevation = 0.dp,
         content = content
     )
 }
@@ -69,7 +52,6 @@ fun SsNavigationBar(
  * @param onClick Called when this item is clicked.
  * @param icon Icon for this item, typically an [app.ss.design.compose.widget.icon.IconSlot].
  * @param modifier The [Modifier] to be applied to this item.
- * @param selectedIcon The item icon content when selected.
  * @param enabled Controls the enabled state of this item. When `false`, this component will not
  * respond to user input, and it will appear visually disabled and disabled to accessibility services.
  */
@@ -79,21 +61,13 @@ fun RowScope.SsNavigationBarItem(
     onClick: () -> Unit,
     icon: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    selectedIcon: @Composable () -> Unit = icon,
     enabled: Boolean = true,
 ) {
     NavigationBarItem(
         selected = selected,
         onClick = onClick,
-        icon = if (selected) selectedIcon else icon,
+        icon = icon,
         modifier = modifier,
         enabled = enabled,
-        colors = NavigationBarItemDefaults.colors(
-            selectedIconColor = SsNavigationDefaults.navigationSelectedItemColor(),
-            unselectedIconColor = SsNavigationDefaults.navigationContentColor(),
-            selectedTextColor = SsNavigationDefaults.navigationSelectedItemColor(),
-            unselectedTextColor = SsNavigationDefaults.navigationContentColor(),
-            indicatorColor = SsNavigationDefaults.navigationIndicatorColor()
-        )
     )
 }
