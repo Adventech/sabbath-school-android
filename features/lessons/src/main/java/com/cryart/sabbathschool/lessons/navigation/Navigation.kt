@@ -27,39 +27,52 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
+import androidx.navigation.navigation
 import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesRoute
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroupCallback
 import com.google.accompanist.navigation.animation.composable
 
-const val sabbathSchoolRoute = "route_sabbath_school"
-
-fun NavController.navigateToSabbathSchool(navOptions: NavOptions? = null) {
-    navigate(sabbathSchoolRoute, navOptions)
+fun NavController.navigateToSabbathSchoolGraph(navOptions: NavOptions? = null) {
+    navigate(sabbathSchoolRoutePattern, navOptions)
 }
 
+const val sabbathSchoolRoutePattern = "sabbath_school_graph"
+private const val quarterliesRoute = "quarterlies_route"
+
 @OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.sabbathSchoolScreen(
-    mainPadding: PaddingValues
+fun NavGraphBuilder.sabbathSchoolGraph(
+    navigateToLanguages: () -> Unit,
+    navigateToLesson: (String) -> Unit,
+    mainPadding: PaddingValues,
+    nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
-    composable(
-        route = sabbathSchoolRoute,
+    navigation(
+        route = sabbathSchoolRoutePattern,
+        startDestination = quarterliesRoute
     ) {
-        QuarterliesRoute(
-            callbacks = object : QuarterliesGroupCallback {
-                override fun onSeeAllClick(group: QuarterlyGroup) {
-                }
+        composable(route = quarterliesRoute) {
+            QuarterliesRoute(
+                callbacks = object : QuarterliesGroupCallback {
+                    override fun onSeeAllClick(group: QuarterlyGroup) {
+                        // TODO: Show Quarterly List
+                    }
 
-                override fun profileClick() {
-                }
+                    override fun profileClick() {
+                        // TODO: Show Profile
+                    }
 
-                override fun filterLanguages() {
-                }
+                    override fun filterLanguages() {
+                        navigateToLanguages()
+                    }
 
-                override fun onReadClick(index: String) {
-                }
-            },
-            mainPadding = mainPadding
-        )
+                    override fun onReadClick(index: String) {
+                        navigateToLesson(index)
+                    }
+                },
+                mainPadding = mainPadding
+            )
+        }
+        nestedGraphs()
     }
 }
