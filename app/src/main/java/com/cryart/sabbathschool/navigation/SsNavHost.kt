@@ -40,6 +40,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.transitions.scaleInEnterTransition
+import app.ss.design.compose.transitions.scaleInPopEnterTransition
+import app.ss.design.compose.transitions.scaleOutExitTransition
+import app.ss.design.compose.transitions.scaleOutPopExitTransition
 import app.ss.languages.navigation.languagesScreen
 import app.ss.languages.navigation.navigateToLanguages
 import com.cryart.sabbathschool.lessons.navigation.sabbathSchoolGraph

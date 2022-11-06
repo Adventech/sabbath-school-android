@@ -26,6 +26,10 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import app.ss.design.compose.transitions.scaleInEnterTransition
+import app.ss.design.compose.transitions.scaleInPopEnterTransition
+import app.ss.design.compose.transitions.scaleOutExitTransition
+import app.ss.design.compose.transitions.scaleOutPopExitTransition
 import app.ss.languages.LanguagesRoute
 import com.google.accompanist.navigation.animation.composable
 
@@ -37,7 +41,11 @@ fun NavGraphBuilder.languagesScreen(
     onBackClick: () -> Unit,
 ) {
     composable(
-        route = languagesRoute
+        route = languagesRoute,
+        enterTransition = { scaleInEnterTransition() },
+        exitTransition = { scaleOutExitTransition() },
+        popEnterTransition = { scaleInPopEnterTransition() },
+        popExitTransition = { scaleOutPopExitTransition() }
     ) {
         LanguagesRoute(
             mainPadding = mainPadding,

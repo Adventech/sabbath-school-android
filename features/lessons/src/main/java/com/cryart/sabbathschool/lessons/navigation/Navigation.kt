@@ -28,6 +28,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.navigation
+import app.ss.design.compose.transitions.scaleInEnterTransition
+import app.ss.design.compose.transitions.scaleInPopEnterTransition
+import app.ss.design.compose.transitions.scaleOutExitTransition
+import app.ss.design.compose.transitions.scaleOutPopExitTransition
 import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesRoute
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroupCallback
@@ -51,7 +55,13 @@ fun NavGraphBuilder.sabbathSchoolGraph(
         route = sabbathSchoolRoutePattern,
         startDestination = quarterliesRoute
     ) {
-        composable(route = quarterliesRoute) {
+        composable(
+            route = quarterliesRoute,
+            enterTransition = { scaleInEnterTransition() },
+            exitTransition = { scaleOutExitTransition() },
+            popEnterTransition = { scaleInPopEnterTransition() },
+            popExitTransition = { scaleOutPopExitTransition() }
+        ) {
             QuarterliesRoute(
                 callbacks = object : QuarterliesGroupCallback {
                     override fun onSeeAllClick(group: QuarterlyGroup) {
