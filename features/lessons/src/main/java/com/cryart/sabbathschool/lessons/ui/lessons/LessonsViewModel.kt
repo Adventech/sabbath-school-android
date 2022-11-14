@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons
 
+import android.content.Context
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -49,6 +50,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import app.ss.translations.R as L10n
 
 @HiltViewModel
 class LessonsViewModel @Inject constructor(
@@ -123,5 +125,10 @@ class LessonsViewModel @Inject constructor(
             val data = resource.data
             _selectedPdfs.emit(lessonIndex to (data?.pdfs ?: emptyList()))
         }
+    }
+
+    fun shareLessonContent(context: Context): String {
+        val link = "${context.getString(L10n.string.ss_app_host)}/$quarterlyShareIndex"
+        return "${uiState.value.quarterlyTitle}\n$link"
     }
 }

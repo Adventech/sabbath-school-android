@@ -37,6 +37,7 @@ import app.ss.design.compose.transitions.scaleInEnterTransition
 import app.ss.design.compose.transitions.scaleOutPopExitTransition
 import app.ss.design.compose.transitions.slideInTransition
 import app.ss.design.compose.transitions.slideOutTransition
+import app.ss.models.LessonIntroModel
 import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.core.misc.SSConstants.SS_QUARTERLY_INDEX_EXTRA
 import com.cryart.sabbathschool.lessons.ui.lessons.LessonsRoute
@@ -101,6 +102,8 @@ internal const val lessonIndexArg = SS_QUARTERLY_INDEX_EXTRA
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.lessonsScreen(
     mainPadding: PaddingValues,
+    readLesson: (String) -> Unit,
+    lessonIntro: (LessonIntroModel) -> Unit,
     onBackClick: () -> Unit,
 ) {
     composable(
@@ -113,11 +116,10 @@ fun NavGraphBuilder.lessonsScreen(
         popExitTransition = { slideOutTransition() }
     ) {
         LessonsRoute(
+            readLesson = readLesson,
+            lessonIntro = lessonIntro,
             onNavClick = onBackClick,
-            onShareClick = {},
-            onLessonClick = {},
-            onReadMoreClick = {},
-            mainPadding = mainPadding
+            mainPadding = mainPadding,
         )
     }
 }
