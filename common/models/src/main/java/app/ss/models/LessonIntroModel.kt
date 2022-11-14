@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons.intro
+package app.ss.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
