@@ -44,21 +44,28 @@ import com.cryart.sabbathschool.navigation.navigateToAccount
 import com.cryart.sabbathschool.navigation.navigateToDevotional
 import com.cryart.sabbathschool.navigation.navigateToPersonalMinistries
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.navigation.material.BottomSheetNavigator
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
 @Composable
 fun rememberSsAppState(
     windowSizeClass: WindowSizeClass,
-    navController: NavHostController = rememberAnimatedNavController()
+    bottomSheetNavigator: BottomSheetNavigator = rememberBottomSheetNavigator(),
+    navController: NavHostController = rememberAnimatedNavController(
+        bottomSheetNavigator
+    ),
 ): SsAppState {
-    return remember(navController, windowSizeClass) {
-        SsAppState(navController, windowSizeClass)
+    return remember(navController, bottomSheetNavigator, windowSizeClass) {
+        SsAppState(navController, bottomSheetNavigator, windowSizeClass)
     }
 }
 
 @Immutable
-data class SsAppState(
+data class SsAppState @OptIn(ExperimentalMaterialNavigationApi::class) constructor(
     val navController: NavHostController,
+    val bottomSheetNavigator: BottomSheetNavigator,
     val windowSizeClass: WindowSizeClass,
 ) {
     val currentDestination: NavDestination?
