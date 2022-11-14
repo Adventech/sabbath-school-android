@@ -70,6 +70,7 @@ import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.scaffold.SsScaffold
+import app.ss.models.LessonIntroModel
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemsSpec
@@ -80,7 +81,6 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.loading
 import com.cryart.sabbathschool.lessons.ui.lessons.components.quarterlyInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.toSpec
-import app.ss.models.LessonIntroModel
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import app.ss.translations.R.string as RString

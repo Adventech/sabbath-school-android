@@ -128,7 +128,7 @@ class LessonsViewModel @Inject constructor(
     }
 
     fun shareLessonContent(context: Context): String {
-        val link = "${context.getString(L10n.string.ss_app_host)}/$quarterlyShareIndex"
+        val link = "${context.getString(L10n.string.ss_app_share_host)}/$quarterlyShareIndex"
         return "${uiState.value.quarterlyTitle}\n$link"
     }
 }
