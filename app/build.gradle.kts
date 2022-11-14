@@ -158,6 +158,7 @@ dependencies {
     implementation(projects.features.bible)
     implementation(projects.features.languages)
     implementation(projects.features.lessons)
+    implementation(projects.features.lessons.intro)
     implementation(projects.features.media)
     implementation(projects.features.pdf)
     implementation(projects.features.settings)
@@ -181,6 +182,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.google.accompanist.navigation.animation)
+    implementation(libs.google.accompanist.navigation.material)
     implementation(libs.google.accompanist.systemUiController)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
