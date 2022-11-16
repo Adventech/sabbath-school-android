@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.navigation
 
+import android.content.Context
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -46,10 +48,13 @@ import app.ss.design.compose.transitions.scaleOutExitTransition
 import app.ss.design.compose.transitions.scaleOutPopExitTransition
 import app.ss.languages.navigation.languagesScreen
 import app.ss.languages.navigation.navigateToLanguages
+import app.ss.lessons.intro.navigation.lessonIntro
+import app.ss.lessons.intro.navigation.navigateToLessonIntro
 import com.cryart.sabbathschool.lessons.navigation.lessonsScreen
 import com.cryart.sabbathschool.lessons.navigation.navigateToLessons
 import com.cryart.sabbathschool.lessons.navigation.sabbathSchoolGraph
 import com.cryart.sabbathschool.lessons.navigation.sabbathSchoolRoutePattern
+import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
@@ -79,7 +84,8 @@ internal fun SsNavHost(
     navController: NavHostController,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    startDestination: String = sabbathSchoolRoutePattern
+    startDestination: String = sabbathSchoolRoutePattern,
+    context: Context = LocalContext.current
 ) {
     val bottomPadding = 80.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val mainPadding = PaddingValues(bottom = bottomPadding)
@@ -101,8 +107,17 @@ internal fun SsNavHost(
 
                 lessonsScreen(
                     mainPadding = mainPadding,
+                    readLesson = { index ->
+                        val readIntent = SSReadingActivity.launchIntent(context, index)
+                        context.startActivity(readIntent)
+                    },
+                    lessonIntro = { index ->
+                        navController.navigateToLessonIntro(index)
+                    },
                     onBackClick = onBackClick
                 )
+
+                lessonIntro()
             }
         )
         sampleScreen(personalMinistriesRoute)

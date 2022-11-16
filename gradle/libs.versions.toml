@@ -118,6 +118,7 @@ androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "andr
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
 google-accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "google-accompanist" }
+google-accompanist-navigation-material = { module = "com.google.accompanist:accompanist-navigation-material", version.ref = "google-accompanist" }
 google-accompanist-placeholder = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "google-accompanist" }
 google-accompanist-systemUiController = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "google-accompanist" }
 google-exoplayer-core = { module = "com.google.android.exoplayer:exoplayer-core", version.ref = "google-exoplayer" }

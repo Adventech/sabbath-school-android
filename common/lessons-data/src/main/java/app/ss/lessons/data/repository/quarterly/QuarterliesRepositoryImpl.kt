@@ -23,10 +23,12 @@
 package app.ss.lessons.data.repository.quarterly
 
 import app.ss.models.Language
+import app.ss.models.LessonIntroModel
 import app.ss.models.PublishingInfo
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.core.misc.DeviceHelper
@@ -34,6 +36,7 @@ import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import javax.inject.Inject
@@ -46,7 +49,8 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
     private val quarterliesDataSource: QuarterliesDataSource,
     private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
     private val publishingInfoDataSource: PublishingInfoDataSource,
-    private val deviceHelper: DeviceHelper
+    private val deviceHelper: DeviceHelper,
+    private val dispatcherProvider: DispatcherProvider,
 ) : QuarterliesRepository {
 
     override fun getLanguages(query: String?): Flow<Resource<List<Language>>> =
@@ -82,6 +86,24 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
         val country = deviceHelper.country()
 
         return publishingInfoDataSource.getItemAsFlow(PublishingInfoDataSource.Request(country, language))
+    }
+
+    override suspend fun getIntro(index: String): Result<LessonIntroModel?> {
+        return withContext(dispatcherProvider.io) {
+            val quarterly = quarterlyInfoDataSource
+                .cache
+                .getItem(QuarterlyInfoDataSource.Request(index))
+                .data?.quarterly
+            Result.success(
+                quarterly?.let {
+                    LessonIntroModel(
+                        index = it.index,
+                        title = quarterly.title,
+                        introduction = quarterly.introduction ?: quarterly.description
+                    )
+                }
+            )
+        }
     }
 
     private val SSQuarterly.isLatest: Boolean

@@ -101,6 +101,8 @@ internal const val lessonIndexArg = SS_QUARTERLY_INDEX_EXTRA
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.lessonsScreen(
     mainPadding: PaddingValues,
+    readLesson: (String) -> Unit,
+    lessonIntro: (String) -> Unit,
     onBackClick: () -> Unit,
 ) {
     composable(
@@ -113,11 +115,10 @@ fun NavGraphBuilder.lessonsScreen(
         popExitTransition = { slideOutTransition() }
     ) {
         LessonsRoute(
+            readLesson = readLesson,
+            lessonIntro = lessonIntro,
             onNavClick = onBackClick,
-            onShareClick = {},
-            onLessonClick = {},
-            onReadMoreClick = {},
-            mainPadding = mainPadding
+            mainPadding = mainPadding,
         )
     }
 }

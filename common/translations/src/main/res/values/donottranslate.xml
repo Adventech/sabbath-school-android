@@ -41,6 +41,7 @@
     <string name="ss_settings_github_url" translatable="false">https://github.com/Adventech</string>
     <string name="ss_settings_version_key" translatable="false">ss_key_version</string>
     <string name="ss_app_host" translatable="false">sabbath-school.adventech.io</string>
+    <string name="ss_app_share_host" translatable="false">https://sabbath-school.adventech.io</string>
     <string name="ss_app_playstore_url" translatable="false">https://play.google.com/store/apps/details?id=com.cryart.sabbathschool</string>
     <string name="ss_app_scheme" translatable="false">ss_app</string>
 

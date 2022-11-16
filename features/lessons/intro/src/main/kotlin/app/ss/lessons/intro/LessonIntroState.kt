@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,29 +20,16 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.quarterly
+package app.ss.lessons.intro
 
-import app.ss.models.Language
-import app.ss.models.LessonIntroModel
-import app.ss.models.PublishingInfo
-import app.ss.models.QuarterlyGroup
-import app.ss.models.SSQuarterly
-import app.ss.models.SSQuarterlyInfo
-import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
+import androidx.compose.runtime.Immutable
 
-interface QuarterliesRepository {
+internal sealed interface LessonIntroState {
 
-    fun getLanguages(query: String? = null): Flow<Resource<List<Language>>>
+    @Immutable
+    data class Success(val title: String, val introduction: String) : LessonIntroState
 
-    fun getQuarterlies(
-        languageCode: String? = null,
-        group: QuarterlyGroup? = null
-    ): Flow<Resource<List<SSQuarterly>>>
+    object Error : LessonIntroState
 
-    fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>>
-
-    fun getPublishingInfo(languageCode: String? = null): Flow<Resource<PublishingInfo>>
-
-    suspend fun getIntro(index: String): Result<LessonIntroModel?>
+    object Loading : LessonIntroState
 }

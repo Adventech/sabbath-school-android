@@ -38,10 +38,12 @@ import app.ss.design.compose.widget.navigation.SsNavigationBar
 import app.ss.design.compose.widget.navigation.SsNavigationBarItem
 import com.cryart.sabbathschool.navigation.SsNavHost
 import com.cryart.sabbathschool.navigation.TopLevelDestination
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalLayoutApi::class
+    ExperimentalLayoutApi::class, ExperimentalMaterialNavigationApi::class
 )
 @Composable
 fun SsApp(
@@ -50,26 +52,28 @@ fun SsApp(
         windowSizeClass = windowSizeClass
     )
 ) {
-    Scaffold(
-        modifier = Modifier,
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
-        bottomBar = {
-            if (appState.shouldShowBottomBar) {
-                BottomNavigationBar(
-                    destinations = appState.topLevelDestinations,
-                    onNavigateToDestination = appState::navigateToTopLevelDestination,
-                    currentDestination = appState.currentDestination
-                )
+    ModalBottomSheetLayout(bottomSheetNavigator = appState.bottomSheetNavigator) {
+        Scaffold(
+            modifier = Modifier,
+            contentWindowInsets = WindowInsets(0, 0, 0, 0),
+            bottomBar = {
+                if (appState.shouldShowBottomBar) {
+                    BottomNavigationBar(
+                        destinations = appState.topLevelDestinations,
+                        onNavigateToDestination = appState::navigateToTopLevelDestination,
+                        currentDestination = appState.currentDestination
+                    )
+                }
             }
-        }
-    ) { padding ->
+        ) { padding ->
 
-        SsNavHost(
-            navController = appState.navController,
-            onBackClick = appState::onBackClick,
-            modifier = Modifier
-                .consumedWindowInsets(padding)
-        )
+            SsNavHost(
+                navController = appState.navController,
+                onBackClick = appState::onBackClick,
+                modifier = Modifier
+                    .consumedWindowInsets(padding)
+            )
+        }
     }
 }
 

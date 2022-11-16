@@ -46,6 +46,7 @@ include(
     ":features:app-widgets",
     ":features:bible",
     ":features:lessons",
+    ":features:lessons:intro",
     ":features:media",
     ":features:pdf",
     ":features:reader",

@@ -123,7 +123,7 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
     }
 
     override fun getShareWebUri(): Uri {
-        return "${getString(R.string.ss_app_host)}/${viewModel.quarterlyShareIndex}".toWebUri()
+        return "${getString(R.string.ss_app_share_host)}/${viewModel.quarterlyShareIndex}".toWebUri()
     }
 
     companion object {
