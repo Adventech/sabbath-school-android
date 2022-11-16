@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons.components
+package app.ss.design.compose.widget.placeholder
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -28,61 +28,42 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.modifier.asPlaceholder
-import app.ss.design.compose.extensions.previews.DevicePreviews
+import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
-import app.ss.design.compose.widget.placeholder.PlaceholderDefaults
-import app.ss.design.compose.widget.placeholder.PlaceholderListItem
-import app.ss.design.compose.widget.placeholder.PlaceholderQuarterly
 
-internal fun LazyListScope.loading() {
-    item {
-        LessonsLoading(modifier = Modifier)
-    }
+/**
+ * Placeholder defaults
+ */
+object PlaceholderDefaults {
+
+    /** Default shape for Placeholders **/
+    val shape = RoundedCornerShape(16.dp)
 }
 
+/**
+ * A list item placeholder composable.
+ */
 @Composable
-private fun LessonsLoading(
+fun PlaceholderListItem(
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 80.dp, bottom = 48.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        PlaceholderQuarterly()
-
-        Spacer(modifier = Modifier.height(height = 24.dp))
+        Spacer(modifier = Modifier.height(height = 16.dp))
 
         Spacer(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(height = 20.dp)
-                .padding(horizontal = 48.dp)
-                .asPlaceholder(true, shape = PlaceholderDefaults.shape)
-        )
-
-        Spacer(modifier = Modifier.height(height = 24.dp))
-
-        Spacer(
-            modifier = Modifier
-                .size(width = 120.dp, height = 12.dp)
-                .asPlaceholder(true, shape = PlaceholderDefaults.shape)
-        )
-
-        Spacer(modifier = Modifier.height(height = 24.dp))
-
-        Spacer(
-            modifier = Modifier
-                .size(width = 340.dp, height = 8.dp)
+                .size(240.dp, height = 14.dp)
+                .padding(horizontal = 16.dp)
                 .asPlaceholder(true, shape = PlaceholderDefaults.shape)
         )
 
@@ -90,34 +71,47 @@ private fun LessonsLoading(
 
         Spacer(
             modifier = Modifier
-                .size(width = 340.dp, height = 8.dp)
+                .size(100.dp, height = 8.dp)
+                .padding(horizontal = 16.dp)
                 .asPlaceholder(true, shape = PlaceholderDefaults.shape)
         )
 
-        Spacer(modifier = Modifier.height(height = 4.dp))
-
-        Spacer(
-            modifier = Modifier
-                .size(width = 180.dp, height = 8.dp)
-                .asPlaceholder(true, shape = PlaceholderDefaults.shape)
-        )
-
-        Spacer(modifier = Modifier.height(height = 32.dp))
+        Spacer(modifier = Modifier.height(height = 12.dp))
 
         Divider()
+    }
+}
 
-        repeat(4) {
+@DayNightPreviews
+@Composable
+private fun PreviewListItem() {
+    SsTheme {
+        Surface {
             PlaceholderListItem()
         }
     }
 }
 
-@DevicePreviews
+/**
+ * A Quarterly placeholder composable.
+ */
 @Composable
-private fun LoadingPreview() {
+fun PlaceholderQuarterly(
+    modifier: Modifier = Modifier
+) {
+    Spacer(
+        modifier = modifier
+            .size(width = 145.dp, height = 210.dp)
+            .asPlaceholder(true, shape = PlaceholderDefaults.shape)
+    )
+}
+
+@DayNightPreviews
+@Composable
+private fun PreviewQuarterly() {
     SsTheme {
         Surface {
-            LessonsLoading()
+            PlaceholderQuarterly(modifier = Modifier.padding(16.dp))
         }
     }
 }
