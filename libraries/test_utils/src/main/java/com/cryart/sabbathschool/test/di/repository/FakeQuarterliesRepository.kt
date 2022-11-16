@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.test.di.repository
 
 import app.ss.models.Language
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import app.ss.models.LessonIntroModel
 import app.ss.models.PublishingInfo
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
@@ -57,5 +58,9 @@ class FakeQuarterliesRepository @Inject constructor(
 
     override fun getPublishingInfo(languageCode: String?): Flow<Resource<PublishingInfo>> {
         return emptyFlow()
+    }
+
+    override suspend fun getIntro(index: String): Result<LessonIntroModel?> {
+        return Result.success(null)
     }
 }

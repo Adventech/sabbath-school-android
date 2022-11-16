@@ -23,6 +23,7 @@
 package app.ss.lessons.data.repository.quarterly
 
 import app.ss.models.Language
+import app.ss.models.LessonIntroModel
 import app.ss.models.PublishingInfo
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
@@ -42,4 +43,6 @@ interface QuarterliesRepository {
     fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>>
 
     fun getPublishingInfo(languageCode: String? = null): Flow<Resource<PublishingInfo>>
+
+    suspend fun getIntro(index: String): Result<LessonIntroModel?>
 }
