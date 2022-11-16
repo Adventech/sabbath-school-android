@@ -20,34 +20,16 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.intro.navigation
+package app.ss.lessons.intro
 
-import android.net.Uri
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
-import app.ss.lessons.intro.LessonIntroRoute
-import com.cryart.sabbathschool.core.misc.SSConstants
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.bottomSheet
+import androidx.compose.runtime.Immutable
 
-private const val lessonIntroRoute = "lesson_intro_route"
-private const val indexExtra = SSConstants.SS_QUARTERLY_INDEX_EXTRA
+internal sealed interface LessonIntroState {
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
-fun NavGraphBuilder.lessonIntro() {
-    bottomSheet(
-        route = "$lessonIntroRoute/{$indexExtra}",
-        arguments = listOf(
-            navArgument(indexExtra) { type = NavType.StringType },
-        ),
-    ) {
-        LessonIntroRoute()
-    }
-}
+    @Immutable
+    data class Success(val title: String, val introduction: String) : LessonIntroState
 
-fun NavController.navigateToLessonIntro(index: String) {
-    val encodedIndex = Uri.encode(index)
-    navigate(route = "$lessonIntroRoute/$encodedIndex")
+    object Error : LessonIntroState
+
+    object Loading : LessonIntroState
 }

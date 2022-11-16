@@ -111,8 +111,8 @@ internal fun SsNavHost(
                         val readIntent = SSReadingActivity.launchIntent(context, index)
                         context.startActivity(readIntent)
                     },
-                    lessonIntro = { model ->
-                        navController.navigateToLessonIntro(model)
+                    lessonIntro = { index ->
+                        navController.navigateToLessonIntro(index)
                     },
                     onBackClick = onBackClick
                 )

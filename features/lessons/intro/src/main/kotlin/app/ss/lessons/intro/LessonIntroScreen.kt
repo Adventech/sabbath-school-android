@@ -22,7 +22,11 @@
 
 package app.ss.lessons.intro
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,30 +34,48 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavBackStackEntry
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.DragHandle
-import app.ss.lessons.intro.navigation.introModel
-import app.ss.models.LessonIntroModel
+import app.ss.design.compose.widget.placeholder.PlaceholderScreen
 
+@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalAnimationApi::class)
 @Composable
 internal fun LessonIntroRoute(
-    backStackEntry: NavBackStackEntry
+    viewModel: LessonIntroViewModel = hiltViewModel()
 ) {
-    val model = remember(backStackEntry) { backStackEntry.introModel() }
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Surface {
-        LessonIntroScreen(model = model)
+        AnimatedContent(targetState = state) { targetState ->
+            when (targetState) {
+                is LessonIntroState.Success -> LessonIntroScreen(state = targetState)
+                LessonIntroState.Loading -> {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        PlaceholderScreen()
+
+                        DragHandle(
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .padding(top = 16.dp)
+                        )
+                    }
+                }
+                LessonIntroState.Error -> { /* No op */ }
+            }
+        }
     }
 }
 
 @Composable
 internal fun LessonIntroScreen(
-    model: LessonIntroModel
+    state: LessonIntroState.Success
 ) {
     LazyColumn(
         modifier = Modifier
@@ -71,7 +93,7 @@ internal fun LessonIntroScreen(
 
         item {
             Text(
-                text = model.title,
+                text = state.title,
                 style = SsTheme.typography.titleLarge
             )
         }
@@ -82,7 +104,7 @@ internal fun LessonIntroScreen(
 
         item {
             Text(
-                text = model.introduction,
+                text = state.introduction,
                 style = SsTheme.typography.bodyMedium
             )
         }

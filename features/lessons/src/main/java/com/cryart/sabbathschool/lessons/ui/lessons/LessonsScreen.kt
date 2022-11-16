@@ -90,7 +90,7 @@ import app.ss.translations.R.string as RString
 internal fun LessonsRoute(
     viewModel: LessonsViewModel = hiltViewModel(),
     readLesson: (String) -> Unit,
-    lessonIntro: (LessonIntroModel) -> Unit,
+    lessonIntro: (String) -> Unit,
     onNavClick: () -> Unit,
     mainPadding: PaddingValues,
     context: Context = LocalContext.current
@@ -110,7 +110,7 @@ internal fun LessonsRoute(
                 readLesson(lesson.index)
             }
         },
-        onReadMoreClick = lessonIntro,
+        onReadMoreClick = { lessonIntro(it.index) },
         mainPadding = mainPadding
     )
 }
@@ -316,8 +316,9 @@ private fun LessonsLazyColumn(
                     readMoreClick = {
                         onReadMoreClick(
                             LessonIntroModel(
-                                quarterly.title,
-                                quarterly.introduction ?: quarterly.description
+                                index = quarterly.index,
+                                title = quarterly.title,
+                                introduction = quarterly.introduction ?: quarterly.description
                             )
                         )
                     }

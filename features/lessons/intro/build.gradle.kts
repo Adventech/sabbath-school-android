@@ -38,6 +38,8 @@ android {
 
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
@@ -49,10 +51,20 @@ android {
 }
 
 dependencies {
+    implementation(projects.common.core)
     implementation(projects.common.designCompose)
+    implementation(projects.common.lessonsData)
     implementation(projects.common.models)
 
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.google.accompanist.navigation.material)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
+
+    testImplementation(libs.bundles.testing.common)
+    kaptTest(libs.google.hilt.compiler)
+    androidTestImplementation(libs.bundles.testing.android.common)
+    kaptAndroidTest(libs.google.hilt.compiler)
+    testImplementation(projects.libraries.testUtils)
 }
