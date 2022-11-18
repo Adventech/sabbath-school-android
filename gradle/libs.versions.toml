@@ -35,7 +35,7 @@ google-accompanist = "0.27.1"
 google-exoplayer = "2.18.1"
 google-hilt = "2.44.2"
 google-material = "1.7.0"
-google-play-auth = "20.3.0"
+google-play-auth = "20.4.0"
 gradle-android = "7.3.1"
 # @keep this version
 joda-android = "2.12.1"
