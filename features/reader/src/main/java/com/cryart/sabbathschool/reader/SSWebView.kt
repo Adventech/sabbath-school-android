@@ -38,7 +38,8 @@ open class SSWebView @JvmOverloads constructor(
             SSHelper.readFileFromAssets(context, SSConstants.SS_READER_APP_ENTRYPOINT)
         }
         try {
-            content = content.replace(Regex.fromLiteral("{{content}}"), contentData)
+            val parsedData = contentData.replace("$", "\\$")
+            content = content.replace(Regex.fromLiteral("{{content}}"), parsedData)
             content = content.replace("ss-wrapper-light", "ss-wrapper-${ssReadingDisplayOptions.displayTheme(context)}")
             content = content.replace("ss-wrapper-andada", "ss-wrapper-${ssReadingDisplayOptions.font}")
             content = content.replace("ss-wrapper-medium", "ss-wrapper-${ssReadingDisplayOptions.size}")
