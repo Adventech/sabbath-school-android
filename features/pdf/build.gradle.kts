@@ -20,7 +20,9 @@
  * THE SOFTWARE.
  */
 
-import extensions.readPropertyValue
+import java.io.FileInputStream
+import java.util.Properties
+import org.gradle.api.Project
 
 plugins {
     id("com.android.library")
@@ -36,10 +38,10 @@ val psPdfKitKey = readPropertyValue(
 )
 
 android {
-    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
+    compileSdk = 33
 
     defaultConfig {
-        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
+        minSdk = 21
 
         manifestPlaceholders["psPdfKitKey"] = psPdfKitKey
     }
@@ -83,4 +85,27 @@ dependencies {
     androidTestImplementation(libs.bundles.testing.android.common)
     kaptAndroidTest(libs.google.hilt.compiler)
     testImplementation(projects.libraries.testUtils)
+}
+
+/**
+ * Reads a value saved in a [Properties] file
+ */
+fun Project.readPropertyValue(
+    filePath: String,
+    key: String,
+    defaultValue: String
+): String {
+    val file = file(filePath)
+    return if (file.exists()) {
+        val keyProps = Properties().apply {
+            load(FileInputStream(file))
+        }
+        return keyProps.getProperty(key, defaultValue)
+    } else {
+        defaultValue
+    }
+}
+
+object BuildAndroidConfig {
+    const val API_KEYS_PROPS_FILE = "release/ss_public_keys.properties"
 }

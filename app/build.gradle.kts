@@ -20,15 +20,16 @@
  * THE SOFTWARE.
  */
 
-import extensions.readPropertyValue
 import java.io.FileInputStream
 import java.util.Properties
+import org.gradle.api.Project
 
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
@@ -45,17 +46,17 @@ val webClientId = readPropertyValue(
 )
 
 android {
-    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
+    compileSdk = 33
 
     defaultConfig {
         applicationId = BuildAndroidConfig.APP_ID
-        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
-        targetSdk = BuildAndroidConfig.TARGET_SDK_VERSION
+        minSdk = 21
+        targetSdk = 33
 
         versionCode = appVersionCode
         versionName = "${BuildAndroidConfig.Version.name} ($appVersionCode)"
 
-        testInstrumentationRunner = BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER
+        testInstrumentationRunner = "com.cryart.sabbathschool.SSAppTestRunner"
 
         vectorDrawables.useSupportLibrary = true
 
@@ -200,5 +201,40 @@ dependencies {
     androidTestImplementation(projects.libraries.testUtils)
     androidTestImplementation(libs.test.androidx.espresso.contrib) {
         exclude(group = "org.checkerframework", module = "checker")
+    }
+}
+
+ktlint { android.set(true) }
+
+/**
+ * Reads a value saved in a [Properties] file
+ */
+fun Project.readPropertyValue(
+    filePath: String,
+    key: String,
+    defaultValue: String
+): String {
+    val file = file(filePath)
+    return if (file.exists()) {
+        val keyProps = Properties().apply {
+            load(FileInputStream(file))
+        }
+        return keyProps.getProperty(key, defaultValue)
+    } else {
+        defaultValue
+    }
+}
+
+object BuildAndroidConfig {
+    const val APP_ID = "com.cryart.sabbathschool"
+    const val KEYSTORE_PROPS_FILE = "../release/keystore.properties"
+    const val API_KEYS_PROPS_FILE = "release/ss_public_keys.properties"
+
+    object Version {
+        private const val MAJOR = 4
+        private const val MINOR = 19
+        private const val PATCH = 0
+
+        const val name = "$MAJOR.$MINOR.$PATCH"
     }
 }

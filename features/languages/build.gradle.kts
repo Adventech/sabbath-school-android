@@ -30,10 +30,10 @@ plugins {
 
 android {
     namespace = "app.ss.languages"
-    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
+    compileSdk = 33
 
     defaultConfig {
-        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
+        minSdk = 21
     }
 
     kotlinOptions {

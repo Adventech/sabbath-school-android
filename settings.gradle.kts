@@ -22,9 +22,18 @@
 
 pluginManagement {
     repositories {
-        mavenCentral()
-        maven("https://plugins.gradle.org/m2/")
         gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://customers.pspdfkit.com/maven")
     }
 }
 
@@ -53,6 +62,6 @@ include(
     ":features:settings",
     ":libraries:test_utils"
 )
-rootProject.buildFileName = "build.gradle.kts"
+rootProject.name = "sabbath-school-android"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

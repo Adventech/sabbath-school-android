@@ -20,13 +20,22 @@
  * THE SOFTWARE.
  */
 
-import extensions.applyDefault
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-allprojects {
-    repositories.applyDefault()
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.ktlint) apply false
+    alias(libs.plugins.paparazzi) apply false
+}
 
-    plugins.apply(BuildPlugins.KTLINT)
+buildscript {
+    repositories {
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+    }
 }
 
 /**
@@ -47,8 +56,4 @@ subprojects {
             }
         }
     }
-}
-
-configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
-    android.set(true)
 }

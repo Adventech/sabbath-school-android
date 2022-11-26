@@ -26,11 +26,11 @@ plugins {
 }
 
 android {
-    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
+    compileSdk = 33
     namespace = "com.cryart.design"
 
     defaultConfig {
-        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
+        minSdk = 21
     }
 
     kotlinOptions {

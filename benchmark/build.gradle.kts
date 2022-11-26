@@ -28,7 +28,7 @@ plugins {
 }
 
 android {
-    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
+    compileSdk = 33
     namespace = "com.cryart.sabbathschool.benchmark"
 
     compileOptions {
@@ -42,7 +42,7 @@ android {
 
     defaultConfig {
         minSdk = 23
-        targetSdk = BuildAndroidConfig.TARGET_SDK_VERSION
+        targetSdk = 33
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
