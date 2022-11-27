@@ -21,33 +21,28 @@
  */
 
 plugins {
+    alias(libs.plugins.sgp.base)
     id("com.android.library")
     id("kotlin-android")
     id("app.cash.paparazzi")
 }
 
 android {
-    compileSdk = 33
-
-    defaultConfig {
-        minSdk = 21
-    }
-
     namespace = "app.ss.design.compose"
 
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-    }
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
 }
 
+slack {
+    android {
+        features { compose() }
+    }
+}
+
 dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(projects.common.translations)
 
     implementation(libs.timber)

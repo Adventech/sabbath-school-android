@@ -21,36 +21,30 @@
  */
 
 plugins {
+    alias(libs.plugins.sgp.base)
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
 }
 
 android {
-    compileSdk = 33
-
-    defaultConfig {
-        minSdk = 21
-    }
-
     namespace = "app.ss.widgets"
 
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-    }
+}
 
-    buildFeatures {
-        compose = true
+slack {
+    android {
+        features { compose() }
     }
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.designCompose)

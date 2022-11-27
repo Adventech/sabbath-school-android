@@ -21,36 +21,32 @@
  */
 
 plugins {
+    alias(libs.plugins.sgp.base)
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }
 
 android {
-    compileSdk = 33
-
+    namespace = "app.ss.storage"
     defaultConfig {
-        minSdk = 21
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas",
                     "room.incremental" to "true",
                 )
             }
         }
     }
+}
 
-    namespace = "app.ss.storage"
-
-    kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
-    }
+room {
+    schemaLocationDir.set(file("$projectDir/schemas"))
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     api(projects.common.models)
 
     implementation(libs.google.hilt.android)

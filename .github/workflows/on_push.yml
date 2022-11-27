@@ -24,8 +24,8 @@ jobs:
         env:
           ENCRYPT_KEY: ${{ secrets.ENCRYPT_KEY }}
 
-      - name: Run ktlint
-        run: ./gradlew ktlintCheck
+      - name: Run spotless
+        run: ./gradlew spotlessCheck
 
       - name: Run Android lint
         run: ./gradlew lintDebug

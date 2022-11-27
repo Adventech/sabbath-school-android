@@ -21,27 +21,19 @@
  */
 
 plugins {
+    alias(libs.plugins.sgp.base)
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }
 
 android {
-    compileSdk = 33
-
-    defaultConfig {
-        minSdk = 21
-    }
-
     namespace = "app.ss.runtime.permissions"
-
-    kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
-    }
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(libs.androidx.activity)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)

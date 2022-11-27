@@ -26,10 +26,10 @@ import org.gradle.api.Project
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
+    alias(libs.plugins.sgp.base)
     id("dagger.hilt.android.plugin")
-    id("org.jlleitschuh.gradle.ktlint")
 }
 
 val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
@@ -46,19 +46,15 @@ val webClientId = readPropertyValue(
 )
 
 android {
-    compileSdk = 33
+    namespace = BuildAndroidConfig.APP_ID
 
     defaultConfig {
         applicationId = BuildAndroidConfig.APP_ID
-        minSdk = 21
-        targetSdk = 33
 
         versionCode = appVersionCode
         versionName = "${BuildAndroidConfig.Version.name} ($appVersionCode)"
 
         testInstrumentationRunner = "com.cryart.sabbathschool.SSAppTestRunner"
-
-        vectorDrawables.useSupportLibrary = true
 
         ndk {
             abiFilters.addAll(
@@ -69,8 +65,6 @@ android {
 
         buildConfigField("String", "WEB_CLIENT_ID", "\"$webClientId\"")
     }
-
-    namespace = BuildAndroidConfig.APP_ID
 
     signingConfigs {
         if (useReleaseKeystore) {
@@ -111,13 +105,7 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
 
@@ -126,14 +114,9 @@ android {
         unitTests.isReturnDefaultValues = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-    }
-
     buildFeatures {
         viewBinding = true
         dataBinding = true
-        compose = true
     }
 
     packagingOptions {
@@ -144,7 +127,14 @@ android {
     }
 }
 
+slack {
+    android {
+        features { compose() }
+    }
+}
+
 dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.design)
@@ -203,8 +193,6 @@ dependencies {
         exclude(group = "org.checkerframework", module = "checker")
     }
 }
-
-ktlint { android.set(true) }
 
 /**
  * Reads a value saved in a [Properties] file

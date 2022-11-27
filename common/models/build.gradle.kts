@@ -21,26 +21,18 @@
  */
 
 plugins {
+    alias(libs.plugins.sgp.base)
     id("com.android.library")
-    id("kotlin-android")
+    kotlin("android")
     id("kotlin-parcelize")
 }
 
 android {
-    compileSdk = 33
-
-    defaultConfig {
-        minSdk = 21
-    }
-
     namespace = "app.ss.models"
-
-    kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
-    }
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(libs.androidx.annotations)
     implementation(libs.square.moshi.kotlin)
 }

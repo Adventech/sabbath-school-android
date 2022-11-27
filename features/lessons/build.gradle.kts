@@ -22,19 +22,15 @@
 
 plugins {
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
+    alias(libs.plugins.sgp.base)
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
     id("app.cash.paparazzi")
 }
 
 android {
-    compileSdk = 33
-
-    defaultConfig {
-        minSdk = 21
-    }
 
     namespace = "com.cryart.sabbathschool.lessons"
 
@@ -43,14 +39,10 @@ android {
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-    }
 
     buildFeatures {
         viewBinding = true
         dataBinding = true
-        compose = true
     }
 
     testOptions {
@@ -58,8 +50,14 @@ android {
     }
 }
 
-dependencies {
+slack {
+    android {
+        features { compose() }
+    }
+}
 
+dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.design)

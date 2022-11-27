@@ -21,14 +21,14 @@
  */
 
 plugins {
+    alias(libs.plugins.sgp.base)
     id("com.android.library")
 }
 
 android {
-    compileSdk = 33
-
-    defaultConfig {
-        minSdk = 21
-    }
     namespace = "app.ss.translations"
+}
+
+dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
 }

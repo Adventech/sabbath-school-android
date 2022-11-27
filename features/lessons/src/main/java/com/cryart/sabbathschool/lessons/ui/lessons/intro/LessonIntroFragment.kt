@@ -49,6 +49,7 @@ class LessonIntroFragment : SsBottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        @Suppress("DEPRECATION")
         val model = arguments?.getParcelable<LessonIntroModel>(ARG_MODEL) ?: return
 
         binding.toolbar.apply {

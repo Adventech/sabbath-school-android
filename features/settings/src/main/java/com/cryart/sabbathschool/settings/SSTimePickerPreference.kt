@@ -52,6 +52,7 @@ class SSTimePickerPreference(
         ).show()
     }
 
+    @Suppress("DEPRECATION")
     override fun onTimeSet(timePicker: TimePicker, i: Int, i2: Int) {
         if (timePicker.isShown) {
             val hour: Int

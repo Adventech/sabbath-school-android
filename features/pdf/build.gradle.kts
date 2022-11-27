@@ -25,9 +25,10 @@ import java.util.Properties
 import org.gradle.api.Project
 
 plugins {
+    alias(libs.plugins.sgp.base)
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }
 
@@ -38,25 +39,20 @@ val psPdfKitKey = readPropertyValue(
 )
 
 android {
-    compileSdk = 33
+    namespace = "app.ss.pdf"
 
     defaultConfig {
-        minSdk = 21
-
         manifestPlaceholders["psPdfKitKey"] = psPdfKitKey
     }
 
-    namespace = "app.ss.pdf"
-
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
 }
 
 dependencies {
-
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.lessonsData)

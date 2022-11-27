@@ -25,26 +25,14 @@ import com.android.build.gradle.internal.dsl.ManagedVirtualDevice
 plugins {
     id("com.android.test")
     id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.sgp.base)
 }
 
 android {
-    compileSdk = 33
     namespace = "com.cryart.sabbathschool.benchmark"
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
-    }
 
     defaultConfig {
         minSdk = 23
-        targetSdk = 33
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -75,6 +63,7 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(libs.androidx.profileinstaller)
     implementation(libs.test.androidx.benchmark)
     implementation(libs.test.androidx.benchmark.macro)

@@ -21,29 +21,24 @@
  */
 
 plugins {
+    alias(libs.plugins.sgp.base)
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
 }
 
 android {
-    compileSdk = 33
-
-    defaultConfig {
-        minSdk = 21
-    }
-
     namespace = "app.ss.lessons.data"
 
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(projects.common.auth)
     implementation(projects.common.core)
     api(projects.common.models)
@@ -59,6 +54,7 @@ dependencies {
 
     implementation(libs.square.moshi.kotlin)
     kapt(libs.square.moshi.codegen)
+    compileOnly(libs.javax.annotation)
 
     api(libs.square.okhttp)
     implementation(libs.square.okhttp.logging)

@@ -21,25 +21,21 @@
  */
 
 plugins {
+    alias(libs.plugins.sgp.base)
     id("com.android.library")
-    id("kotlin-android")
+    kotlin("android")
 }
 
 android {
-    compileSdk = 33
     namespace = "com.cryart.design"
 
-    defaultConfig {
-        minSdk = 21
-    }
-
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(libs.google.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.core)
