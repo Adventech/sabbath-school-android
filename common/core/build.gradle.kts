@@ -21,24 +21,18 @@
  */
 
 plugins {
+    alias(libs.plugins.sgp.base)
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
 }
 
 android {
-    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
-
-    defaultConfig {
-        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
-    }
-
     namespace = "com.cryart.sabbathschool.core"
 
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
 
@@ -48,6 +42,7 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(libs.androidx.lifecycle.common)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.preference)

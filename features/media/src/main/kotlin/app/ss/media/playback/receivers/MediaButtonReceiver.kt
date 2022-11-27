@@ -69,6 +69,7 @@ class MediaButtonReceiver : BroadcastReceiver() {
         override fun onConnected() {
             mediaBrowser?.let {
                 val mediaController = MediaControllerCompat(context, it.sessionToken)
+                @Suppress("DEPRECATION")
                 val event = intent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
                 mediaController.dispatchMediaButtonEvent(event)
             }
@@ -180,6 +181,7 @@ class MediaButtonReceiver : BroadcastReceiver() {
             val queryIntent = Intent(Intent.ACTION_MEDIA_BUTTON)
             queryIntent.setPackage(context.packageName)
             val pm = context.packageManager
+            @Suppress("DEPRECATION")
             val resolveInfos = pm.queryBroadcastReceivers(queryIntent, 0)
             if (resolveInfos.size == 1) {
                 val resolveInfo = resolveInfos[0]
@@ -199,6 +201,7 @@ class MediaButtonReceiver : BroadcastReceiver() {
             val pm = context.packageManager
             val queryIntent = Intent(action)
             queryIntent.setPackage(context.packageName)
+            @Suppress("DEPRECATION")
             val resolveInfos = pm.queryIntentServices(queryIntent, 0 /* flags */)
             return when {
                 resolveInfos.size == 1 -> {

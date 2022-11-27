@@ -104,7 +104,7 @@ fun Context.shareContent(content: String, chooser: String = "") {
     }
 }
 
-@SuppressWarnings("UNCHECKED_CAST")
+@Suppress("UNCHECKED_CAST")
 fun <T> Context.systemService(name: String): T {
     return getSystemService(name) as T
 }

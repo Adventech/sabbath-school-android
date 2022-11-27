@@ -21,26 +21,18 @@
  */
 
 plugins {
+    alias(libs.plugins.sgp.base)
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
 }
 
 android {
-    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
-
-    defaultConfig {
-        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
-    }
-
     namespace = "com.cryart.sabbathschool.reader"
-
-    kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
-    }
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(projects.common.core)
 
     implementation(libs.timber)

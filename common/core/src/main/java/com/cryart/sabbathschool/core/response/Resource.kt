@@ -27,10 +27,6 @@ import com.cryart.sabbathschool.core.model.Status.ERROR
 import com.cryart.sabbathschool.core.model.Status.LOADING
 import com.cryart.sabbathschool.core.model.Status.SUCCESS
 
-@Deprecated(
-    message = "Use kotlin Result",
-    replaceWith = ReplaceWith("Result<out T>", "kotlin.Result")
-)
 class Resource<out T> private constructor(
     val status: Status = LOADING,
     val data: T?,

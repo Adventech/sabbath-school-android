@@ -20,12 +20,15 @@
  * THE SOFTWARE.
  */
 
-import extensions.readPropertyValue
+import java.io.FileInputStream
+import java.util.Properties
+import org.gradle.api.Project
 
 plugins {
+    alias(libs.plugins.sgp.base)
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }
 
@@ -36,25 +39,20 @@ val psPdfKitKey = readPropertyValue(
 )
 
 android {
-    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
+    namespace = "app.ss.pdf"
 
     defaultConfig {
-        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
-
         manifestPlaceholders["psPdfKitKey"] = psPdfKitKey
     }
 
-    namespace = "app.ss.pdf"
-
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
 }
 
 dependencies {
-
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.lessonsData)
@@ -83,4 +81,27 @@ dependencies {
     androidTestImplementation(libs.bundles.testing.android.common)
     kaptAndroidTest(libs.google.hilt.compiler)
     testImplementation(projects.libraries.testUtils)
+}
+
+/**
+ * Reads a value saved in a [Properties] file
+ */
+fun Project.readPropertyValue(
+    filePath: String,
+    key: String,
+    defaultValue: String
+): String {
+    val file = file(filePath)
+    return if (file.exists()) {
+        val keyProps = Properties().apply {
+            load(FileInputStream(file))
+        }
+        return keyProps.getProperty(key, defaultValue)
+    } else {
+        defaultValue
+    }
+}
+
+object BuildAndroidConfig {
+    const val API_KEYS_PROPS_FILE = "release/ss_public_keys.properties"
 }

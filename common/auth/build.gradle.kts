@@ -21,6 +21,7 @@
  */
 
 plugins {
+    alias(libs.plugins.sgp.base)
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
@@ -29,21 +30,21 @@ plugins {
 }
 
 android {
-    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
-
-    defaultConfig {
-        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
-    }
-
     namespace = "app.ss.auth"
 
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
 }
 
+slack {
+    features {
+        moshi(codegen = true)
+    }
+}
+
 dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(projects.common.core)
     implementation(projects.common.models)
     implementation(projects.common.network)
@@ -57,6 +58,7 @@ dependencies {
 
     implementation(libs.square.moshi.kotlin)
     kapt(libs.square.moshi.codegen)
+    compileOnly(libs.javax.annotation)
 
     implementation(libs.square.retrofit.converter.moshi)
     implementation(libs.square.retrofit)

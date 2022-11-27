@@ -84,6 +84,7 @@ class MusicService : MediaBrowserServiceCompat() {
         }
         Timber.d("Stopping foreground service")
         becomingNoisyReceiver?.unregister()
+        @Suppress("DEPRECATION")
         stopForeground(removeNotification)
         IS_FOREGROUND = false
     }

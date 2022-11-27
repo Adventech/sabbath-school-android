@@ -33,6 +33,7 @@ import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -51,6 +52,7 @@ internal class LanguagesViewModel @Inject constructor(
     private val searchQuery = MutableStateFlow<String?>(null)
     private val queryFlow: SharedFlow<String?> = searchQuery
 
+    @OptIn(FlowPreview::class)
     internal val uiState: StateFlow<LanguagesState> = queryFlow
         .debounce(250L)
         .flatMapMerge { repository.getLanguages(it) }
