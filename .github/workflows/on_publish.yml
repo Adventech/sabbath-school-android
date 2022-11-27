@@ -35,7 +35,7 @@ jobs:
         with:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: app/build/outputs/bundle/release/app-release.aab
-          asset_name: pb-android-prod-release.aab
+          asset_name: sabbath-school-android-release.aab
           asset_content_type: application/zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
