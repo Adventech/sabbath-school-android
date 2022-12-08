@@ -4,7 +4,7 @@ androidx-activity = "1.6.1"
 androidx-annotations = "1.5.0"
 androidx-appcompat = "1.6.0-rc01"
 androidx-browser = "1.4.0"
-androidx-compose-bom = "2022.11.00"
+androidx-compose-bom = "2022.12.00"
 composeCompiler = "1.3.2"
 # Used in sgp. @keep same as kotlin
 composeCompilerKotlinVersion = "1.7.20"
