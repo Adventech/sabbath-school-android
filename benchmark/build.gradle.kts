@@ -57,6 +57,13 @@ android {
                         systemImageSource = "aosp"
                     }
                 )
+                add(
+                    ManagedVirtualDevice("pixel6Api31").apply {
+                        device = "Pixel 6"
+                        apiLevel = 31
+                        systemImageSource = "aosp"
+                    }
+                )
             }
         }
     }

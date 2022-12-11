@@ -25,20 +25,10 @@ package com.cryart.sabbathschool.benchmark.quarterlies
 import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.Direction
-import androidx.test.uiautomator.Until
 
 fun MacrobenchmarkScope.startApplicationJourney() {
-    pressHome()
     startActivityAndWait()
-
-    // Wait until content is loaded
-    device.wait(Until.hasObject(By.text("STANDARD ADULT")), 30_000)
-
-    // device.wait(Until.hasObject(By.res("quarterlies:list")), 15_000)
-
-    // Wait until the quarterlies group item within the list is rendered
-    // val quarterliesList = device.findObject(By.res("quarterlies:list"))
-    // quarterliesList.wait(Until.hasObject(By.res("quarterlies:group")), 15_000)
+    device.waitForIdle()
 }
 
 fun MacrobenchmarkScope.quarterliesScrollListDownUp() {
