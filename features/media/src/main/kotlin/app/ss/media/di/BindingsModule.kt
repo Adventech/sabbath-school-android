@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,31 +22,37 @@
 
 package app.ss.media.di
 
-import android.content.ComponentName
-import android.content.Context
-import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.PlaybackConnectionImpl
+import app.ss.media.playback.AudioFocusHelper
+import app.ss.media.playback.AudioFocusHelperImpl
+import app.ss.media.playback.AudioQueueManager
+import app.ss.media.playback.AudioQueueManagerImpl
+import app.ss.media.playback.MediaNotifications
+import app.ss.media.playback.MediaNotificationsImpl
 import app.ss.media.playback.players.AudioPlayer
-import app.ss.media.playback.service.MusicService
+import app.ss.media.playback.players.AudioPlayerImpl
+import app.ss.media.playback.players.SSAudioPlayer
+import app.ss.media.playback.players.SSAudioPlayerImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object PlaybackModule {
+abstract class BindingsModule {
 
-    @Provides
-    @Singleton
-    fun playbackConnection(
-        @ApplicationContext context: Context,
-        audioPlayer: AudioPlayer
-    ): PlaybackConnection = PlaybackConnectionImpl(
-        context = context,
-        serviceComponent = ComponentName(context, MusicService::class.java),
-        audioPlayer = audioPlayer
-    )
+    @Binds
+    internal abstract fun bindAudioPlayer(impl: AudioPlayerImpl): AudioPlayer
+
+    @Binds
+    internal abstract fun bindSSAudioPlayer(impl: SSAudioPlayerImpl): SSAudioPlayer
+
+    @Binds
+    internal abstract fun bindMediaNotifications(impl: MediaNotificationsImpl): MediaNotifications
+
+    @Binds
+    internal abstract fun bindAudioQueueManager(impl: AudioQueueManagerImpl): AudioQueueManager
+
+    @Binds
+    internal abstract fun bindAudioFocusHelper(impl: AudioFocusHelperImpl): AudioFocusHelper
 }

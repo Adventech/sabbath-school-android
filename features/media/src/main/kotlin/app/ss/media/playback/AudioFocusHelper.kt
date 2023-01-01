@@ -37,6 +37,8 @@ import android.media.AudioManager.OnAudioFocusChangeListener
 import android.media.AudioManager.STREAM_MUSIC
 import app.ss.media.playback.extensions.isOreo
 import com.cryart.sabbathschool.core.extensions.context.systemService
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 typealias OnAudioFocusGain = AudioFocusHelper.() -> Unit
 typealias OnAudioFocusLoss = AudioFocusHelper.() -> Unit
@@ -55,8 +57,8 @@ interface AudioFocusHelper {
     fun setVolume(volume: Int)
 }
 
-internal class AudioFocusHelperImpl(
-    context: Context
+internal class AudioFocusHelperImpl @Inject constructor(
+    @ApplicationContext context: Context
 ) : AudioFocusHelper, OnAudioFocusChangeListener {
 
     private val audioManager: AudioManager = context.systemService(AUDIO_SERVICE)
