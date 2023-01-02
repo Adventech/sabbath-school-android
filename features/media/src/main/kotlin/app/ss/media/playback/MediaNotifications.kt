@@ -44,9 +44,12 @@ import app.ss.media.playback.extensions.title
 import app.ss.media.playback.receivers.MediaButtonReceiver.Companion.buildMediaButtonPendingIntent
 import app.ss.media.playback.service.MusicService
 import com.cryart.sabbathschool.core.extensions.context.systemService
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Singleton
 import androidx.core.app.NotificationCompat as CoreNotificationCompat
 import androidx.media.app.NotificationCompat as MediaNotificationCompat
 
@@ -74,8 +77,9 @@ interface MediaNotifications {
     fun clearNotifications()
 }
 
-internal class MediaNotificationsImpl constructor(
-    private val context: Context
+@Singleton
+internal class MediaNotificationsImpl @Inject constructor(
+    @ApplicationContext private val context: Context
 ) : MediaNotifications, CoroutineScope by MainScope() {
 
     private val notificationManager: NotificationManager = context.systemService(Context.NOTIFICATION_SERVICE)

@@ -68,11 +68,6 @@ import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
 import app.ss.design.compose.theme.Dimens
-import app.ss.design.compose.theme.Spacing16
-import app.ss.design.compose.theme.Spacing24
-import app.ss.design.compose.theme.Spacing32
-import app.ss.design.compose.theme.Spacing4
-import app.ss.design.compose.theme.Spacing8
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.DragHandle
@@ -116,7 +111,7 @@ internal fun VideoListScreen(
             .drawVerticalScrollbar(listState),
         contentPadding = PaddingValues(
             horizontal = 0.dp,
-            vertical = Spacing16
+            vertical = 16.dp
         ),
         state = listState
     ) {
@@ -131,7 +126,7 @@ internal fun VideoListScreen(
         }
 
         item {
-            Spacer(modifier = Modifier.height(Spacing24))
+            Spacer(modifier = Modifier.height(24.dp))
         }
 
         item {
@@ -141,12 +136,12 @@ internal fun VideoListScreen(
                     fontSize = 30.sp
                 ),
                 color = SsTheme.colors.navTitle,
-                modifier = Modifier.padding(horizontal = Spacing24)
+                modifier = Modifier.padding(horizontal = 24.dp)
             )
         }
 
         item {
-            Spacer(modifier = Modifier.height(Spacing16))
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
         when (videoList) {
@@ -174,7 +169,7 @@ internal fun VideoListScreen(
                 }
 
                 item {
-                    Spacer(modifier = Modifier.height(Spacing32))
+                    Spacer(modifier = Modifier.height(32.dp))
                 }
 
                 items(videoList.clips) { video ->
@@ -215,15 +210,15 @@ private fun VideosInfoList(
             ),
             color = if (SsTheme.colors.isDark) SsColors.BaseGrey2 else MaterialTheme.colorScheme.primary,
             modifier = Modifier
-                .padding(horizontal = Spacing24)
-                .padding(top = Spacing16)
+                .padding(horizontal = 24.dp)
+                .padding(top = 16.dp)
         )
 
         SnappingLazyRow(
             state = listState,
             contentPadding = PaddingValues(
-                horizontal = Spacing16,
-                vertical = Spacing16
+                horizontal = 16.dp,
+                vertical = 16.dp
             )
         ) {
             itemsIndexed(
@@ -270,10 +265,10 @@ private fun VideoColumn(
     Column(
         modifier = modifier
             .width(IntrinsicSize.Min)
-            .padding(horizontal = Spacing8)
+            .padding(horizontal = 8.dp)
             .thenIf(featured) {
                 Modifier.padding(
-                    horizontal = Spacing24
+                    horizontal = 24.dp
                 )
             }
             .clickable {
@@ -282,7 +277,7 @@ private fun VideoColumn(
     ) {
         VideoImage(video, size)
 
-        Spacer(modifier = Modifier.height(Spacing16))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = video.title,
@@ -314,7 +309,7 @@ private fun VideoRow(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .padding(
-                horizontal = Spacing24
+                horizontal = 24.dp
             )
             .clickable {
                 onVideoClick()
@@ -324,7 +319,7 @@ private fun VideoRow(
 
         Column(
             modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(Spacing4)
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
                 text = video.title,

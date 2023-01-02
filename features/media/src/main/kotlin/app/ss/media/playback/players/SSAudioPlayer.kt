@@ -26,10 +26,13 @@ import app.ss.media.playback.extensions.repeatMode
 import app.ss.media.playback.extensions.shuffleMode
 import app.ss.media.playback.model.toMediaId
 import app.ss.media.playback.model.toMediaMetadata
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
 
 typealias OnMetaDataChanged = SSAudioPlayer.() -> Unit
 
@@ -69,8 +72,9 @@ interface SSAudioPlayer {
     fun resetMedia()
 }
 
-internal class SSAudioPlayerImpl(
-    private val context: Context,
+@Singleton
+internal class SSAudioPlayerImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val audioPlayer: AudioPlayer,
     private val audioFocusHelper: AudioFocusHelper,
     private val queueManager: AudioQueueManager,
