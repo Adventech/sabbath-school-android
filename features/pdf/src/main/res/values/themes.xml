@@ -99,7 +99,6 @@
         <item name="pspdf__tabTextColor">@color/ss_pdf_text_color</item>
         <item name="pspdf__tabColor">@color/ss_pdf_tab_color</item>
         <item name="pspdf__backgroundColor">?attr/colorSurface</item>
-        <item name="pspdf__tabTextColorSelected">?attr/colorOnSurface</item>
         <item name="pspdf__tabIndicatorColor">?attr/colorOnSurface</item>
         <item name="pspdf__tabBarMinimumWidth">172dp</item>
     </style>
