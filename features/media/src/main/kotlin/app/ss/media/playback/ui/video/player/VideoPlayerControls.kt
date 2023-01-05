@@ -40,9 +40,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import app.ss.design.compose.theme.Spacing32
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
@@ -208,7 +208,7 @@ private fun BoxScope.PlayBackProgress(
         onSeekTo = { videoPlayer.seekTo(it) },
         modifier = Modifier
             .align(Alignment.BottomCenter)
-            .padding(bottom = Spacing32),
+            .padding(bottom = 32.dp),
         forceDark = true
     )
 }

@@ -14,7 +14,10 @@ import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.util.PriorityTaskManager
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
+import javax.inject.Inject
+import javax.inject.Singleton
 
 typealias OnPrepared<T> = T.() -> Unit
 typealias OnError<T> = T.(error: Throwable) -> Unit
@@ -46,8 +49,9 @@ interface AudioPlayer {
     fun onCompletion(completion: OnCompletion<AudioPlayer>)
 }
 
-internal class AudioPlayerImpl(
-    private val context: Context,
+@Singleton
+internal class AudioPlayerImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val okHttpClient: OkHttpClient
 ) : AudioPlayer, Player.Listener {
 

@@ -24,6 +24,8 @@ package app.ss.media.playback
 
 import app.ss.models.media.AudioFile
 import app.ss.lessons.data.repository.media.MediaRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface AudioQueueManager {
     var currentAudioIndex: Int
@@ -41,7 +43,8 @@ interface AudioQueueManager {
     fun clear()
 }
 
-internal class AudioQueueManagerImpl(
+@Singleton
+internal class AudioQueueManagerImpl @Inject constructor(
     private val repository: MediaRepository
 ) : AudioQueueManager {
 

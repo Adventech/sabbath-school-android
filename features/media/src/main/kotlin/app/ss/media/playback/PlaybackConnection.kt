@@ -39,7 +39,6 @@ import app.ss.media.playback.extensions.isBuffering
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.MEDIA_TYPE_AUDIO
 import app.ss.media.playback.model.MediaId
-import app.ss.media.playback.model.PlaybackModeState
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
@@ -64,7 +63,6 @@ interface PlaybackConnection {
     val playbackQueue: StateFlow<PlaybackQueue>
 
     val playbackProgress: StateFlow<PlaybackProgressState>
-    val playbackMode: StateFlow<PlaybackModeState>
     val playbackSpeed: StateFlow<PlaybackSpeed>
 
     var mediaController: MediaControllerCompat?
@@ -94,7 +92,6 @@ internal class PlaybackConnectionImpl(
     private var playbackProgressInterval: Job = Job()
     override val playbackProgress = MutableStateFlow(PlaybackProgressState())
 
-    override val playbackMode = MutableStateFlow(PlaybackModeState())
     override val playbackSpeed = MutableStateFlow(PlaybackSpeed.NORMAL)
 
     override var mediaController: MediaControllerCompat? = null
@@ -217,14 +214,6 @@ internal class PlaybackConnectionImpl(
 
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
             nowPlaying.value = metadata ?: return
-        }
-
-        override fun onRepeatModeChanged(repeatMode: Int) {
-            playbackMode.value = playbackMode.value.copy(repeatMode = repeatMode)
-        }
-
-        override fun onShuffleModeChanged(shuffleMode: Int) {
-            playbackMode.value = playbackMode.value.copy(shuffleMode = shuffleMode)
         }
 
         override fun onSessionDestroyed() {

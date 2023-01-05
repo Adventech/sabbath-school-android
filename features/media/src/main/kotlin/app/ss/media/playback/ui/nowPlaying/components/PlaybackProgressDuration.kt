@@ -47,9 +47,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.color.darker
 import app.ss.design.compose.extensions.isS
-import app.ss.design.compose.theme.Spacing16
-import app.ss.design.compose.theme.Spacing4
-import app.ss.design.compose.theme.Spacing8
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.material.Slider
@@ -95,7 +92,7 @@ internal fun PlaybackProgressDuration(
 
     Box(
         modifier = modifier.padding(
-            horizontal = Spacing16
+            horizontal = 16.dp
         )
     ) {
         PlaybackProgressSlider(
@@ -143,7 +140,7 @@ private fun BoxScope.PlaybackProgressSlider(
         modifier = Modifier
             .height(height)
             .align(Alignment.TopCenter)
-            .padding(horizontal = Spacing4),
+            .padding(horizontal = 4.dp),
         onValueChangeFinished = {
             val position = (updatedProgressState.total.toFloat() * (updatedDraggingProgress ?: 0f)).roundToLong()
             onSeekTo(position)
@@ -162,15 +159,15 @@ private fun BoxScope.PlaybackProgressDuration(
         modifier = Modifier
             .fillMaxWidth()
             .align(Alignment.BottomCenter)
-            .padding(top = Spacing8)
-            .padding(horizontal = Spacing4)
+            .padding(top = 8.dp)
+            .padding(horizontal = 4.dp)
     ) {
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             val currentDuration = when (draggingProgress != null) {
                 true -> (progressState.total.toFloat() * (draggingProgress)).toLong().millisToDuration()
                 else -> progressState.currentDuration
             }
-            val textStyle = MaterialTheme.typography.titleSmall.copy(
+            val textStyle = SsTheme.typography.titleSmall.copy(
                 fontSize = 14.sp
             )
             Text(
