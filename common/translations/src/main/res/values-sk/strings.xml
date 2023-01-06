@@ -60,7 +60,6 @@
     <string name="ss_reading_copied">"Výber bol skopírovaný."</string>
     <string name="ss_reading_share_to">"Zdieľať výber:"</string>
 
-
     <string name="ss_about_made">"Vyrobené s ❤ od Adventech"</string>
     <string name="ss_settings_display_options">"Možnosti zobrazenia"</string>
     <string name="ss_settings_color_theme_light">"Svetlý"</string>
@@ -116,8 +115,8 @@
     <string name="ss_action_arrow_right">Šípka doprava</string>
     <string name="ss_action_close">Zavrieť</string>
     <string name="ss_action_selected">Vybraný</string>
-    <string name="ss_action_back">späť</string>
-    <string name="ss_action_open">OTVORENÉ</string>
+    <string name="ss_action_back">Späť</string>
+    <string name="ss_action_open">Otvoriť</string>
     <string name="ss_action_rewind">Pretočiť späť</string>
     <string name="ss_action_play_pause">Prehrať alebo Pozastaviť</string>
     <string name="ss_action_playlist">Zoznam skladieb</string>
