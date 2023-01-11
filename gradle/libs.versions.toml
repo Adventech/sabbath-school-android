@@ -2,7 +2,7 @@
 android-rate = "1.0.1"
 androidx-activity = "1.6.1"
 androidx-annotations = "1.5.0"
-androidx-appcompat = "1.6.0-rc01"
+androidx-appcompat = "1.6.0"
 androidx-browser = "1.4.0"
 androidx-compose-bom = "2022.12.00"
 composeCompiler = "1.3.2"
