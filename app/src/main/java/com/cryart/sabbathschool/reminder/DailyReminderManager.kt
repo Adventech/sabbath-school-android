@@ -22,12 +22,14 @@
 
 package com.cryart.sabbathschool.reminder
 
+import android.Manifest
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -138,7 +140,10 @@ class DailyReminderManager constructor(
             .setContentIntent(pendingIntent)
             .setContentText(context.getString(R.string.ss_settings_reminder_text))
 
-        notificationManager.notify(1, builder.build())
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
+            == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(1, builder.build())
+        }
     }
 
     override fun cancel() {
