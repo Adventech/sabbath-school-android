@@ -33,7 +33,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableInt
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewTreeLifecycleOwner
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import app.ss.bible.BibleVersesActivity
 import app.ss.lessons.data.model.SSContextMenu
@@ -112,7 +112,7 @@ class SSReadingViewModel @AssistedInject constructor(
 
     private val verseClickWithDebounce: (verse: String) -> Unit =
         debounceUntilLast(
-            scope = ViewTreeLifecycleOwner.get(ssReadingActivityBinding.root)?.lifecycleScope ?: MainScope()
+            scope = ssReadingActivityBinding.root.findViewTreeLifecycleOwner()?.lifecycleScope ?: MainScope()
         ) { verse ->
             val intent = BibleVersesActivity.launchIntent(
                 context,
