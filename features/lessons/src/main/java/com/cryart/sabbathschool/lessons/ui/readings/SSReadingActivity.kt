@@ -32,7 +32,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.ViewTreeLifecycleOwner
+import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import app.ss.media.playback.PlaybackViewModel
@@ -100,7 +100,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
 
         initUI()
 
-        ViewTreeLifecycleOwner.set(binding.root, this)
+        binding.root.setViewTreeLifecycleOwner(this)
 
         ssReadingViewModel = viewModelFactory.create(
             intent.extras?.getString(SSConstants.SS_LESSON_INDEX_EXTRA)!!,

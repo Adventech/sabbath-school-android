@@ -51,7 +51,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
@@ -63,7 +62,6 @@ import com.cryart.sabbathschool.core.model.displayTheme
 import com.cryart.sabbathschool.core.model.themeColor
 import kotlinx.coroutines.flow.Flow
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 internal class ToolbarComponent(
     composeView: ComposeView,
     private val stateFlow: Flow<ToolbarState>,

@@ -35,7 +35,6 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.theme.SsTheme
 import app.ss.pdf.PdfReader
@@ -63,7 +62,7 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
 
     private val viewModel by viewModels<LessonsViewModel>()
 
-    @OptIn(ExperimentalLifecycleComposeApi::class)
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)

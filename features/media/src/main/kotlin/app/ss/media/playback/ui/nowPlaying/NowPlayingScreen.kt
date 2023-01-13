@@ -51,7 +51,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.theme.SsTheme
@@ -84,7 +83,6 @@ data class NowPlayingScreenSpec(
     val isDraggable: (Boolean) -> Unit
 )
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 internal fun NowPlayingScreen(
     viewModel: NowPlayingViewModel = viewModel(),

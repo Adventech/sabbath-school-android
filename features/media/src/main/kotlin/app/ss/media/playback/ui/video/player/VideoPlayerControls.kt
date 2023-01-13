@@ -41,7 +41,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
@@ -85,7 +84,6 @@ fun VideoPlayerControls(
     }
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 private fun BoxScope.TopBar(
     videoPlayer: SSVideoPlayer,
@@ -128,7 +126,6 @@ private fun BoxScope.TopBar(
     }
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 private fun BoxScope.Controls(
     videoPlayer: SSVideoPlayer,
@@ -194,7 +191,6 @@ private fun BoxScope.Controls(
     }
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 private fun BoxScope.PlayBackProgress(
     videoPlayer: SSVideoPlayer,

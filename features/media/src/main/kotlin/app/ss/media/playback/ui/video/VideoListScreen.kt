@@ -60,7 +60,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.extensions.isLargeScreen
@@ -82,7 +81,6 @@ import app.ss.models.media.SSVideo
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 internal fun VideoListScreen(
     viewModel: VideoListViewModel = viewModel(),
