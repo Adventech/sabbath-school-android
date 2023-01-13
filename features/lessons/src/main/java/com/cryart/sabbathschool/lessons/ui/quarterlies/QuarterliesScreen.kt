@@ -51,7 +51,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.doOnPreDraw
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.extensions.modifier.asPlaceholder
@@ -74,7 +73,7 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListC
 import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R.string as RString
 
-@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun QuarterliesRoute(
     viewModel: QuarterliesViewModel = hiltViewModel(),
@@ -94,7 +93,7 @@ internal fun QuarterliesRoute(
     )
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun QuarterliesScreen(
     viewModel: QuarterliesViewModel = viewModel(),

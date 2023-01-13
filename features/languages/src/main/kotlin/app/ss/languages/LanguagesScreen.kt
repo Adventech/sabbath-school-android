@@ -42,7 +42,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.extensions.previews.DayNightPreviews
@@ -60,7 +59,6 @@ import app.ss.languages.list.LanguagesList
 import app.ss.languages.state.LanguageModel
 import app.ss.languages.state.LanguagesState
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 internal fun LanguagesRoute(
     viewModel: LanguagesViewModel = hiltViewModel(),
@@ -79,7 +77,6 @@ internal fun LanguagesRoute(
     )
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 internal fun LanguagesScreen(
     viewModel: LanguagesViewModel = viewModel(),

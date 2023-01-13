@@ -39,13 +39,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.DragHandle
 import app.ss.design.compose.widget.placeholder.PlaceholderScreen
 
-@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun LessonIntroRoute(
     viewModel: LessonIntroViewModel = hiltViewModel()

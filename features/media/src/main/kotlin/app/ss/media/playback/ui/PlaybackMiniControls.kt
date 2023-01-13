@@ -43,7 +43,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.thenIf
@@ -75,7 +74,6 @@ private object PlaybackMiniControlsDefaults {
     val cancelSize = 20.dp
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun PlaybackMiniControls(
     modifier: Modifier = Modifier,
@@ -178,7 +176,6 @@ private fun playbackButtonSpacing(
     isLargeScreen: Boolean = isLargeScreen()
 ): Dp = if (isLargeScreen) 12.dp else 8.dp
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 private fun PlaybackProgress(
     spec: PlaybackStateSpec,
