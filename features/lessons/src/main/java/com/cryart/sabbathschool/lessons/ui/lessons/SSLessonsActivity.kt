@@ -29,7 +29,6 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.SideEffect
@@ -97,7 +96,7 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
                     }
                 )
 
-                val navigationBarColor = MaterialTheme.colorScheme.surface
+                val navigationBarColor = SsTheme.colors.primaryBackground
                 SideEffect {
                     systemUiController.setNavigationBarColor(navigationBarColor)
                 }

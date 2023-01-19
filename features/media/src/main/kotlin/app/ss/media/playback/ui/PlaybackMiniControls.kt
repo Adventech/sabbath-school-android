@@ -246,10 +246,10 @@ private fun NowPlayingColumn(
             spec.title,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.labelMedium.copy(
+            style = SsTheme.typography.labelMedium.copy(
                 fontSize = 15.sp
             ),
-            color = MaterialTheme.colorScheme.onSurface
+            color = SsTheme.colors.primaryForeground
         )
 
         Spacer(modifier = Modifier.height(2.dp))
@@ -259,8 +259,8 @@ private fun NowPlayingColumn(
                 spec.artist,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.bodySmall,
-                color = SsTheme.colors.onSurfaceSecondary
+                style = SsTheme.typography.bodySmall,
+                color = SsTheme.colors.secondaryForeground
             )
         }
         Spacer(modifier = Modifier.height(4.dp))

@@ -50,10 +50,11 @@ class SsColors(
     navTitle: Color,
     playbackMiniBackground: Color,
     playbackMiniContent: Color,
+    primaryBackground: Color,
+    primaryForeground: Color,
+    secondaryForeground: Color,
 
     // MaterialTheme overrides
-    onSurfacePrimary: Color,
-    onSurfaceSecondary: Color,
     primary: Color
 ) {
     var isDark by mutableStateOf(isDark)
@@ -68,13 +69,15 @@ class SsColors(
         private set
     var navTitle by mutableStateOf(navTitle)
         private set
-    var onSurfacePrimary by mutableStateOf(onSurfacePrimary)
-        private set
-    var onSurfaceSecondary by mutableStateOf(onSurfaceSecondary)
-        private set
     var playbackMiniBackground by mutableStateOf(playbackMiniBackground)
         private set
     var playbackMiniContent by mutableStateOf(playbackMiniContent)
+        private set
+    var primaryBackground by mutableStateOf(primaryBackground)
+        private set
+    var primaryForeground by mutableStateOf(primaryForeground)
+        private set
+    var secondaryForeground by mutableStateOf(secondaryForeground)
         private set
     var primary by mutableStateOf(primary)
         private set
@@ -108,8 +111,9 @@ internal fun ColorScheme.extend(
     navTitle = if (isS()) onSurface else Color.White,
     playbackMiniBackground = Color.Black.lighter(),
     playbackMiniContent = if (isS()) onSurface else Color.White,
-    onSurfacePrimary = onSurface,
-    onSurfaceSecondary = onSurface.darker(0.3f),
+    primaryBackground = surface,
+    primaryForeground = onSurface,
+    secondaryForeground = onSurface.darker(0.3f),
     primary = primary,
 ) else SsColors(
     isDark = false,
@@ -120,8 +124,9 @@ internal fun ColorScheme.extend(
     navTitle = if (isS()) onSurface else Color.Black,
     playbackMiniBackground = SsColors.BaseGrey1,
     playbackMiniContent = if (isS()) onSurface else Color.Black,
-    onSurfacePrimary = onSurface,
-    onSurfaceSecondary = onSurface.lighter(0.3f),
+    primaryBackground = surface,
+    primaryForeground = onSurface,
+    secondaryForeground = onSurface.lighter(0.3f),
     primary = primary,
 )
 
@@ -135,8 +140,9 @@ internal val LocalSsColors = staticCompositionLocalOf {
         navTitle = Color.Unspecified,
         playbackMiniBackground = Color.Unspecified,
         playbackMiniContent = Color.Unspecified,
-        onSurfacePrimary = Color.Unspecified,
-        onSurfaceSecondary = Color.Unspecified,
+        primaryBackground = Color.Unspecified,
+        primaryForeground = Color.Unspecified,
+        secondaryForeground = Color.Unspecified,
         primary = Color.Unspecified,
     )
 }

@@ -65,7 +65,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.extensions.modifier.thenIf
-import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
@@ -105,8 +104,7 @@ internal fun VideoListScreen(
     listState: LazyListState = rememberLazyListState()
 ) {
     LazyColumn(
-        modifier = modifier
-            .drawVerticalScrollbar(listState),
+        modifier = modifier,
         contentPadding = PaddingValues(
             horizontal = 0.dp,
             vertical = 16.dp
@@ -289,7 +287,7 @@ private fun VideoColumn(
             style = MaterialTheme.typography.bodySmall.copy(
                 fontSize = 14.sp
             ),
-            color = SsTheme.colors.onSurfaceSecondary
+            color = SsTheme.colors.secondaryForeground
         )
     }
 }
@@ -334,7 +332,7 @@ private fun VideoRow(
                 style = MaterialTheme.typography.bodySmall.copy(
                     fontSize = 14.sp
                 ),
-                color = SsTheme.colors.onSurfaceSecondary,
+                color = SsTheme.colors.secondaryForeground,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

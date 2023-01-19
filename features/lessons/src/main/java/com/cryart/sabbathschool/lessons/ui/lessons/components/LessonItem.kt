@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -121,8 +120,8 @@ private fun LessonItem(
     ) {
         Text(
             text = spec.displayIndex,
-            style = MaterialTheme.typography.titleLarge,
-            color = SsTheme.colors.onSurfaceSecondary.copy(alpha = 0.5f),
+            style = SsTheme.typography.titleLarge,
+            color = SsTheme.colors.secondaryForeground.copy(alpha = 0.5f),
             maxLines = 1,
             modifier = Modifier.padding(horizontal = 20.dp)
         )
@@ -135,8 +134,8 @@ private fun LessonItem(
         ) {
             Text(
                 text = spec.title,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurface,
+                style = SsTheme.typography.labelMedium,
+                color = SsTheme.colors.primaryForeground,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
@@ -145,10 +144,10 @@ private fun LessonItem(
 
             Text(
                 text = spec.date,
-                style = MaterialTheme.typography.bodySmall.copy(
+                style = SsTheme.typography.bodySmall.copy(
                     fontSize = 14.sp
                 ),
-                color = SsTheme.colors.onSurfaceSecondary,
+                color = SsTheme.colors.secondaryForeground,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )

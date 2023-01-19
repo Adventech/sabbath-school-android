@@ -38,7 +38,6 @@ import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -105,7 +104,7 @@ internal fun LazyListScope.footer(
     item {
         Text(
             text = stringResource(id = R.string.ss_copyright, year),
-            style = MaterialTheme.typography.bodySmall.copy(
+            style = SsTheme.typography.bodySmall.copy(
                 fontSize = 15.sp
             ),
             color = if (SsTheme.colors.isDark) {
@@ -183,14 +182,14 @@ private fun FooterItem(
                             height = ImageHeight
                         )
                         .padding(end = 10.dp),
-                    tint = MaterialTheme.colorScheme.onSurface,
+                    tint = SsTheme.colors.primaryForeground,
                     placeholder = {
                         Spacer(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(vertical = 3.dp)
                                 .background(
-                                    color = MaterialTheme.colorScheme.onSurface,
+                                    color = SsTheme.colors.primaryForeground,
                                     shape = CircleShape
                                 )
                         )
@@ -200,19 +199,19 @@ private fun FooterItem(
 
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleSmall.copy(
+                style = SsTheme.typography.titleSmall.copy(
                     fontSize = 15.sp
                 ),
-                color = MaterialTheme.colorScheme.onSurface
+                color = SsTheme.colors.primaryForeground
             )
         }
 
         Text(
             text = description,
-            style = MaterialTheme.typography.bodySmall.copy(
+            style = SsTheme.typography.bodySmall.copy(
                 fontSize = 15.sp
             ),
-            color = SsTheme.colors.onSurfaceSecondary
+            color = SsTheme.colors.secondaryForeground
         )
     }
 }

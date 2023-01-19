@@ -26,7 +26,6 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -73,7 +72,7 @@ internal fun NowPlayingColumn(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium
             )
-            artistStyle = MaterialTheme.typography.bodySmall.copy(
+            artistStyle = SsTheme.typography.bodySmall.copy(
                 fontSize = 14.sp
             )
             textAlign = TextAlign.Start
@@ -85,7 +84,7 @@ internal fun NowPlayingColumn(
                 fontSize = 21.sp,
                 fontWeight = FontWeight.Black
             )
-            artistStyle = MaterialTheme.typography.bodySmall.copy(
+            artistStyle = SsTheme.typography.bodySmall.copy(
                 fontSize = 17.sp
             )
             textAlign = TextAlign.Center
@@ -113,7 +112,7 @@ internal fun NowPlayingColumn(
             text = spec.artist,
             style = artistStyle,
             textAlign = textAlign,
-            color = SsTheme.colors.onSurfaceSecondary
+            color = SsTheme.colors.secondaryForeground
         )
     }
 }
@@ -121,7 +120,7 @@ internal fun NowPlayingColumn(
 @Composable
 @Stable
 private fun textStyle(): TextStyle = TextStyle(
-    color = MaterialTheme.colorScheme.onSurface,
+    color = SsTheme.colors.primaryForeground,
     fontFamily = LatoFontFamily,
     fontWeight = FontWeight.Medium
 )

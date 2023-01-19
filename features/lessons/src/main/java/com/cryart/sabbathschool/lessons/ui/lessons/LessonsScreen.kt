@@ -41,7 +41,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -163,7 +162,7 @@ internal fun LessonsScreen(
             Surface(
                 modifier = Modifier
                     .fillMaxWidth(),
-                color = MaterialTheme.colorScheme.surface.copy(
+                color = SsTheme.colors.primaryBackground.copy(
                     alpha = if (scrollCollapsed) 1f else scrollAlpha.alpha
                 ),
                 tonalElevation = if (scrollCollapsed) 4.dp else 0.dp
@@ -218,7 +217,7 @@ private fun LessonsTopBar(
     title: String,
     showTitle: Boolean,
     modifier: Modifier = Modifier,
-    iconTint: Color? = MaterialTheme.colorScheme.onSurface,
+    iconTint: Color? = SsTheme.colors.primaryForeground,
     onNavClick: () -> Unit = {},
     onShareClick: () -> Unit = {},
 ) {
@@ -249,7 +248,7 @@ private fun LessonsTopBar(
             ) {
                 Text(
                     text = title,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = SsTheme.colors.primaryForeground,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
                 )

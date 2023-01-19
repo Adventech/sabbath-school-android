@@ -95,14 +95,14 @@ private fun LanguageItem(
             Text(
                 text = model.nativeName,
                 style = SsTheme.typography.labelMedium,
-                color = SsTheme.colors.onSurfacePrimary,
+                color = SsTheme.colors.primaryForeground,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
             Text(
                 text = model.name,
                 style = SsTheme.typography.bodySmall,
-                color = SsTheme.colors.onSurfaceSecondary,
+                color = SsTheme.colors.secondaryForeground,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
