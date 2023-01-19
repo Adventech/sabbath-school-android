@@ -28,7 +28,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.SideEffect
@@ -56,7 +55,7 @@ class QuarterliesListActivity : SlidingActivity(), QuarterliesListCallback {
             ) {
                 QuarterliesScreen(callbacks = this)
 
-                val navigationBarColor = MaterialTheme.colorScheme.surface
+                val navigationBarColor = SsTheme.colors.primaryBackground
                 SideEffect {
                     systemUiController.setNavigationBarColor(navigationBarColor)
                 }

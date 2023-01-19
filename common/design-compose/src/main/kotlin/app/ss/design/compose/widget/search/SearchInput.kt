@@ -81,7 +81,7 @@ fun SearchInput(
         enabled = enabled,
         readOnly = readOnly,
         textStyle = textStyle.copy(
-            color = SsTheme.colors.onSurfacePrimary
+            color = SsTheme.colors.primaryForeground
         ),
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Sentences,
@@ -106,7 +106,7 @@ fun SearchInput(
                     Text(
                         text = placeholder,
                         style = textStyle,
-                        color = SsTheme.colors.onSurfaceSecondary
+                        color = SsTheme.colors.secondaryForeground
                     )
                 },
                 trailingIcon = {

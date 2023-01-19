@@ -34,7 +34,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,10 +44,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconButton
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
@@ -90,8 +89,8 @@ private fun PublishingInfo(
         ) {
             Text(
                 text = spec.message,
-                style = MaterialTheme.typography.bodySmall,
-                color = SsTheme.colors.onSurfaceSecondary,
+                style = SsTheme.typography.bodySmall,
+                color = SsTheme.colors.secondaryForeground,
                 modifier = Modifier
                     .weight(1f)
                     .padding(vertical = 16.dp)

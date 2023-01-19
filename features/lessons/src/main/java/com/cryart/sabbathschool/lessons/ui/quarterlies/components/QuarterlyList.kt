@@ -40,7 +40,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.modifier.thenIf
-import app.ss.design.compose.extensions.scrollbar.drawVerticalScrollbar
 import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
@@ -70,13 +69,11 @@ internal fun QuarterlyList(
 ) {
     LazyColumn(
         modifier = modifier
-            .drawVerticalScrollbar(state)
             .testTag("quarterlies:list"),
         state = state
     ) {
         when (quarterlies) {
-            GroupedQuarterlies.Empty -> { /* No op */
-            }
+            GroupedQuarterlies.Empty -> { /* No op */ }
             is GroupedQuarterlies.TypeGroup -> {
                 itemsIndexed(
                     quarterlies.data,

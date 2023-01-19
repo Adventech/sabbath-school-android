@@ -45,8 +45,6 @@
     <string name="ss_app_playstore_url" translatable="false">https://play.google.com/store/apps/details?id=com.cryart.sabbathschool</string>
     <string name="ss_app_scheme" translatable="false">ss_app</string>
 
-    <string name="ss_quarterly_cover_transition" translatable="false">ssQuarterlyCoverTransition</string>
-
     <string name="ss_menu_anonymous_email" translatable="false">anonymous@adventech.io</string>
     <string name="ss_menu_my_highlights" translatable="false">@string/ss_my_highlights</string>
     <string name="ss_menu_my_notes" translatable="false">@string/ss_my_notes</string>

@@ -173,12 +173,12 @@ private fun BoxScope.PlaybackProgressDuration(
             Text(
                 currentDuration,
                 style = textStyle,
-                color = SsTheme.colors.onSurfaceSecondary
+                color = SsTheme.colors.secondaryForeground
             )
             Text(
                 progressState.totalDuration,
                 style = textStyle,
-                color = SsTheme.colors.onSurfaceSecondary
+                color = SsTheme.colors.secondaryForeground
             )
         }
     }

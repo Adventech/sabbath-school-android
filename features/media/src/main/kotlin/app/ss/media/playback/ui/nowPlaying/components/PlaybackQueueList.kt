@@ -42,7 +42,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -128,21 +127,21 @@ private fun AudioRow(
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = spec.title,
-                style = MaterialTheme.typography.titleSmall.copy(
+                style = SsTheme.typography.titleSmall.copy(
                     fontWeight = if (isSelected) FontWeight.Black else FontWeight.Medium,
                     fontSize = 16.sp
                 ),
-                color = MaterialTheme.colorScheme.onSurface,
+                color = SsTheme.colors.primaryForeground,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
 
             Text(
                 text = spec.artist,
-                style = MaterialTheme.typography.bodySmall.copy(
+                style = SsTheme.typography.bodySmall.copy(
                     fontSize = 14.sp
                 ),
-                color = SsTheme.colors.onSurfaceSecondary,
+                color = SsTheme.colors.secondaryForeground,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -226,7 +225,7 @@ fun InfiniteTransition.PulsingLine(
                 height = (8 * scale).dp
             )
             .background(
-                MaterialTheme.colorScheme.primary,
+                SsTheme.colors.primary,
                 shape = RoundedCornerShape(50)
             )
     )
