@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +20,28 @@
  * THE SOFTWARE.
  */
 
-package app.ss.storage.db.dao
+package ss.workers.impl.di
 
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Transaction
-import app.ss.models.QuarterlyGroup
-import app.ss.storage.db.entity.QuarterlyEntity
-import app.ss.storage.db.entity.QuarterlyInfoEntity
+import android.content.Context
+import androidx.work.WorkManager
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import ss.workers.api.WorkScheduler
+import ss.workers.impl.WorkSchedulerImpl
+import javax.inject.Singleton
 
-@Dao
-interface QuarterliesDao : BaseDao<QuarterlyEntity> {
+@Module
+@InstallIn(SingletonComponent::class)
+object WorkersModule {
 
-    @Query("SELECT * FROM quarterlies WHERE lang = :language")
-    fun get(language: String): List<QuarterlyEntity>
-
-    @Query("SELECT * FROM quarterlies WHERE lang = :language AND quarterly_group = :group")
-    fun get(language: String, group: QuarterlyGroup): List<QuarterlyEntity>
-
-    @Transaction
-    @Query("SELECT * FROM quarterlies WHERE quarterlies.`index` = :quarterlyIndex")
-    fun getInfo(quarterlyIndex: String): QuarterlyInfoEntity?
-
-    @Query("SELECT cover FROM quarterlies WHERE lang = :language")
-    suspend fun getCovers(language: String): List<String>
+    @Provides
+    @Singleton
+    fun provideWorkSchedulerApi(
+        @ApplicationContext context: Context
+    ): WorkScheduler = WorkSchedulerImpl(
+        workManager = WorkManager.getInstance(context.applicationContext)
+    )
 }

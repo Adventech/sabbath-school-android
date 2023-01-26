@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,39 +20,37 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool
+package ss.workers.impl
 
-import android.app.Application
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.hilt.work.HiltWorkerFactory
-import androidx.work.Configuration
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import dagger.hilt.android.HiltAndroidApp
+import androidx.work.Constraints
+import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import ss.workers.api.WorkScheduler
-import javax.inject.Inject
+import ss.workers.impl.workers.PrefetchImagesWorker
 
-@HiltAndroidApp
-class SSApp : Application(), Configuration.Provider {
+internal class WorkSchedulerImpl constructor(
+    private val workManager: WorkManager
+) : WorkScheduler {
 
-    @Inject
-    lateinit var workerFactory: HiltWorkerFactory
-
-    @Inject
-    lateinit var workScheduler: WorkScheduler
-
-    @Inject
-    lateinit var ssPrefs: SSPrefs
-
-    override fun onCreate() {
-        super.onCreate()
-
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-
-        workScheduler.preFetchImages(ssPrefs.getLanguageCode())
-    }
-
-    override fun getWorkManagerConfiguration() =
-        Configuration.Builder()
-            .setWorkerFactory(workerFactory)
+    override fun preFetchImages(language: String) {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.UNMETERED)
+            .setRequiresBatteryNotLow(true)
+            .setRequiresStorageNotLow(true)
             .build()
+
+        val workRequest = OneTimeWorkRequestBuilder<PrefetchImagesWorker>()
+            .setConstraints(constraints)
+            .setInputData(workDataOf(PrefetchImagesWorker.LANGUAGE_KEY to language))
+            .build()
+
+        workManager.enqueueUniqueWork(
+            PrefetchImagesWorker.uniqueWorkName,
+            ExistingWorkPolicy.KEEP,
+            workRequest
+        )
+    }
 }
