@@ -43,6 +43,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import ss.workers.api.WorkScheduler
 
 class LanguagesViewModelTest {
 
@@ -51,6 +52,7 @@ class LanguagesViewModelTest {
 
     private val mockRepository: QuarterliesRepository = mockk()
     private val mockSSPrefs: SSPrefs = mockk()
+    private val mockWorkScheduler: WorkScheduler = mockk()
 
     private val languagesFlow = MutableSharedFlow<Resource<List<Language>>>(
         replay = 1,
@@ -66,7 +68,8 @@ class LanguagesViewModelTest {
 
         viewModel = LanguagesViewModel(
             repository = mockRepository,
-            ssPrefs = mockSSPrefs
+            ssPrefs = mockSSPrefs,
+            workScheduler = mockWorkScheduler
         )
     }
 
@@ -145,6 +148,7 @@ class LanguagesViewModelTest {
         verify {
             mockSSPrefs.setLanguageCode("es")
             mockSSPrefs.setLastQuarterlyIndex(null)
+            mockWorkScheduler.preFetchImages("es")
         }
     }
 }

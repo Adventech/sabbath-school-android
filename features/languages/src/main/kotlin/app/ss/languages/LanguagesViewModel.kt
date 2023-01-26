@@ -41,12 +41,14 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import ss.workers.api.WorkScheduler
 import javax.inject.Inject
 
 @HiltViewModel
 internal class LanguagesViewModel @Inject constructor(
     private val repository: QuarterliesRepository,
-    private val ssPrefs: SSPrefs
+    private val ssPrefs: SSPrefs,
+    private val workScheduler: WorkScheduler
 ) : ViewModel() {
 
     private val searchQuery = MutableStateFlow<String?>(null)
@@ -82,5 +84,7 @@ internal class LanguagesViewModel @Inject constructor(
 
         val appLocale = LocaleListCompat.forLanguageTags(model.code)
         AppCompatDelegate.setApplicationLocales(appLocale)
+
+        workScheduler.preFetchImages(model.code)
     }
 }

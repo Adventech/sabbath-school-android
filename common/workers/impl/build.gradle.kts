@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +20,36 @@
  * THE SOFTWARE.
  */
 
-package app.ss.storage.db.dao
+plugins {
+    alias(libs.plugins.sgp.base)
+    id("com.android.library")
+    kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+}
 
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Transaction
-import app.ss.models.QuarterlyGroup
-import app.ss.storage.db.entity.QuarterlyEntity
-import app.ss.storage.db.entity.QuarterlyInfoEntity
+android {
+    namespace = "ss.workers.impl"
 
-@Dao
-interface QuarterliesDao : BaseDao<QuarterlyEntity> {
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+    }
+}
 
-    @Query("SELECT * FROM quarterlies WHERE lang = :language")
-    fun get(language: String): List<QuarterlyEntity>
+dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
 
-    @Query("SELECT * FROM quarterlies WHERE lang = :language AND quarterly_group = :group")
-    fun get(language: String, group: QuarterlyGroup): List<QuarterlyEntity>
+    implementation(projects.common.storage)
+    api(projects.common.workers.api)
 
-    @Transaction
-    @Query("SELECT * FROM quarterlies WHERE quarterlies.`index` = :quarterlyIndex")
-    fun getInfo(quarterlyIndex: String): QuarterlyInfoEntity?
+    implementation(libs.androidx.work)
+    implementation(libs.coil.core)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.timber)
 
-    @Query("SELECT cover FROM quarterlies WHERE lang = :language")
-    suspend fun getCovers(language: String): List<String>
+    testImplementation(libs.bundles.testing.common)
 }

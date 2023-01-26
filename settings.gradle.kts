@@ -51,6 +51,8 @@ include(
     ":common:runtime-permissions",
     ":common:storage",
     ":common:translations",
+    ":common:workers:api",
+    ":common:workers:impl",
     ":features:account",
     ":features:app-widgets",
     ":features:bible",
