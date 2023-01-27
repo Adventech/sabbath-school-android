@@ -33,9 +33,9 @@ import androidx.fragment.app.FragmentManager
 import app.ss.design.compose.extensions.surface.BottomSheetSurface
 import app.ss.media.playback.ui.video.player.VideoPlayerActivity
 import com.cryart.design.base.TransparentBottomSheetFragment
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import ss.misc.SSConstants
 
 @AndroidEntryPoint
 class VideoListFragment : TransparentBottomSheetFragment() {

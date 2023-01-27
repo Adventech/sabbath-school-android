@@ -26,8 +26,8 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import dagger.hilt.android.HiltAndroidApp
+import ss.prefs.api.SSPrefs
 import ss.workers.api.WorkScheduler
 import javax.inject.Inject
 

@@ -24,12 +24,11 @@ package app.ss.lessons.data.repository.lessons
 
 import android.content.Context
 import app.ss.lessons.data.api.SSLessonsApi
+import app.ss.models.config.AppConfig
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.SSConstants
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -37,6 +36,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.buffer
 import okio.sink
+import ss.misc.SSConstants
+import ss.prefs.api.SSPrefs
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -49,13 +50,18 @@ internal class ReaderArtifactHelper @Inject constructor(
     private val ssPrefs: SSPrefs,
     private val okHttpClient: OkHttpClient,
     private val dispatcherProvider: DispatcherProvider,
-    private val connectivityHelper: ConnectivityHelper
+    private val connectivityHelper: ConnectivityHelper,
+    appConfig: AppConfig
 ) : CoroutineScope by CoroutineScope(dispatcherProvider.default) {
+
+    private val apiBaseUrl = if (appConfig.isDebug)
+        SSConstants.SS_STAGE_API_BASE_URL else SSConstants.SS_API_BASE_URL
+    private val readerUrl: String = "${apiBaseUrl}reader/$SS_READER_ARTIFACT_NAME"
 
     fun sync() = try {
         launch {
             val response = safeApiCall(connectivityHelper) {
-                lessonsApi.readerArtifact(URL)
+                lessonsApi.readerArtifact(readerUrl)
             }
             when (response) {
                 is NetworkResource.Success -> {
@@ -75,9 +81,9 @@ internal class ReaderArtifactHelper @Inject constructor(
     }
 
     private fun downloadFile(callback: () -> Unit) {
-        val destination = File(context.filesDir, SSConstants.SS_READER_ARTIFACT_NAME)
+        val destination = File(context.filesDir, SS_READER_ARTIFACT_NAME)
         val request = Request.Builder()
-            .url(URL)
+            .url(readerUrl)
             .build()
         try {
             val response = okHttpClient.newCall(request).execute()
@@ -96,6 +102,6 @@ internal class ReaderArtifactHelper @Inject constructor(
 
     companion object {
         private const val LAST_MODIFIED = "last-modified"
-        private val URL = "${SSConstants.apiBaseUrl()}reader/${SSConstants.SS_READER_ARTIFACT_NAME}"
+        private const val SS_READER_ARTIFACT_NAME = "sabbath-school-reader-latest.zip"
     }
 }

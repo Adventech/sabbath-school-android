@@ -60,10 +60,10 @@ import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.glance.theme.todayBody
 import app.ss.widgets.glance.theme.todayTitle
 import app.ss.widgets.model.TodayWidgetModel
-import com.cryart.sabbathschool.core.misc.DateHelper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import ss.misc.DateHelper
 import app.ss.translations.R as TranslationsR
 
 private typealias Data = TodayWidgetModel

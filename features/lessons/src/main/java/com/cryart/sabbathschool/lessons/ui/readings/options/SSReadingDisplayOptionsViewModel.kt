@@ -22,9 +22,9 @@
 package com.cryart.sabbathschool.lessons.ui.readings.options
 
 import androidx.core.view.children
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.lessons.databinding.SsReadingDisplayOptionsBinding
+import ss.prefs.api.SSPrefs
+import ss.prefs.model.SSReadingDisplayOptions
 
 class SSReadingDisplayOptionsViewModel(
     private val binding: SsReadingDisplayOptionsBinding,

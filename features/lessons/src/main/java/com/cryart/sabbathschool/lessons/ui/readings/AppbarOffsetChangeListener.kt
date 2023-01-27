@@ -27,11 +27,12 @@ import android.graphics.Color
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import com.cryart.sabbathschool.core.extensions.activity.setLightStatusBar
+import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.view.tint
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
-import com.cryart.sabbathschool.core.model.displayTheme
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import ss.prefs.model.SSReadingDisplayOptions
+import ss.prefs.model.displayTheme
 
 /**
  * Adding this OffsetChangeListener breaks AppBarLayout scrolling on Samsung devices
@@ -62,11 +63,11 @@ class AppbarOffsetChangeListener(
 
     private fun themeContent(collapsed: Boolean) {
         val color = when {
-            readingOptions?.displayTheme(activity) == SSReadingDisplayOptions.SS_THEME_DARK || !collapsed -> Color.WHITE
+            readingOptions?.displayTheme(activity.isDarkTheme()) == SSReadingDisplayOptions.SS_THEME_DARK || !collapsed -> Color.WHITE
             else -> Color.BLACK
         }
 
-        if (readingOptions?.displayTheme(activity) != SSReadingDisplayOptions.SS_THEME_DARK) {
+        if (readingOptions?.displayTheme(activity.isDarkTheme()) != SSReadingDisplayOptions.SS_THEME_DARK) {
             activity.setLightStatusBar(collapsed)
         } else {
             activity.setLightStatusBar(false)

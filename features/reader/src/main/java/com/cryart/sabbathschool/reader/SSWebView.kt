@@ -5,10 +5,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.misc.SSHelper
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
-import com.cryart.sabbathschool.core.model.displayTheme
+import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
+import ss.misc.SSConstants
+import ss.misc.SSHelper
+import ss.prefs.model.SSReadingDisplayOptions
+import ss.prefs.model.displayTheme
 import timber.log.Timber
 import java.io.File
 
@@ -40,7 +41,7 @@ open class SSWebView @JvmOverloads constructor(
         try {
             val parsedData = contentData.replace("$", "\\$")
             content = content.replace(Regex.fromLiteral("{{content}}"), parsedData)
-            content = content.replace("ss-wrapper-light", "ss-wrapper-${ssReadingDisplayOptions.displayTheme(context)}")
+            content = content.replace("ss-wrapper-light", "ss-wrapper-${ssReadingDisplayOptions.displayTheme(context.isDarkTheme())}")
             content = content.replace("ss-wrapper-andada", "ss-wrapper-${ssReadingDisplayOptions.font}")
             content = content.replace("ss-wrapper-medium", "ss-wrapper-${ssReadingDisplayOptions.size}")
             loadDataWithBaseURL(baseUrl, content, "text/html", "utf-8", null)

@@ -44,8 +44,8 @@ import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
 import app.ss.models.SSLesson
-import com.cryart.sabbathschool.core.misc.SSConstants
 import org.joda.time.format.DateTimeFormat
+import ss.misc.SSConstants
 
 @Immutable
 data class LessonItemSpec(

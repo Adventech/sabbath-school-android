@@ -24,7 +24,6 @@ package com.cryart.sabbathschool.ui.splash
 
 import app.cash.turbine.test
 import app.ss.auth.AuthRepository
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
@@ -37,6 +36,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
+import ss.prefs.api.SSPrefs
 
 class SplashViewModelTest {
 

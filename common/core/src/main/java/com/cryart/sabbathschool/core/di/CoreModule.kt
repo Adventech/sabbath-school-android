@@ -24,12 +24,8 @@ package com.cryart.sabbathschool.core.di
 
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelperImpl
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.DefaultDispatcherProvider
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefsImpl
-import com.cryart.sabbathschool.core.misc.DeviceHelper
-import com.cryart.sabbathschool.core.misc.DeviceHelperImpl
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -43,11 +39,5 @@ abstract class CoreModule {
     internal abstract fun bindSchedulerProvider(provider: DefaultDispatcherProvider): DispatcherProvider
 
     @Binds
-    internal abstract fun bindSSPrefs(impl: SSPrefsImpl): SSPrefs
-
-    @Binds
     internal abstract fun bindConnectivityHelper(iml: ConnectivityHelperImpl): ConnectivityHelper
-
-    @Binds
-    internal abstract fun bindDeviceHelper(iml: DeviceHelperImpl): DeviceHelper
 }

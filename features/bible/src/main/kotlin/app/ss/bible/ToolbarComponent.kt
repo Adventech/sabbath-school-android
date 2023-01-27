@@ -49,18 +49,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
-import com.cryart.sabbathschool.core.model.displayTheme
-import com.cryart.sabbathschool.core.model.themeColor
 import kotlinx.coroutines.flow.Flow
+import ss.prefs.model.SSReadingDisplayOptions
+import ss.prefs.model.displayTheme
+import ss.prefs.model.themeColor
 
 internal class ToolbarComponent(
     composeView: ComposeView,
@@ -115,8 +114,8 @@ internal fun BibleToolbar(
     }
 
     val options = displayOptions ?: SSReadingDisplayOptions(isSystemInDarkTheme())
-    val backgroundColor = Color.parse(options.themeColor(LocalContext.current))
-    val contentColor = contentColor(options.displayTheme(LocalContext.current))
+    val backgroundColor = Color.parse(options.themeColor(SsTheme.colors.isDark))
+    val contentColor = contentColor(options.displayTheme(SsTheme.colors.isDark))
 
     Surface(
         color = backgroundColor,

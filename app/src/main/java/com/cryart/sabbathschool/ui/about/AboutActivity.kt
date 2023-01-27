@@ -29,10 +29,10 @@ import android.view.MenuItem
 import androidx.core.app.ShareCompat
 import androidx.databinding.DataBindingUtil
 import com.cryart.sabbathschool.R
-import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.misc.SSEvent
 import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import com.cryart.sabbathschool.databinding.SsAboutActivityBinding
+import ss.misc.SSConstants
+import ss.misc.SSEvent
 
 class AboutActivity : SSBaseActivity() {
 

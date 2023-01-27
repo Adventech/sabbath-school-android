@@ -26,8 +26,8 @@ import app.ss.storage.db.dao.PdfAnnotationsDao
 import app.ss.storage.db.dao.ReadCommentsDao
 import app.ss.storage.db.dao.ReadHighlightsDao
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import kotlinx.coroutines.withContext
+import ss.prefs.api.SSPrefs
 import javax.inject.Inject
 import javax.inject.Singleton
 

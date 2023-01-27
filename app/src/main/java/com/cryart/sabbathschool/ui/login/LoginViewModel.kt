@@ -29,7 +29,6 @@ import app.ss.auth.AuthRepository
 import app.ss.auth.AuthResponse
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.reminder.DailyReminderManager
@@ -38,6 +37,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import ss.prefs.api.SSPrefs
 import timber.log.Timber
 import javax.inject.Inject
 

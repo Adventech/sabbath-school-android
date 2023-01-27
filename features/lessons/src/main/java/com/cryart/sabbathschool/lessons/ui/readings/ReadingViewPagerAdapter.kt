@@ -8,10 +8,10 @@ import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.view.inflate
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
-import com.cryart.sabbathschool.core.model.colorTheme
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingViewBinding
+import ss.prefs.model.SSReadingDisplayOptions
+import ss.prefs.model.colorTheme
 
 class ReadingViewPagerAdapter(
     private val readingViewModel: SSReadingViewModel
@@ -88,10 +88,10 @@ class ReadingViewHolder(
         readingOptions: SSReadingDisplayOptions,
         readingViewModel: SSReadingViewModel
     ) {
-        val context = binding.root.context
-        binding.ssReadingViewScroll.setBackgroundColor(readingOptions.colorTheme(context))
+        val isDarkTheme = binding.root.context.isDarkTheme()
+        binding.ssReadingViewScroll.setBackgroundColor(readingOptions.colorTheme(isDarkTheme))
         binding.ssReadingView.apply {
-            setBackgroundColor(readingOptions.colorTheme(context))
+            setBackgroundColor(readingOptions.colorTheme(isDarkTheme))
             setContextMenuCallback(readingViewModel)
             setHighlightsCommentsCallback(readingViewModel)
             setReadHighlights(highlights)

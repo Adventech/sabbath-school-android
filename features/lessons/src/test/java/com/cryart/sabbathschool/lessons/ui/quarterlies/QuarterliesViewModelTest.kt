@@ -29,8 +29,6 @@ import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.models.auth.SSUser
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.spec
@@ -49,6 +47,8 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import ss.misc.SSConstants
+import ss.prefs.api.SSPrefs
 
 class QuarterliesViewModelTest {
 

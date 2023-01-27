@@ -22,6 +22,8 @@
 
 package com.cryart.sabbathschool.lessons.ui.readings;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.ClipData;
@@ -48,20 +50,18 @@ import androidx.annotation.NonNull;
 import androidx.core.view.GestureDetectorCompat;
 
 import com.cryart.sabbathschool.core.extensions.context.ContextHelper;
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions;
 import com.cryart.sabbathschool.lessons.R;
-import app.ss.models.SSComment;
-import app.ss.models.SSReadComments;
-import app.ss.models.SSReadHighlights;
 import com.cryart.sabbathschool.reader.SSWebView;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.ss.models.SSComment;
+import app.ss.models.SSReadComments;
+import app.ss.models.SSReadHighlights;
+import ss.prefs.model.SSReadingDisplayOptions;
 import timber.log.Timber;
-
-import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class SSReadingView extends SSWebView {
     public static final String SEARCH_PROVIDER = "https://www.google.com/search?q=%s";
@@ -152,7 +152,7 @@ public class SSReadingView extends SSWebView {
     }
 
     public void updateReadingDisplayOptions(SSReadingDisplayOptions ssReadingDisplayOptions) {
-        ssReadViewBridge.setTheme(ssReadingDisplayOptions.themeDisplay(getContext()));
+        ssReadViewBridge.setTheme(ssReadingDisplayOptions.themeDisplay(ContextHelper.isDarkTheme(getContext())));
         ssReadViewBridge.setFont(ssReadingDisplayOptions.getFont());
         ssReadViewBridge.setSize(ssReadingDisplayOptions.getSize());
     }

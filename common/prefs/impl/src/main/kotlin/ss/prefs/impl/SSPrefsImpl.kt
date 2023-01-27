@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.extensions.prefs
+package ss.prefs.impl
 
 import android.app.LocaleManager
 import android.content.Context
@@ -35,12 +35,6 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.preference.PreferenceManager
-import com.cryart.sabbathschool.core.extensions.context.systemService
-import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
-import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.misc.SSHelper
-import com.cryart.sabbathschool.core.model.ReminderTime
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,6 +44,11 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import ss.misc.SSConstants
+import ss.misc.SSHelper
+import ss.prefs.api.SSPrefs
+import ss.prefs.model.ReminderTime
+import ss.prefs.model.SSReadingDisplayOptions
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject
@@ -70,6 +69,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
         )
     }
 )
+
 
 internal class SSPrefsImpl(
     private val dataStore: DataStore<Preferences>,
@@ -92,7 +92,7 @@ internal class SSPrefsImpl(
 
     private fun preferencesFlow(): Flow<Preferences> = dataStore.data
         .catch { exception ->
-            Timber.e(exception)
+            Timber.Forest.e(exception)
             emit(emptyPreferences())
         }
 
@@ -268,8 +268,8 @@ internal class SSPrefsImpl(
     }
 
     private fun handleAppLocalesPref() {
-        if (isAtLeastApi(Build.VERSION_CODES.TIRAMISU)) {
-            val locale = context.systemService<LocaleManager>(Context.LOCALE_SERVICE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val locale = (context.getSystemService(Context.LOCALE_SERVICE) as LocaleManager)
                 .applicationLocales
                 .takeUnless { it.isEmpty }?.get(0) ?: Locale.forLanguageTag(getLanguageCode())
 

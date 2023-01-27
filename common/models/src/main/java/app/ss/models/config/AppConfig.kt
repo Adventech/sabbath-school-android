@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,6 +20,14 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.model
+package app.ss.models.config
 
-data class ReminderTime(val hour: Int, val min: Int)
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class AppConfig(
+    val version: String,
+    val webClientId: String,
+    val isDebug: Boolean = false
+) : Parcelable

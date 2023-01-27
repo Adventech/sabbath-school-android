@@ -24,7 +24,7 @@ package app.ss.auth.di
 
 import app.ss.auth.api.SSAuthApi
 import app.ss.auth.api.SSTokenApi
-import com.cryart.sabbathschool.core.misc.SSConstants
+import app.ss.models.config.AppConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -34,6 +34,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import ss.misc.SSConstants
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -45,8 +46,8 @@ object AuthModule {
         .add(KotlinJsonAdapterFactory())
         .build()
 
-    private fun retrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl(SSConstants.apiBaseUrl())
+    private fun retrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit = Retrofit.Builder()
+        .baseUrl(baseUrl)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .client(okHttpClient)
         .build()
@@ -57,14 +58,18 @@ object AuthModule {
         .retryOnConnectionFailure(true)
         .build()
 
-    @Provides
-    @Singleton
-    internal fun provideAuthApi(
-        okHttpClient: OkHttpClient
-    ): SSAuthApi = retrofit(okHttpClient).create(SSAuthApi::class.java)
+    private fun baseUrl(appConfig: AppConfig): String = if (appConfig.isDebug)
+        SSConstants.SS_STAGE_API_BASE_URL else SSConstants.SS_API_BASE_URL
 
     @Provides
     @Singleton
-    internal fun provideTokenApi(): SSTokenApi = retrofit(getClient())
+    internal fun provideAuthApi(
+        okHttpClient: OkHttpClient,
+        appConfig: AppConfig
+    ): SSAuthApi = retrofit(okHttpClient, baseUrl(appConfig)).create(SSAuthApi::class.java)
+
+    @Provides
+    @Singleton
+    internal fun provideTokenApi(appConfig: AppConfig): SSTokenApi = retrofit(getClient(), baseUrl(appConfig))
         .create(SSTokenApi::class.java)
 }

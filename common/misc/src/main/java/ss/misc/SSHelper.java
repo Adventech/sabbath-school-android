@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.misc;
+package ss.misc;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

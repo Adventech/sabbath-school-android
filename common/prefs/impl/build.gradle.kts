@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +20,31 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.model
+plugins {
+    alias(libs.plugins.sgp.base)
+    id("com.android.library")
+    kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+}
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+android {
+    namespace = "ss.prefs.impl"
 
-@Parcelize
-data class AppConfig(
-    val version: String,
-    val webClientId: String
-) : Parcelable
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+    }
+}
+
+dependencies {
+    coreLibraryDesugaring(libs.coreLibraryDesugaring)
+    api(projects.common.prefs.api)
+    implementation(projects.common.misc)
+    implementation(libs.androidx.preference)
+    implementation(libs.androidx.datastore.prefs)
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
+    implementation(libs.timber)
+
+    testImplementation(libs.bundles.testing.common)
+}

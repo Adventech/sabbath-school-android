@@ -30,12 +30,12 @@ import app.ss.bible.databinding.SsBibleVersesActivityBinding
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
-import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.misc.SSEvent.track
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
-import com.cryart.sabbathschool.core.model.colorTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.map
+import ss.misc.SSConstants
+import ss.misc.SSEvent.track
+import ss.prefs.model.SSReadingDisplayOptions
+import ss.prefs.model.colorTheme
 
 @AndroidEntryPoint
 class BibleVersesActivity : AppCompatActivity(), ToolbarComponent.Callbacks {
@@ -61,7 +61,7 @@ class BibleVersesActivity : AppCompatActivity(), ToolbarComponent.Callbacks {
             val options = uiState.displayOptions ?: SSReadingDisplayOptions(isDarkTheme())
             runOnUiThread {
                 with(binding.ssBibleVersesView) {
-                    setBackgroundColor(options.colorTheme(this@BibleVersesActivity))
+                    setBackgroundColor(options.colorTheme(this@BibleVersesActivity.isDarkTheme()))
                     loadContent(uiState.content, options)
                 }
             }

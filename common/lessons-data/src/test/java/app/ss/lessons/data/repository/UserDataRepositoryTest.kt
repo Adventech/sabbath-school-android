@@ -25,7 +25,6 @@ package app.ss.lessons.data.repository
 import app.ss.storage.db.dao.PdfAnnotationsDao
 import app.ss.storage.db.dao.ReadCommentsDao
 import app.ss.storage.db.dao.ReadHighlightsDao
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -34,6 +33,7 @@ import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import ss.prefs.api.SSPrefs
 
 class UserDataRepositoryTest {
 

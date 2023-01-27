@@ -47,29 +47,26 @@ import app.ss.pdf.PdfReader
 import coil.load
 import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
+import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
-import com.cryart.sabbathschool.core.misc.DateHelper
-import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.model.colorTheme
-import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.components.MiniPlayerComponent
 import dagger.hilt.android.AndroidEntryPoint
+import ss.misc.DateHelper
+import ss.misc.SSConstants
+import ss.prefs.api.SSPrefs
+import ss.prefs.model.colorTheme
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, ShareableScreen {
-
-    @Inject
-    lateinit var appNavigator: AppNavigator
 
     @Inject
     lateinit var ssPrefs: SSPrefs
@@ -282,7 +279,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
             readingViewAdapter.readingOptions = displayOptions
             appbarChangeListener?.readingOptions = displayOptions
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
-            window.navigationBarColor = displayOptions.colorTheme(this@SSReadingActivity)
+            window.navigationBarColor = displayOptions.colorTheme(this@SSReadingActivity.isDarkTheme())
         }
 
         viewModel.audioAvailableFlow.collectIn(this) { available ->
