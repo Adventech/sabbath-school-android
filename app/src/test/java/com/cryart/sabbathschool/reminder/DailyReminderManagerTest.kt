@@ -26,7 +26,6 @@ import android.app.AlarmManager
 import androidx.core.app.NotificationManagerCompat
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import app.ss.models.ReminderTime
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -35,6 +34,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import ss.prefs.api.SSPrefs
+import ss.prefs.model.ReminderTime
 
 @RunWith(AndroidJUnit4::class)
 class DailyReminderManagerTest {

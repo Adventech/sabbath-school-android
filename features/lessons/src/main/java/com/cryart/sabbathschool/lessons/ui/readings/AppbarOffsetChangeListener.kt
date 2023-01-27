@@ -27,12 +27,12 @@ import android.graphics.Color
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import com.cryart.sabbathschool.core.extensions.activity.setLightStatusBar
-import com.cryart.sabbathschool.core.extensions.view.tint
-import app.ss.models.SSReadingDisplayOptions
-import app.ss.models.displayTheme
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
+import com.cryart.sabbathschool.core.extensions.view.tint
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import ss.prefs.model.SSReadingDisplayOptions
+import ss.prefs.model.displayTheme
 
 /**
  * Adding this OffsetChangeListener breaks AppBarLayout scrolling on Samsung devices

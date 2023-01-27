@@ -42,8 +42,6 @@ import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
-import app.ss.models.SSReadingDisplayOptions
-import app.ss.models.colorTheme
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
@@ -62,6 +60,8 @@ import ss.misc.DateHelper
 import ss.misc.SSConstants
 import ss.misc.SSEvent
 import ss.misc.SSHelper
+import ss.prefs.model.SSReadingDisplayOptions
+import ss.prefs.model.colorTheme
 import timber.log.Timber
 
 class SSReadingViewModel @AssistedInject constructor(

@@ -56,10 +56,10 @@ import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
-import app.ss.models.SSReadingDisplayOptions
-import app.ss.models.displayTheme
-import app.ss.models.themeColor
 import kotlinx.coroutines.flow.Flow
+import ss.prefs.model.SSReadingDisplayOptions
+import ss.prefs.model.displayTheme
+import ss.prefs.model.themeColor
 
 internal class ToolbarComponent(
     composeView: ComposeView,

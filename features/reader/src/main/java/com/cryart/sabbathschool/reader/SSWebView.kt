@@ -5,11 +5,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import app.ss.models.SSReadingDisplayOptions
-import app.ss.models.displayTheme
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import ss.misc.SSConstants
 import ss.misc.SSHelper
+import ss.prefs.model.SSReadingDisplayOptions
+import ss.prefs.model.displayTheme
 import timber.log.Timber
 import java.io.File
 

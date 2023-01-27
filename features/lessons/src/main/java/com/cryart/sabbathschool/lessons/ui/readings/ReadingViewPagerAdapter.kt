@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
-import app.ss.models.SSReadingDisplayOptions
-import app.ss.models.colorTheme
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.view.inflate
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingViewBinding
+import ss.prefs.model.SSReadingDisplayOptions
+import ss.prefs.model.colorTheme
 
 class ReadingViewPagerAdapter(
     private val readingViewModel: SSReadingViewModel

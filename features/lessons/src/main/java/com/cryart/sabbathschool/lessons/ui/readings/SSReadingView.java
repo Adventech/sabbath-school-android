@@ -60,7 +60,7 @@ import java.util.List;
 import app.ss.models.SSComment;
 import app.ss.models.SSReadComments;
 import app.ss.models.SSReadHighlights;
-import app.ss.models.SSReadingDisplayOptions;
+import ss.prefs.model.SSReadingDisplayOptions;
 import timber.log.Timber;
 
 public class SSReadingView extends SSWebView {

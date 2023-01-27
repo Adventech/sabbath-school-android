@@ -22,8 +22,8 @@
 
 package ss.prefs.api
 
-import app.ss.models.ReminderTime
-import app.ss.models.SSReadingDisplayOptions
+import ss.prefs.model.ReminderTime
+import ss.prefs.model.SSReadingDisplayOptions
 import kotlinx.coroutines.flow.Flow
 
 interface SSPrefs {

@@ -35,8 +35,6 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.preference.PreferenceManager
-import app.ss.models.ReminderTime
-import app.ss.models.SSReadingDisplayOptions
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -49,6 +47,8 @@ import kotlinx.coroutines.launch
 import ss.misc.SSConstants
 import ss.misc.SSHelper
 import ss.prefs.api.SSPrefs
+import ss.prefs.model.ReminderTime
+import ss.prefs.model.SSReadingDisplayOptions
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject

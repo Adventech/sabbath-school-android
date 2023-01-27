@@ -51,6 +51,7 @@ include(
     ":common:network",
     ":common:prefs:api",
     ":common:prefs:impl",
+    ":common:prefs:model",
     ":common:runtime-permissions",
     ":common:storage",
     ":common:translations",

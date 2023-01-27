@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,42 +20,6 @@
  * THE SOFTWARE.
  */
 
-package app.ss.bible
+package ss.prefs.model
 
-import androidx.compose.runtime.Immutable
-import ss.prefs.model.SSReadingDisplayOptions
-
-@Immutable
-data class BibleVersesState(
-    val version: String = "",
-    val content: String = ""
-)
-
-@Immutable
-internal data class ToolbarSpec(
-    val bibleVersions: Set<String>,
-    val preferredBible: String,
-    val callbacks: ToolbarComponent.Callbacks
-)
-
-@Immutable
-internal sealed class ToolbarState {
-    @Immutable
-    data class Success(
-        val displayOptions: SSReadingDisplayOptions? = null,
-        val bibleVersions: Set<String> = emptySet(),
-        val preferredBibleVersion: String
-    ) : ToolbarState()
-
-    object Loading : ToolbarState()
-    object Error : ToolbarState()
-}
-
-@Immutable
-internal data class BibleVersesScreenState(
-    val isLoading: Boolean = true,
-    val isError: Boolean = false,
-    val toolbarState: ToolbarState = ToolbarState.Loading,
-    val displayOptions: SSReadingDisplayOptions? = null,
-    val content: String = ""
-)
+data class ReminderTime(val hour: Int, val min: Int)

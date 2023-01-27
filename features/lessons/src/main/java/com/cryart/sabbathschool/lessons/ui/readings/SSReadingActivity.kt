@@ -42,7 +42,6 @@ import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
-import app.ss.models.colorTheme
 import app.ss.models.media.MediaAvailability
 import app.ss.pdf.PdfReader
 import coil.load
@@ -63,6 +62,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ss.misc.DateHelper
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
+import ss.prefs.model.colorTheme
 import javax.inject.Inject
 
 @AndroidEntryPoint

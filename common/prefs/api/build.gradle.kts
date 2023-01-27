@@ -30,6 +30,6 @@ android { namespace = "ss.prefs.api" }
 
 dependencies {
     coreLibraryDesugaring(libs.coreLibraryDesugaring)
-    api(projects.common.models)
+    api(projects.common.prefs.model)
     api(libs.kotlin.coroutines)
 }

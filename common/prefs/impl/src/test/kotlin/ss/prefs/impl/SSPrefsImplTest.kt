@@ -28,7 +28,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
-import app.ss.models.SSReadingDisplayOptions
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -40,6 +39,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import ss.prefs.model.SSReadingDisplayOptions
 
 @RunWith(AndroidJUnit4::class)
 class SSPrefsImplTest {

@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models
+package ss.prefs.model
 
 import android.graphics.Color
 

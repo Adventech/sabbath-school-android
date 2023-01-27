@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,6 +20,12 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models
+plugins {
+    alias(libs.plugins.sgp.base)
+    id("com.android.library")
+    kotlin("android")
+}
 
-data class ReminderTime(val hour: Int, val min: Int)
+android { namespace = "ss.prefs.model" }
+
+dependencies { coreLibraryDesugaring(libs.coreLibraryDesugaring) }
