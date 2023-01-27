@@ -26,11 +26,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingDisplayOptionsBinding
 import com.cryart.sabbathschool.lessons.ui.base.SsBottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import ss.prefs.api.SSPrefs
 import javax.inject.Inject
 
 @AndroidEntryPoint

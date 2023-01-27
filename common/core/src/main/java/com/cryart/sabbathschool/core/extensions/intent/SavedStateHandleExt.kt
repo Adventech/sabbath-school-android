@@ -23,7 +23,7 @@
 package com.cryart.sabbathschool.core.extensions.intent
 
 import androidx.lifecycle.SavedStateHandle
-import com.cryart.sabbathschool.core.misc.SSConstants
+import ss.misc.SSConstants
 
 val SavedStateHandle.lessonIndex: String? get() = get(SSConstants.SS_LESSON_INDEX_EXTRA)
 val SavedStateHandle.readIndex: String? get() = get(SSConstants.SS_READ_INDEX_EXTRA)

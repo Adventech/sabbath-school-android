@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,26 +20,36 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.misc
+package ss.misc
 
-import android.content.Context
-import android.telephony.TelephonyManager
-import com.cryart.sabbathschool.core.extensions.context.systemService
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
-import javax.inject.Singleton
+import org.joda.time.DateTime
+import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
+import timber.log.Timber
 
-interface DeviceHelper {
-    fun country(): String
-}
+object DateHelper {
 
-@Singleton
-internal class DeviceHelperImpl @Inject constructor(
-    @ApplicationContext private val context: Context
-) : DeviceHelper {
-
-    override fun country(): String {
-        val telephonyManager: TelephonyManager = context.systemService(Context.TELEPHONY_SERVICE)
-        return telephonyManager.networkCountryIso
+    fun parseDate(date: String): DateTime? = try {
+        DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+            .parseLocalDate(date).toDateTimeAtStartOfDay()
+    } catch (ex: Exception) {
+        Timber.e(ex)
+        null
     }
+
+    fun formatDate(date: String, format: String = SSConstants.SS_DATE_FORMAT_OUTPUT_DAY): String {
+        return try {
+            DateTimeFormat.forPattern(format)
+                .print(
+                    DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                        .parseLocalDate(date)
+                ).replace("Saturday", "Sabbath")
+                .replaceFirstChar { it.uppercase() }
+        } catch (ex: IllegalArgumentException) {
+            Timber.e(ex)
+            return ""
+        }
+    }
+
+    fun today() = formatDate(LocalDate.now().toString(SSConstants.SS_DATE_FORMAT))
 }

@@ -42,16 +42,12 @@ import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
+import app.ss.models.SSReadingDisplayOptions
+import app.ss.models.colorTheme
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.coroutines.debounceUntilLast
-import com.cryart.sabbathschool.core.misc.DateHelper
-import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.misc.SSEvent
-import com.cryart.sabbathschool.core.misc.SSHelper
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
-import com.cryart.sabbathschool.core.model.colorTheme
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.options.SSReadingDisplayOptionsView
@@ -62,6 +58,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
+import ss.misc.DateHelper
+import ss.misc.SSConstants
+import ss.misc.SSEvent
+import ss.misc.SSHelper
 import timber.log.Timber
 
 class SSReadingViewModel @AssistedInject constructor(
@@ -320,7 +320,7 @@ class SSReadingViewModel @AssistedInject constructor(
     fun onSSReadingDisplayOptions(ssReadingDisplayOptions: SSReadingDisplayOptions) {
         currentSSReadingView?.updateReadingDisplayOptions(ssReadingDisplayOptions)
         val parent = currentSSReadingView?.parent as? ViewGroup
-        parent?.setBackgroundColor(ssReadingDisplayOptions.colorTheme(parent.context))
+        parent?.setBackgroundColor(ssReadingDisplayOptions.colorTheme(parent.context.isDarkTheme()))
 
         for (i in 0 until ssTotalReadsCount) {
             if (i == ssReadingActivityBinding.ssReadingViewPager.currentItem) continue

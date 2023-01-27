@@ -26,10 +26,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.models.SSBibleVerses
+import app.ss.models.SSReadingDisplayOptions
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
 import com.cryart.sabbathschool.core.response.Result
 import com.cryart.sabbathschool.core.response.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,6 +39,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import ss.misc.SSConstants
+import ss.prefs.api.SSPrefs
 import timber.log.Timber
 import javax.inject.Inject
 

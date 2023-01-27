@@ -32,7 +32,6 @@ import app.ss.pdf.ui.ARG_MEDIA_AVAILABILITY
 import app.ss.pdf.ui.ARG_PDF_FILES
 import app.ss.pdf.ui.SSReadPdfActivity
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.response.Resource
 import com.pspdfkit.annotations.AnnotationType
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
@@ -48,6 +47,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import ss.misc.SSConstants
 import timber.log.Timber
 import java.io.File
 import java.util.EnumSet

@@ -35,7 +35,7 @@ import androidx.core.net.toUri
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.cryart.sabbathschool.core.R
-import com.cryart.sabbathschool.core.misc.SSColorTheme
+import ss.misc.SSColorTheme
 import timber.log.Timber
 
 fun Context.isDarkTheme(): Boolean {
@@ -92,6 +92,9 @@ object ContextHelper {
     fun launchWebUrl(context: Context, url: String) {
         context.launchWebUrl(url)
     }
+
+    @JvmStatic
+    fun isDarkTheme(context: Context): Boolean = context.isDarkTheme()
 }
 
 fun Context.shareContent(content: String, chooser: String = "") {

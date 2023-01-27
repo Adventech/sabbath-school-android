@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,11 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cryart.sabbathschool.core.model
 
-import android.content.Context
+package app.ss.models
+
 import android.graphics.Color
-import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 
 data class SSReadingDisplayOptions @JvmOverloads constructor(
     var theme: String = SS_THEME_LIGHT,
@@ -33,7 +32,7 @@ data class SSReadingDisplayOptions @JvmOverloads constructor(
 
     constructor(isDark: Boolean) : this(if (isDark) SS_THEME_DARK else SS_THEME_LIGHT)
 
-    fun themeDisplay(context: Context): String = displayTheme(context)
+    fun themeDisplay(darkTheme: Boolean): String = displayTheme(darkTheme)
 
     companion object {
         const val SS_THEME_LIGHT = "light"
@@ -55,20 +54,20 @@ data class SSReadingDisplayOptions @JvmOverloads constructor(
     }
 }
 
-fun SSReadingDisplayOptions.displayTheme(context: Context): String {
+fun SSReadingDisplayOptions.displayTheme(darkTheme: Boolean): String {
     return if (theme == SSReadingDisplayOptions.SS_THEME_DEFAULT) {
-        if (context.isDarkTheme()) SSReadingDisplayOptions.SS_THEME_DARK else SSReadingDisplayOptions.SS_THEME_LIGHT
+        if (darkTheme) SSReadingDisplayOptions.SS_THEME_DARK else SSReadingDisplayOptions.SS_THEME_LIGHT
     } else {
         theme
     }
 }
-fun SSReadingDisplayOptions.themeColor(context: Context): String {
+fun SSReadingDisplayOptions.themeColor(darkTheme: Boolean): String {
     return when (theme) {
         SSReadingDisplayOptions.SS_THEME_LIGHT -> SSReadingDisplayOptions.SS_THEME_LIGHT_HEX
         SSReadingDisplayOptions.SS_THEME_DARK -> SSReadingDisplayOptions.SS_THEME_DARK_HEX
         SSReadingDisplayOptions.SS_THEME_SEPIA -> SSReadingDisplayOptions.SS_THEME_SEPIA_HEX
         else -> {
-            if (context.isDarkTheme()) {
+            if (darkTheme) {
                 SSReadingDisplayOptions.SS_THEME_DARK_HEX
             } else {
                 SSReadingDisplayOptions.SS_THEME_LIGHT_HEX
@@ -77,4 +76,4 @@ fun SSReadingDisplayOptions.themeColor(context: Context): String {
     }
 }
 
-fun SSReadingDisplayOptions.colorTheme(context: Context): Int = Color.parseColor(themeColor(context))
+fun SSReadingDisplayOptions.colorTheme(darkTheme: Boolean): Int = Color.parseColor(themeColor(darkTheme))

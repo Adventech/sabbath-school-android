@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,9 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cryart.sabbathschool.core.misc
-
-import com.cryart.sabbathschool.core.BuildConfig
+package ss.misc
 
 object SSConstants {
     const val SS_APP_RATE_INSTALL_DAYS = 7
@@ -57,12 +55,9 @@ object SSConstants {
     const val SS_EVENT_READ_OPTIONS_OPEN = "ss_read_options_open"
     const val SS_EVENT_COMMENT_CREATED = "ss_comment_created"
     const val SS_EVENT_PARAM_READ_INDEX = "ss_read_index"
-    const val SS_READER_ARTIFACT_NAME = "sabbath-school-reader-latest.zip"
     const val SS_READER_ARTIFACT_LAST_MODIFIED = "sabbath-school-reader-last-modified"
     const val SS_APP_PLAY_STORE_LINK = "https://play.google.com/store/apps/details?id=com.cryart.sabbathschool"
     const val SS_LATEST_QUARTERLY = "ss_latest_quarterly"
-    private const val SS_API_BASE_URL = "https://sabbath-school.adventech.io/"
-    private const val SS_STAGE_API_BASE_URL = "https://sabbath-school-stage.adventech.io/"
-
-    fun apiBaseUrl() = if (BuildConfig.DEBUG) SS_STAGE_API_BASE_URL else SS_API_BASE_URL
+    const val SS_API_BASE_URL = "https://sabbath-school.adventech.io/"
+    const val SS_STAGE_API_BASE_URL = "https://sabbath-school-stage.adventech.io/"
 }

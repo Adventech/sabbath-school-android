@@ -32,9 +32,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import app.ss.design.compose.extensions.surface.BottomSheetSurface
 import com.cryart.design.base.TransparentBottomSheetFragment
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import ss.misc.SSConstants
 
 @AndroidEntryPoint
 class NowPlayingFragment : TransparentBottomSheetFragment() {

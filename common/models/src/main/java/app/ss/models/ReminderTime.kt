@@ -20,6 +20,6 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.model
+package app.ss.models
 
 data class ReminderTime(val hour: Int, val min: Int)

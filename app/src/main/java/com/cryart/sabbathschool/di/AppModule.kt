@@ -26,7 +26,7 @@ import android.app.AlarmManager
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import com.cryart.sabbathschool.BuildConfig
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
+import ss.prefs.api.SSPrefs
 import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.cryart.sabbathschool.settings.DailyReminder
@@ -57,6 +57,7 @@ object AppModule {
     @Provides
     fun provideAppConfig() = AppConfig(
         BuildConfig.VERSION_NAME,
-        BuildConfig.WEB_CLIENT_ID
+        BuildConfig.WEB_CLIENT_ID,
+        isDebug = BuildConfig.DEBUG
     )
 }

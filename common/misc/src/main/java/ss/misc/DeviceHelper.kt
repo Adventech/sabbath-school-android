@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,20 +19,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cryart.sabbathschool.core.misc
+
+package ss.misc
 
 import android.content.Context
-import timber.log.Timber
+import android.telephony.TelephonyManager
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object SSEvent {
+interface DeviceHelper {
+    fun country(): String
+}
 
-    @JvmStatic
-    fun track(context: Context, event_name: String) {
-        track(context, event_name, HashMap<String, Any>())
+@Singleton
+internal class DeviceHelperImpl @Inject constructor(
+    @ApplicationContext private val context: Context
+) : DeviceHelper {
+
+    private val telephonyManager: TelephonyManager by lazy {
+        context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
     }
 
-    @JvmStatic
-    fun track(context: Context, event_name: String, values: HashMap<String, *>) {
-        Timber.i("Replace tracking: $context, $event_name, $values")
-    }
+    override fun country(): String = telephonyManager.networkCountryIso
 }

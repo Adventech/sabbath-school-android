@@ -26,12 +26,12 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Immutable
 import app.ss.models.SSLesson
 import app.ss.models.SSQuarterlyInfo
-import com.cryart.sabbathschool.core.misc.DateHelper
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.toSpec
 import org.joda.time.DateTime
 import org.joda.time.DateTimeConstants
 import org.joda.time.Interval
+import ss.misc.DateHelper
 
 @Immutable
 data class QuarterlyInfoSpec(

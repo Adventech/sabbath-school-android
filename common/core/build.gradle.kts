@@ -43,12 +43,13 @@ android {
 
 dependencies {
     coreLibraryDesugaring(libs.coreLibraryDesugaring)
+    api(projects.common.misc)
+    api(projects.common.prefs.api)
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.common)
     implementation(libs.androidx.lifecycle.runtime)
-    implementation(libs.androidx.preference)
     implementation(libs.androidx.browser)
     implementation(libs.androidx.core)
-    implementation(libs.androidx.datastore.prefs)
     implementation(libs.kotlin.coroutines)
     implementation(libs.kotlin.coroutines.android)
     implementation(libs.google.hilt.android)

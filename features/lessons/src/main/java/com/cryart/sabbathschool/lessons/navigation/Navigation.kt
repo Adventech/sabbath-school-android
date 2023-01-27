@@ -38,11 +38,11 @@ import app.ss.design.compose.transitions.scaleOutPopExitTransition
 import app.ss.design.compose.transitions.slideInTransition
 import app.ss.design.compose.transitions.slideOutTransition
 import app.ss.models.QuarterlyGroup
-import com.cryart.sabbathschool.core.misc.SSConstants.SS_QUARTERLY_INDEX_EXTRA
 import com.cryart.sabbathschool.lessons.ui.lessons.LessonsRoute
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesRoute
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesGroupCallback
 import com.google.accompanist.navigation.animation.composable
+import ss.misc.SSConstants.SS_QUARTERLY_INDEX_EXTRA
 
 fun NavController.navigateToSabbathSchoolGraph(navOptions: NavOptions? = null) {
     navigate(sabbathSchoolRoutePattern, navOptions)

@@ -40,10 +40,9 @@ import app.ss.pdf.PdfReader
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
-import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.core.ui.SlidingActivity
-import com.cryart.sabbathschool.lessons.BuildConfig
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.navigation.lessonIndexArg
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.showLessonIntro
@@ -51,6 +50,7 @@ import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
+import ss.misc.SSConstants
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -58,6 +58,9 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
 
     @Inject
     lateinit var pdfReader: PdfReader
+
+    @Inject
+    lateinit var appConfig: AppConfig
 
     private val viewModel by viewModels<LessonsViewModel>()
 
@@ -103,7 +106,7 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
             }
         }
 
-        if (!BuildConfig.DEBUG) {
+        if (!appConfig.isDebug) {
             AppRate.with(this).setInstallDays(SSConstants.SS_APP_RATE_INSTALL_DAYS).monitor()
             AppRate.showRateDialogIfMeetsConditions(this)
         }

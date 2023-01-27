@@ -23,12 +23,11 @@
 package app.ss.lessons.data.di
 
 import app.ss.auth.api.TokenAuthenticator
-import app.ss.lessons.data.BuildConfig
 import app.ss.lessons.data.api.SSLessonsApi
 import app.ss.lessons.data.api.SSMediaApi
 import app.ss.lessons.data.api.SSQuarterliesApi
 import app.ss.storage.db.dao.UserDao
-import com.cryart.sabbathschool.core.misc.SSConstants
+import com.cryart.sabbathschool.core.model.AppConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -39,6 +38,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import ss.misc.SSConstants
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -50,24 +50,28 @@ object ApiModule {
         .add(KotlinJsonAdapterFactory())
         .build()
 
-    private fun retrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl(SSConstants.apiBaseUrl())
+    private fun retrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit = Retrofit.Builder()
+        .baseUrl(baseUrl)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .client(okHttpClient)
         .build()
+
+    private fun baseUrl(appConfig: AppConfig): String = if (appConfig.isDebug)
+        SSConstants.SS_STAGE_API_BASE_URL else SSConstants.SS_API_BASE_URL
 
     @Provides
     @Singleton
     fun provideOkhttpClient(
         userDao: UserDao,
-        tokenAuthenticator: TokenAuthenticator
+        tokenAuthenticator: TokenAuthenticator,
+        appConfig: AppConfig
     ): OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(1, TimeUnit.MINUTES)
         .writeTimeout(2, TimeUnit.MINUTES)
         .addInterceptor(
             HttpLoggingInterceptor().apply {
-                level = if (BuildConfig.DEBUG) {
+                level = if (appConfig.isDebug) {
                     HttpLoggingInterceptor.Level.BODY
                 } else {
                     HttpLoggingInterceptor.Level.NONE
@@ -91,21 +95,24 @@ object ApiModule {
     @Provides
     @Singleton
     internal fun provideMediaApi(
-        okHttpClient: OkHttpClient
-    ): SSMediaApi = retrofit(okHttpClient)
+        okHttpClient: OkHttpClient,
+        appConfig: AppConfig
+    ): SSMediaApi = retrofit(okHttpClient, baseUrl(appConfig))
         .create(SSMediaApi::class.java)
 
     @Provides
     @Singleton
     internal fun provideQuarterliesApi(
-        okHttpClient: OkHttpClient
-    ): SSQuarterliesApi = retrofit(okHttpClient)
+        okHttpClient: OkHttpClient,
+        appConfig: AppConfig
+    ): SSQuarterliesApi = retrofit(okHttpClient, baseUrl(appConfig))
         .create(SSQuarterliesApi::class.java)
 
     @Provides
     @Singleton
     internal fun provideLessonsApi(
-        okHttpClient: OkHttpClient
-    ): SSLessonsApi = retrofit(okHttpClient)
+        okHttpClient: OkHttpClient,
+        appConfig: AppConfig
+    ): SSLessonsApi = retrofit(okHttpClient, baseUrl(appConfig))
         .create(SSLessonsApi::class.java)
 }

@@ -5,10 +5,10 @@ import app.ss.widgets.model.TodayWidgetModel
 import app.ss.widgets.model.WeekDayWidgetModel
 import app.ss.widgets.model.WeekLessonWidgetModel
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
 import kotlinx.coroutines.withContext
+import ss.misc.SSConstants
 import timber.log.Timber
 import javax.inject.Inject
 

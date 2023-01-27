@@ -26,8 +26,7 @@ import android.app.AlarmManager
 import androidx.core.app.NotificationManagerCompat
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.model.ReminderTime
+import app.ss.models.ReminderTime
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -35,6 +34,7 @@ import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import ss.prefs.api.SSPrefs
 
 @RunWith(AndroidJUnit4::class)
 class DailyReminderManagerTest {

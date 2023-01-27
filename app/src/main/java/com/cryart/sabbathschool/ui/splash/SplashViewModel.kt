@@ -27,12 +27,12 @@ import androidx.lifecycle.viewModelScope
 import app.ss.auth.AuthRepository
 import app.ss.models.auth.SSUser
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import ss.prefs.api.SSPrefs
 import javax.inject.Inject
 
 @HiltViewModel

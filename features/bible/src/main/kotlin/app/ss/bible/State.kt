@@ -23,7 +23,7 @@
 package app.ss.bible
 
 import androidx.compose.runtime.Immutable
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import app.ss.models.SSReadingDisplayOptions
 
 @Immutable
 data class BibleVersesState(

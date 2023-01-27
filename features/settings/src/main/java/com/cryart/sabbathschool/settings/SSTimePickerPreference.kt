@@ -29,8 +29,8 @@ import android.text.format.DateFormat
 import android.util.AttributeSet
 import android.widget.TimePicker
 import androidx.preference.Preference
-import com.cryart.sabbathschool.core.misc.SSConstants
-import com.cryart.sabbathschool.core.misc.SSHelper
+import ss.misc.SSConstants
+import ss.misc.SSHelper
 import java.util.Locale
 
 class SSTimePickerPreference(

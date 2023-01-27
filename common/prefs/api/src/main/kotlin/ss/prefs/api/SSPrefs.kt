@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,10 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.extensions.prefs
+package ss.prefs.api
 
-import com.cryart.sabbathschool.core.model.ReminderTime
-import com.cryart.sabbathschool.core.model.SSReadingDisplayOptions
+import app.ss.models.ReminderTime
+import app.ss.models.SSReadingDisplayOptions
 import kotlinx.coroutines.flow.Flow
 
 interface SSPrefs {

@@ -38,7 +38,6 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.cryart.sabbathschool.account.databinding.SsFragmentAccountBinding
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
@@ -49,6 +48,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import ss.misc.SSConstants
 import javax.inject.Inject
 
 @AndroidEntryPoint

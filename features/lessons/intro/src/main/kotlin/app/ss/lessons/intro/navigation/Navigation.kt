@@ -28,9 +28,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import app.ss.lessons.intro.LessonIntroRoute
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.bottomSheet
+import ss.misc.SSConstants
 
 private const val lessonIntroRoute = "lesson_intro_route"
 private const val indexExtra = SSConstants.SS_QUARTERLY_INDEX_EXTRA

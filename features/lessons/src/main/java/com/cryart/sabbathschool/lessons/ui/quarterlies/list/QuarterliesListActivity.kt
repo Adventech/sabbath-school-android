@@ -34,13 +34,13 @@ import androidx.compose.runtime.SideEffect
 import androidx.core.view.WindowCompat
 import app.ss.design.compose.theme.SsTheme
 import app.ss.models.QuarterlyGroup
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesScreen
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterliesListCallback
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import ss.misc.SSConstants
 
 @AndroidEntryPoint
 class QuarterliesListActivity : SlidingActivity(), QuarterliesListCallback {

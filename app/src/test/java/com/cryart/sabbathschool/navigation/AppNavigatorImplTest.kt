@@ -27,8 +27,6 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.auth.AuthRepository
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
-import com.cryart.sabbathschool.core.misc.SSConstants
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
@@ -52,6 +50,8 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.android.controller.ActivityController
+import ss.misc.SSConstants
+import ss.prefs.api.SSPrefs
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)

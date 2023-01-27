@@ -29,7 +29,6 @@ import app.ss.auth.AuthResponse
 import app.ss.models.auth.SSUser
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.reminder.DailyReminderManager
@@ -45,6 +44,7 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
+import ss.prefs.api.SSPrefs
 
 class LoginViewModelTest {
 

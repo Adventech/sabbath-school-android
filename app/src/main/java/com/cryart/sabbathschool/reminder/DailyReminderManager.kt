@@ -35,11 +35,11 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.cryart.sabbathschool.R
-import com.cryart.sabbathschool.core.extensions.prefs.SSPrefs
 import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import com.cryart.sabbathschool.settings.DailyReminder
 import com.cryart.sabbathschool.ui.splash.SplashActivity
 import org.joda.time.DateTime
+import ss.prefs.api.SSPrefs
 import timber.log.Timber
 
 class DailyReminderManager constructor(
