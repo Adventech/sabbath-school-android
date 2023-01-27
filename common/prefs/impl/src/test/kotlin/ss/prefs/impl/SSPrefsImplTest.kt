@@ -29,26 +29,23 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import app.ss.models.SSReadingDisplayOptions
-import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-//@ExperimentalTime
 @RunWith(AndroidJUnit4::class)
 class SSPrefsImplTest {
 
     private val mockDataStore: DataStore<Preferences> = mockk(relaxed = true)
     private val mockSharedPreferences: SharedPreferences = mockk()
-
-    private val testDispatcherProvider = TestDispatcherProvider()
 
     private lateinit var impl: SSPrefsImpl
 
@@ -57,7 +54,7 @@ class SSPrefsImplTest {
         impl = SSPrefsImpl(
             mockDataStore,
             mockSharedPreferences,
-            CoroutineScope(testDispatcherProvider.testDispatcher),
+            CoroutineScope(UnconfinedTestDispatcher()),
             mockk()
         )
     }

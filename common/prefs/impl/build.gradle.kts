@@ -47,5 +47,4 @@ dependencies {
     implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
-    testImplementation(projects.libraries.testUtils)
 }

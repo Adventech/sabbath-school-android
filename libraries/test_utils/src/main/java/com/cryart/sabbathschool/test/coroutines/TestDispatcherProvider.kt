@@ -28,7 +28,7 @@ import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import javax.inject.Inject
 
-class TestDispatcherProvider(val testDispatcher: TestDispatcher) : DispatcherProvider {
+class TestDispatcherProvider(private val testDispatcher: TestDispatcher) : DispatcherProvider {
 
     @Inject
     constructor() : this(testDispatcher = UnconfinedTestDispatcher())
