@@ -28,7 +28,7 @@ import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.cryart.sabbathschool.core.model.AppConfig
+import app.ss.models.config.AppConfig
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import ss.misc.SSConstants

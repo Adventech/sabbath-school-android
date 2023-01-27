@@ -33,10 +33,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import app.ss.models.config.AppConfig
 import app.ss.runtime.permissions.RuntimePermissions
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.sdk.isBelowApi
-import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding
 import com.cryart.sabbathschool.databinding.SsLoginButtonsBinding

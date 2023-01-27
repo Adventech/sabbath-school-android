@@ -26,8 +26,8 @@ import app.ss.auth.api.TokenAuthenticator
 import app.ss.lessons.data.api.SSLessonsApi
 import app.ss.lessons.data.api.SSMediaApi
 import app.ss.lessons.data.api.SSQuarterliesApi
+import app.ss.models.config.AppConfig
 import app.ss.storage.db.dao.UserDao
-import com.cryart.sabbathschool.core.model.AppConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

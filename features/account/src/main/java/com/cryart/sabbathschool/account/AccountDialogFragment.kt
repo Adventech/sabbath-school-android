@@ -34,11 +34,11 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import app.ss.models.config.AppConfig
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.cryart.sabbathschool.account.databinding.SsFragmentAccountBinding
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
-import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.google.android.gms.auth.api.signin.GoogleSignIn

@@ -25,9 +25,8 @@ package com.cryart.sabbathschool.di
 import android.app.AlarmManager
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
+import app.ss.models.config.AppConfig
 import com.cryart.sabbathschool.BuildConfig
-import ss.prefs.api.SSPrefs
-import com.cryart.sabbathschool.core.model.AppConfig
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.cryart.sabbathschool.settings.DailyReminder
 import dagger.Module
@@ -35,6 +34,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ss.prefs.api.SSPrefs
 
 @InstallIn(SingletonComponent::class)
 @Module

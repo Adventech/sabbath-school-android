@@ -24,11 +24,11 @@ package app.ss.lessons.data.repository.lessons
 
 import android.content.Context
 import app.ss.lessons.data.api.SSLessonsApi
+import app.ss.models.config.AppConfig
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
-import com.cryart.sabbathschool.core.model.AppConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

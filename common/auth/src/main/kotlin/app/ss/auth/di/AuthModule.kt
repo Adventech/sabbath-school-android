@@ -24,7 +24,7 @@ package app.ss.auth.di
 
 import app.ss.auth.api.SSAuthApi
 import app.ss.auth.api.SSTokenApi
-import com.cryart.sabbathschool.core.model.AppConfig
+import app.ss.models.config.AppConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
