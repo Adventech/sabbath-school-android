@@ -70,7 +70,7 @@ test-androidx-runner = "1.5.2"
 test-androidx-uiautomator = "2.2.0"
 test-junit = "4.13.2"
 test-kluent = "1.72"
-test-mockk = "1.13.3"
+test-mockk = "1.13.4"
 test-robolectric = "4.9.2"
 timber = "5.0.1"
 
