@@ -87,8 +87,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     private val viewModel by viewModels<ReadingsViewModel>()
     private val playbackViewModel by viewModels<PlaybackViewModel>()
 
-    private var appbarChangeListener: AppbarOffsetChangeListener? = null
-
     private var currentReadPosition: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -236,6 +234,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         binding.ssReadingAppBar.apply {
             ssReadingCollapsingToolbar.title = title
             ssCollapsingToolbarSubtitle.text = subTitle
+            ssCollapsingToolbarBackdrop.contentDescription = title
         }
     }
 
@@ -250,12 +249,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
             override fun onChanged() {
                 super.onChanged()
                 binding.ssReadingViewPager.currentItem = index
-                ssReads.getOrNull(index)?.let { read ->
-                    setPageTitleAndSubtitle(
-                        read.title,
-                        DateHelper.formatDate(read.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY)
-                    )
-                }
             }
         }
         with(readingViewAdapter) {
@@ -277,7 +270,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     private fun observeData() {
         ssPrefs.displayOptionsFlow().collectIn(this) { displayOptions ->
             readingViewAdapter.readingOptions = displayOptions
-            appbarChangeListener?.readingOptions = displayOptions
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
             window.navigationBarColor = displayOptions.colorTheme(this@SSReadingActivity.isDarkTheme())
         }

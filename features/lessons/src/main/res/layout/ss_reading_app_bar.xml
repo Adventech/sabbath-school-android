@@ -21,7 +21,8 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -33,7 +34,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/ss_reading_app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/ss_reading_toolbar_height"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay"
         android:visibility="@{viewModel.ssLessonCoordinatorVisibility}"
@@ -41,19 +42,20 @@
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/ss_reading_collapsing_toolbar"
+            style="?attr/collapsingToolbarLayoutLargeStyle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
+            android:layout_height="@dimen/ss_reading_toolbar_height"
             app:collapsedTitleTextAppearance="@style/AppThemeAppBarTextStyle"
             app:contentScrim="@{viewModel.primaryColor}"
-            app:expandedTitleGravity="start|bottom"
             app:expandedTitleMarginBottom="@dimen/ss_reading_toolbar_title_margin_bottom"
+            app:expandedTitleMarginEnd="0dp"
             app:expandedTitleMarginStart="@dimen/ss_reading_toolbar_title_margin_left"
             app:expandedTitleTextAppearance="@style/AppThemeAppBarTextStyleExpanded"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
             app:maxLines="2"
             app:statusBarScrim="@{viewModel.secondaryColor}"
-            app:toolbarId="@+id/ss_reading_toolbar">
+            app:toolbarId="@+id/ss_reading_toolbar"
+            tools:title="How to Get Out of Debt">
 
             <ImageView
                 android:id="@+id/ss_collapsing_toolbar_backdrop"
@@ -62,36 +64,31 @@
                 android:contentDescription="@string/blank"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax" />
+                app:layout_collapseMode="parallax"
+                tools:src="?attr/colorAccent" />
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/ss_collapsing_toolbar_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ss_reading_toolbar_date_margin_top"
-                android:fitsSystemWindows="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="bottom"
+                android:layout_marginHorizontal="@dimen/ss_reading_toolbar_title_margin_left"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:fontFamily="@font/lato_bold"
+                android:maxLines="1"
+                android:textAllCaps="true"
+                android:textColor="@color/ss_color_secondary_lighter"
+                android:textSize="@dimen/ss_reading_app_bar_subtitle_size"
                 app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.4">
+                app:layout_collapseParallaxMultiplier="0.4"
+                tools:text="Tuesday, January 31" />
 
-                <TextView
-                    android:id="@+id/ss_collapsing_toolbar_subtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="@dimen/ss_reading_toolbar_title_margin_left"
-                    android:layout_marginTop="@dimen/spacing_medium_large"
-                    android:fitsSystemWindows="true"
-                    android:fontFamily="@font/lato_bold"
-                    android:maxLines="1"
-                    android:textAllCaps="true"
-                    android:textColor="@color/ss_color_secondary_lighter"
-                    android:textSize="@dimen/ss_reading_app_bar_subtitle_size" />
-
-            </RelativeLayout>
-
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/ss_reading_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
                 app:layout_collapseMode="pin" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

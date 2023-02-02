@@ -33,9 +33,13 @@
     </style>
 
     <style name="AppThemeAppBarTextStyleExpanded" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">26sp</item>
         <item name="fontFamily">@font/lato_bold</item>
         <item name="android:fontFamily">@font/lato_bold</item>
+        <item name="android:shadowColor">#7F000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
     </style>
 
     <style name="display_options_text_view">
