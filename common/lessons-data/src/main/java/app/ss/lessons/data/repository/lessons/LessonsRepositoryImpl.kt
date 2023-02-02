@@ -185,7 +185,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
+    override fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
         pdfAnnotationsDataSource.sync(
             PdfAnnotationsDataSource.Request(lessonIndex, pdfId),
             annotations
@@ -203,7 +203,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
         readIndex: String
     ): Resource<SSReadComments> = readCommentsDataSource.getItem(ReadCommentsDataSource.Request(readIndex))
 
-    override suspend fun saveComments(comments: SSReadComments) {
+    override fun saveComments(comments: SSReadComments) {
         readCommentsDataSource.sync(
             ReadCommentsDataSource.Request(comments.readIndex),
             listOf(comments)
@@ -214,7 +214,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
         readIndex: String
     ): Resource<SSReadHighlights> = readHighlightsDataSource.getItem(ReadHighlightsDataSource.Request(readIndex))
 
-    override suspend fun saveHighlights(highlights: SSReadHighlights) {
+    override fun saveHighlights(highlights: SSReadHighlights) {
         readHighlightsDataSource.sync(
             ReadHighlightsDataSource.Request(highlights.readIndex),
             listOf(highlights)

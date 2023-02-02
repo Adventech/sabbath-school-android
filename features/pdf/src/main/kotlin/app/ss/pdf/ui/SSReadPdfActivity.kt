@@ -162,13 +162,13 @@ class SSReadPdfActivity : PdfActivity() {
         }
     }
 
-    override fun onDestroy() {
+    override fun onStop() {
         val documents = loadedDocuments.mapNotNull { it.document }
         documents.forEachIndexed { index, pdfDocument ->
             viewModel.saveAnnotations(pdfDocument, index)
         }
         readerPrefs.saveConfiguration(configuration.configuration)
-        super.onDestroy()
+        super.onStop()
     }
 
     companion object {
@@ -178,4 +178,4 @@ class SSReadPdfActivity : PdfActivity() {
 }
 
 internal const val ARG_PDF_FILES = "ss_arg_pdf_files"
-internal const val ARG_MEDIA_AVAILABILITY = "aa_arg_media_availability"
+internal const val ARG_MEDIA_AVAILABILITY = "ss_arg_media_availability"

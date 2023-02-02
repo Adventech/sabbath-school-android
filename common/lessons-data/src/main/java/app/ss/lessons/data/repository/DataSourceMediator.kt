@@ -118,9 +118,12 @@ internal abstract class DataSourceMediator<T, R>(
             emit(Resource.error(it))
         }
 
-    suspend fun sync(request: R, data: List<T>) {
-        withContext(dispatcherProvider.io) { cache.update(data) }
-        withContext(dispatcherProvider.default) { safeApiCall(connectivityHelper) { network.update(request, data) } }
+    fun sync(request: R, data: List<T>) = launch {
+        withContext(dispatcherProvider.io) {
+            cache.update(data)
+            cache.update(request, data)
+        }
+        safeApiCall(connectivityHelper) { network.update(request, data) }
     }
 
     private suspend fun safeNetworkGetItem(call: suspend () -> Resource<T>): Resource<T> {
