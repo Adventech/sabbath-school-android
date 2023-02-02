@@ -36,8 +36,7 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
         return Resource.success(MockDataFactory.weekData())
     }
 
-    override suspend fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
-    }
+    override fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) = Unit
 
     override fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>> {
         return emptyFlow()
@@ -47,13 +46,13 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
         return Resource.success(SSReadComments(readIndex, emptyList()))
     }
 
-    override suspend fun saveComments(comments: SSReadComments) {}
+    override fun saveComments(comments: SSReadComments) = Unit
 
     override suspend fun getReadHighlights(readIndex: String): Resource<SSReadHighlights> {
         return Resource.success(SSReadHighlights(readIndex))
     }
 
-    override suspend fun saveHighlights(highlights: SSReadHighlights) {}
+    override fun saveHighlights(highlights: SSReadHighlights) = Unit
 
     override fun checkReaderArtifact() {}
 

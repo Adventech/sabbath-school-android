@@ -45,17 +45,17 @@ interface LessonsRepository {
 
     suspend fun getWeekData(cached: Boolean = false): Resource<WeekData>
 
-    suspend fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>)
+    fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>)
 
     fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>>
 
     suspend fun getComments(readIndex: String): Resource<SSReadComments>
 
-    suspend fun saveComments(comments: SSReadComments)
+    fun saveComments(comments: SSReadComments)
 
     suspend fun getReadHighlights(readIndex: String): Resource<SSReadHighlights>
 
-    suspend fun saveHighlights(highlights: SSReadHighlights)
+    fun saveHighlights(highlights: SSReadHighlights)
 
     fun checkReaderArtifact()
 
