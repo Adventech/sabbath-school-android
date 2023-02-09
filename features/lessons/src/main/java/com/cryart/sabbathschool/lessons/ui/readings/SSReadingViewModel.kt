@@ -225,11 +225,11 @@ class SSReadingViewModel @AssistedInject constructor(
     }
 
     override fun onHighlightsReceived(ssReadHighlights: SSReadHighlights) {
-        launch { lessonsRepository.saveHighlights(ssReadHighlights) }
+        lessonsRepository.saveHighlights(ssReadHighlights)
     }
 
     override fun onCommentsReceived(ssReadComments: SSReadComments) {
-        launch { lessonsRepository.saveComments(ssReadComments) }
+        lessonsRepository.saveComments(ssReadComments)
     }
 
     override fun onVerseClicked(verse: String) = verseClickWithDebounce(verse)

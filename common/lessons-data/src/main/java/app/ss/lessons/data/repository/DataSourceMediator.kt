@@ -46,10 +46,10 @@ internal abstract class DataSourceMediator<T, R>(
     abstract val network: DataSource<T, R>
 
     suspend fun get(request: R): Resource<List<T>> {
-        val network = withContext(dispatcherProvider.default) { safeNetworkGet { network.get(request) } }
+        val networkResource = safeNetworkGet { network.get(request) }
 
-        return if (network.isSuccessFul) {
-            network.also { resource ->
+        return if (networkResource.isSuccessFul) {
+            networkResource.also { resource ->
                 resource.data?.takeIf { it.isNotEmpty() }?.let {
                     withContext(dispatcherProvider.io) {
                         cache.update(it)
@@ -82,21 +82,17 @@ internal abstract class DataSourceMediator<T, R>(
         }
 
     suspend fun getItem(request: R): Resource<T> {
-        val cacheResource = withContext(dispatcherProvider.io) { cache.getItem(request) }
-        return if (cacheResource.isSuccessFul) {
-            cacheResource.also { cacheNetworkRequest(request) }
-        } else {
-            withContext(dispatcherProvider.default) { safeNetworkGetItem { network.getItem(request) } }.also {
+        val networkResource = safeNetworkGetItem { network.getItem(request) }
+
+        return if (networkResource.isSuccessFul) {
+            networkResource.also {
                 it.data?.let {
                     withContext(dispatcherProvider.io) { cache.updateItem(it) }
                 }
             }
+        } else {
+            withContext(dispatcherProvider.io) { cache.getItem(request) }
         }
-    }
-
-    private fun cacheNetworkRequest(request: R) = launch {
-        val resource = safeNetworkGetItem { network.getItem(request) }
-        resource.data?.let { withContext(dispatcherProvider.io) { cache.updateItem(it) } }
     }
 
     fun getItemAsFlow(request: R): Flow<Resource<T>> = flow {
