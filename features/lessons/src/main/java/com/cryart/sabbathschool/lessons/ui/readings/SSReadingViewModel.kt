@@ -62,7 +62,6 @@ import ss.misc.SSEvent
 import ss.misc.SSHelper
 import ss.prefs.model.SSReadingDisplayOptions
 import ss.prefs.model.colorTheme
-import timber.log.Timber
 
 class SSReadingViewModel @AssistedInject constructor(
     private val lessonsRepository: LessonsRepository,
@@ -81,7 +80,6 @@ class SSReadingViewModel @AssistedInject constructor(
     private val ssReadHighlights: ArrayList<SSReadHighlights> = arrayListOf()
     private val ssReadComments: ArrayList<SSReadComments> = arrayListOf()
     private var ssTotalReadsCount = 0
-    private var ssReadsDownloaded = false
     private var highlightId = 0
     val lessonTitle: String get() = ssLessonInfo?.lesson?.title ?: ""
     val lessonShareIndex: String get() = ssLessonInfo?.shareIndex() ?: ""
@@ -148,36 +146,34 @@ class SSReadingViewModel @AssistedInject constructor(
                 ssReadIndexInt = idx
             }
 
-            loadComments(ssDay.index, idx)
-            loadHighlights(ssDay.index, idx)
+            ssReadComments.add(idx, SSReadComments(ssDay.index, emptyList()))
+            ssReadHighlights.add(idx, SSReadHighlights(ssDay.index))
 
             val resource = lessonsRepository.getDayRead(ssDay)
             resource.data?.let { ssReads.add(it) }
         }
 
-        ssReadsDownloaded = true
         dataListener.onReadsDownloaded(ssReads, ssReadHighlights, ssReadComments, ssReadIndexInt)
 
-        try {
-            ssLessonCoordinatorVisibility.set(View.VISIBLE)
-            ssLessonLoadingVisibility.set(View.INVISIBLE)
-            ssLessonOfflineStateVisibility.set(View.INVISIBLE)
-            ssLessonErrorStateVisibility.set(View.INVISIBLE)
-        } catch (e: Exception) {
-            Timber.e(e)
+        ssLessonCoordinatorVisibility.set(View.VISIBLE)
+        ssLessonLoadingVisibility.set(View.INVISIBLE)
+        ssLessonOfflineStateVisibility.set(View.INVISIBLE)
+        ssLessonErrorStateVisibility.set(View.INVISIBLE)
+
+        fetchUserData()
+    }
+
+    private fun fetchUserData() = launch {
+        ssLessonInfo?.days?.forEachIndexed { index, ssDay ->
+            lessonsRepository.getComments(ssDay.index).data?.let {
+                ssReadComments[index] = it
+            }
+            lessonsRepository.getReadHighlights(ssDay.index).data?.let {
+                ssReadHighlights[index] = it
+            }
         }
-    }
 
-    private suspend fun loadComments(dayIndex: String, index: Int) {
-        val resource = lessonsRepository.getComments(dayIndex)
-        val comments = resource.data ?: SSReadComments(dayIndex, emptyList())
-        ssReadComments.add(index, comments)
-    }
-
-    private suspend fun loadHighlights(dayIndex: String, index: Int) {
-        val resource = lessonsRepository.getReadHighlights(dayIndex)
-        val highlights = resource.data ?: SSReadHighlights(dayIndex)
-        ssReadHighlights.add(index, highlights)
+       dataListener.onUpdateUserContent(ssReadHighlights, ssReadComments)
     }
 
     override fun onSelectionStarted(x: Float, y: Float, highlightId: Int) {
@@ -237,6 +233,7 @@ class SSReadingViewModel @AssistedInject constructor(
     interface DataListener {
         fun onLessonInfoChanged(ssLessonInfo: SSLessonInfo)
         fun onReadsDownloaded(ssReads: List<SSRead>, ssReadHighlights: List<SSReadHighlights>, ssReadComments: List<SSReadComments>, ssReadIndex: Int)
+        fun onUpdateUserContent(ssReadHighlights: List<SSReadHighlights>, ssReadComments: List<SSReadComments>)
     }
 
     fun onDisplayOptionsClick() {

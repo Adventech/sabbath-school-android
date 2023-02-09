@@ -33,7 +33,6 @@ import androidx.activity.viewModels
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.setViewTreeLifecycleOwner
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import app.ss.media.playback.PlaybackViewModel
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
@@ -245,19 +244,18 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         ssReadIndex: Int
     ) {
         val index = currentReadPosition ?: ssReadIndex
-        val observer = object : RecyclerView.AdapterDataObserver() {
-            override fun onChanged() {
-                super.onChanged()
-                binding.ssReadingViewPager.currentItem = index
-            }
-        }
-        with(readingViewAdapter) {
-            registerAdapterDataObserver(observer)
-            setContent(ssReads, ssReadHighlights, ssReadComments)
-            unregisterAdapterDataObserver(observer)
+        readingViewAdapter.setContent(ssReads, ssReadHighlights, ssReadComments) {
+            binding.ssReadingViewPager.currentItem = index
         }
 
         currentReadPosition = null
+    }
+
+    override fun onUpdateUserContent(
+        ssReadHighlights: List<SSReadHighlights>,
+        ssReadComments: List<SSReadComments>
+    ) {
+        readingViewAdapter.setContent(ssReadHighlights, ssReadComments)
     }
 
     @SuppressLint("MissingSuperCall")
