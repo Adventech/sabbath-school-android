@@ -65,7 +65,7 @@ internal class ReadCommentsDataSource @Inject constructor(
         }
 
         override suspend fun update(data: List<SSReadComments>) {
-            data.forEach { readCommentsDao.insertItem(ReadCommentsEntity(it.readIndex, it.comments)) }
+            data.forEach { updateItem(it) }
         }
     }
 

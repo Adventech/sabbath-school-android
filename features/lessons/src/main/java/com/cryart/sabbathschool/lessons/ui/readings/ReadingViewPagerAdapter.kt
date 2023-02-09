@@ -2,6 +2,7 @@ package com.cryart.sabbathschool.lessons.ui.readings
 
 import android.content.Context
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
@@ -13,48 +14,49 @@ import com.cryart.sabbathschool.lessons.databinding.SsReadingViewBinding
 import ss.prefs.model.SSReadingDisplayOptions
 import ss.prefs.model.colorTheme
 
-class ReadingViewPagerAdapter(
+internal class ReadingViewPagerAdapter(
     private val readingViewModel: SSReadingViewModel
-) : RecyclerView.Adapter<ReadingViewHolder>() {
+) : ListAdapter<ReadingContent, ReadingViewHolder>(ReadingContent.DIFF) {
 
     var readingOptions: SSReadingDisplayOptions? = null
-
-    private var ssReads: List<SSRead> = emptyList()
-    private var ssReadHighlights: List<SSReadHighlights> = emptyList()
-    private var ssReadComments: List<SSReadComments> = emptyList()
 
     fun setContent(
         ssReads: List<SSRead>,
         ssReadHighlights: List<SSReadHighlights>,
-        ssReadComments: List<SSReadComments>
+        ssReadComments: List<SSReadComments>,
+        commitCallback: Runnable? = null
     ) {
-        this.ssReads = ssReads
-        this.ssReadHighlights = ssReadHighlights
-        this.ssReadComments = ssReadComments
-        this.notifyDataSetChanged()
+        val data = ssReads.mapIndexed { index, read ->
+            ReadingContent(index, read, ssReadHighlights[index], ssReadComments[index])
+        }
+        submitList(data, commitCallback)
     }
 
     fun setContent(
         ssReadHighlights: List<SSReadHighlights>,
         ssReadComments: List<SSReadComments>
     ) {
-        this.ssReadHighlights = ssReadHighlights
-        this.ssReadComments = ssReadComments
-        if (ssReads.isNotEmpty()) {
-            this.notifyDataSetChanged()
+        val data = currentList.mapIndexed { index, content ->
+            if (ssReadHighlights.lastIndex >= index && ssReadComments.lastIndex >= index) {
+                content.copy(
+                    highlights = ssReadHighlights[index],
+                    comments = ssReadComments[index]
+                )
+            } else {
+                content
+            }
         }
+        submitList(data)
     }
 
-    fun getReadAt(position: Int): SSRead? = ssReads.getOrNull(position)
+    fun getReadAt(position: Int): SSRead? = currentList.getOrNull(position)?.read
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReadingViewHolder =
         ReadingViewHolder.create(parent)
 
     override fun onBindViewHolder(holder: ReadingViewHolder, position: Int) {
         holder.bind(
-            ssReads[position],
-            ssReadHighlights[position],
-            ssReadComments[position],
+            getItem(position),
             readingOptions ?: defaultDisplayOptions(holder.itemView.context),
             readingViewModel
         )
@@ -73,18 +75,14 @@ class ReadingViewPagerAdapter(
             SSReadingDisplayOptions.SS_FONT_LATO
         )
     }
-
-    override fun getItemCount(): Int = ssReads.size
 }
 
-class ReadingViewHolder(
+internal class ReadingViewHolder(
     private val binding: SsReadingViewBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(
-        read: SSRead,
-        highlights: SSReadHighlights,
-        comments: SSReadComments,
+        content: ReadingContent,
         readingOptions: SSReadingDisplayOptions,
         readingViewModel: SSReadingViewModel
     ) {
@@ -94,9 +92,9 @@ class ReadingViewHolder(
             setBackgroundColor(readingOptions.colorTheme(isDarkTheme))
             setContextMenuCallback(readingViewModel)
             setHighlightsCommentsCallback(readingViewModel)
-            setReadHighlights(highlights)
-            setReadComments(comments)
-            loadContent(read.content, readingOptions)
+            setReadHighlights(content.highlights)
+            setReadComments(content.comments)
+            loadContent(content.read.content, readingOptions)
         }
     }
 
