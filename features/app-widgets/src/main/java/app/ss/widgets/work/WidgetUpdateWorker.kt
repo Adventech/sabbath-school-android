@@ -68,9 +68,8 @@ internal class WidgetUpdateWorker @AssistedInject constructor(
         /**
          * Enqueues a new worker to refresh widget data only if not enqueued already.
          *
-         * @param force set to true to replace any ongoing work and expedite the request
          */
-        fun enqueue(context: Context, force: Boolean = false) {
+        fun enqueue(context: Context) {
             val manager = WorkManager.getInstance(context)
             val requestBuilder = PeriodicWorkRequestBuilder<WidgetUpdateWorker>(
                 4,
@@ -80,11 +79,10 @@ internal class WidgetUpdateWorker @AssistedInject constructor(
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build()
             )
-            val workPolicy = if (force) ExistingPeriodicWorkPolicy.REPLACE else ExistingPeriodicWorkPolicy.KEEP
 
             manager.enqueueUniquePeriodicWork(
                 uniqueWorkName,
-                workPolicy,
+                ExistingPeriodicWorkPolicy.KEEP,
                 requestBuilder.build()
             )
         }
