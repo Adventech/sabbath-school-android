@@ -23,6 +23,7 @@
 package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.model.QuarterlyLessonInfo
+import app.ss.lessons.data.repository.PreferredSource
 import app.ss.lessons.data.repository.quarterly.QuarterliesDataSource
 import app.ss.lessons.data.repository.quarterly.QuarterlyInfoDataSource
 import app.ss.models.PdfAnnotations
@@ -156,7 +157,8 @@ internal class LessonsRepositoryImpl @Inject constructor(
             ReadsDataSource.Request(
                 dayIndex = day.index,
                 fullPath = day.full_read_path
-            )
+            ),
+            PreferredSource.CACHE
         )
 
     override suspend fun getWeekData(cached: Boolean): Resource<WeekData> {
