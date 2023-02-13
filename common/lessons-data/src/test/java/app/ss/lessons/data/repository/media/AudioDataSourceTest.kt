@@ -77,7 +77,7 @@ class AudioDataSourceTest {
             .returns(Response.success(listOf(ssAudio)))
         coEvery { mockAudioDao.delete("$LESSON_INDEX%") }
             .returns(Unit)
-        every { mockAudioDao.insertAll(listOf(audioEntity)) }
+        coEvery { mockAudioDao.insertAll(listOf(audioEntity)) }
             .returns(Unit)
 
         val resource = dataSource.get(AudioDataSource.Request(LESSON_INDEX))

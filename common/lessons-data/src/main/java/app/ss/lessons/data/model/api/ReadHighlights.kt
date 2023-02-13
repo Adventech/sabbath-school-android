@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,15 @@
  * THE SOFTWARE.
  */
 
-package app.ss.storage.db.dao
+package app.ss.lessons.data.model.api
 
-import androidx.room.Dao
-import androidx.room.Query
-import app.ss.storage.db.entity.ReadHighlightsEntity
-import kotlinx.coroutines.flow.Flow
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 
-@Dao
-interface ReadHighlightsDao : BaseDao<ReadHighlightsEntity> {
-
-    @Query("SELECT * FROM highlights WHERE readIndex = :readIndex")
-    fun get(readIndex: String): ReadHighlightsEntity?
-
-    @Query("SELECT * FROM highlights WHERE readIndex = :readIndex")
-    fun getFlow(readIndex: String): Flow<ReadHighlightsEntity?>
-
-    @Query("DELETE FROM highlights")
-    suspend fun clear()
-}
+@Keep
+@JsonClass(generateAdapter = true)
+internal data class ReadHighlights(
+    val readIndex: String,
+    val highlights: String,
+    val timestamp: Long
+)

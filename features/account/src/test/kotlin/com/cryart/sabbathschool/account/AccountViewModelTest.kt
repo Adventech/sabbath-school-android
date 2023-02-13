@@ -24,7 +24,7 @@ package com.cryart.sabbathschool.account
 
 import app.cash.turbine.test
 import app.ss.auth.AuthRepository
-import app.ss.lessons.data.repository.UserDataRepository
+import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.auth.SSUser
 import com.cryart.sabbathschool.account.model.UserInfo
 import com.cryart.sabbathschool.test.coroutines.MainDispatcherRule
