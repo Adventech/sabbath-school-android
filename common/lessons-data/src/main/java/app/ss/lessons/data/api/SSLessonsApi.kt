@@ -22,12 +22,13 @@
 
 package app.ss.lessons.data.api
 
+import app.ss.lessons.data.model.api.ReadHighlights
+import app.ss.lessons.data.model.api.request.UploadHighlightsRequest
 import app.ss.lessons.data.model.api.request.UploadPdfAnnotationsRequest
 import app.ss.models.PdfAnnotations
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
-import app.ss.models.SSReadHighlights
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -36,7 +37,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Url
 
-interface SSLessonsApi {
+internal interface SSLessonsApi {
 
     @GET("api/v2/{lang}/quarterlies/{quarterlyId}/lessons/{lessonId}/index.json")
     suspend fun getLessonInfo(
@@ -74,11 +75,11 @@ interface SSLessonsApi {
     @GET("api/v2/highlights/{readIndex}")
     suspend fun getHighlights(
         @Path("readIndex") readIndex: String
-    ): Response<SSReadHighlights>
+    ): Response<ReadHighlights>
 
     @POST("api/v2/highlights")
     suspend fun uploadHighlights(
-        @Body highlights: SSReadHighlights
+        @Body request: UploadHighlightsRequest
     ): Response<ResponseBody>
 
     @GET

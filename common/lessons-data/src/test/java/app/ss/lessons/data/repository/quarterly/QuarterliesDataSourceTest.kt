@@ -31,6 +31,7 @@ import app.ss.storage.db.entity.QuarterlyEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -85,7 +86,7 @@ class QuarterliesDataSourceTest {
         every { mockQuarterliesDao.get("en") }.returns(
             listOf(entity.copy(title = "local"))
         )
-        every {
+        coEvery {
             mockQuarterliesDao.insertAll(
                 listOf(entity.copy(title = "remote"))
             )
@@ -103,7 +104,7 @@ class QuarterliesDataSourceTest {
             awaitItem().data shouldBeEqualTo listOf(quarterly.copy(title = "remote"))
 
             awaitComplete()
-            verify {
+            coVerify {
                 mockQuarterliesDao.insertAll(
                     listOf(entity.copy(title = "remote"))
                 )
@@ -115,7 +116,7 @@ class QuarterliesDataSourceTest {
     fun `should return loading response if local data is empty`() = runTest {
         every { mockQuarterliesDao.get("en") }.returns(emptyList())
 
-        every {
+        coEvery {
             mockQuarterliesDao.insertAll(
                 listOf(entity.copy(title = "remote"))
             )
@@ -140,7 +141,7 @@ class QuarterliesDataSourceTest {
         val group = QuarterlyGroup("kids", 3)
 
         every { mockQuarterliesDao.get("en", group) }.returns(emptyList())
-        every { mockQuarterliesDao.insertAll(any()) }.returns(Unit)
+        coEvery { mockQuarterliesDao.insertAll(any()) }.returns(Unit)
 
         coEvery { mockQuarterliesApi.getQuarterlies("en") }.returns(
             Response.success(

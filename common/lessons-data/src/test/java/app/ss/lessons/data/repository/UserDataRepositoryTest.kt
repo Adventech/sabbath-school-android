@@ -22,37 +22,126 @@
 
 package app.ss.lessons.data.repository
 
+import app.cash.turbine.test
+import app.ss.lessons.data.api.SSLessonsApi
+import app.ss.lessons.data.model.api.ReadHighlights
+import app.ss.lessons.data.model.api.request.UploadHighlightsRequest
+import app.ss.lessons.data.repository.user.UserDataRepository
+import app.ss.lessons.data.repository.user.UserDataRepositoryImpl
+import app.ss.models.SSReadHighlights
 import app.ss.storage.db.dao.PdfAnnotationsDao
 import app.ss.storage.db.dao.ReadCommentsDao
 import app.ss.storage.db.dao.ReadHighlightsDao
+import app.ss.storage.db.entity.ReadHighlightsEntity
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.test.runTest
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
+import retrofit2.Response
 import ss.prefs.api.SSPrefs
 
 class UserDataRepositoryTest {
 
+    private val lessonsApi: SSLessonsApi = mockk()
     private val readHighlightsDao: ReadHighlightsDao = mockk()
     private val readCommentsDao: ReadCommentsDao = mockk()
     private val pdfAnnotationsDao: PdfAnnotationsDao = mockk()
     private val ssPrefs: SSPrefs = mockk()
+    private val connectivityHelper: ConnectivityHelper = mockk()
 
     private lateinit var repository: UserDataRepository
 
     @Before
     fun setup() {
-        repository = UserDataRepository(
+        repository = UserDataRepositoryImpl(
+            lessonsApi = lessonsApi,
             readHighlightsDao = readHighlightsDao,
             readCommentsDao = readCommentsDao,
             pdfAnnotationsDao = pdfAnnotationsDao,
             ssPrefs = ssPrefs,
-            dispatcherProvider = TestDispatcherProvider()
+            dispatcherProvider = TestDispatcherProvider(),
+            connectivityHelper = connectivityHelper
         )
+    }
+
+    @Test
+    fun getHighlights() = runTest {
+        val index = "index-1-2-3"
+        val dbFlow = MutableSharedFlow<ReadHighlightsEntity?>(
+            replay = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
+        every { readHighlightsDao.getFlow(index) }.returns(dbFlow)
+        every { connectivityHelper.isConnected() }.returns(false)
+
+        repository.getHighlights(index).test {
+            dbFlow.emit(null)
+
+            awaitItem() shouldBeEqualTo Result.success(SSReadHighlights(index))
+        }
+    }
+
+    @Test
+    fun `get highlights map from db entity`() = runTest {
+        val index = "index-1-2-3"
+        val dbFlow = MutableSharedFlow<ReadHighlightsEntity?>(
+            replay = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
+        every { readHighlightsDao.getFlow(index) }.returns(dbFlow)
+        every { connectivityHelper.isConnected() }.returns(false)
+
+        repository.getHighlights(index).test {
+            dbFlow.emit(ReadHighlightsEntity(index, "1234"))
+
+            awaitItem() shouldBeEqualTo Result.success(SSReadHighlights(index, "1234"))
+        }
+    }
+
+    @Test
+    fun `get highlights sync onStart`() = runTest {
+        val index = "index-1-2-3"
+        val dbFlow = MutableSharedFlow<ReadHighlightsEntity?>(
+            replay = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
+        every { readHighlightsDao.getFlow(index) }.returns(dbFlow)
+        every { connectivityHelper.isConnected() }.returns(true)
+        coEvery { lessonsApi.getHighlights(index) }.returns(Response.success(ReadHighlights(index, "", 1L)))
+        coEvery { readHighlightsDao.insertItem(ReadHighlightsEntity(index, "")) }.returns(Unit)
+
+        repository.getHighlights(index).test {
+            dbFlow.emit(null)
+
+            awaitItem() shouldBeEqualTo Result.success(SSReadHighlights(index))
+
+            coVerify { lessonsApi.getHighlights(index) }
+            coVerify { readHighlightsDao.insertItem(ReadHighlightsEntity(index, "")) }
+        }
+    }
+
+    @Test
+    fun `save highlights`() = runTest {
+        val highlights = SSReadHighlights("index", "123")
+        val entity = ReadHighlightsEntity(highlights.readIndex, highlights.highlights)
+        val apiRequest = UploadHighlightsRequest(highlights.readIndex, highlights.highlights)
+        coEvery { readHighlightsDao.insertItem(entity) }.returns(Unit)
+        coEvery { lessonsApi.uploadHighlights(apiRequest) }.returns(Response.success(null))
+        every { connectivityHelper.isConnected() }.returns(true)
+
+        repository.saveHighlights(highlights)
+
+        coVerify { readHighlightsDao.insertItem(entity) }
+        coVerify { lessonsApi.uploadHighlights(apiRequest) }
     }
 
     @Test

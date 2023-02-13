@@ -23,6 +23,7 @@
 package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.api.SSLessonsApi
+import app.ss.lessons.data.model.api.request.UploadHighlightsRequest
 import app.ss.lessons.data.repository.DataSource
 import app.ss.lessons.data.repository.DataSourceMediator
 import app.ss.lessons.data.repository.LocalDataSource
@@ -72,11 +73,12 @@ internal class ReadHighlightsDataSource @Inject constructor(
 
         override suspend fun getItem(request: Request): Resource<SSReadHighlights> {
             val response = lessonsApi.getHighlights(request.readIndex)
-            return Resource.success(response.body() ?: SSReadHighlights(request.readIndex))
+            val highlights = response.body()?.highlights ?: ""
+            return Resource.success(SSReadHighlights(request.readIndex, highlights))
         }
 
         override suspend fun update(request: Request, data: List<SSReadHighlights>) {
-            data.forEach { lessonsApi.uploadHighlights(it) }
+            data.forEach { lessonsApi.uploadHighlights(UploadHighlightsRequest(it.readIndex, it.highlights)) }
         }
     }
 }

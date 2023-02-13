@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,38 +20,32 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository
+package app.ss.lessons.data.repository.user
 
-import app.ss.storage.db.dao.PdfAnnotationsDao
-import app.ss.storage.db.dao.ReadCommentsDao
-import app.ss.storage.db.dao.ReadHighlightsDao
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
-import kotlinx.coroutines.withContext
-import ss.prefs.api.SSPrefs
-import javax.inject.Inject
-import javax.inject.Singleton
+import app.ss.models.PdfAnnotations
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Responsible for user stored lesson data (Highlights, Comments, Annotations).
  */
-@Singleton
-class UserDataRepository @Inject constructor(
-    private val readHighlightsDao: ReadHighlightsDao,
-    private val readCommentsDao: ReadCommentsDao,
-    private val pdfAnnotationsDao: PdfAnnotationsDao,
-    private val ssPrefs: SSPrefs,
-    private val dispatcherProvider: DispatcherProvider,
-) {
+interface UserDataRepository {
+
+    fun getHighlights(readIndex: String): Flow<Result<SSReadHighlights>>
+
+    fun saveHighlights(highlights: SSReadHighlights)
+
+    fun getComments(readIndex: String): Flow<Result<SSReadComments>>
+
+    fun saveComments(comments: SSReadComments)
+
+    fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Result<List<PdfAnnotations>>>
+
+    fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>)
 
     /**
      * Clears all cached user data.
      */
-    suspend fun clear() {
-        withContext(dispatcherProvider.io) {
-            readHighlightsDao.clear()
-            readCommentsDao.clear()
-            pdfAnnotationsDao.clear()
-            ssPrefs.clear()
-        }
-    }
+    suspend fun clear()
 }

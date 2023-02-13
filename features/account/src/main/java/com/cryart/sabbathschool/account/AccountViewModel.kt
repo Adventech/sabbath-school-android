@@ -26,7 +26,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.auth.AuthRepository
-import app.ss.lessons.data.repository.UserDataRepository
+import app.ss.lessons.data.repository.user.UserDataRepository
 import com.cryart.sabbathschool.account.model.UserInfo
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import dagger.hilt.android.lifecycle.HiltViewModel

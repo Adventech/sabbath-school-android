@@ -66,7 +66,7 @@ class MediaRepositoryImplTest {
 
         coEvery { mockAudioDataSource.get(AudioDataSource.Request("en-2021-03-09")) }
             .returns(Resource.success(result))
-        every { mockAudioDao.insertAll(any()) }.returns(Unit)
+        coEvery { mockAudioDao.insertAll(any()) }.returns(Unit)
 
         val response = repository.getAudio(lessonIndex)
 

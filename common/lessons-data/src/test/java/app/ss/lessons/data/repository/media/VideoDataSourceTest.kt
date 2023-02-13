@@ -91,7 +91,7 @@ class VideoDataSourceTest {
             .returns(Response.success(listOf(videosInfoModel)))
         coEvery { mockVideoDao.delete(quarterlyIndex) }
             .returns(Unit)
-        every { mockVideoDao.insertAll(entities) }
+        coEvery { mockVideoDao.insertAll(entities) }
             .returns(Unit)
 
         val resource = dataSource.get(VideoDataSource.Request(LESSON_INDEX))
