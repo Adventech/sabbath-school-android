@@ -22,10 +22,10 @@
 
 package app.ss.lessons.data.api
 
+import app.ss.lessons.data.model.api.AnnotationsPdf
 import app.ss.lessons.data.model.api.ReadComments
 import app.ss.lessons.data.model.api.ReadHighlights
 import app.ss.lessons.data.model.api.request.UploadPdfAnnotationsRequest
-import app.ss.models.PdfAnnotations
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
@@ -54,7 +54,7 @@ internal interface SSLessonsApi {
     suspend fun getPdfAnnotations(
         @Path("lessonIndex") lessonIndex: String,
         @Path("pdfId") pdfId: String
-    ): Response<List<PdfAnnotations>>
+    ): Response<List<AnnotationsPdf>>
 
     @POST("api/v2/annotations/{lessonIndex}/{pdfId}")
     suspend fun uploadAnnotations(

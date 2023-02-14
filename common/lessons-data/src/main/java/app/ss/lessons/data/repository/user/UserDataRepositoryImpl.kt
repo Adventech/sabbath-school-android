@@ -23,6 +23,7 @@
 package app.ss.lessons.data.repository.user
 
 import app.ss.lessons.data.api.SSLessonsApi
+import app.ss.lessons.data.model.api.request.UploadPdfAnnotationsRequest
 import app.ss.models.PdfAnnotations
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
@@ -31,6 +32,7 @@ import app.ss.network.safeApiCall
 import app.ss.storage.db.dao.PdfAnnotationsDao
 import app.ss.storage.db.dao.ReadCommentsDao
 import app.ss.storage.db.dao.ReadHighlightsDao
+import app.ss.storage.db.entity.PdfAnnotationsEntity
 import app.ss.storage.db.entity.ReadCommentsEntity
 import app.ss.storage.db.entity.ReadHighlightsEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
@@ -128,12 +130,63 @@ internal class UserDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Result<List<PdfAnnotations>>> {
-        TODO("Not yet implemented")
+    override fun getAnnotations(
+        lessonIndex: String,
+        pdfId: String
+    ): Flow<Result<List<PdfAnnotations>>> = pdfAnnotationsDao
+        .getFlow("$lessonIndex-$pdfId")
+        .map { entities -> entities.map { PdfAnnotations(pageIndex = it.pageIndex, annotations = it.annotations) } }
+        .map { Result.success(it) }
+        .onStart { syncAnnotations(lessonIndex, pdfId) }
+        .flowOn(dispatcherProvider.io)
+        .catch {
+            Timber.e(it)
+            emit(Result.failure(it))
+        }
+
+    private fun syncAnnotations(lessonIndex: String, pdfId: String) = launch {
+        val response = safeApiCall(connectivityHelper) { lessonsApi.getPdfAnnotations(lessonIndex, pdfId) }
+        if (response is NetworkResource.Success) {
+            val annotations = response.value.body() ?: return@launch
+
+            withContext(dispatcherProvider.io) {
+                val pdfIndex = "$lessonIndex-$pdfId"
+                val entities = annotations.map {
+                    PdfAnnotationsEntity(
+                        index = "$pdfIndex-${it.pageIndex}",
+                        pdfIndex = pdfIndex,
+                        pageIndex = it.pageIndex,
+                        annotations = it.annotations
+                    )
+                }
+                pdfAnnotationsDao.insertAll(entities)
+            }
+        }
     }
 
     override fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
-        TODO("Not yet implemented")
+        launch {
+            withContext(dispatcherProvider.io) {
+                val pdfIndex = "$lessonIndex-$pdfId"
+                val entities = annotations.map {
+                    PdfAnnotationsEntity(
+                        index = "$pdfIndex-${it.pageIndex}",
+                        pdfIndex = pdfIndex,
+                        pageIndex = it.pageIndex,
+                        annotations = it.annotations
+                    )
+                }
+                pdfAnnotationsDao.insertAll(entities)
+            }
+
+            safeApiCall(connectivityHelper) {
+                lessonsApi.uploadAnnotations(
+                    lessonIndex,
+                    pdfId,
+                    UploadPdfAnnotationsRequest(annotations)
+                )
+            }
+        }
     }
 
     override suspend fun clear() {
