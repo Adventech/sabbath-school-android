@@ -26,14 +26,17 @@ import app.cash.turbine.test
 import app.ss.lessons.data.api.SSLessonsApi
 import app.ss.lessons.data.model.api.ReadComments
 import app.ss.lessons.data.model.api.ReadHighlights
+import app.ss.lessons.data.model.api.request.UploadPdfAnnotationsRequest
 import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.lessons.data.repository.user.UserDataRepositoryImpl
+import app.ss.models.PdfAnnotations
 import app.ss.models.SSComment
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
 import app.ss.storage.db.dao.PdfAnnotationsDao
 import app.ss.storage.db.dao.ReadCommentsDao
 import app.ss.storage.db.dao.ReadHighlightsDao
+import app.ss.storage.db.entity.PdfAnnotationsEntity
 import app.ss.storage.db.entity.ReadCommentsEntity
 import app.ss.storage.db.entity.ReadHighlightsEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
@@ -214,6 +217,91 @@ class UserDataRepositoryTest {
 
         coVerify { readCommentsDao.insertItem(entity) }
         coVerify { lessonsApi.uploadComments(comments) }
+    }
+
+    @Test
+    fun getAnnotations() = runTest {
+        val index = "index"
+        val pdfId = "pdf"
+        val dbFlow = MutableSharedFlow<List<PdfAnnotationsEntity>>(
+            replay = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
+        every { pdfAnnotationsDao.getFlow("$index-$pdfId") }.returns(dbFlow)
+        every { connectivityHelper.isConnected() }.returns(false)
+
+        repository.getAnnotations(index, pdfId).test {
+            dbFlow.emit(emptyList())
+
+            awaitItem() shouldBeEqualTo Result.success(emptyList())
+        }
+    }
+
+    @Test
+    fun `get annotations map from db entity`() = runTest {
+        val index = "index"
+        val pdfId = "pdf"
+        val pageIndex = "$index-$pdfId"
+        val dbFlow = MutableSharedFlow<List<PdfAnnotationsEntity>>(
+            replay = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
+        every { pdfAnnotationsDao.getFlow(pageIndex) }.returns(dbFlow)
+        every { connectivityHelper.isConnected() }.returns(false)
+
+        repository.getAnnotations(index, pdfId).test {
+            dbFlow.emit(
+                listOf(
+                    PdfAnnotationsEntity(
+                        index = pageIndex,
+                        pdfIndex = "$pageIndex-0",
+                        pageIndex = 0,
+                        annotations = listOf("123")
+                    )
+                )
+            )
+
+            awaitItem() shouldBeEqualTo Result.success(
+                listOf(
+                    PdfAnnotations(
+                        pageIndex = 0,
+                        annotations = listOf("123")
+                    )
+                )
+            )
+        }
+    }
+
+    @Test
+    fun `save annotations`() = runTest {
+        val index = "index"
+        val pdfId = "pdf"
+        val pageIndex = "$index-$pdfId"
+        val annotations = listOf(PdfAnnotations(pageIndex = 0, annotations = listOf("123")))
+        val entity = PdfAnnotationsEntity(
+            index = "$pageIndex-0",
+            pdfIndex = pageIndex,
+            pageIndex = 0,
+            annotations = listOf("123")
+        )
+        coEvery { pdfAnnotationsDao.insertAll(listOf(entity)) }.returns(Unit)
+        coEvery { lessonsApi.uploadAnnotations(index, pdfId, UploadPdfAnnotationsRequest(annotations)) }
+            .returns(Response.success(null))
+        every { connectivityHelper.isConnected() }.returns(true)
+
+        repository.saveAnnotations(index, pdfId, annotations)
+
+        coVerify {
+            pdfAnnotationsDao.insertAll(listOf(entity))
+        }
+
+        coVerify {
+            lessonsApi.uploadAnnotations(
+                lessonIndex = index,
+                pdfId = pdfId,
+                request = UploadPdfAnnotationsRequest(annotations)
+            )
+        }
     }
 
 

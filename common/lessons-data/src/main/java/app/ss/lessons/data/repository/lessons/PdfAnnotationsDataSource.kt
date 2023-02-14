@@ -79,7 +79,7 @@ internal class PdfAnnotationsDataSource @Inject constructor(
     override val network: DataSource<PdfAnnotations, Request> = object : DataSource<PdfAnnotations, Request> {
         override suspend fun get(request: Request): Resource<List<PdfAnnotations>> {
             val resource = lessonsApi.getPdfAnnotations(request.lessonIndex, request.pdfId)
-            val data = resource.body() ?: emptyList()
+            val data = resource.body()?.map { PdfAnnotations(it.pageIndex, it.annotations) } ?: emptyList()
             return Resource.success(data)
         }
 
