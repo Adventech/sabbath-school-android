@@ -24,14 +24,17 @@ package app.ss.lessons.data.repository
 
 import app.cash.turbine.test
 import app.ss.lessons.data.api.SSLessonsApi
+import app.ss.lessons.data.model.api.ReadComments
 import app.ss.lessons.data.model.api.ReadHighlights
-import app.ss.lessons.data.model.api.request.UploadHighlightsRequest
 import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.lessons.data.repository.user.UserDataRepositoryImpl
+import app.ss.models.SSComment
+import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
 import app.ss.storage.db.dao.PdfAnnotationsDao
 import app.ss.storage.db.dao.ReadCommentsDao
 import app.ss.storage.db.dao.ReadHighlightsDao
+import app.ss.storage.db.entity.ReadCommentsEntity
 import app.ss.storage.db.entity.ReadHighlightsEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
@@ -133,16 +136,86 @@ class UserDataRepositoryTest {
     fun `save highlights`() = runTest {
         val highlights = SSReadHighlights("index", "123")
         val entity = ReadHighlightsEntity(highlights.readIndex, highlights.highlights)
-        val apiRequest = UploadHighlightsRequest(highlights.readIndex, highlights.highlights)
         coEvery { readHighlightsDao.insertItem(entity) }.returns(Unit)
-        coEvery { lessonsApi.uploadHighlights(apiRequest) }.returns(Response.success(null))
+        coEvery { lessonsApi.uploadHighlights(highlights) }.returns(Response.success(null))
         every { connectivityHelper.isConnected() }.returns(true)
 
         repository.saveHighlights(highlights)
 
         coVerify { readHighlightsDao.insertItem(entity) }
-        coVerify { lessonsApi.uploadHighlights(apiRequest) }
+        coVerify { lessonsApi.uploadHighlights(highlights) }
     }
+
+    @Test
+    fun getComments() = runTest {
+        val index = "index-1-2-3"
+        val dbFlow = MutableSharedFlow<ReadCommentsEntity?>(
+            replay = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
+        every { readCommentsDao.getFlow(index) }.returns(dbFlow)
+        every { connectivityHelper.isConnected() }.returns(false)
+
+        repository.getComments(index).test {
+            dbFlow.emit(null)
+
+            awaitItem() shouldBeEqualTo Result.success(SSReadComments(index, emptyList()))
+        }
+    }
+
+    @Test
+    fun `get comments map from db entity`() = runTest {
+        val index = "index-1-2-3"
+        val dbFlow = MutableSharedFlow<ReadCommentsEntity?>(
+            replay = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
+        every { readCommentsDao.getFlow(index) }.returns(dbFlow)
+        every { connectivityHelper.isConnected() }.returns(false)
+
+        repository.getComments(index).test {
+            dbFlow.emit(ReadCommentsEntity(index, listOf(SSComment("123"))))
+
+            awaitItem() shouldBeEqualTo Result.success(SSReadComments(index, listOf(SSComment("123"))))
+        }
+    }
+
+    @Test
+    fun `get comments sync onStart`() = runTest {
+        val index = "index-1-2-3"
+        val dbFlow = MutableSharedFlow<ReadCommentsEntity?>(
+            replay = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
+        every { readCommentsDao.getFlow(index) }.returns(dbFlow)
+        every { connectivityHelper.isConnected() }.returns(true)
+        coEvery { lessonsApi.getComments(index) }.returns(Response.success(ReadComments(index, emptyList(), 1L)))
+        coEvery { readCommentsDao.insertItem(ReadCommentsEntity(index, emptyList())) }.returns(Unit)
+
+        repository.getComments(index).test {
+            dbFlow.emit(null)
+
+            awaitItem() shouldBeEqualTo Result.success(SSReadComments(index, emptyList()))
+
+            coVerify { lessonsApi.getComments(index) }
+            coVerify { readCommentsDao.insertItem(ReadCommentsEntity(index, emptyList())) }
+        }
+    }
+
+    @Test
+    fun `save comments`() = runTest {
+        val comments = SSReadComments("index", listOf(SSComment("123")))
+        val entity = ReadCommentsEntity(comments.readIndex, comments.comments)
+        coEvery { readCommentsDao.insertItem(entity) }.returns(Unit)
+        coEvery { lessonsApi.uploadComments(comments) }.returns(Response.success(null))
+        every { connectivityHelper.isConnected() }.returns(true)
+
+        repository.saveComments(comments)
+
+        coVerify { readCommentsDao.insertItem(entity) }
+        coVerify { lessonsApi.uploadComments(comments) }
+    }
+
 
     @Test
     fun clear() = runTest {

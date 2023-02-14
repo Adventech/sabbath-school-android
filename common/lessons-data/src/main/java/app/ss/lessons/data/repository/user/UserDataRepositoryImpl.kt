@@ -23,7 +23,6 @@
 package app.ss.lessons.data.repository.user
 
 import app.ss.lessons.data.api.SSLessonsApi
-import app.ss.lessons.data.model.api.request.UploadHighlightsRequest
 import app.ss.models.PdfAnnotations
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
@@ -32,6 +31,7 @@ import app.ss.network.safeApiCall
 import app.ss.storage.db.dao.PdfAnnotationsDao
 import app.ss.storage.db.dao.ReadCommentsDao
 import app.ss.storage.db.dao.ReadHighlightsDao
+import app.ss.storage.db.entity.ReadCommentsEntity
 import app.ss.storage.db.entity.ReadHighlightsEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
@@ -89,19 +89,43 @@ internal class UserDataRepositoryImpl @Inject constructor(
             }
 
             safeApiCall(connectivityHelper) {
-                lessonsApi.uploadHighlights(
-                    UploadHighlightsRequest(highlights.readIndex, highlights.highlights)
-                )
+                lessonsApi.uploadHighlights(highlights)
             }
         }
     }
 
-    override fun getComments(readIndex: String): Flow<Result<SSReadComments>> {
-        TODO("Not yet implemented")
+    override fun getComments(readIndex: String): Flow<Result<SSReadComments>> = readCommentsDao
+        .getFlow(readIndex)
+        .map { Result.success(SSReadComments(readIndex, it?.comments ?: emptyList())) }
+        .onStart { syncComments(readIndex) }
+        .flowOn(dispatcherProvider.io)
+        .catch {
+            Timber.e(it)
+            emit(Result.failure(it))
+        }
+
+    private fun syncComments(readIndex: String) = launch {
+        val response = safeApiCall(connectivityHelper) { lessonsApi.getComments(readIndex) }
+        if (response is NetworkResource.Success) {
+            val comments = response.value.body() ?: return@launch
+            withContext(dispatcherProvider.io) {
+                readCommentsDao.insertItem(ReadCommentsEntity(readIndex, comments.comments))
+            }
+        }
     }
 
     override fun saveComments(comments: SSReadComments) {
-        TODO("Not yet implemented")
+        launch {
+            withContext(dispatcherProvider.io) {
+                readCommentsDao.insertItem(
+                    ReadCommentsEntity(comments.readIndex, comments.comments)
+                )
+            }
+
+            safeApiCall(connectivityHelper) {
+                lessonsApi.uploadComments(comments)
+            }
+        }
     }
 
     override fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Result<List<PdfAnnotations>>> {

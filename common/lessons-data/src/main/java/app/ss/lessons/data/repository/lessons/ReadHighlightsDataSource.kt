@@ -23,7 +23,6 @@
 package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.api.SSLessonsApi
-import app.ss.lessons.data.model.api.request.UploadHighlightsRequest
 import app.ss.lessons.data.repository.DataSource
 import app.ss.lessons.data.repository.DataSourceMediator
 import app.ss.lessons.data.repository.LocalDataSource
@@ -78,7 +77,7 @@ internal class ReadHighlightsDataSource @Inject constructor(
         }
 
         override suspend fun update(request: Request, data: List<SSReadHighlights>) {
-            data.forEach { lessonsApi.uploadHighlights(UploadHighlightsRequest(it.readIndex, it.highlights)) }
+            data.forEach { lessonsApi.uploadHighlights(it) }
         }
     }
 }
