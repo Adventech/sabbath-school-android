@@ -20,14 +20,16 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.model.api.request
+package app.ss.lessons.data.model.api
 
 import androidx.annotation.Keep
+import app.ss.models.SSComment
 import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = true)
-internal data class UploadHighlightsRequest(
+internal data class ReadComments(
     val readIndex: String,
-    val highlights: String
+    val comments: List<SSComment>,
+    val timestamp: Long,
 )

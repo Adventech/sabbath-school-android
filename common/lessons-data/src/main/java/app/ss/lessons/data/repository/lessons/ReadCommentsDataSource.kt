@@ -73,7 +73,7 @@ internal class ReadCommentsDataSource @Inject constructor(
 
         override suspend fun getItem(request: Request): Resource<SSReadComments> {
             val response = lessonsApi.getComments(request.readIndex)
-            return Resource.success(response.body() ?: SSReadComments(request.readIndex, emptyList()))
+            return Resource.success(SSReadComments(request.readIndex, response.body()?.comments ?: emptyList()) )
         }
 
         override suspend fun update(request: Request, data: List<SSReadComments>) {

@@ -25,12 +25,16 @@ package app.ss.storage.db.dao
 import androidx.room.Dao
 import androidx.room.Query
 import app.ss.storage.db.entity.ReadCommentsEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ReadCommentsDao : BaseDao<ReadCommentsEntity> {
 
     @Query("SELECT * FROM comments WHERE readIndex = :readIndex")
     fun get(readIndex: String): ReadCommentsEntity?
+
+    @Query("SELECT * FROM comments WHERE readIndex = :readIndex")
+    fun getFlow(readIndex: String): Flow<ReadCommentsEntity?>
 
     @Query("DELETE FROM comments")
     suspend fun clear()

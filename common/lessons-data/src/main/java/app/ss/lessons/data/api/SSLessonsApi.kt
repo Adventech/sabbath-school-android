@@ -22,13 +22,14 @@
 
 package app.ss.lessons.data.api
 
+import app.ss.lessons.data.model.api.ReadComments
 import app.ss.lessons.data.model.api.ReadHighlights
-import app.ss.lessons.data.model.api.request.UploadHighlightsRequest
 import app.ss.lessons.data.model.api.request.UploadPdfAnnotationsRequest
 import app.ss.models.PdfAnnotations
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -65,7 +66,7 @@ internal interface SSLessonsApi {
     @GET("api/v2/comments/{readIndex}")
     suspend fun getComments(
         @Path("readIndex") readIndex: String
-    ): Response<SSReadComments>
+    ): Response<ReadComments>
 
     @POST("api/v2/comments")
     suspend fun uploadComments(
@@ -79,7 +80,7 @@ internal interface SSLessonsApi {
 
     @POST("api/v2/highlights")
     suspend fun uploadHighlights(
-        @Body request: UploadHighlightsRequest
+        @Body highlights: SSReadHighlights
     ): Response<ResponseBody>
 
     @GET
