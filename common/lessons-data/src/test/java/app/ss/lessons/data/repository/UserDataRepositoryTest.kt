@@ -53,6 +53,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Response
+import ss.misc.DeviceHelper
 import ss.prefs.api.SSPrefs
 
 class UserDataRepositoryTest {
@@ -63,11 +64,16 @@ class UserDataRepositoryTest {
     private val pdfAnnotationsDao: PdfAnnotationsDao = mockk()
     private val ssPrefs: SSPrefs = mockk()
     private val connectivityHelper: ConnectivityHelper = mockk()
+    private val deviceHelper: DeviceHelper = mockk()
 
     private lateinit var repository: UserDataRepository
 
+    private val defaultEpochSecond = 1676421200L // February 15, 2023 12:33:20 AM
+
     @Before
     fun setup() {
+        every { deviceHelper.epochSecond() }.returns(defaultEpochSecond)
+
         repository = UserDataRepositoryImpl(
             lessonsApi = lessonsApi,
             readHighlightsDao = readHighlightsDao,
@@ -75,7 +81,8 @@ class UserDataRepositoryTest {
             pdfAnnotationsDao = pdfAnnotationsDao,
             ssPrefs = ssPrefs,
             dispatcherProvider = TestDispatcherProvider(),
-            connectivityHelper = connectivityHelper
+            connectivityHelper = connectivityHelper,
+            deviceHelper = deviceHelper
         )
     }
 
@@ -107,7 +114,7 @@ class UserDataRepositoryTest {
         every { connectivityHelper.isConnected() }.returns(false)
 
         repository.getHighlights(index).test {
-            dbFlow.emit(ReadHighlightsEntity(index, "1234"))
+            dbFlow.emit(ReadHighlightsEntity(index, "1234", defaultEpochSecond))
 
             awaitItem() shouldBeEqualTo Result.success(SSReadHighlights(index, "1234"))
         }
@@ -123,7 +130,8 @@ class UserDataRepositoryTest {
         every { readHighlightsDao.getFlow(index) }.returns(dbFlow)
         every { connectivityHelper.isConnected() }.returns(true)
         coEvery { lessonsApi.getHighlights(index) }.returns(Response.success(ReadHighlights(index, "", 1L)))
-        coEvery { readHighlightsDao.insertItem(ReadHighlightsEntity(index, "")) }.returns(Unit)
+        every { readHighlightsDao.get(index) }.returns(null)
+        coEvery { readHighlightsDao.insertItem(ReadHighlightsEntity(index, "", 1L)) }.returns(Unit)
 
         repository.getHighlights(index).test {
             dbFlow.emit(null)
@@ -131,14 +139,36 @@ class UserDataRepositoryTest {
             awaitItem() shouldBeEqualTo Result.success(SSReadHighlights(index))
 
             coVerify { lessonsApi.getHighlights(index) }
-            coVerify { readHighlightsDao.insertItem(ReadHighlightsEntity(index, "")) }
+            coVerify { readHighlightsDao.insertItem(ReadHighlightsEntity(index, "", 1L)) }
+        }
+    }
+
+    @Test
+    fun `get highlights sync onStart - upload cached`() = runTest {
+        val index = "index-1-2-3"
+        val timestamp = 1676896200L // February 20, 2023 12:30:00 PM
+        val dbFlow = MutableSharedFlow<ReadHighlightsEntity?>(
+            replay = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
+        every { readHighlightsDao.getFlow(index) }.returns(dbFlow)
+        every { connectivityHelper.isConnected() }.returns(true)
+        coEvery { lessonsApi.getHighlights(index) }.returns(Response.success(ReadHighlights(index, "", defaultEpochSecond)))
+        every { readHighlightsDao.get(index) }.returns(ReadHighlightsEntity(index, "cached", timestamp))
+
+        repository.getHighlights(index).test {
+            dbFlow.emit(null)
+
+            awaitItem() shouldBeEqualTo Result.success(SSReadHighlights(index))
+
+            coVerify { lessonsApi.uploadHighlights(SSReadHighlights(index, "cached")) }
         }
     }
 
     @Test
     fun `save highlights`() = runTest {
         val highlights = SSReadHighlights("index", "123")
-        val entity = ReadHighlightsEntity(highlights.readIndex, highlights.highlights)
+        val entity = ReadHighlightsEntity(highlights.readIndex, highlights.highlights, defaultEpochSecond)
         coEvery { readHighlightsDao.insertItem(entity) }.returns(Unit)
         coEvery { lessonsApi.uploadHighlights(highlights) }.returns(Response.success(null))
         every { connectivityHelper.isConnected() }.returns(true)
@@ -177,7 +207,7 @@ class UserDataRepositoryTest {
         every { connectivityHelper.isConnected() }.returns(false)
 
         repository.getComments(index).test {
-            dbFlow.emit(ReadCommentsEntity(index, listOf(SSComment("123"))))
+            dbFlow.emit(ReadCommentsEntity(index, listOf(SSComment("123")), defaultEpochSecond))
 
             awaitItem() shouldBeEqualTo Result.success(SSReadComments(index, listOf(SSComment("123"))))
         }
@@ -193,7 +223,8 @@ class UserDataRepositoryTest {
         every { readCommentsDao.getFlow(index) }.returns(dbFlow)
         every { connectivityHelper.isConnected() }.returns(true)
         coEvery { lessonsApi.getComments(index) }.returns(Response.success(ReadComments(index, emptyList(), 1L)))
-        coEvery { readCommentsDao.insertItem(ReadCommentsEntity(index, emptyList())) }.returns(Unit)
+        every { readCommentsDao.get(index) }.returns(null)
+        coEvery { readCommentsDao.insertItem(ReadCommentsEntity(index, emptyList(), 1L)) }.returns(Unit)
 
         repository.getComments(index).test {
             dbFlow.emit(null)
@@ -201,14 +232,36 @@ class UserDataRepositoryTest {
             awaitItem() shouldBeEqualTo Result.success(SSReadComments(index, emptyList()))
 
             coVerify { lessonsApi.getComments(index) }
-            coVerify { readCommentsDao.insertItem(ReadCommentsEntity(index, emptyList())) }
+            coVerify { readCommentsDao.insertItem(ReadCommentsEntity(index, emptyList(), 1L)) }
+        }
+    }
+
+    @Test
+    fun `get comments sync onStart - upload cached`() = runTest {
+        val index = "index-1-2-3"
+        val timestamp = 1676896200L // February 20, 2023 12:30:00 PM
+        val dbFlow = MutableSharedFlow<ReadCommentsEntity?>(
+            replay = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
+        every { readCommentsDao.getFlow(index) }.returns(dbFlow)
+        every { connectivityHelper.isConnected() }.returns(true)
+        coEvery { lessonsApi.getComments(index) }.returns(Response.success(ReadComments(index, listOf(SSComment("remote")), defaultEpochSecond)))
+        every { readCommentsDao.get(index) }.returns(ReadCommentsEntity(index, listOf(SSComment("cached")), timestamp))
+
+        repository.getComments(index).test {
+            dbFlow.emit(null)
+
+            awaitItem() shouldBeEqualTo Result.success(SSReadComments(index, emptyList()))
+
+            coVerify { lessonsApi.uploadComments(SSReadComments(index, listOf(SSComment("cached")))) }
         }
     }
 
     @Test
     fun `save comments`() = runTest {
         val comments = SSReadComments("index", listOf(SSComment("123")))
-        val entity = ReadCommentsEntity(comments.readIndex, comments.comments)
+        val entity = ReadCommentsEntity(comments.readIndex, comments.comments, defaultEpochSecond)
         coEvery { readCommentsDao.insertItem(entity) }.returns(Unit)
         coEvery { lessonsApi.uploadComments(comments) }.returns(Response.success(null))
         every { connectivityHelper.isConnected() }.returns(true)
@@ -256,7 +309,8 @@ class UserDataRepositoryTest {
                         index = pageIndex,
                         pdfIndex = "$pageIndex-0",
                         pageIndex = 0,
-                        annotations = listOf("123")
+                        annotations = listOf("123"),
+                        timestamp = defaultEpochSecond
                     )
                 )
             )
@@ -282,7 +336,8 @@ class UserDataRepositoryTest {
             index = "$pageIndex-0",
             pdfIndex = pageIndex,
             pageIndex = 0,
-            annotations = listOf("123")
+            annotations = listOf("123"),
+            timestamp = defaultEpochSecond
         )
         coEvery { pdfAnnotationsDao.insertAll(listOf(entity)) }.returns(Unit)
         coEvery { lessonsApi.uploadAnnotations(index, pdfId, UploadPdfAnnotationsRequest(annotations)) }

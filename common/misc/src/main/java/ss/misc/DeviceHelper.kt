@@ -25,11 +25,13 @@ package ss.misc
 import android.content.Context
 import android.telephony.TelephonyManager
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
 interface DeviceHelper {
     fun country(): String
+    fun epochSecond(): Long
 }
 
 @Singleton
@@ -42,4 +44,5 @@ internal class DeviceHelperImpl @Inject constructor(
     }
 
     override fun country(): String = telephonyManager.networkCountryIso
+    override fun epochSecond(): Long = Instant.now().epochSecond
 }

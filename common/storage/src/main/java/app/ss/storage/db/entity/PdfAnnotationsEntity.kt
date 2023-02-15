@@ -22,6 +22,7 @@
 
 package app.ss.storage.db.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -30,5 +31,7 @@ data class PdfAnnotationsEntity(
     @PrimaryKey val index: String,
     val pdfIndex: String,
     val pageIndex: Int,
-    val annotations: List<String>
+    val annotations: List<String>,
+    @ColumnInfo(defaultValue = "1675209600")
+    val timestamp: Long
 )

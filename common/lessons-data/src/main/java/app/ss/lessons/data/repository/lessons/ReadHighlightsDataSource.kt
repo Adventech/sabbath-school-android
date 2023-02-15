@@ -32,6 +32,7 @@ import app.ss.storage.db.entity.ReadHighlightsEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
+import ss.misc.DeviceHelper
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -40,7 +41,8 @@ internal class ReadHighlightsDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     connectivityHelper: ConnectivityHelper,
     private val lessonsApi: SSLessonsApi,
-    private val readHighlightsDao: ReadHighlightsDao
+    private val readHighlightsDao: ReadHighlightsDao,
+    private val deviceHelper: DeviceHelper
 ) : DataSourceMediator<SSReadHighlights, ReadHighlightsDataSource.Request>(
     dispatcherProvider = dispatcherProvider,
     connectivityHelper = connectivityHelper
@@ -59,7 +61,7 @@ internal class ReadHighlightsDataSource @Inject constructor(
 
         override suspend fun updateItem(data: SSReadHighlights) {
             if (data.highlights.isNotEmpty()) {
-                readHighlightsDao.insertItem(ReadHighlightsEntity(data.readIndex, data.highlights))
+                readHighlightsDao.insertItem(ReadHighlightsEntity(data.readIndex, data.highlights, deviceHelper.epochSecond()))
             }
         }
 
