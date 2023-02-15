@@ -81,16 +81,11 @@ internal abstract class DataSourceMediator<T, R>(
             emit(Resource.error(it))
         }
 
-    suspend fun getItem(request: R, preferredSource: PreferredSource = PreferredSource.NETWORK): Resource<T> {
+    suspend fun getItem(request: R): Resource<T> {
         val cacheResource = withContext(dispatcherProvider.io) { cache.getItem(request) }
-        return when (preferredSource) {
-            PreferredSource.NETWORK -> safeNetworkGetItem { network.getItem(request) }
-                .also { it.data?.let { withContext(dispatcherProvider.io) { cache.updateItem(it) } } }
-                .takeIf { it.isSuccessFul } ?: cacheResource
-            PreferredSource.CACHE -> cacheResource
-                .takeIf { it.isSuccessFul } ?: safeNetworkGetItem { network.getItem(request) }
-                .also { cacheNetworkRequest(request) }
-        }
+        return cacheResource
+            .takeIf { it.isSuccessFul } ?: safeNetworkGetItem { network.getItem(request) }
+            .also { cacheNetworkRequest(request) }
     }
 
     private fun cacheNetworkRequest(request: R) = launch {
@@ -117,14 +112,6 @@ internal abstract class DataSourceMediator<T, R>(
             emit(Resource.error(it))
         }
 
-    fun sync(request: R, data: List<T>) = launch {
-        withContext(dispatcherProvider.io) {
-            cache.update(data)
-            cache.update(request, data)
-        }
-        safeApiCall(connectivityHelper) { network.update(request, data) }
-    }
-
     private suspend fun safeNetworkGetItem(call: suspend () -> Resource<T>): Resource<T> {
         return when (val resource = safeApiCall(connectivityHelper) { call() }) {
             is NetworkResource.Failure -> Resource.error(Throwable())
@@ -150,5 +137,3 @@ interface LocalDataSource<T, R> : DataSource<T, R> {
     suspend fun update(data: List<T>) = Unit
     suspend fun updateItem(data: T) = Unit
 }
-
-enum class PreferredSource { NETWORK, CACHE }

@@ -27,7 +27,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.models.LessonPdf
 import app.ss.models.PdfAnnotations
-import app.ss.lessons.data.repository.lessons.LessonsRepository
+import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.media.MediaAvailability
 import app.ss.pdf.LocalFile
 import app.ss.pdf.PdfReader
@@ -46,7 +46,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ReadPdfViewModel @Inject constructor(
     pdfReader: PdfReader,
-    private val lessonsRepository: LessonsRepository,
+    private val userDataRepository: UserDataRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -73,8 +73,8 @@ class ReadPdfViewModel @Inject constructor(
         viewModelScope.launch {
             val lessonIndex = lessonIndex ?: return@launch
             savedStateHandle.pdfs.forEachIndexed { index, pdf ->
-                lessonsRepository.getAnnotations(lessonIndex, pdf.id).collect { resource ->
-                    val syncAnnotations = resource.data ?: return@collect
+                userDataRepository.getAnnotations(lessonIndex, pdf.id).collect { result ->
+                    val syncAnnotations = result.getOrNull() ?: return@collect
                     _annotationsMap[index] = syncAnnotations
                     _annotationsUpdate.emit(index)
                 }
@@ -88,7 +88,7 @@ class ReadPdfViewModel @Inject constructor(
 
         val syncAnnotations = document.annotations().toSync()
 
-        lessonsRepository.saveAnnotations(lessonIndex, pdfId, syncAnnotations)
+        userDataRepository.saveAnnotations(lessonIndex, pdfId, syncAnnotations)
     }
 
     private fun List<Annotation>.toSync(): List<PdfAnnotations> {

@@ -32,21 +32,28 @@ internal class ReadingViewPagerAdapter(
         submitList(data, commitCallback)
     }
 
-    fun setContent(
-        ssReadHighlights: List<SSReadHighlights>,
-        ssReadComments: List<SSReadComments>
-    ) {
-        val data = currentList.mapIndexed { index, content ->
-            if (ssReadHighlights.lastIndex >= index && ssReadComments.lastIndex >= index) {
-                content.copy(
-                    highlights = ssReadHighlights[index],
-                    comments = ssReadComments[index]
+    fun setContent(content: ReadUserContent) {
+        val listIndex = currentList.indexOfFirst { it.read.index == content.index }
+            .takeUnless { it == -1 } ?: return
+
+        val data = currentList.mapIndexed { index, readingContent ->
+            if (listIndex == index) {
+                readingContent.copy(
+                    comments = content.comments,
+                    highlights = content.highlights
                 )
             } else {
-                content
+                readingContent
             }
         }
         submitList(data)
+    }
+
+    fun getContent(readIndex: String): ReadUserContent? {
+        val listIndex = currentList.indexOfFirst { it.read.index == readIndex }
+            .takeUnless { it == -1 } ?: return null
+        val content = currentList[listIndex]
+        return ReadUserContent(readIndex, content.comments, content.highlights)
     }
 
     fun getReadAt(position: Int): SSRead? = currentList.getOrNull(position)?.read

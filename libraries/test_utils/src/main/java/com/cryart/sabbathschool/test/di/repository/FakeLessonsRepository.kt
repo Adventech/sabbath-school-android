@@ -1,18 +1,13 @@
 package com.cryart.sabbathschool.test.di.repository
 
 import app.ss.lessons.data.repository.lessons.LessonsRepository
-import app.ss.models.PdfAnnotations
 import app.ss.models.SSDay
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
-import app.ss.models.SSReadComments
-import app.ss.models.SSReadHighlights
 import app.ss.models.TodayData
 import app.ss.models.WeekData
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.test.di.mock.MockDataFactory
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
 
 class FakeLessonsRepository @Inject constructor() : LessonsRepository {
@@ -35,24 +30,6 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
     override suspend fun getWeekData(cached: Boolean): Resource<WeekData> {
         return Resource.success(MockDataFactory.weekData())
     }
-
-    override fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) = Unit
-
-    override fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>> {
-        return emptyFlow()
-    }
-
-    override suspend fun getComments(readIndex: String): Resource<SSReadComments> {
-        return Resource.success(SSReadComments(readIndex, emptyList()))
-    }
-
-    override fun saveComments(comments: SSReadComments) = Unit
-
-    override suspend fun getReadHighlights(readIndex: String): Resource<SSReadHighlights> {
-        return Resource.success(SSReadHighlights(readIndex))
-    }
-
-    override fun saveHighlights(highlights: SSReadHighlights) = Unit
 
     override fun checkReaderArtifact() {}
 

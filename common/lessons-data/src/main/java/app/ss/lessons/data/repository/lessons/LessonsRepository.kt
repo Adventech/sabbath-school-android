@@ -22,16 +22,12 @@
 
 package app.ss.lessons.data.repository.lessons
 
-import app.ss.models.PdfAnnotations
 import app.ss.models.SSDay
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
-import app.ss.models.SSReadComments
-import app.ss.models.SSReadHighlights
 import app.ss.models.TodayData
 import app.ss.models.WeekData
 import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
 
 interface LessonsRepository {
 
@@ -44,18 +40,6 @@ interface LessonsRepository {
     suspend fun getDayRead(day: SSDay): Resource<SSRead>
 
     suspend fun getWeekData(cached: Boolean = false): Resource<WeekData>
-
-    fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>)
-
-    fun getAnnotations(lessonIndex: String, pdfId: String): Flow<Resource<List<PdfAnnotations>>>
-
-    suspend fun getComments(readIndex: String): Resource<SSReadComments>
-
-    fun saveComments(comments: SSReadComments)
-
-    suspend fun getReadHighlights(readIndex: String): Resource<SSReadHighlights>
-
-    fun saveHighlights(highlights: SSReadHighlights)
 
     fun checkReaderArtifact()
 

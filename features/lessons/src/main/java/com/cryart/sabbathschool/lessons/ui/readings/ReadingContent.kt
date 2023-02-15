@@ -48,3 +48,9 @@ internal data class ReadingContent(
         }
     }
 }
+
+internal data class ReadUserContent(
+    val index: String,
+    val comments: SSReadComments,
+    val highlights: SSReadHighlights,
+)
