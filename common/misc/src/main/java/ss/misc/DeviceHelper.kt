@@ -31,7 +31,7 @@ import javax.inject.Singleton
 
 interface DeviceHelper {
     fun country(): String
-    fun epochSecond(): Long
+    fun nowEpochMilli(): Long
 }
 
 @Singleton
@@ -44,5 +44,5 @@ internal class DeviceHelperImpl @Inject constructor(
     }
 
     override fun country(): String = telephonyManager.networkCountryIso
-    override fun epochSecond(): Long = Instant.now().epochSecond
+    override fun nowEpochMilli(): Long = Instant.now().toEpochMilli()
 }

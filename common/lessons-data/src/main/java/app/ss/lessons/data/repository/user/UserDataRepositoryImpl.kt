@@ -104,7 +104,7 @@ internal class UserDataRepositoryImpl @Inject constructor(
         launch {
             withContext(dispatcherProvider.io) {
                 readHighlightsDao.insertItem(
-                    ReadHighlightsEntity(highlights.readIndex, highlights.highlights, deviceHelper.epochSecond())
+                    ReadHighlightsEntity(highlights.readIndex, highlights.highlights, deviceHelper.nowEpochMilli())
                 )
             }
 
@@ -152,7 +152,7 @@ internal class UserDataRepositoryImpl @Inject constructor(
         launch {
             withContext(dispatcherProvider.io) {
                 readCommentsDao.insertItem(
-                    ReadCommentsEntity(comments.readIndex, comments.comments, deviceHelper.epochSecond())
+                    ReadCommentsEntity(comments.readIndex, comments.comments, deviceHelper.nowEpochMilli())
                 )
             }
 
@@ -213,7 +213,7 @@ internal class UserDataRepositoryImpl @Inject constructor(
                         pdfIndex = pdfIndex,
                         pageIndex = it.pageIndex,
                         annotations = it.annotations,
-                        timestamp = deviceHelper.epochSecond()
+                        timestamp = deviceHelper.nowEpochMilli()
                     )
                 }
                 pdfAnnotationsDao.insertAll(entities)
@@ -240,6 +240,6 @@ internal class UserDataRepositoryImpl @Inject constructor(
 
     private fun Long.isAfter(other: Long?): Boolean {
         other ?: return true
-        return Instant.ofEpochSecond(this).isAfter(Instant.ofEpochSecond(other))
+        return Instant.ofEpochMilli(this).isAfter(Instant.ofEpochMilli(other))
     }
 }
