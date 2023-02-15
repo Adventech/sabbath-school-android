@@ -68,11 +68,11 @@ class UserDataRepositoryTest {
 
     private lateinit var repository: UserDataRepository
 
-    private val defaultEpochSecond = 1676421200L // February 15, 2023 12:33:20 AM
+    private val defaultTimestamp = 1676421200L // February 15, 2023 12:33:20 AM
 
     @Before
     fun setup() {
-        every { deviceHelper.epochSecond() }.returns(defaultEpochSecond)
+        every { deviceHelper.nowEpochMilli() }.returns(defaultTimestamp)
 
         repository = UserDataRepositoryImpl(
             lessonsApi = lessonsApi,
@@ -114,7 +114,7 @@ class UserDataRepositoryTest {
         every { connectivityHelper.isConnected() }.returns(false)
 
         repository.getHighlights(index).test {
-            dbFlow.emit(ReadHighlightsEntity(index, "1234", defaultEpochSecond))
+            dbFlow.emit(ReadHighlightsEntity(index, "1234", defaultTimestamp))
 
             awaitItem() shouldBeEqualTo Result.success(SSReadHighlights(index, "1234"))
         }
@@ -153,7 +153,7 @@ class UserDataRepositoryTest {
         )
         every { readHighlightsDao.getFlow(index) }.returns(dbFlow)
         every { connectivityHelper.isConnected() }.returns(true)
-        coEvery { lessonsApi.getHighlights(index) }.returns(Response.success(ReadHighlights(index, "", defaultEpochSecond)))
+        coEvery { lessonsApi.getHighlights(index) }.returns(Response.success(ReadHighlights(index, "", defaultTimestamp)))
         every { readHighlightsDao.get(index) }.returns(ReadHighlightsEntity(index, "cached", timestamp))
 
         repository.getHighlights(index).test {
@@ -168,7 +168,7 @@ class UserDataRepositoryTest {
     @Test
     fun `save highlights`() = runTest {
         val highlights = SSReadHighlights("index", "123")
-        val entity = ReadHighlightsEntity(highlights.readIndex, highlights.highlights, defaultEpochSecond)
+        val entity = ReadHighlightsEntity(highlights.readIndex, highlights.highlights, defaultTimestamp)
         coEvery { readHighlightsDao.insertItem(entity) }.returns(Unit)
         coEvery { lessonsApi.uploadHighlights(highlights) }.returns(Response.success(null))
         every { connectivityHelper.isConnected() }.returns(true)
@@ -207,7 +207,7 @@ class UserDataRepositoryTest {
         every { connectivityHelper.isConnected() }.returns(false)
 
         repository.getComments(index).test {
-            dbFlow.emit(ReadCommentsEntity(index, listOf(SSComment("123")), defaultEpochSecond))
+            dbFlow.emit(ReadCommentsEntity(index, listOf(SSComment("123")), defaultTimestamp))
 
             awaitItem() shouldBeEqualTo Result.success(SSReadComments(index, listOf(SSComment("123"))))
         }
@@ -246,7 +246,7 @@ class UserDataRepositoryTest {
         )
         every { readCommentsDao.getFlow(index) }.returns(dbFlow)
         every { connectivityHelper.isConnected() }.returns(true)
-        coEvery { lessonsApi.getComments(index) }.returns(Response.success(ReadComments(index, listOf(SSComment("remote")), defaultEpochSecond)))
+        coEvery { lessonsApi.getComments(index) }.returns(Response.success(ReadComments(index, listOf(SSComment("remote")), defaultTimestamp)))
         every { readCommentsDao.get(index) }.returns(ReadCommentsEntity(index, listOf(SSComment("cached")), timestamp))
 
         repository.getComments(index).test {
@@ -261,7 +261,7 @@ class UserDataRepositoryTest {
     @Test
     fun `save comments`() = runTest {
         val comments = SSReadComments("index", listOf(SSComment("123")))
-        val entity = ReadCommentsEntity(comments.readIndex, comments.comments, defaultEpochSecond)
+        val entity = ReadCommentsEntity(comments.readIndex, comments.comments, defaultTimestamp)
         coEvery { readCommentsDao.insertItem(entity) }.returns(Unit)
         coEvery { lessonsApi.uploadComments(comments) }.returns(Response.success(null))
         every { connectivityHelper.isConnected() }.returns(true)
@@ -310,7 +310,7 @@ class UserDataRepositoryTest {
                         pdfIndex = "$pageIndex-0",
                         pageIndex = 0,
                         annotations = listOf("123"),
-                        timestamp = defaultEpochSecond
+                        timestamp = defaultTimestamp
                     )
                 )
             )
@@ -337,7 +337,7 @@ class UserDataRepositoryTest {
             pdfIndex = pageIndex,
             pageIndex = 0,
             annotations = listOf("123"),
-            timestamp = defaultEpochSecond
+            timestamp = defaultTimestamp
         )
         coEvery { pdfAnnotationsDao.insertAll(listOf(entity)) }.returns(Unit)
         coEvery { lessonsApi.uploadAnnotations(index, pdfId, UploadPdfAnnotationsRequest(annotations)) }
