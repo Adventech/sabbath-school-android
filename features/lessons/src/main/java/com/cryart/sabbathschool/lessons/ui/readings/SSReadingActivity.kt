@@ -116,6 +116,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
 
                     val ssRead = readingViewAdapter.getReadAt(position) ?: return
                     setPageTitleAndSubtitle(ssRead.title, DateHelper.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
+                    observeReadUserContent(ssRead.index)
                 }
             })
         }
@@ -251,13 +252,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         currentReadPosition = null
     }
 
-    override fun onUpdateUserContent(
-        ssReadHighlights: List<SSReadHighlights>,
-        ssReadComments: List<SSReadComments>
-    ) {
-        readingViewAdapter.setContent(ssReadHighlights, ssReadComments)
-    }
-
     @SuppressLint("MissingSuperCall")
     override fun onSaveInstanceState(outState: Bundle) {
         val position = binding.ssReadingViewPager.currentItem
@@ -287,6 +281,15 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         viewModel.publishingInfo.collectIn(this) { info ->
             val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
             menu.findItem(R.id.ss_reading_menu_printed_resources)?.isVisible = info != null
+        }
+    }
+
+    private fun observeReadUserContent(readIndex: String) {
+        viewModel.readUserContentFlow(
+            readIndex,
+            readingViewAdapter.getContent(readIndex)
+        ).collectIn(this) { content ->
+            readingViewAdapter.setContent(content)
         }
     }
 

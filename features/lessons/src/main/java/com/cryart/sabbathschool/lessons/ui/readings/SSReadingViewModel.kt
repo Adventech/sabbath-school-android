@@ -38,6 +38,7 @@ import androidx.lifecycle.lifecycleScope
 import app.ss.bible.BibleVersesActivity
 import app.ss.lessons.data.model.SSContextMenu
 import app.ss.lessons.data.repository.lessons.LessonsRepository
+import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
@@ -65,6 +66,7 @@ import ss.prefs.model.colorTheme
 
 class SSReadingViewModel @AssistedInject constructor(
     private val lessonsRepository: LessonsRepository,
+    private val userDataRepository: UserDataRepository,
     @Assisted private val ssLessonIndex: String,
     @Assisted private val dataListener: DataListener,
     @Assisted private val ssReadingActivityBinding: SsReadingActivityBinding,
@@ -77,8 +79,6 @@ class SSReadingViewModel @AssistedInject constructor(
     private var ssLessonInfo: SSLessonInfo? = null
     private var ssReadIndexInt = 0
     private val ssReads: ArrayList<SSRead> = arrayListOf()
-    private val ssReadHighlights: ArrayList<SSReadHighlights> = arrayListOf()
-    private val ssReadComments: ArrayList<SSReadComments> = arrayListOf()
     private var ssTotalReadsCount = 0
     private var highlightId = 0
     val lessonTitle: String get() = ssLessonInfo?.lesson?.title ?: ""
@@ -139,6 +139,9 @@ class SSReadingViewModel @AssistedInject constructor(
 
         ssTotalReadsCount = lessonInfo.days.size
 
+        val ssReadComments = arrayListOf<SSReadComments>()
+        val ssReadHighlights = arrayListOf<SSReadHighlights>()
+
         val today = DateTime.now().withTimeAtStartOfDay()
         for ((idx, ssDay) in lessonInfo.days.withIndex()) {
             val startDate = DateHelper.parseDate(ssDay.date)
@@ -159,21 +162,6 @@ class SSReadingViewModel @AssistedInject constructor(
         ssLessonLoadingVisibility.set(View.INVISIBLE)
         ssLessonOfflineStateVisibility.set(View.INVISIBLE)
         ssLessonErrorStateVisibility.set(View.INVISIBLE)
-
-        fetchUserData()
-    }
-
-    private fun fetchUserData() = launch {
-        ssLessonInfo?.days?.forEachIndexed { index, ssDay ->
-            lessonsRepository.getComments(ssDay.index).data?.let {
-                ssReadComments[index] = it
-            }
-            lessonsRepository.getReadHighlights(ssDay.index).data?.let {
-                ssReadHighlights[index] = it
-            }
-        }
-
-       dataListener.onUpdateUserContent(ssReadHighlights, ssReadComments)
     }
 
     override fun onSelectionStarted(x: Float, y: Float, highlightId: Int) {
@@ -221,11 +209,11 @@ class SSReadingViewModel @AssistedInject constructor(
     }
 
     override fun onHighlightsReceived(ssReadHighlights: SSReadHighlights) {
-        lessonsRepository.saveHighlights(ssReadHighlights)
+        userDataRepository.saveHighlights(ssReadHighlights)
     }
 
     override fun onCommentsReceived(ssReadComments: SSReadComments) {
-        lessonsRepository.saveComments(ssReadComments)
+        userDataRepository.saveComments(ssReadComments)
     }
 
     override fun onVerseClicked(verse: String) = verseClickWithDebounce(verse)
@@ -233,7 +221,6 @@ class SSReadingViewModel @AssistedInject constructor(
     interface DataListener {
         fun onLessonInfoChanged(ssLessonInfo: SSLessonInfo)
         fun onReadsDownloaded(ssReads: List<SSRead>, ssReadHighlights: List<SSReadHighlights>, ssReadComments: List<SSReadComments>, ssReadIndex: Int)
-        fun onUpdateUserContent(ssReadHighlights: List<SSReadHighlights>, ssReadComments: List<SSReadComments>)
     }
 
     fun onDisplayOptionsClick() {

@@ -28,8 +28,11 @@ import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
+import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.LessonPdf
 import app.ss.models.PublishingInfo
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
@@ -37,6 +40,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
@@ -46,6 +50,7 @@ import javax.inject.Inject
 class ReadingsViewModel @Inject constructor(
     private val mediaRepository: MediaRepository,
     private val lessonsRepository: LessonsRepository,
+    private val userDataRepository: UserDataRepository,
     private val savedStateHandle: SavedStateHandle,
     quarterliesRepository: QuarterliesRepository,
     dispatcherProvider: DispatcherProvider
@@ -90,4 +95,26 @@ class ReadingsViewModel @Inject constructor(
 
         lessonsRepository.checkReaderArtifact()
     }
+
+    internal fun readUserContentFlow(
+        readIndex: String,
+        defaultContent: ReadUserContent?
+    ): StateFlow<ReadUserContent> {
+        val initial = defaultContent ?: ReadUserContent(
+            readIndex,
+            SSReadComments(readIndex, emptyList()),
+            SSReadHighlights(readIndex)
+        )
+        return combine(
+            userDataRepository.getComments(readIndex),
+            userDataRepository.getHighlights(readIndex)
+        ) { comments, highlights ->
+            ReadUserContent(
+                readIndex,
+                comments.getOrNull() ?: initial.comments,
+                highlights.getOrNull() ?: initial.highlights
+            )
+        }.stateIn(viewModelScope, initial)
+    }
+
 }

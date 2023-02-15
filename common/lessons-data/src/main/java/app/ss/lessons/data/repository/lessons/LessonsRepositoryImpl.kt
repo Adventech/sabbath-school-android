@@ -23,23 +23,19 @@
 package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.model.QuarterlyLessonInfo
-import app.ss.lessons.data.repository.PreferredSource
 import app.ss.lessons.data.repository.quarterly.QuarterliesDataSource
 import app.ss.lessons.data.repository.quarterly.QuarterlyInfoDataSource
-import app.ss.models.PdfAnnotations
-import app.ss.models.PreferredBibleVersion
 import app.ss.models.SSDay
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSQuarterlyInfo
 import app.ss.models.SSRead
-import app.ss.models.SSReadComments
-import app.ss.models.SSReadHighlights
 import app.ss.models.TodayData
 import app.ss.models.WeekData
 import app.ss.models.WeekDay
+import app.ss.storage.db.dao.BibleVersionDao
+import app.ss.storage.db.entity.BibleVersionEntity
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import ss.misc.DateHelper.formatDate
@@ -56,10 +52,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
     private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
     private val lessonInfoDataSource: LessonInfoDataSource,
     private val readsDataSource: ReadsDataSource,
-    private val pdfAnnotationsDataSource: PdfAnnotationsDataSource,
-    private val readCommentsDataSource: ReadCommentsDataSource,
-    private val readHighlightsDataSource: ReadHighlightsDataSource,
-    private val bibleVersionDataSource: BibleVersionDataSource,
+    private val bibleVersionDao: BibleVersionDao,
     private val dispatcherProvider: DispatcherProvider,
     private val readerArtifactHelper: ReaderArtifactHelper
 ) : LessonsRepository {
@@ -157,8 +150,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
             ReadsDataSource.Request(
                 dayIndex = day.index,
                 fullPath = day.full_read_path
-            ),
-            PreferredSource.CACHE
+            )
         )
 
     override suspend fun getWeekData(cached: Boolean): Resource<WeekData> {
@@ -187,56 +179,15 @@ internal class LessonsRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
-        pdfAnnotationsDataSource.sync(
-            PdfAnnotationsDataSource.Request(lessonIndex, pdfId),
-            annotations
-        )
-    }
-
-    override fun getAnnotations(
-        lessonIndex: String,
-        pdfId: String
-    ): Flow<Resource<List<PdfAnnotations>>> = pdfAnnotationsDataSource.getAsFlow(
-        PdfAnnotationsDataSource.Request(lessonIndex, pdfId)
-    )
-
-    override suspend fun getComments(
-        readIndex: String
-    ): Resource<SSReadComments> = readCommentsDataSource.getItem(ReadCommentsDataSource.Request(readIndex))
-
-    override fun saveComments(comments: SSReadComments) {
-        readCommentsDataSource.sync(
-            ReadCommentsDataSource.Request(comments.readIndex),
-            listOf(comments)
-        )
-    }
-
-    override suspend fun getReadHighlights(
-        readIndex: String
-    ): Resource<SSReadHighlights> = readHighlightsDataSource.getItem(ReadHighlightsDataSource.Request(readIndex))
-
-    override fun saveHighlights(highlights: SSReadHighlights) {
-        readHighlightsDataSource.sync(
-            ReadHighlightsDataSource.Request(highlights.readIndex),
-            listOf(highlights)
-        )
-    }
-
     override fun checkReaderArtifact() {
         readerArtifactHelper.sync()
     }
 
     override suspend fun getPreferredBibleVersion(): String? = withContext(dispatcherProvider.io) {
-        bibleVersionDataSource
-            .cache
-            .getItem(BibleVersionDataSource.Request(ssPrefs.getLanguageCode()))
-            .data?.version
+        bibleVersionDao.get(ssPrefs.getLanguageCode())?.version
     }
 
     override suspend fun savePreferredBibleVersion(version: String) = withContext(dispatcherProvider.io) {
-        bibleVersionDataSource
-            .cache
-            .updateItem(PreferredBibleVersion(version, ssPrefs.getLanguageCode()))
+        bibleVersionDao.insertItem(BibleVersionEntity(ssPrefs.getLanguageCode(), version))
     }
 }
