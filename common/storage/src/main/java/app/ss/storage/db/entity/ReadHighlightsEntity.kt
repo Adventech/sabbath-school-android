@@ -22,11 +22,14 @@
 
 package app.ss.storage.db.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "highlights")
 data class ReadHighlightsEntity(
     @PrimaryKey val readIndex: String,
-    var highlights: String
+    val highlights: String,
+    @ColumnInfo(defaultValue = "1675209600")
+    val timestamp: Long
 )

@@ -30,10 +30,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PdfAnnotationsDao : BaseDao<PdfAnnotationsEntity> {
 
-    @Query("SELECT * FROM annotations WHERE `index` = :pdfIndex")
+    @Query("SELECT * FROM annotations WHERE `pdfIndex` = :pdfIndex")
     fun get(pdfIndex: String): List<PdfAnnotationsEntity>
 
-    @Query("SELECT * FROM annotations WHERE `index` = :pdfIndex")
+    @Query("SELECT * FROM annotations WHERE `pdfIndex` = :pdfIndex")
     fun getFlow(pdfIndex: String): Flow<List<PdfAnnotationsEntity>>
 
     @Query("DELETE FROM annotations")

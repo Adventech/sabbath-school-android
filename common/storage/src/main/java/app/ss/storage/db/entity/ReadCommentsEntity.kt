@@ -22,6 +22,7 @@
 
 package app.ss.storage.db.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import app.ss.models.SSComment
@@ -29,5 +30,7 @@ import app.ss.models.SSComment
 @Entity(tableName = "comments")
 data class ReadCommentsEntity(
     @PrimaryKey val readIndex: String,
-    val comments: List<SSComment>
+    val comments: List<SSComment>,
+    @ColumnInfo(defaultValue = "1675209600")
+    val timestamp: Long
 )

@@ -32,6 +32,7 @@ import app.ss.storage.db.entity.ReadCommentsEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
+import ss.misc.DeviceHelper
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -40,7 +41,8 @@ internal class ReadCommentsDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     connectivityHelper: ConnectivityHelper,
     private val lessonsApi: SSLessonsApi,
-    private val readCommentsDao: ReadCommentsDao
+    private val readCommentsDao: ReadCommentsDao,
+    private val deviceHelper: DeviceHelper
 ) : DataSourceMediator<SSReadComments, ReadCommentsDataSource.Request>(
     dispatcherProvider = dispatcherProvider,
     connectivityHelper = connectivityHelper
@@ -60,7 +62,7 @@ internal class ReadCommentsDataSource @Inject constructor(
 
         override suspend fun updateItem(data: SSReadComments) {
             if (data.comments.isNotEmpty()) {
-                readCommentsDao.insertItem(ReadCommentsEntity(data.readIndex, data.comments))
+                readCommentsDao.insertItem(ReadCommentsEntity(data.readIndex, data.comments, deviceHelper.epochSecond()))
             }
         }
 

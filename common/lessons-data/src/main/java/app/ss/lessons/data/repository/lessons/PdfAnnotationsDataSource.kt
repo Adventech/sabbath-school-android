@@ -33,6 +33,7 @@ import app.ss.storage.db.entity.PdfAnnotationsEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
+import ss.misc.DeviceHelper
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -41,7 +42,8 @@ internal class PdfAnnotationsDataSource @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     connectivityHelper: ConnectivityHelper,
     private val lessonsApi: SSLessonsApi,
-    private val pdfAnnotationsDao: PdfAnnotationsDao
+    private val pdfAnnotationsDao: PdfAnnotationsDao,
+    private val deviceHelper: DeviceHelper
 ) : DataSourceMediator<PdfAnnotations, PdfAnnotationsDataSource.Request>(
     dispatcherProvider = dispatcherProvider,
     connectivityHelper = connectivityHelper
@@ -61,7 +63,8 @@ internal class PdfAnnotationsDataSource @Inject constructor(
                     index = "$pdfIndex-${it.pageIndex}",
                     pdfIndex = pdfIndex,
                     pageIndex = it.pageIndex,
-                    annotations = it.annotations
+                    annotations = it.annotations,
+                    timestamp = deviceHelper.epochSecond()
                 )
             }
             pdfAnnotationsDao.insertAll(entities)
