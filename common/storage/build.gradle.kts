@@ -46,7 +46,6 @@ room {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     api(projects.common.models)
 
     implementation(libs.google.hilt.android)

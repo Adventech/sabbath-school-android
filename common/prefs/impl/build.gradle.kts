@@ -37,7 +37,6 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     api(projects.common.prefs.api)
     implementation(projects.common.misc)
     implementation(libs.androidx.preference)

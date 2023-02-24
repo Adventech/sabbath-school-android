@@ -31,7 +31,6 @@ plugins {
 android { namespace = "ss.misc" }
 
 dependencies {
-    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(libs.joda.android)
     implementation(libs.timber)
 

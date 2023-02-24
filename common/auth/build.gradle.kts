@@ -44,7 +44,6 @@ slack {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(projects.common.core)
     implementation(projects.common.models)
     implementation(projects.common.network)

@@ -38,7 +38,6 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(projects.common.auth)
     implementation(projects.common.core)
     api(projects.common.models)

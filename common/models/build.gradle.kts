@@ -32,7 +32,6 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(libs.androidx.annotations)
     implementation(libs.square.moshi.kotlin)
 }

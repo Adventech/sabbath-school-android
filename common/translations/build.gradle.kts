@@ -28,7 +28,3 @@ plugins {
 android {
     namespace = "app.ss.translations"
 }
-
-dependencies {
-    coreLibraryDesugaring(libs.coreLibraryDesugaring)
-}
