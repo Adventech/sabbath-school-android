@@ -52,7 +52,6 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.lessonsData)

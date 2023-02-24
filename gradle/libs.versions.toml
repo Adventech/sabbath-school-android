@@ -42,7 +42,7 @@ gradle-android = "7.4.1"
 gradle-cache-fix = "2.6.5"
 gradle-retry = "1.5.1"
 javax-annotation = "1.3.2"
-jdk = "11"
+jdk = "19"
 joda-android = "2.12.1.1"
 joda-time = "2.12.2"
 jvmTarget = "11"
@@ -53,8 +53,9 @@ markwon = "4.6.2"
 material-dialogs = "3.3.0"
 # @keep this version
 pdfkit = "8.5.0"
-sgp = "0.4.2"
+sgp = "0.5.8"
 snapper = "0.3.0"
+sortDependencies = "0.1"
 spotless = "6.15.0"
 square-moshi = "1.14.0"
 square-okhttp3 = "4.10.0"
@@ -125,7 +126,7 @@ androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = 
 androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
-coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs:1.2.2"
+google-coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs_minimal:2.0.2"
 google-accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "google-accompanist" }
 google-accompanist-navigation-material = { module = "com.google.accompanist:accompanist-navigation-material", version.ref = "google-accompanist" }
 google-accompanist-placeholder = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "google-accompanist" }
@@ -237,4 +238,5 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "cash-app-paparazzi" }
 sgp-base = { id = "com.slack.gradle.base", version.ref = "sgp" }
 sgp-root = { id = "com.slack.gradle.root", version.ref = "sgp" }
+sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sortDependencies" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

@@ -27,5 +27,3 @@ plugins {
 }
 
 android { namespace = "ss.prefs.model" }
-
-dependencies { coreLibraryDesugaring(libs.coreLibraryDesugaring) }

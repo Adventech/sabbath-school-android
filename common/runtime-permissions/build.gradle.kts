@@ -33,7 +33,6 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(libs.androidx.activity)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)

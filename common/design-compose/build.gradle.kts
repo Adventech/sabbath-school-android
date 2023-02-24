@@ -36,13 +36,10 @@ android {
 }
 
 slack {
-    android {
-        features { compose() }
-    }
+    features { compose() }
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(projects.common.translations)
 
     implementation(libs.timber)

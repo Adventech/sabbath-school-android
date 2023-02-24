@@ -37,8 +37,6 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.coreLibraryDesugaring)
-
     implementation(projects.common.storage)
     api(projects.common.workers.api)
 

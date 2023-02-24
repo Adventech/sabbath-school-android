@@ -35,7 +35,6 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.coreLibraryDesugaring)
     implementation(libs.google.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.core)
