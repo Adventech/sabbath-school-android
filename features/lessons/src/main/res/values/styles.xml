@@ -32,7 +32,12 @@
         <item name="android:fontFamily">@font/lato_bold</item>
     </style>
 
-    <style name="AppThemeAppBarTextStyleExpanded" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+    <style name="AppThemeAppBarTextStyleExpanded">
+        <item name="android:textSize">0sp</item>
+        <item name="android:textColor">@android:color/transparent</item>
+    </style>
+
+    <style name="ReadingExpandedTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">26sp</item>
         <item name="fontFamily">@font/lato_bold</item>
         <item name="android:fontFamily">@font/lato_bold</item>

@@ -233,6 +233,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     private fun setPageTitleAndSubtitle(title: String, subTitle: String) {
         binding.ssReadingAppBar.apply {
             ssReadingCollapsingToolbar.title = title
+            ssReadingExpandedTitle.text = title
             ssCollapsingToolbarSubtitle.text = subTitle
             ssCollapsingToolbarBackdrop.contentDescription = title
         }
@@ -314,9 +315,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
             readPosition: String? = null
         ): Intent = Intent(context, SSReadingActivity::class.java).apply {
             putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, lessonIndex)
-            readPosition?.let {
-                putExtra(SSConstants.SS_READ_POSITION_EXTRA, readPosition)
-            }
+            putExtra(SSConstants.SS_READ_POSITION_EXTRA, readPosition)
         }
     }
 }
