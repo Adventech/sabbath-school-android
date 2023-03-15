@@ -25,7 +25,7 @@ package ss.misc
 import android.content.Context
 import android.telephony.TelephonyManager
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.time.Instant
+import org.joda.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -44,5 +44,5 @@ internal class DeviceHelperImpl @Inject constructor(
     }
 
     override fun country(): String = telephonyManager.networkCountryIso
-    override fun nowEpochMilli(): Long = Instant.now().toEpochMilli()
+    override fun nowEpochMilli(): Long = Instant.now().millis
 }
