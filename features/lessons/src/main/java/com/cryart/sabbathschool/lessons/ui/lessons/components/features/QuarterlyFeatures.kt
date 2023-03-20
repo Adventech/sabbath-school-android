@@ -52,8 +52,8 @@ internal data class QuarterlyFeaturesSpec(
 
 @Composable
 internal fun QuarterlyFeaturesRow(
-    modifier: Modifier = Modifier,
-    spec: QuarterlyFeaturesSpec
+    spec: QuarterlyFeaturesSpec,
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier

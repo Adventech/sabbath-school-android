@@ -82,7 +82,7 @@ internal fun LazyListScope.footer(
         )
     }
 
-    items(spec.features, key = { it.name }) { feature ->
+    items(spec.features, key = { it.hashCode() }) { feature ->
         FooterItem(
             title = feature.title,
             description = feature.description,
@@ -92,7 +92,7 @@ internal fun LazyListScope.footer(
         )
     }
 
-    items(spec.credits, key = { it.name }) { credit ->
+    items(spec.credits, key = { it.hashCode() }) { credit ->
         FooterItem(
             title = credit.name,
             description = credit.value,

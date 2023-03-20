@@ -34,7 +34,7 @@ import org.joda.time.Interval
 import ss.misc.DateHelper
 
 @Immutable
-data class QuarterlyInfoSpec(
+internal data class QuarterlyInfoSpec(
     val title: String,
     val description: String,
     val date: String,
