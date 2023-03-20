@@ -26,7 +26,7 @@ import app.ss.models.Feature
 import javax.annotation.concurrent.Immutable
 
 @Immutable
-data class FeatureSpec(
+internal data class FeatureSpec(
     val name: String,
     val title: String,
     val description: String,

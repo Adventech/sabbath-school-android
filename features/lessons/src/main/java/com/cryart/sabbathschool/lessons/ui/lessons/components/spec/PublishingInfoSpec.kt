@@ -26,7 +26,7 @@ import androidx.compose.runtime.Immutable
 import app.ss.models.PublishingInfo
 
 @Immutable
-data class PublishingInfoSpec(
+internal data class PublishingInfoSpec(
     val message: String,
     val url: String,
     val primaryColorHex: String

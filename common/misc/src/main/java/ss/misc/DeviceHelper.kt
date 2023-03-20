@@ -30,8 +30,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface DeviceHelper {
+
+    /** Returns the device's country code. **/
     fun country(): String
+
+    /** Returns the device's current timestamp in millis. **/
     fun nowEpochMilli(): Long
+
 }
 
 @Singleton

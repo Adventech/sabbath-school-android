@@ -26,7 +26,7 @@ import app.ss.models.Credit
 import javax.annotation.concurrent.Immutable
 
 @Immutable
-data class CreditSpec(
+internal data class CreditSpec(
     val name: String,
     val value: String
 )
