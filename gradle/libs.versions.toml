@@ -31,6 +31,7 @@ androidx-startup = "1.1.1"
 androidx-work = "2.8.0"
 cash-app-paparazzi = "1.2.0"
 cash-app-turbine = "0.12.1"
+circuit = "0.7.0"
 coil = "2.2.2"
 google-accompanist = "0.28.0"
 google-exoplayer = "2.18.4"
@@ -122,6 +123,8 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
 androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
 androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
+circuit = { module = "com.slack.circuit:circuit-core", version.ref = "circuit" }
+circuit-overlay = { module = "com.slack.circuit:circuit-overlay", version.ref = "circuit" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
 google-coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs_minimal:2.0.2"

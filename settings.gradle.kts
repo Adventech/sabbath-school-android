@@ -66,6 +66,8 @@ include(
     ":features:pdf",
     ":features:reader",
     ":features:settings",
+    ":libraries:circuit-helpers:api",
+    ":libraries:circuit-helpers:impl",
     ":libraries:test_utils"
 )
 rootProject.name = "sabbath-school-android"
