@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2021. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,15 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.widget.divider
+package ss.settings
 
-import androidx.compose.material3.Divider
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import app.ss.design.compose.theme.SsTheme
+import android.content.Context
 
-@Composable
-fun Divider(modifier: Modifier = Modifier) {
-    Divider(
-        color = SsTheme.colors.dividers,
-        thickness = 0.5.dp,
-        modifier = modifier
-    )
+interface DailyReminder {
+
+    fun reSchedule()
+
+    fun showNotification(context: Context)
+
+    fun cancel()
 }

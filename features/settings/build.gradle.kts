@@ -29,7 +29,7 @@ plugins {
 }
 
 android {
-    namespace = "com.cryart.sabbathschool.settings"
+    namespace = "ss.settings"
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
@@ -40,10 +40,15 @@ android {
     }
 }
 
+slack {
+    features { compose() }
+}
+
 dependencies {
     implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.design)
+    implementation(projects.common.designCompose)
     implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
 
@@ -51,9 +56,12 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.fragment)
-    api(libs.androidx.preference)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.preference)
 
+    implementation(libs.google.accompanist.systemUiController)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
 

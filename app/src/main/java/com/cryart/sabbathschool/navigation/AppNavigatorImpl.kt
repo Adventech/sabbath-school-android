@@ -37,13 +37,13 @@ import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
-import com.cryart.sabbathschool.settings.SSSettingsActivity
 import com.cryart.sabbathschool.ui.about.AboutActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import ss.prefs.api.SSPrefs
+import ss.settings.SSSettingsActivity
 import javax.inject.Inject
 import javax.inject.Singleton
 

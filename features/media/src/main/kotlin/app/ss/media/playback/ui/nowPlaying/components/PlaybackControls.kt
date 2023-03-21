@@ -80,7 +80,7 @@ internal fun PlayBackControls(
             IconBox(
                 icon = IconSlot.fromResource(
                     R.drawable.ic_audio_icon_backward,
-                    contentDescription = stringResource(id = RString.ss_action_rewind)
+                    contentDescription = RString.ss_action_rewind
                 ),
                 contentColor = contentColor,
                 modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
@@ -118,7 +118,7 @@ internal fun PlayBackControls(
             IconBox(
                 icon = IconSlot.fromResource(
                     R.drawable.ic_audio_icon_forward,
-                    contentDescription = stringResource(id = RString.ss_action_forward)
+                    contentDescription = RString.ss_action_forward
                 ),
                 contentColor = contentColor,
                 modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)

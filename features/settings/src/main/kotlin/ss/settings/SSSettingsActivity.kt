@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.settings
+package ss.settings
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -33,7 +33,6 @@ import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.ui.SSBaseActivity
-import com.cryart.sabbathschool.settings.databinding.SsSettingsActivityBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -42,6 +41,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import ss.misc.SSConstants
 import ss.misc.SSEvent
+import ss.settings.databinding.SsSettingsActivityBinding
 import javax.inject.Inject
 
 @AndroidEntryPoint

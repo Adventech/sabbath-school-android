@@ -23,6 +23,7 @@
 package app.ss.design.compose.widget.icon
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,7 +41,7 @@ interface IconSlot {
          */
         fun fromResource(
             @DrawableRes res: Int,
-            contentDescription: String?
+            @StringRes contentDescription: Int?
         ): IconSlot = ResIcon(res, contentDescription)
 
         fun fromPainter(

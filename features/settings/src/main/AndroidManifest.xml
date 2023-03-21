@@ -6,6 +6,8 @@
             android:name=".SSSettingsActivity"
             android:label="@string/ss_settings"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name=".SettingsActivity" />
     </application>
 
 </manifest>

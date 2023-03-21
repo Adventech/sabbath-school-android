@@ -55,7 +55,8 @@ class SsColors(
     secondaryForeground: Color,
 
     // MaterialTheme overrides
-    primary: Color
+    primary: Color,
+    error: Color
 ) {
     var isDark by mutableStateOf(isDark)
         private set
@@ -80,6 +81,8 @@ class SsColors(
     var secondaryForeground by mutableStateOf(secondaryForeground)
         private set
     var primary by mutableStateOf(primary)
+        private set
+    var error by mutableStateOf(error)
         private set
 
     companion object {
@@ -115,6 +118,7 @@ internal fun ColorScheme.extend(
     primaryForeground = onSurface,
     secondaryForeground = onSurface.darker(0.3f),
     primary = primary,
+    error = error
 ) else SsColors(
     isDark = false,
     dividers = Color(0x80D7D7D7),
@@ -128,6 +132,7 @@ internal fun ColorScheme.extend(
     primaryForeground = onSurface,
     secondaryForeground = onSurface.lighter(0.3f),
     primary = primary,
+    error = error
 )
 
 internal val LocalSsColors = staticCompositionLocalOf {
@@ -144,6 +149,7 @@ internal val LocalSsColors = staticCompositionLocalOf {
         primaryForeground = Color.Unspecified,
         secondaryForeground = Color.Unspecified,
         primary = Color.Unspecified,
+        error = Color.Unspecified
     )
 }
 
