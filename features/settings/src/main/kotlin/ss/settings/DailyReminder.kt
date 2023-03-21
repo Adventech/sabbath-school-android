@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.settings
+package ss.settings
 
 import android.content.Context
 

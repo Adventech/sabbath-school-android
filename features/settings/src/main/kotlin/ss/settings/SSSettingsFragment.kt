@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.settings
+package ss.settings
 
 import android.content.DialogInterface
 import android.content.SharedPreferences
@@ -32,7 +32,9 @@ import app.ss.models.config.AppConfig
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import ss.misc.SSConstants
+import ss.settings.R
 import javax.inject.Inject
+import app.ss.translations.R as L10nR
 
 @AndroidEntryPoint
 class SSSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -58,18 +60,18 @@ class SSSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnShare
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.ss_settings)
 
-        val aboutPref = findPreference<Preference>(getString(R.string.ss_settings_version_key))
+        val aboutPref = findPreference<Preference>(getString(L10nR.string.ss_settings_version_key))
         aboutPref?.summary = appConfig.version
 
         findPreference<Preference>(getString(R.string.ss_settings_delete_account_key))
             ?.setOnPreferenceClickListener {
                 MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(R.string.ss_delete_account_question)
-                    .setMessage(R.string.ss_delete_account_warning)
-                    .setPositiveButton(R.string.ss_login_anonymously_dialog_positive) { _: DialogInterface?, _: Int ->
+                    .setTitle(L10nR.string.ss_delete_account_question)
+                    .setMessage(L10nR.string.ss_delete_account_warning)
+                    .setPositiveButton(L10nR.string.ss_login_anonymously_dialog_positive) { _: DialogInterface?, _: Int ->
                         viewModel.deleteAccount()
                     }
-                    .setNegativeButton(R.string.ss_login_anonymously_dialog_negative, null)
+                    .setNegativeButton(L10nR.string.ss_login_anonymously_dialog_negative, null)
                     .create()
                     .show()
                 true

@@ -34,7 +34,6 @@ import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
-import com.cryart.sabbathschool.settings.SSSettingsActivity
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import com.cryart.sabbathschool.ui.login.LoginActivity
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -52,6 +51,7 @@ import org.robolectric.Shadows
 import org.robolectric.android.controller.ActivityController
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
+import ss.settings.SSSettingsActivity
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)

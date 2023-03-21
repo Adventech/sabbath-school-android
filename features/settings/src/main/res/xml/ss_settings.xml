@@ -32,7 +32,7 @@
             app:summary="@string/ss_settings_reminder_summary"
             app:title="@string/ss_settings_reminder" />
 
-        <com.cryart.sabbathschool.settings.SSTimePickerPreference
+        <ss.settings.SSTimePickerPreference
             app:defaultValue="08:00"
             app:dependency="ss_settings_reminder_enabled"
             app:iconSpaceReserved="false"

@@ -28,13 +28,13 @@ import androidx.core.app.NotificationManagerCompat
 import app.ss.models.config.AppConfig
 import com.cryart.sabbathschool.BuildConfig
 import com.cryart.sabbathschool.reminder.DailyReminderManager
-import com.cryart.sabbathschool.settings.DailyReminder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ss.prefs.api.SSPrefs
+import ss.settings.DailyReminder
 
 @InstallIn(SingletonComponent::class)
 @Module
