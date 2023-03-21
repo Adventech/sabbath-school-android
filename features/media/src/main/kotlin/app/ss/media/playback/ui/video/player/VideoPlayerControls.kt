@@ -39,7 +39,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.widget.icon.IconBox
@@ -117,7 +116,7 @@ private fun BoxScope.TopBar(
                 IconBox(
                     icon = IconSlot.fromResource(
                         R.drawable.ic_video_icon_pip,
-                        contentDescription = stringResource(id = RString.ss_picture_in_picture)
+                        contentDescription = RString.ss_picture_in_picture
                     ),
                     contentColor = contentColor
                 )
@@ -141,7 +140,7 @@ private fun BoxScope.Controls(
             IconBox(
                 icon = IconSlot.fromResource(
                     R.drawable.ic_audio_icon_backward,
-                    contentDescription = stringResource(id = RString.ss_action_rewind)
+                    contentDescription = RString.ss_action_rewind
                 ),
                 contentColor = contentColor,
                 modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)
@@ -167,7 +166,7 @@ private fun BoxScope.Controls(
                                 playbackState.isPlaying -> R.drawable.ic_audio_icon_pause
                                 else -> R.drawable.ic_audio_icon_play
                             },
-                            contentDescription = stringResource(id = RString.ss_action_play_pause)
+                            contentDescription = RString.ss_action_play_pause
                         ),
                         contentColor = contentColor,
                         modifier = Modifier.fillMaxSize()
@@ -182,7 +181,7 @@ private fun BoxScope.Controls(
             IconBox(
                 icon = IconSlot.fromResource(
                     R.drawable.ic_audio_icon_forward,
-                    contentDescription = stringResource(id = RString.ss_action_forward)
+                    contentDescription = RString.ss_action_forward
                 ),
                 contentColor = contentColor,
                 modifier = Modifier.size(PlayBackControlsDefaults.nonPlayButtonSize)

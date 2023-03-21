@@ -23,12 +23,16 @@
 package app.ss.design.compose.widget.icon
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import app.ss.design.compose.R
+import app.ss.translations.R.string as L10n
 
 /**
  * An [IconSlot] from a [DrawableRes]
@@ -36,16 +40,21 @@ import androidx.compose.ui.res.painterResource
 @Immutable
 data class ResIcon(
     @DrawableRes val res: Int,
-    val contentDescription: String?
+    @StringRes val contentDescription: Int?
 ) : IconSlot {
 
     @Composable
     override fun Content(contentColor: Color, modifier: Modifier) {
         Icon(
             painter = painterResource(id = res),
-            contentDescription = contentDescription,
+            contentDescription = contentDescription?.let { stringResource(id = it) },
             tint = contentColor,
             modifier = modifier
         )
+    }
+
+    companion object {
+        val Github = ResIcon(R.drawable.github, L10n.ss_about_github)
+        val Instagram = ResIcon(R.drawable.instagram, L10n.ss_settings_instagram)
     }
 }

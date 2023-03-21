@@ -48,7 +48,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -221,7 +220,7 @@ private fun BottomControls(
             IconBox(
                 icon = IconSlot.fromResource(
                     R.drawable.ic_audio_icon_playlist,
-                    contentDescription = stringResource(id = RString.ss_action_playlist)
+                    contentDescription = RString.ss_action_playlist
                 ),
                 contentColor = SsTheme.colors.iconsSecondary
             )

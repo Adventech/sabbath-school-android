@@ -277,7 +277,7 @@ private fun PlaybackReplay(
         IconBox(
             icon = IconSlot.fromResource(
                 R.drawable.ic_audio_icon_backward,
-                contentDescription = stringResource(id = RString.ss_action_rewind)
+                contentDescription = RString.ss_action_rewind
             ),
             modifier = Modifier.size(size),
             contentColor = contentColor
