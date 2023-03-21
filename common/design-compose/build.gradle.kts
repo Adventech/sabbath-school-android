@@ -52,5 +52,5 @@ dependencies {
 
     api(platform(libs.androidx.compose.bom))
     api(libs.bundles.compose)
-    debugApi(libs.bundles.compose.tooling)
+    api(libs.bundles.compose.tooling)
 }
