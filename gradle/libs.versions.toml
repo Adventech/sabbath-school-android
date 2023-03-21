@@ -27,7 +27,6 @@ androidx-preference = "1.2.0"
 androidx-profileinstaller = "1.2.2"
 androidx-recyclerview = "1.3.0"
 androidx-room = "2.5.0"
-androidx-savedstate = "1.2.0"
 androidx-startup = "1.1.1"
 androidx-work = "2.8.0"
 cash-app-paparazzi = "1.2.0"
@@ -121,7 +120,6 @@ androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version
 androidx-room = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
-androidx-savedstate = { module = "androidx.savedstate:savedstate-ktx", version.ref = "androidx-savedstate" }
 androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
 androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
@@ -188,7 +186,6 @@ compose = [
     "androidx-compose-icons-extended",
     "androidx-compose-material3",
     "androidx-compose-runtime",
-    "androidx-compose-tooling-preview",
     "androidx-compose-ui",
     "androidx-compose-ui-util",
     "androidx-compose-windowSizeClass",
@@ -196,10 +193,7 @@ compose = [
 ]
 compose-tooling = [
     "androidx-compose-tooling",
-    "androidx-customview",
-    "androidx-customview-container",
-    "androidx-lifecycle-viewmodel-compose",
-    "androidx-savedstate",
+    "androidx-compose-tooling-preview",
 ]
 testing-android-common = [
     "test-androidx-archcore",
