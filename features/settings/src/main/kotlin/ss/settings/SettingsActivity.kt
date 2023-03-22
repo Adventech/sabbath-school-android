@@ -24,20 +24,33 @@ package ss.settings
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import app.ss.design.compose.theme.SsTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.slack.circuit.CircuitConfig
+import com.slack.circuit.NavigableCircuitContent
+import com.slack.circuit.backstack.rememberSaveableBackStack
+import com.slack.circuit.overlay.ContentWithOverlays
+import com.slack.circuit.push
+import com.slack.circuit.rememberCircuitNavigator
 import dagger.hilt.android.AndroidEntryPoint
-import ss.settings.ui.SettingsScreen
+import ss.circuit.helpers.navigator.AndroidSupportingNavigator
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var circuitConfig: CircuitConfig
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,9 +71,21 @@ class SettingsActivity : ComponentActivity() {
             }
 
             SsTheme(windowWidthSizeClass = windowSizeClass.widthSizeClass) {
-                SettingsScreen(
-                    onNavBack = { finish() }
-                )
+                val backstack = rememberSaveableBackStack { push(SettingsScreen) }
+                BackHandler(onBack = { finishAfterTransition() })
+                val circuitNavigator = rememberCircuitNavigator(backstack)
+                val navigator = remember(circuitNavigator) {
+                    AndroidSupportingNavigator(circuitNavigator, this)
+                }
+
+                ContentWithOverlays {
+                    NavigableCircuitContent(
+                        navigator,
+                        backstack,
+                        Modifier,
+                        circuitConfig
+                    )
+                }
             }
         }
     }

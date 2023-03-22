@@ -29,13 +29,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
@@ -43,33 +39,13 @@ import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.SsScaffold
-import ss.settings.SettingsState
-import ss.settings.SettingsViewModel
+import ss.settings.SettingsScreen.Event
+import ss.settings.SettingsScreen.State
 import app.ss.translations.R as L10nR
 
 @Composable
-internal fun SettingsScreen(
-    viewModel: SettingsViewModel = viewModel(),
-    onNavBack: () -> Unit
-) {
-    val state by viewModel.viewStateFlow.collectAsStateWithLifecycle()
-
-    SettingsScreen(
-        state = state,
-        onNavBack = onNavBack,
-        modifier = Modifier
-    )
-
-    DisposableEffect(viewModel) {
-        viewModel.inCompose()
-        onDispose {}
-    }
-}
-
-@Composable
-private fun SettingsScreen(
-    state: SettingsState,
-    onNavBack: () -> Unit,
+internal fun SettingsUiScreen(
+    state: State,
     modifier: Modifier = Modifier
 ) {
 
@@ -83,7 +59,9 @@ private fun SettingsScreen(
                 ),
                 title = { Text(text = stringResource(id = L10nR.string.ss_settings)) },
                 navigationIcon = {
-                    IconButton(onClick = onNavBack) {
+                    IconButton(onClick = {
+                        state.eventSick(Event.NavBack)
+                    }) {
                         IconBox(icon = Icons.ArrowBack)
                     }
                 }
@@ -96,7 +74,7 @@ private fun SettingsScreen(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             items(
-                items = state.prefListEntities,
+                items = state.entities,
                 key = { it.id }
             ) { item -> item.Content() }
         }

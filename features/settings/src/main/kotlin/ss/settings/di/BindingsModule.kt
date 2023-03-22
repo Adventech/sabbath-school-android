@@ -20,40 +20,35 @@
  * THE SOFTWARE.
  */
 
-package ss.settings
+package ss.settings.di
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import app.ss.auth.AuthRepository
-import app.ss.lessons.data.repository.user.UserDataRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ss.circuit.helpers.factory.SettingsPresenterFactory
+import ss.circuit.helpers.factory.SettingsUiFactory
+import ss.settings.SettingsPresenterFactoryImpl
+import ss.settings.SettingsUiFactoryImpl
+import ss.settings.repository.SettingsRepository
+import ss.settings.repository.SettingsRepositoryImpl
 
-@HiltViewModel
-class SettingsViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
-    private val userDataRepository: UserDataRepository,
-) : ViewModel() {
+@Module
+@InstallIn(SingletonComponent::class)
+internal abstract class BindingsModule {
 
-    private val _viewState: MutableStateFlow<SettingsState> = MutableStateFlow(SettingsState())
-    internal val viewStateFlow: StateFlow<SettingsState> = _viewState
+    @Binds
+    internal abstract fun bindSettingsUiFactory(
+        impl: SettingsUiFactoryImpl
+    ): SettingsUiFactory
 
-    fun deleteAccount() {
-        _viewState.tryEmit(SettingsState(showProgress = true))
+    @Binds
+    internal abstract fun bindSettingsPresenterFactory(
+        impl: SettingsPresenterFactoryImpl
+    ): SettingsPresenterFactory
 
-        viewModelScope.launch {
-            authRepository.deleteAccount()
-            userDataRepository.clear()
-
-            _viewState.emit(SettingsState(false))
-        }
-    }
+    @Binds
+    internal abstract fun bindSettingsRepository(
+        impl: SettingsRepositoryImpl
+    ): SettingsRepository
 }
-
-internal data class SettingsState(
-    val authenticated: Boolean = true,
-    val showProgress: Boolean = false,
-)

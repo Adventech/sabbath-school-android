@@ -152,6 +152,7 @@ dependencies {
     implementation(projects.features.media)
     implementation(projects.features.pdf)
     implementation(projects.features.settings)
+    implementation(projects.libraries.circuitHelpers.impl)
 
     implementation(libs.kotlin.coroutines)
     implementation(libs.kotlin.coroutines.android)

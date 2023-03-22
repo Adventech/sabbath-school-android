@@ -26,6 +26,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -51,6 +52,7 @@ dependencies {
     implementation(projects.common.designCompose)
     implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
+    implementation(projects.libraries.circuitHelpers.api)
 
     implementation(libs.google.material)
     implementation(libs.androidx.core)
@@ -75,4 +77,5 @@ dependencies {
     androidTestImplementation(libs.bundles.testing.android.common)
     kaptAndroidTest(libs.google.hilt.compiler)
     testImplementation(projects.libraries.testUtils)
+    testImplementation(libs.circuit.test)
 }

@@ -5,7 +5,7 @@ androidx-annotations = "1.6.0"
 androidx-appcompat = "1.6.1"
 androidx-browser = "1.5.0"
 androidx-compose-bom = "2023.01.00"
-composeCompiler = "1.4.2"
+composeCompiler = "1.4.3"
 # Used in sgp. @keep same as kotlin
 composeCompilerKotlinVersion = "1.8.10"
 androidx-compose-constraintlayout = "1.0.1"
@@ -125,6 +125,7 @@ androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = 
 androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 circuit = { module = "com.slack.circuit:circuit-core", version.ref = "circuit" }
 circuit-overlay = { module = "com.slack.circuit:circuit-overlay", version.ref = "circuit" }
+circuit-test = { module = "com.slack.circuit:circuit-test", version.ref = "circuit" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
 google-coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs_minimal:2.0.2"
