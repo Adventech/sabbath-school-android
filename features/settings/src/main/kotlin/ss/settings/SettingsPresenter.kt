@@ -22,6 +22,7 @@
 
 package ss.settings
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,27 +35,38 @@ import com.slack.circuit.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.qualifiers.ApplicationContext
 import ss.circuit.helpers.navigator.AndroidScreen
 import ss.settings.SettingsScreen.Event
 import ss.settings.SettingsScreen.State
+import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
 
 internal class SettingsPresenter @AssistedInject constructor(
+    @ApplicationContext private val context: Context,
     private val repository: SettingsRepository,
     @Assisted private val navigator: Navigator,
 ) : Presenter<State> {
 
     @Composable
     override fun present(): State {
-       var isSwitchChecked: Boolean? by rememberSaveable { mutableStateOf(null) }
+        var isSwitchChecked: Boolean? by rememberSaveable { mutableStateOf(null) }
 
         val entities by produceState<List<ListEntity>>(emptyList(), isSwitchChecked) {
-            value = repository.buildEntities(
-                onCheckedChange = { checked ->
-                    isSwitchChecked = checked
-                },
-                onGoToUrl = { navigator.goTo(AndroidScreen.CustomTabsIntentScreen(it)) }
-            )
+            value = repository.buildEntities { entity ->
+                val event = when (entity) {
+                    SettingsEntity.Account.Delete -> TODO()
+                    SettingsEntity.Account.SignOut -> TODO()
+                    is SettingsEntity.Reminder.Switch -> {
+                        isSwitchChecked = entity.isChecked
+                        return@buildEntities
+                    }
+                    SettingsEntity.Reminder.Time -> TODO()
+                    is SettingsEntity.About -> AndroidScreen.CustomTabsIntentScreen(context.getString(entity.resId))
+                }
+
+                navigator.goTo(event)
+            }
         }
         return State(entities) { event ->
             when (event) {

@@ -22,41 +22,27 @@
 
 package ss.settings.repository
 
-import app.ss.models.config.AppConfig
-import io.mockk.every
-import io.mockk.mockk
-import org.amshove.kluent.shouldBeEqualTo
-import org.junit.Before
-import org.junit.Test
-import ss.prefs.api.SSPrefs
-import ss.prefs.model.ReminderTime
-import ss.settings.DailyReminder
+import androidx.annotation.StringRes
+import app.ss.translations.R as L10nR
 
-class SettingsRepositoryTest {
+internal sealed interface SettingsEntity {
 
-    private val mockAppConfig: AppConfig = mockk()
-    private val mockPrefs: SSPrefs = mockk()
-    private val mockDailyReminder: DailyReminder = mockk()
-
-    private lateinit var repository: SettingsRepository
-
-    @Before
-    fun setup() {
-        every { mockAppConfig.version }.returns("1.0.0")
-        every { mockPrefs.reminderEnabled() }.returns(false)
-        every { mockPrefs.getReminderTime() }.returns(ReminderTime(8, 0))
-
-        repository = SettingsRepositoryImpl(
-            appConfig = mockAppConfig,
-            prefs = mockPrefs,
-            dailyReminder = mockDailyReminder
-        )
+    sealed class About(@StringRes val resId: Int) : SettingsEntity {
+        object Facebook : About(L10nR.string.ss_settings_facebook_url)
+        object Github : About(L10nR.string.ss_settings_github_url)
+        object Instagram : About(L10nR.string.ss_settings_instagram_url)
+        object Version : About(L10nR.string.ss_app_playstore_url)
+        object Website : About(L10nR.string.ss_settings_website_url)
     }
 
-    @Test
-    fun `should return entities`() {
-        val entities = repository.buildEntities {}
-
-        entities.size shouldBeEqualTo 14
+    sealed interface Account: SettingsEntity {
+        object Delete : Account
+        object SignOut : Account
     }
+
+    sealed interface Reminder : SettingsEntity {
+        data class Switch(val isChecked: Boolean): Reminder
+        object Time : Reminder
+    }
+
 }

@@ -22,18 +22,22 @@
 
 package ss.settings
 
+import android.content.Context
 import app.ss.design.compose.extensions.list.DividerEntity
 import app.ss.design.compose.extensions.list.ListEntity
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 import ss.settings.SettingsScreen.Event
+import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
 
 class SettingsPresenterTest {
 
+    private val mockContext: Context = mockk()
     private val navigator = FakeNavigator()
 
     @Test
@@ -41,6 +45,7 @@ class SettingsPresenterTest {
         val entities = listOf(DividerEntity("1"), DividerEntity("2"))
 
         val presenter = SettingsPresenter(
+            context = mockContext,
             repository = TestRepository(entities),
             navigator = navigator
         )
@@ -56,6 +61,7 @@ class SettingsPresenterTest {
         val entities = listOf(DividerEntity("1"), DividerEntity("2"))
 
         val presenter = SettingsPresenter(
+            context = mockContext,
             repository = TestRepository(entities),
             navigator = navigator
         )
@@ -72,11 +78,10 @@ class SettingsPresenterTest {
     }
 }
 
-class TestRepository(
+internal class TestRepository(
     private val entities: List<ListEntity>
 ) : SettingsRepository {
     override fun buildEntities(
-        onCheckedChange: (Boolean) -> Unit,
-        onGoToUrl: (String) -> Unit
+        onEntityClick: (SettingsEntity) -> Unit
     ): List<ListEntity> = entities
 }

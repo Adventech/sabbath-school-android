@@ -22,15 +22,13 @@
 
 package ss.settings.repository
 
-import android.content.Context
 import app.ss.design.compose.extensions.content.ContentSpec
 import app.ss.design.compose.extensions.list.DividerEntity
 import app.ss.design.compose.extensions.list.ListEntity
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.icon.ResIcon
 import app.ss.models.config.AppConfig
-import app.ss.translations.R
-import dagger.hilt.android.qualifiers.ApplicationContext
+import app.ss.translations.R as L10nR
 import ss.prefs.api.SSPrefs
 import ss.settings.DailyReminder
 import ss.settings.ui.prefs.PrefListEntity
@@ -40,115 +38,110 @@ import javax.inject.Singleton
 
 internal interface SettingsRepository {
     fun buildEntities(
-        onCheckedChange: (Boolean) -> Unit,
-        onGoToUrl: (String) -> Unit
+        onEntityClick: (SettingsEntity) -> Unit
     ): List<ListEntity>
 }
 
 @Singleton
 internal class SettingsRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val appConfig: AppConfig,
     private val prefs: SSPrefs,
     private val dailyReminder: DailyReminder,
 ) : SettingsRepository {
 
     override fun buildEntities(
-        onCheckedChange: (Boolean) -> Unit,
-        onGoToUrl: (String) -> Unit
+        onEntityClick: (SettingsEntity) -> Unit
     ): List<ListEntity> = listOf(
         PrefListEntity.Section(
-            ContentSpec.Res(R.string.ss_settings_reminder),
+            ContentSpec.Res(L10nR.string.ss_settings_reminder),
             id = "section-reminder"
         ),
         PrefListEntity.Switch(
             icon = if (prefs.reminderEnabled()) Icons.AlarmOn else Icons.AlarmOff,
-            title = ContentSpec.Res(R.string.ss_settings_reminder),
-            summary = ContentSpec.Res(R.string.ss_settings_reminder_summary),
+            title = ContentSpec.Res(L10nR.string.ss_settings_reminder),
+            summary = ContentSpec.Res(L10nR.string.ss_settings_reminder_summary),
             id = "reminder-switch",
             checked = prefs.reminderEnabled(),
-            onCheckChanged = {
-                prefs.setReminderEnabled(it)
+            onCheckChanged = { checked ->
+                prefs.setReminderEnabled(checked)
                 dailyReminder.reSchedule()
-                onCheckedChange(it)
+                onEntityClick(SettingsEntity.Reminder.Switch(checked))
             }
         ),
         PrefListEntity.Generic(
             icon = Icons.Clock,
-            title = ContentSpec.Res(R.string.ss_settings_reminder_time),
+            title = ContentSpec.Res(L10nR.string.ss_settings_reminder_time),
             summary = ContentSpec.Str(formattedReminderTime()),
-            id = "reminder-entry",
-            onClick = {}
+            id = "reminder-time",
+            onClick = { onEntityClick(SettingsEntity.Reminder.Time) }
         ),
 
         DividerEntity(id = "divider"),
 
         PrefListEntity.Section(
-            ContentSpec.Res(R.string.ss_about),
+            ContentSpec.Res(L10nR.string.ss_about),
             id = "section-about"
         ),
         PrefListEntity.Generic(
             icon = Icons.Website,
-            title = ContentSpec.Res(R.string.ss_settings_website),
-            summary = ContentSpec.Res(R.string.ss_settings_website_summary),
-            id = "website",
-            onClick = {
-                onGoToUrl(context.getString(R.string.ss_settings_website_url))
-            }
+            title = ContentSpec.Res(L10nR.string.ss_settings_website),
+            summary = ContentSpec.Res(L10nR.string.ss_settings_website_summary),
+            id = "about-website",
+            onClick = { onEntityClick(SettingsEntity.About.Website) }
         ),
         PrefListEntity.Generic(
             icon = Icons.Facebook,
-            title = ContentSpec.Res(R.string.ss_settings_facebook),
-            summary = ContentSpec.Res(R.string.ss_settings_facebook_summary),
-            id = "facebook",
+            title = ContentSpec.Res(L10nR.string.ss_settings_facebook),
+            summary = ContentSpec.Res(L10nR.string.ss_settings_facebook_summary),
+            id = "about-facebook",
             onClick = {
-                onGoToUrl(context.getString(R.string.ss_settings_facebook_url))
+                onEntityClick(SettingsEntity.About.Facebook)
             }
         ),
         PrefListEntity.Generic(
             icon = ResIcon.Instagram,
-            title = ContentSpec.Res(R.string.ss_settings_instagram),
-            summary = ContentSpec.Res(R.string.ss_settings_instagram_summary),
-            id = "instagram",
+            title = ContentSpec.Res(L10nR.string.ss_settings_instagram),
+            summary = ContentSpec.Res(L10nR.string.ss_settings_instagram_summary),
+            id = "about-instagram",
             onClick = {
-                onGoToUrl(context.getString(R.string.ss_settings_instagram_url))
+                onEntityClick(SettingsEntity.About.Instagram)
             }
         ),
         PrefListEntity.Generic(
             icon = ResIcon.Github,
-            title = ContentSpec.Res(R.string.ss_settings_github),
-            summary = ContentSpec.Res(R.string.ss_settings_github_summary),
-            id = "github",
+            title = ContentSpec.Res(L10nR.string.ss_settings_github),
+            summary = ContentSpec.Res(L10nR.string.ss_settings_github_summary),
+            id = "about-github",
             onClick = {
-                onGoToUrl(context.getString(R.string.ss_settings_github_url))
+                onEntityClick(SettingsEntity.About.Github)
             }
         ),
         PrefListEntity.Generic(
             icon = Icons.VersionInfo,
-            title = ContentSpec.Res(R.string.ss_settings_version),
+            title = ContentSpec.Res(L10nR.string.ss_settings_version),
             summary = ContentSpec.Str(appConfig.version),
-            id = "app-version",
+            id = "about-version",
             onClick = {
-                onGoToUrl(context.getString(R.string.ss_app_playstore_url))
+                onEntityClick(SettingsEntity.About.Version)
             }
         ),
 
         DividerEntity(id = "divider-two"),
 
         PrefListEntity.Section(
-            ContentSpec.Res(R.string.ss_account),
+            ContentSpec.Res(L10nR.string.ss_account),
             id = "section-account"
         ),
         PrefListEntity.Generic(
-            title = ContentSpec.Res(R.string.ss_menu_sign_out),
+            title = ContentSpec.Res(L10nR.string.ss_menu_sign_out),
             id = "account-sign-out",
-            onClick = {},
+            onClick = { onEntityClick(SettingsEntity.Account.SignOut) },
             withWarning = true
         ),
         PrefListEntity.Generic(
-            title = ContentSpec.Res(R.string.ss_delete_account),
+            title = ContentSpec.Res(L10nR.string.ss_delete_account),
             id = "account-delete",
-            onClick = {},
+            onClick = { onEntityClick(SettingsEntity.Account.Delete) },
             withWarning = true
         ),
     )
