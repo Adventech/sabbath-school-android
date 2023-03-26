@@ -266,7 +266,7 @@ private fun LessonsTopBar(
             )
         },
         scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
-        colors = TopAppBarDefaults.smallTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent
         )
     )

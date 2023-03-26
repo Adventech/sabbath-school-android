@@ -65,7 +65,7 @@ fun SsTopAppBar(
                 modifier = modifier,
                 navigationIcon = navigationIcon,
                 actions = actions,
-                colors = colors ?: TopAppBarDefaults.smallTopAppBarColors(),
+                colors = colors ?: TopAppBarDefaults.topAppBarColors(),
                 scrollBehavior = scrollBehavior
             )
         }
