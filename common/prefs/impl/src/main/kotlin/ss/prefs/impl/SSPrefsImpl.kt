@@ -122,6 +122,13 @@ internal class SSPrefsImpl(
         return ReminderTime(hour, min)
     }
 
+    override fun setReminderTime(time: ReminderTime) = sharedPreferences.edit {
+        putString(
+            SSConstants.SS_SETTINGS_REMINDER_TIME_KEY,
+            String.format(Locale.getDefault(), "%02d:%02d", time.hour, time.min)
+        )
+    }
+
     override fun getLanguageCode(): String {
         val code = sharedPreferences.getString(
             SSConstants.SS_LAST_LANGUAGE_INDEX,

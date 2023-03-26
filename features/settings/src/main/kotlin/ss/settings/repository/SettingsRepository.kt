@@ -22,6 +22,7 @@
 
 package ss.settings.repository
 
+import android.app.Activity
 import app.ss.design.compose.extensions.content.ContentSpec
 import app.ss.design.compose.extensions.list.DividerEntity
 import app.ss.design.compose.extensions.list.ListEntity
@@ -30,6 +31,7 @@ import app.ss.design.compose.widget.icon.ResIcon
 import app.ss.models.config.AppConfig
 import app.ss.translations.R as L10nR
 import ss.prefs.api.SSPrefs
+import ss.prefs.model.ReminderTime
 import ss.settings.DailyReminder
 import ss.settings.ui.prefs.PrefListEntity
 import java.util.Locale
@@ -40,6 +42,12 @@ internal interface SettingsRepository {
     fun buildEntities(
         onEntityClick: (SettingsEntity) -> Unit
     ): List<ListEntity>
+
+    fun setReminderTime(hour: Int, minute: Int)
+
+    fun signOut(activity: Activity)
+
+    fun deleteAccount(activity: Activity)
 }
 
 @Singleton
@@ -69,11 +77,15 @@ internal class SettingsRepositoryImpl @Inject constructor(
             }
         ),
         PrefListEntity.Generic(
+            id = "reminder-time",
+            enabled = prefs.reminderEnabled(),
             icon = Icons.Clock,
             title = ContentSpec.Res(L10nR.string.ss_settings_reminder_time),
             summary = ContentSpec.Str(formattedReminderTime()),
-            id = "reminder-time",
-            onClick = { onEntityClick(SettingsEntity.Reminder.Time) }
+            onClick = {
+                val time = prefs.getReminderTime()
+                onEntityClick(SettingsEntity.Reminder.Time(time.hour, time.min))
+            }
         ),
 
         DividerEntity(id = "divider"),
@@ -145,6 +157,20 @@ internal class SettingsRepositoryImpl @Inject constructor(
             withWarning = true
         ),
     )
+
+    override fun setReminderTime(hour: Int, minute: Int) {
+        prefs.setReminderTime(ReminderTime(hour, minute))
+
+        dailyReminder.reSchedule()
+    }
+
+    override fun signOut(activity: Activity) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteAccount(activity: Activity) {
+        TODO("Not yet implemented")
+    }
 
     private fun formattedReminderTime(): String {
         val time = prefs.getReminderTime()

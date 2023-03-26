@@ -22,6 +22,7 @@
 
 package ss.settings
 
+import android.app.Activity
 import android.content.Context
 import app.ss.design.compose.extensions.list.DividerEntity
 import app.ss.design.compose.extensions.list.ListEntity
@@ -84,4 +85,10 @@ internal class TestRepository(
     override fun buildEntities(
         onEntityClick: (SettingsEntity) -> Unit
     ): List<ListEntity> = entities
+
+    override fun setReminderTime(hour: Int, minute: Int) = Unit
+
+    override fun signOut(activity: Activity) = Unit
+
+    override fun deleteAccount(activity: Activity) = Unit
 }

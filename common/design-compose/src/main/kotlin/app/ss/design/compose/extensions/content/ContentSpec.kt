@@ -24,6 +24,7 @@ package app.ss.design.compose.extensions.content
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.res.stringResource
 
 /**
@@ -32,8 +33,10 @@ import androidx.compose.ui.res.stringResource
  * **/
 interface ContentSpec {
 
+    @Immutable
     data class Str(val content: String) : ContentSpec
 
+    @Immutable
     data class Res(@StringRes val content: Int) : ContentSpec
 }
 

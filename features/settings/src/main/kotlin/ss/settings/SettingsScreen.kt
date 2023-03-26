@@ -23,6 +23,7 @@
 package ss.settings
 
 import android.os.Parcelable
+import androidx.compose.runtime.Immutable
 import app.ss.design.compose.extensions.list.ListEntity
 import com.slack.circuit.CircuitContext
 import com.slack.circuit.CircuitUiEvent
@@ -44,12 +45,22 @@ object SettingsScreen : Screen, Parcelable {
 
     internal sealed interface Event : CircuitUiEvent {
         object NavBack : Event
+        object OverlayDismiss : Event
+        object AccountDeleteConfirmed : Event
+        data class SetReminderTime(val hour: Int, val minute: Int): Event
     }
 
     internal data class State(
         val entities: List<ListEntity>,
-        val eventSick: (Event) -> Unit
+        val overlay: Overlay?,
+        val eventSick: (Event) -> Unit,
     ) : CircuitUiState
+
+    internal sealed interface Overlay {
+        @Immutable
+        data class SelectReminderTime(val hour: Int, val minute: Int): Overlay
+        object ConfirmDeleteAccount: Overlay
+    }
 }
 
 @Singleton

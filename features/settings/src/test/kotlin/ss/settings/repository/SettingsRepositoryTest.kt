@@ -25,6 +25,7 @@ package ss.settings.repository
 import app.ss.models.config.AppConfig
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
@@ -58,5 +59,18 @@ class SettingsRepositoryTest {
         val entities = repository.buildEntities {}
 
         entities.size shouldBeEqualTo 14
+    }
+
+    @Test
+    fun `setReminderTime - should update prefs and reschedule`() {
+        every { mockPrefs.setReminderTime(ReminderTime(9, 30)) }.returns(Unit)
+        every { mockDailyReminder.reSchedule() }.returns(Unit)
+
+        repository.setReminderTime(9, 30)
+
+        verify {
+            mockPrefs.setReminderTime(ReminderTime(9, 30))
+            mockDailyReminder.reSchedule()
+        }
     }
 }

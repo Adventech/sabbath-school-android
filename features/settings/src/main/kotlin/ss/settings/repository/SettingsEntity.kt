@@ -42,7 +42,7 @@ internal sealed interface SettingsEntity {
 
     sealed interface Reminder : SettingsEntity {
         data class Switch(val isChecked: Boolean): Reminder
-        object Time : Reminder
+        data class Time(val hour: Int, val minute: Int) : Reminder
     }
 
 }

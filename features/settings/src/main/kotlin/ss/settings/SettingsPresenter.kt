@@ -39,6 +39,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import ss.circuit.helpers.navigator.AndroidScreen
 import ss.settings.SettingsScreen.Event
 import ss.settings.SettingsScreen.State
+import ss.settings.SettingsScreen.Overlay
 import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
 
@@ -51,26 +52,41 @@ internal class SettingsPresenter @AssistedInject constructor(
     @Composable
     override fun present(): State {
         var isSwitchChecked: Boolean? by rememberSaveable { mutableStateOf(null) }
+        var overlay: Overlay? by rememberSaveable { mutableStateOf(null) }
 
-        val entities by produceState<List<ListEntity>>(emptyList(), isSwitchChecked) {
+        val entities by produceState<List<ListEntity>>(emptyList(), isSwitchChecked, overlay) {
             value = repository.buildEntities { entity ->
-                val event = when (entity) {
-                    SettingsEntity.Account.Delete -> TODO()
-                    SettingsEntity.Account.SignOut -> TODO()
+                when (entity) {
+                    SettingsEntity.Account.Delete -> {
+                        overlay = Overlay.ConfirmDeleteAccount
+                    }
+                    SettingsEntity.Account.SignOut -> {
+
+                    }
                     is SettingsEntity.Reminder.Switch -> {
                         isSwitchChecked = entity.isChecked
-                        return@buildEntities
                     }
-                    SettingsEntity.Reminder.Time -> TODO()
-                    is SettingsEntity.About -> AndroidScreen.CustomTabsIntentScreen(context.getString(entity.resId))
+                    is SettingsEntity.Reminder.Time -> {
+                        overlay = Overlay.SelectReminderTime(entity.hour, entity.minute)
+                    }
+                    is SettingsEntity.About -> {
+                        val event = AndroidScreen.CustomTabsIntentScreen(context.getString(entity.resId))
+                        navigator.goTo(event)
+                    }
                 }
-
-                navigator.goTo(event)
             }
         }
-        return State(entities) { event ->
+        return State(entities, overlay) { event ->
             when (event) {
                 Event.NavBack -> navigator.pop()
+                Event.OverlayDismiss -> { overlay = null }
+                Event.AccountDeleteConfirmed -> {
+                    overlay = null
+                }
+                is Event.SetReminderTime -> {
+                    repository.setReminderTime(event.hour, event.minute)
+                    overlay = null
+                }
             }
         }
     }
