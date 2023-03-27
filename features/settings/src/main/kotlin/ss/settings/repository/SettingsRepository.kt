@@ -22,14 +22,17 @@
 
 package ss.settings.repository
 
-import android.app.Activity
+import app.ss.auth.AuthRepository
 import app.ss.design.compose.extensions.content.ContentSpec
 import app.ss.design.compose.extensions.list.DividerEntity
 import app.ss.design.compose.extensions.list.ListEntity
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.icon.ResIcon
+import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.config.AppConfig
-import app.ss.translations.R as L10nR
+import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import ss.prefs.api.SSPrefs
 import ss.prefs.model.ReminderTime
 import ss.settings.DailyReminder
@@ -37,25 +40,27 @@ import ss.settings.ui.prefs.PrefListEntity
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
+import app.ss.translations.R as L10nR
 
 internal interface SettingsRepository {
-    fun buildEntities(
-        onEntityClick: (SettingsEntity) -> Unit
-    ): List<ListEntity>
+    fun buildEntities(onEntityClick: (SettingsEntity) -> Unit): List<ListEntity>
 
     fun setReminderTime(hour: Int, minute: Int)
 
-    fun signOut(activity: Activity)
+    fun signOut()
 
-    fun deleteAccount(activity: Activity)
+    fun deleteAccount()
 }
 
 @Singleton
 internal class SettingsRepositoryImpl @Inject constructor(
     private val appConfig: AppConfig,
-    private val prefs: SSPrefs,
+    private val authRepository: AuthRepository,
     private val dailyReminder: DailyReminder,
-) : SettingsRepository {
+    private val dispatcherProvider: DispatcherProvider,
+    private val prefs: SSPrefs,
+    private val userDataRepository: UserDataRepository,
+) : SettingsRepository, CoroutineScope by CoroutineScope(dispatcherProvider.default) {
 
     override fun buildEntities(
         onEntityClick: (SettingsEntity) -> Unit
@@ -164,12 +169,18 @@ internal class SettingsRepositoryImpl @Inject constructor(
         dailyReminder.reSchedule()
     }
 
-    override fun signOut(activity: Activity) {
-        TODO("Not yet implemented")
+    override fun signOut() {
+        launch {
+            userDataRepository.clear()
+            authRepository.logout()
+        }
     }
 
-    override fun deleteAccount(activity: Activity) {
-        TODO("Not yet implemented")
+    override fun deleteAccount() {
+       launch {
+           authRepository.deleteAccount()
+           userDataRepository.clear()
+       }
     }
 
     private fun formattedReminderTime(): String {

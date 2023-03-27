@@ -31,14 +31,6 @@ plugins {
 
 android {
     namespace = "ss.settings"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
-
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 slack {
@@ -48,34 +40,21 @@ slack {
 dependencies {
     implementation(projects.common.auth)
     implementation(projects.common.core)
-    implementation(projects.common.design)
     implementation(projects.common.designCompose)
     implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
     implementation(projects.libraries.circuitHelpers.api)
 
-    implementation(libs.google.material)
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.activity)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.fragment)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.preference)
 
     implementation(libs.google.accompanist.systemUiController)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
 
-    implementation(libs.google.play.auth)
-    implementation(libs.kotlin.coroutines.playservices)
-
     implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
     kaptTest(libs.google.hilt.compiler)
-    androidTestImplementation(libs.bundles.testing.android.common)
-    kaptAndroidTest(libs.google.hilt.compiler)
     testImplementation(projects.libraries.testUtils)
     testImplementation(libs.circuit.test)
 }

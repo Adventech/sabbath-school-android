@@ -22,10 +22,16 @@
 
 package ss.settings.repository
 
+import app.ss.auth.AuthRepository
+import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.config.AppConfig
+import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
@@ -38,6 +44,8 @@ class SettingsRepositoryTest {
     private val mockAppConfig: AppConfig = mockk()
     private val mockPrefs: SSPrefs = mockk()
     private val mockDailyReminder: DailyReminder = mockk()
+    private val mockAuthRepository: AuthRepository = mockk()
+    private val mockUserRepository: UserDataRepository = mockk()
 
     private lateinit var repository: SettingsRepository
 
@@ -50,7 +58,10 @@ class SettingsRepositoryTest {
         repository = SettingsRepositoryImpl(
             appConfig = mockAppConfig,
             prefs = mockPrefs,
-            dailyReminder = mockDailyReminder
+            dailyReminder = mockDailyReminder,
+            authRepository = mockAuthRepository,
+            dispatcherProvider = TestDispatcherProvider(),
+            userDataRepository = mockUserRepository
         )
     }
 
@@ -71,6 +82,32 @@ class SettingsRepositoryTest {
         verify {
             mockPrefs.setReminderTime(ReminderTime(9, 30))
             mockDailyReminder.reSchedule()
+        }
+    }
+
+    @Test
+    fun `signOut - clear repositories`() = runTest {
+        coEvery { mockUserRepository.clear() }.returns(Unit)
+        coEvery { mockAuthRepository.logout() }.returns(Unit)
+
+        repository.signOut()
+
+        coVerify {
+            mockUserRepository.clear()
+            mockAuthRepository.logout()
+        }
+    }
+
+    @Test
+    fun `deleteAccount - clear repository and delete account`() = runTest {
+        coEvery { mockUserRepository.clear() }.returns(Unit)
+        coEvery { mockAuthRepository.deleteAccount() }.returns(Unit)
+
+        repository.deleteAccount()
+
+        coVerify {
+            mockAuthRepository.deleteAccount()
+            mockUserRepository.clear()
         }
     }
 }

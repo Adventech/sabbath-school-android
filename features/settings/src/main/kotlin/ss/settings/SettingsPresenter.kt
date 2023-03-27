@@ -30,6 +30,7 @@ import androidx.compose.runtime.produceState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import app.ss.design.compose.extensions.list.ListEntity
+import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.Navigator
 import com.slack.circuit.Presenter
 import dagger.assisted.Assisted
@@ -38,8 +39,8 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import ss.circuit.helpers.navigator.AndroidScreen
 import ss.settings.SettingsScreen.Event
-import ss.settings.SettingsScreen.State
 import ss.settings.SettingsScreen.Overlay
+import ss.settings.SettingsScreen.State
 import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
 
@@ -61,7 +62,11 @@ internal class SettingsPresenter @AssistedInject constructor(
                         overlay = Overlay.ConfirmDeleteAccount
                     }
                     SettingsEntity.Account.SignOut -> {
-
+                        repository.signOut()
+                        with(navigator) {
+                            goTo(AndroidScreen.LegacyDestination(Destination.LOGIN))
+                            pop()
+                        }
                     }
                     is SettingsEntity.Reminder.Switch -> {
                         isSwitchChecked = entity.isChecked
@@ -82,6 +87,11 @@ internal class SettingsPresenter @AssistedInject constructor(
                 Event.OverlayDismiss -> { overlay = null }
                 Event.AccountDeleteConfirmed -> {
                     overlay = null
+                    repository.deleteAccount()
+                    with(navigator) {
+                        goTo(AndroidScreen.LegacyDestination(Destination.LOGIN))
+                        pop()
+                    }
                 }
                 is Event.SetReminderTime -> {
                     repository.setReminderTime(event.hour, event.minute)

@@ -50,6 +50,7 @@ object SettingsScreen : Screen, Parcelable {
         data class SetReminderTime(val hour: Int, val minute: Int): Event
     }
 
+    @Immutable
     internal data class State(
         val entities: List<ListEntity>,
         val overlay: Overlay?,

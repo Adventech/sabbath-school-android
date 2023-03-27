@@ -156,6 +156,7 @@ dependencies {
 
     implementation(libs.kotlin.coroutines)
     implementation(libs.kotlin.coroutines.android)
+    implementation(libs.kotlin.coroutines.playservices)
 
     implementation(libs.google.material)
     implementation(libs.androidx.core)

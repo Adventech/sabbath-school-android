@@ -33,6 +33,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import app.ss.models.config.AppConfig
 import app.ss.runtime.permissions.RuntimePermissions
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
@@ -47,6 +48,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import app.ss.translations.R as L10n
 
@@ -136,6 +139,8 @@ class LoginActivity : AppCompatActivity() {
 
             tvTerms.movementMethod = LinkMovementMethod.getInstance()
         }
+
+        lifecycleScope.launch { googleSignInClient.signOut().await() }
     }
 
     private fun checkNotificationsPermission() {

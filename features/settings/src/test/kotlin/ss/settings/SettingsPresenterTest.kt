@@ -22,16 +22,17 @@
 
 package ss.settings
 
-import android.app.Activity
 import android.content.Context
 import app.ss.design.compose.extensions.list.DividerEntity
 import app.ss.design.compose.extensions.list.ListEntity
+import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
+import ss.circuit.helpers.navigator.AndroidScreen
 import ss.settings.SettingsScreen.Event
 import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
@@ -77,6 +78,28 @@ class SettingsPresenterTest {
             navigator.awaitPop()
         }
     }
+
+    @Test
+    fun `present - Event account delete confirmed`() = runTest{
+        val entities = listOf(DividerEntity("1"), DividerEntity("2"))
+
+        val presenter = SettingsPresenter(
+            context = mockContext,
+            repository = TestRepository(entities),
+            navigator = navigator
+        )
+
+        presenter.test {
+            awaitItem().entities shouldBeEqualTo emptyList()
+            val state = awaitItem()
+            state.entities shouldBeEqualTo entities
+
+            state.eventSick(Event.AccountDeleteConfirmed)
+
+            navigator.awaitNextScreen() shouldBeEqualTo AndroidScreen.LegacyDestination(Destination.LOGIN)
+            navigator.awaitPop()
+        }
+    }
 }
 
 internal class TestRepository(
@@ -88,7 +111,7 @@ internal class TestRepository(
 
     override fun setReminderTime(hour: Int, minute: Int) = Unit
 
-    override fun signOut(activity: Activity) = Unit
+    override fun signOut() = Unit
 
-    override fun deleteAccount(activity: Activity) = Unit
+    override fun deleteAccount() = Unit
 }

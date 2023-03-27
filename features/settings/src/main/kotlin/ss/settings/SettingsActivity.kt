@@ -52,6 +52,9 @@ class SettingsActivity : ComponentActivity() {
     @Inject
     lateinit var circuitConfig: CircuitConfig
 
+    @Inject
+    lateinit var supportingNavigatorFactory: AndroidSupportingNavigator.Factory
+
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +78,7 @@ class SettingsActivity : ComponentActivity() {
                 BackHandler(onBack = { finishAfterTransition() })
                 val circuitNavigator = rememberCircuitNavigator(backstack)
                 val navigator = remember(circuitNavigator) {
-                    AndroidSupportingNavigator(circuitNavigator, this)
+                    supportingNavigatorFactory.create(circuitNavigator, this)
                 }
 
                 ContentWithOverlays {

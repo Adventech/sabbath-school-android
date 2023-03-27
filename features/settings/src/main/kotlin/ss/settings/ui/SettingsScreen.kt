@@ -156,7 +156,7 @@ private fun OverlayHost.ConfirmAccountDelete(
                 ) { eventSick(Event.OverlayDismiss) },
                 confirmButton = DialogOverlay.Button(
                     title = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_positive)
-                ) {  }
+                ) { eventSick(Event.AccountDeleteConfirmed) }
             ) {
                 Text(
                     text = stringResource(id = L10nR.string.ss_delete_account_warning),
