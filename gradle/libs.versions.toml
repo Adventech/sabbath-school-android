@@ -127,7 +127,7 @@ circuit = { module = "com.slack.circuit:circuit-core", version.ref = "circuit" }
 circuit-overlay = { module = "com.slack.circuit:circuit-overlay", version.ref = "circuit" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
-google-coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs_minimal:2.0.2"
+google-coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs_minimal:2.0.3"
 google-accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "google-accompanist" }
 google-accompanist-navigation-material = { module = "com.google.accompanist:accompanist-navigation-material", version.ref = "google-accompanist" }
 google-accompanist-placeholder = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "google-accompanist" }
