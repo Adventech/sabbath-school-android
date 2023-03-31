@@ -43,7 +43,7 @@ gradle-cache-fix = "2.7.0"
 gradle-retry = "1.5.2"
 javax-annotation = "1.3.2"
 jdk = "19"
-joda-android = "2.12.4"
+joda-android = "2.12.5"
 joda-time = "2.12.5"
 jvmTarget = "11"
 # @keep same as composeCompilerKotlinVersion
