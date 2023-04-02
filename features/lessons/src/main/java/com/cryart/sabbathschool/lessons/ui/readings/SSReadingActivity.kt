@@ -32,6 +32,8 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.viewpager2.widget.ViewPager2
 import app.ss.media.playback.PlaybackViewModel
@@ -51,18 +53,23 @@ import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
+import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.components.MiniPlayerComponent
+import com.cryart.sabbathschool.lessons.ui.readings.components.PagesIndicatorComponent
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ss.misc.DateHelper
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 import ss.prefs.model.colorTheme
 import javax.inject.Inject
+import kotlin.math.abs
 
 @AndroidEntryPoint
 class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, ShareableScreen {
@@ -86,6 +93,12 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     private val viewModel by viewModels<ReadingsViewModel>()
     private val playbackViewModel by viewModels<PlaybackViewModel>()
 
+    private val indicatorComponent: PagesIndicatorComponent by lazy {
+        PagesIndicatorComponent(binding.ssReadingIndicator) { position ->
+            binding.ssReadingViewPager.setCurrentItem(position, true)
+        }
+    }
+
     private var currentReadPosition: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,6 +120,16 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         val extraPosition = intent.extras?.getString(SSConstants.SS_READ_POSITION_EXTRA)
         currentReadPosition = savedInstanceState?.getInt(SSConstants.SS_READ_POSITION_EXTRA) ?: extraPosition?.toIntOrNull()
 
+        setupViewPager()
+
+        binding.executePendingBindings()
+        binding.viewModel = ssReadingViewModel
+        updateColorScheme()
+
+        observeData()
+    }
+
+    private fun setupViewPager() {
         binding.ssReadingViewPager.apply {
             offscreenPageLimit = 4
             adapter = readingViewAdapter
@@ -117,14 +140,21 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
                     val ssRead = readingViewAdapter.getReadAt(position) ?: return
                     setPageTitleAndSubtitle(ssRead.title, DateHelper.formatDate(ssRead.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY))
                     observeReadUserContent(ssRead.index)
+
+                    indicatorComponent.update(readingViewAdapter.itemCount, position)
                 }
             })
         }
-        binding.executePendingBindings()
-        binding.viewModel = ssReadingViewModel
-        updateColorScheme()
 
-        observeData()
+        binding.ssReadingAppBar.ssReadingAppBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            if (verticalOffset == 0 && readingViewAdapter.itemCount > 0) {
+                // EXPANDED
+                binding.ssReadingIndicator.fadeTo(true)
+            } else if (abs(verticalOffset) >= appBarLayout.totalScrollRange) {
+                // COLLAPSED
+                binding.ssReadingIndicator.isVisible = false
+            }
+        }
     }
 
     private fun initUI() {
@@ -248,6 +278,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         val index = currentReadPosition ?: ssReadIndex
         readingViewAdapter.setContent(ssReads, ssReadHighlights, ssReadComments) {
             binding.ssReadingViewPager.currentItem = index
+            binding.ssReadingIndicator.fadeTo(true)
         }
 
         currentReadPosition = null
@@ -264,6 +295,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         ssPrefs.displayOptionsFlow().collectIn(this) { displayOptions ->
             readingViewAdapter.readingOptions = displayOptions
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
+            indicatorComponent.update(displayOptions)
             window.navigationBarColor = displayOptions.colorTheme(this@SSReadingActivity.isDarkTheme())
         }
 

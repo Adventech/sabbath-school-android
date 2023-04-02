@@ -49,6 +49,14 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/ss_reading_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_micro"
+            android:visibility="invisible"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
         <include
             android:id="@+id/ssContextMenu"
             layout="@layout/ss_reading_context_menu"
@@ -75,7 +83,7 @@
 
         <androidx.compose.ui.platform.ComposeView
             android:id="@+id/ss_player_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom" />
 
