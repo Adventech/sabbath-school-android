@@ -9,7 +9,7 @@ androidx-compose-bom = "2023.04.00"
 # Used in sgp. @keep same as kotlin
 composeCompilerKotlinVersion = "1.8.10"
 androidx-compose-constraintlayout = "1.0.1"
-androidx-compose-material3 = "1.1.0-beta01"
+androidx-compose-material3 = "1.1.0-beta02"
 androidx-constraintlayout = "2.1.4"
 androidx-core = "1.10.0"
 # @keep this version
