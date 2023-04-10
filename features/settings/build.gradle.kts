@@ -56,5 +56,4 @@ dependencies {
     testImplementation(libs.bundles.testing.common)
     kaptTest(libs.google.hilt.compiler)
     testImplementation(projects.libraries.testUtils)
-    testImplementation(libs.circuit.test)
 }

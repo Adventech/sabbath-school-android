@@ -22,7 +22,7 @@
 
 package ss.circuit.helpers.impl
 
-import com.slack.circuit.CircuitConfig
+import com.slack.circuit.foundation.CircuitConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

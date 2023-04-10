@@ -6,8 +6,8 @@ import androidx.activity.ComponentActivity
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
-import com.slack.circuit.Navigator
-import com.slack.circuit.Screen
+import com.slack.circuit.runtime.Navigator
+import com.slack.circuit.runtime.Screen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

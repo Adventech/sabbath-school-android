@@ -22,8 +22,8 @@
 
 package ss.circuit.helpers.factory
 
-import com.slack.circuit.Presenter
-import com.slack.circuit.Ui
+import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuit.runtime.ui.Ui
 
 // Begin Ui Factories
 interface SettingsUiFactory : Ui.Factory
