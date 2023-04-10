@@ -28,14 +28,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TimeInput
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import app.ss.design.compose.extensions.content.ContentSpec
+import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
@@ -43,35 +44,20 @@ import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.SsScaffold
-import ss.settings.SettingsState
-import ss.settings.SettingsViewModel
+import com.slack.circuit.overlay.LocalOverlayHost
+import com.slack.circuit.overlay.OverlayHost
+import ss.circuit.helpers.overlay.DialogOverlay
+import ss.settings.SettingsScreen.Event
+import ss.settings.SettingsScreen.Overlay
+import ss.settings.SettingsScreen.State
 import app.ss.translations.R as L10nR
 
 @Composable
-internal fun SettingsScreen(
-    viewModel: SettingsViewModel = viewModel(),
-    onNavBack: () -> Unit
-) {
-    val state by viewModel.viewStateFlow.collectAsStateWithLifecycle()
-
-    SettingsScreen(
-        state = state,
-        onNavBack = onNavBack,
-        modifier = Modifier
-    )
-
-    DisposableEffect(viewModel) {
-        viewModel.inCompose()
-        onDispose {}
-    }
-}
-
-@Composable
-private fun SettingsScreen(
-    state: SettingsState,
-    onNavBack: () -> Unit,
+internal fun SettingsUiScreen(
+    state: State,
     modifier: Modifier = Modifier
 ) {
+    OverlayContent(state = state)
 
     @OptIn(ExperimentalMaterial3Api::class)
     SsScaffold(
@@ -83,7 +69,9 @@ private fun SettingsScreen(
                 ),
                 title = { Text(text = stringResource(id = L10nR.string.ss_settings)) },
                 navigationIcon = {
-                    IconButton(onClick = onNavBack) {
+                    IconButton(onClick = {
+                        state.eventSick(Event.NavBack)
+                    }) {
                         IconBox(icon = Icons.ArrowBack)
                     }
                 }
@@ -96,9 +84,85 @@ private fun SettingsScreen(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             items(
-                items = state.prefListEntities,
+                items = state.entities,
                 key = { it.id }
             ) { item -> item.Content() }
         }
+    }
+}
+
+
+@Composable
+private fun OverlayContent(state: State) {
+    val overlay = state.overlay ?: return
+    val overlayHost = LocalOverlayHost.current
+
+    when (overlay) {
+        Overlay.ConfirmDeleteAccount -> overlayHost.ConfirmAccountDelete(
+            overlay = overlay,
+            eventSick = state.eventSick
+        )
+        is Overlay.SelectReminderTime -> overlayHost.ShowTimePicker(
+            overlay = overlay,
+            eventSick = state.eventSick
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun OverlayHost.ShowTimePicker(
+    overlay: Overlay.SelectReminderTime,
+    eventSick: (Event) -> Unit,
+) {
+    val timePickerState = rememberTimePickerState(
+        initialHour = overlay.hour,
+        initialMinute = overlay.minute,
+    )
+
+    LaunchedEffect(overlay) {
+        show(
+            DialogOverlay<Unit>(
+                title = ContentSpec.Res(L10nR.string.ss_settings_reminder_time),
+                cancelButton = DialogOverlay.Button(
+                    title = ContentSpec.Res(android.R.string.cancel)
+                ) { eventSick(Event.OverlayDismiss) },
+                confirmButton = DialogOverlay.Button(
+                    title = ContentSpec.Res(android.R.string.ok)
+                ) {
+                    eventSick(Event.SetReminderTime(timePickerState.hour, timePickerState.minute))
+                }
+            ) {
+                TimeInput(
+                    state = timePickerState,
+                    modifier = Modifier
+                )
+            }
+        )
+    }
+}
+
+@Composable
+private fun OverlayHost.ConfirmAccountDelete(
+    overlay: Overlay?,
+    eventSick: (Event) -> Unit,
+) {
+    LaunchedEffect(overlay) {
+        show(
+            DialogOverlay<Unit>(
+                title = ContentSpec.Res(L10nR.string.ss_delete_account_question),
+                cancelButton = DialogOverlay.Button(
+                    title = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_negative)
+                ) { eventSick(Event.OverlayDismiss) },
+                confirmButton = DialogOverlay.Button(
+                    title = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_positive)
+                ) { eventSick(Event.AccountDeleteConfirmed) }
+            ) {
+                Text(
+                    text = stringResource(id = L10nR.string.ss_delete_account_warning),
+                    style = SsTheme.typography.bodyMedium
+                )
+            }
+        )
     }
 }

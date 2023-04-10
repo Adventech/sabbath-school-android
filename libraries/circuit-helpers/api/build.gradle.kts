@@ -27,9 +27,13 @@ plugins {
     id("kotlin-parcelize")
 }
 
+slack {
+    features { compose() }
+}
+
 dependencies {
-    api(libs.circuit)
-    api(libs.circuit.overlay)
+    api(libs.bundles.circuit)
     api(libs.google.hilt.android)
     implementation(projects.common.core)
+    implementation(projects.common.designCompose)
 }

@@ -51,7 +51,7 @@ import org.robolectric.Shadows
 import org.robolectric.android.controller.ActivityController
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
-import ss.settings.SSSettingsActivity
+import ss.settings.SettingsActivity
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -108,7 +108,7 @@ class AppNavigatorImplTest {
         val intent = shadow.nextStartedActivity
 
         val clazz = intent.component?.className
-        clazz shouldBeEqualTo SSSettingsActivity::class.qualifiedName
+        clazz shouldBeEqualTo SettingsActivity::class.qualifiedName
     }
 
     @Test
@@ -133,7 +133,7 @@ class AppNavigatorImplTest {
         val intent = shadow.nextStartedActivity
 
         val clazz = intent.component?.className
-        clazz shouldBeEqualTo SSSettingsActivity::class.qualifiedName
+        clazz shouldBeEqualTo SettingsActivity::class.qualifiedName
     }
 
     @Test

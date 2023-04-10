@@ -20,37 +20,29 @@
  * THE SOFTWARE.
  */
 
-package ss.circuit.helpers.impl
+package ss.settings.repository
 
-import com.slack.circuit.foundation.CircuitConfig
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ss.circuit.helpers.factory.SettingsPresenterFactory
-import ss.circuit.helpers.factory.SettingsUiFactory
-import javax.inject.Singleton
+import androidx.annotation.StringRes
+import app.ss.translations.R as L10nR
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal class CircuitModule {
+internal sealed interface SettingsEntity {
 
-    @Provides
-    @Singleton
-    fun provideCircuitConfig(
-        settingsPresenterFactory: SettingsPresenterFactory,
-        settingsUiFactory: SettingsUiFactory,
+    sealed class About(@StringRes val resId: Int) : SettingsEntity {
+        object Facebook : About(L10nR.string.ss_settings_facebook_url)
+        object Github : About(L10nR.string.ss_settings_github_url)
+        object Instagram : About(L10nR.string.ss_settings_instagram_url)
+        object Version : About(L10nR.string.ss_app_playstore_url)
+        object Website : About(L10nR.string.ss_settings_website_url)
+    }
 
-        ): CircuitConfig = CircuitConfig.Builder()
-        .addPresenterFactories(
-            listOf(
-                settingsPresenterFactory,
-            )
-        )
-        .addUiFactories(
-            listOf(
-                settingsUiFactory,
-            )
-        )
-        .build()
+    sealed interface Account: SettingsEntity {
+        object Delete : Account
+        object SignOut : Account
+    }
+
+    sealed interface Reminder : SettingsEntity {
+        data class Switch(val isChecked: Boolean): Reminder
+        data class Time(val hour: Int, val minute: Int) : Reminder
+    }
+
 }

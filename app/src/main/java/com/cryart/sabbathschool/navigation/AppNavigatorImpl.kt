@@ -43,7 +43,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import ss.prefs.api.SSPrefs
-import ss.settings.SSSettingsActivity
+import ss.settings.SettingsActivity
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -124,7 +124,7 @@ class AppNavigatorImpl @Inject constructor(
             Destination.ACCOUNT -> AccountDialogFragment::class.java
             Destination.LESSONS -> SSLessonsActivity::class.java
             Destination.LOGIN -> LoginActivity::class.java
-            Destination.SETTINGS -> SSSettingsActivity::class.java
+            Destination.SETTINGS -> SettingsActivity::class.java
             Destination.READ -> SSReadingActivity::class.java
             else -> null
         }

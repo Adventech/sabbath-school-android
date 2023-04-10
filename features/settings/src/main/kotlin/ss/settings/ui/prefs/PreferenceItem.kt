@@ -35,8 +35,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -182,15 +184,15 @@ private fun PreviewItem() {
                 }
 
                 item {
-                    val checked = remember { mutableStateOf(false) }
+                    var isChecked by remember { mutableStateOf(false) }
 
                     PreferenceItem(
                         item = PrefListEntity.Switch(
-                            icon = Icons.AlarmOff,
+                            icon = if (isChecked) Icons.AlarmOn else Icons.AlarmOff,
                             title = ContentSpec.Res(L10nR.string.ss_settings_reminder),
                             summary = ContentSpec.Res(L10nR.string.ss_settings_reminder_summary),
-                            checked = checked.value,
-                            onCheckChanged = { checked.value = it },
+                            checked = isChecked,
+                            onCheckChanged = { isChecked = it },
                             id = "switch"
                         )
                     )

@@ -20,37 +20,35 @@
  * THE SOFTWARE.
  */
 
-package ss.circuit.helpers.impl
+package ss.settings.di
 
-import com.slack.circuit.foundation.CircuitConfig
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ss.circuit.helpers.factory.SettingsPresenterFactory
 import ss.circuit.helpers.factory.SettingsUiFactory
-import javax.inject.Singleton
+import ss.settings.SettingsPresenterFactoryImpl
+import ss.settings.SettingsUiFactoryImpl
+import ss.settings.repository.SettingsRepository
+import ss.settings.repository.SettingsRepositoryImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal class CircuitModule {
+internal abstract class BindingsModule {
 
-    @Provides
-    @Singleton
-    fun provideCircuitConfig(
-        settingsPresenterFactory: SettingsPresenterFactory,
-        settingsUiFactory: SettingsUiFactory,
+    @Binds
+    internal abstract fun bindSettingsUiFactory(
+        impl: SettingsUiFactoryImpl
+    ): SettingsUiFactory
 
-        ): CircuitConfig = CircuitConfig.Builder()
-        .addPresenterFactories(
-            listOf(
-                settingsPresenterFactory,
-            )
-        )
-        .addUiFactories(
-            listOf(
-                settingsUiFactory,
-            )
-        )
-        .build()
+    @Binds
+    internal abstract fun bindSettingsPresenterFactory(
+        impl: SettingsPresenterFactoryImpl
+    ): SettingsPresenterFactory
+
+    @Binds
+    internal abstract fun bindSettingsRepository(
+        impl: SettingsRepositoryImpl
+    ): SettingsRepository
 }
