@@ -22,6 +22,7 @@
 
 package ss.settings.repository
 
+import android.content.Context
 import app.ss.auth.AuthRepository
 import app.ss.design.compose.extensions.content.ContentSpec
 import app.ss.design.compose.extensions.list.DividerEntity
@@ -31,12 +32,16 @@ import app.ss.design.compose.widget.icon.ResIcon
 import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.config.AppConfig
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import ss.misc.SSConstants
+import ss.misc.SSHelper
 import ss.prefs.api.SSPrefs
 import ss.prefs.model.ReminderTime
 import ss.settings.DailyReminder
 import ss.settings.ui.prefs.PrefListEntity
+import android.text.format.DateFormat
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -54,6 +59,7 @@ internal interface SettingsRepository {
 
 @Singleton
 internal class SettingsRepositoryImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val appConfig: AppConfig,
     private val authRepository: AuthRepository,
     private val dailyReminder: DailyReminder,
@@ -185,7 +191,11 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     private fun formattedReminderTime(): String {
         val time = prefs.getReminderTime()
-        return String.format(Locale.getDefault(), "%02d:%02d", time.hour, time.min)
+        return SSHelper.parseTimeAndReturnInFormat(
+            String.format(Locale.getDefault(), "%02d:%02d", time.hour, time.min),
+            SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT,
+            DateFormat.getTimeFormat(context)
+        )
     }
 
 }

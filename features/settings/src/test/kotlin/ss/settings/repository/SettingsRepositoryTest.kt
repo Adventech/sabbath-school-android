@@ -56,6 +56,7 @@ class SettingsRepositoryTest {
         every { mockPrefs.getReminderTime() }.returns(ReminderTime(8, 0))
 
         repository = SettingsRepositoryImpl(
+            context = mockk(),
             appConfig = mockAppConfig,
             prefs = mockPrefs,
             dailyReminder = mockDailyReminder,
