@@ -41,6 +41,7 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import coil.transform.RoundedCornersTransformation
 import dagger.hilt.android.AndroidEntryPoint
+import com.cryart.design.R as DesignR
 
 @AndroidEntryPoint
 internal class WeekLessonWidget : BaseWidgetProvider<WeekLessonWidgetModel>() {
@@ -86,7 +87,7 @@ internal class WeekLessonWidget : BaseWidgetProvider<WeekLessonWidgetModel>() {
     private fun setWeekData(context: Context, views: RemoteViews, model: WeekLessonWidgetModel?) {
         val default = context.getString(R.string.ss_widget_error_label)
 
-        val colorTextDefault = ContextCompat.getColor(context, R.color.text_secondary)
+        val colorTextDefault = ContextCompat.getColor(context, DesignR.color.text_secondary)
         val colorTextPrimary = ContextCompat.getColor(context, R.color.text_primary)
 
         var day = model?.days?.getOrNull(0)

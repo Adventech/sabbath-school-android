@@ -27,7 +27,7 @@ import app.cash.turbine.test
 import app.ss.auth.AuthRepository
 import app.ss.auth.AuthResponse
 import app.ss.models.auth.SSUser
-import com.cryart.sabbathschool.R
+import app.ss.translations.R as L10n
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.core.response.Resource
@@ -76,7 +76,7 @@ class LoginViewModelTest {
             viewModel.handleGoogleSignInResult(null)
 
             awaitItem() shouldBeEqualTo null
-            awaitItem() shouldBeEqualTo ViewState.Error(messageRes = R.string.ss_login_failed)
+            awaitItem() shouldBeEqualTo ViewState.Error(messageRes = L10n.string.ss_login_failed)
         }
     }
 
@@ -88,7 +88,7 @@ class LoginViewModelTest {
             viewModel.handleAnonymousLogin()
 
             awaitItem() shouldBeEqualTo null
-            awaitItem() shouldBeEqualTo ViewState.Error(messageRes = R.string.ss_login_failed)
+            awaitItem() shouldBeEqualTo ViewState.Error(messageRes = L10n.string.ss_login_failed)
         }
     }
 
@@ -130,7 +130,7 @@ class LoginViewModelTest {
             viewModel.handleGoogleSignInResult(mockData)
 
             awaitItem() shouldBeEqualTo null
-            awaitItem() shouldBeEqualTo ViewState.Error(messageRes = R.string.ss_login_failed)
+            awaitItem() shouldBeEqualTo ViewState.Error(messageRes = L10n.string.ss_login_failed)
         }
     }
 

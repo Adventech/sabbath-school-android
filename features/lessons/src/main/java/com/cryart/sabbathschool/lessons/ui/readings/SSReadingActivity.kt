@@ -33,7 +33,6 @@ import androidx.activity.viewModels
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.viewpager2.widget.ViewPager2
 import app.ss.media.playback.PlaybackViewModel
@@ -62,14 +61,13 @@ import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.components.MiniPlayerComponent
 import com.cryart.sabbathschool.lessons.ui.readings.components.PagesIndicatorComponent
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ss.misc.DateHelper
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 import ss.prefs.model.colorTheme
 import javax.inject.Inject
 import kotlin.math.abs
+import app.ss.translations.R as L10n
 
 @AndroidEntryPoint
 class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, ShareableScreen {
@@ -221,7 +219,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
                 val message = "${ssReadingViewModel.lessonTitle} - $readTitle"
                 shareContent(
                     "$message\n${getShareWebUri()}",
-                    getString(R.string.ss_menu_share_app)
+                    getString(L10n.string.ss_menu_share_app)
                 )
                 true
             }
@@ -331,7 +329,7 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         val read = readingViewAdapter.getReadAt(position)
         val readIndex = read?.shareIndex(ssReadingViewModel.lessonShareIndex, position + 1)
 
-        return "${getString(R.string.ss_app_host)}/${readIndex ?: ""}".toWebUri()
+        return "${getString(L10n.string.ss_app_host)}/${readIndex ?: ""}".toWebUri()
     }
 
     private fun getReadIndex(): String? {

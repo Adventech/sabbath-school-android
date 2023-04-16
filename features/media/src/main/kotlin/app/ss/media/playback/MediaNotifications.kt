@@ -52,6 +52,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import androidx.core.app.NotificationCompat as CoreNotificationCompat
 import androidx.media.app.NotificationCompat as MediaNotificationCompat
+import app.ss.translations.R as L10n
+import com.cryart.design.R as DesignR
 
 private const val CHANNEL_ID = "app.ss.media.NOW_PLAYING"
 const val NOTIFICATION_ID = 0xb339
@@ -117,7 +119,7 @@ internal class MediaNotificationsImpl @Inject constructor(
 
         val builder = CoreNotificationCompat.Builder(context, CHANNEL_ID).apply {
             setStyle(style)
-            setSmallIcon(R.drawable.ic_stat_notification)
+            setSmallIcon(DesignR.drawable.ic_stat_notification)
             setLargeIcon(artwork)
             setContentIntent(clickIntent)
             setContentTitle(trackName)
@@ -180,8 +182,8 @@ internal class MediaNotificationsImpl @Inject constructor(
     private fun createEmptyNotification(): Notification {
         createNotificationChannel()
         return CoreNotificationCompat.Builder(context, CHANNEL_ID).apply {
-            setSmallIcon(R.drawable.ic_stat_notification)
-            setContentTitle(context.getString(R.string.ss_app_name))
+            setSmallIcon(DesignR.drawable.ic_stat_notification)
+            setContentTitle(context.getString(L10n.string.ss_app_name))
             setColorized(true)
             setShowWhen(false)
             setVisibility(CoreNotificationCompat.VISIBILITY_PUBLIC)
@@ -190,9 +192,9 @@ internal class MediaNotificationsImpl @Inject constructor(
 
     private fun createNotificationChannel() {
         if (!isOreo()) return
-        val name = context.getString(R.string.ss_media_notification_channel)
+        val name = context.getString(L10n.string.ss_media_notification_channel)
         val channel = NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW).apply {
-            description = context.getString(R.string.ss_media_notification_channel_description)
+            description = context.getString(L10n.string.ss_media_notification_channel_description)
             setShowBadge(false)
             lockscreenVisibility = Notification.VISIBILITY_PUBLIC
         }

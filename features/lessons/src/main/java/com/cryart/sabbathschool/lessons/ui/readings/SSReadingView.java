@@ -443,7 +443,7 @@ public class SSReadingView extends SSWebView {
                 ClipboardManager _clipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText(SSReadingView.CLIPBOARD_LABEL, selection);
                 _clipboard.setPrimaryClip(clip);
-                Toast.makeText(context, context.getString(R.string.ss_reading_copied), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, context.getString(app.ss.translations.R.string.ss_reading_copied), Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 Timber.e(e);
             }
@@ -466,7 +466,7 @@ public class SSReadingView extends SSWebView {
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, selection);
                 sendIntent.setType("text/plain");
-                context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.ss_reading_share_to)));
+                context.startActivity(Intent.createChooser(sendIntent, context.getString(app.ss.translations.R.string.ss_reading_share_to)));
             } catch (Exception e) {
                 Timber.e(e);
             }

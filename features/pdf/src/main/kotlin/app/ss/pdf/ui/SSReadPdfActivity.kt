@@ -31,9 +31,9 @@ import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import app.ss.models.PdfAnnotations
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
+import app.ss.models.PdfAnnotations
 import app.ss.pdf.PdfReaderPrefs
 import app.ss.pdf.R
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
@@ -45,6 +45,8 @@ import com.pspdfkit.ui.PdfActivity
 import com.pspdfkit.ui.tabs.PdfTabBarCloseMode
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import app.ss.media.R as MediaR
+import app.ss.translations.R as L10n
 
 @AndroidEntryPoint
 class SSReadPdfActivity : PdfActivity() {
@@ -79,8 +81,8 @@ class SSReadPdfActivity : PdfActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
 
-        menu.findItem(ID_AUDIO)?.custom(R.string.ss_media_audio, R.drawable.ic_audio_icon)
-        menu.findItem(ID_VIDEO)?.custom(R.string.ss_media_video, R.drawable.ic_video_icon)
+        menu.findItem(ID_AUDIO)?.custom(L10n.string.ss_media_audio, MediaR.drawable.ic_audio_icon)
+        menu.findItem(ID_VIDEO)?.custom(L10n.string.ss_media_video, MediaR.drawable.ic_video_icon)
 
         return true
     }

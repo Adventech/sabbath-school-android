@@ -38,11 +38,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import app.ss.design.compose.R
 import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.LatoFontFamily
-import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.theme.color.SsColors
+import app.ss.translations.R as L10n
 
 /**
  * High level element that displays text with read more.
@@ -122,7 +122,7 @@ fun ReadMoreText(
     softWrap: Boolean = true,
     onTextLayout: (TextLayoutResult) -> Unit = {},
     style: TextStyle = LocalTextStyle.current,
-    readMoreText: String = stringResource(id = R.string.ss_more),
+    readMoreText: String = stringResource(id = L10n.string.ss_more),
     readMoreColor: Color = SsColors.TextLink,
     readMoreFontSize: TextUnit = TextUnit.Unspecified,
     readMoreFontStyle: FontStyle? = FontStyle.Normal,

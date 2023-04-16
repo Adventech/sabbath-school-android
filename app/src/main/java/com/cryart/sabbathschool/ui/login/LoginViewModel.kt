@@ -27,7 +27,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.auth.AuthRepository
 import app.ss.auth.AuthResponse
-import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.core.response.Resource
@@ -40,6 +39,7 @@ import kotlinx.coroutines.launch
 import ss.prefs.api.SSPrefs
 import timber.log.Timber
 import javax.inject.Inject
+import app.ss.translations.R as L10n
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -65,7 +65,7 @@ class LoginViewModel @Inject constructor(
             handleAuthResult(response)
         } catch (e: Exception) {
             Timber.e(e)
-            _viewState.emit(ViewState.Error(messageRes = R.string.ss_login_failed))
+            _viewState.emit(ViewState.Error(messageRes = L10n.string.ss_login_failed))
         }
     }
 
@@ -81,7 +81,7 @@ class LoginViewModel @Inject constructor(
                 reminderManager.scheduleReminder()
                 ViewState.Success((response.data as AuthResponse.Authenticated).user)
             }
-            else -> ViewState.Error(messageRes = R.string.ss_login_failed)
+            else -> ViewState.Error(messageRes = L10n.string.ss_login_failed)
         }
 
         _viewState.emit(state)

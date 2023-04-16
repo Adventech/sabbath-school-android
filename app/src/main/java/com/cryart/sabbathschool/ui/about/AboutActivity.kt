@@ -33,6 +33,7 @@ import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import com.cryart.sabbathschool.databinding.SsAboutActivityBinding
 import ss.misc.SSConstants
 import ss.misc.SSEvent
+import app.ss.translations.R as L10n
 
 class AboutActivity : SSBaseActivity() {
 
@@ -62,10 +63,10 @@ class AboutActivity : SSBaseActivity() {
             R.id.ss_action_share -> {
                 val shareIntent = ShareCompat.IntentBuilder(this)
                     .setType("text/plain")
-                    .setText(getString(R.string.ss_menu_share_app_text, SSConstants.SS_APP_PLAY_STORE_LINK))
+                    .setText(getString(L10n.string.ss_menu_share_app_text, SSConstants.SS_APP_PLAY_STORE_LINK))
                     .intent
                 if (shareIntent.resolveActivity(packageManager) != null) {
-                    startActivity(Intent.createChooser(shareIntent, getString(R.string.ss_menu_share_app)))
+                    startActivity(Intent.createChooser(shareIntent, getString(L10n.string.ss_menu_share_app)))
                 }
                 true
             }

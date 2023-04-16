@@ -50,6 +50,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import ss.misc.SSConstants
 import javax.inject.Inject
+import app.ss.translations.R as L10n
 
 @AndroidEntryPoint
 class AccountDialogFragment : AppCompatDialogFragment() {
@@ -101,8 +102,8 @@ class AccountDialogFragment : AppCompatDialogFragment() {
                         transformations(CircleCropTransformation())
                     }
                 }
-                userName.text = userInfo.displayName ?: getString(R.string.ss_menu_anonymous_name)
-                userEmail.text = userInfo.email ?: getString(R.string.ss_menu_anonymous_email)
+                userName.text = userInfo.displayName ?: getString(L10n.string.ss_menu_anonymous_name)
+                userEmail.text = userInfo.email ?: getString(L10n.string.ss_menu_anonymous_email)
             }
         }
 
@@ -123,10 +124,10 @@ class AccountDialogFragment : AppCompatDialogFragment() {
             navShare.setOnClickListener {
                 val shareIntent = ShareCompat.IntentBuilder(requireContext())
                     .setType("text/plain")
-                    .setText(getString(R.string.ss_menu_share_app_text, SSConstants.SS_APP_PLAY_STORE_LINK))
+                    .setText(getString(L10n.string.ss_menu_share_app_text, SSConstants.SS_APP_PLAY_STORE_LINK))
                     .intent
                 if (shareIntent.resolveActivity(requireActivity().packageManager) != null) {
-                    startActivity(Intent.createChooser(shareIntent, getString(R.string.ss_menu_share_app)))
+                    startActivity(Intent.createChooser(shareIntent, getString(L10n.string.ss_menu_share_app)))
                 }
 
                 dismiss()
