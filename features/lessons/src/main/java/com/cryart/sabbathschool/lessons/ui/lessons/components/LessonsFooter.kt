@@ -53,11 +53,11 @@ import app.ss.design.compose.extensions.color.lighter
 import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
-import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.FeatureImage
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.CreditSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.FeatureSpec
 import java.util.Calendar
+import app.ss.translations.R as L10n
 
 @Immutable
 internal data class LessonsFooterSpec(
@@ -103,7 +103,7 @@ internal fun LazyListScope.footer(
 
     item {
         Text(
-            text = stringResource(id = R.string.ss_copyright, year),
+            text = stringResource(id = L10n.string.ss_copyright, year),
             style = SsTheme.typography.bodySmall.copy(
                 fontSize = 15.sp
             ),

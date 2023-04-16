@@ -32,11 +32,12 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import app.ss.design.compose.theme.SsTheme
 import dagger.hilt.android.AndroidEntryPoint
+import com.cryart.design.R as DesignR
 
 @AndroidEntryPoint
 internal class LanguagesFragment : DialogFragment() {
 
-    override fun getTheme(): Int = R.style.Theme_SS_DialogFragment
+    override fun getTheme(): Int = DesignR.style.Theme_SS_DialogFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,

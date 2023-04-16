@@ -9,9 +9,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
-import app.ss.models.media.AudioFile
 import app.ss.lessons.data.repository.media.MediaRepository
-import app.ss.media.R
 import app.ss.media.playback.AudioFocusHelper
 import app.ss.media.playback.AudioQueueManager
 import app.ss.media.playback.BY_UI_KEY
@@ -26,6 +24,7 @@ import app.ss.media.playback.extensions.repeatMode
 import app.ss.media.playback.extensions.shuffleMode
 import app.ss.media.playback.model.toMediaId
 import app.ss.media.playback.model.toMediaMetadata
+import app.ss.models.media.AudioFile
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -33,6 +32,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+import app.ss.translations.R as L10n
 
 typealias OnMetaDataChanged = SSAudioPlayer.() -> Unit
 
@@ -94,7 +94,7 @@ internal class SSAudioPlayerImpl @Inject constructor(
 
     private val pendingIntent = PendingIntent.getBroadcast(context, 0, Intent(Intent.ACTION_MEDIA_BUTTON), SAFE_FLAG_IMMUTABLE)
 
-    private val mediaSession = MediaSessionCompat(context, context.getString(R.string.ss_app_name), null, pendingIntent).apply {
+    private val mediaSession = MediaSessionCompat(context, context.getString(L10n.string.ss_app_name), null, pendingIntent).apply {
         setCallback(
             MediaSessionCallback(
                 this,

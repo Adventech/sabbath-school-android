@@ -23,26 +23,26 @@ package com.cryart.sabbathschool.ui.about
 
 import android.content.Context
 import com.cryart.sabbathschool.BuildConfig
-import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
+import app.ss.translations.R as L10n
 
 class SSAboutViewModel(private val context: Context) {
 
-    val versionInfo: String get() = context.getString(R.string.ss_settings_version_with_param_string, BuildConfig.VERSION_NAME)
+    val versionInfo: String get() = context.getString(L10n.string.ss_settings_version_with_param_string, BuildConfig.VERSION_NAME)
 
     fun onFacebookClick() {
-        context.launchWebUrl(context.getString(R.string.ss_settings_facebook_url))
+        context.launchWebUrl(context.getString(L10n.string.ss_settings_facebook_url))
     }
 
     fun onInstagramClick() {
-        context.launchWebUrl(context.getString(R.string.ss_settings_instagram_url))
+        context.launchWebUrl(context.getString(L10n.string.ss_settings_instagram_url))
     }
 
     fun onGitHubClick() {
-        context.launchWebUrl(context.getString(R.string.ss_settings_github_url))
+        context.launchWebUrl(context.getString(L10n.string.ss_settings_github_url))
     }
 
     fun onAdventechIoClick() {
-        context.launchWebUrl(context.getString(R.string.ss_settings_website_url))
+        context.launchWebUrl(context.getString(L10n.string.ss_settings_website_url))
     }
 }

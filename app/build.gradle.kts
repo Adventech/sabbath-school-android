@@ -117,9 +117,10 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
 
-    packagingOptions {
+    packaging {
         // Multiple dependency bring these files in. Exclude them to enable
         // our test APK to build (has no effect on our AARs)
         resources.excludes += "/META-INF/AL2.0"

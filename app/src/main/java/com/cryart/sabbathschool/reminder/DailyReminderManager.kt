@@ -34,13 +34,14 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import com.cryart.sabbathschool.ui.splash.SplashActivity
 import org.joda.time.DateTime
 import ss.prefs.api.SSPrefs
 import ss.settings.DailyReminder
 import timber.log.Timber
+import app.ss.translations.R as L10n
+import com.cryart.design.R as DesignR
 
 class DailyReminderManager constructor(
     private val context: Context,
@@ -108,7 +109,7 @@ class DailyReminderManager constructor(
 
     override fun showNotification(context: Context) {
         if (isAtLeastApi(Build.VERSION_CODES.O)) {
-            val channelName: String = context.getString(R.string.ss_app_name)
+            val channelName: String = context.getString(L10n.string.ss_app_name)
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(CHANNEL_ID, channelName, importance)
             notificationManager.createNotificationChannel(channel)
@@ -131,14 +132,14 @@ class DailyReminderManager constructor(
         )
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_stat_notification)
-            .setContentTitle(context.getString(R.string.ss_app_name))
-            .setColor(ContextCompat.getColor(context, R.color.ss_theme_primary))
-            .addAction(0, context.getString(R.string.ss_menu_read_now), pendingIntent)
+            .setSmallIcon(DesignR.drawable.ic_stat_notification)
+            .setContentTitle(context.getString(L10n.string.ss_app_name))
+            .setColor(ContextCompat.getColor(context, DesignR.color.ss_theme_primary))
+            .addAction(0, context.getString(L10n.string.ss_menu_read_now), pendingIntent)
             .setAutoCancel(true)
             .setVibrate(longArrayOf(1000, 1000))
             .setContentIntent(pendingIntent)
-            .setContentText(context.getString(R.string.ss_settings_reminder_text))
+            .setContentText(context.getString(L10n.string.ss_settings_reminder_text))
 
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
             == PackageManager.PERMISSION_GRANTED) {

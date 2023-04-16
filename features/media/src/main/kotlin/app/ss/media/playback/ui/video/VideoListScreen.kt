@@ -72,13 +72,13 @@ import app.ss.design.compose.widget.DragHandle
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.list.SnappingLazyRow
-import app.ss.media.R
 import app.ss.media.playback.ui.spec.VideoSpec
 import app.ss.media.playback.ui.spec.VideosInfoSpec
 import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.SSVideo
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import app.ss.translations.R as L10n
 
 @Composable
 internal fun VideoListScreen(
@@ -127,7 +127,7 @@ internal fun VideoListScreen(
 
         item {
             Text(
-                text = stringResource(id = R.string.ss_media_video),
+                text = stringResource(id = L10n.string.ss_media_video),
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontSize = 30.sp
                 ),

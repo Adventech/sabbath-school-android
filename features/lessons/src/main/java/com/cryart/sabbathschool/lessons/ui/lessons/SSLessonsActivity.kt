@@ -19,7 +19,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-@file:OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 
 package com.cryart.sabbathschool.lessons.ui.lessons
 
@@ -43,7 +42,6 @@ import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.core.ui.SlidingActivity
-import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.navigation.lessonIndexArg
 import com.cryart.sabbathschool.lessons.ui.lessons.intro.showLessonIntro
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
@@ -52,6 +50,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
 import ss.misc.SSConstants
 import javax.inject.Inject
+import app.ss.translations.R as L10n
 
 @AndroidEntryPoint
 class SSLessonsActivity : SlidingActivity(), ShareableScreen {
@@ -83,7 +82,7 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
                     onShareClick = { quarterlyTitle ->
                         shareContent(
                             "$quarterlyTitle\n${getShareWebUri()}",
-                            getString(R.string.ss_menu_share_app)
+                            getString(L10n.string.ss_menu_share_app)
                         )
                     },
                     onLessonClick = { lesson ->
@@ -124,7 +123,7 @@ class SSLessonsActivity : SlidingActivity(), ShareableScreen {
     }
 
     override fun getShareWebUri(): Uri {
-        return "${getString(R.string.ss_app_share_host)}/${viewModel.quarterlyShareIndex}".toWebUri()
+        return "${getString(L10n.string.ss_app_share_host)}/${viewModel.quarterlyShareIndex}".toWebUri()
     }
 
     companion object {
