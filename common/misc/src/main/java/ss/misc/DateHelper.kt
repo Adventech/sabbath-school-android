@@ -26,6 +26,7 @@ import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
+import java.util.Locale
 
 object DateHelper {
 
@@ -40,6 +41,7 @@ object DateHelper {
     fun formatDate(date: String, format: String = SSConstants.SS_DATE_FORMAT_OUTPUT_DAY): String {
         return try {
             DateTimeFormat.forPattern(format)
+                .withLocale(Locale.getDefault())
                 .print(
                     DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
                         .parseLocalDate(date)
