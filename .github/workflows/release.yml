@@ -1,0 +1,48 @@
+name: Release Management
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update_draft_release:
+    runs-on: macos-latest
+    steps:
+      - uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  submit-release:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '19'
+
+      - name: Decrypt secrets
+        run: ./release/decrypt-secrets.sh
+        env:
+          ENCRYPT_KEY: ${{ secrets.ENCRYPT_KEY }}
+
+      - name: Generate build number
+        run: echo "BUILD_NUMBER=${{github.run_number}}" > app/build_number.properties
+
+      - name: Build Release
+        run: ./gradlew app:bundleRelease --stacktrace
+
+      - name: Publish to Internal track
+        uses: r0adkll/upload-google-play@v1.1.1
+        with:
+          serviceAccountJson: release/play-account.json
+          packageName: com.cryart.sabbathschool
+          track: internal
+          status: completed
+          whatsNewDirectory: distribution/whatsnew
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          mappingFile: app/build/outputs/mapping/release/mapping.txt
