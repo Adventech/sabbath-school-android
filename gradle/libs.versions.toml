@@ -72,7 +72,7 @@ test-androidx-uiautomator = "2.2.0"
 test-junit = "4.13.2"
 test-kluent = "1.73"
 test-mockk = "1.13.5"
-test-robolectric = "4.10.1"
+test-robolectric = "4.10.2"
 timber = "5.0.1"
 
 [libraries]
