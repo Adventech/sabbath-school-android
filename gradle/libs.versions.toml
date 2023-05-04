@@ -7,7 +7,7 @@ androidx-browser = "1.5.0"
 composeCompiler = "1.4.7"
 androidx-compose-bom = "2023.05.00"
 # Used in sgp. @keep same as kotlin
-composeCompilerKotlinVersion = "1.8.20"
+composeCompilerKotlinVersion = "1.8.21"
 androidx-compose-constraintlayout = "1.0.1"
 androidx-compose-material3 = "1.1.0-rc01"
 androidx-constraintlayout = "2.1.4"
