@@ -52,7 +52,7 @@ internal class ReaderArtifactHelper @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper,
     appConfig: AppConfig
-) : CoroutineScope by CoroutineScope(dispatcherProvider.default) {
+) : CoroutineScope by CoroutineScope(dispatcherProvider.io) {
 
     private val apiBaseUrl = if (appConfig.isDebug)
         SSConstants.SS_STAGE_API_BASE_URL else SSConstants.SS_API_BASE_URL

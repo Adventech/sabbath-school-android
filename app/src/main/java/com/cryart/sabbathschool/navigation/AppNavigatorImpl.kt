@@ -58,11 +58,11 @@ class AppNavigatorImpl @Inject constructor(
 ) : AppNavigator, CoroutineScope by MainScope() {
 
     private suspend fun isSignedIn(): Boolean {
-        return authRepository.getUser().data != null
+        return authRepository.getUser().getOrNull() != null
     }
 
     override fun navigate(activity: Activity, destination: Destination, extras: Bundle?) {
-        launch(dispatcherProvider.default) {
+        launch(dispatcherProvider.io) {
             val clazz = getDestinationClass(destination) ?: return@launch
             val loginClass = LoginActivity::class.java
 
@@ -148,7 +148,7 @@ class AppNavigatorImpl @Inject constructor(
      * [1] https://sabbath-school.adventech.io/en/2021-03
      * [2] https://sabbath-school.adventech.io/en/2021-03/03/07-friday-further-thought/
      */
-    private fun navigateFromWeb(activity: Activity, uri: Uri) = launch(dispatcherProvider.default) {
+    private fun navigateFromWeb(activity: Activity, uri: Uri) = launch(dispatcherProvider.io) {
         if (!isSignedIn()) {
             val intent = Intent(activity, LoginActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

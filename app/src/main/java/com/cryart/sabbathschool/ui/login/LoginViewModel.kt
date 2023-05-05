@@ -29,7 +29,6 @@ import app.ss.auth.AuthRepository
 import app.ss.auth.AuthResponse
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.model.ViewState
-import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,7 +52,7 @@ class LoginViewModel @Inject constructor(
     private val _viewState: MutableStateFlow<ViewState?> = MutableStateFlow(null)
     val viewStateFlow: StateFlow<ViewState?> = _viewState
 
-    fun handleGoogleSignInResult(data: Intent?) = viewModelScope.launch(dispatcherProvider.default) {
+    fun handleGoogleSignInResult(data: Intent?) = viewModelScope.launch(dispatcherProvider.io) {
         _viewState.emit(ViewState.Loading)
 
         try {
@@ -69,17 +68,17 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun handleAnonymousLogin() = viewModelScope.launch(dispatcherProvider.default) {
+    fun handleAnonymousLogin() = viewModelScope.launch {
         _viewState.emit(ViewState.Loading)
         val response = authRepository.signIn()
         handleAuthResult(response)
     }
 
-    private suspend fun handleAuthResult(response: Resource<AuthResponse>) {
-        val state = when (response.data) {
+    private suspend fun handleAuthResult(result: Result<AuthResponse>) {
+        val state = when (val response = result.getOrNull()) {
             is AuthResponse.Authenticated -> {
                 reminderManager.scheduleReminder()
-                ViewState.Success((response.data as AuthResponse.Authenticated).user)
+                ViewState.Success(response.user)
             }
             else -> ViewState.Error(messageRes = L10n.string.ss_login_failed)
         }

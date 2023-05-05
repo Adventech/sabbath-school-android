@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -39,26 +39,24 @@ import timber.log.Timber
 internal abstract class DataSourceMediator<T, R>(
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper
-) : CoroutineScope by CoroutineScope(dispatcherProvider.default) {
+) : CoroutineScope by CoroutineScope(dispatcherProvider.io) {
 
     abstract val cache: LocalDataSource<T, R>
 
     abstract val network: DataSource<T, R>
 
-    suspend fun get(request: R): Resource<List<T>> {
+    suspend fun get(request: R): Resource<List<T>> = withContext(dispatcherProvider.io) {
         val networkResource = safeNetworkGet { network.get(request) }
 
-        return if (networkResource.isSuccessFul) {
+        if (networkResource.isSuccessFul) {
             networkResource.also { resource ->
                 resource.data?.takeIf { it.isNotEmpty() }?.let {
-                    withContext(dispatcherProvider.io) {
-                        cache.update(it)
-                        cache.update(request, it)
-                    }
+                    cache.update(it)
+                    cache.update(request, it)
                 }
             }
         } else {
-            withContext(dispatcherProvider.io) { cache.get(request) }
+            cache.get(request)
         }
     }
 
@@ -68,7 +66,7 @@ internal abstract class DataSourceMediator<T, R>(
             emit(cacheResource)
         }
 
-        val network = withContext(dispatcherProvider.default) { safeNetworkGet { network.get(request) } }
+        val network = safeNetworkGet { network.get(request) }
         if (network.isSuccessFul) {
             network.data?.let { cache.update(it) }
 
@@ -81,9 +79,8 @@ internal abstract class DataSourceMediator<T, R>(
             emit(Resource.error(it))
         }
 
-    suspend fun getItem(request: R): Resource<T> {
-        val cacheResource = withContext(dispatcherProvider.io) { cache.getItem(request) }
-        return cacheResource
+    suspend fun getItem(request: R): Resource<T> = withContext(dispatcherProvider.io) {
+        cache.getItem(request)
             .takeIf { it.isSuccessFul } ?: safeNetworkGetItem { network.getItem(request) }
             .also { cacheNetworkRequest(request) }
     }
@@ -99,7 +96,7 @@ internal abstract class DataSourceMediator<T, R>(
             emit(cacheResource)
         }
 
-        val network = withContext(dispatcherProvider.default) { safeNetworkGetItem { network.getItem(request) } }
+        val network = safeNetworkGetItem { network.getItem(request) }
         if (network.isSuccessFul) {
             network.data?.let { cache.updateItem(it) }
 

@@ -30,7 +30,6 @@ import app.ss.auth.AuthRepository
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
-import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
@@ -72,7 +71,7 @@ class AppNavigatorImplTest {
         activity = controller.create().start().resume().get()
 
         every { mockSSPrefs.getLastQuarterlyIndex() }.returns("index")
-        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(mockk()))
+        coEvery { mockAuthRepository.getUser() }.returns(Result.success(mockk()))
 
         navigator = AppNavigatorImpl(
             ssPrefs = mockSSPrefs,
@@ -89,7 +88,7 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to Login destination`() {
-        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(null))
+        coEvery { mockAuthRepository.getUser() }.returns(Result.success(null))
 
         navigator.navigate(activity, Destination.LOGIN)
 
@@ -113,7 +112,7 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to login when not authenticated`() {
-        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(null))
+        coEvery { mockAuthRepository.getUser() }.returns(Result.success(null))
 
         navigator.navigate(activity, Destination.SETTINGS)
 
@@ -160,7 +159,7 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to login when not authenticated - web-link`() {
-        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(null))
+        coEvery { mockAuthRepository.getUser() }.returns(Result.success(null))
 
         val uri = Uri.parse("https://sabbath-school.adventech.io/en/2021-03")
 

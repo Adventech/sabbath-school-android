@@ -33,7 +33,6 @@ import app.ss.models.LessonPdf
 import app.ss.models.PublishingInfo
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,7 +52,6 @@ class ReadingsViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
     private val savedStateHandle: SavedStateHandle,
     quarterliesRepository: QuarterliesRepository,
-    dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
     private val _audioAvailable = MutableStateFlow(false)
@@ -77,15 +75,15 @@ class ReadingsViewModel @Inject constructor(
 
     init {
         lessonIndex?.let { index ->
-            viewModelScope.launch(dispatcherProvider.default) {
+            viewModelScope.launch {
                 val resource = mediaRepository.getAudio(index)
                 _audioAvailable.emit(resource.data.isNullOrEmpty().not())
             }
-            viewModelScope.launch(dispatcherProvider.default) {
+            viewModelScope.launch {
                 val videoResource = mediaRepository.getVideo(index)
                 _videoAvailable.emit(videoResource.data.isNullOrEmpty().not())
             }
-            viewModelScope.launch(dispatcherProvider.default) {
+            viewModelScope.launch {
                 val lessonResource = lessonsRepository.getLessonInfo(index)
                 val pdfs = lessonResource.data?.pdfs ?: emptyList()
                 _lessonPdfs.emit(index to pdfs)

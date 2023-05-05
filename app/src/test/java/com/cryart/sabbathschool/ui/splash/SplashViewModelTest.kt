@@ -24,9 +24,8 @@ package com.cryart.sabbathschool.ui.splash
 
 import app.cash.turbine.test
 import app.ss.auth.AuthRepository
-import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.reminder.DailyReminderManager
-import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
+import com.cryart.sabbathschool.test.coroutines.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -35,15 +34,18 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Ignore
+import org.junit.Rule
 import org.junit.Test
 import ss.prefs.api.SSPrefs
 
 class SplashViewModelTest {
 
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
     private val mockDailyReminderManager: DailyReminderManager = mockk()
     private val mockSSPrefs: SSPrefs = mockk()
     private val mockAuthRepository: AuthRepository = mockk()
-    private val dispatcherProvider = TestDispatcherProvider()
 
     private lateinit var viewModel: SplashViewModel
 
@@ -54,13 +56,12 @@ class SplashViewModelTest {
         every { mockSSPrefs.isReminderScheduled() }.returns(false)
         every { mockSSPrefs.isReadingLatestQuarterly() }.returns(false)
         every { mockSSPrefs.getLastQuarterlyIndex() }.returns(null)
-        coEvery { mockAuthRepository.getUser() }.returns(Resource.success(mockk()))
+        coEvery { mockAuthRepository.getUser() }.returns(Result.success(mockk()))
 
         viewModel = SplashViewModel(
             ssPrefs = mockSSPrefs,
             authRepository = mockAuthRepository,
             dailyReminderManager = mockDailyReminderManager,
-            dispatcherProvider = dispatcherProvider
         )
     }
 
