@@ -66,7 +66,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val prefs: SSPrefs,
     private val userDataRepository: UserDataRepository,
-) : SettingsRepository, CoroutineScope by CoroutineScope(dispatcherProvider.default) {
+) : SettingsRepository, CoroutineScope by CoroutineScope(dispatcherProvider.io) {
 
     override fun buildEntities(
         onEntityClick: (SettingsEntity) -> Unit

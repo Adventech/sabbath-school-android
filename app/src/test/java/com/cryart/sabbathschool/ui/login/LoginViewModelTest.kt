@@ -27,11 +27,10 @@ import app.cash.turbine.test
 import app.ss.auth.AuthRepository
 import app.ss.auth.AuthResponse
 import app.ss.models.auth.SSUser
-import app.ss.translations.R as L10n
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.model.ViewState
-import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.reminder.DailyReminderManager
+import com.cryart.sabbathschool.test.coroutines.MainDispatcherRule
 import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
@@ -43,10 +42,15 @@ import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import ss.prefs.api.SSPrefs
+import app.ss.translations.R as L10n
 
 class LoginViewModelTest {
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     private val mockGoogleSignIn: GoogleSignInWrapper = mockk()
     private val mockReminderManager: DailyReminderManager = mockk()
@@ -82,7 +86,7 @@ class LoginViewModelTest {
 
     @Test
     fun `should post Loading then Error when handleAnonymousLogin fails`() = runTest {
-        coEvery { mockAuthRepository.signIn() }.returns(Resource.error(Throwable("Error")))
+        coEvery { mockAuthRepository.signIn() }.returns(Result.failure(Throwable("Error")))
 
         viewModel.viewStateFlow.test {
             viewModel.handleAnonymousLogin()
@@ -104,7 +108,7 @@ class LoginViewModelTest {
         every { mockGoogleSignIn.getSignedInAccountFromIntent(mockData) }
             .returns(mockTask)
         every { mockTask.getResult(ApiException::class.java) }.returns(mockAccount)
-        coEvery { mockAuthRepository.signIn(token) }.returns(Resource.success(AuthResponse.Authenticated(mockUser)))
+        coEvery { mockAuthRepository.signIn(token) }.returns(Result.success(AuthResponse.Authenticated(mockUser)))
 
         viewModel.viewStateFlow.test {
             viewModel.handleGoogleSignInResult(mockData)
@@ -138,7 +142,7 @@ class LoginViewModelTest {
     fun `should post Success when sign in anonymously is successful`() = runTest {
         val mockUser: SSUser = mockk()
 
-        coEvery { mockAuthRepository.signIn() }.returns(Resource.success(AuthResponse.Authenticated(mockUser)))
+        coEvery { mockAuthRepository.signIn() }.returns(Result.success(AuthResponse.Authenticated(mockUser)))
 
         viewModel.viewStateFlow.test {
             viewModel.handleAnonymousLogin()

@@ -127,7 +127,7 @@ internal class PdfReaderImpl(
         }.catch {
             Timber.e(it)
             emit(Resource.error(it))
-        }.flowOn(dispatcherProvider.default)
+        }.flowOn(dispatcherProvider.io)
     }
 
     private suspend fun downloadFile(

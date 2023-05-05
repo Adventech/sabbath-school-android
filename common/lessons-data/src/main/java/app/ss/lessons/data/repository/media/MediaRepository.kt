@@ -51,8 +51,8 @@ internal class MediaRepositoryImpl @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : MediaRepository {
 
-    override suspend fun getAudio(lessonIndex: String): Resource<List<SSAudio>> {
-        return audioDataSource.get(AudioDataSource.Request(lessonIndex))
+    override suspend fun getAudio(lessonIndex: String): Resource<List<SSAudio>> = withContext(dispatcherProvider.io) {
+        audioDataSource.get(AudioDataSource.Request(lessonIndex))
     }
 
     override suspend fun findAudioFile(id: String): AudioFile? = withContext(dispatcherProvider.io) {
@@ -69,8 +69,8 @@ internal class MediaRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getVideo(lessonIndex: String): Resource<List<SSVideosInfo>> {
-        return videoDataSource.get(VideoDataSource.Request(lessonIndex))
+    override suspend fun getVideo(lessonIndex: String): Resource<List<SSVideosInfo>> = withContext(dispatcherProvider.io) {
+        videoDataSource.get(VideoDataSource.Request(lessonIndex))
     }
 }
 

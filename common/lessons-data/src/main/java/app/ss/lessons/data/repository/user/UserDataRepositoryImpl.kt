@@ -62,7 +62,7 @@ internal class UserDataRepositoryImpl @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper,
     private val deviceHelper: DeviceHelper
-) : UserDataRepository, CoroutineScope by CoroutineScope(dispatcherProvider.default) {
+) : UserDataRepository, CoroutineScope by CoroutineScope(dispatcherProvider.io) {
 
     override fun getHighlights(readIndex: String): Flow<Result<SSReadHighlights>> = readHighlightsDao
         .getFlow(readIndex)
@@ -79,15 +79,13 @@ internal class UserDataRepositoryImpl @Inject constructor(
         if (response !is NetworkResource.Success) return@launch
 
         val remote = response.value.body()
-        val cached = withContext(dispatcherProvider.io) { readHighlightsDao.get(readIndex) }
+        val cached = readHighlightsDao.get(readIndex)
 
         remote?.let {
             if (it.timestamp.isAfter(cached?.timestamp)) {
-                withContext(dispatcherProvider.io) {
-                    readHighlightsDao.insertItem(
-                        ReadHighlightsEntity(readIndex, it.highlights, it.timestamp)
-                    )
-                }
+                readHighlightsDao.insertItem(
+                    ReadHighlightsEntity(readIndex, it.highlights, it.timestamp)
+                )
             }
         }
 
@@ -102,11 +100,9 @@ internal class UserDataRepositoryImpl @Inject constructor(
 
     override fun saveHighlights(highlights: SSReadHighlights) {
         launch {
-            withContext(dispatcherProvider.io) {
-                readHighlightsDao.insertItem(
-                    ReadHighlightsEntity(highlights.readIndex, highlights.highlights, deviceHelper.nowEpochMilli())
-                )
-            }
+            readHighlightsDao.insertItem(
+                ReadHighlightsEntity(highlights.readIndex, highlights.highlights, deviceHelper.nowEpochMilli())
+            )
 
             safeApiCall(connectivityHelper) {
                 lessonsApi.uploadHighlights(highlights)
@@ -129,13 +125,11 @@ internal class UserDataRepositoryImpl @Inject constructor(
         if (response !is NetworkResource.Success) return@launch
 
         val remote = response.value.body()
-        val cached = withContext(dispatcherProvider.io) { readCommentsDao.get(readIndex) }
+        val cached = readCommentsDao.get(readIndex)
 
         remote?.let {
             if (it.timestamp.isAfter(cached?.timestamp)) {
-                withContext(dispatcherProvider.io) {
-                    readCommentsDao.insertItem(ReadCommentsEntity(readIndex, it.comments, it.timestamp))
-                }
+                readCommentsDao.insertItem(ReadCommentsEntity(readIndex, it.comments, it.timestamp))
             }
         }
 
@@ -150,11 +144,9 @@ internal class UserDataRepositoryImpl @Inject constructor(
 
     override fun saveComments(comments: SSReadComments) {
         launch {
-            withContext(dispatcherProvider.io) {
-                readCommentsDao.insertItem(
-                    ReadCommentsEntity(comments.readIndex, comments.comments, deviceHelper.nowEpochMilli())
-                )
-            }
+            readCommentsDao.insertItem(
+                ReadCommentsEntity(comments.readIndex, comments.comments, deviceHelper.nowEpochMilli())
+            )
 
             safeApiCall(connectivityHelper) {
                 lessonsApi.uploadComments(comments)
@@ -182,42 +174,38 @@ internal class UserDataRepositoryImpl @Inject constructor(
 
         val pdfIndex = "$lessonIndex-$pdfId"
         val remote = response.value.body()
-        val cached = withContext(dispatcherProvider.io) { pdfAnnotationsDao.get(pdfIndex) }
+        val cached = pdfAnnotationsDao.get(pdfIndex)
 
         remote?.forEach { pdf ->
             val cache = cached.find { it.index == "$pdfIndex-${pdf.pageIndex}" }
             if (cache == null || pdf.timestamp.isAfter(cache.timestamp)) {
-                withContext(dispatcherProvider.io) {
-                    val entities = pdf.annotations.map {
-                        PdfAnnotationsEntity(
-                            index = "$pdfIndex-${pdf.pageIndex}",
-                            pdfIndex = pdfIndex,
-                            pageIndex = pdf.pageIndex,
-                            annotations = pdf.annotations,
-                            timestamp = pdf.timestamp
-                        )
-                    }
-                    pdfAnnotationsDao.insertAll(entities)
+                val entities = pdf.annotations.map {
+                    PdfAnnotationsEntity(
+                        index = "$pdfIndex-${pdf.pageIndex}",
+                        pdfIndex = pdfIndex,
+                        pageIndex = pdf.pageIndex,
+                        annotations = pdf.annotations,
+                        timestamp = pdf.timestamp
+                    )
                 }
+                pdfAnnotationsDao.insertAll(entities)
             }
         }
     }
 
     override fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
         launch {
-            withContext(dispatcherProvider.io) {
-                val pdfIndex = "$lessonIndex-$pdfId"
-                val entities = annotations.map {
-                    PdfAnnotationsEntity(
-                        index = "$pdfIndex-${it.pageIndex}",
-                        pdfIndex = pdfIndex,
-                        pageIndex = it.pageIndex,
-                        annotations = it.annotations,
-                        timestamp = deviceHelper.nowEpochMilli()
-                    )
-                }
-                pdfAnnotationsDao.insertAll(entities)
+            val pdfIndex = "$lessonIndex-$pdfId"
+            val entities = annotations.map {
+                PdfAnnotationsEntity(
+                    index = "$pdfIndex-${it.pageIndex}",
+                    pdfIndex = pdfIndex,
+                    pageIndex = it.pageIndex,
+                    annotations = it.annotations,
+                    timestamp = deviceHelper.nowEpochMilli()
+                )
             }
+            pdfAnnotationsDao.insertAll(entities)
 
             safeApiCall(connectivityHelper) {
                 lessonsApi.uploadAnnotations(

@@ -28,7 +28,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.models.media.SSVideosInfo
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import com.cryart.sabbathschool.core.extensions.list.subList
@@ -37,22 +36,18 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class VideoListViewModel @Inject constructor(
     private val repository: MediaRepository,
-    private val dispatcherProvider: DispatcherProvider,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     val videoListFlow: StateFlow<VideoListData> = flowOf(savedStateHandle.lessonIndex)
         .map { index ->
             index?.let {
-                withContext(dispatcherProvider.default) {
-                    repository.getVideo(it)
-                }
+                repository.getVideo(it)
             } ?: Resource.success(emptyList())
         }.map { resource ->
             (resource.data ?: emptyList()).toData(savedStateHandle.lessonIndex)

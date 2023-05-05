@@ -32,7 +32,6 @@ import app.ss.network.safeApiCall
 import app.ss.storage.db.dao.UserDao
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
-import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -47,7 +46,7 @@ interface AuthRepository {
     /**
      * Get the signed in user
      */
-    suspend fun getUser(): Resource<SSUser?>
+    suspend fun getUser(): Result<SSUser?>
 
     /**
      * Get the signed in user
@@ -57,12 +56,12 @@ interface AuthRepository {
     /**
      * Sign in anonymously
      */
-    suspend fun signIn(): Resource<AuthResponse>
+    suspend fun signIn(): Result<AuthResponse>
 
     /**
      * Sign in with a provider [token]
      */
-    suspend fun signIn(token: String): Resource<AuthResponse>
+    suspend fun signIn(token: String): Result<AuthResponse>
 
     /**
      * Sign out
@@ -83,9 +82,8 @@ internal class AuthRepositoryImpl @Inject constructor(
     private val connectivityHelper: ConnectivityHelper
 ) : AuthRepository {
 
-    override suspend fun getUser(): Resource<SSUser?> = withContext(dispatcherProvider.io) {
-        val user = userDao.get()
-        Resource.success(user?.toModel())
+    override suspend fun getUser(): Result<SSUser?> = withContext(dispatcherProvider.io) {
+        Result.success(userDao.get()?.toModel())
     }
 
     override fun getUserFlow(): Flow<SSUser?> = userDao
@@ -93,12 +91,12 @@ internal class AuthRepositoryImpl @Inject constructor(
         .map { it?.toModel() }
         .flowOn(dispatcherProvider.io)
 
-    override suspend fun signIn(): Resource<AuthResponse> = makeAuthRequest { authApi.signIn() }
+    override suspend fun signIn(): Result<AuthResponse> = makeAuthRequest { authApi.signIn() }
 
-    override suspend fun signIn(token: String): Resource<AuthResponse> = makeAuthRequest { authApi.signIn(AuthRequest(token)) }
+    override suspend fun signIn(token: String): Result<AuthResponse> = makeAuthRequest { authApi.signIn(AuthRequest(token)) }
 
-    private suspend fun makeAuthRequest(request: suspend () -> Response<UserModel>): Resource<AuthResponse> = try {
-        val response = withContext(dispatcherProvider.default) { request() }
+    private suspend fun makeAuthRequest(request: suspend () -> Response<UserModel>): Result<AuthResponse> = try {
+        val response = withContext(dispatcherProvider.io) { request() }
         val user = response.body()
         val result = if (user != null) {
             cacheUser(user)
@@ -106,10 +104,10 @@ internal class AuthRepositoryImpl @Inject constructor(
         } else {
             AuthResponse.Error
         }
-        Resource.success(result)
+        Result.success(result)
     } catch (error: Throwable) {
         Timber.e(error)
-        Resource.error(error)
+        Result.failure(error)
     }
 
     private suspend fun cacheUser(user: UserModel) = withContext(dispatcherProvider.io) {
@@ -120,7 +118,7 @@ internal class AuthRepositoryImpl @Inject constructor(
     override suspend fun logout() = withContext(dispatcherProvider.io) { userDao.clear() }
 
     override suspend fun deleteAccount() {
-        withContext(dispatcherProvider.default) {
+        withContext(dispatcherProvider.io) {
             safeApiCall(connectivityHelper) {
                 if (authApi.deleteAccount().isSuccessful) {
                     logout()

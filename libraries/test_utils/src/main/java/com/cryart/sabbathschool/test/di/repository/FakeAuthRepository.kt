@@ -25,26 +25,19 @@ package com.cryart.sabbathschool.test.di.repository
 import app.ss.auth.AuthRepository
 import app.ss.auth.AuthResponse
 import app.ss.models.auth.SSUser
-import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
 
 class FakeAuthRepository @Inject constructor() : AuthRepository {
 
-    override suspend fun getUser(): Resource<SSUser?> {
-        return Resource.success(null)
-    }
+    override suspend fun getUser(): Result<SSUser?> = Result.success(null)
 
     override fun getUserFlow(): Flow<SSUser?> = emptyFlow()
 
-    override suspend fun signIn(): Resource<AuthResponse> {
-        return Resource.success(AuthResponse.Error)
-    }
+    override suspend fun signIn(): Result<AuthResponse> = Result.success(AuthResponse.Error)
 
-    override suspend fun signIn(token: String): Resource<AuthResponse> {
-        return Resource.success(AuthResponse.Error)
-    }
+    override suspend fun signIn(token: String): Result<AuthResponse> = Result.success(AuthResponse.Error)
 
     override suspend fun logout() {}
 
