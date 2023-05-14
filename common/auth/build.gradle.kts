@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -22,11 +22,12 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
+    kotlin("android")
+    kotlin("kapt")
 }
 
 android {
@@ -34,12 +35,6 @@ android {
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
-}
-
-slack {
-    features {
-        moshi(codegen = true)
     }
 }
 
@@ -56,7 +51,7 @@ dependencies {
     implementation(libs.timber)
 
     implementation(libs.square.moshi.kotlin)
-    kapt(libs.square.moshi.codegen)
+    ksp(libs.square.moshi.codegen)
     compileOnly(libs.javax.annotation)
 
     implementation(libs.square.retrofit.converter.moshi)
@@ -64,8 +59,5 @@ dependencies {
     implementation(libs.square.okhttp)
 
     testImplementation(libs.bundles.testing.common)
-    kaptTest(libs.google.hilt.compiler)
-    androidTestImplementation(libs.bundles.testing.android.common)
-    kaptAndroidTest(libs.google.hilt.compiler)
     testImplementation(projects.libraries.testUtils)
 }

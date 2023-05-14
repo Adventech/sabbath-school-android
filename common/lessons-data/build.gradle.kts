@@ -22,6 +22,7 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
     id("com.android.library")
     kotlin("android")
     kotlin("kapt")
@@ -52,7 +53,7 @@ dependencies {
     implementation(libs.joda.android)
 
     implementation(libs.square.moshi.kotlin)
-    kapt(libs.square.moshi.codegen)
+    ksp(libs.square.moshi.codegen)
     compileOnly(libs.javax.annotation)
 
     api(libs.square.okhttp)
@@ -62,8 +63,5 @@ dependencies {
     implementation(libs.square.retrofit.converter.moshi)
 
     testImplementation(libs.bundles.testing.common)
-    kaptTest(libs.google.hilt.compiler)
-    androidTestImplementation(libs.bundles.testing.android.common)
-    kaptAndroidTest(libs.google.hilt.compiler)
     testImplementation(projects.libraries.testUtils)
 }
