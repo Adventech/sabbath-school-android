@@ -22,6 +22,7 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
     id("com.android.library")
     kotlin("android")
     kotlin("kapt")
@@ -46,7 +47,7 @@ dependencies {
     implementation(libs.timber)
 
     implementation(libs.square.moshi.kotlin)
-    kapt(libs.square.moshi.codegen)
+    ksp(libs.square.moshi.codegen)
 
     implementation(libs.square.retrofit)
     implementation(libs.square.okhttp)
