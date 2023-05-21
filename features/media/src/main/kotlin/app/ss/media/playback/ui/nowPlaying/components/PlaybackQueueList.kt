@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -22,6 +22,7 @@
 
 package app.ss.media.playback.ui.nowPlaying.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.InfiniteTransition
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -29,19 +30,17 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,10 +49,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
@@ -61,6 +63,7 @@ import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.media.playback.ui.spec.PlaybackQueueSpec
 import app.ss.media.playback.ui.spec.toSpec
 import kotlinx.coroutines.launch
+import app.ss.translations.R as L10nR
 
 private const val scrollToItemKey = "playbackQueue"
 
@@ -88,7 +91,7 @@ internal fun PlaybackQueueList(
                     onPlayAudio(index)
                 }
             )
-            Divider()
+            Divider(Modifier.padding(horizontal = 16.dp))
         }
     }
 
@@ -112,19 +115,8 @@ private fun AudioRow(
     isSelected: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 4.dp)
-            .selectable(selected = isSelected, onClick = onClick)
-    ) {
-        Column(
-            modifier = Modifier
-                .weight(1f),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Spacer(modifier = Modifier.height(6.dp))
+    ListItem(
+        headlineContent = {
             Text(
                 text = spec.title,
                 style = SsTheme.typography.titleSmall.copy(
@@ -135,7 +127,17 @@ private fun AudioRow(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-
+        },
+        modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .thenIf(!isSelected) {
+                clickable(
+                    onClickLabel = stringResource(id = L10nR.string.ss_action_play_pause),
+                    onClick = onClick
+                )
+            },
+        supportingContent = {
             Text(
                 text = spec.artist,
                 style = SsTheme.typography.bodySmall.copy(
@@ -145,14 +147,13 @@ private fun AudioRow(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-
-            Spacer(modifier = Modifier.height(6.dp))
+        },
+        trailingContent = {
+            AnimatedVisibility(visible = isSelected && isPlaying) {
+                NowPlayingAnimation()
+            }
         }
-
-        if (isSelected && isPlaying) {
-            NowPlayingAnimation()
-        }
-    }
+    )
 }
 
 @DayNightPreviews
@@ -208,7 +209,7 @@ private fun NowPlayingAnimation() {
 }
 
 @Composable
-fun InfiniteTransition.PulsingLine(
+private fun InfiniteTransition.PulsingLine(
     heightFactor: Int,
     duration: Int
 ) {

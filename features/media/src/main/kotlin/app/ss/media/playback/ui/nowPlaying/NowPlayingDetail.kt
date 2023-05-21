@@ -88,14 +88,15 @@ internal fun NowPlayingDetail(
         modifier = modifier
             .fillMaxWidth()
             .padding(top = 16.dp)
-            .padding(horizontal = Dimens.grid_4)
             .padding(top = paddingTop.coerceAtLeast(0.dp))
     ) {
 
         CoverImage(
             spec = nowPlayingAudio.toImageSpec(),
             boxState = boxState,
-            modifier = Modifier.align(alignment),
+            modifier = Modifier
+                .align(alignment)
+                .padding(horizontal = Dimens.grid_4),
             heightCallback = {
                 imageSize = it
             }
@@ -109,6 +110,7 @@ internal fun NowPlayingDetail(
                     start = textPaddingStart,
                     top = textPaddingTop.coerceAtLeast(0.dp)
                 )
+                .padding(horizontal = Dimens.grid_4)
                 .align(alignment)
         )
 
@@ -130,6 +132,7 @@ internal fun NowPlayingDetail(
                 ),
                 modifier = Modifier
                     .padding(top = imageSize.height.plus(16.dp))
+                    .padding(horizontal = 4.dp)
                     .pointerInteropFilter { event ->
                         when (event.action) {
                             MotionEvent.ACTION_DOWN -> {
