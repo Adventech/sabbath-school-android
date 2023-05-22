@@ -20,27 +20,10 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.data.repository
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.CircuitConfig
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import androidx.compose.runtime.Immutable
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var circuitConfig: CircuitConfig
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
-
-        setContent { TvApp(circuitConfig) }
-    }
+@Immutable
+interface VideosRepository {
 }

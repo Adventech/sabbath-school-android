@@ -24,6 +24,7 @@ plugins {
     alias(libs.plugins.sgp.base)
     id("com.android.application")
     id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
     kotlin("android")
     kotlin("kapt")
 }
@@ -63,6 +64,13 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
 
+    implementation(libs.bundles.circuit)
+
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
+
+    implementation(libs.timber)
+
+    testImplementation(libs.bundles.testing.common)
+    testImplementation(projects.libraries.testUtils)
 }

@@ -20,27 +20,23 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation.home
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.CircuitConfig
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import android.os.Parcelable
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.Screen
+import kotlinx.parcelize.Parcelize
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+@Parcelize
+object HomeScreen : Screen, Parcelable {
 
-    @Inject
-    lateinit var circuitConfig: CircuitConfig
+    sealed interface Event : CircuitUiEvent {}
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
+    sealed interface State : CircuitUiState {
 
-        setContent { TvApp(circuitConfig) }
+        object Loading : State
+
+        object Error : State
     }
 }

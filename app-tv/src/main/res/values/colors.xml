@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2023. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,13 +21,5 @@
   -->
 
 <resources>
-
-    <style name="Theme.SS" parent="android:Theme.Material.NoActionBar" />
-
-    <style name="Theme.SS.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo_sspm</item>
-        <item name="windowSplashScreenBackground">@color/ss_blue</item>
-        <item name="postSplashScreenTheme">@style/Theme.SS</item>
-    </style>
-
+    <color name="ss_blue">#2E5797</color>
 </resources>

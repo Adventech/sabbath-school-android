@@ -20,27 +20,23 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation.home
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.CircuitConfig
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import app.ss.tv.presentation.home.HomeScreen.State
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.tv.material3.Text
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var circuitConfig: CircuitConfig
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
-
-        setContent { TvApp(circuitConfig) }
+@Composable
+fun HomeUiScreen(state: State, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text("State is $state")
     }
+
 }

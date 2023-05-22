@@ -20,27 +20,26 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.data.circuit
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
 import com.slack.circuit.foundation.CircuitConfig
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+@Module
+@InstallIn(SingletonComponent::class)
+internal class CircuitModule {
 
-    @Inject
-    lateinit var circuitConfig: CircuitConfig
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
-
-        setContent { TvApp(circuitConfig) }
-    }
+    @Provides
+    @Singleton
+    fun provideCircuitConfig(
+        presenterFactory: SSPresenterFactory,
+        uiFactory: SSUiFactory,
+    ): CircuitConfig = CircuitConfig.Builder()
+        .addPresenterFactory(presenterFactory)
+        .addUiFactory(uiFactory)
+        .build()
 }

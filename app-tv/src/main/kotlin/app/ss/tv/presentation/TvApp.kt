@@ -20,27 +20,23 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
+import androidx.compose.runtime.Composable
+import app.ss.tv.presentation.home.HomeScreen
+import app.ss.tv.presentation.theme.SSTvTheme
+import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.CircuitConfig
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import com.slack.circuit.foundation.CircuitContent
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var circuitConfig: CircuitConfig
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
-
-        setContent { TvApp(circuitConfig) }
+/**
+ * Entry-point for the Sabbath School TV app.
+ */
+@Composable
+fun TvApp(circuitConfig: CircuitConfig) {
+    SSTvTheme {
+        CircuitCompositionLocals(circuitConfig) {
+            CircuitContent(HomeScreen)
+        }
     }
 }

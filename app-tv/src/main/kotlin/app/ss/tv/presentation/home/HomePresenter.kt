@@ -20,27 +20,29 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation.home
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.CircuitConfig
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import androidx.compose.runtime.Composable
+import app.ss.tv.data.repository.VideosRepository
+import app.ss.tv.presentation.home.HomeScreen.State
+import com.slack.circuit.runtime.Navigator
+import com.slack.circuit.runtime.presenter.Presenter
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class HomePresenter @AssistedInject constructor(
+    private val repository: VideosRepository,
+    @Assisted private val navigator: Navigator,
+) : Presenter<State>  {
 
-    @Inject
-    lateinit var circuitConfig: CircuitConfig
+    @AssistedFactory
+    interface Factory {
+        fun create(navigator: Navigator): HomePresenter
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
-
-        setContent { TvApp(circuitConfig) }
+    @Composable
+    override fun present(): State {
+        return State.Loading
     }
 }
