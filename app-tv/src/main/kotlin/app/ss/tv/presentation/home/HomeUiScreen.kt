@@ -22,21 +22,88 @@
 
 package app.ss.tv.presentation.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
-import app.ss.tv.presentation.home.HomeScreen.State
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.tv.material3.Icon
+import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
+import app.ss.tv.R
+import app.ss.tv.presentation.home.HomeScreen.State
+import app.ss.tv.presentation.home.ui.HomeUiContent
+import app.ss.tv.presentation.theme.ParentPadding
+import app.ss.tv.presentation.theme.SSTvTheme
+import app.ss.translations.R as L10nR
 
 @Composable
 fun HomeUiScreen(state: State, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
     ) {
-        Text("State is $state")
-    }
 
+        HomeUiContent(state)
+
+        TopAppBar(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(
+                    horizontal = ParentPadding.calculateStartPadding(
+                        LocalLayoutDirection.current
+                    ) + 8.dp
+                )
+                .padding(
+                    top = ParentPadding.calculateTopPadding(),
+                    bottom = ParentPadding.calculateBottomPadding()
+                )
+        )
+    }
+}
+
+@Composable
+private fun TopAppBar(modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.logo_blue),
+            contentDescription = stringResource(id = L10nR.string.ss_app_name),
+            modifier = Modifier.size(IconSize),
+            tint = Color.White
+        )
+        Text(
+            text = stringResource(L10nR.string.ss_app_name),
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Medium,
+        )
+    }
+}
+
+val IconSize = 48.dp
+
+@Preview(
+    name = "Home",
+    device = Devices.TV_1080p
+)
+@Composable
+fun HomePreview() {
+    SSTvTheme {
+        HomeUiScreen(state = State.Loading)
+    }
 }

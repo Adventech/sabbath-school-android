@@ -47,6 +47,11 @@ android {
             )
         }
     }
+
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=androidx.tv.material3.ExperimentalTvMaterial3Api"
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=androidx.tv.foundation.ExperimentalTvFoundationApi"
+    }
 }
 
 slack {
@@ -54,21 +59,21 @@ slack {
 }
 
 dependencies {
-    implementation(projects.common.designCompose)
     implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
 
     implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.bundles.compose)
+    implementation(libs.bundles.compose.tooling)
     implementation(libs.androidx.compose.tv.foundation)
     implementation(libs.androidx.compose.tv.material)
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
-
     implementation(libs.bundles.circuit)
-
+    implementation(libs.google.accompanist.placeholder)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
-
     implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
