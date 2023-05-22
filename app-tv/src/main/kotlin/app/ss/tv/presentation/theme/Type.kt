@@ -28,13 +28,13 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Typography
-import app.ss.design.compose.R as DesignR
+import app.ss.tv.R
 
 val LatoFontFamily = FontFamily(
-    Font(DesignR.font.lato_regular, FontWeight.Normal),
-    Font(DesignR.font.lato_medium, FontWeight.Medium),
-    Font(DesignR.font.lato_bold, FontWeight.Bold),
-    Font(DesignR.font.lato_black, FontWeight.Black)
+    Font(R.font.lato_regular, FontWeight.Normal),
+    Font(R.font.lato_medium, FontWeight.Medium),
+    Font(R.font.lato_bold, FontWeight.Bold),
+    Font(R.font.lato_black, FontWeight.Black)
 )
 
 val Typography = Typography(
