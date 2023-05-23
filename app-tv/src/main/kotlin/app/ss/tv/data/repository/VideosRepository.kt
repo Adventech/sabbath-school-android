@@ -23,7 +23,9 @@
 package app.ss.tv.data.repository
 
 import androidx.compose.runtime.Immutable
+import app.ss.lessons.data.model.api.VideosInfoModel
 
 @Immutable
 interface VideosRepository {
+    suspend fun getVideos(): Result<List<VideosInfoModel>>
 }

@@ -21,6 +21,7 @@
  */
 
 plugins {
+    alias(libs.plugins.ksp)
     alias(libs.plugins.sgp.base)
     id("com.android.application")
     id("dagger.hilt.android.plugin")
@@ -52,6 +53,10 @@ android {
         freeCompilerArgs = freeCompilerArgs + "-opt-in=androidx.tv.material3.ExperimentalTvMaterial3Api"
         freeCompilerArgs = freeCompilerArgs + "-opt-in=androidx.tv.foundation.ExperimentalTvFoundationApi"
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 slack {
@@ -71,9 +76,12 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.bundles.circuit)
+    implementation(libs.coil.compose)
     implementation(libs.google.accompanist.placeholder)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
+    implementation(libs.square.moshi.kotlin)
+    ksp(libs.square.moshi.codegen)
     implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)

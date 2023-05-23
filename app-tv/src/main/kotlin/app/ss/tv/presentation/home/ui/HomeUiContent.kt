@@ -27,7 +27,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -42,12 +41,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.tv.foundation.PivotOffsets
 import androidx.tv.foundation.lazy.list.TvLazyColumn
 import androidx.tv.foundation.lazy.list.TvLazyListScope
 import androidx.tv.foundation.lazy.list.TvLazyRow
+import androidx.tv.foundation.lazy.list.items
 import androidx.tv.foundation.lazy.list.rememberTvLazyListState
 import androidx.tv.material3.Border
 import androidx.tv.material3.CardDefaults
@@ -56,12 +57,14 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.StandardCardLayout
 import androidx.tv.material3.Text
 import app.ss.tv.presentation.extentions.asPlaceholder
+import app.ss.tv.presentation.home.HomeScreen.Event
 import app.ss.tv.presentation.home.HomeScreen.State
 import app.ss.tv.presentation.theme.BorderWidth
 import app.ss.tv.presentation.theme.Padding
 import app.ss.tv.presentation.theme.SsCardShape
 import app.ss.tv.presentation.theme.rememberChildPadding
 import app.ss.tv.presentation.utils.FocusGroup
+import timber.log.Timber
 
 @Composable
 fun HomeUiContent(
@@ -80,13 +83,25 @@ fun HomeUiContent(
         state = tvLazyListState
     ) {
 
-        item {
-            Spacer(modifier = Modifier.padding(top = 54.dp))
-        }
-
         when (state) {
             State.Error -> errorItem()
             State.Loading -> loadingItem()
+            is State.Videos -> {
+                items(state.categories, key = { it.id }) { spec ->
+                    CategoryVideos(
+                        category = spec,
+                        modifier = Modifier.onFocusChanged {
+                            immersiveListHasFocus = it.hasFocus
+                        },
+                        onVideoClick = {
+                            state.eventSink(Event.OnVideoClick(it))
+                        },
+                        focusedItemIndexCallback = {
+                            Timber.d("FOCUSED AT: $it")
+                        }
+                    )
+                }
+            }
         }
 
         item {
@@ -114,13 +129,13 @@ private fun TvLazyListScope.errorItem() {
 }
 
 private fun TvLazyListScope.loadingItem() {
-    item {
-        LoadingRow(count = 8)
+    item { Spacer(modifier = Modifier.padding(top = 54.dp)) }
 
-        LoadingRow(count = 4)
+    item { LoadingRow(count = 8) }
 
-        LoadingRow(count = 10)
-    }
+    item { LoadingRow(count = 4) }
+
+    item { LoadingRow(count = 10) }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -130,23 +145,20 @@ private fun LoadingRow(
     modifier: Modifier = Modifier,
     childPadding: Padding = rememberChildPadding(),
 ) {
-    Column(
+    AnimatedContent(
+        targetState = count,
         modifier = modifier
             .padding(top = 48.dp)
-            .focusGroup()
+            .focusGroup(),
+        label = "",
     ) {
-        AnimatedContent(
-            targetState = count,
-            label = "",
-        ) {
-            FocusGroup {
-                TvLazyRow(
-                    pivotOffsets = PivotOffsets(parentFraction = 0.07f),
-                    contentPadding = PaddingValues(start = childPadding.start, end = childPadding.end)
-                ) {
-                    items(count) {
-                        LoadingCard(modifier = Modifier.restorableFocus())
-                    }
+        FocusGroup {
+            TvLazyRow(
+                pivotOffsets = PivotOffsets(parentFraction = 0.07f),
+                contentPadding = PaddingValues(start = childPadding.start, end = childPadding.end)
+            ) {
+                items(count) {
+                    LoadingCard(modifier = Modifier.restorableFocus())
                 }
             }
         }
@@ -191,5 +203,5 @@ private fun LoadingCard(
     )
 }
 
-private const val ASPECT_RATIO = 16f / 9f
-private const val CARD_WIDTH = 260
+const val ASPECT_RATIO = 16f / 9f
+const val CARD_WIDTH = 260

@@ -23,6 +23,8 @@
 package app.ss.tv.presentation.home
 
 import android.os.Parcelable
+import app.ss.tv.data.model.CategorySpec
+import app.ss.tv.data.model.VideoSpec
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Screen
@@ -31,12 +33,19 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 object HomeScreen : Screen, Parcelable {
 
-    sealed interface Event : CircuitUiEvent {}
+    sealed interface Event : CircuitUiEvent {
+        data class OnVideoClick(val video: VideoSpec): Event
+    }
 
     sealed interface State : CircuitUiState {
 
         object Loading : State
 
         object Error : State
+
+        data class Videos(
+            val categories: List<CategorySpec>,
+            val eventSink: (Event) -> Unit
+        ): State
     }
 }

@@ -23,6 +23,11 @@
 package app.ss.tv.presentation.home
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
+import app.ss.lessons.data.model.api.VideosInfoModel
+import app.ss.tv.data.model.CategorySpec
+import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.data.repository.VideosRepository
 import app.ss.tv.presentation.home.HomeScreen.State
 import com.slack.circuit.runtime.Navigator
@@ -30,6 +35,7 @@ import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import timber.log.Timber
 
 class HomePresenter @AssistedInject constructor(
     private val repository: VideosRepository,
@@ -43,6 +49,36 @@ class HomePresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): State {
-        return State.Loading
+        val videosInfo by produceState<List<VideosInfoModel>?>(emptyList()) {
+            value = repository.getVideos().getOrNull()
+        }
+
+        return when {
+            videosInfo == null -> State.Error
+            videosInfo?.isEmpty() == true -> State.Loading
+            else -> State.Videos(
+                mapVideos(videosInfo!!)
+            ) { event ->
+                Timber.d("EVENT: $event")
+            }
+        }
+    }
+
+    private fun mapVideos(
+        videosInfo: List<VideosInfoModel>
+    ) = videosInfo.mapIndexed { index, model ->
+        CategorySpec(
+            id = "$index",
+            title = model.artist,
+            videos = model.clips.map {
+                VideoSpec(
+                    id = it.id,
+                    title = it.title,
+                    artist = it.artist,
+                    src = it.src,
+                    thumbnail = it.thumbnail
+                )
+            }
+        )
     }
 }

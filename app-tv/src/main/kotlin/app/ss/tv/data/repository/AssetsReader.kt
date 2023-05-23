@@ -20,22 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.model
+package app.ss.tv.data.repository
 
-import androidx.compose.runtime.Immutable
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-@Immutable
-data class VideoSpec(
-    val id: String,
-    val title: String,
-    val artist: String,
-    val src: String,
-    val thumbnail: String
-)
-
-@Immutable
-data class CategorySpec(
-    val id: String,
-    val title: String,
-    val videos: List<VideoSpec>,
-)
+@Singleton
+class AssetsReader @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
+    fun getJsonDataFromAsset(): String {
+        return context.assets.open("videos.json").bufferedReader().use { it.readText() }
+    }
+}

@@ -22,11 +22,33 @@
 
 package app.ss.tv.data.repository
 
+import app.ss.lessons.data.model.api.VideosInfoModel
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.lang.reflect.Type
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class VideosRepositoryImpl @Inject constructor(
-
+    private val assetsReader: AssetsReader
 ) : VideosRepository {
+
+    private val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
+
+    override suspend fun getVideos(): Result<List<VideosInfoModel>> = withContext(Dispatchers.IO) {
+        val jsonString = assetsReader.getJsonDataFromAsset()
+
+        val listDataType: Type = Types.newParameterizedType(List::class.java, VideosInfoModel::class.java)
+        val adapter: JsonAdapter<List<VideosInfoModel>> = moshi.adapter(listDataType)
+        val items =  adapter.fromJson(jsonString) ?: emptyList()
+
+        return@withContext Result.success(items)
+    }
 }
