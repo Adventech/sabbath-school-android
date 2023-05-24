@@ -165,7 +165,6 @@ class SSReadingViewModel @AssistedInject constructor(
     }
 
     override fun onSelectionStarted(x: Float, y: Float, highlightId: Int) {
-        onSelectionStarted(x, y)
         this.highlightId = highlightId
     }
 
