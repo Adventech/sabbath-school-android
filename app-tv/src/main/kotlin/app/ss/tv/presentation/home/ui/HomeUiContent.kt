@@ -96,9 +96,6 @@ fun HomeUiContent(
                         onVideoClick = {
                             state.eventSink(Event.OnVideoClick(it))
                         },
-                        focusedItemIndexCallback = {
-                            Timber.d("FOCUSED AT: $it")
-                        }
                     )
                 }
             }

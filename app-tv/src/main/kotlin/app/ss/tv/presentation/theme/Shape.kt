@@ -22,6 +22,10 @@
 
 package app.ss.tv.presentation.theme
 
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.ui.unit.dp
 import androidx.tv.material3.ShapeDefaults
 
-val SsCardShape = ShapeDefaults.ExtraSmall
+val SsCardShape = ShapeDefaults.ExtraSmall.copy(
+    all = CornerSize(10.dp)
+)

@@ -23,6 +23,8 @@
 package app.ss.tv.presentation.home.ui
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -45,8 +47,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -73,16 +73,18 @@ fun CategoryVideos(
     category: CategorySpec,
     modifier: Modifier = Modifier,
     onVideoClick: (VideoSpec) -> Unit = {},
-    focusedItemIndexCallback: (Int) -> Unit = {}
 ) {
     var currentItemIndex by remember { mutableStateOf(0) }
     var isListFocused by remember { mutableStateOf(false) }
     var listCenterOffset by remember { mutableStateOf(Offset.Zero) }
-
-    var currentYCoord: Float? by remember { mutableStateOf(null) }
+    val listHeight by animateDpAsState(
+        if (isListFocused) LocalConfiguration.current.screenHeightDp.times(0.6f).dp else 260.dp
+    )
 
     ImmersiveList(
-        modifier = modifier.onGloballyPositioned { currentYCoord = it.positionInWindow().y },
+        modifier = modifier
+            .height(listHeight)
+            .fillMaxWidth(),
         background = { _, listHasFocus ->
             isListFocused = listHasFocus
             val gradientColor = MaterialTheme.colorScheme.surface
@@ -153,7 +155,7 @@ fun CategoryVideos(
         },
         list = {
             Column {
-                if (isListFocused) {
+                AnimatedVisibility(visible = isListFocused) {
                     val video = remember(category.videos, currentItemIndex) {
                         category.videos[currentItemIndex]
                     }
@@ -185,7 +187,6 @@ fun CategoryVideos(
                     onVideoClick = onVideoClick,
                     focusedItemIndex = { focusedIndex ->
                         currentItemIndex = focusedIndex
-                        focusedItemIndexCallback(focusedIndex)
                     }
                 )
             }
