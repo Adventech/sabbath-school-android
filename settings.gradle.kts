@@ -39,6 +39,7 @@ dependencyResolutionManagement {
 
 include(
     ":app",
+    ":app-tv",
     ":benchmark",
     ":common:auth",
     ":common:core",
