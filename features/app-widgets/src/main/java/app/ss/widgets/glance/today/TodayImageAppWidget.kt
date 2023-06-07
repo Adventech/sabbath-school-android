@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -30,30 +30,31 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.glance.BitmapImageProvider
+import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
+import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Box
 import androidx.glance.layout.ContentScale
 import androidx.glance.layout.fillMaxSize
+import androidx.glance.unit.ColorProvider
 import app.ss.widgets.R
 import app.ss.widgets.WidgetDataProvider
-import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.extensions.clickable
 import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
 import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.model.TodayWidgetModel
 import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
-import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
 internal class TodayImageAppWidget @AssistedInject constructor(
     private val dataProvider: WidgetDataProvider,
-    @Assisted private val context: Context
-) : BaseGlanceAppWidget<TodayImageAppWidget.Data>(context = context) {
+) : GlanceAppWidget() {
 
     data class Data(
         val model: TodayWidgetModel? = null,
@@ -64,17 +65,18 @@ internal class TodayImageAppWidget @AssistedInject constructor(
         setOf(DpSize(180.dp, 55.dp), DpSize(180.dp, 110.dp), DpSize(300.dp, 110.dp))
     )
 
-    override suspend fun loadData(): Data {
+    override suspend fun provideGlance(context: Context, id: GlanceId) {
         val model = dataProvider.getTodayModel()
         val bitmap = context.fetchBitmap(model?.cover)
-        return Data(model, modelCover = bitmap)
+
+        provideContent {
+            Content(model = model, cover = bitmap)
+        }
     }
 
     @Composable
     @SuppressLint("RestrictedApi")
-    override fun Content(data: Data?) {
-        val model = data?.model
-        val modelCover = data?.modelCover
+    private fun Content(model: TodayWidgetModel?, cover: Bitmap?) {
 
         SsGlanceTheme {
             Box(
@@ -82,7 +84,7 @@ internal class TodayImageAppWidget @AssistedInject constructor(
                     .modifyAppWidgetBackground()
                     .clickable(uri = model?.uri)
             ) {
-                modelCover?.let { bitmap ->
+                cover?.let { bitmap ->
                     Image(
                         provider = BitmapImageProvider(bitmap),
                         contentDescription = model?.title,
@@ -91,10 +93,10 @@ internal class TodayImageAppWidget @AssistedInject constructor(
                     )
                 }
 
-                val (modifier: GlanceModifier, textColor: Color?) = if (modelCover != null) {
+                val (modifier: GlanceModifier, textColor: ColorProvider?) = if (cover != null) {
                     GlanceModifier.background(
                         ImageProvider(R.drawable.bg_img_foreground)
-                    ) to Color.White
+                    ) to ColorProvider(Color.White)
                 } else {
                     GlanceModifier to null
                 }
@@ -113,6 +115,6 @@ internal class TodayImageAppWidget @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(context: Context): TodayImageAppWidget
+        fun create(): TodayImageAppWidget
     }
 }

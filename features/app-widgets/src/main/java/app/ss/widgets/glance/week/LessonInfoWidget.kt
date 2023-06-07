@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -25,20 +25,23 @@ package app.ss.widgets.glance.week
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.BitmapImageProvider
+import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalSize
+import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.itemsIndexed
+import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
@@ -54,7 +57,6 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import app.ss.widgets.R
 import app.ss.widgets.WidgetDataProvider
-import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.extensions.clickable
 import app.ss.widgets.glance.extensions.divider
 import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
@@ -65,36 +67,30 @@ import app.ss.widgets.glance.theme.todayTitle
 import app.ss.widgets.model.WeekDayWidgetModel
 import app.ss.widgets.model.WeekLessonWidgetModel
 import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
-import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import app.ss.translations.R as TranslationsR
 
 internal class LessonInfoWidget @AssistedInject constructor(
     private val dataProvider: WidgetDataProvider,
-    @Assisted private val context: Context
-) : BaseGlanceAppWidget<LessonInfoWidget.Data>(context = context) {
-
-    data class Data(
-        val model: WeekLessonWidgetModel? = null,
-        val cover: Bitmap? = null
-    )
+) : GlanceAppWidget() {
 
     override val sizeMode: SizeMode = SizeMode.Responsive(
         setOf(smallMode, mediumMode, largeMode)
     )
 
-    override suspend fun loadData(): Data {
+    override suspend fun provideGlance(context: Context, id: GlanceId) {
         val model = dataProvider.getWeekLessonModel()
         val cover = context.fetchBitmap(model?.cover)
-        return Data(model = model, cover = cover)
+
+        provideContent {
+            Content(model, cover)
+        }
     }
 
     @Composable
-    override fun Content(data: Data?) {
+    private fun Content(model: WeekLessonWidgetModel?, cover: Bitmap?) {
         val default = stringResource(R.string.ss_widget_error_label)
-        val model = data?.model
-        val cover = data?.cover
 
         val size = LocalSize.current
 
@@ -158,7 +154,7 @@ internal class LessonInfoWidget @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(context: Context): LessonInfoWidget
+        fun create(): LessonInfoWidget
     }
 
     companion object {
@@ -185,7 +181,7 @@ private fun LessonInfoRow(
                 provider = BitmapImageProvider(bitmap),
                 contentDescription = quarterlyTitle,
                 modifier = GlanceModifier
-                    .background(color = MaterialTheme.colorScheme.surfaceVariant)
+                    .background(colorProvider = GlanceTheme.colors.surfaceVariant)
                     .size(width = CoverWidth, height = CoverHeight)
                     .cornerRadius(6.dp),
                 contentScale = ContentScale.Crop
@@ -193,7 +189,7 @@ private fun LessonInfoRow(
         } ?: run {
             Spacer(
                 modifier = GlanceModifier
-                    .background(color = MaterialTheme.colorScheme.surfaceVariant)
+                    .background(colorProvider = GlanceTheme.colors.surfaceVariant)
                     .size(width = CoverWidth, height = CoverHeight)
                     .cornerRadius(8.dp)
             )
@@ -248,7 +244,7 @@ private fun DayInfo(
         fontSize = 13.sp
     )
     val titleStyle = if (model.today) {
-        todayBody(MaterialTheme.colorScheme.onSurface)
+        todayBody(GlanceTheme.colors.onSurface)
             .copy(fontWeight = FontWeight.Bold)
     } else textStyle
 

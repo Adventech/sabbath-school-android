@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -25,11 +25,11 @@ package app.ss.widgets.glance.extensions
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceModifier
+import androidx.glance.GlanceTheme
 import androidx.glance.action.Action
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.action.actionStartActivity
@@ -45,7 +45,7 @@ import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 fun GlanceModifier.modifyAppWidgetBackground() = this
     .fillMaxSize()
     .appWidgetBackground()
-    .background(MaterialTheme.colorScheme.surface)
+    .background(GlanceTheme.colors.surface)
     .appWidgetBackgroundCornerRadius()
 
 fun GlanceModifier.appWidgetBackgroundCornerRadius(): GlanceModifier {
@@ -61,7 +61,7 @@ fun GlanceModifier.appWidgetBackgroundCornerRadius(): GlanceModifier {
 fun GlanceModifier.divider(height: Dp = 0.5.dp) = this
     .fillMaxWidth()
     .height(height)
-    .background(MaterialTheme.colorScheme.inverseOnSurface)
+    .background(GlanceTheme.colors.inverseOnSurface)
 
 private fun Uri.launchIntent(): Intent = Intent().apply { data = this@launchIntent }
 

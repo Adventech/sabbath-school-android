@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -22,11 +22,10 @@
 
 package app.ss.widgets.glance.theme
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import androidx.glance.GlanceTheme
 import androidx.glance.text.FontStyle
 import androidx.glance.text.FontWeight
 import androidx.glance.text.TextDecoration
@@ -34,12 +33,12 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 
 private fun textStyle(
-    color: Color,
+    color: ColorProvider,
     fontSize: TextUnit,
     fontWeight: FontWeight,
     textDecoration: TextDecoration? = null
 ) = TextStyle(
-    color = ColorProvider(color),
+    color = color,
     fontSize = fontSize,
     fontStyle = FontStyle.Normal,
     fontWeight = fontWeight,
@@ -48,18 +47,18 @@ private fun textStyle(
 
 @Composable
 fun todayTitle(
-    color: Color? = null
+    color: ColorProvider? = null
 ) = textStyle(
-    color = color ?: MaterialTheme.colorScheme.onSurface,
+    color = color ?: GlanceTheme.colors.onSurface,
     fontSize = 18.sp,
     fontWeight = FontWeight.Bold
 )
 
 @Composable
 fun todayBody(
-    color: Color? = null
+    color: ColorProvider? = null
 ) = textStyle(
-    color = color ?: MaterialTheme.colorScheme.onSurfaceVariant,
+    color = color ?: GlanceTheme.colors.onSurfaceVariant,
     fontSize = 15.sp,
     fontWeight = FontWeight.Normal
 )

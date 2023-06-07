@@ -23,13 +23,13 @@
 package app.ss.widgets.glance.today
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.Color
+import androidx.glance.unit.ColorProvider
 import app.ss.widgets.model.TodayWidgetModel
 
 @Immutable
 internal data class TodayInfoSpec(
     val model: TodayWidgetModel?,
-    val textColor: Color? = null,
+    val textColor: ColorProvider? = null,
     val titleMaxLines: Int = 3,
     val bodyMaxLines: Int = 2,
     val showReadButton: Boolean = true
