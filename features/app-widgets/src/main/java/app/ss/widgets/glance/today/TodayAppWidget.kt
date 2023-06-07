@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -24,19 +24,21 @@ package app.ss.widgets.glance.today
 
 import android.content.Context
 import android.net.Uri
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.Button
-import androidx.glance.ButtonColors
+import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalSize
+import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.provideContent
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -48,10 +50,8 @@ import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.text.Text
-import androidx.glance.unit.ColorProvider
 import app.ss.widgets.R
 import app.ss.widgets.WidgetDataProvider
-import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.extensions.clickable
 import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
 import app.ss.widgets.glance.extensions.stringResource
@@ -60,27 +60,28 @@ import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.glance.theme.todayBody
 import app.ss.widgets.glance.theme.todayTitle
 import app.ss.widgets.model.TodayWidgetModel
-import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import ss.misc.DateHelper
 import app.ss.translations.R as TranslationsR
 
-private typealias Data = TodayWidgetModel
-
 internal class TodayAppWidget @AssistedInject constructor(
     private val dataProvider: WidgetDataProvider,
-    @Assisted context: Context
-) : BaseGlanceAppWidget<Data?>(context = context) {
+) : GlanceAppWidget() {
 
     override val sizeMode = SizeMode.Responsive(
         setOf(smallMode, mediumMode, largeMode)
     )
 
-    override suspend fun loadData(): Data? = dataProvider.getTodayModel()
+    override suspend fun provideGlance(context: Context, id: GlanceId) {
+        val model = dataProvider.getTodayModel()
+        provideContent {
+            Content(data = model)
+        }
+    }
 
     @Composable
-    override fun Content(data: Data?) {
+    private fun Content(data: TodayWidgetModel?) {
         val isSmallMode = LocalSize.current == smallMode
 
         SsGlanceTheme {
@@ -105,7 +106,7 @@ internal class TodayAppWidget @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(context: Context): TodayAppWidget
+        fun create(): TodayAppWidget
     }
 
     companion object {
@@ -181,12 +182,8 @@ internal fun TodayInfo(
             Button(
                 text = stringResource(TranslationsR.string.ss_lessons_read).uppercase(),
                 style = todayTitle(
-                    MaterialTheme.colorScheme.onPrimary
+                    GlanceTheme.colors.onPrimary
                 ).copy(fontSize = 14.sp),
-                colors = ButtonColors(
-                    backgroundColor = ColorProvider(MaterialTheme.colorScheme.primary),
-                    contentColor = ColorProvider(MaterialTheme.colorScheme.onPrimary),
-                ),
                 maxLines = 1,
                 onClick = model.uri.toAction(),
                 modifier = GlanceModifier
