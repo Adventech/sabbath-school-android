@@ -148,13 +148,13 @@ private fun LoadingRow(
             .padding(top = 48.dp)
             .focusGroup(),
         label = "",
-    ) {
+    ) {targetCount ->
         FocusGroup {
             TvLazyRow(
                 pivotOffsets = PivotOffsets(parentFraction = 0.07f),
                 contentPadding = PaddingValues(start = childPadding.start, end = childPadding.end)
             ) {
-                items(count) {
+                items(targetCount) {
                     LoadingCard(modifier = Modifier.restorableFocus())
                 }
             }
