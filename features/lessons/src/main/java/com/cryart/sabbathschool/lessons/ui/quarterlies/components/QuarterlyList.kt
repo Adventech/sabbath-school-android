@@ -77,9 +77,9 @@ internal fun QuarterlyList(
             is GroupedQuarterlies.TypeGroup -> {
                 itemsIndexed(
                     quarterlies.data,
-                    key = { _, model -> model.group.name },
+                    key = { _, model -> model.hashCode() },
                     itemContent = { index, model ->
-                        val items = remember(model.group.name) {
+                        val items = remember(model.hashCode()) {
                             model.quarterlies.map { quarterly ->
                                 quarterly.copy(
                                     onClick = {
