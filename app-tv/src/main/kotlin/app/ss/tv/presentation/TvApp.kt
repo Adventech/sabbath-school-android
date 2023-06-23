@@ -25,9 +25,11 @@ package app.ss.tv.presentation
 import androidx.compose.runtime.Composable
 import app.ss.tv.presentation.home.HomeScreen
 import app.ss.tv.presentation.theme.SSTvTheme
-import com.slack.circuit.foundation.CircuitCompositionLocals
+import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.CircuitConfig
-import com.slack.circuit.foundation.CircuitContent
+import com.slack.circuit.foundation.NavigableCircuitContent
+import com.slack.circuit.foundation.push
+import com.slack.circuit.foundation.rememberCircuitNavigator
 
 /**
  * Entry-point for the Sabbath School TV app.
@@ -35,8 +37,8 @@ import com.slack.circuit.foundation.CircuitContent
 @Composable
 fun TvApp(circuitConfig: CircuitConfig) {
     SSTvTheme {
-        CircuitCompositionLocals(circuitConfig) {
-            CircuitContent(HomeScreen)
-        }
+        val backstack = rememberSaveableBackStack { push(HomeScreen) }
+        val navigator = rememberCircuitNavigator(backstack)
+        NavigableCircuitContent(navigator, backstack, circuitConfig = circuitConfig)
     }
 }

@@ -23,6 +23,7 @@
 package app.ss.tv.presentation.home.ui
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.focusGroup
@@ -64,7 +65,6 @@ import app.ss.tv.presentation.theme.Padding
 import app.ss.tv.presentation.theme.SsCardShape
 import app.ss.tv.presentation.theme.rememberChildPadding
 import app.ss.tv.presentation.utils.FocusGroup
-import timber.log.Timber
 
 @Composable
 fun HomeUiContent(
@@ -135,7 +135,7 @@ private fun TvLazyListScope.loadingItem() {
     item { LoadingRow(count = 10) }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
 private fun LoadingRow(
     count: Int,

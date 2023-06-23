@@ -63,6 +63,13 @@ slack {
     features { compose() }
 }
 
+configurations.all {
+    resolutionStrategy {
+        // resolve mismatch between circuit and tv-material
+        force(libs.androidx.compose.animation)
+    }
+}
+
 dependencies {
     implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
@@ -71,10 +78,10 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose)
     implementation(libs.bundles.compose.tooling)
-    implementation(libs.androidx.compose.tv.foundation)
-    implementation(libs.androidx.compose.tv.material)
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.tv.foundation)
+    implementation(libs.androidx.tv.material)
     implementation(libs.bundles.circuit)
     implementation(libs.coil.compose)
     implementation(libs.google.accompanist.placeholder)

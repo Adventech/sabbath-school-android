@@ -20,25 +20,13 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.model
+package app.ss.tv.data.repository
 
-import android.os.Parcelable
-import androidx.compose.runtime.Immutable
-import kotlinx.parcelize.Parcelize
+import app.ss.lessons.data.model.api.VideosInfoModel
 
-@Immutable
-@Parcelize
-data class VideoSpec(
-    val id: String,
-    val title: String,
-    val artist: String,
-    val src: String,
-    val thumbnail: String
-): Parcelable
+class FakeVideosRepository : VideosRepository {
 
-@Immutable
-data class CategorySpec(
-    val id: String,
-    val title: String,
-    val videos: List<VideoSpec>,
-)
+    var videosResult: Result<List<VideosInfoModel>> = Result.failure(Throwable("Not implemented"))
+
+    override suspend fun getVideos(): Result<List<VideosInfoModel>> = videosResult
+}

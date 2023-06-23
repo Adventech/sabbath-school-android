@@ -25,6 +25,9 @@ package app.ss.tv.data.circuit
 import app.ss.tv.presentation.home.HomePresenter
 import app.ss.tv.presentation.home.HomeScreen
 import app.ss.tv.presentation.home.HomeUiScreen
+import app.ss.tv.presentation.player.VideoPlayerPresenter
+import app.ss.tv.presentation.player.VideoPlayerScreen
+import app.ss.tv.presentation.player.VideoPlayerUiScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.Screen
@@ -39,7 +42,8 @@ interface SSUiFactory : Ui.Factory
 
 @Singleton
 class SSPresenterFactoryImpl @Inject constructor(
-    private val homePresenter: HomePresenter.Factory
+    private val homePresenter: HomePresenter.Factory,
+    private val videoPlayerPresenter: VideoPlayerPresenter.Factory,
 ) : SSPresenterFactory {
 
     override fun create(
@@ -49,6 +53,7 @@ class SSPresenterFactoryImpl @Inject constructor(
     ): Presenter<*>? {
         return when (screen) {
             is HomeScreen -> homePresenter.create(navigator)
+            is VideoPlayerScreen -> videoPlayerPresenter.create(screen)
             else -> null
         }
     }
@@ -63,6 +68,9 @@ internal class SSUiFactoryImpl @Inject constructor() : SSUiFactory {
                     state,
                     modifier
                 )
+            }
+            is VideoPlayerScreen -> ui<VideoPlayerScreen.State> { state, modifier ->
+                VideoPlayerUiScreen(state, modifier)
             }
             else -> null
         }
