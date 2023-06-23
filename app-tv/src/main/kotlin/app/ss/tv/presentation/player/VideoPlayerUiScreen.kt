@@ -20,25 +20,26 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.model
+package app.ss.tv.presentation.player
 
-import android.os.Parcelable
-import androidx.compose.runtime.Immutable
-import kotlinx.parcelize.Parcelize
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.tv.material3.Text
 
-@Immutable
-@Parcelize
-data class VideoSpec(
-    val id: String,
-    val title: String,
-    val artist: String,
-    val src: String,
-    val thumbnail: String
-): Parcelable
-
-@Immutable
-data class CategorySpec(
-    val id: String,
-    val title: String,
-    val videos: List<VideoSpec>,
-)
+@Composable
+fun VideoPlayerUiScreen(
+    state: VideoPlayerScreen.State,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Video: ${state.spec.title}"
+        )
+    }
+}

@@ -30,12 +30,12 @@ import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.data.repository.VideosRepository
 import app.ss.tv.presentation.home.HomeScreen.State
+import app.ss.tv.presentation.player.VideoPlayerScreen
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import timber.log.Timber
 
 class HomePresenter @AssistedInject constructor(
     private val repository: VideosRepository,
@@ -56,10 +56,10 @@ class HomePresenter @AssistedInject constructor(
         return when {
             videosInfo == null -> State.Error
             videosInfo?.isEmpty() == true -> State.Loading
-            else -> State.Videos(
-                mapVideos(videosInfo!!)
-            ) { event ->
-                Timber.d("EVENT: $event")
+            else -> State.Videos(mapVideos(videosInfo!!)) { event ->
+                when (event) {
+                    is HomeScreen.Event.OnVideoClick -> navigator.goTo(VideoPlayerScreen(event.video))
+                }
             }
         }
     }

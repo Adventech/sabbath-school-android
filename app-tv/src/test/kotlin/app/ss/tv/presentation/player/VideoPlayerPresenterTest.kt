@@ -20,25 +20,22 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.model
+package app.ss.tv.presentation.player
 
-import android.os.Parcelable
-import androidx.compose.runtime.Immutable
-import kotlinx.parcelize.Parcelize
+import app.ss.tv.data.videoSpec
+import com.slack.circuit.test.test
+import kotlinx.coroutines.test.runTest
+import org.amshove.kluent.shouldBeEqualTo
+import org.junit.Test
 
-@Immutable
-@Parcelize
-data class VideoSpec(
-    val id: String,
-    val title: String,
-    val artist: String,
-    val src: String,
-    val thumbnail: String
-): Parcelable
+class VideoPlayerPresenterTest {
 
-@Immutable
-data class CategorySpec(
-    val id: String,
-    val title: String,
-    val videos: List<VideoSpec>,
-)
+    private val underTest = VideoPlayerPresenter(VideoPlayerScreen(videoSpec))
+
+    @Test
+    fun `present - should emit state with video from screen`() = runTest {
+        underTest.test {
+            awaitItem() shouldBeEqualTo VideoPlayerScreen.State(videoSpec)
+        }
+    }
+}

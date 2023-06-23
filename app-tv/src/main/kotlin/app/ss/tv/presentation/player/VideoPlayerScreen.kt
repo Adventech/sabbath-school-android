@@ -20,25 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.model
+package app.ss.tv.presentation.player
 
 import android.os.Parcelable
-import androidx.compose.runtime.Immutable
+import app.ss.tv.data.model.VideoSpec
+import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.Screen
 import kotlinx.parcelize.Parcelize
 
-@Immutable
 @Parcelize
-data class VideoSpec(
-    val id: String,
-    val title: String,
-    val artist: String,
-    val src: String,
-    val thumbnail: String
-): Parcelable
+data class VideoPlayerScreen(
+    val video: VideoSpec
+) : Screen, Parcelable {
 
-@Immutable
-data class CategorySpec(
-    val id: String,
-    val title: String,
-    val videos: List<VideoSpec>,
-)
+    data class State(val spec: VideoSpec) : CircuitUiState
+}

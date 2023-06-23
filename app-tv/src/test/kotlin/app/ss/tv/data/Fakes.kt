@@ -20,25 +20,22 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.model
+package app.ss.tv.data
 
-import android.os.Parcelable
-import androidx.compose.runtime.Immutable
-import kotlinx.parcelize.Parcelize
+import app.ss.lessons.data.model.api.VideosInfoModel
+import app.ss.models.media.SSVideo
+import app.ss.tv.data.model.VideoSpec
 
-@Immutable
-@Parcelize
-data class VideoSpec(
-    val id: String,
-    val title: String,
-    val artist: String,
-    val src: String,
-    val thumbnail: String
-): Parcelable
-
-@Immutable
-data class CategorySpec(
-    val id: String,
-    val title: String,
-    val videos: List<VideoSpec>,
+private val ssVideo = SSVideo("Artist", "id", "src", "target", "targetIndex", "thumbnail", "title")
+val infoModel = VideosInfoModel(
+    artist = "Artist",
+    clips = listOf(ssVideo)
 )
+val videoSpec = VideoSpec(
+    id = ssVideo.id,
+    title = ssVideo.title,
+    artist = ssVideo.artist,
+    src = ssVideo.src,
+    thumbnail = ssVideo.thumbnail
+)
+

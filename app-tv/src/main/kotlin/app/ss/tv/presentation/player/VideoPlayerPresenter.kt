@@ -20,25 +20,26 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.model
+package app.ss.tv.presentation.player
 
-import android.os.Parcelable
-import androidx.compose.runtime.Immutable
-import kotlinx.parcelize.Parcelize
+import androidx.compose.runtime.Composable
+import app.ss.tv.presentation.player.VideoPlayerScreen.State
+import com.slack.circuit.runtime.presenter.Presenter
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
-@Immutable
-@Parcelize
-data class VideoSpec(
-    val id: String,
-    val title: String,
-    val artist: String,
-    val src: String,
-    val thumbnail: String
-): Parcelable
+class VideoPlayerPresenter @AssistedInject constructor(
+    @Assisted private val screen: VideoPlayerScreen,
+) : Presenter<State> {
 
-@Immutable
-data class CategorySpec(
-    val id: String,
-    val title: String,
-    val videos: List<VideoSpec>,
-)
+    @AssistedFactory
+    interface Factory {
+        fun create(screen: VideoPlayerScreen): VideoPlayerPresenter
+    }
+
+    @Composable
+    override fun present(): State {
+        return State(screen.video)
+    }
+}
