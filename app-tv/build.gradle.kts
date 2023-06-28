@@ -37,6 +37,7 @@ android {
         applicationId = "app.ss.tv"
         versionCode = 1
         versionName = "1.0"
+        minSdk = 25
     }
 
     buildTypes {
@@ -80,6 +81,8 @@ dependencies {
     implementation(libs.bundles.compose.tooling)
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
     implementation(libs.androidx.tv.foundation)
     implementation(libs.androidx.tv.material)
     implementation(libs.bundles.circuit)

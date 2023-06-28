@@ -24,6 +24,7 @@ package app.ss.tv.presentation.player
 
 import androidx.compose.runtime.Composable
 import app.ss.tv.presentation.player.VideoPlayerScreen.State
+import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -31,15 +32,23 @@ import dagger.assisted.AssistedInject
 
 class VideoPlayerPresenter @AssistedInject constructor(
     @Assisted private val screen: VideoPlayerScreen,
+    @Assisted private val navigator: Navigator,
 ) : Presenter<State> {
 
     @AssistedFactory
     interface Factory {
-        fun create(screen: VideoPlayerScreen): VideoPlayerPresenter
+        fun create(
+            screen: VideoPlayerScreen,
+            navigator: Navigator
+        ): VideoPlayerPresenter
     }
 
     @Composable
     override fun present(): State {
-        return State(screen.video)
+        return State(screen.video) { event ->
+            when (event) {
+                VideoPlayerScreen.Event.OnBack -> navigator.pop()
+            }
+        }
     }
 }
