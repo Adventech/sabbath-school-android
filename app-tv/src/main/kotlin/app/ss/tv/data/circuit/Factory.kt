@@ -53,7 +53,7 @@ class SSPresenterFactoryImpl @Inject constructor(
     ): Presenter<*>? {
         return when (screen) {
             is HomeScreen -> homePresenter.create(navigator)
-            is VideoPlayerScreen -> videoPlayerPresenter.create(screen)
+            is VideoPlayerScreen -> videoPlayerPresenter.create(screen, navigator)
             else -> null
         }
     }
