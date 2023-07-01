@@ -154,6 +154,7 @@ dependencies {
     implementation(projects.features.pdf)
     implementation(projects.features.settings)
     implementation(projects.libraries.circuitHelpers.impl)
+    implementation(projects.services.lessons.impl)
 
     implementation(libs.kotlin.coroutines)
     implementation(libs.kotlin.coroutines.android)

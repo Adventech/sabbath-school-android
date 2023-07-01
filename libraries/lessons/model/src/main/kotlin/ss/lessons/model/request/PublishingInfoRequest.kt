@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,13 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package ss.lessons.model.request
 
-import androidx.compose.runtime.Immutable
-import ss.lessons.model.VideosInfoModel
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-@Immutable
-interface VideosRepository {
-    suspend fun getVideos(): Result<List<VideosInfoModel>>
-}
+@JsonClass(generateAdapter = true)
+data class PublishingInfoRequest(
+    @Json(name = "country") val country: String,
+    @Json(name = "language") val language: String
+)

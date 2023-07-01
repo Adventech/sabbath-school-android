@@ -23,7 +23,6 @@
 package app.ss.lessons.data.repository.quarterly
 
 import androidx.annotation.VisibleForTesting
-import app.ss.lessons.data.api.SSQuarterliesApi
 import app.ss.lessons.data.repository.DataSource
 import app.ss.lessons.data.repository.DataSourceMediator
 import app.ss.lessons.data.repository.LocalDataSource
@@ -33,6 +32,7 @@ import app.ss.storage.db.entity.LanguageEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
+import ss.lessons.api.SSQuarterliesApi
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton

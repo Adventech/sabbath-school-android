@@ -25,7 +25,6 @@ package app.ss.tv.presentation.home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
-import app.ss.lessons.data.model.api.VideosInfoModel
 import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.data.repository.VideosRepository
@@ -36,6 +35,7 @@ import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import ss.lessons.model.VideosInfoModel
 
 class HomePresenter @AssistedInject constructor(
     private val repository: VideosRepository,

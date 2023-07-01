@@ -22,7 +22,6 @@
 
 package app.ss.lessons.data.repository.media
 
-import app.ss.lessons.data.api.SSMediaApi
 import app.ss.models.media.SSAudio
 import app.ss.storage.db.dao.AudioDao
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
@@ -36,6 +35,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Response
+import ss.lessons.api.SSMediaApi
 
 private const val LESSON_INDEX = "en-2022-03-09"
 

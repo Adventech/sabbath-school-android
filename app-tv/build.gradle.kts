@@ -72,8 +72,9 @@ configurations.all {
 }
 
 dependencies {
-    implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
+    implementation(projects.libraries.lessons.api)
+    implementation(projects.services.lessons.impl)
 
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
