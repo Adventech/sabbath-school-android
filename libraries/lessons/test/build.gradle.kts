@@ -20,18 +20,14 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+plugins {
+    alias(libs.plugins.sgp.base)
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+}
 
-import android.content.Context
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
-import javax.inject.Singleton
+android { namespace = "ss.lessons.test" }
 
-@Singleton
-class AssetsReader @Inject constructor(
-    @ApplicationContext private val context: Context
-) {
-    fun getJsonDataFromAsset(): String {
-        return context.assets.open("videos.json").bufferedReader().use { it.readText() }
-    }
+dependencies {
+    implementation(projects.libraries.lessons.api)
 }

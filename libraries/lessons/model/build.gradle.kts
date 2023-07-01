@@ -31,7 +31,7 @@ android { namespace = "ss.lessons.model" }
 
 dependencies {
     api(projects.common.models)
-    implementation(libs.androidx.annotations)
+    api(libs.androidx.annotations)
     implementation(libs.square.moshi.kotlin)
     ksp(libs.square.moshi.codegen)
 }
