@@ -27,5 +27,5 @@ import ss.lessons.model.VideosInfoModel
 
 @Immutable
 interface VideosRepository {
-    suspend fun getVideos(): Result<List<VideosInfoModel>>
+    suspend fun getVideos(language: String = "en"): Result<List<VideosInfoModel>>
 }

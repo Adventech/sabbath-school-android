@@ -71,6 +71,7 @@ include(
     ":libraries:circuit-helpers:impl",
     ":libraries:lessons:api",
     ":libraries:lessons:model",
+    ":libraries:lessons:test",
     ":libraries:test_utils",
     ":services:lessons:impl"
 )

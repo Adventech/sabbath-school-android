@@ -20,15 +20,46 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package ss.lessons.test
 
 import androidx.annotation.VisibleForTesting
+import app.ss.models.media.SSAudio
+import retrofit2.Response
+import ss.lessons.api.SSMediaApi
 import ss.lessons.model.VideosInfoModel
 
+/** Fake implementation of [SSMediaApi]. **/
 @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-class FakeVideosRepository : VideosRepository {
+class FakeMediaApi : SSMediaApi {
 
-    var videosResult: Result<List<VideosInfoModel>> = Result.failure(Throwable("Not implemented"))
+    // region Mock behavior
 
-    override suspend fun getVideos(language: String): Result<List<VideosInfoModel>> = videosResult
+    private var audioMap: MutableMap<String, Response<List<SSAudio>>> = mutableMapOf()
+    private var videoMap: MutableMap<String, Response<List<VideosInfoModel>>> = mutableMapOf()
+
+    fun addAudioResponse(language: String, response: Response<List<SSAudio>>) {
+        audioMap[language] = response
+    }
+
+    fun addVideoResponse(language: String, response: Response<List<VideosInfoModel>>) {
+        videoMap[language] = response
+    }
+
+    // end region
+
+    override suspend fun getAudio(
+        language: String,
+        quarterlyId: String
+    ): Response<List<SSAudio>> = audioMap[language]!!
+
+    override suspend fun getVideo(
+        language: String,
+        quarterlyId: String
+    ): Response<List<VideosInfoModel>> = videoMap[language]!!
+
+    override suspend fun getVideoLanguages(): Response<List<String>> = Response.success(emptyList())
+
+    override suspend fun getLatestVideo(
+        language: String
+    ): Response<List<VideosInfoModel>> = videoMap[language]!!
 }
