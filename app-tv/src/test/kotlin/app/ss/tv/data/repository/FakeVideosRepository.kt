@@ -22,7 +22,7 @@
 
 package app.ss.tv.data.repository
 
-import app.ss.lessons.data.model.api.VideosInfoModel
+import ss.lessons.model.VideosInfoModel
 
 class FakeVideosRepository : VideosRepository {
 
