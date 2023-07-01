@@ -20,35 +20,31 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+plugins {
+    alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
+    id("com.android.library")
+    kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+}
 
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import ss.lessons.model.VideosInfoModel
-import java.lang.reflect.Type
-import javax.inject.Inject
-import javax.inject.Singleton
+android { namespace = "ss.lessons.impl" }
 
-@Singleton
-class VideosRepositoryImpl @Inject constructor(
-    private val assetsReader: AssetsReader
-) : VideosRepository {
+dependencies {
+    implementation(projects.libraries.lessons.api)
+    implementation(projects.common.auth)
+    implementation(projects.common.misc)
+    implementation(projects.common.storage)
 
-    private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
-
-    override suspend fun getVideos(): Result<List<VideosInfoModel>> = withContext(Dispatchers.IO) {
-        val jsonString = assetsReader.getJsonDataFromAsset()
-
-        val listDataType: Type = Types.newParameterizedType(List::class.java, VideosInfoModel::class.java)
-        val adapter: JsonAdapter<List<VideosInfoModel>> = moshi.adapter(listDataType)
-        val items =  adapter.fromJson(jsonString) ?: emptyList()
-
-        return@withContext Result.success(items)
-    }
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
+    implementation(libs.square.moshi.kotlin)
+    ksp(libs.square.moshi.codegen)
+    compileOnly(libs.javax.annotation)
+    implementation(libs.square.okhttp)
+    implementation(libs.square.okhttp.logging)
+    implementation(libs.square.retrofit)
+    implementation(libs.square.retrofit.converter.moshi)
+    implementation(libs.timber)
 }

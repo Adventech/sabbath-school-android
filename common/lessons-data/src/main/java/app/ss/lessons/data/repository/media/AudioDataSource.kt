@@ -22,7 +22,6 @@
 
 package app.ss.lessons.data.repository.media
 
-import app.ss.lessons.data.api.SSMediaApi
 import app.ss.lessons.data.repository.DataSource
 import app.ss.lessons.data.repository.DataSourceMediator
 import app.ss.lessons.data.repository.LocalDataSource
@@ -31,6 +30,7 @@ import app.ss.storage.db.dao.AudioDao
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
+import ss.lessons.api.SSMediaApi
 import javax.inject.Inject
 import javax.inject.Singleton
 

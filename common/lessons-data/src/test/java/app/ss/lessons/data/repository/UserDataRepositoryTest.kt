@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -23,10 +23,6 @@
 package app.ss.lessons.data.repository
 
 import app.cash.turbine.test
-import app.ss.lessons.data.api.SSLessonsApi
-import app.ss.lessons.data.model.api.ReadComments
-import app.ss.lessons.data.model.api.ReadHighlights
-import app.ss.lessons.data.model.api.request.UploadPdfAnnotationsRequest
 import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.lessons.data.repository.user.UserDataRepositoryImpl
 import app.ss.models.PdfAnnotations
@@ -53,6 +49,10 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Response
+import ss.lessons.api.SSLessonsApi
+import ss.lessons.model.ReadComments
+import ss.lessons.model.ReadHighlights
+import ss.lessons.model.request.UploadPdfAnnotationsRequest
 import ss.misc.DeviceHelper
 import ss.prefs.api.SSPrefs
 

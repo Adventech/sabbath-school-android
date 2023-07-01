@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,15 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data
+package ss.lessons.model
 
-import app.ss.models.media.SSVideo
-import app.ss.tv.data.model.VideoSpec
-import ss.lessons.model.VideosInfoModel
+import androidx.annotation.Keep
+import app.ss.models.PublishingInfo
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-private val ssVideo = SSVideo("Artist", "id", "src", "target", "targetIndex", "thumbnail", "title")
-val infoModel = VideosInfoModel(
-    artist = "Artist",
-    clips = listOf(ssVideo)
+@Keep
+@JsonClass(generateAdapter = true)
+data class PublishingInfoData(
+    @Json(name = "data") val data: PublishingInfo?
 )
-val videoSpec = VideoSpec(
-    id = ssVideo.id,
-    title = ssVideo.title,
-    artist = ssVideo.artist,
-    src = ssVideo.src,
-    thumbnail = ssVideo.thumbnail
-)
-

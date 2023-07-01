@@ -23,7 +23,7 @@
 package app.ss.tv.data.repository
 
 import androidx.compose.runtime.Immutable
-import app.ss.lessons.data.model.api.VideosInfoModel
+import ss.lessons.model.VideosInfoModel
 
 @Immutable
 interface VideosRepository {

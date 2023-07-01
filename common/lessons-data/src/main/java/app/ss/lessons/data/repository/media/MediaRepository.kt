@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -23,15 +23,15 @@
 package app.ss.lessons.data.repository.media
 
 import android.net.Uri
+import app.ss.models.media.AudioFile
 import app.ss.models.media.SSAudio
 import app.ss.models.media.SSVideosInfo
-import app.ss.lessons.data.model.api.request.SSMediaRequest
-import app.ss.models.media.AudioFile
 import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.entity.AudioFileEntity
 import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
+import ss.lessons.model.request.SSMediaRequest
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -13,22 +13,32 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.model.api
+package ss.lessons.api
 
-import androidx.annotation.Keep
-import com.squareup.moshi.JsonClass
+import app.ss.models.media.SSAudio
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Path
+import ss.lessons.model.VideosInfoModel
 
-@Keep
-@JsonClass(generateAdapter = true)
-internal data class AnnotationsPdf(
-    val pageIndex: Int,
-    val annotations: List<String>,
-    val timestamp: Long,
-)
+interface SSMediaApi {
+
+    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/audio.json")
+    suspend fun getAudio(
+        @Path("lang") language: String,
+        @Path("quarterly_id") quarterlyId: String
+    ): Response<List<SSAudio>>
+
+    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/video.json")
+    suspend fun getVideo(
+        @Path("lang") language: String,
+        @Path("quarterly_id") quarterlyId: String
+    ): Response<List<VideosInfoModel>>
+}

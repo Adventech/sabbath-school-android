@@ -44,6 +44,7 @@ dependencies {
     api(projects.common.models)
     implementation(projects.common.network)
     implementation(projects.common.storage)
+    implementation(projects.libraries.lessons.api)
 
     implementation(libs.kotlin.coroutines)
     implementation(libs.kotlin.coroutines.android)

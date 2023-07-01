@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,18 +13,15 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.api
+package ss.lessons.api
 
-import app.ss.lessons.data.model.api.PublishingInfoData
-import app.ss.lessons.data.model.api.SSLanguage
-import app.ss.lessons.data.model.api.request.PublishingInfoRequest
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
 import retrofit2.Response
@@ -32,8 +29,11 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import ss.lessons.model.PublishingInfoData
+import ss.lessons.model.SSLanguage
+import ss.lessons.model.request.PublishingInfoRequest
 
-internal interface SSQuarterliesApi {
+interface SSQuarterliesApi {
 
     @GET("api/v2/languages/index.json")
     suspend fun getLanguages(): Response<List<SSLanguage>>
