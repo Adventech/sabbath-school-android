@@ -25,7 +25,6 @@ package app.ss.auth
 import app.ss.auth.api.SSAuthApi
 import app.ss.storage.db.dao.UserDao
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
-import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -35,6 +34,7 @@ import okhttp3.ResponseBody
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Response
+import ss.foundation.coroutines.test.TestDispatcherProvider
 
 class AuthRepositoryTest {
 

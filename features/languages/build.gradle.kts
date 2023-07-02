@@ -49,6 +49,7 @@ dependencies {
     implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
     implementation(projects.common.workers.api)
+    implementation(projects.libraries.foundation.coroutines)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
@@ -61,8 +62,6 @@ dependencies {
     implementation(libs.google.material)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
-    implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.android)
     implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
@@ -70,4 +69,5 @@ dependencies {
     androidTestImplementation(libs.bundles.testing.android.common)
     kaptAndroidTest(libs.google.hilt.compiler)
     testImplementation(projects.libraries.testUtils)
+    testImplementation(projects.libraries.foundation.coroutines.test)
 }

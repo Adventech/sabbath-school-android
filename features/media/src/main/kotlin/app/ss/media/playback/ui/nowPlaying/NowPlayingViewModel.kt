@@ -33,7 +33,6 @@ import app.ss.media.playback.extensions.id
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.toAudio
 import app.ss.models.media.AudioFile
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import com.cryart.sabbathschool.core.extensions.intent.readIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,6 +40,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import ss.foundation.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel

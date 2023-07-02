@@ -39,9 +39,8 @@ android {
 
 dependencies {
     implementation(projects.common.core)
+    implementation(projects.libraries.foundation.coroutines)
 
-    implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.android)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
     implementation(libs.timber)

@@ -35,7 +35,6 @@ import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.models.media.SSVideo
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.flowInterval
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.PlaybackException
@@ -48,6 +47,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import ss.foundation.coroutines.flow.flowInterval
 import timber.log.Timber
 
 @Immutable

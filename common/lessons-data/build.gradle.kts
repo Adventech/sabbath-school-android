@@ -44,10 +44,9 @@ dependencies {
     api(projects.common.models)
     implementation(projects.common.network)
     implementation(projects.common.storage)
+    implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
 
-    implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.android)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
     implementation(libs.timber)
@@ -64,5 +63,6 @@ dependencies {
     implementation(libs.square.retrofit.converter.moshi)
 
     testImplementation(libs.bundles.testing.common)
+    testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.testUtils)
 }

@@ -39,7 +39,6 @@ import app.ss.models.config.AppConfig
 import app.ss.pdf.PdfReader
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.navigation.lessonIndexArg
@@ -48,6 +47,7 @@ import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
+import ss.foundation.coroutines.flow.collectIn
 import ss.misc.SSConstants
 import javax.inject.Inject
 import app.ss.translations.R as L10n

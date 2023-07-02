@@ -28,9 +28,9 @@ import app.ss.models.media.SSAudio
 import app.ss.models.media.SSVideosInfo
 import app.ss.storage.db.dao.AudioDao
 import app.ss.storage.db.entity.AudioFileEntity
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
+import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.model.request.SSMediaRequest
 import javax.inject.Inject
 import javax.inject.Singleton

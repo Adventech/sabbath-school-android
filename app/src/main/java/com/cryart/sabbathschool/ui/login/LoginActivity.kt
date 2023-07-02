@@ -36,7 +36,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import app.ss.models.config.AppConfig
 import app.ss.runtime.permissions.RuntimePermissions
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.sdk.isBelowApi
 import com.cryart.sabbathschool.core.model.ViewState
 import com.cryart.sabbathschool.databinding.SsLoginActivityBinding
@@ -50,6 +49,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import ss.foundation.coroutines.flow.collectIn
 import javax.inject.Inject
 import app.ss.translations.R as L10n
 

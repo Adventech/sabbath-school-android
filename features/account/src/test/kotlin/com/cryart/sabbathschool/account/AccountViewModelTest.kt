@@ -27,7 +27,6 @@ import app.ss.auth.AuthRepository
 import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.auth.SSUser
 import com.cryart.sabbathschool.account.model.UserInfo
-import com.cryart.sabbathschool.test.coroutines.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -42,6 +41,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import ss.foundation.coroutines.test.MainDispatcherRule
 
 class AccountViewModelTest {
 

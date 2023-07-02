@@ -66,9 +66,7 @@ dependencies {
     implementation(projects.features.media)
     implementation(projects.features.pdf)
     implementation(projects.features.reader)
-
-    implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.android)
+    implementation(projects.libraries.foundation.coroutines)
 
     implementation(libs.google.material)
     implementation(libs.androidx.core)
@@ -104,4 +102,5 @@ dependencies {
     androidTestImplementation(libs.bundles.testing.android.common)
     kaptAndroidTest(libs.google.hilt.compiler)
     testImplementation(projects.libraries.testUtils)
+    testImplementation(projects.libraries.foundation.coroutines.test)
 }

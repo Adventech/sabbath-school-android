@@ -27,7 +27,6 @@ import app.ss.models.config.AppConfig
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -35,6 +34,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.buffer
 import okio.sink
+import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.SSLessonsApi
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs

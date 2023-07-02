@@ -30,8 +30,8 @@ import app.ss.models.SSLessonInfo
 import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.entity.LessonEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
+import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.SSLessonsApi
 import javax.inject.Inject
 import javax.inject.Singleton

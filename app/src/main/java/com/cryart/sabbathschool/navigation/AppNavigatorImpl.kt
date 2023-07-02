@@ -31,7 +31,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentActivity
 import app.ss.auth.AuthRepository
 import com.cryart.sabbathschool.account.AccountDialogFragment
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
@@ -42,6 +41,7 @@ import com.cryart.sabbathschool.ui.login.LoginActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import ss.foundation.coroutines.DispatcherProvider
 import ss.prefs.api.SSPrefs
 import ss.settings.SettingsActivity
 import javax.inject.Inject

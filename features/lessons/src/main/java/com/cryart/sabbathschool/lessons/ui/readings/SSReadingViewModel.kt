@@ -46,7 +46,6 @@ import app.ss.models.SSReadHighlights
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
-import com.cryart.sabbathschool.core.extensions.coroutines.debounceUntilLast
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.options.SSReadingDisplayOptionsView
@@ -57,6 +56,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
+import ss.foundation.coroutines.debounceUntilLast
 import ss.misc.DateHelper
 import ss.misc.SSConstants
 import ss.misc.SSEvent

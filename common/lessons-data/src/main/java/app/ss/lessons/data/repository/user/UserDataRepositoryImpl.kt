@@ -34,7 +34,6 @@ import app.ss.storage.db.entity.PdfAnnotationsEntity
 import app.ss.storage.db.entity.ReadCommentsEntity
 import app.ss.storage.db.entity.ReadHighlightsEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -44,6 +43,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.Instant
+import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.SSLessonsApi
 import ss.lessons.model.request.UploadPdfAnnotationsRequest
 import ss.misc.DeviceHelper

@@ -27,12 +27,12 @@ import app.ss.pdf.PdfReader
 import app.ss.pdf.PdfReaderImpl
 import app.ss.pdf.PdfReaderPrefs
 import app.ss.pdf.PdfReaderPrefsImpl
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ss.foundation.coroutines.DispatcherProvider
 import javax.inject.Singleton
 
 @Module

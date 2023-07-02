@@ -28,8 +28,8 @@ import app.ss.lessons.data.repository.LocalDataSource
 import app.ss.models.media.SSAudio
 import app.ss.storage.db.dao.AudioDao
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
+import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.SSMediaApi
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -25,13 +25,12 @@ package app.ss.pdf.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.LessonPdf
 import app.ss.models.PdfAnnotations
-import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.media.MediaAvailability
 import app.ss.pdf.LocalFile
 import app.ss.pdf.PdfReader
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import com.cryart.sabbathschool.core.response.Resource
 import com.pspdfkit.annotations.Annotation
@@ -41,6 +40,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import ss.foundation.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel

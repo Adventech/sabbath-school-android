@@ -25,7 +25,6 @@ package ss.settings.repository
 import app.ss.auth.AuthRepository
 import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.config.AppConfig
-import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -35,6 +34,7 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
+import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.prefs.api.SSPrefs
 import ss.prefs.model.ReminderTime
 import ss.settings.DailyReminder

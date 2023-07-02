@@ -25,7 +25,6 @@ package app.ss.lessons.data.repository
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -34,6 +33,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ss.foundation.coroutines.DispatcherProvider
 import timber.log.Timber
 
 internal abstract class DataSourceMediator<T, R>(

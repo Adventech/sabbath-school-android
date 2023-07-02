@@ -1,4 +1,4 @@
-package com.cryart.sabbathschool.core.extensions.coroutines
+package ss.foundation.coroutines
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

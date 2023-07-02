@@ -45,13 +45,13 @@ import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.media.playback.players.AudioPlayer
 import app.ss.media.playback.players.QUEUE_LIST_KEY
 import app.ss.models.media.AudioFile
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.flowInterval
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import ss.foundation.coroutines.flow.flowInterval
 
 const val PLAYBACK_PROGRESS_INTERVAL = 1000L
 

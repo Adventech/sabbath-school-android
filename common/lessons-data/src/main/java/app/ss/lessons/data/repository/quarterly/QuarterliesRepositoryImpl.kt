@@ -28,7 +28,6 @@ import app.ss.models.PublishingInfo
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
@@ -36,6 +35,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import org.joda.time.Interval
+import ss.foundation.coroutines.DispatcherProvider
 import ss.misc.DateHelper
 import ss.misc.DeviceHelper
 import ss.prefs.api.SSPrefs

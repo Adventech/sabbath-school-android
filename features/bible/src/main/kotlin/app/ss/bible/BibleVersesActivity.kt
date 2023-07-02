@@ -28,10 +28,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import app.ss.bible.databinding.SsBibleVersesActivityBinding
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.map
+import ss.foundation.coroutines.flow.collectIn
 import ss.misc.SSConstants
 import ss.misc.SSEvent.track
 import ss.prefs.model.SSReadingDisplayOptions

@@ -33,7 +33,6 @@ import com.cryart.sabbathschool.core.navigation.toUri
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
-import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import com.cryart.sabbathschool.ui.login.LoginActivity
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.coEvery
@@ -48,6 +47,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.android.controller.ActivityController
+import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 import ss.settings.SettingsActivity

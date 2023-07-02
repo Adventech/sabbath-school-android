@@ -69,6 +69,8 @@ include(
     ":features:settings",
     ":libraries:circuit-helpers:api",
     ":libraries:circuit-helpers:impl",
+    ":libraries:foundation:coroutines",
+    ":libraries:foundation:coroutines:test",
     ":libraries:lessons:api",
     ":libraries:lessons:model",
     ":libraries:lessons:test",

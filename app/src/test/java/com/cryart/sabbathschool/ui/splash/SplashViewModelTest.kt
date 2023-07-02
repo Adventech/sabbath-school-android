@@ -25,7 +25,6 @@ package com.cryart.sabbathschool.ui.splash
 import app.cash.turbine.test
 import app.ss.auth.AuthRepository
 import com.cryart.sabbathschool.reminder.DailyReminderManager
-import com.cryart.sabbathschool.test.coroutines.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -36,6 +35,7 @@ import org.junit.Before
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
+import ss.foundation.coroutines.test.MainDispatcherRule
 import ss.prefs.api.SSPrefs
 
 class SplashViewModelTest {

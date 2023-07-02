@@ -34,7 +34,6 @@ import app.ss.models.SSQuarterlyInfo
 import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.lessons.navigation.lessonIndexArg
-import com.cryart.sabbathschool.test.coroutines.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -48,6 +47,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import ss.foundation.coroutines.test.MainDispatcherRule
 import ss.prefs.api.SSPrefs
 
 private const val QUARTERLY_INDEX = "quarterly_index"
