@@ -47,9 +47,7 @@ dependencies {
     implementation(projects.common.designCompose)
     implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
-
-    implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.android)
+    implementation(projects.libraries.foundation.coroutines)
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.glance)

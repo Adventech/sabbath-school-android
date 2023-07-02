@@ -43,9 +43,8 @@ dependencies {
     implementation(projects.common.models)
     implementation(projects.common.network)
     implementation(projects.common.storage)
+    implementation(projects.libraries.foundation.coroutines)
 
-    implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.android)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
     implementation(libs.timber)
@@ -59,5 +58,6 @@ dependencies {
     implementation(libs.square.okhttp)
 
     testImplementation(libs.bundles.testing.common)
+    testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.testUtils)
 }

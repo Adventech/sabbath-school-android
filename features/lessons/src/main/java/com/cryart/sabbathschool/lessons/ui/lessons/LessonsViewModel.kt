@@ -33,7 +33,6 @@ import app.ss.models.LessonPdf
 import app.ss.models.PublishingInfo
 import app.ss.models.SSQuarterlyInfo
 import app.ss.widgets.AppWidgetHelper
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.stateIn
 import com.cryart.sabbathschool.core.response.Result
 import com.cryart.sabbathschool.core.response.asResult
 import com.cryart.sabbathschool.lessons.navigation.lessonIndexArg
@@ -48,6 +47,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import ss.foundation.coroutines.flow.stateIn
 import ss.prefs.api.SSPrefs
 import javax.inject.Inject
 import app.ss.translations.R as L10n

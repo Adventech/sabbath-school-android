@@ -29,8 +29,8 @@ import app.ss.models.SSRead
 import app.ss.storage.db.dao.ReadsDao
 import app.ss.storage.db.entity.ReadEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
+import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.SSLessonsApi
 import javax.inject.Inject
 import javax.inject.Singleton

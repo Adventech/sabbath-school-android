@@ -24,12 +24,12 @@ package app.ss.lessons.data.repository.quarterly
 
 import app.ss.storage.db.dao.LanguagesDao
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
-import com.cryart.sabbathschool.test.coroutines.TestDispatcherProvider
 import io.mockk.every
 import io.mockk.mockk
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
+import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.lessons.api.SSQuarterliesApi
 
 class LanguagesDataSourceTest {

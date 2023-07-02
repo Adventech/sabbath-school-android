@@ -26,7 +26,6 @@ import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.LessonIntroModel
-import com.cryart.sabbathschool.test.coroutines.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -35,6 +34,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import ss.foundation.coroutines.test.MainDispatcherRule
 import ss.misc.SSConstants
 
 private const val INDEX = "en-2022-03"

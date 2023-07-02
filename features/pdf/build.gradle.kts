@@ -22,7 +22,6 @@
 
 import java.io.FileInputStream
 import java.util.Properties
-import org.gradle.api.Project
 
 plugins {
     alias(libs.plugins.sgp.base)
@@ -57,6 +56,7 @@ dependencies {
     implementation(projects.common.lessonsData)
     implementation(projects.features.media)
     implementation(projects.common.translations)
+    implementation(projects.libraries.foundation.coroutines)
 
     implementation(libs.androidx.activity)
     implementation(libs.androidx.appcompat)
@@ -69,9 +69,6 @@ dependencies {
     kapt(libs.google.hilt.compiler)
 
     implementation(libs.timber)
-
-    implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.android)
 
     api(libs.pdfkit)
 

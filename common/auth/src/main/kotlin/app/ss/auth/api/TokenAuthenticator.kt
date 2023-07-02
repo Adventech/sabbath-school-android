@@ -26,13 +26,13 @@ import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import app.ss.storage.db.dao.UserDao
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
+import ss.foundation.coroutines.DispatcherProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 

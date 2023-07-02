@@ -22,7 +22,6 @@
 
 import java.io.FileInputStream
 import java.util.Properties
-import org.gradle.api.Project
 
 plugins {
     id("com.android.application")
@@ -154,10 +153,9 @@ dependencies {
     implementation(projects.features.pdf)
     implementation(projects.features.settings)
     implementation(projects.libraries.circuitHelpers.impl)
+    implementation(projects.libraries.foundation.coroutines)
     implementation(projects.services.lessons.impl)
 
-    implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.android)
     implementation(libs.kotlin.coroutines.playservices)
 
     implementation(libs.google.material)
@@ -187,6 +185,7 @@ dependencies {
     implementation(libs.joda.android)
 
     testImplementation(libs.bundles.testing.common)
+    testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.testUtils)
     kaptTest(libs.google.hilt.compiler)
     androidTestImplementation(libs.bundles.testing.android.common)

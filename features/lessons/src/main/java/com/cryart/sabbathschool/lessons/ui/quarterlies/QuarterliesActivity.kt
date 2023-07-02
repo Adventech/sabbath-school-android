@@ -36,7 +36,6 @@ import androidx.core.view.WindowCompat
 import app.ss.design.compose.theme.SsTheme
 import app.ss.languages.showLanguagesList
 import app.ss.models.QuarterlyGroup
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.ui.SSBaseActivity
@@ -47,6 +46,7 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.list.QuarterliesListActiv
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import ss.foundation.coroutines.flow.collectIn
 import javax.inject.Inject
 
 @AndroidEntryPoint

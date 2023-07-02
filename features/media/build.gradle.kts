@@ -50,9 +50,7 @@ dependencies {
     implementation(projects.common.lessonsData)
     implementation(projects.common.storage)
     implementation(projects.common.translations)
-
-    implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.android)
+    implementation(projects.libraries.foundation.coroutines)
 
     implementation(libs.google.material)
     implementation(libs.androidx.core)

@@ -36,7 +36,6 @@ import app.ss.media.playback.ui.video.showVideoList
 import app.ss.models.PdfAnnotations
 import app.ss.pdf.PdfReaderPrefs
 import app.ss.pdf.R
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.view.tint
 import com.pspdfkit.document.DocumentSource
 import com.pspdfkit.document.PdfDocument
@@ -44,6 +43,7 @@ import com.pspdfkit.ui.DocumentDescriptor
 import com.pspdfkit.ui.PdfActivity
 import com.pspdfkit.ui.tabs.PdfTabBarCloseMode
 import dagger.hilt.android.AndroidEntryPoint
+import ss.foundation.coroutines.flow.collectIn
 import javax.inject.Inject
 import app.ss.media.R as MediaR
 import app.ss.translations.R as L10n

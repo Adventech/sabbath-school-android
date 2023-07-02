@@ -24,8 +24,6 @@ package com.cryart.sabbathschool.core.di
 
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelperImpl
-import com.cryart.sabbathschool.core.extensions.coroutines.DefaultDispatcherProvider
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -34,9 +32,6 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class CoreModule {
-
-    @Binds
-    internal abstract fun bindSchedulerProvider(provider: DefaultDispatcherProvider): DispatcherProvider
 
     @Binds
     internal abstract fun bindConnectivityHelper(iml: ConnectivityHelperImpl): ConnectivityHelper

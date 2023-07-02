@@ -32,7 +32,6 @@ import app.ss.models.auth.SSUser
 import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.spec
-import com.cryart.sabbathschool.test.coroutines.MainDispatcherRule
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -47,6 +46,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import ss.foundation.coroutines.test.MainDispatcherRule
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 

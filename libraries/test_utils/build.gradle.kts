@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -31,10 +31,6 @@ plugins {
 
 android {
     namespace = "com.cryart.sabbathschool.test"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
 }
 
 dependencies {
@@ -42,9 +38,6 @@ dependencies {
     implementation(projects.common.core)
     implementation(projects.common.lessonsData)
     implementation(projects.libraries.lessons.model)
-
-    implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.coroutines.android)
 
     implementation(libs.google.hilt.android)
     implementation(libs.test.google.hilt)
@@ -56,5 +49,4 @@ dependencies {
     ksp(libs.square.moshi.codegen)
 
     implementation(libs.test.junit)
-    implementation(libs.test.coroutines)
 }

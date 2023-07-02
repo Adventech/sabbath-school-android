@@ -30,8 +30,8 @@ import app.ss.models.Language
 import app.ss.storage.db.dao.LanguagesDao
 import app.ss.storage.db.entity.LanguageEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
-import com.cryart.sabbathschool.core.extensions.coroutines.DispatcherProvider
 import com.cryart.sabbathschool.core.response.Resource
+import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.SSQuarterliesApi
 import java.util.Locale
 import javax.inject.Inject

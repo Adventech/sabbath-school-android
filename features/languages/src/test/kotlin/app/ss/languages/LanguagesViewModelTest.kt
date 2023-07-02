@@ -28,7 +28,6 @@ import app.ss.languages.state.LanguagesState
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.Language
 import com.cryart.sabbathschool.core.response.Resource
-import com.cryart.sabbathschool.test.coroutines.MainDispatcherRule
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -42,6 +41,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import ss.foundation.coroutines.test.MainDispatcherRule
 import ss.prefs.api.SSPrefs
 import ss.workers.api.WorkScheduler
 

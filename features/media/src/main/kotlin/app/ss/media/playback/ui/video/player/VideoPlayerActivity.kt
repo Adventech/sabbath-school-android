@@ -53,10 +53,10 @@ import app.ss.media.playback.players.SSVideoPlayer
 import app.ss.media.playback.players.SSVideoPlayerImpl
 import app.ss.media.playback.players.hasEnded
 import app.ss.models.media.SSVideo
-import com.cryart.sabbathschool.core.extensions.coroutines.flow.collectIn
 import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.google.android.exoplayer2.ui.StyledPlayerView
+import ss.foundation.coroutines.flow.collectIn
 
 class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
 
