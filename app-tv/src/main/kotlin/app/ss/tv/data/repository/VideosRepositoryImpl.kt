@@ -22,8 +22,8 @@
 
 package app.ss.tv.data.repository
 
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.SSMediaApi
 import ss.lessons.model.VideosInfoModel
 import timber.log.Timber
@@ -32,16 +32,26 @@ import javax.inject.Singleton
 
 @Singleton
 class VideosRepositoryImpl @Inject constructor(
-    private val mediaApi: SSMediaApi
+    private val mediaApi: SSMediaApi,
+    private val dispatcherProvider: DispatcherProvider
 ) : VideosRepository {
 
-    override suspend fun getVideos(language: String): Result<List<VideosInfoModel>> = withContext(Dispatchers.IO) {
-        return@withContext try {
-            val response = mediaApi.getLatestVideo(language)
-            Result.success(response.body() ?: emptyList())
-        } catch (throwable: Throwable) {
-            Timber.e(throwable)
-            Result.failure(throwable)
+    private var videoCache: MutableMap<String, List<VideosInfoModel>> = mutableMapOf()
+
+    override suspend fun getVideos(language: String): Result<List<VideosInfoModel>> = withContext(dispatcherProvider.io) {
+        return@withContext videoCache[language]?.let { Result.success(it) } ?: run {
+            try {
+                val response = mediaApi.getLatestVideo(language)
+                val videos = response.body() ?: emptyList()
+                if (videos.isNotEmpty()) {
+                    videoCache[language] = videos
+                }
+
+                Result.success(videos)
+            } catch (throwable: Throwable) {
+                Timber.e(throwable)
+                Result.failure(throwable)
+            }
         }
     }
 }

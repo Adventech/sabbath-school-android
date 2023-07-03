@@ -23,11 +23,13 @@
 package app.ss.tv.presentation.home
 
 import android.os.Parcelable
+import androidx.compose.runtime.Immutable
 import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.model.VideoSpec
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Screen
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -43,8 +45,9 @@ object HomeScreen : Screen, Parcelable {
 
         object Error : State
 
+        @Immutable
         data class Videos(
-            val categories: List<CategorySpec>,
+            val categories: ImmutableList<CategorySpec>,
             val eventSink: (Event) -> Unit
         ): State
     }

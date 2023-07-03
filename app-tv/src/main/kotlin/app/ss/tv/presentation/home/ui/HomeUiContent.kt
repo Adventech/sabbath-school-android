@@ -50,7 +50,6 @@ import androidx.tv.foundation.lazy.list.TvLazyColumn
 import androidx.tv.foundation.lazy.list.TvLazyListScope
 import androidx.tv.foundation.lazy.list.TvLazyRow
 import androidx.tv.foundation.lazy.list.items
-import androidx.tv.foundation.lazy.list.rememberTvLazyListState
 import androidx.tv.material3.Border
 import androidx.tv.material3.CardDefaults
 import androidx.tv.material3.CardLayoutDefaults
@@ -71,8 +70,6 @@ fun HomeUiContent(
     state: State,
     modifier: Modifier = Modifier
 ) {
-    val tvLazyListState = rememberTvLazyListState()
-
     val pivotOffset = remember { PivotOffsets() }
     val pivotOffsetForImmersiveList = remember { PivotOffsets(0f, 0f) }
     var immersiveListHasFocus by remember { mutableStateOf(false) }
@@ -80,7 +77,6 @@ fun HomeUiContent(
     TvLazyColumn(
         modifier = modifier.fillMaxSize(),
         pivotOffsets = if (immersiveListHasFocus) pivotOffsetForImmersiveList else pivotOffset,
-        state = tvLazyListState
     ) {
 
         when (state) {

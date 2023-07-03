@@ -22,8 +22,7 @@
 
 package app.ss.tv.presentation.home.ui
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -38,25 +37,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Border
 import androidx.tv.material3.CardDefaults
 import androidx.tv.material3.CardLayoutDefaults
+import androidx.tv.material3.Glow
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.StandardCardLayout
-import androidx.tv.material3.Text
 import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.presentation.theme.BorderWidth
+import app.ss.tv.presentation.theme.SSTvTheme
 import app.ss.tv.presentation.theme.SsCardShape
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -66,16 +63,17 @@ import coil.request.ImageRequest
 fun VideoRowItem(
     index: Int,
     video: VideoSpec,
-    showItemTitle: Boolean,
     focusedItemIndex: (Int) -> Unit,
     onVideoClick: (VideoSpec) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var isItemFocused by remember { mutableStateOf(false) }
+    val padding by animateDpAsState(if (isItemFocused) 0.dp else 8.dp)
 
     StandardCardLayout(
         modifier = Modifier
             .width(CARD_WIDTH.dp)
+            .padding(padding)
             .onFocusChanged {
                 isItemFocused = it.isFocused
                 if (isItemFocused) {
@@ -88,18 +86,13 @@ fun VideoRowItem(
                 }
             }
             .then(modifier),
-        title = {
-            AnimatedVisibility(visible = showItemTitle) {
-                VideoRowItemText(
-                    title = video.title,
-                    isItemFocused = isItemFocused
-                )
-            }
-        },
+        title = { /* Thumbnails have titles. */ },
         imageCard = {
             CardLayoutDefaults.ImageCard(
                 onClick = { onVideoClick(video) },
+                interactionSource = it,
                 shape = CardDefaults.shape(SsCardShape),
+                scale = CardDefaults.scale(focusedScale = 1f),
                 border = CardDefaults.border(
                     focusedBorder = Border(
                         border = BorderStroke(
@@ -109,8 +102,16 @@ fun VideoRowItem(
                         shape = SsCardShape
                     )
                 ),
-                scale = CardDefaults.scale(focusedScale = 1f),
-                interactionSource = it
+                glow = CardDefaults.glow(
+                    focusedGlow = Glow(
+                        elevationColor = MaterialTheme.colorScheme.onSurface,
+                        elevation = 20.dp
+                    ),
+                    pressedGlow = Glow(
+                        elevationColor = MaterialTheme.colorScheme.onSurface,
+                        elevation = 8.dp
+                    )
+                )
             ) {
                 VideoRowItemImage(
                     video = video,
@@ -146,25 +147,21 @@ private fun VideoRowItemImage(
 }
 
 @Composable
-private fun VideoRowItemText(
-    title: String,
-    isItemFocused: Boolean
-) {
-    val videoTitleAlpha by animateFloatAsState(
-        targetValue = if (isItemFocused) 1f else 0f,
-        label = "",
-    )
-    Text(
-        text = title,
-        style = MaterialTheme.typography.bodyMedium.copy(
-            fontWeight = FontWeight.SemiBold
-        ),
-        textAlign = TextAlign.Center,
-        modifier = Modifier
-            .alpha(videoTitleAlpha)
-            .fillMaxWidth()
-            .padding(top = 4.dp),
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis
-    )
+@Preview
+private fun Preview() {
+    SSTvTheme {
+        VideoRowItem(
+            index = 0,
+            video = VideoSpec(
+                id = "id",
+                title = "Paul and the Ephesians",
+                artist = "Hope Sabbath School",
+                src = "",
+                thumbnail = "image.png"
+            ),
+            focusedItemIndex = {},
+            onVideoClick = {},
+            modifier = Modifier.padding(20.dp)
+        )
+    }
 }
