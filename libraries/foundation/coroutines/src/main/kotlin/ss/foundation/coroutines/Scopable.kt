@@ -20,35 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.home
+package ss.foundation.coroutines
 
-import android.os.Parcelable
-import androidx.compose.runtime.Immutable
-import app.ss.tv.data.model.CategorySpec
-import app.ss.tv.data.model.VideoSpec
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.Screen
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.parcelize.Parcelize
+import kotlinx.coroutines.CoroutineScope
 
-@Parcelize
-object HomeScreen : Screen, Parcelable {
+interface Scopable {
+    val scope: CoroutineScope
+}
 
-    sealed interface Event : CircuitUiEvent {
-        data class OnVideoClick(val video: VideoSpec): Event
-    }
+fun ioScopable(dispatcherProvider: DispatcherProvider): Scopable = object : Scopable {
+    override val scope: CoroutineScope = CoroutineScope(dispatcherProvider.io)
+}
 
-    sealed interface State : CircuitUiState {
-
-        object Loading : State
-
-        object Error : State
-
-        @Immutable
-        data class Videos(
-            val categories: ImmutableList<CategorySpec>,
-            val eventSink: (Event) -> Unit
-        ): State
-    }
+fun mainScopable(dispatcherProvider: DispatcherProvider): Scopable = object : Scopable {
+    override val scope: CoroutineScope = CoroutineScope(dispatcherProvider.main)
 }

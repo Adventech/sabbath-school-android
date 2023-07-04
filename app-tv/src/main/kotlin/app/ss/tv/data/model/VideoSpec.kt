@@ -24,6 +24,7 @@ package app.ss.tv.data.model
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.parcelize.Parcelize
 
 @Immutable
@@ -40,5 +41,5 @@ data class VideoSpec(
 data class CategorySpec(
     val id: String,
     val title: String,
-    val videos: List<VideoSpec>,
+    val videos: ImmutableList<VideoSpec>,
 )

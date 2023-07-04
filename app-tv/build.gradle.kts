@@ -73,6 +73,7 @@ configurations.all {
 
 dependencies {
     implementation(projects.common.translations)
+    implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
     implementation(projects.services.lessons.impl)
 
@@ -91,11 +92,13 @@ dependencies {
     implementation(libs.google.accompanist.placeholder)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
+    implementation(libs.kotlinx.collectionsImmutable)
     implementation(libs.square.moshi.kotlin)
     ksp(libs.square.moshi.codegen)
     implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
+    testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.lessons.test)
     testImplementation(projects.libraries.testUtils)
 }

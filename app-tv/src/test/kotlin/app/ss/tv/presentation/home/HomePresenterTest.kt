@@ -29,6 +29,7 @@ import app.ss.tv.data.videoSpec
 import app.ss.tv.presentation.player.VideoPlayerScreen
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
@@ -56,11 +57,11 @@ class HomePresenterTest {
         underTest.test {
             awaitItem() shouldBeEqualTo HomeScreen.State.Loading
 
-            (awaitItem() as HomeScreen.State.Videos).categories shouldBeEqualTo listOf(
+            (awaitItem() as HomeScreen.State.Videos).categories shouldBeEqualTo persistentListOf(
                 CategorySpec(
                     id = "0",
                     title = infoModel.artist,
-                    videos = listOf(videoSpec)
+                    videos = persistentListOf(videoSpec)
                 )
             )
         }

@@ -28,6 +28,7 @@ import okhttp3.ResponseBody.Companion.toResponseBody
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 import retrofit2.Response
+import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.lessons.test.FakeMediaApi
 
 /** Tests for [VideosRepositoryImpl]. */
@@ -35,7 +36,10 @@ class VideosRepositoryTest {
 
     private val mediaApi = FakeMediaApi()
 
-    private val underTest: VideosRepository = VideosRepositoryImpl(mediaApi)
+    private val underTest: VideosRepository = VideosRepositoryImpl(
+        mediaApi,
+        TestDispatcherProvider()
+    )
 
     @Test
     fun `getVideos - default error`() = runTest {

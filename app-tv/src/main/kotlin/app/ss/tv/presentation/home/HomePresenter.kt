@@ -35,6 +35,7 @@ import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.collections.immutable.toImmutableList
 import ss.lessons.model.VideosInfoModel
 
 class HomePresenter @AssistedInject constructor(
@@ -70,15 +71,15 @@ class HomePresenter @AssistedInject constructor(
         CategorySpec(
             id = "$index",
             title = model.artist,
-            videos = model.clips.map {
+            videos = model.clips.map { video ->
                 VideoSpec(
-                    id = it.id,
-                    title = it.title,
-                    artist = it.artist,
-                    src = it.src,
-                    thumbnail = it.thumbnail
+                    id = video.id,
+                    title = video.title,
+                    artist = video.artist,
+                    src = video.src,
+                    thumbnail = video.thumbnail
                 )
-            }
+            }.toImmutableList()
         )
-    }
+    }.toImmutableList()
 }

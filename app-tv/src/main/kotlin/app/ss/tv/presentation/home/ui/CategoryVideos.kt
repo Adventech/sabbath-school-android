@@ -42,6 +42,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawWithCache
@@ -69,6 +70,7 @@ import app.ss.tv.presentation.theme.rememberChildPadding
 import app.ss.tv.presentation.utils.FocusGroup
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun CategoryVideos(
@@ -84,9 +86,6 @@ fun CategoryVideos(
     )
 
     ImmersiveList(
-        modifier = modifier
-            .height(listHeight)
-            .fillMaxWidth(),
         background = { _, listHasFocus ->
             isListFocused = listHasFocus
             val gradientColor = MaterialTheme.colorScheme.surface
@@ -155,6 +154,10 @@ fun CategoryVideos(
                 )
             }
         },
+        modifier = modifier
+            .height(listHeight)
+            .fillMaxWidth(),
+        listAlignment = Alignment.BottomStart,
         list = {
             Column {
                 AnimatedVisibility(visible = isListFocused) {
@@ -166,7 +169,7 @@ fun CategoryVideos(
                             start = rememberChildPadding().start,
                             bottom = 32.dp
                         ),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Text(
                             text = video.title,
@@ -185,7 +188,6 @@ fun CategoryVideos(
                 ImmersiveListVideosRow(
                     videos = category.videos,
                     title = if (isListFocused) null else category.title,
-                    showItemTitle = !isListFocused,
                     onVideoClick = onVideoClick,
                     focusedItemIndex = { focusedIndex ->
                         currentItemIndex = focusedIndex
@@ -199,7 +201,7 @@ fun CategoryVideos(
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun ImmersiveListScope.ImmersiveListVideosRow(
-    videos: List<VideoSpec>,
+    videos: ImmutableList<VideoSpec>,
     modifier: Modifier = Modifier,
     childPadding: Padding = rememberChildPadding(),
     title: String? = null,
@@ -207,7 +209,6 @@ fun ImmersiveListScope.ImmersiveListVideosRow(
         fontWeight = FontWeight.Medium,
         fontSize = 30.sp
     ),
-    showItemTitle: Boolean = true,
     focusedItemIndex: (Int) -> Unit = {},
     onVideoClick: (VideoSpec) -> Unit = {}
 ) {
@@ -232,13 +233,13 @@ fun ImmersiveListScope.ImmersiveListVideosRow(
             FocusGroup {
                 TvLazyRow(
                     pivotOffsets = PivotOffsets(parentFraction = 0.07f),
-                    contentPadding = PaddingValues(start = childPadding.start, end = childPadding.end)
+                    contentPadding = PaddingValues(start = childPadding.start, end = childPadding.end),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     itemsIndexed(videosState, key = { _, model -> model.id }) {index, video ->
                         VideoRowItem(
                             index = index,
                             video = video,
-                            showItemTitle = showItemTitle,
                             focusedItemIndex = focusedItemIndex,
                             onVideoClick = onVideoClick,
                             modifier = Modifier
