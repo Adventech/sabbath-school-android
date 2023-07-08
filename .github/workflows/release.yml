@@ -3,7 +3,7 @@ name: Release Management
 on:
   push:
     branches:
-      - temp-release
+      - main
 
 jobs:
   update_draft_release:
