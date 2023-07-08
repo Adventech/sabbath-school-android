@@ -25,6 +25,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     alias(libs.plugins.sgp.root)
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.sgp.apkVersioning) apply false
     alias(libs.plugins.spotless) apply false
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.jvm) apply false

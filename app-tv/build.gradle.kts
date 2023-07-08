@@ -20,9 +20,13 @@
  * THE SOFTWARE.
  */
 
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.sgp.apkVersioning)
     id("com.android.application")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
@@ -30,23 +34,41 @@ plugins {
     kotlin("kapt")
 }
 
+val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
+
 android {
     namespace = "app.ss.tv"
 
     defaultConfig {
-        applicationId = "app.ss.tv"
+        applicationId = BuildAndroidConfig.APP_ID
         versionCode = 1
         versionName = "1.0"
         minSdk = 25
     }
 
+    signingConfigs {
+        if (useReleaseKeystore) {
+            val keyProps = Properties().apply {
+                load(FileInputStream(file(BuildAndroidConfig.KEYSTORE_PROPS_FILE)))
+            }
+
+            create("release") {
+                storeFile = file(keyProps.getProperty("release.keystore"))
+                storePassword = keyProps.getProperty("release.keystore.password")
+                keyAlias = keyProps.getProperty("key.alias")
+                keyPassword = keyProps.getProperty("key.password")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isShrinkResources = true
+            isMinifyEnabled = true
+            proguardFiles("proguard-rules.pro")
+            if (useReleaseKeystore) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 
@@ -101,4 +123,9 @@ dependencies {
     testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.lessons.test)
     testImplementation(projects.libraries.testUtils)
+}
+
+object BuildAndroidConfig {
+    const val APP_ID = "com.cryart.sabbathschool"
+    const val KEYSTORE_PROPS_FILE = "../release/keystore.properties"
 }
