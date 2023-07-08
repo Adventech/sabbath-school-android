@@ -3,7 +3,7 @@ name: Release Management
 on:
   push:
     branches:
-      - main
+      - temp-release
 
 jobs:
   update_draft_release:
@@ -34,7 +34,7 @@ jobs:
         run: echo "BUILD_NUMBER=${{github.run_number}}" > app/build_number.properties
 
       - name: Build Release
-        run: ./gradlew app:bundleRelease --stacktrace
+        run: ./gradlew app:bundleRelease app-tv:bundleRelease --stacktrace
 
       - name: Publish to Internal track
         uses: r0adkll/upload-google-play@v1.1.1
@@ -44,5 +44,5 @@ jobs:
           track: internal
           status: completed
           whatsNewDirectory: distribution/whatsnew
-          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab, app-tv/build/outputs/bundle/release/app-tv-release.aab
           mappingFile: app/build/outputs/mapping/release/mapping.txt
