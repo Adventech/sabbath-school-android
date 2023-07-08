@@ -35,14 +35,19 @@ plugins {
 }
 
 val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
+val appVersionCode = readPropertyValue(
+    filePath = "build_number.properties",
+    key = "BUILD_NUMBER",
+    defaultValue = "1"
+).toInt() + 9990
 
 android {
     namespace = "app.ss.tv"
 
     defaultConfig {
         applicationId = BuildAndroidConfig.APP_ID
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = appVersionCode
+        versionName = "0.1.0"
         minSdk = 25
     }
 
@@ -128,4 +133,23 @@ dependencies {
 object BuildAndroidConfig {
     const val APP_ID = "com.cryart.sabbathschool"
     const val KEYSTORE_PROPS_FILE = "../release/keystore.properties"
+}
+
+/**
+ * Reads a value saved in a [Properties] file
+ */
+fun Project.readPropertyValue(
+    filePath: String,
+    key: String,
+    defaultValue: String
+): String {
+    val file = file(filePath)
+    return if (file.exists()) {
+        val keyProps = Properties().apply {
+            load(FileInputStream(file))
+        }
+        return keyProps.getProperty(key, defaultValue)
+    } else {
+        defaultValue
+    }
 }
