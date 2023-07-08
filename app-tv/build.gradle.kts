@@ -26,7 +26,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.sgp.base)
-    alias(libs.plugins.sgp.apkVersioning)
+   // alias(libs.plugins.sgp.apkVersioning)
     id("com.android.application")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
