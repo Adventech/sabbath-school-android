@@ -44,5 +44,5 @@ jobs:
           track: internal
           status: completed
           whatsNewDirectory: distribution/whatsnew
-          releaseFiles: app/build/outputs/bundle/release/app-release.aab, app-tv/build/outputs/bundle/release/app-tv-release.aab
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab,app-tv/build/outputs/bundle/release/app-tv-release.aab
           mappingFile: app/build/outputs/mapping/release/mapping.txt
