@@ -36,7 +36,7 @@ val appVersionCode = readPropertyValue(
     filePath = "build_number.properties",
     key = "BUILD_NUMBER",
     defaultValue = "1"
-).toInt() + 3052
+).toInt() + 9910
 
 val webClientId = readPropertyValue(
     filePath = "$rootDir/${BuildAndroidConfig.API_KEYS_PROPS_FILE}",
