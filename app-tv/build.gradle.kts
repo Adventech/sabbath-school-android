@@ -39,7 +39,7 @@ val appVersionCode = readPropertyValue(
     filePath = "build_number.properties",
     key = "BUILD_NUMBER",
     defaultValue = "1"
-).toInt() + 9990
+).toInt() + 10000
 
 android {
     namespace = "app.ss.tv"
