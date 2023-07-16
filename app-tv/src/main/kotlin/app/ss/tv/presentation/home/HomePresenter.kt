@@ -25,6 +25,7 @@ package app.ss.tv.presentation.home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.data.repository.VideosRepository
@@ -42,7 +43,7 @@ import ss.lessons.model.VideosInfoModel
 class HomePresenter @AssistedInject constructor(
     private val repository: VideosRepository,
     @Assisted private val navigator: Navigator,
-) : Presenter<State>  {
+) : Presenter<State> {
 
     @AssistedFactory
     interface Factory {
@@ -55,14 +56,19 @@ class HomePresenter @AssistedInject constructor(
             value = repository.getVideos().getOrNull()
         }
 
-        return when {
-            videosInfo == null -> State.Error
-            videosInfo?.isEmpty() == true -> State.Loading
-            else -> State.Videos(mapVideos(videosInfo!!)) { event ->
+        val eventSink: (Event) -> Unit = remember {
+            { event ->
                 when (event) {
                     is Event.OnVideoClick -> navigator.goTo(VideoPlayerScreen(event.video))
+                    Event.OnBack -> navigator.pop()
                 }
             }
+        }
+
+        return when {
+            videosInfo == null -> State.Error(eventSink)
+            videosInfo?.isEmpty() == true -> State.Loading(eventSink)
+            else -> State.Videos(mapVideos(videosInfo!!), eventSink)
         }
     }
 

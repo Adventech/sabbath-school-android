@@ -72,7 +72,8 @@ import app.ss.tv.presentation.utils.FocusGroup
 @Composable
 fun HomeUiContent(
     state: State,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    focusItemEvent: (Int) -> Unit = {}
 ) {
     var immersiveListHasFocus by remember { mutableStateOf(false) }
     var currentItemIndex by remember { mutableIntStateOf(0) }
@@ -85,16 +86,17 @@ fun HomeUiContent(
     ) {
 
         when (state) {
-            State.Error -> errorItem()
-            State.Loading -> loadingItem()
+            is State.Error -> errorItem()
+            is State.Loading -> loadingItem()
             is State.Videos -> {
-                itemsIndexed(state.categories, key = {_, spec -> spec.id }) { index, spec ->
+                itemsIndexed(state.categories, key = { _, spec -> spec.id }) { index, spec ->
                     CategoryVideos(
                         category = spec,
                         modifier = Modifier.onFocusChanged {
                             immersiveListHasFocus = it.hasFocus
                             if (immersiveListHasFocus) {
                                 currentItemIndex = index
+                                focusItemEvent(currentItemIndex)
                             }
                         },
                         onVideoClick = {
@@ -107,7 +109,8 @@ fun HomeUiContent(
 
         item {
             Spacer(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .height(LocalConfiguration.current.screenHeightDp.times(0.2f).dp)
             )
         }
@@ -155,7 +158,7 @@ private fun LoadingRow(
             .padding(top = 48.dp)
             .focusGroup(),
         label = "",
-    ) {targetCount ->
+    ) { targetCount ->
         FocusGroup {
             TvLazyRow(
                 pivotOffsets = PivotOffsets(parentFraction = 0.07f),
