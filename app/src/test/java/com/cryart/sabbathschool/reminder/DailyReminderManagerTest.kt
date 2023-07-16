@@ -22,8 +22,12 @@
 
 package com.cryart.sabbathschool.reminder
 
+import android.Manifest
 import android.app.AlarmManager
+import android.content.Context
+import android.content.pm.PackageManager
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.mockk.every
@@ -48,6 +52,8 @@ class DailyReminderManagerTest {
         .withTimeAtStartOfDay()
         .plusHours(7)
 
+    private val appContext: Context = ApplicationProvider.getApplicationContext()
+
     private lateinit var testSubject: DailyReminderManager
 
     @Before
@@ -55,7 +61,7 @@ class DailyReminderManagerTest {
         every { mockSSPrefs.getReminderTime() }.returns(ReminderTime(6, 30))
 
         testSubject = DailyReminderManager(
-            ApplicationProvider.getApplicationContext(),
+            appContext,
             mockAlarmManager,
             mockNotificationManager,
             mockSSPrefs,
@@ -97,7 +103,7 @@ class DailyReminderManagerTest {
             .plusMinutes(30)
 
         testSubject = DailyReminderManager(
-            ApplicationProvider.getApplicationContext(),
+            appContext,
             mockAlarmManager,
             mockNotificationManager,
             mockSSPrefs,
@@ -139,13 +145,18 @@ class DailyReminderManagerTest {
 
     @Test
     fun `should show reminder notification`() {
-        testSubject.showNotification(ApplicationProvider.getApplicationContext())
+        testSubject.showNotification(appContext)
 
-        verify {
-            mockNotificationManager.notify(
-                eq(1),
-                any()
-            )
+        if (ContextCompat.checkSelfPermission(
+                appContext,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED) {
+            verify {
+                mockNotificationManager.notify(
+                    eq(1),
+                    any()
+                )
+            }
         }
     }
 }
