@@ -189,6 +189,7 @@ test-androidx-ext = { module = "androidx.test.ext:junit", version.ref = "test-an
 test-androidx-rules = { module = "androidx.test:rules", version.ref = "test-androidx" }
 test-androidx-runner = { module = "androidx.test:runner", version.ref = "test-androidx-runner" }
 test-androidx-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "test-androidx-uiautomator" }
+test-androidx-work = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
 test-circuit = { module = "com.slack.circuit:circuit-test", version.ref = "circuit" }
 test-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 test-google-hilt = { module = "com.google.dagger:hilt-android-testing", version.ref = "google-hilt" }
