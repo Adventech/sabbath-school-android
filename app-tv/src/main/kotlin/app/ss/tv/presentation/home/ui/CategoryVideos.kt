@@ -23,16 +23,23 @@
 package app.ss.tv.presentation.home.ui
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
+import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -40,11 +47,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.CacheDrawScope
 import androidx.compose.ui.draw.DrawResult
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -68,6 +80,7 @@ import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.presentation.theme.Padding
 import app.ss.tv.presentation.theme.SSTvTheme
 import app.ss.tv.presentation.theme.rememberChildPadding
+import app.ss.tv.presentation.utils.FocusGroup
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import kotlinx.collections.immutable.ImmutableList
@@ -80,8 +93,7 @@ fun CategoryVideos(
 ) {
     var currentItemIndex by remember { mutableIntStateOf(0) }
     var isListFocused by remember { mutableStateOf(false) }
-    val backgroundHeight = LocalConfiguration.current.screenHeightDp.times(0.8f).dp
-    val listHeight by animateDpAsState(if (isListFocused) backgroundHeight else 280.dp)
+    val listHeight by animateDpAsState(if (isListFocused) ImmersiveBgHeight else 280.dp)
 
     ImmersiveList(
         background = { index, listHasFocus ->
@@ -90,7 +102,7 @@ fun CategoryVideos(
 
             AnimatedVisibility(
                 visible = isListFocused,
-                modifier = Modifier.height(backgroundHeight),
+                modifier = Modifier.height(ImmersiveBgHeight),
             ) {
                 ImmersiveListBackground(video = category.videos[index])
             }
@@ -108,6 +120,7 @@ fun CategoryVideos(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun ImmersiveListScope.ImmersiveListVideosRow(
     videos: ImmutableList<VideoSpec>,
@@ -122,14 +135,13 @@ private fun ImmersiveListScope.ImmersiveListVideosRow(
         title?.let {
             Text(
                 text = it,
-                style = MaterialTheme.typography.headlineLarge.copy(
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 30.sp
-                ),
                 modifier = Modifier
-                    .alpha(1f)
                     .padding(start = childPadding.start)
-                    .padding(vertical = 16.dp)
+                    .padding(vertical = childPadding.top),
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.Medium,
+                ),
             )
         }
 
@@ -140,15 +152,25 @@ private fun ImmersiveListScope.ImmersiveListVideosRow(
             verticalAlignment = Alignment.CenterVertically
         ) {
             itemsIndexed(videos, key = { _, model -> model.id }) { index, video ->
+                var isItemFocused by remember { mutableStateOf(false) }
+                val scale by animateFloatAsState(if (isItemFocused) 1.0f else 0.9f)
+
                 VideoRowItem(
-                    index = index,
                     video = video,
                     onVideoClick = onVideoClick,
                     modifier = Modifier
                         .immersiveListItem(index)
                         .focusable()
-                        .padding(end = 20.dp),
+                        .scale(scale)
+                        .onFocusChanged { isItemFocused = it.isFocused }
+                        .focusProperties {
+                            if (index == 0) {
+                                left = FocusRequester.Cancel
+                            }
+                        },
                 )
+
+                Spacer(modifier = Modifier.width(16.dp))
             }
         }
     }
@@ -163,13 +185,13 @@ private fun ImmersiveListBackground(
     Box(modifier = modifier.fillMaxSize()) {
         AsyncImage(
             modifier = Modifier
-                .fillMaxSize()
-                .drawWithCache { drawImmersiveListBackground(gradientColor) },
+                .aspectRatio(ASPECT_RATIO)
+                .drawWithCache { drawImmersiveListBackground(gradientColor) }
+                .align(Alignment.TopEnd),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(video.thumbnail)
                 .build(),
             contentDescription = video.title,
-            contentScale = ContentScale.Crop
         )
 
         Column(
@@ -183,21 +205,24 @@ private fun ImmersiveListBackground(
                 style = MaterialTheme.typography.displaySmall
             )
 
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(4.dp))
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(4.dp)
+            )
 
             Text(
-                modifier = Modifier.fillMaxWidth(0.5f),
                 text = video.artist,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
                 fontWeight = FontWeight.Light
             )
 
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(LocalConfiguration.current.screenHeightDp.times(0.3f).dp))
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(LocalConfiguration.current.screenHeightDp.times(0.3f).dp)
+            )
         }
     }
 }
@@ -222,7 +247,7 @@ private fun CacheDrawScope.drawImmersiveListBackground(
                 Color.Transparent,
                 gradientColor
             ),
-            endY = size.width.times(0.3f)
+            endY = size.width.times(0.5f)
         )
     )
     drawRect(
@@ -242,6 +267,8 @@ private fun CacheDrawScope.drawImmersiveListBackground(
         )
     )
 }
+
+private val ImmersiveBgHeight = 426.dp
 
 @Preview(
     name = "Immersive List Bg",

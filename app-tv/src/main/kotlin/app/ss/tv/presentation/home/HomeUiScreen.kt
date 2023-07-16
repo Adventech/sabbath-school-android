@@ -60,11 +60,11 @@ fun HomeUiScreen(state: State, modifier: Modifier = Modifier) {
 
         TopAppBar(
             modifier = Modifier
-                .align(Alignment.TopEnd)
+                .align(Alignment.TopStart)
                 .padding(
                     horizontal = ParentPadding.calculateStartPadding(
                         LocalLayoutDirection.current
-                    ) + 8.dp
+                    ) - 8.dp
                 )
                 .padding(
                     top = ParentPadding.calculateTopPadding(),

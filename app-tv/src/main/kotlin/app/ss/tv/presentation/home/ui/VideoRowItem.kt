@@ -22,7 +22,6 @@
 
 package app.ss.tv.presentation.home.ui
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -30,17 +29,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusProperties
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,29 +49,15 @@ import app.ss.tv.presentation.theme.SsCardShape
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun VideoRowItem(
-    index: Int,
     video: VideoSpec,
     onVideoClick: (VideoSpec) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var isItemFocused by remember { mutableStateOf(false) }
-    val padding by animateDpAsState(if (isItemFocused) 0.dp else 8.dp)
-
     StandardCardLayout(
         modifier = Modifier
             .width(CARD_WIDTH.dp)
-            .padding(padding)
-            .onFocusChanged {
-                isItemFocused = it.isFocused
-            }
-            .focusProperties {
-                if (index == 0) {
-                    left = FocusRequester.Cancel
-                }
-            }
             .then(modifier),
         title = { /* Thumbnails have titles. */ },
         imageCard = {
@@ -147,7 +124,6 @@ private fun VideoRowItemImage(
 private fun Preview() {
     SSTvTheme {
         VideoRowItem(
-            index = 0,
             video = VideoSpec(
                 id = "id",
                 title = "Paul and the Ephesians",

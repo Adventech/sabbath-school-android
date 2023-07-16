@@ -50,9 +50,9 @@ fun rememberChildPadding(
 ): Padding {
     return remember {
         Padding(
-            start = ParentPadding.calculateStartPadding(direction) + 8.dp,
+            start = ParentPadding.calculateStartPadding(direction),
             top = ParentPadding.calculateTopPadding(),
-            end = ParentPadding.calculateEndPadding(direction) + 8.dp,
+            end = ParentPadding.calculateEndPadding(direction),
             bottom = ParentPadding.calculateBottomPadding()
         )
     }
