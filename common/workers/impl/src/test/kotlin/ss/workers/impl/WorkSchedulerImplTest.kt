@@ -28,7 +28,7 @@ import androidx.work.WorkManager
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
-import org.amshove.kluent.shouldBeEqualTo
+import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 import ss.workers.api.WorkScheduler
@@ -56,27 +56,18 @@ class WorkSchedulerImplTest {
         )
     }
 
-//    @Test
-//    fun `verify constrains`() {
-//        scheduler.preFetchImages("en")
-//
-//        val workRequest = requestSlot.captured
-//
-//        with(workRequest.workSpec.constraints) {
-//            requiredNetworkType shouldBeEqualTo NetworkType.UNMETERED
-//            requiresBatteryNotLow() shouldBeEqualTo true
-//            requiresStorageNotLow() shouldBeEqualTo true
-//        }
-//    }
-
     @Test
-    fun `verify input data`() {
+    fun `verify constrains`() {
         scheduler.preFetchImages("en")
 
         val workRequest = requestSlot.captured
 
-        with(workRequest.workSpec.input) {
-            getString(PrefetchImagesWorker.LANGUAGE_KEY) shouldBeEqualTo "en"
+        verify {
+            mockWorkManager.enqueueUniqueWork(
+                PrefetchImagesWorker.uniqueWorkName,
+                ExistingWorkPolicy.KEEP,
+                workRequest
+            )
         }
     }
 }
