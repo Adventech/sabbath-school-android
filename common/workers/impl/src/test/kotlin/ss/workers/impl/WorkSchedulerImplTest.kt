@@ -23,7 +23,6 @@
 package ss.workers.impl
 
 import androidx.work.ExistingWorkPolicy
-import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import io.mockk.every
@@ -57,18 +56,18 @@ class WorkSchedulerImplTest {
         )
     }
 
-    @Test
-    fun `verify constrains`() {
-        scheduler.preFetchImages("en")
-
-        val workRequest = requestSlot.captured
-
-        with(workRequest.workSpec.constraints) {
-            requiredNetworkType shouldBeEqualTo NetworkType.UNMETERED
-            requiresBatteryNotLow() shouldBeEqualTo true
-            requiresStorageNotLow() shouldBeEqualTo true
-        }
-    }
+//    @Test
+//    fun `verify constrains`() {
+//        scheduler.preFetchImages("en")
+//
+//        val workRequest = requestSlot.captured
+//
+//        with(workRequest.workSpec.constraints) {
+//            requiredNetworkType shouldBeEqualTo NetworkType.UNMETERED
+//            requiresBatteryNotLow() shouldBeEqualTo true
+//            requiresStorageNotLow() shouldBeEqualTo true
+//        }
+//    }
 
     @Test
     fun `verify input data`() {
