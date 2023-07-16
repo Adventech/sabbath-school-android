@@ -23,10 +23,6 @@
 package app.ss.tv.presentation.home.ui
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.border
-import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,7 +34,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,23 +46,19 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.CacheDrawScope
 import androidx.compose.ui.draw.DrawResult
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.tv.foundation.PivotOffsets
 import androidx.tv.foundation.lazy.list.TvLazyRow
 import androidx.tv.foundation.lazy.list.itemsIndexed
@@ -80,7 +71,6 @@ import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.presentation.theme.Padding
 import app.ss.tv.presentation.theme.SSTvTheme
 import app.ss.tv.presentation.theme.rememberChildPadding
-import app.ss.tv.presentation.utils.FocusGroup
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import kotlinx.collections.immutable.ImmutableList
@@ -137,7 +127,7 @@ private fun ImmersiveListScope.ImmersiveListVideosRow(
                 text = it,
                 modifier = Modifier
                     .padding(start = childPadding.start)
-                    .padding(vertical = childPadding.top),
+                    .padding(top = childPadding.top),
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.Medium,
@@ -148,12 +138,17 @@ private fun ImmersiveListScope.ImmersiveListVideosRow(
         TvLazyRow(
             modifier = modifier,
             pivotOffsets = PivotOffsets(parentFraction = 0.07f),
-            contentPadding = PaddingValues(start = childPadding.start, end = childPadding.end),
+            contentPadding = PaddingValues(
+                start = childPadding.start,
+                top = childPadding.top,
+                end = childPadding.end,
+                bottom = childPadding.bottom
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             itemsIndexed(videos, key = { _, model -> model.id }) { index, video ->
                 var isItemFocused by remember { mutableStateOf(false) }
-                val scale by animateFloatAsState(if (isItemFocused) 1.0f else 0.9f)
+                val endPadding by animateDpAsState(if (isItemFocused) 32.dp else 24.dp)
 
                 VideoRowItem(
                     video = video,
@@ -161,7 +156,6 @@ private fun ImmersiveListScope.ImmersiveListVideosRow(
                     modifier = Modifier
                         .immersiveListItem(index)
                         .focusable()
-                        .scale(scale)
                         .onFocusChanged { isItemFocused = it.isFocused }
                         .focusProperties {
                             if (index == 0) {
@@ -170,7 +164,7 @@ private fun ImmersiveListScope.ImmersiveListVideosRow(
                         },
                 )
 
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.width(endPadding))
             }
         }
     }
@@ -221,7 +215,7 @@ private fun ImmersiveListBackground(
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(LocalConfiguration.current.screenHeightDp.times(0.3f).dp)
+                    .height(LocalConfiguration.current.screenHeightDp.times(0.35f).dp)
             )
         }
     }

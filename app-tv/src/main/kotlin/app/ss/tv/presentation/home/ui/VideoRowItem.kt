@@ -44,6 +44,8 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.StandardCardLayout
 import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.presentation.theme.BorderWidth
+import app.ss.tv.presentation.theme.FocusedGlowElevation
+import app.ss.tv.presentation.theme.PressedGlowElevation
 import app.ss.tv.presentation.theme.SSTvTheme
 import app.ss.tv.presentation.theme.SsCardShape
 import coil.compose.AsyncImage
@@ -65,7 +67,9 @@ fun VideoRowItem(
                 onClick = { onVideoClick(video) },
                 interactionSource = it,
                 shape = CardDefaults.shape(SsCardShape),
-                scale = CardDefaults.scale(focusedScale = 1f),
+                scale = CardDefaults.scale(
+                    focusedScale = 1.1f
+                ),
                 border = CardDefaults.border(
                     focusedBorder = Border(
                         border = BorderStroke(
@@ -78,11 +82,11 @@ fun VideoRowItem(
                 glow = CardDefaults.glow(
                     focusedGlow = Glow(
                         elevationColor = MaterialTheme.colorScheme.onSurface,
-                        elevation = 20.dp
+                        elevation = FocusedGlowElevation
                     ),
                     pressedGlow = Glow(
                         elevationColor = MaterialTheme.colorScheme.onSurface,
-                        elevation = 8.dp
+                        elevation = PressedGlowElevation
                     )
                 )
             ) {
