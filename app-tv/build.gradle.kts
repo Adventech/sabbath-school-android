@@ -38,7 +38,7 @@ val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
 val appVersionCode = readPropertyValue(
     filePath = "build_number.properties",
     key = "BUILD_NUMBER",
-    defaultValue = "1"
+    defaultValue = "7"
 ).toInt() + 10000
 
 android {

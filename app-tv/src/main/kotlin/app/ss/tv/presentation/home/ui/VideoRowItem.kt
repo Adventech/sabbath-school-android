@@ -63,7 +63,6 @@ import coil.request.ImageRequest
 fun VideoRowItem(
     index: Int,
     video: VideoSpec,
-    focusedItemIndex: (Int) -> Unit,
     onVideoClick: (VideoSpec) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -76,9 +75,6 @@ fun VideoRowItem(
             .padding(padding)
             .onFocusChanged {
                 isItemFocused = it.isFocused
-                if (isItemFocused) {
-                    focusedItemIndex(index)
-                }
             }
             .focusProperties {
                 if (index == 0) {
@@ -159,7 +155,6 @@ private fun Preview() {
                 src = "",
                 thumbnail = "image.png"
             ),
-            focusedItemIndex = {},
             onVideoClick = {},
             modifier = Modifier.padding(20.dp)
         )

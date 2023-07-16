@@ -33,10 +33,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -49,7 +52,8 @@ import androidx.tv.foundation.PivotOffsets
 import androidx.tv.foundation.lazy.list.TvLazyColumn
 import androidx.tv.foundation.lazy.list.TvLazyListScope
 import androidx.tv.foundation.lazy.list.TvLazyRow
-import androidx.tv.foundation.lazy.list.items
+import androidx.tv.foundation.lazy.list.itemsIndexed
+import androidx.tv.foundation.lazy.list.rememberTvLazyListState
 import androidx.tv.material3.Border
 import androidx.tv.material3.CardDefaults
 import androidx.tv.material3.CardLayoutDefaults
@@ -70,24 +74,28 @@ fun HomeUiContent(
     state: State,
     modifier: Modifier = Modifier
 ) {
-    val pivotOffset = remember { PivotOffsets() }
-    val pivotOffsetForImmersiveList = remember { PivotOffsets(0f, 0f) }
     var immersiveListHasFocus by remember { mutableStateOf(false) }
+    var currentItemIndex by remember { mutableIntStateOf(0) }
+    val listState = rememberTvLazyListState()
 
     TvLazyColumn(
         modifier = modifier.fillMaxSize(),
-        pivotOffsets = if (immersiveListHasFocus) pivotOffsetForImmersiveList else pivotOffset,
+        state = listState,
+        pivotOffsets = PivotOffsets(0f, 0f)
     ) {
 
         when (state) {
             State.Error -> errorItem()
             State.Loading -> loadingItem()
             is State.Videos -> {
-                items(state.categories, key = { it.id }) { spec ->
+                itemsIndexed(state.categories, key = {_, spec -> spec.id }) { index, spec ->
                     CategoryVideos(
                         category = spec,
                         modifier = Modifier.onFocusChanged {
                             immersiveListHasFocus = it.hasFocus
+                            if (immersiveListHasFocus) {
+                                currentItemIndex = index
+                            }
                         },
                         onVideoClick = {
                             state.eventSink(Event.OnVideoClick(it))
@@ -99,11 +107,14 @@ fun HomeUiContent(
 
         item {
             Spacer(
-                modifier = Modifier.padding(
-                    bottom = LocalConfiguration.current.screenHeightDp.dp.times(0.19f)
-                )
+                modifier = Modifier.fillMaxSize()
+                    .height(LocalConfiguration.current.screenHeightDp.times(0.2f).dp)
             )
         }
+    }
+
+    LaunchedEffect(currentItemIndex) {
+        listState.scrollToItem(currentItemIndex)
     }
 }
 
