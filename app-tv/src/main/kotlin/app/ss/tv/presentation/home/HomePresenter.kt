@@ -28,6 +28,7 @@ import androidx.compose.runtime.produceState
 import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.data.repository.VideosRepository
+import app.ss.tv.presentation.home.HomeScreen.Event
 import app.ss.tv.presentation.home.HomeScreen.State
 import app.ss.tv.presentation.player.VideoPlayerScreen
 import com.slack.circuit.runtime.Navigator
@@ -59,7 +60,7 @@ class HomePresenter @AssistedInject constructor(
             videosInfo?.isEmpty() == true -> State.Loading
             else -> State.Videos(mapVideos(videosInfo!!)) { event ->
                 when (event) {
-                    is HomeScreen.Event.OnVideoClick -> navigator.goTo(VideoPlayerScreen(event.video))
+                    is Event.OnVideoClick -> navigator.goTo(VideoPlayerScreen(event.video))
                 }
             }
         }

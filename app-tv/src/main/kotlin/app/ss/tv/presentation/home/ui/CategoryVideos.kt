@@ -22,17 +22,14 @@
 
 package app.ss.tv.presentation.home.ui
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.focusGroup
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -44,6 +41,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.CacheDrawScope
+import androidx.compose.ui.draw.DrawResult
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
@@ -52,8 +51,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.foundation.PivotOffsets
@@ -66,8 +66,8 @@ import androidx.tv.material3.Text
 import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.presentation.theme.Padding
+import app.ss.tv.presentation.theme.SSTvTheme
 import app.ss.tv.presentation.theme.rememberChildPadding
-import app.ss.tv.presentation.utils.FocusGroup
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import kotlinx.collections.immutable.ImmutableList
@@ -80,145 +80,52 @@ fun CategoryVideos(
 ) {
     var currentItemIndex by remember { mutableIntStateOf(0) }
     var isListFocused by remember { mutableStateOf(false) }
-    var listCenterOffset by remember { mutableStateOf(Offset.Zero) }
-    val listHeight by animateDpAsState(
-        if (isListFocused) LocalConfiguration.current.screenHeightDp.times(0.6f).dp else 260.dp
-    )
+    val backgroundHeight = LocalConfiguration.current.screenHeightDp.times(0.8f).dp
+    val listHeight by animateDpAsState(if (isListFocused) backgroundHeight else 280.dp)
 
     ImmersiveList(
-        background = { _, listHasFocus ->
+        background = { index, listHasFocus ->
+            currentItemIndex = index
             isListFocused = listHasFocus
-            val gradientColor = MaterialTheme.colorScheme.surface
 
             AnimatedVisibility(
                 visible = isListFocused,
-                exit = fadeOut() + shrinkVertically(),
-                modifier = Modifier
-                    .height(LocalConfiguration.current.screenHeightDp.times(0.8f).dp)
-                    .drawWithCache {
-                        onDrawWithContent {
-                            if (listCenterOffset == Offset.Zero) {
-                                listCenterOffset = center
-                            }
-                            drawContent()
-                            drawRect(
-                                brush = Brush.horizontalGradient(
-                                    colors = listOf(
-                                        gradientColor,
-                                        Color.Transparent
-                                    ),
-                                    startX = size.width.times(0.2f),
-                                    endX = size.width.times(0.7f)
-                                )
-                            )
-                            drawRect(
-                                brush = Brush.verticalGradient(
-                                    colors = listOf(
-                                        Color.Transparent,
-                                        gradientColor
-                                    ),
-                                    endY = size.width.times(0.3f)
-                                )
-                            )
-                            drawRect(
-                                brush = Brush.linearGradient(
-                                    colors = listOf(
-                                        gradientColor,
-                                        Color.Transparent
-                                    ),
-                                    start = Offset(
-                                        size.width.times(0.2f),
-                                        size.height.times(0.5f)
-                                    ),
-                                    end = Offset(
-                                        size.width.times(0.9f),
-                                        0f
-                                    )
-                                )
-                            )
-                        }
-                    }
+                modifier = Modifier.height(backgroundHeight),
             ) {
-                val video = remember(category.videos, currentItemIndex) {
-                    category.videos[currentItemIndex]
-                }
-                AsyncImage(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(LocalConfiguration.current.screenHeightDp.times(0.8f).dp),
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(video.thumbnail)
-                        .build(),
-                    contentDescription = video.title,
-                    contentScale = ContentScale.Crop
-                )
+                ImmersiveListBackground(video = category.videos[index])
             }
         },
         modifier = modifier
             .height(listHeight)
             .fillMaxWidth(),
         listAlignment = Alignment.BottomStart,
-        list = {
-            Column {
-                AnimatedVisibility(visible = isListFocused) {
-                    val video = remember(category.videos, currentItemIndex) {
-                        category.videos[currentItemIndex]
-                    }
-                    Column(
-                        modifier = Modifier.padding(
-                            start = rememberChildPadding().start,
-                            bottom = 32.dp
-                        ),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        Text(
-                            text = video.title,
-                            style = MaterialTheme.typography.displaySmall
-                        )
-
-                        Text(
-                            modifier = Modifier.fillMaxWidth(0.5f),
-                            text = video.artist,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
-                            fontWeight = FontWeight.Light
-                        )
-                    }
-                }
-                ImmersiveListVideosRow(
-                    videos = category.videos,
-                    title = if (isListFocused) null else category.title,
-                    onVideoClick = onVideoClick,
-                    focusedItemIndex = { focusedIndex ->
-                        currentItemIndex = focusedIndex
-                    }
-                )
-            }
-        }
-    )
+    ) {
+        ImmersiveListVideosRow(
+            videos = category.videos,
+            title = category.title.takeUnless { isListFocused },
+            onVideoClick = onVideoClick,
+        )
+    }
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
-fun ImmersiveListScope.ImmersiveListVideosRow(
+private fun ImmersiveListScope.ImmersiveListVideosRow(
     videos: ImmutableList<VideoSpec>,
+    title: String?,
+    onVideoClick: (VideoSpec) -> Unit,
     modifier: Modifier = Modifier,
-    childPadding: Padding = rememberChildPadding(),
-    title: String? = null,
-    titleStyle: TextStyle = MaterialTheme.typography.headlineLarge.copy(
-        fontWeight = FontWeight.Medium,
-        fontSize = 30.sp
-    ),
-    focusedItemIndex: (Int) -> Unit = {},
-    onVideoClick: (VideoSpec) -> Unit = {}
+    childPadding: Padding = rememberChildPadding()
 ) {
     Column(
-        modifier = modifier.focusGroup()
+        modifier = modifier.fillMaxWidth()
     ) {
-        title?.let { nnTitle ->
+        title?.let {
             Text(
-                text = nnTitle,
-                style = titleStyle,
+                text = it,
+                style = MaterialTheme.typography.headlineLarge.copy(
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 30.sp
+                ),
                 modifier = Modifier
                     .alpha(1f)
                     .padding(start = childPadding.start)
@@ -226,30 +133,131 @@ fun ImmersiveListScope.ImmersiveListVideosRow(
             )
         }
 
-        AnimatedContent(
-            targetState = videos,
-            label = "",
-        ) { videosState ->
-            FocusGroup {
-                TvLazyRow(
-                    pivotOffsets = PivotOffsets(parentFraction = 0.07f),
-                    contentPadding = PaddingValues(start = childPadding.start, end = childPadding.end),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    itemsIndexed(videosState, key = { _, model -> model.id }) {index, video ->
-                        VideoRowItem(
-                            index = index,
-                            video = video,
-                            focusedItemIndex = focusedItemIndex,
-                            onVideoClick = onVideoClick,
-                            modifier = Modifier
-                                .immersiveListItem(index)
-                                .restorableFocus()
-                                .padding(end = 20.dp),
-                        )
-                    }
-                }
+        TvLazyRow(
+            modifier = modifier,
+            pivotOffsets = PivotOffsets(parentFraction = 0.07f),
+            contentPadding = PaddingValues(start = childPadding.start, end = childPadding.end),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            itemsIndexed(videos, key = { _, model -> model.id }) { index, video ->
+                VideoRowItem(
+                    index = index,
+                    video = video,
+                    onVideoClick = onVideoClick,
+                    modifier = Modifier
+                        .immersiveListItem(index)
+                        .focusable()
+                        .padding(end = 20.dp),
+                )
             }
         }
+    }
+}
+
+@Composable
+private fun ImmersiveListBackground(
+    video: VideoSpec,
+    modifier: Modifier = Modifier,
+    gradientColor: Color = MaterialTheme.colorScheme.surface
+) {
+    Box(modifier = modifier.fillMaxSize()) {
+        AsyncImage(
+            modifier = Modifier
+                .fillMaxSize()
+                .drawWithCache { drawImmersiveListBackground(gradientColor) },
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(video.thumbnail)
+                .build(),
+            contentDescription = video.title,
+            contentScale = ContentScale.Crop
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = rememberChildPadding().start),
+            verticalArrangement = Arrangement.Bottom,
+        ) {
+            Text(
+                text = video.title,
+                style = MaterialTheme.typography.displaySmall
+            )
+
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(4.dp))
+
+            Text(
+                modifier = Modifier.fillMaxWidth(0.5f),
+                text = video.artist,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
+                fontWeight = FontWeight.Light
+            )
+
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(LocalConfiguration.current.screenHeightDp.times(0.3f).dp))
+        }
+    }
+}
+
+private fun CacheDrawScope.drawImmersiveListBackground(
+    gradientColor: Color
+): DrawResult = onDrawWithContent {
+    drawContent()
+    drawRect(
+        brush = Brush.horizontalGradient(
+            colors = listOf(
+                gradientColor,
+                Color.Transparent
+            ),
+            startX = size.width.times(0.2f),
+            endX = size.width.times(0.7f)
+        )
+    )
+    drawRect(
+        brush = Brush.verticalGradient(
+            colors = listOf(
+                Color.Transparent,
+                gradientColor
+            ),
+            endY = size.width.times(0.3f)
+        )
+    )
+    drawRect(
+        brush = Brush.linearGradient(
+            colors = listOf(
+                gradientColor,
+                Color.Transparent
+            ),
+            start = Offset(
+                size.width.times(0.2f),
+                size.height.times(0.5f)
+            ),
+            end = Offset(
+                size.width.times(0.9f),
+                0f
+            )
+        )
+    )
+}
+
+@Preview(
+    name = "Immersive List Bg",
+    device = Devices.TV_1080p
+)
+@Composable
+private fun PreviewListBackground() {
+    SSTvTheme {
+        ImmersiveListBackground(
+            video = VideoSpec(
+                id = "id",
+                title = "Paul and the Ephesians",
+                artist = "Hope Sabbath School",
+                src = "",
+                thumbnail = "image.png"
+            ),
+        )
     }
 }
