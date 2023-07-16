@@ -13,42 +13,32 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.sgp.base)
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
-}
+package ss.workers.impl.workers
 
-android {
-    namespace = "ss.workers.impl"
+import android.content.Context
+import androidx.work.ListenableWorker
+import androidx.work.WorkerFactory
+import androidx.work.WorkerParameters
 
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+class TestWorkerFactory : WorkerFactory() {
+
+    override fun createWorker(
+        appContext: Context,
+        workerClassName: String,
+        workerParameters: WorkerParameters
+    ): ListenableWorker? = when (workerClassName) {
+        PrefetchImagesWorker::class.java.name -> PrefetchImagesWorker(
+            appContext = appContext,
+            workerParams = workerParameters,
+            quarterliesDao = FakeQuarterliesDao()
+        )
+        else -> null
     }
-}
-
-dependencies {
-    implementation(projects.common.storage)
-    api(projects.common.workers.api)
-
-    implementation(libs.androidx.work)
-    implementation(libs.coil.core)
-    implementation(libs.androidx.hilt.work)
-    implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
-    kapt(libs.androidx.hilt.compiler)
-    implementation(libs.kotlin.coroutines)
-    implementation(libs.timber)
-
-    testImplementation(libs.bundles.testing.common)
-    testImplementation(libs.test.androidx.work)
 }

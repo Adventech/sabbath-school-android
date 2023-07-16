@@ -13,42 +13,34 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.sgp.base)
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
-}
+package ss.workers.impl.workers
 
-android {
-    namespace = "ss.workers.impl"
+import app.ss.models.QuarterlyGroup
+import app.ss.storage.db.dao.QuarterliesDao
+import app.ss.storage.db.entity.QuarterlyEntity
+import app.ss.storage.db.entity.QuarterlyInfoEntity
 
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
-}
+/** Fake implementation of [QuarterliesDao] for use in tests. */
+class FakeQuarterliesDao(private val covers: List<String> = emptyList()): QuarterliesDao {
 
-dependencies {
-    implementation(projects.common.storage)
-    api(projects.common.workers.api)
+    override fun get(language: String): List<QuarterlyEntity> = emptyList()
 
-    implementation(libs.androidx.work)
-    implementation(libs.coil.core)
-    implementation(libs.androidx.hilt.work)
-    implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
-    kapt(libs.androidx.hilt.compiler)
-    implementation(libs.kotlin.coroutines)
-    implementation(libs.timber)
+    override fun get(language: String, group: QuarterlyGroup): List<QuarterlyEntity> = emptyList()
 
-    testImplementation(libs.bundles.testing.common)
-    testImplementation(libs.test.androidx.work)
+    override fun getInfo(quarterlyIndex: String): QuarterlyInfoEntity? = null
+
+    override suspend fun getCovers(language: String): List<String> = covers
+
+    override suspend fun insertItem(item: QuarterlyEntity) {}
+
+    override suspend fun insertAll(items: List<QuarterlyEntity>) {}
+
+    override suspend fun update(item: QuarterlyEntity) {}
 }
