@@ -30,9 +30,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,6 +55,7 @@ import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import app.ss.tv.R
+import app.ss.tv.presentation.home.HomeScreen.Event
 import app.ss.tv.presentation.home.HomeScreen.State
 import app.ss.tv.presentation.home.ui.HomeUiContent
 import app.ss.tv.presentation.theme.ParentPadding
@@ -52,19 +64,41 @@ import app.ss.translations.R as L10nR
 
 @Composable
 fun HomeUiScreen(state: State, modifier: Modifier = Modifier) {
+    // Move Focus logic to Dashboard screen when available
+    val focusManager = LocalFocusManager.current
+    var currentItemFocusedIndex by remember { mutableIntStateOf(0) }
+
+    fun handleBackPress() {
+        if (currentItemFocusedIndex == 0) {
+            state.eventSink(Event.OnBack)
+        } else {
+            focusManager.moveFocus(FocusDirection.Up)
+        }
+    }
     Box(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .onPreviewKeyEvent { event ->
+                if (event.key == Key.Back && event.type == KeyEventType.KeyUp) {
+                    handleBackPress()
+                    return@onPreviewKeyEvent true
+                }
+                false
+            },
     ) {
 
-        HomeUiContent(state)
+        HomeUiContent(
+            state = state,
+            focusItemEvent = { index -> currentItemFocusedIndex = index }
+        )
 
         TopAppBar(
             modifier = Modifier
-                .align(Alignment.TopEnd)
+                .align(Alignment.TopStart)
                 .padding(
                     horizontal = ParentPadding.calculateStartPadding(
                         LocalLayoutDirection.current
-                    ) + 8.dp
+                    ) - 8.dp
                 )
                 .padding(
                     top = ParentPadding.calculateTopPadding(),
@@ -104,6 +138,6 @@ val IconSize = 48.dp
 @Composable
 fun HomePreview() {
     SSTvTheme {
-        HomeUiScreen(state = State.Loading)
+        HomeUiScreen(state = State.Loading{})
     }
 }

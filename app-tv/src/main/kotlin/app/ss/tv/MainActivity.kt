@@ -41,6 +41,13 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        setContent { TvApp(circuitConfig) }
+        setContent {
+            TvApp(
+                circuitConfig = circuitConfig,
+                onBackPress = {
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            )
+        }
     }
 }

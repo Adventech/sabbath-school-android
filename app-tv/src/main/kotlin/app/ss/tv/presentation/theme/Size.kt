@@ -33,7 +33,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 
-val BorderWidth = 2.dp
+val BorderWidth = 3.dp
+val FocusedGlowElevation = 24.dp
+val PressedGlowElevation = 8.dp
 val ParentPadding = PaddingValues(vertical = 16.dp, horizontal = 58.dp)
 
 @Immutable
@@ -50,9 +52,9 @@ fun rememberChildPadding(
 ): Padding {
     return remember {
         Padding(
-            start = ParentPadding.calculateStartPadding(direction) + 8.dp,
+            start = ParentPadding.calculateStartPadding(direction),
             top = ParentPadding.calculateTopPadding(),
-            end = ParentPadding.calculateEndPadding(direction) + 8.dp,
+            end = ParentPadding.calculateEndPadding(direction),
             bottom = ParentPadding.calculateBottomPadding()
         )
     }

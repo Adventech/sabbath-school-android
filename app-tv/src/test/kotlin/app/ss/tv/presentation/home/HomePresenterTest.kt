@@ -32,6 +32,7 @@ import com.slack.circuit.test.test
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Test
 
 class HomePresenterTest {
@@ -44,9 +45,9 @@ class HomePresenterTest {
     @Test
     fun `present - emit loading then error`() = runTest {
         underTest.test {
-            awaitItem() shouldBeEqualTo HomeScreen.State.Loading
+            awaitItem() shouldBeInstanceOf (HomeScreen.State.Loading::class)
 
-            awaitItem() shouldBeEqualTo HomeScreen.State.Error
+            awaitItem() shouldBeInstanceOf (HomeScreen.State.Error::class)
         }
     }
 
@@ -55,7 +56,7 @@ class HomePresenterTest {
         repository.videosResult = Result.success(listOf(infoModel))
 
         underTest.test {
-            awaitItem() shouldBeEqualTo HomeScreen.State.Loading
+            awaitItem() shouldBeInstanceOf (HomeScreen.State.Loading::class)
 
             (awaitItem() as HomeScreen.State.Videos).categories shouldBeEqualTo persistentListOf(
                 CategorySpec(
@@ -72,7 +73,7 @@ class HomePresenterTest {
         repository.videosResult = Result.success(listOf(infoModel))
 
         underTest.test {
-            awaitItem() shouldBeEqualTo HomeScreen.State.Loading
+            awaitItem() shouldBeInstanceOf (HomeScreen.State.Loading::class)
 
             val state = awaitItem() as HomeScreen.State.Videos
 
