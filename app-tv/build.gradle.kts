@@ -38,8 +38,8 @@ val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
 val appVersionCode = readPropertyValue(
     filePath = "build_number.properties",
     key = "BUILD_NUMBER",
-    defaultValue = "8"
-).toInt() + 10000
+    defaultValue = "1"
+).toInt() + 11000
 
 android {
     namespace = "app.ss.tv"
@@ -47,7 +47,7 @@ android {
     defaultConfig {
         applicationId = BuildAndroidConfig.APP_ID
         versionCode = appVersionCode
-        versionName = "0.1.0"
+        versionName = "0.2.0 - $appVersionCode"
         minSdk = 25
     }
 

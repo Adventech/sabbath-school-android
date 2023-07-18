@@ -23,6 +23,7 @@
 package app.ss.tv.presentation.player
 
 import androidx.compose.runtime.Composable
+import app.ss.tv.presentation.player.VideoPlayerScreen.Event
 import app.ss.tv.presentation.player.VideoPlayerScreen.State
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -31,6 +32,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
 class VideoPlayerPresenter @AssistedInject constructor(
+    private val ambientModeHelper: AmbientModeHelper,
     @Assisted private val screen: VideoPlayerScreen,
     @Assisted private val navigator: Navigator,
 ) : Presenter<State> {
@@ -47,7 +49,14 @@ class VideoPlayerPresenter @AssistedInject constructor(
     override fun present(): State {
         return State(screen.video) { event ->
             when (event) {
-                VideoPlayerScreen.Event.OnBack -> navigator.pop()
+                Event.OnBack -> navigator.pop()
+                is Event.OnPlaybackChange -> {
+                    if (event.isPlaying) {
+                        ambientModeHelper.disable()
+                    } else {
+                        ambientModeHelper.enable()
+                    }
+                }
             }
         }
     }

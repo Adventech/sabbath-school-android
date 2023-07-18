@@ -22,25 +22,37 @@
 
 package app.ss.tv.presentation.player
 
-import android.os.Parcelable
-import app.ss.tv.data.model.VideoSpec
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.Screen
-import kotlinx.parcelize.Parcelize
+import android.app.Activity
+import android.content.Context
+import android.view.WindowManager
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.scopes.ActivityScoped
+import javax.inject.Inject
 
-@Parcelize
-data class VideoPlayerScreen(
-    val video: VideoSpec
-) : Screen, Parcelable {
+/**
+ * Handles adding and clearing flags that trigger Ambient mode.
+ * Ambient mode needs to be turned off when playback has started and turned back on when playback is paused.
+ */
+interface AmbientModeHelper {
+    fun enable()
+    fun disable()
+}
 
-    sealed interface Event : CircuitUiEvent {
-        object OnBack : Event
-        data class OnPlaybackChange(val isPlaying: Boolean) : Event
+/** Implementation of [AmbientModeHelper]. */
+@ActivityScoped
+class AmbientModeHelperImpl @Inject constructor(
+    @ActivityContext private val context: Context
+) : AmbientModeHelper {
+
+    override fun enable() = updateFlags(true)
+    override fun disable() = updateFlags(false)
+
+    private fun updateFlags(enable: Boolean) {
+        val window = (context as? Activity)?.window ?: return
+        if (enable) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        } else {
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
     }
-
-    data class State(
-        val spec: VideoSpec,
-        val eventSink: (Event) -> Unit
-    ) : CircuitUiState
 }
