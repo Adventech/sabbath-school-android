@@ -141,4 +141,8 @@ fun VideoPlayerUiScreen(
             modifier = Modifier.align(Alignment.BottomCenter),
         )
     }
+
+    LaunchedEffect(exoPlayer.isPlaying) {
+        state.eventSink(Event.OnPlaybackChange(exoPlayer.isPlaying))
+    }
 }

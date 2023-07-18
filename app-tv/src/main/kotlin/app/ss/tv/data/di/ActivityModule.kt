@@ -20,27 +20,21 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.player
+package app.ss.tv.data.di
 
-import android.os.Parcelable
-import app.ss.tv.data.model.VideoSpec
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.Screen
-import kotlinx.parcelize.Parcelize
+import app.ss.tv.presentation.player.AmbientModeHelper
+import app.ss.tv.presentation.player.AmbientModeHelperImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 
-@Parcelize
-data class VideoPlayerScreen(
-    val video: VideoSpec
-) : Screen, Parcelable {
+@Module
+@InstallIn(ActivityComponent::class)
+abstract class ActivityModule {
 
-    sealed interface Event : CircuitUiEvent {
-        object OnBack : Event
-        data class OnPlaybackChange(val isPlaying: Boolean) : Event
-    }
-
-    data class State(
-        val spec: VideoSpec,
-        val eventSink: (Event) -> Unit
-    ) : CircuitUiState
+    @Binds
+    internal abstract fun bindAmbientModeHelper(
+        impl: AmbientModeHelperImpl
+    ): AmbientModeHelper
 }

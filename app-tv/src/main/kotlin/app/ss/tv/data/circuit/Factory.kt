@@ -35,12 +35,10 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import javax.inject.Inject
-import javax.inject.Singleton
 
 interface SSPresenterFactory : Presenter.Factory
 interface SSUiFactory : Ui.Factory
 
-@Singleton
 class SSPresenterFactoryImpl @Inject constructor(
     private val homePresenter: HomePresenter.Factory,
     private val videoPlayerPresenter: VideoPlayerPresenter.Factory,
@@ -59,7 +57,6 @@ class SSPresenterFactoryImpl @Inject constructor(
     }
 }
 
-@Singleton
 internal class SSUiFactoryImpl @Inject constructor() : SSUiFactory {
     override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
         return when (screen) {

@@ -22,25 +22,14 @@
 
 package app.ss.tv.presentation.player
 
-import android.os.Parcelable
-import app.ss.tv.data.model.VideoSpec
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.Screen
-import kotlinx.parcelize.Parcelize
+class FakeAmbientModeHelper : AmbientModeHelper {
+    var enabled = true
 
-@Parcelize
-data class VideoPlayerScreen(
-    val video: VideoSpec
-) : Screen, Parcelable {
-
-    sealed interface Event : CircuitUiEvent {
-        object OnBack : Event
-        data class OnPlaybackChange(val isPlaying: Boolean) : Event
+    override fun enable() {
+        enabled = true
     }
 
-    data class State(
-        val spec: VideoSpec,
-        val eventSink: (Event) -> Unit
-    ) : CircuitUiState
+    override fun disable() {
+        enabled = false
+    }
 }

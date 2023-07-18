@@ -26,15 +26,13 @@ import com.slack.circuit.foundation.CircuitConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import dagger.hilt.android.components.ActivityComponent
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ActivityComponent::class)
 internal class CircuitModule {
 
     @Provides
-    @Singleton
     fun provideCircuitConfig(
         presenterFactory: SSPresenterFactory,
         uiFactory: SSUiFactory,
