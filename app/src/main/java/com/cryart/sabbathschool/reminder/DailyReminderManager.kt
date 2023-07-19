@@ -24,13 +24,12 @@ package com.cryart.sabbathschool.reminder
 
 import android.Manifest
 import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -108,12 +107,11 @@ class DailyReminderManager constructor(
     }
 
     override fun showNotification(context: Context) {
-        if (isAtLeastApi(Build.VERSION_CODES.O)) {
-            val channelName: String = context.getString(L10n.string.ss_app_name)
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel(CHANNEL_ID, channelName, importance)
-            notificationManager.createNotificationChannel(channel)
-        }
+        val channelName: String = context.getString(L10n.string.ss_app_name)
+        val channel = NotificationChannelCompat.Builder(CHANNEL_ID, NotificationManagerCompat.IMPORTANCE_HIGH)
+            .setName(channelName)
+            .build()
+        notificationManager.createNotificationChannel(channel)
 
         val contentIntent = Intent(context, SplashActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -142,7 +140,8 @@ class DailyReminderManager constructor(
             .setContentText(context.getString(L10n.string.ss_settings_reminder_text))
 
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
-            == PackageManager.PERMISSION_GRANTED) {
+            == PackageManager.PERMISSION_GRANTED
+        ) {
             notificationManager.notify(1, builder.build())
         }
     }
