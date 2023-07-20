@@ -25,13 +25,11 @@ package com.cryart.sabbathschool.lessons.ui.readings;
 import static android.content.Context.CLIPBOARD_SERVICE;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Base64;
 import android.view.ActionMode;
@@ -269,7 +267,6 @@ public class SSReadingView extends SSWebView {
             return true;
         }
 
-        @TargetApi(Build.VERSION_CODES.N)
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             ContextHelper.launchWebUrl(view.getContext(), request.getUrl().toString());
