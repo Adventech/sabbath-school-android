@@ -138,7 +138,9 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             }
 
             if (supportsPiP && pictureInPictureEnabled) {
-                setPictureInPictureParams(pictureInPictureParams(state.isPlaying))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    setPictureInPictureParams(pictureInPictureParams(state.isPlaying))
+                }
             }
         }
 
@@ -218,7 +220,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     }
 
     private fun enterPiP() {
-        if (supportsPiP) {
+        if (supportsPiP && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             hideSystemUI()
             val params = pictureInPictureParams(videoPlayer.playbackState.value.isPlaying)
             enterPictureInPictureMode(params)

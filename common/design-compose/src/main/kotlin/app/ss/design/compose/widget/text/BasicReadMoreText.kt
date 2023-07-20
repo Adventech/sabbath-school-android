@@ -71,12 +71,13 @@ internal fun BasicReadMoreText(
     require(readMoreMaxLines > 0) { "readMoreMaxLines should be greater than 0" }
 
     val overflowText: String = remember {
-        buildString {
+        val str = buildString {
             append(Typography.ellipsis)
             if (readMoreText.isNotEmpty()) {
                 append(Typography.nbsp)
             }
         }
+        str
     }
     val readMoreTextWithStyle: AnnotatedString = remember(readMoreText, readMoreStyle) {
         buildAnnotatedString {

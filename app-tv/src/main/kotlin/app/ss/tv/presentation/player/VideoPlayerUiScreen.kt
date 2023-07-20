@@ -67,7 +67,7 @@ fun VideoPlayerUiScreen(
     val videoPlayerState = rememberVideoPlayerState()
 
     val exoPlayer = remember {
-        ExoPlayer.Builder(context)
+        val player = ExoPlayer.Builder(context)
             .build()
             .apply {
                 playWhenReady = true
@@ -79,6 +79,7 @@ fun VideoPlayerUiScreen(
                 setMediaSource(source)
                 prepare()
             }
+        player
     }
 
     BackHandler(onBack = { state.eventSink(Event.OnBack) })
