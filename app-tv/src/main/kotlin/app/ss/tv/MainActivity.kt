@@ -27,7 +27,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.CircuitConfig
+import com.slack.circuit.foundation.Circuit
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -35,7 +35,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var circuitConfig: CircuitConfig
+    lateinit var circuit: Circuit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             TvApp(
-                circuitConfig = circuitConfig,
+                circuit = circuit,
                 onBackPress = {
                     onBackPressedDispatcher.onBackPressed()
                 }
