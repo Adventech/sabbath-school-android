@@ -52,22 +52,15 @@ class DailyReminderManager constructor(
 
     private fun getPendingIntent(
         create: Boolean
-    ): PendingIntent? = Intent(context, ReminderReceiver::class.java).let { intent ->
+    ): PendingIntent? {
+        val intent = Intent(context, ReminderReceiver::class.java)
         val flag = if (create) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_IMMUTABLE
-            } else {
-                PendingIntent.FLAG_UPDATE_CURRENT
-            }
+            PendingIntent.FLAG_IMMUTABLE
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
-            } else {
-                PendingIntent.FLAG_NO_CREATE
-            }
+            PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
         }
 
-        PendingIntent.getBroadcast(context, 0, intent, flag)
+        return PendingIntent.getBroadcast(context, 0, intent, flag)
     }
 
     private fun getTriggerAtMillis(): Long {
@@ -86,10 +79,11 @@ class DailyReminderManager constructor(
     }
 
     fun scheduleReminder() {
+        val pendingIntent = getPendingIntent(true) ?: return
         alarmManager.set(
             AlarmManager.RTC_WAKEUP,
             getTriggerAtMillis(),
-            getPendingIntent(true)
+            pendingIntent
         )
 
         ssPrefs.setReminderScheduled()

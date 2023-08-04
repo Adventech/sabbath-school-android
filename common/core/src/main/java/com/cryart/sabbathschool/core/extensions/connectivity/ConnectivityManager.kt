@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -25,7 +25,6 @@ package com.cryart.sabbathschool.core.extensions.connectivity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -48,26 +47,14 @@ internal class ConnectivityHelperImpl @Inject constructor(
 val ConnectivityManager.isConnected: Boolean
     get() = isConnectedToWifi || isConnectedToCellular
 
-@Suppress("DEPRECATION")
 val ConnectivityManager.isConnectedToWifi: Boolean
     get() {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val capabilities = getNetworkCapabilities(activeNetwork) ?: return false
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-        } else {
-            val info = getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-            info?.isConnected ?: false
-        }
+        val capabilities = getNetworkCapabilities(activeNetwork) ?: return false
+        return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
     }
 
-@Suppress("DEPRECATION")
 val ConnectivityManager.isConnectedToCellular: Boolean
     get() {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val capabilities = getNetworkCapabilities(activeNetwork) ?: return false
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-        } else {
-            val info = getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
-            info?.isConnected ?: false
-        }
+        val capabilities = getNetworkCapabilities(activeNetwork) ?: return false
+        return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
     }
