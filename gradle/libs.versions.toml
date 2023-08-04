@@ -57,7 +57,7 @@ ksp = "1.9.0-1.0.13"
 markwon = "4.6.2"
 material-dialogs = "3.3.0"
 # @keep this version
-pdfkit = "8.7.3"
+pdfkit = "8.7.4"
 sgp = "0.10.0"
 snapper = "0.3.0"
 sortDependencies = "0.4"
