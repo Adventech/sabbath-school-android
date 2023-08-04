@@ -22,7 +22,7 @@
 
 package app.ss.tv.data.circuit
 
-import com.slack.circuit.foundation.CircuitConfig
+import com.slack.circuit.foundation.Circuit
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,10 +33,10 @@ import dagger.hilt.android.components.ActivityComponent
 internal class CircuitModule {
 
     @Provides
-    fun provideCircuitConfig(
+    fun provideCircuit(
         presenterFactory: SSPresenterFactory,
         uiFactory: SSUiFactory,
-    ): CircuitConfig = CircuitConfig.Builder()
+    ): Circuit = Circuit.Builder()
         .addPresenterFactory(presenterFactory)
         .addUiFactory(uiFactory)
         .build()

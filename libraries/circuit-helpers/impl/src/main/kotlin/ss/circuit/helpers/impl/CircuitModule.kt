@@ -37,7 +37,7 @@ internal class CircuitModule {
 
     @Provides
     @Singleton
-    fun provideCircuitConfig(
+    fun provideCircuit(
         settingsPresenterFactory: SettingsPresenterFactory,
         settingsUiFactory: SettingsUiFactory,
 
