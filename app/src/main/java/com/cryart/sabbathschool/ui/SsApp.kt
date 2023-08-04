@@ -26,7 +26,6 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
@@ -42,7 +41,6 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 
 @OptIn(
-    ExperimentalMaterial3Api::class,
     ExperimentalLayoutApi::class, ExperimentalMaterialNavigationApi::class
 )
 @Composable
@@ -91,7 +89,7 @@ private fun BottomNavigationBar(
                 selected = selected,
                 onClick = { onNavigateToDestination(destination) },
                 icon = {
-                    Crossfade(targetState = selected) { isSelected ->
+                    Crossfade(targetState = selected, label = "") { isSelected ->
                         IconBox(
                             icon = if (isSelected) {
                                 destination.selectedIcon

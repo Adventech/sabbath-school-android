@@ -24,7 +24,6 @@ package com.cryart.sabbathschool.core.ui
 import android.annotation.SuppressLint
 import android.app.assist.AssistContent
 import android.content.pm.ActivityInfo
-import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.cryart.sabbathschool.core.R
@@ -41,8 +40,6 @@ abstract class SSBaseActivity : AppCompatActivity() {
 
     override fun onProvideAssistContent(outContent: AssistContent) {
         super.onProvideAssistContent(outContent)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            outContent.webUri = (this as? ShareableScreen)?.getShareWebUri()
-        }
+        outContent.webUri = (this as? ShareableScreen)?.getShareWebUri()
     }
 }
