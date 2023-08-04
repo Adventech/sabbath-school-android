@@ -24,19 +24,21 @@ package app.ss.widgets.glance
 
 import android.content.Context
 import android.content.Intent
+import androidx.glance.ExperimentalGlanceApi
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import androidx.glance.appwidget.updateAll
 import app.ss.widgets.BaseWidgetProvider
 import app.ss.widgets.WidgetDataProvider
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import ss.foundation.coroutines.Scopable
 import javax.inject.Inject
 
 abstract class BaseGlanceAppWidgetReceiver<T : GlanceAppWidget> :
     GlanceAppWidgetReceiver(),
-    CoroutineScope by MainScope() {
+    Scopable {
 
     @Inject
     internal lateinit var widgetDataProvider: WidgetDataProvider
@@ -46,11 +48,14 @@ abstract class BaseGlanceAppWidgetReceiver<T : GlanceAppWidget> :
 
     abstract fun createWidget(): T
 
+    @OptIn(ExperimentalGlanceApi::class)
+    override val scope: CoroutineScope get() = CoroutineScope(SupervisorJob() + coroutineContext)
+
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
         if (intent.action == BaseWidgetProvider.REFRESH_ACTION) {
-            launch { glanceAppWidget.updateAll(context) }
+            scope.launch { glanceAppWidget.updateAll(context) }
         }
     }
 }
