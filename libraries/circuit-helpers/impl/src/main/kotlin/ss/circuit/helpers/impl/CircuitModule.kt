@@ -22,7 +22,7 @@
 
 package ss.circuit.helpers.impl
 
-import com.slack.circuit.foundation.CircuitConfig
+import com.slack.circuit.foundation.Circuit
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,7 +41,7 @@ internal class CircuitModule {
         settingsPresenterFactory: SettingsPresenterFactory,
         settingsUiFactory: SettingsUiFactory,
 
-        ): CircuitConfig = CircuitConfig.Builder()
+        ): Circuit = Circuit.Builder()
         .addPresenterFactories(
             listOf(
                 settingsPresenterFactory,

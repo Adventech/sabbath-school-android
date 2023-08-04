@@ -37,7 +37,7 @@ import androidx.core.view.WindowCompat
 import app.ss.design.compose.theme.SsTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.slack.circuit.backstack.rememberSaveableBackStack
-import com.slack.circuit.foundation.CircuitConfig
+import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.push
 import com.slack.circuit.foundation.rememberCircuitNavigator
@@ -50,7 +50,7 @@ import javax.inject.Inject
 class SettingsActivity : ComponentActivity() {
 
     @Inject
-    lateinit var circuitConfig: CircuitConfig
+    lateinit var circuit: Circuit
 
     @Inject
     lateinit var supportingNavigatorFactory: AndroidSupportingNavigator.Factory
@@ -86,7 +86,7 @@ class SettingsActivity : ComponentActivity() {
                         navigator,
                         backstack,
                         Modifier,
-                        circuitConfig
+                        circuit
                     )
                 }
             }
