@@ -37,14 +37,6 @@ plugins {
     alias(libs.plugins.ksp) apply false
 }
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-
 /**
  * Enable Composable Metrics.
  *
