@@ -26,30 +26,26 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
-import androidx.databinding.DataBindingUtil
+import com.cryart.sabbathschool.BuildConfig
 import com.cryart.sabbathschool.R
-import com.cryart.sabbathschool.core.ui.SSBaseActivity
+import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
+import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.databinding.SsAboutActivityBinding
 import ss.misc.SSConstants
 import ss.misc.SSEvent
 import app.ss.translations.R as L10n
 
-class AboutActivity : SSBaseActivity() {
+class AboutActivity : AppCompatActivity() {
+
+    private val binding by viewBinding(SsAboutActivityBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<SsAboutActivityBinding>(
-            this,
-            R.layout.ss_about_activity
-        )
+        setContentView(binding.root)
 
-        with(binding.ssToolbar) {
-            setSupportActionBar(this)
-        }
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        binding.viewModel = SSAboutViewModel(this)
+        bindUi()
 
         SSEvent.track(this, SSConstants.SS_EVENT_ABOUT_OPEN)
     }
@@ -79,5 +75,24 @@ class AboutActivity : SSBaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.ss_menu_share, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun bindUi() {
+        setSupportActionBar(binding.ssToolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        binding.instagramIb.setOnClickListener {
+            launchWebUrl(getString(L10n.string.ss_settings_instagram_url))
+        }
+        binding.facebookIb.setOnClickListener {
+            launchWebUrl(getString(L10n.string.ss_settings_facebook_url))
+        }
+        binding.githubIb.setOnClickListener {
+            launchWebUrl(getString(L10n.string.ss_settings_github_url))
+        }
+        binding.aboutLink.setOnClickListener {
+            launchWebUrl(getString(L10n.string.ss_settings_website_url))
+        }
+        binding.versionInfo.text = getString(L10n.string.ss_settings_version_with_param_string, BuildConfig.VERSION_NAME)
     }
 }
