@@ -58,6 +58,7 @@ import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.components.AppBarComponent
+import com.cryart.sabbathschool.lessons.ui.readings.components.ContextMenuComponent
 import com.cryart.sabbathschool.lessons.ui.readings.components.MiniPlayerComponent
 import com.cryart.sabbathschool.lessons.ui.readings.components.PagesIndicatorComponent
 import dagger.hilt.android.AndroidEntryPoint
@@ -188,6 +189,11 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
             binding.ssReadingAppBar,
             ssReadingViewModel.viewState,
             this
+        )
+
+        ContextMenuComponent(
+            binding.ssContextMenu,
+            ssReadingViewModel
         )
     }
 

@@ -59,8 +59,7 @@
         <include
             android:id="@+id/ssContextMenu"
             layout="@layout/ss_reading_context_menu"
-            android:visibility="invisible"
-            bind:viewModel="@{viewModel}" />
+            android:visibility="invisible" />
 
         <include
             layout="@layout/ss_offline_state"
