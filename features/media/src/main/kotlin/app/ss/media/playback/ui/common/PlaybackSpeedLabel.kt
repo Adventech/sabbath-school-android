@@ -23,13 +23,12 @@
 package app.ss.media.playback.ui.common
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -43,7 +42,6 @@ import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.media.playback.model.PlaybackSpeed
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PlaybackSpeedLabel(
     playbackSpeed: PlaybackSpeed,
@@ -61,15 +59,15 @@ fun PlaybackSpeedLabel(
             targetState = playbackSpeed,
             transitionSpec = {
                 if (targetState.speed > initialState.speed) {
-                    slideInVertically(initialOffsetY = { height -> height }) + fadeIn() with
+                    slideInVertically(initialOffsetY = { height -> height }) + fadeIn() togetherWith
                         slideOutVertically(targetOffsetY = { height -> -height }) + fadeOut()
                 } else {
-                    slideInVertically(initialOffsetY = { height -> -height }) + fadeIn() with
+                    slideInVertically(initialOffsetY = { height -> -height }) + fadeIn() togetherWith
                         slideOutVertically(targetOffsetY = { height -> height }) + fadeOut()
                 }.using(
                     SizeTransform(clip = false)
                 )
-            }
+            }, label = ""
         ) { targetSpeed ->
             Text(
                 text = targetSpeed.label,

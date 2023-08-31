@@ -50,7 +50,6 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.doOnPreDraw
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.extensions.modifier.asPlaceholder
@@ -72,26 +71,6 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyList
 import com.cryart.sabbathschool.lessons.ui.quarterlies.components.QuarterlyListCallbacks
 import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R.string as RString
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-internal fun QuarterliesRoute(
-    viewModel: QuarterliesViewModel = hiltViewModel(),
-    callbacks: QuarterlyListCallbacks,
-    mainPadding: PaddingValues
-) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
-
-    QuarterliesScreen(
-        state = state.copy(
-            title = viewModel.groupTitle ?: stringResource(id = RString.ss_app_name)
-        ),
-        callbacks = callbacks,
-        scrollBehavior = scrollBehavior,
-        mainPadding = mainPadding
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

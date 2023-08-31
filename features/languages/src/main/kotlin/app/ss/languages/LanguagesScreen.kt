@@ -41,7 +41,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.extensions.previews.DayNightPreviews
@@ -58,24 +57,6 @@ import app.ss.design.compose.widget.search.SearchInput
 import app.ss.languages.list.LanguagesList
 import app.ss.languages.state.LanguageModel
 import app.ss.languages.state.LanguagesState
-
-@Composable
-internal fun LanguagesRoute(
-    viewModel: LanguagesViewModel = hiltViewModel(),
-    mainPadding: PaddingValues,
-    onNavBack: () -> Unit
-) {
-    val viewState by viewModel.uiState
-        .collectAsStateWithLifecycle()
-
-    LanguagesScreen(
-        viewState = viewState,
-        onSearch = { viewModel.searchFor(it) },
-        onModelSelected = { viewModel.modelSelected(it) },
-        onNavBack = onNavBack,
-        mainPadding = mainPadding
-    )
-}
 
 @Composable
 internal fun LanguagesScreen(

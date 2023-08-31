@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -23,7 +23,6 @@
 package app.ss.lessons.intro
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,21 +37,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.DragHandle
 import app.ss.design.compose.widget.placeholder.PlaceholderScreen
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun LessonIntroRoute(
-    viewModel: LessonIntroViewModel = hiltViewModel()
+    viewModel: LessonIntroViewModel
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Surface {
-        AnimatedContent(targetState = state) { targetState ->
+        AnimatedContent(targetState = state, label = "") { targetState ->
             when (targetState) {
                 is LessonIntroState.Success -> LessonIntroScreen(state = targetState)
                 LessonIntroState.Loading -> {

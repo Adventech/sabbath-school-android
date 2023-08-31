@@ -35,7 +35,6 @@ import app.ss.models.SSQuarterlyInfo
 import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.core.response.Result
 import com.cryart.sabbathschool.core.response.asResult
-import com.cryart.sabbathschool.lessons.navigation.lessonIndexArg
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -48,9 +47,12 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.stateIn
+import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 import javax.inject.Inject
 import app.ss.translations.R as L10n
+
+internal const val lessonIndexArg = SSConstants.SS_QUARTERLY_INDEX_EXTRA
 
 @HiltViewModel
 class LessonsViewModel @Inject constructor(

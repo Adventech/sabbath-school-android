@@ -24,7 +24,6 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons
 
-import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -53,14 +52,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
@@ -69,7 +65,6 @@ import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.models.LessonIntroModel
-import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemsSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooterSpec
@@ -82,35 +77,6 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.toSpec
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import app.ss.translations.R.string as RString
-
-@Composable
-internal fun LessonsRoute(
-    viewModel: LessonsViewModel = hiltViewModel(),
-    readLesson: (String) -> Unit,
-    lessonIntro: (String) -> Unit,
-    onNavClick: () -> Unit,
-    mainPadding: PaddingValues,
-    context: Context = LocalContext.current
-) {
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
-
-    LessonsScreen(
-        state = state,
-        onNavClick = onNavClick,
-        onShareClick = {
-            context.shareContent(viewModel.shareLessonContent(context))
-        },
-        onLessonClick = { lesson ->
-            if (lesson.pdfOnly) {
-                viewModel.pdfLessonSelected(lesson.index)
-            } else {
-                readLesson(lesson.index)
-            }
-        },
-        onReadMoreClick = { lessonIntro(it.index) },
-        mainPadding = mainPadding
-    )
-}
 
 @Composable
 internal fun LessonsScreen(
