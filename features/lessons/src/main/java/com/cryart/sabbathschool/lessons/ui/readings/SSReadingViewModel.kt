@@ -46,6 +46,7 @@ import app.ss.models.SSReadHighlights
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
+import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.options.SSReadingDisplayOptionsView
@@ -54,6 +55,9 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import ss.foundation.coroutines.debounceUntilLast
@@ -88,6 +92,9 @@ class SSReadingViewModel @AssistedInject constructor(
     val ssLessonErrorStateVisibility = ObservableInt(View.INVISIBLE)
     val ssLessonCoordinatorVisibility = ObservableInt(View.INVISIBLE)
 
+    private val _viewState = MutableStateFlow(Status.LOADING)
+    val viewState: StateFlow<Status> get() = _viewState.asStateFlow()
+
     val primaryColor: Int
         get() = context.colorPrimary
 
@@ -100,9 +107,6 @@ class SSReadingViewModel @AssistedInject constructor(
                 .findViewWithTag<View>("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager.currentItem)
             return view?.findViewById(R.id.ss_reading_view)
         }
-
-    val cover: String
-        get() = ssLessonInfo?.lesson?.cover ?: ""
 
     init {
         loadLessonInfo()
@@ -125,6 +129,7 @@ class SSReadingViewModel @AssistedInject constructor(
         ssLessonOfflineStateVisibility.set(View.INVISIBLE)
         ssLessonErrorStateVisibility.set(View.INVISIBLE)
         ssLessonCoordinatorVisibility.set(View.INVISIBLE)
+        _viewState.emit(Status.LOADING)
 
         val lessonInfoResource = lessonsRepository.getLessonInfo(ssLessonIndex)
         val lessonInfo = lessonInfoResource.data ?: run {
@@ -132,6 +137,7 @@ class SSReadingViewModel @AssistedInject constructor(
             ssLessonLoadingVisibility.set(View.INVISIBLE)
             ssLessonOfflineStateVisibility.set(View.INVISIBLE)
             ssLessonCoordinatorVisibility.set(View.INVISIBLE)
+            _viewState.emit(Status.ERROR)
             return@launch
         }
         ssLessonInfo = lessonInfo
@@ -162,6 +168,7 @@ class SSReadingViewModel @AssistedInject constructor(
         ssLessonLoadingVisibility.set(View.INVISIBLE)
         ssLessonOfflineStateVisibility.set(View.INVISIBLE)
         ssLessonErrorStateVisibility.set(View.INVISIBLE)
+        _viewState.emit(Status.SUCCESS)
     }
 
     override fun onSelectionStarted(x: Float, y: Float, highlightId: Int) {

@@ -40,8 +40,7 @@
 
         <include
             android:id="@+id/ss_reading_app_bar"
-            layout="@layout/ss_reading_app_bar"
-            bind:viewModel="@{viewModel}" />
+            layout="@layout/ss_reading_app_bar" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/ss_reading_view_pager"
