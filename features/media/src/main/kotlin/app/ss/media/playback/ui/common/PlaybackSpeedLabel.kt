@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -23,12 +23,13 @@
 package app.ss.media.playback.ui.common
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.togetherWith
+import androidx.compose.animation.with
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -42,6 +43,7 @@ import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.media.playback.model.PlaybackSpeed
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PlaybackSpeedLabel(
     playbackSpeed: PlaybackSpeed,
@@ -59,10 +61,10 @@ fun PlaybackSpeedLabel(
             targetState = playbackSpeed,
             transitionSpec = {
                 if (targetState.speed > initialState.speed) {
-                    slideInVertically(initialOffsetY = { height -> height }) + fadeIn() togetherWith
+                    slideInVertically(initialOffsetY = { height -> height }) + fadeIn() with
                         slideOutVertically(targetOffsetY = { height -> -height }) + fadeOut()
                 } else {
-                    slideInVertically(initialOffsetY = { height -> -height }) + fadeIn() togetherWith
+                    slideInVertically(initialOffsetY = { height -> -height }) + fadeIn() with
                         slideOutVertically(targetOffsetY = { height -> height }) + fadeOut()
                 }.using(
                     SizeTransform(clip = false)

@@ -23,6 +23,7 @@
 package app.ss.lessons.intro
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,6 +43,7 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.DragHandle
 import app.ss.design.compose.widget.placeholder.PlaceholderScreen
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun LessonIntroRoute(
     viewModel: LessonIntroViewModel
