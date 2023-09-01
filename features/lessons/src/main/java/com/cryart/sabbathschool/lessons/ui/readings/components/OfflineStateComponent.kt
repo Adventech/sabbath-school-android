@@ -25,34 +25,33 @@ package com.cryart.sabbathschool.lessons.ui.readings.components
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
-import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
-import com.cryart.sabbathschool.lessons.databinding.SsReadingAppBarBinding
+import com.cryart.sabbathschool.lessons.databinding.SsOfflineStateBinding
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel
 import com.cryart.sabbathschool.lessons.ui.readings.model.ReadingsState
 import ss.foundation.coroutines.flow.collectIn
 
-class AppBarComponent constructor(
-    private val binding: SsReadingAppBarBinding,
+class OfflineStateComponent constructor(
+    private val binding: SsOfflineStateBinding,
     viewModel: SSReadingViewModel,
     owner: LifecycleOwner,
+    onClose: () -> Unit
 ) {
 
     init {
-        binding.ssReadingCollapsingToolbar.run {
-            // Replace with selected quarterly colors instead
-            val primaryColor = context.colorPrimary
-            setContentScrimColor(primaryColor)
-            setBackgroundColor(primaryColor)
-            setStatusBarScrimColor(context.colorPrimaryDark)
-        }
-
         viewModel.viewState.collectIn(owner) { state ->
-            val visibility = when (state) {
-                is ReadingsState.Error,
-                ReadingsState.Loading -> View.INVISIBLE
-                ReadingsState.Success -> View.VISIBLE
+            val visibility = if ((state as? ReadingsState.Error)?.isOffline == true) {
+                View.VISIBLE
+            } else {
+                View.INVISIBLE
             }
             binding.root.visibility = visibility
         }
+
+        binding.btnClose.setOnClickListener { onClose() }
+        with(binding.actionReload) {
+            setTextColor(context.colorPrimary)
+            setOnClickListener { viewModel.reloadContent() }
+        }
     }
+
 }

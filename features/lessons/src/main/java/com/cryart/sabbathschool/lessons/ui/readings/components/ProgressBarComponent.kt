@@ -22,37 +22,26 @@
 
 package com.cryart.sabbathschool.lessons.ui.readings.components
 
-import android.view.View
+import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
+import com.cryart.design.theme
 import com.cryart.sabbathschool.core.extensions.context.colorPrimary
-import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
-import com.cryart.sabbathschool.lessons.databinding.SsReadingAppBarBinding
+import com.cryart.sabbathschool.lessons.databinding.SsProgressBarBinding
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel
 import com.cryart.sabbathschool.lessons.ui.readings.model.ReadingsState
 import ss.foundation.coroutines.flow.collectIn
 
-class AppBarComponent constructor(
-    private val binding: SsReadingAppBarBinding,
+class ProgressBarComponent(
+    private val binding: SsProgressBarBinding,
     viewModel: SSReadingViewModel,
-    owner: LifecycleOwner,
+    owner: LifecycleOwner
 ) {
-
     init {
-        binding.ssReadingCollapsingToolbar.run {
-            // Replace with selected quarterly colors instead
-            val primaryColor = context.colorPrimary
-            setContentScrimColor(primaryColor)
-            setBackgroundColor(primaryColor)
-            setStatusBarScrimColor(context.colorPrimaryDark)
-        }
-
         viewModel.viewState.collectIn(owner) { state ->
-            val visibility = when (state) {
-                is ReadingsState.Error,
-                ReadingsState.Loading -> View.INVISIBLE
-                ReadingsState.Success -> View.VISIBLE
-            }
-            binding.root.visibility = visibility
+            binding.root.isVisible = state == ReadingsState.Loading
+        }
+        binding.ssProgressIndicator.run {
+            theme(context.colorPrimary)
         }
     }
 }

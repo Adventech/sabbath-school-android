@@ -45,8 +45,6 @@ import app.ss.models.SSReadHighlights
 import app.ss.models.media.MediaAvailability
 import app.ss.pdf.PdfReader
 import coil.load
-import com.cryart.design.theme
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.core.extensions.context.shareContent
@@ -59,8 +57,11 @@ import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
 import com.cryart.sabbathschool.lessons.ui.readings.components.AppBarComponent
 import com.cryart.sabbathschool.lessons.ui.readings.components.ContextMenuComponent
+import com.cryart.sabbathschool.lessons.ui.readings.components.ErrorStateComponent
 import com.cryart.sabbathschool.lessons.ui.readings.components.MiniPlayerComponent
+import com.cryart.sabbathschool.lessons.ui.readings.components.OfflineStateComponent
 import com.cryart.sabbathschool.lessons.ui.readings.components.PagesIndicatorComponent
+import com.cryart.sabbathschool.lessons.ui.readings.components.ProgressBarComponent
 import dagger.hilt.android.AndroidEntryPoint
 import ss.foundation.coroutines.flow.collectIn
 import ss.misc.DateHelper
@@ -122,10 +123,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
 
         setupViewPager()
 
-        binding.executePendingBindings()
-        binding.viewModel = ssReadingViewModel
-        updateColorScheme()
-
         observeData()
     }
 
@@ -185,23 +182,11 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
     }
 
     private fun initComponents() {
-        AppBarComponent(
-            binding.ssReadingAppBar,
-            ssReadingViewModel.viewState,
-            this
-        )
-
-        ContextMenuComponent(
-            binding.ssContextMenu,
-            ssReadingViewModel
-        )
-    }
-
-    private fun updateColorScheme() {
-        val primaryColor = this.colorPrimary
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setContentScrimColor(primaryColor)
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setBackgroundColor(primaryColor)
-        binding.ssProgressBar.ssQuarterliesLoading.theme(primaryColor)
+        AppBarComponent(binding.ssReadingAppBar, ssReadingViewModel, this)
+        ContextMenuComponent(binding.ssContextMenu, ssReadingViewModel)
+        OfflineStateComponent(binding.ssOffline, ssReadingViewModel, this) { finish() }
+        ErrorStateComponent(binding.ssErrorState, ssReadingViewModel, this) { finish() }
+        ProgressBarComponent(binding.ssProgressBar, ssReadingViewModel, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
