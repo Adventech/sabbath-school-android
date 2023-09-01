@@ -29,7 +29,6 @@ import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.DrawableRes
@@ -45,9 +44,10 @@ import app.ss.media.playback.receivers.MediaButtonReceiver.Companion.buildMediaB
 import app.ss.media.playback.service.MusicService
 import com.cryart.sabbathschool.core.extensions.context.systemService
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.mainScopable
 import javax.inject.Inject
 import javax.inject.Singleton
 import androidx.core.app.NotificationCompat as CoreNotificationCompat
@@ -58,7 +58,7 @@ import com.cryart.design.R as DesignR
 private const val CHANNEL_ID = "app.ss.media.NOW_PLAYING"
 const val NOTIFICATION_ID = 0xb339
 
-val SAFE_FLAG_IMMUTABLE = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+const val SAFE_FLAG_IMMUTABLE = PendingIntent.FLAG_IMMUTABLE
 
 const val BACKWARD = "action_backward"
 const val FORWARD = "action_forward"
@@ -81,14 +81,15 @@ interface MediaNotifications {
 
 @Singleton
 internal class MediaNotificationsImpl @Inject constructor(
-    @ApplicationContext private val context: Context
-) : MediaNotifications, CoroutineScope by MainScope() {
+    @ApplicationContext private val context: Context,
+    dispatcherProvider: DispatcherProvider
+) : MediaNotifications, Scopable by mainScopable(dispatcherProvider) {
 
     private val notificationManager: NotificationManager = context.systemService(Context.NOTIFICATION_SERVICE)
 
     override fun updateNotification(mediaSession: MediaSessionCompat) {
         if (MusicService.IS_FOREGROUND) {
-            launch { notificationManager.notify(NOTIFICATION_ID, buildNotification(mediaSession)) }
+            scope.launch { notificationManager.notify(NOTIFICATION_ID, buildNotification(mediaSession)) }
         }
     }
 

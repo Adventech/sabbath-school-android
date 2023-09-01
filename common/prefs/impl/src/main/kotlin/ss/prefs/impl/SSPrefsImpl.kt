@@ -36,14 +36,15 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.preference.PreferenceManager
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.ioScopable
 import ss.misc.SSConstants
 import ss.misc.SSHelper
 import ss.prefs.api.SSPrefs
@@ -74,16 +75,19 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
 internal class SSPrefsImpl(
     private val dataStore: DataStore<Preferences>,
     private val sharedPreferences: SharedPreferences,
-    private val coroutineScope: CoroutineScope,
-    private val context: Context
-) : SSPrefs {
+    private val context: Context,
+    dispatcherProvider: DispatcherProvider
+) : SSPrefs, Scopable by ioScopable(dispatcherProvider) {
 
     @Inject
-    constructor(@ApplicationContext context: Context) : this(
+    constructor(
+        @ApplicationContext context: Context,
+        dispatcherProvider: DispatcherProvider,
+    ) : this(
         dataStore = context.dataStore,
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context),
-        coroutineScope = CoroutineScope(Dispatchers.IO),
-        context = context
+        context = context,
+        dispatcherProvider
     )
 
     init {
@@ -149,7 +153,7 @@ internal class SSPrefsImpl(
             putString(SSConstants.SS_LAST_LANGUAGE_INDEX, languageCode)
         }
 
-        coroutineScope.launch {
+        scope.launch {
             dataStore.edit { settings ->
                 settings[stringPreferencesKey(SSConstants.SS_LAST_LANGUAGE_INDEX)] = languageCode
             }
@@ -190,7 +194,7 @@ internal class SSPrefsImpl(
      * altogether if the initial read has completed.
      */
     override fun getDisplayOptions(callback: (SSReadingDisplayOptions) -> Unit) {
-        coroutineScope.launch {
+        scope.launch {
             val settings = try {
                 dataStore.data.first()
             } catch (ex: Exception) {
@@ -215,7 +219,7 @@ internal class SSPrefsImpl(
     }
 
     override fun setDisplayOptions(ssReadingDisplayOptions: SSReadingDisplayOptions) {
-        coroutineScope.launch {
+        scope.launch {
             dataStore.edit { settings ->
                 val themePrefKey = stringPreferencesKey(SSConstants.SS_SETTINGS_THEME_KEY)
                 val fontPrefKey = stringPreferencesKey(SSConstants.SS_SETTINGS_FONT_KEY)
@@ -269,7 +273,7 @@ internal class SSPrefsImpl(
 
     override fun clear() {
         sharedPreferences.edit { clear() }
-        coroutineScope.launch {
+        scope.launch {
             dataStore.edit { it.clear() }
         }
     }

@@ -31,14 +31,13 @@ import app.cash.turbine.test
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.prefs.model.SSReadingDisplayOptions
 
 @RunWith(AndroidJUnit4::class)
@@ -54,8 +53,8 @@ class SSPrefsImplTest {
         impl = SSPrefsImpl(
             mockDataStore,
             mockSharedPreferences,
-            CoroutineScope(UnconfinedTestDispatcher()),
-            mockk()
+            mockk(),
+            TestDispatcherProvider()
         )
     }
 
@@ -92,6 +91,7 @@ class SSPrefsImplTest {
         verify {
             mockSharedPreferences.edit()
             mockEditor.clear()
+            mockEditor.apply()
         }
     }
 }

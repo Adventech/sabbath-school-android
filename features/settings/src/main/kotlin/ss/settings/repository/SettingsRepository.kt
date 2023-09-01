@@ -33,9 +33,10 @@ import app.ss.design.compose.widget.icon.ResIcon
 import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.config.AppConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.ioScopable
 import ss.misc.SSConstants
 import ss.misc.SSHelper
 import ss.prefs.api.SSPrefs
@@ -66,7 +67,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val prefs: SSPrefs,
     private val userDataRepository: UserDataRepository,
-) : SettingsRepository, CoroutineScope by CoroutineScope(dispatcherProvider.io) {
+) : SettingsRepository, Scopable by ioScopable(dispatcherProvider) {
 
     override fun buildEntities(
         onEntityClick: (SettingsEntity) -> Unit
@@ -176,14 +177,14 @@ internal class SettingsRepositoryImpl @Inject constructor(
     }
 
     override fun signOut() {
-        launch {
+        scope.launch {
             userDataRepository.clear()
             authRepository.logout()
         }
     }
 
     override fun deleteAccount() {
-       launch {
+       scope.launch {
            authRepository.deleteAccount()
            userDataRepository.clear()
        }

@@ -26,9 +26,10 @@ import app.ss.media.playback.model.toMediaId
 import app.ss.media.playback.model.toMediaMetadata
 import app.ss.models.media.AudioFile
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.mainScopable
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -68,7 +69,7 @@ interface SSAudioPlayer {
     fun onMetaDataChanged(metaDataChanged: OnMetaDataChanged)
     fun updatePlaybackState(applier: PlaybackStateCompat.Builder.() -> Unit = {})
     fun setPlaybackState(state: PlaybackStateCompat)
-    suspend fun setDataFromMediaId(_mediaId: String, extras: Bundle = bundleOf())
+    suspend fun setDataFromMediaId(mediaId: String, extras: Bundle = bundleOf())
     fun resetMedia()
 }
 
@@ -78,8 +79,9 @@ internal class SSAudioPlayerImpl @Inject constructor(
     private val audioPlayer: AudioPlayer,
     private val audioFocusHelper: AudioFocusHelper,
     private val queueManager: AudioQueueManager,
-    private val repository: MediaRepository
-) : SSAudioPlayer, CoroutineScope by MainScope() {
+    private val repository: MediaRepository,
+    dispatcherProvider: DispatcherProvider
+) : SSAudioPlayer, Scopable by mainScopable(dispatcherProvider) {
 
     private var isInitialized: Boolean = false
 
@@ -100,7 +102,8 @@ internal class SSAudioPlayerImpl @Inject constructor(
                 this,
                 this@SSAudioPlayerImpl,
                 audioFocusHelper,
-                queueManager
+                queueManager,
+                dispatcherProvider
             )
         )
         setPlaybackState(stateBuilder.build())
@@ -114,7 +117,7 @@ internal class SSAudioPlayerImpl @Inject constructor(
     init {
         audioPlayer.onPrepared {
             preparedCallback(this@SSAudioPlayerImpl)
-            launch {
+            scope.launch {
                 if (!mediaSession.isPlaying()) {
                     audioPlayer.seekTo(mediaSession.position())
                 }
@@ -128,7 +131,7 @@ internal class SSAudioPlayerImpl @Inject constructor(
             when (controller.repeatMode) {
                 PlaybackStateCompat.REPEAT_MODE_ONE -> controller.transportControls.sendCustomAction(REPEAT_ONE, null)
                 PlaybackStateCompat.REPEAT_MODE_ALL -> controller.transportControls.sendCustomAction(REPEAT_ALL, null)
-                else -> launch { if (nextAudio() == null) goToStart() }
+                else -> scope.launch { if (nextAudio() == null) goToStart() }
             }
         }
         audioPlayer.onBuffering {
@@ -175,7 +178,7 @@ internal class SSAudioPlayerImpl @Inject constructor(
         queueManager.currentAudio?.let { audio ->
             val duration = audioPlayer.duration()
             if (duration > 0 && audio.duration != duration) {
-                launch {
+                scope.launch {
                     repository.updateDuration(queueManager.currentAudioId, duration)
                     val updatedAudio = audio.copy(
                         duration = duration
@@ -195,7 +198,7 @@ internal class SSAudioPlayerImpl @Inject constructor(
             return
         }
 
-        launch {
+        scope.launch {
             repository.findAudioFile(queueManager.currentAudioId)?.let { audio ->
                 queueManager.currentAudio = audio
                 audioPlayer.setSource(audio.source, false)
@@ -382,9 +385,8 @@ internal class SSAudioPlayerImpl @Inject constructor(
         }
     }
 
-    override suspend fun setDataFromMediaId(_mediaId: String, extras: Bundle) {
-        val mediaId = _mediaId.toMediaId()
-        val audioId = extras.getString(QUEUE_MEDIA_ID_KEY) ?: mediaId.value
+    override suspend fun setDataFromMediaId(mediaId: String, extras: Bundle) {
+        val audioId = extras.getString(QUEUE_MEDIA_ID_KEY) ?: mediaId.toMediaId().value
         val audio = repository.findAudioFile(audioId) ?: run {
             Timber.e("Couldn't find mediaId: $audioId")
             return
@@ -393,7 +395,7 @@ internal class SSAudioPlayerImpl @Inject constructor(
     }
 
     override fun resetMedia() {
-        launch {
+        scope.launch {
             val audio = repository.findAudioFile(queueManager.currentAudioId) ?: return@launch
             setMetaData(audio)
         }
@@ -407,7 +409,7 @@ internal class SSAudioPlayerImpl @Inject constructor(
 
     private fun setMetaData(audio: AudioFile) {
         val player = this
-        launch {
+        scope.launch {
             val mediaMetadata = audio.toMediaMetadata(metadataBuilder)
 
             mediaSession.setMetadata(mediaMetadata.build())
