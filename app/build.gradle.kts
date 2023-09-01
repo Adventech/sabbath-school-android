@@ -147,7 +147,6 @@ dependencies {
     implementation(projects.features.bible)
     implementation(projects.features.languages)
     implementation(projects.features.lessons)
-    implementation(projects.features.lessons.intro)
     implementation(projects.features.media)
     implementation(projects.features.pdf)
     implementation(projects.features.settings)

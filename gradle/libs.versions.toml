@@ -96,7 +96,7 @@ androidx-compose-icons = { module = "androidx.compose.material:material-icons-co
 androidx-compose-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-compose-material = { module = "androidx.compose.material:material" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidx-compose-material3" }
-# androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
+androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
 androidx-compose-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-compose-ui = { module = "androidx.compose.ui:ui" }
@@ -210,7 +210,7 @@ compose = [
     "androidx-compose-icons",
     "androidx-compose-icons-extended",
     "androidx-compose-material3",
-   # "androidx-compose-runtime",
+    "androidx-compose-runtime",
     "androidx-compose-ui",
     "androidx-compose-ui-util",
     "androidx-compose-windowSizeClass",
