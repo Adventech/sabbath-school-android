@@ -13,47 +13,32 @@
   ~
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <data>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ss_progress_indicator"
+        android:layout_centerHorizontal="true"
+        android:text="@string/ss_reading_downloading" />
 
-        <variable
-            name="progressVisibility"
-            type="int" />
-
-        <variable
-            name="progressLabel"
-            type="String" />
-    </data>
-
-    <RelativeLayout
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/ss_progress_indicator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="@{progressVisibility}">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/ss_quarterlies_loading"
-            android:layout_centerHorizontal="true"
-            android:text="@{progressLabel}" />
-
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/ss_quarterlies_loading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="20dp"
-            android:indeterminate="true"
-            android:indeterminateBehavior="repeat" />
-    </RelativeLayout>
-</layout>
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="20dp"
+        android:indeterminate="true"
+        android:indeterminateBehavior="repeat" />
+</RelativeLayout>

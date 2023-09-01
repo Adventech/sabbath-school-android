@@ -13,79 +13,59 @@
   ~
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    android:id="@+id/ss_reading_coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:keepScreenOn="true">
 
-    <data>
+    <include
+        android:id="@+id/ss_reading_app_bar"
+        layout="@layout/ss_reading_app_bar" />
 
-        <variable
-            name="viewModel"
-            type="com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel" />
-    </data>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/ss_reading_coordinator"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/ss_reading_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:keepScreenOn="true">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <include
-            android:id="@+id/ss_reading_app_bar"
-            layout="@layout/ss_reading_app_bar"
-            bind:viewModel="@{viewModel}" />
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/ss_reading_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_micro"
+        android:visibility="invisible"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/ss_reading_view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    <include
+        android:id="@+id/ssContextMenu"
+        layout="@layout/ss_reading_context_menu"
+        android:visibility="invisible" />
 
-        <androidx.compose.ui.platform.ComposeView
-            android:id="@+id/ss_reading_indicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_micro"
-            android:visibility="invisible"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    <include
+        android:id="@+id/ss_offline"
+        layout="@layout/ss_offline_state" />
 
-        <include
-            android:id="@+id/ssContextMenu"
-            layout="@layout/ss_reading_context_menu"
-            android:visibility="invisible"
-            bind:viewModel="@{viewModel}" />
+    <include
+        android:id="@+id/ss_error_state"
+        layout="@layout/ss_error_state" />
 
-        <include
-            layout="@layout/ss_offline_state"
-            bind:offlineStateLabel="@{@string/ss_reading_offline}"
-            bind:offlineStateVisibility="@{viewModel.ssLessonOfflineStateVisibility}"
-            bind:viewModel="@{viewModel}" />
+    <include
+        android:id="@+id/ss_progress_bar"
+        layout="@layout/ss_progress_bar" />
 
-        <include
-            layout="@layout/ss_error_state"
-            bind:errorStateLabel="@{@string/ss_reading_error}"
-            bind:errorStateVisibility="@{viewModel.ssLessonErrorStateVisibility}"
-            bind:viewModel="@{viewModel}" />
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/ss_player_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
 
-        <include
-            android:id="@+id/ss_progress_bar"
-            layout="@layout/ss_progress_bar"
-            bind:progressLabel="@{@string/ss_reading_downloading}"
-            bind:progressVisibility="@{viewModel.ssLessonLoadingVisibility}" />
-
-        <androidx.compose.ui.platform.ComposeView
-            android:id="@+id/ss_player_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</layout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -28,10 +28,7 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
-import androidx.databinding.BindingAdapter
-import androidx.databinding.ObservableInt
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -43,20 +40,25 @@ import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
-import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
+import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
+import com.cryart.sabbathschool.lessons.ui.readings.model.ReadingsState
 import com.cryart.sabbathschool.lessons.ui.readings.options.SSReadingDisplayOptionsView
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
+import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.debounceUntilLast
+import ss.foundation.coroutines.mainScopable
 import ss.misc.DateHelper
 import ss.misc.SSConstants
 import ss.misc.SSEvent
@@ -67,13 +69,15 @@ import ss.prefs.model.colorTheme
 class SSReadingViewModel @AssistedInject constructor(
     private val lessonsRepository: LessonsRepository,
     private val userDataRepository: UserDataRepository,
+    private val connectivityHelper: ConnectivityHelper,
+    private val dispatcherProvider: DispatcherProvider,
     @Assisted private val ssLessonIndex: String,
     @Assisted private val dataListener: DataListener,
     @Assisted private val ssReadingActivityBinding: SsReadingActivityBinding,
     @Assisted private val activity: FragmentActivity
 ) : SSReadingView.ContextMenuCallback,
     SSReadingView.HighlightsCommentsCallback,
-    CoroutineScope by MainScope() {
+    Scopable by mainScopable(dispatcherProvider) {
 
     private val context: Context = activity
     private var ssLessonInfo: SSLessonInfo? = null
@@ -83,16 +87,9 @@ class SSReadingViewModel @AssistedInject constructor(
     private var highlightId = 0
     val lessonTitle: String get() = ssLessonInfo?.lesson?.title ?: ""
     val lessonShareIndex: String get() = ssLessonInfo?.shareIndex() ?: ""
-    val ssLessonLoadingVisibility = ObservableInt(View.INVISIBLE)
-    val ssLessonOfflineStateVisibility = ObservableInt(View.INVISIBLE)
-    val ssLessonErrorStateVisibility = ObservableInt(View.INVISIBLE)
-    val ssLessonCoordinatorVisibility = ObservableInt(View.INVISIBLE)
 
-    val primaryColor: Int
-        get() = context.colorPrimary
-
-    val secondaryColor: Int
-        get() = context.colorPrimaryDark
+    private val _viewState: MutableStateFlow<ReadingsState> = MutableStateFlow(ReadingsState.Loading)
+    val viewState: StateFlow<ReadingsState> = _viewState.asStateFlow()
 
     private val currentSSReadingView: SSReadingView?
         get() {
@@ -100,9 +97,6 @@ class SSReadingViewModel @AssistedInject constructor(
                 .findViewWithTag<View>("ssReadingView_" + ssReadingActivityBinding.ssReadingViewPager.currentItem)
             return view?.findViewById(R.id.ss_reading_view)
         }
-
-    val cover: String
-        get() = ssLessonInfo?.lesson?.cover ?: ""
 
     init {
         loadLessonInfo()
@@ -120,18 +114,12 @@ class SSReadingViewModel @AssistedInject constructor(
             context.startActivity(intent)
         }
 
-    private fun loadLessonInfo() = launch {
-        ssLessonLoadingVisibility.set(View.VISIBLE)
-        ssLessonOfflineStateVisibility.set(View.INVISIBLE)
-        ssLessonErrorStateVisibility.set(View.INVISIBLE)
-        ssLessonCoordinatorVisibility.set(View.INVISIBLE)
+    private fun loadLessonInfo() = scope.launch {
+        _viewState.emit(ReadingsState.Loading)
 
         val lessonInfoResource = lessonsRepository.getLessonInfo(ssLessonIndex)
         val lessonInfo = lessonInfoResource.data ?: run {
-            ssLessonErrorStateVisibility.set(View.VISIBLE)
-            ssLessonLoadingVisibility.set(View.INVISIBLE)
-            ssLessonOfflineStateVisibility.set(View.INVISIBLE)
-            ssLessonCoordinatorVisibility.set(View.INVISIBLE)
+            _viewState.emit(ReadingsState.Error(isOffline = !connectivityHelper.isConnected()))
             return@launch
         }
         ssLessonInfo = lessonInfo
@@ -158,10 +146,7 @@ class SSReadingViewModel @AssistedInject constructor(
 
         dataListener.onReadsDownloaded(ssReads, ssReadHighlights, ssReadComments, ssReadIndexInt)
 
-        ssLessonCoordinatorVisibility.set(View.VISIBLE)
-        ssLessonLoadingVisibility.set(View.INVISIBLE)
-        ssLessonOfflineStateVisibility.set(View.INVISIBLE)
-        ssLessonErrorStateVisibility.set(View.INVISIBLE)
+        _viewState.emit(ReadingsState.Success)
     }
 
     override fun onSelectionStarted(x: Float, y: Float, highlightId: Int) {
@@ -317,20 +302,6 @@ class SSReadingViewModel @AssistedInject constructor(
 
     fun reloadContent() {
         loadLessonInfo()
-    }
-
-    companion object {
-
-        /**
-         * Pass true if this view should be visible in light theme
-         * false if it should be visible in dark theme
-         */
-        @JvmStatic
-        @BindingAdapter("showInLightTheme")
-        fun setVisibility(view: View, show: Boolean) {
-            val isLightTheme = !view.context.isDarkTheme()
-            view.isVisible = (show && isLightTheme) || (!show && !isLightTheme)
-        }
     }
 }
 

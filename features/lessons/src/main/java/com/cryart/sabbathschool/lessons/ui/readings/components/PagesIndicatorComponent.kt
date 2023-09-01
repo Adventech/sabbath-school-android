@@ -143,7 +143,7 @@ private fun backgroundColor(theme: String): State<Color> {
     }
     return animateColorAsState(
         Color.parse(colorHex),
-        animationSpec = tween(500)
+        animationSpec = tween(500), label = ""
     )
 }
 

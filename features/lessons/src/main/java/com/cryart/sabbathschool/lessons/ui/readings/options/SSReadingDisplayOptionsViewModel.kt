@@ -23,13 +23,21 @@ package com.cryart.sabbathschool.lessons.ui.readings.options
 
 import androidx.core.view.children
 import com.cryart.sabbathschool.lessons.databinding.SsReadingDisplayOptionsBinding
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import ss.prefs.api.SSPrefs
 import ss.prefs.model.SSReadingDisplayOptions
 
-class SSReadingDisplayOptionsViewModel(
-    private val binding: SsReadingDisplayOptionsBinding,
-    private val ssPrefs: SSPrefs
+class SSReadingDisplayOptionsViewModel @AssistedInject constructor(
+    private val ssPrefs: SSPrefs,
+    @Assisted private val binding: SsReadingDisplayOptionsBinding,
 ) {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(binding: SsReadingDisplayOptionsBinding): SSReadingDisplayOptionsViewModel
+    }
 
     private var ssReadingDisplayOptions: SSReadingDisplayOptions? = null
 
@@ -38,21 +46,11 @@ class SSReadingDisplayOptionsViewModel(
 
         binding.ssReadingMenuDisplayOptionsSize.addOnChangeListener { _, value, _ ->
             when (value) {
-                0f -> {
-                    setSizeTiny()
-                }
-                1f -> {
-                    setSizeSmall()
-                }
-                3f -> {
-                    setSizeLarge()
-                }
-                4f -> {
-                    setSizeHuge()
-                }
-                else -> {
-                    setSizeMedium()
-                }
+                0f -> setSize(SSReadingDisplayOptions.SS_SIZE_TINY)
+                1f -> setSize(SSReadingDisplayOptions.SS_SIZE_SMALL)
+                3f -> setSize(SSReadingDisplayOptions.SS_SIZE_LARGE)
+                4f -> setSize(SSReadingDisplayOptions.SS_SIZE_HUGE)
+                else -> setSize(SSReadingDisplayOptions.SS_SIZE_MEDIUM)
             }
         }
         binding.ssReadingMenuDisplayOptionsSize.setLabelFormatter { value ->
@@ -65,6 +63,22 @@ class SSReadingDisplayOptionsViewModel(
                 else -> ""
             }
         }
+
+        bindClickListeners()
+    }
+
+    private fun bindClickListeners() {
+        with(binding) {
+            themeLight.setOnClickListener { setTheme(SSReadingDisplayOptions.SS_THEME_LIGHT) }
+            themeSepia.setOnClickListener { setTheme(SSReadingDisplayOptions.SS_THEME_SEPIA) }
+            themeDark.setOnClickListener { setTheme(SSReadingDisplayOptions.SS_THEME_DARK) }
+            themeDefault.setOnClickListener { setTheme(SSReadingDisplayOptions.SS_THEME_DEFAULT) }
+
+            fontAndada.setOnClickListener { setFont(SSReadingDisplayOptions.SS_FONT_ANDADA) }
+            fontLato.setOnClickListener { setFont(SSReadingDisplayOptions.SS_FONT_LATO) }
+            fontSerif.setOnClickListener { setFont(SSReadingDisplayOptions.SS_FONT_PT_SERIF) }
+            fontSans.setOnClickListener { setFont(SSReadingDisplayOptions.SS_FONT_PT_SANS) }
+        }
     }
 
     private fun updateWidget(ssReadingDisplayOptions: SSReadingDisplayOptions) {
@@ -74,15 +88,19 @@ class SSReadingDisplayOptionsViewModel(
             SSReadingDisplayOptions.SS_SIZE_TINY -> {
                 binding.ssReadingMenuDisplayOptionsSize.value = 0.0f
             }
+
             SSReadingDisplayOptions.SS_SIZE_SMALL -> {
                 binding.ssReadingMenuDisplayOptionsSize.value = 1f
             }
+
             SSReadingDisplayOptions.SS_SIZE_MEDIUM -> {
                 binding.ssReadingMenuDisplayOptionsSize.value = 2f
             }
+
             SSReadingDisplayOptions.SS_SIZE_LARGE -> {
                 binding.ssReadingMenuDisplayOptionsSize.value = 3f
             }
+
             SSReadingDisplayOptions.SS_SIZE_HUGE -> {
                 binding.ssReadingMenuDisplayOptionsSize.value = 4f
             }
@@ -90,58 +108,6 @@ class SSReadingDisplayOptionsViewModel(
 
         updateThemeDisplay(ssReadingDisplayOptions.theme)
         updateFontDisplay(ssReadingDisplayOptions.font)
-    }
-
-    fun setFontAndada() {
-        setFont(SSReadingDisplayOptions.SS_FONT_ANDADA)
-    }
-
-    fun setFontLato() {
-        setFont(SSReadingDisplayOptions.SS_FONT_LATO)
-    }
-
-    fun setFontPTSerif() {
-        setFont(SSReadingDisplayOptions.SS_FONT_PT_SERIF)
-    }
-
-    fun setFontPTSans() {
-        setFont(SSReadingDisplayOptions.SS_FONT_PT_SANS)
-    }
-
-    fun setThemeLight() {
-        setTheme(SSReadingDisplayOptions.SS_THEME_LIGHT)
-    }
-
-    fun setThemeSepia() {
-        setTheme(SSReadingDisplayOptions.SS_THEME_SEPIA)
-    }
-
-    fun setThemeDark() {
-        setTheme(SSReadingDisplayOptions.SS_THEME_DARK)
-    }
-
-    fun setThemeDefault() {
-        setTheme(SSReadingDisplayOptions.SS_THEME_DEFAULT)
-    }
-
-    fun setSizeTiny() {
-        setSize(SSReadingDisplayOptions.SS_SIZE_TINY)
-    }
-
-    fun setSizeSmall() {
-        setSize(SSReadingDisplayOptions.SS_SIZE_SMALL)
-    }
-
-    fun setSizeMedium() {
-        setSize(SSReadingDisplayOptions.SS_SIZE_MEDIUM)
-    }
-
-    fun setSizeLarge() {
-        setSize(SSReadingDisplayOptions.SS_SIZE_LARGE)
-    }
-
-    fun setSizeHuge() {
-        setSize(SSReadingDisplayOptions.SS_SIZE_HUGE)
     }
 
     private fun setTheme(theme: String) {

@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -45,8 +45,6 @@ import app.ss.models.SSReadHighlights
 import app.ss.models.media.MediaAvailability
 import app.ss.pdf.PdfReader
 import coil.load
-import com.cryart.design.theme
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.core.extensions.context.shareContent
@@ -57,8 +55,13 @@ import com.cryart.sabbathschool.core.ui.ShareableScreen
 import com.cryart.sabbathschool.core.ui.SlidingActivity
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingActivityBinding
+import com.cryart.sabbathschool.lessons.ui.readings.components.AppBarComponent
+import com.cryart.sabbathschool.lessons.ui.readings.components.ContextMenuComponent
+import com.cryart.sabbathschool.lessons.ui.readings.components.ErrorStateComponent
 import com.cryart.sabbathschool.lessons.ui.readings.components.MiniPlayerComponent
+import com.cryart.sabbathschool.lessons.ui.readings.components.OfflineStateComponent
 import com.cryart.sabbathschool.lessons.ui.readings.components.PagesIndicatorComponent
+import com.cryart.sabbathschool.lessons.ui.readings.components.ProgressBarComponent
 import dagger.hilt.android.AndroidEntryPoint
 import ss.foundation.coroutines.flow.collectIn
 import ss.misc.DateHelper
@@ -120,10 +123,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
 
         setupViewPager()
 
-        binding.executePendingBindings()
-        binding.viewModel = ssReadingViewModel
-        updateColorScheme()
-
         observeData()
     }
 
@@ -182,11 +181,12 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         )
     }
 
-    private fun updateColorScheme() {
-        val primaryColor = this.colorPrimary
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setContentScrimColor(primaryColor)
-        binding.ssReadingAppBar.ssReadingCollapsingToolbar.setBackgroundColor(primaryColor)
-        binding.ssProgressBar.ssQuarterliesLoading.theme(primaryColor)
+    private fun initComponents() {
+        AppBarComponent(binding.ssReadingAppBar, ssReadingViewModel, this)
+        ContextMenuComponent(binding.ssContextMenu, ssReadingViewModel)
+        OfflineStateComponent(binding.ssOffline, ssReadingViewModel, this) { finish() }
+        ErrorStateComponent(binding.ssErrorState, ssReadingViewModel, this) { finish() }
+        ProgressBarComponent(binding.ssProgressBar, ssReadingViewModel, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -313,6 +313,8 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
             val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
             menu.findItem(R.id.ss_reading_menu_printed_resources)?.isVisible = info != null
         }
+
+        initComponents()
     }
 
     private fun observeReadUserContent(readIndex: String) {
