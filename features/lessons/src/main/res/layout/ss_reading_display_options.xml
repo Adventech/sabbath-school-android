@@ -13,169 +13,151 @@
   ~
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_top_corners_background"
+    android:divider="@color/list_divider"
+    android:orientation="vertical"
+    android:showDividers="middle">
 
-    <data>
+    <LinearLayout
+        android:id="@+id/themeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:clickable="true"
+        android:divider="@color/list_divider"
+        android:focusable="true"
+        android:showDividers="middle"
+        android:weightSum="4">
 
-        <variable
-            name="viewModel"
-            type="com.cryart.sabbathschool.lessons.ui.readings.options.SSReadingDisplayOptionsViewModel" />
-    </data>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/themeLight"
+            style="@style/display_options_text_view"
+            android:text="@string/ss_reading_display_options_theme_light" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/themeSepia"
+            style="@style/display_options_text_view"
+            android:text="@string/ss_reading_display_options_theme_sepia" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/themeDark"
+            style="@style/display_options_text_view"
+            android:text="@string/ss_reading_display_options_theme_dark" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/themeDefault"
+            style="@style/display_options_text_view"
+            android:text="@string/ss_auto" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fontContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:weightSum="4">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fontAndada"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+            android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+            android:text="@string/ss_reading_display_options_typeface_andada"
+            android:textAlignment="center"
+            android:textColor="@color/selector_primary_variant"
+            app:fontFamily="@font/andada_regular" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fontLato"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+            android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+            android:text="@string/ss_reading_display_options_typeface_lato"
+            android:textAlignment="center"
+            android:textColor="@color/selector_primary_variant"
+            app:fontFamily="@font/lato_regular" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fontSerif"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+            android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+            android:text="@string/ss_reading_display_options_typeface_pt_serif"
+            android:textAlignment="center"
+            android:textColor="@color/selector_primary_variant"
+            app:fontFamily="@font/pt_serif_regular" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fontSans"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingTop="@dimen/ss_reading_display_options_button_padding"
+            android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
+            android:text="@string/ss_reading_display_options_typeface_pt_sans"
+            android:textAlignment="center"
+            android:textColor="@color/selector_primary_variant"
+            app:fontFamily="@font/pt_sans_regular" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/rounded_top_corners_background"
-        android:divider="@color/list_divider"
-        android:orientation="vertical"
-        android:showDividers="middle">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/spacing_medium_large"
+        android:paddingTop="@dimen/ss_reading_display_options_seekbar_padding_top"
+        android:paddingBottom="@dimen/ss_reading_display_options_seekbar_padding_bottom">
 
-        <LinearLayout
-            android:id="@+id/themeContainer"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:clickable="true"
-            android:divider="@color/list_divider"
-            android:focusable="true"
-            android:showDividers="middle"
-            android:weightSum="4">
+            android:gravity="center|end"
+            android:text="@string/ss_reading_display_options_aa"
+            android:textAlignment="textEnd" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/themeLight"
-                style="@style/display_options_text_view"
-                android:onClick="@{() -> viewModel.setThemeLight()}"
-                android:text="@string/ss_reading_display_options_theme_light" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/themeSepia"
-                style="@style/display_options_text_view"
-                android:onClick="@{() -> viewModel.setThemeSepia()}"
-                android:text="@string/ss_reading_display_options_theme_sepia" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/themeDark"
-                style="@style/display_options_text_view"
-                android:onClick="@{() -> viewModel.setThemeDark()}"
-                android:text="@string/ss_reading_display_options_theme_dark" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/themeDefault"
-                style="@style/display_options_text_view"
-                android:onClick="@{() -> viewModel.setThemeDefault()}"
-                android:text="@string/ss_auto" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/fontContainer"
-            android:layout_width="match_parent"
+        <com.google.android.material.slider.Slider
+            android:id="@+id/ss_reading_menu_display_options_size"
+            style="@style/Widget.SS.Slider"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:weightSum="4">
+            android:layout_weight="1"
+            android:stepSize="1.0"
+            android:valueFrom="0.0"
+            android:valueTo="4.0" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/fontAndada"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:onClick="@{() -> viewModel.setFontAndada()}"
-                android:paddingTop="@dimen/ss_reading_display_options_button_padding"
-                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
-                android:text="@string/ss_reading_display_options_typeface_andada"
-                android:textAlignment="center"
-                android:textColor="@color/selector_primary_variant"
-                app:fontFamily="@font/andada_regular" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/fontLato"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:onClick="@{() -> viewModel.setFontLato()}"
-                android:paddingTop="@dimen/ss_reading_display_options_button_padding"
-                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
-                android:text="@string/ss_reading_display_options_typeface_lato"
-                android:textAlignment="center"
-                android:textColor="@color/selector_primary_variant"
-                app:fontFamily="@font/lato_regular" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/fontSerif"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:onClick="@{() -> viewModel.setFontPTSerif()}"
-                android:paddingTop="@dimen/ss_reading_display_options_button_padding"
-                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
-                android:text="@string/ss_reading_display_options_typeface_pt_serif"
-                android:textAlignment="center"
-                android:textColor="@color/selector_primary_variant"
-                app:fontFamily="@font/pt_serif_regular" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/fontSans"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:onClick="@{() -> viewModel.setFontPTSans()}"
-                android:paddingTop="@dimen/ss_reading_display_options_button_padding"
-                android:paddingBottom="@dimen/ss_reading_display_options_button_padding"
-                android:text="@string/ss_reading_display_options_typeface_pt_sans"
-                android:textAlignment="center"
-                android:textColor="@color/selector_primary_variant"
-                app:fontFamily="@font/pt_sans_regular" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="@dimen/spacing_medium_large"
-            android:paddingTop="@dimen/ss_reading_display_options_seekbar_padding_top"
-            android:paddingBottom="@dimen/ss_reading_display_options_seekbar_padding_bottom">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center|end"
-                android:text="@string/ss_reading_display_options_aa"
-                android:textAlignment="textEnd" />
-
-            <com.google.android.material.slider.Slider
-                android:id="@+id/ss_reading_menu_display_options_size"
-                style="@style/Widget.SS.Slider"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:stepSize="1.0"
-                android:valueFrom="0.0"
-                android:valueTo="4.0" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start|center"
-                android:text="@string/ss_reading_display_options_aa"
-                android:textAlignment="textStart"
-                android:textSize="@dimen/ss_reading_display_options_seekbar_aa_increase" />
-        </LinearLayout>
+            android:gravity="start|center"
+            android:text="@string/ss_reading_display_options_aa"
+            android:textAlignment="textStart"
+            android:textSize="@dimen/ss_reading_display_options_seekbar_aa_increase" />
     </LinearLayout>
-</layout>
+</LinearLayout>

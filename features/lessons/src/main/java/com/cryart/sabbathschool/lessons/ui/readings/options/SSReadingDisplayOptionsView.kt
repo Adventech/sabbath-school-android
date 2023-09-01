@@ -25,36 +25,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.lessons.R
 import com.cryart.sabbathschool.lessons.databinding.SsReadingDisplayOptionsBinding
 import com.cryart.sabbathschool.lessons.ui.base.SsBottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import ss.prefs.api.SSPrefs
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SSReadingDisplayOptionsView : SsBottomSheetDialogFragment() {
 
     @Inject
-    lateinit var ssPrefs: SSPrefs
+    lateinit var viewModelFactory: SSReadingDisplayOptionsViewModel.Factory
+
+    private val binding by viewBinding(SsReadingDisplayOptionsBinding::bind)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding: SsReadingDisplayOptionsBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.ss_reading_display_options,
-            null,
-            false
-        )
-        binding.viewModel = SSReadingDisplayOptionsViewModel(
-            binding,
-            ssPrefs
-        )
+        return inflater.inflate(R.layout.ss_reading_display_options, container, false)
+    }
 
-        return binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModelFactory.create(binding)
     }
 }
