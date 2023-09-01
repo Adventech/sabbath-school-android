@@ -28,13 +28,14 @@ import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.buffer
 import okio.sink
 import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.SSLessonsApi
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
@@ -52,14 +53,14 @@ internal class ReaderArtifactHelper @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper,
     appConfig: AppConfig
-) : CoroutineScope by CoroutineScope(dispatcherProvider.io) {
+) : Scopable by ioScopable(dispatcherProvider) {
 
     private val apiBaseUrl = if (appConfig.isDebug)
         SSConstants.SS_STAGE_API_BASE_URL else SSConstants.SS_API_BASE_URL
     private val readerUrl: String = "${apiBaseUrl}reader/$SS_READER_ARTIFACT_NAME"
 
     fun sync() = try {
-        launch {
+        scope.launch {
             val response = safeApiCall(connectivityHelper) {
                 lessonsApi.readerArtifact(readerUrl)
             }

@@ -38,10 +38,10 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.ui.about.AboutActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.mainScopable
 import ss.prefs.api.SSPrefs
 import ss.settings.SettingsActivity
 import javax.inject.Inject
@@ -55,14 +55,14 @@ class AppNavigatorImpl @Inject constructor(
     private val ssPrefs: SSPrefs,
     private val authRepository: AuthRepository,
     private val dispatcherProvider: DispatcherProvider
-) : AppNavigator, CoroutineScope by MainScope() {
+) : AppNavigator, Scopable by mainScopable(dispatcherProvider) {
 
     private suspend fun isSignedIn(): Boolean {
         return authRepository.getUser().getOrNull() != null
     }
 
     override fun navigate(activity: Activity, destination: Destination, extras: Bundle?) {
-        launch(dispatcherProvider.io) {
+        scope.launch(dispatcherProvider.io) {
             val clazz = getDestinationClass(destination) ?: return@launch
             val loginClass = LoginActivity::class.java
 
@@ -148,7 +148,7 @@ class AppNavigatorImpl @Inject constructor(
      * [1] https://sabbath-school.adventech.io/en/2021-03
      * [2] https://sabbath-school.adventech.io/en/2021-03/03/07-friday-further-thought/
      */
-    private fun navigateFromWeb(activity: Activity, uri: Uri) = launch(dispatcherProvider.io) {
+    private fun navigateFromWeb(activity: Activity, uri: Uri) = scope.launch(dispatcherProvider.io) {
         if (!isSignedIn()) {
             val intent = Intent(activity, LoginActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

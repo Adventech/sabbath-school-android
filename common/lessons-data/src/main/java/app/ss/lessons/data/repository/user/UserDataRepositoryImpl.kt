@@ -34,7 +34,6 @@ import app.ss.storage.db.entity.PdfAnnotationsEntity
 import app.ss.storage.db.entity.ReadCommentsEntity
 import app.ss.storage.db.entity.ReadHighlightsEntity
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
@@ -44,6 +43,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.Instant
 import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.SSLessonsApi
 import ss.lessons.model.request.UploadPdfAnnotationsRequest
 import ss.misc.DeviceHelper
@@ -62,7 +63,7 @@ internal class UserDataRepositoryImpl @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper,
     private val deviceHelper: DeviceHelper
-) : UserDataRepository, CoroutineScope by CoroutineScope(dispatcherProvider.io) {
+) : UserDataRepository, Scopable by ioScopable(dispatcherProvider) {
 
     override fun getHighlights(readIndex: String): Flow<Result<SSReadHighlights>> = readHighlightsDao
         .getFlow(readIndex)
@@ -74,7 +75,7 @@ internal class UserDataRepositoryImpl @Inject constructor(
             emit(Result.failure(it))
         }
 
-    private fun syncHighlights(readIndex: String) = launch {
+    private fun syncHighlights(readIndex: String) = scope.launch {
         val response = safeApiCall(connectivityHelper) { lessonsApi.getHighlights(readIndex) }
         if (response !is NetworkResource.Success) return@launch
 
@@ -99,7 +100,7 @@ internal class UserDataRepositoryImpl @Inject constructor(
     }
 
     override fun saveHighlights(highlights: SSReadHighlights) {
-        launch {
+        scope.launch {
             readHighlightsDao.insertItem(
                 ReadHighlightsEntity(highlights.readIndex, highlights.highlights, deviceHelper.nowEpochMilli())
             )
@@ -120,7 +121,7 @@ internal class UserDataRepositoryImpl @Inject constructor(
             emit(Result.failure(it))
         }
 
-    private fun syncComments(readIndex: String) = launch {
+    private fun syncComments(readIndex: String) = scope.launch {
         val response = safeApiCall(connectivityHelper) { lessonsApi.getComments(readIndex) }
         if (response !is NetworkResource.Success) return@launch
 
@@ -143,7 +144,7 @@ internal class UserDataRepositoryImpl @Inject constructor(
     }
 
     override fun saveComments(comments: SSReadComments) {
-        launch {
+        scope.launch {
             readCommentsDao.insertItem(
                 ReadCommentsEntity(comments.readIndex, comments.comments, deviceHelper.nowEpochMilli())
             )
@@ -168,7 +169,7 @@ internal class UserDataRepositoryImpl @Inject constructor(
             emit(Result.failure(it))
         }
 
-    private fun syncAnnotations(lessonIndex: String, pdfId: String) = launch {
+    private fun syncAnnotations(lessonIndex: String, pdfId: String) = scope.launch {
         val response = safeApiCall(connectivityHelper) { lessonsApi.getPdfAnnotations(lessonIndex, pdfId) }
         if (response !is NetworkResource.Success) return@launch
 
@@ -194,7 +195,7 @@ internal class UserDataRepositoryImpl @Inject constructor(
     }
 
     override fun saveAnnotations(lessonIndex: String, pdfId: String, annotations: List<PdfAnnotations>) {
-        launch {
+        scope.launch {
             val pdfIndex = "$lessonIndex-$pdfId"
             val entities = annotations.map {
                 PdfAnnotationsEntity(

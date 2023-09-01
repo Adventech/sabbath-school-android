@@ -39,6 +39,7 @@ android {
 dependencies {
     api(projects.common.prefs.api)
     implementation(projects.common.misc)
+    implementation(projects.libraries.foundation.coroutines)
     implementation(libs.androidx.preference)
     implementation(libs.androidx.datastore.prefs)
     implementation(libs.google.hilt.android)
@@ -46,4 +47,5 @@ dependencies {
     implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
+    testImplementation(projects.libraries.foundation.coroutines.test)
 }

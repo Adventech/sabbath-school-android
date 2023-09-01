@@ -26,7 +26,6 @@ import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -34,12 +33,14 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.ioScopable
 import timber.log.Timber
 
 internal abstract class DataSourceMediator<T, R>(
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper
-) : CoroutineScope by CoroutineScope(dispatcherProvider.io) {
+) : Scopable by ioScopable(dispatcherProvider) {
 
     abstract val cache: LocalDataSource<T, R>
 
@@ -85,7 +86,7 @@ internal abstract class DataSourceMediator<T, R>(
             .also { cacheNetworkRequest(request) }
     }
 
-    private fun cacheNetworkRequest(request: R) = launch {
+    private fun cacheNetworkRequest(request: R) = scope.launch {
         val resource = safeNetworkGetItem { network.getItem(request) }
         resource.data?.let { withContext(dispatcherProvider.io) { cache.updateItem(it) } }
     }

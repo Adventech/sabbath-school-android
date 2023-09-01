@@ -16,9 +16,10 @@ import app.ss.media.playback.UPDATE_META_DATA
 import app.ss.media.playback.UPDATE_QUEUE
 import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.toQueueItem
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.mainScopable
 
 const val QUEUE_MEDIA_ID_KEY = "queue_media_id_key"
 const val QUEUE_LIST_KEY = "queue_list_key"
@@ -27,8 +28,9 @@ class MediaSessionCallback(
     private val mediaSession: MediaSessionCompat,
     private val audioPlayer: SSAudioPlayer,
     private val audioFocusHelper: AudioFocusHelper,
-    private val audioQueueManager: AudioQueueManager
-) : MediaSessionCompat.Callback(), CoroutineScope by MainScope() {
+    private val audioQueueManager: AudioQueueManager,
+    dispatcherProvider: DispatcherProvider
+) : MediaSessionCompat.Callback(), Scopable by mainScopable(dispatcherProvider) {
 
     init {
         audioFocusHelper.onAudioFocusGain {
@@ -72,7 +74,7 @@ class MediaSessionCallback(
     }
 
     override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
-        launch { audioPlayer.setDataFromMediaId(mediaId, extras ?: bundleOf()) }
+        scope.launch { audioPlayer.setDataFromMediaId(mediaId, extras ?: bundleOf()) }
     }
 
     override fun onSeekTo(position: Long) {
@@ -80,15 +82,15 @@ class MediaSessionCallback(
     }
 
     override fun onSkipToNext() {
-        launch { audioPlayer.nextAudio() }
+        scope.launch { audioPlayer.nextAudio() }
     }
 
     override fun onSkipToPrevious() {
-        launch { audioPlayer.previousAudio() }
+        scope.launch { audioPlayer.previousAudio() }
     }
 
     override fun onSkipToQueueItem(id: Long) {
-        launch { audioPlayer.skipTo(id.toInt()) }
+        scope.launch { audioPlayer.skipTo(id.toInt()) }
     }
 
     override fun onStop() {
