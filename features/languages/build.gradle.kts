@@ -53,12 +53,9 @@ dependencies {
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.extensions)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.google.accompanist.navigation.animation)
     implementation(libs.google.material)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)

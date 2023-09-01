@@ -70,13 +70,7 @@ dependencies {
 
     implementation(libs.timber)
 
-    api(libs.pdfkit)
-
-    testImplementation(libs.bundles.testing.common)
-    kaptTest(libs.google.hilt.compiler)
-    androidTestImplementation(libs.bundles.testing.android.common)
-    kaptAndroidTest(libs.google.hilt.compiler)
-    testImplementation(projects.libraries.testUtils)
+    implementation(libs.pdfkit)
 }
 
 /**

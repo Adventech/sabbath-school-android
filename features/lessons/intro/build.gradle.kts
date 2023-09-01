@@ -48,9 +48,7 @@ dependencies {
     implementation(projects.common.lessonsData)
     implementation(projects.common.models)
 
-    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel)
-    implementation(libs.google.accompanist.navigation.material)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
 
