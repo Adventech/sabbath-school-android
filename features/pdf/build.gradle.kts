@@ -70,7 +70,11 @@ dependencies {
 
     implementation(libs.timber)
 
-    implementation(libs.pdfkit)
+    implementation(libs.pdfkit) {
+        // We don't need this transitive dependencies
+        exclude(group = "com.google.android.material", module = "material")
+        exclude(group = "androidx.compose.runtime", module = "runtime") // imported as aar and breaks the build
+    }
 }
 
 /**
