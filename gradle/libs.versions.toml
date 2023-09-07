@@ -9,7 +9,7 @@ androidx-compose-bom = "2023.06.01"
 androidx-compose-constraintlayout = "1.0.1"
 androidx-compose-material3 = "1.1.1"
 androidx-constraintlayout = "2.1.4"
-androidx-core = "1.10.1"
+androidx-core = "1.12.0"
 androidx-core-splashscreen = "1.0.1"
 # @keep this version
 androidx-customview = "1.2.0-alpha02"
