@@ -23,6 +23,8 @@
 package app.ss.media.playback.service
 
 import android.content.Intent
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import androidx.media.MediaBrowserServiceCompat
@@ -40,6 +42,7 @@ import app.ss.media.playback.model.MediaId.Companion.CALLER_OTHER
 import app.ss.media.playback.model.MediaId.Companion.CALLER_SELF
 import app.ss.media.playback.players.SSAudioPlayer
 import app.ss.media.playback.receivers.BecomingNoisyReceiver
+import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -86,7 +89,13 @@ class MusicService : MediaBrowserServiceCompat() {
             return
         }
         Timber.i("Starting foreground service")
-        startForeground(NOTIFICATION_ID, mediaNotifications.buildNotification(musicPlayer.getSession()))
+
+        val notification = mediaNotifications.buildNotification(musicPlayer.getSession())
+        if (isAtLeastApi(Build.VERSION_CODES.Q)) {
+            startForeground(NOTIFICATION_ID, notification, FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
+        } else {
+            startForeground(NOTIFICATION_ID, notification)
+        }
         becomingNoisyReceiver?.register()
         IS_FOREGROUND = true
     }
@@ -98,8 +107,7 @@ class MusicService : MediaBrowserServiceCompat() {
         }
         Timber.d("Stopping foreground service")
         becomingNoisyReceiver?.unregister()
-        @Suppress("DEPRECATION")
-        stopForeground(removeNotification)
+        stopForeground(if (removeNotification) STOP_FOREGROUND_REMOVE else STOP_FOREGROUND_DETACH)
         IS_FOREGROUND = false
     }
 

@@ -131,7 +131,7 @@ internal fun NowPlayingScreen(
         if (expanded) 32.dp else 0.dp,
         animationSpec = spring(
             Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow
-        )
+        ), label = ""
     )
 
     val nestedScrollConnection = remember {
