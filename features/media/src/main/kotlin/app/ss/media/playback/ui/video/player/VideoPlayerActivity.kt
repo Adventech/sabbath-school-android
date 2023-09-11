@@ -41,6 +41,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.platform.ComposeView
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.WindowInsetsControllerCompat
@@ -144,7 +145,12 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             }
         }
 
-        registerReceiver(broadcastReceiver, IntentFilter(ACTION_PIP_CONTROLS))
+        ContextCompat.registerReceiver(
+            this,
+            broadcastReceiver,
+            IntentFilter(ACTION_PIP_CONTROLS),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
     }
 
     override fun onNewIntent(intent: Intent?) {
