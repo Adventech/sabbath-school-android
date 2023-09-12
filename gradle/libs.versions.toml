@@ -35,7 +35,7 @@ circuit = "0.12.1"
 coil = "2.4.0"
 compose-compiler = "1.5.3"
 compose-compiler-kotlinVersion = "1.9.10"
-google-accompanist = "0.30.1"
+google-accompanist = "0.32.0"
 google-exoplayer = "2.18.7"
 google-hilt = "2.48"
 google-material = "1.9.0"
@@ -141,7 +141,6 @@ circuit-runtime-ui = { module = "com.slack.circuit:circuit-runtime-ui", version.
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
 google-coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs_minimal:2.0.3"
-google-accompanist-placeholder = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "google-accompanist" }
 google-accompanist-systemUiController = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "google-accompanist" }
 google-exoplayer-core = { module = "com.google.android.exoplayer:exoplayer-core", version.ref = "google-exoplayer" }
 google-exoplayer-mediasession = { module = "com.google.android.exoplayer:extension-mediasession", version.ref = "google-exoplayer" }

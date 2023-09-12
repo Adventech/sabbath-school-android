@@ -30,9 +30,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
-import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.fade
-import com.google.accompanist.placeholder.placeholder
+import ss.ui.placeholder.asPlaceholder
 
 /**
  * Applies a placeholder modifier used in loading states.
@@ -41,13 +39,11 @@ fun Modifier.asPlaceholder(
     visible: Boolean,
     shape: Shape = RoundedCornerShape(8.dp),
 ) = composed {
-    placeholder(
+    asPlaceholder(
         visible = visible,
-        color = MaterialTheme.colorScheme.secondary,
         shape = shape,
-        highlight = PlaceholderHighlight.fade(
-            highlightColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.75f)
-        )
+        color = MaterialTheme.colorScheme.secondary,
+        highlightColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.75f)
     )
 }
 

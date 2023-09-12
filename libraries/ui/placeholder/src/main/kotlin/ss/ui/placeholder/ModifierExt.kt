@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,37 +20,27 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.sgp.base)
-    id("com.android.library")
-    id("kotlin-android")
-    id("app.cash.paparazzi")
-}
+package ss.ui.placeholder
 
-android {
-    namespace = "app.ss.design.compose"
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.dp
 
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
-    }
-}
-
-slack {
-    features { compose() }
-}
-
-dependencies {
-    implementation(projects.common.translations)
-    implementation(projects.libraries.ui.placeholder)
-
-    implementation(libs.timber)
-    implementation(libs.coil.compose)
-    implementation(libs.kotlin.coroutines)
-
-    implementation(libs.androidx.compose.material)
-    implementation(libs.snapper)
-
-    api(platform(libs.androidx.compose.bom))
-    api(libs.bundles.compose)
-    api(libs.bundles.compose.tooling)
-}
+/**
+ * Applies a placeholder modifier used in loading states.
+ */
+fun Modifier.asPlaceholder(
+    visible: Boolean,
+    shape: Shape = RoundedCornerShape(8.dp),
+    color: Color,
+    highlightColor: Color
+) = placeholder(
+    visible = visible,
+    color = color,
+    shape = shape,
+    highlight = PlaceholderHighlight.fade(
+        highlightColor = highlightColor
+    )
+)
