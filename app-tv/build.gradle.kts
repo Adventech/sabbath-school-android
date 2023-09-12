@@ -102,6 +102,7 @@ dependencies {
     implementation(projects.common.translations)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
+    implementation(projects.libraries.ui.placeholder)
     implementation(projects.services.lessons.impl)
 
     implementation(libs.androidx.activity.compose)
@@ -116,7 +117,6 @@ dependencies {
     implementation(libs.androidx.tv.material)
     implementation(libs.bundles.circuit)
     implementation(libs.coil.compose)
-    implementation(libs.google.accompanist.placeholder)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
     implementation(libs.kotlinx.collectionsImmutable)

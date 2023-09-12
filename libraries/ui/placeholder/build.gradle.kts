@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,33 +24,16 @@ plugins {
     alias(libs.plugins.sgp.base)
     id("com.android.library")
     id("kotlin-android")
-    id("app.cash.paparazzi")
 }
 
-android {
-    namespace = "app.ss.design.compose"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
-    }
-}
+android { namespace = "ss.ui.placeholder" }
 
 slack {
     features { compose() }
 }
 
 dependencies {
-    implementation(projects.common.translations)
-    implementation(projects.libraries.ui.placeholder)
-
-    implementation(libs.timber)
-    implementation(libs.coil.compose)
-    implementation(libs.kotlin.coroutines)
-
-    implementation(libs.androidx.compose.material)
-    implementation(libs.snapper)
-
-    api(platform(libs.androidx.compose.bom))
-    api(libs.bundles.compose)
-    api(libs.bundles.compose.tooling)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.bundles.compose)
+    implementation(libs.bundles.compose.tooling)
 }

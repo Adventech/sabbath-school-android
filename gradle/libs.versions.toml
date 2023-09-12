@@ -141,7 +141,6 @@ circuit-runtime-ui = { module = "com.slack.circuit:circuit-runtime-ui", version.
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
 google-coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs_minimal:2.0.3"
-google-accompanist-placeholder = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "google-accompanist" }
 google-accompanist-systemUiController = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "google-accompanist" }
 google-exoplayer-core = { module = "com.google.android.exoplayer:exoplayer-core", version.ref = "google-exoplayer" }
 google-exoplayer-mediasession = { module = "com.google.android.exoplayer:extension-mediasession", version.ref = "google-exoplayer" }

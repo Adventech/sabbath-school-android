@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -22,12 +22,14 @@
 
 package app.ss.design.compose.extensions.modifier
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import com.google.accompanist.placeholder.material.placeholder
+import androidx.compose.ui.unit.dp
+import ss.ui.placeholder.asPlaceholder
 
 /**
  * Conditionally applies the [builder] block if [condition].
@@ -43,11 +45,12 @@ inline fun Modifier.thenIf(
 fun Modifier.asPlaceholder(
     visible: Boolean,
     color: Color? = null,
-    shape: Shape? = null
+    shape: Shape = RoundedCornerShape(8.dp)
 ) = composed {
-    placeholder(
+    asPlaceholder(
         visible = visible,
+        shape = shape,
         color = color ?: MaterialTheme.colorScheme.inverseOnSurface,
-        shape = shape
+        highlightColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.75f)
     )
 }
