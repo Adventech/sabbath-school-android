@@ -28,7 +28,7 @@ import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.model.VideoSpec
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.Screen
+import com.slack.circuit.runtime.screen.Screen
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.parcelize.Parcelize
 
