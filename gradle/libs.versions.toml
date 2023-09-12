@@ -137,6 +137,7 @@ circuit-foundation = { module = "com.slack.circuit:circuit-foundation", version.
 circuit-overlay = { module = "com.slack.circuit:circuit-overlay", version.ref = "circuit" }
 circuit-runtime = { module = "com.slack.circuit:circuit-runtime", version.ref = "circuit" }
 circuit-runtime-presenter = { module = "com.slack.circuit:circuit-runtime-presenter", version.ref = "circuit" }
+circuit-runtime-screen = { module = "com.slack.circuit:circuit-runtime-screen", version.ref = "circuit" }
 circuit-runtime-ui = { module = "com.slack.circuit:circuit-runtime-ui", version.ref = "circuit" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
@@ -201,6 +202,7 @@ circuit = [
     "circuit-overlay",
     "circuit-runtime",
     "circuit-runtime-presenter",
+    "circuit-runtime-screen",
     "circuit-runtime-ui"
 ]
 compose = [
