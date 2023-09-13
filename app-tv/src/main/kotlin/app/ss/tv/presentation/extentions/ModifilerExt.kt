@@ -23,14 +23,21 @@
 package app.ss.tv.presentation.extentions
 
 import android.view.KeyEvent
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
-import ss.ui.placeholder.asPlaceholder
 
 /**
  * Applies a placeholder modifier used in loading states.
@@ -39,12 +46,18 @@ fun Modifier.asPlaceholder(
     visible: Boolean,
     shape: Shape = RoundedCornerShape(8.dp),
 ) = composed {
-    asPlaceholder(
-        visible = visible,
-        shape = shape,
-        color = MaterialTheme.colorScheme.secondary,
-        highlightColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.75f)
-    )
+    if (visible) {
+        val infiniteTransition = rememberInfiniteTransition(label = "transition")
+        val color by infiniteTransition.animateColor(
+            initialValue = MaterialTheme.colorScheme.secondary,
+            targetValue = MaterialTheme.colorScheme.surface.copy(alpha = 0.75f),
+            animationSpec = infiniteRepeatable(
+                animation = tween(1200, easing = LinearEasing),
+                repeatMode = RepeatMode.Reverse
+            ), label = "color"
+        )
+        background(color, shape)
+    } else this
 }
 
 private val DPadEventsKeyCodes = listOf(

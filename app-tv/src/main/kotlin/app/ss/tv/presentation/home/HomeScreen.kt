@@ -36,7 +36,7 @@ import kotlinx.parcelize.Parcelize
 object HomeScreen : Screen, Parcelable {
 
     sealed interface Event : CircuitUiEvent {
-        object OnBack : Event
+        data object OnBack : Event
         data class OnVideoClick(val video: VideoSpec) : Event
     }
 

@@ -38,7 +38,7 @@ val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
 val appVersionCode = readPropertyValue(
     filePath = "build_number.properties",
     key = "BUILD_NUMBER",
-    defaultValue = "1"
+    defaultValue = "10"
 ).toInt() + 11000
 
 android {
@@ -91,18 +91,10 @@ slack {
     features { compose() }
 }
 
-configurations.all {
-    resolutionStrategy {
-        // resolve mismatch between circuit and tv-material
-        force(libs.androidx.compose.animation)
-    }
-}
-
 dependencies {
     implementation(projects.common.translations)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
-    implementation(projects.libraries.ui.placeholder)
     implementation(projects.services.lessons.impl)
 
     implementation(libs.androidx.activity.compose)
@@ -114,7 +106,9 @@ dependencies {
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
     implementation(libs.androidx.tv.foundation)
-    implementation(libs.androidx.tv.material)
+    implementation(libs.androidx.tv.material) {
+        exclude(group = "androidx.compose.animation", module = "animation")
+    }
     implementation(libs.bundles.circuit)
     implementation(libs.coil.compose)
     implementation(libs.google.hilt.android)

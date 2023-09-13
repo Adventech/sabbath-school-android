@@ -83,7 +83,7 @@ fun CategoryVideos(
 ) {
     var currentItemIndex by remember { mutableIntStateOf(0) }
     var isListFocused by remember { mutableStateOf(false) }
-    val listHeight by animateDpAsState(if (isListFocused) ImmersiveBgHeight else 280.dp)
+    val listHeight by animateDpAsState(if (isListFocused) immersiveBgHeight else 280.dp, label = "height")
 
     ImmersiveList(
         background = { index, listHasFocus ->
@@ -92,7 +92,7 @@ fun CategoryVideos(
 
             AnimatedVisibility(
                 visible = isListFocused,
-                modifier = Modifier.height(ImmersiveBgHeight),
+                modifier = Modifier.height(immersiveBgHeight),
             ) {
                 ImmersiveListBackground(video = category.videos[index])
             }
@@ -148,7 +148,7 @@ private fun ImmersiveListScope.ImmersiveListVideosRow(
         ) {
             itemsIndexed(videos, key = { _, model -> model.id }) { index, video ->
                 var isItemFocused by remember { mutableStateOf(false) }
-                val endPadding by animateDpAsState(if (isItemFocused) 32.dp else 24.dp)
+                val endPadding by animateDpAsState(if (isItemFocused) 32.dp else 24.dp, label = "padding")
 
                 VideoRowItem(
                     video = video,
@@ -262,7 +262,7 @@ private fun CacheDrawScope.drawImmersiveListBackground(
     )
 }
 
-private val ImmersiveBgHeight = 426.dp
+private val immersiveBgHeight = 426.dp
 
 @Preview(
     name = "Immersive List Bg",
