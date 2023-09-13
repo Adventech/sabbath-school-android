@@ -135,6 +135,7 @@ androidx-tv-material = { module = "androidx.tv:tv-material", version.ref = "andr
 androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 circuit-foundation = { module = "com.slack.circuit:circuit-foundation", version.ref = "circuit" }
 circuit-overlay = { module = "com.slack.circuit:circuit-overlay", version.ref = "circuit" }
+circuit-retained = { module = "com.slack.circuit:circuit-retained", version.ref = "circuit" }
 circuit-runtime = { module = "com.slack.circuit:circuit-runtime", version.ref = "circuit" }
 circuit-runtime-presenter = { module = "com.slack.circuit:circuit-runtime-presenter", version.ref = "circuit" }
 circuit-runtime-screen = { module = "com.slack.circuit:circuit-runtime-screen", version.ref = "circuit" }
@@ -199,6 +200,7 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 circuit = [
     "circuit-foundation",
     "circuit-overlay",
+    "circuit-retained",
     "circuit-runtime",
     "circuit-runtime-presenter",
     "circuit-runtime-screen",
