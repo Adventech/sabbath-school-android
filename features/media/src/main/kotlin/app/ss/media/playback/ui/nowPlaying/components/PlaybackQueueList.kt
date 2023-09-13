@@ -65,7 +65,7 @@ import app.ss.media.playback.ui.spec.toSpec
 import kotlinx.coroutines.launch
 import app.ss.translations.R as L10nR
 
-private const val scrollToItemKey = "playbackQueue"
+private const val SCROLL_TO_ITEM_KEY = "playbackQueue"
 
 @Composable
 internal fun PlaybackQueueList(
@@ -99,7 +99,7 @@ internal fun PlaybackQueueList(
 
     val position = playbackQueue.indexOfFirst { it.id == nowPlayingId }
     if (position > 0) {
-        LaunchedEffect(key1 = scrollToItemKey) {
+        LaunchedEffect(key1 = SCROLL_TO_ITEM_KEY) {
             coroutine.launch {
                 listState.scrollToItem(position)
             }
@@ -186,7 +186,7 @@ private fun AudioRowPreviewPlaying() {
 
 @Composable
 private fun NowPlayingAnimation() {
-    val infiniteTransition = rememberInfiniteTransition()
+    val infiniteTransition = rememberInfiniteTransition(label = "transition")
 
     Row(
         Modifier.size(24.dp),
@@ -216,7 +216,7 @@ private fun InfiniteTransition.PulsingLine(
     val scale by animateFloat(
         1f,
         heightFactor.toFloat(),
-        infiniteRepeatable(tween(duration), RepeatMode.Reverse)
+        infiniteRepeatable(tween(duration), RepeatMode.Reverse), label = "scale"
     )
 
     Box(
