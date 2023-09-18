@@ -237,7 +237,6 @@ internal class PlaybackConnectionImpl(
                     initial.copy(
                         elapsed = elapsed,
                         buffered = mediaBrowser.bufferedPosition,
-                        position = mediaBrowser.currentPosition,
                     )
                 }
             }
