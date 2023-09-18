@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -45,7 +45,6 @@ import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.media.R
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.extensions.playPause
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.translations.R.string as RString
 
@@ -74,7 +73,7 @@ internal fun PlayBackControls(
         Spacer(modifier = Modifier.weight(1f))
 
         IconButton(
-            onClick = { playbackConnection.transportControls?.rewind() },
+            onClick = { playbackConnection.rewind() },
             stateLayerSize = PlayBackControlsDefaults.nonPlayButtonStateLayerSize
         ) {
             IconBox(
@@ -90,7 +89,7 @@ internal fun PlayBackControls(
         Spacer(modifier = Modifier.width(PlayBackControlsDefaults.playButtonHorizontalPadding))
 
         IconButton(
-            onClick = { playbackConnection.mediaController?.playPause() },
+            onClick = { playbackConnection.playPause() },
             stateLayerSize = PlayBackControlsDefaults.playButtonStateLayerSize
         ) {
             val painter = when {
@@ -112,7 +111,7 @@ internal fun PlayBackControls(
         Spacer(modifier = Modifier.width(PlayBackControlsDefaults.playButtonHorizontalPadding))
 
         IconButton(
-            onClick = { playbackConnection.transportControls?.fastForward() },
+            onClick = { playbackConnection.fastForward() },
             stateLayerSize = PlayBackControlsDefaults.nonPlayButtonStateLayerSize
         ) {
             IconBox(

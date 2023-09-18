@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -22,8 +22,6 @@
 
 package app.ss.media.playback.ui.nowPlaying
 
-import android.media.session.PlaybackState
-import android.support.v4.media.session.PlaybackStateCompat
 import androidx.compose.material3.Surface
 import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.Paparazzi
@@ -31,6 +29,7 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
+import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.models.media.AudioFile
 import io.mockk.mockk
 import org.junit.Before
@@ -59,10 +58,12 @@ class NowPlayingScreenTest {
                 imageRatio = "portrait"
             ),
             playbackQueue = PlaybackQueue(),
-            playbackState = PlaybackStateCompat.fromPlaybackState(
-                PlaybackState.Builder()
-                    .setState(PlaybackState.STATE_PLAYING, TimeUnit.MINUTES.toMillis(1), 1f)
-                    .build()
+            playbackState = PlaybackStateSpec(
+                isPlaying = true,
+                isPlayEnabled = true,
+                isError = false,
+                isBuffering = false,
+                canShowMini = true
             ),
             playbackProgressState = PlaybackProgressState(
                 total = TimeUnit.MINUTES.toMillis(3),

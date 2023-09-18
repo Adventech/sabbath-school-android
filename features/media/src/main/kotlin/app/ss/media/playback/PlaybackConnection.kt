@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -24,66 +24,72 @@ package app.ss.media.playback
 
 import android.content.ComponentName
 import android.content.Context
-import android.os.Bundle
-import android.support.v4.media.MediaBrowserCompat
-import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.session.MediaControllerCompat
-import android.support.v4.media.session.PlaybackStateCompat
-import androidx.core.os.bundleOf
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.media3.common.MediaMetadata
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.common.Player.STATE_BUFFERING
+import androidx.media3.common.Player.STATE_READY
+import androidx.media3.session.MediaBrowser
+import androidx.media3.session.SessionToken
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
 import app.ss.media.playback.extensions.NONE_PLAYING
-import app.ss.media.playback.extensions.duration
-import app.ss.media.playback.extensions.isBuffering
-import app.ss.media.playback.extensions.isPlaying
-import app.ss.media.playback.model.MEDIA_TYPE_AUDIO
-import app.ss.media.playback.model.MediaId
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
-import app.ss.media.playback.players.AudioPlayer
-import app.ss.media.playback.players.QUEUE_LIST_KEY
+import app.ss.media.playback.model.toMediaItem
+import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.models.media.AudioFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.guava.await
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.flowInterval
+import timber.log.Timber
 
-const val PLAYBACK_PROGRESS_INTERVAL = 1000L
+internal const val PLAYBACK_PROGRESS_INTERVAL = 1000L
+internal const val DEFAULT_FORWARD = 30 * 1000L
+internal const val DEFAULT_REWIND = 15 * 1000L
+
+private const val LOG_TAG = "PlaybackConnection"
 
 interface PlaybackConnection {
     val isConnected: StateFlow<Boolean>
-    val playbackState: StateFlow<PlaybackStateCompat>
-    val nowPlaying: StateFlow<MediaMetadataCompat>
+    val playbackState: StateFlow<PlaybackStateSpec>
+    val nowPlaying: StateFlow<MediaMetadata>
 
     val playbackQueue: StateFlow<PlaybackQueue>
 
     val playbackProgress: StateFlow<PlaybackProgressState>
     val playbackSpeed: StateFlow<PlaybackSpeed>
 
-    var mediaController: MediaControllerCompat?
-    val transportControls: MediaControllerCompat.TransportControls?
-
+    fun playPause()
     fun playAudio(audio: AudioFile)
     fun playAudios(audios: List<AudioFile>, index: Int = 0)
 
     fun toggleSpeed()
     fun setQueue(audios: List<AudioFile>, index: Int = 0)
+    fun skipToItem(position: Int)
+    fun seekTo(progress: Long)
+    fun rewind()
+    fun fastForward()
+    fun stop()
+    fun releaseMini()
 }
 
 internal class PlaybackConnectionImpl(
-    context: Context,
-    serviceComponent: ComponentName,
-    private val audioPlayer: AudioPlayer,
+    private val context: Context,
+    private val serviceComponent: ComponentName,
     coroutineScope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope
 ) : PlaybackConnection, CoroutineScope by coroutineScope {
 
     override val isConnected = MutableStateFlow(false)
-    override val playbackState = MutableStateFlow(NONE_PLAYBACK_STATE)
+    override val playbackState = MutableStateFlow(PlaybackStateSpec.NONE)
     override val nowPlaying = MutableStateFlow(NONE_PLAYING)
 
     private val playbackQueueState = MutableStateFlow(PlaybackQueue())
@@ -94,35 +100,51 @@ internal class PlaybackConnectionImpl(
 
     override val playbackSpeed = MutableStateFlow(PlaybackSpeed.NORMAL)
 
-    override var mediaController: MediaControllerCompat? = null
-    override val transportControls get() = mediaController?.transportControls
-
-    private val mediaBrowserConnectionCallback = MediaBrowserConnectionCallback(context)
-    private val mediaBrowser = MediaBrowserCompat(
-        context,
-        serviceComponent,
-        mediaBrowserConnectionCallback,
-        null
-    ).apply { connect() }
+    private lateinit var mediaBrowser: MediaBrowser
 
     private var currentProgressInterval: Long = PLAYBACK_PROGRESS_INTERVAL
 
     init {
-        startPlaybackProgress()
+        connect()
+    }
+
+    private fun connect() {
+        launch {
+            mediaBrowser = MediaBrowser.Builder(
+                context,
+                SessionToken(context, serviceComponent),
+            )
+                .buildAsync()
+                .await()
+                .apply {
+                    addListener(PlayerListener())
+                    shuffleModeEnabled = false
+                }
+
+            startPlaybackProgress()
+        }
+    }
+
+    override fun playPause() {
+        mediaBrowser.run {
+            if (isPlaying) {
+                pause()
+            } else {
+                play()
+            }
+            sessionActivity?.send()
+        }
     }
 
     override fun playAudio(audio: AudioFile) = playAudios(audios = listOf(audio), index = 0)
 
     override fun playAudios(audios: List<AudioFile>, index: Int) {
-        val audiosIds = audios.map { it.id }.toTypedArray()
-        val audio = audios[index]
-        transportControls?.playFromMediaId(
-            MediaId(MEDIA_TYPE_AUDIO, audio.id).toString(),
-            Bundle().apply {
-                putStringArray(QUEUE_LIST_KEY, audiosIds)
-            }
-        )
-        transportControls?.sendCustomAction(UPDATE_QUEUE, bundleOf())
+        mediaBrowser.run {
+            setMediaItems(audios.map { it.toMediaItem() }, index, 0L)
+            prepare()
+            play()
+            sessionActivity?.send()
+        }
     }
 
     override fun toggleSpeed() {
@@ -134,7 +156,7 @@ internal class PlaybackConnectionImpl(
         }
 
         if (playbackSpeed.tryEmit(nextSpeed)) {
-            audioPlayer.setPlaybackSpeed(nextSpeed.speed)
+            mediaBrowser.setPlaybackSpeed(nextSpeed.speed)
             resetPlaybackProgressInterval()
         }
     }
@@ -142,26 +164,62 @@ internal class PlaybackConnectionImpl(
     override fun setQueue(audios: List<AudioFile>, index: Int) {
         val audiosIds = audios.map { it.id }
         val initialId = audios.getOrNull(index)?.id ?: ""
-        val playbackQueue = PlaybackQueue(
-            list = audiosIds,
-            audiosList = audios,
-            initialMediaId = initialId,
-            currentIndex = index
-        )
-        this.playbackQueueState.value = playbackQueue
+        playbackQueueState.update {
+            PlaybackQueue(
+                list = audiosIds,
+                audiosList = audios,
+                initialMediaId = initialId,
+                currentIndex = index
+            )
+        }
+
+        mediaBrowser.setMediaItems(audios.map { it.toMediaItem() }, index, 0L)
+        mediaBrowser.prepare()
+    }
+
+    override fun skipToItem(position: Int) {
+        mediaBrowser.seekToDefaultPosition(position)
+        mediaBrowser.sessionActivity?.send()
+    }
+
+    override fun seekTo(progress: Long) {
+        mediaBrowser.seekTo(progress)
+        mediaBrowser.sessionActivity?.send()
+    }
+
+    override fun fastForward() {
+        mediaBrowser.seekForward()
+        mediaBrowser.sessionActivity?.send()
+    }
+
+    override fun rewind() {
+        mediaBrowser.seekBack()
+        mediaBrowser.sessionActivity?.send()
+    }
+
+    override fun stop() {
+        mediaBrowser.stop()
+        mediaBrowser.sessionActivity?.send()
+    }
+
+    override fun releaseMini() {
+        mediaBrowser.pause()
+        mediaBrowser.sessionActivity?.send()
+        playbackState.update { it.copy(canShowMini = false) }
     }
 
     private fun startPlaybackProgress() = launch {
         combine(playbackState, nowPlaying, ::Pair).collect { (state, current) ->
             playbackProgressInterval.cancel()
-            val duration = current.duration
-            val position = state.position
+            if (!::mediaBrowser.isInitialized) return@collect
+            val duration = mediaBrowser.duration
+            val position = mediaBrowser.currentPosition
 
             if (state == NONE_PLAYBACK_STATE || current == NONE_PLAYING || duration < 1) {
                 return@collect
             }
 
-            val initial = PlaybackProgressState(duration, position, buffered = audioPlayer.bufferedPosition())
+            val initial = PlaybackProgressState(duration, position, buffered = mediaBrowser.bufferedPosition)
             playbackProgress.emit(initial)
 
             if (state.isPlaying && !state.isBuffering) {
@@ -175,7 +233,12 @@ internal class PlaybackConnectionImpl(
             flowInterval(currentProgressInterval).collect {
                 val current = playbackProgress.value.elapsed
                 val elapsed = current + PLAYBACK_PROGRESS_INTERVAL
-                playbackProgress.emit(initial.copy(elapsed = elapsed, buffered = audioPlayer.bufferedPosition()))
+                playbackProgress.update {
+                    initial.copy(
+                        elapsed = elapsed,
+                        buffered = mediaBrowser.bufferedPosition,
+                    )
+                }
             }
         }
     }
@@ -188,36 +251,52 @@ internal class PlaybackConnectionImpl(
         startPlaybackProgressInterval(playbackProgress.value)
     }
 
-    private inner class MediaBrowserConnectionCallback(private val context: Context) :
-        MediaBrowserCompat.ConnectionCallback() {
-        override fun onConnected() {
-            mediaController = MediaControllerCompat(context, mediaBrowser.sessionToken).apply {
-                registerCallback(MediaControllerCallback())
+    private inner class PlayerListener : Player.Listener {
+        override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
+            super.onMediaMetadataChanged(mediaMetadata)
+            Timber.tag(LOG_TAG).i("onMediaMetadataChanged: $mediaMetadata")
+            nowPlaying.update { mediaMetadata }
+        }
+
+        override fun onIsPlayingChanged(isPlaying: Boolean) {
+            super.onIsPlayingChanged(isPlaying)
+            Timber.i("onIsPlayingChanged: $isPlaying")
+            playbackState.update {
+                it.copy(
+                    isPlaying = isPlaying,
+                    isPlayEnabled = true,
+                    canShowMini = if (isPlaying) true else it.canShowMini
+                )
             }
-
-            isConnected.value = true
         }
 
-        override fun onConnectionSuspended() {
-            isConnected.value = false
+        override fun onPlaybackStateChanged(playbackState: Int) {
+            super.onPlaybackStateChanged(playbackState)
+            Timber.i("onPlaybackStateChanged: $playbackState")
+            this@PlaybackConnectionImpl.playbackState.update {
+                it.copy(isBuffering = playbackState == STATE_BUFFERING)
+            }
+            if (playbackState == STATE_READY) {
+                isConnected.tryEmit(true)
+            }
         }
 
-        override fun onConnectionFailed() {
-            isConnected.value = false
-        }
-    }
-
-    private inner class MediaControllerCallback : MediaControllerCompat.Callback() {
-        override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-            playbackState.value = state ?: return
+        override fun onIsLoadingChanged(isLoading: Boolean) {
+            super.onIsLoadingChanged(isLoading)
+            playbackState.update { it.copy(isBuffering = isLoading) }
         }
 
-        override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-            nowPlaying.value = metadata ?: return
+        override fun onPlayerErrorChanged(error: PlaybackException?) {
+            super.onPlayerErrorChanged(error)
+            Timber.e("onPlayerErrorChanged: $error")
+            playbackState.update { it.copy(isError = error != null) }
         }
 
-        override fun onSessionDestroyed() {
-            mediaBrowserConnectionCallback.onConnectionSuspended()
+        override fun onPlayerError(error: PlaybackException) {
+            super.onPlayerError(error)
+            Timber.e(error)
+            playbackState.update { it.copy(isError = true) }
+            isConnected.tryEmit(false)
         }
     }
 }

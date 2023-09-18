@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -26,11 +26,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.media.MediaRepository
-import app.ss.media.playback.AudioQueueManager
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.UPDATE_META_DATA
 import app.ss.media.playback.extensions.id
-import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.model.toAudio
 import app.ss.models.media.AudioFile
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
@@ -44,10 +41,9 @@ import ss.foundation.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class NowPlayingViewModel @Inject constructor(
+internal class NowPlayingViewModel @Inject constructor(
     private val repository: MediaRepository,
     val playbackConnection: PlaybackConnection,
-    private val queueManager: AudioQueueManager,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -80,11 +76,6 @@ class NowPlayingViewModel @Inject constructor(
                 setAudioQueue(playlist, state.isPlaying)
             }
         }
-
-        val currentId = queueManager.currentAudio?.id ?: return@launch
-        if (currentId != nowPlaying.id) {
-            playbackConnection.transportControls?.sendCustomAction(UPDATE_META_DATA, null)
-        }
     }
 
     private fun setAudioQueue(playlist: List<AudioFile>, play: Boolean = false) {
@@ -92,7 +83,6 @@ class NowPlayingViewModel @Inject constructor(
 
         val index = playlist.indexOfFirst { it.targetIndex == savedStateHandle.readIndex }
         val position = index.coerceAtLeast(0)
-        queueManager.setAudioQueue(playlist, position)
         playbackConnection.setQueue(playlist, index)
 
         if (play) {

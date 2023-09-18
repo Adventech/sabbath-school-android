@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2021. Adventech <info@adventech.io>
+  ~ Copyright (c) 2023. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -31,33 +31,25 @@
 
         <activity
             android:name=".playback.ui.video.player.VideoPlayerActivity"
+            android:autoRemoveFromRecents="true"
+            android:clearTaskOnLaunch="true"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:label="@string/blank"
             android:launchMode="singleTask"
-            android:clearTaskOnLaunch="true"
             android:maxRecents="1"
-            android:autoRemoveFromRecents="true"
             android:supportsPictureInPicture="true"
-            android:theme="@style/Theme.SS.Video"
-             />
+            android:theme="@style/Theme.SS.Video" />
 
         <service
             android:name=".playback.service.MusicService"
             android:enabled="true"
-            android:exported="false"
+            android:exported="true"
             android:foregroundServiceType="mediaPlayback">
             <intent-filter>
+                <action android:name="androidx.media3.session.MediaLibraryService" />
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
         </service>
-
-        <receiver
-            android:name="androidx.media.session.MediaButtonReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

@@ -1,3 +1,25 @@
+/*
+ * Copyright (c) 2023. Adventech <info@adventech.io>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package app.ss.media.playback.ui
 
 import androidx.compose.animation.AnimatedVisibility
@@ -44,6 +66,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.media3.common.MediaMetadata
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.Dimens
@@ -56,10 +79,8 @@ import app.ss.design.compose.widget.icon.Icons
 import app.ss.media.R
 import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.extensions.isActive
-import app.ss.media.playback.extensions.playPause
+import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.ui.common.Dismissible
-import app.ss.media.playback.ui.common.LocalPlaybackConnection
 import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.media.playback.ui.spec.toSpec
@@ -84,6 +105,7 @@ fun PlaybackMiniControls(
     val nowPlaying by playbackConnection.nowPlaying.collectAsStateWithLifecycle()
 
     val visible = (playbackState to nowPlaying).isActive
+
     AnimatedVisibility(
         visible = visible,
         modifier = modifier,
@@ -91,7 +113,7 @@ fun PlaybackMiniControls(
         exit = slideOutVertically(targetOffsetY = { it / 2 })
     ) {
         PlaybackMiniControls(
-            spec = playbackState.toSpec(),
+            spec = playbackState,
             nowPlayingSpec = nowPlaying.toSpec(),
             playbackConnection = playbackConnection,
             onExpand = onExpand
@@ -99,16 +121,19 @@ fun PlaybackMiniControls(
     }
 }
 
+private inline val Pair<PlaybackStateSpec, MediaMetadata>.isActive
+    get() = (first != PlaybackStateSpec.NONE && second != NONE_PLAYING) && first.canShowMini
+
 @Composable
 fun PlaybackMiniControls(
     spec: PlaybackStateSpec,
     nowPlayingSpec: NowPlayingSpec,
     modifier: Modifier = Modifier,
     height: Dp = PlaybackMiniControlsDefaults.height,
-    playbackConnection: PlaybackConnection = LocalPlaybackConnection.current,
+    playbackConnection: PlaybackConnection,
     onExpand: () -> Unit
 ) {
-    val cancel: () -> Unit = { playbackConnection.transportControls?.stop() }
+    val cancel: () -> Unit = { playbackConnection.releaseMini() }
 
     Dismissible(onDismiss = cancel) {
         Box(
@@ -146,7 +171,7 @@ fun PlaybackMiniControls(
                         PlaybackReplay(
                             contentColor = SsTheme.colors.playbackMiniContent,
                             onRewind = {
-                                playbackConnection.transportControls?.rewind()
+                                playbackConnection.rewind()
                             }
                         )
 
@@ -154,7 +179,7 @@ fun PlaybackMiniControls(
                             spec = spec,
                             contentColor = SsTheme.colors.playbackMiniContent,
                             onPlayPause = {
-                                playbackConnection.mediaController?.playPause()
+                                playbackConnection.playPause()
                             }
                         )
 
@@ -180,7 +205,7 @@ private fun playbackButtonSpacing(
 private fun PlaybackProgress(
     spec: PlaybackStateSpec,
     color: Color,
-    playbackConnection: PlaybackConnection = LocalPlaybackConnection.current
+    playbackConnection: PlaybackConnection
 ) {
     val progressState by playbackConnection.playbackProgress.collectAsStateWithLifecycle()
     val sizeModifier = Modifier
@@ -194,9 +219,14 @@ private fun PlaybackProgress(
                 modifier = sizeModifier
             )
         }
+
         else -> {
             LinearProgressIndicator(
-                progress = animateFloatAsState(progressState.progress, tween(PLAYBACK_PROGRESS_INTERVAL.toInt(), easing = LinearEasing)).value,
+                progress = animateFloatAsState(
+                    progressState.progress,
+                    tween(PLAYBACK_PROGRESS_INTERVAL.toInt(), easing = LinearEasing),
+                    label = "progress"
+                ).value,
                 color = color,
                 backgroundColor = color.copy(ProgressIndicatorDefaults.IndicatorBackgroundOpacity),
                 modifier = sizeModifier
@@ -288,7 +318,6 @@ private fun PlaybackReplay(
 @Composable
 private fun PlaybackPlayPause(
     spec: PlaybackStateSpec,
-    size: Dp = PlaybackMiniControlsDefaults.playPauseSize,
     contentColor: Color,
     onPlayPause: () -> Unit
 ) {
@@ -304,7 +333,7 @@ private fun PlaybackPlayPause(
                 painter = painter,
                 contentDescription = stringResource(id = RString.ss_action_play_pause)
             ),
-            modifier = Modifier.size(size),
+            modifier = Modifier.size(PlaybackMiniControlsDefaults.playPauseSize),
             contentColor = contentColor
         )
     }
