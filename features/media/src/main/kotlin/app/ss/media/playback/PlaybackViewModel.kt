@@ -39,8 +39,6 @@ class PlaybackViewModel @Inject constructor(
         viewModelScope.launch {
             playbackConnection.isConnected.collect { connected ->
                 if (connected) {
-                    // playbackConnection.transportControls?.sendCustomAction(SET_MEDIA_STATE, null)
-
                     val state = playbackConnection.playbackState.first()
                     val nowPlaying = playbackConnection.nowPlaying.first()
                     if (!state.isPlaying && nowPlaying.id.isNotEmpty()) {

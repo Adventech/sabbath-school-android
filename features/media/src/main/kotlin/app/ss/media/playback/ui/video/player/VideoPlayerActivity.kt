@@ -48,9 +48,6 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.media3.ui.PlayerView
 import app.ss.design.compose.theme.SsTheme
 import app.ss.media.R
-import app.ss.media.playback.BACKWARD
-import app.ss.media.playback.FORWARD
-import app.ss.media.playback.PLAY_PAUSE
 import app.ss.media.playback.players.SSVideoPlayer
 import app.ss.media.playback.players.SSVideoPlayerImpl
 import app.ss.media.playback.players.hasEnded
@@ -58,6 +55,10 @@ import app.ss.models.media.SSVideo
 import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import ss.foundation.coroutines.flow.collectIn
+
+private const val BACKWARD = "action_backward"
+private const val FORWARD = "action_forward"
+private const val PLAY_PAUSE = "action_play_or_pause"
 
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {

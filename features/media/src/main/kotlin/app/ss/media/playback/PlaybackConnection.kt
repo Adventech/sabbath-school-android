@@ -130,7 +130,6 @@ internal class PlaybackConnectionImpl(
             if (isPlaying) {
                 pause()
             } else {
-                prepare()
                 play()
             }
             sessionActivity?.send()
@@ -165,15 +164,17 @@ internal class PlaybackConnectionImpl(
     override fun setQueue(audios: List<AudioFile>, index: Int) {
         val audiosIds = audios.map { it.id }
         val initialId = audios.getOrNull(index)?.id ?: ""
-        val playbackQueue = PlaybackQueue(
-            list = audiosIds,
-            audiosList = audios,
-            initialMediaId = initialId,
-            currentIndex = index
-        )
-        this.playbackQueueState.value = playbackQueue
+        playbackQueueState.update {
+            PlaybackQueue(
+                list = audiosIds,
+                audiosList = audios,
+                initialMediaId = initialId,
+                currentIndex = index
+            )
+        }
 
         mediaBrowser.setMediaItems(audios.map { it.toMediaItem() }, index, 0L)
+        mediaBrowser.prepare()
     }
 
     override fun skipToItem(position: Int) {
