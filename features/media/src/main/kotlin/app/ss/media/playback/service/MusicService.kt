@@ -30,41 +30,47 @@ import androidx.media3.common.AudioAttributes
 import androidx.media3.datasource.DataSourceBitmapLoader
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.CacheBitmapLoader
+import androidx.media3.session.CommandButton
 import androidx.media3.session.LibraryResult
 import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionCommand
 import androidx.media3.session.SessionResult
+import app.ss.media.R
 import app.ss.media.playback.DEFAULT_FORWARD
 import app.ss.media.playback.DEFAULT_REWIND
-import app.ss.media.playback.MediaNotifications
-import app.ss.media.playback.SAFE_FLAG_IMMUTABLE
-import app.ss.media.playback.receivers.BecomingNoisyReceiver
-import app.ss.translations.R
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import javax.inject.Inject
+import app.ss.translations.R as L10nR
 
 private const val LOG_TAG = "SS_MusicService"
+private const val CUSTOM_COMMAND_REWIND = "app.ss.media.playback.REWIND"
+private const val CUSTOM_COMMAND_FORWARD = "app.ss.media.playback.FORWARD"
 
 @AndroidEntryPoint
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 class MusicService : MediaLibraryService() {
 
-    @Inject
-    lateinit var mediaNotifications: MediaNotifications
-
-    private var becomingNoisyReceiver: BecomingNoisyReceiver? = null
-
+    private lateinit var customCommands: List<CommandButton>
+    private val librarySessionCallback = CustomMediaLibrarySessionCallback()
     private lateinit var mediaLibrarySession: MediaLibrarySession
     private lateinit var player: ExoPlayer
-    private val librarySessionCallback = CustomMediaLibrarySessionCallback()
 
     override fun onCreate() {
         super.onCreate()
+        customCommands =
+            listOf(
+                getRewindCommandButton(SessionCommand(CUSTOM_COMMAND_REWIND, Bundle.EMPTY)),
+                getForwardCommandButton(SessionCommand(CUSTOM_COMMAND_FORWARD, Bundle.EMPTY)),
+            )
+        initializeSessionAndPlayer()
 
+        setListener(MediaSessionServiceListener())
+    }
+
+    private fun initializeSessionAndPlayer() {
         player =
             ExoPlayer.Builder(this)
                 .setAudioAttributes(AudioAttributes.DEFAULT, /* handleAudioFocus= */ true)
@@ -73,23 +79,37 @@ class MusicService : MediaLibraryService() {
                 .build()
         mediaLibrarySession =
             MediaLibrarySession.Builder(this, player, librarySessionCallback)
-                .setId(getString(R.string.ss_app_name))
+                .setId(getString(L10nR.string.ss_app_name))
                 .setSessionActivity(getSingleTopActivity())
-                .setBitmapLoader(CacheBitmapLoader(DataSourceBitmapLoader(/* context= */ this)))
+                .setBitmapLoader(CacheBitmapLoader(DataSourceBitmapLoader(this)))
                 .build()
-
-        setListener(MediaSessionServiceListener())
     }
 
     private fun getSingleTopActivity(): PendingIntent {
         return PendingIntent.getActivity(
             applicationContext, 0,
-            packageManager.getLaunchIntentForPackage(packageName), SAFE_FLAG_IMMUTABLE
+            packageManager.getLaunchIntentForPackage(packageName), PendingIntent.FLAG_IMMUTABLE
         )
     }
 
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaLibrarySession {
         return mediaLibrarySession
+    }
+
+    private fun getRewindCommandButton(sessionCommand: SessionCommand): CommandButton {
+        return CommandButton.Builder()
+            .setDisplayName(getString(L10nR.string.ss_action_rewind))
+            .setSessionCommand(sessionCommand)
+            .setIconResId(R.drawable.ic_audio_icon_backward)
+            .build()
+    }
+
+    private fun getForwardCommandButton(sessionCommand: SessionCommand): CommandButton {
+        return CommandButton.Builder()
+            .setDisplayName(getString(L10nR.string.ss_action_forward))
+            .setSessionCommand(sessionCommand)
+            .setIconResId(R.drawable.ic_audio_icon_forward)
+            .build()
     }
 
     private inner class MediaSessionServiceListener : Listener {
@@ -106,6 +126,10 @@ class MusicService : MediaLibraryService() {
             Timber.tag(LOG_TAG).i("onConnect: $session, $controller")
             val availableSessionCommands =
                 MediaSession.ConnectionResult.DEFAULT_SESSION_AND_LIBRARY_COMMANDS.buildUpon()
+            for (commandButton in customCommands) {
+                // Add custom command to available session commands.
+                commandButton.sessionCommand?.let { availableSessionCommands.add(it) }
+            }
             return MediaSession.ConnectionResult.AcceptedResultBuilder(session)
                 .setAvailableSessionCommands(availableSessionCommands.build())
                 .build()
@@ -118,6 +142,11 @@ class MusicService : MediaLibraryService() {
             args: Bundle
         ): ListenableFuture<SessionResult> {
             Timber.tag(LOG_TAG).i("onCustomCommand: $session, $args")
+            when (customCommand.customAction) {
+                CUSTOM_COMMAND_REWIND -> player.seekBack()
+                CUSTOM_COMMAND_FORWARD -> player.seekForward()
+            }
+            session.setCustomLayout(customCommands)
             return Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
         }
 
@@ -127,42 +156,8 @@ class MusicService : MediaLibraryService() {
             parentId: String,
             params: LibraryParams?
         ): ListenableFuture<LibraryResult<Void>> {
-//            val children =
-//                MediaItemTree.getChildren(parentId)
-//                    ?: return Futures.immediateFuture(
-//                        LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE)
-//                    )
-            //  session.notifyChildrenChanged(browser, parentId, children.size, params)
             return Futures.immediateFuture(LibraryResult.ofVoid())
         }
-    }
-
-    private fun startForeground() {
-        if (IS_FOREGROUND) {
-            Timber.tag(LOG_TAG).i("Tried to start foreground, but was already in foreground")
-            return
-        }
-        Timber.tag(LOG_TAG).i("Starting foreground service")
-
-//        val notification = mediaNotifications.buildNotification(musicPlayer.getSession())
-//        if (isAtLeastApi(Build.VERSION_CODES.Q)) {
-//            startForeground(NOTIFICATION_ID, notification, FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
-//        } else {
-//            startForeground(NOTIFICATION_ID, notification)
-//        }
-//        becomingNoisyReceiver?.register()
-//        IS_FOREGROUND = true
-    }
-
-    private fun pauseForeground(removeNotification: Boolean) {
-        if (!IS_FOREGROUND) {
-            Timber.w("Tried to stop foreground, but was already NOT in foreground")
-            return
-        }
-        Timber.d("Stopping foreground service")
-        becomingNoisyReceiver?.unregister()
-        stopForeground(if (removeNotification) STOP_FOREGROUND_REMOVE else STOP_FOREGROUND_DETACH)
-        IS_FOREGROUND = false
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
@@ -178,9 +173,5 @@ class MusicService : MediaLibraryService() {
         player.release()
         clearListener()
         super.onDestroy()
-    }
-
-    companion object {
-        var IS_FOREGROUND = false
     }
 }

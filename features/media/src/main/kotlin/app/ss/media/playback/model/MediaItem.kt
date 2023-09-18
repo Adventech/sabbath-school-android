@@ -35,7 +35,7 @@ import app.ss.media.playback.extensions.id
 import app.ss.media.playback.extensions.source
 import app.ss.models.media.AudioFile
 
-fun MediaMetadata.toAudio(): AudioFile = AudioFile(
+internal fun MediaMetadata.toAudio(): AudioFile = AudioFile(
     id = id,
     title = "$title",
     artist = "$artist",
@@ -45,7 +45,7 @@ fun MediaMetadata.toAudio(): AudioFile = AudioFile(
 )
 
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
-fun AudioFile.toMediaItem(): MediaItem = MediaItem.Builder()
+internal fun AudioFile.toMediaItem(): MediaItem = MediaItem.Builder()
     .setMediaId(id)
     .setUri(source)
     .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
@@ -67,6 +67,3 @@ fun AudioFile.toMediaItem(): MediaItem = MediaItem.Builder()
             .build()
     )
     .build()
-
-internal fun MediaMetadata.toAString(): String =
-    "$title, $description, $artist, $artworkUri"

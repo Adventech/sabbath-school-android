@@ -66,6 +66,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.media3.common.MediaMetadata
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.Dimens
@@ -78,12 +79,11 @@ import app.ss.design.compose.widget.icon.Icons
 import app.ss.media.R
 import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.extensions.isActive
+import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.ui.common.Dismissible
 import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.media.playback.ui.spec.toSpec
-import timber.log.Timber
 import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R.string as RString
 
@@ -105,7 +105,7 @@ fun PlaybackMiniControls(
     val nowPlaying by playbackConnection.nowPlaying.collectAsStateWithLifecycle()
 
     val visible = (playbackState to nowPlaying).isActive
-    Timber.i("MINI: $visible, $playbackState")
+
     AnimatedVisibility(
         visible = visible,
         modifier = modifier,
@@ -120,6 +120,9 @@ fun PlaybackMiniControls(
         )
     }
 }
+
+private inline val Pair<PlaybackStateSpec, MediaMetadata>.isActive
+    get() = (first != PlaybackStateSpec.NONE && second != NONE_PLAYING) && first.canShowMini
 
 @Composable
 fun PlaybackMiniControls(

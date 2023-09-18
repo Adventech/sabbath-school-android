@@ -38,7 +38,6 @@ import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
-import app.ss.media.playback.model.toAString
 import app.ss.media.playback.model.toMediaItem
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.models.media.AudioFile
@@ -131,6 +130,7 @@ internal class PlaybackConnectionImpl(
             if (isPlaying) {
                 pause()
             } else {
+                prepare()
                 play()
             }
             sessionActivity?.send()
@@ -254,7 +254,7 @@ internal class PlaybackConnectionImpl(
     private inner class PlayerListener : Player.Listener {
         override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
             super.onMediaMetadataChanged(mediaMetadata)
-            Timber.tag(LOG_TAG).i("onMediaMetadataChanged: ${mediaMetadata.toAString()}")
+            Timber.tag(LOG_TAG).i("onMediaMetadataChanged: $mediaMetadata")
             nowPlaying.update { mediaMetadata }
         }
 
@@ -288,30 +288,15 @@ internal class PlaybackConnectionImpl(
 
         override fun onPlayerErrorChanged(error: PlaybackException?) {
             super.onPlayerErrorChanged(error)
-            Timber.i("onPlayerErrorChanged: $error")
+            Timber.e("onPlayerErrorChanged: $error")
             playbackState.update { it.copy(isError = error != null) }
         }
 
         override fun onPlayerError(error: PlaybackException) {
             super.onPlayerError(error)
+            Timber.e(error)
             playbackState.update { it.copy(isError = true) }
             isConnected.tryEmit(false)
         }
     }
-
-//    private fun updateAudioDuration() {
-//        queueManager.currentAudio?.let { audio ->
-//            val duration = audioPlayer.duration()
-//            if (duration > 0 && audio.duration != duration) {
-//                scope.launch {
-//                    repository.updateDuration(queueManager.currentAudioId, duration)
-//                    val updatedAudio = audio.copy(
-//                        duration = duration
-//                    )
-//                    queueManager.currentAudio = updatedAudio
-//                    setMetaData(updatedAudio)
-//                }
-//            }
-//        }
-//    }
 }
