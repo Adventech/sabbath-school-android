@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -23,25 +23,23 @@
 package app.ss.media.playback.players
 
 import android.content.Context
-import android.media.AudioManager
 import android.net.Uri
-import android.support.v4.media.session.MediaSessionCompat
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import app.ss.media.playback.AudioFocusHelper
-import app.ss.media.playback.AudioFocusHelperImpl
+import androidx.media3.common.AudioAttributes
+import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import androidx.media3.ui.PlayerView
+import app.ss.media.playback.DEFAULT_FORWARD
+import app.ss.media.playback.DEFAULT_REWIND
 import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.models.media.SSVideo
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.PlaybackException
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
-import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
-import com.google.android.exoplayer2.ui.StyledPlayerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,11 +57,11 @@ data class VideoPlaybackState(
 val VideoPlaybackState.isBuffering: Boolean get() = state == Player.STATE_BUFFERING
 val VideoPlaybackState.hasEnded: Boolean get() = state == Player.STATE_ENDED
 
-interface SSVideoPlayer {
+internal interface SSVideoPlayer {
     val playbackState: StateFlow<VideoPlaybackState>
     val playbackProgress: StateFlow<PlaybackProgressState>
     val playbackSpeed: StateFlow<PlaybackSpeed>
-    fun playVideo(video: SSVideo, playerView: StyledPlayerView)
+    fun playVideo(video: SSVideo, playerView: PlayerView)
     fun playPause()
     fun seekTo(position: Long)
     fun fastForward()
@@ -74,17 +72,21 @@ interface SSVideoPlayer {
     fun release()
 }
 
+@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 internal class SSVideoPlayerImpl(
     private val context: Context,
-    private val audioFocusHelper: AudioFocusHelper = AudioFocusHelperImpl(context),
     coroutineScope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope
 ) : SSVideoPlayer, Player.Listener, CoroutineScope by coroutineScope {
 
     private val exoPlayer: ExoPlayer by lazy {
-        ExoPlayer.Builder(context).build().also { player ->
-            player.playWhenReady = false
-            player.addListener(this)
-        }
+        ExoPlayer.Builder(context)
+            .setAudioAttributes(AudioAttributes.DEFAULT, /* handleAudioFocus= */ true)
+            .setSeekBackIncrementMs(DEFAULT_REWIND)
+            .setSeekForwardIncrementMs(DEFAULT_FORWARD)
+            .build().also { player ->
+                player.playWhenReady = false
+                player.addListener(this)
+            }
     }
 
     override val playbackState = MutableStateFlow(VideoPlaybackState())
@@ -96,41 +98,10 @@ internal class SSVideoPlayerImpl(
     private var currentProgressInterval: Long = PLAYBACK_PROGRESS_INTERVAL
 
     init {
-        val mediaSession = MediaSessionCompat(context, "ss-video-player")
-        mediaSession.isActive = true
-
-        val connector = MediaSessionConnector(mediaSession)
-        connector.setPlayer(exoPlayer)
-
-        audioFocusHelper.onAudioFocusGain {
-            if (isAudioFocusGranted && !exoPlayer.isPlaying) {
-                exoPlayer.play()
-            } else {
-                audioFocusHelper.setVolume(AudioManager.ADJUST_RAISE)
-            }
-            isAudioFocusGranted = false
-        }
-        audioFocusHelper.onAudioFocusLoss {
-            abandonPlayback()
-            isAudioFocusGranted = false
-            exoPlayer.pause()
-        }
-
-        audioFocusHelper.onAudioFocusLossTransient {
-            if (exoPlayer.isPlaying) {
-                isAudioFocusGranted = true
-                exoPlayer.pause()
-            }
-        }
-
-        audioFocusHelper.onAudioFocusLossTransientCanDuck {
-            audioFocusHelper.setVolume(AudioManager.ADJUST_LOWER)
-        }
-
         startPlaybackProgress()
     }
 
-    override fun playVideo(video: SSVideo, playerView: StyledPlayerView) {
+    override fun playVideo(video: SSVideo, playerView: PlayerView) {
         if (exoPlayer.isPlaying) {
             exoPlayer.pause()
         }
@@ -202,9 +173,7 @@ internal class SSVideoPlayerImpl(
     }
 
     private fun playOnFocus() {
-        if (audioFocusHelper.requestPlayback()) {
-            exoPlayer.play()
-        }
+        exoPlayer.play()
     }
 
     override fun release() {

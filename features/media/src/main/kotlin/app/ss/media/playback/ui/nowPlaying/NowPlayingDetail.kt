@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -46,7 +46,6 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.Dimens
-import app.ss.media.playback.extensions.isPlaying
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
 import app.ss.media.playback.ui.nowPlaying.components.CoverImage
 import app.ss.media.playback.ui.nowPlaying.components.NowPlayingColumn
@@ -72,7 +71,7 @@ internal fun NowPlayingDetail(
         animationSpec = spring(
             Spring.DampingRatioMediumBouncy,
             stiffness = if (expanded) Spring.StiffnessVeryLow else Spring.StiffnessHigh
-        )
+        ), label = "top-padding"
     )
     val textPaddingTop by animateDpAsState(
         targetValue = if (expanded) imageSize.height.plus(16.dp) else
@@ -80,9 +79,12 @@ internal fun NowPlayingDetail(
         animationSpec = if (expanded) tween(50) else spring(
             Spring.DampingRatioLowBouncy,
             stiffness = Spring.StiffnessLow
-        )
+        ), label = "text-padding-top"
     )
-    val textPaddingStart by animateDpAsState(targetValue = if (expanded) 0.dp else imageSize.width)
+    val textPaddingStart by animateDpAsState(
+        targetValue = if (expanded) 0.dp else imageSize.width,
+        label = "text-padding-start"
+    )
 
     Box(
         modifier = modifier
@@ -127,7 +129,7 @@ internal fun NowPlayingDetail(
                     nowPlayingId = nowPlayingAudio.id,
                     isPlaying = playbackState.isPlaying,
                     onPlayAudio = { position ->
-                        playbackConnection.transportControls?.skipToQueueItem(position.toLong())
+                        playbackConnection.skipToItem(position)
                     }
                 ),
                 modifier = Modifier
@@ -140,6 +142,7 @@ internal fun NowPlayingDetail(
                                     isDraggable(false)
                                 }
                             }
+
                             MotionEvent.ACTION_UP -> {
                                 isDraggable(true)
                             }

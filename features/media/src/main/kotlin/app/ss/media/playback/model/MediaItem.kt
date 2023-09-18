@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -22,47 +22,51 @@
 
 package app.ss.media.playback.model
 
-import android.support.v4.media.MediaDescriptionCompat
-import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.net.toUri
-import app.ss.models.media.AudioFile
-import app.ss.media.playback.extensions.UNTITLED
-import app.ss.media.playback.extensions.artist
-import app.ss.media.playback.extensions.artworkUri
+import androidx.core.os.bundleOf
+import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
+import androidx.media3.common.MimeTypes
+import app.ss.media.playback.extensions.KEY_DURATION
+import app.ss.media.playback.extensions.KEY_ID
+import app.ss.media.playback.extensions.KEY_SOURCE
 import app.ss.media.playback.extensions.duration
 import app.ss.media.playback.extensions.id
 import app.ss.media.playback.extensions.source
-import app.ss.media.playback.extensions.title
+import app.ss.models.media.AudioFile
 
-fun AudioFile.toMediaMetadata(builder: MediaMetadataCompat.Builder): MediaMetadataCompat.Builder = builder.apply {
-    putString(MediaMetadataCompat.METADATA_KEY_ALBUM, artist)
-    putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
-    putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
-    putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, id)
-    putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration)
-    putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, image)
-    putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, source.toString())
-}
-
-fun MediaMetadataCompat.toAudio(): AudioFile = AudioFile(
+fun MediaMetadata.toAudio(): AudioFile = AudioFile(
     id = id,
-    title = title ?: UNTITLED,
-    artist = artist ?: UNTITLED,
+    title = "$title",
+    artist = "$artist",
     source = source,
     duration = duration,
     image = artworkUri.toString()
 )
 
-fun AudioFile.toMediaDescription(): MediaDescriptionCompat {
-    return MediaDescriptionCompat.Builder()
-        .setTitle(title)
-        .setMediaId(id)
-        .setSubtitle(artist)
-        .setDescription(artist)
-        .setIconUri(image.toUri())
-        .setMediaUri(source)
-        .build()
-}
+@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
+fun AudioFile.toMediaItem(): MediaItem = MediaItem.Builder()
+    .setMediaId(id)
+    .setUri(source)
+    .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
+    .setMediaMetadata(
+        MediaMetadata.Builder()
+            .setTitle(title)
+            .setArtist(artist)
+            .setDescription(artist)
+            .setArtworkUri(image.toUri())
+            .setIsPlayable(true)
+            .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
+            .setExtras(
+                bundleOf(
+                    KEY_ID to id,
+                    KEY_DURATION to duration,
+                    KEY_SOURCE to source.toString()
+                )
+            )
+            .build()
+    )
+    .build()
 
-fun AudioFile.toQueueItem(id: Long): MediaSessionCompat.QueueItem = MediaSessionCompat.QueueItem(toMediaDescription(), id)
+internal fun MediaMetadata.toAString(): String =
+    "$title, $description, $artist, $artworkUri"

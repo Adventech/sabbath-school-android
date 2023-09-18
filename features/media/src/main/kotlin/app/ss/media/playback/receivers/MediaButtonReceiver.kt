@@ -1,3 +1,25 @@
+/*
+ * Copyright (c) 2023. Adventech <info@adventech.io>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package app.ss.media.playback.receivers
 
 import android.app.PendingIntent
@@ -5,7 +27,6 @@ import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -69,6 +90,7 @@ class MediaButtonReceiver : BroadcastReceiver() {
         override fun onConnected() {
             mediaBrowser?.let {
                 val mediaController = MediaControllerCompat(context, it.sessionToken)
+
                 @Suppress("DEPRECATION")
                 val event = intent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
                 mediaController.dispatchMediaButtonEvent(event)
@@ -172,7 +194,7 @@ class MediaButtonReceiver : BroadcastReceiver() {
                 addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
             }
 
-            val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_ONE_SHOT
+            val flags = PendingIntent.FLAG_IMMUTABLE
 
             return PendingIntent.getBroadcast(context, keyCode, intent, flags)
         }
@@ -181,7 +203,6 @@ class MediaButtonReceiver : BroadcastReceiver() {
             val queryIntent = Intent(Intent.ACTION_MEDIA_BUTTON)
             queryIntent.setPackage(context.packageName)
             val pm = context.packageManager
-            @Suppress("DEPRECATION")
             val resolveInfos = pm.queryBroadcastReceivers(queryIntent, 0)
             if (resolveInfos.size == 1) {
                 val resolveInfo = resolveInfos[0]
@@ -201,7 +222,6 @@ class MediaButtonReceiver : BroadcastReceiver() {
             val pm = context.packageManager
             val queryIntent = Intent(action)
             queryIntent.setPackage(context.packageName)
-            @Suppress("DEPRECATION")
             val resolveInfos = pm.queryIntentServices(queryIntent, 0 /* flags */)
             return when {
                 resolveInfos.size == 1 -> {
@@ -211,9 +231,11 @@ class MediaButtonReceiver : BroadcastReceiver() {
                         resolveInfo.serviceInfo.name
                     )
                 }
+
                 resolveInfos.isEmpty() -> {
                     null
                 }
+
                 else -> {
                     throw IllegalStateException(
                         "Expected 1 service that handles " + action + ", found " +

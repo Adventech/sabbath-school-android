@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -22,7 +22,6 @@
 
 package app.ss.media.playback.ui.nowPlaying
 
-import android.support.v4.media.session.PlaybackStateCompat
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
@@ -59,7 +58,6 @@ import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.media.R
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.extensions.isBuffering
 import app.ss.media.playback.model.PlaybackProgressState
 import app.ss.media.playback.model.PlaybackQueue
 import app.ss.media.playback.model.PlaybackSpeed
@@ -67,15 +65,15 @@ import app.ss.media.playback.ui.common.PlaybackSpeedLabel
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControls
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
-import app.ss.media.playback.ui.spec.toSpec
+import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.models.media.AudioFile
 import app.ss.translations.R.string as RString
 
 @Immutable
-data class NowPlayingScreenSpec(
+internal data class NowPlayingScreenSpec(
     val nowPlayingAudio: AudioFile,
     val playbackQueue: PlaybackQueue,
-    val playbackState: PlaybackStateCompat,
+    val playbackState: PlaybackStateSpec,
     val playbackProgressState: PlaybackProgressState,
     val playbackConnection: PlaybackConnection,
     val playbackSpeed: PlaybackSpeed,
@@ -168,14 +166,14 @@ internal fun NowPlayingScreen(
             isBuffering = playbackState.isBuffering,
             progressState = playbackProgressState,
             onSeekTo = { progress ->
-                playbackConnection.transportControls?.seekTo(progress)
+                playbackConnection.seekTo(progress)
             }
         )
 
         Spacer(modifier = Modifier.height(spacing))
 
         PlayBackControls(
-            spec = playbackState.toSpec(),
+            spec = playbackState,
             contentColor = SsTheme.colors.playbackMiniContent,
             playbackConnection = playbackConnection
         )
