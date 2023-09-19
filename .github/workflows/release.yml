@@ -37,7 +37,7 @@ jobs:
         run: ./gradlew app:bundleRelease --stacktrace
 
       - name: Publish to Internal track
-        uses: r0adkll/upload-google-play@v1.1.1
+        uses: r0adkll/upload-google-play@v1.1.2
         with:
           serviceAccountJson: release/play-account.json
           packageName: com.cryart.sabbathschool
