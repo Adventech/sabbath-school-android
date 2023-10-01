@@ -260,3 +260,4 @@ sgp-root = { id = "com.slack.gradle.root", version.ref = "sgp" }
 sgp-apkVersioning = { id = "com.slack.gradle.apk-versioning", version.ref = "sgp" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sortDependencies" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

@@ -26,7 +26,6 @@ import app.ss.models.media.SSVideo
 import app.ss.models.media.SSVideosInfo
 import app.ss.storage.db.dao.VideoInfoDao
 import app.ss.storage.db.entity.VideoInfoEntity
-import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import io.mockk.coEvery
 import io.mockk.coVerifyOrder
 import io.mockk.every
@@ -36,6 +35,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Response
+import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.lessons.api.SSMediaApi
 import ss.lessons.model.VideosInfoModel

@@ -20,32 +20,19 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.sgp.base)
-    alias(libs.plugins.ksp)
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
-}
+package ss.foundation.android.di
 
-android { namespace = "ss.lessons.impl" }
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ss.foundation.android.connectivity.ConnectivityHelper
+import ss.foundation.android.connectivity.ConnectivityHelperImpl
 
-dependencies {
-    implementation(projects.libraries.lessons.api)
-    implementation(projects.common.auth)
-    implementation(projects.common.misc)
-    implementation(projects.common.storage)
-    implementation(projects.libraries.foundation.android)
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class BindingsModule {
 
-    implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
-    implementation(libs.square.moshi.kotlin)
-    ksp(libs.square.moshi.codegen)
-    compileOnly(libs.javax.annotation)
-    implementation(libs.square.okhttp)
-    implementation(libs.square.okhttp.logging)
-    implementation(libs.square.retrofit)
-    implementation(libs.square.retrofit.converter.moshi)
-    implementation(libs.timber)
+    @Binds
+    internal abstract fun bindConnectivityHelper(iml: ConnectivityHelperImpl): ConnectivityHelper
 }

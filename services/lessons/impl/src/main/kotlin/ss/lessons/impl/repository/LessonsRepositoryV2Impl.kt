@@ -20,32 +20,27 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.sgp.base)
-    alias(libs.plugins.ksp)
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
-}
+package ss.lessons.impl.repository
 
-android { namespace = "ss.lessons.impl" }
+import app.ss.models.SSLessonInfo
+import app.ss.storage.db.dao.LessonsDao
+import kotlinx.coroutines.flow.Flow
+import ss.foundation.android.connectivity.ConnectivityHelper
+import ss.foundation.coroutines.DispatcherProvider
+import ss.lessons.api.SSLessonsApi
+import ss.lessons.api.repository.LessonsRepositoryV2
+import javax.inject.Inject
+import javax.inject.Singleton
 
-dependencies {
-    implementation(projects.libraries.lessons.api)
-    implementation(projects.common.auth)
-    implementation(projects.common.misc)
-    implementation(projects.common.storage)
-    implementation(projects.libraries.foundation.android)
+@Singleton
+internal class LessonsRepositoryV2Impl @Inject constructor(
+    private val lessonsApi: SSLessonsApi,
+    private val lessonsDao: LessonsDao,
+    private val connectivityHelper: ConnectivityHelper,
+    private val dispatcherProvider: DispatcherProvider,
+) : LessonsRepositoryV2 {
 
-    implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
-    implementation(libs.square.moshi.kotlin)
-    ksp(libs.square.moshi.codegen)
-    compileOnly(libs.javax.annotation)
-    implementation(libs.square.okhttp)
-    implementation(libs.square.okhttp.logging)
-    implementation(libs.square.retrofit)
-    implementation(libs.square.retrofit.converter.moshi)
-    implementation(libs.timber)
+    override fun getLessonInfo(lessonIndex: String): Flow<Result<SSLessonInfo>> {
+        TODO("Not yet implemented")
+    }
 }
