@@ -33,7 +33,6 @@ import app.ss.storage.db.dao.ReadHighlightsDao
 import app.ss.storage.db.entity.PdfAnnotationsEntity
 import app.ss.storage.db.entity.ReadCommentsEntity
 import app.ss.storage.db.entity.ReadHighlightsEntity
-import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
@@ -42,6 +41,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.Instant
+import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable

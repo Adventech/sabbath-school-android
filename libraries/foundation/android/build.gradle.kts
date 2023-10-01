@@ -22,43 +22,15 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
-    alias(libs.plugins.ksp)
     id("com.android.library")
-    id("dagger.hilt.android.plugin")
-    id("kotlin-parcelize")
     kotlin("android")
     kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
-android {
-    namespace = "app.ss.auth"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
-}
+android { namespace = "ss.foundation.android" }
 
 dependencies {
-    implementation(projects.common.models)
-    implementation(projects.common.misc)
-    implementation(projects.common.network)
-    implementation(projects.common.storage)
-    implementation(projects.libraries.foundation.android)
-    implementation(projects.libraries.foundation.coroutines)
-
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
-    implementation(libs.timber)
-
-    implementation(libs.square.moshi.kotlin)
-    ksp(libs.square.moshi.codegen)
-    compileOnly(libs.javax.annotation)
-
-    implementation(libs.square.retrofit.converter.moshi)
-    implementation(libs.square.retrofit)
-    implementation(libs.square.okhttp)
-
-    testImplementation(libs.bundles.testing.common)
-    testImplementation(projects.libraries.foundation.coroutines.test)
-    testImplementation(projects.libraries.testUtils)
 }

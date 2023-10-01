@@ -28,8 +28,8 @@ import app.ss.lessons.data.repository.LocalDataSource
 import app.ss.models.media.SSVideosInfo
 import app.ss.storage.db.dao.VideoInfoDao
 import app.ss.storage.db.entity.VideoInfoEntity
-import com.cryart.sabbathschool.core.extensions.connectivity.ConnectivityHelper
 import com.cryart.sabbathschool.core.response.Resource
+import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.SSMediaApi
 import ss.lessons.model.VideosInfoModel
