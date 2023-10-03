@@ -38,10 +38,15 @@ interface LessonsDao : BaseDao<LessonEntity> {
     @Query("SELECT * FROM lessons WHERE `index` = :lessonIndex")
     fun getAsFlow(lessonIndex: String): Flow<LessonEntity?>
 
-    @Query("UPDATE lessons SET days = :days, pdfs = :pdfs WHERE `index` = :lessonIndex")
+    @Query("UPDATE lessons SET days = :days, pdfs = :pdfs, title = :title, cover = :cover, path = :path, full_path = :fullPath, pdfOnly = :pdfOnly WHERE `index` = :lessonIndex")
     fun updateInfo(
         lessonIndex: String,
         days: List<SSDay>,
-        pdfs: List<LessonPdf>
+        pdfs: List<LessonPdf>,
+        title: String,
+        cover: String,
+        path: String,
+        fullPath: String,
+        pdfOnly: Boolean,
     )
 }
