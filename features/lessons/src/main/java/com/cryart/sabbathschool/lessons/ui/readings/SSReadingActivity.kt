@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,10 +38,6 @@ import androidx.viewpager2.widget.ViewPager2
 import app.ss.media.playback.PlaybackViewModel
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
-import app.ss.models.SSLessonInfo
-import app.ss.models.SSRead
-import app.ss.models.SSReadComments
-import app.ss.models.SSReadHighlights
 import app.ss.models.media.MediaAvailability
 import app.ss.pdf.PdfReader
 import coil.load
@@ -62,6 +58,7 @@ import com.cryart.sabbathschool.lessons.ui.readings.components.MiniPlayerCompone
 import com.cryart.sabbathschool.lessons.ui.readings.components.OfflineStateComponent
 import com.cryart.sabbathschool.lessons.ui.readings.components.PagesIndicatorComponent
 import com.cryart.sabbathschool.lessons.ui.readings.components.ProgressBarComponent
+import com.cryart.sabbathschool.lessons.ui.readings.model.ReadingsState
 import dagger.hilt.android.AndroidEntryPoint
 import ss.foundation.coroutines.flow.collectIn
 import ss.misc.DateHelper
@@ -73,7 +70,7 @@ import kotlin.math.abs
 import app.ss.translations.R as L10n
 
 @AndroidEntryPoint
-class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, ShareableScreen {
+class SSReadingActivity : SlidingActivity(), ShareableScreen {
 
     @Inject
     lateinit var ssPrefs: SSPrefs
@@ -112,7 +109,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
 
         ssReadingViewModel = viewModelFactory.create(
             intent.extras?.getString(SSConstants.SS_LESSON_INDEX_EXTRA)!!,
-            this,
             binding,
             this
         )
@@ -254,10 +250,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         return super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onLessonInfoChanged(ssLessonInfo: SSLessonInfo) {
-        binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.load(ssLessonInfo.lesson.cover)
-    }
-
     private fun setPageTitleAndSubtitle(title: String, subTitle: String) {
         binding.ssReadingAppBar.apply {
             ssReadingCollapsingToolbar.title = title
@@ -265,21 +257,6 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
             ssCollapsingToolbarSubtitle.text = subTitle
             ssCollapsingToolbarBackdrop.contentDescription = title
         }
-    }
-
-    override fun onReadsDownloaded(
-        ssReads: List<SSRead>,
-        ssReadHighlights: List<SSReadHighlights>,
-        ssReadComments: List<SSReadComments>,
-        ssReadIndex: Int
-    ) {
-        val index = currentReadPosition ?: ssReadIndex
-        readingViewAdapter.setContent(ssReads, ssReadHighlights, ssReadComments) {
-            binding.ssReadingViewPager.currentItem = index
-            binding.ssReadingIndicator.fadeTo(true)
-        }
-
-        currentReadPosition = null
     }
 
     @SuppressLint("MissingSuperCall")
@@ -315,6 +292,27 @@ class SSReadingActivity : SlidingActivity(), SSReadingViewModel.DataListener, Sh
         }
 
         initComponents()
+
+        ssReadingViewModel.viewState.collectIn(this) { state ->
+            when (state) {
+                is ReadingsState.Success -> bindReadsState(state)
+                else -> Unit // handled by components
+            }
+        }
+    }
+
+    private fun bindReadsState(state: ReadingsState.Success) {
+        state.lessonReads.run {
+            binding.ssReadingAppBar.ssCollapsingToolbarBackdrop.load(lessonInfo.lesson.cover)
+
+            val index = currentReadPosition ?: readIndex
+            readingViewAdapter.setContent(reads, highlights, comments) {
+                binding.ssReadingViewPager.currentItem = index
+                binding.ssReadingIndicator.fadeTo(true)
+            }
+        }
+
+        currentReadPosition = null
     }
 
     private fun observeReadUserContent(readIndex: String) {

@@ -35,11 +35,13 @@ dependencies {
     implementation(projects.libraries.lessons.api)
     implementation(projects.common.auth)
     implementation(projects.common.misc)
+    implementation(projects.common.network)
     implementation(projects.common.storage)
     implementation(projects.libraries.foundation.android)
 
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
+    implementation(libs.joda.android)
     implementation(libs.square.moshi.kotlin)
     ksp(libs.square.moshi.codegen)
     compileOnly(libs.javax.annotation)
@@ -48,4 +50,9 @@ dependencies {
     implementation(libs.square.retrofit)
     implementation(libs.square.retrofit.converter.moshi)
     implementation(libs.timber)
+
+    testImplementation(libs.bundles.testing.common)
+    testImplementation(projects.libraries.foundation.coroutines.test)
+    testImplementation(projects.libraries.lessons.test)
+    testImplementation(projects.libraries.testUtils)
 }

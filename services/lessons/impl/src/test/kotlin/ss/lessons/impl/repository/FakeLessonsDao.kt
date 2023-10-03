@@ -20,19 +20,28 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.api.repository
+package ss.lessons.impl.repository
 
+import app.ss.models.LessonPdf
 import app.ss.models.SSDay
-import app.ss.models.SSLessonInfo
-import app.ss.models.SSRead
+import app.ss.storage.db.dao.LessonsDao
+import app.ss.storage.db.entity.LessonEntity
 import kotlinx.coroutines.flow.Flow
-import ss.lessons.model.result.LessonReads
 
-interface LessonsRepositoryV2 {
+class FakeLessonsDao(
+    private val resultFlow: Flow<LessonEntity?>
+) : LessonsDao {
+    override fun get(lessonIndex: String): LessonEntity? {
+        TODO("Not yet implemented")
+    }
 
-    fun getLessonInfo(lessonIndex: String): Flow<Result<SSLessonInfo>>
+    override fun getAsFlow(lessonIndex: String): Flow<LessonEntity?> = resultFlow
 
-    fun getDayRead(day: SSDay): Flow<Result<SSRead>>
+    override fun updateInfo(lessonIndex: String, days: List<SSDay>, pdfs: List<LessonPdf>) = Unit
 
-    fun getLessonReads(lessonIndex: String): Flow<Result<LessonReads>>
+    override suspend fun insertItem(item: LessonEntity) = Unit
+
+    override suspend fun insertAll(items: List<LessonEntity>) = Unit
+
+    override suspend fun update(item: LessonEntity) = Unit
 }

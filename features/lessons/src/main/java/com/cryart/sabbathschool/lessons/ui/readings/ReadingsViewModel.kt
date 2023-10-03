@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -43,12 +43,14 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.stateIn
+import ss.lessons.api.repository.LessonsRepositoryV2
 import javax.inject.Inject
 
 @HiltViewModel
 class ReadingsViewModel @Inject constructor(
     private val mediaRepository: MediaRepository,
-    private val lessonsRepository: LessonsRepository,
+    lessonsRepository: LessonsRepository,
+    private val lessonsRepositoryV2: LessonsRepositoryV2,
     private val userDataRepository: UserDataRepository,
     private val savedStateHandle: SavedStateHandle,
     quarterliesRepository: QuarterliesRepository,
@@ -84,10 +86,13 @@ class ReadingsViewModel @Inject constructor(
                 _videoAvailable.emit(videoResource.data.isNullOrEmpty().not())
             }
             viewModelScope.launch {
-                val lessonResource = lessonsRepository.getLessonInfo(index)
-                val pdfs = lessonResource.data?.pdfs ?: emptyList()
-                _lessonPdfs.emit(index to pdfs)
-                _pdfAvailable.emit(pdfs.isNotEmpty())
+                lessonsRepositoryV2.getLessonInfo(index)
+                    .mapNotNull { it.getOrNull() }
+                    .collect { lessonInfo ->
+                        val pdfs = lessonInfo.pdfs
+                        _lessonPdfs.emit(index to pdfs)
+                        _pdfAvailable.emit(pdfs.isNotEmpty())
+                    }
             }
         }
 

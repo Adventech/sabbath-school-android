@@ -34,10 +34,8 @@ import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import app.ss.bible.BibleVersesActivity
 import app.ss.lessons.data.model.SSContextMenu
-import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.SSLessonInfo
-import app.ss.models.SSRead
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
@@ -49,17 +47,15 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import org.joda.time.DateTime
+import kotlinx.coroutines.flow.map
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.debounceUntilLast
+import ss.foundation.coroutines.flow.stateIn
 import ss.foundation.coroutines.mainScopable
-import ss.misc.DateHelper
+import ss.lessons.api.repository.LessonsRepositoryV2
 import ss.misc.SSConstants
 import ss.misc.SSEvent
 import ss.misc.SSHelper
@@ -67,12 +63,11 @@ import ss.prefs.model.SSReadingDisplayOptions
 import ss.prefs.model.colorTheme
 
 class SSReadingViewModel @AssistedInject constructor(
-    private val lessonsRepository: LessonsRepository,
+    lessonsRepository: LessonsRepositoryV2,
     private val userDataRepository: UserDataRepository,
     private val connectivityHelper: ConnectivityHelper,
     private val dispatcherProvider: DispatcherProvider,
     @Assisted private val ssLessonIndex: String,
-    @Assisted private val dataListener: DataListener,
     @Assisted private val ssReadingActivityBinding: SsReadingActivityBinding,
     @Assisted private val activity: FragmentActivity
 ) : SSReadingView.ContextMenuCallback,
@@ -80,16 +75,25 @@ class SSReadingViewModel @AssistedInject constructor(
     Scopable by mainScopable(dispatcherProvider) {
 
     private val context: Context = activity
-    private var ssLessonInfo: SSLessonInfo? = null
-    private var ssReadIndexInt = 0
-    private val ssReads: ArrayList<SSRead> = arrayListOf()
     private var ssTotalReadsCount = 0
     private var highlightId = 0
+    private val ssLessonInfo: SSLessonInfo?
+        get() = (viewState.value as? ReadingsState.Success)?.lessonReads?.lessonInfo
     val lessonTitle: String get() = ssLessonInfo?.lesson?.title ?: ""
     val lessonShareIndex: String get() = ssLessonInfo?.shareIndex() ?: ""
 
-    private val _viewState: MutableStateFlow<ReadingsState> = MutableStateFlow(ReadingsState.Loading)
-    val viewState: StateFlow<ReadingsState> = _viewState.asStateFlow()
+    val viewState: StateFlow<ReadingsState> = lessonsRepository.getLessonReads(ssLessonIndex)
+        .map { result ->
+            val data = result.getOrNull()
+            if (data != null) {
+                ssTotalReadsCount = data.lessonInfo.days.size
+                ReadingsState.Success(data)
+            } else {
+                ReadingsState.Error(isOffline = !connectivityHelper.isConnected())
+            }
+        }
+        .stateIn(scope, ReadingsState.Loading)
+
 
     private val currentSSReadingView: SSReadingView?
         get() {
@@ -98,14 +102,11 @@ class SSReadingViewModel @AssistedInject constructor(
             return view?.findViewById(R.id.ss_reading_view)
         }
 
-    init {
-        loadLessonInfo()
-    }
-
     private val verseClickWithDebounce: (verse: String) -> Unit =
         debounceUntilLast(
             scope = ssReadingActivityBinding.root.findViewTreeLifecycleOwner()?.lifecycleScope ?: MainScope()
         ) { verse ->
+            val ssReads = (viewState.value as? ReadingsState.Success)?.lessonReads?.reads ?: return@debounceUntilLast
             val intent = BibleVersesActivity.launchIntent(
                 context,
                 verse,
@@ -113,41 +114,6 @@ class SSReadingViewModel @AssistedInject constructor(
             )
             context.startActivity(intent)
         }
-
-    private fun loadLessonInfo() = scope.launch {
-        _viewState.emit(ReadingsState.Loading)
-
-        val lessonInfoResource = lessonsRepository.getLessonInfo(ssLessonIndex)
-        val lessonInfo = lessonInfoResource.data ?: run {
-            _viewState.emit(ReadingsState.Error(isOffline = !connectivityHelper.isConnected()))
-            return@launch
-        }
-        ssLessonInfo = lessonInfo
-        dataListener.onLessonInfoChanged(lessonInfo)
-
-        ssTotalReadsCount = lessonInfo.days.size
-
-        val ssReadComments = arrayListOf<SSReadComments>()
-        val ssReadHighlights = arrayListOf<SSReadHighlights>()
-
-        val today = DateTime.now().withTimeAtStartOfDay()
-        for ((idx, ssDay) in lessonInfo.days.withIndex()) {
-            val startDate = DateHelper.parseDate(ssDay.date)
-            if (startDate?.isEqual(today) == true && ssReadIndexInt < 6) {
-                ssReadIndexInt = idx
-            }
-
-            ssReadComments.add(idx, SSReadComments(ssDay.index, emptyList()))
-            ssReadHighlights.add(idx, SSReadHighlights(ssDay.index))
-
-            val resource = lessonsRepository.getDayRead(ssDay)
-            resource.data?.let { ssReads.add(it) }
-        }
-
-        dataListener.onReadsDownloaded(ssReads, ssReadHighlights, ssReadComments, ssReadIndexInt)
-
-        _viewState.emit(ReadingsState.Success)
-    }
 
     override fun onSelectionStarted(x: Float, y: Float, highlightId: Int) {
         this.highlightId = highlightId
@@ -202,16 +168,12 @@ class SSReadingViewModel @AssistedInject constructor(
 
     override fun onVerseClicked(verse: String) = verseClickWithDebounce(verse)
 
-    interface DataListener {
-        fun onLessonInfoChanged(ssLessonInfo: SSLessonInfo)
-        fun onReadsDownloaded(ssReads: List<SSRead>, ssReadHighlights: List<SSReadHighlights>, ssReadComments: List<SSReadComments>, ssReadIndex: Int)
-    }
-
     fun onDisplayOptionsClick() {
         val ssReadingDisplayOptionsView = SSReadingDisplayOptionsView()
         val fragmentManager = (context as? FragmentActivity)?.supportFragmentManager ?: return
         ssReadingDisplayOptionsView.show(fragmentManager, ssReadingDisplayOptionsView.tag)
 
+        val ssReads = (viewState.value as? ReadingsState.Success)?.lessonReads?.reads ?: return
         val index = ssReads.getOrNull(ssReadingActivityBinding.ssReadingViewPager.currentItem) ?: return
         SSEvent.track(
             context,
@@ -300,16 +262,13 @@ class SSReadingViewModel @AssistedInject constructor(
         }
     }
 
-    fun reloadContent() {
-        loadLessonInfo()
-    }
+    fun reloadContent() = Unit // Handle retry logic
 }
 
 @AssistedFactory
 interface ReadingViewModelFactory {
     fun create(
         lessonIndex: String,
-        dataListener: SSReadingViewModel.DataListener,
         ssReadingActivityBinding: SsReadingActivityBinding,
         activity: FragmentActivity
     ): SSReadingViewModel

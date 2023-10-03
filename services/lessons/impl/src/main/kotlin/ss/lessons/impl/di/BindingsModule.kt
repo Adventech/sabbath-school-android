@@ -20,19 +20,19 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.api.repository
+package ss.lessons.impl.di
 
-import app.ss.models.SSDay
-import app.ss.models.SSLessonInfo
-import app.ss.models.SSRead
-import kotlinx.coroutines.flow.Flow
-import ss.lessons.model.result.LessonReads
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ss.lessons.api.repository.LessonsRepositoryV2
+import ss.lessons.impl.repository.LessonsRepositoryV2Impl
 
-interface LessonsRepositoryV2 {
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class BindingsModule {
 
-    fun getLessonInfo(lessonIndex: String): Flow<Result<SSLessonInfo>>
-
-    fun getDayRead(day: SSDay): Flow<Result<SSRead>>
-
-    fun getLessonReads(lessonIndex: String): Flow<Result<LessonReads>>
+    @Binds
+    internal abstract fun bindLessonsRepositoryV2(impl: LessonsRepositoryV2Impl): LessonsRepositoryV2
 }

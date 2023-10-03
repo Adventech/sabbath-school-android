@@ -20,12 +20,9 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.impl
+package ss.lessons.impl.di
 
 import app.ss.auth.api.TokenAuthenticator
-import ss.lessons.api.SSLessonsApi
-import ss.lessons.api.SSMediaApi
-import ss.lessons.api.SSQuarterliesApi
 import app.ss.models.config.AppConfig
 import app.ss.storage.db.dao.UserDao
 import com.squareup.moshi.Moshi
@@ -38,6 +35,9 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import ss.lessons.api.SSLessonsApi
+import ss.lessons.api.SSMediaApi
+import ss.lessons.api.SSQuarterliesApi
 import ss.misc.SSConstants
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton

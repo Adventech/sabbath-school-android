@@ -50,7 +50,8 @@ class AppBarComponent constructor(
             val visibility = when (state) {
                 is ReadingsState.Error,
                 ReadingsState.Loading -> View.INVISIBLE
-                ReadingsState.Success -> View.VISIBLE
+
+                is ReadingsState.Success -> View.VISIBLE
             }
             binding.root.visibility = visibility
         }
