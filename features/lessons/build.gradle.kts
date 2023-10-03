@@ -67,6 +67,7 @@ dependencies {
     implementation(projects.features.reader)
     implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.foundation.coroutines)
+    implementation(projects.libraries.lessons.api)
 
     implementation(libs.google.material)
     implementation(libs.androidx.core)

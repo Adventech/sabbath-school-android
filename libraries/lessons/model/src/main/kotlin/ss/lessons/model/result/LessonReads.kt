@@ -20,19 +20,17 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.api.repository
+package ss.lessons.model.result
 
-import app.ss.models.SSDay
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
-import kotlinx.coroutines.flow.Flow
-import ss.lessons.model.result.LessonReads
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
 
-interface LessonsRepositoryV2 {
-
-    fun getLessonInfo(lessonIndex: String): Flow<Result<SSLessonInfo>>
-
-    fun getDayRead(day: SSDay): Flow<Result<SSRead>>
-
-    fun getLessonReads(lessonIndex: String): Flow<Result<LessonReads>>
-}
+data class LessonReads(
+    val readIndex: Int,
+    val lessonInfo: SSLessonInfo,
+    val reads: List<SSRead>,
+    val comments: List<SSReadComments>,
+    val highlights: List<SSReadHighlights>,
+)

@@ -22,25 +22,211 @@
 
 package ss.lessons.impl.repository
 
+import app.ss.models.SSDay
+import app.ss.models.SSLesson
 import app.ss.models.SSLessonInfo
+import app.ss.models.SSRead
+import app.ss.models.SSReadComments
+import app.ss.models.SSReadHighlights
+import app.ss.network.NetworkResource
+import app.ss.network.safeApiCall
 import app.ss.storage.db.dao.LessonsDao
+import app.ss.storage.db.dao.ReadsDao
+import app.ss.storage.db.entity.LessonEntity
+import app.ss.storage.db.entity.ReadEntity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
+import org.joda.time.DateTime
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.SSLessonsApi
 import ss.lessons.api.repository.LessonsRepositoryV2
+import ss.lessons.model.result.LessonReads
+import ss.misc.DateHelper
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+
+private const val LESSON_READS_DEBOUNCE = 450L
 
 @Singleton
 internal class LessonsRepositoryV2Impl @Inject constructor(
     private val lessonsApi: SSLessonsApi,
     private val lessonsDao: LessonsDao,
+    private val readsDao: ReadsDao,
     private val connectivityHelper: ConnectivityHelper,
     private val dispatcherProvider: DispatcherProvider,
-) : LessonsRepositoryV2 {
+) : LessonsRepositoryV2, Scopable by ioScopable(dispatcherProvider) {
 
-    override fun getLessonInfo(lessonIndex: String): Flow<Result<SSLessonInfo>> {
-        TODO("Not yet implemented")
+    private val today = DateTime.now().withTimeAtStartOfDay()
+
+    override fun getLessonInfo(
+        lessonIndex: String
+    ): Flow<Result<SSLessonInfo>> = lessonsDao
+        .getAsFlow(lessonIndex)
+        .filterNotNull()
+        .map { Result.success(it.toInfoModel()) }
+        .onStart { syncLessonInfo(lessonIndex) }
+        .flowOn(dispatcherProvider.io)
+        .catch {
+            Timber.e(it)
+            emit(Result.failure(it))
+        }
+
+    private fun syncLessonInfo(lessonIndex: String) = scope.launch {
+        val (language, lessonId, quarterlyId) = lessonIndex.run {
+            Triple(
+                substringBefore('-'),
+                substringAfterLast('-'),
+                substringAfter('-')
+                    .substringBeforeLast('-')
+            )
+        }
+        when (val response = safeApiCall(connectivityHelper) { lessonsApi.getLessonInfo(language, quarterlyId, lessonId) }) {
+            is NetworkResource.Failure -> {
+                Timber.e("Failed to fetch Lesson Info: isNetwork=${response.isNetworkError}, ${response.errorBody}")
+            }
+
+            is NetworkResource.Success -> response.value.body()?.let { info ->
+                info.run {
+                    lessonsDao.updateInfo(lesson.index, days, pdfs)
+                }
+            }
+        }
     }
+
+    override fun getDayRead(day: SSDay): Flow<Result<SSRead>> = readsDao.getAsFlow(day.index)
+        .filterNotNull()
+        .map { Result.success(it.toModel()) }
+        .onStart { syncRead(day) }
+        .flowOn(dispatcherProvider.io)
+        .catch {
+            Timber.e(it)
+            emit(Result.failure(it))
+        }
+
+    private fun syncRead(day: SSDay) = scope.launch {
+        when (val response = safeApiCall(connectivityHelper) { lessonsApi.getDayRead("${day.full_read_path}/index.json") }) {
+            is NetworkResource.Failure -> {
+                Timber.e("Failed to fetch Day Read: isNetwork=${response.isNetworkError}, ${response.errorBody}")
+            }
+
+            is NetworkResource.Success -> response.value.body()?.let { info -> readsDao.insertItem(info.toEntity()) }
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+    override fun getLessonReads(lessonIndex: String): Flow<Result<LessonReads>> = getLessonInfo(lessonIndex)
+        .flatMapLatest { result ->
+            if (result.isSuccess) {
+                val lessonInfo = result.getOrThrow()
+                val readsMap = mutableMapOf<Int, SSRead>()
+                val data = lessonInfo.days.map {
+                    SSReadComments(it.index, emptyList()) to SSReadHighlights(it.index)
+                }
+
+                collectReads(lessonInfo)
+                    .map { (index, isReadIndex, readResult) ->
+                        if (readResult.isSuccess) {
+                            val ssDay = readResult.getOrThrow()
+                            readsMap[index] = ssDay
+
+                            Result.success(
+                                LessonReads(
+                                    readIndex = index.takeIf { isReadIndex } ?: 0,
+                                    lessonInfo = lessonInfo,
+                                    reads = readsMap.entries
+                                        .sortedBy { it.key }
+                                        .map { it.value },
+                                    comments = data.map { it.first },
+                                    highlights = data.map { it.second },
+                                )
+                            )
+                        } else {
+                            Result.failure(
+                                readResult.exceptionOrNull() ?: Throwable(
+                                    "Failed to fetch Day Read: $lessonIndex, Day $index"
+                                )
+                            )
+                        }
+
+                    }
+            } else {
+                flowOf(
+                    Result.failure(
+                        result.exceptionOrNull() ?: Throwable("Failed to fetch Lesson Info: $lessonIndex")
+                    )
+                )
+            }
+        }
+        .debounce(LESSON_READS_DEBOUNCE)
+        .flowOn(dispatcherProvider.io)
+        .catch {
+            Timber.e(it)
+            emit(Result.failure(it))
+        }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun collectReads(lessonInfo: SSLessonInfo): Flow<Triple<Int, Boolean, Result<SSRead>>> {
+        var readIndexInt = 0
+        return lessonInfo.days.withIndex().asFlow()
+            .flatMapMerge { (index, day) ->
+                val startDate = DateHelper.parseDate(day.date)
+                if (startDate?.isEqual(today) == true && readIndexInt < 6) {
+                    readIndexInt = index
+                }
+
+                getDayRead(day).map {
+                    Triple(index, readIndexInt == index, it)
+                }
+            }
+    }
+
+    private fun LessonEntity.toInfoModel(): SSLessonInfo = SSLessonInfo(
+        lesson = SSLesson(
+            title = title,
+            start_date = start_date,
+            end_date = end_date,
+            cover = cover,
+            id = id,
+            index = index,
+            path = path,
+            full_path = full_path,
+            pdfOnly = pdfOnly
+        ),
+        days = days,
+        pdfs = pdfs
+    )
+
+    private fun ReadEntity.toModel(): SSRead = SSRead(
+        index = index,
+        id = id,
+        date = date,
+        title = title,
+        content = content,
+        bible = bible
+    )
+
+    private fun SSRead.toEntity(): ReadEntity = ReadEntity(
+        index = index,
+        id = id,
+        date = date,
+        title = title,
+        content = content,
+        bible = bible
+    )
 }

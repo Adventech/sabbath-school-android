@@ -22,8 +22,10 @@
 
 package com.cryart.sabbathschool.lessons.ui.readings.model
 
+import ss.lessons.model.result.LessonReads
+
 sealed interface ReadingsState {
     data object Loading : ReadingsState
-    data object Success : ReadingsState
+    data class Success(val lessonReads: LessonReads) : ReadingsState
     data class Error(val isOffline: Boolean) : ReadingsState
 }

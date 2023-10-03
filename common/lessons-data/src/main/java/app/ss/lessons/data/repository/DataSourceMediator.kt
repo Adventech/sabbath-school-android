@@ -29,7 +29,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
@@ -81,14 +80,13 @@ internal abstract class DataSourceMediator<T, R>(
         }
 
     suspend fun getItem(request: R): Resource<T> = withContext(dispatcherProvider.io) {
-        cache.getItem(request)
-            .takeIf { it.isSuccessFul } ?: safeNetworkGetItem { network.getItem(request) }
-            .also { cacheNetworkRequest(request) }
-    }
-
-    private fun cacheNetworkRequest(request: R) = scope.launch {
-        val resource = safeNetworkGetItem { network.getItem(request) }
-        resource.data?.let { withContext(dispatcherProvider.io) { cache.updateItem(it) } }
+        val response = safeNetworkGetItem { network.getItem(request) }
+        if (response.isSuccessFul) {
+            response.data?.let { cache.updateItem(it) }
+            response
+        } else {
+            cache.getItem(request)
+        }
     }
 
     fun getItemAsFlow(request: R): Flow<Resource<T>> = flow {

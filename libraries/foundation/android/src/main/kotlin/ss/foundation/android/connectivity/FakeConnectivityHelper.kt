@@ -20,19 +20,13 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.api.repository
+package ss.foundation.android.connectivity
 
-import app.ss.models.SSDay
-import app.ss.models.SSLessonInfo
-import app.ss.models.SSRead
-import kotlinx.coroutines.flow.Flow
-import ss.lessons.model.result.LessonReads
+import androidx.annotation.VisibleForTesting
 
-interface LessonsRepositoryV2 {
-
-    fun getLessonInfo(lessonIndex: String): Flow<Result<SSLessonInfo>>
-
-    fun getDayRead(day: SSDay): Flow<Result<SSRead>>
-
-    fun getLessonReads(lessonIndex: String): Flow<Result<LessonReads>>
+@VisibleForTesting
+class FakeConnectivityHelper(
+    private val isConnected: Boolean
+) : ConnectivityHelper {
+    override fun isConnected(): Boolean = isConnected
 }
