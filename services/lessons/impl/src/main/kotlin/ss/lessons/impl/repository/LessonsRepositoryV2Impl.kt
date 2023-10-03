@@ -103,7 +103,16 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
 
             is NetworkResource.Success -> response.value.body()?.let { info ->
                 info.run {
-                    lessonsDao.updateInfo(lesson.index, days, pdfs)
+                    lessonsDao.updateInfo(
+                        lesson.index,
+                        days,
+                        pdfs,
+                        lesson.title,
+                        lesson.cover,
+                        lesson.path,
+                        lesson.full_path,
+                        lesson.pdfOnly
+                    )
                 }
             }
         }

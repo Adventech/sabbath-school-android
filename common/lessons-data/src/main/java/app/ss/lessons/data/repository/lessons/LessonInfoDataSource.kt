@@ -61,7 +61,12 @@ internal class LessonInfoDataSource @Inject constructor(
             lessonsDao.updateInfo(
                 data.lesson.index,
                 data.days,
-                data.pdfs
+                data.pdfs,
+                data.lesson.title,
+                data.lesson.cover,
+                data.lesson.path,
+                data.lesson.full_path,
+                data.lesson.pdfOnly
             )
         }
     }
