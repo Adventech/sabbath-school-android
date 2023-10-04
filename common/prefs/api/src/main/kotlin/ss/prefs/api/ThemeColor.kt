@@ -20,30 +20,9 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.readings.components
+package ss.prefs.api
 
-import android.graphics.Color
-import androidx.core.view.isVisible
-import androidx.lifecycle.LifecycleOwner
-import com.cryart.design.theme
-import com.cryart.sabbathschool.lessons.databinding.SsProgressBarBinding
-import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel
-import com.cryart.sabbathschool.lessons.ui.readings.model.ReadingsState
-import ss.foundation.coroutines.flow.collectIn
-import ss.prefs.api.SSPrefs
-
-class ProgressBarComponent(
-    private val binding: SsProgressBarBinding,
-    viewModel: SSReadingViewModel,
-    ssPrefs: SSPrefs,
-    owner: LifecycleOwner
-) {
-    init {
-        viewModel.viewState.collectIn(owner) { state ->
-            binding.root.isVisible = state == ReadingsState.Loading
-        }
-        binding.ssProgressIndicator.run {
-            theme(Color.parseColor(ssPrefs.getThemeColor().primary))
-        }
-    }
-}
+data class ThemeColor(
+    val primary: String,
+    val primaryDark: String
+)

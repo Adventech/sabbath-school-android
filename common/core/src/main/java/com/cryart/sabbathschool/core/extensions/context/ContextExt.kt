@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -26,7 +26,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
@@ -35,20 +34,12 @@ import androidx.core.net.toUri
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.cryart.sabbathschool.core.R
-import ss.misc.SSColorTheme
 import timber.log.Timber
 
 fun Context.isDarkTheme(): Boolean {
     return resources.configuration.uiMode and
         Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 }
-
-/**
- * Returns current color primary saved in prefs
- */
-val Context.colorPrimary get() = Color.parseColor(SSColorTheme.getInstance(this).colorPrimary)
-
-val Context.colorPrimaryDark get() = Color.parseColor(SSColorTheme.getInstance(this).colorPrimaryDark)
 
 fun Context.launchWebUrl(url: String): Boolean {
     return launchWebUrl(url.toWebUri())

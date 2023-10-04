@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -46,8 +46,11 @@ import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
 import ss.misc.SSConstants
+import ss.misc.SSConstants.COLOR_PRIMARY_DARK_FALLBACK
+import ss.misc.SSConstants.COLOR_PRIMARY_FALLBACK
 import ss.misc.SSHelper
 import ss.prefs.api.SSPrefs
+import ss.prefs.api.ThemeColor
 import ss.prefs.model.ReminderTime
 import ss.prefs.model.SSReadingDisplayOptions
 import timber.log.Timber
@@ -257,6 +260,15 @@ internal class SSPrefsImpl(
             putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY, primary)
             putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY_DARK, primaryDark)
         }
+    }
+
+    override fun getThemeColor(): ThemeColor {
+        val primary = sharedPreferences.getString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY, COLOR_PRIMARY_FALLBACK)
+        val secondary = sharedPreferences.getString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY_DARK, COLOR_PRIMARY_DARK_FALLBACK)
+        return ThemeColor(
+            primary ?: COLOR_PRIMARY_FALLBACK,
+            secondary ?: COLOR_PRIMARY_DARK_FALLBACK
+        )
     }
 
     override fun setReminderScheduled(scheduled: Boolean) = sharedPreferences.edit {

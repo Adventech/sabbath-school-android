@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -45,6 +45,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,8 +67,8 @@ import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.extensions.previews.DevicePreviews
-import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.button.ButtonSpec
 import app.ss.design.compose.widget.button.SsButton
 import app.ss.design.compose.widget.button.SsButtonDefaults
@@ -116,15 +118,20 @@ private fun QuarterlyInfo(
     scrollOffset: () -> Float = { 0f },
     isLargeScreen: Boolean = isLargeScreen()
 ) {
-    val type = when {
-        spec.splashImage.isNullOrEmpty() -> {
-            if (isLargeScreen) {
-                QuarterlyInfoType.SecondaryLarge
-            } else {
-                QuarterlyInfoType.Secondary
+    val type by remember(spec) {
+        mutableStateOf(
+            when {
+                spec.splashImage.isNullOrEmpty() -> {
+                    if (isLargeScreen) {
+                        QuarterlyInfoType.SecondaryLarge
+                    } else {
+                        QuarterlyInfoType.Secondary
+                    }
+                }
+
+                else -> QuarterlyInfoType.Primary
             }
-        }
-        else -> QuarterlyInfoType.Primary
+        )
     }
 
     val content: @Composable ColumnScope.() -> Unit = {
@@ -238,9 +245,9 @@ private fun ContentPrimary(
                     end.linkTo(parent.end)
                 }
                 .background(gradient)
-        ) {
-            content()
-        }
+                .padding(bottom = 16.dp),
+            content = content,
+        )
     }
 }
 
