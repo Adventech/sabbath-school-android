@@ -149,14 +149,14 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
                 }
 
                 collectReads(lessonInfo)
-                    .map { (index, isReadIndex, readResult) ->
+                    .map { (index, readResult) ->
                         if (readResult.isSuccess) {
                             val ssDay = readResult.getOrThrow()
                             readsMap[index] = ssDay
 
                             Result.success(
                                 LessonReads(
-                                    readIndex = index.takeIf { isReadIndex } ?: 0,
+                                    readIndex = lessonInfo.findReadPosition(),
                                     lessonInfo = lessonInfo,
                                     reads = readsMap.entries
                                         .sortedBy { it.key }
@@ -190,19 +190,20 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
         }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private fun collectReads(lessonInfo: SSLessonInfo): Flow<Triple<Int, Boolean, Result<SSRead>>> {
-        var readIndexInt = 0
+    private fun collectReads(lessonInfo: SSLessonInfo): Flow<Pair<Int, Result<SSRead>>> {
         return lessonInfo.days.withIndex().asFlow()
-            .flatMapMerge { (index, day) ->
-                val startDate = DateHelper.parseDate(day.date)
-                if (startDate?.isEqual(today) == true && readIndexInt < 6) {
-                    readIndexInt = index
-                }
+            .flatMapMerge { (index, day) -> getDayRead(day).map { index to it } }
+    }
 
-                getDayRead(day).map {
-                    Triple(index, readIndexInt == index, it)
-                }
+    private fun SSLessonInfo.findReadPosition(): Int {
+        var readIndex = 0
+        for ((index, ssDay) in days.withIndex()) {
+            val startDate = DateHelper.parseDate(ssDay.date)
+            if (startDate?.isEqual(today) == true && readIndex < 6) {
+                readIndex = index
             }
+        }
+        return readIndex
     }
 
     private fun LessonEntity.toInfoModel(): SSLessonInfo = SSLessonInfo(
