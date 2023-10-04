@@ -22,35 +22,35 @@
 
 package com.cryart.sabbathschool.lessons.ui.readings.components
 
+import android.graphics.Color
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
-import com.cryart.sabbathschool.core.extensions.context.colorPrimaryDark
 import com.cryart.sabbathschool.lessons.databinding.SsReadingAppBarBinding
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel
 import com.cryart.sabbathschool.lessons.ui.readings.model.ReadingsState
 import ss.foundation.coroutines.flow.collectIn
+import ss.prefs.api.SSPrefs
 
 class AppBarComponent constructor(
     private val binding: SsReadingAppBarBinding,
     viewModel: SSReadingViewModel,
+    ssPrefs: SSPrefs,
     owner: LifecycleOwner,
 ) {
 
     init {
         binding.ssReadingCollapsingToolbar.run {
-            // Replace with selected quarterly colors instead
-            val primaryColor = context.colorPrimary
-            setContentScrimColor(primaryColor)
-            setBackgroundColor(primaryColor)
-            setStatusBarScrimColor(context.colorPrimaryDark)
+            ssPrefs.getThemeColor().run {
+                setContentScrimColor(Color.parseColor(primary))
+                setBackgroundColor(Color.parseColor(primary))
+                setStatusBarScrimColor(Color.parseColor(primaryDark))
+            }
         }
 
         viewModel.viewState.collectIn(owner) { state ->
             val visibility = when (state) {
                 is ReadingsState.Error,
                 ReadingsState.Loading -> View.INVISIBLE
-
                 is ReadingsState.Success -> View.VISIBLE
             }
             binding.root.visibility = visibility

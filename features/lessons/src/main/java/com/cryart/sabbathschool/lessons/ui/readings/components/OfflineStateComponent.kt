@@ -22,17 +22,19 @@
 
 package com.cryart.sabbathschool.lessons.ui.readings.components
 
+import android.graphics.Color
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
-import com.cryart.sabbathschool.core.extensions.context.colorPrimary
 import com.cryart.sabbathschool.lessons.databinding.SsOfflineStateBinding
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel
 import com.cryart.sabbathschool.lessons.ui.readings.model.ReadingsState
 import ss.foundation.coroutines.flow.collectIn
+import ss.prefs.api.SSPrefs
 
 class OfflineStateComponent constructor(
     private val binding: SsOfflineStateBinding,
     viewModel: SSReadingViewModel,
+    ssPrefs: SSPrefs,
     owner: LifecycleOwner,
     onClose: () -> Unit
 ) {
@@ -49,7 +51,7 @@ class OfflineStateComponent constructor(
 
         binding.btnClose.setOnClickListener { onClose() }
         with(binding.actionReload) {
-            setTextColor(context.colorPrimary)
+            setTextColor(Color.parseColor(ssPrefs.getThemeColor().primary))
             setOnClickListener { viewModel.reloadContent() }
         }
     }

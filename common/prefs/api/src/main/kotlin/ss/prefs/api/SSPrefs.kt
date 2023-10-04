@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -22,9 +22,9 @@
 
 package ss.prefs.api
 
+import kotlinx.coroutines.flow.Flow
 import ss.prefs.model.ReminderTime
 import ss.prefs.model.SSReadingDisplayOptions
-import kotlinx.coroutines.flow.Flow
 
 interface SSPrefs {
     fun clear()
@@ -46,6 +46,7 @@ interface SSPrefs {
     fun setReaderArtifactLastModified(lastModified: String)
     fun setAppReBrandingShown()
     fun setThemeColor(primary: String, primaryDark: String)
+    fun getThemeColor(): ThemeColor
     fun setReminderScheduled(scheduled: Boolean = true)
     fun isReadingLatestQuarterly(): Boolean
     fun setReadingLatestQuarterly(state: Boolean)
