@@ -72,7 +72,6 @@ dependencies {
     implementation(libs.google.material)
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.compose.constraintlayout)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.activity)
