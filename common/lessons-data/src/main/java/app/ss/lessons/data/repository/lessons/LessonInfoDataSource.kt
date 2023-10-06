@@ -53,7 +53,9 @@ internal class LessonInfoDataSource @Inject constructor(
 
         override suspend fun getItem(request: Request): Resource<SSLessonInfo> {
             val info = lessonsDao.get(request.lessonIndex)
-            if (info == null || info.days.isEmpty()) return Resource.loading()
+            if (info == null || (!info.pdfOnly && info.days.isEmpty())) {
+                return Resource.error(Throwable("Lesson ${request.lessonIndex} Not found"))
+            }
             return Resource.success(info.toInfoModel())
         }
 

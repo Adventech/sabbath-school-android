@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.Button
+import androidx.glance.ButtonDefaults
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
@@ -97,7 +98,15 @@ internal class TodayAppWidget @AssistedInject constructor(
                         model = data,
                         titleMaxLines = if (isSmallMode) 2 else 3,
                         bodyMaxLines = if (isSmallMode) 1 else 2,
-                        showReadButton = !isSmallMode
+                        readOptions = if (isSmallMode) {
+                            TodayInfoSpec.ReadOptions.Hidden
+                        } else {
+                            TodayInfoSpec.ReadOptions.Shown(
+                                ButtonDefaults.buttonColors(
+                                    contentColor = GlanceTheme.colors.onPrimary
+                                )
+                            )
+                        }
                     )
                 )
             }
@@ -147,6 +156,7 @@ internal fun TodayInfo(
         stringResource(R.string.ss_widget_error_label),
         DateHelper.today(),
         "",
+        "",
         Uri.EMPTY
     )
 
@@ -178,19 +188,21 @@ internal fun TodayInfo(
 
         Spacer(modifier = GlanceModifier.height(12.dp))
 
-        if (spec.showReadButton) {
-            Button(
-                text = stringResource(TranslationsR.string.ss_lessons_read).uppercase(),
-                style = todayTitle(
-                    GlanceTheme.colors.onPrimary
-                ).copy(fontSize = 14.sp),
-                maxLines = 1,
-                onClick = model.uri.toAction(),
-                modifier = GlanceModifier
-                    .cornerRadius(20.dp)
-                    .padding(horizontal = 32.dp)
-                    .height(32.dp)
-            )
+        when (val options = spec.readOptions) {
+            TodayInfoSpec.ReadOptions.Hidden -> Unit
+            is TodayInfoSpec.ReadOptions.Shown -> {
+                Button(
+                    text = stringResource(TranslationsR.string.ss_lessons_read).uppercase(),
+                    style = todayTitle(options.colors.contentColor).copy(fontSize = 14.sp),
+                    maxLines = 1,
+                    onClick = model.uri.toAction(),
+                    modifier = GlanceModifier
+                        .cornerRadius(20.dp)
+                        .padding(horizontal = 32.dp)
+                        .height(32.dp),
+                    colors = options.colors
+                )
+            }
         }
     }
 }

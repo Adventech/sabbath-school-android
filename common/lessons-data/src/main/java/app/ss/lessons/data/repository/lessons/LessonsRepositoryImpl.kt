@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -57,6 +57,8 @@ internal class LessonsRepositoryImpl @Inject constructor(
     private val readerArtifactHelper: ReaderArtifactHelper
 ) : LessonsRepository {
 
+    private val today = DateTime.now().withTimeAtStartOfDay()
+
     override suspend fun getLessonInfo(lessonIndex: String, cached: Boolean): Resource<SSLessonInfo> {
         return if (cached) {
             withContext(dispatcherProvider.io) {
@@ -69,9 +71,24 @@ internal class LessonsRepositoryImpl @Inject constructor(
 
     override suspend fun getTodayRead(cached: Boolean): Resource<TodayData> {
         val dataResponse = getQuarterlyAndLessonInfo(cached)
-        val lessonInfo = dataResponse.data?.lessonInfo ?: return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
+        val data = dataResponse.data ?: return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
+        val lessonInfo = data.lessonInfo
+        val quarterlyInfo = data.quarterlyInfo
 
-        val today = DateTime.now().withTimeAtStartOfDay()
+        if (lessonInfo.days.isEmpty()) {
+            return Resource.success(
+                TodayData(
+                    lessonInfo.lesson.index,
+                    lessonInfo.lesson.index,
+                    lessonInfo.lesson.title,
+                    formatDate(lessonInfo.lesson.start_date),
+                    quarterlyInfo.quarterly.cover,
+                    lessonInfo.lesson.cover,
+                    quarterlyIndex = quarterlyInfo.quarterly.index
+                )
+            )
+        }
+
         val todayModel = lessonInfo.days.find { day ->
             today.isEqual(parseDate(day.date))
         }?.let { day ->
@@ -80,7 +97,9 @@ internal class LessonsRepositoryImpl @Inject constructor(
                 lessonInfo.lesson.index,
                 day.title,
                 formatDate(day.date),
-                lessonInfo.lesson.cover
+                quarterlyInfo.quarterly.cover,
+                lessonInfo.lesson.cover,
+                null
             )
         } ?: return Resource.error(Throwable("Error Finding Today Read"))
 
@@ -111,7 +130,6 @@ internal class LessonsRepositoryImpl @Inject constructor(
             quarterlyInfoDataSource.cache.getItem(QuarterlyInfoDataSource.Request(index)).data
         } ?: return null
 
-        val today = DateTime.now().withTimeAtStartOfDay()
         return if (today.isBefore(parseDate(info.quarterly.end_date))) {
             info
         } else {
@@ -132,7 +150,6 @@ internal class LessonsRepositoryImpl @Inject constructor(
             val startDate = parseDate(lesson.start_date)
             val endDate = parseDate(lesson.end_date)
 
-            val today = DateTime.now().withTimeAtStartOfDay()
             startDate?.isBeforeNow == true && (endDate?.isAfterNow == true || today.isEqual(endDate))
         }
 
@@ -156,16 +173,26 @@ internal class LessonsRepositoryImpl @Inject constructor(
     override suspend fun getWeekData(cached: Boolean): Resource<WeekData> {
         val dataResponse = getQuarterlyAndLessonInfo(cached)
         val (quarterlyInfo, lessonInfo) = dataResponse.data ?: return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
-        val today = DateTime.now().withTimeAtStartOfDay()
 
-        val days = lessonInfo.days.map { ssDay ->
-            WeekDay(
-                ssDay.index,
-                ssDay.title,
-                formatDate(ssDay.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY_SHORT),
-                today.isEqual(parseDate(ssDay.date))
+        val days = if (lessonInfo.days.isEmpty()) {
+            listOf(
+                WeekDay(
+                    index = quarterlyInfo.quarterly.index,
+                    title = lessonInfo.lesson.title,
+                    date = formatDate(lessonInfo.lesson.start_date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY_SHORT),
+                    today = false
+                )
             )
-        }.take(7)
+        } else {
+            lessonInfo.days.map { ssDay ->
+                WeekDay(
+                    ssDay.index,
+                    ssDay.title,
+                    formatDate(ssDay.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY_SHORT),
+                    today.isEqual(parseDate(ssDay.date))
+                )
+            }.take(7)
+        }
 
         return Resource.success(
             WeekData(
