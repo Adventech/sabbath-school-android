@@ -62,7 +62,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.thenIf
@@ -231,24 +230,12 @@ private fun ContentPrimary(
         )
     }
 
-    ConstraintLayout(modifier = modifier) {
-        val container = createRef()
-
-        val guideline = createGuidelineFromTop(0.4f)
-
-        Column(
-            modifier = Modifier
-                .constrainAs(container) {
-                    top.linkTo(guideline, 16.dp)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
-                .background(gradient)
-                .padding(bottom = 16.dp),
-            content = content,
-        )
-    }
+    Column(
+        modifier = modifier
+            .background(gradient)
+            .padding(16.dp),
+        content = content,
+    )
 }
 
 @Composable
