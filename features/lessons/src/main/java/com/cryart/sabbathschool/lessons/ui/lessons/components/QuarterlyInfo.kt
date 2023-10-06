@@ -233,7 +233,14 @@ private fun ContentPrimary(
     Column(
         modifier = modifier
             .background(gradient)
-            .padding(16.dp),
+            .padding(
+                top = with(LocalDensity.current) {
+                    WindowInsets.safeDrawing
+                        .only(WindowInsetsSides.Top)
+                        .getTop(this)
+                        .toDp()
+                }
+            ),
         content = content,
     )
 }
