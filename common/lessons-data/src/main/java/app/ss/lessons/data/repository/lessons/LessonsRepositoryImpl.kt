@@ -38,6 +38,7 @@ import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import ss.foundation.coroutines.DispatcherProvider
+import ss.misc.DateHelper
 import ss.misc.DateHelper.formatDate
 import ss.misc.DateHelper.parseDate
 import ss.misc.SSConstants
@@ -81,7 +82,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
                     lessonInfo.lesson.index,
                     lessonInfo.lesson.index,
                     lessonInfo.lesson.title,
-                    formatDate(lessonInfo.lesson.start_date),
+                    DateHelper.today(),
                     lessonInfo.lesson.cover,
                     quarterlyIndex = quarterlyInfo.quarterly.index
                 )
@@ -177,7 +178,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
                 WeekDay(
                     index = quarterlyInfo.quarterly.index,
                     title = lessonInfo.lesson.title,
-                    date = formatDate(lessonInfo.lesson.start_date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY_SHORT),
+                    date = DateHelper.today(),
                     today = false
                 )
             )
