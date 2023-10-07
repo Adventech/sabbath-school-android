@@ -33,7 +33,7 @@ import kotlinx.coroutines.flow.Flow
 interface LessonsDao : BaseDao<LessonEntity> {
 
     @Query("SELECT * FROM lessons WHERE `index` = :lessonIndex")
-    fun get(lessonIndex: String): LessonEntity?
+    suspend fun get(lessonIndex: String): LessonEntity?
 
     @Query("SELECT * FROM lessons WHERE `index` = :lessonIndex")
     fun getAsFlow(lessonIndex: String): Flow<LessonEntity?>

@@ -25,6 +25,8 @@ package app.ss.lessons.data.repository.quarterly
 import app.ss.lessons.data.repository.DataSource
 import app.ss.lessons.data.repository.DataSourceMediator
 import app.ss.lessons.data.repository.LocalDataSource
+import app.ss.models.LessonPdf
+import app.ss.models.SSDay
 import app.ss.models.SSLesson
 import app.ss.models.SSQuarterlyInfo
 import app.ss.storage.db.dao.LessonsDao
@@ -66,11 +68,7 @@ internal class QuarterlyInfoDataSource @Inject constructor(
         override suspend fun updateItem(data: SSQuarterlyInfo) {
             data.lessons.forEach { lesson ->
                 lessonsDao.get(lesson.index)?.let { entity ->
-                    val updatedEntity = entity.copy(
-                        days = entity.days,
-                        pdfs = entity.pdfs
-                    )
-                    lessonsDao.update(updatedEntity)
+                    lessonsDao.update(lesson.toEntity(entity.days, entity.pdfs))
                 } ?: run { lessonsDao.insertItem(lesson.toEntity()) }
             }
             quarterliesDao.update(data.quarterly.toEntity())
@@ -91,7 +89,10 @@ internal class QuarterlyInfoDataSource @Inject constructor(
         }
     }
 
-    private fun SSLesson.toEntity(): LessonEntity = LessonEntity(
+    private fun SSLesson.toEntity(
+        days: List<SSDay> = emptyList(),
+        pdfs: List<LessonPdf> = emptyList()
+    ): LessonEntity = LessonEntity(
         index = index,
         quarter = index.substringBeforeLast('-'),
         title = title,
@@ -101,7 +102,9 @@ internal class QuarterlyInfoDataSource @Inject constructor(
         id = id,
         path = path,
         full_path = full_path,
-        pdfOnly = pdfOnly
+        pdfOnly = pdfOnly,
+        days = days,
+        pdfs = pdfs,
     )
 
     private fun LessonEntity.toModel(): SSLesson = SSLesson(
