@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -23,6 +23,7 @@
 package app.ss.widgets.glance.today
 
 import androidx.compose.runtime.Immutable
+import androidx.glance.ButtonColors
 import androidx.glance.unit.ColorProvider
 import app.ss.widgets.model.TodayWidgetModel
 
@@ -32,5 +33,10 @@ internal data class TodayInfoSpec(
     val textColor: ColorProvider? = null,
     val titleMaxLines: Int = 3,
     val bodyMaxLines: Int = 2,
-    val showReadButton: Boolean = true
-)
+    val readOptions: ReadOptions
+) {
+    sealed interface ReadOptions {
+        data object Hidden : ReadOptions
+        data class Shown(val colors: ButtonColors) : ReadOptions
+    }
+}

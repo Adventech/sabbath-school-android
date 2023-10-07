@@ -30,10 +30,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.glance.BitmapImageProvider
+import androidx.glance.ButtonDefaults
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalContext
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.provideContent
@@ -76,8 +79,10 @@ internal class TodayImageAppWidget @AssistedInject constructor(
 
     @Composable
     @SuppressLint("RestrictedApi")
-    private fun Content(model: TodayWidgetModel?, cover: Bitmap?) {
-
+    private fun Content(
+        model: TodayWidgetModel?,
+        cover: Bitmap?
+    ) {
         SsGlanceTheme {
             Box(
                 modifier = GlanceModifier
@@ -98,14 +103,25 @@ internal class TodayImageAppWidget @AssistedInject constructor(
                         ImageProvider(R.drawable.bg_img_foreground)
                     ) to ColorProvider(Color.White)
                 } else {
-                    GlanceModifier to null
+                    GlanceModifier.background(
+                        GlanceTheme.colors.primary
+                    ) to ColorProvider(GlanceTheme.colors.onPrimary.getColor(LocalContext.current))
                 }
 
                 TodayInfo(
                     spec = TodayInfoSpec(
                         model = model,
                         textColor = textColor,
-                        showReadButton = false
+                        readOptions = if (cover == null) {
+                            TodayInfoSpec.ReadOptions.Shown(
+                                ButtonDefaults.buttonColors(
+                                    backgroundColor = GlanceTheme.colors.onPrimary,
+                                    contentColor = GlanceTheme.colors.primary
+                                )
+                            )
+                        } else {
+                            TodayInfoSpec.ReadOptions.Hidden
+                        }
                     ),
                     modifier = modifier
                 )
