@@ -24,14 +24,11 @@ package app.ss.widgets.model
 
 import android.net.Uri
 import androidx.compose.runtime.Immutable
-import ss.misc.SSConstants
 
 @Immutable
 internal data class TodayWidgetModel(
     val title: String,
     val date: String,
     val cover: String,
-    val quarterlyCover: String,
     val uri: Uri,
-    val primaryColor: String = SSConstants.COLOR_PRIMARY_FALLBACK
 )

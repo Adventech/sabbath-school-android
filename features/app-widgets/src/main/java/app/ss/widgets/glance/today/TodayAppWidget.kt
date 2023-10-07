@@ -156,7 +156,6 @@ internal fun TodayInfo(
         stringResource(R.string.ss_widget_error_label),
         DateHelper.today(),
         "",
-        "",
         Uri.EMPTY
     )
 

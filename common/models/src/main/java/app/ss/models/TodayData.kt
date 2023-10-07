@@ -27,7 +27,6 @@ data class TodayData(
     val lessonIndex: String,
     val title: String,
     val date: String,
-    val quarterlyCover: String,
     val cover: String,
     val quarterlyIndex: String?
 )

@@ -82,7 +82,6 @@ internal class LessonsRepositoryImpl @Inject constructor(
                     lessonInfo.lesson.index,
                     lessonInfo.lesson.title,
                     formatDate(lessonInfo.lesson.start_date),
-                    quarterlyInfo.quarterly.cover,
                     lessonInfo.lesson.cover,
                     quarterlyIndex = quarterlyInfo.quarterly.index
                 )
@@ -97,7 +96,6 @@ internal class LessonsRepositoryImpl @Inject constructor(
                 lessonInfo.lesson.index,
                 day.title,
                 formatDate(day.date),
-                quarterlyInfo.quarterly.cover,
                 lessonInfo.lesson.cover,
                 null
             )

@@ -31,7 +31,6 @@ import com.cryart.sabbathschool.core.navigation.toUri
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.misc.SSConstants
-import ss.prefs.api.SSPrefs
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -49,7 +48,6 @@ internal interface WidgetDataProvider {
 internal class WidgetDataProviderImpl @Inject constructor(
     private val repository: LessonsRepository,
     private val dispatcherProvider: DispatcherProvider,
-    private val ssPrefs: SSPrefs,
 ) : WidgetDataProvider {
 
     override suspend fun getTodayModel(): TodayWidgetModel? = fetchTodayModel(cached = true)
@@ -71,9 +69,7 @@ internal class WidgetDataProviderImpl @Inject constructor(
                         data.title,
                         data.date,
                         data.cover,
-                        data.quarterlyCover,
                         uri,
-                        ssPrefs.getThemeColor().primary
                     )
                 }
             } else {

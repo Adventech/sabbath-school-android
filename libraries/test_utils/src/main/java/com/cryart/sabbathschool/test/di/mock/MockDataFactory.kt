@@ -77,7 +77,6 @@ object MockDataFactory {
         "Worn and Weary",
         "Sunday, June 27",
         "cover",
-        "",
         null
     )
 

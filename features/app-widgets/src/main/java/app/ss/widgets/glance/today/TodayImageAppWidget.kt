@@ -22,6 +22,7 @@
 
 package app.ss.widgets.glance.today
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
@@ -77,6 +78,7 @@ internal class TodayImageAppWidget @AssistedInject constructor(
     }
 
     @Composable
+    @SuppressLint("RestrictedApi")
     private fun Content(
         model: TodayWidgetModel?,
         cover: Bitmap?
