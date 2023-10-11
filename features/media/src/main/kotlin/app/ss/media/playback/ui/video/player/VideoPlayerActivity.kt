@@ -37,12 +37,12 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Rational
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.media3.ui.PlayerView
@@ -93,7 +93,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     private var onStopCalled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         exoPlayerView = findViewById(R.id.playerView)
         composeView = findViewById(R.id.composeView)

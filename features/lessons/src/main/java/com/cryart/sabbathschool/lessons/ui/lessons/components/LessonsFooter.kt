@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -24,7 +24,6 @@ package com.cryart.sabbathschool.lessons.ui.lessons.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -67,7 +66,6 @@ internal data class LessonsFooterSpec(
 
 internal fun LazyListScope.footer(
     spec: LessonsFooterSpec,
-    mainPadding: PaddingValues
 ) {
     if (spec.credits.isEmpty() && spec.features.isEmpty()) {
         return
@@ -133,15 +131,6 @@ internal fun LazyListScope.footer(
         Spacer(
             Modifier
                 .windowInsetsBottomHeight(WindowInsets.safeDrawing)
-                .fillMaxWidth()
-                .background(backgroundColor())
-        )
-    }
-
-    item {
-        Spacer(
-            modifier = Modifier
-                .height(mainPadding.calculateBottomPadding())
                 .fillMaxWidth()
                 .background(backgroundColor())
         )

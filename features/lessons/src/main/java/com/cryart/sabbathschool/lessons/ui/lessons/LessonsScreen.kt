@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -44,7 +44,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -74,8 +73,6 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.loading
 import com.cryart.sabbathschool.lessons.ui.lessons.components.quarterlyInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.toSpec
-import com.google.accompanist.systemuicontroller.SystemUiController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import app.ss.translations.R.string as RString
 
 @Composable
@@ -85,7 +82,6 @@ internal fun LessonsScreen(
     onShareClick: (String) -> Unit,
     onLessonClick: (LessonItemSpec) -> Unit,
     onReadMoreClick: (LessonIntroModel) -> Unit,
-    mainPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     val listState: LazyListState = rememberLazyListState()
     val scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState)
@@ -98,8 +94,6 @@ internal fun LessonsScreen(
         onShareClick = onShareClick,
         onLessonClick = onLessonClick,
         onReadMoreClick = onReadMoreClick,
-        systemUiController = rememberSystemUiController(),
-        mainPadding = mainPadding
     )
 }
 
@@ -113,9 +107,6 @@ internal fun LessonsScreen(
     onShareClick: (String) -> Unit = {},
     onLessonClick: (LessonItemSpec) -> Unit = {},
     onReadMoreClick: (LessonIntroModel) -> Unit = {},
-    systemUiController: SystemUiController? = null,
-    isDarkTheme: Boolean = SsTheme.colors.isDark,
-    mainPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     val quarterlyTitle = remember(state.quarterlyTitle) { state.quarterlyTitle }
     val scrollCollapsed by remember { derivedStateOf { scrollAlpha.alpha > MIN_SOLID_ALPHA } }
@@ -155,25 +146,7 @@ internal fun LessonsScreen(
             onLessonClick = onLessonClick,
             onReadMoreClick = onReadMoreClick,
             modifier = Modifier,
-            mainPadding = mainPadding
         )
-    }
-
-    val useDarkIcons by remember {
-        derivedStateOf {
-            when {
-                isDarkTheme -> false
-                else -> collapsed
-            }
-        }
-    }
-
-    DisposableEffect(systemUiController, useDarkIcons) {
-        systemUiController?.setSystemBarsColor(
-            Color.Transparent,
-            darkIcons = useDarkIcons
-        )
-        onDispose {}
     }
 }
 
@@ -247,7 +220,6 @@ private fun LessonsLazyColumn(
     onLessonClick: (LessonItemSpec) -> Unit,
     onReadMoreClick: (LessonIntroModel) -> Unit,
     modifier: Modifier = Modifier,
-    mainPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     val quarterlyInfo = when (quarterlyInfoState) {
         QuarterlyInfoState.Error,
@@ -303,7 +275,6 @@ private fun LessonsLazyColumn(
                     credits = quarterlyInfo.quarterly.credits.map { it.toSpec() },
                     features = quarterlyInfo.quarterly.features.map { it.toSpec() }
                 ),
-                mainPadding = mainPadding
             )
         } ?: run {
             loading()
