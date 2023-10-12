@@ -33,10 +33,6 @@
         android:name="android.software.leanback"
         android:required="false" />
 
-    <queries>
-        <package android:name="com.facebook.katana" />
-    </queries>
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
