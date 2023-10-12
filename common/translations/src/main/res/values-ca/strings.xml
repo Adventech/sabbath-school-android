@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+    <string name="ss_app_name">"Escola Sabàtica"</string>
+    <string name="ss_share">"Compartir"</string>
+    <string name="ss_login_button_google">"Inicia sessió amb Google"</string>
+    <string name="ss_login_button_anonymous">"Continua sense iniciar sessió"</string>
+    <string name="ss_menu_anonymous_name">"Anònim"</string>
+    <string name="ss_menu_sign_out">"Tanca sessió"</string>
+    <string name="ss_menu_read_now">"Llegir ara"</string>
+    <string name="ss_menu_share_app">"Compartir App"</string>
+    <string name="ss_menu_share_app_text">"Estic utilitzant aquesta aplicació d'Escola Sabàtica. Prova-la! - %1$s"</string>
+    <string name="ss_more">more</string>
+    <string name="ss_my_highlights">"Els meus destacats"</string>
+    <string name="ss_my_notes">"Les meves notes"</string>
+    <string name="ss_settings">"Configuració"</string>
+    <string name="ss_about">"Quant a"</string>
+    <string name="ss_login_failed">"Error a l'iniciar sessió. Siusplau torna-ho a provar"</string>
+    <string name="ss_login_anonymously_dialog_positive">"Sí"</string>
+    <string name="ss_login_anonymously_dialog_negative">"No"</string>
+    <string name="ss_login_anonymously_dialog_title">"Iniciar sessió de manera anònima?"</string>
+    <string name="ss_login_anonymously_dialog_description">"Si inicieu sessió de manera anònima, no podreu sincronitzar les vostres dades, com ara comentaris i elements destacats, entre dispositius o després de desinstal·lar l'aplicació. Esteu segur que voleu continuar?"</string>
+    <string name="ss_quarterlies_filter_languages">"Filtrar idiomes"</string>
+    <string name="ss_quarterlies_downloading">"Obtenint trimestres…"</string>
+    <string name="ss_quarterlies_error">"S'ha produït un error desconegut. Siusplau torna-ho a provar"</string>
+    <string name="ss_quarterlies_empty">"Sembla que de moment no hi ha trimestres"</string>
+    <string name="ss_quarterly_item_read_text">"Obrir"</string>
+    <string name="ss_lessons_downloading">"Obrint trimestre…"</string>
+    <string name="ss_lessons_error">"S'ha produït un error en obrir trimestralment"</string>
+    <string name="ss_lessons_empty">"Sembla que de moment no hi ha lliçons"</string>
+    <string name="ss_lessons_read">"Llegir"</string>
+    <string name="ss_reading_empty">"Sembla que aquesta lliçó està buida. Torna a provar-ho més tard"</string>
+    <string name="ss_reading_error">"S'ha produït un error en obrir la lliçó"</string>
+    <string name="ss_reading_downloading">"S'està baixant la lliçó per fora de línia"</string>
+    <string name="ss_reading_suggest_edit">"Suggereix edició o correcció"</string>
+    <string name="ss_reading_suggest_edit_hint">"Descriu la teva correcció o suggeriment"</string>
+    <string name="ss_reading_suggest_edit_done">"Gràcies! El vostre suggeriment serà revisat"</string>
+    <string name="ss_reading_comment">"Comenta"</string>
+    <string name="ss_reading_enter_comment">"Introdueix el teu comentari"</string>
+    <string name="ss_reading_copied">"S'ha copiat la selecció."</string>
+    <string name="ss_reading_share_to">"Compartir selecció a:"</string>
+
+    <string name="ss_about_made">"Made with ❤ by Adventech"</string>
+    <string name="ss_settings_display_options">"Opcions de visualització"</string>
+    <string name="ss_settings_color_theme_light">"Clar"</string>
+    <string name="ss_settings_color_theme_sepia">"Sèpia"</string>
+    <string name="ss_settings_color_theme_dark">"Fosc"</string>
+    <string name="ss_settings_typeface">"Tipus de lletra"</string>
+    <string name="ss_settings_font_size">"Cos de font"</string>
+    <string name="ss_settings_font_size_tiny">"Molt petit"</string>
+    <string name="ss_settings_font_size_small">"Petit"</string>
+    <string name="ss_settings_font_size_medium">"Mig"</string>
+    <string name="ss_settings_font_size_large">"Gran"</string>
+    <string name="ss_settings_font_size_huge">"Molt gran"</string>
+    <string name="ss_settings_theme">Tema</string>
+    <string name="ss_settings_theme_default">Per defecte</string>
+    <string name="ss_settings_version">Versió</string>
+    <string name="ss_settings_version_with_param_string">Versió: %1$s</string>
+
+    <!-- RATE APP -->
+    <string name="rate_dialog_title">"Valora l'Escola Sabàtica"</string>
+    <string name="rate_dialog_message">"Si t'agrada l'Escola Sabàtica, t'importaria dedicar un moment a valorar-la? Gràcies pel teu suport!"</string>
+    <string name="rate_dialog_ok">"Valora-ho"</string>
+    <string name="rate_dialog_cancel">"Després"</string>
+    <string name="rate_dialog_no">"No"</string>
+    <string name="ss_settings_website">"Lloc web"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_title">"Llegir en més idiomes"</string>
+    <string name="ss_quarterlies_filter_languages_prompt_description">"Toqueu la icona de filtre per veure tots els idiomes disponibles"</string>
+    <string name="ss_bible">"Bíblia"</string>
+    <string name="ss_settings_reminder">"Recordatori diari"</string>
+    <string name="ss_settings_reminder_summary">"Marqueu aquesta opció per activar el recordatori diari d'estudi de la lliçó d'Escola Sabàtica"</string>
+    <string name="ss_settings_reminder_time">"Hora del recordatori"</string>
+    <string name="ss_settings_reminder_text">"Hora d'estudi de l'Escola Sabàtica"</string>
+    <string name="ss_reading_offline">"Estàs fora de línia. Torna a connectar-te per llegir aquesta lliçó."</string>
+    <string name="ss_reading_offline_retry">"Tornar a provar-ho"</string>
+    <string name="ss_about_text">"Adventech és una organització sense ànim de lucre del Canadà que es dedica a l'ús de la tecnologia per al ministeri. Com a adventistes del setè dia dedicats, la missió d'Adventech és, sobretot, donar glòria a Déu. També pretenem, mitjançant el nostre ministeri, portar unitat a l'Església Adventista del Setè dia a tot el món. El nostre objectiu principal és proclamar l'evangeli etern mitjançant la tecnologia i els avenços en les comunicacions, i fer la nostra part en la preparació del món per a la segona vinguda de Jesús."</string>
+
+    <string name="sspm_logo_content_description">Logo de l\'Escola Sabàtica i Ministeri Personal</string>
+    <string name="sspm_re_branding_message">Benvingut a l\'aplicació oficial del Departament de Ministeris Personals i Escola Sabàtica de la Conferència General. Encara impulsada per Adventech, l\'aplicació aviat rebrà noves millores en contingut i funcions, tot i seguir sent senzilla i fàcil d'utilitzar. Mai ha estat més fàcil estudiar i compartir la Paraula de Déu!</string>
+    <string name="gc_sspm_logo_content_description">Logo de l\'Escola Sabàtica de la Conferència General i el Ministeri Personal</string>
+    <string name="gc_sspm_about">La missió del Departament d\'E.S. i M.P. de la Conferència General és fer deixebles, que al seu torn fan altres deixebles. Pretenem fer-ho ajudant les Esglésies Adventistes del Setè Dia locals i els seus membres a descobrir el propòsit i el poder de l\'Escola Sabàtica i inspirant i allistant tots els membres perquè s\'impliquin activament en el servei personal.\n\nEl Departament d\'E.S. i M.P. produeix recursos per ajudar els membres de l\'església adventista del setè dia en el seu camí amb Crist i el seu testimoni al món. L\'objectiu de l'aplicació Sabbath School and Personal Ministries és combinar molts d'aquests recursos en una ubicació convenient. A mesura que es continuen afegint més recursos, els membres de l'església i les seves famílies aviat estaran equipats amb una gran quantitat de recursos per ajudar-los a estudiar i compartir la Paraula de Déu.\n\nPer facilitar el manteniment i el desenvolupament de l'aplicació, el departament SSPM està encantat d'associar-se amb l'equip dedicat i talentós d'Adventech.</string>
+    <string name="ss_copyright">%1$s Conferència General dels Adventistes del Setè Dia®</string>
+    <string name="ss_see_all">Veure-ho tot</string>
+
+    <string name="ss_media_notification_channel">Reproduint ara</string>
+    <string name="ss_media_notification_channel_description">Mostra què s\'està reproduïnt</string>
+    <string name="ss_media_audio">Àudio</string>
+    <string name="ss_media_video">Vídeo</string>
+
+    <string name="ss_pdf_original">Plantilla original</string>
+    <string name="ss_get_printed_resources">Obteniu recursos impresos</string>
+    <string name="ss_account">Compte</string>
+    <string name="ss_action_arrow_back">Fletxa enrere</string>
+    <string name="ss_action_arrow_drop_down">Fletxa desplegable</string>
+    <string name="ss_action_arrow_right">Fletxa dreta</string>
+    <string name="ss_action_close">Tanca</string>
+    <string name="ss_action_selected">Seleccionat</string>
+    <string name="ss_action_back">Enrere</string>
+    <string name="ss_action_open">Obrir</string>
+    <string name="ss_action_rewind">Anar enrere</string>
+    <string name="ss_action_play_pause">Reprodueix o Pausa</string>
+    <string name="ss_action_playlist">Llista de reproducció</string>
+    <string name="ss_action_forward">Anar endavant</string>
+    <string name="ss_picture_in_picture">Imatge sobre imatge</string>
+    <string name="ss_auto">Auto</string>
+    <string name="ss_delete_account">Eliminar compte</string>
+    <string name="ss_delete_account_question">Eliminar compte?</string>
+    <string name="ss_delete_account_warning">Si suprimiu el vostre compte, totes les vostres dades, com ara els comentaris i els elements destacats, se suprimiran permanentment. Esteu segur que voleu continuar?</string>
+
+</resources>
