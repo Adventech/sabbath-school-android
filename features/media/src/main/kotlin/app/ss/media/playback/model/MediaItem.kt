@@ -37,8 +37,8 @@ import app.ss.models.media.AudioFile
 
 internal fun MediaMetadata.toAudio(): AudioFile = AudioFile(
     id = id,
-    title = "$title",
-    artist = "$artist",
+    title = "${title ?: ""}",
+    artist = "${artist ?: ""}",
     source = source,
     duration = duration,
     image = artworkUri.toString()

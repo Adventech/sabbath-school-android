@@ -30,7 +30,6 @@ import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.Player.STATE_BUFFERING
-import androidx.media3.common.Player.STATE_READY
 import androidx.media3.session.MediaBrowser
 import androidx.media3.session.SessionToken
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
@@ -100,7 +99,7 @@ internal class PlaybackConnectionImpl(
 
     override val playbackSpeed = MutableStateFlow(PlaybackSpeed.NORMAL)
 
-    private lateinit var mediaBrowser: MediaBrowser
+    private var mediaBrowser: MediaBrowser? = null
 
     private var currentProgressInterval: Long = PLAYBACK_PROGRESS_INTERVAL
 
@@ -121,12 +120,14 @@ internal class PlaybackConnectionImpl(
                     shuffleModeEnabled = false
                 }
 
+            isConnected.update { true }
+
             startPlaybackProgress()
         }
     }
 
     override fun playPause() {
-        mediaBrowser.run {
+        mediaBrowser?.run {
             if (isPlaying) {
                 pause()
             } else {
@@ -139,7 +140,7 @@ internal class PlaybackConnectionImpl(
     override fun playAudio(audio: AudioFile) = playAudios(audios = listOf(audio), index = 0)
 
     override fun playAudios(audios: List<AudioFile>, index: Int) {
-        mediaBrowser.run {
+        mediaBrowser?.run {
             setMediaItems(audios.map { it.toMediaItem() }, index, 0L)
             prepare()
             play()
@@ -156,7 +157,7 @@ internal class PlaybackConnectionImpl(
         }
 
         if (playbackSpeed.tryEmit(nextSpeed)) {
-            mediaBrowser.setPlaybackSpeed(nextSpeed.speed)
+            mediaBrowser?.setPlaybackSpeed(nextSpeed.speed)
             resetPlaybackProgressInterval()
         }
     }
@@ -173,53 +174,67 @@ internal class PlaybackConnectionImpl(
             )
         }
 
-        mediaBrowser.setMediaItems(audios.map { it.toMediaItem() }, index, 0L)
-        mediaBrowser.prepare()
+        mediaBrowser?.run {
+            setMediaItems(audios.map { it.toMediaItem() }, index, 0L)
+            prepare()
+        }
     }
 
     override fun skipToItem(position: Int) {
-        mediaBrowser.seekToDefaultPosition(position)
-        mediaBrowser.sessionActivity?.send()
+        mediaBrowser?.run {
+            seekToDefaultPosition(position)
+            sessionActivity?.send()
+        }
     }
 
     override fun seekTo(progress: Long) {
-        mediaBrowser.seekTo(progress)
-        mediaBrowser.sessionActivity?.send()
+        mediaBrowser?.run {
+            seekTo(progress)
+            sessionActivity?.send()
+        }
     }
 
     override fun fastForward() {
-        mediaBrowser.seekForward()
-        mediaBrowser.sessionActivity?.send()
+        mediaBrowser?.run {
+            seekForward()
+            sessionActivity?.send()
+        }
     }
 
     override fun rewind() {
-        mediaBrowser.seekBack()
-        mediaBrowser.sessionActivity?.send()
+        mediaBrowser?.run {
+            seekBack()
+            sessionActivity?.send()
+        }
     }
 
     override fun stop() {
-        mediaBrowser.stop()
-        mediaBrowser.sessionActivity?.send()
+        mediaBrowser?.run {
+            stop()
+            sessionActivity?.send()
+        }
     }
 
     override fun releaseMini() {
-        mediaBrowser.pause()
-        mediaBrowser.sessionActivity?.send()
+        mediaBrowser?.run {
+            pause()
+            sessionActivity?.send()
+        }
         playbackState.update { it.copy(canShowMini = false) }
     }
 
     private fun startPlaybackProgress() = launch {
         combine(playbackState, nowPlaying, ::Pair).collect { (state, current) ->
             playbackProgressInterval.cancel()
-            if (!::mediaBrowser.isInitialized) return@collect
-            val duration = mediaBrowser.duration
-            val position = mediaBrowser.currentPosition
+            val duration = mediaBrowser?.duration ?: return@collect
+            val position = mediaBrowser?.currentPosition ?: return@collect
+            val bufferedPosition = mediaBrowser?.bufferedPosition ?: return@collect
 
             if (state == NONE_PLAYBACK_STATE || current == NONE_PLAYING || duration < 1) {
                 return@collect
             }
 
-            val initial = PlaybackProgressState(duration, position, buffered = mediaBrowser.bufferedPosition)
+            val initial = PlaybackProgressState(duration, position, buffered = bufferedPosition)
             playbackProgress.emit(initial)
 
             if (state.isPlaying && !state.isBuffering) {
@@ -233,10 +248,11 @@ internal class PlaybackConnectionImpl(
             flowInterval(currentProgressInterval).collect {
                 val current = playbackProgress.value.elapsed
                 val elapsed = current + PLAYBACK_PROGRESS_INTERVAL
+                val bufferedPosition = mediaBrowser?.bufferedPosition ?: return@collect
                 playbackProgress.update {
                     initial.copy(
                         elapsed = elapsed,
-                        buffered = mediaBrowser.bufferedPosition,
+                        buffered = bufferedPosition,
                     )
                 }
             }
@@ -276,9 +292,6 @@ internal class PlaybackConnectionImpl(
             this@PlaybackConnectionImpl.playbackState.update {
                 it.copy(isBuffering = playbackState == STATE_BUFFERING)
             }
-            if (playbackState == STATE_READY) {
-                isConnected.tryEmit(true)
-            }
         }
 
         override fun onIsLoadingChanged(isLoading: Boolean) {
@@ -296,7 +309,7 @@ internal class PlaybackConnectionImpl(
             super.onPlayerError(error)
             Timber.e(error)
             playbackState.update { it.copy(isError = true) }
-            isConnected.tryEmit(false)
+            isConnected.update { false }
         }
     }
 }
