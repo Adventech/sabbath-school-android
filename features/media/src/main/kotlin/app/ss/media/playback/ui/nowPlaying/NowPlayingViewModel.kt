@@ -59,7 +59,13 @@ internal class NowPlayingViewModel @Inject constructor(
         .stateIn(viewModelScope, AudioFile(""))
 
     init {
-        generateQueue()
+        viewModelScope.launch {
+            playbackConnection.isConnected.collect { connected ->
+                if (connected && playbackConnection.playbackQueue.first().isEmpty()) {
+                    generateQueue()
+                }
+            }
+        }
     }
 
     private fun generateQueue() = viewModelScope.launch {
