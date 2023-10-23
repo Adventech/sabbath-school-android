@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -25,6 +25,7 @@ package app.ss.pdf.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.LessonPdf
 import app.ss.models.PdfAnnotations
@@ -37,8 +38,11 @@ import com.pspdfkit.annotations.Annotation
 import com.pspdfkit.document.PdfDocument
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -47,6 +51,7 @@ import javax.inject.Inject
 class ReadPdfViewModel @Inject constructor(
     pdfReader: PdfReader,
     private val userDataRepository: UserDataRepository,
+    private val mediaRepository: MediaRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -56,11 +61,6 @@ class ReadPdfViewModel @Inject constructor(
     private val SavedStateHandle.pdfs: List<LessonPdf>
         get() = get<ArrayList<LessonPdf>>(ARG_PDF_FILES) ?: emptyList()
 
-    val mediaActivity: MediaAvailability
-        get() = savedStateHandle.get<MediaAvailability>(
-            ARG_MEDIA_AVAILABILITY
-        ) ?: MediaAvailability()
-
     val lessonIndex: String? get() = savedStateHandle.lessonIndex
 
     private val _annotationsUpdate = MutableSharedFlow<Int>()
@@ -69,9 +69,13 @@ class ReadPdfViewModel @Inject constructor(
     private val _annotationsMap: MutableMap<Int, List<PdfAnnotations>> = mutableMapOf()
     val annotationsMap: Map<Int, List<PdfAnnotations>> = _annotationsMap
 
+    private val mediaAvailability = MutableStateFlow(MediaAvailability())
+    val mediaAvailabilityFlow = mediaAvailability.asStateFlow()
+
     init {
         viewModelScope.launch {
             val lessonIndex = lessonIndex ?: return@launch
+            checkMediaAvailability(lessonIndex)
             savedStateHandle.pdfs.forEachIndexed { index, pdf ->
                 userDataRepository.getAnnotations(lessonIndex, pdf.id).collect { result ->
                     val syncAnnotations = result.getOrNull() ?: return@collect
@@ -79,6 +83,15 @@ class ReadPdfViewModel @Inject constructor(
                     _annotationsUpdate.emit(index)
                 }
             }
+        }
+    }
+
+    private fun checkMediaAvailability(lessonIndex: String) {
+        viewModelScope.launch {
+            val audioAvailable = mediaRepository.getAudio(lessonIndex).data.isNullOrEmpty().not()
+            val videoAvailable = mediaRepository.getVideo(lessonIndex).data.isNullOrEmpty().not()
+
+            mediaAvailability.update { MediaAvailability(audioAvailable, videoAvailable) }
         }
     }
 

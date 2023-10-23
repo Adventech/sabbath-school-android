@@ -38,7 +38,6 @@ import androidx.viewpager2.widget.ViewPager2
 import app.ss.media.playback.PlaybackViewModel
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
-import app.ss.models.media.MediaAvailability
 import app.ss.pdf.PdfReader
 import coil.load
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
@@ -222,11 +221,7 @@ class SSReadingActivity : SlidingActivity(), ShareableScreen {
             R.id.ss_reading_menu_pdf -> {
                 val (index, pdfs) = viewModel.lessonPdfsFlow.value
                 if (pdfs.isNotEmpty()) {
-                    val media = MediaAvailability(
-                        audio = viewModel.audioAvailableFlow.value,
-                        video = viewModel.videoAvailableFlow.value
-                    )
-                    startActivity(pdfReader.launchIntent(pdfs, index, mediaAvailability = media))
+                    startActivity(pdfReader.launchIntent(pdfs, index))
                 }
                 true
             }
