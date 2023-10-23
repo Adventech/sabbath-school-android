@@ -32,7 +32,6 @@ plugins {
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.gradle.cache.fix) apply false
     alias(libs.plugins.gradle.retry) apply false
-    alias(libs.plugins.paparazzi) apply false
     alias(libs.plugins.sortDependencies) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.android.library) apply false
