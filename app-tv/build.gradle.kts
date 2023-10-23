@@ -24,9 +24,7 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    alias(libs.plugins.ksp)
     alias(libs.plugins.sgp.base)
-   // alias(libs.plugins.sgp.apkVersioning)
     id("com.android.application")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
@@ -114,8 +112,6 @@ dependencies {
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
     implementation(libs.kotlinx.collectionsImmutable)
-    implementation(libs.square.moshi.kotlin)
-    ksp(libs.square.moshi.codegen)
     implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
