@@ -27,7 +27,6 @@ plugins {
     alias(libs.plugins.sgp.base)
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
-    id("app.cash.paparazzi")
 }
 
 android {

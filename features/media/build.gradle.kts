@@ -27,7 +27,6 @@ plugins {
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
-    id("app.cash.paparazzi")
 }
 
 android {
