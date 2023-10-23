@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.annotation.Keep
 import app.ss.models.LessonPdf
-import app.ss.models.media.MediaAvailability
-import app.ss.pdf.ui.ARG_MEDIA_AVAILABILITY
 import app.ss.pdf.ui.ARG_PDF_FILES
 import app.ss.pdf.ui.SSReadPdfActivity
 import com.cryart.sabbathschool.core.response.Resource
@@ -42,6 +40,7 @@ import com.pspdfkit.configuration.sharing.ShareFeatures
 import com.pspdfkit.document.download.DownloadJob
 import com.pspdfkit.document.download.DownloadRequest
 import com.pspdfkit.ui.PdfActivityIntentBuilder
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -51,6 +50,8 @@ import ss.misc.SSConstants
 import timber.log.Timber
 import java.io.File
 import java.util.EnumSet
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -61,14 +62,14 @@ interface PdfReader {
     fun launchIntent(
         pdfs: List<LessonPdf>,
         lessonIndex: String,
-        mediaAvailability: MediaAvailability = MediaAvailability()
     ): Intent
 
     fun downloadFlow(pdfs: List<LessonPdf>): Flow<Resource<List<LocalFile>>>
 }
 
-internal class PdfReaderImpl(
-    private val context: Context,
+@Singleton
+internal class PdfReaderImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val readerPrefs: PdfReaderPrefs,
     private val dispatcherProvider: DispatcherProvider
 ) : PdfReader, DownloadJob.ProgressListenerAdapter() {
@@ -82,7 +83,7 @@ internal class PdfReaderImpl(
         AnnotationType.FREETEXT
     )
 
-    override fun launchIntent(pdfs: List<LessonPdf>, lessonIndex: String, mediaAvailability: MediaAvailability): Intent {
+    override fun launchIntent(pdfs: List<LessonPdf>, lessonIndex: String): Intent {
         val excludedAnnotationTypes = ArrayList(EnumSet.allOf(AnnotationType::class.java))
         allowedAnnotations.forEach { excludedAnnotationTypes.remove(it) }
 
@@ -115,7 +116,6 @@ internal class PdfReaderImpl(
             .apply {
                 putParcelableArrayListExtra(ARG_PDF_FILES, ArrayList(pdfs))
                 putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, lessonIndex)
-                putExtra(ARG_MEDIA_AVAILABILITY, mediaAvailability)
             }
     }
 
