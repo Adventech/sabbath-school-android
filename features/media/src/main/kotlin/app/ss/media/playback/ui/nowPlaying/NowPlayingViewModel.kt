@@ -28,6 +28,7 @@ import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.extensions.id
+import app.ss.media.playback.extensions.targetIndex
 import app.ss.media.playback.model.toAudio
 import app.ss.models.media.AudioFile
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
@@ -61,7 +62,7 @@ internal class NowPlayingViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             playbackConnection.isConnected.collect { connected ->
-                if (connected && playbackConnection.playbackQueue.first().isEmpty()) {
+                if (connected) {
                     generateQueue()
                 }
             }
@@ -71,6 +72,9 @@ internal class NowPlayingViewModel @Inject constructor(
     private fun generateQueue() = viewModelScope.launch {
         val nowPlaying = playbackConnection.nowPlaying.first()
         val lessonIndex = savedStateHandle.lessonIndex ?: return@launch
+        // Correct queue or playlist already set
+        if (nowPlaying.targetIndex?.contains(lessonIndex) == true) return@launch
+
         val playlist = repository.getPlayList(lessonIndex)
 
         if (nowPlaying.id.isEmpty()) {

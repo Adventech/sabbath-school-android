@@ -30,6 +30,7 @@ import androidx.media3.common.MimeTypes
 import app.ss.media.playback.extensions.KEY_DURATION
 import app.ss.media.playback.extensions.KEY_ID
 import app.ss.media.playback.extensions.KEY_SOURCE
+import app.ss.media.playback.extensions.KEY_TARGET_INDEX
 import app.ss.media.playback.extensions.duration
 import app.ss.media.playback.extensions.id
 import app.ss.media.playback.extensions.source
@@ -41,7 +42,7 @@ internal fun MediaMetadata.toAudio(): AudioFile = AudioFile(
     artist = "${artist ?: ""}",
     source = source,
     duration = duration,
-    image = artworkUri.toString()
+    image = artworkUri.toString(),
 )
 
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
@@ -61,7 +62,8 @@ internal fun AudioFile.toMediaItem(): MediaItem = MediaItem.Builder()
                 bundleOf(
                     KEY_ID to id,
                     KEY_DURATION to duration,
-                    KEY_SOURCE to source.toString()
+                    KEY_SOURCE to source.toString(),
+                    KEY_TARGET_INDEX to targetIndex,
                 )
             )
             .build()
