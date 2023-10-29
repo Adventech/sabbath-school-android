@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -22,52 +22,35 @@
 
 package ss.workers.impl
 
+import androidx.work.Constraints
 import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequest
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.slot
-import io.mockk.verify
-import org.junit.Before
-import org.junit.Test
+import androidx.work.workDataOf
 import ss.workers.api.WorkScheduler
 import ss.workers.impl.workers.PrefetchImagesWorker
 
-class WorkSchedulerImplTest {
+internal class WorkSchedulerImpl constructor(
+    private val workManager: WorkManager
+) : WorkScheduler {
 
-    private val mockWorkManager: WorkManager = mockk()
-    private val requestSlot = slot<OneTimeWorkRequest>()
+    override fun preFetchImages(language: String) {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.UNMETERED)
+            .setRequiresBatteryNotLow(true)
+            .setRequiresStorageNotLow(true)
+            .build()
 
-    private lateinit var scheduler: WorkScheduler
+        val workRequest = OneTimeWorkRequestBuilder<PrefetchImagesWorker>()
+            .setConstraints(constraints)
+            .setInputData(workDataOf(PrefetchImagesWorker.LANGUAGE_KEY to language))
+            .build()
 
-    @Before
-    fun setup() {
-        every {
-            mockWorkManager.enqueueUniqueWork(
-                PrefetchImagesWorker.uniqueWorkName,
-                ExistingWorkPolicy.KEEP,
-                capture(requestSlot)
-            )
-        } answers { mockk() }
-
-        scheduler = WorkSchedulerImpl(
-            workManager = mockWorkManager
+        workManager.enqueueUniqueWork(
+            PrefetchImagesWorker.uniqueWorkName,
+            ExistingWorkPolicy.KEEP,
+            workRequest
         )
-    }
-
-    @Test
-    fun `verify constrains`() {
-        scheduler.preFetchImages("en")
-
-        val workRequest = requestSlot.captured
-
-        verify {
-            mockWorkManager.enqueueUniqueWork(
-                PrefetchImagesWorker.uniqueWorkName,
-                ExistingWorkPolicy.KEEP,
-                workRequest
-            )
-        }
     }
 }

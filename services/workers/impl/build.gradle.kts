@@ -13,35 +13,42 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-package ss.workers.impl.di
+plugins {
+    alias(libs.plugins.sgp.base)
+    id("com.android.library")
+    kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+}
 
-import android.content.Context
-import androidx.work.WorkManager
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import ss.workers.api.WorkScheduler
-import ss.workers.impl.WorkSchedulerImpl
-import javax.inject.Singleton
+android {
+    namespace = "ss.workers.impl"
 
-@Module
-@InstallIn(SingletonComponent::class)
-object WorkersModule {
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+    }
+}
 
-    @Provides
-    @Singleton
-    fun provideWorkSchedulerApi(
-        @ApplicationContext context: Context
-    ): WorkScheduler = WorkSchedulerImpl(
-        workManager = WorkManager.getInstance(context.applicationContext)
-    )
+dependencies {
+    implementation(projects.common.storage)
+    api(projects.libraries.workers.api)
+
+    implementation(libs.androidx.work)
+    implementation(libs.coil.core)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.timber)
+
+    testImplementation(libs.bundles.testing.common)
+    testImplementation(libs.test.androidx.work)
 }

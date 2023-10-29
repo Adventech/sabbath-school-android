@@ -141,7 +141,6 @@ dependencies {
     implementation(projects.common.runtimePermissions)
     implementation(projects.common.storage)
     implementation(projects.common.translations)
-    implementation(projects.common.workers.impl)
     implementation(projects.features.appWidgets)
     implementation(projects.features.account)
     implementation(projects.features.bible)
@@ -153,6 +152,7 @@ dependencies {
     implementation(projects.libraries.circuitHelpers.impl)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.services.lessons.impl)
+    implementation(projects.services.workers.impl)
 
     implementation(libs.kotlin.coroutines.playservices)
 
