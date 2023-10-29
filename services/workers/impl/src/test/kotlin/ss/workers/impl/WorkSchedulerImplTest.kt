@@ -22,6 +22,7 @@
 
 package ss.workers.impl
 
+import android.annotation.SuppressLint
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
@@ -32,6 +33,7 @@ import ss.workers.impl.workers.PrefetchImagesWorker
 import ss.workers.impl.workers.SyncQuarterliesWorker
 import ss.workers.impl.workers.SyncQuarterlyWorker
 
+@SuppressLint("RestrictedApi")
 class WorkSchedulerImplTest {
 
     private val fakeWorkManager = FakeWorkManager()
