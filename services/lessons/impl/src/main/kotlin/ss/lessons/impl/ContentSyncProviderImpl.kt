@@ -20,24 +20,25 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.impl.di
+package ss.lessons.impl
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.ContentSyncProvider
-import ss.lessons.api.repository.LessonsRepositoryV2
-import ss.lessons.impl.ContentSyncProviderImpl
-import ss.lessons.impl.repository.LessonsRepositoryV2Impl
+import javax.inject.Inject
+import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class BindingsModule {
+@Singleton
+internal class ContentSyncProviderImpl @Inject constructor(
+    private val dispatcherProvider: DispatcherProvider
+) : ContentSyncProvider, Scopable by ioScopable(dispatcherProvider) {
 
-    @Binds
-    internal abstract fun bindLessonsRepositoryV2(impl: LessonsRepositoryV2Impl): LessonsRepositoryV2
+    override suspend fun syncQuarterly(index: String): Result<Unit> {
+        TODO("Not yet implemented")
+    }
 
-    @Binds
-    internal abstract fun bindContentSyncProvider(impl: ContentSyncProviderImpl): ContentSyncProvider
+    override suspend fun syncQuarterlies(): Result<Unit> {
+        TODO("Not yet implemented")
+    }
 }

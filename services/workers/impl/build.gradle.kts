@@ -38,6 +38,8 @@ android {
 
 dependencies {
     implementation(projects.common.storage)
+    implementation(projects.libraries.foundation.coroutines)
+    implementation(projects.libraries.lessons.api)
     api(projects.libraries.workers.api)
 
     implementation(libs.androidx.work)
@@ -51,4 +53,5 @@ dependencies {
 
     testImplementation(libs.bundles.testing.common)
     testImplementation(libs.test.androidx.work)
+    testImplementation(projects.libraries.lessons.test)
 }

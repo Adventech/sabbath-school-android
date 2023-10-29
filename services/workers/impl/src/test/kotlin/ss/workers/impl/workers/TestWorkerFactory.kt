@@ -26,8 +26,12 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
+import ss.lessons.api.ContentSyncProvider
+import ss.lessons.test.FakeContentSyncProvider
 
-class TestWorkerFactory : WorkerFactory() {
+class TestWorkerFactory(
+    private val contentSyncProvider: ContentSyncProvider = FakeContentSyncProvider()
+) : WorkerFactory() {
 
     override fun createWorker(
         appContext: Context,
@@ -39,6 +43,19 @@ class TestWorkerFactory : WorkerFactory() {
             workerParams = workerParameters,
             quarterliesDao = FakeQuarterliesDao()
         )
+
+        SyncQuarterlyWorker::class.java.name -> SyncQuarterlyWorker(
+            appContext = appContext,
+            workerParams = workerParameters,
+            contentSyncProvider = contentSyncProvider,
+        )
+
+        SyncQuarterliesWorker::class.java.name -> SyncQuarterliesWorker(
+            appContext = appContext,
+            workerParams = workerParameters,
+            contentSyncProvider = contentSyncProvider,
+        )
+
         else -> null
     }
 }

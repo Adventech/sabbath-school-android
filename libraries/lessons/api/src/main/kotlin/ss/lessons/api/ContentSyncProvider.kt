@@ -20,24 +20,19 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.impl.di
+package ss.lessons.api
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ss.lessons.api.ContentSyncProvider
-import ss.lessons.api.repository.LessonsRepositoryV2
-import ss.lessons.impl.ContentSyncProviderImpl
-import ss.lessons.impl.repository.LessonsRepositoryV2Impl
+/** Responsible for content offline sync. */
+interface ContentSyncProvider {
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class BindingsModule {
+    /**
+     * Downloads all content for this quarterly and makes it available offline.
+     */
+    suspend fun syncQuarterly(index: String): Result<Unit>
 
-    @Binds
-    internal abstract fun bindLessonsRepositoryV2(impl: LessonsRepositoryV2Impl): LessonsRepositoryV2
-
-    @Binds
-    internal abstract fun bindContentSyncProvider(impl: ContentSyncProviderImpl): ContentSyncProvider
+    /**
+     * Syncs available offline content for all the quarterlies and
+     * applies the relevant [app.ss.models.OfflineState].
+     */
+    suspend fun syncQuarterlies(): Result<Unit>
 }

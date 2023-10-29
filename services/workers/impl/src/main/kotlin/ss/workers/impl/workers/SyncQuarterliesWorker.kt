@@ -20,24 +20,30 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.impl.di
+package ss.workers.impl.workers
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import android.content.Context
+import androidx.hilt.work.HiltWorker
+import androidx.work.CoroutineWorker
+import androidx.work.WorkerParameters
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import ss.lessons.api.ContentSyncProvider
-import ss.lessons.api.repository.LessonsRepositoryV2
-import ss.lessons.impl.ContentSyncProviderImpl
-import ss.lessons.impl.repository.LessonsRepositoryV2Impl
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class BindingsModule {
+@HiltWorker
+internal class SyncQuarterliesWorker @AssistedInject constructor(
+    @Assisted private val appContext: Context,
+    @Assisted private val workerParams: WorkerParameters,
+    private val contentSyncProvider: ContentSyncProvider
+) : CoroutineWorker(appContext, workerParams) {
 
-    @Binds
-    internal abstract fun bindLessonsRepositoryV2(impl: LessonsRepositoryV2Impl): LessonsRepositoryV2
+    override suspend fun doWork(): Result {
+        val result = contentSyncProvider.syncQuarterlies()
 
-    @Binds
-    internal abstract fun bindContentSyncProvider(impl: ContentSyncProviderImpl): ContentSyncProvider
+        return if (result.isSuccess) Result.success() else Result.retry()
+    }
+
+    companion object {
+        val uniqueWorkName: String = SyncQuarterliesWorker::class.java.name
+    }
 }

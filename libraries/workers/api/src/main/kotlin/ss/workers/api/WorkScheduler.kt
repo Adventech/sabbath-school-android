@@ -31,4 +31,20 @@ interface WorkScheduler {
      * @param language The current selected language.
      */
     fun preFetchImages(language: String)
+
+    /**
+     * Schedules background work to download quarterly content matching the given [index].
+     * Called specifically when the user clicks on download quarterly.
+     * Scheduled on a CONNECTED network.
+     *
+     * @param index The quarterly index.
+     */
+    fun syncQuarterly(index: String)
+
+    /**
+     * Schedules background work to sync all quarterlies OfflineState.
+     * Can be called periodically as user goes through the app and more content becomes available offline.
+     * Does not make any network requests - sync is performed offline.
+     */
+    fun syncQuarterlies()
 }
