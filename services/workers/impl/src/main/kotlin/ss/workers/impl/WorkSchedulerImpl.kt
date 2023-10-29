@@ -22,14 +22,28 @@
 
 package ss.workers.impl
 
+import androidx.annotation.VisibleForTesting
+import androidx.work.BackoffPolicy
 import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import ss.workers.api.WorkScheduler
 import ss.workers.impl.workers.PrefetchImagesWorker
+import ss.workers.impl.workers.SyncQuarterliesWorker
+import ss.workers.impl.workers.SyncQuarterlyWorker
+import java.util.concurrent.TimeUnit
+
+@VisibleForTesting
+const val SYNC_REPEAT_INTERVAL = 12L
+
+@VisibleForTesting
+const val SYNC_FLEX_INTERVAL = 4L
 
 internal class WorkSchedulerImpl constructor(
     private val workManager: WorkManager
@@ -50,6 +64,40 @@ internal class WorkSchedulerImpl constructor(
         workManager.enqueueUniqueWork(
             PrefetchImagesWorker.uniqueWorkName,
             ExistingWorkPolicy.KEEP,
+            workRequest
+        )
+    }
+
+    override fun syncQuarterly(index: String) {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresStorageNotLow(true)
+            .build()
+
+        val workRequest = OneTimeWorkRequestBuilder<SyncQuarterlyWorker>()
+            .setConstraints(constraints)
+            .setInputData(workDataOf(SyncQuarterlyWorker.QUARTERLY_INDEX to index))
+            .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+            .build()
+
+        workManager.enqueueUniqueWork(
+            SyncQuarterlyWorker.uniqueWorkName,
+            ExistingWorkPolicy.REPLACE,
+            workRequest
+        )
+    }
+
+    override fun syncQuarterlies() {
+        val workRequest = PeriodicWorkRequestBuilder<SyncQuarterliesWorker>(
+            SYNC_REPEAT_INTERVAL, TimeUnit.HOURS,
+            SYNC_FLEX_INTERVAL, TimeUnit.HOURS,
+        )
+            .setBackoffCriteria(BackoffPolicy.LINEAR, SYNC_FLEX_INTERVAL, TimeUnit.HOURS)
+            .build()
+
+        workManager.enqueueUniquePeriodicWork(
+            SyncQuarterliesWorker.uniqueWorkName,
+            ExistingPeriodicWorkPolicy.UPDATE,
             workRequest
         )
     }

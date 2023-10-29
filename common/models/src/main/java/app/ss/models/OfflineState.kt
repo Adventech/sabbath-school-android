@@ -20,24 +20,16 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.impl.di
+package app.ss.models
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ss.lessons.api.ContentSyncProvider
-import ss.lessons.api.repository.LessonsRepositoryV2
-import ss.lessons.impl.ContentSyncProviderImpl
-import ss.lessons.impl.repository.LessonsRepositoryV2Impl
+enum class OfflineState {
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class BindingsModule {
+    /** The item is completely available offline */
+    COMPLETE,
 
-    @Binds
-    internal abstract fun bindLessonsRepositoryV2(impl: LessonsRepositoryV2Impl): LessonsRepositoryV2
+    /** The item is partially available offline */
+    PARTIAL,
 
-    @Binds
-    internal abstract fun bindContentSyncProvider(impl: ContentSyncProviderImpl): ContentSyncProvider
+    /** The item is not available offline */
+    NONE;
 }

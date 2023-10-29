@@ -20,24 +20,26 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.impl.di
+package ss.lessons.test
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import androidx.annotation.VisibleForTesting
 import ss.lessons.api.ContentSyncProvider
-import ss.lessons.api.repository.LessonsRepositoryV2
-import ss.lessons.impl.ContentSyncProviderImpl
-import ss.lessons.impl.repository.LessonsRepositoryV2Impl
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class BindingsModule {
+/** Fake implementation of [ContentSyncProvider]. **/
+@VisibleForTesting(otherwise = VisibleForTesting.NONE)
+class FakeContentSyncProvider : ContentSyncProvider {
 
-    @Binds
-    internal abstract fun bindLessonsRepositoryV2(impl: LessonsRepositoryV2Impl): LessonsRepositoryV2
+    var defaultSyncResult: Result<Unit>? = null
 
-    @Binds
-    internal abstract fun bindContentSyncProvider(impl: ContentSyncProviderImpl): ContentSyncProvider
+    private var syncResultMap: MutableMap<String, Result<Unit>> = mutableMapOf()
+
+    fun addSyncResult(index: String, result: Result<Unit>) {
+        syncResultMap[index] = result
+    }
+
+    override suspend fun syncQuarterly(index: String): Result<Unit> {
+        return syncResultMap[index]!!
+    }
+
+    override suspend fun syncQuarterlies(): Result<Unit> = defaultSyncResult!!
 }

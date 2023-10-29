@@ -22,52 +22,70 @@
 
 package ss.workers.impl
 
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.slot
-import io.mockk.verify
-import org.junit.Before
+import androidx.work.NetworkType
+import org.amshove.kluent.shouldBe
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
-import ss.workers.api.WorkScheduler
 import ss.workers.impl.workers.PrefetchImagesWorker
+import ss.workers.impl.workers.SyncQuarterliesWorker
+import ss.workers.impl.workers.SyncQuarterlyWorker
 
 class WorkSchedulerImplTest {
 
-    private val mockWorkManager: WorkManager = mockk()
-    private val requestSlot = slot<OneTimeWorkRequest>()
+    private val fakeWorkManager = FakeWorkManager()
 
-    private lateinit var scheduler: WorkScheduler
+    private val underTest = WorkSchedulerImpl(fakeWorkManager)
 
-    @Before
-    fun setup() {
-        every {
-            mockWorkManager.enqueueUniqueWork(
-                PrefetchImagesWorker.uniqueWorkName,
-                ExistingWorkPolicy.KEEP,
-                capture(requestSlot)
-            )
-        } answers { mockk() }
+    @Test
+    fun `preFetchImages - verify constrains`() {
+        underTest.preFetchImages("en")
 
-        scheduler = WorkSchedulerImpl(
-            workManager = mockWorkManager
-        )
+        with(fakeWorkManager) {
+            capturedUniqueWorkName shouldBeEqualTo PrefetchImagesWorker.uniqueWorkName
+            capturedExistingWorkPolicy shouldBeEqualTo ExistingWorkPolicy.KEEP
+            with(capturedOneTimeWorkRequest!!.workSpec) {
+                input.getString(PrefetchImagesWorker.LANGUAGE_KEY) shouldBeEqualTo "en"
+                with(constraints) {
+                    requiredNetworkType shouldBeEqualTo NetworkType.UNMETERED
+                    requiresBatteryNotLow() shouldBe true
+                    requiresStorageNotLow() shouldBe true
+                }
+            }
+        }
     }
 
     @Test
-    fun `verify constrains`() {
-        scheduler.preFetchImages("en")
+    fun `syncQuarterly - verify constrains`() {
+        underTest.syncQuarterly("index")
 
-        val workRequest = requestSlot.captured
+        with(fakeWorkManager) {
+            capturedUniqueWorkName shouldBeEqualTo SyncQuarterlyWorker.uniqueWorkName
+            capturedExistingWorkPolicy shouldBeEqualTo ExistingWorkPolicy.REPLACE
+            with(capturedOneTimeWorkRequest!!.workSpec) {
+                input.getString(SyncQuarterlyWorker.QUARTERLY_INDEX) shouldBeEqualTo "index"
+                with(constraints) {
+                    requiredNetworkType shouldBeEqualTo NetworkType.CONNECTED
+                    requiresStorageNotLow() shouldBe true
+                }
+                expedited shouldBe true
+            }
+        }
+    }
 
-        verify {
-            mockWorkManager.enqueueUniqueWork(
-                PrefetchImagesWorker.uniqueWorkName,
-                ExistingWorkPolicy.KEEP,
-                workRequest
-            )
+    @Test
+    fun `syncQuarterlies - verify constrains`() {
+        underTest.syncQuarterlies()
+
+        with(fakeWorkManager) {
+            capturedUniqueWorkName shouldBeEqualTo SyncQuarterliesWorker.uniqueWorkName
+            capturedExistingPeriodicWorkPolicy shouldBeEqualTo ExistingPeriodicWorkPolicy.UPDATE
+            with(capturedPeriodicWorkRequest!!.workSpec) {
+                with(constraints) {
+                    requiredNetworkType shouldBeEqualTo NetworkType.NOT_REQUIRED
+                }
+            }
         }
     }
 }
