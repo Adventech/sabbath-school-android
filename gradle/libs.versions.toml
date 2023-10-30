@@ -44,7 +44,7 @@ joda-android = "2.12.5"
 joda-time = "2.12.5"
 jvmTarget = "17"
 # @keep same as composeCompilerKotlinVersion
-kotlin = "1.9.10"
+kotlin = "1.9.20"
 kotlin-coroutines = "1.7.3"
 kotlinx-immutable = "0.3.6"
 ksp = "1.9.10-1.0.13"
