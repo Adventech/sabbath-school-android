@@ -30,10 +30,7 @@ import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.LessonPdf
 import app.ss.models.PdfAnnotations
 import app.ss.models.media.MediaAvailability
-import app.ss.pdf.LocalFile
-import app.ss.pdf.PdfReader
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
-import com.cryart.sabbathschool.core.response.Resource
 import com.pspdfkit.annotations.Annotation
 import com.pspdfkit.document.PdfDocument
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,19 +41,20 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ss.foundation.coroutines.flow.stateIn
+import ss.lessons.api.PdfReader
+import ss.lessons.model.LocalFile
 import javax.inject.Inject
 
 @HiltViewModel
 class ReadPdfViewModel @Inject constructor(
-    pdfReader: PdfReader,
+    private val pdfReader: PdfReader,
     private val userDataRepository: UserDataRepository,
     private val mediaRepository: MediaRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val pdfsFilesFlow: StateFlow<Resource<List<LocalFile>>> = pdfReader.downloadFlow(savedStateHandle.pdfs)
-        .stateIn(viewModelScope, Resource.loading())
+    private val _pdfFiles = MutableStateFlow<List<LocalFile>>(emptyList())
+    val pdfsFilesFlow: StateFlow<List<LocalFile>> = _pdfFiles.asStateFlow()
 
     private val SavedStateHandle.pdfs: List<LessonPdf>
         get() = get<ArrayList<LessonPdf>>(ARG_PDF_FILES) ?: emptyList()
@@ -84,6 +82,8 @@ class ReadPdfViewModel @Inject constructor(
                 }
             }
         }
+
+        downloadFiles()
     }
 
     private fun checkMediaAvailability(lessonIndex: String) {
@@ -93,6 +93,12 @@ class ReadPdfViewModel @Inject constructor(
 
             mediaAvailability.update { MediaAvailability(audioAvailable, videoAvailable) }
         }
+    }
+
+    private fun downloadFiles() = viewModelScope.launch {
+        val result = pdfReader.downloadFiles(savedStateHandle.pdfs)
+        val files = result.getOrDefault(emptyList())
+        _pdfFiles.update { files }
     }
 
     fun saveAnnotations(document: PdfDocument, docIndex: Int) {

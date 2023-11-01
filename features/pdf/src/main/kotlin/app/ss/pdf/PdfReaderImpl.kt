@@ -25,11 +25,9 @@ package app.ss.pdf
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.annotation.Keep
 import app.ss.models.LessonPdf
 import app.ss.pdf.ui.ARG_PDF_FILES
 import app.ss.pdf.ui.SSReadPdfActivity
-import com.cryart.sabbathschool.core.response.Resource
 import com.pspdfkit.annotations.AnnotationType
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.TabBarHidingMode
@@ -41,11 +39,10 @@ import com.pspdfkit.document.download.DownloadJob
 import com.pspdfkit.document.download.DownloadRequest
 import com.pspdfkit.ui.PdfActivityIntentBuilder
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
+import ss.lessons.api.PdfReader
+import ss.lessons.model.LocalFile
 import ss.misc.SSConstants
 import timber.log.Timber
 import java.io.File
@@ -54,18 +51,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
-
-@Keep
-data class LocalFile(val title: String, val uri: Uri)
-
-interface PdfReader {
-    fun launchIntent(
-        pdfs: List<LessonPdf>,
-        lessonIndex: String,
-    ): Intent
-
-    fun downloadFlow(pdfs: List<LessonPdf>): Flow<Resource<List<LocalFile>>>
-}
 
 @Singleton
 internal class PdfReaderImpl @Inject constructor(
@@ -119,24 +104,35 @@ internal class PdfReaderImpl @Inject constructor(
             }
     }
 
-    override fun downloadFlow(pdfs: List<LessonPdf>): Flow<Resource<List<LocalFile>>> {
-        return flow {
-            emit(Resource.loading())
-            val files = pdfs.mapNotNull { downloadFile(context, it) }
-            emit(Resource.success(files))
-        }.catch {
-            Timber.e(it)
-            emit(Resource.error(it))
-        }.flowOn(dispatcherProvider.io)
+    override suspend fun downloadFiles(pdfs: List<LessonPdf>): Result<List<LocalFile>> {
+        return try {
+            val files = pdfs.mapNotNull {
+                withContext(dispatcherProvider.io) { downloadFile(context, it) }
+            }
+            Result.success(files)
+        } catch (ex: Throwable) {
+            Timber.e(ex)
+            Result.failure(ex)
+        }
+    }
+
+    override fun isDownloaded(pdf: LessonPdf): Boolean {
+        return File(context.getDir(FILE_DIRECTORY, Context.MODE_PRIVATE), "${pdf.id}.pdf").exists()
     }
 
     private suspend fun downloadFile(
         context: Context,
         pdf: LessonPdf
     ): LocalFile? = suspendCoroutine { continuation ->
+        val outputFile = File(context.getDir(FILE_DIRECTORY, Context.MODE_PRIVATE), "${pdf.id}.pdf")
+        if (outputFile.exists()) {
+            continuation.resume(LocalFile(pdf.title, Uri.fromFile(outputFile)))
+            return@suspendCoroutine
+        }
+
         val request: DownloadRequest = DownloadRequest.Builder(context)
             .uri(pdf.src)
-            .outputFile(File(context.getDir(FILE_DIRECTORY, Context.MODE_PRIVATE), "${pdf.id}.pdf"))
+            .outputFile(outputFile)
             .build()
 
         val downloadJob = DownloadJob.startDownload(request)
