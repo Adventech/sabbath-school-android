@@ -26,6 +26,7 @@ import app.ss.lessons.data.repository.DataSource
 import app.ss.lessons.data.repository.DataSourceMediator
 import app.ss.lessons.data.repository.LocalDataSource
 import app.ss.models.LessonPdf
+import app.ss.models.OfflineState
 import app.ss.models.SSDay
 import app.ss.models.SSLesson
 import app.ss.models.SSQuarterlyInfo
@@ -71,7 +72,8 @@ internal class QuarterlyInfoDataSource @Inject constructor(
                     lessonsDao.update(lesson.toEntity(entity.days, entity.pdfs))
                 } ?: run { lessonsDao.insertItem(lesson.toEntity()) }
             }
-            quarterliesDao.update(data.quarterly.toEntity())
+            val state = quarterliesDao.getOfflineState(data.quarterly.index) ?: OfflineState.NONE
+            quarterliesDao.update(data.quarterly.toEntity(state))
         }
     }
 
@@ -85,7 +87,10 @@ internal class QuarterlyInfoDataSource @Inject constructor(
 
             val response = quarterliesApi.getQuarterlyInfo(language, id)
 
-            return response.body()?.let { Resource.success(it) } ?: error
+            return response.body()?.let {
+                val state = quarterliesDao.getOfflineState(it.quarterly.index) ?: OfflineState.NONE
+                Resource.success(it.copy(quarterly = it.quarterly.copy(offlineState = state)))
+            } ?: error
         }
     }
 

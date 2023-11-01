@@ -30,6 +30,9 @@ enum class OfflineState {
     /** The item is partially available offline */
     PARTIAL,
 
+    /** The item is being made available offline */
+    IN_PROGRESS,
+
     /** The item is not available offline */
     NONE;
 }

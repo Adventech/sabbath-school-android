@@ -55,6 +55,7 @@ include(
     ":common:prefs:model",
     ":common:runtime-permissions",
     ":common:storage",
+    ":common:storage:test",
     ":common:translations",
     ":features:account",
     ":features:app-widgets",

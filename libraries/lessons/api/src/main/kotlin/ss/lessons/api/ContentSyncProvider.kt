@@ -26,13 +26,13 @@ package ss.lessons.api
 interface ContentSyncProvider {
 
     /**
-     * Downloads all content for this quarterly and makes it available offline.
-     */
-    suspend fun syncQuarterly(index: String): Result<Unit>
-
-    /**
      * Syncs available offline content for all the quarterlies and
      * applies the relevant [app.ss.models.OfflineState].
      */
     suspend fun syncQuarterlies(): Result<Unit>
+
+    /**
+     * Downloads all content for this quarterly and makes it available offline.
+     */
+    suspend fun syncQuarterly(index: String): Result<Unit>
 }
