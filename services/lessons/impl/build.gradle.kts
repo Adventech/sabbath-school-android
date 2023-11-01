@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
+    testImplementation(projects.common.storage.test)
     testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.lessons.test)
     testImplementation(projects.libraries.testUtils)

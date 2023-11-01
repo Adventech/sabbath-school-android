@@ -20,28 +20,14 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.impl.repository
+plugins {
+    alias(libs.plugins.sgp.base)
+    id("com.android.library")
+    kotlin("android")
+}
 
-import app.ss.models.LessonPdf
-import app.ss.models.SSDay
-import app.ss.storage.db.dao.LessonsDao
-import app.ss.storage.db.entity.LessonEntity
-import kotlinx.coroutines.flow.Flow
-
-class FakeLessonsDao(
-    private val resultFlow: Flow<LessonEntity?>
-) : LessonsDao {
-    override fun get(lessonIndex: String): LessonEntity? {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAsFlow(lessonIndex: String): Flow<LessonEntity?> = resultFlow
-
-    override fun updateInfo(lessonIndex: String, days: List<SSDay>, pdfs: List<LessonPdf>) = Unit
-
-    override suspend fun insertItem(item: LessonEntity) = Unit
-
-    override suspend fun insertAll(items: List<LessonEntity>) = Unit
-
-    override suspend fun update(item: LessonEntity) = Unit
+dependencies {
+    implementation(libs.androidx.annotations)
+    implementation(libs.kotlin.coroutines)
+    implementation(projects.common.storage)
 }

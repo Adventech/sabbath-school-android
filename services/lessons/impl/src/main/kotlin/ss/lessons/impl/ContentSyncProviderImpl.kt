@@ -22,6 +22,12 @@
 
 package ss.lessons.impl
 
+import app.ss.models.OfflineState
+import app.ss.models.SSDay
+import app.ss.storage.db.dao.QuarterliesDao
+import app.ss.storage.db.dao.ReadsDao
+import app.ss.storage.db.entity.QuarterlyEntity
+import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
@@ -31,14 +37,36 @@ import javax.inject.Singleton
 
 @Singleton
 internal class ContentSyncProviderImpl @Inject constructor(
+    private val quarterliesDao: QuarterliesDao,
+    private val readsDao: ReadsDao,
     private val dispatcherProvider: DispatcherProvider
 ) : ContentSyncProvider, Scopable by ioScopable(dispatcherProvider) {
 
-    override suspend fun syncQuarterly(index: String): Result<Unit> {
-        TODO("Not yet implemented")
+    override suspend fun syncQuarterlies(): Result<Unit> = withContext(dispatcherProvider.io) {
+        quarterliesDao.getAllForSync().forEach { info ->
+            val lessons = info.lessons
+            if (lessons.isEmpty()) {
+                markQuarterly(info.quarterly, OfflineState.NONE)
+                return@forEach
+            }
+
+            val hasReads = lessons.all { lesson -> lesson.days.all { day -> day.hasReads() } }
+            markQuarterly(
+                info.quarterly,
+                if (hasReads) OfflineState.COMPLETE else OfflineState.PARTIAL
+            )
+        }
+        Result.success(Unit)
     }
 
-    override suspend fun syncQuarterlies(): Result<Unit> {
+    private suspend fun markQuarterly(entity: QuarterlyEntity, state: OfflineState) {
+        if (entity.offlineState == state) return
+        quarterliesDao.update(entity.copy(offlineState = state))
+    }
+
+    private suspend fun SSDay.hasReads(): Boolean = readsDao.get(index) != null
+
+    override suspend fun syncQuarterly(index: String): Result<Unit> {
         TODO("Not yet implemented")
     }
 }

@@ -25,6 +25,7 @@ package app.ss.lessons.data.repository.quarterly
 import app.ss.lessons.data.repository.DataSource
 import app.ss.lessons.data.repository.DataSourceMediator
 import app.ss.lessons.data.repository.LocalDataSource
+import app.ss.models.OfflineState
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.storage.db.dao.QuarterliesDao
@@ -63,9 +64,11 @@ internal class QuarterliesDataSource @Inject constructor(
         }
 
         override suspend fun update(data: List<SSQuarterly>) {
-            quarterliesDao.insertAll(
-                data.map { it.toEntity() }
-            )
+            val entities = data.map {
+                val state = quarterliesDao.getOfflineState(it.index) ?: OfflineState.NONE
+                it.toEntity(state)
+            }
+            quarterliesDao.insertAll(entities)
         }
     }
     override val network: DataSource<SSQuarterly, Request> = object : DataSource<SSQuarterly, Request> {
@@ -73,7 +76,11 @@ internal class QuarterliesDataSource @Inject constructor(
             val group = request.group
             val data = quarterliesApi.getQuarterlies(request.language).body() ?: emptyList()
             val filtered = group?.let { data.filter { it.quarterly_group == group } } ?: data
-            return Resource.success(filtered)
+            val updated = filtered.map {
+                val state = quarterliesDao.getOfflineState(it.index) ?: OfflineState.NONE
+                it.copy(offlineState = state)
+            }
+            return Resource.success(updated)
         }
     }
 }
@@ -97,10 +104,13 @@ internal fun QuarterlyEntity.toModel(): SSQuarterly = SSQuarterly(
     quarterly_name = quarterly_name,
     quarterly_group = quarterly_group,
     features = features,
-    credits = credits
+    credits = credits,
+    offlineState = offlineState
 )
 
-internal fun SSQuarterly.toEntity(): QuarterlyEntity = QuarterlyEntity(
+internal fun SSQuarterly.toEntity(
+    offlineState: OfflineState
+): QuarterlyEntity = QuarterlyEntity(
     index = index,
     id = id,
     title = title,
@@ -119,5 +129,6 @@ internal fun SSQuarterly.toEntity(): QuarterlyEntity = QuarterlyEntity(
     quarterly_name = quarterly_name,
     quarterly_group = quarterly_group,
     features = features,
-    credits = credits
+    credits = credits,
+    offlineState = offlineState,
 )

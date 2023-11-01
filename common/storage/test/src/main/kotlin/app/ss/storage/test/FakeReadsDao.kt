@@ -20,30 +20,37 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.impl.repository
+package app.ss.storage.test
 
+import androidx.annotation.VisibleForTesting
 import app.ss.storage.db.dao.ReadsDao
 import app.ss.storage.db.entity.ReadEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 
-class FakeReadsDao(
-    private val resultFlow: Flow<ReadEntity?>
-) : ReadsDao {
-    override fun get(dayIndex: String): ReadEntity? {
-        TODO("Not yet implemented")
+/** Fake implementation of [FakeReadsDao] for use in tests. */
+@VisibleForTesting
+class FakeReadsDao : ReadsDao {
+
+    private val readsFlow = MutableStateFlow<List<ReadEntity>>(emptyList())
+
+    fun addRead(entity: ReadEntity) {
+        readsFlow.update { (it + entity).toSet().toList() }
     }
 
-    override fun getAsFlow(dayIndex: String): Flow<ReadEntity?> = resultFlow
-
-    override suspend fun insertItem(item: ReadEntity) {
-        TODO("Not yet implemented")
+    override suspend fun get(dayIndex: String): ReadEntity? {
+        return readsFlow.firstOrNull()?.find { it.index == dayIndex }
     }
 
-    override suspend fun insertAll(items: List<ReadEntity>) {
-        TODO("Not yet implemented")
-    }
+    override fun getAsFlow(dayIndex: String): Flow<ReadEntity?> = readsFlow
+        .map { entities -> entities.firstOrNull { it.index == dayIndex } }
 
-    override suspend fun update(item: ReadEntity) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun insertItem(item: ReadEntity) = Unit
+
+    override suspend fun insertAll(items: List<ReadEntity>) = Unit
+
+    override suspend fun update(item: ReadEntity) = Unit
 }

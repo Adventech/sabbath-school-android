@@ -29,8 +29,8 @@ import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.storage.db.entity.LessonEntity
 import app.ss.storage.db.entity.ReadEntity
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import app.ss.storage.test.FakeLessonsDao
+import app.ss.storage.test.FakeReadsDao
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
@@ -41,18 +41,9 @@ import ss.lessons.test.FakeLessonsApi
 
 class LessonsRepositoryV2ImplTest {
 
-    private val lessonInfoFlow = MutableSharedFlow<LessonEntity>(
-        replay = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
-    )
-    private val readsFlow = MutableSharedFlow<ReadEntity>(
-        replay = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
-    )
-
     private val fakeLessonsApi = FakeLessonsApi()
-    private val fakeLessonsDao = FakeLessonsDao(lessonInfoFlow)
-    private val fakeReadsDao = FakeReadsDao(readsFlow)
+    private val fakeLessonsDao = FakeLessonsDao()
+    private val fakeReadsDao = FakeReadsDao()
     private val fakeConnectivityHelper = FakeConnectivityHelper(true)
 
     private val underTest: LessonsRepositoryV2 = LessonsRepositoryV2Impl(
@@ -72,12 +63,12 @@ class LessonsRepositoryV2ImplTest {
             SSDay("Day 3", date = "05/04/2021", full_path = "path_3")
         )
         val lessonInfo = SSLessonInfo(
-            lesson = SSLesson("Title"),
+            lesson = SSLesson("Title", index = lessonIndex),
             days = days
         )
 
         underTest.getLessonInfo(lessonIndex).test {
-            lessonInfoFlow.emit(
+            fakeLessonsDao.addLesson(
                 LessonEntity(
                     index = lessonInfo.lesson.index,
                     quarter = lessonInfo.lesson.index,
@@ -112,7 +103,7 @@ class LessonsRepositoryV2ImplTest {
             date = ssDay.date
         )
         underTest.getDayRead(ssDay).test {
-            readsFlow.emit(
+            fakeReadsDao.addRead(
                 ReadEntity(
                     index = ssDay.index,
                     id = ssDay.id,

@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.Flow
 interface ReadsDao : BaseDao<ReadEntity> {
 
     @Query("SELECT * FROM reads WHERE `index` = :dayIndex")
-    fun get(dayIndex: String): ReadEntity?
+    suspend fun get(dayIndex: String): ReadEntity?
 
     @Query("SELECT * FROM reads WHERE `index` = :dayIndex")
     fun getAsFlow(dayIndex: String): Flow<ReadEntity?>
