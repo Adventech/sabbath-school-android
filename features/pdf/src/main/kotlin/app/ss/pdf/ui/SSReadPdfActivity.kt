@@ -120,14 +120,14 @@ class SSReadPdfActivity : PdfActivity() {
     }
 
     private fun collectData() {
-        viewModel.pdfsFilesFlow.collectIn(this) { resource ->
+        viewModel.pdfsFilesFlow.collectIn(this) { files ->
             if (documentCoordinator.documents.isNotEmpty()) return@collectIn
 
-            loadedDocuments = resource.data?.map { file ->
+            loadedDocuments = files.map { file ->
                 DocumentDescriptor.fromDocumentSource(DocumentSource(file.uri)).apply {
                     setTitle(file.title)
                 }
-            } ?: return@collectIn
+            }
 
             if (loadedDocuments.isEmpty()) return@collectIn
 

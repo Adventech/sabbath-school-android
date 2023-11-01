@@ -54,9 +54,11 @@ dependencies {
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.lessonsData)
-    implementation(projects.features.media)
+    implementation(projects.common.misc)
     implementation(projects.common.translations)
+    implementation(projects.features.media)
     implementation(projects.libraries.foundation.coroutines)
+    implementation(projects.libraries.lessons.api)
 
     implementation(libs.androidx.activity)
     implementation(libs.androidx.appcompat)

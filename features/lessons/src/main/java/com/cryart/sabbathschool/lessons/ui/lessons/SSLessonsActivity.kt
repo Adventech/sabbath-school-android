@@ -35,7 +35,6 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.theme.SsTheme
 import app.ss.models.config.AppConfig
-import app.ss.pdf.PdfReader
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.ui.ShareableScreen
@@ -45,6 +44,7 @@ import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
 import ss.foundation.coroutines.flow.collectIn
+import ss.lessons.api.PdfReader
 import ss.misc.SSConstants
 import javax.inject.Inject
 import app.ss.translations.R as L10n

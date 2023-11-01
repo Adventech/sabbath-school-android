@@ -20,24 +20,10 @@
  * THE SOFTWARE.
  */
 
-package app.ss.pdf.di
+package ss.lessons.model
 
-import app.ss.pdf.PdfReaderImpl
-import app.ss.pdf.PdfReaderPrefs
-import app.ss.pdf.PdfReaderPrefsImpl
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ss.lessons.api.PdfReader
+import android.net.Uri
+import androidx.annotation.Keep
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class BindingsModule {
-
-    @Binds
-    internal abstract fun bindReaderPrefs(impl: PdfReaderPrefsImpl): PdfReaderPrefs
-
-    @Binds
-    internal abstract fun bindReader(impl: PdfReaderImpl): PdfReader
-}
+@Keep
+data class LocalFile(val title: String, val uri: Uri)

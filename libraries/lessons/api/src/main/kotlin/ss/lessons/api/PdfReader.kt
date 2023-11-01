@@ -20,24 +20,21 @@
  * THE SOFTWARE.
  */
 
-package app.ss.pdf.di
+package ss.lessons.api
 
-import app.ss.pdf.PdfReaderImpl
-import app.ss.pdf.PdfReaderPrefs
-import app.ss.pdf.PdfReaderPrefsImpl
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ss.lessons.api.PdfReader
+import android.content.Intent
+import app.ss.models.LessonPdf
+import ss.lessons.model.LocalFile
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class BindingsModule {
+/** API for handling pdf lessons. */
+interface PdfReader {
 
-    @Binds
-    internal abstract fun bindReaderPrefs(impl: PdfReaderPrefsImpl): PdfReaderPrefs
+    /** Launch an intent to read these [pdfs]. */
+    fun launchIntent(pdfs: List<LessonPdf>, lessonIndex: String): Intent
 
-    @Binds
-    internal abstract fun bindReader(impl: PdfReaderImpl): PdfReader
+    /** Download these [pdfs] to device storage. */
+    suspend fun downloadFiles(pdfs: List<LessonPdf>): Result<List<LocalFile>>
+
+    /** Returns true if this [pdf] file is downloaded. */
+    fun isDownloaded(pdf: LessonPdf): Boolean
 }

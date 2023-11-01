@@ -38,7 +38,6 @@ import androidx.viewpager2.widget.ViewPager2
 import app.ss.media.playback.PlaybackViewModel
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
-import app.ss.pdf.PdfReader
 import coil.load
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
@@ -60,6 +59,7 @@ import com.cryart.sabbathschool.lessons.ui.readings.components.ProgressBarCompon
 import com.cryart.sabbathschool.lessons.ui.readings.model.ReadingsState
 import dagger.hilt.android.AndroidEntryPoint
 import ss.foundation.coroutines.flow.collectIn
+import ss.lessons.api.PdfReader
 import ss.misc.DateHelper
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
