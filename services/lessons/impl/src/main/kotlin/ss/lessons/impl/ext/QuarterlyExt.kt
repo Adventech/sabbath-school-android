@@ -50,3 +50,26 @@ internal fun SSQuarterly.toEntity(
     credits = credits,
     offlineState = offlineState,
 )
+
+internal fun QuarterlyEntity.toModel(): SSQuarterly = SSQuarterly(
+    id = id,
+    title = title,
+    description = description,
+    introduction = introduction,
+    human_date = human_date,
+    start_date = start_date,
+    end_date = end_date,
+    cover = cover,
+    splash = splash,
+    index = index,
+    path = path,
+    full_path = full_path,
+    lang = lang,
+    color_primary = color_primary,
+    color_primary_dark = color_primary_dark,
+    quarterly_name = quarterly_name,
+    quarterly_group = quarterly_group,
+    features = features,
+    credits = credits,
+    offlineState = offlineState
+)

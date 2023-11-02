@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -25,11 +25,9 @@ package com.cryart.sabbathschool.lessons.ui.quarterlies
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import app.ss.auth.AuthRepository
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.models.auth.SSUser
-import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.spec
 import io.mockk.every
@@ -47,6 +45,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import ss.foundation.coroutines.test.MainDispatcherRule
+import ss.lessons.api.repository.QuarterliesRepositoryV2
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 
@@ -55,7 +54,7 @@ class QuarterliesViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private val mockRepository: QuarterliesRepository = mockk()
+    private val mockRepository: QuarterliesRepositoryV2 = mockk()
     private val mockSSPrefs: SSPrefs = mockk()
     private val mockSavedStateHandle: SavedStateHandle = mockk()
     private val mockAuthRepository: AuthRepository = mockk()
@@ -81,10 +80,10 @@ class QuarterliesViewModelTest {
 
         with(mockRepository) {
             every { getQuarterlies("en", null) }.returns(
-                flowOf(Resource.success(quarterliesList("en")))
+                flowOf(Result.success(quarterliesList("en")))
             )
             every { getQuarterlies("de", null) }.returns(
-                flowOf(Resource.success(quarterliesList("de")))
+                flowOf(Result.success(quarterliesList("de")))
             )
         }
 

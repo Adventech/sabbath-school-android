@@ -67,6 +67,7 @@ dependencies {
     implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
+    implementation(projects.libraries.workers.api)
 
     implementation(libs.google.material)
     implementation(libs.androidx.core)

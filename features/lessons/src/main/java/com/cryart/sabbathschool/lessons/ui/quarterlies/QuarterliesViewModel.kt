@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -28,10 +28,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.auth.AuthRepository
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
-import com.cryart.sabbathschool.core.response.Resource
 import com.cryart.sabbathschool.core.response.Result
 import com.cryart.sabbathschool.core.response.asResult
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterlies
@@ -49,13 +47,14 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.stateIn
+import ss.lessons.api.repository.QuarterliesRepositoryV2
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 import javax.inject.Inject
 
 @HiltViewModel
 class QuarterliesViewModel @Inject constructor(
-    private val repository: QuarterliesRepository,
+    private val repository: QuarterliesRepositoryV2,
     private val ssPrefs: SSPrefs,
     private val savedStateHandle: SavedStateHandle,
     authRepository: AuthRepository
@@ -99,8 +98,8 @@ class QuarterliesViewModel @Inject constructor(
     val appReBrandingFlow: SharedFlow<Boolean> get() = _appReBranding.asSharedFlow()
 
     @Suppress("UNCHECKED_CAST")
-    private fun groupQuarterlies(resource: Resource<List<SSQuarterly>>): GroupedQuarterlies {
-        val data = resource.data ?: run {
+    private fun groupQuarterlies(result: kotlin.Result<List<SSQuarterly>>): GroupedQuarterlies {
+        val data = result.getOrNull() ?: run {
             return GroupedQuarterlies.Empty
         }
         val grouped = data

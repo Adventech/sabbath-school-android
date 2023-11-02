@@ -20,8 +20,6 @@
  * THE SOFTWARE.
  */
 
-@file:OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-
 package com.cryart.sabbathschool.lessons.ui.quarterlies
 
 import android.content.Context

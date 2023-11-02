@@ -28,6 +28,8 @@ import app.ss.models.QuarterlyGroup
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.entity.QuarterlyEntity
 import app.ss.storage.db.entity.QuarterlyInfoEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 /** Fake implementation of [QuarterliesDao] for use in tests. */
 @VisibleForTesting
@@ -51,9 +53,21 @@ class FakeQuarterliesDao : QuarterliesDao {
         return languageEntityMap[language] ?: emptyList()
     }
 
+    override fun getFlow(language: String): Flow<List<QuarterlyEntity>> {
+        return flowOf(languageEntityMap[language] ?: emptyList())
+    }
+
+    override fun getFlow(language: String, group: QuarterlyGroup): Flow<List<QuarterlyEntity>> {
+        return flowOf(languageEntityMap[language] ?: emptyList())
+    }
+
     override fun getAllForSync(): List<QuarterlyInfoEntity> = infoEntitiesForSync
 
     override fun getInfo(quarterlyIndex: String): QuarterlyInfoEntity? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getInfoFlow(quarterlyIndex: String): Flow<QuarterlyInfoEntity?> {
         TODO("Not yet implemented")
     }
 

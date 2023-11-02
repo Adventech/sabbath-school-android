@@ -20,34 +20,16 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.impl.di
+package ss.lessons.impl.helper
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ss.lessons.api.ContentSyncProvider
-import ss.lessons.api.repository.LessonsRepositoryV2
-import ss.lessons.api.repository.QuarterliesRepositoryV2
-import ss.lessons.impl.ContentSyncProviderImpl
-import ss.lessons.impl.helper.SyncHelper
-import ss.lessons.impl.helper.SyncHelperImpl
-import ss.lessons.impl.repository.LessonsRepositoryV2Impl
-import ss.lessons.impl.repository.QuarterliesRepositoryImpl
+import app.ss.models.SSQuarterlyInfo
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class BindingsModule {
+class FakeSyncHelper : SyncHelper {
+    override suspend fun syncQuarterly(index: String): SSQuarterlyInfo? {
+        TODO("Not yet implemented")
+    }
 
-    @Binds
-    internal abstract fun bindLessonsRepositoryV2(impl: LessonsRepositoryV2Impl): LessonsRepositoryV2
-
-    @Binds
-    internal abstract fun bindQuarterliesRepositoryV2(impl: QuarterliesRepositoryImpl): QuarterliesRepositoryV2
-
-    @Binds
-    internal abstract fun bindContentSyncProvider(impl: ContentSyncProviderImpl): ContentSyncProvider
-
-    @Binds
-    internal abstract fun bindSyncHelper(impl: SyncHelperImpl): SyncHelper
+    override suspend fun syncQuarterlies(language: String) {
+        TODO("Not yet implemented")
+    }
 }

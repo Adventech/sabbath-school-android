@@ -24,7 +24,6 @@ package ss.lessons.impl
 
 import app.ss.models.OfflineState
 import app.ss.models.SSLessonInfo
-import app.ss.models.SSQuarterlyInfo
 import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.dao.ReadsDao
@@ -33,8 +32,8 @@ import app.ss.storage.db.entity.QuarterlyEntity
 import ss.lessons.api.ContentSyncProvider
 import ss.lessons.api.PdfReader
 import ss.lessons.api.SSLessonsApi
-import ss.lessons.api.SSQuarterliesApi
 import ss.lessons.impl.ext.toEntity
+import ss.lessons.impl.helper.SyncHelper
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -45,8 +44,8 @@ internal class ContentSyncProviderImpl @Inject constructor(
     private val readsDao: ReadsDao,
     private val lessonsDao: LessonsDao,
     private val pdfReader: PdfReader,
-    private val quarterliesApi: SSQuarterliesApi,
     private val lessonsApi: SSLessonsApi,
+    private val syncHelper: SyncHelper,
 ) : ContentSyncProvider {
 
     override suspend fun syncQuarterlies(): Result<Unit> {
@@ -83,34 +82,18 @@ internal class ContentSyncProviderImpl @Inject constructor(
 
         quarterliesDao.setOfflineState(index, OfflineState.IN_PROGRESS)
 
-        val response = quarterliesApi.getQuarterlyInfo(language, id)
-        if (!response.isSuccessful || response.body() == null) {
-            Result.failure(Throwable(response.errorBody()?.string()))
-        } else {
-            response.body()?.let { quarterlyInfo ->
-                saveQuarterlyInfo(quarterlyInfo)
-                for (lesson in quarterlyInfo.lessons) {
-                    val lessonInfoResponse = lessonsApi.getLessonInfo(language, quarterlyInfo.quarterly.id, lesson.id)
-                    lessonInfoResponse.body()?.downloadContent()
-                }
+        val quarterlyInfo = syncHelper.syncQuarterly(index)
+        quarterlyInfo?.let {
+            for (lesson in quarterlyInfo.lessons) {
+                val lessonInfoResponse = lessonsApi.getLessonInfo(language, id, lesson.id)
+                lessonInfoResponse.body()?.downloadContent()
             }
-
-            syncQuarterlies()
         }
+        syncQuarterlies()
     } catch (ex: Throwable) {
         Timber.e(ex)
         syncQuarterlies()
         Result.failure(ex)
-    }
-
-    private suspend fun saveQuarterlyInfo(info: SSQuarterlyInfo) {
-        for (lesson in info.lessons) {
-            lessonsDao.get(lesson.index)?.let { entity ->
-                lessonsDao.update(lesson.toEntity(entity.days, entity.pdfs))
-            } ?: run { lessonsDao.insertItem(lesson.toEntity()) }
-        }
-        val state = quarterliesDao.getOfflineState(info.quarterly.index) ?: OfflineState.NONE
-        quarterliesDao.update(info.quarterly.toEntity(state))
     }
 
     private suspend fun SSLessonInfo.downloadContent() {

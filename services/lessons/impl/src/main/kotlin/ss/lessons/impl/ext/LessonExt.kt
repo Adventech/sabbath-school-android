@@ -61,3 +61,15 @@ internal fun LessonEntity.toInfoModel(): SSLessonInfo = SSLessonInfo(
     days = days,
     pdfs = pdfs
 )
+
+internal fun LessonEntity.toModel(): SSLesson = SSLesson(
+    index = index,
+    title = title,
+    start_date = start_date,
+    end_date = end_date,
+    cover = cover,
+    id = id,
+    path = path,
+    full_path = full_path,
+    pdfOnly = pdfOnly
+)
