@@ -29,10 +29,12 @@ import app.ss.models.LessonPdf
 import app.ss.models.OfflineState
 import app.ss.models.SSDay
 import app.ss.models.SSLesson
+import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
 import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.entity.LessonEntity
+import app.ss.storage.db.entity.QuarterlyEntity
 import com.cryart.sabbathschool.core.response.Resource
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
@@ -122,5 +124,53 @@ internal class QuarterlyInfoDataSource @Inject constructor(
         path = path,
         full_path = full_path,
         pdfOnly = pdfOnly
+    )
+
+    internal fun QuarterlyEntity.toModel(): SSQuarterly = SSQuarterly(
+        id = id,
+        title = title,
+        description = description,
+        introduction = introduction,
+        human_date = human_date,
+        start_date = start_date,
+        end_date = end_date,
+        cover = cover,
+        splash = splash,
+        index = index,
+        path = path,
+        full_path = full_path,
+        lang = lang,
+        color_primary = color_primary,
+        color_primary_dark = color_primary_dark,
+        quarterly_name = quarterly_name,
+        quarterly_group = quarterly_group,
+        features = features,
+        credits = credits,
+        offlineState = offlineState
+    )
+
+    internal fun SSQuarterly.toEntity(
+        offlineState: OfflineState
+    ): QuarterlyEntity = QuarterlyEntity(
+        index = index,
+        id = id,
+        title = title,
+        description = description,
+        introduction = introduction,
+        human_date = human_date,
+        start_date = start_date,
+        end_date = end_date,
+        cover = cover,
+        splash = splash,
+        path = path,
+        full_path = full_path,
+        lang = lang,
+        color_primary = color_primary,
+        color_primary_dark = color_primary_dark,
+        quarterly_name = quarterly_name,
+        quarterly_group = quarterly_group,
+        features = features,
+        credits = credits,
+        offlineState = offlineState,
     )
 }

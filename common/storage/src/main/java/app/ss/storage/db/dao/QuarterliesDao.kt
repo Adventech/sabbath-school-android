@@ -29,12 +29,16 @@ import app.ss.models.OfflineState
 import app.ss.models.QuarterlyGroup
 import app.ss.storage.db.entity.QuarterlyEntity
 import app.ss.storage.db.entity.QuarterlyInfoEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface QuarterliesDao : BaseDao<QuarterlyEntity> {
 
     @Query("SELECT * FROM quarterlies WHERE lang = :language")
     fun get(language: String): List<QuarterlyEntity>
+
+    @Query("SELECT * FROM quarterlies WHERE lang = :language")
+    fun getFlow(language: String): Flow<List<QuarterlyEntity>>
 
     @Transaction
     @Query("SELECT * FROM quarterlies WHERE offlineState = 'NONE' OR offlineState = 'PARTIAL'")
@@ -43,9 +47,16 @@ interface QuarterliesDao : BaseDao<QuarterlyEntity> {
     @Query("SELECT * FROM quarterlies WHERE lang = :language AND quarterly_group = :group")
     fun get(language: String, group: QuarterlyGroup): List<QuarterlyEntity>
 
+    @Query("SELECT * FROM quarterlies WHERE lang = :language AND quarterly_group = :group")
+    fun getFlow(language: String, group: QuarterlyGroup): Flow<List<QuarterlyEntity>>
+
     @Transaction
     @Query("SELECT * FROM quarterlies WHERE quarterlies.`index` = :quarterlyIndex")
     fun getInfo(quarterlyIndex: String): QuarterlyInfoEntity?
+
+    @Transaction
+    @Query("SELECT * FROM quarterlies WHERE quarterlies.`index` = :quarterlyIndex")
+    fun getInfoFlow(quarterlyIndex: String): Flow<QuarterlyInfoEntity?>
 
     @Query("SELECT cover FROM quarterlies WHERE lang = :language")
     suspend fun getCovers(language: String): List<String>

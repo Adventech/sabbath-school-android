@@ -23,7 +23,6 @@
 package app.ss.lessons.data.repository.lessons
 
 import app.ss.lessons.data.model.QuarterlyLessonInfo
-import app.ss.lessons.data.repository.quarterly.QuarterliesDataSource
 import app.ss.lessons.data.repository.quarterly.QuarterlyInfoDataSource
 import app.ss.models.SSDay
 import app.ss.models.SSLessonInfo
@@ -33,6 +32,7 @@ import app.ss.models.TodayData
 import app.ss.models.WeekData
 import app.ss.models.WeekDay
 import app.ss.storage.db.dao.BibleVersionDao
+import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.entity.BibleVersionEntity
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
@@ -48,7 +48,7 @@ import javax.inject.Singleton
 @Singleton
 internal class LessonsRepositoryImpl @Inject constructor(
     private val ssPrefs: SSPrefs,
-    private val quarterliesDataSource: QuarterliesDataSource,
+    private val quarterliesDao: QuarterliesDao,
     private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
     private val lessonInfoDataSource: LessonInfoDataSource,
     private val readsDataSource: ReadsDataSource,
@@ -136,10 +136,10 @@ internal class LessonsRepositoryImpl @Inject constructor(
     }
 
     private suspend fun getDefaultQuarterlyIndex(): String? {
-        val resource = withContext(dispatcherProvider.io) {
-            quarterliesDataSource.cache.get(QuarterliesDataSource.Request(ssPrefs.getLanguageCode()))
+        val entities = withContext(dispatcherProvider.io) {
+            quarterliesDao.get(ssPrefs.getLanguageCode())
         }
-        val quarterly = resource.data?.firstOrNull()
+        val quarterly = entities.firstOrNull()
         return quarterly?.index
     }
 
