@@ -22,6 +22,8 @@
 
 package ss.lessons.impl
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import app.ss.models.LessonPdf
 import app.ss.models.OfflineState
 import app.ss.models.SSDay
 import app.ss.storage.db.entity.LessonEntity
@@ -33,16 +35,21 @@ import app.ss.storage.test.FakeReadsDao
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
+import org.junit.runner.RunWith
 import ss.foundation.coroutines.test.TestDispatcherProvider
+import ss.lessons.test.FakePdfReader
 
+@RunWith(AndroidJUnit4::class)
 class ContentSyncProviderImplTest {
 
     private val fakeQuarterliesDao = FakeQuarterliesDao()
     private val fakeReadsDao = FakeReadsDao()
+    private val fakePdfReader = FakePdfReader()
 
     private val underTest = ContentSyncProviderImpl(
         quarterliesDao = fakeQuarterliesDao,
         readsDao = fakeReadsDao,
+        pdfReader = fakePdfReader,
         dispatcherProvider = TestDispatcherProvider(),
     )
 
@@ -136,6 +143,47 @@ class ContentSyncProviderImplTest {
                 bible = emptyList()
             )
         )
+
+        underTest.syncQuarterlies()
+
+        fakeQuarterliesDao.lastUpdatedQuarterly!!.offlineState shouldBeEqualTo OfflineState.COMPLETE
+    }
+
+    @Test
+    fun `syncQuarterlies - lesson pdfs not downloaded - marked PARTIAL`() = runTest {
+        val pdfs = listOf(LessonPdf(id = "id", title = "Title", src = "/uri/to/file"))
+        fakeQuarterliesDao.infoEntitiesForSync = listOf(
+            QuarterlyInfoEntity(
+                quarterly = quarterlyEntity,
+                lessons = listOf(
+                    lessonEntity.copy(
+                        pdfs = pdfs,
+                        pdfOnly = true
+                    )
+                )
+            )
+        )
+
+        underTest.syncQuarterlies()
+
+        fakeQuarterliesDao.lastUpdatedQuarterly!!.offlineState shouldBeEqualTo OfflineState.PARTIAL
+    }
+
+    @Test
+    fun `syncQuarterlies - has all pdfs marked COMPLETE`() = runTest {
+        val pdfs = listOf(LessonPdf(id = "id", title = "Title", src = "/uri/to/file"))
+        fakeQuarterliesDao.infoEntitiesForSync = listOf(
+            QuarterlyInfoEntity(
+                quarterly = quarterlyEntity,
+                lessons = listOf(
+                    lessonEntity.copy(
+                        pdfs = pdfs,
+                        pdfOnly = true
+                    )
+                )
+            )
+        )
+        fakePdfReader.downloadFiles(pdfs)
 
         underTest.syncQuarterlies()
 
