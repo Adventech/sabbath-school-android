@@ -26,12 +26,14 @@ import app.ss.models.OfflineState
 import app.ss.models.SSDay
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.dao.ReadsDao
+import app.ss.storage.db.entity.LessonEntity
 import app.ss.storage.db.entity.QuarterlyEntity
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.ContentSyncProvider
+import ss.lessons.api.PdfReader
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -39,7 +41,8 @@ import javax.inject.Singleton
 internal class ContentSyncProviderImpl @Inject constructor(
     private val quarterliesDao: QuarterliesDao,
     private val readsDao: ReadsDao,
-    private val dispatcherProvider: DispatcherProvider
+    private val pdfReader: PdfReader,
+    private val dispatcherProvider: DispatcherProvider,
 ) : ContentSyncProvider, Scopable by ioScopable(dispatcherProvider) {
 
     override suspend fun syncQuarterlies(): Result<Unit> = withContext(dispatcherProvider.io) {
@@ -50,7 +53,13 @@ internal class ContentSyncProviderImpl @Inject constructor(
                 return@forEach
             }
 
-            val hasReads = lessons.all { lesson -> lesson.days.all { day -> day.hasReads() } }
+            val hasReads = lessons.all { lesson ->
+                if (lesson.pdfOnly) {
+                    lesson.hasPdfFiles()
+                } else {
+                    lesson.days.isNotEmpty() && lesson.days.all { day -> day.hasReads() }
+                }
+            }
             markQuarterly(
                 info.quarterly,
                 if (hasReads) OfflineState.COMPLETE else OfflineState.PARTIAL
@@ -65,6 +74,7 @@ internal class ContentSyncProviderImpl @Inject constructor(
     }
 
     private suspend fun SSDay.hasReads(): Boolean = readsDao.get(index) != null
+    private fun LessonEntity.hasPdfFiles(): Boolean = pdfs.isNotEmpty() && pdfs.all { pdfReader.isDownloaded(it) }
 
     override suspend fun syncQuarterly(index: String): Result<Unit> {
         TODO("Not yet implemented")
