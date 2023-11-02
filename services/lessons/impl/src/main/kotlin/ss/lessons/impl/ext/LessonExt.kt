@@ -20,35 +20,44 @@
  * THE SOFTWARE.
  */
 
-package ss.workers.impl.workers
+package ss.lessons.impl.ext
 
-import android.content.Context
-import androidx.hilt.work.HiltWorker
-import androidx.work.CoroutineWorker
-import androidx.work.WorkerParameters
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
-import kotlinx.coroutines.withContext
-import ss.foundation.coroutines.DispatcherProvider
-import ss.lessons.api.ContentSyncProvider
+import app.ss.models.LessonPdf
+import app.ss.models.SSDay
+import app.ss.models.SSLesson
+import app.ss.models.SSLessonInfo
+import app.ss.storage.db.entity.LessonEntity
 
-@HiltWorker
-internal class SyncQuarterliesWorker @AssistedInject constructor(
-    @Assisted private val appContext: Context,
-    @Assisted private val workerParams: WorkerParameters,
-    private val contentSyncProvider: ContentSyncProvider,
-    private val dispatcherProvider: DispatcherProvider
-) : CoroutineWorker(appContext, workerParams) {
+internal fun SSLesson.toEntity(
+    days: List<SSDay> = emptyList(),
+    pdfs: List<LessonPdf> = emptyList()
+): LessonEntity = LessonEntity(
+    index = index,
+    quarter = index.substringBeforeLast('-'),
+    title = title,
+    start_date = start_date,
+    end_date = end_date,
+    cover = cover,
+    id = id,
+    path = path,
+    full_path = full_path,
+    pdfOnly = pdfOnly,
+    days = days,
+    pdfs = pdfs,
+)
 
-    override suspend fun doWork(): Result {
-        val result = withContext(dispatcherProvider.io) {
-            contentSyncProvider.syncQuarterlies()
-        }
-
-        return if (result.isSuccess) Result.success() else Result.retry()
-    }
-
-    companion object {
-        val uniqueWorkName: String = SyncQuarterliesWorker::class.java.name
-    }
-}
+internal fun LessonEntity.toInfoModel(): SSLessonInfo = SSLessonInfo(
+    lesson = SSLesson(
+        title = title,
+        start_date = start_date,
+        end_date = end_date,
+        cover = cover,
+        id = id,
+        index = index,
+        path = path,
+        full_path = full_path,
+        pdfOnly = pdfOnly
+    ),
+    days = days,
+    pdfs = pdfs
+)

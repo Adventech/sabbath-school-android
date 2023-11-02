@@ -20,35 +20,25 @@
  * THE SOFTWARE.
  */
 
-package ss.workers.impl.workers
+package ss.lessons.impl.ext
 
-import android.content.Context
-import androidx.hilt.work.HiltWorker
-import androidx.work.CoroutineWorker
-import androidx.work.WorkerParameters
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
-import kotlinx.coroutines.withContext
-import ss.foundation.coroutines.DispatcherProvider
-import ss.lessons.api.ContentSyncProvider
+import app.ss.models.SSRead
+import app.ss.storage.db.entity.ReadEntity
 
-@HiltWorker
-internal class SyncQuarterliesWorker @AssistedInject constructor(
-    @Assisted private val appContext: Context,
-    @Assisted private val workerParams: WorkerParameters,
-    private val contentSyncProvider: ContentSyncProvider,
-    private val dispatcherProvider: DispatcherProvider
-) : CoroutineWorker(appContext, workerParams) {
+internal fun SSRead.toEntity(): ReadEntity = ReadEntity(
+    index = index,
+    id = id,
+    date = date,
+    title = title,
+    content = content,
+    bible = bible
+)
 
-    override suspend fun doWork(): Result {
-        val result = withContext(dispatcherProvider.io) {
-            contentSyncProvider.syncQuarterlies()
-        }
-
-        return if (result.isSuccess) Result.success() else Result.retry()
-    }
-
-    companion object {
-        val uniqueWorkName: String = SyncQuarterliesWorker::class.java.name
-    }
-}
+internal fun ReadEntity.toModel(): SSRead = SSRead(
+    index = index,
+    id = id,
+    date = date,
+    title = title,
+    content = content,
+    bible = bible
+)

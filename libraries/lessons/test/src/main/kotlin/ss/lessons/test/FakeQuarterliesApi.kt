@@ -20,35 +20,33 @@
  * THE SOFTWARE.
  */
 
-package ss.workers.impl.workers
+package ss.lessons.test
 
-import android.content.Context
-import androidx.hilt.work.HiltWorker
-import androidx.work.CoroutineWorker
-import androidx.work.WorkerParameters
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
-import kotlinx.coroutines.withContext
-import ss.foundation.coroutines.DispatcherProvider
-import ss.lessons.api.ContentSyncProvider
+import androidx.annotation.VisibleForTesting
+import app.ss.models.SSQuarterly
+import app.ss.models.SSQuarterlyInfo
+import retrofit2.Response
+import ss.lessons.api.SSQuarterliesApi
+import ss.lessons.model.PublishingInfoData
+import ss.lessons.model.SSLanguage
+import ss.lessons.model.request.PublishingInfoRequest
 
-@HiltWorker
-internal class SyncQuarterliesWorker @AssistedInject constructor(
-    @Assisted private val appContext: Context,
-    @Assisted private val workerParams: WorkerParameters,
-    private val contentSyncProvider: ContentSyncProvider,
-    private val dispatcherProvider: DispatcherProvider
-) : CoroutineWorker(appContext, workerParams) {
-
-    override suspend fun doWork(): Result {
-        val result = withContext(dispatcherProvider.io) {
-            contentSyncProvider.syncQuarterlies()
-        }
-
-        return if (result.isSuccess) Result.success() else Result.retry()
+/** Fake implementation of [SSQuarterliesApi] for use in tests. */
+@VisibleForTesting
+class FakeQuarterliesApi : SSQuarterliesApi {
+    override suspend fun getLanguages(): Response<List<SSLanguage>> {
+        TODO("Not yet implemented")
     }
 
-    companion object {
-        val uniqueWorkName: String = SyncQuarterliesWorker::class.java.name
+    override suspend fun getQuarterlies(language: String): Response<List<SSQuarterly>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getQuarterlyInfo(language: String, id: String): Response<SSQuarterlyInfo> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getPublishingInfo(request: PublishingInfoRequest): Response<PublishingInfoData> {
+        TODO("Not yet implemented")
     }
 }

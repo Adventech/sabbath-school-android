@@ -65,6 +65,10 @@ class FakeQuarterliesDao : QuarterliesDao {
         TODO("Not yet implemented")
     }
 
+    override suspend fun setOfflineState(index: String, state: OfflineState) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun insertItem(item: QuarterlyEntity) = Unit
 
     override suspend fun insertAll(items: List<QuarterlyEntity>) = Unit
