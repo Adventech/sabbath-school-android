@@ -31,7 +31,6 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ContentSyncProvider
-import timber.log.Timber
 
 @HiltWorker
 internal class SyncQuarterlyWorker @AssistedInject constructor(
@@ -42,7 +41,6 @@ internal class SyncQuarterlyWorker @AssistedInject constructor(
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
-        Timber.i("SYNC: do work...")
         val index = workerParams.inputData.getString(QUARTERLY_INDEX) ?: return Result.failure()
         val result = withContext(dispatcherProvider.io) {
             contentSyncProvider.syncQuarterly(index)

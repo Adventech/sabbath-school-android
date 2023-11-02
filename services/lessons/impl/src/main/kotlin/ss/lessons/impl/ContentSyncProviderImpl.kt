@@ -104,7 +104,7 @@ internal class ContentSyncProviderImpl @Inject constructor(
     }
 
     private suspend fun saveQuarterlyInfo(info: SSQuarterlyInfo) {
-        info.lessons.forEach { lesson ->
+        for (lesson in info.lessons) {
             lessonsDao.get(lesson.index)?.let { entity ->
                 lessonsDao.update(lesson.toEntity(entity.days, entity.pdfs))
             } ?: run { lessonsDao.insertItem(lesson.toEntity()) }
