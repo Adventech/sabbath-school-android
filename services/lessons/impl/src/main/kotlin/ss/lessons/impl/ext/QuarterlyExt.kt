@@ -20,35 +20,33 @@
  * THE SOFTWARE.
  */
 
-package ss.workers.impl.workers
+package ss.lessons.impl.ext
 
-import android.content.Context
-import androidx.hilt.work.HiltWorker
-import androidx.work.CoroutineWorker
-import androidx.work.WorkerParameters
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
-import kotlinx.coroutines.withContext
-import ss.foundation.coroutines.DispatcherProvider
-import ss.lessons.api.ContentSyncProvider
+import app.ss.models.OfflineState
+import app.ss.models.SSQuarterly
+import app.ss.storage.db.entity.QuarterlyEntity
 
-@HiltWorker
-internal class SyncQuarterliesWorker @AssistedInject constructor(
-    @Assisted private val appContext: Context,
-    @Assisted private val workerParams: WorkerParameters,
-    private val contentSyncProvider: ContentSyncProvider,
-    private val dispatcherProvider: DispatcherProvider
-) : CoroutineWorker(appContext, workerParams) {
-
-    override suspend fun doWork(): Result {
-        val result = withContext(dispatcherProvider.io) {
-            contentSyncProvider.syncQuarterlies()
-        }
-
-        return if (result.isSuccess) Result.success() else Result.retry()
-    }
-
-    companion object {
-        val uniqueWorkName: String = SyncQuarterliesWorker::class.java.name
-    }
-}
+internal fun SSQuarterly.toEntity(
+    offlineState: OfflineState
+): QuarterlyEntity = QuarterlyEntity(
+    index = index,
+    id = id,
+    title = title,
+    description = description,
+    introduction = introduction,
+    human_date = human_date,
+    start_date = start_date,
+    end_date = end_date,
+    cover = cover,
+    splash = splash,
+    path = path,
+    full_path = full_path,
+    lang = lang,
+    color_primary = color_primary,
+    color_primary_dark = color_primary_dark,
+    quarterly_name = quarterly_name,
+    quarterly_group = quarterly_group,
+    features = features,
+    credits = credits,
+    offlineState = offlineState,
+)

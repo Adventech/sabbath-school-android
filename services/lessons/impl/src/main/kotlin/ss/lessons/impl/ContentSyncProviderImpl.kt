@@ -23,16 +23,19 @@
 package ss.lessons.impl
 
 import app.ss.models.OfflineState
+import app.ss.models.SSLessonInfo
+import app.ss.models.SSQuarterlyInfo
+import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.dao.ReadsDao
 import app.ss.storage.db.entity.LessonEntity
 import app.ss.storage.db.entity.QuarterlyEntity
-import kotlinx.coroutines.withContext
-import ss.foundation.coroutines.DispatcherProvider
-import ss.foundation.coroutines.Scopable
-import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.ContentSyncProvider
 import ss.lessons.api.PdfReader
+import ss.lessons.api.SSLessonsApi
+import ss.lessons.api.SSQuarterliesApi
+import ss.lessons.impl.ext.toEntity
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -40,11 +43,13 @@ import javax.inject.Singleton
 internal class ContentSyncProviderImpl @Inject constructor(
     private val quarterliesDao: QuarterliesDao,
     private val readsDao: ReadsDao,
+    private val lessonsDao: LessonsDao,
     private val pdfReader: PdfReader,
-    private val dispatcherProvider: DispatcherProvider,
-) : ContentSyncProvider, Scopable by ioScopable(dispatcherProvider) {
+    private val quarterliesApi: SSQuarterliesApi,
+    private val lessonsApi: SSLessonsApi,
+) : ContentSyncProvider {
 
-    override suspend fun syncQuarterlies(): Result<Unit> = withContext(dispatcherProvider.io) {
+    override suspend fun syncQuarterlies(): Result<Unit> {
         quarterliesDao.getAllForSync().forEach { info ->
             val lessons = info.lessons
             val state = when {
@@ -61,7 +66,7 @@ internal class ContentSyncProviderImpl @Inject constructor(
             }
             markQuarterly(info.quarterly, state)
         }
-        Result.success(Unit)
+        return Result.success(Unit)
     }
 
     private suspend fun markQuarterly(entity: QuarterlyEntity, state: OfflineState) {
@@ -72,7 +77,61 @@ internal class ContentSyncProviderImpl @Inject constructor(
     private suspend fun LessonEntity.hasReads(): Boolean = days.isNotEmpty() && days.all { readsDao.get(it.index) != null }
     private fun LessonEntity.hasPdfFiles(): Boolean = pdfs.isNotEmpty() && pdfs.all { pdfReader.isDownloaded(it) }
 
-    override suspend fun syncQuarterly(index: String): Result<Unit> {
-        TODO("Not yet implemented")
+    override suspend fun syncQuarterly(index: String): Result<Unit> = try {
+        val language = index.substringBefore('-')
+        val id = index.substringAfter('-')
+
+        quarterliesDao.setOfflineState(index, OfflineState.IN_PROGRESS)
+
+        val response = quarterliesApi.getQuarterlyInfo(language, id)
+        if (!response.isSuccessful || response.body() == null) {
+            Result.failure(Throwable(response.errorBody()?.string()))
+        } else {
+            response.body()?.let { quarterlyInfo ->
+                saveQuarterlyInfo(quarterlyInfo)
+                for (lesson in quarterlyInfo.lessons) {
+                    val lessonInfoResponse = lessonsApi.getLessonInfo(language, quarterlyInfo.quarterly.id, lesson.id)
+                    lessonInfoResponse.body()?.downloadContent()
+                }
+            }
+
+            syncQuarterlies()
+        }
+    } catch (ex: Throwable) {
+        Timber.e(ex)
+        syncQuarterlies()
+        Result.failure(ex)
+    }
+
+    private suspend fun saveQuarterlyInfo(info: SSQuarterlyInfo) {
+        info.lessons.forEach { lesson ->
+            lessonsDao.get(lesson.index)?.let { entity ->
+                lessonsDao.update(lesson.toEntity(entity.days, entity.pdfs))
+            } ?: run { lessonsDao.insertItem(lesson.toEntity()) }
+        }
+        val state = quarterliesDao.getOfflineState(info.quarterly.index) ?: OfflineState.NONE
+        quarterliesDao.update(info.quarterly.toEntity(state))
+    }
+
+    private suspend fun SSLessonInfo.downloadContent() {
+        lessonsDao.updateInfo(
+            lesson.index,
+            days,
+            pdfs,
+            lesson.title,
+            lesson.cover,
+            lesson.path,
+            lesson.full_path,
+            lesson.pdfOnly
+        )
+
+        if (lesson.pdfOnly) {
+            pdfReader.downloadFiles(this.pdfs)
+        } else {
+            for (day in days) {
+                val response = lessonsApi.getDayRead("${day.full_read_path}/index.json")
+                response.body()?.let { readsDao.insertItem(it.toEntity()) }
+            }
+        }
     }
 }

@@ -23,7 +23,6 @@
 package ss.lessons.impl.repository
 
 import app.ss.models.SSDay
-import app.ss.models.SSLesson
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import app.ss.models.SSReadComments
@@ -32,8 +31,6 @@ import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.dao.ReadsDao
-import app.ss.storage.db.entity.LessonEntity
-import app.ss.storage.db.entity.ReadEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -55,6 +52,9 @@ import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.SSLessonsApi
 import ss.lessons.api.repository.LessonsRepositoryV2
+import ss.lessons.impl.ext.toEntity
+import ss.lessons.impl.ext.toInfoModel
+import ss.lessons.impl.ext.toModel
 import ss.lessons.model.result.LessonReads
 import ss.misc.DateHelper
 import timber.log.Timber
@@ -205,38 +205,4 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
         }
         return readIndex
     }
-
-    private fun LessonEntity.toInfoModel(): SSLessonInfo = SSLessonInfo(
-        lesson = SSLesson(
-            title = title,
-            start_date = start_date,
-            end_date = end_date,
-            cover = cover,
-            id = id,
-            index = index,
-            path = path,
-            full_path = full_path,
-            pdfOnly = pdfOnly
-        ),
-        days = days,
-        pdfs = pdfs
-    )
-
-    private fun ReadEntity.toModel(): SSRead = SSRead(
-        index = index,
-        id = id,
-        date = date,
-        title = title,
-        content = content,
-        bible = bible
-    )
-
-    private fun SSRead.toEntity(): ReadEntity = ReadEntity(
-        index = index,
-        id = id,
-        date = date,
-        title = title,
-        content = content,
-        bible = bible
-    )
 }

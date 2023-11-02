@@ -52,4 +52,7 @@ interface QuarterliesDao : BaseDao<QuarterlyEntity> {
 
     @Query("SELECT offlineState FROM quarterlies WHERE 'index' = :index")
     suspend fun getOfflineState(index: String): OfflineState?
+
+    @Query("UPDATE quarterlies SET offlineState = :state WHERE 'index' = :index")
+    suspend fun setOfflineState(index: String, state: OfflineState)
 }

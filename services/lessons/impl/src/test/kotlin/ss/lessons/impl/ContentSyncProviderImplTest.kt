@@ -30,27 +30,32 @@ import app.ss.storage.db.entity.LessonEntity
 import app.ss.storage.db.entity.QuarterlyEntity
 import app.ss.storage.db.entity.QuarterlyInfoEntity
 import app.ss.storage.db.entity.ReadEntity
+import app.ss.storage.test.FakeLessonsDao
 import app.ss.storage.test.FakeQuarterliesDao
 import app.ss.storage.test.FakeReadsDao
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 import org.junit.runner.RunWith
-import ss.foundation.coroutines.test.TestDispatcherProvider
+import ss.lessons.test.FakeLessonsApi
 import ss.lessons.test.FakePdfReader
+import ss.lessons.test.FakeQuarterliesApi
 
 @RunWith(AndroidJUnit4::class)
 class ContentSyncProviderImplTest {
 
     private val fakeQuarterliesDao = FakeQuarterliesDao()
     private val fakeReadsDao = FakeReadsDao()
+    private val fakeLessonsDao = FakeLessonsDao()
     private val fakePdfReader = FakePdfReader()
 
     private val underTest = ContentSyncProviderImpl(
         quarterliesDao = fakeQuarterliesDao,
         readsDao = fakeReadsDao,
+        lessonsDao = fakeLessonsDao,
         pdfReader = fakePdfReader,
-        dispatcherProvider = TestDispatcherProvider(),
+        quarterliesApi = FakeQuarterliesApi(),
+        lessonsApi = FakeLessonsApi()
     )
 
     private val quarterlyEntity = QuarterlyEntity(

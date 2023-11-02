@@ -26,6 +26,7 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
+import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.lessons.api.ContentSyncProvider
 import ss.lessons.test.FakeContentSyncProvider
 
@@ -48,12 +49,14 @@ class TestWorkerFactory(
             appContext = appContext,
             workerParams = workerParameters,
             contentSyncProvider = contentSyncProvider,
+            dispatcherProvider = TestDispatcherProvider(),
         )
 
         SyncQuarterliesWorker::class.java.name -> SyncQuarterliesWorker(
             appContext = appContext,
             workerParams = workerParameters,
             contentSyncProvider = contentSyncProvider,
+            dispatcherProvider = TestDispatcherProvider(),
         )
 
         else -> null

@@ -53,5 +53,6 @@ dependencies {
 
     testImplementation(libs.bundles.testing.common)
     testImplementation(libs.test.androidx.work)
+    testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.lessons.test)
 }

@@ -28,18 +28,25 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.withContext
+import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ContentSyncProvider
+import timber.log.Timber
 
 @HiltWorker
 internal class SyncQuarterlyWorker @AssistedInject constructor(
     @Assisted private val appContext: Context,
     @Assisted private val workerParams: WorkerParameters,
-    private val contentSyncProvider: ContentSyncProvider
+    private val contentSyncProvider: ContentSyncProvider,
+    private val dispatcherProvider: DispatcherProvider,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
+        Timber.i("SYNC: do work...")
         val index = workerParams.inputData.getString(QUARTERLY_INDEX) ?: return Result.failure()
-        val result = contentSyncProvider.syncQuarterly(index)
+        val result = withContext(dispatcherProvider.io) {
+            contentSyncProvider.syncQuarterly(index)
+        }
         return if (result.isSuccess) Result.success() else Result.failure()
     }
 
