@@ -23,7 +23,6 @@
 package ss.lessons.impl
 
 import app.ss.models.OfflineState
-import app.ss.models.SSDay
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.dao.ReadsDao
 import app.ss.storage.db.entity.LessonEntity
@@ -48,22 +47,19 @@ internal class ContentSyncProviderImpl @Inject constructor(
     override suspend fun syncQuarterlies(): Result<Unit> = withContext(dispatcherProvider.io) {
         quarterliesDao.getAllForSync().forEach { info ->
             val lessons = info.lessons
-            if (lessons.isEmpty()) {
-                markQuarterly(info.quarterly, OfflineState.NONE)
-                return@forEach
-            }
+            val state = when {
+                lessons.isEmpty() -> OfflineState.NONE
+                lessons.all { lesson ->
+                    if (lesson.pdfOnly) {
+                        lesson.hasPdfFiles()
+                    } else {
+                        lesson.hasReads()
+                    }
+                } -> OfflineState.COMPLETE
 
-            val hasReads = lessons.all { lesson ->
-                if (lesson.pdfOnly) {
-                    lesson.hasPdfFiles()
-                } else {
-                    lesson.days.isNotEmpty() && lesson.days.all { day -> day.hasReads() }
-                }
+                else -> OfflineState.PARTIAL
             }
-            markQuarterly(
-                info.quarterly,
-                if (hasReads) OfflineState.COMPLETE else OfflineState.PARTIAL
-            )
+            markQuarterly(info.quarterly, state)
         }
         Result.success(Unit)
     }
@@ -73,7 +69,7 @@ internal class ContentSyncProviderImpl @Inject constructor(
         quarterliesDao.update(entity.copy(offlineState = state))
     }
 
-    private suspend fun SSDay.hasReads(): Boolean = readsDao.get(index) != null
+    private suspend fun LessonEntity.hasReads(): Boolean = days.isNotEmpty() && days.all { readsDao.get(it.index) != null }
     private fun LessonEntity.hasPdfFiles(): Boolean = pdfs.isNotEmpty() && pdfs.all { pdfReader.isDownloaded(it) }
 
     override suspend fun syncQuarterly(index: String): Result<Unit> {
