@@ -32,4 +32,8 @@ class FakeSyncHelper : SyncHelper {
     override suspend fun syncQuarterlies(language: String) {
         TODO("Not yet implemented")
     }
+
+    override fun syncPublishingInfo(country: String, language: String) {
+        TODO("Not yet implemented")
+    }
 }

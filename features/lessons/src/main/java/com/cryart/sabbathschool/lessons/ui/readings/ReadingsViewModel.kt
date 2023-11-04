@@ -27,7 +27,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.media.MediaRepository
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.LessonPdf
 import app.ss.models.PublishingInfo
@@ -44,16 +43,17 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.stateIn
 import ss.lessons.api.repository.LessonsRepositoryV2
+import ss.lessons.api.repository.QuarterliesRepositoryV2
 import javax.inject.Inject
 
 @HiltViewModel
 class ReadingsViewModel @Inject constructor(
     private val mediaRepository: MediaRepository,
-    lessonsRepository: LessonsRepository,
     private val lessonsRepositoryV2: LessonsRepositoryV2,
     private val userDataRepository: UserDataRepository,
     private val savedStateHandle: SavedStateHandle,
-    quarterliesRepository: QuarterliesRepository,
+    lessonsRepository: LessonsRepository,
+    quarterliesRepository: QuarterliesRepositoryV2,
 ) : ViewModel() {
 
     private val _audioAvailable = MutableStateFlow(false)
@@ -69,7 +69,7 @@ class ReadingsViewModel @Inject constructor(
     val lessonPdfsFlow: StateFlow<Pair<String, List<LessonPdf>>> = _lessonPdfs
 
     val publishingInfo: StateFlow<PublishingInfo?> = quarterliesRepository.getPublishingInfo()
-        .mapNotNull { it.data }
+        .mapNotNull { it.getOrNull() }
         .distinctUntilChanged()
         .stateIn(viewModelScope, null)
 
