@@ -76,24 +76,31 @@ internal class ContentSyncProviderImpl @Inject constructor(
     private suspend fun LessonEntity.hasReads(): Boolean = days.isNotEmpty() && days.all { readsDao.get(it.index) != null }
     private fun LessonEntity.hasPdfFiles(): Boolean = pdfs.isNotEmpty() && pdfs.all { pdfReader.isDownloaded(it) }
 
-    override suspend fun syncQuarterly(index: String): Result<Unit> = try {
-        val language = index.substringBefore('-')
-        val id = index.substringAfter('-')
+    override suspend fun syncQuarterly(index: String): Result<Unit> {
+        val initialState = quarterliesDao.getOfflineState(index) ?: OfflineState.NONE
+        try {
+            val language = index.substringBefore('-')
+            val id = index.substringAfter('-')
 
-        quarterliesDao.setOfflineState(index, OfflineState.IN_PROGRESS)
+            quarterliesDao.setOfflineState(index, OfflineState.IN_PROGRESS)
 
-        val quarterlyInfo = syncHelper.syncQuarterly(index)
-        quarterlyInfo?.let {
-            for (lesson in quarterlyInfo.lessons) {
-                val lessonInfoResponse = lessonsApi.getLessonInfo(language, id, lesson.id)
-                lessonInfoResponse.body()?.downloadContent()
+            val quarterlyInfo = syncHelper.syncQuarterly(index)
+            quarterlyInfo?.let {
+                for (lesson in quarterlyInfo.lessons) {
+                    val lessonInfoResponse = lessonsApi.getLessonInfo(language, id, lesson.id)
+                    lessonInfoResponse.body()?.downloadContent()
+                }
             }
+            quarterliesDao.setOfflineState(
+                index,
+                OfflineState.COMPLETE
+            )
+            return Result.success(Unit)
+        } catch (ex: Throwable) {
+            Timber.e(ex)
+            quarterliesDao.setOfflineState(index, initialState)
+            return Result.failure(ex)
         }
-        syncQuarterlies()
-    } catch (ex: Throwable) {
-        Timber.e(ex)
-        syncQuarterlies()
-        Result.failure(ex)
     }
 
     private suspend fun SSLessonInfo.downloadContent() {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -22,6 +22,7 @@
 
 package com.cryart.sabbathschool.lessons.ui.quarterlies.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,7 +39,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -55,6 +58,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.isLargeScreen
@@ -114,7 +118,6 @@ internal fun QuarterlyRow(
                 horizontal = Dimens.grid_4
             )
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically
     ) {
         QuarterlyCover(
@@ -126,9 +129,9 @@ internal fun QuarterlyRow(
         Spacer(modifier = Modifier.width(Dimens.grid_4))
 
         Column(
-            modifier = Modifier.padding(
-                end = 16.dp
-            )
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 16.dp)
         ) {
             Text(
                 text = spec.date.uppercase(),
@@ -157,7 +160,9 @@ internal fun QuarterlyRow(
             )
         }
 
-        Spacer(modifier = Modifier.fillMaxWidth())
+        AnimatedVisibility(visible = spec.offline) {
+            OfflineStateBox()
+        }
     }
 }
 
@@ -174,6 +179,7 @@ fun QuarterlyRowPreview() {
                     cover = "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
                     color = Color.Cyan,
                     index = "index",
+                    offline = true,
                     isPlaceholder = false,
                     QuarterlySpec.Type.NORMAL
                 ),
@@ -198,20 +204,30 @@ internal fun QuarterlyColumn(
 
         Spacer(modifier = Modifier.height(Dimens.grid_2))
 
-        Text(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .sizeIn(minHeight = TitleMinHeight)
-                .padding(horizontal = Dimens.grid_1),
-            text = spec.title,
-            style = MaterialTheme.typography.titleSmall.copy(
-                fontSize = 15.sp
-            ),
-            color = MaterialTheme.colorScheme.onSurface,
-            lineHeight = 18.sp,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
+                .sizeIn(minHeight = TitleMinHeight),
+            verticalAlignment = Alignment.Top
+        ) {
+            Text(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = Dimens.grid_1),
+                text = spec.title,
+                style = MaterialTheme.typography.titleSmall.copy(
+                    fontSize = 15.sp
+                ),
+                color = MaterialTheme.colorScheme.onSurface,
+                lineHeight = 18.sp,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            AnimatedVisibility(visible = spec.offline) {
+                OfflineStateBox()
+            }
+        }
     }
 }
 
@@ -219,7 +235,7 @@ private val TitleMinHeight = 40.dp
 
 @DayNightPreviews
 @Composable
-fun QuarterlyColumnPreview() {
+private fun QuarterlyColumnPreview() {
     SsTheme {
         Surface {
             QuarterlyColumn(
@@ -230,6 +246,30 @@ fun QuarterlyColumnPreview() {
                     cover = "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
                     color = Color.Magenta,
                     index = "index",
+                    offline = false,
+                    isPlaceholder = false,
+                    type = QuarterlySpec.Type.LARGE
+                ),
+                modifier = Modifier.padding(6.dp)
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun OfflineQuarterlyColumnPreview() {
+    SsTheme {
+        Surface {
+            QuarterlyColumn(
+                QuarterlySpec(
+                    id = "id",
+                    title = "Rest In Christ",
+                    date = "July · August · September 2021",
+                    cover = "https://sabbath-school.adventech.io/api/v1/en/quarterlies/2021-03/cover.png",
+                    color = Color.Magenta,
+                    index = "index",
+                    offline = true,
                     isPlaceholder = false,
                     type = QuarterlySpec.Type.LARGE
                 ),
@@ -285,6 +325,7 @@ private fun QuarterlyCover(
 internal fun GroupedQuarterliesColumn(
     spec: GroupedQuarterliesSpec,
     modifier: Modifier = Modifier,
+    listState: LazyListState = rememberLazyListState(),
     seeAllClick: () -> Unit = {}
 ) {
     Column(
@@ -299,6 +340,7 @@ internal fun GroupedQuarterliesColumn(
         Spacer(modifier = Modifier.height(Dimens.grid_2))
 
         SnappingLazyRow(
+            state = listState,
             contentPadding = PaddingValues(horizontal = Dimens.grid_4),
             horizontalArrangement = Arrangement.spacedBy(Dimens.grid_4)
         ) {
@@ -397,4 +439,14 @@ private fun GroupedQuarterliesColumnPreview() {
             )
         }
     }
+}
+
+@Composable
+private fun OfflineStateBox(
+    modifier: Modifier = Modifier,
+) {
+    IconBox(
+        icon = Icons.FileDownloadDone,
+        modifier = modifier
+    )
 }

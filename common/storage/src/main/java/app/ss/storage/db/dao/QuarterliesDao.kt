@@ -61,9 +61,9 @@ interface QuarterliesDao : BaseDao<QuarterlyEntity> {
     @Query("SELECT cover FROM quarterlies WHERE lang = :language")
     suspend fun getCovers(language: String): List<String>
 
-    @Query("SELECT offlineState FROM quarterlies WHERE 'index' = :index")
+    @Query("SELECT offlineState FROM quarterlies WHERE quarterlies.`index` = :index")
     suspend fun getOfflineState(index: String): OfflineState?
 
-    @Query("UPDATE quarterlies SET offlineState = :state WHERE 'index' = :index")
+    @Query("UPDATE quarterlies SET offlineState = :state WHERE quarterlies.`index` = :index")
     suspend fun setOfflineState(index: String, state: OfflineState)
 }
