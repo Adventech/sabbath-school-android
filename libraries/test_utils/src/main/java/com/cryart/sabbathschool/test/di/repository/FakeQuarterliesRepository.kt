@@ -24,37 +24,14 @@ package com.cryart.sabbathschool.test.di.repository
 
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.Language
-import app.ss.models.LessonIntroModel
-import app.ss.models.PublishingInfo
-import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.response.Resource
-import com.cryart.sabbathschool.test.di.mock.QuarterlyMockData
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class FakeQuarterliesRepository @Inject constructor(
-    private val mockData: QuarterlyMockData
-) : QuarterliesRepository {
+class FakeQuarterliesRepository @Inject constructor() : QuarterliesRepository {
 
     override fun getLanguages(query: String?): Flow<Resource<List<Language>>> {
         return flowOf(Resource.success(emptyList()))
-    }
-
-    override fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>> {
-        return flowOf(
-            mockData.getQuarterlyInfo(index)?.let {
-                Resource.success(it)
-            } ?: Resource.error(Throwable())
-        )
-    }
-
-    override fun getPublishingInfo(languageCode: String?): Flow<Resource<PublishingInfo>> {
-        return emptyFlow()
-    }
-
-    override suspend fun getIntro(index: String): Result<LessonIntroModel?> {
-        return Result.success(null)
     }
 }

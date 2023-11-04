@@ -25,7 +25,6 @@ package com.cryart.sabbathschool.lessons.ui.lessons
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import app.ss.lessons.data.repository.lessons.LessonsRepository
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.LessonPdf
 import app.ss.models.PublishingInfo
 import app.ss.models.SSLesson
@@ -47,6 +46,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import ss.foundation.coroutines.test.MainDispatcherRule
+import ss.lessons.api.repository.QuarterliesRepositoryV2
 import ss.prefs.api.SSPrefs
 
 private const val QUARTERLY_INDEX = "quarterly_index"
@@ -56,17 +56,17 @@ class LessonsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private val mockQuarterliesRepository: QuarterliesRepository = mockk()
+    private val mockQuarterliesRepository: QuarterliesRepositoryV2 = mockk()
     private val mockLessonsRepository: LessonsRepository = mockk()
     private val mockPrefs: SSPrefs = mockk()
     private val mockWidgetHelper: AppWidgetHelper = mockk()
     private val mockSavedStateHandle: SavedStateHandle = mockk()
 
-    private val publishingInfoFlow = MutableSharedFlow<Resource<PublishingInfo>>(
+    private val publishingInfoFlow = MutableSharedFlow<Result<PublishingInfo>>(
         replay = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
-    private val quarterlyInfoFlow = MutableSharedFlow<Resource<SSQuarterlyInfo>>(
+    private val quarterlyInfoFlow = MutableSharedFlow<Result<SSQuarterlyInfo>>(
         replay = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
@@ -79,7 +79,7 @@ class LessonsViewModelTest {
         every { mockWidgetHelper.refreshAll() } returns Unit
         every { mockPrefs.getDisplayOptions(any()) }.returns(Unit)
         every { mockQuarterliesRepository.getPublishingInfo() } returns publishingInfoFlow
-        every { mockQuarterliesRepository.getQuarterlyInfo(QUARTERLY_INDEX) } returns quarterlyInfoFlow
+        every { mockQuarterliesRepository.getQuarterly(QUARTERLY_INDEX) } returns quarterlyInfoFlow
 
         viewModel = LessonsViewModel(
             repository = mockQuarterliesRepository,
@@ -105,7 +105,7 @@ class LessonsViewModelTest {
         viewModel.uiState.test {
             awaitItem() shouldBeEqualTo LessonsScreenState()
 
-            quarterlyInfoFlow.emit(Resource.success(mockQuarterlyInfo))
+            quarterlyInfoFlow.emit(Result.success(mockQuarterlyInfo))
 
             awaitItem() shouldBeEqualTo LessonsScreenState(
                 isLoading = false,
@@ -114,7 +114,7 @@ class LessonsViewModelTest {
                 quarterlyInfo = QuarterlyInfoState.Success(mockQuarterlyInfo)
             )
 
-            publishingInfoFlow.emit(Resource.success(mockPublishingInfo))
+            publishingInfoFlow.emit(Result.success(mockPublishingInfo))
 
             awaitItem() shouldBeEqualTo LessonsScreenState(
                 isLoading = false,
@@ -134,7 +134,7 @@ class LessonsViewModelTest {
         viewModel.uiState.test {
             awaitItem() shouldBeEqualTo LessonsScreenState()
 
-            quarterlyInfoFlow.emit(Resource.error(Throwable()))
+            quarterlyInfoFlow.emit(Result.failure(Throwable()))
 
             awaitItem() shouldBeEqualTo LessonsScreenState(
                 isLoading = false,
@@ -154,7 +154,7 @@ class LessonsViewModelTest {
         viewModel.uiState.test {
             awaitItem() shouldBeEqualTo LessonsScreenState()
 
-            publishingInfoFlow.emit(Resource.error(Throwable()))
+            publishingInfoFlow.emit(Result.failure(Throwable()))
 
             awaitItem() shouldBeEqualTo LessonsScreenState(
                 isLoading = true,

@@ -28,9 +28,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.lessons.LessonsRepository
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.LessonPdf
 import app.ss.models.PublishingInfo
+import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
 import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.core.response.Result
@@ -41,12 +41,16 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.joda.time.DateTime
+import org.joda.time.Interval
 import ss.foundation.coroutines.flow.stateIn
+import ss.lessons.api.repository.QuarterliesRepositoryV2
+import ss.misc.DateHelper
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 import javax.inject.Inject
@@ -56,7 +60,7 @@ internal const val lessonIndexArg = SSConstants.SS_QUARTERLY_INDEX_EXTRA
 
 @HiltViewModel
 class LessonsViewModel @Inject constructor(
-    private val repository: QuarterliesRepository,
+    private val repository: QuarterliesRepositoryV2,
     private val lessonsRepository: LessonsRepository,
     private val ssPrefs: SSPrefs,
     private val appWidgetHelper: AppWidgetHelper,
@@ -67,18 +71,18 @@ class LessonsViewModel @Inject constructor(
         get() = savedStateHandle.get<String>(lessonIndexArg) ?: ssPrefs.getLastQuarterlyIndex()
 
     private val publishingInfo: Flow<Result<PublishingInfo?>> = repository.getPublishingInfo()
-        .map { it.data }
+        .map { it.getOrNull() }
         .asResult()
 
     private val quarterlyInfo: Flow<Result<SSQuarterlyInfo?>> = snapshotFlow { quarterlyIndex }
-        .flatMapLatest { index ->
-            index?.run {
-                repository.getQuarterlyInfo(index)
-                    .map { it.data }
-            } ?: flowOf(null)
-        }
+        .filterNotNull()
+        .flatMapLatest(repository::getQuarterly)
+        .map { it.getOrNull() }
         .onEach { info ->
-            info?.run { appWidgetHelper.refreshAll() }
+            info?.run {
+                appWidgetHelper.refreshAll()
+                updatePrefs(quarterly)
+            }
         }
         .asResult()
 
@@ -133,4 +137,24 @@ class LessonsViewModel @Inject constructor(
         val link = "${context.getString(L10n.string.ss_app_share_host)}/$quarterlyShareIndex"
         return "${uiState.value.quarterlyTitle}\n$link"
     }
+
+    private fun updatePrefs(quarterly: SSQuarterly) {
+        ssPrefs.setLastQuarterlyIndex(quarterly.index)
+
+        ssPrefs.setThemeColor(
+            primary = quarterly.color_primary,
+            primaryDark = quarterly.color_primary_dark
+        )
+        ssPrefs.setReadingLatestQuarterly(quarterly.isLatest)
+    }
+
+    private val SSQuarterly.isLatest: Boolean
+        get() {
+            val today = DateTime.now().withTimeAtStartOfDay()
+
+            val startDate = DateHelper.parseDate(start_date)
+            val endDate = DateHelper.parseDate(end_date)
+
+            return Interval(startDate, endDate?.plusDays(1)).contains(today)
+        }
 }

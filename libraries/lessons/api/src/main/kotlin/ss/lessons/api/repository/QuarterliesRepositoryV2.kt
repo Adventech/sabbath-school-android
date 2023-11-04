@@ -38,7 +38,7 @@ interface QuarterliesRepositoryV2 {
         group: QuarterlyGroup? = null,
     ): Flow<Result<List<SSQuarterly>>>
 
-    fun getPublishingInfo(languageCode: String? = null): Flow<Result<PublishingInfo>>
+    fun getPublishingInfo(languageCode: String? = null): Flow<Result<PublishingInfo?>>
 
     suspend fun getIntro(index: String): Result<LessonIntroModel?>
 }

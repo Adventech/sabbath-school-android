@@ -27,10 +27,17 @@ import app.ss.models.SSQuarterlyInfo
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import app.ss.storage.db.dao.LessonsDao
+import app.ss.storage.db.dao.PublishingInfoDao
 import app.ss.storage.db.dao.QuarterliesDao
+import app.ss.storage.db.entity.PublishingInfoEntity
+import kotlinx.coroutines.launch
 import ss.foundation.android.connectivity.ConnectivityHelper
+import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.SSQuarterliesApi
 import ss.lessons.impl.ext.toEntity
+import ss.lessons.model.request.PublishingInfoRequest
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -39,15 +46,18 @@ import javax.inject.Singleton
 internal interface SyncHelper {
     suspend fun syncQuarterly(index: String): SSQuarterlyInfo?
     suspend fun syncQuarterlies(language: String)
+    fun syncPublishingInfo(country: String, language: String)
 }
 
 @Singleton
 internal class SyncHelperImpl @Inject constructor(
     private val quarterliesApi: SSQuarterliesApi,
     private val quarterliesDao: QuarterliesDao,
+    private val publishingInfoDao: PublishingInfoDao,
     private val lessonsDao: LessonsDao,
     private val connectivityHelper: ConnectivityHelper,
-) : SyncHelper {
+    dispatcherProvider: DispatcherProvider
+) : SyncHelper, Scopable by ioScopable(dispatcherProvider) {
 
     override suspend fun syncQuarterly(index: String): SSQuarterlyInfo? {
         val language = index.substringBefore('-')
@@ -87,6 +97,26 @@ internal class SyncHelperImpl @Inject constructor(
         }
         val state = quarterliesDao.getOfflineState(info.quarterly.index) ?: OfflineState.NONE
         quarterliesDao.update(info.quarterly.toEntity(state))
+    }
+
+    override fun syncPublishingInfo(country: String, language: String) {
+        scope.launch {
+            when (val response = safeApiCall(connectivityHelper) {
+                quarterliesApi.getPublishingInfo(PublishingInfoRequest(country, language))
+            }) {
+                is NetworkResource.Failure -> Unit
+                is NetworkResource.Success -> response.value.body()?.data?.let {
+                    publishingInfoDao.insertItem(
+                        PublishingInfoEntity(
+                            country = country,
+                            language = language,
+                            message = it.message,
+                            url = it.url
+                        )
+                    )
+                }
+            }
+        }
     }
 
 }
