@@ -136,7 +136,7 @@ circuit-runtime-screen = { module = "com.slack.circuit:circuit-runtime-screen", 
 circuit-runtime-ui = { module = "com.slack.circuit:circuit-runtime-ui", version.ref = "circuit" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
-google-coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs_minimal:2.0.3"
+google-coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs_minimal:2.0.4"
 google-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "google-hilt" }
 google-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "google-hilt" }
 google-hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "google-hilt" }
