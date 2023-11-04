@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,7 @@ import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Facebook
+import androidx.compose.material.icons.rounded.FileDownloadDone
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.rounded.Search
@@ -70,6 +71,7 @@ enum class Icons(
     HomeFilled(MaterialIcons.Filled.Home, L10n.ss_app_name),
     VersionInfo(MaterialIcons.Rounded.Info, L10n.ss_settings_version),
     Website(MaterialIcons.Rounded.Web, L10n.ss_settings_website),
+    FileDownloadDone(MaterialIcons.Rounded.FileDownloadDone, L10n.blank)
     ;
 
     @Composable

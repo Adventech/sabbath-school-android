@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -77,9 +77,10 @@ internal fun QuarterlyList(
             is GroupedQuarterlies.TypeGroup -> {
                 itemsIndexed(
                     quarterlies.data,
-                    key = { _, model -> model.hashCode() },
+                    key = { _, model -> model.group.order },
                     itemContent = { index, model ->
-                        val items = remember(model.hashCode()) {
+                        val listState = rememberLazyListState()
+                        val items = remember(model.quarterlies) {
                             val result = model.quarterlies.map { quarterly ->
                                 quarterly.copy(
                                     onClick = {
@@ -96,7 +97,8 @@ internal fun QuarterlyList(
                                 items = items,
                                 index == quarterlies.data.lastIndex
                             ),
-                            modifier = Modifier.testTag("quarterlies:group")
+                            modifier = Modifier.testTag("quarterlies:group"),
+                            listState = listState
                         ) {
                             (callbacks as? QuarterliesGroupCallback)?.onSeeAllClick(model.group.group())
                         }
