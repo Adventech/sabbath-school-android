@@ -23,86 +23,16 @@
 package app.ss.lessons.data.repository.quarterly
 
 import app.ss.models.Language
-import app.ss.models.LessonIntroModel
-import app.ss.models.PublishingInfo
-import app.ss.models.SSQuarterly
-import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.withContext
-import org.joda.time.DateTime
-import org.joda.time.Interval
-import ss.foundation.coroutines.DispatcherProvider
-import ss.misc.DateHelper
-import ss.misc.DeviceHelper
-import ss.prefs.api.SSPrefs
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class QuarterliesRepositoryImpl @Inject constructor(
-    private val ssPrefs: SSPrefs,
     private val languagesSource: LanguagesDataSource,
-    private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
-    private val publishingInfoDataSource: PublishingInfoDataSource,
-    private val deviceHelper: DeviceHelper,
-    private val dispatcherProvider: DispatcherProvider,
 ) : QuarterliesRepository {
 
     override fun getLanguages(query: String?): Flow<Resource<List<Language>>> =
         languagesSource.getAsFlow(LanguagesDataSource.Request(query = query))
-
-    override fun getQuarterlyInfo(index: String): Flow<Resource<SSQuarterlyInfo>> =
-        quarterlyInfoDataSource.getItemAsFlow(QuarterlyInfoDataSource.Request(index))
-            .filter { it.data?.lessons?.isNotEmpty() == true }
-            .onEach { resource ->
-                if (resource.isSuccessFul) {
-                    ssPrefs.setLastQuarterlyIndex(index)
-
-                    resource.data?.run {
-                        ssPrefs.setThemeColor(
-                            primary = quarterly.color_primary,
-                            primaryDark = quarterly.color_primary_dark
-                        )
-                        ssPrefs.setReadingLatestQuarterly(quarterly.isLatest)
-                    }
-                }
-            }
-
-    override fun getPublishingInfo(languageCode: String?): Flow<Resource<PublishingInfo>> {
-        val language = languageCode ?: ssPrefs.getLanguageCode()
-        val country = deviceHelper.country()
-
-        return publishingInfoDataSource.getItemAsFlow(PublishingInfoDataSource.Request(country, language))
-    }
-
-    override suspend fun getIntro(index: String): Result<LessonIntroModel?> {
-        return withContext(dispatcherProvider.io) {
-            val quarterly = quarterlyInfoDataSource
-                .cache
-                .getItem(QuarterlyInfoDataSource.Request(index))
-                .data?.quarterly
-            Result.success(
-                quarterly?.let {
-                    LessonIntroModel(
-                        index = it.index,
-                        title = quarterly.title,
-                        introduction = quarterly.introduction ?: quarterly.description
-                    )
-                }
-            )
-        }
-    }
-
-    private val SSQuarterly.isLatest: Boolean
-        get() {
-            val today = DateTime.now().withTimeAtStartOfDay()
-
-            val startDate = DateHelper.parseDate(start_date)
-            val endDate = DateHelper.parseDate(end_date)
-
-            return Interval(startDate, endDate?.plusDays(1)).contains(today)
-        }
 }

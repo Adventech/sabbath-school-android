@@ -27,6 +27,7 @@ import app.ss.models.PublishingInfo
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
+import app.ss.storage.db.dao.PublishingInfoDao
 import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.entity.QuarterlyEntity
 import kotlinx.coroutines.flow.Flow
@@ -35,20 +36,24 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.repository.QuarterliesRepositoryV2
 import ss.lessons.impl.ext.toModel
 import ss.lessons.impl.helper.SyncHelper
+import ss.misc.DeviceHelper
 import ss.prefs.api.SSPrefs
 import timber.log.Timber
 import javax.inject.Inject
 
 internal class QuarterliesRepositoryImpl @Inject constructor(
     private val quarterliesDao: QuarterliesDao,
+    private val publishingInfoDao: PublishingInfoDao,
     private val ssPrefs: SSPrefs,
     private val syncHelper: SyncHelper,
+    private val deviceHelper: DeviceHelper,
     private val dispatcherProvider: DispatcherProvider,
 ) : QuarterliesRepositoryV2, Scopable by ioScopable(dispatcherProvider) {
 
@@ -90,12 +95,30 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
         return group?.let { quarterliesDao.getFlow(code, it) } ?: quarterliesDao.getFlow(code)
     }
 
-    override fun getPublishingInfo(languageCode: String?): Flow<Result<PublishingInfo>> {
-        TODO("Not yet implemented")
-    }
+    override fun getPublishingInfo(languageCode: String?): Flow<Result<PublishingInfo?>> =
+        publishingInfoDao.get(deviceHelper.country(), languageCode ?: ssPrefs.getLanguageCode())
+            .map {
+                val info = it?.let { PublishingInfo(it.message, it.url) }
+                Result.success(info)
+            }
+            .onStart { syncHelper.syncPublishingInfo(deviceHelper.country(), languageCode ?: ssPrefs.getLanguageCode()) }
+            .flowOn(dispatcherProvider.io)
+            .catch {
+                Timber.e(it)
+                emit(Result.failure(it))
+            }
 
     override suspend fun getIntro(index: String): Result<LessonIntroModel?> {
-        TODO("Not yet implemented")
+        return withContext(dispatcherProvider.io) {
+            val introModel = quarterliesDao.getInfo(index)?.quarterly?.let {
+                LessonIntroModel(
+                    index = it.index,
+                    title = it.title,
+                    introduction = it.introduction ?: it.description
+                )
+            }
+            Result.success(introModel)
+        }
     }
 
 }
