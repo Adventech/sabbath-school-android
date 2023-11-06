@@ -256,6 +256,9 @@ private fun LessonsLazyColumn(
                                 introduction = quarterly.introduction ?: quarterly.description
                             )
                         )
+                    },
+                    offlineStateClick = {
+                        (quarterlyInfoState as? QuarterlyInfoState.Success)?.onOfflineStateClick?.invoke()
                     }
                 ),
                 publishingInfo = publishingInfo?.toSpec(

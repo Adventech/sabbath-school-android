@@ -22,16 +22,20 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,7 +46,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -54,10 +62,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -65,15 +78,16 @@ import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.thenIf
-import app.ss.design.compose.extensions.previews.DevicePreviews
+import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
-import app.ss.design.compose.widget.button.ButtonSpec
-import app.ss.design.compose.widget.button.SsButton
 import app.ss.design.compose.widget.button.SsButtonDefaults
 import app.ss.design.compose.widget.content.ContentBox
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.text.ReadMoreText
+import app.ss.models.OfflineState
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.PublishingInfoSpec
@@ -362,19 +376,7 @@ private fun ColumnScope.Content(
     }
 
     val readButton: @Composable () -> Unit = {
-        SsButton(
-            spec = ButtonSpec(
-                text = stringResource(id = L10n.string.ss_lessons_read),
-                colors = SsButtonDefaults.colors(
-                    containerColor = Color.parse(spec.colorDark)
-                ),
-                onClick = spec.readClick
-            ),
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .shadow(12.dp, RoundedCornerShape(20.dp))
-                .align(alignment)
-        )
+        ReadButton(spec = spec, alignment = alignment)
     }
 
     val featuresRow: @Composable () -> Unit = {
@@ -416,26 +418,125 @@ private fun ColumnScope.Content(
     }
 }
 
-@DevicePreviews
 @Composable
-private fun QuarterlyInfoPreview() {
-    SsTheme {
-        QuarterlyInfo(
-            spec = sampleSpec.copy(
-                splashImage = null
-            )
+private fun ColumnScope.ReadButton(
+    spec: QuarterlyInfoSpec,
+    alignment: Alignment.Horizontal
+) {
+    val buttonColors = SsButtonDefaults.colors(
+        containerColor = Color.parse(spec.colorDark)
+    )
+    val offlineStateIcon by remember(spec.offlineState) {
+        mutableStateOf(
+            when (spec.offlineState) {
+                OfflineState.PARTIAL,
+                OfflineState.NONE -> Icons.FileDownload
+
+                OfflineState.IN_PROGRESS -> null
+                OfflineState.COMPLETE -> Icons.FileDownloadDone
+            }
         )
+    }
+    Row(
+        modifier = Modifier
+            .defaultMinSize(minWidth = 140.dp)
+            .align(alignment)
+            .padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        ElevatedButton(
+            onClick = spec.readClick,
+            modifier = Modifier,
+            shape = readButtonShape,
+            colors = buttonColors,
+            elevation = ButtonDefaults.elevatedButtonElevation(readButtonElevation),
+            contentPadding = PaddingValues(horizontal = 30.dp)
+        ) {
+            Text(
+                text = stringResource(id = L10n.string.ss_lessons_read).uppercase(),
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Bold
+                )
+            )
+        }
+
+        Spacer(
+            Modifier
+                .size(width = 1.dp, height = 48.dp)
+                .padding(vertical = 4.dp)
+                .background(Color.parse(spec.color)),
+        )
+
+        FilledIconButton(
+            onClick = spec.offlineStateClick,
+            modifier = Modifier
+                .graphicsLayer { translationX = -12f },
+            containerColor = Color.parse(spec.colorDark),
+            contentColor = downloadButtonIconColor
+        ) {
+            AnimatedContent(
+                targetState = offlineStateIcon,
+                label = "download-icon"
+            ) { targetIcon ->
+                targetIcon?.let {
+                    IconBox(icon = it)
+                } ?: run {
+                    CircularProgressIndicator(
+                        modifier = Modifier.padding(4.dp),
+                        color = downloadButtonIconColor
+                    )
+                }
+            }
+        }
     }
 }
 
-@DevicePreviews
+private val readButtonElevation = 4.dp
+private val readButtonCornerRadius = 20.dp
+private val readButtonShape = RoundedCornerShape(topStart = readButtonCornerRadius, bottomStart = readButtonCornerRadius)
+private val downloadButtonIconColor = Color(0X80FFFFFF)
+private val downloadButtonShape = RoundedCornerShape(topEnd = readButtonCornerRadius, bottomEnd = readButtonCornerRadius)
+
 @Composable
-private fun QuarterlyInfoSplashPreview() {
+private fun FilledIconButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    shape: Shape = downloadButtonShape,
+    containerColor: Color = Color.Unspecified,
+    contentColor: Color = Color.Unspecified,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    content: @Composable () -> Unit
+) = Surface(
+    onClick = onClick,
+    modifier = modifier.semantics { role = Role.Button },
+    enabled = enabled,
+    shape = shape,
+    color = containerColor,
+    contentColor = contentColor,
+    shadowElevation = readButtonElevation,
+    interactionSource = interactionSource
+) {
+    Box(
+        modifier = Modifier.size(40.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        content()
+    }
+}
+
+@DayNightPreviews
+@Composable
+private fun ReadButtonPreview() {
     SsTheme {
-        QuarterlyInfo(
-            spec = sampleSpec,
-            modifier = Modifier
-        )
+        Surface {
+            Column {
+                ReadButton(
+                    spec = sampleSpec,
+                    alignment = Alignment.CenterHorizontally
+                )
+            }
+        }
     }
 }
 
@@ -446,6 +547,7 @@ private val sampleSpec = QuarterlyInfoSpec(
     color = "#ffaa00",
     colorDark = "#4B3521",
     splashImage = "splash",
+    offlineState = OfflineState.NONE,
     lessons = emptyList(),
     cover = "cover",
     features = emptyList()

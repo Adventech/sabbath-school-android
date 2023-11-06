@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -26,18 +26,22 @@ import androidx.compose.runtime.Immutable
 import app.ss.models.PublishingInfo
 import app.ss.models.SSQuarterlyInfo
 
-@Immutable
 sealed class PublishingInfoState {
+    @Immutable
     data class Success(val publishingInfo: PublishingInfo) : PublishingInfoState()
-    object Loading : PublishingInfoState()
-    object Error : PublishingInfoState()
+    data object Loading : PublishingInfoState()
+    data object Error : PublishingInfoState()
 }
 
-@Immutable
 sealed class QuarterlyInfoState {
-    data class Success(val quarterlyInfo: SSQuarterlyInfo) : QuarterlyInfoState()
-    object Loading : QuarterlyInfoState()
-    object Error : QuarterlyInfoState()
+    @Immutable
+    data class Success(
+        val quarterlyInfo: SSQuarterlyInfo,
+        val onOfflineStateClick: () -> Unit,
+    ) : QuarterlyInfoState()
+
+    data object Loading : QuarterlyInfoState()
+    data object Error : QuarterlyInfoState()
 }
 
 @Immutable
