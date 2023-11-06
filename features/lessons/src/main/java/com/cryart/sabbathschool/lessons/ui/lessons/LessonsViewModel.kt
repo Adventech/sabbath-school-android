@@ -29,6 +29,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.models.LessonPdf
+import app.ss.models.OfflineState
 import app.ss.models.PublishingInfo
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
@@ -53,6 +54,7 @@ import ss.lessons.api.repository.QuarterliesRepositoryV2
 import ss.misc.DateHelper
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
+import ss.workers.api.WorkScheduler
 import javax.inject.Inject
 import app.ss.translations.R as L10n
 
@@ -64,6 +66,7 @@ class LessonsViewModel @Inject constructor(
     private val lessonsRepository: LessonsRepository,
     private val ssPrefs: SSPrefs,
     private val appWidgetHelper: AppWidgetHelper,
+    private val workScheduler: WorkScheduler,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -105,7 +108,9 @@ class LessonsViewModel @Inject constructor(
             is Result.Error -> QuarterlyInfoState.Error
             Result.Loading -> QuarterlyInfoState.Loading
             is Result.Success -> quarterlyInfo.data?.let {
-                QuarterlyInfoState.Success(it)
+                QuarterlyInfoState.Success(it) {
+                    handleOfflineStateClick(it)
+                }
             } ?: QuarterlyInfoState.Error
         }
 
@@ -146,6 +151,15 @@ class LessonsViewModel @Inject constructor(
             primaryDark = quarterly.color_primary_dark
         )
         ssPrefs.setReadingLatestQuarterly(quarterly.isLatest)
+    }
+
+    private fun handleOfflineStateClick(info: SSQuarterlyInfo) {
+        when (info.quarterly.offlineState) {
+            OfflineState.IN_PROGRESS -> Unit
+            OfflineState.NONE,
+            OfflineState.PARTIAL,
+            OfflineState.COMPLETE -> workScheduler.syncQuarterly(info.quarterly.index)
+        }
     }
 
     private val SSQuarterly.isLatest: Boolean

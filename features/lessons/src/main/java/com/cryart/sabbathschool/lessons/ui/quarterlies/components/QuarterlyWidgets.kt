@@ -48,6 +48,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -447,6 +448,12 @@ private fun OfflineStateBox(
 ) {
     IconBox(
         icon = Icons.FileDownloadDone,
-        modifier = modifier
+        modifier = modifier,
+        contentColor = iconColor(SsTheme.colors.isDark)
     )
+}
+
+@Stable
+private fun iconColor(isDark: Boolean): Color {
+    return if (isDark) Color(0X29FFFFFF) else Color(0X29000000)
 }

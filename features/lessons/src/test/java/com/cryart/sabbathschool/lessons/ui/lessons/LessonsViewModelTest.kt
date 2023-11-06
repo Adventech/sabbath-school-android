@@ -48,6 +48,7 @@ import org.junit.Test
 import ss.foundation.coroutines.test.MainDispatcherRule
 import ss.lessons.api.repository.QuarterliesRepositoryV2
 import ss.prefs.api.SSPrefs
+import ss.workers.api.WorkScheduler
 
 private const val QUARTERLY_INDEX = "quarterly_index"
 
@@ -61,6 +62,7 @@ class LessonsViewModelTest {
     private val mockPrefs: SSPrefs = mockk()
     private val mockWidgetHelper: AppWidgetHelper = mockk()
     private val mockSavedStateHandle: SavedStateHandle = mockk()
+    private val mockWorkScheduler: WorkScheduler = mockk()
 
     private val publishingInfoFlow = MutableSharedFlow<Result<PublishingInfo>>(
         replay = 1,
@@ -86,6 +88,7 @@ class LessonsViewModelTest {
             lessonsRepository = mockLessonsRepository,
             ssPrefs = mockPrefs,
             appWidgetHelper = mockWidgetHelper,
+            workScheduler = mockWorkScheduler,
             savedStateHandle = mockSavedStateHandle
         )
     }
@@ -111,7 +114,7 @@ class LessonsViewModelTest {
                 isLoading = false,
                 isError = false,
                 publishingInfo = PublishingInfoState.Loading,
-                quarterlyInfo = QuarterlyInfoState.Success(mockQuarterlyInfo)
+                quarterlyInfo = QuarterlyInfoState.Success(mockQuarterlyInfo) {}
             )
 
             publishingInfoFlow.emit(Result.success(mockPublishingInfo))
@@ -120,7 +123,7 @@ class LessonsViewModelTest {
                 isLoading = false,
                 isError = false,
                 publishingInfo = PublishingInfoState.Success(mockPublishingInfo),
-                quarterlyInfo = QuarterlyInfoState.Success(mockQuarterlyInfo)
+                quarterlyInfo = QuarterlyInfoState.Success(mockQuarterlyInfo) {}
             )
         }
 

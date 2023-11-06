@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -24,6 +24,7 @@ package com.cryart.sabbathschool.lessons.ui.lessons.components.spec
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Immutable
+import app.ss.models.OfflineState
 import app.ss.models.SSLesson
 import app.ss.models.SSQuarterlyInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemSpec
@@ -42,15 +43,18 @@ internal data class QuarterlyInfoSpec(
     val colorDark: String,
     val cover: String,
     val splashImage: String?,
+    val offlineState: OfflineState,
     val lessons: List<LessonItemSpec>,
     val features: List<FeatureSpec> = emptyList(),
     val todayLessonIndex: String? = null,
     val readClick: () -> Unit = {},
-    val readMoreClick: () -> Unit = {}
+    val readMoreClick: () -> Unit = {},
+    val offlineStateClick: () -> Unit = {}
 )
 
 internal fun SSQuarterlyInfo.toSpec(
-    readMoreClick: () -> Unit = {}
+    readMoreClick: () -> Unit = {},
+    offlineStateClick: () -> Unit = {}
 ) = QuarterlyInfoSpec(
     title = quarterly.title,
     description = quarterly.description,
@@ -59,10 +63,12 @@ internal fun SSQuarterlyInfo.toSpec(
     colorDark = quarterly.color_primary_dark,
     cover = quarterly.cover,
     splashImage = quarterly.splash,
+    offlineState = quarterly.offlineState,
     lessons = lessons.map { it.toSpec() },
     features = quarterly.features.map { it.toSpec() },
     todayLessonIndex = findIndex(lessons),
-    readMoreClick = readMoreClick
+    readMoreClick = readMoreClick,
+    offlineStateClick = offlineStateClick
 )
 
 @VisibleForTesting
