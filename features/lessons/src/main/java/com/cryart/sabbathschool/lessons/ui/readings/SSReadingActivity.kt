@@ -183,7 +183,7 @@ class SSReadingActivity : SlidingActivity(), ShareableScreen {
         ContextMenuComponent(binding.ssContextMenu, ssReadingViewModel)
         OfflineStateComponent(binding.ssOffline, ssReadingViewModel, ssPrefs, this) { finish() }
         ErrorStateComponent(binding.ssErrorState, ssReadingViewModel, this) { finish() }
-        ProgressBarComponent(binding.ssProgressBar, ssReadingViewModel, this)
+        ProgressBarComponent(binding.ssProgressBar, ssReadingViewModel, ssPrefs, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
