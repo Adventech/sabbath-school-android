@@ -25,13 +25,15 @@ package com.cryart.sabbathschool.lessons.ui.readings
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.viewpager2.widget.ViewPager2
@@ -39,7 +41,6 @@ import app.ss.media.playback.PlaybackViewModel
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
 import coil.load
-import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.extensions.context.toWebUri
@@ -63,7 +64,9 @@ import ss.lessons.api.PdfReader
 import ss.misc.DateHelper
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
-import ss.prefs.model.colorTheme
+import ss.prefs.model.SSReadingDisplayOptions.Companion.SS_THEME_DARK
+import ss.prefs.model.SSReadingDisplayOptions.Companion.SS_THEME_LIGHT
+import ss.prefs.model.SSReadingDisplayOptions.Companion.SS_THEME_SEPIA
 import javax.inject.Inject
 import kotlin.math.abs
 import app.ss.translations.R as L10n
@@ -91,7 +94,7 @@ class SSReadingActivity : SlidingActivity(), ShareableScreen {
     private val playbackViewModel by viewModels<PlaybackViewModel>()
 
     private val indicatorComponent: PagesIndicatorComponent by lazy {
-        PagesIndicatorComponent(binding.ssReadingIndicator) { position ->
+        PagesIndicatorComponent(binding.ssReadingIndicator, ssPrefs) { position ->
             binding.ssReadingViewPager.setCurrentItem(position, true)
         }
     }
@@ -155,7 +158,6 @@ class SSReadingActivity : SlidingActivity(), ShareableScreen {
 
         with(binding.ssReadingViewPager) {
             val insetAnimator = KeyboardInsetsChangeAnimator(this)
-            WindowCompat.setDecorFitsSystemWindows(window, false)
             ViewCompat.setWindowInsetsAnimationCallback(this, insetAnimator)
             ViewCompat.setOnApplyWindowInsetsListener(this, insetAnimator)
         }
@@ -181,7 +183,7 @@ class SSReadingActivity : SlidingActivity(), ShareableScreen {
         ContextMenuComponent(binding.ssContextMenu, ssReadingViewModel)
         OfflineStateComponent(binding.ssOffline, ssReadingViewModel, ssPrefs, this) { finish() }
         ErrorStateComponent(binding.ssErrorState, ssReadingViewModel, this) { finish() }
-        ProgressBarComponent(binding.ssProgressBar, ssReadingViewModel, ssPrefs, this)
+        ProgressBarComponent(binding.ssProgressBar, ssReadingViewModel, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -265,8 +267,12 @@ class SSReadingActivity : SlidingActivity(), ShareableScreen {
         ssPrefs.displayOptionsFlow().collectIn(this) { displayOptions ->
             readingViewAdapter.readingOptions = displayOptions
             ssReadingViewModel.onSSReadingDisplayOptions(displayOptions)
-            indicatorComponent.update(displayOptions)
-            window.navigationBarColor = displayOptions.colorTheme(this@SSReadingActivity.isDarkTheme())
+            val statusBarStyle = when (displayOptions.theme) {
+                SS_THEME_LIGHT, SS_THEME_SEPIA -> SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
+                SS_THEME_DARK -> SystemBarStyle.dark(Color.TRANSPARENT)
+                else -> SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)
+            }
+            enableEdgeToEdge(statusBarStyle)
         }
 
         viewModel.audioAvailableFlow.collectIn(this) { available ->

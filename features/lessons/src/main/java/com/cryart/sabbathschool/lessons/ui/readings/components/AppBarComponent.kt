@@ -24,12 +24,18 @@ package com.cryart.sabbathschool.lessons.ui.readings.components
 
 import android.graphics.Color
 import android.view.View
+import androidx.core.view.iterator
 import androidx.lifecycle.LifecycleOwner
+import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
+import com.cryart.sabbathschool.core.extensions.view.tint
 import com.cryart.sabbathschool.lessons.databinding.SsReadingAppBarBinding
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel
 import com.cryart.sabbathschool.lessons.ui.readings.model.ReadingsState
 import ss.foundation.coroutines.flow.collectIn
 import ss.prefs.api.SSPrefs
+import ss.prefs.model.SSReadingDisplayOptions
+import ss.prefs.model.colorTheme
+import com.cryart.sabbathschool.lessons.R as LessonsR
 
 class AppBarComponent constructor(
     private val binding: SsReadingAppBarBinding,
@@ -37,23 +43,68 @@ class AppBarComponent constructor(
     ssPrefs: SSPrefs,
     owner: LifecycleOwner,
 ) {
+    private val visibleMenuIds = listOf(
+        LessonsR.id.ss_reading_menu_audio,
+        LessonsR.id.ss_reading_menu_video,
+        LessonsR.id.overflow,
+    )
+
+    private var isLifted = false
+    private lateinit var displayOptions: SSReadingDisplayOptions
 
     init {
-        binding.ssReadingCollapsingToolbar.run {
-            ssPrefs.getThemeColor().run {
-                setContentScrimColor(Color.parseColor(primary))
-                setBackgroundColor(Color.parseColor(primary))
-                setStatusBarScrimColor(Color.parseColor(primaryDark))
-            }
-        }
-
         viewModel.viewState.collectIn(owner) { state ->
             val visibility = when (state) {
                 is ReadingsState.Error,
                 ReadingsState.Loading -> View.INVISIBLE
+
                 is ReadingsState.Success -> View.VISIBLE
             }
             binding.root.visibility = visibility
         }
+
+        ssPrefs.displayOptionsFlow().collectIn(owner) { options ->
+            displayOptions = options
+            val color = options.colorTheme(isDarkTheme())
+            binding.ssReadingCollapsingToolbar.run {
+                setContentScrimColor(color)
+                setBackgroundColor(color)
+                setStatusBarScrimColor(color)
+                setCollapsedTitleTextColor(options.collapsedContentColor())
+            }
+        }
+
+        binding.ssReadingAppBarLayout.addOnOffsetChangedListener { appBarLayout, _ ->
+            if (appBarLayout.isLifted != isLifted) {
+                updateColors(appBarLayout.isLifted)
+            }
+        }
     }
+
+    private fun updateColors(isLifted: Boolean) {
+        this.isLifted = isLifted
+        val color = displayOptions.collapsedContentColor()
+        binding.ssReadingToolbar.run {
+            navigationIcon?.tint(color)
+            menu.iterator()
+                .asSequence()
+                .filter { visibleMenuIds.contains(it.itemId) }
+                .forEach { it.icon?.tint(color) }
+        }
+        binding.ssReadingCollapsingToolbar.setCollapsedTitleTextColor(color)
+    }
+
+    private fun SSReadingDisplayOptions.collapsedContentColor(): Int {
+        return when (theme) {
+            SSReadingDisplayOptions.SS_THEME_LIGHT, SSReadingDisplayOptions.SS_THEME_SEPIA -> if (isLifted) Color.BLACK else Color.WHITE
+            SSReadingDisplayOptions.SS_THEME_DARK -> Color.WHITE
+            else -> if (isLifted) {
+                if (isDarkTheme()) Color.WHITE else Color.BLACK
+            } else {
+                Color.WHITE
+            }
+        }
+    }
+
+    private fun isDarkTheme() = binding.root.context.isDarkTheme()
 }

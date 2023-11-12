@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2016 Adventech <info@adventech.io>
+  ~ Copyright (c) 2023. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
   ~
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -43,32 +43,43 @@
         tools:ignore="AlwaysShowAction" />
 
     <item
-        android:id="@+id/ss_reading_menu_pdf"
-        android:icon="@drawable/ic_round_article"
+        android:id="@+id/overflow"
+        android:icon="@drawable/ic_reading_menu_more"
         android:orderInCategory="100"
-        android:title="@string/ss_pdf_original"
-        android:visible="false"
-        app:showAsAction="never" />
+        android:title="@string/ss_more"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction">
+        <menu>
+            <item
+                android:id="@+id/ss_reading_menu_pdf"
+                android:icon="@drawable/ic_reading_menu_article"
+                android:orderInCategory="100"
+                android:title="@string/ss_pdf_original"
+                android:visible="false"
+                app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/ss_reading_menu_display_options"
-        android:icon="@drawable/ic_read_options"
-        android:orderInCategory="101"
-        android:title="@string/ss_settings_display_options"
-        app:showAsAction="never" />
+            <item
+                android:id="@+id/ss_reading_menu_display_options"
+                android:icon="@drawable/ic_reading_menu_read_options"
+                android:orderInCategory="101"
+                android:title="@string/ss_settings_display_options"
+                app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/ss_reading_menu_printed_resources"
-        android:icon="@drawable/ic_chevron_right_circle_outline"
-        android:orderInCategory="102"
-        android:title="@string/ss_get_printed_resources"
-        android:visible="false"
-        app:showAsAction="never" />
+            <item
+                android:id="@+id/ss_reading_menu_printed_resources"
+                android:icon="@drawable/ic_reading_menu_chevron_right"
+                android:orderInCategory="102"
+                android:title="@string/ss_get_printed_resources"
+                android:visible="false"
+                app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/ss_reading_menu_share"
-        android:icon="@drawable/ic_share"
-        android:orderInCategory="103"
-        android:title="@string/ss_share"
-        app:showAsAction="never" />
+            <item
+                android:id="@+id/ss_reading_menu_share"
+                android:icon="@drawable/ic_reading_menu_share"
+                android:orderInCategory="103"
+                android:title="@string/ss_share"
+                app:showAsAction="ifRoom" />
+        </menu>
+
+    </item>
 </menu>
