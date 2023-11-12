@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~ Copyright (c) 2023. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
   ~
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -50,7 +50,6 @@
     <string name="ss_lessons_read">"படிக்க"</string>
     <string name="ss_reading_empty">"நாம் இந்த பாடம் படித்து வருகிறோம். விரைவில் மீண்டும் சரிபார்க்கவும்."</string>
     <string name="ss_reading_error">"பாடம் திறக்கும்போது பிழை ஏற்பட்டது"</string>
-    <string name="ss_reading_downloading">"ஆஃப்லைன் வாசிப்புக்கான பாடம் பதிவிறக்குகிறது"</string>
     <string name="ss_reading_suggest_edit">"திருத்த அல்லது திருத்தம் பரிந்துரை"</string>
     <string name="ss_reading_suggest_edit_hint">"உங்கள் திருத்தம் அல்லது ஆலோசனையை விவரிக்கவும்"</string>
     <string name="ss_reading_suggest_edit_done">"நன்றி! உங்கள் பரிந்துரை மதிப்பாய்வு செய்யப்படும்."</string>

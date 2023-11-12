@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~ Copyright (c) 2023. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -14,7 +14,7 @@
   ~
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -52,7 +52,6 @@
     <string name="ss_lessons_read">"Lees"</string>
     <string name="ss_reading_empty">"Ons werk aan hierdie les. Gaan asseblief weer gou weer aan."</string>
     <string name="ss_reading_error">"Kon nie les oopmaak nie"</string>
-    <string name="ss_reading_downloading">"Laai les af vir vanlyn lees"</string>
     <string name="ss_reading_suggest_edit">"Stel redigeer of regstelling voor"</string>
     <string name="ss_reading_suggest_edit_hint">"Beskryf asseblief u regstelling of voorstel"</string>
     <string name="ss_reading_suggest_edit_done">"Dankie! Jou voorstel sal hersien word."</string>

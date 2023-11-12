@@ -53,7 +53,6 @@
     <string name="ss_lessons_read">"Llegir"</string>
     <string name="ss_reading_empty">"Sembla que aquesta lliçó està buida. Torna a provar-ho més tard"</string>
     <string name="ss_reading_error">"S'ha produït un error en obrir la lliçó"</string>
-    <string name="ss_reading_downloading">"S'està baixant la lliçó per fora de línia"</string>
     <string name="ss_reading_suggest_edit">"Suggereix edició o correcció"</string>
     <string name="ss_reading_suggest_edit_hint">"Descriu la teva correcció o suggeriment"</string>
     <string name="ss_reading_suggest_edit_done">"Gràcies! El vostre suggeriment serà revisat"</string>

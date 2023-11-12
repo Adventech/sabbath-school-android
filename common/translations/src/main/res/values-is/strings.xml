@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~ Copyright (c) 2023. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
   ~
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -51,7 +51,6 @@
     <string name="ss_lessons_read">"Lesa"</string>
     <string name="ss_reading_empty">"Við erum að vinna að þessari lexíu. Vinsamlegast athugaðu aftur fljótlega."</string>
     <string name="ss_reading_error">"Villa kom upp við opnun kennslustundar"</string>
-    <string name="ss_reading_downloading">"Niðurhal kennslustund fyrir lestur án nettengingar"</string>
     <string name="ss_reading_suggest_edit">"Leggja til breytinga eða leiðréttingar"</string>
     <string name="ss_reading_suggest_edit_hint">"Vinsamlegast lýsið leiðréttingu þinni eða uppástungu"</string>
     <string name="ss_reading_suggest_edit_done">"Þakka þér fyrir! Tillaga þín verður skoðuð."</string>
