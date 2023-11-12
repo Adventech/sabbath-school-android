@@ -54,20 +54,24 @@ import app.ss.design.compose.widget.pager.PagerIndicator
 import app.ss.design.compose.widget.pager.PagerState
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
+import ss.prefs.api.SSPrefs
 import ss.prefs.model.SSReadingDisplayOptions
 
 internal class PagesIndicatorComponent(
     composeView: ComposeView,
+    ssPrefs: SSPrefs,
     private val onClick: (Int) -> Unit
 ) {
     private val pageStateFlow = MutableStateFlow(PagerState(0, 0))
-    private val optionsFlow = MutableStateFlow(SSReadingDisplayOptions(composeView.context.isDarkTheme()))
 
     init {
         composeView.setContent {
             SsTheme {
                 val state by pageStateFlow.collectAsStateWithLifecycle()
-                val displayOptions by optionsFlow.collectAsStateWithLifecycle()
+                val displayOptions by ssPrefs.displayOptionsFlow().collectAsStateWithLifecycle(
+                    SSReadingDisplayOptions(composeView.context.isDarkTheme())
+                )
 
                 Content(
                     currentPage = state.currentPage,
@@ -80,11 +84,7 @@ internal class PagesIndicatorComponent(
     }
 
     fun update(total: Int, selected: Int) {
-        pageStateFlow.tryEmit(PagerState(selected, total))
-    }
-
-    fun update(displayOptions: SSReadingDisplayOptions) {
-        optionsFlow.tryEmit(displayOptions)
+        pageStateFlow.update { PagerState(selected, total) }
     }
 
 }
@@ -155,7 +155,7 @@ private fun Preview() {
             SSReadingDisplayOptions.SS_THEME_DARK,
             SSReadingDisplayOptions.SS_THEME_LIGHT,
             SSReadingDisplayOptions.SS_THEME_SEPIA,
-            SSReadingDisplayOptions.SS_THEME_DEFAULT
+            SSReadingDisplayOptions.SS_THEME_DEFAULT,
         )
 
         Surface {
