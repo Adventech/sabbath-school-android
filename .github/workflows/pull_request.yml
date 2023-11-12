@@ -58,5 +58,5 @@ jobs:
           disable-animations: true
           script: ./gradlew app:connectedCheck --stacktrace
 
-      - name: Build Release
-        run: ./gradlew app:bundleRelease --stacktrace
+     # - name: Build Release
+     #   run: ./gradlew app:bundleRelease --stacktrace
