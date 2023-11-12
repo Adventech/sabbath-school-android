@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~ Copyright (c) 2023. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -14,7 +14,7 @@
   ~
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -50,7 +50,6 @@
     <string name="ss_lessons_read">"ಓದಿ"</string>
     <string name="ss_reading_empty">"ನಾವು ಈ ಪಾಠದಲ್ಲಿ ಕೆಲಸ ಮಾಡುತ್ತಿದ್ದೇವೆ. ದಯವಿಟ್ಟು ಶೀಘ್ರದಲ್ಲಿಯೇ ಪರಿಶೀಲಿಸಿ."</string>
     <string name="ss_reading_error">"ಪಾಠ ತೆರೆಯುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ"</string>
-    <string name="ss_reading_downloading">"ಆಫ್ಲೈನ್ ಓದುವಿಕೆಗಾಗಿ ಪಾಠ ಡೌನ್ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ"</string>
     <string name="ss_reading_suggest_edit">"ಸಂಪಾದನೆ ಅಥವಾ ತಿದ್ದುಪಡಿಯನ್ನು ಸೂಚಿಸಿ"</string>
     <string name="ss_reading_suggest_edit_hint">"ದಯವಿಟ್ಟು ನಿಮ್ಮ ತಿದ್ದುಪಡಿ ಅಥವಾ ಸಲಹೆಯನ್ನು ವಿವರಿಸಿ"</string>
     <string name="ss_reading_suggest_edit_done">"ಧನ್ಯವಾದ! ನಿಮ್ಮ ಸಲಹೆಯನ್ನು ಪರಿಶೀಲಿಸಲಾಗುತ್ತದೆ."</string>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~ Copyright (c) 2023. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
   ~
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -49,7 +49,6 @@
     <string name="ss_lessons_read">"ဖတ်"</string>
     <string name="ss_reading_empty">"ငါတို့သည်ဤသင်ခန်းစာတွင်လုပ်ကိုင်နေကြသည်။ မကြာမီနောက်တဖန်စစ်ဆေးပါ။"</string>
     <string name="ss_reading_error">"သင်ခန်းစာဖွင့်လှစ်နေစဉ်အမှားဖြစ်ပွားခဲ့သည်"</string>
-    <string name="ss_reading_downloading">"အော့ဖ်လိုင်းစာဖတ်ခြင်းများအတွက်သင်ခန်းစာဒေါင်းလုဒ်လုပ်ခြင်း"</string>
     <string name="ss_reading_suggest_edit">"ပြင်ဆင်ရန်သို့မဟုတ်ဆုံးမခြင်းအကြံပြုရန်"</string>
     <string name="ss_reading_suggest_edit_hint">"သင့်ရဲ့ဆုံးမပဲ့ပြင်သို့မဟုတ်အကြံပြုချက်ကိုဖော်ပြရန် ကျေးဇူးပြု."</string>
     <string name="ss_reading_suggest_edit_done">"ကျေးဇူးတင်ပါတယ်! သင့်ရဲ့အကြံပြုချက်ပြန်လည်သုံးသပ်ပါလိမ့်မည်။"</string>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~ Copyright (c) 2023. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
   ~
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -54,7 +54,6 @@
     <string name="ss_lessons_read">"본문속으로"</string>
     <string name="ss_reading_empty">"우리는 지금 준비 중에 있습니다. 곧 다시 확인하십시오."</string>
     <string name="ss_reading_error">"교과를 여는 중에 오류가 발생했습니다."</string>
-    <string name="ss_reading_downloading">"오프라인일때를 위한 강의 다운로드"</string>
     <string name="ss_reading_suggest_edit">"수정 또는 수정 제안"</string>
     <string name="ss_reading_suggest_edit_hint">"귀하의 수정이나 제안을 설명해주십시오."</string>
     <string name="ss_reading_suggest_edit_done">"고맙습니다! 제안 사항이 검토될 것입니다."</string>

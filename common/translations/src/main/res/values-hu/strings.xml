@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~ Copyright (c) 2023. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -14,7 +14,7 @@
   ~
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -52,7 +52,6 @@
     <string name="ss_lessons_read">"Olvas"</string>
     <string name="ss_reading_empty">"Erre a leckére dolgozunk. Kérjük, ellenőrizze újra hamarosan."</string>
     <string name="ss_reading_error">"Hiba történt a lecke megnyitása közben"</string>
-    <string name="ss_reading_downloading">"Lecke letöltése offline olvasásra"</string>
     <string name="ss_reading_suggest_edit">"Javasoljon szerkesztést vagy javítást"</string>
     <string name="ss_reading_suggest_edit_hint">"Kérjük, írja le a korrekciót vagy javaslatot"</string>
     <string name="ss_reading_suggest_edit_done">"Köszönöm! Javaslata felülvizsgálatra kerül."</string>

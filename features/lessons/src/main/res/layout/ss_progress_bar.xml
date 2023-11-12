@@ -19,26 +19,9 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.compose.ui.platform.ComposeView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/composeView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/ss_progress_indicator"
-        android:layout_centerHorizontal="true"
-        android:text="@string/ss_reading_downloading" />
-
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/ss_progress_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="20dp"
-        android:indeterminate="true"
-        android:indeterminateBehavior="repeat" />
-</RelativeLayout>
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true" />
 

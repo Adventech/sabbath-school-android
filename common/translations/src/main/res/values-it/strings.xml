@@ -51,7 +51,6 @@
     <string name="ss_lessons_read">"Leggere"</string>
     <string name="ss_reading_empty">"Stiamo lavorando a questa lezione. Si prega di controllare di nuovo presto."</string>
     <string name="ss_reading_error">"Si è verificato un errore durante l'apertura della lezione"</string>
-    <string name="ss_reading_downloading">"Download di lezioni per la lettura offline"</string>
     <string name="ss_reading_suggest_edit">"Suggerisci modifica o correzione"</string>
     <string name="ss_reading_suggest_edit_hint">"Per favore descrivi la tua correzione o il tuo suggerimento"</string>
     <string name="ss_reading_suggest_edit_done">"Grazie! Il tuo suggerimento verrà esaminato."</string>
