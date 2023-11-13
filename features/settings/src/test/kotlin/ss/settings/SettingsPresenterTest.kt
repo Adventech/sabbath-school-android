@@ -29,6 +29,8 @@ import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
 import io.mockk.mockk
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
@@ -105,13 +107,15 @@ class SettingsPresenterTest {
 internal class TestRepository(
     private val entities: List<ListEntity>
 ) : SettingsRepository {
-    override fun buildEntities(
-        onEntityClick: (SettingsEntity) -> Unit
-    ): List<ListEntity> = entities
+    override fun entitiesFlow(onEntityClick: (SettingsEntity) -> Unit): Flow<List<ListEntity>> {
+        return flowOf(entities)
+    }
 
     override fun setReminderTime(hour: Int, minute: Int) = Unit
 
     override fun signOut() = Unit
 
     override fun deleteAccount() = Unit
+
+    override fun removeAllDownloads() = Unit
 }

@@ -89,25 +89,6 @@ internal abstract class DataSourceMediator<T, R>(
         }
     }
 
-    fun getItemAsFlow(request: R): Flow<Resource<T>> = flow {
-        val cacheResource = cache.getItem(request)
-        if (cacheResource.isSuccessFul) {
-            emit(cacheResource)
-        }
-
-        val network = safeNetworkGetItem { network.getItem(request) }
-        if (network.isSuccessFul) {
-            network.data?.let { cache.updateItem(it) }
-
-            emit(network)
-        }
-    }
-        .flowOn(dispatcherProvider.io)
-        .catch {
-            Timber.e(it)
-            emit(Resource.error(it))
-        }
-
     private suspend fun safeNetworkGetItem(call: suspend () -> Resource<T>): Resource<T> {
         return when (val resource = safeApiCall(connectivityHelper) { call() }) {
             is NetworkResource.Failure -> Resource.error(Throwable())

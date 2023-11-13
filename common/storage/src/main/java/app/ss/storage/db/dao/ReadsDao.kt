@@ -35,4 +35,10 @@ interface ReadsDao : BaseDao<ReadEntity> {
 
     @Query("SELECT * FROM reads WHERE `index` = :dayIndex")
     fun getAsFlow(dayIndex: String): Flow<ReadEntity?>
+
+    @Query("SELECT * FROM reads")
+    fun getAll(): Flow<List<ReadEntity>>
+
+    @Query("DELETE FROM reads")
+    suspend fun deleteAll()
 }

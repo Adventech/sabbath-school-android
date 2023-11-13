@@ -24,15 +24,17 @@ package ss.settings
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import app.ss.design.compose.extensions.list.ListEntity
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Navigator
-import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.parcelize.Parcelize
 import ss.circuit.helpers.factory.SettingsPresenterFactory
 import ss.circuit.helpers.factory.SettingsUiFactory
@@ -44,23 +46,26 @@ import javax.inject.Singleton
 object SettingsScreen : Screen, Parcelable {
 
     internal sealed interface Event : CircuitUiEvent {
-        object NavBack : Event
-        object OverlayDismiss : Event
-        object AccountDeleteConfirmed : Event
-        data class SetReminderTime(val hour: Int, val minute: Int): Event
+        data object NavBack : Event
+        data object OverlayDismiss : Event
+        data object AccountDeleteConfirmed : Event
+        data class SetReminderTime(val hour: Int, val minute: Int) : Event
+        data object RemoveDownloads : Event
     }
 
     @Immutable
     internal data class State(
-        val entities: List<ListEntity>,
+        val entities: ImmutableList<ListEntity>,
         val overlay: Overlay?,
         val eventSick: (Event) -> Unit,
     ) : CircuitUiState
 
+    @Stable
     internal sealed interface Overlay {
         @Immutable
-        data class SelectReminderTime(val hour: Int, val minute: Int): Overlay
-        object ConfirmDeleteAccount: Overlay
+        data class SelectReminderTime(val hour: Int, val minute: Int) : Overlay
+        data object ConfirmDeleteAccount : Overlay
+        data object ConfirmRemoveDownloads : Overlay
     }
 }
 

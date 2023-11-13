@@ -41,7 +41,7 @@ interface QuarterliesDao : BaseDao<QuarterlyEntity> {
     fun getFlow(language: String): Flow<List<QuarterlyEntity>>
 
     @Transaction
-    @Query("SELECT * FROM quarterlies WHERE offlineState = 'NONE' OR offlineState = 'PARTIAL'")
+    @Query("SELECT * FROM quarterlies")
     fun getAllForSync(): List<QuarterlyInfoEntity>
 
     @Query("SELECT * FROM quarterlies WHERE lang = :language AND quarterly_group = :group")

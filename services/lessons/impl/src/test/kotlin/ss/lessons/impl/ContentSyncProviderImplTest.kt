@@ -37,6 +37,7 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 import org.junit.runner.RunWith
+import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.lessons.impl.helper.FakeSyncHelper
 import ss.lessons.test.FakeLessonsApi
 import ss.lessons.test.FakePdfReader
@@ -55,7 +56,8 @@ class ContentSyncProviderImplTest {
         lessonsDao = fakeLessonsDao,
         pdfReader = fakePdfReader,
         lessonsApi = FakeLessonsApi(),
-        syncHelper = FakeSyncHelper()
+        syncHelper = FakeSyncHelper(),
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     private val quarterlyEntity = QuarterlyEntity(

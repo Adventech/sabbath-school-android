@@ -23,6 +23,8 @@
 package ss.lessons.test
 
 import androidx.annotation.VisibleForTesting
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import ss.lessons.api.ContentSyncProvider
 
 /** Fake implementation of [ContentSyncProvider]. **/
@@ -42,4 +44,8 @@ class FakeContentSyncProvider : ContentSyncProvider {
     }
 
     override suspend fun syncQuarterlies(): Result<Unit> = defaultSyncResult!!
+
+    override suspend fun removeAllDownloads(): Result<Unit> = defaultSyncResult!!
+
+    override fun hasDownloads(): Flow<Boolean> = flowOf(true)
 }

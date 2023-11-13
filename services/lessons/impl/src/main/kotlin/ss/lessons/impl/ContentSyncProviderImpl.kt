@@ -29,6 +29,10 @@ import app.ss.storage.db.dao.QuarterliesDao
 import app.ss.storage.db.dao.ReadsDao
 import app.ss.storage.db.entity.LessonEntity
 import app.ss.storage.db.entity.QuarterlyEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
+import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ContentSyncProvider
 import ss.lessons.api.PdfReader
 import ss.lessons.api.SSLessonsApi
@@ -46,6 +50,7 @@ internal class ContentSyncProviderImpl @Inject constructor(
     private val pdfReader: PdfReader,
     private val lessonsApi: SSLessonsApi,
     private val syncHelper: SyncHelper,
+    private val dispatcherProvider: DispatcherProvider,
 ) : ContentSyncProvider {
 
     override suspend fun syncQuarterlies(): Result<Unit> {
@@ -103,6 +108,12 @@ internal class ContentSyncProviderImpl @Inject constructor(
         }
     }
 
+    override suspend fun removeAllDownloads(): Result<Unit> {
+        lessonsDao.deleteAll()
+        readsDao.deleteAll()
+        return syncQuarterlies()
+    }
+
     private suspend fun SSLessonInfo.downloadContent() {
         lessonsDao.updateInfo(
             lesson.index,
@@ -124,4 +135,8 @@ internal class ContentSyncProviderImpl @Inject constructor(
             }
         }
     }
+
+    override fun hasDownloads(): Flow<Boolean> = combine(lessonsDao.getAll(), readsDao.getAll()) { lessons, reads ->
+        lessons.isNotEmpty() && reads.isNotEmpty()
+    }.flowOn(dispatcherProvider.io)
 }

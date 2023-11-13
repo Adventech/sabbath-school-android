@@ -22,6 +22,7 @@
 
 package ss.settings.repository
 
+import app.cash.turbine.test
 import app.ss.auth.AuthRepository
 import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.config.AppConfig
@@ -30,11 +31,13 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
 import ss.foundation.coroutines.test.TestDispatcherProvider
+import ss.lessons.test.FakeContentSyncProvider
 import ss.prefs.api.SSPrefs
 import ss.prefs.model.ReminderTime
 import ss.settings.DailyReminder
@@ -46,6 +49,7 @@ class SettingsRepositoryTest {
     private val mockDailyReminder: DailyReminder = mockk()
     private val mockAuthRepository: AuthRepository = mockk()
     private val mockUserRepository: UserDataRepository = mockk()
+    private val fakeContentSyncProvider = FakeContentSyncProvider()
 
     private lateinit var repository: SettingsRepository
 
@@ -53,7 +57,8 @@ class SettingsRepositoryTest {
     fun setup() {
         every { mockAppConfig.version }.returns("1.0.0")
         every { mockPrefs.reminderEnabled() }.returns(false)
-        every { mockPrefs.getReminderTime() }.returns(ReminderTime(8, 0))
+        every { mockPrefs.reminderTimeFlow() }.returns(flowOf(ReminderTime(8, 0)))
+        every { mockUserRepository.hasDownloads() }.returns(flowOf(true))
 
         repository = SettingsRepositoryImpl(
             context = mockk(),
@@ -62,15 +67,18 @@ class SettingsRepositoryTest {
             dailyReminder = mockDailyReminder,
             authRepository = mockAuthRepository,
             dispatcherProvider = TestDispatcherProvider(),
-            userDataRepository = mockUserRepository
+            userDataRepository = mockUserRepository,
+            contentSyncProvider = fakeContentSyncProvider,
         )
     }
 
     @Test
-    fun `should return entities`() {
-        val entities = repository.buildEntities {}
-
-        entities.size shouldBeEqualTo 14
+    fun `should return entities`() = runTest {
+        repository.entitiesFlow { }.test {
+            awaitItem().size shouldBeEqualTo 16
+            awaitComplete()
+            ensureAllEventsConsumed()
+        }
     }
 
     @Test

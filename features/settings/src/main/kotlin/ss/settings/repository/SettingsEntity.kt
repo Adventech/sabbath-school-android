@@ -28,16 +28,17 @@ import app.ss.translations.R as L10nR
 internal sealed interface SettingsEntity {
 
     sealed class About(@StringRes val resId: Int) : SettingsEntity {
-        object Facebook : About(L10nR.string.ss_settings_facebook_url)
-        object Github : About(L10nR.string.ss_settings_github_url)
-        object Instagram : About(L10nR.string.ss_settings_instagram_url)
-        object Version : About(L10nR.string.ss_app_playstore_url)
-        object Website : About(L10nR.string.ss_settings_website_url)
+        data object Facebook : About(L10nR.string.ss_settings_facebook_url)
+        data object Github : About(L10nR.string.ss_settings_github_url)
+        data object Instagram : About(L10nR.string.ss_settings_instagram_url)
+        data object Version : About(L10nR.string.ss_app_playstore_url)
+        data object Website : About(L10nR.string.ss_settings_website_url)
     }
 
     sealed interface Account: SettingsEntity {
-        object Delete : Account
-        object SignOut : Account
+        data object Delete : Account
+        data object DeleteContent : Account
+        data object SignOut : Account
     }
 
     sealed interface Reminder : SettingsEntity {

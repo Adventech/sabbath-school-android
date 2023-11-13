@@ -48,6 +48,10 @@ class FakeReadsDao : ReadsDao {
     override fun getAsFlow(dayIndex: String): Flow<ReadEntity?> = readsFlow
         .map { entities -> entities.firstOrNull { it.index == dayIndex } }
 
+    override fun getAll(): Flow<List<ReadEntity>> = readsFlow
+
+    override suspend fun deleteAll() = Unit
+
     override suspend fun insertItem(item: ReadEntity) = Unit
 
     override suspend fun insertAll(items: List<ReadEntity>) = Unit
