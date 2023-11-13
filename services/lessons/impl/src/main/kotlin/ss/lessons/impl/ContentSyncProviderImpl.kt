@@ -103,6 +103,12 @@ internal class ContentSyncProviderImpl @Inject constructor(
         }
     }
 
+    override suspend fun removeAllDownloads(): Result<Unit> {
+        lessonsDao.deleteAll()
+        readsDao.deleteAll()
+        return syncQuarterlies()
+    }
+
     private suspend fun SSLessonInfo.downloadContent() {
         lessonsDao.updateInfo(
             lesson.index,

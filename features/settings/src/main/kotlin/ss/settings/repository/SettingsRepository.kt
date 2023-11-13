@@ -33,10 +33,13 @@ import app.ss.design.compose.widget.icon.ResIcon
 import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.config.AppConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
+import ss.lessons.api.ContentSyncProvider
 import ss.misc.SSConstants
 import ss.misc.SSHelper
 import ss.prefs.api.SSPrefs
@@ -49,13 +52,16 @@ import javax.inject.Singleton
 import app.ss.translations.R as L10nR
 
 internal interface SettingsRepository {
-    fun buildEntities(onEntityClick: (SettingsEntity) -> Unit): List<ListEntity>
+
+    fun entitiesFlow(onEntityClick: (SettingsEntity) -> Unit): Flow<List<ListEntity>>
 
     fun setReminderTime(hour: Int, minute: Int)
 
     fun signOut()
 
     fun deleteAccount()
+
+    fun removeAllDownloads()
 }
 
 @Singleton
@@ -67,9 +73,21 @@ internal class SettingsRepositoryImpl @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val prefs: SSPrefs,
     private val userDataRepository: UserDataRepository,
+    private val contentSyncProvider: ContentSyncProvider,
 ) : SettingsRepository, Scopable by ioScopable(dispatcherProvider) {
 
-    override fun buildEntities(
+    override fun entitiesFlow(
+        onEntityClick: (SettingsEntity) -> Unit
+    ): Flow<List<ListEntity>> = combine(
+        userDataRepository.hasDownloads(),
+        prefs.reminderTimeFlow()
+    ) { hasDownloads, reminderTime ->
+        buildEntities(hasDownloads, reminderTime, onEntityClick)
+    }
+
+    private fun buildEntities(
+        hasDownloads: Boolean,
+        reminderTime: ReminderTime,
         onEntityClick: (SettingsEntity) -> Unit
     ): List<ListEntity> = listOf(
         PrefListEntity.Section(
@@ -93,10 +111,9 @@ internal class SettingsRepositoryImpl @Inject constructor(
             enabled = prefs.reminderEnabled(),
             icon = Icons.Clock,
             title = ContentSpec.Res(L10nR.string.ss_settings_reminder_time),
-            summary = ContentSpec.Str(formattedReminderTime()),
+            summary = ContentSpec.Str(reminderTime.formattedTime()),
             onClick = {
-                val time = prefs.getReminderTime()
-                onEntityClick(SettingsEntity.Reminder.Time(time.hour, time.min))
+                onEntityClick(SettingsEntity.Reminder.Time(reminderTime.hour, reminderTime.min))
             }
         ),
 
@@ -168,6 +185,16 @@ internal class SettingsRepositoryImpl @Inject constructor(
             onClick = { onEntityClick(SettingsEntity.Account.Delete) },
             withWarning = true
         ),
+
+        DividerEntity(id = "divider-three"),
+
+        PrefListEntity.Generic(
+            id = "downloads-delete",
+            enabled = hasDownloads,
+            title = ContentSpec.Res(L10nR.string.ss_delete_downloads),
+            onClick = { onEntityClick(SettingsEntity.Account.DeleteContent) },
+            withWarning = true
+        ),
     )
 
     override fun setReminderTime(hour: Int, minute: Int) {
@@ -184,16 +211,19 @@ internal class SettingsRepositoryImpl @Inject constructor(
     }
 
     override fun deleteAccount() {
-       scope.launch {
-           authRepository.deleteAccount()
-           userDataRepository.clear()
-       }
+        scope.launch {
+            authRepository.deleteAccount()
+            userDataRepository.clear()
+        }
     }
 
-    private fun formattedReminderTime(): String {
-        val time = prefs.getReminderTime()
+    override fun removeAllDownloads() {
+        scope.launch { contentSyncProvider.removeAllDownloads() }
+    }
+
+    private fun ReminderTime.formattedTime(): String {
         return SSHelper.parseTimeAndReturnInFormat(
-            String.format(Locale.getDefault(), "%02d:%02d", time.hour, time.min),
+            String.format(Locale.getDefault(), "%02d:%02d", hour, min),
             SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT,
             DateFormat.getTimeFormat(context)
         )

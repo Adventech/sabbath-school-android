@@ -42,4 +42,6 @@ class FakeContentSyncProvider : ContentSyncProvider {
     }
 
     override suspend fun syncQuarterlies(): Result<Unit> = defaultSyncResult!!
+
+    override suspend fun removeAllDownloads(): Result<Unit> = defaultSyncResult!!
 }

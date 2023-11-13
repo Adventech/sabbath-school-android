@@ -26,17 +26,18 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import app.ss.design.compose.extensions.list.ListEntity
 import com.cryart.sabbathschool.core.navigation.Destination
+import com.slack.circuit.retained.produceRetainedState
+import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.collections.immutable.toImmutableList
 import ss.circuit.helpers.navigator.AndroidScreen
 import ss.settings.SettingsScreen.Event
 import ss.settings.SettingsScreen.Overlay
@@ -52,15 +53,16 @@ internal class SettingsPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): State {
-        var isSwitchChecked: Boolean? by rememberSaveable { mutableStateOf(null) }
-        var overlay: Overlay? by rememberSaveable { mutableStateOf(null) }
+        var isSwitchChecked by rememberRetained { mutableStateOf<Boolean?>(null) }
+        var overlay by rememberRetained { mutableStateOf<Overlay?>(null) }
 
-        val entities by produceState<List<ListEntity>>(emptyList(), isSwitchChecked, overlay) {
-            value = repository.buildEntities { entity ->
+        val entities by produceRetainedState<List<ListEntity>>(emptyList(), isSwitchChecked, overlay) {
+            repository.entitiesFlow { entity ->
                 when (entity) {
                     SettingsEntity.Account.Delete -> {
                         overlay = Overlay.ConfirmDeleteAccount
                     }
+
                     SettingsEntity.Account.SignOut -> {
                         repository.signOut()
                         with(navigator) {
@@ -68,23 +70,33 @@ internal class SettingsPresenter @AssistedInject constructor(
                             pop()
                         }
                     }
+
                     is SettingsEntity.Reminder.Switch -> {
                         isSwitchChecked = entity.isChecked
                     }
+
                     is SettingsEntity.Reminder.Time -> {
                         overlay = Overlay.SelectReminderTime(entity.hour, entity.minute)
                     }
+
                     is SettingsEntity.About -> {
                         val event = AndroidScreen.CustomTabsIntentScreen(context.getString(entity.resId))
                         navigator.goTo(event)
                     }
+
+                    SettingsEntity.Account.DeleteContent -> {
+                        overlay = Overlay.ConfirmRemoveDownloads
+                    }
                 }
-            }
+            }.collect { value = it }
         }
-        return State(entities, overlay) { event ->
+        return State(entities.toImmutableList(), overlay) { event ->
             when (event) {
                 Event.NavBack -> navigator.pop()
-                Event.OverlayDismiss -> { overlay = null }
+                Event.OverlayDismiss -> {
+                    overlay = null
+                }
+
                 Event.AccountDeleteConfirmed -> {
                     overlay = null
                     repository.deleteAccount()
@@ -93,8 +105,14 @@ internal class SettingsPresenter @AssistedInject constructor(
                         pop()
                     }
                 }
+
                 is Event.SetReminderTime -> {
                     repository.setReminderTime(event.hour, event.minute)
+                    overlay = null
+                }
+
+                Event.RemoveDownloads -> {
+                    repository.removeAllDownloads()
                     overlay = null
                 }
             }

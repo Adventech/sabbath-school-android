@@ -49,4 +49,10 @@ interface LessonsDao : BaseDao<LessonEntity> {
         fullPath: String,
         pdfOnly: Boolean,
     )
+
+    @Query("SELECT * FROM lessons")
+    fun getAll(): Flow<List<LessonEntity>>
+
+    @Query("DELETE FROM lessons")
+    suspend fun deleteAll()
 }

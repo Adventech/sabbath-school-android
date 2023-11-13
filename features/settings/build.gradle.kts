@@ -45,6 +45,7 @@ dependencies {
     implementation(projects.common.translations)
     implementation(projects.libraries.circuitHelpers.api)
     implementation(projects.libraries.foundation.coroutines)
+    implementation(projects.libraries.lessons.api)
 
     implementation(libs.androidx.activity.compose)
 
@@ -54,7 +55,7 @@ dependencies {
     implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
-    kaptTest(libs.google.hilt.compiler)
     testImplementation(projects.libraries.testUtils)
     testImplementation(projects.libraries.foundation.coroutines.test)
+    testImplementation(projects.libraries.lessons.test)
 }

@@ -32,6 +32,7 @@ interface SSPrefs {
     fun displayOptionsFlow(): Flow<SSReadingDisplayOptions>
     fun setDisplayOptions(ssReadingDisplayOptions: SSReadingDisplayOptions)
     fun getReminderTime(): ReminderTime
+    fun reminderTimeFlow(): Flow<ReminderTime>
     fun setReminderTime(time: ReminderTime)
     fun getLanguageCode(): String
     fun getLanguageCodeFlow(): Flow<String>

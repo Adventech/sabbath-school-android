@@ -67,7 +67,8 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
                 setOf(
                     SSConstants.SS_SETTINGS_THEME_KEY,
                     SSConstants.SS_SETTINGS_SIZE_KEY,
-                    SSConstants.SS_SETTINGS_FONT_KEY
+                    SSConstants.SS_SETTINGS_FONT_KEY,
+                    SSConstants.SS_SETTINGS_REMINDER_TIME_KEY,
                 )
             )
         )
@@ -129,11 +130,25 @@ internal class SSPrefsImpl(
         return ReminderTime(hour, min)
     }
 
-    override fun setReminderTime(time: ReminderTime) = sharedPreferences.edit {
-        putString(
-            SSConstants.SS_SETTINGS_REMINDER_TIME_KEY,
-            String.format(Locale.getDefault(), "%02d:%02d", time.hour, time.min)
-        )
+    override fun reminderTimeFlow(): Flow<ReminderTime> = preferencesFlow()
+        .map { preferences ->
+            val timeStr = preferences[stringPreferencesKey(SSConstants.SS_SETTINGS_REMINDER_TIME_KEY)] ?: SSConstants.SS_SETTINGS_REMINDER_TIME_DEFAULT_VALUE
+            val hour = SSHelper.parseHourFromString(timeStr, SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT)
+            val min = SSHelper.parseMinuteFromString(timeStr, SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT)
+            ReminderTime(hour, min)
+        }
+
+    override fun setReminderTime(time: ReminderTime) {
+        val formattedTime = String.format(Locale.getDefault(), "%02d:%02d", time.hour, time.min)
+        sharedPreferences.edit {
+            putString(SSConstants.SS_SETTINGS_REMINDER_TIME_KEY, formattedTime)
+        }
+
+        scope.launch {
+            dataStore.edit { settings ->
+                settings[stringPreferencesKey(SSConstants.SS_SETTINGS_REMINDER_TIME_KEY)] = formattedTime
+            }
+        }
     }
 
     override fun getLanguageCode(): String {

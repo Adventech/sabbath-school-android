@@ -127,5 +127,7 @@
     <string name="ss_delete_account">Delete account</string>
     <string name="ss_delete_account_question">Delete account?</string>
     <string name="ss_delete_account_warning">By deleting your account all your data, such as comments and highlights will be permanently deleted. Are you sure you want to proceed?</string>
+    <string name="ss_delete_downloads" translatable="false">Remove all downloads</string>
+    <string name="ss_delete_downloads_confirm" translatable="false">By removing all downloads you will lose all the lessons content currently saved offline. Are you sure you want to proceed?</string>
 
 </resources>

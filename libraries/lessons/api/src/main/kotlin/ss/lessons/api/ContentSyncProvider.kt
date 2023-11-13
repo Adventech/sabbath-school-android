@@ -35,4 +35,7 @@ interface ContentSyncProvider {
      * Downloads all content for this quarterly and makes it available offline.
      */
     suspend fun syncQuarterly(index: String): Result<Unit>
+
+    /** Removes all downloaded content. */
+    suspend fun removeAllDownloads(): Result<Unit>
 }

@@ -61,6 +61,10 @@ class FakeLessonsDao : LessonsDao {
         pdfOnly: Boolean
     ) = Unit
 
+    override fun getAll(): Flow<List<LessonEntity>> = lessonsFlow
+
+    override suspend fun deleteAll() = Unit
+
     override suspend fun insertItem(item: LessonEntity) = Unit
 
     override suspend fun insertAll(items: List<LessonEntity>) = Unit

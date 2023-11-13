@@ -27,14 +27,17 @@ import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
+import app.ss.storage.db.dao.LessonsDao
 import app.ss.storage.db.dao.PdfAnnotationsDao
 import app.ss.storage.db.dao.ReadCommentsDao
 import app.ss.storage.db.dao.ReadHighlightsDao
+import app.ss.storage.db.dao.ReadsDao
 import app.ss.storage.db.entity.PdfAnnotationsEntity
 import app.ss.storage.db.entity.ReadCommentsEntity
 import app.ss.storage.db.entity.ReadHighlightsEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -59,6 +62,8 @@ internal class UserDataRepositoryImpl @Inject constructor(
     private val readHighlightsDao: ReadHighlightsDao,
     private val readCommentsDao: ReadCommentsDao,
     private val pdfAnnotationsDao: PdfAnnotationsDao,
+    private val lessonsDao: LessonsDao,
+    private val readsDao: ReadsDao,
     private val ssPrefs: SSPrefs,
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper,
@@ -226,6 +231,10 @@ internal class UserDataRepositoryImpl @Inject constructor(
             ssPrefs.clear()
         }
     }
+
+    override fun hasDownloads(): Flow<Boolean> = combine(lessonsDao.getAll(), readsDao.getAll()) { lessons, reads ->
+        lessons.isNotEmpty() && reads.isNotEmpty()
+    }.flowOn(dispatcherProvider.io)
 
     private fun Long.isAfter(other: Long?): Boolean {
         other ?: return true
