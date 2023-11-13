@@ -79,7 +79,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
     override fun entitiesFlow(
         onEntityClick: (SettingsEntity) -> Unit
     ): Flow<List<ListEntity>> = combine(
-        userDataRepository.hasDownloads(),
+        contentSyncProvider.hasDownloads(),
         prefs.reminderTimeFlow()
     ) { hasDownloads, reminderTime ->
         buildEntities(hasDownloads, reminderTime, onEntityClick)

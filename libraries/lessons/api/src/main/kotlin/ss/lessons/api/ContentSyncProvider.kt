@@ -22,6 +22,8 @@
 
 package ss.lessons.api
 
+import kotlinx.coroutines.flow.Flow
+
 /** Responsible for content offline sync. */
 interface ContentSyncProvider {
 
@@ -38,4 +40,6 @@ interface ContentSyncProvider {
 
     /** Removes all downloaded content. */
     suspend fun removeAllDownloads(): Result<Unit>
+
+    fun hasDownloads(): Flow<Boolean>
 }

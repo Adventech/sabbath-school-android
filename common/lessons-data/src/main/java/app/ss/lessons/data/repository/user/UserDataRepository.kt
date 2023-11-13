@@ -48,6 +48,4 @@ interface UserDataRepository {
      * Clears all cached user data.
      */
     suspend fun clear()
-
-    fun hasDownloads(): Flow<Boolean>
 }
