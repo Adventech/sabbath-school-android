@@ -57,7 +57,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
     private val readerArtifactHelper: ReaderArtifactHelper
 ) : LessonsRepository {
 
-    private val today = DateTime.now().withTimeAtStartOfDay()
+    private val today get() = DateTime.now().withTimeAtStartOfDay()
 
     override suspend fun getLessonInfo(lessonIndex: String, cached: Boolean): Resource<SSLessonInfo> {
         return if (cached) {

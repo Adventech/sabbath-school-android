@@ -72,7 +72,7 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
 ) : LessonsRepositoryV2, Scopable by ioScopable(dispatcherProvider) {
 
-    private val today = DateTime.now().withTimeAtStartOfDay()
+    private val today get() = DateTime.now().withTimeAtStartOfDay()
 
     override fun getLessonInfo(
         lessonIndex: String
