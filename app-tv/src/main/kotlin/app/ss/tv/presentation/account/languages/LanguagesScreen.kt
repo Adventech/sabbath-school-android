@@ -20,30 +20,28 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation.account.languages
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.Circuit
-import com.slack.circuit.foundation.CircuitCompositionLocals
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import app.ss.tv.data.model.LanguageSpec
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.screen.Screen
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.parcelize.Parcelize
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+@Parcelize
+object LanguagesScreen : Screen {
 
-    @Inject
-    lateinit var circuit: Circuit
+    sealed interface State : CircuitUiState {
+        data object Error : State
+        data object Loading : State
+        data class Languages(
+            val languages: ImmutableList<LanguageSpec>,
+            val eventSink: (Event) -> Unit
+        ) : State
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            CircuitCompositionLocals(circuit = circuit) { TvApp() }
-        }
+    sealed interface Event : CircuitUiEvent {
+        data class OnSelected(val spec: LanguageSpec) : Event
     }
 }

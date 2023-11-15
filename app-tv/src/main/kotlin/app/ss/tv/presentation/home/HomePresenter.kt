@@ -24,24 +24,24 @@ package app.ss.tv.presentation.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
-import app.ss.tv.data.model.CategorySpec
-import app.ss.tv.data.model.VideoSpec
-import app.ss.tv.data.repository.VideosRepository
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import app.ss.tv.presentation.Screens
+import app.ss.tv.presentation.account.AccountScreen
 import app.ss.tv.presentation.home.HomeScreen.Event
 import app.ss.tv.presentation.home.HomeScreen.State
-import app.ss.tv.presentation.player.VideoPlayerScreen
+import app.ss.tv.presentation.videos.VideosScreen
+import com.slack.circuit.foundation.onNavEvent
+import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuit.runtime.screen.Screen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.collections.immutable.toImmutableList
-import ss.lessons.model.VideosInfoModel
 
 class HomePresenter @AssistedInject constructor(
-    private val repository: VideosRepository,
     @Assisted private val navigator: Navigator,
 ) : Presenter<State> {
 
@@ -52,41 +52,21 @@ class HomePresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): State {
-        val videosInfo by produceState<List<VideosInfoModel>?>(emptyList()) {
-            value = repository.getVideos().getOrNull()
-        }
+        val selectedIndex by rememberRetained { mutableIntStateOf(0) }
+        var currentScreen by rememberRetained { mutableStateOf<Screen>(VideosScreen) }
 
-        val eventSink: (Event) -> Unit = remember {
-            { event ->
-                when (event) {
-                    is Event.OnVideoClick -> navigator.goTo(VideoPlayerScreen(event.video))
-                    Event.OnBack -> navigator.pop()
+        return State(selectedIndex, currentScreen) { event ->
+            when (event) {
+                is Event.OnTopBarScreen -> {
+                    currentScreen = when (event.screen) {
+                        Screens.Account -> AccountScreen
+                        Screens.Videos -> VideosScreen
+                    }
                 }
+
+                Event.OnBack -> navigator.pop()
+                is Event.OnNavEvent -> navigator.onNavEvent(event.event)
             }
         }
-
-        return when {
-            videosInfo == null -> State.Error(eventSink)
-            videosInfo?.isEmpty() == true -> State.Loading(eventSink)
-            else -> State.Videos(mapVideos(videosInfo!!), eventSink)
-        }
     }
-
-    private fun mapVideos(
-        videosInfo: List<VideosInfoModel>
-    ) = videosInfo.mapIndexed { index, model ->
-        CategorySpec(
-            id = "$index",
-            title = model.artist,
-            videos = model.clips.map { video ->
-                VideoSpec(
-                    id = video.id,
-                    title = video.title,
-                    artist = video.artist,
-                    src = video.src,
-                    thumbnail = video.thumbnail
-                )
-            }.toImmutableList()
-        )
-    }.toImmutableList()
 }

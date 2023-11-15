@@ -20,30 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.Circuit
-import com.slack.circuit.foundation.CircuitCompositionLocals
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import androidx.compose.ui.graphics.vector.ImageVector
+import app.ss.translations.R as L10nR
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+enum class Screens(
+    val titleRes: Int,
+    val tabIcon: ImageVector? = null,
+    val isTabItem: Boolean = false,
+) {
+    Account(titleRes = L10nR.string.ss_account),
+    Videos(titleRes = L10nR.string.ss_media_videos, isTabItem = true),
 
-    @Inject
-    lateinit var circuit: Circuit
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            CircuitCompositionLocals(circuit = circuit) { TvApp() }
-        }
-    }
+    ;
 }

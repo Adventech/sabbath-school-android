@@ -22,10 +22,11 @@
 
 package app.ss.tv.data.repository
 
-import androidx.compose.runtime.Immutable
+import ss.lessons.model.SSLanguage
 import ss.lessons.model.VideosInfoModel
 
-@Immutable
 interface VideosRepository {
     suspend fun getVideos(language: String = "en"): Result<List<VideosInfoModel>>
+
+    suspend fun getLanguages(): Result<List<SSLanguage>>
 }

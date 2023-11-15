@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.home.ui
+package app.ss.tv.presentation.videos.ui
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.BorderStroke
@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -49,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.tv.foundation.PivotOffsets
 import androidx.tv.foundation.lazy.list.TvLazyColumn
 import androidx.tv.foundation.lazy.list.TvLazyListScope
+import androidx.tv.foundation.lazy.list.TvLazyListState
 import androidx.tv.foundation.lazy.list.TvLazyRow
 import androidx.tv.foundation.lazy.list.itemsIndexed
 import androidx.tv.foundation.lazy.list.rememberTvLazyListState
@@ -59,27 +61,38 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.StandardCardLayout
 import androidx.tv.material3.Text
 import app.ss.tv.presentation.extentions.asPlaceholder
-import app.ss.tv.presentation.home.HomeScreen.Event
-import app.ss.tv.presentation.home.HomeScreen.State
 import app.ss.tv.presentation.theme.BorderWidth
 import app.ss.tv.presentation.theme.Padding
 import app.ss.tv.presentation.theme.SsCardShape
 import app.ss.tv.presentation.theme.rememberChildPadding
 import app.ss.tv.presentation.utils.FocusGroup
+import app.ss.tv.presentation.videos.VideosScreen.Event
+import app.ss.tv.presentation.videos.VideosScreen.State
 
 @Composable
-fun HomeUiContent(
+fun VideosUiContent(
     state: State,
     modifier: Modifier = Modifier,
-    focusItemEvent: (Int) -> Unit = {}
+    tvLazyListState: TvLazyListState = rememberTvLazyListState(),
+    focusItemEvent: (Int) -> Unit = {},
 ) {
     var immersiveListHasFocus by remember { mutableStateOf(false) }
     var currentItemIndex by remember { mutableIntStateOf(0) }
-    val listState = rememberTvLazyListState()
+
+    val shouldShowTopBar by remember {
+        derivedStateOf {
+            tvLazyListState.firstVisibleItemIndex == 0 &&
+                tvLazyListState.firstVisibleItemScrollOffset < 300
+        }
+    }
+
+    LaunchedEffect(shouldShowTopBar) {
+        state.eventSink(Event.OnScroll(shouldShowTopBar))
+    }
 
     TvLazyColumn(
         modifier = modifier.fillMaxSize(),
-        state = listState,
+        state = tvLazyListState,
         pivotOffsets = PivotOffsets(0f, 0f)
     ) {
 
@@ -115,7 +128,7 @@ fun HomeUiContent(
     }
 
     LaunchedEffect(currentItemIndex) {
-        listState.scrollToItem(currentItemIndex)
+        tvLazyListState.scrollToItem(currentItemIndex)
     }
 }
 

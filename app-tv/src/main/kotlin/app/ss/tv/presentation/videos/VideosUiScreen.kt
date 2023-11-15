@@ -20,30 +20,32 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation.videos
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.Circuit
-import com.slack.circuit.foundation.CircuitCompositionLocals
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
+import app.ss.tv.presentation.theme.SSTvTheme
+import app.ss.tv.presentation.videos.VideosScreen.State
+import app.ss.tv.presentation.videos.ui.VideosUiContent
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+@Composable
+fun VideosUiScreen(state: State, modifier: Modifier = Modifier) {
+    VideosUiContent(
+        state = state,
+        modifier = modifier.fillMaxSize(),
+    )
+}
 
-    @Inject
-    lateinit var circuit: Circuit
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            CircuitCompositionLocals(circuit = circuit) { TvApp() }
-        }
+@Preview(
+    name = "Home",
+    device = Devices.TV_1080p
+)
+@Composable
+fun HomePreview() {
+    SSTvTheme {
+        VideosUiScreen(state = State.Loading {})
     }
 }

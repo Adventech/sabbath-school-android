@@ -20,30 +20,22 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation.account
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.Circuit
-import com.slack.circuit.foundation.CircuitCompositionLocals
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.screen.Screen
+import kotlinx.parcelize.Parcelize
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+@Parcelize
+object AccountScreen : Screen {
 
-    @Inject
-    lateinit var circuit: Circuit
+    data class State(
+        val accountScreen: AccountScreens,
+        val eventSink: (Event) -> Unit
+    ) : CircuitUiState
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            CircuitCompositionLocals(circuit = circuit) { TvApp() }
-        }
+    sealed interface Event : CircuitUiEvent {
+        data class OnNav(val screen: AccountScreens) : Event
     }
 }

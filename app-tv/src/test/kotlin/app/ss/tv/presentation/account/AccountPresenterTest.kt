@@ -20,30 +20,28 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation.account
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.Circuit
-import com.slack.circuit.foundation.CircuitCompositionLocals
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import com.slack.circuit.test.test
+import kotlinx.coroutines.test.runTest
+import org.amshove.kluent.shouldBeEqualTo
+import org.junit.Test
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+/** Unit tests for [AccountPresenter]. */
+class AccountPresenterTest {
 
-    @Inject
-    lateinit var circuit: Circuit
+    private val underTest = AccountPresenter()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
+    @Test
+    fun `present - screen update`() = runTest {
+        underTest.test {
+            var state = awaitItem()
+            state.accountScreen shouldBeEqualTo AccountScreens.About
 
-        setContent {
-            CircuitCompositionLocals(circuit = circuit) { TvApp() }
+            state.eventSink(AccountScreen.Event.OnNav(AccountScreens.Language))
+
+            state = awaitItem()
+            state.accountScreen shouldBeEqualTo AccountScreens.Language
         }
     }
 }

@@ -20,30 +20,13 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.data.model
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.Circuit
-import com.slack.circuit.foundation.CircuitCompositionLocals
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import androidx.compose.runtime.Immutable
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var circuit: Circuit
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            CircuitCompositionLocals(circuit = circuit) { TvApp() }
-        }
-    }
-}
+@Immutable
+data class LanguageSpec(
+    val code: String,
+    val name: String,
+    val selected: Boolean
+)

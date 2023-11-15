@@ -22,12 +22,10 @@
 
 package app.ss.tv.presentation
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import app.ss.tv.presentation.home.HomeScreen
 import app.ss.tv.presentation.theme.SSTvTheme
 import com.slack.circuit.backstack.rememberSaveableBackStack
-import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
 
@@ -35,11 +33,11 @@ import com.slack.circuit.foundation.rememberCircuitNavigator
  * Entry-point for the Sabbath School TV app.
  */
 @Composable
-fun TvApp(circuit: Circuit, onBackPress: () -> Unit) {
+fun TvApp() {
     SSTvTheme {
         val backstack = rememberSaveableBackStack { push(HomeScreen) }
-        BackHandler(onBack = onBackPress)
         val navigator = rememberCircuitNavigator(backstack)
-        NavigableCircuitContent(navigator, backstack, circuit = circuit)
+
+        NavigableCircuitContent(navigator, backstack)
     }
 }

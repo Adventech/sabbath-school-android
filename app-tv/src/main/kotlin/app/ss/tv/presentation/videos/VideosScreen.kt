@@ -20,30 +20,39 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation.videos
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.Circuit
-import com.slack.circuit.foundation.CircuitCompositionLocals
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import android.os.Parcelable
+import androidx.compose.runtime.Immutable
+import app.ss.tv.data.model.CategorySpec
+import app.ss.tv.data.model.VideoSpec
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.screen.Screen
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.parcelize.Parcelize
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+@Parcelize
+object VideosScreen : Screen, Parcelable {
 
-    @Inject
-    lateinit var circuit: Circuit
+    sealed interface Event : CircuitUiEvent {
+        data object OnBack : Event
+        data class OnVideoClick(val video: VideoSpec) : Event
+        data class OnScroll(val isTopAppBarVisible: Boolean) : Event
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
+    sealed interface State : CircuitUiState {
 
-        setContent {
-            CircuitCompositionLocals(circuit = circuit) { TvApp() }
-        }
+        val eventSink: (Event) -> Unit
+
+        data class Loading(override val eventSink: (Event) -> Unit) : State
+
+        data class Error(override val eventSink: (Event) -> Unit) : State
+
+        @Immutable
+        data class Videos(
+            val categories: ImmutableList<CategorySpec>,
+            override val eventSink: (Event) -> Unit
+        ) : State
     }
 }

@@ -20,30 +20,34 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation.account
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.Circuit
-import com.slack.circuit.foundation.CircuitCompositionLocals
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import app.ss.tv.presentation.account.AccountScreen.Event
+import app.ss.tv.presentation.account.AccountScreen.State
+import com.slack.circuit.retained.rememberRetained
+import com.slack.circuit.runtime.presenter.Presenter
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class AccountPresenter @AssistedInject constructor() : Presenter<State> {
 
-    @Inject
-    lateinit var circuit: Circuit
+    @AssistedFactory
+    interface Factory {
+        fun create(): AccountPresenter
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
+    @Composable
+    override fun present(): State {
+        var currentScreen by rememberRetained { mutableStateOf(AccountScreens.About) }
 
-        setContent {
-            CircuitCompositionLocals(circuit = circuit) { TvApp() }
+        return State(currentScreen) { event ->
+            when (event) {
+                is Event.OnNav -> currentScreen = event.screen
+            }
         }
     }
 }

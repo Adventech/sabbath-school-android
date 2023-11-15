@@ -20,30 +20,24 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation.account.about
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.Circuit
-import com.slack.circuit.foundation.CircuitCompositionLocals
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import androidx.compose.runtime.Composable
+import app.ss.models.config.AppConfig
+import app.ss.tv.presentation.account.about.AboutScreen.State
+import com.slack.circuit.runtime.presenter.Presenter
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class AboutScreenPresenter @AssistedInject constructor(
+    private val appConfig: AppConfig,
+) : Presenter<State> {
 
-    @Inject
-    lateinit var circuit: Circuit
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            CircuitCompositionLocals(circuit = circuit) { TvApp() }
-        }
+    @AssistedFactory
+    interface Factory {
+        fun create(): AboutScreenPresenter
     }
+
+    @Composable
+    override fun present(): State = State(appConfig.version)
 }

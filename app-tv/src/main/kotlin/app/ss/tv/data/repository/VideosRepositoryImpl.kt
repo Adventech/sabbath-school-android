@@ -25,8 +25,10 @@ package app.ss.tv.data.repository
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.SSMediaApi
+import ss.lessons.model.SSLanguage
 import ss.lessons.model.VideosInfoModel
 import timber.log.Timber
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,8 +39,9 @@ class VideosRepositoryImpl @Inject constructor(
 ) : VideosRepository {
 
     private var videoCache: MutableMap<String, List<VideosInfoModel>> = mutableMapOf()
+    private var languagesCache: List<SSLanguage> = emptyList()
 
-    override suspend fun getVideos(language: String): Result<List<VideosInfoModel>> = withContext(dispatcherProvider.io) {
+    override suspend fun getVideos(language: String): Result<List<VideosInfoModel>> = withContext(dispatcherProvider.default) {
         return@withContext videoCache[language]?.let { Result.success(it) } ?: run {
             try {
                 val response = mediaApi.getLatestVideo(language)
@@ -52,6 +55,35 @@ class VideosRepositoryImpl @Inject constructor(
                 Timber.e(throwable)
                 Result.failure(throwable)
             }
+        }
+    }
+
+    override suspend fun getLanguages(): Result<List<SSLanguage>> = withContext(dispatcherProvider.default) {
+        return@withContext languagesCache.takeIf { it.isNotEmpty() }?.let {
+            Result.success(it)
+        } ?: run {
+            try {
+                val response = mediaApi.getVideoLanguages()
+                val languages = response.body()?.toModel() ?: emptyList()
+                if (languages.isNotEmpty()) {
+                    languagesCache = languages
+                }
+                Result.success(languages)
+            } catch (throwable: Throwable) {
+                Timber.e(throwable)
+                Result.failure(throwable)
+            }
+        }
+    }
+
+    private fun List<String>.toModel(): List<SSLanguage> {
+        return map { code ->
+            val loc = Locale(code)
+            val name = loc.getDisplayLanguage(loc).takeUnless { it == code } ?: ""
+            SSLanguage(
+                code = code,
+                name = name.replaceFirstChar { it.uppercase() }
+            )
         }
     }
 }

@@ -20,30 +20,25 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation.account
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.Circuit
-import com.slack.circuit.foundation.CircuitCompositionLocals
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import androidx.annotation.StringRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.Translate
+import androidx.compose.ui.graphics.vector.ImageVector
+import app.ss.tv.presentation.account.about.AboutScreen
+import app.ss.tv.presentation.account.languages.LanguagesScreen
+import com.slack.circuit.runtime.screen.Screen
+import app.ss.translations.R as L10nR
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+enum class AccountScreens(
+    val icon: ImageVector,
+    @StringRes val title: Int,
+    val circuitScreen: Screen
+) {
+    About(Icons.Rounded.Info, L10nR.string.ss_about, AboutScreen),
+    Language(Icons.Rounded.Translate, L10nR.string.ss_languages, LanguagesScreen),
 
-    @Inject
-    lateinit var circuit: Circuit
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            CircuitCompositionLocals(circuit = circuit) { TvApp() }
-        }
-    }
+    ;
 }

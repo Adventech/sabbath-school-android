@@ -22,36 +22,25 @@
 
 package app.ss.tv.presentation.home
 
-import android.os.Parcelable
-import androidx.compose.runtime.Immutable
-import app.ss.tv.data.model.CategorySpec
-import app.ss.tv.data.model.VideoSpec
+import app.ss.tv.presentation.Screens
+import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-object HomeScreen : Screen, Parcelable {
+object HomeScreen : Screen {
+
+    data class State(
+        val selectedIndex: Int,
+        val currentScreen: Screen,
+        val eventSink: (Event) -> Unit
+    ) : CircuitUiState
 
     sealed interface Event : CircuitUiEvent {
         data object OnBack : Event
-        data class OnVideoClick(val video: VideoSpec) : Event
-    }
-
-    sealed interface State : CircuitUiState {
-
-        val eventSink: (Event) -> Unit
-
-        data class Loading(override val eventSink: (Event) -> Unit) : State
-
-        data class Error(override val eventSink: (Event) -> Unit) : State
-
-        @Immutable
-        data class Videos(
-            val categories: ImmutableList<CategorySpec>,
-            override val eventSink: (Event) -> Unit
-        ) : State
+        data class OnTopBarScreen(val screen: Screens) : Event
+        data class OnNavEvent(val event: NavEvent) : Event
     }
 }

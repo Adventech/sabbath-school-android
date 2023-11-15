@@ -20,30 +20,29 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation.account.about
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
-import com.slack.circuit.foundation.Circuit
-import com.slack.circuit.foundation.CircuitCompositionLocals
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import app.ss.models.config.AppConfig
+import com.slack.circuit.test.test
+import kotlinx.coroutines.test.runTest
+import org.amshove.kluent.shouldBeEqualTo
+import org.junit.Test
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+/** Unit tests for [AboutScreenPresenter]. */
+class AboutScreenPresenterTest {
 
-    @Inject
-    lateinit var circuit: Circuit
+    private val version = "1.0.0"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-        super.onCreate(savedInstanceState)
+    private val underTest = AboutScreenPresenter(
+        appConfig = AppConfig(version = version, webClientId = "")
+    )
 
-        setContent {
-            CircuitCompositionLocals(circuit = circuit) { TvApp() }
+    @Test
+    fun `present - app version`() = runTest {
+        underTest.test {
+            awaitItem() shouldBeEqualTo AboutScreen.State(version)
+
+            ensureAllEventsConsumed()
         }
     }
 }
