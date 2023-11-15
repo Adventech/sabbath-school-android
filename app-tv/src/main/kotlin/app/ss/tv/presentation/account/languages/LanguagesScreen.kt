@@ -20,13 +20,28 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package app.ss.tv.presentation.account.languages
 
-import ss.lessons.model.SSLanguage
-import ss.lessons.model.VideosInfoModel
+import app.ss.tv.data.model.LanguageSpec
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.screen.Screen
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.parcelize.Parcelize
 
-interface VideosRepository {
-    suspend fun getVideos(language: String = "en"): Result<List<VideosInfoModel>>
+@Parcelize
+object LanguagesScreen : Screen {
 
-    suspend fun getLanguages(): Result<List<SSLanguage>>
+    sealed interface State : CircuitUiState {
+        data object Error : State
+        data object Loading : State
+        data class Languages(
+            val languages: ImmutableList<LanguageSpec>,
+            val eventSink: (Event) -> Unit
+        ) : State
+    }
+
+    sealed interface Event : CircuitUiEvent {
+        data class OnSelected(val spec: LanguageSpec) : Event
+    }
 }

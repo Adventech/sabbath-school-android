@@ -20,13 +20,13 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package app.ss.tv.data.model
 
-import ss.lessons.model.SSLanguage
-import ss.lessons.model.VideosInfoModel
+import androidx.compose.runtime.Immutable
 
-interface VideosRepository {
-    suspend fun getVideos(language: String = "en"): Result<List<VideosInfoModel>>
-
-    suspend fun getLanguages(): Result<List<SSLanguage>>
-}
+@Immutable
+data class LanguageSpec(
+    val code: String,
+    val name: String,
+    val selected: Boolean
+)
