@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.dashboard
+package app.ss.tv.presentation.home
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -46,7 +46,7 @@ import androidx.tv.material3.MaterialTheme
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-fun DashboardTopBarItemIndicator(
+fun TopBarItemIndicator(
     currentTabPosition: DpRect,
     modifier: Modifier = Modifier,
     activeColor: Color = Color(0xFFE5E1E6),

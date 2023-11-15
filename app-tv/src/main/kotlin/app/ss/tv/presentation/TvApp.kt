@@ -23,7 +23,7 @@
 package app.ss.tv.presentation
 
 import androidx.compose.runtime.Composable
-import app.ss.tv.presentation.dashboard.DashboardScreen
+import app.ss.tv.presentation.home.HomeScreen
 import app.ss.tv.presentation.theme.SSTvTheme
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.NavigableCircuitContent
@@ -35,7 +35,7 @@ import com.slack.circuit.foundation.rememberCircuitNavigator
 @Composable
 fun TvApp() {
     SSTvTheme {
-        val backstack = rememberSaveableBackStack { push(DashboardScreen) }
+        val backstack = rememberSaveableBackStack { push(HomeScreen) }
         val navigator = rememberCircuitNavigator(backstack)
 
         NavigableCircuitContent(navigator, backstack)

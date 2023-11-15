@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.dashboard
+package app.ss.tv.presentation.home
 
 import app.ss.tv.presentation.Screens
 import com.slack.circuit.foundation.NavEvent
@@ -30,17 +30,17 @@ import com.slack.circuit.runtime.screen.Screen
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-object DashboardScreen : Screen {
+object HomeScreen : Screen {
 
     data class State(
         val selectedIndex: Int,
-        val circuitScreen: Screen,
+        val currentScreen: Screen,
         val eventSink: (Event) -> Unit
     ) : CircuitUiState
 
     sealed interface Event : CircuitUiEvent {
         data object OnBack : Event
-        data class OnScreenEvent(val screen: Screens) : Event
+        data class OnTopBarScreen(val screen: Screens) : Event
         data class OnNavEvent(val event: NavEvent) : Event
     }
 }

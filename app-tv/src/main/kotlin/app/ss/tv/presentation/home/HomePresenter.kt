@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.dashboard
+package app.ss.tv.presentation.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,7 +29,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import app.ss.tv.presentation.Screens
 import app.ss.tv.presentation.account.AccountScreen
-import app.ss.tv.presentation.dashboard.DashboardScreen.State
+import app.ss.tv.presentation.home.HomeScreen.Event
+import app.ss.tv.presentation.home.HomeScreen.State
 import app.ss.tv.presentation.videos.VideosScreen
 import com.slack.circuit.foundation.onNavEvent
 import com.slack.circuit.retained.rememberRetained
@@ -40,13 +41,13 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
-class DashboardPresenter @AssistedInject constructor(
+class HomePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
 ) : Presenter<State> {
 
     @AssistedFactory
     interface Factory {
-        fun create(navigator: Navigator): DashboardPresenter
+        fun create(navigator: Navigator): HomePresenter
     }
 
     @Composable
@@ -56,15 +57,15 @@ class DashboardPresenter @AssistedInject constructor(
 
         return State(selectedIndex, currentScreen) { event ->
             when (event) {
-                is DashboardScreen.Event.OnScreenEvent -> {
+                is Event.OnTopBarScreen -> {
                     currentScreen = when (event.screen) {
                         Screens.Account -> AccountScreen
                         Screens.Videos -> VideosScreen
                     }
                 }
 
-                DashboardScreen.Event.OnBack -> navigator.pop()
-                is DashboardScreen.Event.OnNavEvent -> navigator.onNavEvent(event.event)
+                Event.OnBack -> navigator.pop()
+                is Event.OnNavEvent -> navigator.onNavEvent(event.event)
             }
         }
     }

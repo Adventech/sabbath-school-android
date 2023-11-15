@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.dashboard
+package app.ss.tv.presentation.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -80,7 +80,7 @@ private const val ACCOUNT_SCREEN_INDEX = -1
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalTvMaterial3Api::class)
 @Composable
-fun DashboardTopBar(
+fun HomeTopBar(
     modifier: Modifier = Modifier,
     selectedTabIndex: Int,
     screens: List<Screens> = TopBarTabs,
@@ -120,7 +120,7 @@ fun DashboardTopBar(
                     selectedTabIndex = selectedTabIndex,
                     indicator = { tabPositions, _ ->
                         if (selectedTabIndex >= 0) {
-                            DashboardTopBarItemIndicator(
+                            TopBarItemIndicator(
                                 currentTabPosition = tabPositions[selectedTabIndex],
                                 anyTabFocused = isTabRowFocused,
                                 shape = SsCardShape.copy(CornerSize(24.dp))
@@ -191,6 +191,6 @@ fun DashboardTopBar(
 @Composable
 private fun Preview() {
     SSTvTheme {
-        DashboardTopBar(selectedTabIndex = 0) {}
+        HomeTopBar(selectedTabIndex = 0) {}
     }
 }

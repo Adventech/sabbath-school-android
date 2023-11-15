@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.dashboard
+package app.ss.tv.presentation.home
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateIntAsState
@@ -52,13 +52,13 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import app.ss.tv.presentation.dashboard.DashboardScreen.Event
-import app.ss.tv.presentation.dashboard.DashboardScreen.State
+import app.ss.tv.presentation.home.HomeScreen.Event
+import app.ss.tv.presentation.home.HomeScreen.State
 import app.ss.tv.presentation.theme.ParentPadding
 import com.slack.circuit.foundation.CircuitContent
 
 @Composable
-fun DashboardScreenUi(state: State, modifier: Modifier = Modifier) {
+fun HomeScreenUi(state: State, modifier: Modifier = Modifier) {
     val density = LocalDensity.current
     val focusManager = LocalFocusManager.current
     var isTopBarVisible by remember { mutableStateOf(true) }
@@ -120,7 +120,7 @@ fun DashboardScreenUi(state: State, modifier: Modifier = Modifier) {
             }
         }
 
-        DashboardTopBar(
+        HomeTopBar(
             modifier = Modifier
                 .offset { IntOffset(x = 0, y = topBarYOffsetPx) }
                 .onSizeChanged { topBarHeightPx = it.height }
@@ -129,10 +129,10 @@ fun DashboardScreenUi(state: State, modifier: Modifier = Modifier) {
                     horizontal = ParentPadding.calculateStartPadding(LocalLayoutDirection.current) + 8.dp,
                 ),
             selectedTabIndex = currentTopBarSelectedTabIndex,
-        ) { screen -> state.eventSink(Event.OnScreenEvent(screen)) }
+        ) { screen -> state.eventSink(Event.OnTopBarScreen(screen)) }
 
         CircuitContent(
-            screen = state.circuitScreen,
+            screen = state.currentScreen,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = contentTopPaddingDp),

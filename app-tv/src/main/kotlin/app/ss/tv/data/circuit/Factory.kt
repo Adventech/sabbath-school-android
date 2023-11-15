@@ -31,9 +31,9 @@ import app.ss.tv.presentation.account.about.AboutUiScreen
 import app.ss.tv.presentation.account.languages.LanguagesPresenter
 import app.ss.tv.presentation.account.languages.LanguagesScreen
 import app.ss.tv.presentation.account.languages.LanguagesScreenUi
-import app.ss.tv.presentation.dashboard.DashboardPresenter
-import app.ss.tv.presentation.dashboard.DashboardScreen
-import app.ss.tv.presentation.dashboard.DashboardScreenUi
+import app.ss.tv.presentation.home.HomePresenter
+import app.ss.tv.presentation.home.HomeScreen
+import app.ss.tv.presentation.home.HomeScreenUi
 import app.ss.tv.presentation.player.VideoPlayerPresenter
 import app.ss.tv.presentation.player.VideoPlayerScreen
 import app.ss.tv.presentation.player.VideoPlayerUiScreen
@@ -54,7 +54,7 @@ interface SSUiFactory : Ui.Factory
 class SSPresenterFactoryImpl @Inject constructor(
     private val aboutPresenter: AboutScreenPresenter.Factory,
     private val accountPresenter: AccountPresenter.Factory,
-    private val dashboardPresenter: DashboardPresenter.Factory,
+    private val homePresenter: HomePresenter.Factory,
     private val languagesPresenter: LanguagesPresenter.Factory,
     private val videosPresenter: VideosPresenter.Factory,
     private val videoPlayerPresenter: VideoPlayerPresenter.Factory,
@@ -68,7 +68,7 @@ class SSPresenterFactoryImpl @Inject constructor(
         return when (screen) {
             is AboutScreen -> aboutPresenter.create()
             is AccountScreen -> accountPresenter.create()
-            is DashboardScreen -> dashboardPresenter.create(navigator)
+            is HomeScreen -> homePresenter.create(navigator)
             is LanguagesScreen -> languagesPresenter.create()
             is VideosScreen -> videosPresenter.create(navigator)
             is VideoPlayerScreen -> videoPlayerPresenter.create(screen, navigator)
@@ -88,8 +88,8 @@ internal class SSUiFactoryImpl @Inject constructor() : SSUiFactory {
                 AccountUiScreen(state, modifier)
             }
 
-            is DashboardScreen -> ui<DashboardScreen.State> { state, modifier ->
-                DashboardScreenUi(state, modifier)
+            is HomeScreen -> ui<HomeScreen.State> { state, modifier ->
+                HomeScreenUi(state, modifier)
             }
 
             is LanguagesScreen -> ui<LanguagesScreen.State> { state, modifier ->
