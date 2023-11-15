@@ -47,6 +47,7 @@
     <string name="ss_quarterlies_error">"Unknown error occurred. Please try again"</string>
     <string name="ss_quarterlies_empty">"It looks like there are no quarterlies at the moment"</string>
     <string name="ss_quarterly_item_read_text">"Open"</string>
+    <string name="ss_languages" translatable="false">Languages</string>
     <string name="ss_lessons_downloading">"Opening quarterly…"</string>
     <string name="ss_lessons_error">"Error occurred while opening quarterly"</string>
     <string name="ss_lessons_empty">"It looks like there are no lessons at the moment"</string>
@@ -107,7 +108,7 @@
     <string name="ss_media_notification_channel_description" translatable="false">Shows what media is currently playing</string>
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
-    <string name="ss_media_videos">Videos</string>
+    <string name="ss_media_videos" translatable="false">Videos</string>
 
     <string name="ss_pdf_original">Original layout</string>
     <string name="ss_get_printed_resources">Get Printed Resources</string>

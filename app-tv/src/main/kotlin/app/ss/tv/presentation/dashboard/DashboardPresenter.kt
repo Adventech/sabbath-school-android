@@ -28,12 +28,14 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import app.ss.tv.presentation.Screens
+import app.ss.tv.presentation.account.AccountScreen
 import app.ss.tv.presentation.dashboard.DashboardScreen.State
 import app.ss.tv.presentation.videos.VideosScreen
 import com.slack.circuit.foundation.onNavEvent
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuit.runtime.screen.Screen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -49,18 +51,16 @@ class DashboardPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): State {
-        var selectedIndex by rememberRetained { mutableIntStateOf(0) }
-        val currentScreen by rememberRetained { mutableStateOf(VideosScreen) }
+        val selectedIndex by rememberRetained { mutableIntStateOf(0) }
+        var currentScreen by rememberRetained { mutableStateOf<Screen>(VideosScreen) }
 
         return State(selectedIndex, currentScreen) { event ->
             when (event) {
                 is DashboardScreen.Event.OnScreenEvent -> {
-                    when (event.screen) {
-                        Screens.Account -> Unit
-                        Screens.Videos -> selectedIndex = 0
+                    currentScreen = when (event.screen) {
+                        Screens.Account -> AccountScreen
+                        Screens.Videos -> VideosScreen
                     }
-                    // Switch to Different screen later
-                    // Right now we only show videos
                 }
 
                 DashboardScreen.Event.OnBack -> navigator.pop()
