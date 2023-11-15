@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.home
+package app.ss.tv.presentation.videos
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,9 +29,9 @@ import androidx.compose.runtime.remember
 import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.data.repository.VideosRepository
-import app.ss.tv.presentation.home.HomeScreen.Event
-import app.ss.tv.presentation.home.HomeScreen.State
 import app.ss.tv.presentation.player.VideoPlayerScreen
+import app.ss.tv.presentation.videos.VideosScreen.Event
+import app.ss.tv.presentation.videos.VideosScreen.State
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
@@ -40,20 +40,20 @@ import dagger.assisted.AssistedInject
 import kotlinx.collections.immutable.toImmutableList
 import ss.lessons.model.VideosInfoModel
 
-class HomePresenter @AssistedInject constructor(
+class VideosPresenter @AssistedInject constructor(
     private val repository: VideosRepository,
     @Assisted private val navigator: Navigator,
 ) : Presenter<State> {
 
     @AssistedFactory
     interface Factory {
-        fun create(navigator: Navigator): HomePresenter
+        fun create(navigator: Navigator): VideosPresenter
     }
 
     @Composable
     override fun present(): State {
-        val videosInfo by produceState<List<VideosInfoModel>?>(emptyList()) {
-            value = repository.getVideos().getOrNull()
+        val result by produceState(Result.success(emptyList<VideosInfoModel>())) {
+            value = repository.getVideos()
         }
 
         val eventSink: (Event) -> Unit = remember {
@@ -61,14 +61,15 @@ class HomePresenter @AssistedInject constructor(
                 when (event) {
                     is Event.OnVideoClick -> navigator.goTo(VideoPlayerScreen(event.video))
                     Event.OnBack -> navigator.pop()
+                    is Event.OnScroll -> Unit
                 }
             }
         }
 
         return when {
-            videosInfo == null -> State.Error(eventSink)
-            videosInfo?.isEmpty() == true -> State.Loading(eventSink)
-            else -> State.Videos(mapVideos(videosInfo!!), eventSink)
+            result.isFailure -> State.Error(eventSink)
+            result.getOrElse { emptyList() }.isEmpty() -> State.Loading(eventSink)
+            else -> State.Videos(mapVideos(result.getOrThrow()), eventSink)
         }
     }
 

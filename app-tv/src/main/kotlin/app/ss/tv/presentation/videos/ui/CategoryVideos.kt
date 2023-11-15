@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.home.ui
+package app.ss.tv.presentation.videos.ui
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.focusable

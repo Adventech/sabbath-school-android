@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.home
+package app.ss.tv.presentation.videos
 
 import app.ss.tv.data.infoModel
 import app.ss.tv.data.model.CategorySpec
@@ -35,19 +35,19 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Test
 
-class HomePresenterTest {
+class VideosPresenterTest {
 
     private val navigator = FakeNavigator()
     private val repository = FakeVideosRepository()
 
-    private val underTest: HomePresenter = HomePresenter(repository, navigator)
+    private val underTest: VideosPresenter = VideosPresenter(repository, navigator)
 
     @Test
     fun `present - emit loading then error`() = runTest {
         underTest.test {
-            awaitItem() shouldBeInstanceOf (HomeScreen.State.Loading::class)
+            awaitItem() shouldBeInstanceOf (VideosScreen.State.Loading::class)
 
-            awaitItem() shouldBeInstanceOf (HomeScreen.State.Error::class)
+            awaitItem() shouldBeInstanceOf (VideosScreen.State.Error::class)
         }
     }
 
@@ -56,9 +56,9 @@ class HomePresenterTest {
         repository.videosResult = Result.success(listOf(infoModel))
 
         underTest.test {
-            awaitItem() shouldBeInstanceOf (HomeScreen.State.Loading::class)
+            awaitItem() shouldBeInstanceOf (VideosScreen.State.Loading::class)
 
-            (awaitItem() as HomeScreen.State.Videos).categories shouldBeEqualTo persistentListOf(
+            (awaitItem() as VideosScreen.State.Videos).categories shouldBeEqualTo persistentListOf(
                 CategorySpec(
                     id = "0",
                     title = infoModel.artist,
@@ -73,11 +73,11 @@ class HomePresenterTest {
         repository.videosResult = Result.success(listOf(infoModel))
 
         underTest.test {
-            awaitItem() shouldBeInstanceOf (HomeScreen.State.Loading::class)
+            awaitItem() shouldBeInstanceOf (VideosScreen.State.Loading::class)
 
-            val state = awaitItem() as HomeScreen.State.Videos
+            val state = awaitItem() as VideosScreen.State.Videos
 
-            state.eventSink(HomeScreen.Event.OnVideoClick(videoSpec))
+            state.eventSink(VideosScreen.Event.OnVideoClick(videoSpec))
 
             navigator.awaitNextScreen() shouldBeEqualTo VideoPlayerScreen(videoSpec)
         }

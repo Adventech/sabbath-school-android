@@ -30,6 +30,8 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -107,3 +109,11 @@ fun Modifier.handleDPadKeyEvents(
     }
     false
 }
+
+/**
+ * Fills max available size and only utilizes the content size for the composable. Useful for
+ * cases when you need to quickly center the item on the available area.
+ * */
+fun Modifier.occupyScreenSize() = this
+    .fillMaxSize()
+    .wrapContentSize()

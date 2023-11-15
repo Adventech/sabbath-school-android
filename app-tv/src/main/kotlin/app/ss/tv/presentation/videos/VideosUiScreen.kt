@@ -20,24 +20,32 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation
+package app.ss.tv.presentation.videos
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import app.ss.tv.presentation.dashboard.DashboardScreen
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import app.ss.tv.presentation.theme.SSTvTheme
-import com.slack.circuit.backstack.rememberSaveableBackStack
-import com.slack.circuit.foundation.NavigableCircuitContent
-import com.slack.circuit.foundation.rememberCircuitNavigator
+import app.ss.tv.presentation.videos.VideosScreen.State
+import app.ss.tv.presentation.videos.ui.VideosUiContent
 
-/**
- * Entry-point for the Sabbath School TV app.
- */
 @Composable
-fun TvApp() {
-    SSTvTheme {
-        val backstack = rememberSaveableBackStack { push(DashboardScreen) }
-        val navigator = rememberCircuitNavigator(backstack)
+fun VideosUiScreen(state: State, modifier: Modifier = Modifier) {
+    VideosUiContent(
+        state = state,
+        modifier = modifier.fillMaxSize(),
+    )
+}
 
-        NavigableCircuitContent(navigator, backstack)
+@Preview(
+    name = "Home",
+    device = Devices.TV_1080p
+)
+@Composable
+fun HomePreview() {
+    SSTvTheme {
+        VideosUiScreen(state = State.Loading {})
     }
 }

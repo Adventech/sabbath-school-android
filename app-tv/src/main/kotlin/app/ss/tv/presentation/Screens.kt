@@ -22,22 +22,16 @@
 
 package app.ss.tv.presentation
 
-import androidx.compose.runtime.Composable
-import app.ss.tv.presentation.dashboard.DashboardScreen
-import app.ss.tv.presentation.theme.SSTvTheme
-import com.slack.circuit.backstack.rememberSaveableBackStack
-import com.slack.circuit.foundation.NavigableCircuitContent
-import com.slack.circuit.foundation.rememberCircuitNavigator
+import androidx.compose.ui.graphics.vector.ImageVector
+import app.ss.translations.R as L10nR
 
-/**
- * Entry-point for the Sabbath School TV app.
- */
-@Composable
-fun TvApp() {
-    SSTvTheme {
-        val backstack = rememberSaveableBackStack { push(DashboardScreen) }
-        val navigator = rememberCircuitNavigator(backstack)
+enum class Screens(
+    val titleRes: Int,
+    val tabIcon: ImageVector? = null,
+    val isTabItem: Boolean = false,
+) {
+    Account(titleRes = L10nR.string.ss_account),
+    Videos(titleRes = L10nR.string.ss_media_videos, isTabItem = true),
 
-        NavigableCircuitContent(navigator, backstack)
-    }
+    ;
 }

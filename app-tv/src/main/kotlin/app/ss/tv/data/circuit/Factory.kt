@@ -22,16 +22,19 @@
 
 package app.ss.tv.data.circuit
 
-import app.ss.tv.presentation.home.HomePresenter
-import app.ss.tv.presentation.home.HomeScreen
-import app.ss.tv.presentation.home.HomeUiScreen
+import app.ss.tv.presentation.dashboard.DashboardPresenter
+import app.ss.tv.presentation.dashboard.DashboardScreen
+import app.ss.tv.presentation.dashboard.DashboardScreenUi
 import app.ss.tv.presentation.player.VideoPlayerPresenter
 import app.ss.tv.presentation.player.VideoPlayerScreen
 import app.ss.tv.presentation.player.VideoPlayerUiScreen
+import app.ss.tv.presentation.videos.VideosPresenter
+import app.ss.tv.presentation.videos.VideosScreen
+import app.ss.tv.presentation.videos.VideosUiScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
-import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import javax.inject.Inject
@@ -40,7 +43,8 @@ interface SSPresenterFactory : Presenter.Factory
 interface SSUiFactory : Ui.Factory
 
 class SSPresenterFactoryImpl @Inject constructor(
-    private val homePresenter: HomePresenter.Factory,
+    private val dashboardPresenter: DashboardPresenter.Factory,
+    private val videosPresenter: VideosPresenter.Factory,
     private val videoPlayerPresenter: VideoPlayerPresenter.Factory,
 ) : SSPresenterFactory {
 
@@ -50,7 +54,8 @@ class SSPresenterFactoryImpl @Inject constructor(
         context: CircuitContext
     ): Presenter<*>? {
         return when (screen) {
-            is HomeScreen -> homePresenter.create(navigator)
+            is DashboardScreen -> dashboardPresenter.create(navigator)
+            is VideosScreen -> videosPresenter.create(navigator)
             is VideoPlayerScreen -> videoPlayerPresenter.create(screen, navigator)
             else -> null
         }
@@ -60,15 +65,21 @@ class SSPresenterFactoryImpl @Inject constructor(
 internal class SSUiFactoryImpl @Inject constructor() : SSUiFactory {
     override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
         return when (screen) {
-            is HomeScreen -> ui<HomeScreen.State> { state, modifier ->
-                HomeUiScreen(
+            is DashboardScreen -> ui<DashboardScreen.State> { state, modifier ->
+                DashboardScreenUi(state, modifier)
+            }
+
+            is VideosScreen -> ui<VideosScreen.State> { state, modifier ->
+                VideosUiScreen(
                     state,
                     modifier
                 )
             }
+
             is VideoPlayerScreen -> ui<VideoPlayerScreen.State> { state, modifier ->
                 VideoPlayerUiScreen(state, modifier)
             }
+
             else -> null
         }
     }

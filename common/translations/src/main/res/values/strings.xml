@@ -107,6 +107,7 @@
     <string name="ss_media_notification_channel_description" translatable="false">Shows what media is currently playing</string>
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
+    <string name="ss_media_videos">Videos</string>
 
     <string name="ss_pdf_original">Original layout</string>
     <string name="ss_get_printed_resources">Get Printed Resources</string>

@@ -28,6 +28,7 @@ import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import app.ss.tv.presentation.TvApp
 import com.slack.circuit.foundation.Circuit
+import com.slack.circuit.foundation.CircuitCompositionLocals
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -42,12 +43,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            TvApp(
-                circuit = circuit,
-                onBackPress = {
-                    onBackPressedDispatcher.onBackPressed()
-                }
-            )
+            CircuitCompositionLocals(circuit = circuit) { TvApp() }
         }
     }
 }

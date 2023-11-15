@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.home
+package app.ss.tv.presentation.videos
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
@@ -33,11 +33,12 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-object HomeScreen : Screen, Parcelable {
+object VideosScreen : Screen, Parcelable {
 
     sealed interface Event : CircuitUiEvent {
         data object OnBack : Event
         data class OnVideoClick(val video: VideoSpec) : Event
+        data class OnScroll(val isTopAppBarVisible: Boolean) : Event
     }
 
     sealed interface State : CircuitUiState {

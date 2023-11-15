@@ -20,24 +20,27 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation
+package app.ss.tv.presentation.dashboard
 
-import androidx.compose.runtime.Composable
-import app.ss.tv.presentation.dashboard.DashboardScreen
-import app.ss.tv.presentation.theme.SSTvTheme
-import com.slack.circuit.backstack.rememberSaveableBackStack
-import com.slack.circuit.foundation.NavigableCircuitContent
-import com.slack.circuit.foundation.rememberCircuitNavigator
+import app.ss.tv.presentation.Screens
+import com.slack.circuit.foundation.NavEvent
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.screen.Screen
+import kotlinx.parcelize.Parcelize
 
-/**
- * Entry-point for the Sabbath School TV app.
- */
-@Composable
-fun TvApp() {
-    SSTvTheme {
-        val backstack = rememberSaveableBackStack { push(DashboardScreen) }
-        val navigator = rememberCircuitNavigator(backstack)
+@Parcelize
+object DashboardScreen : Screen {
 
-        NavigableCircuitContent(navigator, backstack)
+    data class State(
+        val selectedIndex: Int,
+        val circuitScreen: Screen,
+        val eventSink: (Event) -> Unit
+    ) : CircuitUiState
+
+    sealed interface Event : CircuitUiEvent {
+        data object OnBack : Event
+        data class OnScreenEvent(val screen: Screens) : Event
+        data class OnNavEvent(val event: NavEvent) : Event
     }
 }
