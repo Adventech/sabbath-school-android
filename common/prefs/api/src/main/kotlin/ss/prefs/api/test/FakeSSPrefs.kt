@@ -23,7 +23,8 @@
 package ss.prefs.api.test
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import org.jetbrains.annotations.VisibleForTesting
 import ss.prefs.api.SSPrefs
 import ss.prefs.api.ThemeColor
@@ -33,7 +34,7 @@ import ss.prefs.model.SSReadingDisplayOptions
 /** Fake implementation of [SSPrefs] for use in tests. **/
 @VisibleForTesting
 class FakeSSPrefs(
-    private val languagesFlow: Flow<String> = emptyFlow()
+    private val languagesFlow: MutableStateFlow<String> = MutableStateFlow("")
 ) : SSPrefs {
     override fun clear() {
         TODO("Not yet implemented")
@@ -70,7 +71,7 @@ class FakeSSPrefs(
     override fun getLanguageCodeFlow(): Flow<String> = languagesFlow
 
     override fun setLanguageCode(languageCode: String) {
-        TODO("Not yet implemented")
+        languagesFlow.update { languageCode }
     }
 
     override fun getLastQuarterlyIndex(): String? {

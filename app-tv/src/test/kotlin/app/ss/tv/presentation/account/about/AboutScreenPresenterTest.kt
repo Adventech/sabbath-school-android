@@ -20,19 +20,29 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package app.ss.tv.presentation.account.about
 
-import androidx.annotation.VisibleForTesting
-import ss.lessons.model.SSLanguage
-import ss.lessons.model.VideosInfoModel
+import app.ss.models.config.AppConfig
+import com.slack.circuit.test.test
+import kotlinx.coroutines.test.runTest
+import org.amshove.kluent.shouldBeEqualTo
+import org.junit.Test
 
-@VisibleForTesting(otherwise = VisibleForTesting.NONE)
-class FakeVideosRepository : VideosRepository {
+/** Unit tests for [AboutScreenPresenter]. */
+class AboutScreenPresenterTest {
 
-    var videosResult: Result<List<VideosInfoModel>> = Result.failure(Throwable("Not implemented"))
-    var languagesResult: Result<List<SSLanguage>> = Result.failure(Throwable("Not implemented"))
+    private val version = "1.0.0"
 
-    override suspend fun getVideos(language: String): Result<List<VideosInfoModel>> = videosResult
+    private val underTest = AboutScreenPresenter(
+        appConfig = AppConfig(version = version, webClientId = "")
+    )
 
-    override suspend fun getLanguages(): Result<List<SSLanguage>> = languagesResult
+    @Test
+    fun `present - app version`() = runTest {
+        underTest.test {
+            awaitItem() shouldBeEqualTo AboutScreen.State(version)
+
+            ensureAllEventsConsumed()
+        }
+    }
 }

@@ -20,19 +20,28 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package app.ss.tv.presentation.account
 
-import androidx.annotation.VisibleForTesting
-import ss.lessons.model.SSLanguage
-import ss.lessons.model.VideosInfoModel
+import com.slack.circuit.test.test
+import kotlinx.coroutines.test.runTest
+import org.amshove.kluent.shouldBeEqualTo
+import org.junit.Test
 
-@VisibleForTesting(otherwise = VisibleForTesting.NONE)
-class FakeVideosRepository : VideosRepository {
+/** Unit tests for [AccountPresenter]. */
+class AccountPresenterTest {
 
-    var videosResult: Result<List<VideosInfoModel>> = Result.failure(Throwable("Not implemented"))
-    var languagesResult: Result<List<SSLanguage>> = Result.failure(Throwable("Not implemented"))
+    private val underTest = AccountPresenter()
 
-    override suspend fun getVideos(language: String): Result<List<VideosInfoModel>> = videosResult
+    @Test
+    fun `present - screen update`() = runTest {
+        underTest.test {
+            var state = awaitItem()
+            state.accountScreen shouldBeEqualTo AccountScreens.About
 
-    override suspend fun getLanguages(): Result<List<SSLanguage>> = languagesResult
+            state.eventSink(AccountScreen.Event.OnNav(AccountScreens.Language))
+
+            state = awaitItem()
+            state.accountScreen shouldBeEqualTo AccountScreens.Language
+        }
+    }
 }
