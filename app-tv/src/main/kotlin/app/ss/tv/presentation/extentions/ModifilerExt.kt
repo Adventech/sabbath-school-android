@@ -117,3 +117,11 @@ fun Modifier.handleDPadKeyEvents(
 fun Modifier.occupyScreenSize() = this
     .fillMaxSize()
     .wrapContentSize()
+
+/**
+ * Conditionally applies the [builder] block if [condition].
+ */
+inline fun Modifier.thenIf(
+    condition: Boolean,
+    builder: Modifier.() -> Modifier
+) = if (condition) builder() else this

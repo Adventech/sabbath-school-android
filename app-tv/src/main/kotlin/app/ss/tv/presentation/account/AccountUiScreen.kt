@@ -32,22 +32,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onPreviewKeyEvent
-import androidx.compose.ui.input.key.type
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
@@ -61,22 +54,24 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import app.ss.tv.presentation.account.AccountScreen.Event
 import app.ss.tv.presentation.account.AccountScreen.State
+import app.ss.tv.presentation.extentions.handleDPadKeyEvents
+import app.ss.tv.presentation.extentions.thenIf
 import app.ss.tv.presentation.theme.SSTvTheme
 import app.ss.tv.presentation.theme.rememberChildPadding
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.CircuitContent
 
+private val FocusRequesters = List(2) { FocusRequester() }
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AccountUiScreen(state: State, modifier: Modifier = Modifier) {
     val childPadding = rememberChildPadding()
-    val focusRequester = remember { FocusRequester() }
-    val focusManager = LocalFocusManager.current
-    var isLeftColumnFocused by remember { mutableStateOf(false) }
+    val focusRequesters: List<FocusRequester> = remember { FocusRequesters }
+    var focusedIndex by remember { mutableIntStateOf(0) }
 
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    LaunchedEffect(Unit) { focusRequesters[0].requestFocus() }
 
     Row(
         modifier = modifier
@@ -87,26 +82,26 @@ fun AccountUiScreen(state: State, modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth(fraction = sidebarWidthFraction)
                 .fillMaxHeight()
-                .onFocusChanged { isLeftColumnFocused = it.hasFocus }
                 .focusRestorer()
                 .focusGroup()
+                .focusRequester(focusRequesters[0])
         ) {
             itemsIndexed(AccountScreens.values(), key = { _, screen -> screen.name }) { index, screen ->
                 DenseListItem(
                     selected = state.accountScreen == screen,
                     onClick = {
                         state.eventSink(Event.OnNav(screen))
-                        focusManager.moveFocus(FocusDirection.Right)
+                        focusRequesters[1].requestFocus()
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .then(
-                            if (index == 0) Modifier.focusRequester(focusRequester)
-                            else Modifier
-                        )
+                        .thenIf(index == focusedIndex) {
+                            Modifier.focusRequester(focusRequesters[0])
+                        }
                         .onFocusChanged {
                             if (it.isFocused && state.accountScreen != screen) {
                                 state.eventSink(Event.OnNav(screen))
+                                focusedIndex = index
                             }
                         },
                     trailingContent = {
@@ -135,22 +130,15 @@ fun AccountUiScreen(state: State, modifier: Modifier = Modifier) {
             screen = state.accountScreen.circuitScreen,
             modifier = Modifier
                 .fillMaxSize()
-                .onPreviewKeyEvent {
-                    if (it.key == Key.Back && it.type == KeyEventType.KeyUp) {
-                        // Using 'while' because AccountsScreen has a grid that has multiple items
-                        // in a row for which we would need to press D-Pad Left multiple times
-                        while (!isLeftColumnFocused) {
-                            focusManager.moveFocus(FocusDirection.Left)
-                        }
-                        return@onPreviewKeyEvent true
-                    }
-                    false
-                },
+                .handleDPadKeyEvents(
+                    onLeft = { focusRequesters[0].requestFocus() }
+                )
+                .focusRequester(focusRequesters[1]),
         )
     }
 }
 
-private const val sidebarWidthFraction: Float = 0.32f
+private const val sidebarWidthFraction = 0.32f
 
 @Preview(device = Devices.TV_1080p)
 @Composable
