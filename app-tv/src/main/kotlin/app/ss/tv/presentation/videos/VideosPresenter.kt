@@ -38,10 +38,18 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.model.VideosInfoModel
+import ss.prefs.api.SSPrefs
+import timber.log.Timber
 
 class VideosPresenter @AssistedInject constructor(
     private val repository: VideosRepository,
+    private val ssPrefs: SSPrefs,
+    private val dispatcherProvider: DispatcherProvider,
     @Assisted private val navigator: Navigator,
 ) : Presenter<State> {
 
@@ -53,7 +61,11 @@ class VideosPresenter @AssistedInject constructor(
     @Composable
     override fun present(): State {
         val result by produceState(Result.success(emptyList<VideosInfoModel>())) {
-            value = repository.getVideos()
+            ssPrefs.getLanguageCodeFlow()
+                .map { repository.getVideos(it) }
+                .flowOn(dispatcherProvider.io)
+                .catch { Timber.e(it) }
+                .collect { value = it }
         }
 
         val eventSink: (Event) -> Unit = remember {

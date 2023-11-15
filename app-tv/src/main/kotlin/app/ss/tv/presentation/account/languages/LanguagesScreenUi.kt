@@ -23,16 +23,23 @@
 package app.ss.tv.presentation.account.languages
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.foundation.lazy.list.TvLazyColumn
 import androidx.tv.foundation.lazy.list.TvLazyListScope
 import androidx.tv.foundation.lazy.list.itemsIndexed
+import androidx.tv.foundation.lazy.list.rememberTvLazyListState
 import androidx.tv.material3.DenseListItem
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
@@ -43,16 +50,36 @@ import app.ss.translations.R as L10nR
 
 @Composable
 fun LanguagesScreenUi(state: State, modifier: Modifier = Modifier) {
+    val tvLazyListState = rememberTvLazyListState()
+    var scrollToIndex by remember { mutableIntStateOf(0) }
+
     TvLazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 72.dp)
+            .padding(horizontal = 72.dp),
+        state = tvLazyListState
     ) {
+        item {
+            Text(
+                text = stringResource(L10nR.string.ss_languages),
+                modifier = Modifier.fillMaxWidth(),
+                style = MaterialTheme.typography.headlineSmall
+            )
+        }
+
         when (state) {
-            is State.Languages -> languagesUi(state)
+            is State.Languages -> {
+                languagesUi(state)
+                scrollToIndex = state.languages.indexOfFirst { it.selected }
+            }
+
             State.Loading -> Unit
             State.Error -> Unit
         }
+    }
+
+    LaunchedEffect(scrollToIndex) {
+        tvLazyListState.animateScrollToItem(scrollToIndex, -200)
     }
 }
 

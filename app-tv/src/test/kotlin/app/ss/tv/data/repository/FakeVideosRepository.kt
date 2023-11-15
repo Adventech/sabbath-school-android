@@ -23,6 +23,7 @@
 package app.ss.tv.data.repository
 
 import androidx.annotation.VisibleForTesting
+import ss.lessons.model.SSLanguage
 import ss.lessons.model.VideosInfoModel
 
 @VisibleForTesting(otherwise = VisibleForTesting.NONE)
@@ -31,4 +32,8 @@ class FakeVideosRepository : VideosRepository {
     var videosResult: Result<List<VideosInfoModel>> = Result.failure(Throwable("Not implemented"))
 
     override suspend fun getVideos(language: String): Result<List<VideosInfoModel>> = videosResult
+
+    override suspend fun getLanguages(): Result<List<SSLanguage>> {
+        TODO("Not yet implemented")
+    }
 }

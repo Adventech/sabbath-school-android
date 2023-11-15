@@ -30,17 +30,26 @@ import app.ss.tv.presentation.player.VideoPlayerScreen
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Test
+import ss.foundation.coroutines.test.TestDispatcherProvider
+import ss.prefs.api.test.FakeSSPrefs
 
 class VideosPresenterTest {
 
     private val navigator = FakeNavigator()
     private val repository = FakeVideosRepository()
+    private val languagesFlow = MutableStateFlow("en")
 
-    private val underTest: VideosPresenter = VideosPresenter(repository, navigator)
+    private val underTest = VideosPresenter(
+        repository = repository,
+        navigator = navigator,
+        ssPrefs = FakeSSPrefs(languagesFlow),
+        dispatcherProvider = TestDispatcherProvider()
+    )
 
     @Test
     fun `present - emit loading then error`() = runTest {

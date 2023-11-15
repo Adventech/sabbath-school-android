@@ -24,22 +24,26 @@ package app.ss.tv.presentation.account.languages
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import app.ss.tv.data.model.LanguageSpec
 import app.ss.tv.data.repository.VideosRepository
 import app.ss.tv.presentation.account.languages.LanguagesScreen.Event
 import app.ss.tv.presentation.account.languages.LanguagesScreen.State
 import com.slack.circuit.retained.produceRetainedState
-import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
+import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.model.SSLanguage
+import ss.prefs.api.SSPrefs
+import timber.log.Timber
 
 class LanguagesPresenter @AssistedInject constructor(
-    private val repository: VideosRepository
+    private val repository: VideosRepository,
+    private val ssPrefs: SSPrefs,
+    private val dispatcherProvider: DispatcherProvider
 ) : Presenter<State> {
 
     @AssistedFactory
@@ -52,7 +56,12 @@ class LanguagesPresenter @AssistedInject constructor(
         val result by produceRetainedState(Result.success(emptyList<SSLanguage>())) {
             value = repository.getLanguages()
         }
-        var selectedLanguage by rememberRetained { mutableStateOf("en") }
+        val selectedLanguage by produceRetainedState("en") {
+            ssPrefs.getLanguageCodeFlow()
+                .flowOn(dispatcherProvider.io)
+                .catch { Timber.e(it) }
+                .collect { value = it }
+        }
 
         return when {
             result.isFailure -> State.Error
@@ -61,9 +70,7 @@ class LanguagesPresenter @AssistedInject constructor(
                 languages = result.toSpec(selectedLanguage)
             ) { event ->
                 when (event) {
-                    is Event.OnSelected -> {
-                        selectedLanguage = event.spec.code
-                    }
+                    is Event.OnSelected -> ssPrefs.setLanguageCode(event.spec.code)
                 }
             }
         }
