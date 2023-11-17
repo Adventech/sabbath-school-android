@@ -35,8 +35,6 @@ import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Facebook
-import androidx.compose.material.icons.rounded.FileDownload
-import androidx.compose.material.icons.rounded.FileDownloadDone
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.rounded.Search
@@ -72,8 +70,6 @@ enum class Icons(
     HomeFilled(MaterialIcons.Filled.Home, L10n.ss_app_name),
     VersionInfo(MaterialIcons.Rounded.Info, L10n.ss_settings_version),
     Website(MaterialIcons.Rounded.Web, L10n.ss_settings_website),
-    FileDownload(MaterialIcons.Rounded.FileDownload, L10n.blank),
-    FileDownloadDone(MaterialIcons.Rounded.FileDownloadDone, L10n.blank),
     ;
 
     @Composable

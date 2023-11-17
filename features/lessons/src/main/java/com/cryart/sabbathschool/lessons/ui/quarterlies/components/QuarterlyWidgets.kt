@@ -71,6 +71,7 @@ import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
+import app.ss.design.compose.widget.icon.ResIcon
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.list.SnappingLazyRow
 import com.cryart.sabbathschool.lessons.ui.quarterlies.model.GroupedQuarterliesSpec
@@ -447,7 +448,7 @@ private fun OfflineStateBox(
     modifier: Modifier = Modifier,
 ) {
     IconBox(
-        icon = Icons.FileDownloadDone,
+        icon = ResIcon.Downloaded,
         modifier = modifier,
         contentColor = iconColor(SsTheme.colors.isDark)
     )

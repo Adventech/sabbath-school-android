@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -58,6 +59,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
@@ -84,7 +86,7 @@ import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.button.SsButtonDefaults
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.icon.IconBox
-import app.ss.design.compose.widget.icon.Icons
+import app.ss.design.compose.widget.icon.ResIcon
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.text.ReadMoreText
 import app.ss.models.OfflineState
@@ -430,10 +432,10 @@ private fun ColumnScope.ReadButton(
         mutableStateOf(
             when (spec.offlineState) {
                 OfflineState.PARTIAL,
-                OfflineState.NONE -> Icons.FileDownload
+                OfflineState.NONE -> ResIcon.Download
 
-                OfflineState.IN_PROGRESS -> null
-                OfflineState.COMPLETE -> Icons.FileDownloadDone
+                OfflineState.IN_PROGRESS -> ResIcon.Downloading
+                OfflineState.COMPLETE -> ResIcon.Downloaded
             }
         )
     }
@@ -467,6 +469,11 @@ private fun ColumnScope.ReadButton(
                 .background(Color.parse(spec.color)),
         )
 
+        val progressAlpha by animateFloatAsState(
+            if (spec.offlineState == OfflineState.IN_PROGRESS) 1f else 0f,
+            label = "progress"
+        )
+
         FilledIconButton(
             onClick = spec.offlineStateClick,
             modifier = Modifier
@@ -478,13 +485,16 @@ private fun ColumnScope.ReadButton(
                 targetState = offlineStateIcon,
                 label = "download-icon"
             ) { targetIcon ->
-                targetIcon?.let {
-                    IconBox(icon = it)
-                } ?: run {
+
+                Box(modifier = Modifier, Alignment.Center) {
                     CircularProgressIndicator(
-                        modifier = Modifier.padding(4.dp),
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .alpha(progressAlpha),
                         color = downloadButtonIconColor
                     )
+
+                    IconBox(icon = targetIcon)
                 }
             }
         }
