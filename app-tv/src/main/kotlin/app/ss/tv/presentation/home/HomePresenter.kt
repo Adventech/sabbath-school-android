@@ -28,11 +28,13 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import app.ss.tv.presentation.Screens
+import app.ss.tv.presentation.ScrollEvents
 import app.ss.tv.presentation.account.AccountScreen
 import app.ss.tv.presentation.home.HomeScreen.Event
 import app.ss.tv.presentation.home.HomeScreen.State
 import app.ss.tv.presentation.videos.VideosScreen
 import com.slack.circuit.foundation.onNavEvent
+import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -43,6 +45,7 @@ import dagger.assisted.AssistedInject
 
 class HomePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
+    private val scrollEvents: ScrollEvents,
 ) : Presenter<State> {
 
     @AssistedFactory
@@ -54,8 +57,11 @@ class HomePresenter @AssistedInject constructor(
     override fun present(): State {
         val selectedIndex by rememberRetained { mutableIntStateOf(0) }
         var currentScreen by rememberRetained { mutableStateOf<Screen>(VideosScreen) }
+        val topAppBarVisible by produceRetainedState(true) {
+            scrollEvents.appBarVisibility.collect { value = it }
+        }
 
-        return State(selectedIndex, currentScreen) { event ->
+        return State(selectedIndex, currentScreen, topAppBarVisible) { event ->
             when (event) {
                 is Event.OnTopBarScreen -> {
                     currentScreen = when (event.screen) {

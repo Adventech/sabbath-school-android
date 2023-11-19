@@ -20,28 +20,51 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.home
+package app.ss.tv.presentation.splash
 
-import app.ss.tv.presentation.Screens
-import com.slack.circuit.foundation.NavEvent
-import com.slack.circuit.runtime.CircuitUiEvent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
+import app.ss.tv.R
+import app.ss.tv.presentation.theme.SSBlue
+import app.ss.tv.presentation.theme.SSTvTheme
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-object HomeScreen : Screen {
+data object SplashScreen : Screen {
+    data object State : CircuitUiState
+}
 
-    data class State(
-        val selectedIndex: Int,
-        val currentScreen: Screen,
-        val topAppBarVisible: Boolean,
-        val eventSink: (Event) -> Unit
-    ) : CircuitUiState
+@Composable
+fun SplashScreenUi(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(SSBlue),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_logo_sspm),
+            contentDescription = null
+        )
+    }
+}
 
-    sealed interface Event : CircuitUiEvent {
-        data object OnBack : Event
-        data class OnTopBarScreen(val screen: Screens) : Event
-        data class OnNavEvent(val event: NavEvent) : Event
+@Preview(
+    device = Devices.TV_1080p
+)
+@Composable
+private fun SplashPreview() {
+    SSTvTheme {
+        SplashScreenUi()
     }
 }

@@ -22,22 +22,27 @@
 
 package app.ss.tv.presentation
 
-import androidx.compose.runtime.Composable
-import app.ss.tv.presentation.home.HomeScreen
-import app.ss.tv.presentation.theme.SSTvTheme
-import com.slack.circuit.backstack.rememberSaveableBackStack
-import com.slack.circuit.foundation.NavigableCircuitContent
-import com.slack.circuit.foundation.rememberCircuitNavigator
+import androidx.compose.runtime.Stable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
+import javax.inject.Inject
+import javax.inject.Singleton
 
-/**
- * Entry-point for the Sabbath School TV app.
- */
-@Composable
-fun TvApp() {
-    SSTvTheme {
-        val backstack = rememberSaveableBackStack { push(HomeScreen) }
-        val navigator = rememberCircuitNavigator(backstack)
+@Stable
+interface ScrollEvents {
+    val appBarVisibility: Flow<Boolean>
+    fun update(showTopBar: Boolean)
+}
 
-        NavigableCircuitContent(navigator, backstack)
+@Singleton
+class ScrollEventsImpl @Inject constructor() : ScrollEvents {
+
+    private val isVisible = MutableStateFlow(true)
+
+    override val appBarVisibility: Flow<Boolean> = isVisible
+
+    override fun update(showTopBar: Boolean) {
+        isVisible.update { showTopBar }
     }
 }

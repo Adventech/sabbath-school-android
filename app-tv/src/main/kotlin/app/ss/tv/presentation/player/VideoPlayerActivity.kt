@@ -57,7 +57,7 @@ class VideoPlayerActivity : ComponentActivity() {
             CircuitCompositionLocals(circuit = circuit) {
                 SSTvTheme {
                     val backstack = rememberSaveableBackStack { push(VideoPlayerScreen(video)) }
-                    BackHandler(onBack = { finish() })
+                    BackHandler(onBack = { finishAfterTransition() })
                     val navigator = rememberCircuitNavigator(backstack)
 
                     NavigableCircuitContent(navigator, backstack)

@@ -25,11 +25,20 @@ package app.ss.tv
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.presentation.TvApp
+import app.ss.tv.navigator.AndroidSupportingNavigator
+import app.ss.tv.presentation.home.HomeScreen
+import app.ss.tv.presentation.splash.SplashScreen
+import app.ss.tv.presentation.theme.SSTvTheme
+import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
+import com.slack.circuit.foundation.NavigableCircuitContent
+import com.slack.circuit.foundation.rememberCircuitNavigator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,12 +47,29 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var circuit: Circuit
 
+    @Inject
+    lateinit var supportingNavigatorFactory: AndroidSupportingNavigator.Factory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
         setContent {
-            CircuitCompositionLocals(circuit = circuit) { TvApp() }
+            CircuitCompositionLocals(circuit = circuit) {
+                val backstack = rememberSaveableBackStack { push(SplashScreen) }
+                val circuitNavigator = rememberCircuitNavigator(backstack)
+                val navigator = remember(circuitNavigator) {
+                    supportingNavigatorFactory.create(circuitNavigator, this)
+                }
+                SSTvTheme {
+                    NavigableCircuitContent(navigator, backstack)
+                }
+
+                LaunchedEffect(Unit) {
+                    delay(1500)
+                    circuitNavigator.resetRoot(HomeScreen)
+                }
+            }
         }
     }
 }

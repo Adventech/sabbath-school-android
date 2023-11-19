@@ -20,38 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.di
+package app.ss.tv.presentation
 
-import app.ss.tv.data.repository.VideosRepository
-import app.ss.tv.data.repository.VideosRepositoryImpl
-import app.ss.tv.navigator.IntentHelper
-import app.ss.tv.navigator.IntentHelperImpl
-import app.ss.tv.presentation.ScrollEvents
-import app.ss.tv.presentation.ScrollEventsImpl
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class BindingsModule {
+class FakeScrollEvents(
+    private val isVisible: MutableStateFlow<Boolean> = MutableStateFlow(true)
+) : ScrollEvents {
+    override val appBarVisibility: Flow<Boolean> = isVisible
 
-    @Binds
-    internal abstract fun bindVideosRepository(
-        impl: VideosRepositoryImpl
-    ): VideosRepository
-
-    @Binds
-    @Singleton
-    internal abstract fun bindScrollEvents(
-        impl: ScrollEventsImpl
-    ): ScrollEvents
-
-    @Binds
-    @Singleton
-    internal abstract fun bindIntentHelper(
-        impl: IntentHelperImpl
-    ): IntentHelper
+    override fun update(showTopBar: Boolean) {
+        isVisible.update { showTopBar }
+    }
 }

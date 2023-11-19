@@ -61,9 +61,9 @@ import com.slack.circuit.foundation.CircuitContent
 fun HomeScreenUi(state: State, modifier: Modifier = Modifier) {
     val density = LocalDensity.current
     val focusManager = LocalFocusManager.current
-    var isTopBarVisible by remember { mutableStateOf(true) }
+    var isTopBarVisible = state.topAppBarVisible
+    val currentTopBarSelectedTabIndex = state.selectedIndex
     var isTopBarFocused by remember { mutableStateOf(false) }
-    val currentTopBarSelectedTabIndex by remember { mutableIntStateOf(state.selectedIndex) }
 
     // 1. On user's first back press, bring focus to the current selected tab, if TopBar is not
     //    visible, first make it visible, then focus the selected tab

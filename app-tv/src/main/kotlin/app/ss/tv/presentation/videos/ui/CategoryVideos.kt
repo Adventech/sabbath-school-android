@@ -22,7 +22,10 @@
 
 package app.ss.tv.presentation.videos.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -83,28 +86,25 @@ fun CategoryVideos(
 ) {
     var currentItemIndex by remember { mutableIntStateOf(0) }
     var isListFocused by remember { mutableStateOf(false) }
-    val listHeight by animateDpAsState(if (isListFocused) immersiveBgHeight else 280.dp, label = "height")
+    var subTitle by remember { mutableStateOf<String?>(null) }
 
     ImmersiveList(
         background = { index, listHasFocus ->
             currentItemIndex = index
             isListFocused = listHasFocus
-
-            AnimatedVisibility(
-                visible = isListFocused,
-                modifier = Modifier.height(immersiveBgHeight),
-            ) {
-                ImmersiveListBackground(video = category.videos[index])
-            }
+            subTitle = if (isListFocused) {
+                category.videos[index].title
+            } else null
         },
         modifier = modifier
-            .height(listHeight)
+            .height(280.dp)
             .fillMaxWidth(),
         listAlignment = Alignment.BottomStart,
     ) {
         ImmersiveListVideosRow(
             videos = category.videos,
-            title = category.title.takeUnless { isListFocused },
+            title = category.title,
+            subTitle = subTitle,
             onVideoClick = onVideoClick,
         )
     }
@@ -114,25 +114,43 @@ fun CategoryVideos(
 @Composable
 private fun ImmersiveListScope.ImmersiveListVideosRow(
     videos: ImmutableList<VideoSpec>,
-    title: String?,
+    title: String,
+    subTitle: String?,
     onVideoClick: (VideoSpec) -> Unit,
     modifier: Modifier = Modifier,
     childPadding: Padding = rememberChildPadding()
 ) {
+    val selected = subTitle != null
+    val color by animateColorAsState(
+        if (selected) Color.White else MaterialTheme.colorScheme.onSurface,
+        label = "color"
+    )
+    val titleAlpha by animateFloatAsState(if (selected) 1f else 0.75f, label = "title")
+
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-        title?.let {
+        Text(
+            text = title,
+            modifier = Modifier
+                .padding(start = childPadding.start, top = childPadding.top),
+            color = color.copy(alpha = titleAlpha),
+            style = MaterialTheme.typography.titleLarge.copy(
+                fontWeight = FontWeight.Medium,
+            ),
+        )
+
+        AnimatedVisibility(visible = selected) {
             Text(
-                text = it,
+                text = subTitle ?: "",
                 modifier = Modifier
-                    .padding(start = childPadding.start)
-                    .padding(top = childPadding.top),
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
-                style = MaterialTheme.typography.titleLarge.copy(
+                    .padding(start = childPadding.start, end = childPadding.end, bottom = childPadding.bottom),
+                color = color.copy(alpha = 0.60f),
+                style = MaterialTheme.typography.titleSmall.copy(
                     fontWeight = FontWeight.Medium,
                 ),
             )
+            Spacer(modifier = Modifier.height(24.dp))
         }
 
         TvLazyRow(
@@ -261,8 +279,6 @@ private fun CacheDrawScope.drawImmersiveListBackground(
         )
     )
 }
-
-private val immersiveBgHeight = 426.dp
 
 @Preview(
     name = "Immersive List Bg",

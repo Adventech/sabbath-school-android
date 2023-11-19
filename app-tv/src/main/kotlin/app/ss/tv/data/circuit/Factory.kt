@@ -37,12 +37,15 @@ import app.ss.tv.presentation.home.HomeScreenUi
 import app.ss.tv.presentation.player.VideoPlayerPresenter
 import app.ss.tv.presentation.player.VideoPlayerScreen
 import app.ss.tv.presentation.player.VideoPlayerUiScreen
+import app.ss.tv.presentation.splash.SplashScreen
+import app.ss.tv.presentation.splash.SplashScreenUi
 import app.ss.tv.presentation.videos.VideosPresenter
 import app.ss.tv.presentation.videos.VideosScreen
 import app.ss.tv.presentation.videos.VideosUiScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuit.runtime.presenter.presenterOf
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
@@ -66,12 +69,13 @@ class SSPresenterFactoryImpl @Inject constructor(
         context: CircuitContext
     ): Presenter<*>? {
         return when (screen) {
+            is SplashScreen -> presenterOf { SplashScreen.State }
             is AboutScreen -> aboutPresenter.create()
             is AccountScreen -> accountPresenter.create()
             is HomeScreen -> homePresenter.create(navigator)
             is LanguagesScreen -> languagesPresenter.create()
             is VideosScreen -> videosPresenter.create(navigator)
-            is VideoPlayerScreen -> videoPlayerPresenter.create(screen, navigator)
+            is VideoPlayerScreen -> videoPlayerPresenter.create(screen)
             else -> null
         }
     }
@@ -80,6 +84,10 @@ class SSPresenterFactoryImpl @Inject constructor(
 internal class SSUiFactoryImpl @Inject constructor() : SSUiFactory {
     override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
         return when (screen) {
+            is SplashScreen -> ui<SplashScreen.State> { _, modifier ->
+                SplashScreenUi(modifier)
+            }
+
             is AboutScreen -> ui<AboutScreen.State> { state, modifier ->
                 AboutUiScreen(state, modifier)
             }
