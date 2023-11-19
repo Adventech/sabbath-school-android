@@ -24,7 +24,6 @@ package app.ss.tv.presentation.player
 
 import app.ss.tv.data.videoSpec
 import app.ss.tv.presentation.player.VideoPlayerScreen.Event
-import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
@@ -32,30 +31,17 @@ import org.junit.Test
 
 class VideoPlayerPresenterTest {
 
-    private val navigator = FakeNavigator()
     private val ambientModeHelper = FakeAmbientModeHelper()
 
     private val underTest = VideoPlayerPresenter(
         ambientModeHelper = ambientModeHelper,
         screen = VideoPlayerScreen(videoSpec),
-        navigator = navigator,
     )
 
     @Test
     fun `present - should emit state with video from screen`() = runTest {
         underTest.test {
             awaitItem().spec shouldBeEqualTo videoSpec
-        }
-    }
-
-    @Test
-    fun `present - navigator should pop after OnBack event`() = runTest {
-        underTest.test {
-            val state = awaitItem()
-
-            state.eventSink(Event.OnBack)
-
-            navigator.awaitPop()
         }
     }
 

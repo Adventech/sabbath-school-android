@@ -20,40 +20,25 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.player
+package app.ss.tv.navigator
 
-import androidx.compose.runtime.Composable
-import app.ss.tv.presentation.player.VideoPlayerScreen.Event
-import app.ss.tv.presentation.player.VideoPlayerScreen.State
-import com.slack.circuit.runtime.presenter.Presenter
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import android.content.Context
+import android.content.Intent
+import app.ss.tv.data.model.VideoSpec
+import app.ss.tv.presentation.player.VideoPlayerActivity
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class VideoPlayerPresenter @AssistedInject constructor(
-    private val ambientModeHelper: AmbientModeHelper,
-    @Assisted private val screen: VideoPlayerScreen,
-) : Presenter<State> {
+fun interface IntentHelper {
+    fun playerIntent(videoSpec: VideoSpec): Intent
+}
 
-    @AssistedFactory
-    interface Factory {
-        fun create(
-            screen: VideoPlayerScreen,
-        ): VideoPlayerPresenter
-    }
-
-    @Composable
-    override fun present(): State {
-        return State(screen.video) { event ->
-            when (event) {
-                is Event.OnPlaybackChange -> {
-                    if (event.isPlaying) {
-                        ambientModeHelper.disable()
-                    } else {
-                        ambientModeHelper.enable()
-                    }
-                }
-            }
-        }
+@Singleton
+class IntentHelperImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
+) : IntentHelper {
+    override fun playerIntent(videoSpec: VideoSpec): Intent {
+        return VideoPlayerActivity.launchIntent(context, videoSpec)
     }
 }

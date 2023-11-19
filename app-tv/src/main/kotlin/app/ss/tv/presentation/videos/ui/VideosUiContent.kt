@@ -38,13 +38,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.tv.foundation.PivotOffsets
@@ -74,11 +70,7 @@ fun VideosUiContent(
     state: State,
     modifier: Modifier = Modifier,
     tvLazyListState: TvLazyListState = rememberTvLazyListState(),
-    focusItemEvent: (Int) -> Unit = {},
 ) {
-    var immersiveListHasFocus by remember { mutableStateOf(false) }
-    var currentItemIndex by remember { mutableIntStateOf(0) }
-
     val shouldShowTopBar by remember {
         derivedStateOf {
             tvLazyListState.firstVisibleItemIndex == 0 &&
@@ -95,21 +87,14 @@ fun VideosUiContent(
         state = tvLazyListState,
         pivotOffsets = PivotOffsets(0f, 0f)
     ) {
-
         when (state) {
             is State.Error -> errorItem()
             is State.Loading -> loadingItem()
             is State.Videos -> {
-                itemsIndexed(state.categories, key = { _, spec -> spec.id }) { index, spec ->
+                itemsIndexed(state.categories, key = { _, spec -> spec.id }) { _, spec ->
                     CategoryVideos(
                         category = spec,
-                        modifier = Modifier.onFocusChanged {
-                            immersiveListHasFocus = it.hasFocus
-                            if (immersiveListHasFocus) {
-                                currentItemIndex = index
-                                focusItemEvent(currentItemIndex)
-                            }
-                        },
+                        modifier = Modifier,
                         onVideoClick = {
                             state.eventSink(Event.OnVideoClick(it))
                         },
@@ -125,10 +110,6 @@ fun VideosUiContent(
                     .height(LocalConfiguration.current.screenHeightDp.times(0.2f).dp)
             )
         }
-    }
-
-    LaunchedEffect(currentItemIndex) {
-        tvLazyListState.scrollToItem(currentItemIndex)
     }
 }
 

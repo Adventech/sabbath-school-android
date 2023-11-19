@@ -25,7 +25,6 @@ package app.ss.tv.presentation.player
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -81,8 +80,6 @@ fun VideoPlayerUiScreen(
             }
         player
     }
-
-    BackHandler(onBack = { state.eventSink(Event.OnBack) })
 
     LaunchedEffect(Unit) {
         while (true) {
