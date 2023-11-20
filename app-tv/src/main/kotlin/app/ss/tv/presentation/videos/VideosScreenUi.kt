@@ -38,12 +38,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -81,8 +78,6 @@ fun VideosScreenUi(state: State, modifier: Modifier = Modifier) {
         }
     }
 
-    var focusIndex by remember { mutableIntStateOf(-1) }
-
     TvLazyColumn(
         modifier = modifier.fillMaxSize(),
         state = tvLazyListState,
@@ -91,13 +86,10 @@ fun VideosScreenUi(state: State, modifier: Modifier = Modifier) {
             is State.Error -> errorItem()
             is State.Loading -> loadingItem()
             is State.Videos -> {
-                itemsIndexed(state.categories, key = { _, spec -> spec.id }) { index, spec ->
+                itemsIndexed(state.categories, key = { _, spec -> spec.id }) { _, spec ->
                     CategoryVideos(
                         category = spec,
-                        isListFocused = focusIndex == index,
-                        modifier = Modifier.onFocusChanged {
-                            focusIndex = if (it.hasFocus) index else -1
-                        },
+                        modifier = Modifier,
                         onVideoClick = {
                             state.eventSink(Event.OnVideoClick(it))
                         },

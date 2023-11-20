@@ -23,10 +23,8 @@
 package app.ss.tv.presentation.videos.ui
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -35,9 +33,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -47,129 +43,96 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.tv.foundation.PivotOffsets
 import androidx.tv.foundation.lazy.list.TvLazyRow
 import androidx.tv.foundation.lazy.list.itemsIndexed
+import androidx.tv.material3.ImmersiveList
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.presentation.theme.Padding
 import app.ss.tv.presentation.theme.rememberChildPadding
-import kotlinx.collections.immutable.ImmutableList
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CategoryVideos(
     category: CategorySpec,
-    isListFocused: Boolean,
     modifier: Modifier = Modifier,
     childPadding: Padding = rememberChildPadding(),
     onVideoClick: (VideoSpec) -> Unit = {},
 ) {
-    var currentItemIndex by remember { mutableIntStateOf(-1) }
+    var isListFocused by remember { mutableStateOf(false) }
     var subTitle by remember { mutableStateOf<String?>(null) }
-    val color by animateColorAsState(
-        if (isListFocused) Color.White else MaterialTheme.colorScheme.onSurface,
-        label = "color"
-    )
-    val titleAlpha by animateFloatAsState(if (isListFocused) 1f else 0.75f, label = "title")
+    val titleAlpha by animateFloatAsState(if (isListFocused) 1f else 0.70f, label = "title")
 
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(280.dp),
-        verticalArrangement = Arrangement.Bottom
+    ImmersiveList(
+        background = { index, listHasFocus ->
+            isListFocused = listHasFocus
+            subTitle = if (isListFocused) {
+                category.videos[index].title
+            } else null
+        },
+        modifier = modifier.height(280.dp)
     ) {
-
-        Text(
-            text = category.title,
-            modifier = Modifier
-                .padding(start = childPadding.start, top = childPadding.top),
-            color = color.copy(alpha = titleAlpha),
-            style = MaterialTheme.typography.titleLarge.copy(
-                fontWeight = FontWeight.Medium,
-            ),
-        )
-
-        AnimatedVisibility(visible = isListFocused) {
+        Column(modifier = modifier.fillMaxWidth()) {
             Text(
-                text = subTitle ?: "",
+                text = category.title,
                 modifier = Modifier
-                    .padding(start = childPadding.start, end = childPadding.end, bottom = childPadding.bottom),
-                color = color.copy(alpha = 0.60f),
-                style = MaterialTheme.typography.titleSmall.copy(
+                    .padding(start = childPadding.start, top = childPadding.top),
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = titleAlpha),
+                style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.Medium,
                 ),
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
-        }
+            AnimatedVisibility(visible = isListFocused) {
+                Text(
+                    text = subTitle ?: "",
+                    modifier = Modifier
+                        .padding(start = childPadding.start, end = childPadding.end, bottom = childPadding.bottom),
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.60f),
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontWeight = FontWeight.Medium,
+                    ),
+                )
 
-        CategoryLazyRow(
-            videos = category.videos,
-            modifier = Modifier,
-            childPadding = childPadding,
-            onVideoClick = onVideoClick,
-            onItemFocus = { index ->
-                currentItemIndex = index
-            },
-        )
+                Spacer(modifier = Modifier.height(24.dp))
+            }
 
-    }
-    LaunchedEffect(currentItemIndex) {
-        subTitle = if (isListFocused) {
-            currentItemIndex
-                .takeUnless { it < 0 }
-                ?.let { category.videos[it].title }
-        } else null
-    }
-}
+            TvLazyRow(
+                modifier = Modifier,
+                pivotOffsets = PivotOffsets(parentFraction = 0.07f),
+                contentPadding = PaddingValues(
+                    start = childPadding.start,
+                    top = childPadding.top,
+                    end = childPadding.end,
+                    bottom = childPadding.bottom
+                ),
+                verticalAlignment = Alignment.Bottom,
+            ) {
+                itemsIndexed(category.videos, key = { _, model -> model.id }) { index, video ->
+                    var isItemFocused by remember { mutableStateOf(false) }
+                    val endPadding by animateDpAsState(if (isItemFocused) 32.dp else 24.dp, label = "padding")
 
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-private fun CategoryLazyRow(
-    videos: ImmutableList<VideoSpec>,
-    modifier: Modifier = Modifier,
-    childPadding: Padding = rememberChildPadding(),
-    onVideoClick: (VideoSpec) -> Unit = {},
-    onItemFocus: (Int) -> Unit = {},
-) {
-    TvLazyRow(
-        modifier = modifier,
-        pivotOffsets = PivotOffsets(parentFraction = 0.07f),
-        contentPadding = PaddingValues(
-            start = childPadding.start,
-            top = childPadding.top,
-            end = childPadding.end,
-            bottom = childPadding.bottom
-        ),
-        verticalAlignment = Alignment.Bottom,
-    ) {
-        itemsIndexed(videos, key = { _, model -> model.id }) { index, video ->
-            var isItemFocused by remember { mutableStateOf(false) }
-            val endPadding by animateDpAsState(if (isItemFocused) 32.dp else 24.dp, label = "padding")
+                    VideoRowItem(
+                        video = video,
+                        onVideoClick = onVideoClick,
+                        modifier = Modifier
+                            .onFocusChanged { isItemFocused = it.isFocused }
+                            .focusProperties {
+                                if (index == 0) {
+                                    left = FocusRequester.Cancel
+                                }
+                            }
+                            .immersiveListItem(index),
+                    )
 
-            VideoRowItem(
-                video = video,
-                onVideoClick = onVideoClick,
-                modifier = Modifier
-                    .onFocusChanged {
-                        isItemFocused = it.hasFocus
-                        if (isItemFocused) {
-                            onItemFocus(index)
-                        }
-                    }
-                    .focusProperties {
-                        if (index == 0) {
-                            left = FocusRequester.Cancel
-                        }
-                    },
-            )
-
-            Spacer(modifier = Modifier.width(endPadding))
+                    Spacer(modifier = Modifier.width(endPadding))
+                }
+            }
         }
     }
 }
