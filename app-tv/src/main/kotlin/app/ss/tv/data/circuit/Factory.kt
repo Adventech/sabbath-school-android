@@ -24,10 +24,10 @@ package app.ss.tv.data.circuit
 
 import app.ss.tv.presentation.account.AccountPresenter
 import app.ss.tv.presentation.account.AccountScreen
-import app.ss.tv.presentation.account.AccountUiScreen
+import app.ss.tv.presentation.account.AccountScreenUi
 import app.ss.tv.presentation.account.about.AboutScreen
 import app.ss.tv.presentation.account.about.AboutScreenPresenter
-import app.ss.tv.presentation.account.about.AboutUiScreen
+import app.ss.tv.presentation.account.about.AboutScreenUi
 import app.ss.tv.presentation.account.languages.LanguagesPresenter
 import app.ss.tv.presentation.account.languages.LanguagesScreen
 import app.ss.tv.presentation.account.languages.LanguagesScreenUi
@@ -89,11 +89,11 @@ internal class SSUiFactoryImpl @Inject constructor() : SSUiFactory {
             }
 
             is AboutScreen -> ui<AboutScreen.State> { state, modifier ->
-                AboutUiScreen(state, modifier)
+                AboutScreenUi(state, modifier)
             }
 
             is AccountScreen -> ui<AccountScreen.State> { state, modifier ->
-                AccountUiScreen(state, modifier)
+                AccountScreenUi(state, modifier)
             }
 
             is HomeScreen -> ui<HomeScreen.State> { state, modifier ->

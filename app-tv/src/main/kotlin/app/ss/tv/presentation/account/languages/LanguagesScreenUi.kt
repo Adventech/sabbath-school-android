@@ -35,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.foundation.lazy.list.TvLazyColumn
 import androidx.tv.foundation.lazy.list.TvLazyListScope
@@ -44,8 +45,11 @@ import androidx.tv.material3.DenseListItem
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
+import app.ss.tv.data.model.LanguageSpec
 import app.ss.tv.presentation.account.languages.LanguagesScreen.Event
 import app.ss.tv.presentation.account.languages.LanguagesScreen.State
+import app.ss.tv.presentation.theme.SSTvTheme
+import kotlinx.collections.immutable.persistentListOf
 import app.ss.translations.R as L10nR
 
 @Composable
@@ -88,7 +92,7 @@ private fun TvLazyListScope.languagesUi(state: State.Languages) {
     itemsIndexed(state.languages, key = { _, model -> model.code }) { _, model ->
         DenseListItem(
             selected = model.selected,
-            onClick = { state.eventSink(Event.OnSelected(model)) },
+            onClick = { state.eventSink(Event.OnSelected(model.code)) },
             modifier = Modifier.padding(top = 16.dp),
             trailingContent = {
                 if (model.selected) {
@@ -104,5 +108,22 @@ private fun TvLazyListScope.languagesUi(state: State.Languages) {
                 style = MaterialTheme.typography.titleMedium
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    SSTvTheme {
+        LanguagesScreenUi(
+            State.Languages(
+                persistentListOf(
+                    LanguageSpec("en", "English", false),
+                    LanguageSpec("fr", "French", true),
+                    LanguageSpec("es", "Spanish", false)
+                )
+            ) {},
+            Modifier.padding(vertical = 16.dp)
+        )
     }
 }

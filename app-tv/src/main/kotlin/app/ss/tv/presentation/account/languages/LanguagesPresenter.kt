@@ -70,7 +70,7 @@ class LanguagesPresenter @AssistedInject constructor(
                 languages = result.toSpec(selectedLanguage)
             ) { event ->
                 when (event) {
-                    is Event.OnSelected -> ssPrefs.setLanguageCode(event.spec.code)
+                    is Event.OnSelected -> ssPrefs.setLanguageCode(event.code)
                 }
             }
         }

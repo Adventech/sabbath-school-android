@@ -22,11 +22,14 @@
 
 package app.ss.tv.presentation.account.about
 
+import androidx.compose.runtime.Immutable
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 object AboutScreen : Screen {
+
+    @Immutable
     data class State(val version: String) : CircuitUiState
 }
