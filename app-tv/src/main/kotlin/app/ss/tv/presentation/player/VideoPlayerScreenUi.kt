@@ -57,7 +57,7 @@ import kotlinx.coroutines.delay
 @SuppressLint("OpaqueUnitKey")
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 @Composable
-fun VideoPlayerUiScreen(
+fun VideoPlayerScreenUi(
     state: State,
     modifier: Modifier = Modifier
 ) {
@@ -71,7 +71,7 @@ fun VideoPlayerUiScreen(
             .apply {
                 playWhenReady = true
                 videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING
-                repeatMode = Player.REPEAT_MODE_ONE
+                repeatMode = Player.REPEAT_MODE_OFF
 
                 val source = ProgressiveMediaSource.Factory(DefaultDataSource.Factory(context))
                     .createMediaSource(MediaItem.fromUri(state.spec.src))

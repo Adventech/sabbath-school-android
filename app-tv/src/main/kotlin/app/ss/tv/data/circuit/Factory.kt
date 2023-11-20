@@ -36,7 +36,7 @@ import app.ss.tv.presentation.home.HomeScreen
 import app.ss.tv.presentation.home.HomeScreenUi
 import app.ss.tv.presentation.player.VideoPlayerPresenter
 import app.ss.tv.presentation.player.VideoPlayerScreen
-import app.ss.tv.presentation.player.VideoPlayerUiScreen
+import app.ss.tv.presentation.player.VideoPlayerScreenUi
 import app.ss.tv.presentation.splash.SplashScreen
 import app.ss.tv.presentation.splash.SplashScreenUi
 import app.ss.tv.presentation.videos.VideosPresenter
@@ -109,7 +109,7 @@ internal class SSUiFactoryImpl @Inject constructor() : SSUiFactory {
             }
 
             is VideoPlayerScreen -> ui<VideoPlayerScreen.State> { state, modifier ->
-                VideoPlayerUiScreen(state, modifier)
+                VideoPlayerScreenUi(state, modifier)
             }
 
             else -> null
