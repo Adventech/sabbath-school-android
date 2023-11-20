@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.videos.ui
+package app.ss.tv.presentation.videos
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.BorderStroke
@@ -38,15 +38,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.foundation.PivotOffsets
 import androidx.tv.foundation.lazy.list.TvLazyColumn
 import androidx.tv.foundation.lazy.list.TvLazyListScope
-import androidx.tv.foundation.lazy.list.TvLazyListState
 import androidx.tv.foundation.lazy.list.TvLazyRow
 import androidx.tv.foundation.lazy.list.itemsIndexed
 import androidx.tv.foundation.lazy.list.rememberTvLazyListState
@@ -59,18 +63,17 @@ import androidx.tv.material3.Text
 import app.ss.tv.presentation.extentions.asPlaceholder
 import app.ss.tv.presentation.theme.BorderWidth
 import app.ss.tv.presentation.theme.Padding
+import app.ss.tv.presentation.theme.SSTvTheme
 import app.ss.tv.presentation.theme.SsCardShape
 import app.ss.tv.presentation.theme.rememberChildPadding
 import app.ss.tv.presentation.utils.FocusGroup
 import app.ss.tv.presentation.videos.VideosScreen.Event
 import app.ss.tv.presentation.videos.VideosScreen.State
+import app.ss.tv.presentation.videos.ui.CategoryVideos
 
 @Composable
-fun VideosUiContent(
-    state: State,
-    modifier: Modifier = Modifier,
-    tvLazyListState: TvLazyListState = rememberTvLazyListState(),
-) {
+fun VideosScreenUi(state: State, modifier: Modifier = Modifier) {
+    val tvLazyListState = rememberTvLazyListState()
     val shouldShowTopBar by remember {
         derivedStateOf {
             tvLazyListState.firstVisibleItemIndex == 0 &&
@@ -78,23 +81,23 @@ fun VideosUiContent(
         }
     }
 
-    LaunchedEffect(shouldShowTopBar) {
-        state.eventSink(Event.OnScroll(shouldShowTopBar))
-    }
+    var focusIndex by remember { mutableIntStateOf(-1) }
 
     TvLazyColumn(
         modifier = modifier.fillMaxSize(),
         state = tvLazyListState,
-        pivotOffsets = PivotOffsets(0f, 0f)
     ) {
         when (state) {
             is State.Error -> errorItem()
             is State.Loading -> loadingItem()
             is State.Videos -> {
-                itemsIndexed(state.categories, key = { _, spec -> spec.id }) { _, spec ->
+                itemsIndexed(state.categories, key = { _, spec -> spec.id }) { index, spec ->
                     CategoryVideos(
                         category = spec,
-                        modifier = Modifier,
+                        isListFocused = focusIndex == index,
+                        modifier = Modifier.onFocusChanged {
+                            focusIndex = if (it.hasFocus) index else -1
+                        },
                         onVideoClick = {
                             state.eventSink(Event.OnVideoClick(it))
                         },
@@ -110,6 +113,10 @@ fun VideosUiContent(
                     .height(LocalConfiguration.current.screenHeightDp.times(0.2f).dp)
             )
         }
+    }
+
+    LaunchedEffect(shouldShowTopBar) {
+        (state as? State.Videos)?.eventSink?.invoke(Event.OnScroll(shouldShowTopBar))
     }
 }
 
@@ -203,3 +210,11 @@ private fun LoadingCard(
 
 const val ASPECT_RATIO = 16f / 9f
 const val CARD_WIDTH = 260
+
+@Preview(device = Devices.TV_1080p)
+@Composable
+private fun VideosPreview() {
+    SSTvTheme {
+        VideosScreenUi(state = State.Loading)
+    }
+}

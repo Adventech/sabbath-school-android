@@ -48,6 +48,8 @@ import app.ss.tv.presentation.theme.FocusedGlowElevation
 import app.ss.tv.presentation.theme.PressedGlowElevation
 import app.ss.tv.presentation.theme.SSTvTheme
 import app.ss.tv.presentation.theme.SsCardShape
+import app.ss.tv.presentation.videos.ASPECT_RATIO
+import app.ss.tv.presentation.videos.CARD_WIDTH
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
@@ -58,9 +60,8 @@ fun VideoRowItem(
     modifier: Modifier = Modifier,
 ) {
     StandardCardLayout(
-        modifier = Modifier
-            .width(CARD_WIDTH.dp)
-            .then(modifier),
+        modifier = modifier
+            .width(CARD_WIDTH.dp),
         title = { /* Thumbnails have titles. */ },
         imageCard = {
             CardLayoutDefaults.ImageCard(

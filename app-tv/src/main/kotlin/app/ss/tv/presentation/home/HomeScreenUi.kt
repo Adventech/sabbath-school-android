@@ -39,7 +39,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -48,7 +47,6 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -60,7 +58,6 @@ import com.slack.circuit.foundation.CircuitContent
 @Composable
 fun HomeScreenUi(state: State, modifier: Modifier = Modifier) {
     val density = LocalDensity.current
-    val focusManager = LocalFocusManager.current
     var isTopBarVisible = state.topAppBarVisible
     val currentTopBarSelectedTabIndex = state.selectedIndex
     var isTopBarFocused by remember { mutableStateOf(false) }
@@ -94,23 +91,18 @@ fun HomeScreenUi(state: State, modifier: Modifier = Modifier) {
         var wasTopBarFocusRequestedBefore by rememberSaveable { mutableStateOf(false) }
         var topBarHeightPx by rememberSaveable { mutableIntStateOf(0) }
 
-        // Used to show/hide DashboardTopBar
+        // Used to show/hide HomeTopBar
         val topBarYOffsetPx by animateIntAsState(
             targetValue = if (isTopBarVisible) 0 else -topBarHeightPx,
             animationSpec = tween(),
-            label = "",
-            finishedListener = {
-                if (it == -topBarHeightPx) {
-                    focusManager.moveFocus(FocusDirection.Down)
-                }
-            }
+            label = "y-offset",
         )
 
-        // Used to push down/pull up CircuitContent when DashboardTopBar is shown/hidden
+        // Used to push down/pull up CircuitContent when the HomeTopBar is shown/hidden
         val contentTopPaddingDp by animateDpAsState(
             targetValue = if (isTopBarVisible) with(density) { topBarHeightPx.toDp() } else 0.dp,
             animationSpec = tween(),
-            label = "",
+            label = "top-padding",
         )
 
         LaunchedEffect(Unit) {

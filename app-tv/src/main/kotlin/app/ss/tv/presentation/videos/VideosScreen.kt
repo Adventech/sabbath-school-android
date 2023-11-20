@@ -36,23 +36,20 @@ import kotlinx.parcelize.Parcelize
 object VideosScreen : Screen, Parcelable {
 
     sealed interface Event : CircuitUiEvent {
-        data object OnBack : Event
         data class OnVideoClick(val video: VideoSpec) : Event
         data class OnScroll(val isTopAppBarVisible: Boolean) : Event
     }
 
     sealed interface State : CircuitUiState {
 
-        val eventSink: (Event) -> Unit
+        data object Loading : State
 
-        data class Loading(override val eventSink: (Event) -> Unit) : State
-
-        data class Error(override val eventSink: (Event) -> Unit) : State
+        data object Error : State
 
         @Immutable
         data class Videos(
             val categories: ImmutableList<CategorySpec>,
-            override val eventSink: (Event) -> Unit
+            val eventSink: (Event) -> Unit
         ) : State
     }
 }

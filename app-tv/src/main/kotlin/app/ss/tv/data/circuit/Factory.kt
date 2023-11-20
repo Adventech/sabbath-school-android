@@ -41,7 +41,7 @@ import app.ss.tv.presentation.splash.SplashScreen
 import app.ss.tv.presentation.splash.SplashScreenUi
 import app.ss.tv.presentation.videos.VideosPresenter
 import app.ss.tv.presentation.videos.VideosScreen
-import app.ss.tv.presentation.videos.VideosUiScreen
+import app.ss.tv.presentation.videos.VideosScreenUi
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -105,7 +105,7 @@ internal class SSUiFactoryImpl @Inject constructor() : SSUiFactory {
             }
 
             is VideosScreen -> ui<VideosScreen.State> { state, modifier ->
-                VideosUiScreen(state, modifier)
+                VideosScreenUi(state, modifier)
             }
 
             is VideoPlayerScreen -> ui<VideoPlayerScreen.State> { state, modifier ->

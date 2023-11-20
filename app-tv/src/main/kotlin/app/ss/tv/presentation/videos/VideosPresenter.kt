@@ -78,16 +78,14 @@ class VideosPresenter @AssistedInject constructor(
                     is Event.OnVideoClick -> navigator.goTo(
                         AndroidScreen.IntentScreen(intentHelper.playerIntent(event.video))
                     )
-
-                    Event.OnBack -> navigator.pop()
                     is Event.OnScroll -> scrollEvents.update(event.isTopAppBarVisible)
                 }
             }
         }
 
         return when {
-            result.isFailure -> State.Error(eventSink)
-            result.getOrElse { emptyList() }.isEmpty() -> State.Loading(eventSink)
+            result.isFailure -> State.Error
+            result.getOrElse { emptyList() }.isEmpty() -> State.Loading
             else -> State.Videos(mapVideos(result.getOrThrow()), eventSink)
         }
     }
