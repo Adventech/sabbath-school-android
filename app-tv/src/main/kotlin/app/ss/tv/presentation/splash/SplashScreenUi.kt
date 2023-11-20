@@ -20,16 +20,51 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.account.about
+package app.ss.tv.presentation.splash
 
-import androidx.compose.runtime.Immutable
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
+import app.ss.tv.R
+import app.ss.tv.presentation.theme.SSBlue
+import app.ss.tv.presentation.theme.SSTvTheme
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-object AboutScreen : Screen {
+data object SplashScreen : Screen {
+    data object State : CircuitUiState
+}
 
-    @Immutable
-    data class State(val version: String) : CircuitUiState
+@Composable
+fun SplashScreenUi(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(SSBlue),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_logo_sspm),
+            contentDescription = null
+        )
+    }
+}
+
+@Preview(
+    device = Devices.TV_1080p
+)
+@Composable
+private fun SplashPreview() {
+    SSTvTheme {
+        SplashScreenUi()
+    }
 }

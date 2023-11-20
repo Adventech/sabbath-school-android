@@ -20,40 +20,49 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.player
+package app.ss.tv.navigator
 
-import androidx.compose.runtime.Composable
-import app.ss.tv.presentation.player.VideoPlayerScreen.Event
-import app.ss.tv.presentation.player.VideoPlayerScreen.State
-import com.slack.circuit.runtime.presenter.Presenter
+import android.content.Intent
+import androidx.activity.ComponentActivity
+import com.slack.circuit.runtime.Navigator
+import com.slack.circuit.runtime.screen.Screen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.parcelize.Parcelize
 
-class VideoPlayerPresenter @AssistedInject constructor(
-    private val ambientModeHelper: AmbientModeHelper,
-    @Assisted private val screen: VideoPlayerScreen,
-) : Presenter<State> {
+class AndroidSupportingNavigator @AssistedInject constructor(
+    @Assisted private val navigator: Navigator,
+    @Assisted private val activity: ComponentActivity
+) : Navigator by navigator {
+
+    override fun goTo(screen: Screen) =
+        when (screen) {
+            is AndroidScreen -> goToAndroidScreen(screen)
+            else -> navigator.goTo(screen)
+        }
+
+    private fun goToAndroidScreen(screen: AndroidScreen) {
+        when (screen) {
+            is AndroidScreen.IntentScreen -> activity.startActivity(screen.intent)
+            AndroidScreen.Finish -> activity.finishAfterTransition()
+        }
+    }
 
     @AssistedFactory
     interface Factory {
         fun create(
-            screen: VideoPlayerScreen,
-        ): VideoPlayerPresenter
+            navigator: Navigator,
+            activity: ComponentActivity
+        ): AndroidSupportingNavigator
     }
+}
 
-    @Composable
-    override fun present(): State {
-        return State(screen.video) { event ->
-            when (event) {
-                is Event.OnPlaybackChange -> {
-                    if (event.isPlaying) {
-                        ambientModeHelper.disable()
-                    } else {
-                        ambientModeHelper.enable()
-                    }
-                }
-            }
-        }
-    }
+sealed interface AndroidScreen : Screen {
+
+    @Parcelize
+    data class IntentScreen(val intent: Intent) : AndroidScreen
+
+    @Parcelize
+    data object Finish : AndroidScreen
 }

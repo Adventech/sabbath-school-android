@@ -22,6 +22,7 @@
 
 package app.ss.tv.presentation.home
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
@@ -39,7 +40,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -48,7 +48,6 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -60,10 +59,9 @@ import com.slack.circuit.foundation.CircuitContent
 @Composable
 fun HomeScreenUi(state: State, modifier: Modifier = Modifier) {
     val density = LocalDensity.current
-    val focusManager = LocalFocusManager.current
-    var isTopBarVisible by remember { mutableStateOf(true) }
+    var isTopBarVisible by remember(state) { mutableStateOf(state.topAppBarVisible) }
+    val currentTopBarSelectedTabIndex by remember(state) { mutableIntStateOf(state.selectedIndex) }
     var isTopBarFocused by remember { mutableStateOf(false) }
-    val currentTopBarSelectedTabIndex by remember { mutableIntStateOf(state.selectedIndex) }
 
     // 1. On user's first back press, bring focus to the current selected tab, if TopBar is not
     //    visible, first make it visible, then focus the selected tab
@@ -82,6 +80,8 @@ fun HomeScreenUi(state: State, modifier: Modifier = Modifier) {
         }
     }
 
+    BackHandler(enabled = true) { handleBackPress() }
+
     Box(
         modifier = modifier.onPreviewKeyEvent {
             if (it.key == Key.Back && it.type == KeyEventType.KeyUp) {
@@ -94,23 +94,18 @@ fun HomeScreenUi(state: State, modifier: Modifier = Modifier) {
         var wasTopBarFocusRequestedBefore by rememberSaveable { mutableStateOf(false) }
         var topBarHeightPx by rememberSaveable { mutableIntStateOf(0) }
 
-        // Used to show/hide DashboardTopBar
+        // Used to show/hide HomeTopBar
         val topBarYOffsetPx by animateIntAsState(
             targetValue = if (isTopBarVisible) 0 else -topBarHeightPx,
             animationSpec = tween(),
-            label = "",
-            finishedListener = {
-                if (it == -topBarHeightPx) {
-                    focusManager.moveFocus(FocusDirection.Down)
-                }
-            }
+            label = "y-offset",
         )
 
-        // Used to push down/pull up CircuitContent when DashboardTopBar is shown/hidden
+        // Used to push down/pull up CircuitContent when the HomeTopBar is shown/hidden
         val contentTopPaddingDp by animateDpAsState(
             targetValue = if (isTopBarVisible) with(density) { topBarHeightPx.toDp() } else 0.dp,
             animationSpec = tween(),
-            label = "",
+            label = "top-padding",
         )
 
         LaunchedEffect(Unit) {

@@ -22,6 +22,7 @@
 
 package app.ss.tv.presentation.account.languages
 
+import androidx.compose.runtime.Immutable
 import app.ss.tv.data.model.LanguageSpec
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -35,6 +36,8 @@ object LanguagesScreen : Screen {
     sealed interface State : CircuitUiState {
         data object Error : State
         data object Loading : State
+
+        @Immutable
         data class Languages(
             val languages: ImmutableList<LanguageSpec>,
             val eventSink: (Event) -> Unit
@@ -42,6 +45,6 @@ object LanguagesScreen : Screen {
     }
 
     sealed interface Event : CircuitUiEvent {
-        data class OnSelected(val spec: LanguageSpec) : Event
+        data class OnSelected(val code: String) : Event
     }
 }

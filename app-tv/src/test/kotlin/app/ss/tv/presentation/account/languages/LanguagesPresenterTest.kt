@@ -24,6 +24,7 @@ package app.ss.tv.presentation.account.languages
 
 import app.ss.tv.data.model.LanguageSpec
 import app.ss.tv.data.repository.FakeVideosRepository
+import app.ss.tv.presentation.account.languages.LanguagesScreen.Event
 import app.ss.tv.presentation.account.languages.LanguagesScreen.State
 import com.slack.circuit.test.test
 import kotlinx.collections.immutable.persistentListOf
@@ -94,7 +95,7 @@ class LanguagesPresenterTest {
 
             state.languages shouldBeEqualTo expected
 
-            state.eventSink(LanguagesScreen.Event.OnSelected(expected.first()))
+            state.eventSink(Event.OnSelected(expected.first().code))
 
             state = awaitItem() as State.Languages
 

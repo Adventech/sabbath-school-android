@@ -22,11 +22,13 @@
 
 package app.ss.tv.presentation.videos
 
+import android.content.Intent
 import app.ss.tv.data.infoModel
 import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.repository.FakeVideosRepository
 import app.ss.tv.data.videoSpec
-import app.ss.tv.presentation.player.VideoPlayerScreen
+import app.ss.tv.navigator.AndroidScreen
+import app.ss.tv.presentation.FakeScrollEvents
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
 import kotlinx.collections.immutable.persistentListOf
@@ -43,12 +45,15 @@ class VideosPresenterTest {
     private val navigator = FakeNavigator()
     private val repository = FakeVideosRepository()
     private val languagesFlow = MutableStateFlow("en")
+    private val fakeIntent = Intent()
 
     private val underTest = VideosPresenter(
         repository = repository,
         navigator = navigator,
         ssPrefs = FakeSSPrefs(languagesFlow),
-        dispatcherProvider = TestDispatcherProvider()
+        dispatcherProvider = TestDispatcherProvider(),
+        scrollEvents = FakeScrollEvents(),
+        intentHelper = { fakeIntent }
     )
 
     @Test
@@ -88,7 +93,7 @@ class VideosPresenterTest {
 
             state.eventSink(VideosScreen.Event.OnVideoClick(videoSpec))
 
-            navigator.awaitNextScreen() shouldBeEqualTo VideoPlayerScreen(videoSpec)
+            navigator.awaitNextScreen() shouldBeEqualTo AndroidScreen.IntentScreen(fakeIntent)
         }
     }
 }

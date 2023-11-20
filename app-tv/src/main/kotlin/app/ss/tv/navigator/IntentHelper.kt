@@ -20,32 +20,25 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.videos
+package app.ss.tv.navigator
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
-import app.ss.tv.presentation.theme.SSTvTheme
-import app.ss.tv.presentation.videos.VideosScreen.State
-import app.ss.tv.presentation.videos.ui.VideosUiContent
+import android.content.Context
+import android.content.Intent
+import app.ss.tv.data.model.VideoSpec
+import app.ss.tv.presentation.player.VideoPlayerActivity
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-@Composable
-fun VideosUiScreen(state: State, modifier: Modifier = Modifier) {
-    VideosUiContent(
-        state = state,
-        modifier = modifier.fillMaxSize(),
-    )
+fun interface IntentHelper {
+    fun playerIntent(videoSpec: VideoSpec): Intent
 }
 
-@Preview(
-    name = "Home",
-    device = Devices.TV_1080p
-)
-@Composable
-fun HomePreview() {
-    SSTvTheme {
-        VideosUiScreen(state = State.Loading {})
+@Singleton
+class IntentHelperImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
+) : IntentHelper {
+    override fun playerIntent(videoSpec: VideoSpec): Intent {
+        return VideoPlayerActivity.launchIntent(context, videoSpec)
     }
 }

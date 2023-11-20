@@ -20,40 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.player
+package app.ss.tv.presentation
 
-import androidx.compose.runtime.Composable
-import app.ss.tv.presentation.player.VideoPlayerScreen.Event
-import app.ss.tv.presentation.player.VideoPlayerScreen.State
-import com.slack.circuit.runtime.presenter.Presenter
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
-class VideoPlayerPresenter @AssistedInject constructor(
-    private val ambientModeHelper: AmbientModeHelper,
-    @Assisted private val screen: VideoPlayerScreen,
-) : Presenter<State> {
+class FakeScrollEvents(
+    private val isVisible: MutableStateFlow<Boolean> = MutableStateFlow(true)
+) : ScrollEvents {
+    override val appBarVisibility: Flow<Boolean> = isVisible
 
-    @AssistedFactory
-    interface Factory {
-        fun create(
-            screen: VideoPlayerScreen,
-        ): VideoPlayerPresenter
-    }
-
-    @Composable
-    override fun present(): State {
-        return State(screen.video) { event ->
-            when (event) {
-                is Event.OnPlaybackChange -> {
-                    if (event.isPlaying) {
-                        ambientModeHelper.disable()
-                    } else {
-                        ambientModeHelper.enable()
-                    }
-                }
-            }
-        }
+    override fun update(showTopBar: Boolean) {
+        isVisible.update { showTopBar }
     }
 }

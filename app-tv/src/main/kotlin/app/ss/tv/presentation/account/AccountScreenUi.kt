@@ -62,13 +62,12 @@ import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.CircuitContent
 
-private val FocusRequesters = List(2) { FocusRequester() }
+private val focusRequesters = List(2) { FocusRequester() }
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun AccountUiScreen(state: State, modifier: Modifier = Modifier) {
+fun AccountScreenUi(state: State, modifier: Modifier = Modifier) {
     val childPadding = rememberChildPadding()
-    val focusRequesters: List<FocusRequester> = remember { FocusRequesters }
     var focusedIndex by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(Unit) { focusRequesters[0].requestFocus() }
@@ -80,7 +79,7 @@ fun AccountUiScreen(state: State, modifier: Modifier = Modifier) {
     ) {
         TvLazyColumn(
             modifier = Modifier
-                .fillMaxWidth(fraction = sidebarWidthFraction)
+                .fillMaxWidth(fraction = SIDE_BAR_WIDTH_FRACTION)
                 .fillMaxHeight()
                 .focusRestorer()
                 .focusGroup()
@@ -138,14 +137,14 @@ fun AccountUiScreen(state: State, modifier: Modifier = Modifier) {
     }
 }
 
-private const val sidebarWidthFraction = 0.32f
+private const val SIDE_BAR_WIDTH_FRACTION = 0.32f
 
 @Preview(device = Devices.TV_1080p)
 @Composable
 private fun Preview() {
     SSTvTheme {
         CircuitCompositionLocals(circuit = Circuit.Builder().build()) {
-            AccountUiScreen(State(AccountScreens.About) {})
+            AccountScreenUi(State(AccountScreens.About) {})
         }
     }
 }

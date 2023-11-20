@@ -20,17 +20,16 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv
+package app.ss.tv.presentation.player
 
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import app.ss.tv.navigator.AndroidSupportingNavigator
-import app.ss.tv.presentation.home.HomeScreen
-import app.ss.tv.presentation.splash.SplashScreen
+import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.presentation.theme.SSTvTheme
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
@@ -38,38 +37,43 @@ import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class VideoPlayerActivity : ComponentActivity() {
 
     @Inject
     lateinit var circuit: Circuit
 
-    @Inject
-    lateinit var supportingNavigatorFactory: AndroidSupportingNavigator.Factory
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
         super.onCreate(savedInstanceState)
-
+        val video = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra(ARG_VIDEO, VideoSpec::class.java) ?: return
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra(ARG_VIDEO) ?: return
+        }
         setContent {
             CircuitCompositionLocals(circuit = circuit) {
-                val backstack = rememberSaveableBackStack { push(SplashScreen) }
-                val circuitNavigator = rememberCircuitNavigator(backstack)
-                val navigator = remember(circuitNavigator) {
-                    supportingNavigatorFactory.create(circuitNavigator, this)
-                }
                 SSTvTheme {
+                    val backstack = rememberSaveableBackStack { push(VideoPlayerScreen(video)) }
+                    BackHandler(onBack = { finishAfterTransition() })
+                    val navigator = rememberCircuitNavigator(backstack)
+
                     NavigableCircuitContent(navigator, backstack)
                 }
-
-                LaunchedEffect(Unit) {
-                    delay(1500)
-                    circuitNavigator.resetRoot(HomeScreen)
-                }
             }
+        }
+    }
+
+    companion object {
+        private const val ARG_VIDEO = "extra:video"
+
+        fun launchIntent(
+            context: Context,
+            video: VideoSpec,
+        ): Intent = Intent(context, VideoPlayerActivity::class.java).apply {
+            putExtra(ARG_VIDEO, video)
         }
     }
 }

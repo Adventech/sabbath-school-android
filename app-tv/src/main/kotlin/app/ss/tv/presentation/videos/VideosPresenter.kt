@@ -29,7 +29,9 @@ import androidx.compose.runtime.remember
 import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.data.repository.VideosRepository
-import app.ss.tv.presentation.player.VideoPlayerScreen
+import app.ss.tv.navigator.AndroidScreen
+import app.ss.tv.navigator.IntentHelper
+import app.ss.tv.presentation.ScrollEvents
 import app.ss.tv.presentation.videos.VideosScreen.Event
 import app.ss.tv.presentation.videos.VideosScreen.State
 import com.slack.circuit.runtime.Navigator
@@ -50,6 +52,8 @@ class VideosPresenter @AssistedInject constructor(
     private val repository: VideosRepository,
     private val ssPrefs: SSPrefs,
     private val dispatcherProvider: DispatcherProvider,
+    private val scrollEvents: ScrollEvents,
+    private val intentHelper: IntentHelper,
     @Assisted private val navigator: Navigator,
 ) : Presenter<State> {
 
@@ -71,16 +75,17 @@ class VideosPresenter @AssistedInject constructor(
         val eventSink: (Event) -> Unit = remember {
             { event ->
                 when (event) {
-                    is Event.OnVideoClick -> navigator.goTo(VideoPlayerScreen(event.video))
-                    Event.OnBack -> navigator.pop()
-                    is Event.OnScroll -> Unit
+                    is Event.OnVideoClick -> navigator.goTo(
+                        AndroidScreen.IntentScreen(intentHelper.playerIntent(event.video))
+                    )
+                    is Event.OnScroll -> scrollEvents.update(event.isTopAppBarVisible)
                 }
             }
         }
 
         return when {
-            result.isFailure -> State.Error(eventSink)
-            result.getOrElse { emptyList() }.isEmpty() -> State.Loading(eventSink)
+            result.isFailure -> State.Error
+            result.getOrElse { emptyList() }.isEmpty() -> State.Loading
             else -> State.Videos(mapVideos(result.getOrThrow()), eventSink)
         }
     }

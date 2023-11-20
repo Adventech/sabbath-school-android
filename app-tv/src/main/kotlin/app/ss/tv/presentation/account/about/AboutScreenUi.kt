@@ -52,7 +52,7 @@ import app.ss.tv.presentation.theme.rememberChildPadding
 import app.ss.translations.R as L10nR
 
 @Composable
-fun AboutUiScreen(state: State, modifier: Modifier = Modifier) {
+fun AboutScreenUi(state: State, modifier: Modifier = Modifier) {
 
     val childPadding = rememberChildPadding()
 
@@ -95,6 +95,6 @@ fun AboutUiScreen(state: State, modifier: Modifier = Modifier) {
 
 @Preview(device = Devices.TV_1080p)
 @Composable
-private fun Preview() {
-    SSTvTheme { AboutUiScreen(State("1.0.0")) }
+private fun AboutPreview() {
+    SSTvTheme { AboutScreenUi(State("1.0.0")) }
 }

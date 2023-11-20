@@ -35,6 +35,7 @@ object HomeScreen : Screen {
     data class State(
         val selectedIndex: Int,
         val currentScreen: Screen,
+        val topAppBarVisible: Boolean,
         val eventSink: (Event) -> Unit
     ) : CircuitUiState
 

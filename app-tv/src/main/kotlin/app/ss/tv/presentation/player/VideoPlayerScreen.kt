@@ -35,7 +35,6 @@ data class VideoPlayerScreen(
 ) : Screen, Parcelable {
 
     sealed interface Event : CircuitUiEvent {
-        object OnBack : Event
         data class OnPlaybackChange(val isPlaying: Boolean) : Event
     }
 

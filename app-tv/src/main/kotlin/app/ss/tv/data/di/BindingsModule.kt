@@ -24,10 +24,15 @@ package app.ss.tv.data.di
 
 import app.ss.tv.data.repository.VideosRepository
 import app.ss.tv.data.repository.VideosRepositoryImpl
+import app.ss.tv.navigator.IntentHelper
+import app.ss.tv.navigator.IntentHelperImpl
+import app.ss.tv.presentation.ScrollEvents
+import app.ss.tv.presentation.ScrollEventsImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -37,4 +42,16 @@ abstract class BindingsModule {
     internal abstract fun bindVideosRepository(
         impl: VideosRepositoryImpl
     ): VideosRepository
+
+    @Binds
+    @Singleton
+    internal abstract fun bindScrollEvents(
+        impl: ScrollEventsImpl
+    ): ScrollEvents
+
+    @Binds
+    @Singleton
+    internal abstract fun bindIntentHelper(
+        impl: IntentHelperImpl
+    ): IntentHelper
 }
