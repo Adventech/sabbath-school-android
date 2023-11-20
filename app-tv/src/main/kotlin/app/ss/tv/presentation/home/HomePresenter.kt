@@ -23,10 +23,12 @@
 package app.ss.tv.presentation.home
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import app.ss.tv.navigator.AndroidScreen
 import app.ss.tv.presentation.Screens
 import app.ss.tv.presentation.ScrollEvents
 import app.ss.tv.presentation.account.AccountScreen
@@ -61,6 +63,8 @@ class HomePresenter @AssistedInject constructor(
             scrollEvents.appBarVisibility.collect { value = it }
         }
 
+        LaunchedEffect(Unit) { scrollEvents.update(true) }
+
         return State(selectedIndex, currentScreen, topAppBarVisible) { event ->
             when (event) {
                 is Event.OnTopBarScreen -> {
@@ -70,7 +74,16 @@ class HomePresenter @AssistedInject constructor(
                     }
                 }
 
-                Event.OnBack -> navigator.pop()
+                Event.OnBack -> {
+                    when (currentScreen) {
+                        AccountScreen -> {
+                            currentScreen = VideosScreen
+                        }
+
+                        VideosScreen -> navigator.goTo(AndroidScreen.Finish)
+                    }
+                }
+
                 is Event.OnNavEvent -> navigator.onNavEvent(event.event)
             }
         }

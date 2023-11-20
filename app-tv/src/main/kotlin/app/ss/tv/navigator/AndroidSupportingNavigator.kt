@@ -45,6 +45,7 @@ class AndroidSupportingNavigator @AssistedInject constructor(
     private fun goToAndroidScreen(screen: AndroidScreen) {
         when (screen) {
             is AndroidScreen.IntentScreen -> activity.startActivity(screen.intent)
+            AndroidScreen.Finish -> activity.finishAfterTransition()
         }
     }
 
@@ -61,4 +62,7 @@ sealed interface AndroidScreen : Screen {
 
     @Parcelize
     data class IntentScreen(val intent: Intent) : AndroidScreen
+
+    @Parcelize
+    data object Finish : AndroidScreen
 }

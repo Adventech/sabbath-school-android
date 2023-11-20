@@ -36,7 +36,7 @@ val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
 val appVersionCode = readPropertyValue(
     filePath = "build_number.properties",
     key = "BUILD_NUMBER",
-    defaultValue = "14"
+    defaultValue = "15"
 ).toInt() + 11000
 
 android {
@@ -45,7 +45,7 @@ android {
     defaultConfig {
         applicationId = BuildAndroidConfig.APP_ID
         versionCode = appVersionCode
-        versionName = "0.3.3 - $appVersionCode"
+        versionName = "0.3.4 - $appVersionCode"
         minSdk = 25
     }
 

@@ -22,6 +22,7 @@
 
 package app.ss.tv.presentation.home
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
@@ -58,8 +59,8 @@ import com.slack.circuit.foundation.CircuitContent
 @Composable
 fun HomeScreenUi(state: State, modifier: Modifier = Modifier) {
     val density = LocalDensity.current
-    var isTopBarVisible = state.topAppBarVisible
-    val currentTopBarSelectedTabIndex = state.selectedIndex
+    var isTopBarVisible by remember(state) { mutableStateOf(state.topAppBarVisible) }
+    val currentTopBarSelectedTabIndex by remember(state) { mutableIntStateOf(state.selectedIndex) }
     var isTopBarFocused by remember { mutableStateOf(false) }
 
     // 1. On user's first back press, bring focus to the current selected tab, if TopBar is not
@@ -78,6 +79,8 @@ fun HomeScreenUi(state: State, modifier: Modifier = Modifier) {
             TopBarFocusRequesters[1].requestFocus()
         }
     }
+
+    BackHandler(enabled = true) { handleBackPress() }
 
     Box(
         modifier = modifier.onPreviewKeyEvent {
