@@ -47,6 +47,7 @@
     <string name="ss_quarterlies_error">"S'ha produït un error desconegut. Siusplau torna-ho a provar"</string>
     <string name="ss_quarterlies_empty">"Sembla que de moment no hi ha trimestres"</string>
     <string name="ss_quarterly_item_read_text">"Obrir"</string>
+    <string name="ss_languages">Idiomes</string>
     <string name="ss_lessons_downloading">"Obrint trimestre…"</string>
     <string name="ss_lessons_error">"S'ha produït un error en obrir trimestralment"</string>
     <string name="ss_lessons_empty">"Sembla que de moment no hi ha lliçons"</string>
@@ -108,6 +109,7 @@
     <string name="ss_media_audio">Àudio</string>
     <string name="ss_media_video">Vídeo</string>
 
+    <string name="ss_media_videos">Vídeos</string>
     <string name="ss_pdf_original">Plantilla original</string>
     <string name="ss_get_printed_resources">Obteniu recursos impresos</string>
     <string name="ss_account">Compte</string>
@@ -127,5 +129,7 @@
     <string name="ss_delete_account">Eliminar compte</string>
     <string name="ss_delete_account_question">Eliminar compte?</string>
     <string name="ss_delete_account_warning">Si suprimiu el vostre compte, totes les vostres dades, com ara els comentaris i els elements destacats, se suprimiran permanentment. Esteu segur que voleu continuar?</string>
+    <string name="ss_delete_downloads">Elimina totes les baixades</string>
+    <string name="ss_delete_downloads_confirm">Si suprimeixes totes les baixades, perdràs tot el contingut de les lliçons desat actualment fora de línia. Esteu segur que voleu continuar?</string>
 
 </resources>

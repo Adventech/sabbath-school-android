@@ -45,6 +45,7 @@
     <string name="ss_quarterlies_error">"אירעה שגיאה לא מוכרת. אנא נסה שנית"</string>
     <string name="ss_quarterlies_empty">"זה נראה כאילו יש לא ברבעונים כרגע"</string>
     <string name="ss_quarterly_item_read_text">"פתח"</string>
+    <string name="ss_languages">תופש</string>
     <string name="ss_lessons_downloading">"ותחילת הרבעונים …"</string>
     <string name="ss_lessons_error">"אירעה שגיאה בעת פתיחת רבעוני"</string>
     <string name="ss_lessons_empty">"זה נראה כאילו אין שיעורים כרגע"</string>
@@ -100,6 +101,7 @@
     <string name="ss_see_all">ראה הכל</string>
     <string name="ss_media_audio">" שֶׁמַע"</string>
     <string name="ss_media_video">וִידֵאוֹ</string>
+    <string name="ss_media_videos">םינוטרס</string>
     <string name="ss_pdf_original">פריסה מקורית</string>
     <string name="ss_settings_theme">נושא</string>
     <string name="ss_settings_theme_default">בְּרִירַת מֶחדָל</string>
@@ -121,4 +123,6 @@
     <string name="ss_delete_account_question">\?ןובשח קחמ</string>
     <string name="ss_delete_account">ןובשח קחמ</string>
     <string name="ss_delete_account_warning">\?ךישמהל הצור התאש חוטב התא םאה .תותימצל וקחמיי םישגדהו תורעה ןוגכ ,ךלש םינותנה</string>
+    <string name="ss_delete_downloads">תודרוהה לכ תא רסה</string>
+    <string name="ss_delete_downloads_confirm">\?ךישמהל הצור התאש חוטב התא םאה .ןווקמ אל בצמב תעכ רמשנש םירועישה ןכות לכ תא דב</string>
 </resources>

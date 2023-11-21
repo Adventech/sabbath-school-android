@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"Impazamo engaziwayo yenzeke. Nceda zama kwakhona."</string>
     <string name="ss_quarterlies_empty">"Akukho zifundo ezikhoyo ngeli xesha"</string>
     <string name="ss_quarterly_item_read_text">"Vula"</string>
+    <string name="ss_languages">"Iilwimi"</string>
     <string name="ss_lessons_downloading">"Isifundo sokuvula"</string>
     <string name="ss_lessons_error">"Iphutha lenzekile ngenkathi uvula isifundo"</string>
     <string name="ss_lessons_empty">"Akukho zifundo ezikhoyo ngeli xesha"</string>
@@ -100,6 +101,7 @@ Siyakholwa ngokwenene ukuba uThixo ukwandise ulwazi lwehlabathi lanamhlanje kway
     <string name="ss_see_all">Ndinibone nonke</string>
     <string name="ss_media_audio">Umsindo</string>
     <string name="ss_media_video">Ividiyo</string>
+    <string name="ss_media_videos">"Iividiyo"</string>
     <string name="ss_pdf_original">Uyilo loqobo</string>
     <string name="ss_settings_theme">Umxholo</string>
     <string name="ss_settings_theme_default">Ukungagqibeki</string>
@@ -120,5 +122,7 @@ Siyakholwa ngokwenene ukuba uThixo ukwandise ulwazi lwehlabathi lanamhlanje kway
     <string name="ss_auto">Ngokuzenzekelayo</string>
     <string name="ss_delete_account">Cima iakhawunti</string>
     <string name="ss_delete_account_question">"Cima iakhawunti? "</string>
-    <string name="ss_delete_account_warning">Ngokucima i-akhawunti yakho yonke idatha yakho, efana nezimvo kunye namagqabantshintshi aya kususwa umphelo. Uqinisekile ukuba ufuna ukuqhubeka?</string>
+    <string name="ss_delete_account_warning">"Ngokucima i-akhawunti yakho yonke idatha yakho, efana nezimvo kunye namagqabantshintshi aya kususwa umphelo. Uqinisekile ukuba ufuna ukuqhubeka?"</string>
+    <string name="ss_delete_downloads">"Susa zonke izinto ezikhutshelweyo"</string>
+    <string name="ss_delete_downloads_confirm">"Ngokususa zonke izinto ezikhutshelweyo uya kuphulukana nazo zonke iziqulatho zezifundo ezigcinwe ngaphandle kweintanethi. Uqinisekile ukuba ufuna ukuqhubeka?"</string>
 </resources>

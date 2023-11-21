@@ -125,4 +125,12 @@
     <string name="ss_delete_account_question">계정 삭제?</string>
     <string name="ss_delete_account">계정 삭제</string>
     <string name="ss_delete_account_warning">\"계정을 삭제하면 댓글 및 하이라이트와 같은 모든 데이터가 영구적으로 삭제됩니다. \"\"계속하시겠습니까?\"</string>
+    <string name="ss_languages">언어</string>
+    <string name="sspm_logo_content_description">안식일 학교 개인 사역 로고</string>
+    <string name="sspm_re_branding_message">대총회 안식일학교 및 개인 사역부의 공식 앱에 오신 것을 환영합니다. 여전히 Adventech에 의해 구동되는 이 앱은 곧 간단하고 사용하기 쉬운 콘텐츠와 기능이 새롭게 개선될 예정입니다.\n하나님의 말씀을 공부하고 나누는 것이 그 어느 때보다 쉬워졌습니다!</string>
+    <string name="gc_sspm_logo_content_description">대총회 안식일학교와 개인 사역 로고</string>
+    <string name="gc_sspm_about">대총회 SSPM 부서의 사명은 제자를 삼고, 그 제자가 다른 제자를 삼는 것입니다. 우리는 지역 재림교회와 교인들이 안식일학교의 목적과 능력을 발견하도록 돕고, 모든 교인이 개인적인 영혼구원 봉사에 적극적으로 참여하도록 영감을 주고 모집함으로써 이를 수행하는 것을 목표로 합니다.\n\nSSPM 부서는 재림교회 회원들이 그리스도와 동행하고 세상에 증거하는 데 도움이 되는 자료를 제작합니다. 안식일학교와 개인 사역 앱의 목적은 이러한 많은 자료를 하나의 편리한 위치에 결합하는 것입니다. 더 많은 자원이 계속 추가됨에 따라 교회 회원과 그 가족은 곧 하나님의 말씀을 공부하고 나누는 데 도움이 되는 풍부한 자원을 갖게 될 것입니다.\n\n앱의 유지 관리 및 개발을 촉진하기 위해 SSPM 부서는 Adventech의 헌신적이고 재능 있는 팀과 협력하게 된 것을 기쁘게 생각합니다.</string>
+    <string name="ss_media_videos">비디오</string>
+    <string name="ss_delete_downloads">모든 다운로드 제거</string>
+    <string name="ss_delete_downloads_confirm">모든 다운로드를 제거하면 현재 오프라인에 저장된 모든 수업 콘텐츠가 손실됩니다. 계속하시겠습니까?</string>
 </resources>

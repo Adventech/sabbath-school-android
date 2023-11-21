@@ -45,6 +45,7 @@
     <string name="ss_quarterlies_error">"Došlo k neznámé chybě. Prosím zkuste to znovu."</string>
     <string name="ss_quarterlies_empty">"V tuto chvíli nejsou k dispozici žádné čtvrtletí"</string>
     <string name="ss_quarterly_item_read_text">"Otevřít"</string>
+    <string name="ss_languages">Jazyky</string>
     <string name="ss_lessons_downloading">"Otevírání čtvrtletí …"</string>
     <string name="ss_lessons_error">"Při otevírání čtvrtletí došlo k chybě"</string>
     <string name="ss_lessons_empty">"V tuto chvíli nejsou k dispozici žádné lekce"</string>
@@ -106,6 +107,7 @@
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
 
+    <string name="ss_media_videos">videa</string>
     <string name="ss_pdf_original">Rozvržení tištěné verze</string>
     <string name="ss_get_printed_resources">Získejte tištěné zdroje</string>
     <string name="ss_account">Účet</string>
@@ -125,5 +127,7 @@
     <string name="ss_delete_account_question">Smazat účet?</string>
     <string name="ss_delete_account">Smazat účet</string>
     <string name="ss_delete_account_warning">Smazáním účtu budou všechna vaše data, jako jsou komentáře a zvýraznění, trvale smazána. Opravdu chcete pokračovat?</string>
+    <string name="ss_delete_downloads">Odstraňte všechna stažená data</string>
+    <string name="ss_delete_downloads_confirm">Odebráním všech stažených souborů ztratíte veškerý obsah lekcí aktuálně uložený offline. Opravdu chcete pokračovat?</string>
 
 </resources>
