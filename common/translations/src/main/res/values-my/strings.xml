@@ -43,6 +43,7 @@
     <string name="ss_quarterlies_error">"အမည်မသိအမှားဖြစ်ပွားခဲ့သည်။ ထပ်ကြိုးစားပါ။"</string>
     <string name="ss_quarterlies_empty">"ဤအချိန်တွင်ရရှိနိုင်မျှသုံးလတစ်ကြိမ်ရှိပါတယ်"</string>
     <string name="ss_quarterly_item_read_text">"ဖွင့်လှစ်"</string>
+    <string name="ss_languages">ဘာသာစကားများ</string>
     <string name="ss_lessons_downloading">"သုံးလတစ်ကြိမ်ဖွင့်လှစ် …"</string>
     <string name="ss_lessons_error">"သုံးလတစ်ကြိမ်ဖွင့်လှစ်နေစဉ်အမှားဖြစ်ပွားခဲ့သည်"</string>
     <string name="ss_lessons_empty">"ဤအချိန်တွင်ရရှိနိုင်မျှသုံးလတစ်ကြိမ်ရှိပါတယ်"</string>
@@ -94,6 +95,7 @@
     <string name="ss_see_all">အားလုံးကြည့်ပါ</string>
     <string name="ss_media_audio">အသံ</string>
     <string name="ss_media_video">ဗွီဒီယို</string>
+    <string name="ss_media_videos">ဗီဒီယိုများ</string>
     <string name="ss_pdf_original">မူရင်းအပြင်အဆင်</string>
     <string name="ss_settings_theme">အပြင်အဆင်</string>
     <string name="ss_settings_theme_default">ပုံသေ</string>
@@ -115,5 +117,7 @@
     <string name="ss_delete_account">"အကောင့်ဖျက်ပါ။ "</string>
     <string name="ss_delete_account_question">"အကောင့်ဖျက်မလား။ "</string>
     <string name="ss_delete_account_warning">"သင့်အကောင့်ကို ဖျက်ခြင်းဖြင့် မှတ်ချက်များနှင့် အသားပေးဖော်ပြချက်များကဲ့သို့သော သင့်ဒေတာအားလုံးကို အပြီးအပိုင် ဖျက်လိုက်ပါမည်။ ရှေ့ဆက်လိုသည်မှာ သေချာပါသလား။ "</string>
+    <string name="ss_delete_downloads">ဒေါင်းလုဒ်များအားလုံးကို ဖယ်ရှားပါ။</string>
+    <string name="ss_delete_downloads_confirm">ဒေါင်းလုဒ်များအားလုံးကို ဖယ်ရှားခြင်းဖြင့် သင်သည် အော့ဖ်လိုင်းတွင် လက်ရှိသိမ်းဆည်းထားသည့် သင်ခန်းစာများအားလုံးကို ဆုံးရှုံးသွားမည်ဖြစ်သည်။ ရှေ့ဆက်လိုသည်မှာ သေချာပါသလား။</string>
 
 </resources>

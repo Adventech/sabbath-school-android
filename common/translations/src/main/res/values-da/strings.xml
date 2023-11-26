@@ -45,6 +45,7 @@
     <string name="ss_quarterlies_error">"Ukendt fejl opstod. Prøv igen."</string>
     <string name="ss_quarterlies_empty">"Studiet ikke er tilgængelig i øjeblikket"</string>
     <string name="ss_quarterly_item_read_text">"Åben"</string>
+    <string name="ss_languages">Sprog</string>
     <string name="ss_lessons_downloading">"Åbner ugens studie…"</string>
     <string name="ss_lessons_error">"Der opstod en fejl under åbningen"</string>
     <string name="ss_lessons_empty">"Studiet er ikke tilgængelig i øjeblikket"</string>
@@ -100,6 +101,7 @@ Vi tror virkelig, at Gud har øget kendskabet til den moderne verden og vil have
     <string name="ss_see_all">Se alt</string>
     <string name="ss_media_audio">Lyd</string>
     <string name="ss_media_video">Video</string>
+    <string name="ss_media_videos">Videoer</string>
     <string name="ss_pdf_original">Originalt layout</string>
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Standard</string>
@@ -121,4 +123,6 @@ Vi tror virkelig, at Gud har øget kendskabet til den moderne verden og vil have
     <string name="ss_delete_account_question">Slet konto?</string>
     <string name="ss_delete_account">Slet konto</string>
     <string name="ss_delete_account_warning">Ved at slette din konto vil alle dine data, såsom kommentarer og highlights blive slettet permanent. Er du sikker på, at du vil fortsætte?</string>
+    <string name="ss_delete_downloads">Fjern alle downloads</string>
+    <string name="ss_delete_downloads_confirm">Ved at fjerne alle downloads mister du alt det lektionsindhold, der i øjeblikket er gemt offline. Er du sikker på, at du vil fortsætte?</string>
 </resources>

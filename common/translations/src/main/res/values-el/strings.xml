@@ -45,6 +45,7 @@
     <string name="ss_quarterlies_error">"Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά."</string>
     <string name="ss_quarterlies_empty">"Δεν υπάρχουν διαθέσιμες τριμηνίες"</string>
     <string name="ss_quarterly_item_read_text">"Άνοιξε"</string>
+    <string name="ss_languages">Γλώσσες</string>
     <string name="ss_lessons_downloading">"Άνοιγμα τριμηνίας…"</string>
     <string name="ss_lessons_error">"Παρουσιάστηκε σφάλμα κατά το άνοιγμα της τριμηνίας"</string>
     <string name="ss_lessons_empty">"Δεν υπάρχουν διαθέσιμες τριμηνίες"</string>
@@ -100,6 +101,7 @@
     <string name="ss_see_all">Προβολή όλων</string>
     <string name="ss_media_audio">Χος</string>
     <string name="ss_media_video">βίντεο</string>
+    <string name="ss_media_videos">Βίντεο</string>
     <string name="ss_pdf_original">Αρχική διάταξη</string>
     <string name="ss_settings_theme">Θέμα</string>
     <string name="ss_settings_theme_default">Προκαθορισμένο</string>
@@ -121,4 +123,6 @@
     <string name="ss_delete_account_question">Διαγραφή λογαριασμού?</string>
     <string name="ss_delete_account">Διαγραφή λογαριασμού</string>
     <string name="ss_delete_account_warning">Με τη διαγραφή του λογαριασμού σας, όλα τα δεδομένα σας, όπως σχόλια και επισημάνσεις, θα διαγραφούν οριστικά. Είστε βέβαιοι ότι θέλετε να συνεχίσετε;</string>
+    <string name="ss_delete_downloads">Καταργήστε όλες τις λήψεις</string>
+    <string name="ss_delete_downloads_confirm">Με την κατάργηση όλων των λήψεων, θα χάσετε όλο το περιεχόμενο των μαθημάτων που είναι αυτή τη στιγμή αποθηκευμένο εκτός σύνδεσης. Είστε βέβαιοι ότι θέλετε να συνεχίσετε;</string>
 </resources>

@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"Kosa isiyojulikana ilitokea. Tafadhali jaribu tena."</string>
     <string name="ss_quarterlies_empty">"Hakuna robo tatu zinazopatikana kwa wakati huu"</string>
     <string name="ss_quarterly_item_read_text">"Fungua"</string>
+    <string name="ss_languages">Lugha</string>
     <string name="ss_lessons_downloading">"Inafungua kila mwezi …"</string>
     <string name="ss_lessons_error">"Hitilafu ilitokea wakati wa ufunguzi wa kila robo"</string>
     <string name="ss_lessons_empty">"Hakuna robo tatu zinazopatikana kwa wakati huu"</string>
@@ -100,6 +101,7 @@ Tunaamini kweli kwamba Mungu ameongeza ujuzi wa dunia ya kisasa na anataka tuutu
     <string name="ss_see_all">Ona yote</string>
     <string name="ss_media_audio">Sauti</string>
     <string name="ss_media_video">Video</string>
+    <string name="ss_media_videos">Video</string>
     <string name="ss_pdf_original">Mpangilio wa asili</string>
     <string name="ss_settings_theme">Mandhari</string>
     <string name="ss_settings_theme_default">Chaguo-msingi</string>
@@ -121,4 +123,6 @@ Tunaamini kweli kwamba Mungu ameongeza ujuzi wa dunia ya kisasa na anataka tuutu
     <string name="ss_delete_account">Futa akaunti</string>
     <string name="ss_delete_account_question">Ungependa kufuta akaunti?</string>
     <string name="ss_delete_account_warning">Kwa kufuta akaunti yako data yako yote, kama vile maoni na vivutio vitafutwa kabisa. Je, una uhakika unataka kuendelea?</string>
+    <string name="ss_delete_downloads">Ondoa vipakuliwa vyote</string>
+    <string name="ss_delete_downloads_confirm">Kwa kuondoa vipakuliwa vyote utapoteza maudhui yote ya masomo yaliyohifadhiwa sasa hivi nje ya mtandao. Je, una uhakika unataka kuendelea?</string>
 </resources>

@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"Ukjent feil oppstod. Vær så snill, prøv på nytt"</string>
     <string name="ss_quarterlies_empty">"Det ser ut til at det ikke finnes kvartaler i øyeblikket"</string>
     <string name="ss_quarterly_item_read_text">"Åpen"</string>
+    <string name="ss_languages">Språk</string>
     <string name="ss_lessons_downloading">"Åpner kvartalsvis …"</string>
     <string name="ss_lessons_error">"Feil oppstod under åpning kvartalsvis"</string>
     <string name="ss_lessons_empty">"Det ser ut til at det ikke er noen leksjoner for øyeblikket"</string>
@@ -96,6 +97,7 @@
     <string name="ss_see_all">Se alle</string>
     <string name="ss_media_audio">Lyd</string>
     <string name="ss_media_video">Video</string>
+    <string name="ss_media_videos">Videoer</string>
     <string name="ss_pdf_original">Originalt oppsett</string>
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Misligholde</string>
@@ -117,4 +119,6 @@
     <string name="ss_delete_account">Slett konto</string>
     <string name="ss_delete_account_question">Slett konto?</string>
     <string name="ss_delete_account_warning">Ved å slette kontoen din vil alle dataene dine, for eksempel kommentarer og høydepunkter, bli slettet permanent. Er du sikker på at du vil fortsette?</string>
+    <string name="ss_delete_downloads">Fjern alle nedlastinger</string>
+    <string name="ss_delete_downloads_confirm">Ved å fjerne alle nedlastinger vil du miste alt leksjonsinnholdet som for øyeblikket er lagret offline. Er du sikker på at du vil fortsette?</string>
 </resources>

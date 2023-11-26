@@ -45,6 +45,7 @@
     <string name="ss_quarterlies_error">"Óþekkt villa kom upp. Vinsamlegast reyndu aftur."</string>
     <string name="ss_quarterlies_empty">"Það eru engir ársfjórðungar í boði á þessum tíma"</string>
     <string name="ss_quarterly_item_read_text">"Opna"</string>
+    <string name="ss_languages">Tungumál</string>
     <string name="ss_lessons_downloading">"Opnun ársfjórðungslega …"</string>
     <string name="ss_lessons_error">"Villa kom upp við opnun ársfjórðungslega"</string>
     <string name="ss_lessons_empty">"Það eru engir ársfjórðungar í boði á þessum tíma"</string>
@@ -100,6 +101,7 @@ Við trúum því sannarlega að Guð hafi aukið þekkingu á nútímanum og vi
     <string name="ss_see_all">Sjá allt</string>
     <string name="ss_media_audio">Hljóð</string>
     <string name="ss_media_video">Myndband</string>
+    <string name="ss_media_videos">Myndbönd</string>
     <string name="ss_pdf_original">Upprunalega skipulag</string>
     <string name="ss_settings_theme">Þema</string>
     <string name="ss_settings_theme_default">Sjálfgefið</string>
@@ -121,4 +123,6 @@ Við trúum því sannarlega að Guð hafi aukið þekkingu á nútímanum og vi
     <string name="ss_delete_account_question">Eyða reikningi?</string>
     <string name="ss_delete_account">Eyða reikningi</string>
     <string name="ss_delete_account_warning">Með því að eyða reikningnum þínum verður öllum gögnum þínum, svo sem athugasemdum og hápunktum, eytt varanlega. Ertu viss um að þú viljir halda áfram?</string>
+    <string name="ss_delete_downloads">Fjarlægðu allt niðurhal</string>
+    <string name="ss_delete_downloads_confirm">Með því að fjarlægja allt niðurhal taparðu öllu kennsluefninu sem er vistað án nettengingar. Ertu viss um að þú viljir halda áfram?</string>
 </resources>

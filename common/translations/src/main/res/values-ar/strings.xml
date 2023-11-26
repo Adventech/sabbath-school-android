@@ -46,6 +46,7 @@
     <string name="ss_quarterlies_error">"حدث خطأ غير معروف. الرجاء المحاولة مجدداً"</string>
     <string name="ss_quarterlies_empty">"يبدو أنه لا توجد دروس متاحة الآن"</string>
     <string name="ss_quarterly_item_read_text">"افتح"</string>
+    <string name="ss_languages">ﺕﺎﻐﻠﻟﺍ</string>
     <string name="ss_lessons_downloading">"يتم الفتح…"</string>
     <string name="ss_lessons_error">"حدثت مشكلة في أثناء فتح الدرس"</string>
     <string name="ss_lessons_empty">"يبدو أنه لا توجد دروس في هذه اللحظة "</string>
@@ -96,6 +97,7 @@
     <string name="ss_see_all">اظهار الكل</string>
     <string name="ss_media_audio">صوتي</string>
     <string name="ss_media_video">فيديو</string>
+    <string name="ss_media_videos">ﻮﻳﺪﻴﻓ ﺔﻃﺮﺷﺃ</string>
     <string name="ss_pdf_original">التخطيط الأصلي</string>
     <string name="ss_settings_theme">سمة</string>
     <string name="ss_settings_theme_default">تقصير</string>
@@ -117,4 +119,6 @@
     <string name="ss_delete_account_question">؟ﺏﺎﺴﺤﻟﺍ ﻑﺬﺣ</string>
     <string name="ss_delete_account">ﺏﺎﺴﺤﻟﺍ ﻑﺬﺣ</string>
     <string name="ss_delete_account_warning">؟ﺔﻌﺑﺎﺘﻤﻟﺍ ﺪﻳﺮﺗ ﻚﻧﺍ ﺪﻛﺄﺘﻣ ﺖﻧﺍ ﻞﻫ .ﻢﺋﺍﺩ ﻞﻜﺸﺑ ﺕﺍﺰﻴﻤﻟﺍﻭ ﺕﺎﻘﻴﻠﻌﺘﻟﺍ ﻞﺜﻣ ، ﻚﺗﺎﻧﺎﻴﺑ ﻊﻴ</string>
+    <string name="ss_delete_downloads">"ﺕﻼﻳﺰﻨﺘﻟﺍ ﺔﻓﺎﻛ ﺔﻟﺍﺯ"</string>
+    <string name="ss_delete_downloads_confirm">؟ﺔﻌﺑﺎﺘﻤﻟﺍ ﺪﻳﺮﺗ ﻚﻧﺍ ﺪﻛﺄﺘﻣ ﺖﻧﺍ ﻞﻫ .ﻝﺎﺼﺗﻻﺍ ﻡﺪﻋ ﻊﺿﻭ ﻲﻓ ﺎﻴًﻟﺎﺣ ﻅﻮﻔﺤﻤﻟﺍ ﺱﻭﺭﺪﻟﺍ ﻯﻮﺘ</string>
 </resources>

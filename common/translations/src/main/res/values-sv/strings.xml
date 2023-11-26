@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"Okänt fel har inträffat. Var god försök igen."</string>
     <string name="ss_quarterlies_empty">"Det finns inga kvartalslistor tillgängliga just nu"</string>
     <string name="ss_quarterly_item_read_text">"Öppen"</string>
+    <string name="ss_languages">språk</string>
     <string name="ss_lessons_downloading">"Öppnar kvartalsvis …"</string>
     <string name="ss_lessons_error">"Ett fel uppstod när du öppnade kvartalsvis"</string>
     <string name="ss_lessons_empty">"Det finns inga kvartalslistor tillgängliga just nu"</string>
@@ -100,6 +101,7 @@ Vi tror verkligen att Gud har ökat den moderna världens kunskap och vill att v
     <string name="ss_see_all">Se allt</string>
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
+    <string name="ss_media_videos">videoklipp</string>
     <string name="ss_pdf_original">Ursprunglig layout</string>
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Standard</string>
@@ -121,4 +123,6 @@ Vi tror verkligen att Gud har ökat den moderna världens kunskap och vill att v
     <string name="ss_delete_account">Radera konto</string>
     <string name="ss_delete_account_question">Radera konto?</string>
     <string name="ss_delete_account_warning">Genom att radera ditt konto kommer all din data, såsom kommentarer och höjdpunkter, att raderas permanent. Är du säker på att du vill fortsätta?</string>
+    <string name="ss_delete_downloads">Ta bort alla nedladdningar</string>
+    <string name="ss_delete_downloads_confirm">Genom att ta bort alla nedladdningar förlorar du allt lektionsinnehåll som för närvarande är sparat offline. Är du säker på att du vill fortsätta?</string>
 </resources>

@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"ເກີດຄວາມຜິດພາດທີ່ບໍ່ຮູ້ຕົວ. ກະລຸນາລອງອີກເທື່ອຫນຶ່ງ."</string>
     <string name="ss_quarterlies_empty">"ບໍ່ມີການແຂ່ງຂັນທີ່ມີຢູ່ໃນເວລານີ້"</string>
     <string name="ss_quarterly_item_read_text">"ເປີດ"</string>
+    <string name="ss_languages">ພາສາ</string>
     <string name="ss_lessons_downloading">"ເປີດຕົວໄຕມາດ …"</string>
     <string name="ss_lessons_error">"ຂໍ້ຜິດພາດເກີດຂຶ້ນໃນຂະນະທີ່ເປີດ"</string>
     <string name="ss_lessons_empty">"ບໍ່ມີການແຂ່ງຂັນທີ່ມີຢູ່ໃນເວລານີ້"</string>
@@ -101,6 +102,7 @@
     <string name="ss_see_all">ເບິ່ງທັງົດ</string>
     <string name="ss_media_audio">ສຽງ</string>
     <string name="ss_media_video">ວິດີໂອ</string>
+    <string name="ss_media_videos">ວິດີໂອ</string>
     <string name="ss_pdf_original">ໂຄງຮ່າງຕົ້ນສະບັບ</string>
     <string name="ss_settings_theme">ຫົວຂໍ້</string>
     <string name="ss_settings_theme_default">ຄ່າເລີ່ມຕົ້ນ</string>
@@ -122,5 +124,7 @@
     <string name="ss_delete_account_question">ລຶບບັນຊີບໍ?</string>
     <string name="ss_delete_account">ລຶບບັນຊີ</string>
     <string name="ss_delete_account_warning">"ໂດຍການລຶບບັນຊີຂອງທ່ານທັງໝົດຂໍ້ມູນຂອງທ່ານ, ເຊັ່ນ: ຄຳເຫັນ ແລະຈຸດເດັ່ນຈະຖືກລຶບຢ່າງຖາວອນ. ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການດຳເນີນການຕໍ່? "</string>
+    <string name="ss_delete_downloads">ລຶບການດາວໂຫຼດທັງໝົດອອກ</string>
+    <string name="ss_delete_downloads_confirm">ໂດຍການລຶບການດາວໂຫຼດທັງໝົດ, ທ່ານຈະສູນເສຍເນື້ອໃນບົດຮຽນທັງໝົດທີ່ບັນທຶກໄວ້ໃນເວລາອອບລາຍ. ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການດຳເນີນການຕໍ່?</string>
 
 </resources>

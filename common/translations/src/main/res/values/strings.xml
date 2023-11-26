@@ -22,7 +22,7 @@
   ~ THE SOFTWARE.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="ss_app_name">"Sabbath School"</string>
     <string name="ss_share">"Share"</string>
     <string name="ss_login_button_google">"Sign in with Google"</string>
@@ -47,7 +47,7 @@
     <string name="ss_quarterlies_error">"Unknown error occurred. Please try again"</string>
     <string name="ss_quarterlies_empty">"It looks like there are no quarterlies at the moment"</string>
     <string name="ss_quarterly_item_read_text">"Open"</string>
-    <string name="ss_languages" translatable="false">Languages</string>
+    <string name="ss_languages">Languages</string>
     <string name="ss_lessons_downloading">"Opening quarterly…"</string>
     <string name="ss_lessons_error">"Error occurred while opening quarterly"</string>
     <string name="ss_lessons_empty">"It looks like there are no lessons at the moment"</string>
@@ -97,18 +97,17 @@
     <string name="ss_reading_offline_retry">"Retry"</string>
     <string name="ss_about_text">"Adventech is a non-profit organization in Canada that is dedicated to the use of technology for ministry. As dedicated Seventh-day Adventists, the mission of Adventech is first and foremost to give glory to God. We also aim through our ministry to bring unity to the worldwide Seventh-day Adventist Church. Our primary goal is to proclaim the everlasting gospel by means of technology and advancements in communications, and to do our part in preparing the world for the second coming of Jesus."</string>
 
-    <string name="sspm_logo_content_description" translatable="false">Sabbath School Personal Ministries Logo</string>
-    <string name="sspm_re_branding_message" translatable="false">Welcome to the official app of the General Conference Sabbath School and Personal Ministries Department. Still powered by Adventech, the app will soon receive new improvements in content and features while remaining simple and easy to use.\nIt’s never been easier to study and share God’s Word!</string>
-    <string name="gc_sspm_logo_content_description" translatable="false">General Conference Sabbath School and Personal Ministries logo</string>
-    <string name="gc_sspm_about" translatable="false">The mission of the General Conference SSPM Department is to make disciples, who in turn make other disciples. We aim to do this by helping local Seventh-day Adventist churches and their members to discover the purpose and power of Sabbath School and by inspiring and enlisting every member to become actively involved in personal soul-winning service.\n\nThe SSPM Department produces resources to help Seventh-day Adventist church members in their walk with Christ and their witness to the world. The aim of the Sabbath School and Personal Ministries app is to combine many of these resources into one convenient location. As more resources continue to be added, church members and their families will soon be equipped with a wealth of resources to aid them in studying and sharing God’s Word.\n\nTo facilitate the maintenance and development of the app, the SSPM Department is glad to partner with the dedicated and talented team at Adventech.</string>
+    <string name="sspm_re_branding_message">Welcome to the official app of the General Conference Sabbath School and Personal Ministries Department. Still powered by Adventech, the app will soon receive new improvements in content and features while remaining simple and easy to use.\nIt’s never been easier to study and share God’s Word!</string>
+    <string name="gc_sspm_logo_content_description">General Conference Sabbath School and Personal Ministries logo</string>
+    <string name="gc_sspm_about">The mission of the General Conference SSPM Department is to make disciples, who in turn make other disciples. We aim to do this by helping local Seventh-day Adventist churches and their members to discover the purpose and power of Sabbath School and by inspiring and enlisting every member to become actively involved in personal soul-winning service.\n\nThe SSPM Department produces resources to help Seventh-day Adventist church members in their walk with Christ and their witness to the world. The aim of the Sabbath School and Personal Ministries app is to combine many of these resources into one convenient location. As more resources continue to be added, church members and their families will soon be equipped with a wealth of resources to aid them in studying and sharing God’s Word.\n\nTo facilitate the maintenance and development of the app, the SSPM Department is glad to partner with the dedicated and talented team at Adventech.</string>
     <string name="ss_copyright">%1$s General Conference of Seventh-day Adventists®</string>
     <string name="ss_see_all">See All</string>
 
-    <string name="ss_media_notification_channel" translatable="false">Now Playing</string>
-    <string name="ss_media_notification_channel_description" translatable="false">Shows what media is currently playing</string>
+    <string name="ss_media_notification_channel">Now Playing</string>
+    <string name="ss_media_notification_channel_description">Shows what media is currently playing</string>
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
-    <string name="ss_media_videos" translatable="false">Videos</string>
+    <string name="ss_media_videos">Videos</string>
 
     <string name="ss_pdf_original">Original layout</string>
     <string name="ss_get_printed_resources">Get Printed Resources</string>
@@ -129,7 +128,7 @@
     <string name="ss_delete_account">Delete account</string>
     <string name="ss_delete_account_question">Delete account?</string>
     <string name="ss_delete_account_warning">By deleting your account all your data, such as comments and highlights will be permanently deleted. Are you sure you want to proceed?</string>
-    <string name="ss_delete_downloads" translatable="false">Remove all downloads</string>
-    <string name="ss_delete_downloads_confirm" translatable="false">By removing all downloads you will lose all the lessons content currently saved offline. Are you sure you want to proceed?</string>
+    <string name="ss_delete_downloads">Remove all downloads</string>
+    <string name="ss_delete_downloads_confirm">By removing all downloads you will lose all the lessons content currently saved offline. Are you sure you want to proceed?</string>
 
 </resources>

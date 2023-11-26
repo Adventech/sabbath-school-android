@@ -46,6 +46,7 @@
     <string name="ss_quarterlies_error">"Ismeretlen hiba történt. Kérlek próbáld újra."</string>
     <string name="ss_quarterlies_empty">"Jelenleg nincsenek negyedéves elérhetők"</string>
     <string name="ss_quarterly_item_read_text">"Nyisd ki"</string>
+    <string name="ss_languages">Nyelvek</string>
     <string name="ss_lessons_downloading">"Negyedéves megnyitása …"</string>
     <string name="ss_lessons_error">"Hiba történt negyedéves megnyitáskor"</string>
     <string name="ss_lessons_empty">"Jelenleg nincsenek negyedéves elérhetők"</string>
@@ -101,6 +102,7 @@ Igazán hiszünk abban, hogy Isten megnövelte a modern világ tudását, és az
     <string name="ss_see_all">Az összes megtekintése</string>
     <string name="ss_media_audio">Hang</string>
     <string name="ss_media_video">Videó</string>
+    <string name="ss_media_videos">Videók</string>
     <string name="ss_pdf_original">Eredeti elrendezés</string>
     <string name="ss_settings_theme">Téma</string>
     <string name="ss_settings_theme_default">Alapértelmezett</string>
@@ -122,4 +124,6 @@ Igazán hiszünk abban, hogy Isten megnövelte a modern világ tudását, és az
     <string name="ss_delete_account_question">Fiók törlése?</string>
     <string name="ss_delete_account">Fiók törlése</string>
     <string name="ss_delete_account_warning">Fiókja törlésével minden adata, például megjegyzései és kiemelt tartalmai véglegesen törlődnek. Biztosan folytatja?</string>
+    <string name="ss_delete_downloads">Távolítsa el az összes letöltést</string>
+    <string name="ss_delete_downloads_confirm">Az összes letöltés eltávolításával elveszíti az offline módban mentett összes tananyagot. Biztosan folytatja?</string>
 </resources>

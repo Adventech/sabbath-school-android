@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"Виникла невідома помилка. Будь ласка спробуйте ще раз"</string>
     <string name="ss_quarterlies_empty">"Схоже, що жодного посібника в даний момент не знайдено"</string>
     <string name="ss_quarterly_item_read_text">"Відкрити"</string>
+    <string name="ss_languages">Мови</string>
     <string name="ss_lessons_downloading">"Відкриваю посібник …"</string>
     <string name="ss_lessons_error">"Помилка під час відкриття посібника. Будь ласка, спробуйте пізніше"</string>
     <string name="ss_lessons_empty">"Схоже, що немає уроків в даний момент"</string>
@@ -100,6 +101,7 @@
     <string name="ss_see_all">Бачити все</string>
     <string name="ss_media_audio">Аудіо</string>
     <string name="ss_media_video">Відео</string>
+    <string name="ss_media_videos">Відео</string>
     <string name="ss_pdf_original">Оригінальний макет</string>
     <string name="ss_settings_theme">Тема</string>
     <string name="ss_settings_theme_default">За замовчуванням</string>
@@ -121,4 +123,6 @@
     <string name="ss_delete_account">Видалити аккаунт</string>
     <string name="ss_delete_account_question">Видалити аккаунт?</string>
     <string name="ss_delete_account_warning">Після видалення облікового запису всі ваші дані, як-от коментарі та основні моменти, буде видалено назавжди. Ви впевнені, що бажаєте продовжити?</string>
+    <string name="ss_delete_downloads">Видалити всі завантаження</string>
+    <string name="ss_delete_downloads_confirm">Вилучивши всі завантаження, ви втратите весь вміст уроків, який зараз зберігається в автономному режимі. Ви впевнені, що бажаєте продовжити?</string>
 </resources>

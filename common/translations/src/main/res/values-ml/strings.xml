@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"അജ്ഞാത പിശക് സംഭവിച്ചു. വീണ്ടും ശ്രമിക്കുക."</string>
     <string name="ss_quarterlies_empty">"ഈ സമയത്ത് ക്വാർട്ടറികളൊന്നും ലഭ്യമല്ല"</string>
     <string name="ss_quarterly_item_read_text">"തുറക്കുക"</string>
+    <string name="ss_languages">"ഭാഷകൾ "</string>
     <string name="ss_lessons_downloading">"ത്രൈമാസികം തുറക്കുന്നു"</string>
     <string name="ss_lessons_error">"ത്രൈമാസ പ്രവർത്തനം ആരംഭിക്കുമ്പോൾ പിശക് സംഭവിച്ചു"</string>
     <string name="ss_lessons_empty">"ഈ സമയത്ത് ക്വാർട്ടറികളൊന്നും ലഭ്യമല്ല"</string>
@@ -100,6 +101,7 @@
     <string name="ss_see_all">എല്ലാം കാണൂ</string>
     <string name="ss_media_audio">ഓഡിയോ</string>
     <string name="ss_media_video">വീഡിയോ</string>
+    <string name="ss_media_videos">"വീഡിയോകൾ "</string>
     <string name="ss_pdf_original">യഥാർത്ഥ ലേoutട്ട്</string>
     <string name="ss_settings_theme">തീം</string>
     <string name="ss_settings_theme_default">ഡിഫോൾട്ട്</string>
@@ -121,4 +123,6 @@
     <string name="ss_delete_account">"അക്കൗണ്ട് ഇല്ലാതാക്കുക "</string>
     <string name="ss_delete_account_question">"അക്കൗണ്ട് ഇല്ലാതാക്കണോ? "</string>
     <string name="ss_delete_account_warning">"നിങ്ങളുടെ അക്കൗണ്ട് ഇല്ലാതാക്കുന്നതിലൂടെ, അഭിപ്രായങ്ങളും ഹൈലൈറ്റുകളും പോലുള്ള നിങ്ങളുടെ എല്ലാ ഡാറ്റയും ശാശ്വതമായി ഇല്ലാതാക്കപ്പെടും. നിങ്ങൾക്ക് തുടരണമെന്ന് തീർച്ചയാണോ? "</string>
+    <string name="ss_delete_downloads">"എല്ലാ ഡൗൺലോഡുകളും നീക്കം ചെയ്യുക "</string>
+    <string name="ss_delete_downloads_confirm">"എല്ലാ ഡൗൺലോഡുകളും നീക്കം ചെയ്യുന്നതിലൂടെ, നിലവിൽ ഓഫ്ലൈനിൽ സംരക്ഷിച്ചിരിക്കുന്ന എല്ലാ പാഠഭാഗങ്ങളും നിങ്ങൾക്ക് നഷ്ടമാകും. നിങ്ങൾക്ക് തുടരണമെന്ന് തീർച്ചയാണോ? "</string>
 </resources>

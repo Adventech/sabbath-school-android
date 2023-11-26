@@ -47,6 +47,7 @@
     <string name="ss_quarterlies_error">"S'ha produït un error desconegut. Siusplau torna-ho a provar"</string>
     <string name="ss_quarterlies_empty">"Sembla que de moment no hi ha trimestres"</string>
     <string name="ss_quarterly_item_read_text">"Obrir"</string>
+    <string name="ss_languages">Idiomes</string>
     <string name="ss_lessons_downloading">"Obrint trimestre…"</string>
     <string name="ss_lessons_error">"S'ha produït un error en obrir trimestralment"</string>
     <string name="ss_lessons_empty">"Sembla que de moment no hi ha lliçons"</string>
@@ -96,7 +97,6 @@
     <string name="ss_reading_offline_retry">"Tornar a provar-ho"</string>
     <string name="ss_about_text">"Adventech és una organització sense ànim de lucre del Canadà que es dedica a l'ús de la tecnologia per al ministeri. Com a adventistes del setè dia dedicats, la missió d'Adventech és, sobretot, donar glòria a Déu. També pretenem, mitjançant el nostre ministeri, portar unitat a l'Església Adventista del Setè dia a tot el món. El nostre objectiu principal és proclamar l'evangeli etern mitjançant la tecnologia i els avenços en les comunicacions, i fer la nostra part en la preparació del món per a la segona vinguda de Jesús."</string>
 
-    <string name="sspm_logo_content_description">"Logo de l'Escola Sabàtica i Ministeri Personal"</string>
     <string name="sspm_re_branding_message">"Benvingut a l'aplicació oficial del Departament de Ministeris Personals i Escola Sabàtica de la Conferència General. Encara impulsada per Adventech, l'aplicació aviat rebrà noves millores en contingut i funcions, tot i seguir sent senzilla i fàcil d'utilitzar. Mai ha estat més fàcil estudiar i compartir la Paraula de Déu!"</string>
     <string name="gc_sspm_logo_content_description">"Logo de l'Escola Sabàtica de la Conferència General i el Ministeri Personal"</string>
     <string name="gc_sspm_about">"La missió del Departament d'E.S. i M.P. de la Conferència General és fer deixebles, que al seu torn fan altres deixebles. Pretenem fer-ho ajudant les Esglésies Adventistes del Setè Dia locals i els seus membres a descobrir el propòsit i el poder de l'Escola Sabàtica i inspirant i allistant tots els membres perquè s'impliquin activament en el servei personal.\n\nEl Departament d'E.S. i M.P. produeix recursos per ajudar els membres de l'església adventista del setè dia en el seu camí amb Crist i el seu testimoni al món. L'objectiu de l'aplicació Sabbath School and Personal Ministries és combinar molts d'aquests recursos en una ubicació convenient. A mesura que es continuen afegint més recursos, els membres de l'església i les seves famílies aviat estaran equipats amb una gran quantitat de recursos per ajudar-los a estudiar i compartir la Paraula de Déu.\n\nPer facilitar el manteniment i el desenvolupament de l'aplicació, el departament SSPM està encantat d'associar-se amb l'equip dedicat i talentós d'Adventech."</string>
@@ -108,6 +108,7 @@
     <string name="ss_media_audio">Àudio</string>
     <string name="ss_media_video">Vídeo</string>
 
+    <string name="ss_media_videos">Vídeos</string>
     <string name="ss_pdf_original">Plantilla original</string>
     <string name="ss_get_printed_resources">Obteniu recursos impresos</string>
     <string name="ss_account">Compte</string>
@@ -127,5 +128,7 @@
     <string name="ss_delete_account">Eliminar compte</string>
     <string name="ss_delete_account_question">Eliminar compte?</string>
     <string name="ss_delete_account_warning">Si suprimiu el vostre compte, totes les vostres dades, com ara els comentaris i els elements destacats, se suprimiran permanentment. Esteu segur que voleu continuar?</string>
+    <string name="ss_delete_downloads">Elimina totes les baixades</string>
+    <string name="ss_delete_downloads_confirm">Si suprimeixes totes les baixades, perdràs tot el contingut de les lliçons desat actualment fora de línia. Esteu segur que voleu continuar?</string>
 
 </resources>

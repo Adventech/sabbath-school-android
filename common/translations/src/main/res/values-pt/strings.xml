@@ -121,4 +121,11 @@ Nós realmente acreditamos que Deus aumentou o conhecimento do mundo moderno e q
     <string name="ss_delete_account">Deletar conta</string>
     <string name="ss_delete_account_question">Deletar conta?</string>
     <string name="ss_delete_account_warning">Ao excluir sua conta, todos os seus dados, como comentários e destaques, serão excluídos permanentemente. Tem certeza de que deseja continuar?</string>
+    <string name="ss_languages">línguas</string>
+    <string name="sspm_re_branding_message">Bem-vindo ao aplicativo oficial da Escola Sabatina da Associação Geral e do Departamento de Ministérios Pessoais. Ainda desenvolvido pela Adventech, o aplicativo receberá em breve novas melhorias em conteúdo e recursos, mantendo-se simples e fácil de usar.\nNunca foi tão fácil estudar e compartilhar a Palavra de Deus!</string>
+    <string name="gc_sspm_logo_content_description">Logotipo da Escola Sabatina da Associação Geral e dos Ministérios Pessoais</string>
+    <string name="gc_sspm_about">A missão do Departamento SSPM da Associação Geral é fazer discípulos, que por sua vez fazem outros discípulos. Nosso objetivo é fazer isso ajudando as igrejas adventistas locais do sétimo dia e seus membros a descobrir o propósito e o poder da Escola Sabatina e inspirando e recrutando cada membro para se envolver ativamente no serviço pessoal de ganhar almas.\n\nO Departamento SSPM produz recursos para ajudar os membros da Igreja Adventista do Sétimo Dia em sua caminhada com Cristo e em seu testemunho ao mundo. O objetivo do aplicativo Escola Sabatina e Ministérios Pessoais é combinar muitos desses recursos em um local conveniente. À medida que mais recursos continuarem a ser acrescentados, os membros da igreja e as suas famílias estarão em breve equipados com uma riqueza de recursos para os ajudar a estudar e partilhar a Palavra de Deus.\n\nPara facilitar a manutenção e desenvolvimento do aplicativo, o Departamento SSPM tem o prazer de fazer parceria com a equipe dedicada e talentosa da Adventech.</string>
+    <string name="ss_media_videos">Vídeos</string>
+    <string name="ss_delete_downloads">Remover todos os downloads</string>
+    <string name="ss_delete_downloads_confirm">Ao remover todos os downloads, você perderá todo o conteúdo das aulas atualmente salvo offline. Tem certeza de que deseja prosseguir?</string>
 </resources>

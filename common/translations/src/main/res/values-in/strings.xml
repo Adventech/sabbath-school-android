@@ -45,6 +45,7 @@
     <string name="ss_quarterlies_error">"Error tidak diketahui. Silahkan coba lagi"</string>
     <string name="ss_quarterlies_empty">"Sepertinya tidak ada triwulan pada saat ini"</string>
     <string name="ss_quarterly_item_read_text">"Buka"</string>
+    <string name="ss_languages">Bahasa</string>
     <string name="ss_lessons_downloading">"Buka triwulan…"</string>
     <string name="ss_lessons_error">"Error muncul ketika membuka triwulan"</string>
     <string name="ss_lessons_empty">"Sepertinya tidak ada pelajaran saat ini"</string>
@@ -100,6 +101,7 @@ Kami percaya bahwa Tuhan menambahkan pengetahuan tentang dunia modern dan ingin 
     <string name="ss_see_all">Lihat semua</string>
     <string name="ss_media_audio">audio</string>
     <string name="ss_media_video">Video</string>
+    <string name="ss_media_videos">Video</string>
     <string name="ss_pdf_original">Tata letak asli</string>
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Bawaan</string>
@@ -121,4 +123,6 @@ Kami percaya bahwa Tuhan menambahkan pengetahuan tentang dunia modern dan ingin 
     <string name="ss_delete_account_question">Hapus akun?</string>
     <string name="ss_delete_account">Hapus akun</string>
     <string name="ss_delete_account_warning">Dengan menghapus akun Anda, semua data Anda, seperti komentar dan sorotan akan dihapus secara permanen. Anda yakin ingin melanjutkan?</string>
+    <string name="ss_delete_downloads">Hapus semua unduhan</string>
+    <string name="ss_delete_downloads_confirm">"Dengan menghapus semua unduhan, Anda akan kehilangan semua konten pelajaran yang saat ini disimpan secara offline. Apakah Anda yakin ingin melanjutkan? "</string>
 </resources>

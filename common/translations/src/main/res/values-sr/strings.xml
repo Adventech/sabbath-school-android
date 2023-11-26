@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"Došlo je do nepoznate greške. Pokušajte ponovo."</string>
     <string name="ss_quarterlies_empty">"U ovom trenutnu ne postoje dostupne biblijske pouke."</string>
     <string name="ss_quarterly_item_read_text">"Otvorite"</string>
+    <string name="ss_languages">Језици</string>
     <string name="ss_lessons_downloading">"Otvaranje pouke"</string>
     <string name="ss_lessons_error">"Došlo je do greške tokom otvaranja pouke"</string>
     <string name="ss_lessons_empty">"U ovom trenutnu ne postoje dostupne biblijske pouke."</string>
@@ -100,6 +101,7 @@
     <string name="ss_see_all">Види све</string>
     <string name="ss_media_audio">Аудио</string>
     <string name="ss_media_video">Видео</string>
+    <string name="ss_media_videos">Видеос</string>
     <string name="ss_pdf_original">Оригинални распоред</string>
     <string name="ss_settings_theme">Тхеме</string>
     <string name="ss_settings_theme_default">Уобичајено</string>
@@ -121,4 +123,6 @@
     <string name="ss_delete_account">Обрисати налог</string>
     <string name="ss_delete_account_question">Обрисати налог?</string>
     <string name="ss_delete_account_warning">Брисањем налога сви ваши подаци, као што су коментари и истакнути садржаји, биће трајно избрисани. Да ли сте сигурни да желите да наставите?</string>
+    <string name="ss_delete_downloads">Уклоните сва преузимања</string>
+    <string name="ss_delete_downloads_confirm">Уклањањем свих преузимања изгубићете сав садржај лекција који је тренутно сачуван ван мреже. Да ли сте сигурни да желите да наставите?</string>
 </resources>

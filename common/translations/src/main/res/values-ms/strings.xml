@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"Ralat yang tidak diketahui. Cuba lagi."</string>
     <string name="ss_quarterlies_empty">"Tidak ada pelajaran pada masa ini"</string>
     <string name="ss_quarterly_item_read_text">"Buka"</string>
+    <string name="ss_languages">Bahasa</string>
     <string name="ss_lessons_downloading">"Membuka pelajaran…"</string>
     <string name="ss_lessons_error">"Ralat berlaku sementara membuka pelajaran"</string>
     <string name="ss_lessons_empty">"Tidak ada pelajaran pada masa ini"</string>
@@ -100,6 +101,7 @@ Kami benar-benar percaya bahawa Tuhan telah meningkatkan pengetahuan tentang dun
     <string name="ss_see_all">Lihat semua</string>
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
+    <string name="ss_media_videos">Video</string>
     <string name="ss_pdf_original">Susun atur asal</string>
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Lalai</string>
@@ -121,4 +123,6 @@ Kami benar-benar percaya bahawa Tuhan telah meningkatkan pengetahuan tentang dun
     <string name="ss_delete_account">Padam akaun</string>
     <string name="ss_delete_account_question">Padam akaun?</string>
     <string name="ss_delete_account_warning">Dengan memadamkan akaun anda semua data anda, seperti ulasan dan sorotan akan dipadamkan secara kekal. Adakah anda pasti mahu meneruskan?</string>
+    <string name="ss_delete_downloads">Alih keluar semua muat turun</string>
+    <string name="ss_delete_downloads_confirm">Dengan mengalih keluar semua muat turun anda akan kehilangan semua kandungan pelajaran yang sedang disimpan di luar talian. Adakah anda pasti mahu meneruskan?</string>
 </resources>

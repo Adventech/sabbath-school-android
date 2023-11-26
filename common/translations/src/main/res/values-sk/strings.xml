@@ -45,6 +45,7 @@
     <string name="ss_quarterlies_error">"Došlo k neznámej chybe. Prosím skúste to znova."</string>
     <string name="ss_quarterlies_empty">"V tejto chvíli nie sú k dispozícii žiadne štvrťroky"</string>
     <string name="ss_quarterly_item_read_text">"Otvoriť"</string>
+    <string name="ss_languages">Jazyky</string>
     <string name="ss_lessons_downloading">"Otváranie štvrťroku…"</string>
     <string name="ss_lessons_error">"Pri otváraní štvrťroku došlo k chybe"</string>
     <string name="ss_lessons_empty">"V tejto chvíli nie sú k dispozícii žiadne lekcie"</string>
@@ -94,7 +95,8 @@
     <string name="ss_reading_offline_retry">"Skúsiť znova"</string>
     <string name="ss_about_text">"Adventech je nezisková organizácia v Kanade, ktorá sa venuje využívaniu technológií v službe. Poslaním Adventechu, ako oddaných Adventistov siedmeho dňa, je predovšetkým vzdávať slávu Bohu. Naším cieľom je tiež prostredníctvom našej služby prinášať jednotu celosvetovej Cirkvi adventistov siedmeho dňa. Naším hlavným cieľom je hlásať večné evanjelium prostredníctvom technológií a pokrokov v oznamovacích prostriedkoch a prispieť svojím dielom k príprave sveta na druhý príchod Ježiša."</string>
 
-    <string name="sspm_logo_content_description" translatable="false">Sabbath School Personal Ministries Logo</string>
+    <string name="ss_delete_downloads">Odstráňte všetky stiahnuté súbory</string>
+    <string name="ss_delete_downloads_confirm">Odstránením všetkých stiahnutých súborov prídete o všetok obsah lekcií, ktorý je momentálne uložený offline. Naozaj chcete pokračovať?</string>
     <string name="sspm_re_branding_message" translatable="false">Vitajte v oficiálnej aplikácii Oddelenie sobotnej školy a osobné služby Generálnej konferencie. Aplikácia, ktorú stále poháňa Adventech, čoskoro získa nové vylepšenia obsahu a funkcií, pričom zostane jednoduchá a ľahká v používaní.\nŠtudovať a zdieľať Božie slovo nebolo nikdy jednoduchšie!</string>
     <string name="gc_sspm_logo_content_description" translatable="false">General Conference Sabbath School and Personal Ministries logo</string>
     <string name="gc_sspm_about" translatable="false">Poslaním Oddelenia sobotnej školy a osobnej služby Generálnej konferencie je vytvárať učeníkov, ktorí potom vytvárajú ďalších učeníkov. To chceme dosiahnuť tým, že pomáhame miestnym zborom Cirkvi adventistov siedmeho dňa a ich členom objavovať zmysel a moc Sobotnej školy a že inšpirujeme a zapájame každého člena do aktívnej osobnej služby získavania duší.\n\nOddelenie sobotnej školy a osobnej služby vytvára zdroje, ktoré pomáhajú členom Cirkvi adventistov siedmeho dňa v ich ceste s Kristom a vo svedectve svetu. Cieľom aplikácie Sobotnej školy a osobné služby je spojiť mnohé z týchto zdrojov na jednom vhodnom mieste. Ako budú pribúdať ďalšie zdroje, členovia cirkvi a ich rodiny budú mať čoskoro k dispozícii bohaté zdroje, ktoré im pomôžu pri štúdiu a zdieľaní Božieho slova.\n\nPre uľahčenie údržby a vývoja aplikácie je Oddelenie sobotnej školy a osobné služby rado, že môže spolupracovať s oddaným a talentovaným tímom v Adventoch.</string>
@@ -106,6 +108,7 @@
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
 
+    <string name="ss_media_videos">Videá</string>
     <string name="ss_pdf_original">Rozvrhnutie tlačenej verzie</string>
     <string name="ss_get_printed_resources">Získajte tlačené zdroje</string>
     <string name="ss_account">účtu</string>

@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"S-a produs o eroare necunoscută. Vă rugăm să încercați din nou."</string>
     <string name="ss_quarterlies_empty">"Se pare că în acest moment nu există trimestre"</string>
     <string name="ss_quarterly_item_read_text">"Deschide"</string>
+    <string name="ss_languages">Limbi</string>
     <string name="ss_lessons_downloading">"Deschiderea trimestrului …"</string>
     <string name="ss_lessons_error">"A apărut o eroare la deschiderea trimestrului"</string>
     <string name="ss_lessons_empty">"Se pare că nu există lecții în acest moment"</string>
@@ -99,6 +100,7 @@ Credem cu adevărat că Dumnezeu a mărit cunoașterea lumii moderne și doreșt
     <string name="ss_see_all">Vezi toate</string>
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
+    <string name="ss_media_videos">Videoclipuri</string>
     <string name="ss_pdf_original">Aspect original</string>
     <string name="ss_settings_theme">Temă</string>
     <string name="ss_settings_theme_default">Mod implicit</string>
@@ -120,5 +122,7 @@ Credem cu adevărat că Dumnezeu a mărit cunoașterea lumii moderne și doreșt
     <string name="ss_delete_account">Șterge cont</string>
     <string name="ss_delete_account_question">Șterge cont?</string>
     <string name="ss_delete_account_warning">"Prin ștergerea contului, toate datele dvs., cum ar fi comentariile și evidențierile, vor fi șterse definitiv. Sunteți sigur că doriți să continuați? "</string>
+    <string name="ss_delete_downloads">Eliminați toate descărcările</string>
+    <string name="ss_delete_downloads_confirm">Prin eliminarea tuturor descărcărilor, veți pierde tot conținutul lecțiilor salvat în prezent offline. Sunteți sigur că doriți să continuați?</string>
 
 </resources>

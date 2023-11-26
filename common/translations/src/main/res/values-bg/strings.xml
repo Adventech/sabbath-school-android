@@ -45,6 +45,7 @@
     <string name="ss_quarterlies_error">"Появи се неизвестна грешка. Моля, опитайте отново"</string>
     <string name="ss_quarterlies_empty">"Изглежда, че в момента няма тримесечия"</string>
     <string name="ss_quarterly_item_read_text">"Отворено"</string>
+    <string name="ss_languages">Езици</string>
     <string name="ss_lessons_downloading">"Открива се тримесечие …"</string>
     <string name="ss_lessons_error">"Възникна грешка при отварянето тримесечно"</string>
     <string name="ss_lessons_empty">"Изглежда, че в момента няма уроци"</string>
@@ -100,6 +101,7 @@
     <string name="ss_see_all">Виж всички</string>
     <string name="ss_media_audio">Аудио</string>
     <string name="ss_media_video">Видео</string>
+    <string name="ss_media_videos">Видеоклипове</string>
     <string name="ss_pdf_original">Оригинално оформление</string>
     <string name="ss_settings_theme">Тема</string>
     <string name="ss_settings_theme_default">По подразбиране</string>
@@ -121,4 +123,6 @@
     <string name="ss_delete_account_question">Изтриване на акаунт?</string>
     <string name="ss_delete_account">Изтриване на акаунт</string>
     <string name="ss_delete_account_warning">"С изтриването на вашия акаунт всички ваши данни, като коментари и акценти, ще бъдат изтрити за постоянно. Сигурни ли сте, че искате да продължите? "</string>
+    <string name="ss_delete_downloads">Премахнете всички изтегляния</string>
+    <string name="ss_delete_downloads_confirm">Като премахнете всички изтегляния, вие ще загубите цялото съдържание на уроци, запазено в момента офлайн. Сигурни ли сте, че искате да продължите?</string>
 </resources>

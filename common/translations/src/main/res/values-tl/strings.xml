@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"Ang hindi kilalang error ay naganap. Ulitin mo ulit."</string>
     <string name="ss_quarterlies_empty">"Walang mga quarterlies na magagamit sa oras na ito"</string>
     <string name="ss_quarterly_item_read_text">"Buksan"</string>
+    <string name="ss_languages">Mga wika</string>
     <string name="ss_lessons_downloading">"Buksan ang quarterly …"</string>
     <string name="ss_lessons_error">"Naganap ang error habang binubuksan ang quarterly"</string>
     <string name="ss_lessons_empty">"Walang mga quarterlies na magagamit sa oras na ito"</string>
@@ -100,6 +101,7 @@ Talagang naniniwala kami na pinalaki ng Diyos ang kaalaman sa modernong mundo at
     <string name="ss_see_all">Ipakita lahat</string>
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
+    <string name="ss_media_videos">Mga video</string>
     <string name="ss_pdf_original">ఒరిజినల్ లేవుట్</string>
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Default</string>
@@ -121,4 +123,6 @@ Talagang naniniwala kami na pinalaki ng Diyos ang kaalaman sa modernong mundo at
     <string name="ss_delete_account">Tanggalin ang account</string>
     <string name="ss_delete_account_question">Tanggalin ang account?</string>
     <string name="ss_delete_account_warning">Sa pamamagitan ng pagtanggal sa iyong account, ang lahat ng iyong data, gaya ng mga komento at mga highlight ay permanenteng tatanggalin. Sigurado ka bang gusto mong magpatuloy?</string>
+    <string name="ss_delete_downloads">Alisin ang lahat ng pag-download</string>
+    <string name="ss_delete_downloads_confirm">Sa pamamagitan ng pag-alis ng lahat ng mga pag-download, mawawala ang lahat ng nilalaman ng mga aralin na kasalukuyang naka-save offline. Sigurado ka bang gusto mong magpatuloy?</string>
 </resources>

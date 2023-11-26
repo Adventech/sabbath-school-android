@@ -46,6 +46,7 @@
     <string name="ss_quarterlies_error">"Onbekende fout het voorgekom. Probeer asseblief weer."</string>
     <string name="ss_quarterlies_empty">"Daar is tans geen kwartaallikse beskikbaar nie"</string>
     <string name="ss_quarterly_item_read_text">"Oop"</string>
+    <string name="ss_languages">"Tale"</string>
     <string name="ss_lessons_downloading">"Opening kwartaalliks â€¦"</string>
     <string name="ss_lessons_error">"Kon nie kwartaalliks begin nie"</string>
     <string name="ss_lessons_empty">"Daar is tans geen kwartaallikse beskikbaar nie"</string>
@@ -101,6 +102,7 @@ Ons glo werklik dat God die kennis van die moderne wÃªreld verhoog het en wil hÃ
     <string name="ss_see_all">Sien alles</string>
     <string name="ss_media_audio">Oudio</string>
     <string name="ss_media_video">Video</string>
+    <string name="ss_media_videos">Video\'s</string>
     <string name="ss_pdf_original">Oorspronklike uitleg</string>
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Verstek</string>
@@ -121,5 +123,7 @@ Ons glo werklik dat God die kennis van die moderne wÃªreld verhoog het en wil hÃ
     <string name="ss_auto">Outo</string>
     <string name="ss_delete_account">Verwyder rekening</string>
     <string name="ss_delete_account_question">Verwyder rekening?</string>
-    <string name="ss_delete_account_warning">Deur jou rekening uit te vee, sal al jou data, soos opmerkings en hoogtepunte, permanent uitgevee word. Is jy seker jy wil voortgaan?</string>
+    <string name="ss_delete_account_warning">"Deur jou rekening uit te vee, sal al jou data, soos opmerkings en hoogtepunte, permanent uitgevee word. Is jy seker jy wil voortgaan?"</string>
+    <string name="ss_delete_downloads">"Verwyder alle aflaaie"</string>
+    <string name="ss_delete_downloads_confirm">"Deur alle aflaaie te verwyder, sal jy al die lesse-inhoud verloor wat tans vanlyn gestoor is. Is jy seker jy wil voortgaan?"</string>
 </resources>

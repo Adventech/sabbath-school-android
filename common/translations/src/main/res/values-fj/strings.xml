@@ -45,6 +45,7 @@
     <string name="ss_quarterlies_error">"Sega ni macala na ka e yaco, qai tovolea tale mai"</string>
     <string name="ss_quarterlies_empty">"Sega ni dua na ka e macala mai ena vulatolu oqo"</string>
     <string name="ss_quarterly_item_read_text">"Dolava"</string>
+    <string name="ss_languages">Vosa</string>
     <string name="ss_lessons_downloading">"Dolavi vakavulatolu"</string>
     <string name="ss_lessons_error">"Leqa yaco ena gauna e dolavi kina vakavula tolu"</string>
     <string name="ss_lessons_empty">"Sega ni dua na ka e macala mai ena vulatolu oqo"</string>
@@ -95,6 +96,7 @@
     <string name="ss_see_all">Raica Taucoko</string>
     <string name="ss_media_audio">Vakarorogo</string>
     <string name="ss_media_video">Vidio</string>
+    <string name="ss_media_videos">Vidio</string>
     <string name="ss_pdf_original">iTuvatuva taumada</string>
     <string name="ss_settings_theme">iToko</string>
     <string name="ss_settings_theme_default">Sega ni Tiko</string>
@@ -116,4 +118,6 @@
     <string name="ss_delete_account_question">Bokoca na akaude?</string>
     <string name="ss_delete_account">Bokoca na akaude</string>
     <string name="ss_delete_account_warning">Ena bokoci ni nomu akaude na nomu itukutuku taucoko, me vaka na ivakamacala kei na ivakatakilakila ena bokoci vakadua. O vinakata dina mo tomana?</string>
+    <string name="ss_delete_downloads">Kauta laivi kece na lavetaki</string>
+    <string name="ss_delete_downloads_confirm">Ni ko sa vagalalataki na lavetaki kece sara o na vakayalia na lewe taucoko ni lesoni sa maroroi tu ena gauna oqo. O vinakata dina mo toso ki liu?</string>
 </resources>

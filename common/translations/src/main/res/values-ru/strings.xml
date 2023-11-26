@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"Произошла неизвестная ошибка. Пожалуйста, попробуйте еще раз"</string>
     <string name="ss_quarterlies_empty">"Похоже, что ни одного урочника не найдено в данный момент"</string>
     <string name="ss_quarterly_item_read_text">"Открыть"</string>
+    <string name="ss_languages">Языки</string>
     <string name="ss_lessons_downloading">"Открываем урочник…"</string>
     <string name="ss_lessons_error">"Произошла ошибка при открытии урочника. Пожалуйста, попробуйте еще раз"</string>
     <string name="ss_lessons_empty">"Похоже, что ни одного урока не найдено в данный момент"</string>
@@ -101,6 +102,7 @@
     <string name="ss_see_all">Посмотреть все</string>
     <string name="ss_media_audio">Аудио</string>
     <string name="ss_media_video">видео</string>
+    <string name="ss_media_videos">Видео</string>
     <string name="ss_pdf_original">Оригинальный макет</string>
     <string name="ss_settings_theme">Тема</string>
     <string name="ss_settings_theme_default">Дефолт</string>
@@ -122,4 +124,6 @@
     <string name="ss_delete_account">Удалить аккаунт</string>
     <string name="ss_delete_account_question">Удалить аккаунт?</string>
     <string name="ss_delete_account_warning">При удалении вашей учетной записи все ваши данные, такие как комментарии и основные моменты, будут безвозвратно удалены. Вы уверены, что хотите продолжить?</string>
+    <string name="ss_delete_downloads">Удалить все загрузки</string>
+    <string name="ss_delete_downloads_confirm">Удалив все загрузки, вы потеряете весь контент уроков, сохраненный в офлайн-режиме. Вы уверены, что хотите продолжить?</string>
 </resources>

@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"Се појави непозната грешка. Обидете се повторно."</string>
     <string name="ss_quarterlies_empty">"Во овој момент нема достапни квартали"</string>
     <string name="ss_quarterly_item_read_text">"Отвори"</string>
+    <string name="ss_languages">Јазици</string>
     <string name="ss_lessons_downloading">"Отворање тримесечно …"</string>
     <string name="ss_lessons_error">"Се појави грешка при отварање тримесечно"</string>
     <string name="ss_lessons_empty">"Во овој момент нема достапни квартали"</string>
@@ -100,6 +101,7 @@
     <string name="ss_see_all">Види се</string>
     <string name="ss_media_audio">Аудио</string>
     <string name="ss_media_video">Видео</string>
+    <string name="ss_media_videos">Видеа</string>
     <string name="ss_pdf_original">Оригинален распоред</string>
     <string name="ss_settings_theme">Тема</string>
     <string name="ss_settings_theme_default">Стандардно</string>
@@ -121,4 +123,6 @@
     <string name="ss_delete_account">Избриши сметка</string>
     <string name="ss_delete_account_question">Избриши сметка?</string>
     <string name="ss_delete_account_warning">Со бришење на вашата сметка, сите ваши податоци, како што се коментарите и главните моменти, ќе бидат трајно избришани. Дали сте сигурни дека сакате да продолжите?</string>
+    <string name="ss_delete_downloads">Отстранете ги сите преземања</string>
+    <string name="ss_delete_downloads_confirm">Со отстранување на сите преземања, ќе ги изгубите сите содржини за лекциите што моментално се зачувани офлајн. Дали сте сигурни дека сакате да продолжите?</string>
 </resources>
