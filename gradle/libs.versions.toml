@@ -52,7 +52,7 @@ markwon = "4.6.2"
 material-dialogs = "3.3.0"
 # @keep this version
 pdfkit = "8.9.1"
-sgp = "0.10.11"
+sgp = "0.12.1"
 snapper = "0.3.0"
 sortDependencies = "0.4"
 spotless = "6.22.0"
