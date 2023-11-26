@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"Kuvele iphutha elingaziwa. Ngicela uzame futhi."</string>
     <string name="ss_quarterlies_empty">"Azikho izinkota zonyaka ezitholakalayo ngalesi sikhathi"</string>
     <string name="ss_quarterly_item_read_text">"Vula"</string>
+    <string name="ss_languages">Izilimi</string>
     <string name="ss_lessons_downloading">"Ivula i-quarterly …"</string>
     <string name="ss_lessons_error">"Kuvele iphutha ngenkathi kuvulwa ngekota"</string>
     <string name="ss_lessons_empty">"Azikho izinkota zonyaka ezitholakalayo ngalesi sikhathi"</string>
@@ -101,6 +102,7 @@ Siyakholwa ngempela ukuthi uNkulunkulu ukwandise ulwazi lwezwe lwanamuhla futhi 
     <string name="ss_see_all">Bona konke</string>
     <string name="ss_media_audio">Umsindo</string>
     <string name="ss_media_video">Ividiyo</string>
+    <string name="ss_media_videos">Amavidiyo</string>
     <string name="ss_pdf_original">Isakhiwo sangempela</string>
     <string name="ss_settings_theme">Ingqikithi</string>
     <string name="ss_settings_theme_default">Okuzenzakalelayo</string>
@@ -122,4 +124,6 @@ Siyakholwa ngempela ukuthi uNkulunkulu ukwandise ulwazi lwezwe lwanamuhla futhi 
     <string name="ss_delete_account_question">Susa i-akhawunti?</string>
     <string name="ss_delete_account">Susa i-akhawunti</string>
     <string name="ss_delete_account_warning">Ngokususa i-akhawunti yakho yonke idatha yakho, njengamazwana nokubekwe obala kuzosuswa unomphela. Uqinisekile ukuthi ufuna ukuqhubeka?</string>
+    <string name="ss_delete_downloads">Susa konke okulandiwe</string>
+    <string name="ss_delete_downloads_confirm">Ngokususa konke okulandiwe uzolahlekelwa yikho konke okuqukethwe kwezifundo okulondolozwe ungaxhunyiwe ku-inthanethi okwamanje. Uqinisekile ukuthi ufuna ukuqhubeka?</string>
 </resources>

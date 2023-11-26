@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"Xảy ra lỗi không xác định được. Vui lòng thử lại."</string>
     <string name="ss_quarterlies_empty">"Không có phần tư có sẵn tại thời điểm này"</string>
     <string name="ss_quarterly_item_read_text">"Mở"</string>
+    <string name="ss_languages">Ngôn ngữ</string>
     <string name="ss_lessons_downloading">"Khai trương hàng quý"</string>
     <string name="ss_lessons_error">"Xảy ra lỗi trong khi mở hàng quý"</string>
     <string name="ss_lessons_empty">"Không có phần tư có sẵn tại thời điểm này"</string>
@@ -100,6 +101,7 @@ Chúng tôi thực sự tin rằng Chúa đã gia tăng kiến thức về thế
     <string name="ss_see_all">Nhìn thấy tất cả</string>
     <string name="ss_media_video">Video</string>
     <string name="ss_media_audio">Âm thanh</string>
+    <string name="ss_media_videos">Video</string>
     <string name="ss_pdf_original">Bố trí gốc</string>
     <string name="ss_settings_theme">Chủ đề</string>
     <string name="ss_settings_theme_default">Vỡ nợ</string>
@@ -121,4 +123,6 @@ Chúng tôi thực sự tin rằng Chúa đã gia tăng kiến thức về thế
     <string name="ss_delete_account">Xóa tài khoản</string>
     <string name="ss_delete_account_question">Xóa tài khoản?</string>
     <string name="ss_delete_account_warning">Bằng cách xóa tài khoản của bạn, tất cả dữ liệu của bạn, chẳng hạn như nhận xét và đánh dấu sẽ bị xóa vĩnh viễn. Bạn có chắc muốn tiếp tục?</string>
+    <string name="ss_delete_downloads">Xóa tất cả nội dung tải xuống</string>
+    <string name="ss_delete_downloads_confirm">Bằng cách xóa tất cả các bản tải xuống, bạn sẽ mất tất cả nội dung bài học hiện được lưu ngoại tuyến. Bạn có chắc muốn tiếp tục?</string>
 </resources>

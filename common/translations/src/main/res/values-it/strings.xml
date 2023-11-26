@@ -45,6 +45,7 @@
     <string name="ss_quarterlies_error">"Errore sconosciuto. Per favore riprova."</string>
     <string name="ss_quarterlies_empty">"Non ci sono trimestri disponibili in questo momento"</string>
     <string name="ss_quarterly_item_read_text">"Aperto"</string>
+    <string name="ss_languages">Le lingue</string>
     <string name="ss_lessons_downloading">"Apertura trimestrale …"</string>
     <string name="ss_lessons_error">"Si è verificato un errore durante l'apertura trimestrale"</string>
     <string name="ss_lessons_empty">"Non ci sono trimestri disponibili in questo momento"</string>
@@ -100,6 +101,7 @@ Crediamo veramente che Dio abbia accresciuto la conoscenza del mondo moderno e c
     <string name="ss_see_all">Vedi tutto</string>
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
+    <string name="ss_media_videos">Video</string>
     <string name="ss_pdf_original">Layout originale</string>
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Predefinito</string>
@@ -121,4 +123,6 @@ Crediamo veramente che Dio abbia accresciuto la conoscenza del mondo moderno e c
     <string name="ss_delete_account_question">Eliminare l\'account?</string>
     <string name="ss_delete_account">Eliminare l\'account</string>
     <string name="ss_delete_account_warning">Eliminando il tuo account tutti i tuoi dati, come commenti ed evidenziazioni, verranno eliminati definitivamente. Sei sicuro di voler procedere?</string>
+    <string name="ss_delete_downloads">Rimuovi tutti i download</string>
+    <string name="ss_delete_downloads_confirm">Rimuovendo tutti i download perderai tutti i contenuti delle lezioni attualmente salvati offline. Sei sicuro di voler procedere?</string>
 </resources>

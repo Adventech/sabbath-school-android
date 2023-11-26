@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"अज्ञात त्रुटि भयो। फेरि प्रयास गर्नुहोस।"</string>
     <string name="ss_quarterlies_empty">"यस समयमा कुनै तिमाही उपलब्ध छैन"</string>
     <string name="ss_quarterly_item_read_text">"खोल्नुहोस्"</string>
+    <string name="ss_languages">"भाषाहरु "</string>
     <string name="ss_lessons_downloading">"तिमाही खोल्दै …"</string>
     <string name="ss_lessons_error">"तिमाही खोल्दा त्रुटि भयो"</string>
     <string name="ss_lessons_empty">"यस समयमा कुनै तिमाही उपलब्ध छैन"</string>
@@ -100,6 +101,7 @@
     <string name="ss_see_all">सबै हेर</string>
     <string name="ss_media_audio">अडियो</string>
     <string name="ss_media_video">भिडियो</string>
+    <string name="ss_media_videos">"भिडियोहरू "</string>
     <string name="ss_pdf_original">मूल लेआउट</string>
     <string name="ss_settings_theme">विषयवस्तु</string>
     <string name="ss_settings_theme_default">पूर्वनिर्धारित</string>
@@ -121,5 +123,7 @@
     <string name="ss_delete_account">"खाता मेटाउनुहोस् "</string>
     <string name="ss_delete_account_question">"खाता मेट्ने हो? "</string>
     <string name="ss_delete_account_warning">"तपाईंको खाता मेटाएर तपाईंको सबै डेटा, जस्तै टिप्पणीहरू र हाइलाइटहरू स्थायी रूपमा मेटिने छन्। के तपाइँ निश्चित रूपमा अगाडि बढ्न चाहनुहुन्छ? "</string>
+    <string name="ss_delete_downloads">"सबै डाउनलोडहरू हटाउनुहोस् "</string>
+    <string name="ss_delete_downloads_confirm">"सबै डाउनलोडहरू हटाएर तपाईंले हाल अफलाइनमा सुरक्षित गरिएका सबै पाठ सामग्री गुमाउनुहुनेछ। के तपाइँ निश्चित रूपमा अगाडि बढ्न चाहनुहुन्छ? "</string>
 
 </resources>

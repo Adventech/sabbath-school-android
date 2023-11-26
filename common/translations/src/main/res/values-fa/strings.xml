@@ -45,6 +45,7 @@
     <string name="ss_quarterlies_error">"خطای ناشناخته رخ داده است. لطفا دوباره تلاش کنید"</string>
     <string name="ss_quarterlies_empty">"به نظر میرسد در فصلنامه در حال حاضر وجود ندارد"</string>
     <string name="ss_quarterly_item_read_text">"باز کن"</string>
+    <string name="ss_languages">اه نابز</string>
     <string name="ss_lessons_downloading">"باز کردن سه ماهه …"</string>
     <string name="ss_lessons_error">"خطا در هنگام باز کردن سه ماهه رخ داده است"</string>
     <string name="ss_lessons_empty">"به نظر می رسد هیچ درس در حال حاضر وجود دارد"</string>
@@ -100,6 +101,7 @@
     <string name="ss_see_all">همه را ببین</string>
     <string name="ss_media_audio">سمعی</string>
     <string name="ss_media_video">ویدیو</string>
+    <string name="ss_media_videos">یاه ملیف</string>
     <string name="ss_pdf_original">طرح اصلی</string>
     <string name="ss_settings_theme">موضوع</string>
     <string name="ss_settings_theme_default">پیش فرض</string>
@@ -121,4 +123,6 @@
     <string name="ss_delete_account">ﯼﺮﺑﺭﺎﮐ ﺏﺎﺴﺣ ﻑﺬﺣ</string>
     <string name="ss_delete_account_question">؟ﯼﺮﺑﺭﺎﮐ ﺏﺎﺴﺣ ﻑﺬﺣ</string>
     <string name="ss_delete_account_warning">؟ﺪﯿﻫﺩ ﻪﻣﺍﺩﺍ ﺪﯿﻫﺍﻮﺧ ﯽﻣ ﻪﮐ ﺪﯿﺘﺴﻫ ﻦﺌﻤﻄﻣ ﺎﯾﺁ .ﺩﻮﺷ ﯽﻣ ﻑﺬﺣ ﻪﺸﯿﻤﻫ ﯼﺍﺮﺑ ﻪﺘﺴﺟﺮﺑ ﺕﺎﮑﻧ ﻭ</string>
+    <string name="ss_delete_downloads">دینک فذح ار اهدولناد همه</string>
+    <string name="ss_delete_downloads_confirm">؟دیهد همادا دیهاوخ یم هک دیتسه نئمطم ایآ .داد دیهاوخ تسد زا ار دنا هدش هریخذ نیالفآ تروص هب رضاح لاح رد هک یسرد یاوتحم مامت ،اهدولناد همه فذح اب</string>
 </resources>

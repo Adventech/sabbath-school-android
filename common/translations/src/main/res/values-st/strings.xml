@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"Phoso e sa tsejoeng e etsahala. Ka kopo leka hape."</string>
     <string name="ss_quarterlies_empty">"Ha ho na li-quarterly tse fumanehang ka nako ena"</string>
     <string name="ss_quarterly_item_read_text">"Bula"</string>
+    <string name="ss_languages">Lipuo</string>
     <string name="ss_lessons_downloading">"Ho bula libeke tse robeli …"</string>
     <string name="ss_lessons_error">"Phoso e hlahile ha e ntse e buloa ka kotloloho"</string>
     <string name="ss_lessons_empty">"Ha ho na li-quarterly tse fumanehang ka nako ena"</string>
@@ -100,6 +101,7 @@ Re lumela kannete hore Molimo o ekelitse tsebo ea lefats'e la kajeno ebile o bat
     <string name="ss_see_all">Bona tsohle</string>
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
+    <string name="ss_media_videos">Lifitio</string>
     <string name="ss_pdf_original">Sebopeho sa mantlha</string>
     <string name="ss_settings_theme">Sehlooho</string>
     <string name="ss_settings_theme_default">Ka botlalo</string>
@@ -121,4 +123,6 @@ Re lumela kannete hore Molimo o ekelitse tsebo ea lefats'e la kajeno ebile o bat
     <string name="ss_delete_account">Hlakola akhaonto</string>
     <string name="ss_delete_account_question">Hlakola akhaonto?</string>
     <string name="ss_delete_account_warning">Ka ho hlakola ak\'haonte ea hau lintlha tsohle tsa hau, joalo ka maikutlo le lintlha tsa bohlokoa li tla hlakoloa ka ho sa feleng. Na ehlile u batla ho tsoela pele?</string>
+    <string name="ss_delete_downloads">Tlosa tsohle tse jarollotsoeng</string>
+    <string name="ss_delete_downloads_confirm">Ka ho tlosa lintho tsohle tse jarollotsoeng u tla lahleheloa ke lithuto tsohle tse bolokiloeng kantle ho Marang-rang. Na ehlile u batla ho tsoela pele?</string>
 </resources>

@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"Bilinmeyen bir hata oluştu. Lütfen tekrar deneyin"</string>
     <string name="ss_quarterlies_empty">"Şu anda hiçbir kitapçık bulunamadı"</string>
     <string name="ss_quarterly_item_read_text">"Aç"</string>
+    <string name="ss_languages">Diller</string>
     <string name="ss_lessons_downloading">"Kitapçık açılıyor …"</string>
     <string name="ss_lessons_error">"Kitapçık açılırken hata oluştu. Lütfen tekrar deneyin"</string>
     <string name="ss_lessons_empty">"Şu anda hiçbir ders bulunamadı"</string>
@@ -100,6 +101,7 @@ Gerçekten, Tanrı'nın modern dünya bilgisini arttırdığına ve O'nun ihtiş
     <string name="ss_see_all">Tümünü Gör</string>
     <string name="ss_media_video">Video</string>
     <string name="ss_media_audio">Ses</string>
+    <string name="ss_media_videos">Videolar</string>
     <string name="ss_pdf_original">Özgün düzen</string>
     <string name="ss_settings_theme">Tema</string>
     <string name="ss_settings_theme_default">Varsayılan</string>
@@ -121,4 +123,6 @@ Gerçekten, Tanrı'nın modern dünya bilgisini arttırdığına ve O'nun ihtiş
     <string name="ss_delete_account">Hesabı sil</string>
     <string name="ss_delete_account_question">Hesabı sil?</string>
     <string name="ss_delete_account_warning">Hesabınızı sildiğinizde, yorumlar ve öne çıkanlar gibi tüm verileriniz kalıcı olarak silinecektir. Devam etmek istediğinizden emin misiniz?</string>
+    <string name="ss_delete_downloads">Tüm indirilenleri kaldır</string>
+    <string name="ss_delete_downloads_confirm">İndirilenlerin tümünü kaldırdığınızda, şu anda çevrimdışı olarak kayıtlı olan tüm ders içeriğini kaybedersiniz. Devam etmek istediğinizden emin misiniz?</string>
 </resources>

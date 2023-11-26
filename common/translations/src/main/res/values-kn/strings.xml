@@ -44,6 +44,7 @@
     <string name="ss_quarterlies_error">"ಅಜ್ಞಾತ ದೋಷ ಸಂಭವಿಸಿದೆ. ದಯವಿಟ್ಟು ಪುನಃ ಪ್ರಯತ್ನಿಸಿ."</string>
     <string name="ss_quarterlies_empty">"ಈ ಸಮಯದಲ್ಲಿ ಯಾವುದೇ ಕ್ವಾರ್ಟರ್ಲೀಸ್ ಲಭ್ಯವಿಲ್ಲ"</string>
     <string name="ss_quarterly_item_read_text">"ತೆರೆಯಿರಿ"</string>
+    <string name="ss_languages">"ಭಾಷೆಗಳು "</string>
     <string name="ss_lessons_downloading">"ತ್ರೈಮಾಸಿಕ ತೆರೆಯಲಾಗುತ್ತಿದೆ …"</string>
     <string name="ss_lessons_error">"ತ್ರೈಮಾಸಿಕ ತೆರೆಯುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ"</string>
     <string name="ss_lessons_empty">"ಈ ಸಮಯದಲ್ಲಿ ಯಾವುದೇ ಕ್ವಾರ್ಟರ್ಲೀಸ್ ಲಭ್ಯವಿಲ್ಲ"</string>
@@ -96,6 +97,7 @@
     <string name="ss_see_all">ಎಲ್ಲವನ್ನೂ ನೋಡಿ</string>
     <string name="ss_media_audio">ಆಡಿಯೋ</string>
     <string name="ss_media_video">ವಿಡಿಯೋ</string>
+    <string name="ss_media_videos">"ವೀಡಿಯೊಗಳು "</string>
     <string name="ss_pdf_original">ಮೂಲ ವಿನ್ಯಾಸ</string>
     <string name="ss_settings_theme">ಥೀಮ್</string>
     <string name="ss_settings_theme_default">ಡೀಫಾಲ್ಟ್</string>
@@ -117,4 +119,6 @@
     <string name="ss_delete_account_question">"ಖಾತೆಯನ್ನು ಅಳಿಸುವುದೇ? "</string>
     <string name="ss_delete_account">"ಖಾತೆಯನ್ನು ಅಳಿಸಿ "</string>
     <string name="ss_delete_account_warning">"ನಿಮ್ಮ ಖಾತೆಯನ್ನು ಅಳಿಸುವ ಮೂಲಕ ಕಾಮೆಂಟ್u200cಗಳು ಮತ್ತು ಮುಖ್ಯಾಂಶಗಳಂತಹ ನಿಮ್ಮ ಎಲ್ಲಾ ಡೇಟಾವನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಲಾಗುತ್ತದೆ. ನೀವು ಮುಂದುವರೆಯಲು ಖಚಿತವಾಗಿ ಬಯಸುವಿರಾ? "</string>
+    <string name="ss_delete_downloads">"ಎಲ್ಲಾ ಡೌನ್ಲೋಡ್ಗಳನ್ನು ತೆಗೆದುಹಾಕಿ "</string>
+    <string name="ss_delete_downloads_confirm">"ಎಲ್ಲಾ ಡೌನ್ಲೋಡ್ಗಳನ್ನು ತೆಗೆದುಹಾಕುವ ಮೂಲಕ ನೀವು ಪ್ರಸ್ತುತ ಆಫ್ಲೈನ್ನಲ್ಲಿ ಉಳಿಸಿರುವ ಎಲ್ಲಾ ಪಾಠಗಳ ವಿಷಯವನ್ನು ಕಳೆದುಕೊಳ್ಳುತ್ತೀರಿ. ನೀವು ಮುಂದುವರೆಯಲು ಖಚಿತವಾಗಿ ಬಯಸುವಿರಾ? "</string>
 </resources>
