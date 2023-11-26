@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2020. Adventech <info@adventech.io>
+  ~ Copyright (c) 2023. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
   ~
   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -43,12 +43,6 @@
         <item name="tabUnboundedRipple">false</item>
         <item name="tabInlineLabel">true</item>
         <item name="tabMinWidth">0dp</item>
-    </style>
-
-    <style name="Widget.SS.ActionBar" parent="Widget.MaterialComponents.ActionBar.Surface">
-        <item name="android:theme">@style/ThemeOverlay.SS.Toolbar</item>
-        <item name="elevation">@dimen/elevation_action_bar</item>
-        <item name="titleTextStyle">?attr/textAppearanceHeadline6</item>
     </style>
 
     <style name="Widget.SS.Button" parent="Widget.MaterialComponents.Button">
@@ -108,10 +102,6 @@
 
     <style name="Widget.SS.CardView" parent="Widget.MaterialComponents.CardView">
         <item name="useCompatPadding">true</item>
-    </style>
-
-    <style name="Widget.SS.SearchView" parent="Widget.AppCompat.SearchView.ActionBar">
-        <item name="searchIcon">@null</item>
     </style>
 
     <style name="Widget.SS.TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
