@@ -22,15 +22,22 @@
 
 package ss.workers.impl.workers
 
+import android.app.Notification
 import android.content.Context
+import androidx.core.app.NotificationChannelCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ContentSyncProvider
+import app.ss.translations.R as L10n
+import com.cryart.design.R as DesignR
 
 @HiltWorker
 internal class SyncQuarterlyWorker @AssistedInject constructor(
@@ -48,8 +55,31 @@ internal class SyncQuarterlyWorker @AssistedInject constructor(
         return if (result.isSuccess) Result.success() else Result.failure()
     }
 
+    override suspend fun getForegroundInfo(): ForegroundInfo {
+        return ForegroundInfo(NOTIFICATION_ID, createNotification())
+    }
+
+    private fun createNotification(): Notification {
+        val notificationManager = NotificationManagerCompat.from(appContext)
+        val channel = NotificationChannelCompat.Builder(CHANNEL_ID, NotificationManagerCompat.IMPORTANCE_DEFAULT)
+            .setName(appContext.getString(L10n.string.ss_channel_offline_sync))
+            .build()
+        notificationManager.createNotificationChannel(channel)
+
+        val title = appContext.getString(L10n.string.ss_quarterly_downloading)
+        return NotificationCompat.Builder(appContext, CHANNEL_ID)
+            .setContentTitle(title)
+            .setTicker(title)
+            .setSmallIcon(DesignR.drawable.ic_stat_notification)
+            .setOngoing(true)
+            .setOnlyAlertOnce(true)
+            .build()
+    }
+
     companion object {
         const val QUARTERLY_INDEX = "arg:quarterly_index"
         val uniqueWorkName: String = SyncQuarterlyWorker::class.java.simpleName
+        private const val NOTIFICATION_ID = 123
+        private const val CHANNEL_ID = "ss_notification_channel_offline_sync"
     }
 }
