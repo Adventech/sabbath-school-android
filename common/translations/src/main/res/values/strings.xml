@@ -24,6 +24,7 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="ss_app_name">"Sabbath School"</string>
+    <string name="ss_channel_offline_sync">Offline Sync</string>
     <string name="ss_share">"Share"</string>
     <string name="ss_login_button_google">"Sign in with Google"</string>
     <string name="ss_login_button_anonymous">"Continue without login"</string>
@@ -47,6 +48,7 @@
     <string name="ss_quarterlies_error">"Unknown error occurred. Please try again"</string>
     <string name="ss_quarterlies_empty">"It looks like there are no quarterlies at the moment"</string>
     <string name="ss_quarterly_item_read_text">"Open"</string>
+    <string name="ss_quarterly_downloading">Downloading quarterly for offline…</string>
     <string name="ss_languages">Languages</string>
     <string name="ss_lessons_downloading">"Opening quarterly…"</string>
     <string name="ss_lessons_error">"Error occurred while opening quarterly"</string>
