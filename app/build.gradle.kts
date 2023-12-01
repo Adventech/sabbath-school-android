@@ -26,7 +26,7 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("kapt")
+    alias(libs.plugins.ksp)
     alias(libs.plugins.sgp.base)
     id("dagger.hilt.android.plugin")
 }
@@ -169,10 +169,10 @@ dependencies {
     implementation(libs.androidx.startup)
     implementation(libs.androidx.work)
     implementation(libs.androidx.hilt.work)
-    kapt(libs.androidx.hilt.compiler)
+    ksp(libs.androidx.hilt.compiler)
 
     implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
     implementation(libs.google.play.auth)
 
     implementation(libs.timber)
@@ -182,9 +182,9 @@ dependencies {
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.testUtils)
-    kaptTest(libs.google.hilt.compiler)
+    kspTest(libs.google.hilt.compiler)
     androidTestImplementation(libs.bundles.testing.android.common)
-    kaptAndroidTest(libs.google.hilt.compiler)
+    kspAndroidTest(libs.google.hilt.compiler)
     androidTestImplementation(projects.libraries.testUtils)
     androidTestImplementation(libs.test.androidx.espresso.contrib) {
         exclude(group = "org.checkerframework", module = "checker")

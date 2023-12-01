@@ -22,9 +22,9 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
 }
@@ -32,5 +32,5 @@ plugins {
 dependencies {
     implementation(projects.libraries.circuitHelpers.api)
     implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
 }

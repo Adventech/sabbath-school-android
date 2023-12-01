@@ -22,11 +22,11 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
     id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
+    kotlin("android")
 }
 
 android {
@@ -65,7 +65,7 @@ dependencies {
     implementation(libs.androidx.media3.ui)
 
     implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
     implementation(libs.google.material)
 
     implementation(libs.kotlin.coroutines.guava)

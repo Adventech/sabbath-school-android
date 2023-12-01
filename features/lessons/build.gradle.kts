@@ -21,12 +21,12 @@
  */
 
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
+    id("com.android.library")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
+    kotlin("android")
 }
 
 android {
@@ -83,7 +83,7 @@ dependencies {
     implementation(libs.androidx.recyclerview)
 
     implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
 
     implementation(libs.joda.android)
     implementation(libs.timber)
@@ -94,9 +94,6 @@ dependencies {
     implementation(libs.markwon.core)
 
     testImplementation(libs.bundles.testing.common)
-    kaptTest(libs.google.hilt.compiler)
-    androidTestImplementation(libs.bundles.testing.android.common)
-    kaptAndroidTest(libs.google.hilt.compiler)
     testImplementation(projects.libraries.testUtils)
     testImplementation(projects.libraries.foundation.coroutines.test)
 }

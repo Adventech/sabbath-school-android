@@ -22,15 +22,15 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
     id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    kotlin("android")
 }
 
 android { namespace = "ss.foundation.android" }
 
 dependencies {
     implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
 }

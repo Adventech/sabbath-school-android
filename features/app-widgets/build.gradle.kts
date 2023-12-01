@@ -22,11 +22,11 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
     id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
+    kotlin("android")
 }
 
 android {
@@ -54,11 +54,11 @@ dependencies {
     implementation(libs.androidx.glance.appwidget)
     implementation(libs.androidx.glance.material3)
     implementation(libs.androidx.hilt.work)
-    kapt(libs.androidx.hilt.compiler)
+    ksp(libs.androidx.hilt.compiler)
     implementation(libs.androidx.work)
 
     implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
     implementation(libs.google.material)
 
     implementation(libs.timber)
@@ -66,8 +66,5 @@ dependencies {
     implementation(libs.coil.compose)
 
     testImplementation(libs.bundles.testing.common)
-    kaptTest(libs.google.hilt.compiler)
-    androidTestImplementation(libs.bundles.testing.android.common)
-    kaptAndroidTest(libs.google.hilt.compiler)
     testImplementation(projects.libraries.testUtils)
 }
