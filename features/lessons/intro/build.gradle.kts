@@ -22,11 +22,11 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
     id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
+    kotlin("android")
 }
 
 android {
@@ -50,7 +50,7 @@ dependencies {
 
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
 
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.testUtils)

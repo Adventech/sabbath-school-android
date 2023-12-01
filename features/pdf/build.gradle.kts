@@ -25,10 +25,10 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
     id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    kotlin("android")
 }
 
 val psPdfKitKey = readPropertyValue(
@@ -68,7 +68,7 @@ dependencies {
     implementation(libs.androidx.preference)
 
     implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
 
     implementation(libs.timber)
 

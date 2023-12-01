@@ -25,11 +25,11 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
     id("com.android.application")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
     kotlin("android")
-    kotlin("kapt")
 }
 
 val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
@@ -111,7 +111,7 @@ dependencies {
     implementation(libs.bundles.circuit)
     implementation(libs.coil.compose)
     implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
     implementation(libs.kotlinx.collectionsImmutable)
     implementation(libs.timber)
 

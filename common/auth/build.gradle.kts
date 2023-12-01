@@ -27,7 +27,6 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
     kotlin("android")
-    kotlin("kapt")
 }
 
 android {
@@ -47,7 +46,7 @@ dependencies {
     implementation(projects.libraries.foundation.coroutines)
 
     implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
     implementation(libs.timber)
 
     implementation(libs.square.moshi.kotlin)

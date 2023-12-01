@@ -22,10 +22,10 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
     id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    kotlin("android")
 }
 
 android { namespace = "ss.foundation.coroutines" }
@@ -34,7 +34,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.common)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
     api(libs.kotlin.coroutines)
     api(libs.kotlin.coroutines.android)
 }

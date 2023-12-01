@@ -25,7 +25,6 @@ plugins {
     alias(libs.plugins.ksp)
     id("com.android.library")
     kotlin("android")
-    kotlin("kapt")
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
 }
@@ -51,7 +50,7 @@ dependencies {
     implementation(projects.libraries.lessons.api)
 
     implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
     implementation(libs.timber)
     implementation(libs.joda.android)
 

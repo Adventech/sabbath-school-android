@@ -24,9 +24,8 @@ plugins {
     alias(libs.plugins.sgp.base)
     alias(libs.plugins.ksp)
     id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    kotlin("android")
 }
 
 android { namespace = "ss.lessons.impl" }
@@ -41,7 +40,7 @@ dependencies {
     implementation(projects.libraries.foundation.android)
 
     implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
     implementation(libs.joda.android)
     implementation(libs.square.moshi.kotlin)
     ksp(libs.square.moshi.codegen)

@@ -22,10 +22,10 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
     id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    kotlin("android")
 }
 
 android {
@@ -48,8 +48,8 @@ dependencies {
     implementation(libs.coil.core)
     implementation(libs.androidx.hilt.work)
     implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
-    kapt(libs.androidx.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
+    ksp(libs.androidx.hilt.compiler)
     implementation(libs.kotlin.coroutines)
     implementation(libs.timber)
 
