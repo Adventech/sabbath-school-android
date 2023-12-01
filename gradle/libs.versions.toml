@@ -47,7 +47,7 @@ jvmTarget = "17"
 kotlin = "1.9.21"
 kotlin-coroutines = "1.7.3"
 kotlinx-immutable = "0.3.6"
-ksp = "1.9.20-1.0.14"
+ksp = "1.9.21-1.0.15"
 markwon = "4.6.2"
 material-dialogs = "3.3.0"
 # @keep this version
@@ -139,7 +139,6 @@ coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
 google-coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs_minimal:2.0.4"
 google-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "google-hilt" }
 google-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "google-hilt" }
-google-hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "google-hilt" }
 google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
 google-play-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "google-play-auth" }
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
