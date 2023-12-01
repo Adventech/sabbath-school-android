@@ -36,13 +36,13 @@ import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionCommand
 import androidx.media3.session.SessionResult
-import app.ss.media.R
 import app.ss.media.playback.DEFAULT_FORWARD
 import app.ss.media.playback.DEFAULT_REWIND
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import app.ss.media.R as MediaR
 import app.ss.translations.R as L10nR
 
 private const val LOG_TAG = "SS_MusicService"
@@ -56,7 +56,6 @@ class MusicService : MediaLibraryService() {
     private lateinit var customCommands: List<CommandButton>
     private val librarySessionCallback = CustomMediaLibrarySessionCallback()
     private lateinit var mediaLibrarySession: MediaLibrarySession
-    private lateinit var player: ExoPlayer
 
     override fun onCreate() {
         super.onCreate()
@@ -71,7 +70,7 @@ class MusicService : MediaLibraryService() {
     }
 
     private fun initializeSessionAndPlayer() {
-        player =
+        val player =
             ExoPlayer.Builder(this)
                 .setAudioAttributes(AudioAttributes.DEFAULT, /* handleAudioFocus= */ true)
                 .setSeekBackIncrementMs(DEFAULT_REWIND)
@@ -100,7 +99,7 @@ class MusicService : MediaLibraryService() {
         return CommandButton.Builder()
             .setDisplayName(getString(L10nR.string.ss_action_rewind))
             .setSessionCommand(sessionCommand)
-            .setIconResId(R.drawable.ic_audio_icon_backward)
+            .setIconResId(MediaR.drawable.ic_audio_icon_backward)
             .build()
     }
 
@@ -108,7 +107,7 @@ class MusicService : MediaLibraryService() {
         return CommandButton.Builder()
             .setDisplayName(getString(L10nR.string.ss_action_forward))
             .setSessionCommand(sessionCommand)
-            .setIconResId(R.drawable.ic_audio_icon_forward)
+            .setIconResId(MediaR.drawable.ic_audio_icon_forward)
             .build()
     }
 
@@ -143,8 +142,8 @@ class MusicService : MediaLibraryService() {
         ): ListenableFuture<SessionResult> {
             Timber.tag(LOG_TAG).i("onCustomCommand: $session, $args")
             when (customCommand.customAction) {
-                CUSTOM_COMMAND_REWIND -> player.seekBack()
-                CUSTOM_COMMAND_FORWARD -> player.seekForward()
+                CUSTOM_COMMAND_REWIND -> session.player.seekBack()
+                CUSTOM_COMMAND_FORWARD -> session.player.seekForward()
             }
             session.setCustomLayout(customCommands)
             return Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
@@ -161,6 +160,7 @@ class MusicService : MediaLibraryService() {
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
+        val player = mediaLibrarySession.player
         player.run {
             if (!playWhenReady || mediaItemCount == 0) {
                 stopSelf()
@@ -169,8 +169,10 @@ class MusicService : MediaLibraryService() {
     }
 
     override fun onDestroy() {
-        mediaLibrarySession.release()
-        player.release()
+        mediaLibrarySession.run {
+            player.release()
+            release()
+        }
         clearListener()
         super.onDestroy()
     }
