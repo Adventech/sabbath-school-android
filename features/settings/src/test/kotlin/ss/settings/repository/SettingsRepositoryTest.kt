@@ -58,7 +58,6 @@ class SettingsRepositoryTest {
         every { mockAppConfig.version }.returns("1.0.0")
         every { mockPrefs.reminderEnabled() }.returns(false)
         every { mockPrefs.reminderTimeFlow() }.returns(flowOf(ReminderTime(8, 0)))
-        every { mockUserRepository.hasDownloads() }.returns(flowOf(true))
 
         repository = SettingsRepositoryImpl(
             context = mockk(),
