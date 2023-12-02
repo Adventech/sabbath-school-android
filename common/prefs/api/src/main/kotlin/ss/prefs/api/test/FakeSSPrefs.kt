@@ -64,9 +64,7 @@ class FakeSSPrefs(
         TODO("Not yet implemented")
     }
 
-    override fun getLanguageCode(): String {
-        TODO("Not yet implemented")
-    }
+    override fun getLanguageCode(): String = languagesFlow.value
 
     override fun getLanguageCodeFlow(): Flow<String> = languagesFlow
 

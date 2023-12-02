@@ -34,16 +34,21 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
+import ss.foundation.coroutines.test.TestDispatcherProvider
+import ss.prefs.api.test.FakeSSPrefs
 
 /** Unit tests for [HomePresenter]. */
 class HomePresenterTest {
 
     private val fakeNavigator = FakeNavigator()
     private val isTopBarVisible = MutableStateFlow(true)
+    private val languagesFlow = MutableStateFlow("en")
 
     private val underTest = HomePresenter(
         navigator = fakeNavigator,
-        scrollEvents = FakeScrollEvents(isTopBarVisible)
+        scrollEvents = FakeScrollEvents(isTopBarVisible),
+        ssPrefs = FakeSSPrefs(languagesFlow),
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     @Test
@@ -66,6 +71,22 @@ class HomePresenterTest {
             state.eventSink(Event.OnTopBarScreen(Screens.Account))
 
             awaitItem().currentScreen shouldBeEqualTo AccountScreen
+
+            ensureAllEventsConsumed()
+        }
+    }
+
+    @Test
+    fun `present - switch to VideosScreen when language changes`() = runTest {
+        underTest.test {
+            val state = awaitItem()
+            state.eventSink(Event.OnTopBarScreen(Screens.Account))
+
+            awaitItem().currentScreen shouldBeEqualTo AccountScreen
+
+            languagesFlow.value = "fr"
+
+            awaitItem().currentScreen shouldBeEqualTo VideosScreen
 
             ensureAllEventsConsumed()
         }
