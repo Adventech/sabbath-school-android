@@ -25,14 +25,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-feature
-        android:name="android.hardware.touchscreen"
-        android:required="false" />
-    <uses-feature
-        android:name="android.software.leanback"
-        android:required="false" />
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
@@ -99,20 +91,6 @@
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="false" />
-
-        <activity
-            android:name=".ui.NoOpTvActivity"
-            android:banner="@drawable/app_banner"
-            android:exported="true"
-            android:icon="@drawable/app_banner"
-            android:logo="@drawable/app_banner"
-            android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <!-- Initializers -->
         <provider
