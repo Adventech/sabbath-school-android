@@ -24,7 +24,6 @@ package app.ss.tv.presentation.videos
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.model.VideoSpec
@@ -34,6 +33,7 @@ import app.ss.tv.navigator.IntentHelper
 import app.ss.tv.presentation.ScrollEvents
 import app.ss.tv.presentation.videos.VideosScreen.Event
 import app.ss.tv.presentation.videos.VideosScreen.State
+import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
@@ -47,6 +47,8 @@ import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.model.VideosInfoModel
 import ss.prefs.api.SSPrefs
 import timber.log.Timber
+
+private const val KEY_VIDEOS = "videos"
 
 class VideosPresenter @AssistedInject constructor(
     private val repository: VideosRepository,
@@ -64,7 +66,7 @@ class VideosPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): State {
-        val result by produceState(Result.success(emptyList<VideosInfoModel>())) {
+        val result by produceRetainedState(Result.success(emptyList<VideosInfoModel>()), KEY_VIDEOS) {
             ssPrefs.getLanguageCodeFlow()
                 .map { repository.getVideos(it) }
                 .flowOn(dispatcherProvider.io)

@@ -44,10 +44,15 @@ import com.slack.circuit.runtime.screen.Screen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.flowOn
+import ss.foundation.coroutines.DispatcherProvider
+import ss.prefs.api.SSPrefs
 
 class HomePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val scrollEvents: ScrollEvents,
+    private val ssPrefs: SSPrefs,
+    private val dispatcherProvider: DispatcherProvider,
 ) : Presenter<State> {
 
     @AssistedFactory
@@ -58,7 +63,12 @@ class HomePresenter @AssistedInject constructor(
     @Composable
     override fun present(): State {
         val selectedIndex by rememberRetained { mutableIntStateOf(0) }
-        var currentScreen by rememberRetained { mutableStateOf<Screen>(VideosScreen) }
+        val currentLanguage by produceRetainedState(ssPrefs.getLanguageCode()) {
+            ssPrefs.getLanguageCodeFlow()
+                .flowOn(dispatcherProvider.io)
+                .collect { value = it }
+        }
+        var currentScreen by rememberRetained(currentLanguage) { mutableStateOf<Screen>(VideosScreen) }
         val topAppBarVisible by produceRetainedState(true) {
             scrollEvents.appBarVisibility.collect { value = it }
         }
