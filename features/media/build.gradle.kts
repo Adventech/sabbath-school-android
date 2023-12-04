@@ -50,6 +50,7 @@ dependencies {
     implementation(projects.common.storage)
     implementation(projects.common.translations)
     implementation(projects.libraries.foundation.coroutines)
+    implementation(projects.libraries.media.api)
 
     implementation(libs.androidx.activity)
     implementation(libs.androidx.core)
@@ -60,9 +61,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.extensions)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.androidx.media3.session)
-    implementation(libs.androidx.media3.ui)
 
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)

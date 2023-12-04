@@ -20,30 +20,8 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.player
+package ss.libraries.media.api
 
-import android.os.Parcelable
-import androidx.compose.runtime.Immutable
-import androidx.media3.ui.PlayerView
-import app.ss.tv.data.model.VideoSpec
-import app.ss.tv.presentation.player.components.VideoPlayerControlsSpec
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.screen.Screen
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
-data class VideoPlayerScreen(
-    val video: VideoSpec
-) : Screen, Parcelable {
-
-    @Immutable
-    data class State(
-        val controls: VideoPlayerControlsSpec,
-        val eventSink: (Event) -> Unit
-    ) : CircuitUiState
-
-    sealed interface Event : CircuitUiEvent {
-        data class OnPlayerViewCreated(val playerView: PlayerView) : Event
-    }
-}
+const val PLAYBACK_PROGRESS_INTERVAL = 1000L
+const val DEFAULT_FORWARD = 30 * 1000L
+const val DEFAULT_REWIND = 15 * 1000L

@@ -20,11 +20,10 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.players
+package ss.services.media.impl
 
 import android.content.Context
 import android.net.Uri
-import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.AudioAttributes
@@ -34,49 +33,30 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.PlayerView
-import app.ss.media.playback.DEFAULT_FORWARD
-import app.ss.media.playback.DEFAULT_REWIND
-import app.ss.media.playback.PLAYBACK_PROGRESS_INTERVAL
-import app.ss.media.playback.model.PlaybackProgressState
-import app.ss.media.playback.model.PlaybackSpeed
-import app.ss.models.media.SSVideo
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.flowInterval
+import ss.libraries.media.api.DEFAULT_FORWARD
+import ss.libraries.media.api.DEFAULT_REWIND
+import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
+import ss.libraries.media.api.SSVideoPlayer
+import ss.libraries.media.model.PlaybackProgressState
+import ss.libraries.media.model.PlaybackSpeed
+import ss.libraries.media.model.VideoPlaybackState
+import ss.libraries.media.model.hasEnded
+import ss.libraries.media.model.isBuffering
 import timber.log.Timber
-
-@Immutable
-data class VideoPlaybackState(
-    @Player.State val state: Int = Player.STATE_IDLE,
-    val isPlaying: Boolean = false
-)
-
-val VideoPlaybackState.isBuffering: Boolean get() = state == Player.STATE_BUFFERING
-val VideoPlaybackState.hasEnded: Boolean get() = state == Player.STATE_ENDED
-
-internal interface SSVideoPlayer {
-    val playbackState: StateFlow<VideoPlaybackState>
-    val playbackProgress: StateFlow<PlaybackProgressState>
-    val playbackSpeed: StateFlow<PlaybackSpeed>
-    fun playVideo(video: SSVideo, playerView: PlayerView)
-    fun playPause()
-    fun seekTo(position: Long)
-    fun fastForward()
-    fun rewind()
-    fun toggleSpeed()
-    fun onPause()
-    fun onResume()
-    fun release()
-}
+import javax.inject.Inject
 
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
-internal class SSVideoPlayerImpl(
-    private val context: Context,
-    coroutineScope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope
-) : SSVideoPlayer, Player.Listener, CoroutineScope by coroutineScope {
+@ActivityScoped
+internal class SSVideoPlayerImpl @Inject constructor(
+    @ActivityContext private val context: Context,
+) : SSVideoPlayer, Player.Listener, CoroutineScope by ProcessLifecycleOwner.get().lifecycleScope {
 
     private val exoPlayer: ExoPlayer by lazy {
         ExoPlayer.Builder(context)
@@ -101,13 +81,13 @@ internal class SSVideoPlayerImpl(
         startPlaybackProgress()
     }
 
-    override fun playVideo(video: SSVideo, playerView: PlayerView) {
+    override fun playVideo(source: Uri, playerView: PlayerView) {
         if (exoPlayer.isPlaying) {
             exoPlayer.pause()
         }
 
         val mediaSource = DefaultMediaSourceFactory(context)
-            .createMediaSource(MediaItem.fromUri(Uri.parse(video.src)))
+            .createMediaSource(MediaItem.fromUri(source))
         playerView.player = exoPlayer
         exoPlayer.setMediaSource(mediaSource)
         exoPlayer.prepare()

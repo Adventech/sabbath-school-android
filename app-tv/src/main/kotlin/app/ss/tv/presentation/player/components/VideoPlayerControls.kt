@@ -25,7 +25,6 @@ package app.ss.tv.presentation.player.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
@@ -38,8 +37,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,21 +54,20 @@ import androidx.tv.material3.Text
 import app.ss.tv.presentation.player.VideoPlayerState
 import app.ss.tv.presentation.player.rememberVideoPlayerState
 import app.ss.tv.presentation.theme.SSTvTheme
-import app.ss.translations.R.string as RString
+import ss.libraries.media.model.PlaybackProgressState
+import app.ss.translations.R as L10nR
 
 @Immutable
 data class VideoPlayerControlsSpec(
     val isPlaying: Boolean,
     val isBuffering: Boolean,
     val onPlayPauseToggle: () -> Unit,
-    val onSeek: (Float) -> Unit,
-    val contentProgressInMillis: Long,
-    val contentDurationInMillis: Long,
+    val onSeek: (Long) -> Unit,
+    val progressState: PlaybackProgressState,
     val title: String,
     val artist: String,
 )
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun VideoPlayerControls(
     spec: VideoPlayerControlsSpec,
@@ -79,20 +75,6 @@ fun VideoPlayerControls(
     modifier: Modifier = Modifier
 ) {
     val focusRequester = remember { FocusRequester() }
-
-    val contentProgress by remember(spec.contentProgressInMillis, spec.contentDurationInMillis) {
-        derivedStateOf {
-            spec.contentProgressInMillis.toFloat() / spec.contentDurationInMillis
-        }
-    }
-
-    val contentProgressString by remember(spec.contentProgressInMillis) {
-        derivedStateOf { buildProgressString(spec.contentProgressInMillis) }
-    }
-
-    val contentDurationString by remember(spec.contentDurationInMillis) {
-        derivedStateOf { buildDurationString(spec.contentDurationInMillis) }
-    }
 
     LaunchedEffect(videoPlayerState.isDisplayed) {
         if (videoPlayerState.isDisplayed) {
@@ -141,7 +123,7 @@ fun VideoPlayerControls(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                AnimatedContent(targetState = spec.isBuffering) { isBuffering ->
+                AnimatedContent(targetState = spec.isBuffering, label = "play-pause") { isBuffering ->
                     if (isBuffering) {
                         CircularProgressIndicator(
                             modifier = Modifier
@@ -153,66 +135,29 @@ fun VideoPlayerControls(
                     } else {
                         VideoPlayerControlsIcon(
                             isPlaying = spec.isPlaying,
-                            contentDescription = stringResource(id = RString.ss_action_play_pause),
+                            contentDescription = stringResource(id = L10nR.string.ss_action_play_pause),
                             modifier = Modifier.focusRequester(focusRequester),
                             onClick = { spec.onPlayPauseToggle() }
                         )
                     }
                 }
 
-                DurationText(text = contentProgressString)
+                val progressState = spec.progressState
+                DurationText(text = progressState.currentDuration)
 
                 VideoPlayerControllerIndicator(
-                    progress = contentProgress,
+                    progress = progressState.progress,
                     videoPlayerState = videoPlayerState,
-                    onSeek = spec.onSeek
+                    onSeek = {
+                        spec.onSeek(progressState.total.times(it).toLong())
+                    }
                 )
 
-                DurationText(text = contentDurationString)
+                DurationText(text = progressState.totalDuration)
             }
         }
     }
 }
-
-private fun buildProgressString(contentProgressInMillis: Long): String {
-    val contentProgressMinutes = (contentProgressInMillis / 1000) / 60
-    val contentProgressSeconds = (contentProgressInMillis / 1000) % 60
-    val contentProgressMinutesStr =
-        if (contentProgressMinutes < 10) {
-            contentProgressMinutes.padStartWith0()
-        } else {
-            contentProgressMinutes.toString()
-        }
-    val contentProgressSecondsStr =
-        if (contentProgressSeconds < 10) {
-            contentProgressSeconds.padStartWith0()
-        } else {
-            contentProgressSeconds.toString()
-        }
-    return "$contentProgressMinutesStr:$contentProgressSecondsStr"
-}
-
-private fun buildDurationString(contentDurationInMillis: Long): String {
-    val contentDurationMinutes =
-        (contentDurationInMillis / 1000 / 60).coerceAtLeast(minimumValue = 0)
-    val contentDurationSeconds =
-        (contentDurationInMillis / 1000 % 60).coerceAtLeast(minimumValue = 0)
-    val contentDurationMinutesStr =
-        if (contentDurationMinutes < 10) {
-            contentDurationMinutes.padStartWith0()
-        } else {
-            contentDurationMinutes.toString()
-        }
-    val contentDurationSecondsStr =
-        if (contentDurationSeconds < 10) {
-            contentDurationSeconds.padStartWith0()
-        } else {
-            contentDurationSeconds.toString()
-        }
-    return "$contentDurationMinutesStr:$contentDurationSecondsStr"
-}
-
-private fun Long.padStartWith0() = this.toString().padStart(2, '0')
 
 @Composable
 private fun DurationText(text: String) {
@@ -234,8 +179,10 @@ private fun Preview() {
                 isBuffering = false,
                 onPlayPauseToggle = {},
                 onSeek = {},
-                contentProgressInMillis = 5000,
-                contentDurationInMillis = 85000,
+                progressState = PlaybackProgressState(
+                    elapsed = 5000,
+                    total = 85000,
+                ),
                 title = "Worshiping the Creator",
                 artist = "Hope Sabbath School"
             ),

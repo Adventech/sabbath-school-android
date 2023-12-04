@@ -20,30 +20,19 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.player
+package ss.libraries.media.model
 
-import android.os.Parcelable
-import androidx.compose.runtime.Immutable
-import androidx.media3.ui.PlayerView
-import app.ss.tv.data.model.VideoSpec
-import app.ss.tv.presentation.player.components.VideoPlayerControlsSpec
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.screen.Screen
-import kotlinx.parcelize.Parcelize
+import app.ss.models.media.AudioFile
 
-@Parcelize
-data class VideoPlayerScreen(
-    val video: VideoSpec
-) : Screen, Parcelable {
+data class PlaybackQueue(
+    val list: List<String> = emptyList(),
+    val audiosList: List<AudioFile> = emptyList(),
+    val title: String? = null,
+    val initialMediaId: String = "",
+    val currentIndex: Int = 0
+) : List<AudioFile> by audiosList {
 
-    @Immutable
-    data class State(
-        val controls: VideoPlayerControlsSpec,
-        val eventSink: (Event) -> Unit
-    ) : CircuitUiState
+    val isValid = list.isNotEmpty() && audiosList.isNotEmpty() && currentIndex >= 0
 
-    sealed interface Event : CircuitUiEvent {
-        data class OnPlayerViewCreated(val playerView: PlayerView) : Event
-    }
+    val currentAudio get() = getOrNull(currentIndex)
 }

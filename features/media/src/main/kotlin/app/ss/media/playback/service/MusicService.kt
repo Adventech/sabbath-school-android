@@ -36,11 +36,11 @@ import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionCommand
 import androidx.media3.session.SessionResult
-import app.ss.media.playback.DEFAULT_FORWARD
-import app.ss.media.playback.DEFAULT_REWIND
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
+import ss.libraries.media.api.DEFAULT_FORWARD
+import ss.libraries.media.api.DEFAULT_REWIND
 import timber.log.Timber
 import app.ss.media.R as MediaR
 import app.ss.translations.R as L10nR

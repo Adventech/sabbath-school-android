@@ -152,6 +152,7 @@ dependencies {
     implementation(projects.libraries.circuitHelpers.impl)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.services.lessons.impl)
+    implementation(projects.services.media.impl)
     implementation(projects.services.workers.impl)
 
     implementation(libs.kotlin.coroutines.playservices)

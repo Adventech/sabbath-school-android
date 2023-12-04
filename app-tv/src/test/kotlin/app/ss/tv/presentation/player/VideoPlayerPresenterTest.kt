@@ -22,41 +22,76 @@
 
 package app.ss.tv.presentation.player
 
+import android.content.Context
+import androidx.core.net.toUri
+import androidx.media3.ui.PlayerView
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.tv.data.videoSpec
 import app.ss.tv.presentation.player.VideoPlayerScreen.Event
 import com.slack.circuit.test.test
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
+import org.junit.runner.RunWith
+import ss.libraries.media.test.FakeSSVideoPlayer
 
+/** Unit tests for [VideoPlayerPresenter]. */
+@RunWith(AndroidJUnit4::class)
 class VideoPlayerPresenterTest {
 
+    private val appContext: Context = ApplicationProvider.getApplicationContext()
+
     private val ambientModeHelper = FakeAmbientModeHelper()
+    private val fakeVideoPlayer = FakeSSVideoPlayer()
 
     private val underTest = VideoPlayerPresenter(
         ambientModeHelper = ambientModeHelper,
+        videoPlayer = fakeVideoPlayer,
         screen = VideoPlayerScreen(videoSpec),
     )
 
     @Test
-    fun `present - should emit state with video from screen`() = runTest {
+    fun `present - should emit default state`() = runTest {
         underTest.test {
-            awaitItem().spec shouldBeEqualTo videoSpec
+            val controls = awaitItem().controls
+
+            controls.isPlaying shouldBeEqualTo false
+            controls.isBuffering shouldBeEqualTo false
+            controls.title shouldBeEqualTo videoSpec.title
+            controls.artist shouldBeEqualTo videoSpec.artist
+
+            ensureAllEventsConsumed()
         }
     }
 
     @Test
-    fun `present - should update ambient mode on Playback events`() = runTest {
+    fun `present - should play video when playerView is created`() = runTest {
+        val playerView = PlayerView(appContext)
         underTest.test {
             val state = awaitItem()
 
-            state.eventSink(Event.OnPlaybackChange(true))
+            state.eventSink(Event.OnPlayerViewCreated(playerView))
 
-            ambientModeHelper.enabled shouldBeEqualTo false
+            fakeVideoPlayer.videoSource shouldBeEqualTo videoSpec.src.toUri()
+            fakeVideoPlayer.playerView shouldBeEqualTo playerView
 
-            state.eventSink(Event.OnPlaybackChange(false))
+            ensureAllEventsConsumed()
+        }
+    }
 
-            ambientModeHelper.enabled shouldBeEqualTo true
+    @Test
+    fun `present - handle controls events`() = runTest {
+        underTest.test {
+            val controls = awaitItem().controls
+
+            controls.onSeek(1000)
+            fakeVideoPlayer.seekTo shouldBeEqualTo 1000
+
+            controls.onPlayPauseToggle()
+            fakeVideoPlayer.playPauseInvoked shouldBeEqualTo true
+
+            ensureAllEventsConsumed()
         }
     }
 }

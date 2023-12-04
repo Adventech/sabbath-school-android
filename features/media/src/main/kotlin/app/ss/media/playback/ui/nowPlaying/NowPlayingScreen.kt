@@ -58,15 +58,15 @@ import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.media.R
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.model.PlaybackProgressState
-import app.ss.media.playback.model.PlaybackQueue
-import app.ss.media.playback.model.PlaybackSpeed
 import app.ss.media.playback.ui.common.PlaybackSpeedLabel
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControls
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.models.media.AudioFile
+import ss.libraries.media.model.PlaybackProgressState
+import ss.libraries.media.model.PlaybackQueue
+import ss.libraries.media.model.PlaybackSpeed
 import app.ss.translations.R.string as RString
 
 @Immutable

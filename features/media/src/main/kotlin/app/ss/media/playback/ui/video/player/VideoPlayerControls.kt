@@ -46,11 +46,11 @@ import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.media.R
-import app.ss.media.playback.players.SSVideoPlayer
-import app.ss.media.playback.players.isBuffering
 import app.ss.media.playback.ui.common.PlaybackSpeedLabel
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControlsDefaults
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
+import ss.libraries.media.api.SSVideoPlayer
+import ss.libraries.media.model.isBuffering
 import app.ss.translations.R.string as RString
 
 @Composable

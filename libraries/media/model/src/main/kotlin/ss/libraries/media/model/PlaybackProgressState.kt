@@ -20,30 +20,22 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.player
+package ss.libraries.media.model
 
-import android.os.Parcelable
 import androidx.compose.runtime.Immutable
-import androidx.media3.ui.PlayerView
-import app.ss.tv.data.model.VideoSpec
-import app.ss.tv.presentation.player.components.VideoPlayerControlsSpec
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.screen.Screen
-import kotlinx.parcelize.Parcelize
+import ss.libraries.media.model.extensions.millisToDuration
 
-@Parcelize
-data class VideoPlayerScreen(
-    val video: VideoSpec
-) : Screen, Parcelable {
+@Immutable
+data class PlaybackProgressState(
+    val total: Long = 0L,
+    val position: Long = 0L,
+    val elapsed: Long = 0L,
+    val buffered: Long = 0L
+) {
 
-    @Immutable
-    data class State(
-        val controls: VideoPlayerControlsSpec,
-        val eventSink: (Event) -> Unit
-    ) : CircuitUiState
+    val progress get() = ((position.toFloat() + elapsed) / (total + 1).toFloat()).coerceIn(0f, 1f)
+    val bufferedProgress get() = ((buffered.toFloat()) / (total + 1).toFloat()).coerceIn(0f, 1f)
 
-    sealed interface Event : CircuitUiEvent {
-        data class OnPlayerViewCreated(val playerView: PlayerView) : Event
-    }
+    val currentDuration get() = (position + elapsed).millisToDuration()
+    val totalDuration get() = total.millisToDuration()
 }

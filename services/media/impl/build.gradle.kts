@@ -20,19 +20,24 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.model
+plugins {
+    alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+}
 
-import app.ss.models.media.AudioFile
+dependencies {
+    implementation(libs.androidx.lifecycle.process)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.session)
+    implementation(libs.androidx.media3.ui)
+    implementation(libs.google.hilt.android)
+    implementation(projects.libraries.media.api)
+    ksp(libs.google.hilt.compiler)
+    implementation(libs.timber)
 
-data class PlaybackQueue(
-    val list: List<String> = emptyList(),
-    val audiosList: List<AudioFile> = emptyList(),
-    val title: String? = null,
-    val initialMediaId: String = "",
-    val currentIndex: Int = 0
-) : List<AudioFile> by audiosList {
-
-    val isValid = list.isNotEmpty() && audiosList.isNotEmpty() && currentIndex >= 0
-
-    val currentAudio get() = getOrNull(currentIndex)
+    testImplementation(libs.bundles.testing.common)
+    testImplementation(projects.libraries.foundation.coroutines.test)
+    testImplementation(projects.libraries.testUtils)
 }

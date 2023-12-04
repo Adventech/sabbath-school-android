@@ -36,7 +36,7 @@ val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
 val appVersionCode = readPropertyValue(
     filePath = "build_number.properties",
     key = "BUILD_NUMBER",
-    defaultValue = "17"
+    defaultValue = "18"
 ).toInt() + 11000
 
 android {
@@ -45,7 +45,7 @@ android {
     defaultConfig {
         applicationId = BuildAndroidConfig.APP_ID
         versionCode = appVersionCode
-        versionName = "0.4.0 - $appVersionCode"
+        versionName = "0.4.1 - $appVersionCode"
         minSdk = 25
     }
 
@@ -83,6 +83,10 @@ android {
     buildFeatures {
         buildConfig = true
     }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
 }
 
 slack {
@@ -94,7 +98,9 @@ dependencies {
     implementation(projects.common.translations)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
+    implementation(projects.libraries.media.api)
     implementation(projects.services.lessons.impl)
+    implementation(projects.services.media.impl)
 
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -102,8 +108,6 @@ dependencies {
     implementation(libs.bundles.compose.tooling)
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.androidx.media3.ui)
     implementation(libs.androidx.tv.foundation)
     implementation(libs.androidx.tv.material) {
         exclude(group = "androidx.compose.animation", module = "animation")
@@ -118,6 +122,7 @@ dependencies {
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.lessons.test)
+    testImplementation(projects.libraries.media.testFixtures)
     testImplementation(projects.libraries.testUtils)
 }
 

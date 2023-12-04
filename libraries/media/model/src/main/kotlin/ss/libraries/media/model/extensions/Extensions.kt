@@ -20,11 +20,11 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.extensions
+package ss.libraries.media.model.extensions
 
 import java.util.concurrent.TimeUnit
 
-internal fun Long.millisToDuration(): String {
+fun Long.millisToDuration(): String {
     val seconds = (TimeUnit.SECONDS.convert(this, TimeUnit.MILLISECONDS) % 60).toInt()
     val minutes = (TimeUnit.MINUTES.convert(this, TimeUnit.MILLISECONDS) % 60).toInt()
     val hours = (TimeUnit.HOURS.convert(this, TimeUnit.MILLISECONDS) % 24).toInt()

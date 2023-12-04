@@ -20,30 +20,19 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation.player
+package ss.services.media.impl.di
 
-import android.os.Parcelable
-import androidx.compose.runtime.Immutable
-import androidx.media3.ui.PlayerView
-import app.ss.tv.data.model.VideoSpec
-import app.ss.tv.presentation.player.components.VideoPlayerControlsSpec
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.screen.Screen
-import kotlinx.parcelize.Parcelize
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import ss.libraries.media.api.SSVideoPlayer
+import ss.services.media.impl.SSVideoPlayerImpl
 
-@Parcelize
-data class VideoPlayerScreen(
-    val video: VideoSpec
-) : Screen, Parcelable {
+@Module
+@InstallIn(ActivityComponent::class)
+abstract class BindingsModule {
 
-    @Immutable
-    data class State(
-        val controls: VideoPlayerControlsSpec,
-        val eventSink: (Event) -> Unit
-    ) : CircuitUiState
-
-    sealed interface Event : CircuitUiEvent {
-        data class OnPlayerViewCreated(val playerView: PlayerView) : Event
-    }
+    @Binds
+    internal abstract fun bindSSVideoPlayer(impl: SSVideoPlayerImpl): SSVideoPlayer
 }
