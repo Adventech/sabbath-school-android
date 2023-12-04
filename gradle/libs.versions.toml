@@ -248,6 +248,7 @@ android-library = { id = "com.android.library", version.ref = "gradle-android" }
 gradle-cache-fix = { id = "org.gradle.android.cache-fix", version.ref = "gradle-cache-fix" }
 gradle-retry = { id = "org.gradle.test-retry", version.ref = "gradle-retry" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "google-hilt" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 sgp-base = { id = "com.slack.gradle.base", version.ref = "sgp" }
@@ -255,4 +256,3 @@ sgp-root = { id = "com.slack.gradle.root", version.ref = "sgp" }
 sgp-apkVersioning = { id = "com.slack.gradle.apk-versioning", version.ref = "sgp" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sortDependencies" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

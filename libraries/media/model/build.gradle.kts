@@ -22,12 +22,8 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-}
-
-android {
-    namespace = "ss.libraries.media.model"
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
 }
 
 dependencies {
