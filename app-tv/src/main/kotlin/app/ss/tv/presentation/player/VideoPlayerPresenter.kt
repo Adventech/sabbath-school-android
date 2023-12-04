@@ -23,15 +23,26 @@
 package app.ss.tv.presentation.player
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.core.net.toUri
 import app.ss.tv.presentation.player.VideoPlayerScreen.Event
 import app.ss.tv.presentation.player.VideoPlayerScreen.State
+import app.ss.tv.presentation.player.components.VideoPlayerControlsSpec
+import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import ss.libraries.media.api.SSVideoPlayer
+import ss.libraries.media.model.PlaybackProgressState
+import ss.libraries.media.model.VideoPlaybackState
+import ss.libraries.media.model.isBuffering
 
 class VideoPlayerPresenter @AssistedInject constructor(
     private val ambientModeHelper: AmbientModeHelper,
+    private val videoPlayer: SSVideoPlayer,
     @Assisted private val screen: VideoPlayerScreen,
 ) : Presenter<State> {
 
@@ -44,15 +55,44 @@ class VideoPlayerPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): State {
-        return State(screen.video) { event ->
+        val playbackState by produceRetainedState(initialValue = VideoPlaybackState()) {
+            videoPlayer.playbackState.collect { state -> value = state }
+        }
+        val playbackProgress by produceRetainedState(initialValue = PlaybackProgressState()) {
+            videoPlayer.playbackProgress
+                .collect { progress -> value = progress }
+        }
+        val video = screen.video
+
+        LaunchedEffect(playbackState.isPlaying) {
+            if (playbackState.isPlaying) {
+                ambientModeHelper.disable()
+            } else {
+                ambientModeHelper.enable()
+            }
+        }
+
+        DisposableEffect(Unit) {
+            onDispose {
+                videoPlayer.release()
+            }
+        }
+
+        return State(
+            controls = VideoPlayerControlsSpec(
+                isPlaying = playbackState.isPlaying,
+                isBuffering = playbackState.isBuffering,
+                onPlayPauseToggle = videoPlayer::playPause,
+                onSeek = videoPlayer::seekTo,
+                progressState = playbackProgress,
+                title = video.title,
+                artist = video.artist
+            )
+        ) { event ->
             when (event) {
-                is Event.OnPlaybackChange -> {
-                    if (event.isPlaying) {
-                        ambientModeHelper.disable()
-                    } else {
-                        ambientModeHelper.enable()
-                    }
-                }
+                is Event.OnPlayerViewCreated -> videoPlayer.playVideo(
+                    video.src.toUri(), event.playerView
+                )
             }
         }
     }

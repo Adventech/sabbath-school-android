@@ -22,9 +22,9 @@
 
 package ss.libraries.media.api
 
+import android.net.Uri
 import androidx.compose.runtime.Stable
 import androidx.media3.ui.PlayerView
-import app.ss.models.media.SSVideo
 import kotlinx.coroutines.flow.StateFlow
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackSpeed
@@ -35,7 +35,7 @@ interface SSVideoPlayer {
     val playbackState: StateFlow<VideoPlaybackState>
     val playbackProgress: StateFlow<PlaybackProgressState>
     val playbackSpeed: StateFlow<PlaybackSpeed>
-    fun playVideo(video: SSVideo, playerView: PlayerView)
+    fun playVideo(source: Uri, playerView: PlayerView)
     fun playPause()
     fun seekTo(position: Long)
     fun fastForward()

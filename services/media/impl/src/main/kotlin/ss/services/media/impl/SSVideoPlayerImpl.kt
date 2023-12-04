@@ -33,7 +33,6 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.PlayerView
-import app.ss.models.media.SSVideo
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.CoroutineScope
@@ -82,13 +81,13 @@ internal class SSVideoPlayerImpl @Inject constructor(
         startPlaybackProgress()
     }
 
-    override fun playVideo(video: SSVideo, playerView: PlayerView) {
+    override fun playVideo(source: Uri, playerView: PlayerView) {
         if (exoPlayer.isPlaying) {
             exoPlayer.pause()
         }
 
         val mediaSource = DefaultMediaSourceFactory(context)
-            .createMediaSource(MediaItem.fromUri(Uri.parse(video.src)))
+            .createMediaSource(MediaItem.fromUri(source))
         playerView.player = exoPlayer
         exoPlayer.setMediaSource(mediaSource)
         exoPlayer.prepare()
