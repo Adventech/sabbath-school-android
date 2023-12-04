@@ -94,7 +94,9 @@ dependencies {
     implementation(projects.common.translations)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
+    implementation(projects.libraries.media.api)
     implementation(projects.services.lessons.impl)
+    implementation(projects.services.media.impl)
 
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -102,8 +104,6 @@ dependencies {
     implementation(libs.bundles.compose.tooling)
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.androidx.media3.ui)
     implementation(libs.androidx.tv.foundation)
     implementation(libs.androidx.tv.material) {
         exclude(group = "androidx.compose.animation", module = "animation")

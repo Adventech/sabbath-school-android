@@ -20,19 +20,23 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.model
+package ss.libraries.media.model.extensions
 
-import app.ss.models.media.AudioFile
+import java.util.concurrent.TimeUnit
 
-data class PlaybackQueue(
-    val list: List<String> = emptyList(),
-    val audiosList: List<AudioFile> = emptyList(),
-    val title: String? = null,
-    val initialMediaId: String = "",
-    val currentIndex: Int = 0
-) : List<AudioFile> by audiosList {
+fun Long.millisToDuration(): String {
+    val seconds = (TimeUnit.SECONDS.convert(this, TimeUnit.MILLISECONDS) % 60).toInt()
+    val minutes = (TimeUnit.MINUTES.convert(this, TimeUnit.MILLISECONDS) % 60).toInt()
+    val hours = (TimeUnit.HOURS.convert(this, TimeUnit.MILLISECONDS) % 24).toInt()
 
-    val isValid = list.isNotEmpty() && audiosList.isNotEmpty() && currentIndex >= 0
+    "${timeAddZeros(hours)}:${timeAddZeros(minutes, "0")}:${timeAddZeros(seconds, "00")}".apply {
+        return if (startsWith(":")) replaceFirst(":", "") else this
+    }
+}
 
-    val currentAudio get() = getOrNull(currentIndex)
+private fun timeAddZeros(number: Int?, ifZero: String = ""): String {
+    return when (number) {
+        0 -> ifZero
+        else -> number?.toString()?.padStart(2, '0') ?: "00"
+    }
 }

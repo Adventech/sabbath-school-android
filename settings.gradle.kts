@@ -74,10 +74,13 @@ include(
     ":libraries:lessons:api",
     ":libraries:lessons:model",
     ":libraries:lessons:test",
+    ":libraries:media:api",
+    ":libraries:media:model",
     ":libraries:test_utils",
     ":libraries:ui:placeholder",
     ":libraries:workers:api",
     ":services:lessons:impl",
+    ":services:media:impl",
     ":services:workers:impl"
 )
 rootProject.name = "sabbath-school-android"

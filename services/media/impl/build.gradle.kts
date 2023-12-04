@@ -24,52 +24,24 @@ plugins {
     alias(libs.plugins.sgp.base)
     alias(libs.plugins.ksp)
     id("com.android.library")
-    id("dagger.hilt.android.plugin")
-    id("kotlin-parcelize")
-    kotlin("android")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "app.ss.media"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
-    }
-}
-
-slack {
-    features { compose() }
+    namespace = "ss.services.media.impl"
 }
 
 dependencies {
-    implementation(projects.common.core)
-    implementation(projects.common.design)
-    implementation(projects.common.designCompose)
-    implementation(projects.common.lessonsData)
-    implementation(projects.common.storage)
-    implementation(projects.common.translations)
-    implementation(projects.libraries.foundation.coroutines)
-    implementation(projects.libraries.media.api)
-
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.fragment)
-    implementation(libs.androidx.lifecycle.viewmodel)
-    implementation(libs.androidx.lifecycle.extensions)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-
+    implementation(libs.androidx.lifecycle.process)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.session)
+    implementation(libs.androidx.media3.ui)
     implementation(libs.google.hilt.android)
+    implementation(projects.libraries.media.api)
     ksp(libs.google.hilt.compiler)
-    implementation(libs.google.material)
-
-    implementation(libs.kotlin.coroutines.guava)
     implementation(libs.timber)
-    implementation(libs.coil.compose)
 
     testImplementation(libs.bundles.testing.common)
+    testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.testUtils)
 }

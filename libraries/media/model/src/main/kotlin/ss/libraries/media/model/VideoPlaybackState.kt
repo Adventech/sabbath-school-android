@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,21 +13,23 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.model
+package ss.libraries.media.model
 
-enum class PlaybackSpeed(
-    val label: String,
-    val speed: Float
-) {
-    SLOW("¾×", 0.75f),
-    NORMAL("1×", 1f),
-    FAST("1½×", 1.5f),
-    FASTEST("2×", 2f);
-}
+import androidx.compose.runtime.Immutable
+import androidx.media3.common.Player
+
+@Immutable
+data class VideoPlaybackState(
+    @Player.State val state: Int = Player.STATE_IDLE,
+    val isPlaying: Boolean = false
+)
+
+val VideoPlaybackState.isBuffering: Boolean get() = state == Player.STATE_BUFFERING
+val VideoPlaybackState.hasEnded: Boolean get() = state == Player.STATE_ENDED

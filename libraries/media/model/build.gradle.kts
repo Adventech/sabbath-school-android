@@ -20,23 +20,20 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.extensions
-
-import java.util.concurrent.TimeUnit
-
-internal fun Long.millisToDuration(): String {
-    val seconds = (TimeUnit.SECONDS.convert(this, TimeUnit.MILLISECONDS) % 60).toInt()
-    val minutes = (TimeUnit.MINUTES.convert(this, TimeUnit.MILLISECONDS) % 60).toInt()
-    val hours = (TimeUnit.HOURS.convert(this, TimeUnit.MILLISECONDS) % 24).toInt()
-
-    "${timeAddZeros(hours)}:${timeAddZeros(minutes, "0")}:${timeAddZeros(seconds, "00")}".apply {
-        return if (startsWith(":")) replaceFirst(":", "") else this
-    }
+plugins {
+    alias(libs.plugins.sgp.base)
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
 }
 
-private fun timeAddZeros(number: Int?, ifZero: String = ""): String {
-    return when (number) {
-        0 -> ifZero
-        else -> number?.toString()?.padStart(2, '0') ?: "00"
-    }
+android {
+    namespace = "ss.libraries.media.model"
+}
+
+dependencies {
+    implementation(libs.androidx.media3.common)
+    api(platform(libs.androidx.compose.bom))
+    api(libs.androidx.compose.runtime)
+
+    api(projects.libraries.lessons.model)
 }

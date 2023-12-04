@@ -40,7 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
-import app.ss.media.playback.model.PlaybackSpeed
+import ss.libraries.media.model.PlaybackSpeed
 
 @Composable
 internal fun PlaybackSpeedLabel(
@@ -87,7 +87,7 @@ private fun Preview() {
         Surface {
             PlaybackSpeedLabel(
                 playbackSpeed = PlaybackSpeed.NORMAL,
-                toggleSpeed = {  },
+                toggleSpeed = { },
                 contentColor = LocalContentColor.current
             )
         }

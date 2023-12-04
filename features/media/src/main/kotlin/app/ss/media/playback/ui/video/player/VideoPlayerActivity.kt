@@ -48,27 +48,28 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.media3.ui.PlayerView
 import app.ss.design.compose.theme.SsTheme
 import app.ss.media.R
-import app.ss.media.playback.players.SSVideoPlayer
-import app.ss.media.playback.players.SSVideoPlayerImpl
-import app.ss.media.playback.players.hasEnded
 import app.ss.models.media.SSVideo
 import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
+import dagger.hilt.android.AndroidEntryPoint
 import ss.foundation.coroutines.flow.collectIn
+import ss.libraries.media.api.SSVideoPlayer
+import ss.libraries.media.model.hasEnded
+import javax.inject.Inject
 
 private const val BACKWARD = "action_backward"
 private const val FORWARD = "action_forward"
 private const val PLAY_PAUSE = "action_play_or_pause"
 
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
+@AndroidEntryPoint
 class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
 
     private lateinit var exoPlayerView: PlayerView
     private lateinit var composeView: ComposeView
 
-    private val videoPlayer: SSVideoPlayer by lazy {
-        SSVideoPlayerImpl(this)
-    }
+    @Inject
+    lateinit var videoPlayer: SSVideoPlayer
 
     private var systemUiVisible: Boolean = true
     private val pictureInPictureEnabled: Boolean
