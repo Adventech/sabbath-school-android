@@ -24,6 +24,7 @@ app-widgets:
   - 'features/app-widgets/*'
 media:
   - 'features/media/*'
+  - 'libraries/media/*'
 pdf:
   - 'features/pdf/*'
 dependencies:
