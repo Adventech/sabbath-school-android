@@ -22,55 +22,21 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
-    id("com.android.library")
     id("dagger.hilt.android.plugin")
-    id("kotlin-parcelize")
-    kotlin("android")
 }
 
 android {
-    namespace = "app.ss.media"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
-    }
-}
-
-slack {
-    features { compose() }
+    namespace = "ss.libraries.media.service"
 }
 
 dependencies {
-    implementation(projects.common.core)
-    implementation(projects.common.design)
-    implementation(projects.common.designCompose)
-    implementation(projects.common.lessonsData)
-    implementation(projects.common.storage)
     implementation(projects.common.translations)
-    implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.media.api)
-    implementation(projects.libraries.media.service)
-
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.fragment)
-    implementation(libs.androidx.lifecycle.viewmodel)
-    implementation(libs.androidx.lifecycle.extensions)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
-    implementation(libs.google.material)
-
-    implementation(libs.kotlin.coroutines.guava)
     implementation(libs.timber)
-    implementation(libs.coil.compose)
-
-    testImplementation(libs.bundles.testing.common)
-    testImplementation(projects.libraries.testUtils)
 }
