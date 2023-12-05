@@ -24,10 +24,10 @@ package app.ss.media.playback
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.media.playback.extensions.id
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import ss.libraries.media.model.extensions.id
 import javax.inject.Inject
 
 @HiltViewModel

@@ -24,8 +24,8 @@ package app.ss.media.playback.ui.spec
 
 import androidx.compose.runtime.Immutable
 import androidx.media3.common.MediaMetadata
-import app.ss.media.playback.model.toAudio
 import app.ss.models.media.AudioFile
+import ss.libraries.media.model.toAudio
 
 @Immutable
 data class NowPlayingSpec(

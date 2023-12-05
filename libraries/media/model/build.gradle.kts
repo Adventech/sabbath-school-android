@@ -27,6 +27,7 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.androidx.core)
     implementation(libs.androidx.media3.common)
     api(platform(libs.androidx.compose.bom))
     api(libs.androidx.compose.runtime)

@@ -78,12 +78,12 @@ import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.media.R
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.ui.common.Dismissible
 import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.media.playback.ui.spec.toSpec
 import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
+import ss.libraries.media.model.extensions.NONE_PLAYING
 import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R.string as RString
 

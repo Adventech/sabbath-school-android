@@ -22,21 +22,6 @@
 
 package app.ss.media.playback.extensions
 
-import android.net.Uri
-import androidx.core.net.toUri
-import androidx.media3.common.MediaMetadata
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 
-internal const val KEY_DURATION = "media:key_duration"
-internal const val KEY_ID = "media:key_id"
-internal const val KEY_SOURCE = "media:key_source"
-internal const val KEY_TARGET_INDEX = "media:target_index"
-
 internal val NONE_PLAYBACK_STATE: PlaybackStateSpec = PlaybackStateSpec.NONE
-
-val NONE_PLAYING: MediaMetadata = MediaMetadata.EMPTY
-
-internal inline val MediaMetadata.duration: Long get() = extras?.getLong(KEY_DURATION) ?: 0L
-internal inline val MediaMetadata.id: String get() = extras?.getString(KEY_ID, "") ?: ""
-internal inline val MediaMetadata.source: Uri get() = (extras?.getString(KEY_SOURCE, "") ?: "").toUri()
-internal inline val MediaMetadata.targetIndex: String? get() = (extras?.getString(KEY_TARGET_INDEX))

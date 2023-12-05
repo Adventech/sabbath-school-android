@@ -22,7 +22,24 @@
 
 package ss.libraries.media.model.extensions
 
+import android.net.Uri
+import androidx.core.net.toUri
+import androidx.media3.common.MediaMetadata
 import java.util.concurrent.TimeUnit
+
+const val KEY_DURATION = "media:key_duration"
+const val KEY_ID = "media:key_id"
+const val KEY_SOURCE = "media:key_source"
+const val KEY_TARGET = "media:target"
+const val KEY_TARGET_INDEX = "media:target_index"
+
+val NONE_PLAYING: MediaMetadata = MediaMetadata.EMPTY
+
+inline val MediaMetadata.duration: Long get() = extras?.getLong(KEY_DURATION) ?: 0L
+inline val MediaMetadata.id: String get() = extras?.getString(KEY_ID, "") ?: ""
+inline val MediaMetadata.source: Uri get() = (extras?.getString(KEY_SOURCE, "") ?: "").toUri()
+inline val MediaMetadata.target: String? get() = (extras?.getString(KEY_TARGET))
+inline val MediaMetadata.targetIndex: String? get() = (extras?.getString(KEY_TARGET_INDEX))
 
 fun Long.millisToDuration(): String {
     val seconds = (TimeUnit.SECONDS.convert(this, TimeUnit.MILLISECONDS) % 60).toInt()
