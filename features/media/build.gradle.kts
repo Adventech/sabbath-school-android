@@ -51,6 +51,7 @@ dependencies {
     implementation(projects.common.translations)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.media.api)
+    implementation(projects.libraries.media.resources)
     implementation(projects.libraries.media.service)
 
     implementation(libs.androidx.activity)

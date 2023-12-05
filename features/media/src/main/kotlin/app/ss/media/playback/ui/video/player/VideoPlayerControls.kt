@@ -45,13 +45,13 @@ import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.design.compose.widget.icon.Icons
-import app.ss.media.R
 import app.ss.media.playback.ui.common.PlaybackSpeedLabel
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControlsDefaults
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
 import ss.libraries.media.api.SSVideoPlayer
 import ss.libraries.media.model.isBuffering
 import app.ss.translations.R.string as RString
+import ss.libraries.media.resources.R as MediaR
 
 @Composable
 internal fun VideoPlayerControls(
@@ -115,7 +115,7 @@ private fun BoxScope.TopBar(
             IconButton(onClick = onEnterPiP) {
                 IconBox(
                     icon = IconSlot.fromResource(
-                        R.drawable.ic_video_icon_pip,
+                        MediaR.drawable.ic_video_icon_pip,
                         contentDescription = RString.ss_picture_in_picture
                     ),
                     contentColor = contentColor
@@ -139,7 +139,7 @@ private fun BoxScope.Controls(
         IconButton(onClick = { videoPlayer.rewind() }) {
             IconBox(
                 icon = IconSlot.fromResource(
-                    R.drawable.ic_audio_icon_backward,
+                    MediaR.drawable.ic_audio_icon_backward,
                     contentDescription = RString.ss_action_rewind
                 ),
                 contentColor = contentColor,
@@ -163,8 +163,8 @@ private fun BoxScope.Controls(
                     IconBox(
                         icon = IconSlot.fromResource(
                             res = when {
-                                playbackState.isPlaying -> R.drawable.ic_audio_icon_pause
-                                else -> R.drawable.ic_audio_icon_play
+                                playbackState.isPlaying -> MediaR.drawable.ic_audio_icon_pause
+                                else -> MediaR.drawable.ic_audio_icon_play
                             },
                             contentDescription = RString.ss_action_play_pause
                         ),
@@ -180,7 +180,7 @@ private fun BoxScope.Controls(
         IconButton(onClick = { videoPlayer.fastForward() }) {
             IconBox(
                 icon = IconSlot.fromResource(
-                    R.drawable.ic_audio_icon_forward,
+                    MediaR.drawable.ic_audio_icon_forward,
                     contentDescription = RString.ss_action_forward
                 ),
                 contentColor = contentColor,

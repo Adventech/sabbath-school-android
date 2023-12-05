@@ -24,16 +24,8 @@ plugins {
     alias(libs.plugins.sgp.base)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
-    id("dagger.hilt.android.plugin")
 }
 
-dependencies {
-    implementation(projects.common.translations)
-    implementation(projects.libraries.media.api)
-    implementation(projects.libraries.media.resources)
-
-    implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
-    implementation(libs.timber)
+android {
+    namespace = "ss.libraries.media.resources"
 }

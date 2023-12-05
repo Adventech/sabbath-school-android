@@ -56,7 +56,6 @@ import app.ss.design.compose.widget.DragHandle
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
-import app.ss.media.R
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.ui.common.PlaybackSpeedLabel
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
@@ -67,7 +66,8 @@ import app.ss.models.media.AudioFile
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackQueue
 import ss.libraries.media.model.PlaybackSpeed
-import app.ss.translations.R.string as RString
+import app.ss.translations.R as L10nR
+import ss.libraries.media.resources.R as MediaR
 
 @Immutable
 internal data class NowPlayingScreenSpec(
@@ -217,8 +217,8 @@ private fun BottomControls(
         IconButton(onClick = toggleExpand) {
             IconBox(
                 icon = IconSlot.fromResource(
-                    R.drawable.ic_audio_icon_playlist,
-                    contentDescription = RString.ss_action_playlist
+                    MediaR.drawable.ic_audio_icon_playlist,
+                    contentDescription = L10nR.string.ss_action_playlist
                 ),
                 contentColor = SsTheme.colors.iconsSecondary
             )

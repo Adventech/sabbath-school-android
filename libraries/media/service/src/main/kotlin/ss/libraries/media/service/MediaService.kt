@@ -43,7 +43,7 @@ import ss.libraries.media.api.DEFAULT_FORWARD
 import ss.libraries.media.api.DEFAULT_REWIND
 import timber.log.Timber
 import app.ss.translations.R as L10nR
-import ss.libraries.media.service.R as MediaR
+import ss.libraries.media.resources.R as MediaR
 
 private const val LOG_TAG = "SS_MediaService"
 private const val CUSTOM_COMMAND_REWIND = "app.ss.media.playback.REWIND"
