@@ -1,4 +1,4 @@
-ci:
+ci-config:
   - '.github/*'
 auth:
   - 'common/auth/*'
