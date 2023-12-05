@@ -27,9 +27,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.extensions.id
-import app.ss.media.playback.extensions.targetIndex
-import app.ss.media.playback.model.toAudio
 import app.ss.models.media.AudioFile
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import com.cryart.sabbathschool.core.extensions.intent.readIndex
@@ -39,6 +36,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.stateIn
+import ss.libraries.media.model.extensions.id
+import ss.libraries.media.model.extensions.targetIndex
+import ss.libraries.media.model.toAudio
 import javax.inject.Inject
 
 @HiltViewModel

@@ -22,21 +22,21 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
 
     <application>
-
-        <activity
-            android:name=".playback.ui.video.player.VideoPlayerActivity"
-            android:autoRemoveFromRecents="true"
-            android:clearTaskOnLaunch="true"
-            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:label="@string/blank"
-            android:launchMode="singleTask"
-            android:maxRecents="1"
-            android:supportsPictureInPicture="true"
-            android:theme="@style/Theme.SS.Video" />
-
+        <service
+            android:name="ss.libraries.media.service.MediaService"
+            android:enabled="true"
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaLibraryService" />
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

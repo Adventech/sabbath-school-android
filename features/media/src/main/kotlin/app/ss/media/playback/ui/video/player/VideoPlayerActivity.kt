@@ -57,6 +57,7 @@ import ss.foundation.coroutines.flow.collectIn
 import ss.libraries.media.api.SSVideoPlayer
 import ss.libraries.media.model.hasEnded
 import javax.inject.Inject
+import ss.libraries.media.resources.R as MediaR
 
 private const val BACKWARD = "action_backward"
 private const val FORWARD = "action_forward"
@@ -258,19 +259,19 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             .setActions(
                 listOf(
                     createRemoteAction(
-                        R.drawable.ic_audio_icon_backward,
+                        MediaR.drawable.ic_audio_icon_backward,
                         "Rewind",
                         BACKWARD,
                         1
                     ),
                     createRemoteAction(
-                        if (isPlaying) R.drawable.ic_audio_icon_pause else R.drawable.ic_audio_icon_play,
+                        if (isPlaying) MediaR.drawable.ic_audio_icon_pause else MediaR.drawable.ic_audio_icon_play,
                         "Play/Pause",
                         PLAY_PAUSE,
                         2
                     ),
                     createRemoteAction(
-                        R.drawable.ic_audio_icon_forward,
+                        MediaR.drawable.ic_audio_icon_forward,
                         "Forward",
                         FORWARD,
                         3

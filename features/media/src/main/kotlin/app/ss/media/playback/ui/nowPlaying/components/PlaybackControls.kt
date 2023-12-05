@@ -43,10 +43,10 @@ import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
-import app.ss.media.R
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.translations.R.string as RString
+import ss.libraries.media.resources.R as MediaR
 
 internal object PlayBackControlsDefaults {
     val nonPlayButtonSize = 38.dp
@@ -78,7 +78,7 @@ internal fun PlayBackControls(
         ) {
             IconBox(
                 icon = IconSlot.fromResource(
-                    R.drawable.ic_audio_icon_backward,
+                    MediaR.drawable.ic_audio_icon_backward,
                     contentDescription = RString.ss_action_rewind
                 ),
                 contentColor = contentColor,
@@ -93,10 +93,10 @@ internal fun PlayBackControls(
             stateLayerSize = PlayBackControlsDefaults.playButtonStateLayerSize
         ) {
             val painter = when {
-                spec.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
+                spec.isPlaying -> painterResource(id = MediaR.drawable.ic_audio_icon_pause)
                 spec.isError -> rememberVectorPainter(Icons.Rounded.ErrorOutline)
-                spec.isPlayEnabled -> painterResource(id = R.drawable.ic_audio_icon_play)
-                else -> painterResource(id = R.drawable.ic_audio_icon_play)
+                spec.isPlayEnabled -> painterResource(id = MediaR.drawable.ic_audio_icon_play)
+                else -> painterResource(id = MediaR.drawable.ic_audio_icon_play)
             }
             IconBox(
                 icon = IconSlot.fromPainter(
@@ -116,7 +116,7 @@ internal fun PlayBackControls(
         ) {
             IconBox(
                 icon = IconSlot.fromResource(
-                    R.drawable.ic_audio_icon_forward,
+                    MediaR.drawable.ic_audio_icon_forward,
                     contentDescription = RString.ss_action_forward
                 ),
                 contentColor = contentColor,

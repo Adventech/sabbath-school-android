@@ -76,16 +76,16 @@ import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.design.compose.widget.icon.Icons
-import app.ss.media.R
 import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.extensions.NONE_PLAYING
 import app.ss.media.playback.ui.common.Dismissible
 import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.media.playback.ui.spec.toSpec
 import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
+import ss.libraries.media.model.extensions.NONE_PLAYING
 import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R.string as RString
+import ss.libraries.media.resources.R as MediaR
 
 private object PlaybackMiniControlsDefaults {
     val height = 60.dp
@@ -306,7 +306,7 @@ private fun PlaybackReplay(
     IconButton(onClick = onRewind) {
         IconBox(
             icon = IconSlot.fromResource(
-                R.drawable.ic_audio_icon_backward,
+                MediaR.drawable.ic_audio_icon_backward,
                 contentDescription = RString.ss_action_rewind
             ),
             modifier = Modifier.size(size),
@@ -323,8 +323,8 @@ private fun PlaybackPlayPause(
 ) {
     IconButton(onClick = onPlayPause) {
         val painter = when {
-            spec.isPlaying -> painterResource(id = R.drawable.ic_audio_icon_pause)
-            spec.isPlayEnabled -> painterResource(id = R.drawable.ic_audio_icon_play)
+            spec.isPlaying -> painterResource(id = MediaR.drawable.ic_audio_icon_pause)
+            spec.isPlayEnabled -> painterResource(id = MediaR.drawable.ic_audio_icon_play)
             spec.isError -> rememberVectorPainter(MaterialIcons.Rounded.ErrorOutline)
             else -> rememberVectorPainter(MaterialIcons.Rounded.HourglassBottom)
         }

@@ -76,6 +76,8 @@ include(
     ":libraries:lessons:test",
     ":libraries:media:api",
     ":libraries:media:model",
+    ":libraries:media:resources",
+    ":libraries:media:service",
     ":libraries:media:test-fixtures",
     ":libraries:test_utils",
     ":libraries:ui:placeholder",

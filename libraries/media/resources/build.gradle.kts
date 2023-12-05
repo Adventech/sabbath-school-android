@@ -20,21 +20,12 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.ui.video
+plugins {
+    alias(libs.plugins.sgp.base)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+}
 
-import app.ss.models.media.SSVideo
-import app.ss.models.media.SSVideosInfo
-
-sealed class VideoListData {
-    data class Horizontal(
-        val data: List<SSVideosInfo>,
-        val target: String?
-    ) : VideoListData()
-
-    data class Vertical(
-        val featured: SSVideo,
-        val clips: List<SSVideo>
-    ) : VideoListData()
-
-    data object Empty : VideoListData()
+android {
+    namespace = "ss.libraries.media.resources"
 }

@@ -45,8 +45,8 @@ import com.pspdfkit.ui.tabs.PdfTabBarCloseMode
 import dagger.hilt.android.AndroidEntryPoint
 import ss.foundation.coroutines.flow.collectIn
 import javax.inject.Inject
-import app.ss.media.R as MediaR
 import app.ss.translations.R as L10n
+import ss.libraries.media.resources.R as MediaR
 
 @AndroidEntryPoint
 class SSReadPdfActivity : PdfActivity() {
@@ -93,7 +93,7 @@ class SSReadPdfActivity : PdfActivity() {
     ) {
         title = getString(titleRes)
         setIcon(iconRes)
-        setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+        setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         icon?.tint(ContextCompat.getColor(this@SSReadPdfActivity, R.color.ss_icon_tint))
     }
 

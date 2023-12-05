@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.service
+package ss.libraries.media.service
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -42,16 +42,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import ss.libraries.media.api.DEFAULT_FORWARD
 import ss.libraries.media.api.DEFAULT_REWIND
 import timber.log.Timber
-import app.ss.media.R as MediaR
 import app.ss.translations.R as L10nR
+import ss.libraries.media.resources.R as MediaR
 
-private const val LOG_TAG = "SS_MusicService"
+private const val LOG_TAG = "SS_MediaService"
 private const val CUSTOM_COMMAND_REWIND = "app.ss.media.playback.REWIND"
 private const val CUSTOM_COMMAND_FORWARD = "app.ss.media.playback.FORWARD"
 
 @AndroidEntryPoint
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
-class MusicService : MediaLibraryService() {
+class MediaService : MediaLibraryService() {
 
     private lateinit var customCommands: List<CommandButton>
     private val librarySessionCallback = CustomMediaLibrarySessionCallback()
@@ -113,7 +113,7 @@ class MusicService : MediaLibraryService() {
 
     private inner class MediaSessionServiceListener : Listener {
         override fun onForegroundServiceStartNotAllowedException() {
-            Timber.tag(LOG_TAG).i("MusicService: onForegroundServiceStartNotAllowedException")
+            Timber.tag(LOG_TAG).i("MediaService: onForegroundServiceStartNotAllowedException")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 super.onForegroundServiceStartNotAllowedException()
             }

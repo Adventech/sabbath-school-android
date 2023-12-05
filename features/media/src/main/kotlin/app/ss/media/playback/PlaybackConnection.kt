@@ -33,8 +33,6 @@ import androidx.media3.common.Player.STATE_BUFFERING
 import androidx.media3.session.MediaBrowser
 import androidx.media3.session.SessionToken
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
-import app.ss.media.playback.extensions.NONE_PLAYING
-import app.ss.media.playback.model.toMediaItem
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.models.media.AudioFile
 import kotlinx.coroutines.CoroutineScope
@@ -50,6 +48,8 @@ import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackQueue
 import ss.libraries.media.model.PlaybackSpeed
+import ss.libraries.media.model.extensions.NONE_PLAYING
+import ss.libraries.media.model.toMediaItem
 import timber.log.Timber
 
 private const val LOG_TAG = "PlaybackConnection"

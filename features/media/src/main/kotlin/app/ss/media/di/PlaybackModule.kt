@@ -26,12 +26,12 @@ import android.content.ComponentName
 import android.content.Context
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.PlaybackConnectionImpl
-import app.ss.media.playback.service.MusicService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ss.libraries.media.service.MediaService
 import javax.inject.Singleton
 
 @Module
@@ -44,6 +44,6 @@ object PlaybackModule {
         @ApplicationContext context: Context,
     ): PlaybackConnection = PlaybackConnectionImpl(
         context = context,
-        serviceComponent = ComponentName(context, MusicService::class.java),
+        serviceComponent = ComponentName(context, MediaService::class.java),
     )
 }

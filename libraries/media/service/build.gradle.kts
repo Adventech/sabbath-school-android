@@ -20,21 +20,20 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.ui.video
+plugins {
+    alias(libs.plugins.sgp.base)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    id("dagger.hilt.android.plugin")
+}
 
-import app.ss.models.media.SSVideo
-import app.ss.models.media.SSVideosInfo
+dependencies {
+    implementation(projects.common.translations)
+    implementation(projects.libraries.media.api)
+    implementation(projects.libraries.media.resources)
 
-sealed class VideoListData {
-    data class Horizontal(
-        val data: List<SSVideosInfo>,
-        val target: String?
-    ) : VideoListData()
-
-    data class Vertical(
-        val featured: SSVideo,
-        val clips: List<SSVideo>
-    ) : VideoListData()
-
-    data object Empty : VideoListData()
+    implementation(libs.google.hilt.android)
+    ksp(libs.google.hilt.compiler)
+    implementation(libs.timber)
 }
