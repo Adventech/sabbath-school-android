@@ -1,39 +1,51 @@
 ci-config:
-  - '.github/*'
+  - changed-files:
+      - any-glob-to-any-file: .github/*
 auth:
-  - 'common/auth/*'
+  - changed-files:
+      - any-glob-to-any-file: common/auth/*
 core:
-  - 'common/core/*'
+  - changed-files:
+      - any-glob-to-any-file: common/core/*
 design:
-  - 'common/design/*'
+  - changed-files:
+      - any-glob-to-any-file: common/design/*
 translations:
-  - 'common/translations/*'
+  - changed-files:
+      - any-glob-to-any-file: common/translations/*
 account:
-  - 'features/account/*'
+  - changed-files:
+      - any-glob-to-any-file: features/account/*
 bible:
-  - 'features/bible/*'
+  - changed-files:
+      - any-glob-to-any-file: features/bible/*
 lessons:
-  - 'features/lessons/*'
+  - changed-files:
+      - any-glob-to-any-file: features/lessons/*
 lessons-data:
-  - 'common/lessons-data/*'
+  - changed-files:
+      - any-glob-to-any-file: common/lessons-data/*
 reader:
-  - 'features/reader/*'
+  - changed-files:
+      - any-glob-to-any-file: features/reader/*
 settings:
-  - 'features/settings/*'
+  - changed-files:
+      - any-glob-to-any-file: features/settings/*
 app-widgets:
-  - 'features/app-widgets/*'
+  - changed-files:
+      - any-glob-to-any-file: features/app-widgets/*
 media:
-  - 'features/media/*'
-  - 'libraries/media/*'
+  - changed-files:
+      - any-glob-to-any-file: libraries/media/*
 pdf:
-  - 'features/pdf/*'
+  - changed-files:
+      - any-glob-to-any-file: features/pdf/*
 dependencies:
-  - 'gradle/libs.versions.toml'
+  - changed-files:
+      - any-glob-to-any-file: '**/*.toml'
 test:
-  - any: ['*/src/test/*','*/src/androidTest/*']
-testing:
-  - 'libraries/test_utils/*'
+  - changed-files:
+      - any-glob-to-any-file: '**/src/test/**'
 gradle:
-  - all: ['*.gradle.kts']
-layouts:
-  - any: ['*.xml']
+  - changed-files:
+      - any-glob-to-any-file: '**/build.gradle.kts'
