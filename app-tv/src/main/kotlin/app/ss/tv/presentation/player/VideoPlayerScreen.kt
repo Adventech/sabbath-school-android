@@ -25,7 +25,7 @@ package app.ss.tv.presentation.player
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import androidx.media3.ui.PlayerView
-import app.ss.tv.data.model.VideoSpec
+import app.ss.models.media.SSVideo
 import app.ss.tv.presentation.player.components.VideoPlayerControlsSpec
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -34,7 +34,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class VideoPlayerScreen(
-    val video: VideoSpec
+    val video: SSVideo
 ) : Screen, Parcelable {
 
     @Immutable

@@ -29,7 +29,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import app.ss.tv.data.model.VideoSpec
+import app.ss.models.media.SSVideo
 import app.ss.tv.presentation.theme.SSTvTheme
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
@@ -48,7 +48,7 @@ class VideoPlayerActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val video = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra(ARG_VIDEO, VideoSpec::class.java) ?: return
+            intent.getParcelableExtra(ARG_VIDEO, SSVideo::class.java) ?: return
         } else {
             @Suppress("DEPRECATION")
             intent.getParcelableExtra(ARG_VIDEO) ?: return
@@ -71,7 +71,7 @@ class VideoPlayerActivity : ComponentActivity() {
 
         fun launchIntent(
             context: Context,
-            video: VideoSpec,
+            video: SSVideo,
         ): Intent = Intent(context, VideoPlayerActivity::class.java).apply {
             putExtra(ARG_VIDEO, video)
         }

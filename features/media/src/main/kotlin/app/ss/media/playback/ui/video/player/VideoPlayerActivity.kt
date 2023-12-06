@@ -43,7 +43,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.media3.ui.PlayerView
@@ -129,7 +128,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             finish()
             return
         }
-        videoPlayer.playVideo(video.src.toUri(), exoPlayerView)
+        videoPlayer.playVideo(video, exoPlayerView)
 
         videoPlayer.playbackState.collectIn(this) { state ->
             if (state.isPlaying && systemUiVisible) {
@@ -162,7 +161,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         super.onNewIntent(intent)
         @Suppress("DEPRECATION")
         val video = intent?.getParcelableExtra<SSVideo>(ARG_VIDEO) ?: return
-        videoPlayer.playVideo(video.src.toUri(), exoPlayerView)
+        videoPlayer.playVideo(video, exoPlayerView)
     }
 
     private fun hideSystemUI() {

@@ -26,7 +26,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.core.net.toUri
 import app.ss.tv.presentation.player.VideoPlayerScreen.Event
 import app.ss.tv.presentation.player.VideoPlayerScreen.State
 import app.ss.tv.presentation.player.components.VideoPlayerControlsSpec
@@ -91,7 +90,7 @@ class VideoPlayerPresenter @AssistedInject constructor(
         ) { event ->
             when (event) {
                 is Event.OnPlayerViewCreated -> videoPlayer.playVideo(
-                    video.src.toUri(), event.playerView
+                    video, event.playerView
                 )
             }
         }

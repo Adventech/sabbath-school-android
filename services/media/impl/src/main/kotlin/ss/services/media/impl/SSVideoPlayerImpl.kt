@@ -23,7 +23,7 @@
 package ss.services.media.impl
 
 import android.content.Context
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.AudioAttributes
@@ -33,6 +33,7 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.PlayerView
+import app.ss.models.media.SSVideo
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.CoroutineScope
@@ -81,13 +82,13 @@ internal class SSVideoPlayerImpl @Inject constructor(
         startPlaybackProgress()
     }
 
-    override fun playVideo(source: Uri, playerView: PlayerView) {
+    override fun playVideo(video: SSVideo, playerView: PlayerView) {
         if (exoPlayer.isPlaying) {
             exoPlayer.pause()
         }
 
         val mediaSource = DefaultMediaSourceFactory(context)
-            .createMediaSource(MediaItem.fromUri(source))
+            .createMediaSource(MediaItem.fromUri(video.src.toUri()))
         playerView.player = exoPlayer
         exoPlayer.setMediaSource(mediaSource)
         exoPlayer.prepare()

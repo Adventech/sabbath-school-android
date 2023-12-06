@@ -23,11 +23,10 @@
 package app.ss.tv.presentation.player
 
 import android.content.Context
-import androidx.core.net.toUri
 import androidx.media3.ui.PlayerView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import app.ss.tv.data.videoSpec
+import app.ss.tv.data.ssVideo
 import app.ss.tv.presentation.player.VideoPlayerScreen.Event
 import com.slack.circuit.test.test
 import kotlinx.coroutines.test.runTest
@@ -45,10 +44,11 @@ class VideoPlayerPresenterTest {
     private val ambientModeHelper = FakeAmbientModeHelper()
     private val fakeVideoPlayer = FakeSSVideoPlayer()
 
+    private val screen = VideoPlayerScreen(ssVideo)
     private val underTest = VideoPlayerPresenter(
         ambientModeHelper = ambientModeHelper,
         videoPlayer = fakeVideoPlayer,
-        screen = VideoPlayerScreen(videoSpec),
+        screen = screen,
     )
 
     @Test
@@ -58,8 +58,8 @@ class VideoPlayerPresenterTest {
 
             controls.isPlaying shouldBeEqualTo false
             controls.isBuffering shouldBeEqualTo false
-            controls.title shouldBeEqualTo videoSpec.title
-            controls.artist shouldBeEqualTo videoSpec.artist
+            controls.title shouldBeEqualTo ssVideo.title
+            controls.artist shouldBeEqualTo ssVideo.artist
 
             ensureAllEventsConsumed()
         }
@@ -73,7 +73,7 @@ class VideoPlayerPresenterTest {
 
             state.eventSink(Event.OnPlayerViewCreated(playerView))
 
-            fakeVideoPlayer.videoSource shouldBeEqualTo videoSpec.src.toUri()
+            fakeVideoPlayer.video shouldBeEqualTo screen.video
             fakeVideoPlayer.playerView shouldBeEqualTo playerView
 
             ensureAllEventsConsumed()

@@ -22,8 +22,8 @@
 
 package ss.libraries.media.test
 
-import android.net.Uri
 import androidx.media3.ui.PlayerView
+import app.ss.models.media.SSVideo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import ss.libraries.media.api.SSVideoPlayer
@@ -40,7 +40,7 @@ class FakeSSVideoPlayer(
     override val playbackSpeed: StateFlow<PlaybackSpeed> = MutableStateFlow(PlaybackSpeed.NORMAL),
 ) : SSVideoPlayer {
 
-    var videoSource: Uri? = null
+    var video: SSVideo? = null
         private set
     var playerView: PlayerView? = null
         private set
@@ -49,8 +49,8 @@ class FakeSSVideoPlayer(
     var playPauseInvoked: Boolean = false
         private set
 
-    override fun playVideo(source: Uri, playerView: PlayerView) {
-        this.videoSource = source
+    override fun playVideo(video: SSVideo, playerView: PlayerView) {
+        this.video = video
         this.playerView = playerView
     }
 

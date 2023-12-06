@@ -25,6 +25,7 @@ package app.ss.tv.presentation.videos
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import app.ss.models.media.SSVideo
 import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.data.repository.VideosRepository
@@ -77,9 +78,14 @@ class VideosPresenter @AssistedInject constructor(
         val eventSink: (Event) -> Unit = remember {
             { event ->
                 when (event) {
-                    is Event.OnVideoClick -> navigator.goTo(
-                        AndroidScreen.IntentScreen(intentHelper.playerIntent(event.video))
-                    )
+                    is Event.OnVideoClick -> {
+                        result.findVideo(event.video.id)?.let {
+                            navigator.goTo(
+                                AndroidScreen.IntentScreen(intentHelper.playerIntent(it))
+                            )
+                        }
+                    }
+
                     is Event.OnScroll -> scrollEvents.update(event.isTopAppBarVisible)
                 }
             }
@@ -109,4 +115,8 @@ class VideosPresenter @AssistedInject constructor(
             }.toImmutableList()
         )
     }.toImmutableList()
+
+    private fun Result<List<VideosInfoModel>>.findVideo(id: String): SSVideo? {
+        return getOrNull()?.flatMap { it.clips }?.find { it.id == id }
+    }
 }
