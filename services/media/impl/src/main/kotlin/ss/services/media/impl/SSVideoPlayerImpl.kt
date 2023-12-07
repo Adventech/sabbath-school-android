@@ -22,55 +22,49 @@
 
 package ss.services.media.impl
 
+import android.content.ComponentName
 import android.content.Context
-import androidx.core.net.toUri
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.media3.common.AudioAttributes
-import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import androidx.media3.session.MediaController
+import androidx.media3.session.SessionToken
 import androidx.media3.ui.PlayerView
 import app.ss.models.media.SSVideo
-import dagger.hilt.android.qualifiers.ActivityContext
-import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.guava.await
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.flowInterval
-import ss.libraries.media.api.DEFAULT_FORWARD
-import ss.libraries.media.api.DEFAULT_REWIND
 import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
 import ss.libraries.media.api.SSVideoPlayer
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackSpeed
 import ss.libraries.media.model.VideoPlaybackState
-import ss.libraries.media.model.hasEnded
+import ss.libraries.media.model.extensions.NONE_PLAYING
 import ss.libraries.media.model.isBuffering
+import ss.libraries.media.model.toMediaItem
+import ss.libraries.media.service.MediaService
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+private const val LOG_TAG = "SSVideoPlayerImpl"
+
+@Singleton
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
-@ActivityScoped
 internal class SSVideoPlayerImpl @Inject constructor(
-    @ActivityContext private val context: Context,
+    @ApplicationContext private val context: Context,
 ) : SSVideoPlayer, Player.Listener, CoroutineScope by ProcessLifecycleOwner.get().lifecycleScope {
 
-    private val exoPlayer: ExoPlayer by lazy {
-        ExoPlayer.Builder(context)
-            .setAudioAttributes(AudioAttributes.DEFAULT, /* handleAudioFocus= */ true)
-            .setSeekBackIncrementMs(DEFAULT_REWIND)
-            .setSeekForwardIncrementMs(DEFAULT_FORWARD)
-            .build().also { player ->
-                player.playWhenReady = false
-                player.addListener(this)
-            }
-    }
-
+    override val isConnected = MutableStateFlow(false)
     override val playbackState = MutableStateFlow(VideoPlaybackState())
+    override val nowPlaying = MutableStateFlow(NONE_PLAYING)
     override val playbackProgress = MutableStateFlow(PlaybackProgressState())
     override val playbackSpeed = MutableStateFlow(PlaybackSpeed.NORMAL)
 
@@ -78,53 +72,62 @@ internal class SSVideoPlayerImpl @Inject constructor(
 
     private var currentProgressInterval: Long = PLAYBACK_PROGRESS_INTERVAL
 
+    private val sessionToken = SessionToken(context, ComponentName(context, MediaService::class.java))
+    private var mediaController: MediaController? = null
+
     init {
-        startPlaybackProgress()
+        connect()
+    }
+
+    private fun connect() {
+        launch {
+            mediaController = MediaController.Builder(context, sessionToken)
+                .buildAsync()
+                .await().apply {
+                    addListener(this@SSVideoPlayerImpl)
+                }
+
+            isConnected.update { true }
+
+            startPlaybackProgress()
+        }
     }
 
     override fun playVideo(video: SSVideo, playerView: PlayerView) {
-        if (exoPlayer.isPlaying) {
-            exoPlayer.pause()
-        }
+        mediaController?.run {
+            if (isPlaying) {
+                pause()
+            }
 
-        val mediaSource = DefaultMediaSourceFactory(context)
-            .createMediaSource(MediaItem.fromUri(video.src.toUri()))
-        playerView.player = exoPlayer
-        exoPlayer.setMediaSource(mediaSource)
-        exoPlayer.prepare()
+            playerView.player = mediaController
+            setMediaItem(video.toMediaItem())
+            prepare()
+        }
     }
 
     override fun playPause() {
-        if (exoPlayer.isPlaying) {
-            exoPlayer.pause()
-        } else {
-            if (playbackState.value.hasEnded) {
-                exoPlayer.seekTo(0)
+        mediaController?.run {
+            if (isPlaying) {
+                pause()
+            } else {
+                if (playbackState == Player.STATE_ENDED) {
+                    seekTo(0)
+                }
+                play()
             }
-            playOnFocus()
         }
     }
 
     override fun seekTo(position: Long) {
-        exoPlayer.seekTo(position)
+        mediaController?.seekTo(position)
     }
 
     override fun fastForward() {
-        val forwardTo = exoPlayer.currentPosition + DEFAULT_FORWARD
-        if (forwardTo > exoPlayer.duration) {
-            seekTo(exoPlayer.duration)
-        } else {
-            seekTo(forwardTo)
-        }
+        mediaController?.seekForward()
     }
 
     override fun rewind() {
-        val rewindTo = exoPlayer.currentPosition - DEFAULT_REWIND
-        if (rewindTo < 0) {
-            seekTo(0)
-        } else {
-            seekTo(rewindTo)
-        }
+        mediaController?.seekBack()
     }
 
     override fun toggleSpeed() {
@@ -136,29 +139,35 @@ internal class SSVideoPlayerImpl @Inject constructor(
         }
 
         if (playbackSpeed.tryEmit(nextSpeed)) {
-            exoPlayer.setPlaybackSpeed(nextSpeed.speed)
+            mediaController?.setPlaybackSpeed(nextSpeed.speed)
             resetPlaybackProgressInterval()
         }
     }
 
     override fun onPause() {
-        if (exoPlayer.isPlaying) {
-            exoPlayer.pause()
+        mediaController?.run {
+            if (isPlaying) {
+                pause()
+            }
         }
     }
 
     override fun onResume() {
-        if (exoPlayer.isPlaying.not() && playbackState.value.state == Player.STATE_READY) {
-            playOnFocus()
+        mediaController?.run {
+            if (isPlaying.not() && playbackState == Player.STATE_READY) {
+                play()
+            }
         }
     }
 
-    private fun playOnFocus() {
-        exoPlayer.play()
+    override fun release() {
+        mediaController?.release()
     }
 
-    override fun release() {
-        exoPlayer.release()
+    override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
+        super.onMediaMetadataChanged(mediaMetadata)
+        Timber.tag(LOG_TAG).i("onMediaMetadataChanged: $mediaMetadata")
+        nowPlaying.update { mediaMetadata }
     }
 
     override fun onPlayerError(error: PlaybackException) {
@@ -168,34 +177,36 @@ internal class SSVideoPlayerImpl @Inject constructor(
 
     override fun onPlaybackStateChanged(state: Int) {
         super.onPlaybackStateChanged(state)
-        playbackState.tryEmit(
-            playbackState.value.copy(state = state)
-        )
+        Timber.tag(LOG_TAG).i("onPlaybackStateChanged: $state")
+        playbackState.update {
+            it.copy(state = state)
+        }
 
         if (state == Player.STATE_READY) {
-            playOnFocus()
+            mediaController?.play()
         }
     }
 
     override fun onIsPlayingChanged(isPlaying: Boolean) {
         super.onIsPlayingChanged(isPlaying)
-        playbackState.tryEmit(
-            playbackState.value.copy(isPlaying = isPlaying)
-        )
+        playbackState.update {
+            it.copy(isPlaying = isPlaying)
+        }
     }
 
     private fun startPlaybackProgress() = launch {
         playbackState.collect { state ->
             playbackProgressInterval.cancel()
 
-            val duration = exoPlayer.duration
-            val position = exoPlayer.currentPosition
+            val duration = mediaController?.duration ?: return@collect
+            val position = mediaController?.currentPosition ?: return@collect
+            val bufferedPosition = mediaController?.bufferedPosition ?: return@collect
 
             if (state.state == Player.STATE_IDLE || duration < 1) {
                 return@collect
             }
 
-            val initial = PlaybackProgressState(duration, position, buffered = exoPlayer.bufferedPosition)
+            val initial = PlaybackProgressState(duration, position, buffered = bufferedPosition)
             playbackProgress.emit(initial)
 
             if (state.isPlaying && !state.isBuffering) {
@@ -209,7 +220,13 @@ internal class SSVideoPlayerImpl @Inject constructor(
             flowInterval(currentProgressInterval).collect {
                 val current = playbackProgress.value.elapsed
                 val elapsed = current + PLAYBACK_PROGRESS_INTERVAL
-                playbackProgress.emit(initial.copy(elapsed = elapsed, buffered = exoPlayer.bufferedPosition))
+                val bufferedPosition = mediaController?.bufferedPosition ?: return@collect
+                playbackProgress.update {
+                    initial.copy(
+                        elapsed = elapsed,
+                        buffered = bufferedPosition,
+                    )
+                }
             }
         }
     }

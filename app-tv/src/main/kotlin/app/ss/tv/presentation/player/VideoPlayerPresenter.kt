@@ -54,6 +54,9 @@ class VideoPlayerPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): State {
+        val isConnected by produceRetainedState(initialValue = false) {
+            videoPlayer.isConnected.collect { isConnected -> value = isConnected }
+        }
         val playbackState by produceRetainedState(initialValue = VideoPlaybackState()) {
             videoPlayer.playbackState.collect { state -> value = state }
         }
@@ -77,22 +80,24 @@ class VideoPlayerPresenter @AssistedInject constructor(
             }
         }
 
-        return State(
-            controls = VideoPlayerControlsSpec(
-                isPlaying = playbackState.isPlaying,
-                isBuffering = playbackState.isBuffering,
-                onPlayPauseToggle = videoPlayer::playPause,
-                onSeek = videoPlayer::seekTo,
-                progressState = playbackProgress,
-                title = video.title,
-                artist = video.artist
-            )
-        ) { event ->
-            when (event) {
-                is Event.OnPlayerViewCreated -> videoPlayer.playVideo(
-                    video, event.playerView
+        return if (isConnected) {
+            State.Playing(
+                controls = VideoPlayerControlsSpec(
+                    isPlaying = playbackState.isPlaying,
+                    isBuffering = playbackState.isBuffering,
+                    onPlayPauseToggle = videoPlayer::playPause,
+                    onSeek = videoPlayer::seekTo,
+                    progressState = playbackProgress,
+                    title = video.title,
+                    artist = video.artist
                 )
+            ) { event ->
+                when (event) {
+                    is Event.OnPlayerViewCreated -> videoPlayer.playVideo(
+                        video, event.playerView
+                    )
+                }
             }
-        }
+        } else State.Loading
     }
 }

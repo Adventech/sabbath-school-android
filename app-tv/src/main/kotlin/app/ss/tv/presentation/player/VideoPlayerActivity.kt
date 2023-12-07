@@ -29,6 +29,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.lifecycle.lifecycleScope
 import app.ss.models.media.SSVideo
 import app.ss.tv.presentation.theme.SSTvTheme
 import com.slack.circuit.backstack.rememberSaveableBackStack
@@ -37,6 +38,9 @@ import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import ss.libraries.media.api.SSVideoPlayer
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -44,6 +48,9 @@ class VideoPlayerActivity : ComponentActivity() {
 
     @Inject
     lateinit var circuit: Circuit
+
+    @Inject
+    lateinit var videoPlayer: SSVideoPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,8 +73,22 @@ class VideoPlayerActivity : ComponentActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        lifecycleScope.launch {
+            delay(PAUSE_DELAY)
+            videoPlayer.onPause()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        videoPlayer.onResume()
+    }
+
     companion object {
         private const val ARG_VIDEO = "extra:video"
+        private const val PAUSE_DELAY = 3000L
 
         fun launchIntent(
             context: Context,

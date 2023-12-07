@@ -28,7 +28,10 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.tv.data.ssVideo
 import app.ss.tv.presentation.player.VideoPlayerScreen.Event
+import app.ss.tv.presentation.player.VideoPlayerScreen.State
 import com.slack.circuit.test.test
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
@@ -40,9 +43,10 @@ import ss.libraries.media.test.FakeSSVideoPlayer
 class VideoPlayerPresenterTest {
 
     private val appContext: Context = ApplicationProvider.getApplicationContext()
+    private val isConnected = MutableStateFlow(false)
 
     private val ambientModeHelper = FakeAmbientModeHelper()
-    private val fakeVideoPlayer = FakeSSVideoPlayer()
+    private val fakeVideoPlayer = FakeSSVideoPlayer(isConnected = isConnected)
 
     private val screen = VideoPlayerScreen(ssVideo)
     private val underTest = VideoPlayerPresenter(
@@ -54,7 +58,22 @@ class VideoPlayerPresenterTest {
     @Test
     fun `present - should emit default state`() = runTest {
         underTest.test {
-            val controls = awaitItem().controls
+            val state = awaitItem()
+
+            state shouldBeEqualTo State.Loading
+
+            ensureAllEventsConsumed()
+        }
+    }
+
+    @Test
+    fun `present - should emit playing state`() = runTest {
+        underTest.test {
+            awaitItem()
+
+            isConnected.update { true }
+
+            val controls = (awaitItem() as State.Playing).controls
 
             controls.isPlaying shouldBeEqualTo false
             controls.isBuffering shouldBeEqualTo false
@@ -69,7 +88,11 @@ class VideoPlayerPresenterTest {
     fun `present - should play video when playerView is created`() = runTest {
         val playerView = PlayerView(appContext)
         underTest.test {
-            val state = awaitItem()
+            awaitItem()
+
+            isConnected.update { true }
+
+            val state = awaitItem() as State.Playing
 
             state.eventSink(Event.OnPlayerViewCreated(playerView))
 
@@ -83,7 +106,11 @@ class VideoPlayerPresenterTest {
     @Test
     fun `present - handle controls events`() = runTest {
         underTest.test {
-            val controls = awaitItem().controls
+            awaitItem()
+
+            isConnected.update { true }
+
+            val controls = (awaitItem() as State.Playing).controls
 
             controls.onSeek(1000)
             fakeVideoPlayer.seekTo shouldBeEqualTo 1000

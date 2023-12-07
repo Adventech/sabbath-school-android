@@ -62,7 +62,12 @@
                 android:value="" />
         </activity>
 
-        <activity android:name=".presentation.player.VideoPlayerActivity" />
+        <activity
+            android:name=".presentation.player.VideoPlayerActivity"
+            android:autoRemoveFromRecents="true"
+            android:clearTaskOnLaunch="true"
+            android:launchMode="singleTask"
+            android:maxRecents="1" />
     </application>
 
 </manifest>

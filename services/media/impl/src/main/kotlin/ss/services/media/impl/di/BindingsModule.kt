@@ -25,12 +25,12 @@ package ss.services.media.impl.di
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.components.SingletonComponent
 import ss.libraries.media.api.SSVideoPlayer
 import ss.services.media.impl.SSVideoPlayerImpl
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class BindingsModule {
 
     @Binds

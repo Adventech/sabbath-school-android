@@ -128,8 +128,12 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             finish()
             return
         }
-        videoPlayer.playVideo(video, exoPlayerView)
 
+        videoPlayer.isConnected.collectIn(this) { connected ->
+            if (connected) {
+                videoPlayer.playVideo(video, exoPlayerView)
+            }
+        }
         videoPlayer.playbackState.collectIn(this) { state ->
             if (state.isPlaying && systemUiVisible) {
                 exoPlayerView.postDelayed(

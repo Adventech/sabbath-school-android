@@ -34,7 +34,9 @@ dependencies {
     implementation(libs.androidx.media3.session)
     implementation(libs.androidx.media3.ui)
     implementation(libs.google.hilt.android)
+    implementation(libs.kotlin.coroutines.guava)
     implementation(projects.libraries.media.api)
+    implementation(projects.libraries.media.service)
     ksp(libs.google.hilt.compiler)
     implementation(libs.timber)
 

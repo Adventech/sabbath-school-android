@@ -37,11 +37,15 @@ data class VideoPlayerScreen(
     val video: SSVideo
 ) : Screen, Parcelable {
 
-    @Immutable
-    data class State(
-        val controls: VideoPlayerControlsSpec,
-        val eventSink: (Event) -> Unit
-    ) : CircuitUiState
+    sealed interface State : CircuitUiState {
+        data object Loading : State
+
+        @Immutable
+        data class Playing(
+            val controls: VideoPlayerControlsSpec,
+            val eventSink: (Event) -> Unit
+        ) : State
+    }
 
     sealed interface Event : CircuitUiEvent {
         data class OnPlayerViewCreated(val playerView: PlayerView) : Event

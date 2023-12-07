@@ -23,6 +23,7 @@
 package ss.libraries.media.api
 
 import androidx.compose.runtime.Stable
+import androidx.media3.common.MediaMetadata
 import androidx.media3.ui.PlayerView
 import app.ss.models.media.SSVideo
 import kotlinx.coroutines.flow.StateFlow
@@ -32,7 +33,9 @@ import ss.libraries.media.model.VideoPlaybackState
 
 @Stable
 interface SSVideoPlayer {
+    val isConnected: StateFlow<Boolean>
     val playbackState: StateFlow<VideoPlaybackState>
+    val nowPlaying: StateFlow<MediaMetadata>
     val playbackProgress: StateFlow<PlaybackProgressState>
     val playbackSpeed: StateFlow<PlaybackSpeed>
     fun playVideo(video: SSVideo, playerView: PlayerView)

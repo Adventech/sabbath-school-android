@@ -22,6 +22,7 @@
 
 package ss.libraries.media.test
 
+import androidx.media3.common.MediaMetadata
 import androidx.media3.ui.PlayerView
 import app.ss.models.media.SSVideo
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +31,7 @@ import ss.libraries.media.api.SSVideoPlayer
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackSpeed
 import ss.libraries.media.model.VideoPlaybackState
+import ss.libraries.media.model.extensions.NONE_PLAYING
 
 /**
  * A fake implementation of [SSVideoPlayer] that can be used for testing.
@@ -38,6 +40,8 @@ class FakeSSVideoPlayer(
     override val playbackState: StateFlow<VideoPlaybackState> = MutableStateFlow(VideoPlaybackState()),
     override val playbackProgress: StateFlow<PlaybackProgressState> = MutableStateFlow(PlaybackProgressState()),
     override val playbackSpeed: StateFlow<PlaybackSpeed> = MutableStateFlow(PlaybackSpeed.NORMAL),
+    override val isConnected: StateFlow<Boolean> = MutableStateFlow(false),
+    override val nowPlaying: StateFlow<MediaMetadata> = MutableStateFlow(NONE_PLAYING),
 ) : SSVideoPlayer {
 
     var video: SSVideo? = null
