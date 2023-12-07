@@ -48,6 +48,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.media3.ui.PlayerView
 import app.ss.design.compose.theme.SsTheme
 import app.ss.media.R
+import app.ss.media.playback.service.VideoService
 import app.ss.models.media.SSVideo
 import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
@@ -97,6 +98,53 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        initUi()
+
+        @Suppress("DEPRECATION")
+        val video = intent.getParcelableExtra<SSVideo>(ARG_VIDEO) ?: run {
+            finish()
+            return
+        }
+
+        collectState(video)
+
+        ContextCompat.registerReceiver(
+            this,
+            broadcastReceiver,
+            IntentFilter(ACTION_PIP_CONTROLS),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+
+        videoPlayer.connect(VideoService::class.java)
+    }
+
+    private fun collectState(video: SSVideo) {
+        videoPlayer.isConnected.collectIn(this) { connected ->
+            if (connected) {
+                videoPlayer.playVideo(video, exoPlayerView)
+            }
+        }
+        videoPlayer.playbackState.collectIn(this) { state ->
+            if (state.isPlaying && systemUiVisible) {
+                exoPlayerView.postDelayed(
+                    {
+                        hideSystemUI()
+                    },
+                    HIDE_DELAY
+                )
+            } else if (state.hasEnded) {
+                showSystemUI(false)
+            }
+
+            if (supportsPiP && pictureInPictureEnabled) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    setPictureInPictureParams(pictureInPictureParams(state.isPlaying))
+                }
+            }
+        }
+    }
+
+    private fun initUi() {
         exoPlayerView = findViewById(R.id.playerView)
         composeView = findViewById(R.id.composeView)
 
@@ -122,43 +170,6 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
                 )
             }
         }
-
-        @Suppress("DEPRECATION")
-        val video = intent.getParcelableExtra<SSVideo>(ARG_VIDEO) ?: run {
-            finish()
-            return
-        }
-
-        videoPlayer.isConnected.collectIn(this) { connected ->
-            if (connected) {
-                videoPlayer.playVideo(video, exoPlayerView)
-            }
-        }
-        videoPlayer.playbackState.collectIn(this) { state ->
-            if (state.isPlaying && systemUiVisible) {
-                exoPlayerView.postDelayed(
-                    {
-                        hideSystemUI()
-                    },
-                    HIDE_DELAY
-                )
-            } else if (state.hasEnded) {
-                showSystemUI(false)
-            }
-
-            if (supportsPiP && pictureInPictureEnabled) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    setPictureInPictureParams(pictureInPictureParams(state.isPlaying))
-                }
-            }
-        }
-
-        ContextCompat.registerReceiver(
-            this,
-            broadcastReceiver,
-            IntentFilter(ACTION_PIP_CONTROLS),
-            ContextCompat.RECEIVER_NOT_EXPORTED
-        )
     }
 
     override fun onNewIntent(intent: Intent?) {

@@ -68,6 +68,15 @@
             android:clearTaskOnLaunch="true"
             android:launchMode="singleTask"
             android:maxRecents="1" />
+
+        <service
+            android:name=".presentation.player.service.TvVideoService"
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaSessionService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

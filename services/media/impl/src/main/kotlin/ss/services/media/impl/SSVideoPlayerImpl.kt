@@ -34,6 +34,7 @@ import androidx.media3.session.SessionToken
 import androidx.media3.ui.PlayerView
 import app.ss.models.media.SSVideo
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,14 +50,12 @@ import ss.libraries.media.model.VideoPlaybackState
 import ss.libraries.media.model.extensions.NONE_PLAYING
 import ss.libraries.media.model.isBuffering
 import ss.libraries.media.model.toMediaItem
-import ss.libraries.media.service.MediaService
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Singleton
 
 private const val LOG_TAG = "SSVideoPlayerImpl"
 
-@Singleton
+@ActivityScoped
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 internal class SSVideoPlayerImpl @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -72,16 +71,17 @@ internal class SSVideoPlayerImpl @Inject constructor(
 
     private var currentProgressInterval: Long = PLAYBACK_PROGRESS_INTERVAL
 
-    private val sessionToken = SessionToken(context, ComponentName(context, MediaService::class.java))
     private var mediaController: MediaController? = null
 
-    init {
-        connect()
-    }
-
-    private fun connect() {
+    override fun connect(service: Class<*>) {
+        if (mediaController?.isConnected == true) {
+            return
+        }
         launch {
-            mediaController = MediaController.Builder(context, sessionToken)
+            mediaController = MediaController.Builder(
+                context,
+                SessionToken(context, ComponentName(context, service)),
+            )
                 .buildAsync()
                 .await().apply {
                     addListener(this@SSVideoPlayerImpl)

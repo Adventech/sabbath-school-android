@@ -53,6 +53,8 @@ class FakeSSVideoPlayer(
     var playPauseInvoked: Boolean = false
         private set
 
+    override fun connect(service: Class<*>) = Unit
+
     override fun playVideo(video: SSVideo, playerView: PlayerView) {
         this.video = video
         this.playerView = playerView

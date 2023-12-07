@@ -31,23 +31,23 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.CacheBitmapLoader
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
-import dagger.hilt.android.AndroidEntryPoint
 import ss.libraries.media.api.DEFAULT_FORWARD
 import ss.libraries.media.api.DEFAULT_REWIND
 import timber.log.Timber
-import javax.inject.Inject
-import app.ss.translations.R as L10nR
 
 private const val LOG_TAG = "SS_MediaService"
 
-@AndroidEntryPoint
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
-class MediaService : MediaSessionService() {
+abstract class MediaService : MediaSessionService() {
 
+    abstract fun sessionId(): String
+
+    open fun launchIntent(): Intent? = packageManager.getLaunchIntentForPackage(packageName)
+
+    private val sessionCallback: CustomMediaSessionCallback by lazy {
+        CustomMediaSessionCallback(applicationContext, sessionId())
+    }
     private lateinit var mediaSession: MediaSession
-
-    @Inject
-    lateinit var sessionCallback: CustomMediaSessionCallback
 
     override fun onCreate() {
         super.onCreate()
@@ -65,7 +65,7 @@ class MediaService : MediaSessionService() {
                 .build()
         mediaSession =
             MediaSession.Builder(this, player)
-                .setId(getString(L10nR.string.ss_app_name))
+                .setId(sessionId())
                 .setSessionActivity(getSingleTopActivity())
                 .setBitmapLoader(CacheBitmapLoader(DataSourceBitmapLoader(this)))
                 .setCallback(sessionCallback)
@@ -75,8 +75,10 @@ class MediaService : MediaSessionService() {
 
     private fun getSingleTopActivity(): PendingIntent {
         return PendingIntent.getActivity(
-            applicationContext, 0,
-            packageManager.getLaunchIntentForPackage(packageName), PendingIntent.FLAG_IMMUTABLE
+            applicationContext,
+            0,
+            launchIntent(),
+            PendingIntent.FLAG_IMMUTABLE
         )
     }
 

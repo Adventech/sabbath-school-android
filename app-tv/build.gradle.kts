@@ -99,6 +99,7 @@ dependencies {
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.media.api)
+    implementation(projects.libraries.media.service)
     implementation(projects.services.lessons.impl)
     implementation(projects.services.media.impl)
 

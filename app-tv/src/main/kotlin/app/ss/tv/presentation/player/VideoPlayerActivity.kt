@@ -31,6 +31,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
 import app.ss.models.media.SSVideo
+import app.ss.tv.presentation.player.service.TvVideoService
 import app.ss.tv.presentation.theme.SSTvTheme
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
@@ -60,6 +61,8 @@ class VideoPlayerActivity : ComponentActivity() {
             @Suppress("DEPRECATION")
             intent.getParcelableExtra(ARG_VIDEO) ?: return
         }
+        videoPlayer.connect(TvVideoService::class.java)
+
         setContent {
             CircuitCompositionLocals(circuit = circuit) {
                 SSTvTheme {

@@ -20,30 +20,10 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.di
+package app.ss.media.playback.service
 
-import android.content.ComponentName
-import android.content.Context
-import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.PlaybackConnectionImpl
-import app.ss.media.playback.service.MusicService
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import ss.libraries.media.service.MediaService
 
-@Module
-@InstallIn(SingletonComponent::class)
-object PlaybackModule {
-
-    @Provides
-    @Singleton
-    fun playbackConnection(
-        @ApplicationContext context: Context,
-    ): PlaybackConnection = PlaybackConnectionImpl(
-        context = context,
-        serviceComponent = ComponentName(context, MusicService::class.java),
-    )
+class MusicService : MediaService() {
+    override fun sessionId(): String = "app.ss.media.playback.service.MusicService"
 }

@@ -38,6 +38,7 @@ interface SSVideoPlayer {
     val nowPlaying: StateFlow<MediaMetadata>
     val playbackProgress: StateFlow<PlaybackProgressState>
     val playbackSpeed: StateFlow<PlaybackSpeed>
+    fun connect(service: Class<*>)
     fun playVideo(video: SSVideo, playerView: PlayerView)
     fun playPause()
     fun seekTo(position: Long)

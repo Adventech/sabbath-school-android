@@ -32,24 +32,23 @@ import androidx.media3.session.SessionCommand
 import androidx.media3.session.SessionResult
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
-import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
-import javax.inject.Inject
 import app.ss.translations.R as L10nR
 import ss.libraries.media.resources.R as MediaR
 
 private const val LOG_TAG = "CustomMediaLibrarySessionCallback"
-private const val CUSTOM_COMMAND_REWIND = "app.ss.media.playback.REWIND"
-private const val CUSTOM_COMMAND_FORWARD = "app.ss.media.playback.FORWARD"
+private const val CUSTOM_COMMAND_REWIND = "REWIND"
+private const val CUSTOM_COMMAND_FORWARD = "FORWARD"
 
-class CustomMediaSessionCallback @Inject constructor(
-    @ApplicationContext private val context: Context
+internal class CustomMediaSessionCallback(
+    private val context: Context,
+    private val id: String,
 ) : MediaSession.Callback {
 
     val customCommands: List<CommandButton> by lazy {
         listOf(
-            getRewindCommandButton(SessionCommand(CUSTOM_COMMAND_REWIND, Bundle.EMPTY)),
-            getForwardCommandButton(SessionCommand(CUSTOM_COMMAND_FORWARD, Bundle.EMPTY)),
+            getRewindCommandButton(SessionCommand("$id-$CUSTOM_COMMAND_REWIND", Bundle.EMPTY)),
+            getForwardCommandButton(SessionCommand("$id-$CUSTOM_COMMAND_FORWARD", Bundle.EMPTY)),
         )
     }
 
@@ -76,8 +75,8 @@ class CustomMediaSessionCallback @Inject constructor(
         Timber.tag(LOG_TAG).i("onCustomCommand: $session, $args")
 
         when (customCommand.customAction) {
-            CUSTOM_COMMAND_REWIND -> session.player.seekBack()
-            CUSTOM_COMMAND_FORWARD -> session.player.seekForward()
+            "$id-$CUSTOM_COMMAND_REWIND" -> session.player.seekBack()
+            "$id-$CUSTOM_COMMAND_FORWARD" -> session.player.seekForward()
         }
         return Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
     }
