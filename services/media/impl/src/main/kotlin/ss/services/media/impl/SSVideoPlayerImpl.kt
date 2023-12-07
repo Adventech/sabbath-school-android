@@ -162,6 +162,7 @@ internal class SSVideoPlayerImpl @Inject constructor(
 
     override fun release() {
         mediaController?.release()
+        mediaController = null
     }
 
     override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
