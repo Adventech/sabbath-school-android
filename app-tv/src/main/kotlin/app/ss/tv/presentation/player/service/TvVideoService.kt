@@ -20,30 +20,15 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.di
+package app.ss.tv.presentation.player.service
 
-import android.content.ComponentName
-import android.content.Context
-import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.PlaybackConnectionImpl
-import app.ss.media.playback.service.MusicService
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import android.content.Intent
+import app.ss.tv.presentation.player.VideoPlayerActivity
+import ss.libraries.media.service.MediaService
 
-@Module
-@InstallIn(SingletonComponent::class)
-object PlaybackModule {
+class TvVideoService : MediaService() {
 
-    @Provides
-    @Singleton
-    fun playbackConnection(
-        @ApplicationContext context: Context,
-    ): PlaybackConnection = PlaybackConnectionImpl(
-        context = context,
-        serviceComponent = ComponentName(context, MusicService::class.java),
-    )
+    override fun sessionId(): String = "app.ss.tv.presentation.player.service.TvVideoService"
+
+    override fun launchIntent(): Intent = Intent(applicationContext, VideoPlayerActivity::class.java)
 }

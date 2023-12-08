@@ -25,45 +25,32 @@ package ss.libraries.media.service
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
-import android.os.Bundle
 import androidx.media3.common.AudioAttributes
 import androidx.media3.datasource.DataSourceBitmapLoader
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.CacheBitmapLoader
-import androidx.media3.session.CommandButton
-import androidx.media3.session.LibraryResult
-import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaSession
-import androidx.media3.session.SessionCommand
-import androidx.media3.session.SessionResult
-import com.google.common.util.concurrent.Futures
-import com.google.common.util.concurrent.ListenableFuture
-import dagger.hilt.android.AndroidEntryPoint
+import androidx.media3.session.MediaSessionService
 import ss.libraries.media.api.DEFAULT_FORWARD
 import ss.libraries.media.api.DEFAULT_REWIND
 import timber.log.Timber
-import app.ss.translations.R as L10nR
-import ss.libraries.media.resources.R as MediaR
 
 private const val LOG_TAG = "SS_MediaService"
-private const val CUSTOM_COMMAND_REWIND = "app.ss.media.playback.REWIND"
-private const val CUSTOM_COMMAND_FORWARD = "app.ss.media.playback.FORWARD"
 
-@AndroidEntryPoint
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
-class MediaService : MediaLibraryService() {
+abstract class MediaService : MediaSessionService() {
 
-    private lateinit var customCommands: List<CommandButton>
-    private val librarySessionCallback = CustomMediaLibrarySessionCallback()
-    private lateinit var mediaLibrarySession: MediaLibrarySession
+    abstract fun sessionId(): String
+
+    open fun launchIntent(): Intent? = packageManager.getLaunchIntentForPackage(packageName)
+
+    private val sessionCallback: CustomMediaSessionCallback by lazy {
+        CustomMediaSessionCallback(applicationContext, sessionId())
+    }
+    private lateinit var mediaSession: MediaSession
 
     override fun onCreate() {
         super.onCreate()
-        customCommands =
-            listOf(
-                getRewindCommandButton(SessionCommand(CUSTOM_COMMAND_REWIND, Bundle.EMPTY)),
-                getForwardCommandButton(SessionCommand(CUSTOM_COMMAND_FORWARD, Bundle.EMPTY)),
-            )
         initializeSessionAndPlayer()
 
         setListener(MediaSessionServiceListener())
@@ -76,39 +63,27 @@ class MediaService : MediaLibraryService() {
                 .setSeekBackIncrementMs(DEFAULT_REWIND)
                 .setSeekForwardIncrementMs(DEFAULT_FORWARD)
                 .build()
-        mediaLibrarySession =
-            MediaLibrarySession.Builder(this, player, librarySessionCallback)
-                .setId(getString(L10nR.string.ss_app_name))
+        mediaSession =
+            MediaSession.Builder(this, player)
+                .setId(sessionId())
                 .setSessionActivity(getSingleTopActivity())
                 .setBitmapLoader(CacheBitmapLoader(DataSourceBitmapLoader(this)))
+                .setCallback(sessionCallback)
+                .setCustomLayout(sessionCallback.customCommands)
                 .build()
     }
 
     private fun getSingleTopActivity(): PendingIntent {
         return PendingIntent.getActivity(
-            applicationContext, 0,
-            packageManager.getLaunchIntentForPackage(packageName), PendingIntent.FLAG_IMMUTABLE
+            applicationContext,
+            0,
+            launchIntent(),
+            PendingIntent.FLAG_IMMUTABLE
         )
     }
 
-    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaLibrarySession {
-        return mediaLibrarySession
-    }
-
-    private fun getRewindCommandButton(sessionCommand: SessionCommand): CommandButton {
-        return CommandButton.Builder()
-            .setDisplayName(getString(L10nR.string.ss_action_rewind))
-            .setSessionCommand(sessionCommand)
-            .setIconResId(MediaR.drawable.ic_audio_icon_backward)
-            .build()
-    }
-
-    private fun getForwardCommandButton(sessionCommand: SessionCommand): CommandButton {
-        return CommandButton.Builder()
-            .setDisplayName(getString(L10nR.string.ss_action_forward))
-            .setSessionCommand(sessionCommand)
-            .setIconResId(MediaR.drawable.ic_audio_icon_forward)
-            .build()
+    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession {
+        return mediaSession
     }
 
     private inner class MediaSessionServiceListener : Listener {
@@ -120,47 +95,8 @@ class MediaService : MediaLibraryService() {
         }
     }
 
-    private inner class CustomMediaLibrarySessionCallback : MediaLibrarySession.Callback {
-        override fun onConnect(session: MediaSession, controller: MediaSession.ControllerInfo): MediaSession.ConnectionResult {
-            Timber.tag(LOG_TAG).i("onConnect: $session, $controller")
-            val availableSessionCommands =
-                MediaSession.ConnectionResult.DEFAULT_SESSION_AND_LIBRARY_COMMANDS.buildUpon()
-            for (commandButton in customCommands) {
-                // Add custom command to available session commands.
-                commandButton.sessionCommand?.let { availableSessionCommands.add(it) }
-            }
-            return MediaSession.ConnectionResult.AcceptedResultBuilder(session)
-                .setAvailableSessionCommands(availableSessionCommands.build())
-                .build()
-        }
-
-        override fun onCustomCommand(
-            session: MediaSession,
-            controller: MediaSession.ControllerInfo,
-            customCommand: SessionCommand,
-            args: Bundle
-        ): ListenableFuture<SessionResult> {
-            Timber.tag(LOG_TAG).i("onCustomCommand: $session, $args")
-            when (customCommand.customAction) {
-                CUSTOM_COMMAND_REWIND -> session.player.seekBack()
-                CUSTOM_COMMAND_FORWARD -> session.player.seekForward()
-            }
-            session.setCustomLayout(customCommands)
-            return Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
-        }
-
-        override fun onSubscribe(
-            session: MediaLibrarySession,
-            browser: MediaSession.ControllerInfo,
-            parentId: String,
-            params: LibraryParams?
-        ): ListenableFuture<LibraryResult<Void>> {
-            return Futures.immediateFuture(LibraryResult.ofVoid())
-        }
-    }
-
     override fun onTaskRemoved(rootIntent: Intent?) {
-        val player = mediaLibrarySession.player
+        val player = mediaSession.player
         player.run {
             if (!playWhenReady || mediaItemCount == 0) {
                 stopSelf()
@@ -169,7 +105,7 @@ class MediaService : MediaLibraryService() {
     }
 
     override fun onDestroy() {
-        mediaLibrarySession.run {
+        mediaSession.run {
             player.release()
             release()
         }

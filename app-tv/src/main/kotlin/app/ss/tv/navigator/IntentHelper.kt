@@ -24,21 +24,21 @@ package app.ss.tv.navigator
 
 import android.content.Context
 import android.content.Intent
-import app.ss.tv.data.model.VideoSpec
+import app.ss.models.media.SSVideo
 import app.ss.tv.presentation.player.VideoPlayerActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 fun interface IntentHelper {
-    fun playerIntent(videoSpec: VideoSpec): Intent
+    fun playerIntent(video: SSVideo): Intent
 }
 
 @Singleton
 class IntentHelperImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : IntentHelper {
-    override fun playerIntent(videoSpec: VideoSpec): Intent {
-        return VideoPlayerActivity.launchIntent(context, videoSpec)
+    override fun playerIntent(video: SSVideo): Intent {
+        return VideoPlayerActivity.launchIntent(context, video)
     }
 }

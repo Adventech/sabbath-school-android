@@ -26,7 +26,7 @@ import app.ss.models.media.SSVideo
 import app.ss.tv.data.model.VideoSpec
 import ss.lessons.model.VideosInfoModel
 
-private val ssVideo = SSVideo("Artist", "id", "src", "target", "targetIndex", "thumbnail", "title")
+val ssVideo = SSVideo("Artist", "id", "src", "target", "targetIndex", "thumbnail", "title")
 val infoModel = VideosInfoModel(
     artist = "Artist",
     clips = listOf(ssVideo)

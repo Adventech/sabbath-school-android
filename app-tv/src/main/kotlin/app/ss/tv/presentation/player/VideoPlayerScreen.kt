@@ -25,7 +25,7 @@ package app.ss.tv.presentation.player
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import androidx.media3.ui.PlayerView
-import app.ss.tv.data.model.VideoSpec
+import app.ss.models.media.SSVideo
 import app.ss.tv.presentation.player.components.VideoPlayerControlsSpec
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -34,14 +34,18 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class VideoPlayerScreen(
-    val video: VideoSpec
+    val video: SSVideo
 ) : Screen, Parcelable {
 
-    @Immutable
-    data class State(
-        val controls: VideoPlayerControlsSpec,
-        val eventSink: (Event) -> Unit
-    ) : CircuitUiState
+    sealed interface State : CircuitUiState {
+        data object Loading : State
+
+        @Immutable
+        data class Playing(
+            val controls: VideoPlayerControlsSpec,
+            val eventSink: (Event) -> Unit
+        ) : State
+    }
 
     sealed interface Event : CircuitUiEvent {
         data class OnPlayerViewCreated(val playerView: PlayerView) : Event
