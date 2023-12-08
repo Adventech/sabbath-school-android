@@ -20,19 +20,35 @@
  * THE SOFTWARE.
  */
 
-package ss.services.media.impl.di
+package ss.libraries.media.api
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import ss.libraries.media.api.SSMediaPlayer
-import ss.services.media.impl.SSMediaPlayerImpl
+import androidx.compose.runtime.Stable
+import androidx.media3.common.MediaMetadata
+import androidx.media3.ui.PlayerView
+import kotlinx.coroutines.flow.StateFlow
+import ss.libraries.media.model.PlaybackProgressState
+import ss.libraries.media.model.PlaybackSpeed
+import ss.libraries.media.model.PlaybackState
+import ss.libraries.media.model.SSMediaItem
 
-@Module
-@InstallIn(ActivityComponent::class)
-abstract class BindingsModule {
-
-    @Binds
-    internal abstract fun bindSSMediaPlayer(impl: SSMediaPlayerImpl): SSMediaPlayer
+@Stable
+interface SSMediaPlayer {
+    val isConnected: StateFlow<Boolean>
+    val playbackState: StateFlow<PlaybackState>
+    val nowPlaying: StateFlow<MediaMetadata>
+    val playbackProgress: StateFlow<PlaybackProgressState>
+    val playbackSpeed: StateFlow<PlaybackSpeed>
+    fun connect(service: Class<*>)
+    fun playItem(mediaItem: SSMediaItem)
+    fun playItem(mediaItem: SSMediaItem, playerView: PlayerView)
+    fun playItems(mediaItems: List<SSMediaItem>, index: Int = 0)
+    fun playPause()
+    fun seekTo(position: Long)
+    fun skipToItem(position: Int)
+    fun fastForward()
+    fun rewind()
+    fun toggleSpeed()
+    fun onPause()
+    fun onResume()
+    fun release()
 }

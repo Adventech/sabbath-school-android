@@ -48,17 +48,19 @@ import app.ss.design.compose.widget.icon.Icons
 import app.ss.media.playback.ui.common.PlaybackSpeedLabel
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControlsDefaults
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
-import ss.libraries.media.api.SSVideoPlayer
-import ss.libraries.media.model.isBuffering
+import ss.libraries.media.api.SSMediaPlayer
+import ss.libraries.media.model.PlaybackSpeed
 import app.ss.translations.R.string as RString
 import ss.libraries.media.resources.R as MediaR
 
 @Composable
 internal fun VideoPlayerControls(
-    videoPlayer: SSVideoPlayer,
+    mediaPlayer: SSMediaPlayer,
     onClose: () -> Unit = {},
     onEnterPiP: (() -> Unit)? = null
 ) {
+
+    val playbackSpeed by mediaPlayer.playbackSpeed.collectAsStateWithLifecycle()
 
     Surface(color = Color.Black.copy(0.6f)) {
         Box(
@@ -67,17 +69,18 @@ internal fun VideoPlayerControls(
                 .systemBarsPadding()
         ) {
             TopBar(
-                videoPlayer = videoPlayer,
+                playbackSpeed = playbackSpeed,
                 onClose = onClose,
                 onEnterPiP = onEnterPiP,
+                toggleSpeed = { mediaPlayer.toggleSpeed() }
             )
 
             Controls(
-                videoPlayer = videoPlayer
+                mediaPlayer = mediaPlayer
             )
 
             PlayBackProgress(
-                videoPlayer = videoPlayer
+                mediaPlayer = mediaPlayer
             )
         }
     }
@@ -85,12 +88,12 @@ internal fun VideoPlayerControls(
 
 @Composable
 private fun BoxScope.TopBar(
-    videoPlayer: SSVideoPlayer,
+    playbackSpeed: PlaybackSpeed,
     onClose: () -> Unit,
     onEnterPiP: (() -> Unit)? = null,
     contentColor: Color = Color.White,
+    toggleSpeed: () -> Unit = {}
 ) {
-    val playbackSpeed by videoPlayer.playbackSpeed.collectAsStateWithLifecycle()
 
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -107,7 +110,7 @@ private fun BoxScope.TopBar(
 
         PlaybackSpeedLabel(
             playbackSpeed = playbackSpeed,
-            toggleSpeed = { videoPlayer.toggleSpeed() },
+            toggleSpeed = { toggleSpeed() },
             contentColor = Color.White
         )
 
@@ -127,16 +130,16 @@ private fun BoxScope.TopBar(
 
 @Composable
 private fun BoxScope.Controls(
-    videoPlayer: SSVideoPlayer,
+    mediaPlayer: SSMediaPlayer,
     contentColor: Color = Color.White
 ) {
-    val playbackState by videoPlayer.playbackState.collectAsStateWithLifecycle()
+    val playbackState by mediaPlayer.playbackState.collectAsStateWithLifecycle()
 
     Row(
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier.align(Alignment.Center)
     ) {
-        IconButton(onClick = { videoPlayer.rewind() }) {
+        IconButton(onClick = { mediaPlayer.rewind() }) {
             IconBox(
                 icon = IconSlot.fromResource(
                     MediaR.drawable.ic_audio_icon_backward,
@@ -157,7 +160,7 @@ private fun BoxScope.Controls(
                 CircularProgressIndicator(color = contentColor)
             } else {
                 IconButton(
-                    onClick = { videoPlayer.playPause() },
+                    onClick = { mediaPlayer.playPause() },
                     modifier = Modifier.fillMaxSize()
                 ) {
                     IconBox(
@@ -177,7 +180,7 @@ private fun BoxScope.Controls(
 
         Spacer(modifier = Modifier.width(PlayBackControlsDefaults.playButtonHorizontalPadding))
 
-        IconButton(onClick = { videoPlayer.fastForward() }) {
+        IconButton(onClick = { mediaPlayer.fastForward() }) {
             IconBox(
                 icon = IconSlot.fromResource(
                     MediaR.drawable.ic_audio_icon_forward,
@@ -192,15 +195,15 @@ private fun BoxScope.Controls(
 
 @Composable
 private fun BoxScope.PlayBackProgress(
-    videoPlayer: SSVideoPlayer,
+    mediaPlayer: SSMediaPlayer,
 ) {
-    val progressState by videoPlayer.playbackProgress.collectAsStateWithLifecycle()
-    val playbackState by videoPlayer.playbackState.collectAsStateWithLifecycle()
+    val progressState by mediaPlayer.playbackProgress.collectAsStateWithLifecycle()
+    val playbackState by mediaPlayer.playbackState.collectAsStateWithLifecycle()
 
     PlaybackProgressDuration(
         isBuffering = playbackState.isBuffering,
         progressState = progressState,
-        onSeekTo = { videoPlayer.seekTo(it) },
+        onSeekTo = { mediaPlayer.seekTo(it) },
         modifier = Modifier
             .align(Alignment.BottomCenter)
             .padding(bottom = 32.dp),

@@ -23,13 +23,11 @@
 package ss.libraries.media.model
 
 import androidx.compose.runtime.Immutable
-import androidx.media3.common.Player
 
 @Immutable
-data class VideoPlaybackState(
-    @Player.State val state: Int = Player.STATE_IDLE,
-    val isPlaying: Boolean = false
+data class PlaybackState(
+    val isPlaying: Boolean = false,
+    val isBuffering: Boolean = false,
+    val hasEnded: Boolean = false,
+    val isError: Boolean = false,
 )
-
-val VideoPlaybackState.isBuffering: Boolean get() = state == Player.STATE_BUFFERING
-val VideoPlaybackState.hasEnded: Boolean get() = state == Player.STATE_ENDED

@@ -32,7 +32,6 @@ import androidx.media3.common.Player
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import androidx.media3.ui.PlayerView
-import app.ss.models.media.SSVideo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.CoroutineScope
@@ -43,34 +42,29 @@ import kotlinx.coroutines.guava.await
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.flowInterval
 import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
-import ss.libraries.media.api.SSVideoPlayer
+import ss.libraries.media.api.SSMediaPlayer
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackSpeed
-import ss.libraries.media.model.VideoPlaybackState
+import ss.libraries.media.model.PlaybackState
+import ss.libraries.media.model.SSMediaItem
 import ss.libraries.media.model.extensions.NONE_PLAYING
-import ss.libraries.media.model.isBuffering
-import ss.libraries.media.model.toMediaItem
 import timber.log.Timber
 import javax.inject.Inject
 
-private const val LOG_TAG = "SSVideoPlayerImpl"
-
 @ActivityScoped
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
-internal class SSVideoPlayerImpl @Inject constructor(
+internal class SSMediaPlayerImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-) : SSVideoPlayer, Player.Listener, CoroutineScope by ProcessLifecycleOwner.get().lifecycleScope {
+) : SSMediaPlayer, Player.Listener, CoroutineScope by ProcessLifecycleOwner.get().lifecycleScope {
 
     override val isConnected = MutableStateFlow(false)
-    override val playbackState = MutableStateFlow(VideoPlaybackState())
+    override val playbackState = MutableStateFlow(PlaybackState())
     override val nowPlaying = MutableStateFlow(NONE_PLAYING)
     override val playbackProgress = MutableStateFlow(PlaybackProgressState())
     override val playbackSpeed = MutableStateFlow(PlaybackSpeed.NORMAL)
 
     private var playbackProgressInterval: Job = Job()
-
     private var currentProgressInterval: Long = PLAYBACK_PROGRESS_INTERVAL
-
     private var mediaController: MediaController? = null
 
     override fun connect(service: Class<*>) {
@@ -84,7 +78,7 @@ internal class SSVideoPlayerImpl @Inject constructor(
             )
                 .buildAsync()
                 .await().apply {
-                    addListener(this@SSVideoPlayerImpl)
+                    addListener(this@SSMediaPlayerImpl)
                 }
 
             isConnected.update { true }
@@ -93,14 +87,23 @@ internal class SSVideoPlayerImpl @Inject constructor(
         }
     }
 
-    override fun playVideo(video: SSVideo, playerView: PlayerView) {
+    override fun playItem(mediaItem: SSMediaItem) {
+        playItems(listOf(mediaItem))
+    }
+
+    override fun playItem(mediaItem: SSMediaItem, playerView: PlayerView) {
+        playerView.player = mediaController
+        playItems(listOf(mediaItem))
+    }
+
+    override fun playItems(mediaItems: List<SSMediaItem>, index: Int) {
         mediaController?.run {
             if (isPlaying) {
                 pause()
             }
-
-            playerView.player = mediaController
-            setMediaItem(video.toMediaItem())
+            setMediaItems(
+                mediaItems.map { it.toMediaItem() }, index, 0,
+            )
             prepare()
         }
     }
@@ -120,6 +123,10 @@ internal class SSVideoPlayerImpl @Inject constructor(
 
     override fun seekTo(position: Long) {
         mediaController?.seekTo(position)
+    }
+
+    override fun skipToItem(position: Int) {
+        mediaController?.seekToDefaultPosition(position)
     }
 
     override fun fastForward() {
@@ -167,7 +174,6 @@ internal class SSVideoPlayerImpl @Inject constructor(
 
     override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
         super.onMediaMetadataChanged(mediaMetadata)
-        Timber.tag(LOG_TAG).i("onMediaMetadataChanged: $mediaMetadata")
         nowPlaying.update { mediaMetadata }
     }
 
@@ -176,11 +182,19 @@ internal class SSVideoPlayerImpl @Inject constructor(
         Timber.e(error)
     }
 
+    override fun onPlayerErrorChanged(error: PlaybackException?) {
+        super.onPlayerErrorChanged(error)
+        playbackState.update { it.copy(isError = error != null) }
+    }
+
     override fun onPlaybackStateChanged(state: Int) {
         super.onPlaybackStateChanged(state)
-        Timber.tag(LOG_TAG).i("onPlaybackStateChanged: $state")
         playbackState.update {
-            it.copy(state = state)
+            it.copy(
+                isPlaying = state == Player.STATE_READY && mediaController?.isPlaying == true,
+                isBuffering = state == Player.STATE_BUFFERING,
+                hasEnded = state == Player.STATE_ENDED,
+            )
         }
 
         if (state == Player.STATE_READY) {
@@ -203,7 +217,7 @@ internal class SSVideoPlayerImpl @Inject constructor(
             val position = mediaController?.currentPosition ?: return@collect
             val bufferedPosition = mediaController?.bufferedPosition ?: return@collect
 
-            if (state.state == Player.STATE_IDLE || duration < 1) {
+            if (mediaController?.playbackState == Player.STATE_IDLE || duration < 1) {
                 return@collect
             }
 

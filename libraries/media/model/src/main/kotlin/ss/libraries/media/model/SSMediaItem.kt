@@ -20,32 +20,21 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.media.api
+package ss.libraries.media.model
 
-import androidx.compose.runtime.Stable
-import androidx.media3.common.MediaMetadata
-import androidx.media3.ui.PlayerView
+import androidx.media3.common.MediaItem
+import app.ss.models.media.AudioFile
 import app.ss.models.media.SSVideo
-import kotlinx.coroutines.flow.StateFlow
-import ss.libraries.media.model.PlaybackProgressState
-import ss.libraries.media.model.PlaybackSpeed
-import ss.libraries.media.model.VideoPlaybackState
 
-@Stable
-interface SSVideoPlayer {
-    val isConnected: StateFlow<Boolean>
-    val playbackState: StateFlow<VideoPlaybackState>
-    val nowPlaying: StateFlow<MediaMetadata>
-    val playbackProgress: StateFlow<PlaybackProgressState>
-    val playbackSpeed: StateFlow<PlaybackSpeed>
-    fun connect(service: Class<*>)
-    fun playVideo(video: SSVideo, playerView: PlayerView)
-    fun playPause()
-    fun seekTo(position: Long)
-    fun fastForward()
-    fun rewind()
-    fun toggleSpeed()
-    fun onPause()
-    fun onResume()
-    fun release()
+sealed interface SSMediaItem {
+
+    fun toMediaItem(): MediaItem
+
+    data class Audio(val audio: AudioFile) : SSMediaItem {
+        override fun toMediaItem(): MediaItem = audio.toMediaItem()
+    }
+
+    data class Video(val video: SSVideo) : SSMediaItem {
+        override fun toMediaItem(): MediaItem = video.toMediaItem()
+    }
 }

@@ -24,27 +24,29 @@ package ss.libraries.media.test
 
 import androidx.media3.common.MediaMetadata
 import androidx.media3.ui.PlayerView
-import app.ss.models.media.SSVideo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import ss.libraries.media.api.SSVideoPlayer
+import ss.libraries.media.api.SSMediaPlayer
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackSpeed
-import ss.libraries.media.model.VideoPlaybackState
+import ss.libraries.media.model.PlaybackState
+import ss.libraries.media.model.SSMediaItem
 import ss.libraries.media.model.extensions.NONE_PLAYING
 
 /**
- * A fake implementation of [SSVideoPlayer] that can be used for testing.
+ * A fake implementation of [SSMediaPlayer] that can be used for testing.
  */
-class FakeSSVideoPlayer(
-    override val playbackState: StateFlow<VideoPlaybackState> = MutableStateFlow(VideoPlaybackState()),
+class FakeSSMediaPlayer(
+    override val playbackState: StateFlow<PlaybackState> = MutableStateFlow(PlaybackState()),
     override val playbackProgress: StateFlow<PlaybackProgressState> = MutableStateFlow(PlaybackProgressState()),
     override val playbackSpeed: StateFlow<PlaybackSpeed> = MutableStateFlow(PlaybackSpeed.NORMAL),
     override val isConnected: StateFlow<Boolean> = MutableStateFlow(false),
     override val nowPlaying: StateFlow<MediaMetadata> = MutableStateFlow(NONE_PLAYING),
-) : SSVideoPlayer {
+) : SSMediaPlayer {
 
-    var video: SSVideo? = null
+    var serviceClass: Class<*>? = null
+        private set
+    var mediaItems: List<SSMediaItem>? = null
         private set
     var playerView: PlayerView? = null
         private set
@@ -53,11 +55,21 @@ class FakeSSVideoPlayer(
     var playPauseInvoked: Boolean = false
         private set
 
-    override fun connect(service: Class<*>) = Unit
+    override fun connect(service: Class<*>) {
+        this.serviceClass = service
+    }
 
-    override fun playVideo(video: SSVideo, playerView: PlayerView) {
-        this.video = video
+    override fun playItem(mediaItem: SSMediaItem) {
+        this.mediaItems = listOf(mediaItem)
+    }
+
+    override fun playItem(mediaItem: SSMediaItem, playerView: PlayerView) {
+        this.mediaItems = listOf(mediaItem)
         this.playerView = playerView
+    }
+
+    override fun playItems(mediaItems: List<SSMediaItem>, index: Int) {
+        this.mediaItems = mediaItems
     }
 
     override fun playPause() {
@@ -68,27 +80,18 @@ class FakeSSVideoPlayer(
         seekTo = position
     }
 
-    override fun fastForward() {
-        // no-op
-    }
+    override fun skipToItem(position: Int) = Unit
 
-    override fun rewind() {
-        // no-op
-    }
+    override fun fastForward() = Unit
 
-    override fun toggleSpeed() {
-        // no-op
-    }
+    override fun rewind() = Unit
 
-    override fun onPause() {
-        // no-op
-    }
+    override fun toggleSpeed() = Unit
 
-    override fun onResume() {
-        // no-op
-    }
+    override fun onPause() = Unit
 
-    override fun release() {
-        // no-op
-    }
+    override fun onResume() = Unit
+
+    override fun release() = Unit
+
 }

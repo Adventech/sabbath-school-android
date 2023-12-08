@@ -36,7 +36,8 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 import org.junit.runner.RunWith
-import ss.libraries.media.test.FakeSSVideoPlayer
+import ss.libraries.media.model.SSMediaItem
+import ss.libraries.media.test.FakeSSMediaPlayer
 
 /** Unit tests for [VideoPlayerPresenter]. */
 @RunWith(AndroidJUnit4::class)
@@ -46,12 +47,12 @@ class VideoPlayerPresenterTest {
     private val isConnected = MutableStateFlow(false)
 
     private val ambientModeHelper = FakeAmbientModeHelper()
-    private val fakeVideoPlayer = FakeSSVideoPlayer(isConnected = isConnected)
+    private val fakeMediaPlayer = FakeSSMediaPlayer(isConnected = isConnected)
 
     private val screen = VideoPlayerScreen(ssVideo)
     private val underTest = VideoPlayerPresenter(
         ambientModeHelper = ambientModeHelper,
-        videoPlayer = fakeVideoPlayer,
+        mediaPlayer = fakeMediaPlayer,
         screen = screen,
     )
 
@@ -96,8 +97,8 @@ class VideoPlayerPresenterTest {
 
             state.eventSink(Event.OnPlayerViewCreated(playerView))
 
-            fakeVideoPlayer.video shouldBeEqualTo screen.video
-            fakeVideoPlayer.playerView shouldBeEqualTo playerView
+            fakeMediaPlayer.mediaItems shouldBeEqualTo listOf(SSMediaItem.Video(screen.video))
+            fakeMediaPlayer.playerView shouldBeEqualTo playerView
 
             ensureAllEventsConsumed()
         }
@@ -113,10 +114,10 @@ class VideoPlayerPresenterTest {
             val controls = (awaitItem() as State.Playing).controls
 
             controls.onSeek(1000)
-            fakeVideoPlayer.seekTo shouldBeEqualTo 1000
+            fakeMediaPlayer.seekTo shouldBeEqualTo 1000
 
             controls.onPlayPauseToggle()
-            fakeVideoPlayer.playPauseInvoked shouldBeEqualTo true
+            fakeMediaPlayer.playPauseInvoked shouldBeEqualTo true
 
             ensureAllEventsConsumed()
         }

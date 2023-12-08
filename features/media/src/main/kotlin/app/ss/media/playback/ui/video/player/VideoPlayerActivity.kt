@@ -54,8 +54,8 @@ import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import dagger.hilt.android.AndroidEntryPoint
 import ss.foundation.coroutines.flow.collectIn
-import ss.libraries.media.api.SSVideoPlayer
-import ss.libraries.media.model.hasEnded
+import ss.libraries.media.api.SSMediaPlayer
+import ss.libraries.media.model.SSMediaItem
 import javax.inject.Inject
 import ss.libraries.media.resources.R as MediaR
 
@@ -71,7 +71,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     private lateinit var composeView: ComposeView
 
     @Inject
-    lateinit var videoPlayer: SSVideoPlayer
+    lateinit var mediaPlayer: SSMediaPlayer
 
     private var systemUiVisible: Boolean = true
     private val pictureInPictureEnabled: Boolean
@@ -87,9 +87,9 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
 
         override fun onReceive(context: Context?, intent: Intent?) {
             when (intent?.getStringExtra(ACTION_TYPE)) {
-                PLAY_PAUSE -> videoPlayer.playPause()
-                BACKWARD -> videoPlayer.rewind()
-                FORWARD -> videoPlayer.fastForward()
+                PLAY_PAUSE -> mediaPlayer.playPause()
+                BACKWARD -> mediaPlayer.rewind()
+                FORWARD -> mediaPlayer.fastForward()
             }
         }
     }
@@ -115,16 +115,16 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
 
-        videoPlayer.connect(VideoService::class.java)
+        mediaPlayer.connect(VideoService::class.java)
     }
 
     private fun collectState(video: SSVideo) {
-        videoPlayer.isConnected.collectIn(this) { connected ->
+        mediaPlayer.isConnected.collectIn(this) { connected ->
             if (connected) {
-                videoPlayer.playVideo(video, exoPlayerView)
+                mediaPlayer.playItem(SSMediaItem.Video(video), exoPlayerView)
             }
         }
-        videoPlayer.playbackState.collectIn(this) { state ->
+        mediaPlayer.playbackState.collectIn(this) { state ->
             if (state.isPlaying && systemUiVisible) {
                 exoPlayerView.postDelayed(
                     {
@@ -162,7 +162,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             }
             SsTheme {
                 VideoPlayerControls(
-                    videoPlayer = videoPlayer,
+                    mediaPlayer = mediaPlayer,
                     onClose = {
                         finish()
                     },
@@ -176,7 +176,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         super.onNewIntent(intent)
         @Suppress("DEPRECATION")
         val video = intent?.getParcelableExtra<SSVideo>(ARG_VIDEO) ?: return
-        videoPlayer.playVideo(video, exoPlayerView)
+        mediaPlayer.playItem(SSMediaItem.Video(video), exoPlayerView)
     }
 
     private fun hideSystemUI() {
@@ -200,7 +200,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         if (autoHide) {
             view.postDelayed(
                 {
-                    if (videoPlayer.playbackState.value.isPlaying) {
+                    if (mediaPlayer.playbackState.value.isPlaying) {
                         hideSystemUI()
                     }
                 },
@@ -214,32 +214,32 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     override fun onPause() {
         super.onPause()
         if (pictureInPictureEnabled.not()) {
-            videoPlayer.onPause()
+            mediaPlayer.onPause()
         }
     }
 
     override fun onStop() {
         super.onStop()
-        if (videoPlayer.playbackState.value.isPlaying) {
-            videoPlayer.playPause()
+        if (mediaPlayer.playbackState.value.isPlaying) {
+            mediaPlayer.playPause()
         }
         onStopCalled = true
     }
 
     override fun onResume() {
         super.onResume()
-        videoPlayer.onResume()
+        mediaPlayer.onResume()
         onStopCalled = false
     }
 
     override fun onDestroy() {
-        videoPlayer.release()
+        mediaPlayer.release()
         super.onDestroy()
     }
 
     override fun onUserLeaveHint() {
         super.onUserLeaveHint()
-        if (videoPlayer.playbackState.value.isPlaying) {
+        if (mediaPlayer.playbackState.value.isPlaying) {
             enterPiP()
         }
     }
@@ -247,7 +247,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     private fun enterPiP() {
         if (supportsPiP && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             hideSystemUI()
-            val params = pictureInPictureParams(videoPlayer.playbackState.value.isPlaying)
+            val params = pictureInPictureParams(mediaPlayer.playbackState.value.isPlaying)
             enterPictureInPictureMode(params)
         }
     }

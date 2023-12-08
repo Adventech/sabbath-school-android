@@ -34,14 +34,14 @@ import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import ss.libraries.media.api.SSVideoPlayer
+import ss.libraries.media.api.SSMediaPlayer
 import ss.libraries.media.model.PlaybackProgressState
-import ss.libraries.media.model.VideoPlaybackState
-import ss.libraries.media.model.isBuffering
+import ss.libraries.media.model.PlaybackState
+import ss.libraries.media.model.SSMediaItem
 
 class VideoPlayerPresenter @AssistedInject constructor(
     private val ambientModeHelper: AmbientModeHelper,
-    private val videoPlayer: SSVideoPlayer,
+    private val mediaPlayer: SSMediaPlayer,
     @Assisted private val screen: VideoPlayerScreen,
 ) : Presenter<State> {
 
@@ -55,13 +55,13 @@ class VideoPlayerPresenter @AssistedInject constructor(
     @Composable
     override fun present(): State {
         val isConnected by produceRetainedState(initialValue = false) {
-            videoPlayer.isConnected.collect { isConnected -> value = isConnected }
+            mediaPlayer.isConnected.collect { isConnected -> value = isConnected }
         }
-        val playbackState by produceRetainedState(initialValue = VideoPlaybackState()) {
-            videoPlayer.playbackState.collect { state -> value = state }
+        val playbackState by produceRetainedState(initialValue = PlaybackState()) {
+            mediaPlayer.playbackState.collect { state -> value = state }
         }
         val playbackProgress by produceRetainedState(initialValue = PlaybackProgressState()) {
-            videoPlayer.playbackProgress
+            mediaPlayer.playbackProgress
                 .collect { progress -> value = progress }
         }
         val video = screen.video
@@ -76,7 +76,7 @@ class VideoPlayerPresenter @AssistedInject constructor(
 
         DisposableEffect(Unit) {
             onDispose {
-                videoPlayer.release()
+                mediaPlayer.release()
             }
         }
 
@@ -85,17 +85,17 @@ class VideoPlayerPresenter @AssistedInject constructor(
                 controls = VideoPlayerControlsSpec(
                     isPlaying = playbackState.isPlaying,
                     isBuffering = playbackState.isBuffering,
-                    onPlayPauseToggle = videoPlayer::playPause,
-                    onSeek = videoPlayer::seekTo,
+                    onPlayPauseToggle = mediaPlayer::playPause,
+                    onSeek = mediaPlayer::seekTo,
                     progressState = playbackProgress,
                     title = video.title,
                     artist = video.artist
                 )
             ) { event ->
                 when (event) {
-                    is Event.OnPlayerViewCreated -> videoPlayer.playVideo(
-                        video, event.playerView
-                    )
+                    is Event.OnPlayerViewCreated -> {
+                        mediaPlayer.playItem(SSMediaItem.Video(video), event.playerView)
+                    }
                 }
             }
         } else State.Loading

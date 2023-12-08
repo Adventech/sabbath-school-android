@@ -41,7 +41,7 @@ import com.slack.circuit.foundation.rememberCircuitNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ss.libraries.media.api.SSVideoPlayer
+import ss.libraries.media.api.SSMediaPlayer
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -51,7 +51,7 @@ class VideoPlayerActivity : ComponentActivity() {
     lateinit var circuit: Circuit
 
     @Inject
-    lateinit var videoPlayer: SSVideoPlayer
+    lateinit var mediaPlayer: SSMediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +61,7 @@ class VideoPlayerActivity : ComponentActivity() {
             @Suppress("DEPRECATION")
             intent.getParcelableExtra(ARG_VIDEO) ?: return
         }
-        videoPlayer.connect(TvVideoService::class.java)
+        mediaPlayer.connect(TvVideoService::class.java)
 
         setContent {
             CircuitCompositionLocals(circuit = circuit) {
@@ -80,13 +80,13 @@ class VideoPlayerActivity : ComponentActivity() {
         super.onPause()
         lifecycleScope.launch {
             delay(PAUSE_DELAY)
-            videoPlayer.onPause()
+            mediaPlayer.onPause()
         }
     }
 
     override fun onResume() {
         super.onResume()
-        videoPlayer.onResume()
+        mediaPlayer.onResume()
     }
 
     companion object {
