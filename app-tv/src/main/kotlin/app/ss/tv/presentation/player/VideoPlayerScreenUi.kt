@@ -28,17 +28,26 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import androidx.tv.material3.MaterialTheme
 import app.ss.tv.presentation.extentions.handleDPadKeyEvents
 import app.ss.tv.presentation.player.VideoPlayerScreen.Event
 import app.ss.tv.presentation.player.VideoPlayerScreen.State
+import app.ss.tv.presentation.player.components.ControlsIconSize
 import app.ss.tv.presentation.player.components.VideoPlayerControls
+import app.ss.tv.presentation.player.components.VideoPlayerControlsIcon
+import app.ss.translations.R as L10nR
 
 @Composable
 fun VideoPlayerScreenUi(
@@ -67,10 +76,12 @@ private fun BoxScope.PlayingUi(
         modifier = Modifier
             .handleDPadKeyEvents(
                 onEnter = {
-                    if (!videoPlayerState.isDisplayed) {
+                    if (videoPlayerState.isDisplayed) {
+                        state.controls.onPlayPauseToggle()
+                    } else {
                         videoPlayerState.showControls()
                     }
-                }
+                },
             )
             .focusable(),
         factory = {
@@ -88,4 +99,34 @@ private fun BoxScope.PlayingUi(
         videoPlayerState = videoPlayerState,
         modifier = Modifier.align(Alignment.BottomCenter),
     )
+
+    if (videoPlayerState.isDisplayed) {
+        PlayPauseButton(
+            isBuffering = state.controls.isBuffering,
+            isPlaying = state.controls.isPlaying,
+            modifier = Modifier.align(Alignment.Center)
+        )
+    }
+}
+
+@Composable
+private fun PlayPauseButton(
+    isBuffering: Boolean,
+    isPlaying: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    if (isBuffering) {
+        CircularProgressIndicator(
+            modifier = modifier
+                .size(ControlsIconSize)
+                .padding(8.dp),
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    } else {
+        VideoPlayerControlsIcon(
+            isPlaying = isPlaying,
+            contentDescription = stringResource(id = L10nR.string.ss_action_play_pause),
+            modifier = modifier,
+        )
+    }
 }

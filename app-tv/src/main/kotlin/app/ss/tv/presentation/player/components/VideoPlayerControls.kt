@@ -23,28 +23,21 @@
 
 package app.ss.tv.presentation.player.components
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,7 +48,6 @@ import app.ss.tv.presentation.player.VideoPlayerState
 import app.ss.tv.presentation.player.rememberVideoPlayerState
 import app.ss.tv.presentation.theme.SSTvTheme
 import ss.libraries.media.model.PlaybackProgressState
-import app.ss.translations.R as L10nR
 
 @Immutable
 data class VideoPlayerControlsSpec(
@@ -74,13 +66,13 @@ fun VideoPlayerControls(
     videoPlayerState: VideoPlayerState,
     modifier: Modifier = Modifier
 ) {
-    val focusRequester = remember { FocusRequester() }
-
-    LaunchedEffect(videoPlayerState.isDisplayed) {
-        if (videoPlayerState.isDisplayed) {
-            focusRequester.requestFocus()
-        }
-    }
+//    val focusRequester = remember { FocusRequester() }
+//
+//    LaunchedEffect(videoPlayerState.isDisplayed) {
+//        if (videoPlayerState.isDisplayed) {
+//            focusRequester.requestFocus()
+//        }
+//    }
 
     AnimatedVisibility(
         modifier = modifier.fillMaxWidth(),
@@ -119,28 +111,12 @@ fun VideoPlayerControls(
             )
 
             Row(
-                modifier = Modifier.padding(top = 24.dp),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier
+                    .padding(top = 24.dp),
+                // .focusRequester(focusRequester),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-
-                AnimatedContent(targetState = spec.isBuffering, label = "play-pause") { isBuffering ->
-                    if (isBuffering) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .focusRequester(focusRequester)
-                                .size(ControlsIconSize)
-                                .padding(8.dp),
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    } else {
-                        VideoPlayerControlsIcon(
-                            isPlaying = spec.isPlaying,
-                            contentDescription = stringResource(id = L10nR.string.ss_action_play_pause),
-                            modifier = Modifier.focusRequester(focusRequester),
-                            onClick = { spec.onPlayPauseToggle() }
-                        )
-                    }
-                }
 
                 val progressState = spec.progressState
                 DurationText(text = progressState.currentDuration)
@@ -160,9 +136,9 @@ fun VideoPlayerControls(
 }
 
 @Composable
-private fun DurationText(text: String) {
+private fun DurationText(text: String, modifier: Modifier = Modifier) {
     Text(
-        modifier = Modifier.padding(horizontal = 12.dp),
+        modifier = modifier,
         text = text,
         color = MaterialTheme.colorScheme.onSurface,
         fontWeight = FontWeight.SemiBold

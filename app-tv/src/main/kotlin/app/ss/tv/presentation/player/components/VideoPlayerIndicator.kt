@@ -64,7 +64,7 @@ fun RowScope.VideoPlayerControllerIndicator(
         else MaterialTheme.colorScheme.onSurface
     )
     val animatedIndicatorHeight by animateDpAsState(
-        targetValue = 4.dp.times((if (isFocused) 2.5f else 1f))
+        targetValue = 4.dp.times((if (isFocused) 2.5f else 1f)), label = ""
     )
     var seekProgress by remember { mutableFloatStateOf(0f) }
     val focusManager = LocalFocusManager.current
