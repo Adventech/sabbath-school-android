@@ -111,12 +111,12 @@ class VideoPlayerPresenterTest {
 
             isConnected.update { true }
 
-            val controls = (awaitItem() as State.Playing).controls
+            val state = (awaitItem() as State.Playing)
 
-            controls.onSeek(1000)
+            state.eventSink(Event.OnSeek(1000))
             fakeMediaPlayer.seekTo shouldBeEqualTo 1000
 
-            controls.onPlayPauseToggle()
+            state.eventSink(Event.OnPlayPause)
             fakeMediaPlayer.playPauseInvoked shouldBeEqualTo true
 
             ensureAllEventsConsumed()

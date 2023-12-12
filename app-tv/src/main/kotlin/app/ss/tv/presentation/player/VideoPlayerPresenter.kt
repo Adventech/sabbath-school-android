@@ -85,17 +85,19 @@ class VideoPlayerPresenter @AssistedInject constructor(
                 controls = VideoPlayerControlsSpec(
                     isPlaying = playbackState.isPlaying,
                     isBuffering = playbackState.isBuffering,
-                    onPlayPauseToggle = mediaPlayer::playPause,
-                    onSeek = mediaPlayer::seekTo,
                     progressState = playbackProgress,
                     title = video.title,
                     artist = video.artist
                 )
             ) { event ->
                 when (event) {
-                    is Event.OnPlayerViewCreated -> {
-                        mediaPlayer.playItem(SSMediaItem.Video(video), event.playerView)
-                    }
+                    is Event.OnPlayerViewCreated -> mediaPlayer.playItem(
+                        SSMediaItem.Video(video),
+                        event.playerView,
+                    )
+
+                    Event.OnPlayPause -> mediaPlayer.playPause()
+                    is Event.OnSeek -> mediaPlayer.seekTo(event.position)
                 }
             }
         } else State.Loading

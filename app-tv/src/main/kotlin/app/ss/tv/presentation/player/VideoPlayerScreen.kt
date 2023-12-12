@@ -49,5 +49,7 @@ data class VideoPlayerScreen(
 
     sealed interface Event : CircuitUiEvent {
         data class OnPlayerViewCreated(val playerView: PlayerView) : Event
+        data object OnPlayPause : Event
+        data class OnSeek(val position: Long) : Event
     }
 }

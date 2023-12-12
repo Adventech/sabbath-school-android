@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,12 +37,12 @@ import androidx.tv.material3.Icon
 import androidx.tv.material3.LocalContentColor
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
-import app.ss.tv.R
 import app.ss.tv.presentation.theme.SSTvTheme
+import ss.libraries.media.resources.R as MediaR
 
 @Composable
 fun VideoPlayerControlsIcon(
-    isPlaying: Boolean,
+    painter: Painter,
     contentDescription: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
@@ -59,9 +60,7 @@ fun VideoPlayerControlsIcon(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(8.dp),
-            painter = painterResource(
-                id = if (isPlaying) R.drawable.ic_audio_icon_pause else R.drawable.ic_audio_icon_play
-            ),
+            painter = painter,
             contentDescription = contentDescription,
             tint = LocalContentColor.current
         )
@@ -75,7 +74,7 @@ val ControlsIconSize = 40.dp
 private fun Preview() {
     SSTvTheme {
         VideoPlayerControlsIcon(
-            isPlaying = true,
+            painterResource(id = MediaR.drawable.ic_audio_icon_pause),
             contentDescription = "",
             modifier = Modifier.padding(8.dp)
         )
