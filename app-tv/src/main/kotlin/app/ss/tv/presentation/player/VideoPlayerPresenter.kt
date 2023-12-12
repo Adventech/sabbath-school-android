@@ -38,6 +38,8 @@ import ss.libraries.media.api.SSMediaPlayer
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackState
 import ss.libraries.media.model.SSMediaItem
+import ss.libraries.media.model.extensions.NONE_PLAYING
+import ss.libraries.media.model.extensions.toNowPlaying
 
 class VideoPlayerPresenter @AssistedInject constructor(
     private val ambientModeHelper: AmbientModeHelper,
@@ -64,7 +66,9 @@ class VideoPlayerPresenter @AssistedInject constructor(
             mediaPlayer.playbackProgress
                 .collect { progress -> value = progress }
         }
-        val video = screen.video
+        val nowPlaying by produceRetainedState(initialValue = NONE_PLAYING.toNowPlaying()) {
+            mediaPlayer.nowPlaying.collect { nowPlaying -> value = nowPlaying }
+        }
 
         LaunchedEffect(playbackState.isPlaying) {
             if (playbackState.isPlaying) {
@@ -82,17 +86,17 @@ class VideoPlayerPresenter @AssistedInject constructor(
 
         return if (isConnected) {
             State.Playing(
+                isPlaying = playbackState.isPlaying,
+                isBuffering = playbackState.isBuffering,
                 controls = VideoPlayerControlsSpec(
-                    isPlaying = playbackState.isPlaying,
-                    isBuffering = playbackState.isBuffering,
                     progressState = playbackProgress,
-                    title = video.title,
-                    artist = video.artist
+                    title = nowPlaying.title,
+                    artist = nowPlaying.artist
                 )
             ) { event ->
                 when (event) {
                     is Event.OnPlayerViewCreated -> mediaPlayer.playItem(
-                        SSMediaItem.Video(video),
+                        SSMediaItem.Video(screen.video),
                         event.playerView,
                     )
 

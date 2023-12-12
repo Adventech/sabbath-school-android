@@ -47,8 +47,6 @@ import ss.libraries.media.model.PlaybackProgressState
 
 @Immutable
 data class VideoPlayerControlsSpec(
-    val isPlaying: Boolean,
-    val isBuffering: Boolean,
     val progressState: PlaybackProgressState,
     val title: String,
     val artist: String,
@@ -134,8 +132,6 @@ private fun Preview() {
     SSTvTheme {
         VideoPlayerControls(
             spec = VideoPlayerControlsSpec(
-                isPlaying = true,
-                isBuffering = false,
                 progressState = PlaybackProgressState(
                     elapsed = 5000,
                     total = 85000,
@@ -143,7 +139,7 @@ private fun Preview() {
                 title = "Worshiping the Creator",
                 artist = "Hope Sabbath School"
             ),
-            {}
+            onSeek = {}
         )
     }
 }

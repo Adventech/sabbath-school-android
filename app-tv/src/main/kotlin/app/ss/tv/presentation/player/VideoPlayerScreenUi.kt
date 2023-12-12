@@ -64,6 +64,8 @@ import app.ss.tv.presentation.player.VideoPlayerScreen.State
 import app.ss.tv.presentation.player.components.ControlsIconSize
 import app.ss.tv.presentation.player.components.VideoPlayerControls
 import app.ss.tv.presentation.player.components.VideoPlayerControlsIcon
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import app.ss.translations.R as L10nR
 import ss.libraries.media.resources.R as MediaR
 
@@ -88,7 +90,7 @@ fun VideoPlayerScreenUi(
 @Composable
 private fun BoxScope.PlayingUi(
     state: State.Playing,
-    focusRequesters: List<FocusRequester> = remember { PlayerFocusRequesters },
+    focusRequesters: ImmutableList<FocusRequester> = remember { PlayerFocusRequesters.toImmutableList() },
 ) {
     val context = LocalContext.current
     val videoPlayerState = rememberVideoPlayerState()
@@ -166,8 +168,8 @@ private fun BoxScope.PlayingUi(
     )
 
     PlayPauseButton(
-        isBuffering = state.controls.isBuffering,
-        isPlaying = state.controls.isPlaying,
+        isBuffering = state.isBuffering,
+        isPlaying = state.isPlaying,
         modifier = Modifier
             .align(Alignment.Center)
             .alpha(alpha)

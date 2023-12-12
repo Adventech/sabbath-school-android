@@ -42,6 +42,8 @@ data class VideoPlayerScreen(
 
         @Immutable
         data class Playing(
+            val isPlaying: Boolean,
+            val isBuffering: Boolean,
             val controls: VideoPlayerControlsSpec,
             val eventSink: (Event) -> Unit
         ) : State

@@ -48,6 +48,7 @@ import ss.libraries.media.model.PlaybackSpeed
 import ss.libraries.media.model.PlaybackState
 import ss.libraries.media.model.SSMediaItem
 import ss.libraries.media.model.extensions.NONE_PLAYING
+import ss.libraries.media.model.extensions.toNowPlaying
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -59,7 +60,7 @@ internal class SSMediaPlayerImpl @Inject constructor(
 
     override val isConnected = MutableStateFlow(false)
     override val playbackState = MutableStateFlow(PlaybackState())
-    override val nowPlaying = MutableStateFlow(NONE_PLAYING)
+    override val nowPlaying = MutableStateFlow(NONE_PLAYING.toNowPlaying())
     override val playbackProgress = MutableStateFlow(PlaybackProgressState())
     override val playbackSpeed = MutableStateFlow(PlaybackSpeed.NORMAL)
 
@@ -177,7 +178,7 @@ internal class SSMediaPlayerImpl @Inject constructor(
 
     override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
         super.onMediaMetadataChanged(mediaMetadata)
-        nowPlaying.update { mediaMetadata }
+        nowPlaying.update { mediaMetadata.toNowPlaying() }
     }
 
     override fun onPlayerError(error: PlaybackException) {

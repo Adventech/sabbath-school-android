@@ -25,6 +25,7 @@ package ss.libraries.media.model.extensions
 import android.net.Uri
 import androidx.core.net.toUri
 import androidx.media3.common.MediaMetadata
+import ss.libraries.media.model.NowPlaying
 import java.util.concurrent.TimeUnit
 
 const val KEY_DURATION = "media:key_duration"
@@ -34,6 +35,13 @@ const val KEY_TARGET = "media:target"
 const val KEY_TARGET_INDEX = "media:target_index"
 
 val NONE_PLAYING: MediaMetadata = MediaMetadata.EMPTY
+
+fun MediaMetadata.toNowPlaying() = NowPlaying(
+    id = id,
+    title = title.toString(),
+    artist = artist.toString(),
+    artworkUri = artworkUri,
+)
 
 inline val MediaMetadata.duration: Long get() = extras?.getLong(KEY_DURATION) ?: 0L
 inline val MediaMetadata.id: String get() = extras?.getString(KEY_ID, "") ?: ""
