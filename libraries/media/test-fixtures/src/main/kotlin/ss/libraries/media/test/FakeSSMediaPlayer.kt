@@ -31,8 +31,6 @@ import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackSpeed
 import ss.libraries.media.model.PlaybackState
 import ss.libraries.media.model.SSMediaItem
-import ss.libraries.media.model.extensions.NONE_PLAYING
-import ss.libraries.media.model.extensions.toNowPlaying
 
 /**
  * A fake implementation of [SSMediaPlayer] that can be used for testing.
@@ -42,7 +40,7 @@ class FakeSSMediaPlayer(
     override val playbackProgress: StateFlow<PlaybackProgressState> = MutableStateFlow(PlaybackProgressState()),
     override val playbackSpeed: StateFlow<PlaybackSpeed> = MutableStateFlow(PlaybackSpeed.NORMAL),
     override val isConnected: StateFlow<Boolean> = MutableStateFlow(false),
-    override val nowPlaying: StateFlow<NowPlaying> = MutableStateFlow(NONE_PLAYING.toNowPlaying()),
+    override val nowPlaying: StateFlow<NowPlaying> = MutableStateFlow(NowPlaying.NONE),
 ) : SSMediaPlayer {
 
     var serviceClass: Class<*>? = null

@@ -35,11 +35,10 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import ss.libraries.media.api.SSMediaPlayer
+import ss.libraries.media.model.NowPlaying
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackState
 import ss.libraries.media.model.SSMediaItem
-import ss.libraries.media.model.extensions.NONE_PLAYING
-import ss.libraries.media.model.extensions.toNowPlaying
 
 class VideoPlayerPresenter @AssistedInject constructor(
     private val ambientModeHelper: AmbientModeHelper,
@@ -66,7 +65,7 @@ class VideoPlayerPresenter @AssistedInject constructor(
             mediaPlayer.playbackProgress
                 .collect { progress -> value = progress }
         }
-        val nowPlaying by produceRetainedState(initialValue = NONE_PLAYING.toNowPlaying()) {
+        val nowPlaying by produceRetainedState(initialValue = NowPlaying.NONE) {
             mediaPlayer.nowPlaying.collect { nowPlaying -> value = nowPlaying }
         }
 

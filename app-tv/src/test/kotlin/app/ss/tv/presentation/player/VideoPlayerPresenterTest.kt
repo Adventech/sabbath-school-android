@@ -38,8 +38,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import ss.libraries.media.model.NowPlaying
 import ss.libraries.media.model.SSMediaItem
-import ss.libraries.media.model.extensions.NONE_PLAYING
-import ss.libraries.media.model.extensions.toNowPlaying
 import ss.libraries.media.test.FakeSSMediaPlayer
 
 /** Unit tests for [VideoPlayerPresenter]. */
@@ -48,7 +46,7 @@ class VideoPlayerPresenterTest {
 
     private val appContext: Context = ApplicationProvider.getApplicationContext()
     private val isConnected = MutableStateFlow(false)
-    private val nowPlaying = MutableStateFlow(NONE_PLAYING.toNowPlaying())
+    private val nowPlaying = MutableStateFlow(NowPlaying.NONE)
 
     private val ambientModeHelper = FakeAmbientModeHelper()
     private val fakeMediaPlayer = FakeSSMediaPlayer(

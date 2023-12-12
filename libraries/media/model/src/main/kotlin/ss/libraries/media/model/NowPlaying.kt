@@ -31,4 +31,12 @@ data class NowPlaying(
     val title: String,
     val artist: String,
     var artworkUri: Uri? = null,
-)
+) {
+    companion object {
+        val NONE = NowPlaying(
+            id = "",
+            title = "",
+            artist = "",
+        )
+    }
+}
