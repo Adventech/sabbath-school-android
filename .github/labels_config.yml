@@ -43,9 +43,6 @@ pdf:
 dependencies:
   - changed-files:
       - any-glob-to-any-file: '**/*.toml'
-test:
+tv-app:
   - changed-files:
-      - any-glob-to-any-file: '**/src/test/**'
-gradle:
-  - changed-files:
-      - any-glob-to-any-file: '**/build.gradle.kts'
+      - any-glob-to-any-file: app-tv/*
