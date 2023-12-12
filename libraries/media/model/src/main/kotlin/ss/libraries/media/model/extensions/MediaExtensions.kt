@@ -38,8 +38,8 @@ val NONE_PLAYING: MediaMetadata = MediaMetadata.EMPTY
 
 fun MediaMetadata.toNowPlaying() = NowPlaying(
     id = id,
-    title = title.toString(),
-    artist = artist.toString(),
+    title = "${title ?: ""}",
+    artist = "${artist ?: ""}",
     artworkUri = artworkUri,
 )
 

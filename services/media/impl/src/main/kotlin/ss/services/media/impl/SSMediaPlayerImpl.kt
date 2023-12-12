@@ -195,7 +195,6 @@ internal class SSMediaPlayerImpl @Inject constructor(
         super.onPlaybackStateChanged(state)
         playbackState.update {
             it.copy(
-                isPlaying = state == Player.STATE_READY && mediaController?.isPlaying == true,
                 isBuffering = state == Player.STATE_BUFFERING,
                 hasEnded = state == Player.STATE_ENDED,
             )
@@ -211,6 +210,7 @@ internal class SSMediaPlayerImpl @Inject constructor(
         playbackState.update {
             it.copy(isPlaying = isPlaying)
         }
+        mediaController?.mediaMetadata?.let { onMediaMetadataChanged(it) }
     }
 
     private fun startPlaybackProgress() = launch {
