@@ -36,8 +36,8 @@ val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
 val appVersionCode = readPropertyValue(
     filePath = "build_number.properties",
     key = "BUILD_NUMBER",
-    defaultValue = "21"
-).toInt() + 11000
+    defaultValue = "1"
+).toInt() + 12000
 
 android {
     namespace = "app.ss.tv"
@@ -45,7 +45,7 @@ android {
     defaultConfig {
         applicationId = BuildAndroidConfig.APP_ID
         versionCode = appVersionCode
-        versionName = "0.5.2 - $appVersionCode"
+        versionName = "0.6.0 - $appVersionCode"
         minSdk = 25
     }
 
@@ -109,7 +109,6 @@ dependencies {
     implementation(libs.bundles.compose)
     implementation(libs.bundles.compose.tooling)
     implementation(libs.androidx.core)
-    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.tv.foundation)
     implementation(libs.androidx.tv.material) {
         exclude(group = "androidx.compose.animation", module = "animation")
