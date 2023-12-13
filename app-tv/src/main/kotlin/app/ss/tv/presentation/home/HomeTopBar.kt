@@ -71,7 +71,7 @@ import app.ss.tv.presentation.theme.SSTvTheme
 import app.ss.tv.presentation.theme.SsCardShape
 import app.ss.translations.R as L10nR
 
-val TopBarTabs = Screens.values().toList().filter { it.isTabItem }
+val TopBarTabs = Screens.entries.filter { it.isTabItem }
 
 // +1 for AccountTab
 val TopBarFocusRequesters = List(size = TopBarTabs.size + 1) { FocusRequester() }

@@ -35,6 +35,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import ss.libraries.media.api.SSMediaPlayer
+import ss.libraries.media.model.NowPlaying
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackState
 import ss.libraries.media.model.SSMediaItem
@@ -64,7 +65,9 @@ class VideoPlayerPresenter @AssistedInject constructor(
             mediaPlayer.playbackProgress
                 .collect { progress -> value = progress }
         }
-        val video = screen.video
+        val nowPlaying by produceRetainedState(initialValue = NowPlaying.NONE) {
+            mediaPlayer.nowPlaying.collect { nowPlaying -> value = nowPlaying }
+        }
 
         LaunchedEffect(playbackState.isPlaying) {
             if (playbackState.isPlaying) {
@@ -82,20 +85,22 @@ class VideoPlayerPresenter @AssistedInject constructor(
 
         return if (isConnected) {
             State.Playing(
+                isPlaying = playbackState.isPlaying,
+                isBuffering = playbackState.isBuffering,
                 controls = VideoPlayerControlsSpec(
-                    isPlaying = playbackState.isPlaying,
-                    isBuffering = playbackState.isBuffering,
-                    onPlayPauseToggle = mediaPlayer::playPause,
-                    onSeek = mediaPlayer::seekTo,
                     progressState = playbackProgress,
-                    title = video.title,
-                    artist = video.artist
+                    title = nowPlaying.title,
+                    artist = nowPlaying.artist
                 )
             ) { event ->
                 when (event) {
-                    is Event.OnPlayerViewCreated -> {
-                        mediaPlayer.playItem(SSMediaItem.Video(video), event.playerView)
-                    }
+                    is Event.OnPlayerViewCreated -> mediaPlayer.playItem(
+                        SSMediaItem.Video(screen.video),
+                        event.playerView,
+                    )
+
+                    Event.OnPlayPause -> mediaPlayer.playPause()
+                    is Event.OnSeek -> mediaPlayer.seekTo(event.position)
                 }
             }
         } else State.Loading

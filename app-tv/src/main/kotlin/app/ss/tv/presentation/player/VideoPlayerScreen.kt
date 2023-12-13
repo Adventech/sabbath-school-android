@@ -42,6 +42,8 @@ data class VideoPlayerScreen(
 
         @Immutable
         data class Playing(
+            val isPlaying: Boolean,
+            val isBuffering: Boolean,
             val controls: VideoPlayerControlsSpec,
             val eventSink: (Event) -> Unit
         ) : State
@@ -49,5 +51,7 @@ data class VideoPlayerScreen(
 
     sealed interface Event : CircuitUiEvent {
         data class OnPlayerViewCreated(val playerView: PlayerView) : Event
+        data object OnPlayPause : Event
+        data class OnSeek(val position: Long) : Event
     }
 }

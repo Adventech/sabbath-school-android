@@ -20,35 +20,23 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.media.api
+package ss.libraries.media.model
 
-import androidx.compose.runtime.Stable
-import androidx.media3.ui.PlayerView
-import kotlinx.coroutines.flow.StateFlow
-import ss.libraries.media.model.NowPlaying
-import ss.libraries.media.model.PlaybackProgressState
-import ss.libraries.media.model.PlaybackSpeed
-import ss.libraries.media.model.PlaybackState
-import ss.libraries.media.model.SSMediaItem
+import android.net.Uri
+import androidx.compose.runtime.Immutable
 
-@Stable
-interface SSMediaPlayer {
-    val isConnected: StateFlow<Boolean>
-    val playbackState: StateFlow<PlaybackState>
-    val nowPlaying: StateFlow<NowPlaying>
-    val playbackProgress: StateFlow<PlaybackProgressState>
-    val playbackSpeed: StateFlow<PlaybackSpeed>
-    fun connect(service: Class<*>)
-    fun playItem(mediaItem: SSMediaItem)
-    fun playItem(mediaItem: SSMediaItem, playerView: PlayerView)
-    fun playItems(mediaItems: List<SSMediaItem>, index: Int = 0)
-    fun playPause()
-    fun seekTo(position: Long)
-    fun skipToItem(position: Int)
-    fun fastForward()
-    fun rewind()
-    fun toggleSpeed()
-    fun onPause()
-    fun onResume()
-    fun release()
+@Immutable
+data class NowPlaying(
+    val id: String,
+    val title: String,
+    val artist: String,
+    var artworkUri: Uri? = null,
+) {
+    companion object {
+        val NONE = NowPlaying(
+            id = "",
+            title = "",
+            artist = "",
+        )
+    }
 }

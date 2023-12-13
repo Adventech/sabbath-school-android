@@ -43,11 +43,12 @@ import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.flowInterval
 import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
 import ss.libraries.media.api.SSMediaPlayer
+import ss.libraries.media.model.NowPlaying
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackSpeed
 import ss.libraries.media.model.PlaybackState
 import ss.libraries.media.model.SSMediaItem
-import ss.libraries.media.model.extensions.NONE_PLAYING
+import ss.libraries.media.model.extensions.id
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -59,7 +60,7 @@ internal class SSMediaPlayerImpl @Inject constructor(
 
     override val isConnected = MutableStateFlow(false)
     override val playbackState = MutableStateFlow(PlaybackState())
-    override val nowPlaying = MutableStateFlow(NONE_PLAYING)
+    override val nowPlaying = MutableStateFlow(NowPlaying.NONE)
     override val playbackProgress = MutableStateFlow(PlaybackProgressState())
     override val playbackSpeed = MutableStateFlow(PlaybackSpeed.NORMAL)
 
@@ -168,13 +169,25 @@ internal class SSMediaPlayerImpl @Inject constructor(
     }
 
     override fun release() {
-        mediaController?.release()
+        mediaController?.run {
+            stop()
+            release()
+        }
         mediaController = null
     }
 
     override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
         super.onMediaMetadataChanged(mediaMetadata)
-        nowPlaying.update { mediaMetadata }
+        nowPlaying.update {
+            mediaMetadata.run {
+                NowPlaying(
+                    id = id,
+                    title = "${title ?: ""}",
+                    artist = "${artist ?: ""}",
+                    artworkUri = artworkUri,
+                )
+            }
+        }
     }
 
     override fun onPlayerError(error: PlaybackException) {
@@ -191,7 +204,6 @@ internal class SSMediaPlayerImpl @Inject constructor(
         super.onPlaybackStateChanged(state)
         playbackState.update {
             it.copy(
-                isPlaying = state == Player.STATE_READY && mediaController?.isPlaying == true,
                 isBuffering = state == Player.STATE_BUFFERING,
                 hasEnded = state == Player.STATE_ENDED,
             )
@@ -207,6 +219,7 @@ internal class SSMediaPlayerImpl @Inject constructor(
         playbackState.update {
             it.copy(isPlaying = isPlaying)
         }
+        mediaController?.mediaMetadata?.let { onMediaMetadataChanged(it) }
     }
 
     private fun startPlaybackProgress() = launch {

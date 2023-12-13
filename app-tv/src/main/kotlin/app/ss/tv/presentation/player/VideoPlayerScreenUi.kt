@@ -24,26 +24,57 @@ package app.ss.tv.presentation.player
 
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.annotation.OptIn
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import androidx.tv.material3.MaterialTheme
 import app.ss.tv.presentation.extentions.handleDPadKeyEvents
 import app.ss.tv.presentation.player.VideoPlayerScreen.Event
 import app.ss.tv.presentation.player.VideoPlayerScreen.State
+import app.ss.tv.presentation.player.components.ControlsIconSize
 import app.ss.tv.presentation.player.components.VideoPlayerControls
+import app.ss.tv.presentation.player.components.VideoPlayerControlsIcon
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
+import app.ss.translations.R as L10nR
+import ss.libraries.media.resources.R as MediaR
+
+private val PlayerFocusRequesters = List(3) { FocusRequester() }
 
 @Composable
 fun VideoPlayerScreenUi(
     state: State,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -55,24 +86,43 @@ fun VideoPlayerScreenUi(
     }
 }
 
-@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
+@OptIn(UnstableApi::class)
 @Composable
 private fun BoxScope.PlayingUi(
-    state: State.Playing
+    state: State.Playing,
+    focusRequesters: ImmutableList<FocusRequester> = remember { PlayerFocusRequesters.toImmutableList() },
 ) {
     val context = LocalContext.current
     val videoPlayerState = rememberVideoPlayerState()
+    val focusManager = LocalFocusManager.current
 
     AndroidView(
         modifier = Modifier
             .handleDPadKeyEvents(
                 onEnter = {
-                    if (!videoPlayerState.isDisplayed) {
+                    if (videoPlayerState.isDisplayed) {
+                        state.eventSink(Event.OnPlayPause)
+                    } else {
                         videoPlayerState.showControls()
                     }
-                }
+                },
+                onLeft = {
+                    if (videoPlayerState.isDisplayed) {
+                        focusRequesters[1].requestFocus()
+                    } else {
+                        videoPlayerState.showControls()
+                    }
+                },
+                onRight = {
+                    if (videoPlayerState.isDisplayed) {
+                        focusRequesters[1].requestFocus()
+                    } else {
+                        videoPlayerState.showControls()
+                    }
+                },
             )
-            .focusable(),
+            .focusable()
+            .focusRequester(focusRequesters[0]),
         factory = {
             PlayerView(context).apply {
                 hideController()
@@ -83,9 +133,69 @@ private fun BoxScope.PlayingUi(
         }
     )
 
-    VideoPlayerControls(
-        spec = state.controls,
-        videoPlayerState = videoPlayerState,
-        modifier = Modifier.align(Alignment.BottomCenter),
+    var isFocused by remember { mutableStateOf(false) }
+
+    AnimatedVisibility(
+        modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .focusRequester(focusRequesters[1])
+            .onFocusChanged { isFocused = it.isFocused },
+        visible = videoPlayerState.isDisplayed,
+        enter = slideInVertically { it },
+        exit = slideOutVertically { it },
+    ) {
+        VideoPlayerControls(
+            spec = state.controls,
+            onSeek = { seekProgress ->
+                focusManager.clearFocus(true)
+                state.eventSink(Event.OnSeek(seekProgress))
+            },
+            modifier = Modifier,
+            isFocused = isFocused,
+        )
+    }
+
+    LaunchedEffect(isFocused) {
+        if (isFocused) {
+            videoPlayerState.showControls(indefinite = true)
+        } else {
+            videoPlayerState.showControls()
+        }
+    }
+
+    val alpha by animateFloatAsState(
+        targetValue = if (videoPlayerState.isDisplayed) 1f else 0f, label = "alpha",
     )
+
+    PlayPauseButton(
+        isBuffering = state.isBuffering,
+        isPlaying = state.isPlaying,
+        modifier = Modifier
+            .align(Alignment.Center)
+            .alpha(alpha)
+    )
+}
+
+@Composable
+private fun PlayPauseButton(
+    isBuffering: Boolean,
+    isPlaying: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    if (isBuffering) {
+        CircularProgressIndicator(
+            modifier = modifier
+                .size(ControlsIconSize)
+                .padding(8.dp),
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    } else {
+        VideoPlayerControlsIcon(
+            painter = painterResource(
+                id = if (isPlaying) MediaR.drawable.ic_audio_icon_pause else MediaR.drawable.ic_audio_icon_play
+            ),
+            contentDescription = stringResource(id = L10nR.string.ss_action_play_pause),
+            modifier = modifier,
+        )
+    }
 }

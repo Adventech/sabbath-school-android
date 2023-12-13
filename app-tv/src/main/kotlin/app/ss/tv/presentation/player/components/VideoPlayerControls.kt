@@ -23,46 +23,30 @@
 
 package app.ss.tv.presentation.player.components
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
-import app.ss.tv.presentation.player.VideoPlayerState
-import app.ss.tv.presentation.player.rememberVideoPlayerState
 import app.ss.tv.presentation.theme.SSTvTheme
 import ss.libraries.media.model.PlaybackProgressState
-import app.ss.translations.R as L10nR
 
 @Immutable
 data class VideoPlayerControlsSpec(
-    val isPlaying: Boolean,
-    val isBuffering: Boolean,
-    val onPlayPauseToggle: () -> Unit,
-    val onSeek: (Long) -> Unit,
     val progressState: PlaybackProgressState,
     val title: String,
     val artist: String,
@@ -71,98 +55,71 @@ data class VideoPlayerControlsSpec(
 @Composable
 fun VideoPlayerControls(
     spec: VideoPlayerControlsSpec,
-    videoPlayerState: VideoPlayerState,
-    modifier: Modifier = Modifier
+    onSeek: (Long) -> Unit,
+    modifier: Modifier = Modifier,
+    isFocused: Boolean = false,
 ) {
-    val focusRequester = remember { FocusRequester() }
-
-    LaunchedEffect(videoPlayerState.isDisplayed) {
-        if (videoPlayerState.isDisplayed) {
-            focusRequester.requestFocus()
-        }
-    }
-
-    AnimatedVisibility(
-        modifier = modifier.fillMaxWidth(),
-        visible = videoPlayerState.isDisplayed,
-        enter = slideInVertically { it },
-        exit = slideOutVertically { it }
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.Transparent, Color.Black)
+                )
+            )
+            .padding(horizontal = 56.dp)
+            .padding(
+                bottom = 32.dp,
+                top = 64.dp,
+            )
     ) {
-        Column(
+
+        Text(
+            text = spec.title,
+            style = MaterialTheme.typography.headlineMedium,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 3
+        )
+
+        Text(
+            text = spec.artist,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
+            fontWeight = FontWeight.Light,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
+        )
+
+        Row(
             modifier = Modifier
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(Color.Transparent, Color.Black)
-                    )
-                )
-                .padding(horizontal = 56.dp)
-                .padding(
-                    bottom = 32.dp,
-                    top = 64.dp
-                )
+                .padding(top = 24.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            Text(
-                text = spec.title,
-                style = MaterialTheme.typography.headlineMedium,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 3
-            )
+            val progressState = spec.progressState
+            DurationText(text = progressState.currentDuration)
 
-            Text(
-                text = spec.artist,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
-                fontWeight = FontWeight.Light,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1
-            )
-
-            Row(
-                modifier = Modifier.padding(top = 24.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-
-                AnimatedContent(targetState = spec.isBuffering, label = "play-pause") { isBuffering ->
-                    if (isBuffering) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .focusRequester(focusRequester)
-                                .size(ControlsIconSize)
-                                .padding(8.dp),
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    } else {
-                        VideoPlayerControlsIcon(
-                            isPlaying = spec.isPlaying,
-                            contentDescription = stringResource(id = L10nR.string.ss_action_play_pause),
-                            modifier = Modifier.focusRequester(focusRequester),
-                            onClick = { spec.onPlayPauseToggle() }
-                        )
-                    }
-                }
-
-                val progressState = spec.progressState
-                DurationText(text = progressState.currentDuration)
-
-                VideoPlayerControllerIndicator(
-                    progress = progressState.progress,
-                    videoPlayerState = videoPlayerState,
-                    onSeek = {
-                        spec.onSeek(progressState.total.times(it).toLong())
-                    }
-                )
-
-                DurationText(text = progressState.totalDuration)
+            val onSeekProgress: (Float) -> Unit = remember {
+                { seekProgress -> onSeek(progressState.total.times(seekProgress).toLong()) }
             }
+
+            VideoPlayerControllerIndicator(
+                progress = progressState.progress,
+                isFocused = isFocused,
+                onSeek = onSeekProgress,
+                modifier = Modifier.weight(1f)
+            )
+
+            DurationText(text = progressState.totalDuration)
         }
     }
 }
 
 @Composable
-private fun DurationText(text: String) {
+private fun DurationText(text: String, modifier: Modifier = Modifier) {
     Text(
-        modifier = Modifier.padding(horizontal = 12.dp),
+        modifier = modifier,
         text = text,
         color = MaterialTheme.colorScheme.onSurface,
         fontWeight = FontWeight.SemiBold
@@ -174,11 +131,7 @@ private fun DurationText(text: String) {
 private fun Preview() {
     SSTvTheme {
         VideoPlayerControls(
-            VideoPlayerControlsSpec(
-                isPlaying = true,
-                isBuffering = false,
-                onPlayPauseToggle = {},
-                onSeek = {},
+            spec = VideoPlayerControlsSpec(
                 progressState = PlaybackProgressState(
                     elapsed = 5000,
                     total = 85000,
@@ -186,7 +139,7 @@ private fun Preview() {
                 title = "Worshiping the Creator",
                 artist = "Hope Sabbath School"
             ),
-            videoPlayerState = rememberVideoPlayerState()
+            onSeek = {}
         )
     }
 }

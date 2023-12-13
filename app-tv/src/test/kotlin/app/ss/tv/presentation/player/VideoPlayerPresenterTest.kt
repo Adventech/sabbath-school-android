@@ -36,6 +36,7 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 import org.junit.runner.RunWith
+import ss.libraries.media.model.NowPlaying
 import ss.libraries.media.model.SSMediaItem
 import ss.libraries.media.test.FakeSSMediaPlayer
 
@@ -45,9 +46,13 @@ class VideoPlayerPresenterTest {
 
     private val appContext: Context = ApplicationProvider.getApplicationContext()
     private val isConnected = MutableStateFlow(false)
+    private val nowPlaying = MutableStateFlow(NowPlaying.NONE)
 
     private val ambientModeHelper = FakeAmbientModeHelper()
-    private val fakeMediaPlayer = FakeSSMediaPlayer(isConnected = isConnected)
+    private val fakeMediaPlayer = FakeSSMediaPlayer(
+        isConnected = isConnected,
+        nowPlaying = nowPlaying,
+    )
 
     private val screen = VideoPlayerScreen(ssVideo)
     private val underTest = VideoPlayerPresenter(
@@ -74,10 +79,20 @@ class VideoPlayerPresenterTest {
 
             isConnected.update { true }
 
-            val controls = (awaitItem() as State.Playing).controls
+            val state = (awaitItem() as State.Playing)
 
-            controls.isPlaying shouldBeEqualTo false
-            controls.isBuffering shouldBeEqualTo false
+            state.isPlaying shouldBeEqualTo false
+            state.isBuffering shouldBeEqualTo false
+
+            nowPlaying.update {
+                NowPlaying(
+                    id = "id",
+                    title = ssVideo.title,
+                    artist = ssVideo.artist,
+                )
+            }
+
+            val controls = (awaitItem() as State.Playing).controls
             controls.title shouldBeEqualTo ssVideo.title
             controls.artist shouldBeEqualTo ssVideo.artist
 
@@ -111,12 +126,12 @@ class VideoPlayerPresenterTest {
 
             isConnected.update { true }
 
-            val controls = (awaitItem() as State.Playing).controls
+            val state = (awaitItem() as State.Playing)
 
-            controls.onSeek(1000)
+            state.eventSink(Event.OnSeek(1000))
             fakeMediaPlayer.seekTo shouldBeEqualTo 1000
 
-            controls.onPlayPauseToggle()
+            state.eventSink(Event.OnPlayPause)
             fakeMediaPlayer.playPauseInvoked shouldBeEqualTo true
 
             ensureAllEventsConsumed()
