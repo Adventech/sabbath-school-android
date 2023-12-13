@@ -27,7 +27,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import app.ss.tv.navigator.AndroidSupportingNavigator
 import app.ss.tv.presentation.home.HomeScreen
 import app.ss.tv.presentation.splash.SplashScreen
@@ -51,7 +50,6 @@ class MainActivity : ComponentActivity() {
     lateinit var supportingNavigatorFactory: AndroidSupportingNavigator.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
         super.onCreate(savedInstanceState)
 
         setContent {

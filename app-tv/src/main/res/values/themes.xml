@@ -24,10 +24,4 @@
 
     <style name="Theme.SS" parent="android:Theme.Material.NoActionBar" />
 
-    <style name="Theme.SS.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo_sspm</item>
-        <item name="windowSplashScreenBackground">@color/ss_blue</item>
-        <item name="postSplashScreenTheme">@style/Theme.SS</item>
-    </style>
-
 </resources>
