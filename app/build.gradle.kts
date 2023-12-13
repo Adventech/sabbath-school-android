@@ -33,7 +33,7 @@ plugins {
 
 val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
 val appVersionCode = readPropertyValue(
-    filePath = "build_number.properties",
+    filePath = BuildAndroidConfig.VERSION_PROPS_FILE,
     key = "BUILD_NUMBER",
     defaultValue = "1"
 ).toInt() + 10920
@@ -215,6 +215,7 @@ object BuildAndroidConfig {
     const val APP_ID = "com.cryart.sabbathschool"
     const val KEYSTORE_PROPS_FILE = "../release/keystore.properties"
     const val API_KEYS_PROPS_FILE = "release/ss_public_keys.properties"
+    const val VERSION_PROPS_FILE = "../release/build_number.properties"
 
     object Version {
         private const val MAJOR = 4

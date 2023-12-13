@@ -25,7 +25,7 @@ jobs:
           ENCRYPT_KEY: ${{ secrets.ENCRYPT_KEY }}
 
       - name: Generate build number
-        run: echo "BUILD_NUMBER=${{github.run_number}}" > app/build_number.properties
+        run: echo "BUILD_NUMBER=${{github.run_number}}" > release/build_number.properties
 
       - name: Build Release
         run: ./gradlew app:bundleRelease --stacktrace

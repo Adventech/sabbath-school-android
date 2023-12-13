@@ -31,10 +31,10 @@ jobs:
           ENCRYPT_KEY: ${{ secrets.ENCRYPT_KEY }}
 
       - name: Generate build number
-        run: echo "BUILD_NUMBER=${{github.run_number}}" > app/build_number.properties
+        run: echo "BUILD_NUMBER=${{github.run_number}}" > release/build_number.properties
 
       - name: Build Release
-        run: ./gradlew app:bundleRelease --stacktrace
+        run: ./gradlew app:bundleRelease app-tv:bundleRelease --stacktrace
 
       - name: Publish to Internal track
         uses: r0adkll/upload-google-play@v1.1.2
@@ -46,3 +46,14 @@ jobs:
           whatsNewDirectory: distribution/whatsnew
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           mappingFile: app/build/outputs/mapping/release/mapping.txt
+
+      - name: Publish to TV Internal track
+        uses: r0adkll/upload-google-play@v1.1.2
+        with:
+          serviceAccountJson: release/play-account.json
+          packageName: com.cryart.sabbathschool
+          track: tv:internal
+          status: completed
+          whatsNewDirectory: distribution/whatsnew
+          releaseFiles: app-tv/build/outputs/bundle/release/app-tv-release.aab
+          mappingFile: app-tv/build/outputs/mapping/release/mapping.txt
