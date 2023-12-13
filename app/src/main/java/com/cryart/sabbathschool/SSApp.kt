@@ -43,6 +43,11 @@ class SSApp : Application(), Configuration.Provider {
     @Inject
     lateinit var ssPrefs: SSPrefs
 
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
+
     override fun onCreate() {
         super.onCreate()
 
@@ -51,9 +56,4 @@ class SSApp : Application(), Configuration.Provider {
         workScheduler.preFetchImages(ssPrefs.getLanguageCode())
         workScheduler.syncQuarterlies()
     }
-
-    override fun getWorkManagerConfiguration() =
-        Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
 }
