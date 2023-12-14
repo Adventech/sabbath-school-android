@@ -47,7 +47,7 @@ jvmTarget = "17"
 kotlin = "1.9.21"
 kotlin-coroutines = "1.7.3"
 kotlinx-immutable = "0.3.6"
-ksp = "1.9.21-1.0.15"
+ksp = "1.9.21-1.0.16"
 markwon = "4.6.2"
 material-dialogs = "3.3.0"
 # @keep this version
