@@ -139,7 +139,7 @@ dependencies {
     implementation(projects.common.network)
     implementation(projects.common.prefs.impl)
     implementation(projects.common.runtimePermissions)
-    implementation(projects.common.storage)
+    implementation(projects.libraries.storage)
     implementation(projects.common.translations)
     implementation(projects.features.appWidgets)
     implementation(projects.features.account)

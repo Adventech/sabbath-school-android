@@ -20,24 +20,45 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package app.ss.storage.db
 
-import androidx.annotation.VisibleForTesting
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
-import ss.lessons.model.SSLanguage
-import ss.lessons.model.VideosInfoModel
+import app.ss.models.SSComment
+import org.amshove.kluent.shouldBeEqualTo
+import org.junit.Test
 
-@VisibleForTesting(otherwise = VisibleForTesting.NONE)
-class FakeVideosRepository(
-    private val videosFlow: Flow<Result<List<VideosInfoModel>>> = emptyFlow(),
-    private val languagesFlow: Flow<Result<List<SSLanguage>>> = emptyFlow()
-) : VideosRepository {
+class ConvertersTest {
 
-    // var videosResult: Result<List<VideosInfoModel>> = Result.failure(Throwable("Not implemented"))
-    //  var languagesResult: Result<List<SSLanguage>> = Result.failure(Throwable("Not implemented"))
+    @Test
+    fun jsonToComments() {
+        val json = """
+            [
+                {
+                    "comment": "...",
+                    "elementId": "input-0"
+                }
+            ]
+        """.trimIndent()
+        val comments = Converters.toComments(json)
 
-    override fun getVideos(language: String): Flow<Result<List<VideosInfoModel>>> = videosFlow
+        comments shouldBeEqualTo listOf(SSComment("input-0", "..."))
+    }
 
-    override fun getLanguages(): Flow<Result<List<SSLanguage>>> = languagesFlow
+    @Test
+    fun nullJsonToComments() {
+        val json = null
+        val comments = Converters.toComments(json)
+
+        comments shouldBeEqualTo null
+    }
+
+    @Test
+    fun legacyJsonToComments() {
+        val json = """
+            [{"a":"input-0","b":"Legacy comment"}]
+        """.trimIndent()
+
+        val comments = Converters.toComments(json)
+
+        comments shouldBeEqualTo listOf(SSComment("input-0", "Legacy comment"))
+    }
 }

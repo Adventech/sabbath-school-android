@@ -44,7 +44,7 @@ dependencies {
     implementation(projects.common.misc)
     implementation(projects.common.network)
     implementation(projects.common.prefs.api)
-    implementation(projects.common.storage)
+    implementation(projects.libraries.storage)
     implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)

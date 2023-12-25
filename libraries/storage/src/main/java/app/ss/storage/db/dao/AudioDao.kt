@@ -20,24 +20,24 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package app.ss.storage.db.dao
 
-import androidx.annotation.VisibleForTesting
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
-import ss.lessons.model.SSLanguage
-import ss.lessons.model.VideosInfoModel
+import androidx.room.Dao
+import androidx.room.Query
+import app.ss.storage.db.entity.AudioFileEntity
 
-@VisibleForTesting(otherwise = VisibleForTesting.NONE)
-class FakeVideosRepository(
-    private val videosFlow: Flow<Result<List<VideosInfoModel>>> = emptyFlow(),
-    private val languagesFlow: Flow<Result<List<SSLanguage>>> = emptyFlow()
-) : VideosRepository {
+@Dao
+interface AudioDao : BaseDao<AudioFileEntity> {
 
-    // var videosResult: Result<List<VideosInfoModel>> = Result.failure(Throwable("Not implemented"))
-    //  var languagesResult: Result<List<SSLanguage>> = Result.failure(Throwable("Not implemented"))
+    @Query("SELECT * FROM audios WHERE id = :id")
+    fun findBy(id: String): AudioFileEntity?
 
-    override fun getVideos(language: String): Flow<Result<List<VideosInfoModel>>> = videosFlow
+    @Query("SELECT * FROM audios WHERE targetIndex LIKE :index ORDER BY targetIndex")
+    fun getBy(index: String): List<AudioFileEntity>
 
-    override fun getLanguages(): Flow<Result<List<SSLanguage>>> = languagesFlow
+    @Query("UPDATE audios SET duration = :duration WHERE id = :forId")
+    fun update(duration: Long, forId: String)
+
+    @Query("DELETE FROM audios WHERE targetIndex LIKE :index")
+    suspend fun delete(index: String)
 }

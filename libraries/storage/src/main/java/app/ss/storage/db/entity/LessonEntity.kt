@@ -20,24 +20,25 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package app.ss.storage.db.entity
 
-import androidx.annotation.VisibleForTesting
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
-import ss.lessons.model.SSLanguage
-import ss.lessons.model.VideosInfoModel
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import app.ss.models.LessonPdf
+import app.ss.models.SSDay
 
-@VisibleForTesting(otherwise = VisibleForTesting.NONE)
-class FakeVideosRepository(
-    private val videosFlow: Flow<Result<List<VideosInfoModel>>> = emptyFlow(),
-    private val languagesFlow: Flow<Result<List<SSLanguage>>> = emptyFlow()
-) : VideosRepository {
-
-    // var videosResult: Result<List<VideosInfoModel>> = Result.failure(Throwable("Not implemented"))
-    //  var languagesResult: Result<List<SSLanguage>> = Result.failure(Throwable("Not implemented"))
-
-    override fun getVideos(language: String): Flow<Result<List<VideosInfoModel>>> = videosFlow
-
-    override fun getLanguages(): Flow<Result<List<SSLanguage>>> = languagesFlow
-}
+@Entity(tableName = "lessons")
+data class LessonEntity(
+    @PrimaryKey val index: String,
+    val quarter: String,
+    val title: String,
+    val start_date: String,
+    val end_date: String,
+    val cover: String,
+    val id: String,
+    val path: String,
+    val full_path: String,
+    val pdfOnly: Boolean,
+    val days: List<SSDay> = emptyList(),
+    val pdfs: List<LessonPdf> = emptyList()
+)

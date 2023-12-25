@@ -20,24 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package app.ss.storage.db.entity
 
-import androidx.annotation.VisibleForTesting
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
-import ss.lessons.model.SSLanguage
-import ss.lessons.model.VideosInfoModel
+import androidx.room.Embedded
+import androidx.room.Relation
 
-@VisibleForTesting(otherwise = VisibleForTesting.NONE)
-class FakeVideosRepository(
-    private val videosFlow: Flow<Result<List<VideosInfoModel>>> = emptyFlow(),
-    private val languagesFlow: Flow<Result<List<SSLanguage>>> = emptyFlow()
-) : VideosRepository {
+data class QuarterlyInfoEntity(
+    @Embedded
+    val quarterly: QuarterlyEntity,
 
-    // var videosResult: Result<List<VideosInfoModel>> = Result.failure(Throwable("Not implemented"))
-    //  var languagesResult: Result<List<SSLanguage>> = Result.failure(Throwable("Not implemented"))
-
-    override fun getVideos(language: String): Flow<Result<List<VideosInfoModel>>> = videosFlow
-
-    override fun getLanguages(): Flow<Result<List<SSLanguage>>> = languagesFlow
-}
+    @Relation(
+        parentColumn = "index",
+        entityColumn = "quarter"
+    )
+    val lessons: List<LessonEntity>
+)

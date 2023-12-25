@@ -95,6 +95,7 @@ slack {
 
 dependencies {
     implementation(projects.common.prefs.impl)
+    implementation(projects.libraries.storage)
     implementation(projects.common.translations)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)

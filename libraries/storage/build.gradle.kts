@@ -21,43 +21,33 @@
  */
 
 plugins {
-    alias(libs.plugins.sgp.base)
     alias(libs.plugins.ksp)
-    id("com.android.library")
+    alias(libs.plugins.sgp.base)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     id("dagger.hilt.android.plugin")
-    id("kotlin-parcelize")
-    kotlin("android")
 }
 
 android {
-    namespace = "app.ss.auth"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
+    namespace = "app.ss.storage"
 }
 
+ksp { arg("room.schemaLocation", "$projectDir/schemas") }
+
 dependencies {
-    implementation(projects.common.models)
-    implementation(projects.common.misc)
-    implementation(projects.common.network)
-    implementation(projects.libraries.storage)
-    implementation(projects.libraries.foundation.android)
-    implementation(projects.libraries.foundation.coroutines)
+    api(projects.common.models)
 
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
-    implementation(libs.timber)
+
+    implementation(libs.androidx.room)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
 
     implementation(libs.square.moshi.kotlin)
     ksp(libs.square.moshi.codegen)
-    compileOnly(libs.javax.annotation)
 
-    implementation(libs.square.retrofit.converter.moshi)
-    implementation(libs.square.retrofit)
-    implementation(libs.square.okhttp)
+    implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
-    testImplementation(projects.libraries.foundation.coroutines.test)
-    testImplementation(projects.libraries.testUtils)
 }

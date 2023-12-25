@@ -36,7 +36,7 @@ dependencies {
     implementation(projects.common.misc)
     implementation(projects.common.network)
     implementation(projects.common.prefs.api)
-    implementation(projects.common.storage)
+    implementation(projects.libraries.storage)
     implementation(projects.libraries.foundation.android)
 
     implementation(libs.google.hilt.android)
@@ -52,7 +52,7 @@ dependencies {
     implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
-    testImplementation(projects.common.storage.test)
+    testImplementation(projects.libraries.storage.test)
     testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.lessons.test)
     testImplementation(projects.libraries.testUtils)

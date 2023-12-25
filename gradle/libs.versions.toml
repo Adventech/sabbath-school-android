@@ -10,9 +10,6 @@ androidx-compose-material3 = "1.1.2"
 androidx-constraintlayout = "2.1.4"
 androidx-core = "1.12.0"
 androidx-core-splashscreen = "1.0.1"
-# @keep this version
-androidx-customview = "1.2.0-alpha02"
-androidx-customview-container = "1.0.0"
 androidx-datastore-prefs = "1.0.0"
 androidx-fragment = "1.6.2"
 androidx-glance = "1.0.0"
@@ -99,8 +96,6 @@ androidx-compose-windowSizeClass = { module = "androidx.compose.material3:materi
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx-core-splashscreen" }
-androidx-customview = { module = "androidx.customview:customview", version.ref = "androidx-customview" }
-androidx-customview-container = { module = "androidx.customview:customview-poolingcontainer", version.ref = "androidx-customview-container" }
 androidx-datastore-prefs = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore-prefs" }
 androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
 androidx-glance = { module = "androidx.glance:glance", version.ref = "androidx-glance" }

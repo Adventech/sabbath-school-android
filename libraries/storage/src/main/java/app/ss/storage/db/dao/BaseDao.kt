@@ -20,24 +20,20 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package app.ss.storage.db.dao
 
-import androidx.annotation.VisibleForTesting
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
-import ss.lessons.model.SSLanguage
-import ss.lessons.model.VideosInfoModel
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Update
 
-@VisibleForTesting(otherwise = VisibleForTesting.NONE)
-class FakeVideosRepository(
-    private val videosFlow: Flow<Result<List<VideosInfoModel>>> = emptyFlow(),
-    private val languagesFlow: Flow<Result<List<SSLanguage>>> = emptyFlow()
-) : VideosRepository {
+interface BaseDao<in T> {
 
-    // var videosResult: Result<List<VideosInfoModel>> = Result.failure(Throwable("Not implemented"))
-    //  var languagesResult: Result<List<SSLanguage>> = Result.failure(Throwable("Not implemented"))
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertItem(item: T)
 
-    override fun getVideos(language: String): Flow<Result<List<VideosInfoModel>>> = videosFlow
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(items: List<T>)
 
-    override fun getLanguages(): Flow<Result<List<SSLanguage>>> = languagesFlow
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(item: T)
 }

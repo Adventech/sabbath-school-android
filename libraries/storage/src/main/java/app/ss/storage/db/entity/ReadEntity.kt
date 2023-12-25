@@ -20,24 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package app.ss.storage.db.entity
 
-import androidx.annotation.VisibleForTesting
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
-import ss.lessons.model.SSLanguage
-import ss.lessons.model.VideosInfoModel
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import app.ss.models.SSBibleVerses
 
-@VisibleForTesting(otherwise = VisibleForTesting.NONE)
-class FakeVideosRepository(
-    private val videosFlow: Flow<Result<List<VideosInfoModel>>> = emptyFlow(),
-    private val languagesFlow: Flow<Result<List<SSLanguage>>> = emptyFlow()
-) : VideosRepository {
-
-    // var videosResult: Result<List<VideosInfoModel>> = Result.failure(Throwable("Not implemented"))
-    //  var languagesResult: Result<List<SSLanguage>> = Result.failure(Throwable("Not implemented"))
-
-    override fun getVideos(language: String): Flow<Result<List<VideosInfoModel>>> = videosFlow
-
-    override fun getLanguages(): Flow<Result<List<SSLanguage>>> = languagesFlow
-}
+@Entity(tableName = "reads")
+data class ReadEntity(
+    @PrimaryKey val index: String,
+    val id: String,
+    val date: String,
+    val title: String,
+    val content: String,
+    val bible: List<SSBibleVerses>
+)
