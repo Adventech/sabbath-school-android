@@ -20,14 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package app.ss.storage.db.entity
 
-import kotlinx.coroutines.flow.Flow
-import ss.lessons.model.SSLanguage
-import ss.lessons.model.VideosInfoModel
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-interface VideosRepository {
-    fun getVideos(language: String = "en"): Flow<Result<List<VideosInfoModel>>>
-
-    fun getLanguages(): Flow<Result<List<SSLanguage>>>
-}
+@Entity(tableName = "video_clips")
+data class VideoClipEntity(
+    @PrimaryKey val id: String,
+    val artist: String,
+    val src: String,
+    val target: String,
+    val targetIndex: String,
+    val thumbnail: String,
+    val title: String
+)

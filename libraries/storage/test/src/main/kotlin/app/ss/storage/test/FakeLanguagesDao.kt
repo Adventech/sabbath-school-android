@@ -20,14 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package app.ss.storage.test
 
-import kotlinx.coroutines.flow.Flow
-import ss.lessons.model.SSLanguage
-import ss.lessons.model.VideosInfoModel
-
-interface VideosRepository {
-    fun getVideos(language: String = "en"): Flow<Result<List<VideosInfoModel>>>
-
-    fun getLanguages(): Flow<Result<List<SSLanguage>>>
+class FakeLanguagesDao : LanguagesDao {
 }

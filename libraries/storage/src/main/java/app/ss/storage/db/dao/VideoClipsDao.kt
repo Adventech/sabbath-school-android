@@ -20,14 +20,15 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.data.repository
+package app.ss.storage.db.dao
 
-import kotlinx.coroutines.flow.Flow
-import ss.lessons.model.SSLanguage
-import ss.lessons.model.VideosInfoModel
+import androidx.room.Dao
+import androidx.room.Query
+import app.ss.storage.db.entity.VideoClipEntity
 
-interface VideosRepository {
-    fun getVideos(language: String = "en"): Flow<Result<List<VideosInfoModel>>>
+@Dao
+interface VideoClipsDao : BaseDao<VideoClipEntity> {
 
-    fun getLanguages(): Flow<Result<List<SSLanguage>>>
+    @Query("SELECT * FROM video_clips WHERE title LIKE '%' || :query || '%' OR artist LIKE '%' || :query || '%'")
+    fun search(query: String): List<VideoClipEntity>
 }

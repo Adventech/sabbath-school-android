@@ -22,6 +22,18 @@
 
 package app.ss.tv.data.repository
 
+import app.ss.models.media.SSVideo
+import app.ss.storage.db.dao.LanguagesDao
+import app.ss.storage.db.dao.VideoClipsDao
+import app.ss.storage.db.dao.VideoInfoDao
+import app.ss.storage.db.entity.LanguageEntity
+import app.ss.storage.db.entity.VideoClipEntity
+import app.ss.storage.db.entity.VideoInfoEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.SSMediaApi
@@ -35,44 +47,53 @@ import javax.inject.Singleton
 @Singleton
 class VideosRepositoryImpl @Inject constructor(
     private val mediaApi: SSMediaApi,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val languagesDao: LanguagesDao,
+    private val videoClipsDao: VideoClipsDao,
+    private val videoInfoDao: VideoInfoDao,
 ) : VideosRepository {
 
-    private var videoCache: MutableMap<String, List<VideosInfoModel>> = mutableMapOf()
-    private var languagesCache: List<SSLanguage> = emptyList()
+    override fun getVideos(language: String): Flow<Result<List<VideosInfoModel>>> = videoInfoDao
+        .getAsFlow(language)
+        .map { entities -> Result.success(entities.map { it.toModel() }) }
+        .flowOn(dispatcherProvider.io)
+        .catch { emit(Result.failure(it)) }
+        .onStart { loadVideos(language) }
 
-    override suspend fun getVideos(language: String): Result<List<VideosInfoModel>> = withContext(dispatcherProvider.default) {
-        return@withContext videoCache[language]?.let { Result.success(it) } ?: run {
-            try {
-                val response = mediaApi.getLatestVideo(language)
-                val videos = response.body() ?: emptyList()
-                if (videos.isNotEmpty()) {
-                    videoCache[language] = videos
+    private suspend fun loadVideos(language: String) = withContext(dispatcherProvider.default) {
+        try {
+            val response = mediaApi.getLatestVideo(language)
+            val videos = response.body() ?: emptyList()
+            if (videos.isNotEmpty()) {
+                val entities = videos.map { it.toEntity(language) }
+                withContext(dispatcherProvider.io) {
+                    videoInfoDao.insertAll(entities)
+                    videoClipsDao.insertAll(videos.flatMap { model -> model.clips.map { it.toEntity() } })
                 }
-
-                Result.success(videos)
-            } catch (throwable: Throwable) {
-                Timber.e(throwable)
-                Result.failure(throwable)
             }
+        } catch (throwable: Throwable) {
+            Timber.e(throwable)
         }
     }
 
-    override suspend fun getLanguages(): Result<List<SSLanguage>> = withContext(dispatcherProvider.default) {
-        return@withContext languagesCache.takeIf { it.isNotEmpty() }?.let {
-            Result.success(it)
-        } ?: run {
-            try {
-                val response = mediaApi.getVideoLanguages()
-                val languages = response.body()?.toModel() ?: emptyList()
-                if (languages.isNotEmpty()) {
-                    languagesCache = languages
+    override fun getLanguages(): Flow<Result<List<SSLanguage>>> = languagesDao
+        .getAsFlow()
+        .map { entities -> Result.success(entities.map { SSLanguage(it.code, it.name) }) }
+        .flowOn(dispatcherProvider.io)
+        .catch { emit(Result.failure(it)) }
+        .onStart { loadLanguages() }
+
+    private suspend fun loadLanguages() = withContext(dispatcherProvider.default) {
+        try {
+            val response = mediaApi.getVideoLanguages()
+            val languages = response.body()?.toModel() ?: emptyList()
+            if (languages.isNotEmpty()) {
+                withContext(dispatcherProvider.io) {
+                    languagesDao.insertAll(languages.map { LanguageEntity(it.code, it.name, it.name) })
                 }
-                Result.success(languages)
-            } catch (throwable: Throwable) {
-                Timber.e(throwable)
-                Result.failure(throwable)
             }
+        } catch (throwable: Throwable) {
+            Timber.e(throwable)
         }
     }
 
@@ -87,3 +108,25 @@ class VideosRepositoryImpl @Inject constructor(
         }
     }
 }
+
+private fun VideosInfoModel.toEntity(language: String): VideoInfoEntity = VideoInfoEntity(
+    id = "$language-$artist",
+    artist = artist,
+    clips = clips,
+    lessonIndex = language
+)
+
+private fun VideoInfoEntity.toModel(): VideosInfoModel = VideosInfoModel(
+    artist = artist,
+    clips = clips,
+)
+
+private fun SSVideo.toEntity() = VideoClipEntity(
+    id = id,
+    artist = artist,
+    src = src,
+    target = target,
+    targetIndex = targetIndex,
+    thumbnail = thumbnail,
+    title = title,
+)
