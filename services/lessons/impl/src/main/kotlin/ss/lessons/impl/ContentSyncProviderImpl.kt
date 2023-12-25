@@ -24,11 +24,6 @@ package ss.lessons.impl
 
 import app.ss.models.OfflineState
 import app.ss.models.SSLessonInfo
-import app.ss.storage.db.dao.LessonsDao
-import app.ss.storage.db.dao.QuarterliesDao
-import app.ss.storage.db.dao.ReadsDao
-import app.ss.storage.db.entity.LessonEntity
-import app.ss.storage.db.entity.QuarterlyEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
@@ -38,6 +33,11 @@ import ss.lessons.api.PdfReader
 import ss.lessons.api.SSLessonsApi
 import ss.lessons.impl.ext.toEntity
 import ss.lessons.impl.helper.SyncHelper
+import ss.libraries.storage.api.dao.LessonsDao
+import ss.libraries.storage.api.dao.QuarterliesDao
+import ss.libraries.storage.api.dao.ReadsDao
+import ss.libraries.storage.api.entity.LessonEntity
+import ss.libraries.storage.api.entity.QuarterlyEntity
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton

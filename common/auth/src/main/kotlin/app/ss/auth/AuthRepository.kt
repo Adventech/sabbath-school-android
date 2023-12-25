@@ -29,7 +29,6 @@ import app.ss.auth.api.toEntity
 import app.ss.auth.api.toModel
 import app.ss.models.auth.SSUser
 import app.ss.network.safeApiCall
-import app.ss.storage.db.dao.UserDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -37,6 +36,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Response
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
+import ss.libraries.storage.api.dao.UserDao
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton

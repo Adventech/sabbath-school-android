@@ -29,12 +29,6 @@ import app.ss.models.PdfAnnotations
 import app.ss.models.SSComment
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
-import app.ss.storage.db.dao.PdfAnnotationsDao
-import app.ss.storage.db.dao.ReadCommentsDao
-import app.ss.storage.db.dao.ReadHighlightsDao
-import app.ss.storage.db.entity.PdfAnnotationsEntity
-import app.ss.storage.db.entity.ReadCommentsEntity
-import app.ss.storage.db.entity.ReadHighlightsEntity
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -53,6 +47,12 @@ import ss.lessons.api.SSLessonsApi
 import ss.lessons.model.ReadComments
 import ss.lessons.model.ReadHighlights
 import ss.lessons.model.request.UploadPdfAnnotationsRequest
+import ss.libraries.storage.api.dao.PdfAnnotationsDao
+import ss.libraries.storage.api.dao.ReadCommentsDao
+import ss.libraries.storage.api.dao.ReadHighlightsDao
+import ss.libraries.storage.api.entity.PdfAnnotationsEntity
+import ss.libraries.storage.api.entity.ReadCommentsEntity
+import ss.libraries.storage.api.entity.ReadHighlightsEntity
 import ss.misc.DeviceHelper
 import ss.prefs.api.SSPrefs
 

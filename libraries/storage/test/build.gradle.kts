@@ -29,5 +29,5 @@ plugins {
 dependencies {
     implementation(libs.androidx.annotations)
     implementation(libs.kotlin.coroutines)
-    implementation(projects.libraries.storage)
+    implementation(projects.libraries.storage.api)
 }

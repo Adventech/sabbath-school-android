@@ -25,13 +25,13 @@ package app.ss.storage.test
 import androidx.annotation.VisibleForTesting
 import app.ss.models.LessonPdf
 import app.ss.models.SSDay
-import app.ss.storage.db.dao.LessonsDao
-import app.ss.storage.db.entity.LessonEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import ss.libraries.storage.api.dao.LessonsDao
+import ss.libraries.storage.api.entity.LessonEntity
 
 /** Fake implementation of [LessonsDao] for use in tests. */
 @VisibleForTesting

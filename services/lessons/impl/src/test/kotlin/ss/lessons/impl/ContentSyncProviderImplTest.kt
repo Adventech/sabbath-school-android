@@ -26,10 +26,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.models.LessonPdf
 import app.ss.models.OfflineState
 import app.ss.models.SSDay
-import app.ss.storage.db.entity.LessonEntity
-import app.ss.storage.db.entity.QuarterlyEntity
 import app.ss.storage.db.entity.QuarterlyInfoEntity
-import app.ss.storage.db.entity.ReadEntity
 import app.ss.storage.test.FakeLessonsDao
 import app.ss.storage.test.FakeQuarterliesDao
 import app.ss.storage.test.FakeReadsDao
@@ -41,6 +38,9 @@ import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.lessons.impl.helper.FakeSyncHelper
 import ss.lessons.test.FakeLessonsApi
 import ss.lessons.test.FakePdfReader
+import ss.libraries.storage.api.entity.LessonEntity
+import ss.libraries.storage.api.entity.QuarterlyEntity
+import ss.libraries.storage.api.entity.ReadEntity
 
 @RunWith(AndroidJUnit4::class)
 class ContentSyncProviderImplTest {

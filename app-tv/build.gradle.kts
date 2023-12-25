@@ -95,7 +95,6 @@ slack {
 
 dependencies {
     implementation(projects.common.prefs.impl)
-    implementation(projects.libraries.storage)
     implementation(projects.common.translations)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
@@ -104,6 +103,7 @@ dependencies {
     implementation(projects.libraries.media.service)
     implementation(projects.services.lessons.impl)
     implementation(projects.services.media.impl)
+    implementation(projects.services.storage.impl)
 
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))

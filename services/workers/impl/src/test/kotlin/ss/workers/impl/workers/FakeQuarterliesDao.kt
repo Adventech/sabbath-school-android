@@ -23,9 +23,9 @@
 package ss.workers.impl.workers
 
 import app.ss.models.QuarterlyGroup
-import app.ss.storage.db.dao.QuarterliesDao
-import app.ss.storage.db.entity.QuarterlyEntity
 import app.ss.storage.db.entity.QuarterlyInfoEntity
+import ss.libraries.storage.api.dao.QuarterliesDao
+import ss.libraries.storage.api.entity.QuarterlyEntity
 
 /** Fake implementation of [QuarterliesDao] for use in tests. */
 class FakeQuarterliesDao(private val covers: List<String> = emptyList()): QuarterliesDao {

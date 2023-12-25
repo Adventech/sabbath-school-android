@@ -24,24 +24,24 @@ package app.ss.storage.di
 
 import android.content.Context
 import app.ss.storage.db.SabbathSchoolDatabase
-import app.ss.storage.db.dao.AudioDao
-import app.ss.storage.db.dao.BibleVersionDao
-import app.ss.storage.db.dao.LanguagesDao
-import app.ss.storage.db.dao.LessonsDao
-import app.ss.storage.db.dao.PdfAnnotationsDao
-import app.ss.storage.db.dao.PublishingInfoDao
-import app.ss.storage.db.dao.QuarterliesDao
-import app.ss.storage.db.dao.ReadCommentsDao
-import app.ss.storage.db.dao.ReadHighlightsDao
-import app.ss.storage.db.dao.ReadsDao
-import app.ss.storage.db.dao.UserDao
-import app.ss.storage.db.dao.VideoClipsDao
-import app.ss.storage.db.dao.VideoInfoDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ss.libraries.storage.api.dao.AudioDao
+import ss.libraries.storage.api.dao.BibleVersionDao
+import ss.libraries.storage.api.dao.LanguagesDao
+import ss.libraries.storage.api.dao.LessonsDao
+import ss.libraries.storage.api.dao.PdfAnnotationsDao
+import ss.libraries.storage.api.dao.PublishingInfoDao
+import ss.libraries.storage.api.dao.QuarterliesDao
+import ss.libraries.storage.api.dao.ReadCommentsDao
+import ss.libraries.storage.api.dao.ReadHighlightsDao
+import ss.libraries.storage.api.dao.ReadsDao
+import ss.libraries.storage.api.dao.UserDao
+import ss.libraries.storage.api.dao.VideoClipsDao
+import ss.libraries.storage.api.dao.VideoInfoDao
 import javax.inject.Singleton
 
 @Module

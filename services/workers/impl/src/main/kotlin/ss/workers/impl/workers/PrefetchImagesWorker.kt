@@ -26,7 +26,6 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import app.ss.storage.db.dao.QuarterliesDao
 import coil.imageLoader
 import coil.request.CachePolicy
 import coil.request.ImageRequest
@@ -34,6 +33,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ss.libraries.storage.api.dao.QuarterliesDao
 import timber.log.Timber
 
 @HiltWorker

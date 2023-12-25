@@ -26,10 +26,6 @@ import app.ss.models.OfflineState
 import app.ss.models.SSQuarterlyInfo
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
-import app.ss.storage.db.dao.LessonsDao
-import app.ss.storage.db.dao.PublishingInfoDao
-import app.ss.storage.db.dao.QuarterliesDao
-import app.ss.storage.db.entity.PublishingInfoEntity
 import kotlinx.coroutines.launch
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
@@ -38,6 +34,10 @@ import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.SSQuarterliesApi
 import ss.lessons.impl.ext.toEntity
 import ss.lessons.model.request.PublishingInfoRequest
+import ss.libraries.storage.api.dao.LessonsDao
+import ss.libraries.storage.api.dao.PublishingInfoDao
+import ss.libraries.storage.api.dao.QuarterliesDao
+import ss.libraries.storage.api.entity.PublishingInfoEntity
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton

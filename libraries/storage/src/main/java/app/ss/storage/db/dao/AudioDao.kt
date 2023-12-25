@@ -24,7 +24,7 @@ package app.ss.storage.db.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import app.ss.storage.db.entity.AudioFileEntity
+import ss.libraries.storage.api.entity.AudioFileEntity
 
 @Dao
 interface AudioDao : BaseDao<AudioFileEntity> {

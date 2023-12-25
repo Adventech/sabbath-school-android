@@ -27,9 +27,9 @@ import androidx.room.Query
 import androidx.room.Transaction
 import app.ss.models.OfflineState
 import app.ss.models.QuarterlyGroup
-import app.ss.storage.db.entity.QuarterlyEntity
 import app.ss.storage.db.entity.QuarterlyInfoEntity
 import kotlinx.coroutines.flow.Flow
+import ss.libraries.storage.api.entity.QuarterlyEntity
 
 @Dao
 interface QuarterliesDao : BaseDao<QuarterlyEntity> {

@@ -26,8 +26,8 @@ import androidx.room.Dao
 import androidx.room.Query
 import app.ss.models.LessonPdf
 import app.ss.models.SSDay
-import app.ss.storage.db.entity.LessonEntity
 import kotlinx.coroutines.flow.Flow
+import ss.libraries.storage.api.entity.LessonEntity
 
 @Dao
 interface LessonsDao : BaseDao<LessonEntity> {

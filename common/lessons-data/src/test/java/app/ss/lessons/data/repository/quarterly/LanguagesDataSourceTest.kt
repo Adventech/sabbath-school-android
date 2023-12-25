@@ -22,7 +22,6 @@
 
 package app.ss.lessons.data.repository.quarterly
 
-import app.ss.storage.db.dao.LanguagesDao
 import io.mockk.every
 import io.mockk.mockk
 import org.amshove.kluent.shouldBeEqualTo
@@ -31,6 +30,7 @@ import org.junit.Test
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.lessons.api.SSQuarterliesApi
+import ss.libraries.storage.api.dao.LanguagesDao
 
 class LanguagesDataSourceTest {
 

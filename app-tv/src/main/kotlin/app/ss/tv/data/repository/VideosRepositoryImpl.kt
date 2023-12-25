@@ -23,12 +23,6 @@
 package app.ss.tv.data.repository
 
 import app.ss.models.media.SSVideo
-import app.ss.storage.db.dao.LanguagesDao
-import app.ss.storage.db.dao.VideoClipsDao
-import app.ss.storage.db.dao.VideoInfoDao
-import app.ss.storage.db.entity.LanguageEntity
-import app.ss.storage.db.entity.VideoClipEntity
-import app.ss.storage.db.entity.VideoInfoEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
@@ -39,6 +33,12 @@ import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.SSMediaApi
 import ss.lessons.model.SSLanguage
 import ss.lessons.model.VideosInfoModel
+import ss.libraries.storage.api.dao.LanguagesDao
+import ss.libraries.storage.api.dao.VideoClipsDao
+import ss.libraries.storage.api.dao.VideoInfoDao
+import ss.libraries.storage.api.entity.LanguageEntity
+import ss.libraries.storage.api.entity.VideoClipEntity
+import ss.libraries.storage.api.entity.VideoInfoEntity
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject

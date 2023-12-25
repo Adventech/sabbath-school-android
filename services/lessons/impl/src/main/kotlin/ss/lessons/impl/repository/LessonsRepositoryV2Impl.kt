@@ -29,8 +29,6 @@ import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
-import app.ss.storage.db.dao.LessonsDao
-import app.ss.storage.db.dao.ReadsDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -56,6 +54,8 @@ import ss.lessons.impl.ext.toEntity
 import ss.lessons.impl.ext.toInfoModel
 import ss.lessons.impl.ext.toModel
 import ss.lessons.model.result.LessonReads
+import ss.libraries.storage.api.dao.LessonsDao
+import ss.libraries.storage.api.dao.ReadsDao
 import ss.misc.DateHelper
 import timber.log.Timber
 import javax.inject.Inject

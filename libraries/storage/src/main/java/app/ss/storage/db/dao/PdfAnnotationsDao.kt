@@ -24,8 +24,8 @@ package app.ss.storage.db.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import app.ss.storage.db.entity.PdfAnnotationsEntity
 import kotlinx.coroutines.flow.Flow
+import ss.libraries.storage.api.entity.PdfAnnotationsEntity
 
 @Dao
 interface PdfAnnotationsDao : BaseDao<PdfAnnotationsEntity> {

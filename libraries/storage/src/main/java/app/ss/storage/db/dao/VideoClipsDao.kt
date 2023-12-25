@@ -24,7 +24,7 @@ package app.ss.storage.db.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import app.ss.storage.db.entity.VideoClipEntity
+import ss.libraries.storage.api.entity.VideoClipEntity
 
 @Dao
 interface VideoClipsDao : BaseDao<VideoClipEntity> {

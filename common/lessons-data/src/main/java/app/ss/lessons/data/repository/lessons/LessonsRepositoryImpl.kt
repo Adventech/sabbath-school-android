@@ -31,13 +31,13 @@ import app.ss.models.SSRead
 import app.ss.models.TodayData
 import app.ss.models.WeekData
 import app.ss.models.WeekDay
-import app.ss.storage.db.dao.BibleVersionDao
-import app.ss.storage.db.dao.QuarterliesDao
-import app.ss.storage.db.entity.BibleVersionEntity
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import ss.foundation.coroutines.DispatcherProvider
+import ss.libraries.storage.api.dao.BibleVersionDao
+import ss.libraries.storage.api.dao.QuarterliesDao
+import ss.libraries.storage.api.entity.BibleVersionEntity
 import ss.misc.DateHelper.formatDate
 import ss.misc.DateHelper.parseDate
 import ss.misc.SSConstants
