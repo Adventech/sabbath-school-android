@@ -46,10 +46,10 @@ import kotlinx.coroutines.launch
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
+import ss.misc.DateHelper
 import ss.misc.SSConstants
 import ss.misc.SSConstants.COLOR_PRIMARY_DARK_FALLBACK
 import ss.misc.SSConstants.COLOR_PRIMARY_FALLBACK
-import ss.misc.SSHelper
 import ss.prefs.api.SSPrefs
 import ss.prefs.api.ThemeColor
 import ss.prefs.model.ReminderTime
@@ -118,12 +118,12 @@ internal class SSPrefsImpl(
         val timeStr = sharedPreferences.getString(
             SSConstants.SS_SETTINGS_REMINDER_TIME_KEY,
             SSConstants.SS_SETTINGS_REMINDER_TIME_DEFAULT_VALUE
-        )
-        val hour = SSHelper.parseHourFromString(
+        )!!
+        val hour = DateHelper.parseHourFromString(
             timeStr,
             SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT
         )
-        val min = SSHelper.parseMinuteFromString(
+        val min = DateHelper.parseMinuteFromString(
             timeStr,
             SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT
         )
@@ -134,8 +134,8 @@ internal class SSPrefsImpl(
     override fun reminderTimeFlow(): Flow<ReminderTime> = preferencesFlow()
         .map { preferences ->
             val timeStr = preferences[stringPreferencesKey(SSConstants.SS_SETTINGS_REMINDER_TIME_KEY)] ?: SSConstants.SS_SETTINGS_REMINDER_TIME_DEFAULT_VALUE
-            val hour = SSHelper.parseHourFromString(timeStr, SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT)
-            val min = SSHelper.parseMinuteFromString(timeStr, SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT)
+            val hour = DateHelper.parseHourFromString(timeStr, SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT)
+            val min = DateHelper.parseMinuteFromString(timeStr, SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT)
             ReminderTime(hour, min)
         }
 
