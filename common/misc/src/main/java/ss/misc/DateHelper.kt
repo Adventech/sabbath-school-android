@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -26,6 +26,10 @@ import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
+import java.text.DateFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 
 object DateHelper {
@@ -54,4 +58,63 @@ object DateHelper {
     }
 
     fun today() = formatDate(LocalDate.now().toString(SSConstants.SS_DATE_FORMAT))
+
+    /**
+     * Parses time string and returns parsed hour of day
+     *
+     * @param time        Time string
+     * @param parseFormat Format of the time string
+     * @return Hour of the day or 0 if error
+     */
+    fun parseHourFromString(time: String, parseFormat: String): Int {
+        return try {
+            val sdf = SimpleDateFormat(parseFormat, Locale.getDefault())
+            val date = sdf.parse(time) ?: return 0
+            val calendar = Calendar.getInstance()
+            calendar.time = date
+            calendar[Calendar.HOUR_OF_DAY]
+        } catch (exception: ParseException) {
+            Timber.e(exception)
+            0
+        }
+    }
+
+    /**
+     * Parses time string and returns parsed minute of hour
+     *
+     * @param time        Time string
+     * @param parseFormat Format of the time string
+     * @return Minute of the hour or 0 if error
+     */
+    fun parseMinuteFromString(time: String, parseFormat: String): Int {
+        return try {
+            val sdf = SimpleDateFormat(parseFormat, Locale.getDefault())
+            val date = sdf.parse(time) ?: return 0
+            val calendar = Calendar.getInstance()
+            calendar.time = date
+            calendar[Calendar.MINUTE]
+        } catch (exception: ParseException) {
+            Timber.e(exception)
+            0
+        }
+    }
+
+    /**
+     * Parses time string and returns it formatted with `returnFormat`
+     *
+     * @param time         Time string
+     * @param parseFormat  Format of the time string
+     * @param returnFormat Desired format
+     * @return Reformatted string
+     */
+    fun parseTimeAndReturnInFormat(time: String, parseFormat: String, returnFormat: DateFormat): String {
+        return try {
+            val sdf = SimpleDateFormat(parseFormat, Locale.getDefault())
+            val date = sdf.parse(time) ?: return time
+            returnFormat.format(date)
+        } catch (exception: ParseException) {
+            Timber.e(exception)
+            time
+        }
+    }
 }

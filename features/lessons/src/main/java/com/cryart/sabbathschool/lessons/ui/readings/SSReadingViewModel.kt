@@ -58,9 +58,9 @@ import ss.foundation.coroutines.mainScopable
 import ss.lessons.api.repository.LessonsRepositoryV2
 import ss.misc.SSConstants
 import ss.misc.SSEvent
-import ss.misc.SSHelper
 import ss.prefs.model.SSReadingDisplayOptions
 import ss.prefs.model.colorTheme
+import kotlin.math.roundToInt
 
 class SSReadingViewModel @AssistedInject constructor(
     lessonsRepository: LessonsRepositoryV2,
@@ -135,8 +135,8 @@ class SSReadingViewModel @AssistedInject constructor(
         val contextMenuWidth = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.width
         val contextMenuHeight = ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.height
         val screenWidth: Int = metrics.widthPixels
-        val margin: Int = SSHelper.convertDpToPixels(context, 50)
-        val jumpMargin: Int = SSHelper.convertDpToPixels(context, 60)
+        val margin: Int = convertDpToPixels(context, 50)
+        val jumpMargin: Int = convertDpToPixels(context, 60)
         var contextMenuX = posX.toInt() - contextMenuWidth / 2
         var contextMenuY = scrollView.top + y.toInt() - contextMenuHeight - margin
         if (contextMenuX - margin < 0) {
@@ -152,6 +152,11 @@ class SSReadingViewModel @AssistedInject constructor(
         ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.layoutParams = params
         ssReadingActivityBinding.ssContextMenu.ssReadingContextMenu.visibility = View.VISIBLE
         highlightId = 0
+    }
+
+    private fun convertDpToPixels(context: Context, dp: Int): Int {
+        val displayMetrics = context.resources.displayMetrics
+        return (dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)).roundToInt()
     }
 
     override fun onSelectionFinished() {

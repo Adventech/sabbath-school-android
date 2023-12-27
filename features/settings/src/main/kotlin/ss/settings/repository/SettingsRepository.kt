@@ -40,8 +40,8 @@ import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.ContentSyncProvider
+import ss.misc.DateHelper
 import ss.misc.SSConstants
-import ss.misc.SSHelper
 import ss.prefs.api.SSPrefs
 import ss.prefs.model.ReminderTime
 import ss.settings.DailyReminder
@@ -222,7 +222,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
     }
 
     private fun ReminderTime.formattedTime(): String {
-        return SSHelper.parseTimeAndReturnInFormat(
+        return DateHelper.parseTimeAndReturnInFormat(
             String.format(Locale.getDefault(), "%02d:%02d", hour, min),
             SSConstants.SS_REMINDER_TIME_SETTINGS_FORMAT,
             DateFormat.getTimeFormat(context)
