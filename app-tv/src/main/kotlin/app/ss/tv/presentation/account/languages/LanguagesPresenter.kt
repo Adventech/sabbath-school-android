@@ -56,7 +56,7 @@ class LanguagesPresenter @AssistedInject constructor(
         val result by produceRetainedState(Result.success(emptyList<SSLanguage>())) {
             repository.getLanguages().collect { value = it }
         }
-        val selectedLanguage by produceRetainedState("en") {
+        val selectedLanguage by produceRetainedState(ssPrefs.getLanguageCode()) {
             ssPrefs.getLanguageCodeFlow()
                 .flowOn(dispatcherProvider.io)
                 .catch { Timber.e(it) }
