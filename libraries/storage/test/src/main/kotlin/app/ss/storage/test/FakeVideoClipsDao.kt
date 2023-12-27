@@ -22,39 +22,30 @@
 
 package app.ss.storage.test
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import ss.libraries.storage.api.dao.LanguagesDao
-import ss.libraries.storage.api.entity.LanguageEntity
+import ss.libraries.storage.api.dao.VideoClipsDao
+import ss.libraries.storage.api.entity.VideoClipEntity
 
 /**
- * Fake implementation of [LanguagesDao] for use in tests.
+ * Fake implementation of [VideoClipsDao] for use in tests.
  */
-class FakeLanguagesDao : LanguagesDao {
+class FakeVideoClipsDao : VideoClipsDao {
 
-    private val languages = mutableSetOf<LanguageEntity>()
+    private val videoClips = mutableSetOf<VideoClipEntity>()
 
-    override fun get(): List<LanguageEntity> {
-        return languages.toList()
+    override fun search(query: String): List<VideoClipEntity> {
+        return videoClips.toList()
     }
 
-    override fun getAsFlow(): Flow<List<LanguageEntity>> {
-        return flowOf(languages.toList())
+    override suspend fun insertItem(item: VideoClipEntity) {
+        videoClips.add(item)
     }
 
-    override fun search(query: String): List<LanguageEntity> {
-        TODO("Not yet implemented")
+    override suspend fun insertAll(items: List<VideoClipEntity>) {
+        videoClips.addAll(items)
     }
 
-    override suspend fun insertItem(item: LanguageEntity) {
-        languages.add(item)
+    override suspend fun update(item: VideoClipEntity) {
+        videoClips.add(item)
     }
 
-    override suspend fun insertAll(items: List<LanguageEntity>) {
-        languages.addAll(items)
-    }
-
-    override suspend fun update(item: LanguageEntity) {
-        languages.add(item)
-    }
 }

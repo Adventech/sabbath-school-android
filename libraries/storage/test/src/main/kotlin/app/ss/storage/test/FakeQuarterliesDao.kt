@@ -25,11 +25,11 @@ package app.ss.storage.test
 import androidx.annotation.VisibleForTesting
 import app.ss.models.OfflineState
 import app.ss.models.QuarterlyGroup
-import app.ss.storage.db.entity.QuarterlyInfoEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.libraries.storage.api.entity.QuarterlyEntity
+import ss.libraries.storage.api.entity.QuarterlyInfoEntity
 
 /** Fake implementation of [QuarterliesDao] for use in tests. */
 @VisibleForTesting
