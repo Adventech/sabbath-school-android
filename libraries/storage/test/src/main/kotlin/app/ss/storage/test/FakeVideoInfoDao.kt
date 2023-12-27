@@ -24,37 +24,40 @@ package app.ss.storage.test
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
-import ss.libraries.storage.api.dao.LanguagesDao
-import ss.libraries.storage.api.entity.LanguageEntity
+import ss.libraries.storage.api.dao.VideoInfoDao
+import ss.libraries.storage.api.entity.VideoInfoEntity
 
 /**
- * Fake implementation of [LanguagesDao] for use in tests.
+ * Fake implementation of [VideoInfoDao] for use in tests.
  */
-class FakeLanguagesDao(
-    private val languagesFlow: MutableStateFlow<List<LanguageEntity>> = MutableStateFlow(emptyList())
-) : LanguagesDao {
+class FakeVideoInfoDao(
+    private val videoInfoFlow: MutableStateFlow<List<VideoInfoEntity>> = MutableStateFlow(emptyList())
+) : VideoInfoDao {
 
-    override fun get(): List<LanguageEntity> {
-        return languagesFlow.value
+    override fun get(lessonIndex: String): List<VideoInfoEntity> {
+        return videoInfoFlow.value.filter { it.lessonIndex == lessonIndex }
     }
 
-    override fun getAsFlow(): Flow<List<LanguageEntity>> = languagesFlow
+    override fun getAsFlow(lessonIndex: String): Flow<List<VideoInfoEntity>> = videoInfoFlow
 
-    override fun search(query: String): List<LanguageEntity> {
-        TODO("Not yet implemented")
+    override suspend fun delete(index: String) {
+        videoInfoFlow.update { entities -> entities.dropWhile { it.lessonIndex == index } }
     }
 
-    override suspend fun insertItem(item: LanguageEntity) {
-        languagesFlow.update { it.toMutableList() + item }
+    override suspend fun insertItem(item: VideoInfoEntity) {
+        videoInfoFlow.update { it.toMutableList() + item }
     }
 
-    override suspend fun insertAll(items: List<LanguageEntity>) {
-        languagesFlow.update { items }
+    override suspend fun insertAll(items: List<VideoInfoEntity>) {
+        videoInfoFlow.update { it.toMutableList() + items }
     }
 
-    override suspend fun update(item: LanguageEntity) {}
+    override suspend fun update(item: VideoInfoEntity) {
+        videoInfoFlow.update { entities ->
+            entities.map { if (it.lessonIndex == item.lessonIndex) item else it }
+        }
+    }
 }

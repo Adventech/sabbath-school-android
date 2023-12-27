@@ -22,49 +22,106 @@
 
 package app.ss.tv.data.repository
 
+import app.cash.turbine.test
+import app.ss.storage.test.FakeLanguagesDao
+import app.ss.storage.test.FakeVideoClipsDao
+import app.ss.storage.test.FakeVideoInfoDao
 import app.ss.tv.data.infoModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 import retrofit2.Response
 import ss.foundation.coroutines.test.TestDispatcherProvider
+import ss.lessons.model.SSLanguage
 import ss.lessons.test.FakeMediaApi
+import ss.libraries.storage.api.entity.LanguageEntity
+import ss.libraries.storage.api.entity.VideoInfoEntity
 
 /** Tests for [VideosRepositoryImpl]. */
 class VideosRepositoryTest {
 
-    private val mediaApi = FakeMediaApi()
+    private val languagesFlow = MutableStateFlow<List<LanguageEntity>>(emptyList())
+    private val videoInfoFlow = MutableStateFlow<List<VideoInfoEntity>>(emptyList())
+
+    private val fakeMediaApi = FakeMediaApi()
+    private val fakeLanguagesDao = FakeLanguagesDao(languagesFlow = languagesFlow)
+    private val fakeVideoClipsDao = FakeVideoClipsDao()
+    private val fakeVideoInfoDao = FakeVideoInfoDao(videoInfoFlow = videoInfoFlow)
 
     private val underTest: VideosRepository = VideosRepositoryImpl(
-        mediaApi,
-        TestDispatcherProvider()
+        mediaApi = fakeMediaApi,
+        dispatcherProvider = TestDispatcherProvider(),
+        languagesDao = fakeLanguagesDao,
+        videoClipsDao = fakeVideoClipsDao,
+        videoInfoDao = fakeVideoInfoDao,
     )
 
     @Test
-    fun `getVideos - default error`() = runTest {
-        val result = underTest.getVideos()
+    fun `getVideos - error response - return empty`() = runTest {
+        fakeMediaApi.addVideoResponse("en", Response.error(404, "{}".toResponseBody()))
 
-        result.isFailure shouldBeEqualTo true
+        underTest.getVideos().test {
+            val result = awaitItem()
+
+            result.isSuccess shouldBeEqualTo true
+            result.getOrNull() shouldBeEqualTo emptyList()
+        }
     }
 
     @Test
-    fun `getVideos - error response`() = runTest {
-        mediaApi.addVideoResponse("en", Response.error(404, "{}".toResponseBody()))
+    fun `getVideos - from cache`() = runTest {
+        underTest.getVideos().test {
+            awaitItem()
 
-        val result = underTest.getVideos()
+            videoInfoFlow.emit(listOf(infoModel.toEntity("en")))
 
-        result.isSuccess shouldBeEqualTo true
-        result.getOrNull() shouldBeEqualTo emptyList()
+            val result = awaitItem()
+
+            result.isSuccess shouldBeEqualTo true
+            result.getOrNull() shouldBeEqualTo listOf(infoModel)
+        }
     }
 
     @Test
-    fun `getVideos - success response`() = runTest {
-        mediaApi.addVideoResponse("en", Response.success(listOf(infoModel)))
+    fun `getVideos - from network`() = runTest {
+        fakeMediaApi.addVideoResponse("en", Response.success(listOf(infoModel)))
 
-        val result = underTest.getVideos()
+        underTest.getVideos().test {
+            val result = awaitItem()
 
-        result.isSuccess shouldBeEqualTo true
-        result.getOrNull() shouldBeEqualTo listOf(infoModel)
+            result.isSuccess shouldBeEqualTo true
+            result.getOrNull() shouldBeEqualTo listOf(infoModel)
+        }
+    }
+
+    @Test
+    fun `getLanguages - from cache`() = runTest {
+        underTest.getLanguages().test {
+            var result = awaitItem()
+            result.getOrNull() shouldBeEqualTo emptyList()
+
+            languagesFlow.emit(listOf(LanguageEntity("en", "English", "English")))
+
+            result = awaitItem()
+
+            result.isSuccess shouldBeEqualTo true
+            result.getOrNull() shouldBeEqualTo listOf(SSLanguage("en", "English"))
+        }
+    }
+
+    @Test
+    fun `getLanguages - from network`() = runTest {
+        fakeMediaApi.addLanguage("en")
+
+        underTest.getLanguages().test {
+            val result = awaitItem()
+
+            result.isSuccess shouldBeEqualTo true
+            result.getOrNull() shouldBeEqualTo listOf(SSLanguage("en", "English"))
+        }
     }
 }

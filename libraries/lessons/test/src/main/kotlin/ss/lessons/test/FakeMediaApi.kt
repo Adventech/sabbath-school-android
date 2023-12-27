@@ -36,6 +36,7 @@ class FakeMediaApi : SSMediaApi {
 
     private var audioMap: MutableMap<String, Response<List<SSAudio>>> = mutableMapOf()
     private var videoMap: MutableMap<String, Response<List<VideosInfoModel>>> = mutableMapOf()
+    private var languages: MutableSet<String> = mutableSetOf()
 
     fun addAudioResponse(language: String, response: Response<List<SSAudio>>) {
         audioMap[language] = response
@@ -43,6 +44,10 @@ class FakeMediaApi : SSMediaApi {
 
     fun addVideoResponse(language: String, response: Response<List<VideosInfoModel>>) {
         videoMap[language] = response
+    }
+
+    fun addLanguage(language: String) {
+        languages.add(language)
     }
 
     // end region
@@ -57,7 +62,7 @@ class FakeMediaApi : SSMediaApi {
         quarterlyId: String
     ): Response<List<VideosInfoModel>> = videoMap[language]!!
 
-    override suspend fun getVideoLanguages(): Response<List<String>> = Response.success(emptyList())
+    override suspend fun getVideoLanguages(): Response<List<String>> = Response.success(languages.toList())
 
     override suspend fun getLatestVideo(
         language: String

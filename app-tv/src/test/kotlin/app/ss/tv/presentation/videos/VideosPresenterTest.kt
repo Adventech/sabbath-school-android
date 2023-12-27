@@ -32,18 +32,23 @@ import app.ss.tv.presentation.FakeScrollEvents
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Test
 import ss.foundation.coroutines.test.TestDispatcherProvider
+import ss.lessons.model.VideosInfoModel
 import ss.prefs.api.test.FakeSSPrefs
 
 class VideosPresenterTest {
 
+    private val videosResultFlow = MutableSharedFlow<Result<List<VideosInfoModel>>>()
     private val navigator = FakeNavigator()
-    private val repository = FakeVideosRepository()
+    private val repository = FakeVideosRepository(
+        videosFlow = videosResultFlow
+    )
     private val languagesFlow = MutableStateFlow("en")
     private val fakeIntent = Intent()
 
@@ -51,7 +56,6 @@ class VideosPresenterTest {
         repository = repository,
         navigator = navigator,
         ssPrefs = FakeSSPrefs(languagesFlow),
-        dispatcherProvider = TestDispatcherProvider(),
         scrollEvents = FakeScrollEvents(),
         intentHelper = { fakeIntent }
     )
@@ -61,16 +65,18 @@ class VideosPresenterTest {
         underTest.test {
             awaitItem() shouldBeInstanceOf (VideosScreen.State.Loading::class)
 
+            videosResultFlow.emit(Result.failure(RuntimeException()))
+
             awaitItem() shouldBeInstanceOf (VideosScreen.State.Error::class)
         }
     }
 
     @Test
     fun `present - emit loading then videos`() = runTest {
-        repository.videosResult = Result.success(listOf(infoModel))
-
         underTest.test {
             awaitItem() shouldBeInstanceOf (VideosScreen.State.Loading::class)
+
+            videosResultFlow.emit(Result.success(listOf(infoModel)))
 
             (awaitItem() as VideosScreen.State.Videos).categories shouldBeEqualTo persistentListOf(
                 CategorySpec(
@@ -84,10 +90,10 @@ class VideosPresenterTest {
 
     @Test
     fun `present - navigate to video player screen`() = runTest {
-        repository.videosResult = Result.success(listOf(infoModel))
-
         underTest.test {
             awaitItem() shouldBeInstanceOf (VideosScreen.State.Loading::class)
+
+            videosResultFlow.emit(Result.success(listOf(infoModel)))
 
             val state = awaitItem() as VideosScreen.State.Videos
 

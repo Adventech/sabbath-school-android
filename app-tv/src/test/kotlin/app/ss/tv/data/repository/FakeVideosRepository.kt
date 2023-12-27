@@ -28,14 +28,14 @@ import kotlinx.coroutines.flow.emptyFlow
 import ss.lessons.model.SSLanguage
 import ss.lessons.model.VideosInfoModel
 
+/**
+ * Fake implementation of [VideosRepository] for use in tests.
+ */
 @VisibleForTesting(otherwise = VisibleForTesting.NONE)
 class FakeVideosRepository(
     private val videosFlow: Flow<Result<List<VideosInfoModel>>> = emptyFlow(),
     private val languagesFlow: Flow<Result<List<SSLanguage>>> = emptyFlow()
 ) : VideosRepository {
-
-    // var videosResult: Result<List<VideosInfoModel>> = Result.failure(Throwable("Not implemented"))
-    //  var languagesResult: Result<List<SSLanguage>> = Result.failure(Throwable("Not implemented"))
 
     override fun getVideos(language: String): Flow<Result<List<VideosInfoModel>>> = videosFlow
 

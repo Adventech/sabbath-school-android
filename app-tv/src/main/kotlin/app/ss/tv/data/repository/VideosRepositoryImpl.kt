@@ -22,6 +22,7 @@
 
 package app.ss.tv.data.repository
 
+import androidx.annotation.VisibleForTesting
 import app.ss.models.media.SSVideo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -109,7 +110,8 @@ class VideosRepositoryImpl @Inject constructor(
     }
 }
 
-private fun VideosInfoModel.toEntity(language: String): VideoInfoEntity = VideoInfoEntity(
+@VisibleForTesting
+fun VideosInfoModel.toEntity(language: String): VideoInfoEntity = VideoInfoEntity(
     id = "$language-$artist",
     artist = artist,
     clips = clips,
