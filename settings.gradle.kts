@@ -54,8 +54,6 @@ include(
     ":common:prefs:impl",
     ":common:prefs:model",
     ":common:runtime-permissions",
-    ":common:storage",
-    ":common:storage:test",
     ":common:translations",
     ":features:account",
     ":features:app-widgets",
@@ -79,11 +77,14 @@ include(
     ":libraries:media:resources",
     ":libraries:media:service",
     ":libraries:media:test-fixtures",
+    ":libraries:storage:api",
+    ":libraries:storage:test",
     ":libraries:test_utils",
     ":libraries:ui:placeholder",
     ":libraries:workers:api",
     ":services:lessons:impl",
     ":services:media:impl",
+    ":services:storage:impl",
     ":services:workers:impl"
 )
 rootProject.name = "sabbath-school-android"

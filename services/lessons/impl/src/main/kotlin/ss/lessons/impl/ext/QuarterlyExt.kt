@@ -24,7 +24,7 @@ package ss.lessons.impl.ext
 
 import app.ss.models.OfflineState
 import app.ss.models.SSQuarterly
-import app.ss.storage.db.entity.QuarterlyEntity
+import ss.libraries.storage.api.entity.QuarterlyEntity
 
 internal fun SSQuarterly.toEntity(
     offlineState: OfflineState

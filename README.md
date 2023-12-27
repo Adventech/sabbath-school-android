@@ -27,9 +27,9 @@ This is Sabbath School for Android by Adventech, a humble attempt to make differ
 - [x] Previous quarterlies 📚
 - [x] Multiple Bible versions ✝️
 - [x] Reading themes 🕶
+- [x] Android TV support 📺
 - [ ] Progress analytics 📊
 - [ ] List notes & highlights ⭐️
-- [ ] Android TV support 📺
 - [ ] Push notifications 🔔
 
 ## How can you help?

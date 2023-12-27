@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,12 @@ import android.net.Uri
 import app.ss.models.media.AudioFile
 import app.ss.models.media.SSAudio
 import app.ss.models.media.SSVideosInfo
-import app.ss.storage.db.dao.AudioDao
-import app.ss.storage.db.entity.AudioFileEntity
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.model.request.SSMediaRequest
+import ss.libraries.storage.api.dao.AudioDao
+import ss.libraries.storage.api.entity.AudioFileEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -23,7 +23,6 @@
 package app.ss.lessons.data.repository.media
 
 import app.ss.models.media.SSAudio
-import app.ss.storage.db.dao.AudioDao
 import io.mockk.coEvery
 import io.mockk.coVerifyOrder
 import io.mockk.every
@@ -36,6 +35,7 @@ import retrofit2.Response
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.lessons.api.SSMediaApi
+import ss.libraries.storage.api.dao.AudioDao
 
 private const val LESSON_INDEX = "en-2022-03-09"
 

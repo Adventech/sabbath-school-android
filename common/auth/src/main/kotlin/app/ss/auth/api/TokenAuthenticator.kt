@@ -24,7 +24,6 @@ package app.ss.auth.api
 
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
-import app.ss.storage.db.dao.UserDao
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import okhttp3.Authenticator
@@ -33,6 +32,7 @@ import okhttp3.Response
 import okhttp3.Route
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
+import ss.libraries.storage.api.dao.UserDao
 import javax.inject.Inject
 import javax.inject.Singleton
 

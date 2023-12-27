@@ -54,9 +54,9 @@ class LanguagesPresenter @AssistedInject constructor(
     @Composable
     override fun present(): State {
         val result by produceRetainedState(Result.success(emptyList<SSLanguage>())) {
-            value = repository.getLanguages()
+            repository.getLanguages().collect { value = it }
         }
-        val selectedLanguage by produceRetainedState("en") {
+        val selectedLanguage by produceRetainedState(ssPrefs.getLanguageCode()) {
             ssPrefs.getLanguageCodeFlow()
                 .flowOn(dispatcherProvider.io)
                 .catch { Timber.e(it) }

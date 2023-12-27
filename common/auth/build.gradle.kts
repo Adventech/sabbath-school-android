@@ -41,9 +41,9 @@ dependencies {
     implementation(projects.common.models)
     implementation(projects.common.misc)
     implementation(projects.common.network)
-    implementation(projects.common.storage)
     implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.foundation.coroutines)
+    implementation(projects.libraries.storage.api)
 
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)

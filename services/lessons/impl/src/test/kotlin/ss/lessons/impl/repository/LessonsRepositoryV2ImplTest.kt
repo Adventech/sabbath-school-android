@@ -27,8 +27,6 @@ import app.ss.models.SSDay
 import app.ss.models.SSLesson
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
-import app.ss.storage.db.entity.LessonEntity
-import app.ss.storage.db.entity.ReadEntity
 import app.ss.storage.test.FakeLessonsDao
 import app.ss.storage.test.FakeReadsDao
 import kotlinx.coroutines.test.runTest
@@ -38,6 +36,8 @@ import ss.foundation.android.connectivity.FakeConnectivityHelper
 import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.lessons.api.repository.LessonsRepositoryV2
 import ss.lessons.test.FakeLessonsApi
+import ss.libraries.storage.api.entity.LessonEntity
+import ss.libraries.storage.api.entity.ReadEntity
 
 class LessonsRepositoryV2ImplTest {
 

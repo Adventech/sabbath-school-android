@@ -23,7 +23,7 @@
 package ss.lessons.impl.ext
 
 import app.ss.models.SSRead
-import app.ss.storage.db.entity.ReadEntity
+import ss.libraries.storage.api.entity.ReadEntity
 
 internal fun SSRead.toEntity(): ReadEntity = ReadEntity(
     index = index,

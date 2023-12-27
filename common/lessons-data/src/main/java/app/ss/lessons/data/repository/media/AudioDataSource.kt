@@ -26,11 +26,11 @@ import app.ss.lessons.data.repository.DataSource
 import app.ss.lessons.data.repository.DataSourceMediator
 import app.ss.lessons.data.repository.LocalDataSource
 import app.ss.models.media.SSAudio
-import app.ss.storage.db.dao.AudioDao
 import com.cryart.sabbathschool.core.response.Resource
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.SSMediaApi
+import ss.libraries.storage.api.dao.AudioDao
 import javax.inject.Inject
 import javax.inject.Singleton
 

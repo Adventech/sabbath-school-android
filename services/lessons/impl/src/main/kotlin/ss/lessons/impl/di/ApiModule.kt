@@ -24,7 +24,6 @@ package ss.lessons.impl.di
 
 import app.ss.auth.api.TokenAuthenticator
 import app.ss.models.config.AppConfig
-import app.ss.storage.db.dao.UserDao
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -38,6 +37,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import ss.lessons.api.SSLessonsApi
 import ss.lessons.api.SSMediaApi
 import ss.lessons.api.SSQuarterliesApi
+import ss.libraries.storage.api.dao.UserDao
 import ss.misc.SSConstants
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton

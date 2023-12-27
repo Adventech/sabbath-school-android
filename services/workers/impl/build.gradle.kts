@@ -38,10 +38,10 @@ android {
 
 dependencies {
     implementation(projects.common.design)
-    implementation(projects.common.storage)
     implementation(projects.common.translations)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
+    implementation(projects.libraries.storage.api)
     api(projects.libraries.workers.api)
 
     implementation(libs.androidx.work)

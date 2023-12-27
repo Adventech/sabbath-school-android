@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.DispatcherProvider
@@ -80,7 +81,7 @@ internal class SSPrefsImpl(
     private val dataStore: DataStore<Preferences>,
     private val sharedPreferences: SharedPreferences,
     private val context: Context,
-    dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider
 ) : SSPrefs, Scopable by ioScopable(dispatcherProvider) {
 
     @Inject
@@ -165,6 +166,7 @@ internal class SSPrefsImpl(
             mapLanguageCode(code)
         }
         .distinctUntilChanged()
+        .flowOn(dispatcherProvider.io)
 
     override fun setLanguageCode(languageCode: String) {
         sharedPreferences.edit {

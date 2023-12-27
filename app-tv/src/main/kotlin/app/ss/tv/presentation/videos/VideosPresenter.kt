@@ -41,10 +41,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
-import ss.foundation.coroutines.DispatcherProvider
+import kotlinx.coroutines.flow.flatMapLatest
 import ss.lessons.model.VideosInfoModel
 import ss.prefs.api.SSPrefs
 import timber.log.Timber
@@ -54,7 +53,6 @@ private const val KEY_VIDEOS = "videos"
 class VideosPresenter @AssistedInject constructor(
     private val repository: VideosRepository,
     private val ssPrefs: SSPrefs,
-    private val dispatcherProvider: DispatcherProvider,
     private val scrollEvents: ScrollEvents,
     private val intentHelper: IntentHelper,
     @Assisted private val navigator: Navigator,
@@ -65,12 +63,12 @@ class VideosPresenter @AssistedInject constructor(
         fun create(navigator: Navigator): VideosPresenter
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Composable
     override fun present(): State {
         val result by produceRetainedState(Result.success(emptyList<VideosInfoModel>()), KEY_VIDEOS) {
             ssPrefs.getLanguageCodeFlow()
-                .map { repository.getVideos(it) }
-                .flowOn(dispatcherProvider.io)
+                .flatMapLatest { repository.getVideos(it) }
                 .catch { Timber.e(it) }
                 .collect { value = it }
         }

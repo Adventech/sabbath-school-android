@@ -23,7 +23,6 @@
 package app.ss.auth
 
 import app.ss.auth.api.SSAuthApi
-import app.ss.storage.db.dao.UserDao
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -35,6 +34,7 @@ import org.junit.Test
 import retrofit2.Response
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.test.TestDispatcherProvider
+import ss.libraries.storage.api.dao.UserDao
 
 class AuthRepositoryTest {
 

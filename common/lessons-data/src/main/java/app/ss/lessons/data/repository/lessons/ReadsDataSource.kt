@@ -26,12 +26,12 @@ import app.ss.lessons.data.repository.DataSource
 import app.ss.lessons.data.repository.DataSourceMediator
 import app.ss.lessons.data.repository.LocalDataSource
 import app.ss.models.SSRead
-import app.ss.storage.db.dao.ReadsDao
-import app.ss.storage.db.entity.ReadEntity
 import com.cryart.sabbathschool.core.response.Resource
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.SSLessonsApi
+import ss.libraries.storage.api.dao.ReadsDao
+import ss.libraries.storage.api.entity.ReadEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 

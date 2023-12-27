@@ -22,11 +22,12 @@
 
 package app.ss.tv.data.repository
 
+import kotlinx.coroutines.flow.Flow
 import ss.lessons.model.SSLanguage
 import ss.lessons.model.VideosInfoModel
 
 interface VideosRepository {
-    suspend fun getVideos(language: String = "en"): Result<List<VideosInfoModel>>
+    fun getVideos(language: String = "en"): Flow<Result<List<VideosInfoModel>>>
 
-    suspend fun getLanguages(): Result<List<SSLanguage>>
+    fun getLanguages(): Flow<Result<List<SSLanguage>>>
 }

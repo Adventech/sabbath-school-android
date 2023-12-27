@@ -42,6 +42,8 @@ class AccountPresenterTest {
 
             state = awaitItem()
             state.accountScreen shouldBeEqualTo AccountScreens.Language
+
+            ensureAllEventsConsumed()
         }
     }
 }

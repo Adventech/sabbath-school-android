@@ -31,14 +31,14 @@ import app.ss.models.SSDay
 import app.ss.models.SSLesson
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
-import app.ss.storage.db.dao.LessonsDao
-import app.ss.storage.db.dao.QuarterliesDao
-import app.ss.storage.db.entity.LessonEntity
-import app.ss.storage.db.entity.QuarterlyEntity
 import com.cryart.sabbathschool.core.response.Resource
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.SSQuarterliesApi
+import ss.libraries.storage.api.dao.LessonsDao
+import ss.libraries.storage.api.dao.QuarterliesDao
+import ss.libraries.storage.api.entity.LessonEntity
+import ss.libraries.storage.api.entity.QuarterlyEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 

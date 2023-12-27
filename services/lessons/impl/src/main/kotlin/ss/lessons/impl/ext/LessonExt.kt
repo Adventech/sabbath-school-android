@@ -26,7 +26,7 @@ import app.ss.models.LessonPdf
 import app.ss.models.SSDay
 import app.ss.models.SSLesson
 import app.ss.models.SSLessonInfo
-import app.ss.storage.db.entity.LessonEntity
+import ss.libraries.storage.api.entity.LessonEntity
 
 internal fun SSLesson.toEntity(
     days: List<SSDay> = emptyList(),

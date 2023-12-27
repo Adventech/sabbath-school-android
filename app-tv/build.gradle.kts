@@ -103,6 +103,7 @@ dependencies {
     implementation(projects.libraries.media.service)
     implementation(projects.services.lessons.impl)
     implementation(projects.services.media.impl)
+    implementation(projects.services.storage.impl)
 
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -124,6 +125,7 @@ dependencies {
     testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.lessons.test)
     testImplementation(projects.libraries.media.testFixtures)
+    testImplementation(projects.libraries.storage.test)
     testImplementation(projects.libraries.testUtils)
 }
 

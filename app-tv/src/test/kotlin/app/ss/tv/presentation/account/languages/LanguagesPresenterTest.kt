@@ -28,6 +28,7 @@ import app.ss.tv.presentation.account.languages.LanguagesScreen.Event
 import app.ss.tv.presentation.account.languages.LanguagesScreen.State
 import com.slack.circuit.test.test
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
@@ -40,8 +41,11 @@ import ss.prefs.api.test.FakeSSPrefs
 class LanguagesPresenterTest {
 
     private val languagesFlow = MutableStateFlow("en")
+    private val languagesResultFlow = MutableSharedFlow<Result<List<SSLanguage>>>()
 
-    private val fakeRepository = FakeVideosRepository()
+    private val fakeRepository = FakeVideosRepository(
+        languagesFlow = languagesResultFlow
+    )
     private val fakePrefs = FakeSSPrefs(languagesFlow)
 
     private val languages = listOf(
@@ -59,6 +63,7 @@ class LanguagesPresenterTest {
     fun `present - error state`() = runTest {
         underTest.test {
             awaitItem() shouldBeEqualTo State.Loading
+            languagesResultFlow.emit(Result.failure(Exception("error")))
             awaitItem() shouldBeEqualTo State.Error
             ensureAllEventsConsumed()
         }
@@ -66,10 +71,10 @@ class LanguagesPresenterTest {
 
     @Test
     fun `present - languages state`() = runTest {
-        fakeRepository.languagesResult = Result.success(languages)
-
         underTest.test {
             awaitItem() shouldBeEqualTo State.Loading
+
+            languagesResultFlow.emit(Result.success(languages))
 
             (awaitItem() as State.Languages).languages shouldBeEqualTo persistentListOf(
                 LanguageSpec("fr", "French", false),
@@ -82,7 +87,6 @@ class LanguagesPresenterTest {
 
     @Test
     fun `event - OnSelected updates state`() = runTest {
-        fakeRepository.languagesResult = Result.success(languages)
         val expected = persistentListOf(
             LanguageSpec("fr", "French", false),
             LanguageSpec("en", "English", true)
@@ -90,6 +94,8 @@ class LanguagesPresenterTest {
 
         underTest.test {
             awaitItem() shouldBeEqualTo State.Loading
+
+            languagesResultFlow.emit(Result.success(languages))
 
             var state = awaitItem() as State.Languages
 
