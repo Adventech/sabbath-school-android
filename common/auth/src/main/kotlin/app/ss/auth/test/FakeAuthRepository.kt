@@ -20,25 +20,41 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.auth
+package app.ss.auth.test
 
-import androidx.annotation.Keep
-import com.squareup.moshi.JsonClass
+import androidx.annotation.VisibleForTesting
+import app.ss.auth.AuthRepository
+import app.ss.auth.AuthResponse
+import app.ss.models.auth.SSUser
+import kotlinx.coroutines.flow.Flow
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class AccountToken(
-    val apiKey: String,
-    val refreshToken: String,
-    val accessToken: String,
-    val expirationTime: Long
-) {
-    companion object {
-        fun fake() = AccountToken(
-            apiKey = "",
-            refreshToken = "",
-            accessToken = "",
-            expirationTime = 0L
-        )
+/**
+ * Fake implementation of [AuthRepository] for use in tests.
+ */
+@VisibleForTesting
+class FakeAuthRepository : AuthRepository {
+
+    var userDelegate: () -> Result<SSUser?> = { throw NotImplementedError() }
+
+    override suspend fun getUser(): Result<SSUser?> = userDelegate()
+
+    override fun getUserFlow(): Flow<SSUser?> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun signIn(): Result<AuthResponse> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun signIn(token: String): Result<AuthResponse> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun logout() {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteAccount() {
+        TODO("Not yet implemented")
     }
 }
