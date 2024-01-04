@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -86,7 +86,7 @@ class AppNavigatorImpl @Inject constructor(
                 Destination.LESSONS -> {
                     with(TaskStackBuilder.create(activity)) {
                         addNextIntent(QuarterliesActivity.launchIntent(activity))
-                        addNextIntentWithParentStack(intent)
+                        addNextIntent(intent)
                         startActivities()
                     }
                 }
@@ -96,7 +96,7 @@ class AppNavigatorImpl @Inject constructor(
                         ssPrefs.getLastQuarterlyIndex()?.let { index ->
                             addNextIntent(SSLessonsActivity.launchIntent(activity, index))
                         }
-                        addNextIntentWithParentStack(intent)
+                        addNextIntent(intent)
                         startActivities()
                     }
                 }
@@ -185,7 +185,7 @@ class AppNavigatorImpl @Inject constructor(
             }
 
             with(taskBuilder) {
-                addNextIntentWithParentStack(endIntent)
+                addNextIntent(endIntent)
                 startActivities()
             }
         } else {

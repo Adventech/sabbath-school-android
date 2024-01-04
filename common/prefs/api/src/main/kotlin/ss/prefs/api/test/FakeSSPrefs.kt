@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,9 @@ import ss.prefs.model.SSReadingDisplayOptions
 class FakeSSPrefs(
     private val languagesFlow: MutableStateFlow<String> = MutableStateFlow("")
 ) : SSPrefs {
+
+    var quarterlyIndexDelegate: () -> String? = { throw NotImplementedError() }
+
     override fun clear() {
         TODO("Not yet implemented")
     }
@@ -72,9 +75,7 @@ class FakeSSPrefs(
         languagesFlow.update { languageCode }
     }
 
-    override fun getLastQuarterlyIndex(): String? {
-        TODO("Not yet implemented")
-    }
+    override fun getLastQuarterlyIndex(): String? = quarterlyIndexDelegate()
 
     override fun getReaderArtifactLastModified(): String? {
         TODO("Not yet implemented")

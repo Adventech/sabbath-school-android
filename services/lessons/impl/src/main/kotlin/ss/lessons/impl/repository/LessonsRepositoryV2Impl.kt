@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -102,18 +102,8 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
             }
 
             is NetworkResource.Success -> response.value.body()?.let { info ->
-                info.run {
-                    lessonsDao.updateInfo(
-                        lesson.index,
-                        days,
-                        pdfs,
-                        lesson.title,
-                        lesson.cover,
-                        lesson.path,
-                        lesson.full_path,
-                        lesson.pdfOnly
-                    )
-                }
+                val entity = info.lesson.toEntity(info.days, info.pdfs)
+                lessonsDao.insertItem(entity)
             }
         }
     }

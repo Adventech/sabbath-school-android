@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,8 @@ import android.app.Activity
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import app.ss.auth.AuthRepository
+import app.ss.auth.test.FakeAuthRepository
+import app.ss.models.auth.SSUser
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
@@ -34,9 +35,6 @@ import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
-import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.mockk
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeNull
 import org.junit.After
@@ -48,18 +46,17 @@ import org.robolectric.Shadows
 import org.robolectric.android.controller.ActivityController
 import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.misc.SSConstants
-import ss.prefs.api.SSPrefs
+import ss.prefs.api.test.FakeSSPrefs
 import ss.settings.SettingsActivity
 
 @RunWith(AndroidJUnit4::class)
 class AppNavigatorImplTest {
 
-    private val mockSSPrefs: SSPrefs = mockk()
-    private val mockAuthRepository: AuthRepository = mockk()
+    private val fakeSSPrefs = FakeSSPrefs()
+    private val fakeAuthRepository = FakeAuthRepository()
 
     private lateinit var controller: ActivityController<AppCompatActivity>
     private lateinit var activity: Activity
-    private val dispatcherProvider = TestDispatcherProvider()
 
     private lateinit var navigator: AppNavigator
 
@@ -68,13 +65,13 @@ class AppNavigatorImplTest {
         controller = Robolectric.buildActivity(AppCompatActivity::class.java)
         activity = controller.create().start().resume().get()
 
-        every { mockSSPrefs.getLastQuarterlyIndex() }.returns("index")
-        coEvery { mockAuthRepository.getUser() }.returns(Result.success(mockk()))
+        fakeSSPrefs.quarterlyIndexDelegate = { "index" }
+        fakeAuthRepository.userDelegate = { Result.success(SSUser.fake()) }
 
         navigator = AppNavigatorImpl(
-            ssPrefs = mockSSPrefs,
-            authRepository = mockAuthRepository,
-            dispatcherProvider = dispatcherProvider
+            ssPrefs = fakeSSPrefs,
+            authRepository = fakeAuthRepository,
+            dispatcherProvider = TestDispatcherProvider()
         )
     }
 
@@ -86,7 +83,7 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to Login destination`() {
-        coEvery { mockAuthRepository.getUser() }.returns(Result.success(null))
+        fakeAuthRepository.userDelegate = { Result.success(null) }
 
         navigator.navigate(activity, Destination.LOGIN)
 
@@ -110,7 +107,7 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to login when not authenticated`() {
-        coEvery { mockAuthRepository.getUser() }.returns(Result.success(null))
+        fakeAuthRepository.userDelegate = { Result.success(null) }
 
         navigator.navigate(activity, Destination.SETTINGS)
 
@@ -157,7 +154,7 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to login when not authenticated - web-link`() {
-        coEvery { mockAuthRepository.getUser() }.returns(Result.success(null))
+        fakeAuthRepository.userDelegate = { Result.success(null) }
 
         val uri = Uri.parse("https://sabbath-school.adventech.io/en/2021-03")
 
