@@ -20,18 +20,27 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation
+package app.ss.tv.presentation.search
 
-import androidx.compose.ui.graphics.vector.ImageVector
-import app.ss.translations.R as L10nR
+import androidx.compose.runtime.Composable
+import app.ss.tv.presentation.search.SearchScreen.State
+import com.slack.circuit.runtime.Navigator
+import com.slack.circuit.runtime.presenter.Presenter
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
-enum class Screens(
-    val titleRes: Int,
-    val tabIcon: ImageVector? = null,
-    val isTabItem: Boolean = false,
-) {
-    Account(titleRes = L10nR.string.ss_account),
-    Videos(titleRes = L10nR.string.ss_media_videos, isTabItem = true),
-    Search(titleRes = L10nR.string.ss_search, isTabItem = true),
-    ;
+class SearchPresenter @AssistedInject constructor(
+    @Assisted private val navigator: Navigator,
+) : Presenter<State> {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(navigator: Navigator): SearchPresenter
+    }
+
+    @Composable
+    override fun present(): State {
+        return State.Loading
+    }
 }

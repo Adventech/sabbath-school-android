@@ -20,18 +20,21 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation
+package app.ss.tv.presentation.search
 
-import androidx.compose.ui.graphics.vector.ImageVector
-import app.ss.translations.R as L10nR
+import androidx.compose.foundation.layout.Box
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 
-enum class Screens(
-    val titleRes: Int,
-    val tabIcon: ImageVector? = null,
-    val isTabItem: Boolean = false,
-) {
-    Account(titleRes = L10nR.string.ss_account),
-    Videos(titleRes = L10nR.string.ss_media_videos, isTabItem = true),
-    Search(titleRes = L10nR.string.ss_search, isTabItem = true),
-    ;
+@Composable
+fun SearchScreenUi(state: SearchScreen.State, modifier: Modifier = Modifier) {
+    Box(modifier = modifier) {
+        when (state) {
+            is SearchScreen.State.Loading -> {
+
+            }
+
+            is SearchScreen.State.Results -> Unit
+        }
+    }
 }

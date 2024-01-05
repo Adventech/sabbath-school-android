@@ -20,18 +20,22 @@
  * THE SOFTWARE.
  */
 
-package app.ss.tv.presentation
+package app.ss.tv.presentation.search
 
-import androidx.compose.ui.graphics.vector.ImageVector
-import app.ss.translations.R as L10nR
+import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.screen.Screen
+import kotlinx.parcelize.Parcelize
 
-enum class Screens(
-    val titleRes: Int,
-    val tabIcon: ImageVector? = null,
-    val isTabItem: Boolean = false,
-) {
-    Account(titleRes = L10nR.string.ss_account),
-    Videos(titleRes = L10nR.string.ss_media_videos, isTabItem = true),
-    Search(titleRes = L10nR.string.ss_search, isTabItem = true),
-    ;
+@Parcelize
+object SearchScreen : Screen {
+
+    sealed interface State : CircuitUiState {
+        data object Loading : State
+        data class Results(val query: String) : State
+    }
+
+    sealed interface Event {
+        data class QueryChanged(val query: String) : Event
+        data class QuerySubmitted(val query: String) : Event
+    }
 }

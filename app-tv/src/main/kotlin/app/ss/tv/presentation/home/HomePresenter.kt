@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,7 @@ import app.ss.tv.presentation.ScrollEvents
 import app.ss.tv.presentation.account.AccountScreen
 import app.ss.tv.presentation.home.HomeScreen.Event
 import app.ss.tv.presentation.home.HomeScreen.State
+import app.ss.tv.presentation.search.SearchScreen
 import app.ss.tv.presentation.videos.VideosScreen
 import com.slack.circuit.foundation.onNavEvent
 import com.slack.circuit.retained.produceRetainedState
@@ -62,7 +63,7 @@ class HomePresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): State {
-        val selectedIndex by rememberRetained { mutableIntStateOf(0) }
+        var selectedIndex by rememberRetained { mutableIntStateOf(0) }
         val currentLanguage by produceRetainedState(ssPrefs.getLanguageCode()) {
             ssPrefs.getLanguageCodeFlow()
                 .flowOn(dispatcherProvider.io)
@@ -81,13 +82,17 @@ class HomePresenter @AssistedInject constructor(
                     currentScreen = when (event.screen) {
                         Screens.Account -> AccountScreen
                         Screens.Videos -> VideosScreen
+                        Screens.Search -> SearchScreen
                     }
+
+                    selectedIndex = if (currentScreen == VideosScreen) 0 else 1
                 }
 
                 Event.OnBack -> {
                     when (currentScreen) {
-                        AccountScreen -> {
+                        AccountScreen, SearchScreen -> {
                             currentScreen = VideosScreen
+                            selectedIndex = 0
                         }
 
                         VideosScreen -> navigator.goTo(AndroidScreen.Finish)

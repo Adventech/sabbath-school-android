@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +37,9 @@ import app.ss.tv.presentation.home.HomeScreenUi
 import app.ss.tv.presentation.player.VideoPlayerPresenter
 import app.ss.tv.presentation.player.VideoPlayerScreen
 import app.ss.tv.presentation.player.VideoPlayerScreenUi
+import app.ss.tv.presentation.search.SearchPresenter
+import app.ss.tv.presentation.search.SearchScreen
+import app.ss.tv.presentation.search.SearchScreenUi
 import app.ss.tv.presentation.splash.SplashScreen
 import app.ss.tv.presentation.splash.SplashScreenUi
 import app.ss.tv.presentation.videos.VideosPresenter
@@ -59,6 +62,7 @@ class SSPresenterFactoryImpl @Inject constructor(
     private val accountPresenter: AccountPresenter.Factory,
     private val homePresenter: HomePresenter.Factory,
     private val languagesPresenter: LanguagesPresenter.Factory,
+    private val searchPresenter: SearchPresenter.Factory,
     private val videosPresenter: VideosPresenter.Factory,
     private val videoPlayerPresenter: VideoPlayerPresenter.Factory,
 ) : SSPresenterFactory {
@@ -74,6 +78,7 @@ class SSPresenterFactoryImpl @Inject constructor(
             is AccountScreen -> accountPresenter.create()
             is HomeScreen -> homePresenter.create(navigator)
             is LanguagesScreen -> languagesPresenter.create()
+            is SearchScreen -> searchPresenter.create(navigator)
             is VideosScreen -> videosPresenter.create(navigator)
             is VideoPlayerScreen -> videoPlayerPresenter.create(screen)
             else -> null
@@ -98,6 +103,10 @@ internal class SSUiFactoryImpl @Inject constructor() : SSUiFactory {
 
             is HomeScreen -> ui<HomeScreen.State> { state, modifier ->
                 HomeScreenUi(state, modifier)
+            }
+
+            is SearchScreen -> ui<SearchScreen.State> { state, modifier ->
+                SearchScreenUi(state, modifier)
             }
 
             is LanguagesScreen -> ui<LanguagesScreen.State> { state, modifier ->
