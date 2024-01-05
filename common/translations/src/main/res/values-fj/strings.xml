@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -120,4 +120,5 @@
     <string name="ss_delete_account_warning">Ena bokoci ni nomu akaude na nomu itukutuku taucoko, me vaka na ivakamacala kei na ivakatakilakila ena bokoci vakadua. O vinakata dina mo tomana?</string>
     <string name="ss_delete_downloads">Kauta laivi kece na lavetaki</string>
     <string name="ss_delete_downloads_confirm">Ni ko sa vagalalataki na lavetaki kece sara o na vakayalia na lewe taucoko ni lesoni sa maroroi tu ena gauna oqo. O vinakata dina mo toso ki liu?</string>
+    <string name="ss_search">Vakaraitaki</string>
 </resources>

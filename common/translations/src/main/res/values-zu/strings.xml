@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -126,4 +126,5 @@ Siyakholwa ngempela ukuthi uNkulunkulu ukwandise ulwazi lwezwe lwanamuhla futhi 
     <string name="ss_delete_account_warning">Ngokususa i-akhawunti yakho yonke idatha yakho, njengamazwana nokubekwe obala kuzosuswa unomphela. Uqinisekile ukuthi ufuna ukuqhubeka?</string>
     <string name="ss_delete_downloads">Susa konke okulandiwe</string>
     <string name="ss_delete_downloads_confirm">Ngokususa konke okulandiwe uzolahlekelwa yikho konke okuqukethwe kwezifundo okulondolozwe ungaxhunyiwe ku-inthanethi okwamanje. Uqinisekile ukuthi ufuna ukuqhubeka?</string>
+    <string name="ss_search">Sesha</string>
 </resources>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -125,4 +125,5 @@
     <string name="ss_delete_account_warning">"अपना खाता हटाने से आपका सारा डेटा, जैसे टिप्पणियाँ और हाइलाइट स्थायी रूप से हटा दिया जाएगा। क्या आप सुनिश्चित रूप से आगे बढ़ना चाहते हैं? "</string>
     <string name="ss_delete_downloads">"सभी डाउनलोड हटाएँ "</string>
     <string name="ss_delete_downloads_confirm">"सभी डाउनलोड हटाकर आप वर्तमान में ऑफ़लाइन सहेजी गई सभी पाठ सामग्री खो देंगे। क्या आप सुनिश्चित रूप से आगे बढ़ना चाहते हैं?"</string>
+    <string name="ss_search">खोजें</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -121,4 +121,5 @@
     <string name="ss_delete_account_warning">؟ﺔﻌﺑﺎﺘﻤﻟﺍ ﺪﻳﺮﺗ ﻚﻧﺍ ﺪﻛﺄﺘﻣ ﺖﻧﺍ ﻞﻫ .ﻢﺋﺍﺩ ﻞﻜﺸﺑ ﺕﺍﺰﻴﻤﻟﺍﻭ ﺕﺎﻘﻴﻠﻌﺘﻟﺍ ﻞﺜﻣ ، ﻚﺗﺎﻧﺎﻴﺑ ﻊﻴ</string>
     <string name="ss_delete_downloads">"ﺕﻼﻳﺰﻨﺘﻟﺍ ﺔﻓﺎﻛ ﺔﻟﺍﺯ"</string>
     <string name="ss_delete_downloads_confirm">؟ﺔﻌﺑﺎﺘﻤﻟﺍ ﺪﻳﺮﺗ ﻚﻧﺍ ﺪﻛﺄﺘﻣ ﺖﻧﺍ ﻞﻫ .ﻝﺎﺼﺗﻻﺍ ﻡﺪﻋ ﻊﺿﻭ ﻲﻓ ﺎﻴًﻟﺎﺣ ﻅﻮﻔﺤﻤﻟﺍ ﺱﻭﺭﺪﻟﺍ ﻯﻮﺘ</string>
+    <string name="ss_search">ﺔﻴﻧﺎﻌﻟﺍ</string>
 </resources>

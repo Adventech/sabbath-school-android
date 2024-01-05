@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -124,4 +124,5 @@ Me usume, et Jumal on andnud tänapäeva maailmale nii palju teadmisi ning  me t
     <string name="ss_delete_account_warning">Konto kustutamisel kustutatakse jäädavalt kõik teie andmed, nagu kommentaarid ja esiletõstmised. Kas olete kindel, et soovite jätkata?</string>
     <string name="ss_delete_downloads">Eemaldage kõik allalaadimised</string>
     <string name="ss_delete_downloads_confirm">Kõikide allalaadimiste eemaldamisel kaotate kogu praegu võrguühenduseta salvestatud õppetundide sisu. Kas olete kindel, et soovite jätkata?</string>
+    <string name="ss_search">Otsi</string>
 </resources>

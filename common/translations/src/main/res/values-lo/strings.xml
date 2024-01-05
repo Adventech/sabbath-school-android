@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -126,5 +126,5 @@
     <string name="ss_delete_account_warning">"ໂດຍການລຶບບັນຊີຂອງທ່ານທັງໝົດຂໍ້ມູນຂອງທ່ານ, ເຊັ່ນ: ຄຳເຫັນ ແລະຈຸດເດັ່ນຈະຖືກລຶບຢ່າງຖາວອນ. ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການດຳເນີນການຕໍ່? "</string>
     <string name="ss_delete_downloads">ລຶບການດາວໂຫຼດທັງໝົດອອກ</string>
     <string name="ss_delete_downloads_confirm">ໂດຍການລຶບການດາວໂຫຼດທັງໝົດ, ທ່ານຈະສູນເສຍເນື້ອໃນບົດຮຽນທັງໝົດທີ່ບັນທຶກໄວ້ໃນເວລາອອບລາຍ. ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການດຳເນີນການຕໍ່?</string>
-
+    <string name="ss_search">ຄົ້ນຫາ</string>
 </resources>

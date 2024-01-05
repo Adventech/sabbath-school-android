@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -132,4 +132,5 @@
     <string name="ss_media_videos">비디오</string>
     <string name="ss_delete_downloads">모든 다운로드 제거</string>
     <string name="ss_delete_downloads_confirm">모든 다운로드를 제거하면 현재 오프라인에 저장된 모든 수업 콘텐츠가 손실됩니다. 계속하시겠습니까?</string>
+    <string name="ss_search">검색</string>
 </resources>

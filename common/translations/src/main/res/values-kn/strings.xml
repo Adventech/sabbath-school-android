@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -121,4 +121,5 @@
     <string name="ss_delete_account_warning">"ನಿಮ್ಮ ಖಾತೆಯನ್ನು ಅಳಿಸುವ ಮೂಲಕ ಕಾಮೆಂಟ್u200cಗಳು ಮತ್ತು ಮುಖ್ಯಾಂಶಗಳಂತಹ ನಿಮ್ಮ ಎಲ್ಲಾ ಡೇಟಾವನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಲಾಗುತ್ತದೆ. ನೀವು ಮುಂದುವರೆಯಲು ಖಚಿತವಾಗಿ ಬಯಸುವಿರಾ? "</string>
     <string name="ss_delete_downloads">"ಎಲ್ಲಾ ಡೌನ್ಲೋಡ್ಗಳನ್ನು ತೆಗೆದುಹಾಕಿ "</string>
     <string name="ss_delete_downloads_confirm">"ಎಲ್ಲಾ ಡೌನ್ಲೋಡ್ಗಳನ್ನು ತೆಗೆದುಹಾಕುವ ಮೂಲಕ ನೀವು ಪ್ರಸ್ತುತ ಆಫ್ಲೈನ್ನಲ್ಲಿ ಉಳಿಸಿರುವ ಎಲ್ಲಾ ಪಾಠಗಳ ವಿಷಯವನ್ನು ಕಳೆದುಕೊಳ್ಳುತ್ತೀರಿ. ನೀವು ಮುಂದುವರೆಯಲು ಖಚಿತವಾಗಿ ಬಯಸುವಿರಾ? "</string>
+    <string name="ss_search">ಹುಡುಕಿ</string>
 </resources>

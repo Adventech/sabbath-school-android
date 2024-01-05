@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -124,5 +124,6 @@ Credem cu adevărat că Dumnezeu a mărit cunoașterea lumii moderne și doreșt
     <string name="ss_delete_account_warning">"Prin ștergerea contului, toate datele dvs., cum ar fi comentariile și evidențierile, vor fi șterse definitiv. Sunteți sigur că doriți să continuați? "</string>
     <string name="ss_delete_downloads">Eliminați toate descărcările</string>
     <string name="ss_delete_downloads_confirm">Prin eliminarea tuturor descărcărilor, veți pierde tot conținutul lecțiilor salvat în prezent offline. Sunteți sigur că doriți să continuați?</string>
+    <string name="ss_search">Căutare</string>
 
 </resources>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -125,4 +125,5 @@
     <string name="ss_delete_account_warning">Με τη διαγραφή του λογαριασμού σας, όλα τα δεδομένα σας, όπως σχόλια και επισημάνσεις, θα διαγραφούν οριστικά. Είστε βέβαιοι ότι θέλετε να συνεχίσετε;</string>
     <string name="ss_delete_downloads">Καταργήστε όλες τις λήψεις</string>
     <string name="ss_delete_downloads_confirm">Με την κατάργηση όλων των λήψεων, θα χάσετε όλο το περιεχόμενο των μαθημάτων που είναι αυτή τη στιγμή αποθηκευμένο εκτός σύνδεσης. Είστε βέβαιοι ότι θέλετε να συνεχίσετε;</string>
+    <string name="ss_search">Αναζήτηση</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -126,4 +126,5 @@ Igazán hiszünk abban, hogy Isten megnövelte a modern világ tudását, és az
     <string name="ss_delete_account_warning">Fiókja törlésével minden adata, például megjegyzései és kiemelt tartalmai véglegesen törlődnek. Biztosan folytatja?</string>
     <string name="ss_delete_downloads">Távolítsa el az összes letöltést</string>
     <string name="ss_delete_downloads_confirm">Az összes letöltés eltávolításával elveszíti az offline módban mentett összes tananyagot. Biztosan folytatja?</string>
+    <string name="ss_search">Keresés</string>
 </resources>

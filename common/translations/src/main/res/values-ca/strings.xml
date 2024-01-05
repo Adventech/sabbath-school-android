@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -130,5 +130,5 @@
     <string name="ss_delete_account_warning">Si suprimiu el vostre compte, totes les vostres dades, com ara els comentaris i els elements destacats, se suprimiran permanentment. Esteu segur que voleu continuar?</string>
     <string name="ss_delete_downloads">Elimina totes les baixades</string>
     <string name="ss_delete_downloads_confirm">Si suprimeixes totes les baixades, perdràs tot el contingut de les lliçons desat actualment fora de línia. Esteu segur que voleu continuar?</string>
-
+    <string name="ss_search">Cerca</string>
 </resources>

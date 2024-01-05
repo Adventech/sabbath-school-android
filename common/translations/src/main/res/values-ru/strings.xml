@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -126,4 +126,5 @@
     <string name="ss_delete_account_warning">При удалении вашей учетной записи все ваши данные, такие как комментарии и основные моменты, будут безвозвратно удалены. Вы уверены, что хотите продолжить?</string>
     <string name="ss_delete_downloads">Удалить все загрузки</string>
     <string name="ss_delete_downloads_confirm">Удалив все загрузки, вы потеряете весь контент уроков, сохраненный в офлайн-режиме. Вы уверены, что хотите продолжить?</string>
+    <string name="ss_search">Поиск</string>
 </resources>

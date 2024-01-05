@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -128,4 +128,5 @@ Nós realmente acreditamos que Deus aumentou o conhecimento do mundo moderno e q
     <string name="ss_media_videos">Vídeos</string>
     <string name="ss_delete_downloads">Remover todos os downloads</string>
     <string name="ss_delete_downloads_confirm">Ao remover todos os downloads, você perderá todo o conteúdo das aulas atualmente salvo offline. Tem certeza de que deseja prosseguir?</string>
+    <string name="ss_search">Pesquisar</string>
 </resources>

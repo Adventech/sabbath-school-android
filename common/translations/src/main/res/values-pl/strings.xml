@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -125,4 +125,5 @@ Naprawdę wierzymy, że Bóg zwiększył wiedzę o współczesnym świecie i chc
     <string name="ss_delete_account_warning">"Jeśli usuniesz swoje konto, wszystkie Twoje dane, takie jak komentarze i najciekawsze momenty, zostaną trwale usunięte. Na pewno chcesz kontynuować? "</string>
     <string name="ss_delete_downloads">Usuń wszystkie pobrane pliki</string>
     <string name="ss_delete_downloads_confirm">Usunięcie wszystkich pobranych plików spowoduje utratę całej zawartości lekcji zapisanej obecnie w trybie offline. Na pewno chcesz kontynuować?</string>
+    <string name="ss_search">Szukaj</string>
 </resources>

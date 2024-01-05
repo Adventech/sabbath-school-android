@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -125,4 +125,5 @@
     <string name="ss_delete_account_warning">"നിങ്ങളുടെ അക്കൗണ്ട് ഇല്ലാതാക്കുന്നതിലൂടെ, അഭിപ്രായങ്ങളും ഹൈലൈറ്റുകളും പോലുള്ള നിങ്ങളുടെ എല്ലാ ഡാറ്റയും ശാശ്വതമായി ഇല്ലാതാക്കപ്പെടും. നിങ്ങൾക്ക് തുടരണമെന്ന് തീർച്ചയാണോ? "</string>
     <string name="ss_delete_downloads">"എല്ലാ ഡൗൺലോഡുകളും നീക്കം ചെയ്യുക "</string>
     <string name="ss_delete_downloads_confirm">"എല്ലാ ഡൗൺലോഡുകളും നീക്കം ചെയ്യുന്നതിലൂടെ, നിലവിൽ ഓഫ്ലൈനിൽ സംരക്ഷിച്ചിരിക്കുന്ന എല്ലാ പാഠഭാഗങ്ങളും നിങ്ങൾക്ക് നഷ്ടമാകും. നിങ്ങൾക്ക് തുടരണമെന്ന് തീർച്ചയാണോ? "</string>
+    <string name="ss_search">തിരയുക</string>
 </resources>

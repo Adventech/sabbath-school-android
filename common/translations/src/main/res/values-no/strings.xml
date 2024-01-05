@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -121,4 +121,5 @@
     <string name="ss_delete_account_warning">Ved å slette kontoen din vil alle dataene dine, for eksempel kommentarer og høydepunkter, bli slettet permanent. Er du sikker på at du vil fortsette?</string>
     <string name="ss_delete_downloads">Fjern alle nedlastinger</string>
     <string name="ss_delete_downloads_confirm">Ved å fjerne alle nedlastinger vil du miste alt leksjonsinnholdet som for øyeblikket er lagret offline. Er du sikker på at du vil fortsette?</string>
+    <string name="ss_search">Søk</string>
 </resources>

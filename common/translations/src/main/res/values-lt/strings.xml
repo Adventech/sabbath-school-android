@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -128,4 +128,5 @@ Mes tikime, kad Dievas padidino šiuolaikinio pasaulio žinias ir nori, kad mes 
     <string name="ss_media_videos">Video</string>
     <string name="ss_delete_downloads">Rimuovi tutti i download</string>
     <string name="ss_delete_downloads_confirm">Rimuovendo tutti i download perderai tutti i contenuti delle lezioni attualmente salvati offline. Sei sicuro di voler procedere?</string>
+    <string name="ss_search">Ieškoti</string>
 </resources>

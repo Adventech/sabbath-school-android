@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -125,4 +125,5 @@ Mi doista vjerujemo da je Bog povećao znanje o suvremenom svijetu i želi da ga
     <string name="ss_delete_account_warning">Brisanjem vašeg računa svi vaši podaci, poput komentara i istaknutih stavki, bit će trajno izbrisani. Jeste li sigurni da želite nastaviti?</string>
     <string name="ss_delete_downloads">Ukloni sva preuzimanja</string>
     <string name="ss_delete_downloads_confirm">Uklanjanjem svih preuzimanja izgubit ćete sve sadržaje lekcija koje su trenutno spremljene izvan mreže. Jeste li sigurni da želite nastaviti?</string>
+    <string name="ss_search">Pretraživanje</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -126,4 +126,5 @@ Ons glo werklik dat God die kennis van die moderne wÃªreld verhoog het en wil hÃ
     <string name="ss_delete_account_warning">"Deur jou rekening uit te vee, sal al jou data, soos opmerkings en hoogtepunte, permanent uitgevee word. Is jy seker jy wil voortgaan?"</string>
     <string name="ss_delete_downloads">"Verwyder alle aflaaie"</string>
     <string name="ss_delete_downloads_confirm">"Deur alle aflaaie te verwyder, sal jy al die lesse-inhoud verloor wat tans vanlyn gestoor is. Is jy seker jy wil voortgaan?"</string>
+    <string name="ss_search">Soek</string>
 </resources>

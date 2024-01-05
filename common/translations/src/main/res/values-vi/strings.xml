@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2023. Adventech <info@adventech.io>
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -125,4 +125,5 @@ Chúng tôi thực sự tin rằng Chúa đã gia tăng kiến thức về thế
     <string name="ss_delete_account_warning">Bằng cách xóa tài khoản của bạn, tất cả dữ liệu của bạn, chẳng hạn như nhận xét và đánh dấu sẽ bị xóa vĩnh viễn. Bạn có chắc muốn tiếp tục?</string>
     <string name="ss_delete_downloads">Xóa tất cả nội dung tải xuống</string>
     <string name="ss_delete_downloads_confirm">Bằng cách xóa tất cả các bản tải xuống, bạn sẽ mất tất cả nội dung bài học hiện được lưu ngoại tuyến. Bạn có chắc muốn tiếp tục?</string>
+    <string name="ss_search">Tìm kiếm</string>
 </resources>
