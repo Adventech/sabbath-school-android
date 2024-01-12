@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -63,7 +63,7 @@ internal class QuarterlyInfoDataSource @Inject constructor(
             return Resource.success(
                 SSQuarterlyInfo(
                     quarterly = info.quarterly.toModel(),
-                    lessons = info.lessons.map { it.toModel() }
+                    lessons = info.lessons.sortedBy { it.id }.map { it.toModel() }
                 )
             )
         }
