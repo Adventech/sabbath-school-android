@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.models.LessonPdf
 import app.ss.models.OfflineState
 import app.ss.models.SSDay
-import app.ss.storage.db.entity.QuarterlyInfoEntity
 import app.ss.storage.test.FakeLessonsDao
 import app.ss.storage.test.FakeQuarterliesDao
 import app.ss.storage.test.FakeReadsDao
@@ -40,7 +39,9 @@ import ss.lessons.test.FakeLessonsApi
 import ss.lessons.test.FakePdfReader
 import ss.libraries.storage.api.entity.LessonEntity
 import ss.libraries.storage.api.entity.QuarterlyEntity
+import ss.libraries.storage.api.entity.QuarterlyInfoEntity
 import ss.libraries.storage.api.entity.ReadEntity
+import ss.workers.api.test.FakeWorkScheduler
 
 @RunWith(AndroidJUnit4::class)
 class ContentSyncProviderImplTest {
@@ -49,6 +50,7 @@ class ContentSyncProviderImplTest {
     private val fakeReadsDao = FakeReadsDao()
     private val fakeLessonsDao = FakeLessonsDao()
     private val fakePdfReader = FakePdfReader()
+    private val fakeWorkScheduler = FakeWorkScheduler()
 
     private val underTest = ContentSyncProviderImpl(
         quarterliesDao = fakeQuarterliesDao,
@@ -57,7 +59,8 @@ class ContentSyncProviderImplTest {
         pdfReader = fakePdfReader,
         lessonsApi = FakeLessonsApi(),
         syncHelper = FakeSyncHelper(),
-        dispatcherProvider = TestDispatcherProvider()
+        workScheduler = fakeWorkScheduler,
+        dispatcherProvider = TestDispatcherProvider(),
     )
 
     private val quarterlyEntity = QuarterlyEntity(
@@ -88,7 +91,7 @@ class ContentSyncProviderImplTest {
         title = "Title",
         start_date = "date",
         end_date = "date",
-        cover = "",
+        cover = "cover",
         id = "id",
         path = "path",
         full_path = "",

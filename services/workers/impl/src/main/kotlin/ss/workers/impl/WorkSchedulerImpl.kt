@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,6 +38,8 @@ import ss.workers.impl.workers.PrefetchImagesWorker
 import ss.workers.impl.workers.SyncQuarterliesWorker
 import ss.workers.impl.workers.SyncQuarterlyWorker
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @VisibleForTesting
 const val SYNC_REPEAT_INTERVAL = 12L
@@ -45,26 +47,42 @@ const val SYNC_REPEAT_INTERVAL = 12L
 @VisibleForTesting
 const val SYNC_FLEX_INTERVAL = 4L
 
-internal class WorkSchedulerImpl constructor(
+@Singleton
+internal class WorkSchedulerImpl @Inject constructor(
     private val workManager: WorkManager
 ) : WorkScheduler {
 
     override fun preFetchImages(language: String) {
+        schedulePreFetchImages(language = language)
+    }
+
+    override fun preFetchImages(images: Set<String>) {
+        schedulePreFetchImages(images = images)
+    }
+
+    private fun schedulePreFetchImages(
+        language: String? = null,
+        images: Set<String>? = null
+    ) {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.UNMETERED)
             .setRequiresBatteryNotLow(true)
             .setRequiresStorageNotLow(true)
             .build()
-
-        val workRequest = OneTimeWorkRequestBuilder<PrefetchImagesWorker>()
+        val request = OneTimeWorkRequestBuilder<PrefetchImagesWorker>()
             .setConstraints(constraints)
-            .setInputData(workDataOf(PrefetchImagesWorker.LANGUAGE_KEY to language))
+            .setInputData(
+                workDataOf(
+                    PrefetchImagesWorker.LANGUAGE_KEY to language,
+                    PrefetchImagesWorker.IMAGES_KEY to images?.toTypedArray()
+                )
+            )
             .build()
 
         workManager.enqueueUniqueWork(
             PrefetchImagesWorker.uniqueWorkName,
             ExistingWorkPolicy.KEEP,
-            workRequest
+            request
         )
     }
 
