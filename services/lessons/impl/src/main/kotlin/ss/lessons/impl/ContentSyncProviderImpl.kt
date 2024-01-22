@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,6 +38,7 @@ import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.libraries.storage.api.dao.ReadsDao
 import ss.libraries.storage.api.entity.LessonEntity
 import ss.libraries.storage.api.entity.QuarterlyEntity
+import ss.workers.api.WorkScheduler
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -50,6 +51,7 @@ internal class ContentSyncProviderImpl @Inject constructor(
     private val pdfReader: PdfReader,
     private val lessonsApi: SSLessonsApi,
     private val syncHelper: SyncHelper,
+    private val workScheduler: WorkScheduler,
     private val dispatcherProvider: DispatcherProvider,
 ) : ContentSyncProvider {
 
@@ -89,13 +91,19 @@ internal class ContentSyncProviderImpl @Inject constructor(
 
             quarterliesDao.setOfflineState(index, OfflineState.IN_PROGRESS)
 
+            val covers = mutableSetOf<String>()
+
             val quarterlyInfo = syncHelper.syncQuarterly(index)
             quarterlyInfo?.let {
                 for (lesson in quarterlyInfo.lessons) {
                     val lessonInfoResponse = lessonsApi.getLessonInfo(language, id, lesson.id)
                     lessonInfoResponse.body()?.downloadContent()
+                    lessonInfoResponse.body()?.lesson?.cover?.let { covers.add(it) }
                 }
             }
+
+            workScheduler.preFetchImages(covers)
+
             quarterliesDao.setOfflineState(
                 index,
                 OfflineState.COMPLETE

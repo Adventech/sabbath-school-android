@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -434,7 +434,7 @@ private fun ColumnScope.ReadButton(
                 OfflineState.PARTIAL,
                 OfflineState.NONE -> ResIcon.Download
 
-                OfflineState.IN_PROGRESS -> ResIcon.Downloading
+                OfflineState.IN_PROGRESS -> null
                 OfflineState.COMPLETE -> ResIcon.Downloaded
             }
         )
@@ -494,7 +494,7 @@ private fun ColumnScope.ReadButton(
                         color = downloadButtonIconColor
                     )
 
-                    IconBox(icon = targetIcon)
+                    targetIcon?.let { IconBox(icon = it) }
                 }
             }
         }

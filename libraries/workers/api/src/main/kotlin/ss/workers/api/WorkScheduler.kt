@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,13 @@ interface WorkScheduler {
      * @param language The current selected language.
      */
     fun preFetchImages(language: String)
+
+    /**
+     * Prefetch cover images.
+     *
+     * @param images The images to cache.
+     */
+    fun preFetchImages(images: Set<String>)
 
     /**
      * Schedules background work to download quarterly content matching the given [index].

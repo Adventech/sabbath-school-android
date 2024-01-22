@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -174,6 +174,13 @@ internal class SettingsRepositoryImpl @Inject constructor(
             id = "section-account"
         ),
         PrefListEntity.Generic(
+            id = "downloads-delete",
+            enabled = hasDownloads,
+            title = ContentSpec.Res(L10nR.string.ss_delete_downloads),
+            onClick = { onEntityClick(SettingsEntity.Account.DeleteContent) },
+            withWarning = true
+        ),
+        PrefListEntity.Generic(
             title = ContentSpec.Res(L10nR.string.ss_menu_sign_out),
             id = "account-sign-out",
             onClick = { onEntityClick(SettingsEntity.Account.SignOut) },
@@ -183,16 +190,6 @@ internal class SettingsRepositoryImpl @Inject constructor(
             title = ContentSpec.Res(L10nR.string.ss_delete_account),
             id = "account-delete",
             onClick = { onEntityClick(SettingsEntity.Account.Delete) },
-            withWarning = true
-        ),
-
-        DividerEntity(id = "divider-three"),
-
-        PrefListEntity.Generic(
-            id = "downloads-delete",
-            enabled = hasDownloads,
-            title = ContentSpec.Res(L10nR.string.ss_delete_downloads),
-            onClick = { onEntityClick(SettingsEntity.Account.DeleteContent) },
             withWarning = true
         ),
     )

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,10 +46,16 @@ internal class PrefetchImagesWorker @AssistedInject constructor(
     private val dispatcher = Dispatchers.IO.limitedParallelism(5)
 
     override suspend fun doWork(): Result {
-        val language = workerParams.inputData.getString(LANGUAGE_KEY) ?: return Result.failure()
+        val inputImages = workerParams.inputData.getStringArray(IMAGES_KEY)
+        val language = workerParams.inputData.getString(LANGUAGE_KEY)
+
+        if (inputImages.isNullOrEmpty() && language.isNullOrEmpty()) {
+            Timber.i("No images to cache")
+            return Result.failure()
+        }
 
         withContext(dispatcher) {
-            val images = quarterliesDao.getCovers(language)
+            val images = inputImages?.toList() ?: language?.let { quarterliesDao.getCovers(it) } ?: return@withContext
 
             Timber.i("Caching [${images.size}] images...")
 
@@ -69,6 +75,7 @@ internal class PrefetchImagesWorker @AssistedInject constructor(
 
     companion object {
         const val LANGUAGE_KEY = "input:language"
+        const val IMAGES_KEY = "input:images"
 
         val uniqueWorkName: String = PrefetchImagesWorker::class.java.simpleName
     }

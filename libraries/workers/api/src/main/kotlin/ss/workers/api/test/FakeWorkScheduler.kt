@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,32 @@
  * THE SOFTWARE.
  */
 
-package ss.workers.impl.workers
+package ss.workers.api.test
 
-import app.ss.models.QuarterlyGroup
-import app.ss.storage.db.entity.QuarterlyInfoEntity
-import ss.libraries.storage.api.dao.QuarterliesDao
-import ss.libraries.storage.api.entity.QuarterlyEntity
+import androidx.annotation.VisibleForTesting
+import ss.workers.api.WorkScheduler
 
-/** Fake implementation of [QuarterliesDao] for use in tests. */
-class FakeQuarterliesDao(private val covers: List<String> = emptyList()): QuarterliesDao {
+@VisibleForTesting
+class FakeWorkScheduler : WorkScheduler {
 
-    override fun get(language: String): List<QuarterlyEntity> = emptyList()
+    var preFetchImagesLanguage: String? = null
+        private set
+    var preFetchImagesImages: Set<String>? = null
+        private set
 
-    override fun get(language: String, group: QuarterlyGroup): List<QuarterlyEntity> = emptyList()
+    override fun preFetchImages(language: String) {
+        this.preFetchImagesLanguage = language
+    }
 
-    override fun getInfo(quarterlyIndex: String): QuarterlyInfoEntity? = null
+    override fun preFetchImages(images: Set<String>) {
+        this.preFetchImagesImages = images
+    }
 
-    override suspend fun getCovers(language: String): List<String> = covers
+    override fun syncQuarterly(index: String) {
+        // no-op
+    }
 
-    override suspend fun insertItem(item: QuarterlyEntity) {}
-
-    override suspend fun insertAll(items: List<QuarterlyEntity>) {}
-
-    override suspend fun update(item: QuarterlyEntity) {}
+    override fun syncQuarterlies() {
+        // no-op
+    }
 }

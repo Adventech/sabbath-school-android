@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -51,10 +51,23 @@ class PrefetchImagesWorkerTest {
     }
 
     @Test
-    fun `doWork - returns success when done caching images`() = runTest {
+    fun `doWork - returns success when done caching quarterly language`() = runTest {
         val worker = TestListenableWorkerBuilder<PrefetchImagesWorker>(
             context = appContext,
             inputData = workDataOf(PrefetchImagesWorker.LANGUAGE_KEY to "en")
+        ).setWorkerFactory(TestWorkerFactory())
+            .build()
+
+        val result = worker.doWork()
+
+        result shouldBeEqualTo ListenableWorker.Result.success()
+    }
+
+    @Test
+    fun `doWork - returns success when done caching images`() = runTest {
+        val worker = TestListenableWorkerBuilder<PrefetchImagesWorker>(
+            context = appContext,
+            inputData = workDataOf(PrefetchImagesWorker.IMAGES_KEY to arrayOf("image1", "image2"))
         ).setWorkerFactory(TestWorkerFactory())
             .build()
 

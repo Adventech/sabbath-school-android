@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
+import app.ss.storage.test.FakeQuarterliesDao
 import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.lessons.api.ContentSyncProvider
 import ss.lessons.test.FakeContentSyncProvider
