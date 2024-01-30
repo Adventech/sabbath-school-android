@@ -46,10 +46,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.color.lighter
-import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
 import com.cryart.sabbathschool.lessons.ui.lessons.components.features.FeatureImage
@@ -208,7 +208,7 @@ private fun FooterItem(
 private val ImageWidth = 26.dp
 private val ImageHeight = 22.dp
 
-@DayNightPreviews
+@PreviewLightDark
 @Composable
 private fun FeatureItemPreview() {
     SsTheme {
@@ -222,7 +222,7 @@ private fun FeatureItemPreview() {
     }
 }
 
-@DayNightPreviews
+@PreviewLightDark
 @Composable
 private fun CreditItemPreview() {
     SsTheme {

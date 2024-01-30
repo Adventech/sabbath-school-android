@@ -37,8 +37,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.LatoFontFamily
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
@@ -176,7 +176,7 @@ fun ReadMoreText(
     )
 }
 
-@DayNightPreviews
+@PreviewLightDark
 @Composable
 private fun Preview() {
     SsTheme {

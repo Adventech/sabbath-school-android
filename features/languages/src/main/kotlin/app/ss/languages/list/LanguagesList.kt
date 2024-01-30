@@ -39,8 +39,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconBox
@@ -114,13 +114,13 @@ private fun LanguageItem(
     }
 }
 
-@DayNightPreviews
+@PreviewLightDark
 @Composable
 private fun Preview() {
     PreviewItem(model = LanguageModel("en", "English", "English", false))
 }
 
-@DayNightPreviews
+@PreviewLightDark
 @Composable
 private fun PreviewSelected() {
     PreviewItem(model = LanguageModel("es", "Spanish", "Español", true))

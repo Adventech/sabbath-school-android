@@ -49,9 +49,9 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.invisibleToUser
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 
 @Immutable
@@ -121,10 +121,10 @@ fun PagerIndicator(
                     isSelected -> 1f
                     (isLeftEdgeItem || isRightEdgeItem) -> 0.5f
                     else -> 0.8f
-                }
+                }, label = "scale"
             )
             val indicatorColor by animateColorAsState(
-                if (isSelected) activeColor else inActiveColor
+                if (isSelected) activeColor else inActiveColor, label = "color"
             )
 
             Box(
@@ -152,7 +152,7 @@ fun PagerIndicator(
     }
 }
 
-@DayNightPreviews
+@PreviewLightDark
 @Composable
 private fun Preview() {
     SsTheme {

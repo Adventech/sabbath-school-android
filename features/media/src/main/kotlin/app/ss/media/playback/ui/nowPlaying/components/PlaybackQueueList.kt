@@ -53,10 +53,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.modifier.thenIf
-import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
 import app.ss.media.playback.ui.spec.NowPlayingSpec
@@ -156,7 +156,7 @@ private fun AudioRow(
     )
 }
 
-@DayNightPreviews
+@PreviewLightDark
 @Composable
 private fun AudioRowPreview() {
     SsTheme {
@@ -169,7 +169,7 @@ private fun AudioRowPreview() {
     }
 }
 
-@DayNightPreviews
+@PreviewLightDark
 @Composable
 private fun AudioRowPreviewPlaying() {
     SsTheme {

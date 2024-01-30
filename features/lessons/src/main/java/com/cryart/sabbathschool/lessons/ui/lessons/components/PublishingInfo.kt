@@ -43,9 +43,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.color.parse
-import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
@@ -118,7 +118,7 @@ private fun PublishingInfo(
     }
 }
 
-@DayNightPreviews
+@PreviewLightDark
 @Composable
 private fun PreviewPublishingInfo() {
     SsTheme {

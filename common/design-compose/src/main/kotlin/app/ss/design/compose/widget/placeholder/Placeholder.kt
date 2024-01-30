@@ -32,9 +32,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.modifier.asPlaceholder
-import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
 
@@ -82,7 +82,7 @@ fun PlaceholderListItem(
     }
 }
 
-@DayNightPreviews
+@PreviewLightDark
 @Composable
 private fun PreviewListItem() {
     SsTheme {
@@ -106,7 +106,7 @@ fun PlaceholderQuarterly(
     )
 }
 
-@DayNightPreviews
+@PreviewLightDark
 @Composable
 private fun PreviewQuarterly() {
     SsTheme {
