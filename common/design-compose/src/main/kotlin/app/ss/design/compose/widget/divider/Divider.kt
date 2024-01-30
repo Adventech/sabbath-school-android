@@ -22,7 +22,7 @@
 
 package app.ss.design.compose.widget.divider
 
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -30,7 +30,7 @@ import app.ss.design.compose.theme.SsTheme
 
 @Composable
 fun Divider(modifier: Modifier = Modifier) {
-    Divider(
+    HorizontalDivider(
         color = SsTheme.colors.dividers,
         thickness = 0.5.dp,
         modifier = modifier

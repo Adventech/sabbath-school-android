@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -104,13 +103,9 @@ private fun Preview() {
                     ),
                     title = { Text(text = "Title") },
                     navigationIcon = {
-                        IconBox(
-                            icon = IconButton(
-                                imageVector = Icons.Rounded.ArrowBack,
-                                contentDescription = "Back",
-                                onClick = {}
-                            )
-                        )
+                        IconButton(onClick = {}) {
+                            IconBox(icon = app.ss.design.compose.widget.icon.Icons.ArrowBack)
+                        }
                     },
                     scrollBehavior = scrollBehavior
                 )

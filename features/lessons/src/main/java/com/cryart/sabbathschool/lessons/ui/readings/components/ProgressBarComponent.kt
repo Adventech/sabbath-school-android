@@ -39,10 +39,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import app.ss.design.compose.extensions.modifier.asPlaceholder
-import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.placeholder.PlaceholderDefaults
 import com.cryart.sabbathschool.lessons.databinding.SsProgressBarBinding
@@ -107,7 +107,7 @@ private fun Content(modifier: Modifier = Modifier) {
     }
 }
 
-@DayNightPreviews
+@PreviewLightDark
 @Composable
 private fun Preview() {
     SsTheme { Content() }

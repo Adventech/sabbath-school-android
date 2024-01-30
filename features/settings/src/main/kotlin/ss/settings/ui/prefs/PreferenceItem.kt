@@ -46,12 +46,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.ContentAlpha
 import app.ss.design.compose.extensions.content.ContentSpec
 import app.ss.design.compose.extensions.content.asText
-import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
@@ -158,7 +158,7 @@ internal fun PreferenceItem(
 }
 
 @Composable
-@DayNightPreviews
+@PreviewLightDark
 private fun PreviewItem() {
     SsTheme {
         Surface {

@@ -45,10 +45,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.extensions.color.parse
-import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.pager.PagerIndicator
 import app.ss.design.compose.widget.pager.PagerState
@@ -147,7 +147,7 @@ private fun backgroundColor(theme: String): State<Color> {
     )
 }
 
-@DayNightPreviews
+@PreviewLightDark
 @Composable
 private fun Preview() {
     SsTheme {

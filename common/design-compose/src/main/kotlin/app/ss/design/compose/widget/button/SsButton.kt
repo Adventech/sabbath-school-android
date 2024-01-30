@@ -31,8 +31,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import app.ss.design.compose.extensions.previews.DayNightPreviews
 import app.ss.design.compose.theme.SsTheme
 
 @Composable
@@ -61,7 +61,7 @@ fun SsButton(
 private val ButtonMinWidth = 140.dp
 private val ButtonCornerRadius = 20.dp
 
-@DayNightPreviews
+@PreviewLightDark
 @Composable
 private fun Preview() {
     SsTheme {
