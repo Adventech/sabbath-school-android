@@ -36,10 +36,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -62,8 +61,10 @@ import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
+import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.models.LessonIntroModel
+import app.ss.translations.R.string as RString
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemsSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooterSpec
@@ -73,7 +74,6 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.loading
 import com.cryart.sabbathschool.lessons.ui.lessons.components.quarterlyInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.toSpec
-import app.ss.translations.R.string as RString
 
 @Composable
 internal fun LessonsScreen(
@@ -165,7 +165,7 @@ private fun LessonsTopBar(
             topAppBarType = TopAppBarType.Small,
             actions = listOf(
                 IconButton(
-                    imageVector = Icons.Rounded.Share,
+                    imageVector = androidx.compose.material.icons.Icons.Rounded.Share,
                     contentDescription = stringResource(id = RString.ss_share),
                     onClick = onShareClick,
                     tint = iconTint
@@ -195,14 +195,9 @@ private fun LessonsTopBar(
         },
         modifier = modifier,
         navigationIcon = {
-            IconBox(
-                icon = IconButton(
-                    imageVector = Icons.Rounded.ArrowBack,
-                    contentDescription = stringResource(id = RString.ss_action_back),
-                    onClick = onNavClick,
-                    tint = iconTint
-                )
-            )
+            IconButton(onClick = onNavClick) {
+                IconBox(icon = Icons.ArrowBack, contentColor = iconTint ?: LocalContentColor.current)
+            }
         },
         scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
         colors = TopAppBarDefaults.topAppBarColors(

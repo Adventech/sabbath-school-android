@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -210,13 +209,9 @@ private fun NavIcon(
             )
         }
         is QuarterliesListCallback -> {
-            IconBox(
-                icon = IconButton(
-                    imageVector = MaterialIcons.Rounded.ArrowBack,
-                    contentDescription = stringResource(id = RString.ss_action_back),
-                    onClick = { type.backNavClick() }
-                )
-            )
+            IconButton(onClick = { type.backNavClick() }) {
+                IconBox(Icons.ArrowBack)
+            }
         }
     }
 }

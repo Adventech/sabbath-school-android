@@ -23,20 +23,20 @@
 package app.ss.design.compose.widget.icon
 
 import androidx.annotation.StringRes
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.AlarmOff
 import androidx.compose.material.icons.rounded.AlarmOn
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Facebook
 import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Web
 import androidx.compose.material3.Icon
@@ -56,9 +56,9 @@ enum class Icons(
     AccountCircle(MaterialIcons.Rounded.AccountCircle, L10n.ss_account),
     AlarmOff(MaterialIcons.Rounded.AlarmOff, L10n.ss_settings_reminder),
     AlarmOn(MaterialIcons.Rounded.AlarmOn, L10n.ss_settings_reminder),
-    ArrowBack(MaterialIcons.Rounded.ArrowBack, L10n.ss_action_arrow_back),
+    ArrowBack(MaterialIcons.AutoMirrored.Rounded.ArrowBack, L10n.ss_action_arrow_back),
     ArrowDropDown(MaterialIcons.Rounded.ArrowDropDown, L10n.ss_action_arrow_drop_down),
-    ArrowRight(MaterialIcons.Rounded.KeyboardArrowRight, L10n.ss_action_arrow_right),
+    ArrowRight(MaterialIcons.AutoMirrored.Rounded.KeyboardArrowRight, L10n.ss_action_arrow_right),
     Cancel(MaterialIcons.Rounded.Cancel, android.R.string.cancel),
     Check(MaterialIcons.Rounded.Check, L10n.ss_action_selected),
     Clock(MaterialIcons.Rounded.AccessTime, L10n.ss_settings_reminder_time),
