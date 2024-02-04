@@ -25,7 +25,7 @@ package com.cryart.sabbathschool.lessons.ui.readings.components
 import com.cryart.sabbathschool.lessons.databinding.SsReadingContextMenuBinding
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel
 
-class ContextMenuComponent constructor(
+class ContextMenuComponent(
     binding: SsReadingContextMenuBinding,
     viewModel: SSReadingViewModel
 ) {

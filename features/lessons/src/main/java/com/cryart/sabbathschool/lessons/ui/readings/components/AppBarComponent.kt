@@ -37,7 +37,7 @@ import ss.prefs.model.SSReadingDisplayOptions
 import ss.prefs.model.colorTheme
 import com.cryart.sabbathschool.lessons.R as LessonsR
 
-class AppBarComponent constructor(
+class AppBarComponent(
     private val binding: SsReadingAppBarBinding,
     viewModel: SSReadingViewModel,
     ssPrefs: SSPrefs,

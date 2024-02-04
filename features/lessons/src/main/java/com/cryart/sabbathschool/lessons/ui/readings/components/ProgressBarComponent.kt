@@ -35,11 +35,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.dp
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import app.ss.design.compose.extensions.modifier.asPlaceholder
@@ -60,12 +64,16 @@ class ProgressBarComponent(
         viewModel.viewState.collectIn(owner) { state ->
             binding.root.isVisible = state == ReadingsState.Loading
         }
-        binding.composeView.setContent { SsTheme { Surface { Content() } } }
+
+        binding.composeView.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent { SsTheme { Surface { ContentLoading() }} }
+        }
     }
 }
 
 @Composable
-private fun Content(modifier: Modifier = Modifier) {
+private fun ContentLoading(modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize(),
@@ -88,7 +96,7 @@ private fun Content(modifier: Modifier = Modifier) {
             )
         }
 
-        items(15) {
+        items(15) {position ->
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -101,7 +109,9 @@ private fun Content(modifier: Modifier = Modifier) {
                         .asPlaceholder(true, shape = PlaceholderDefaults.shape)
                 )
 
-                Spacer(modifier = Modifier.width((0..200).random().dp))
+                val size by remember(position) { mutableIntStateOf((0..200).random()) }
+
+                Spacer(modifier = Modifier.width(size.dp))
             }
         }
     }
@@ -110,5 +120,5 @@ private fun Content(modifier: Modifier = Modifier) {
 @PreviewLightDark
 @Composable
 private fun Preview() {
-    SsTheme { Content() }
+    SsTheme { ContentLoading() }
 }

@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.lessons.ui.readings.components
 
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import app.ss.design.compose.theme.SsTheme
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.ui.PlaybackMiniControls
@@ -33,12 +34,15 @@ class MiniPlayerComponent(
     private val onExpand: () -> Unit
 ) {
     init {
-        composeView.setContent {
-            SsTheme {
-                PlaybackMiniControls(
-                    playbackConnection = playbackConnection,
-                    onExpand = onExpand
-                )
+        composeView.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                SsTheme {
+                    PlaybackMiniControls(
+                        playbackConnection = playbackConnection,
+                        onExpand = onExpand
+                    )
+                }
             }
         }
     }

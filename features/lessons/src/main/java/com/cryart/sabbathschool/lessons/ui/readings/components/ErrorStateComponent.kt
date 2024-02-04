@@ -29,7 +29,7 @@ import com.cryart.sabbathschool.lessons.ui.readings.SSReadingViewModel
 import com.cryart.sabbathschool.lessons.ui.readings.model.ReadingsState
 import ss.foundation.coroutines.flow.collectIn
 
-class ErrorStateComponent constructor(
+class ErrorStateComponent(
     private val binding: SsErrorStateBinding,
     viewModel: SSReadingViewModel,
     owner: LifecycleOwner,

@@ -31,7 +31,7 @@ import com.cryart.sabbathschool.lessons.ui.readings.model.ReadingsState
 import ss.foundation.coroutines.flow.collectIn
 import ss.prefs.api.SSPrefs
 
-class OfflineStateComponent constructor(
+class OfflineStateComponent(
     private val binding: SsOfflineStateBinding,
     viewModel: SSReadingViewModel,
     ssPrefs: SSPrefs,

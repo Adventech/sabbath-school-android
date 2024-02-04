@@ -43,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -66,19 +67,22 @@ internal class PagesIndicatorComponent(
     private val pageStateFlow = MutableStateFlow(PagerState(0, 0))
 
     init {
-        composeView.setContent {
-            SsTheme {
-                val state by pageStateFlow.collectAsStateWithLifecycle()
-                val displayOptions by ssPrefs.displayOptionsFlow().collectAsStateWithLifecycle(
-                    SSReadingDisplayOptions(composeView.context.isDarkTheme())
-                )
+        composeView.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                SsTheme {
+                    val state by pageStateFlow.collectAsStateWithLifecycle()
+                    val displayOptions by ssPrefs.displayOptionsFlow().collectAsStateWithLifecycle(
+                        SSReadingDisplayOptions(composeView.context.isDarkTheme())
+                    )
 
-                Content(
-                    currentPage = state.currentPage,
-                    pageCount = state.pageCount,
-                    theme = displayOptions.theme,
-                    onClick = onClick
-                )
+                    Content(
+                        currentPage = state.currentPage,
+                        pageCount = state.pageCount,
+                        theme = displayOptions.theme,
+                        onClick = onClick
+                    )
+                }
             }
         }
     }
