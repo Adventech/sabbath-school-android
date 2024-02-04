@@ -22,6 +22,7 @@
 
 package app.ss.widgets.glance.extensions
 
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -63,12 +64,15 @@ fun GlanceModifier.divider(height: Dp = 0.5.dp) = this
     .height(height)
     .background(GlanceTheme.colors.inverseOnSurface)
 
-private fun Uri.launchIntent(): Intent = Intent().apply { data = this@launchIntent }
+private fun Uri.launchIntent(): Intent = Intent().apply {
+    data = this@launchIntent
+    `package` = pkg
+}
 
 private const val pkg = "com.cryart.sabbathschool"
 
-private val fallbackIntent: Intent = Intent().apply {
-    setClassName(pkg, "$pkg.ui.splash.SplashActivity")
+private val fallbackIntent: Intent = Intent("$pkg.ui.splash.SplashActivity").apply {
+    `package` = pkg
 }
 internal fun Uri?.toAction(): Action =
     actionStartActivity(this?.launchIntent() ?: fallbackIntent)
