@@ -2,6 +2,7 @@ package com.cryart.sabbathschool.navigation
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import app.ss.widgets.AppWidgetAction
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
@@ -16,5 +17,10 @@ class AppWidgetActionImpl @Inject constructor(@ApplicationContext private val ap
       SSLessonsActivity.launchIntent(appContext, quarterlyIndex)
 
   override fun launchRead(lessonIndex: String, dayIndex: String?): Intent =
-      SSReadingActivity.launchIntent(appContext, lessonIndex, dayIndex)
+      SSReadingActivity.launchIntent(appContext, lessonIndex, dayIndex).apply {
+          // See [Intent.filterEquals].
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+              identifier = "$lessonIndex/${dayIndex.orEmpty()}"
+          }
+      }
 }
