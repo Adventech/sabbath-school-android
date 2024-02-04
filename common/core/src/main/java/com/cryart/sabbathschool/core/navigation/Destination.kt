@@ -36,7 +36,7 @@ enum class Destination(val key: String) {
     SETTINGS("settings");
 
     companion object {
-        private val map = values().associateBy(Destination::key)
+        private val map = entries.associateBy(Destination::key)
 
         fun fromKey(type: String) = map[type]
     }

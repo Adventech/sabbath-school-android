@@ -22,7 +22,7 @@
 
 package app.ss.widgets.model
 
-import android.net.Uri
+import android.content.Intent
 import androidx.compose.runtime.Immutable
 
 @Immutable
@@ -30,5 +30,5 @@ internal data class TodayWidgetModel(
     val title: String,
     val date: String,
     val cover: String,
-    val uri: Uri,
+    val intent: Intent,
 )

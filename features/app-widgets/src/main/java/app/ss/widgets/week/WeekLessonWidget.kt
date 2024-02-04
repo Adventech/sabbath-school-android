@@ -58,7 +58,7 @@ internal class WeekLessonWidget : BaseWidgetProvider<WeekLessonWidgetModel>() {
         val views = RemoteViews(context.packageName, R.layout.week_lesson_app_widget)
         views.setTextViewText(R.id.widget_quarterly_title, model?.quarterlyTitle ?: context.getString(R.string.ss_widget_error_label))
         views.setTextViewText(R.id.widget_lesson_title, model?.lessonTitle ?: context.getString(R.string.ss_widget_error_label))
-        views.setOnClickPendingIntent(R.id.widget_root, model?.uri?.clickIntent(context))
+        views.setOnClickPendingIntent(R.id.widget_root, model?.intent?.clickIntent(context))
 
         setWeekData(context, views, model)
 
@@ -95,49 +95,49 @@ internal class WeekLessonWidget : BaseWidgetProvider<WeekLessonWidgetModel>() {
         views.setTextViewText(R.id.widget_day_one_date, day?.date ?: default)
         views.setTextColor(R.id.widget_day_one, if (day?.today == true) colorTextPrimary else colorTextDefault)
         views.setTextColor(R.id.widget_day_one_date, if (day?.today == true) colorTextPrimary else colorTextDefault)
-        views.setOnClickPendingIntent(R.id.widget_day_one_container, day?.uri?.clickIntent(context))
+        views.setOnClickPendingIntent(R.id.widget_day_one_container, day?.intent?.clickIntent(context))
 
         day = model?.days?.getOrNull(1)
         views.setTextViewText(R.id.widget_day_two, day?.formattedTitle() ?: default)
         views.setTextViewText(R.id.widget_day_two_date, day?.date ?: default)
         views.setTextColor(R.id.widget_day_two, if (day?.today == true) colorTextPrimary else colorTextDefault)
         views.setTextColor(R.id.widget_day_two_date, if (day?.today == true) colorTextPrimary else colorTextDefault)
-        views.setOnClickPendingIntent(R.id.widget_day_two_container, day?.uri?.clickIntent(context))
+        views.setOnClickPendingIntent(R.id.widget_day_two_container, day?.intent?.clickIntent(context))
 
         day = model?.days?.getOrNull(2)
         views.setTextViewText(R.id.widget_day_three, day?.formattedTitle() ?: default)
         views.setTextViewText(R.id.widget_day_three_date, day?.date ?: default)
         views.setTextColor(R.id.widget_day_three, if (day?.today == true) colorTextPrimary else colorTextDefault)
         views.setTextColor(R.id.widget_day_three_date, if (day?.today == true) colorTextPrimary else colorTextDefault)
-        views.setOnClickPendingIntent(R.id.widget_day_three_container, day?.uri?.clickIntent(context))
+        views.setOnClickPendingIntent(R.id.widget_day_three_container, day?.intent?.clickIntent(context))
 
         day = model?.days?.getOrNull(3)
         views.setTextViewText(R.id.widget_day_four, day?.formattedTitle() ?: default)
         views.setTextViewText(R.id.widget_day_four_date, day?.date ?: default)
         views.setTextColor(R.id.widget_day_four, if (day?.today == true) colorTextPrimary else colorTextDefault)
         views.setTextColor(R.id.widget_day_four_date, if (day?.today == true) colorTextPrimary else colorTextDefault)
-        views.setOnClickPendingIntent(R.id.widget_day_four_container, day?.uri?.clickIntent(context))
+        views.setOnClickPendingIntent(R.id.widget_day_four_container, day?.intent?.clickIntent(context))
 
         day = model?.days?.getOrNull(4)
         views.setTextViewText(R.id.widget_day_five, day?.formattedTitle() ?: default)
         views.setTextViewText(R.id.widget_day_five_date, day?.date ?: default)
         views.setTextColor(R.id.widget_day_five, if (day?.today == true) colorTextPrimary else colorTextDefault)
         views.setTextColor(R.id.widget_day_five_date, if (day?.today == true) colorTextPrimary else colorTextDefault)
-        views.setOnClickPendingIntent(R.id.widget_day_five_container, day?.uri?.clickIntent(context))
+        views.setOnClickPendingIntent(R.id.widget_day_five_container, day?.intent?.clickIntent(context))
 
         day = model?.days?.getOrNull(5)
         views.setTextViewText(R.id.widget_day_six, day?.formattedTitle() ?: default)
         views.setTextViewText(R.id.widget_day_six_date, day?.date ?: default)
         views.setTextColor(R.id.widget_day_six, if (day?.today == true) colorTextPrimary else colorTextDefault)
         views.setTextColor(R.id.widget_day_six_date, if (day?.today == true) colorTextPrimary else colorTextDefault)
-        views.setOnClickPendingIntent(R.id.widget_day_six_container, day?.uri?.clickIntent(context))
+        views.setOnClickPendingIntent(R.id.widget_day_six_container, day?.intent?.clickIntent(context))
 
         day = model?.days?.getOrNull(6)
         views.setTextViewText(R.id.widget_day_seven, day?.formattedTitle() ?: default)
         views.setTextViewText(R.id.widget_day_seven_date, day?.date ?: default)
         views.setTextColor(R.id.widget_day_seven, if (day?.today == true) colorTextPrimary else colorTextDefault)
         views.setTextColor(R.id.widget_day_seven_date, if (day?.today == true) colorTextPrimary else colorTextDefault)
-        views.setOnClickPendingIntent(R.id.widget_day_seven_container, day?.uri?.clickIntent(context))
+        views.setOnClickPendingIntent(R.id.widget_day_seven_container, day?.intent?.clickIntent(context))
     }
 
     private fun WeekDayWidgetModel.formattedTitle(): Spanned = buildSpannedString {

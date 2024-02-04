@@ -28,20 +28,19 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import app.ss.widgets.model.WidgetType
 import app.ss.widgets.today.TodayAppWidget
 import app.ss.widgets.today.TodayImgAppWidget
 import app.ss.widgets.week.WeekLessonWidget
 import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import javax.inject.Inject
 
 abstract class BaseWidgetProvider<M> : AppWidgetProvider() {
 
@@ -106,13 +105,7 @@ abstract class BaseWidgetProvider<M> : AppWidgetProvider() {
     }
 }
 
-internal fun Uri.clickIntent(context: Context): PendingIntent {
-    val uri = this
-
-    return Intent().apply {
-        data = uri
-    }.let { intent ->
-        val flag = if (isAtLeastApi(Build.VERSION_CODES.M)) PendingIntent.FLAG_IMMUTABLE else 0
-        PendingIntent.getActivity(context, 0, intent, flag)
-    }
+internal fun Intent.clickIntent(context: Context): PendingIntent {
+    val flag = if (isAtLeastApi(Build.VERSION_CODES.M)) PendingIntent.FLAG_IMMUTABLE else 0
+    return PendingIntent.getActivity(context, 0, this, flag)
 }

@@ -105,7 +105,7 @@ internal class LessonInfoWidget @AssistedInject constructor(
                         quarterlyTitle = model?.quarterlyTitle ?: default,
                         lessonTitle = model?.lessonTitle ?: default,
                         cover = cover,
-                        modifier = GlanceModifier.clickable(uri = model?.uri)
+                        modifier = GlanceModifier.clickable(intent = model?.intent)
                     )
                 }
 
@@ -136,7 +136,7 @@ internal class LessonInfoWidget @AssistedInject constructor(
                         modifier = GlanceModifier
                             .fillMaxWidth()
                             .padding(horizontal = 12.dp)
-                            .clickable(uri = item.uri)
+                            .clickable(intent = item.intent)
                     ) {
                         DayInfo(
                             model = item,

@@ -22,7 +22,7 @@
 
 package app.ss.widgets.model
 
-import android.net.Uri
+import android.content.Intent
 import androidx.compose.runtime.Immutable
 
 @Immutable
@@ -31,5 +31,5 @@ internal data class WeekLessonWidgetModel(
     val lessonTitle: String,
     val cover: String,
     val days: List<WeekDayWidgetModel>,
-    val uri: Uri?
+    val intent: Intent?
 )

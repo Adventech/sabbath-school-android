@@ -87,7 +87,7 @@ internal class TodayImageAppWidget @AssistedInject constructor(
             Box(
                 modifier = GlanceModifier
                     .modifyAppWidgetBackground()
-                    .clickable(uri = model?.uri)
+                    .clickable(intent = model?.intent)
             ) {
                 cover?.let { bitmap ->
                     Image(

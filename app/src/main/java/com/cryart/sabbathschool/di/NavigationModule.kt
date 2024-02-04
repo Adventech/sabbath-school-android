@@ -22,8 +22,10 @@
 
 package com.cryart.sabbathschool.di
 
+import app.ss.widgets.AppWidgetAction
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.navigation.AppNavigatorImpl
+import com.cryart.sabbathschool.navigation.AppWidgetActionImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -35,4 +37,7 @@ interface NavigationModule {
 
     @Binds
     fun bind(impl: AppNavigatorImpl): AppNavigator
+
+    @Binds
+    fun bindWidgetAction(impl: AppWidgetActionImpl): AppWidgetAction
 }

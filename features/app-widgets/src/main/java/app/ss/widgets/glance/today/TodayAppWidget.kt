@@ -23,7 +23,6 @@
 package app.ss.widgets.glance.today
 
 import android.content.Context
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -54,6 +53,7 @@ import androidx.glance.text.Text
 import app.ss.widgets.R
 import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.extensions.clickable
+import app.ss.widgets.glance.extensions.fallbackIntent
 import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
 import app.ss.widgets.glance.extensions.stringResource
 import app.ss.widgets.glance.extensions.toAction
@@ -89,7 +89,7 @@ internal class TodayAppWidget @AssistedInject constructor(
             Box(
                 modifier = GlanceModifier
                     .modifyAppWidgetBackground()
-                    .clickable(uri = data?.uri)
+                    .clickable(intent = data?.intent)
             ) {
                 WidgetAppLogo()
 
@@ -156,7 +156,7 @@ internal fun TodayInfo(
         stringResource(R.string.ss_widget_error_label),
         DateHelper.today(),
         "",
-        Uri.EMPTY
+        fallbackIntent
     )
 
     Column(
@@ -194,7 +194,7 @@ internal fun TodayInfo(
                     text = stringResource(TranslationsR.string.ss_lessons_read).uppercase(),
                     style = todayTitle(options.colors.contentColor).copy(fontSize = 14.sp),
                     maxLines = 1,
-                    onClick = model.uri.toAction(),
+                    onClick = model.intent.toAction(),
                     modifier = GlanceModifier
                         .cornerRadius(20.dp)
                         .padding(horizontal = 32.dp)
