@@ -50,7 +50,6 @@ import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.text.Text
-import app.ss.widgets.R
 import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.extensions.clickable
 import app.ss.widgets.glance.extensions.fallbackIntent
@@ -64,7 +63,8 @@ import app.ss.widgets.model.TodayWidgetModel
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import ss.misc.DateHelper
-import app.ss.translations.R as TranslationsR
+import app.ss.translations.R as L10nR
+import app.ss.widgets.R as WidgetsR
 
 internal class TodayAppWidget @AssistedInject constructor(
     private val dataProvider: WidgetDataProvider,
@@ -133,8 +133,8 @@ private fun WidgetAppLogo(
         Spacer(modifier = GlanceModifier.defaultWeight())
 
         Image(
-            provider = ImageProvider(R.drawable.ic_widget_logo),
-            contentDescription = stringResource(TranslationsR.string.ss_app_name),
+            provider = ImageProvider(WidgetsR.drawable.ic_widget_logo),
+            contentDescription = stringResource(L10nR.string.ss_app_name),
             modifier = GlanceModifier
                 .size(AppLogoSize)
                 .padding(
@@ -153,7 +153,7 @@ internal fun TodayInfo(
     modifier: GlanceModifier = GlanceModifier
 ) {
     val model = spec.model ?: TodayWidgetModel(
-        stringResource(R.string.ss_widget_error_label),
+        stringResource(L10nR.string.ss_widget_error_label),
         DateHelper.today(),
         "",
         fallbackIntent
@@ -191,7 +191,7 @@ internal fun TodayInfo(
             TodayInfoSpec.ReadOptions.Hidden -> Unit
             is TodayInfoSpec.ReadOptions.Shown -> {
                 Button(
-                    text = stringResource(TranslationsR.string.ss_lessons_read).uppercase(),
+                    text = stringResource(L10nR.string.ss_lessons_read).uppercase(),
                     style = todayTitle(options.colors.contentColor).copy(fontSize = 14.sp),
                     maxLines = 1,
                     onClick = model.intent.toAction(),
