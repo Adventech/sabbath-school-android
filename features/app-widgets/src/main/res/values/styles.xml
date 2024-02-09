@@ -71,5 +71,6 @@
     <style name="DayContainer.Title" parent="AppWidget.Text.Secondary">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:text">@string/ss_widget_error_label</item>
     </style>
 </resources>

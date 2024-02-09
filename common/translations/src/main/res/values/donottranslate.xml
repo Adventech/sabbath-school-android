@@ -84,4 +84,6 @@
         Sabbath School collects User IDs to help identify and restore user saved content.
     </string>
 
+    <string name="ss_widget_error_label">----</string>
+
 </resources>

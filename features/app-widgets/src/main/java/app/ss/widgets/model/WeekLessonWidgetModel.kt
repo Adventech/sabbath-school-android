@@ -24,12 +24,13 @@ package app.ss.widgets.model
 
 import android.content.Intent
 import androidx.compose.runtime.Immutable
+import kotlinx.collections.immutable.ImmutableList
 
 @Immutable
 internal data class WeekLessonWidgetModel(
     val quarterlyTitle: String,
     val lessonTitle: String,
     val cover: String,
-    val days: List<WeekDayWidgetModel>,
+    val days: ImmutableList<WeekDayWidgetModel>,
     val intent: Intent?
 )

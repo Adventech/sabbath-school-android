@@ -43,6 +43,7 @@
         <TextView
             android:id="@+id/widget_quarterly_title"
             style="@style/AppWidget.Text.Primary"
+            android:text="@string/ss_widget_error_label"
             tools:text="Rest in Christ" />
 
         <TextView
