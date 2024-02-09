@@ -22,6 +22,7 @@
 
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:initialLayout="@layout/week_lesson_app_widget"
     android:minWidth="300dp"
     android:minHeight="55dp"
     android:previewImage="@drawable/week_lesson_app_widget_preview"

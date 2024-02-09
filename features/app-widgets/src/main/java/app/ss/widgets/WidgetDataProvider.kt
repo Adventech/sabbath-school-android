@@ -28,6 +28,7 @@ import app.ss.widgets.model.WeekDayWidgetModel
 import app.ss.widgets.model.WeekLessonWidgetModel
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import timber.log.Timber
@@ -97,7 +98,7 @@ internal class WidgetDataProviderImpl @Inject constructor(
                     quarterlyTitle = data.quarterlyTitle,
                     lessonTitle = data.lessonTitle,
                     cover = data.cover,
-                    days = days,
+                    days = days.toImmutableList(),
                     intent = lessonsIntent,
                 )
             }

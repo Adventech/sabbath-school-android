@@ -35,7 +35,6 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
-import androidx.glance.LocalSize
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
@@ -55,7 +54,6 @@ import androidx.glance.layout.size
 import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
-import app.ss.widgets.R
 import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.extensions.clickable
 import app.ss.widgets.glance.extensions.divider
@@ -69,99 +67,73 @@ import app.ss.widgets.model.WeekLessonWidgetModel
 import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import app.ss.translations.R as TranslationsR
+import app.ss.translations.R as L10nR
+import app.ss.widgets.R as WidgetsR
 
-internal class LessonInfoWidget @AssistedInject constructor(
-    private val dataProvider: WidgetDataProvider,
-) : GlanceAppWidget() {
+internal class LessonInfoWidget
+@AssistedInject
+constructor(private val dataProvider: WidgetDataProvider) : GlanceAppWidget() {
 
-    override val sizeMode: SizeMode = SizeMode.Responsive(
-        setOf(smallMode, mediumMode, largeMode)
+  override val sizeMode: SizeMode = SizeMode.Responsive(setOf(smallMode, mediumMode, largeMode))
+
+  override suspend fun provideGlance(context: Context, id: GlanceId) {
+    val model = dataProvider.getWeekLessonModel()
+    val cover = context.fetchBitmap(model?.cover)
+
+    provideContent { Content(model, cover) }
+  }
+
+  @Composable
+  private fun Content(model: WeekLessonWidgetModel?, cover: Bitmap?) {
+    SsGlanceTheme { LessonInfoWidgetContent(model = model, cover = cover) }
+  }
+
+  @AssistedFactory
+  interface Factory {
+    fun create(): LessonInfoWidget
+  }
+
+  companion object {
+    private val smallMode = DpSize(300.dp, 220.dp)
+    private val mediumMode = DpSize(300.dp, 300.dp)
+    private val largeMode = DpSize(300.dp, 400.dp)
+  }
+}
+
+@Composable
+private fun LessonInfoWidgetContent(model: WeekLessonWidgetModel?, cover: Bitmap?) {
+  val default = stringResource(L10nR.string.ss_widget_error_label)
+
+  Column(modifier = GlanceModifier.modifyAppWidgetBackground()) {
+    LessonInfoRow(
+        quarterlyTitle = model?.quarterlyTitle ?: default,
+        lessonTitle = model?.lessonTitle ?: default,
+        cover = cover,
+        modifier = GlanceModifier.clickable(intent = model?.intent),
     )
 
-    override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val model = dataProvider.getWeekLessonModel()
-        val cover = context.fetchBitmap(model?.cover)
+    Spacer(modifier = GlanceModifier.size(16.dp))
 
-        provideContent {
-            Content(model, cover)
-        }
-    }
+    Spacer(modifier = GlanceModifier.divider())
 
-    @Composable
-    private fun Content(model: WeekLessonWidgetModel?, cover: Bitmap?) {
-        val default = stringResource(R.string.ss_widget_error_label)
+    LazyColumn(modifier = GlanceModifier.defaultWeight()) {
+      val items = model?.days ?: emptyList()
 
-        val size = LocalSize.current
+      itemsIndexed(items) { index, item ->
+        Column(
+            modifier =
+                GlanceModifier.fillMaxWidth()
+                    .padding(horizontal = 12.dp)
+                    .clickable(intent = item.intent)) {
+              DayInfo(model = item, modifier = GlanceModifier.fillMaxWidth())
 
-        SsGlanceTheme {
-            LazyColumn(
-                modifier = GlanceModifier
-                    .modifyAppWidgetBackground()
-                    .padding(vertical = 8.dp)
-            ) {
-                item {
-                    LessonInfoRow(
-                        quarterlyTitle = model?.quarterlyTitle ?: default,
-                        lessonTitle = model?.lessonTitle ?: default,
-                        cover = cover,
-                        modifier = GlanceModifier.clickable(intent = model?.intent)
-                    )
-                }
-
-                item {
-                    Spacer(modifier = GlanceModifier.size(16.dp))
-                }
-
-                item {
-                    Spacer(modifier = GlanceModifier.divider())
-                }
-
-                val days = model?.days ?: emptyList()
-                val items = when (size) {
-                    smallMode -> days.filter { it.today }
-                    mediumMode -> {
-                        when (val middle = days.indexOfFirst { it.today }.takeIf { it != -1 }) {
-                            null -> emptyList()
-                            0 -> days.take(2)
-                            days.size - 1 -> days.takeLast(2)
-                            else -> days.subList(middle - 1, middle + 2)
-                        }
-                    }
-                    largeMode -> days
-                    else -> emptyList()
-                }
-                itemsIndexed(items) { index, item ->
-                    Column(
-                        modifier = GlanceModifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp)
-                            .clickable(intent = item.intent)
-                    ) {
-                        DayInfo(
-                            model = item,
-                            modifier = GlanceModifier.fillMaxWidth()
-                        )
-
-                        if (index != items.lastIndex) {
-                            Spacer(modifier = GlanceModifier.divider())
-                        }
-                    }
-                }
+              if (index != items.lastIndex) {
+                Spacer(modifier = GlanceModifier.divider())
+              }
             }
-        }
+      }
     }
-
-    @AssistedFactory
-    interface Factory {
-        fun create(): LessonInfoWidget
-    }
-
-    companion object {
-        private val smallMode = DpSize(300.dp, 220.dp)
-        private val mediumMode = DpSize(300.dp, 300.dp)
-        private val largeMode = DpSize(300.dp, 400.dp)
-    }
+  }
 }
 
 @Composable
@@ -170,99 +142,92 @@ private fun LessonInfoRow(
     quarterlyTitle: String,
     lessonTitle: String,
     cover: Bitmap?,
-    modifier: GlanceModifier = GlanceModifier
+    modifier: GlanceModifier = GlanceModifier,
 ) {
-    Row(
-        modifier = modifier.padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+  Row(
+      modifier = modifier.fillMaxWidth().padding(12.dp),
+      verticalAlignment = Alignment.CenterVertically) {
         cover?.let { bitmap ->
-            Image(
-                provider = BitmapImageProvider(bitmap),
-                contentDescription = quarterlyTitle,
-                modifier = GlanceModifier
-                    .background(colorProvider = GlanceTheme.colors.surfaceVariant)
-                    .size(width = CoverWidth, height = CoverHeight)
-                    .cornerRadius(6.dp),
-                contentScale = ContentScale.Crop
-            )
-        } ?: run {
-            Spacer(
-                modifier = GlanceModifier
-                    .background(colorProvider = GlanceTheme.colors.surfaceVariant)
-                    .size(width = CoverWidth, height = CoverHeight)
-                    .cornerRadius(8.dp)
-            )
+          Image(
+              provider = BitmapImageProvider(bitmap),
+              contentDescription = quarterlyTitle,
+              modifier =
+                  GlanceModifier.background(colorProvider = GlanceTheme.colors.surfaceVariant)
+                      .size(width = CoverWidth, height = CoverHeight)
+                      .cornerRadius(6.dp),
+              contentScale = ContentScale.Crop,
+          )
         }
-
-        Spacer(modifier = GlanceModifier.width(8.dp))
+            ?: run {
+              Spacer(
+                  modifier =
+                      GlanceModifier.background(colorProvider = GlanceTheme.colors.surfaceVariant)
+                          .size(width = CoverWidth, height = CoverHeight)
+                          .cornerRadius(8.dp),
+              )
+            }
 
         Column(
-            modifier = GlanceModifier.defaultWeight()
+            modifier = GlanceModifier.defaultWeight().padding(horizontal = 16.dp),
         ) {
-            Text(
-                text = quarterlyTitle,
-                style = todayTitle(),
-                maxLines = 2,
-                modifier = GlanceModifier.fillMaxWidth()
-            )
+          Text(
+              text = quarterlyTitle,
+              style = todayTitle(),
+              maxLines = 2,
+              modifier = GlanceModifier.fillMaxWidth(),
+          )
 
-            Spacer(
-                modifier = GlanceModifier
-                    .height(4.dp)
-                    .fillMaxWidth()
-            )
+          Spacer(modifier = GlanceModifier.height(4.dp).fillMaxWidth())
 
-            Text(
-                text = lessonTitle,
-                style = todayBody().copy(
-                    fontSize = 13.sp
-                ),
-                maxLines = 1,
-                modifier = GlanceModifier.fillMaxWidth()
-            )
+          Text(
+              text = lessonTitle,
+              style = todayBody().copy(fontSize = 13.sp),
+              maxLines = 1,
+              modifier = GlanceModifier.fillMaxWidth(),
+          )
         }
 
-        Image(
-            provider = ImageProvider(R.drawable.ic_widget_logo),
-            contentDescription = stringResource(TranslationsR.string.ss_app_name),
-            modifier = GlanceModifier.size(AppLogoSize)
-        )
-    }
+        Column(modifier = GlanceModifier) {
+          Image(
+              provider = ImageProvider(WidgetsR.drawable.ic_widget_logo),
+              contentDescription = stringResource(L10nR.string.ss_app_name),
+              modifier = GlanceModifier.size(AppLogoSize),
+          )
+          Spacer(modifier = GlanceModifier.height(CoverHeight - AppLogoSize))
+        }
+      }
 }
 
 private val CoverWidth = 64.dp
 private val CoverHeight = 100.dp
-private val AppLogoSize = 56.dp
+private val AppLogoSize = 48.dp
 
 @Composable
-private fun DayInfo(
-    model: WeekDayWidgetModel,
-    modifier: GlanceModifier = GlanceModifier
-) {
-    val textStyle = todayBody().copy(
-        fontSize = 13.sp
+private fun DayInfo(model: WeekDayWidgetModel, modifier: GlanceModifier = GlanceModifier) {
+  val textStyle = todayBody().copy(fontSize = 13.sp)
+  val titleStyle =
+      if (model.today) {
+        todayBody(GlanceTheme.colors.onSurface).copy(fontWeight = FontWeight.Bold)
+      } else textStyle
+
+  Row(
+      modifier = modifier.padding(vertical = 12.dp),
+      verticalAlignment = Alignment.CenterVertically,
+  ) {
+    Text(
+        text = model.title,
+        style = titleStyle,
+        maxLines = 2,
+        modifier = GlanceModifier.defaultWeight(),
     )
-    val titleStyle = if (model.today) {
-        todayBody(GlanceTheme.colors.onSurface)
-            .copy(fontWeight = FontWeight.Bold)
-    } else textStyle
 
-    Row(modifier = modifier.padding(vertical = 12.dp)) {
-        Text(
-            text = model.title,
-            style = titleStyle,
-            maxLines = 1,
-            modifier = GlanceModifier.defaultWeight()
-        )
+    Spacer(modifier = GlanceModifier.width(8.dp))
 
-        Spacer(modifier = GlanceModifier.width(8.dp))
-
-        Text(
-            text = model.date,
-            style = textStyle,
-            maxLines = 1,
-            modifier = GlanceModifier
-        )
-    }
+    Text(
+        text = model.date,
+        style = textStyle,
+        maxLines = 1,
+        modifier = GlanceModifier,
+    )
+  }
 }

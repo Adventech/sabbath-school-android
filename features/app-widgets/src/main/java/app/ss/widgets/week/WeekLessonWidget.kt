@@ -41,6 +41,7 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import coil.transform.RoundedCornersTransformation
 import dagger.hilt.android.AndroidEntryPoint
+import app.ss.translations.R as L10nR
 import com.cryart.design.R as DesignR
 
 @AndroidEntryPoint
@@ -56,8 +57,8 @@ internal class WeekLessonWidget : BaseWidgetProvider<WeekLessonWidgetModel>() {
         model: WeekLessonWidgetModel?
     ) {
         val views = RemoteViews(context.packageName, R.layout.week_lesson_app_widget)
-        views.setTextViewText(R.id.widget_quarterly_title, model?.quarterlyTitle ?: context.getString(R.string.ss_widget_error_label))
-        views.setTextViewText(R.id.widget_lesson_title, model?.lessonTitle ?: context.getString(R.string.ss_widget_error_label))
+        views.setTextViewText(R.id.widget_quarterly_title, model?.quarterlyTitle ?: context.getString(L10nR.string.ss_widget_error_label))
+        views.setTextViewText(R.id.widget_lesson_title, model?.lessonTitle ?: context.getString(L10nR.string.ss_widget_error_label))
         views.setOnClickPendingIntent(R.id.widget_root, model?.intent?.clickIntent(context))
 
         setWeekData(context, views, model)

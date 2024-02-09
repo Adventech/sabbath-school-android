@@ -60,7 +60,7 @@ dependencies {
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
     implementation(libs.google.material)
-
+    implementation(libs.kotlinx.collectionsImmutable)
     implementation(libs.timber)
     implementation(libs.coil.core)
     implementation(libs.coil.compose)
