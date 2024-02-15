@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CircuitCompositionLocals(circuit = circuit) {
-                val backstack = rememberSaveableBackStack { push(SplashScreen) }
+                val backstack = rememberSaveableBackStack(SplashScreen)
                 val circuitNavigator = rememberCircuitNavigator(backstack)
                 val navigator = remember(circuitNavigator) {
                     supportingNavigatorFactory.create(circuitNavigator, this)

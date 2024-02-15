@@ -59,7 +59,7 @@ class SettingsActivity : ComponentActivity() {
             val windowSizeClass = calculateWindowSizeClass(activity = this)
 
             SsTheme(windowWidthSizeClass = windowSizeClass.widthSizeClass) {
-                val backstack = rememberSaveableBackStack { push(SettingsScreen) }
+                val backstack = rememberSaveableBackStack(SettingsScreen)
                 BackHandler(onBack = { finishAfterTransition() })
                 val circuitNavigator = rememberCircuitNavigator(backstack)
                 val navigator = remember(circuitNavigator) {

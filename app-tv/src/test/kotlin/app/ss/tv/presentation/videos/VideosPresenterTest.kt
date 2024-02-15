@@ -45,7 +45,7 @@ import ss.prefs.api.test.FakeSSPrefs
 class VideosPresenterTest {
 
     private val videosResultFlow = MutableSharedFlow<Result<List<VideosInfoModel>>>()
-    private val navigator = FakeNavigator()
+    private val navigator = FakeNavigator(VideosScreen)
     private val repository = FakeVideosRepository(
         videosFlow = videosResultFlow
     )

@@ -28,6 +28,7 @@ import app.ss.tv.presentation.Screens
 import app.ss.tv.presentation.account.AccountScreen
 import app.ss.tv.presentation.home.HomeScreen.Event
 import app.ss.tv.presentation.videos.VideosScreen
+import com.slack.circuit.foundation.Navigator
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,7 +41,7 @@ import ss.prefs.api.test.FakeSSPrefs
 /** Unit tests for [HomePresenter]. */
 class HomePresenterTest {
 
-    private val fakeNavigator = FakeNavigator()
+    private val fakeNavigator = FakeNavigator(HomeScreen)
     private val isTopBarVisible = MutableStateFlow(true)
     private val languagesFlow = MutableStateFlow("en")
 
