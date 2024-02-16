@@ -112,7 +112,7 @@ private fun LessonInfoWidgetContent(model: WeekLessonWidgetModel?, cover: Bitmap
         modifier = GlanceModifier.clickable(intent = model?.intent),
     )
 
-    Spacer(modifier = GlanceModifier.size(16.dp))
+    Spacer(modifier = GlanceModifier.size(8.dp))
 
     Spacer(modifier = GlanceModifier.divider())
 
@@ -182,7 +182,7 @@ private fun LessonInfoRow(
           Text(
               text = lessonTitle,
               style = todayBody().copy(fontSize = 13.sp),
-              maxLines = 1,
+              maxLines = 2,
               modifier = GlanceModifier.fillMaxWidth(),
           )
         }
