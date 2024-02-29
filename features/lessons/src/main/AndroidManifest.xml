@@ -30,7 +30,8 @@
             android:label="@string/blank"
             android:parentActivityName=".ui.lessons.SSLessonsActivity"
             android:theme="@style/Theme.SS.Full"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTask">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.lessons.SSLessonsActivity" />

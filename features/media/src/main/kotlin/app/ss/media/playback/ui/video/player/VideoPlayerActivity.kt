@@ -238,7 +238,6 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     }
 
     override fun onUserLeaveHint() {
-        super.onUserLeaveHint()
         if (mediaPlayer.playbackState.value.isPlaying) {
             enterPiP()
         }
@@ -259,7 +258,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     ) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
 
-        if (isInPictureInPictureMode.not() && onStopCalled) {
+        if (!isInPictureInPictureMode && onStopCalled) {
             finish()
         }
     }
