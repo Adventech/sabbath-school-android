@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -22,8 +22,8 @@
 
 package app.ss.languages
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,13 +37,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
@@ -55,64 +52,44 @@ import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.design.compose.widget.search.SearchInput
 import app.ss.languages.list.LanguagesList
-import app.ss.languages.state.LanguageModel
-import app.ss.languages.state.LanguagesState
-
-@Composable
-internal fun LanguagesScreen(
-    viewModel: LanguagesViewModel = viewModel(),
-    onNavBack: () -> Unit
-) {
-    val viewState by viewModel.uiState
-        .collectAsStateWithLifecycle()
-
-    LanguagesScreen(
-        viewState = viewState,
-        onSearch = { viewModel.searchFor(it) },
-        onModelSelected = { viewModel.modelSelected(it) },
-        onNavBack = onNavBack
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun LanguagesScreen(
-    viewState: LanguagesState,
-    onSearch: (String) -> Unit,
-    onModelSelected: (LanguageModel) -> Unit,
-    onNavBack: () -> Unit,
-    mainPadding: PaddingValues = PaddingValues(0.dp)
-) {
-    SsScaffold(
-        topBar = {
-            SearchView(
-                onQuery = { onSearch(it) },
-                onNavBack = onNavBack,
-                modifier = Modifier.windowInsetsPadding(
-                    WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
-                )
-            )
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
+internal fun LanguagesScreenUi(state: State, modifier: Modifier) {
+  SsScaffold(
+      modifier = modifier,
+      topBar = {
+        SearchView(
+            onQuery = { (state as? State.Languages)?.eventSink?.invoke(LanguagesEvent.Search(it)) },
+            onNavBack = {
+              when (state) {
+                is State.Languages -> state.eventSink(LanguagesEvent.NavBack)
+                is State.Loading -> state.eventSink(Event.NavBack)
+              }
+            },
+            modifier =
+                Modifier.windowInsetsPadding(
+                    WindowInsets.safeDrawing.only(WindowInsetsSides.Top),
+                ),
+        )
+      },
+  ) { paddingValues ->
+    Column(
+        modifier = Modifier.fillMaxSize().padding(paddingValues),
+    ) {
+      Divider()
 
-            Divider()
-
+      when (state) {
+        is State.Loading -> Box(Modifier.weight(1f))
+        is State.Languages ->
             LanguagesList(
-                state = viewState.listState,
-                onItemClick = {
-                    onModelSelected(it)
-                    onNavBack()
-                },
+                state.models,
+                onItemClick = { state.eventSink(LanguagesEvent.Select(it)) },
                 modifier = Modifier.weight(1f),
-                mainPadding = mainPadding
             )
-        }
+      }
     }
+  }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -122,39 +99,28 @@ private fun SearchView(
     onNavBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var queryValue by remember { mutableStateOf("") }
+  var queryValue by rememberSaveable { mutableStateOf("") }
 
-    SsTopAppBar(
-        spec = TopAppBarSpec(TopAppBarType.Small),
-        title = {
-            SearchInput(
-                value = queryValue,
-                onQueryChange = {
-                    queryValue = it
-                    onQuery(it)
-                },
-                modifier = Modifier.fillMaxWidth(),
-                placeholder = "Search Languages"
-            )
-        },
-        modifier = modifier,
-        navigationIcon = {
-            IconButton(onClick = onNavBack) {
-                IconBox(icon = Icons.ArrowBack)
-            }
-        }
-    )
+  SsTopAppBar(
+      spec = TopAppBarSpec(TopAppBarType.Small),
+      title = {
+        SearchInput(
+            value = queryValue,
+            onQueryChange = {
+              queryValue = it
+              onQuery(it)
+            },
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = "Search Languages",
+        )
+      },
+      modifier = modifier,
+      navigationIcon = { IconButton(onClick = onNavBack) { IconBox(icon = Icons.ArrowBack) } },
+  )
 }
 
 @PreviewLightDark
 @Composable
 private fun SearchPreview() {
-    SsTheme {
-        Surface {
-            SearchView(
-                onQuery = {},
-                onNavBack = {}
-            )
-        }
-    }
+  SsTheme { Surface { SearchView(onQuery = {}, onNavBack = {}) } }
 }

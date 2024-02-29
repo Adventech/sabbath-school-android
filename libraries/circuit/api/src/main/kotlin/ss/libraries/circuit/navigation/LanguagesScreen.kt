@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,10 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.test.di.repository
+package ss.libraries.circuit.navigation
 
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
-import app.ss.models.Language
-import javax.inject.Inject
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import com.slack.circuit.runtime.screen.Screen
+import kotlinx.parcelize.Parcelize
 
-class FakeQuarterliesRepository @Inject constructor() : QuarterliesRepository {
-
-  override fun getLanguages(query: String?): Flow<Result<List<Language>>> {
-    return flowOf(Result.success(emptyList()))
-  }
-}
+/** Key to navigate to the languages circuit [Screen]. */
+@Parcelize object LanguagesScreen : Screen

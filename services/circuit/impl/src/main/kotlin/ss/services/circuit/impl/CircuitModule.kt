@@ -30,6 +30,8 @@ import dagger.hilt.components.SingletonComponent
 import ss.libraries.circuit.factory.SettingsPresenterFactory
 import ss.libraries.circuit.factory.SettingsUiFactory
 import javax.inject.Singleton
+import ss.libraries.circuit.factory.LanguagesPresenterFactory
+import ss.libraries.circuit.factory.LanguagesUiFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -38,17 +40,20 @@ internal class CircuitModule {
     @Provides
     @Singleton
     fun provideCircuit(
+        languagesPresenterFactory: LanguagesPresenterFactory,
+        languagesUiFactory: LanguagesUiFactory,
         settingsPresenterFactory: SettingsPresenterFactory,
         settingsUiFactory: SettingsUiFactory,
-
         ): Circuit = Circuit.Builder()
         .addPresenterFactories(
             listOf(
+                languagesPresenterFactory,
                 settingsPresenterFactory,
             )
         )
         .addUiFactories(
             listOf(
+                languagesUiFactory,
                 settingsUiFactory,
             )
         )

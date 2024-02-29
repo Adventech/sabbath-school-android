@@ -23,10 +23,9 @@
 package app.ss.lessons.data.repository.quarterly
 
 import app.ss.models.Language
-import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface QuarterliesRepository {
 
-    fun getLanguages(query: String? = null): Flow<Resource<List<Language>>>
+    fun getLanguages(query: String? = null): Flow<Result<List<Language>>>
 }

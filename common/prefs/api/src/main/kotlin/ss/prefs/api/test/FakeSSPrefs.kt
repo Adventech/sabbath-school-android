@@ -37,6 +37,11 @@ class FakeSSPrefs(
     private val languagesFlow: MutableStateFlow<String> = MutableStateFlow("")
 ) : SSPrefs {
 
+    var setLanguageCode: String? = null
+        private set
+    var setLastQuarterlyIndex: String? = ""
+        private set
+
     var quarterlyIndexDelegate: () -> String? = { throw NotImplementedError() }
 
     override fun clear() {
@@ -72,6 +77,7 @@ class FakeSSPrefs(
     override fun getLanguageCodeFlow(): Flow<String> = languagesFlow
 
     override fun setLanguageCode(languageCode: String) {
+        setLanguageCode = languageCode
         languagesFlow.update { languageCode }
     }
 
@@ -98,7 +104,7 @@ class FakeSSPrefs(
     }
 
     override fun setLastQuarterlyIndex(index: String?) {
-        TODO("Not yet implemented")
+        setLastQuarterlyIndex = index
     }
 
     override fun setReaderArtifactLastModified(lastModified: String) {
