@@ -22,26 +22,15 @@
 
 package ss.circuit.helpers.overlay
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import app.ss.design.compose.extensions.content.ContentSpec
 import app.ss.design.compose.extensions.content.asText
@@ -50,10 +39,10 @@ import com.slack.circuit.overlay.Overlay
 import com.slack.circuit.overlay.OverlayNavigator
 
 /**
- * Used to display a dialog [Overlay].
+ * Used to display an [AlertDialog] circuit [Overlay].
  *
  * Usage:
- * ```
+ * ``` kotlin
  *  val overlayHost = LocalOverlayHost.current
  *  LaunchedEffect(key) {
  *      overlayHost.show(
@@ -72,62 +61,37 @@ import com.slack.circuit.overlay.OverlayNavigator
  *  }
  * ```
  */
-class DialogOverlay<Result : Any> constructor(
+class DialogOverlay<Result : Any>(
     private val title: ContentSpec,
     private val cancelButton: Button,
     private val confirmButton: Button,
     private val content: @Composable (OverlayNavigator<Result>) -> Unit,
 ) : Overlay<Result> {
 
-    data class Button(
-        val title: ContentSpec,
-        val action: () -> Unit
+  data class Button(val title: ContentSpec, val action: () -> Unit)
+
+  @Composable
+  override fun Content(navigator: OverlayNavigator<Result>) {
+    AlertDialog(
+        onDismissRequest = cancelButton.action,
+        confirmButton = {
+          TextButton(onClick = confirmButton.action) { Text(confirmButton.title.asText()) }
+        },
+        modifier = Modifier,
+        dismissButton = {
+          TextButton(onClick = cancelButton.action) { Text(cancelButton.title.asText()) }
+        },
+        title = {
+          Text(
+              modifier = Modifier.fillMaxWidth(),
+              text = title.asText(),
+              style = SsTheme.typography.headlineSmall,
+          )
+        },
+        text = { content(navigator::finish) },
+        properties = DialogProperties(usePlatformDefaultWidth = false),
     )
-
-    @Composable
-    override fun Content(navigator: OverlayNavigator<Result>) {
-        Dialog(
-            onDismissRequest = cancelButton.action,
-            properties = DialogProperties(usePlatformDefaultWidth = false),
-        ) {
-            Surface(
-                shape = MaterialTheme.shapes.extraLarge,
-                tonalElevation = 6.dp,
-                modifier = Modifier
-                    .width(328.dp)
-                    .background(
-                        shape = MaterialTheme.shapes.extraLarge,
-                        color = MaterialTheme.colorScheme.surface
-                    ),
-            ) {
-                Column(
-                    modifier = Modifier.padding(24.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = title.asText(),
-                        style = SsTheme.typography.headlineSmall
-                    )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    content(navigator::finish)
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        TextButton(onClick = cancelButton.action) { Text(cancelButton.title.asText()) }
-
-                        Spacer(modifier = Modifier.width(8.dp))
-
-                        TextButton(onClick = confirmButton.action) { Text(confirmButton.title.asText()) }
-                    }
-                }
-            }
-        }
-    }
+  }
 }
 
 @PreviewLightDark
