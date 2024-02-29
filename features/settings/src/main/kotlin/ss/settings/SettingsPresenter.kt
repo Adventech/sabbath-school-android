@@ -38,10 +38,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.toImmutableList
-import ss.circuit.helpers.navigator.AndroidScreen
-import ss.settings.SettingsScreen.Event
-import ss.settings.SettingsScreen.Overlay
-import ss.settings.SettingsScreen.State
+import ss.circuit.helpers.navigation.CustomTabsIntentScreen
+import ss.circuit.helpers.navigation.LegacyDestination
 import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
 
@@ -66,7 +64,7 @@ internal class SettingsPresenter @AssistedInject constructor(
                     SettingsEntity.Account.SignOut -> {
                         repository.signOut()
                         with(navigator) {
-                            goTo(AndroidScreen.LegacyDestination(Destination.LOGIN))
+                            goTo(LegacyDestination(Destination.LOGIN))
                             pop()
                         }
                     }
@@ -80,7 +78,7 @@ internal class SettingsPresenter @AssistedInject constructor(
                     }
 
                     is SettingsEntity.About -> {
-                        val event = AndroidScreen.CustomTabsIntentScreen(context.getString(entity.resId))
+                        val event = CustomTabsIntentScreen(context.getString(entity.resId))
                         navigator.goTo(event)
                     }
 
@@ -101,7 +99,7 @@ internal class SettingsPresenter @AssistedInject constructor(
                     overlay = null
                     repository.deleteAccount()
                     with(navigator) {
-                        goTo(AndroidScreen.LegacyDestination(Destination.LOGIN))
+                        goTo(LegacyDestination(Destination.LOGIN))
                         pop()
                     }
                 }

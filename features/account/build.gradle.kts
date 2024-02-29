@@ -47,6 +47,7 @@ dependencies {
     implementation(projects.common.lessonsData)
     implementation(projects.common.models)
     implementation(projects.common.translations)
+    implementation(projects.libraries.circuitHelpers.api)
     implementation(projects.libraries.foundation.coroutines)
 
     implementation(libs.google.material)

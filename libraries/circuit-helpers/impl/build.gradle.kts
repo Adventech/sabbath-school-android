@@ -29,8 +29,15 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
+slack {
+    features { compose() }
+}
+
 dependencies {
+    implementation(projects.common.core)
+    implementation(projects.common.designCompose)
     implementation(projects.libraries.circuitHelpers.api)
+    implementation(libs.androidx.activity.compose)
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
 }

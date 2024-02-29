@@ -23,8 +23,10 @@
 package com.cryart.sabbathschool.core.navigation
 
 import android.app.Activity
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import com.slack.circuit.runtime.screen.Screen
 
 /**
  * Navigate to different modules
@@ -43,4 +45,7 @@ interface AppNavigator {
      * Navigate to a Destination from a deep-link
      */
     fun navigate(activity: Activity, deepLink: Uri)
+
+    /** Navigate to a circuit [Screen]. */
+    fun navigate(context: Context, screen: Screen)
 }

@@ -34,15 +34,15 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
-import ss.circuit.helpers.navigator.AndroidScreen
-import ss.settings.SettingsScreen.Event
+import ss.circuit.helpers.navigation.LegacyDestination
+import ss.circuit.helpers.navigation.SettingsScreen
 import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
 
 class SettingsPresenterTest {
 
     private val mockContext: Context = mockk()
-    private val navigator = FakeNavigator()
+    private val navigator = FakeNavigator(SettingsScreen)
 
     @Test
     fun `present - emit empty entities then default entities state`() = runTest {
@@ -98,7 +98,7 @@ class SettingsPresenterTest {
 
             state.eventSick(Event.AccountDeleteConfirmed)
 
-            navigator.awaitNextScreen() shouldBeEqualTo AndroidScreen.LegacyDestination(Destination.LOGIN)
+            navigator.awaitNextScreen() shouldBeEqualTo LegacyDestination(Destination.LOGIN)
             navigator.awaitPop()
         }
     }

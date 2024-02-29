@@ -46,14 +46,15 @@ import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import com.slack.circuit.overlay.LocalOverlayHost
 import com.slack.circuit.overlay.OverlayHost
-import ss.circuit.helpers.overlay.DialogOverlay
-import ss.settings.SettingsScreen.Event
-import ss.settings.SettingsScreen.Overlay
-import ss.settings.SettingsScreen.State
+import ss.circuit.helpers.overlay.OverlayButton
+import ss.circuit.helpers.overlay.ssAlertDialogOverlay
+import ss.settings.Event
+import ss.settings.Overlay
+import ss.settings.State
 import app.ss.translations.R as L10nR
 
 @Composable
-internal fun SettingsUiScreen(
+internal fun SettingsScreenUi(
     state: State,
     modifier: Modifier = Modifier
 ) {
@@ -128,12 +129,12 @@ private fun OverlayHost.ShowTimePicker(
 
     LaunchedEffect(overlay) {
         show(
-            DialogOverlay<Unit>(
+            ssAlertDialogOverlay(
                 title = ContentSpec.Res(L10nR.string.ss_settings_reminder_time),
-                cancelButton = DialogOverlay.Button(
+                cancelButton = OverlayButton(
                     title = ContentSpec.Res(android.R.string.cancel)
                 ) { eventSick(Event.OverlayDismiss) },
-                confirmButton = DialogOverlay.Button(
+                confirmButton = OverlayButton(
                     title = ContentSpec.Res(android.R.string.ok)
                 ) {
                     eventSick(Event.SetReminderTime(timePickerState.hour, timePickerState.minute))
@@ -148,6 +149,7 @@ private fun OverlayHost.ShowTimePicker(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun OverlayHost.ConfirmAccountDelete(
     overlay: Overlay?,
@@ -155,12 +157,12 @@ private fun OverlayHost.ConfirmAccountDelete(
 ) {
     LaunchedEffect(overlay) {
         show(
-            DialogOverlay<Unit>(
+            ssAlertDialogOverlay(
                 title = ContentSpec.Res(L10nR.string.ss_delete_account_question),
-                cancelButton = DialogOverlay.Button(
+                cancelButton = OverlayButton(
                     title = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_negative)
                 ) { eventSick(Event.OverlayDismiss) },
-                confirmButton = DialogOverlay.Button(
+                confirmButton = OverlayButton(
                     title = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_positive)
                 ) { eventSick(Event.AccountDeleteConfirmed) }
             ) {
@@ -173,6 +175,7 @@ private fun OverlayHost.ConfirmAccountDelete(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun OverlayHost.ShowConfirmRemoveDownloads(
     overlay: Overlay?,
@@ -180,12 +183,12 @@ private fun OverlayHost.ShowConfirmRemoveDownloads(
 ) {
     LaunchedEffect(overlay) {
         show(
-            DialogOverlay<Unit>(
+            ssAlertDialogOverlay(
                 title = ContentSpec.Res(L10nR.string.ss_delete_downloads),
-                cancelButton = DialogOverlay.Button(
+                cancelButton = OverlayButton(
                     title = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_negative)
                 ) { eventSick(Event.OverlayDismiss) },
-                confirmButton = DialogOverlay.Button(
+                confirmButton = OverlayButton(
                     title = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_positive)
                 ) { eventSick(Event.RemoveDownloads) }
             ) {

@@ -33,7 +33,7 @@ enum class Destination(val key: String) {
     LOGIN("login"),
     READ("read"),
     READ_WEB("sabbath-school.adventech.io"),
-    SETTINGS("settings");
+    ;
 
     companion object {
         private val map = entries.associateBy(Destination::key)

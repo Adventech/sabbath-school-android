@@ -47,7 +47,6 @@ import org.robolectric.android.controller.ActivityController
 import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.misc.SSConstants
 import ss.prefs.api.test.FakeSSPrefs
-import ss.settings.SettingsActivity
 
 @RunWith(AndroidJUnit4::class)
 class AppNavigatorImplTest {
@@ -95,39 +94,16 @@ class AppNavigatorImplTest {
     }
 
     @Test
-    fun `should navigate to settings destination`() {
-        navigator.navigate(activity, Destination.SETTINGS)
-
-        val shadow = Shadows.shadowOf(activity)
-        val intent = shadow.nextStartedActivity
-
-        val clazz = intent.component?.className
-        clazz shouldBeEqualTo SettingsActivity::class.qualifiedName
-    }
-
-    @Test
     fun `should navigate to login when not authenticated`() {
         fakeAuthRepository.userDelegate = { Result.success(null) }
 
-        navigator.navigate(activity, Destination.SETTINGS)
+        navigator.navigate(activity, Destination.LESSONS)
 
         val shadow = Shadows.shadowOf(activity)
         val intent = shadow.nextStartedActivity
 
         val clazz = intent.component?.className
         clazz shouldBeEqualTo LoginActivity::class.qualifiedName
-    }
-
-    @Test
-    fun `should navigate to settings destination via deep-link`() {
-        val uri = Destination.SETTINGS.toUri()
-        navigator.navigate(activity, uri)
-
-        val shadow = Shadows.shadowOf(activity)
-        val intent = shadow.nextStartedActivity
-
-        val clazz = intent.component?.className
-        clazz shouldBeEqualTo SettingsActivity::class.qualifiedName
     }
 
     @Test
