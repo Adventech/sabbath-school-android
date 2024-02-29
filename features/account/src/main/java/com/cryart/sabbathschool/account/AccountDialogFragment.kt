@@ -35,6 +35,7 @@ import androidx.core.app.ShareCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import app.ss.models.config.AppConfig
+import app.ss.translations.R as L10n
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.cryart.sabbathschool.account.databinding.SsFragmentAccountBinding
@@ -45,13 +46,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import ss.foundation.coroutines.flow.collectIn
+import ss.libraries.circuit.navigation.SettingsScreen
 import ss.misc.SSConstants
-import javax.inject.Inject
-import ss.circuit.helpers.navigation.SettingsScreen
-import app.ss.translations.R as L10n
 
 @AndroidEntryPoint
 class AccountDialogFragment : AppCompatDialogFragment() {

@@ -38,8 +38,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.toImmutableList
-import ss.circuit.helpers.navigation.CustomTabsIntentScreen
-import ss.circuit.helpers.navigation.LegacyDestination
+import ss.libraries.circuit.navigation.CustomTabsIntentScreen
+import ss.libraries.circuit.navigation.LegacyDestination
 import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
 

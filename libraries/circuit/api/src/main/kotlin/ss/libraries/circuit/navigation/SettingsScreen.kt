@@ -1,4 +1,4 @@
-package ss.circuit.helpers.navigation
+package ss.libraries.circuit.navigation
 
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.parcelize.Parcelize

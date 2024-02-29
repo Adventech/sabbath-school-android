@@ -34,12 +34,12 @@ import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import kotlinx.collections.immutable.ImmutableList
-import ss.circuit.helpers.factory.SettingsPresenterFactory
-import ss.circuit.helpers.factory.SettingsUiFactory
+import ss.libraries.circuit.factory.SettingsPresenterFactory
+import ss.libraries.circuit.factory.SettingsUiFactory
 import ss.settings.ui.SettingsScreenUi
 import javax.inject.Inject
 import javax.inject.Singleton
-import ss.circuit.helpers.navigation.SettingsScreen
+import ss.libraries.circuit.navigation.SettingsScreen
 
 internal sealed interface Event : CircuitUiEvent {
     data object NavBack : Event

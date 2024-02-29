@@ -20,24 +20,37 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.sgp.base)
-    alias(libs.plugins.ksp)
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-parcelize")
-    id("dagger.hilt.android.plugin")
-}
+package ss.services.circuit.impl
 
-slack {
-    features { compose() }
-}
+import com.slack.circuit.foundation.Circuit
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ss.libraries.circuit.factory.SettingsPresenterFactory
+import ss.libraries.circuit.factory.SettingsUiFactory
+import javax.inject.Singleton
 
-dependencies {
-    implementation(projects.common.core)
-    implementation(projects.common.designCompose)
-    implementation(projects.libraries.circuitHelpers.api)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
+@Module
+@InstallIn(SingletonComponent::class)
+internal class CircuitModule {
+
+    @Provides
+    @Singleton
+    fun provideCircuit(
+        settingsPresenterFactory: SettingsPresenterFactory,
+        settingsUiFactory: SettingsUiFactory,
+
+        ): Circuit = Circuit.Builder()
+        .addPresenterFactories(
+            listOf(
+                settingsPresenterFactory,
+            )
+        )
+        .addUiFactories(
+            listOf(
+                settingsUiFactory,
+            )
+        )
+        .build()
 }

@@ -1,4 +1,4 @@
-package ss.circuit.helpers.navigation
+package ss.libraries.circuit.navigation
 
 import android.os.Bundle
 import com.cryart.sabbathschool.core.navigation.Destination

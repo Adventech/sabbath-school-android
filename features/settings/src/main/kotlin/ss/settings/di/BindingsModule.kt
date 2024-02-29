@@ -26,8 +26,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ss.circuit.helpers.factory.SettingsPresenterFactory
-import ss.circuit.helpers.factory.SettingsUiFactory
+import ss.libraries.circuit.factory.SettingsPresenterFactory
+import ss.libraries.circuit.factory.SettingsUiFactory
 import ss.settings.SettingsPresenterFactoryImpl
 import ss.settings.SettingsUiFactoryImpl
 import ss.settings.repository.SettingsRepository
