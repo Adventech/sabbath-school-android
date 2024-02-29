@@ -40,8 +40,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.prefs.api.SSPrefs
 import ss.workers.api.WorkScheduler
@@ -69,11 +68,9 @@ constructor(
             initialValue = null,
             key1 = query,
         ) {
-          repository
-              .getLanguages(query)
-              .map { it.getOrElse { emptyList() } }
-              .flowOn(dispatcherProvider.default)
-              .collect { languages -> value = languages.toModels() }
+          value = withContext(dispatcherProvider.default) {
+              repository.getLanguages(query).getOrElse { emptyList() }.toModels()
+          }
         }
 
     return when (val models = viewModels) {

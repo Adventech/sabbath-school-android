@@ -24,16 +24,16 @@ package app.ss.lessons.data.repository.quarterly
 
 import app.ss.models.Language
 import com.cryart.sabbathschool.core.response.asResult
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlinx.coroutines.flow.map
 
 @Singleton
-internal class QuarterliesRepositoryImpl @Inject constructor(
+internal class QuarterliesRepositoryImpl
+@Inject
+constructor(
     private val languagesSource: LanguagesDataSource,
 ) : QuarterliesRepository {
 
-    override fun getLanguages(query: String?): Flow<Result<List<Language>>> =
-        languagesSource.getAsFlow(LanguagesDataSource.Request(query = query)).map { it.asResult()}
+  override suspend fun getLanguages(query: String?): Result<List<Language>> =
+      languagesSource.get(LanguagesDataSource.Request(query = query)).asResult()
 }
