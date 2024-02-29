@@ -50,6 +50,7 @@ import kotlinx.coroutines.tasks.await
 import ss.foundation.coroutines.flow.collectIn
 import ss.misc.SSConstants
 import javax.inject.Inject
+import ss.circuit.helpers.navigation.SettingsScreen
 import app.ss.translations.R as L10n
 
 @AndroidEntryPoint
@@ -117,7 +118,7 @@ class AccountDialogFragment : AppCompatDialogFragment() {
             }
 
             navSettings.setOnClickListener {
-                appNavigator.navigate(requireActivity(), Destination.SETTINGS)
+                appNavigator.navigate(requireActivity(), SettingsScreen)
                 dismiss()
             }
 

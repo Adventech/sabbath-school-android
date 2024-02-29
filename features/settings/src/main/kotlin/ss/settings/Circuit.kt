@@ -22,7 +22,6 @@
 
 package ss.settings
 
-import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import app.ss.design.compose.extensions.list.ListEntity
@@ -35,46 +34,42 @@ import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.parcelize.Parcelize
 import ss.circuit.helpers.factory.SettingsPresenterFactory
 import ss.circuit.helpers.factory.SettingsUiFactory
-import ss.settings.ui.SettingsUiScreen
+import ss.settings.ui.SettingsScreenUi
 import javax.inject.Inject
 import javax.inject.Singleton
+import ss.circuit.helpers.navigation.SettingsScreen
 
-@Parcelize
-object SettingsScreen : Screen, Parcelable {
+internal sealed interface Event : CircuitUiEvent {
+    data object NavBack : Event
+    data object OverlayDismiss : Event
+    data object AccountDeleteConfirmed : Event
+    data class SetReminderTime(val hour: Int, val minute: Int) : Event
+    data object RemoveDownloads : Event
+}
 
-    internal sealed interface Event : CircuitUiEvent {
-        data object NavBack : Event
-        data object OverlayDismiss : Event
-        data object AccountDeleteConfirmed : Event
-        data class SetReminderTime(val hour: Int, val minute: Int) : Event
-        data object RemoveDownloads : Event
-    }
+@Immutable
+internal data class State(
+    val entities: ImmutableList<ListEntity>,
+    val overlay: Overlay?,
+    val eventSick: (Event) -> Unit,
+) : CircuitUiState
 
+@Stable
+internal sealed interface Overlay {
     @Immutable
-    internal data class State(
-        val entities: ImmutableList<ListEntity>,
-        val overlay: Overlay?,
-        val eventSick: (Event) -> Unit,
-    ) : CircuitUiState
-
-    @Stable
-    internal sealed interface Overlay {
-        @Immutable
-        data class SelectReminderTime(val hour: Int, val minute: Int) : Overlay
-        data object ConfirmDeleteAccount : Overlay
-        data object ConfirmRemoveDownloads : Overlay
-    }
+    data class SelectReminderTime(val hour: Int, val minute: Int) : Overlay
+    data object ConfirmDeleteAccount : Overlay
+    data object ConfirmRemoveDownloads : Overlay
 }
 
 @Singleton
 internal class SettingsUiFactoryImpl @Inject constructor() : SettingsUiFactory {
     override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
         return when (screen) {
-            is SettingsScreen -> ui<SettingsScreen.State> { state, modifier ->
-                SettingsUiScreen(
+            is SettingsScreen -> ui<State> { state, modifier ->
+                SettingsScreenUi(
                     state,
                     modifier
                 )

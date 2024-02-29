@@ -23,6 +23,7 @@
 package com.cryart.sabbathschool.navigation
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -38,14 +39,15 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.ui.about.AboutActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
+import com.slack.circuit.runtime.screen.Screen
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.mainScopable
 import ss.prefs.api.SSPrefs
-import ss.settings.SettingsActivity
 import javax.inject.Inject
 import javax.inject.Singleton
+import ss.circuit.helpers.impl.CircuitActivity
 
 /**
  * Implementation for [AppNavigator]
@@ -118,13 +120,16 @@ class AppNavigatorImpl @Inject constructor(
         }
     }
 
+    override fun navigate(context: Context, screen: Screen) {
+        CircuitActivity.launch(context, screen)
+    }
+
     private fun getDestinationClass(destination: Destination): Class<*>? {
         return when (destination) {
             Destination.ABOUT -> AboutActivity::class.java
             Destination.ACCOUNT -> AccountDialogFragment::class.java
             Destination.LESSONS -> SSLessonsActivity::class.java
             Destination.LOGIN -> LoginActivity::class.java
-            Destination.SETTINGS -> SettingsActivity::class.java
             Destination.READ -> SSReadingActivity::class.java
             else -> null
         }

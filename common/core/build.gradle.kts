@@ -42,6 +42,7 @@ android {
 dependencies {
     api(projects.common.misc)
     api(projects.common.prefs.api)
+    api(libs.circuit.runtime)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.browser)
     implementation(libs.androidx.core)
