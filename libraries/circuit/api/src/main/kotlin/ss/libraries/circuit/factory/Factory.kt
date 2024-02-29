@@ -20,37 +20,17 @@
  * THE SOFTWARE.
  */
 
-package ss.circuit.helpers.impl
+package ss.libraries.circuit.factory
 
-import com.slack.circuit.foundation.Circuit
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ss.circuit.helpers.factory.SettingsPresenterFactory
-import ss.circuit.helpers.factory.SettingsUiFactory
-import javax.inject.Singleton
+import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuit.runtime.ui.Ui
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal class CircuitModule {
+// Begin Ui Factories
+interface SettingsUiFactory : Ui.Factory
 
-    @Provides
-    @Singleton
-    fun provideCircuit(
-        settingsPresenterFactory: SettingsPresenterFactory,
-        settingsUiFactory: SettingsUiFactory,
+// End Ui Factories
 
-        ): Circuit = Circuit.Builder()
-        .addPresenterFactories(
-            listOf(
-                settingsPresenterFactory,
-            )
-        )
-        .addUiFactories(
-            listOf(
-                settingsUiFactory,
-            )
-        )
-        .build()
-}
+// Begin Presenter Factories
+interface SettingsPresenterFactory : Presenter.Factory
+
+// End Presenter Factories

@@ -40,20 +40,20 @@ import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.ui.about.AboutActivity
 import com.cryart.sabbathschool.ui.login.LoginActivity
 import com.slack.circuit.runtime.screen.Screen
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.mainScopable
 import ss.prefs.api.SSPrefs
-import javax.inject.Inject
-import javax.inject.Singleton
-import ss.circuit.helpers.impl.CircuitActivity
+import ss.services.circuit.impl.CircuitActivity
 
-/**
- * Implementation for [AppNavigator]
- */
+/** Implementation for [AppNavigator] */
 @Singleton
-class AppNavigatorImpl @Inject constructor(
+class AppNavigatorImpl
+@Inject
+constructor(
     private val ssPrefs: SSPrefs,
     private val authRepository: AuthRepository,
     private val dispatcherProvider: DispatcherProvider

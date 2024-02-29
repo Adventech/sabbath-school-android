@@ -46,8 +46,8 @@ import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import com.slack.circuit.overlay.LocalOverlayHost
 import com.slack.circuit.overlay.OverlayHost
-import ss.circuit.helpers.overlay.OverlayButton
-import ss.circuit.helpers.overlay.ssAlertDialogOverlay
+import ss.libraries.circuit.overlay.OverlayButton
+import ss.libraries.circuit.overlay.ssAlertDialogOverlay
 import ss.settings.Event
 import ss.settings.Overlay
 import ss.settings.State

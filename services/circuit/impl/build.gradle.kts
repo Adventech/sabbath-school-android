@@ -20,17 +20,24 @@
  * THE SOFTWARE.
  */
 
-package ss.circuit.helpers.factory
+plugins {
+    alias(libs.plugins.sgp.base)
+    alias(libs.plugins.ksp)
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
+}
 
-import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuit.runtime.ui.Ui
+slack {
+    features { compose() }
+}
 
-// Begin Ui Factories
-interface SettingsUiFactory : Ui.Factory
-
-// End Ui Factories
-
-// Begin Presenter Factories
-interface SettingsPresenterFactory : Presenter.Factory
-
-// End Presenter Factories
+dependencies {
+    implementation(projects.common.core)
+    implementation(projects.common.designCompose)
+    implementation(projects.libraries.circuit.api)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.google.hilt.android)
+    ksp(libs.google.hilt.compiler)
+}

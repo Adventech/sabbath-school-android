@@ -43,7 +43,7 @@ dependencies {
     implementation(projects.common.designCompose)
     implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
-    implementation(projects.libraries.circuitHelpers.api)
+    implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
 

@@ -1,4 +1,4 @@
-package ss.circuit.helpers.impl.navigator
+package ss.services.circuit.impl.navigator
 
 import androidx.activity.ComponentActivity
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
@@ -8,8 +8,8 @@ import com.slack.circuit.runtime.screen.Screen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import ss.circuit.helpers.navigation.CustomTabsIntentScreen
-import ss.circuit.helpers.navigation.LegacyDestination
+import ss.libraries.circuit.navigation.CustomTabsIntentScreen
+import ss.libraries.circuit.navigation.LegacyDestination
 
 /**
  * Custom navigator that adds support for initiating navigation in standard Android.

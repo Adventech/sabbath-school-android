@@ -1,4 +1,4 @@
-package ss.circuit.helpers.impl
+package ss.services.circuit.impl
 
 import android.content.Context
 import android.content.Intent
@@ -22,7 +22,7 @@ import com.slack.circuitx.android.rememberAndroidScreenAwareNavigator
 import com.slack.circuitx.gesturenavigation.GestureNavigationDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import ss.circuit.helpers.impl.navigator.AndroidSupportingNavigator
+import ss.services.circuit.impl.navigator.AndroidSupportingNavigator
 
 @AndroidEntryPoint
 class CircuitActivity : ComponentActivity() {

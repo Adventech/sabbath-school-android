@@ -2,7 +2,7 @@
 
     <application>
         <activity
-            android:name="ss.circuit.helpers.impl.CircuitActivity"
+            android:name="ss.services.circuit.impl.CircuitActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

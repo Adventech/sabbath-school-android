@@ -34,8 +34,8 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
-import ss.circuit.helpers.navigation.LegacyDestination
-import ss.circuit.helpers.navigation.SettingsScreen
+import ss.libraries.circuit.navigation.LegacyDestination
+import ss.libraries.circuit.navigation.SettingsScreen
 import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
 
