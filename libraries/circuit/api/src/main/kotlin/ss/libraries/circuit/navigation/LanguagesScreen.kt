@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,20 +20,10 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.quarterly
+package ss.libraries.circuit.navigation
 
-import app.ss.models.Language
-import com.cryart.sabbathschool.core.response.asResult
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.slack.circuit.runtime.screen.Screen
+import kotlinx.parcelize.Parcelize
 
-@Singleton
-internal class QuarterliesRepositoryImpl
-@Inject
-constructor(
-    private val languagesSource: LanguagesDataSource,
-) : QuarterliesRepository {
-
-  override suspend fun getLanguages(query: String?): Result<List<Language>> =
-      languagesSource.get(LanguagesDataSource.Request(query = query)).asResult()
-}
+/** Key to navigate to the languages circuit [Screen]. */
+@Parcelize object LanguagesScreen : Screen

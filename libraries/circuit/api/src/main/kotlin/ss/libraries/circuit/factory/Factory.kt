@@ -26,11 +26,13 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.ui.Ui
 
 // Begin Ui Factories
+interface LanguagesUiFactory : Ui.Factory
 interface SettingsUiFactory : Ui.Factory
 
 // End Ui Factories
 
 // Begin Presenter Factories
+interface LanguagesPresenterFactory : Presenter.Factory
 interface SettingsPresenterFactory : Presenter.Factory
 
 // End Presenter Factories

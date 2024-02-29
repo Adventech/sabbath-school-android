@@ -43,22 +43,19 @@ slack {
 }
 
 dependencies {
-    implementation(projects.common.core)
-    implementation(projects.common.design)
     implementation(projects.common.designCompose)
     implementation(projects.common.lessonsData)
+    implementation(projects.common.prefs.api)
     implementation(projects.common.translations)
+    implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.workers.api)
 
-    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.lifecycle.viewmodel)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.extensions)
-    implementation(libs.google.material)
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
+    implementation(libs.kotlinx.collectionsImmutable)
     implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)

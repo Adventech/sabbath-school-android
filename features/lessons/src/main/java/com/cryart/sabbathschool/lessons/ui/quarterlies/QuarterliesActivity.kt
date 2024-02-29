@@ -31,7 +31,6 @@ import androidx.activity.viewModels
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import app.ss.design.compose.theme.SsTheme
-import app.ss.languages.showLanguagesList
 import app.ss.models.QuarterlyGroup
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
@@ -43,6 +42,7 @@ import com.cryart.sabbathschool.lessons.ui.quarterlies.list.QuarterliesListActiv
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import ss.foundation.coroutines.flow.collectIn
+import ss.libraries.circuit.navigation.LanguagesScreen
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -109,7 +109,7 @@ class QuarterliesActivity : SSBaseActivity(), QuarterliesGroupCallback {
     }
 
     override fun filterLanguages() {
-        supportFragmentManager.showLanguagesList()
+        appNavigator.navigate(this, LanguagesScreen)
     }
 
     companion object {

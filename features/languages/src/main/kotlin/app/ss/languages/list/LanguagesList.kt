@@ -46,11 +46,11 @@ import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.languages.state.LanguageModel
-import app.ss.languages.state.ListState
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 internal fun LanguagesList(
-    state: ListState,
+    models: ImmutableList<LanguageModel>,
     onItemClick: (LanguageModel) -> Unit,
     modifier: Modifier = Modifier,
     mainPadding: PaddingValues = PaddingValues(0.dp)
@@ -58,7 +58,7 @@ internal fun LanguagesList(
     LazyColumn(
         modifier = modifier,
     ) {
-        items(state.models, key = { it.code }) { model ->
+        items(models, key = { it.code }) { model ->
 
             @OptIn(ExperimentalFoundationApi::class)
             LanguageItem(

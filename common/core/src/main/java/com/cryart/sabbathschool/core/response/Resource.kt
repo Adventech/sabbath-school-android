@@ -26,6 +26,7 @@ import com.cryart.sabbathschool.core.model.Status
 import com.cryart.sabbathschool.core.model.Status.ERROR
 import com.cryart.sabbathschool.core.model.Status.LOADING
 import com.cryart.sabbathschool.core.model.Status.SUCCESS
+import kotlin.Result
 
 class Resource<out T> private constructor(
     val status: Status = LOADING,
@@ -48,5 +49,13 @@ class Resource<out T> private constructor(
         fun <T> loading(): Resource<T> {
             return Resource(LOADING, null, null)
         }
+    }
+}
+
+fun <T> Resource<T>.asResult(): Result<T> {
+    return if (isSuccessFul) {
+        Result.success(data!!)
+    } else {
+        Result.failure(error ?: Throwable())
     }
 }

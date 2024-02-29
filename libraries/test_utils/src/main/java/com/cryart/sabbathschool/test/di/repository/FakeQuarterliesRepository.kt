@@ -24,14 +24,11 @@ package com.cryart.sabbathschool.test.di.repository
 
 import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.Language
-import com.cryart.sabbathschool.core.response.Resource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class FakeQuarterliesRepository @Inject constructor() : QuarterliesRepository {
 
-    override fun getLanguages(query: String?): Flow<Resource<List<Language>>> {
-        return flowOf(Resource.success(emptyList()))
-    }
+  override suspend fun getLanguages(query: String?): Result<List<Language>> {
+    return Result.success(emptyList())
+  }
 }

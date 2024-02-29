@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,20 +20,29 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.quarterly
+package app.ss.languages.di
 
-import app.ss.models.Language
-import com.cryart.sabbathschool.core.response.asResult
-import javax.inject.Inject
-import javax.inject.Singleton
+import app.ss.languages.LanguagesPresenterFactoryImpl
+import app.ss.languages.LanguagesUiFactoryImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ss.libraries.circuit.factory.LanguagesPresenterFactory
+import ss.libraries.circuit.factory.LanguagesUiFactory
 
-@Singleton
-internal class QuarterliesRepositoryImpl
-@Inject
-constructor(
-    private val languagesSource: LanguagesDataSource,
-) : QuarterliesRepository {
+@Module
+@InstallIn(SingletonComponent::class)
+internal abstract class BindingsModule {
 
-  override suspend fun getLanguages(query: String?): Result<List<Language>> =
-      languagesSource.get(LanguagesDataSource.Request(query = query)).asResult()
+    @Binds
+    internal abstract fun bindLanguagesUiFactory(
+        impl: LanguagesUiFactoryImpl
+    ): LanguagesUiFactory
+
+    @Binds
+    internal abstract fun bindLanguagesPresenterFactory(
+        impl: LanguagesPresenterFactoryImpl
+    ): LanguagesPresenterFactory
+
 }
