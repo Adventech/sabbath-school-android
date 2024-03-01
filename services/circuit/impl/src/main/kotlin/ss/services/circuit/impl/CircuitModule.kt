@@ -23,39 +23,37 @@
 package ss.services.circuit.impl
 
 import com.slack.circuit.foundation.Circuit
+import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuit.runtime.ui.Ui
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ss.libraries.circuit.factory.SettingsPresenterFactory
-import ss.libraries.circuit.factory.SettingsUiFactory
 import javax.inject.Singleton
-import ss.libraries.circuit.factory.LanguagesPresenterFactory
-import ss.libraries.circuit.factory.LanguagesUiFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal class CircuitModule {
 
-    @Provides
-    @Singleton
-    fun provideCircuit(
-        languagesPresenterFactory: LanguagesPresenterFactory,
-        languagesUiFactory: LanguagesUiFactory,
-        settingsPresenterFactory: SettingsPresenterFactory,
-        settingsUiFactory: SettingsUiFactory,
-        ): Circuit = Circuit.Builder()
-        .addPresenterFactories(
-            listOf(
-                languagesPresenterFactory,
-                settingsPresenterFactory,
-            )
-        )
-        .addUiFactories(
-            listOf(
-                languagesUiFactory,
-                settingsUiFactory,
-            )
-        )
-        .build()
+  @Provides
+  @Singleton
+  fun provideCircuit(
+      uiFactories: Set<@JvmSuppressWildcards Ui.Factory>,
+      presenterFactories: Set<@JvmSuppressWildcards Presenter.Factory>
+  ): Circuit =
+      Circuit.Builder()
+          .addFactories(presenterFactories, uiFactories)
+          .build()
+
+    private fun Circuit.Builder.addFactories(
+        presenterFactories: Set<Presenter.Factory>,
+        uiFactories: Set<Ui.Factory>,
+    ) = apply {
+        for (factory in presenterFactories) {
+            addPresenterFactory(factory)
+        }
+        for (factory in uiFactories) {
+            addUiFactory(factory)
+        }
+    }
 }

@@ -34,12 +34,8 @@ import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import kotlinx.collections.immutable.ImmutableList
-import ss.libraries.circuit.factory.SettingsPresenterFactory
-import ss.libraries.circuit.factory.SettingsUiFactory
-import ss.settings.ui.SettingsScreenUi
-import javax.inject.Inject
-import javax.inject.Singleton
 import ss.libraries.circuit.navigation.SettingsScreen
+import ss.settings.ui.SettingsScreenUi
 
 internal sealed interface Event : CircuitUiEvent {
     data object NavBack : Event
@@ -64,33 +60,26 @@ internal sealed interface Overlay {
     data object ConfirmRemoveDownloads : Overlay
 }
 
-@Singleton
-internal class SettingsUiFactoryImpl @Inject constructor() : SettingsUiFactory {
-    override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
-        return when (screen) {
-            is SettingsScreen -> ui<State> { state, modifier ->
-                SettingsScreenUi(
-                    state,
-                    modifier
-                )
-            }
-            else -> null
-        }
+internal class SettingsUiFactory : Ui.Factory {
+  override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
+    return when (screen) {
+      is SettingsScreen -> ui<State> { state, modifier -> SettingsScreenUi(state, modifier) }
+      else -> null
     }
+  }
 }
 
-@Singleton
-internal class SettingsPresenterFactoryImpl @Inject constructor(
+internal class SettingsPresenterFactory(
     private val presenter: SettingsPresenter.Factory,
-) : SettingsPresenterFactory {
-    override fun create(
-        screen: Screen,
-        navigator: Navigator,
-        context: CircuitContext,
-    ): Presenter<*>? {
-        return when (screen) {
-            is SettingsScreen -> presenter.create(navigator)
-            else -> null
-        }
+) : Presenter.Factory {
+  override fun create(
+      screen: Screen,
+      navigator: Navigator,
+      context: CircuitContext,
+  ): Presenter<*>? {
+    return when (screen) {
+      is SettingsScreen -> presenter.create(navigator)
+      else -> null
     }
+  }
 }

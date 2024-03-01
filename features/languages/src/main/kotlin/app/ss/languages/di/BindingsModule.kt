@@ -22,27 +22,25 @@
 
 package app.ss.languages.di
 
-import app.ss.languages.LanguagesPresenterFactoryImpl
-import app.ss.languages.LanguagesUiFactoryImpl
-import dagger.Binds
+import app.ss.languages.LanguagesPresenter
+import app.ss.languages.LanguagesPresenterFactory
+import app.ss.languages.LanguagesUiFactory
+import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuit.runtime.ui.Ui
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ss.libraries.circuit.factory.LanguagesPresenterFactory
-import ss.libraries.circuit.factory.LanguagesUiFactory
+import dagger.multibindings.IntoSet
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal abstract class BindingsModule {
+internal object BindingsModule {
 
-    @Binds
-    internal abstract fun bindLanguagesUiFactory(
-        impl: LanguagesUiFactoryImpl
-    ): LanguagesUiFactory
+  @Provides @IntoSet fun provideLanguagesUiFactory(): Ui.Factory = LanguagesUiFactory()
 
-    @Binds
-    internal abstract fun bindLanguagesPresenterFactory(
-        impl: LanguagesPresenterFactoryImpl
-    ): LanguagesPresenterFactory
-
+  @Provides
+  @IntoSet
+  fun provideLanguagesPresenterFactory(factory: LanguagesPresenter.Factory): Presenter.Factory =
+      LanguagesPresenterFactory(factory)
 }
