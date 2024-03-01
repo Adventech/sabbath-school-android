@@ -22,14 +22,17 @@
 
 package ss.settings.di
 
+import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuit.runtime.ui.Ui
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ss.libraries.circuit.factory.SettingsPresenterFactory
-import ss.libraries.circuit.factory.SettingsUiFactory
-import ss.settings.SettingsPresenterFactoryImpl
-import ss.settings.SettingsUiFactoryImpl
+import dagger.multibindings.IntoSet
+import ss.settings.SettingsPresenter
+import ss.settings.SettingsPresenterFactory
+import ss.settings.SettingsUiFactory
 import ss.settings.repository.SettingsRepository
 import ss.settings.repository.SettingsRepositoryImpl
 
@@ -37,18 +40,15 @@ import ss.settings.repository.SettingsRepositoryImpl
 @InstallIn(SingletonComponent::class)
 internal abstract class BindingsModule {
 
-    @Binds
-    internal abstract fun bindSettingsUiFactory(
-        impl: SettingsUiFactoryImpl
-    ): SettingsUiFactory
+  @Binds
+  internal abstract fun bindSettingsRepository(impl: SettingsRepositoryImpl): SettingsRepository
 
-    @Binds
-    internal abstract fun bindSettingsPresenterFactory(
-        impl: SettingsPresenterFactoryImpl
-    ): SettingsPresenterFactory
+  companion object {
+    @Provides @IntoSet fun provideSettingsUiFactory(): Ui.Factory = SettingsUiFactory()
 
-    @Binds
-    internal abstract fun bindSettingsRepository(
-        impl: SettingsRepositoryImpl
-    ): SettingsRepository
+    @Provides
+    @IntoSet
+    fun provideSettingsPresenterFactory(real: SettingsPresenter.Factory): Presenter.Factory =
+        SettingsPresenterFactory(real)
+  }
 }

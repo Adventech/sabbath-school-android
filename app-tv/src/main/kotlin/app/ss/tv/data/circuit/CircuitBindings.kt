@@ -22,22 +22,19 @@
 
 package app.ss.tv.data.circuit
 
-import dagger.Binds
+import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuit.runtime.ui.Ui
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.multibindings.IntoSet
 
 @Module
 @InstallIn(ActivityComponent::class)
-abstract class CircuitBindings {
+internal object CircuitBindings {
 
-    @Binds
-    internal abstract fun bindUiFactory(
-        impl: SSUiFactoryImpl
-    ): SSUiFactory
+  @Provides @IntoSet fun provideUiFactory(): Ui.Factory = SSUiFactory()
 
-    @Binds
-    internal abstract fun bindPresenterFactory(
-        impl: SSPresenterFactoryImpl
-    ): SSPresenterFactory
+  @Provides @IntoSet fun providePresenterFactory(real: SSPresenterFactory): Presenter.Factory = real
 }

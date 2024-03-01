@@ -51,17 +51,15 @@ import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import javax.inject.Inject
 
-interface SSPresenterFactory : Presenter.Factory
-interface SSUiFactory : Ui.Factory
 
-class SSPresenterFactoryImpl @Inject constructor(
+class SSPresenterFactory @Inject constructor(
     private val aboutPresenter: AboutScreenPresenter.Factory,
     private val accountPresenter: AccountPresenter.Factory,
     private val homePresenter: HomePresenter.Factory,
     private val languagesPresenter: LanguagesPresenter.Factory,
     private val videosPresenter: VideosPresenter.Factory,
     private val videoPlayerPresenter: VideoPlayerPresenter.Factory,
-) : SSPresenterFactory {
+) : Presenter.Factory {
 
     override fun create(
         screen: Screen,
@@ -81,7 +79,7 @@ class SSPresenterFactoryImpl @Inject constructor(
     }
 }
 
-internal class SSUiFactoryImpl @Inject constructor() : SSUiFactory {
+internal class SSUiFactory : Ui.Factory {
     override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
         return when (screen) {
             is SplashScreen -> ui<SplashScreen.State> { _, modifier ->

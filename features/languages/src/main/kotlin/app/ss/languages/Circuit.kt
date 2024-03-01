@@ -31,11 +31,7 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.collections.immutable.ImmutableList
-import ss.libraries.circuit.factory.LanguagesPresenterFactory
-import ss.libraries.circuit.factory.LanguagesUiFactory
 import ss.libraries.circuit.navigation.LanguagesScreen
 
 internal sealed interface State : CircuitUiState {
@@ -59,8 +55,7 @@ internal sealed interface LanguagesEvent : CircuitUiEvent {
   data class Select(val model: LanguageModel) : LanguagesEvent
 }
 
-@Singleton
-internal class LanguagesUiFactoryImpl @Inject constructor() : LanguagesUiFactory {
+internal class LanguagesUiFactory : Ui.Factory {
   override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
     return when (screen) {
       is LanguagesScreen -> ui<State> { state, modifier -> LanguagesScreenUi(state, modifier) }
@@ -69,12 +64,9 @@ internal class LanguagesUiFactoryImpl @Inject constructor() : LanguagesUiFactory
   }
 }
 
-@Singleton
-internal class LanguagesPresenterFactoryImpl
-@Inject
-constructor(
+internal class LanguagesPresenterFactory(
     private val presenter: LanguagesPresenter.Factory,
-) : LanguagesPresenterFactory {
+) : Presenter.Factory {
   override fun create(
       screen: Screen,
       navigator: Navigator,
