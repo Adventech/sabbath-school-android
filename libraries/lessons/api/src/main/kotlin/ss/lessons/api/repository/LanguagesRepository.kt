@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,20 +20,11 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.quarterly
+package ss.lessons.api.repository
 
 import app.ss.models.Language
-import com.cryart.sabbathschool.core.response.asResult
-import javax.inject.Inject
-import javax.inject.Singleton
+import kotlinx.coroutines.flow.Flow
 
-@Singleton
-internal class QuarterliesRepositoryImpl
-@Inject
-constructor(
-    private val languagesSource: LanguagesDataSource,
-) : QuarterliesRepository {
-
-  override suspend fun getLanguages(query: String?): Result<List<Language>> =
-      languagesSource.get(LanguagesDataSource.Request(query = query)).asResult()
+interface LanguagesRepository {
+    fun get(query: String? = null): Flow<Result<List<Language>>>
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,17 +27,22 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ss.lessons.api.ContentSyncProvider
+import ss.lessons.api.repository.LanguagesRepository
 import ss.lessons.api.repository.LessonsRepositoryV2
 import ss.lessons.api.repository.QuarterliesRepositoryV2
 import ss.lessons.impl.ContentSyncProviderImpl
 import ss.lessons.impl.helper.SyncHelper
 import ss.lessons.impl.helper.SyncHelperImpl
+import ss.lessons.impl.repository.LanguagesRepositoryImpl
 import ss.lessons.impl.repository.LessonsRepositoryV2Impl
 import ss.lessons.impl.repository.QuarterliesRepositoryImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class BindingsModule {
+
+    @Binds
+    internal abstract fun bindLanguagesRepositoryV(impl: LanguagesRepositoryImpl): LanguagesRepository
 
     @Binds
     internal abstract fun bindLessonsRepositoryV2(impl: LessonsRepositoryV2Impl): LessonsRepositoryV2

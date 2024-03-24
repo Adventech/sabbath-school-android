@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,11 +34,14 @@ import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.SSQuarterliesApi
 import ss.lessons.impl.ext.toEntity
 import ss.lessons.model.request.PublishingInfoRequest
+import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.LessonsDao
 import ss.libraries.storage.api.dao.PublishingInfoDao
 import ss.libraries.storage.api.dao.QuarterliesDao
+import ss.libraries.storage.api.entity.LanguageEntity
 import ss.libraries.storage.api.entity.PublishingInfoEntity
 import timber.log.Timber
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -47,6 +50,7 @@ internal interface SyncHelper {
     suspend fun syncQuarterly(index: String): SSQuarterlyInfo?
     suspend fun syncQuarterlies(language: String)
     fun syncPublishingInfo(country: String, language: String)
+    suspend fun syncLanguages()
 }
 
 @Singleton
@@ -54,6 +58,7 @@ internal class SyncHelperImpl @Inject constructor(
     private val quarterliesApi: SSQuarterliesApi,
     private val quarterliesDao: QuarterliesDao,
     private val publishingInfoDao: PublishingInfoDao,
+    private val languagesDao: LanguagesDao,
     private val lessonsDao: LessonsDao,
     private val connectivityHelper: ConnectivityHelper,
     dispatcherProvider: DispatcherProvider
@@ -117,6 +122,21 @@ internal class SyncHelperImpl @Inject constructor(
                 }
             }
         }
+    }
+
+    override suspend fun syncLanguages() {
+        when (val response = safeApiCall(connectivityHelper) { quarterliesApi.getLanguages() }) {
+            is NetworkResource.Failure -> Unit
+            is NetworkResource.Success -> response.value.body()?.let { data ->
+                languagesDao.insertAll(data.map { LanguageEntity(it.code, it.name, getNativeLanguageName(it.code, it.name)) })
+            }
+        }
+    }
+
+    private fun getNativeLanguageName(languageCode: String, languageName: String): String {
+        val loc = Locale(languageCode)
+        val name = loc.getDisplayLanguage(loc).takeUnless { it == languageCode } ?: languageName
+        return name.replaceFirstChar { it.uppercase() }
     }
 
 }
