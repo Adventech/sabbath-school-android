@@ -35,9 +35,9 @@ dependencies {
     implementation(projects.common.auth)
     implementation(projects.common.misc)
     implementation(projects.common.network)
-    implementation(projects.common.prefs.api)
     implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.storage.api)
+    implementation(projects.libraries.prefs.api)
     implementation(projects.libraries.workers.api)
 
     implementation(libs.google.hilt.android)

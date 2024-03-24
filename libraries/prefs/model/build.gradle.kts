@@ -22,18 +22,8 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
-    alias(libs.plugins.ksp)
     id("com.android.library")
     kotlin("android")
 }
 
-android {
-    namespace = "com.cryart.sabbathschool.reader"
-}
-
-dependencies {
-    implementation(projects.common.core)
-    implementation(projects.libraries.prefs.model)
-
-    implementation(libs.timber)
-}
+android { namespace = "ss.prefs.model" }

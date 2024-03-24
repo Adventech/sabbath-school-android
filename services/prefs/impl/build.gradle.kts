@@ -25,15 +25,27 @@ plugins {
     alias(libs.plugins.ksp)
     id("com.android.library")
     kotlin("android")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
-    namespace = "com.cryart.sabbathschool.reader"
+    namespace = "ss.prefs.impl"
+
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+    }
 }
 
 dependencies {
-    implementation(projects.common.core)
-    implementation(projects.libraries.prefs.model)
-
+    api(projects.libraries.prefs.api)
+    implementation(projects.common.misc)
+    implementation(projects.libraries.foundation.coroutines)
+    implementation(libs.androidx.preference)
+    implementation(libs.androidx.datastore.prefs)
+    implementation(libs.google.hilt.android)
+    ksp(libs.google.hilt.compiler)
     implementation(libs.timber)
+
+    testImplementation(libs.bundles.testing.common)
+    testImplementation(projects.libraries.foundation.coroutines.test)
 }

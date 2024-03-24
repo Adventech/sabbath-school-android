@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -50,9 +50,6 @@ include(
     ":common:misc",
     ":common:models",
     ":common:network",
-    ":common:prefs:api",
-    ":common:prefs:impl",
-    ":common:prefs:model",
     ":common:runtime-permissions",
     ":common:translations",
     ":features:account",
@@ -76,6 +73,8 @@ include(
     ":libraries:media:resources",
     ":libraries:media:service",
     ":libraries:media:test-fixtures",
+    ":libraries:prefs:api",
+    ":libraries:prefs:model",
     ":libraries:storage:api",
     ":libraries:storage:test",
     ":libraries:test_utils",
@@ -84,6 +83,7 @@ include(
     ":services:circuit:impl",
     ":services:lessons:impl",
     ":services:media:impl",
+    ":services:prefs:impl",
     ":services:storage:impl",
     ":services:workers:impl"
 )
