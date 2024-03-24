@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import ss.foundation.coroutines.test.MainDispatcherRule
-import ss.lessons.api.repository.QuarterliesRepositoryV2
+import ss.lessons.api.repository.QuarterliesRepository
 import ss.prefs.api.SSPrefs
 import ss.workers.api.WorkScheduler
 
@@ -57,7 +57,7 @@ class LessonsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private val mockQuarterliesRepository: QuarterliesRepositoryV2 = mockk()
+    private val mockQuarterliesRepository: QuarterliesRepository = mockk()
     private val mockLessonsRepository: LessonsRepository = mockk()
     private val mockPrefs: SSPrefs = mockk()
     private val mockWidgetHelper: AppWidgetHelper = mockk()

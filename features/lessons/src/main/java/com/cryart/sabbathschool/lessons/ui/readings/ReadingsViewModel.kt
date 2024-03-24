@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,7 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.stateIn
 import ss.lessons.api.repository.LessonsRepositoryV2
-import ss.lessons.api.repository.QuarterliesRepositoryV2
+import ss.lessons.api.repository.QuarterliesRepository
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,7 +53,7 @@ class ReadingsViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
     private val savedStateHandle: SavedStateHandle,
     lessonsRepository: LessonsRepository,
-    quarterliesRepository: QuarterliesRepositoryV2,
+    quarterliesRepository: QuarterliesRepository,
 ) : ViewModel() {
 
     private val _audioAvailable = MutableStateFlow(false)

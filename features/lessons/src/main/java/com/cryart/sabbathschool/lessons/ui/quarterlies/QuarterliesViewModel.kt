@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -47,14 +47,14 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.stateIn
-import ss.lessons.api.repository.QuarterliesRepositoryV2
+import ss.lessons.api.repository.QuarterliesRepository
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 import javax.inject.Inject
 
 @HiltViewModel
 class QuarterliesViewModel @Inject constructor(
-    private val repository: QuarterliesRepositoryV2,
+    private val repository: QuarterliesRepository,
     private val ssPrefs: SSPrefs,
     private val savedStateHandle: SavedStateHandle,
     authRepository: AuthRepository

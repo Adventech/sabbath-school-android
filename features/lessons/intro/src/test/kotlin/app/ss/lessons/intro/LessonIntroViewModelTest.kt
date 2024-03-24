@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import ss.foundation.coroutines.test.MainDispatcherRule
-import ss.lessons.api.repository.QuarterliesRepositoryV2
+import ss.lessons.api.repository.QuarterliesRepository
 import ss.misc.SSConstants
 
 private const val INDEX = "en-2022-03"
@@ -44,7 +44,7 @@ class LessonIntroViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private val mockRepository: QuarterliesRepositoryV2 = mockk()
+    private val mockRepository: QuarterliesRepository = mockk()
     private val mockSavedStateHandle: SavedStateHandle = mockk()
 
     private lateinit var viewModel: LessonIntroViewModel

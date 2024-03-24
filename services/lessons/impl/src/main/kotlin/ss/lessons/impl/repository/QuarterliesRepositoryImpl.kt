@@ -37,7 +37,7 @@ import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
-import ss.lessons.api.repository.QuarterliesRepositoryV2
+import ss.lessons.api.repository.QuarterliesRepository
 import ss.lessons.impl.ext.toModel
 import ss.lessons.impl.helper.SyncHelper
 import ss.libraries.storage.api.dao.PublishingInfoDao
@@ -55,7 +55,7 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
     private val syncHelper: SyncHelper,
     private val deviceHelper: DeviceHelper,
     private val dispatcherProvider: DispatcherProvider,
-) : QuarterliesRepositoryV2, Scopable by ioScopable(dispatcherProvider) {
+) : QuarterliesRepository, Scopable by ioScopable(dispatcherProvider) {
 
     override fun getQuarterly(index: String): Flow<Result<SSQuarterlyInfo>> = quarterliesDao
         .getInfoFlow(index)
