@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,6 +46,7 @@ dependencies {
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
+    implementation(projects.libraries.prefs.api)
 
     implementation(libs.androidx.activity.compose)
 

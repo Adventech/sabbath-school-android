@@ -20,20 +20,6 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.sgp.base)
-    alias(libs.plugins.ksp)
-    id("com.android.library")
-    kotlin("android")
-}
+package ss.prefs.model
 
-android {
-    namespace = "com.cryart.sabbathschool.reader"
-}
-
-dependencies {
-    implementation(projects.common.core)
-    implementation(projects.libraries.prefs.model)
-
-    implementation(libs.timber)
-}
+data class ReminderTime(val hour: Int, val min: Int)

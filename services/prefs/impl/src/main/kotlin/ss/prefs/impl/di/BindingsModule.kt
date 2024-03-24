@@ -20,20 +20,19 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.sgp.base)
-    alias(libs.plugins.ksp)
-    id("com.android.library")
-    kotlin("android")
-}
+package ss.prefs.impl.di
 
-android {
-    namespace = "com.cryart.sabbathschool.reader"
-}
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ss.prefs.api.SSPrefs
+import ss.prefs.impl.SSPrefsImpl
 
-dependencies {
-    implementation(projects.common.core)
-    implementation(projects.libraries.prefs.model)
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class BindingsModule {
 
-    implementation(libs.timber)
+    @Binds
+    internal abstract fun bindSSPrefs(impl: SSPrefsImpl): SSPrefs
 }

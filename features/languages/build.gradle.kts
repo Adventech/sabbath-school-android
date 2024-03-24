@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,10 +45,10 @@ slack {
 dependencies {
     implementation(projects.common.designCompose)
     implementation(projects.common.lessonsData)
-    implementation(projects.common.prefs.api)
     implementation(projects.common.translations)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
+    implementation(projects.libraries.prefs.api)
     implementation(projects.libraries.workers.api)
 
     implementation(libs.androidx.appcompat)
