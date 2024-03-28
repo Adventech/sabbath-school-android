@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,6 @@ package app.ss.storage.test
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.entity.LanguageEntity
@@ -38,15 +35,9 @@ class FakeLanguagesDao(
     private val languagesFlow: MutableStateFlow<List<LanguageEntity>> = MutableStateFlow(emptyList())
 ) : LanguagesDao {
 
-    override fun get(): List<LanguageEntity> {
-        return languagesFlow.value
-    }
+    override fun get(): Flow<List<LanguageEntity>> = languagesFlow
 
-    override fun getAsFlow(): Flow<List<LanguageEntity>> = languagesFlow
-
-    override fun search(query: String): List<LanguageEntity> {
-        TODO("Not yet implemented")
-    }
+    override fun search(query: String): Flow<List<LanguageEntity>> = languagesFlow
 
     override suspend fun insertItem(item: LanguageEntity) {
         languagesFlow.update { it.toMutableList() + item }

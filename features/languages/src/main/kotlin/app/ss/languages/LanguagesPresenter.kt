@@ -29,7 +29,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.os.LocaleListCompat
 import app.ss.languages.state.LanguageModel
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.Language
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
@@ -40,8 +39,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.withContext
-import ss.foundation.coroutines.DispatcherProvider
+import ss.lessons.api.repository.LanguagesRepository
 import ss.prefs.api.SSPrefs
 import ss.workers.api.WorkScheduler
 
@@ -49,10 +47,9 @@ internal class LanguagesPresenter
 @AssistedInject
 constructor(
     @Assisted private val navigator: Navigator,
-    private val repository: QuarterliesRepository,
+    private val repository: LanguagesRepository,
     private val ssPrefs: SSPrefs,
     private val workScheduler: WorkScheduler,
-    private val dispatcherProvider: DispatcherProvider,
 ) : Presenter<State> {
 
   @AssistedFactory
@@ -68,9 +65,8 @@ constructor(
             initialValue = null,
             key1 = query,
         ) {
-          value = withContext(dispatcherProvider.default) {
-              repository.getLanguages(query).getOrElse { emptyList() }.toModels()
-          }
+            repository.get(query)
+                .collect { value = it.getOrElse { emptyList() }.toModels() }
         }
 
     return when (val models = viewModels) {

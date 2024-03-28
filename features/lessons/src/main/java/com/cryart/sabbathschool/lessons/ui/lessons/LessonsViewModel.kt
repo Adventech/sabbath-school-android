@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -50,7 +50,7 @@ import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import ss.foundation.coroutines.flow.stateIn
-import ss.lessons.api.repository.QuarterliesRepositoryV2
+import ss.lessons.api.repository.QuarterliesRepository
 import ss.misc.DateHelper
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
@@ -62,7 +62,7 @@ internal const val lessonIndexArg = SSConstants.SS_QUARTERLY_INDEX_EXTRA
 
 @HiltViewModel
 class LessonsViewModel @Inject constructor(
-    private val repository: QuarterliesRepositoryV2,
+    private val repository: QuarterliesRepository,
     private val lessonsRepository: LessonsRepository,
     private val ssPrefs: SSPrefs,
     private val appWidgetHelper: AppWidgetHelper,
