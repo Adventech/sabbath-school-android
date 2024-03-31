@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -78,7 +78,7 @@ class VideosRepositoryImpl @Inject constructor(
     }
 
     override fun getLanguages(): Flow<Result<List<SSLanguage>>> = languagesDao
-        .getAsFlow()
+        .get()
         .map { entities -> Result.success(entities.map { SSLanguage(it.code, it.name) }) }
         .flowOn(dispatcherProvider.io)
         .catch { emit(Result.failure(it)) }

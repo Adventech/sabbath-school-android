@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -26,8 +26,6 @@ import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.lessons.LessonsRepositoryImpl
 import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.lessons.data.repository.media.MediaRepositoryImpl
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepositoryImpl
 import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.lessons.data.repository.user.UserDataRepositoryImpl
 import dagger.Binds
@@ -38,9 +36,6 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
-
-    @Binds
-    internal abstract fun bindQuarterliesRepository(impl: QuarterliesRepositoryImpl): QuarterliesRepository
 
     @Binds
     internal abstract fun bindLessonsRepository(impl: LessonsRepositoryImpl): LessonsRepository

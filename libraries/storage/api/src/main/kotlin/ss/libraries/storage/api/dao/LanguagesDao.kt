@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,10 +31,7 @@ import ss.libraries.storage.api.entity.LanguageEntity
 interface LanguagesDao : BaseDao<LanguageEntity> {
 
     @Query("SELECT * FROM languages")
-    fun get(): List<LanguageEntity>
-
-    @Query("SELECT * FROM languages")
-    fun getAsFlow(): Flow<List<LanguageEntity>>
+    fun get(): Flow<List<LanguageEntity>>
 
     @Query(
         """
@@ -43,5 +40,5 @@ interface LanguagesDao : BaseDao<LanguageEntity> {
         OR nativeName LIKE :query
     """
     )
-    fun search(query: String): List<LanguageEntity>
+    fun search(query: String): Flow<List<LanguageEntity>>
 }

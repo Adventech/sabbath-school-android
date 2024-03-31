@@ -1,16 +1,39 @@
+/*
+ * Copyright (c) 2024. Adventech <info@adventech.io>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package app.ss.languages
 
 import app.ss.languages.state.LanguageModel
-import app.ss.lessons.data.repository.quarterly.QuarterliesRepository
 import app.ss.models.Language
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Test
-import ss.foundation.coroutines.test.TestDispatcherProvider
+import ss.lessons.api.repository.LanguagesRepository
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.prefs.api.test.FakeSSPrefs
 import ss.workers.api.test.FakeWorkScheduler
@@ -18,128 +41,118 @@ import ss.workers.api.test.FakeWorkScheduler
 /** Tests for [LanguagesPresenter]. */
 class LanguagesPresenterTest {
 
-  private val fakeNavigator = FakeNavigator(LanguagesScreen)
-  private val fakeRepository = FakeQuarterliesRepository()
-  private val fakeSSPrefs = FakeSSPrefs(MutableStateFlow("en"))
-  private val fakeWorkScheduler = FakeWorkScheduler()
+    private val languagesFlow = MutableSharedFlow<Result<List<Language>>>()
+    private val fakeNavigator = FakeNavigator(LanguagesScreen)
+    private val fakeRepository = FakeLanguagesRepository(languagesFlow)
+    private val fakeSSPrefs = FakeSSPrefs(MutableStateFlow("en"))
+    private val fakeWorkScheduler = FakeWorkScheduler()
 
-  private val underTest =
-      LanguagesPresenter(
-          navigator = fakeNavigator,
-          repository = fakeRepository,
-          ssPrefs = fakeSSPrefs,
-          workScheduler = fakeWorkScheduler,
-          dispatcherProvider = TestDispatcherProvider(),
-      )
+    private val underTest =
+        LanguagesPresenter(
+            navigator = fakeNavigator,
+            repository = fakeRepository,
+            ssPrefs = fakeSSPrefs,
+            workScheduler = fakeWorkScheduler,
+        )
 
-  @Test
-  fun `present - emit models with properly formatted native language name`() = runTest {
-    fakeRepository.getLanguagesDelegate = {
-      Result.success(
-          listOf(
-              Language("en", "English", "English"),
-              Language("es", "Spanish", "Español"),
-              Language("fr", "French", "Français"),
-          ),
-      )
+    @Test
+    fun `present - emit models with properly formatted native language name`() = runTest {
+        underTest.test {
+            awaitItem() shouldBeInstanceOf State.Loading::class.java
+
+            languagesFlow.emit(
+                Result.success(
+                    listOf(
+                        Language("en", "English", "English"),
+                        Language("es", "Spanish", "Español"),
+                        Language("fr", "French", "Français"),
+                    ),
+                )
+            )
+
+            val models = (awaitItem() as State.Languages).models
+            models.toList() shouldBeEqualTo
+                listOf(
+                    LanguageModel("en", "English", "English", true),
+                    LanguageModel("es", "Spanish", "Español", false),
+                    LanguageModel("fr", "French", "Français", false),
+                )
+
+            ensureAllEventsConsumed()
+        }
     }
 
-    underTest.test {
-      awaitItem() shouldBeInstanceOf State.Loading::class.java
+    @Test
+    fun `present - event - Search`() = runTest {
+        val query = "english"
+        val result = Result.success(listOf(Language("en", "English", "English")))
 
-      val models = (awaitItem() as State.Languages).models
-      models.toList() shouldBeEqualTo
-          listOf(
-              LanguageModel("en", "English", "English", true),
-              LanguageModel("es", "Spanish", "Español", false),
-              LanguageModel("fr", "French", "Français", false),
-          )
+        underTest.test {
+            awaitItem() shouldBeInstanceOf State.Loading::class.java
 
-      ensureAllEventsConsumed()
-    }
-  }
+            languagesFlow.emit(Result.success(emptyList()))
 
-  @Test
-  fun `present - event - Search`() = runTest {
-    val query = "english"
-    fakeRepository.getLanguagesDelegate = {
-      if (it == query) {
-        Result.success(listOf(Language("en", "English", "English")))
-      } else {
-        Result.success(emptyList())
-      }
-    }
+            var state = awaitItem() as State.Languages
 
-    underTest.test {
-      awaitItem() shouldBeInstanceOf State.Loading::class.java
+            state.eventSink(LanguagesEvent.Search(query))
 
-      var state = awaitItem() as State.Languages
+            languagesFlow.emit(result)
 
-      state.eventSink(LanguagesEvent.Search(query))
+            awaitItem()
 
-      awaitItem()
+            state = awaitItem() as State.Languages
 
-      state = awaitItem() as State.Languages
+            state.models.first().code shouldBeEqualTo "en"
 
-      state.models.first().code shouldBeEqualTo "en"
-
-      ensureAllEventsConsumed()
-    }
-  }
-
-  @Test
-  fun `present - event - Search - trim query`() = runTest {
-    val query = "hello"
-    fakeRepository.getLanguagesDelegate = {
-      if (it == query) {
-        Result.success(listOf(Language("hello", "English", "English")))
-      } else {
-        Result.success(emptyList())
-      }
+            ensureAllEventsConsumed()
+        }
     }
 
-    underTest.test {
-      awaitItem() shouldBeInstanceOf State.Loading::class.java
+    @Test
+    fun `present - event - Search - trim query`() = runTest {
+        val result = Result.success(listOf(Language("hello", "English", "English")))
 
-      var state = awaitItem() as State.Languages
+        underTest.test {
+            awaitItem() shouldBeInstanceOf State.Loading::class.java
 
-      state.eventSink(LanguagesEvent.Search("   hello   "))
+            languagesFlow.emit(Result.success(emptyList()))
 
-      awaitItem()
+            var state = awaitItem() as State.Languages
 
-      state = awaitItem() as State.Languages
+            state.eventSink(LanguagesEvent.Search("   hello   "))
 
-      state.models.first().code shouldBeEqualTo "hello"
+            awaitItem()
 
-      ensureAllEventsConsumed()
+            languagesFlow.emit(result)
+
+            state = awaitItem() as State.Languages
+
+            state.models.first().code shouldBeEqualTo "hello"
+
+            ensureAllEventsConsumed()
+        }
     }
-  }
 
-  @Test
-  fun `present - event - Select`() = runTest {
-    fakeRepository.getLanguagesDelegate = { Result.success(emptyList()) }
+    @Test
+    fun `present - event - Select`() = runTest {
+        underTest.test {
+            awaitItem() shouldBeInstanceOf State.Loading::class.java
 
-    underTest.test {
-      awaitItem() shouldBeInstanceOf State.Loading::class.java
+            languagesFlow.emit(Result.success(emptyList()))
 
-      val state = awaitItem() as State.Languages
+            val state = awaitItem() as State.Languages
 
-      state.eventSink(LanguagesEvent.Select(LanguageModel("es", "Spanish", "Español", false)))
+            state.eventSink(LanguagesEvent.Select(LanguageModel("es", "Spanish", "Español", false)))
 
-      fakeSSPrefs.setLanguageCode shouldBeEqualTo "es"
-      fakeSSPrefs.setLastQuarterlyIndex shouldBeEqualTo null
-      fakeWorkScheduler.preFetchImagesLanguage shouldBeEqualTo "es"
+            fakeSSPrefs.setLanguageCode shouldBeEqualTo "es"
+            fakeSSPrefs.setLastQuarterlyIndex shouldBeEqualTo null
+            fakeWorkScheduler.preFetchImagesLanguage shouldBeEqualTo "es"
 
-      ensureAllEventsConsumed()
+            ensureAllEventsConsumed()
+        }
     }
-  }
 }
 
-private class FakeQuarterliesRepository : QuarterliesRepository {
-
-  var getLanguagesDelegate: (String?) -> Result<List<Language>> = { error("Not implemented") }
-
-  override suspend fun getLanguages(query: String?): Result<List<Language>> {
-    return getLanguagesDelegate(query)
-  }
+private class FakeLanguagesRepository(private val languagesFlow: Flow<Result<List<Language>>>) : LanguagesRepository {
+    override fun get(query: String?): Flow<Result<List<Language>>> = languagesFlow
 }
