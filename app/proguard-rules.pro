@@ -22,7 +22,6 @@
 -keep public class * extends android.app.backup.BackupAgent
 -keep public class * extends android.preference.Preference
 -keep public class * extends androidx.fragment.app.Fragment
--keep public class * extends androidx.navigation.fragment.NavHostFragment
 
 # For native methods, see http://proguard.sourceforge.net/manual/examples.html#native
 -keepclasseswithmembernames class * {
@@ -67,3 +66,8 @@
 # kept. Suspend functions are wrapped in continuations where the type argument
 # is used.
 -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+
+# Parcelable.
+-keepattributes EnclosingClass,InnerClasses
+-keep,allowshrinking,allowobfuscation class * implements android.os.Parcelable {}
+-keep,allowshrinking,allowobfuscation class * implements android.os.Parcelable$Creator {}

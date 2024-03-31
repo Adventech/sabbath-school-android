@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,11 +24,11 @@ package app.ss.tv.presentation.player
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.core.os.BundleCompat
 import androidx.lifecycle.lifecycleScope
 import app.ss.models.media.SSVideo
 import app.ss.tv.presentation.player.service.TvVideoService
@@ -55,11 +55,11 @@ class VideoPlayerActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val video = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra(ARG_VIDEO, SSVideo::class.java) ?: return
-        } else {
-            @Suppress("DEPRECATION")
-            intent.getParcelableExtra(ARG_VIDEO) ?: return
+        val video = intent.extras?.let {
+            BundleCompat.getParcelable(it, ARG_VIDEO, SSVideo::class.java)
+        } ?: run {
+            finish()
+            return
         }
         mediaPlayer.connect(TvVideoService::class.java)
 

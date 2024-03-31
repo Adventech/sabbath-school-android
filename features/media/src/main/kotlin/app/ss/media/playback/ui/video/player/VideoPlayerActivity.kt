@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,6 +43,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
+import androidx.core.os.BundleCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.media3.ui.PlayerView
@@ -100,8 +101,9 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         super.onCreate(savedInstanceState)
         initUi()
 
-        @Suppress("DEPRECATION")
-        val video = intent.getParcelableExtra<SSVideo>(ARG_VIDEO) ?: run {
+        val video = intent.extras?.let {
+            BundleCompat.getParcelable(it, ARG_VIDEO, SSVideo::class.java)
+        } ?: run {
             finish()
             return
         }
@@ -174,8 +176,9 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        @Suppress("DEPRECATION")
-        val video = intent?.getParcelableExtra<SSVideo>(ARG_VIDEO) ?: return
+        val video = intent?.extras?.let {
+            BundleCompat.getParcelable(it, ARG_VIDEO, SSVideo::class.java)
+        } ?: return
         mediaPlayer.playItem(SSMediaItem.Video(video), exoPlayerView)
     }
 
