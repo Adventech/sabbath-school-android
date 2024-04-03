@@ -37,7 +37,7 @@ val appVersionCode = readPropertyValue(
     filePath = BuildAndroidConfig.VERSION_PROPS_FILE,
     key = "BUILD_NUMBER",
     defaultValue = "1"
-).toInt() + 12000
+).toInt() + 12500
 
 android {
     namespace = "app.ss.tv"
@@ -45,7 +45,7 @@ android {
     defaultConfig {
         applicationId = BuildAndroidConfig.APP_ID
         versionCode = appVersionCode
-        versionName = "0.7.0 - $appVersionCode"
+        versionName = "0.5.0 - $appVersionCode"
         minSdk = 25
     }
 
