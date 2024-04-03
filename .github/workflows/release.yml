@@ -43,7 +43,6 @@ jobs:
           packageName: com.cryart.sabbathschool
           track: internal
           status: completed
-          changesNotSentForReview: true
           whatsNewDirectory: distribution/whatsnew
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           mappingFile: app/build/outputs/mapping/release/mapping.txt
