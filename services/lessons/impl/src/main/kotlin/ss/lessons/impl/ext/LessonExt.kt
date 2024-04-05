@@ -29,8 +29,9 @@ import app.ss.models.SSLessonInfo
 import ss.libraries.storage.api.entity.LessonEntity
 
 internal fun SSLesson.toEntity(
+    order: Int,
     days: List<SSDay> = emptyList(),
-    pdfs: List<LessonPdf> = emptyList()
+    pdfs: List<LessonPdf> = emptyList(),
 ): LessonEntity = LessonEntity(
     index = index,
     quarter = index.substringBeforeLast('-'),
@@ -44,6 +45,7 @@ internal fun SSLesson.toEntity(
     pdfOnly = pdfOnly,
     days = days,
     pdfs = pdfs,
+    order = order,
 )
 
 internal fun LessonEntity.toInfoModel(): SSLessonInfo = SSLessonInfo(

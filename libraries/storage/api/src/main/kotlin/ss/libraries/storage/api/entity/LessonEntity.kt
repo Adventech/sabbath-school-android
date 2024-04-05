@@ -22,6 +22,7 @@
 
 package ss.libraries.storage.api.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import app.ss.models.LessonPdf
@@ -40,5 +41,7 @@ data class LessonEntity(
     val full_path: String,
     val pdfOnly: Boolean,
     val days: List<SSDay> = emptyList(),
-    val pdfs: List<LessonPdf> = emptyList()
+    val pdfs: List<LessonPdf> = emptyList(),
+    @ColumnInfo(defaultValue = "0")
+    val order: Int = 0,
 )

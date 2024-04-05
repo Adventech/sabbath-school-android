@@ -102,7 +102,8 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
             }
 
             is NetworkResource.Success -> response.value.body()?.let { info ->
-                val entity = info.lesson.toEntity(info.days, info.pdfs)
+                val order = lessonsDao.get(info.lesson.index)?.order ?: 0
+                val entity = info.lesson.toEntity(order, info.days, info.pdfs)
                 lessonsDao.insertItem(entity)
             }
         }

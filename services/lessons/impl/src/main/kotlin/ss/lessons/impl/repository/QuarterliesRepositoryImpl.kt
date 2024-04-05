@@ -64,7 +64,7 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
             Result.success(
                 SSQuarterlyInfo(
                     quarterly = entity.quarterly.toModel(),
-                    lessons = entity.lessons.sortedBy { it.id }.map { it.toModel() }
+                    lessons = entity.lessons.sortedBy { it.order }.map { it.toModel() }
                 )
             )
         }
