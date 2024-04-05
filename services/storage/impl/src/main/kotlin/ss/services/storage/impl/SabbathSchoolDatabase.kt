@@ -71,7 +71,7 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
         PublishingInfoEntity::class,
         BibleVersionEntity::class
     ],
-    version = 12,
+    version = 13,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
@@ -83,7 +83,8 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
         AutoMigration(from = 8, to = 9),
         AutoMigration(from = 9, to = 10),
         AutoMigration(from = 10, to = 11),
-        AutoMigration(from = 11, to = 12)
+        AutoMigration(from = 11, to = 12),
+        AutoMigration(from = 12, to = 13)
     ]
 )
 @TypeConverters(Converters::class)

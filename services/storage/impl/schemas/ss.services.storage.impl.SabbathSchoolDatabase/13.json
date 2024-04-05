@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 12,
-    "identityHash": "34179bc48a150d94e947097535018941",
+    "version": 13,
+    "identityHash": "a33d9fe157d2d585adb7971cd1fae2ba",
     "entities": [
       {
         "tableName": "audios",
@@ -242,7 +242,7 @@
       },
       {
         "tableName": "lessons",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`index` TEXT NOT NULL, `quarter` TEXT NOT NULL, `title` TEXT NOT NULL, `start_date` TEXT NOT NULL, `end_date` TEXT NOT NULL, `cover` TEXT NOT NULL, `id` TEXT NOT NULL, `path` TEXT NOT NULL, `full_path` TEXT NOT NULL, `pdfOnly` INTEGER NOT NULL, `days` TEXT NOT NULL, `pdfs` TEXT NOT NULL, `order` INTEGER, PRIMARY KEY(`index`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`index` TEXT NOT NULL, `quarter` TEXT NOT NULL, `title` TEXT NOT NULL, `start_date` TEXT NOT NULL, `end_date` TEXT NOT NULL, `cover` TEXT NOT NULL, `id` TEXT NOT NULL, `path` TEXT NOT NULL, `full_path` TEXT NOT NULL, `pdfOnly` INTEGER NOT NULL, `days` TEXT NOT NULL, `pdfs` TEXT NOT NULL, `order` INTEGER NOT NULL, PRIMARY KEY(`index`))",
         "fields": [
           {
             "fieldPath": "index",
@@ -320,7 +320,7 @@
             "fieldPath": "order",
             "columnName": "order",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -729,7 +729,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '34179bc48a150d94e947097535018941')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a33d9fe157d2d585adb7971cd1fae2ba')"
     ]
   }
 }

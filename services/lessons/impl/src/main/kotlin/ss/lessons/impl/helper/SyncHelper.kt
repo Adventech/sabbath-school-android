@@ -95,10 +95,10 @@ internal class SyncHelperImpl @Inject constructor(
     }
 
     private suspend fun saveQuarterlyInfo(info: SSQuarterlyInfo) {
-        for (lesson in info.lessons) {
+        info.lessons.forEachIndexed { index, lesson ->
             lessonsDao.get(lesson.index)?.let { entity ->
-                lessonsDao.update(lesson.toEntity(entity.days, entity.pdfs))
-            } ?: run { lessonsDao.insertItem(lesson.toEntity()) }
+                lessonsDao.update(lesson.toEntity(index, entity.days, entity.pdfs))
+            } ?: run { lessonsDao.insertItem(lesson.toEntity(order = index)) }
         }
         val state = quarterliesDao.getOfflineState(info.quarterly.index) ?: OfflineState.NONE
         quarterliesDao.update(info.quarterly.toEntity(state))
@@ -116,7 +116,7 @@ internal class SyncHelperImpl @Inject constructor(
                             country = country,
                             language = language,
                             message = it.message,
-                            url = it.url
+                            url = it.url,
                         )
                     )
                 }
