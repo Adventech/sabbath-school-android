@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,8 +35,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import app.ss.tv.R
 import app.ss.tv.presentation.theme.SSBlue
 import app.ss.tv.presentation.theme.SSTvTheme
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
+import dagger.hilt.android.components.ActivityComponent
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -44,6 +46,7 @@ data object SplashScreen : Screen {
     data object State : CircuitUiState
 }
 
+@CircuitInject(SplashScreen::class, ActivityComponent::class)
 @Composable
 fun SplashScreenUi(modifier: Modifier = Modifier) {
     Box(

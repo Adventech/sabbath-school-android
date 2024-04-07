@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,7 @@ import app.ss.tv.presentation.account.AccountScreen
 import app.ss.tv.presentation.home.HomeScreen.Event
 import app.ss.tv.presentation.home.HomeScreen.State
 import app.ss.tv.presentation.videos.VideosScreen
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.onNavEvent
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
@@ -44,6 +45,7 @@ import com.slack.circuit.runtime.screen.Screen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.components.ActivityComponent
 import kotlinx.coroutines.flow.flowOn
 import ss.foundation.coroutines.DispatcherProvider
 import ss.prefs.api.SSPrefs
@@ -55,6 +57,7 @@ class HomePresenter @AssistedInject constructor(
     private val dispatcherProvider: DispatcherProvider,
 ) : Presenter<State> {
 
+    @CircuitInject(HomeScreen::class, ActivityComponent::class)
     @AssistedFactory
     interface Factory {
         fun create(navigator: Navigator): HomePresenter

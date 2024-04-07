@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -58,13 +58,16 @@ import app.ss.tv.presentation.extentions.handleDPadKeyEvents
 import app.ss.tv.presentation.extentions.thenIf
 import app.ss.tv.presentation.theme.SSTvTheme
 import app.ss.tv.presentation.theme.rememberChildPadding
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.CircuitContent
+import dagger.hilt.android.components.ActivityComponent
 
 private val focusRequesters = List(2) { FocusRequester() }
 
 @OptIn(ExperimentalComposeUiApi::class)
+@CircuitInject(AccountScreen::class, ActivityComponent::class)
 @Composable
 fun AccountScreenUi(state: State, modifier: Modifier = Modifier) {
     val childPadding = rememberChildPadding()

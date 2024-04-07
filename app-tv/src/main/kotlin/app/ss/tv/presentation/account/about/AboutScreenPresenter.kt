@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,14 +25,17 @@ package app.ss.tv.presentation.account.about
 import androidx.compose.runtime.Composable
 import app.ss.models.config.AppConfig
 import app.ss.tv.presentation.account.about.AboutScreen.State
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.components.ActivityComponent
 
 class AboutScreenPresenter @AssistedInject constructor(
     private val appConfig: AppConfig,
 ) : Presenter<State> {
 
+    @CircuitInject(AboutScreen::class, ActivityComponent::class)
     @AssistedFactory
     interface Factory {
         fun create(): AboutScreenPresenter

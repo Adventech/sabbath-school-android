@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -49,8 +49,11 @@ import app.ss.tv.R
 import app.ss.tv.presentation.account.about.AboutScreen.State
 import app.ss.tv.presentation.theme.SSTvTheme
 import app.ss.tv.presentation.theme.rememberChildPadding
+import com.slack.circuit.codegen.annotations.CircuitInject
+import dagger.hilt.android.components.ActivityComponent
 import app.ss.translations.R as L10nR
 
+@CircuitInject(AboutScreen::class, ActivityComponent::class)
 @Composable
 fun AboutScreenUi(state: State, modifier: Modifier = Modifier) {
 

@@ -20,27 +20,16 @@
  * THE SOFTWARE.
  */
 
-package app.ss.languages.di
+package app.ss.tv.presentation.splash
 
-import app.ss.languages.LanguagesPresenter
-import app.ss.languages.LanguagesPresenterFactory
-import app.ss.languages.LanguagesUiFactory
+import androidx.compose.runtime.Composable
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuit.runtime.ui.Ui
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dagger.multibindings.IntoSet
+import dagger.hilt.android.components.ActivityComponent
+import javax.inject.Inject
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal object BindingsModule {
-
-  @Provides @IntoSet fun provideLanguagesUiFactory(): Ui.Factory = LanguagesUiFactory()
-
-  @Provides
-  @IntoSet
-  fun provideLanguagesPresenterFactory(factory: LanguagesPresenter.Factory): Presenter.Factory =
-      LanguagesPresenterFactory(factory)
+@CircuitInject(SplashScreen::class, ActivityComponent::class)
+class SplashPresenter @Inject constructor() : Presenter<SplashScreen.State> {
+    @Composable
+    override fun present(): SplashScreen.State = SplashScreen.State
 }

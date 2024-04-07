@@ -52,10 +52,17 @@ import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.design.compose.widget.search.SearchInput
 import app.ss.languages.list.LanguagesList
+import app.ss.languages.state.Event
+import app.ss.languages.state.LanguagesEvent
+import app.ss.languages.state.State
+import com.slack.circuit.codegen.annotations.CircuitInject
+import dagger.hilt.components.SingletonComponent
+import ss.libraries.circuit.navigation.LanguagesScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
+@CircuitInject(LanguagesScreen::class, SingletonComponent::class)
 @Composable
-internal fun LanguagesScreenUi(state: State, modifier: Modifier) {
+fun LanguagesScreenUi(state: State, modifier: Modifier) {
   SsScaffold(
       modifier = modifier,
       topBar = {
@@ -75,7 +82,9 @@ internal fun LanguagesScreenUi(state: State, modifier: Modifier) {
       },
   ) { paddingValues ->
     Column(
-        modifier = Modifier.fillMaxSize().padding(paddingValues),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues),
     ) {
       Divider()
 

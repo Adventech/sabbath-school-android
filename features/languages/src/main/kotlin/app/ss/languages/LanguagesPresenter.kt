@@ -28,8 +28,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.os.LocaleListCompat
+import app.ss.languages.state.Event
 import app.ss.languages.state.LanguageModel
+import app.ss.languages.state.LanguagesEvent
+import app.ss.languages.state.State
 import app.ss.models.Language
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -37,13 +41,15 @@ import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import ss.lessons.api.repository.LanguagesRepository
+import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.prefs.api.SSPrefs
 import ss.workers.api.WorkScheduler
 
-internal class LanguagesPresenter
+class LanguagesPresenter
 @AssistedInject
 constructor(
     @Assisted private val navigator: Navigator,
@@ -52,15 +58,16 @@ constructor(
     private val workScheduler: WorkScheduler,
 ) : Presenter<State> {
 
-  @AssistedFactory
-  interface Factory {
-    fun create(navigator: Navigator): LanguagesPresenter
-  }
+    @CircuitInject(LanguagesScreen::class, SingletonComponent::class)
+    @AssistedFactory
+    interface Factory {
+        fun create(navigator: Navigator): LanguagesPresenter
+    }
 
-  @Composable
-  override fun present(): State {
-    var query by rememberRetained { mutableStateOf<String?>(null) }
-    val viewModels by
+    @Composable
+    override fun present(): State {
+        var query by rememberRetained { mutableStateOf<String?>(null) }
+        val viewModels by
         produceRetainedState<ImmutableList<LanguageModel>?>(
             initialValue = null,
             key1 = query,
@@ -69,45 +76,47 @@ constructor(
                 .collect { value = it.getOrElse { emptyList() }.toModels() }
         }
 
-    return when (val models = viewModels) {
-      null ->
-          State.Loading { event ->
-            when (event) {
-              Event.NavBack -> navigator.pop()
-            }
-          }
-      else ->
-          State.Languages(models) { event ->
-            when (event) {
-              is LanguagesEvent.Select -> {
-                modelSelected(event.model)
-                navigator.pop()
-              }
-              LanguagesEvent.NavBack -> navigator.pop()
-              is LanguagesEvent.Search -> query = event.query?.trim()
-            }
-          }
+        return when (val models = viewModels) {
+            null ->
+                State.Loading { event ->
+                    when (event) {
+                        Event.NavBack -> navigator.pop()
+                    }
+                }
+
+            else ->
+                State.Languages(models) { event ->
+                    when (event) {
+                        is LanguagesEvent.Select -> {
+                            modelSelected(event.model)
+                            navigator.pop()
+                        }
+
+                        LanguagesEvent.NavBack -> navigator.pop()
+                        is LanguagesEvent.Search -> query = event.query?.trim()
+                    }
+                }
+        }
     }
-  }
 
-  private fun modelSelected(model: LanguageModel) {
-    ssPrefs.setLanguageCode(model.code)
-    ssPrefs.setLastQuarterlyIndex(null)
+    private fun modelSelected(model: LanguageModel) {
+        ssPrefs.setLanguageCode(model.code)
+        ssPrefs.setLastQuarterlyIndex(null)
 
-    val appLocale = LocaleListCompat.forLanguageTags(model.code)
-    AppCompatDelegate.setApplicationLocales(appLocale)
+        val appLocale = LocaleListCompat.forLanguageTags(model.code)
+        AppCompatDelegate.setApplicationLocales(appLocale)
 
-    workScheduler.preFetchImages(model.code)
-  }
+        workScheduler.preFetchImages(model.code)
+    }
 
-  private fun List<Language>.toModels() =
-      map {
+    private fun List<Language>.toModels() =
+        map {
             LanguageModel(
                 code = it.code,
                 nativeName = it.nativeName,
                 name = it.name,
                 selected = it.code == ssPrefs.getLanguageCode(),
             )
-          }
-          .toImmutableList()
+        }
+            .toImmutableList()
 }

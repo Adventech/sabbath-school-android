@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -54,8 +54,11 @@ import androidx.compose.ui.unit.dp
 import app.ss.tv.presentation.home.HomeScreen.Event
 import app.ss.tv.presentation.home.HomeScreen.State
 import app.ss.tv.presentation.theme.ParentPadding
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.CircuitContent
+import dagger.hilt.android.components.ActivityComponent
 
+@CircuitInject(HomeScreen::class, ActivityComponent::class)
 @Composable
 fun HomeScreenUi(state: State, modifier: Modifier = Modifier) {
     val density = LocalDensity.current

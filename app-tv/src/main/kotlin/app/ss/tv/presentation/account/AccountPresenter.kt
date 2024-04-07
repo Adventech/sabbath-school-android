@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,13 +28,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import app.ss.tv.presentation.account.AccountScreen.Event
 import app.ss.tv.presentation.account.AccountScreen.State
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.components.ActivityComponent
 
 class AccountPresenter @AssistedInject constructor() : Presenter<State> {
 
+    @CircuitInject(AccountScreen::class, ActivityComponent::class)
     @AssistedFactory
     interface Factory {
         fun create(): AccountPresenter
