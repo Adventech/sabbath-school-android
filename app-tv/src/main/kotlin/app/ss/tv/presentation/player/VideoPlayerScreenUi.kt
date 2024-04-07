@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,6 +64,8 @@ import app.ss.tv.presentation.player.VideoPlayerScreen.State
 import app.ss.tv.presentation.player.components.ControlsIconSize
 import app.ss.tv.presentation.player.components.VideoPlayerControls
 import app.ss.tv.presentation.player.components.VideoPlayerControlsIcon
+import com.slack.circuit.codegen.annotations.CircuitInject
+import dagger.hilt.android.components.ActivityComponent
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import app.ss.translations.R as L10nR
@@ -71,6 +73,7 @@ import ss.libraries.media.resources.R as MediaR
 
 private val PlayerFocusRequesters = List(3) { FocusRequester() }
 
+@CircuitInject(VideoPlayerScreen::class, ActivityComponent::class)
 @Composable
 fun VideoPlayerScreenUi(
     state: State,

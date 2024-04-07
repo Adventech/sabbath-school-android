@@ -51,7 +51,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import app.ss.translations.R as L10nR
 
-internal interface SettingsRepository {
+interface SettingsRepository {
 
     fun entitiesFlow(onEntityClick: (SettingsEntity) -> Unit): Flow<List<ListEntity>>
 

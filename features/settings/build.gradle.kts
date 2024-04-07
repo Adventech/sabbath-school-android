@@ -23,10 +23,10 @@
 plugins {
     alias(libs.plugins.sgp.base)
     alias(libs.plugins.ksp)
-    id("com.android.library")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
     id("dagger.hilt.android.plugin")
-    id("kotlin-parcelize")
-    kotlin("android")
 }
 
 android {
@@ -35,6 +35,10 @@ android {
 
 slack {
     features { compose() }
+}
+
+ksp {
+    arg("circuit.codegen.mode", "hilt")
 }
 
 dependencies {
@@ -52,6 +56,7 @@ dependencies {
 
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
+    ksp(libs.circuit.codegen)
 
     implementation(libs.timber)
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,11 +29,13 @@ import androidx.compose.runtime.getValue
 import app.ss.tv.presentation.player.VideoPlayerScreen.Event
 import app.ss.tv.presentation.player.VideoPlayerScreen.State
 import app.ss.tv.presentation.player.components.VideoPlayerControlsSpec
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.components.ActivityComponent
 import ss.libraries.media.api.SSMediaPlayer
 import ss.libraries.media.model.NowPlaying
 import ss.libraries.media.model.PlaybackProgressState
@@ -46,6 +48,7 @@ class VideoPlayerPresenter @AssistedInject constructor(
     @Assisted private val screen: VideoPlayerScreen,
 ) : Presenter<State> {
 
+    @CircuitInject(VideoPlayerScreen::class, ActivityComponent::class)
     @AssistedFactory
     interface Factory {
         fun create(

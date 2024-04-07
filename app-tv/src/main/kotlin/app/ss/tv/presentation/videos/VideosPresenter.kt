@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,12 +34,14 @@ import app.ss.tv.navigator.IntentHelper
 import app.ss.tv.presentation.ScrollEvents
 import app.ss.tv.presentation.videos.VideosScreen.Event
 import app.ss.tv.presentation.videos.VideosScreen.State
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.components.ActivityComponent
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
@@ -58,6 +60,7 @@ class VideosPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
 ) : Presenter<State> {
 
+    @CircuitInject(VideosScreen::class, ActivityComponent::class)
     @AssistedFactory
     interface Factory {
         fun create(navigator: Navigator): VideosPresenter

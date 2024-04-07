@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,12 @@ import app.ss.tv.data.model.LanguageSpec
 import app.ss.tv.data.repository.VideosRepository
 import app.ss.tv.presentation.account.languages.LanguagesScreen.Event
 import app.ss.tv.presentation.account.languages.LanguagesScreen.State
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.components.ActivityComponent
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
@@ -46,6 +48,7 @@ class LanguagesPresenter @AssistedInject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : Presenter<State> {
 
+    @CircuitInject(LanguagesScreen::class, ActivityComponent::class)
     @AssistedFactory
     interface Factory {
         fun create(): LanguagesPresenter

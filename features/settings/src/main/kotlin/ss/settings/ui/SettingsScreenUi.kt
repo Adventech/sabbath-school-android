@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,8 +44,11 @@ import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.SsScaffold
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.overlay.LocalOverlayHost
 import com.slack.circuit.overlay.OverlayHost
+import dagger.hilt.components.SingletonComponent
+import ss.libraries.circuit.navigation.SettingsScreen
 import ss.libraries.circuit.overlay.OverlayButton
 import ss.libraries.circuit.overlay.ssAlertDialogOverlay
 import ss.settings.Event
@@ -53,8 +56,9 @@ import ss.settings.Overlay
 import ss.settings.State
 import app.ss.translations.R as L10nR
 
+@CircuitInject(SettingsScreen::class, SingletonComponent::class)
 @Composable
-internal fun SettingsScreenUi(
+fun SettingsScreenUi(
     state: State,
     modifier: Modifier = Modifier
 ) {

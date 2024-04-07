@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import app.ss.design.compose.extensions.list.ListEntity
 import com.cryart.sabbathschool.core.navigation.Destination
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -37,17 +38,27 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.LegacyDestination
+import ss.libraries.circuit.navigation.SettingsScreen
 import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
 
-internal class SettingsPresenter @AssistedInject constructor(
+class SettingsPresenter @AssistedInject constructor(
     @ApplicationContext private val context: Context,
     private val repository: SettingsRepository,
     @Assisted private val navigator: Navigator,
 ) : Presenter<State> {
+
+    @CircuitInject(SettingsScreen::class, SingletonComponent::class)
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            navigator: Navigator,
+        ): SettingsPresenter
+    }
 
     @Composable
     override fun present(): State {
@@ -115,12 +126,5 @@ internal class SettingsPresenter @AssistedInject constructor(
                 }
             }
         }
-    }
-
-    @AssistedFactory
-    internal interface Factory {
-        fun create(
-            navigator: Navigator,
-        ): SettingsPresenter
     }
 }

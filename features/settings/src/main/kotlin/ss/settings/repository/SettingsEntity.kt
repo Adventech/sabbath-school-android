@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ package ss.settings.repository
 import androidx.annotation.StringRes
 import app.ss.translations.R as L10nR
 
-internal sealed interface SettingsEntity {
+sealed interface SettingsEntity {
 
     sealed class About(@StringRes val resId: Int) : SettingsEntity {
         data object Facebook : About(L10nR.string.ss_settings_facebook_url)

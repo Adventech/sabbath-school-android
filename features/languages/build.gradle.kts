@@ -23,23 +23,20 @@
 plugins {
     alias(libs.plugins.sgp.base)
     alias(libs.plugins.ksp)
-    id("com.android.library")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
     id("dagger.hilt.android.plugin")
-    id("kotlin-parcelize")
-    kotlin("android")
 }
 
-android {
-    namespace = "app.ss.languages"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
-}
+android { namespace = "app.ss.languages" }
 
 slack {
     features { compose() }
+}
+
+ksp {
+    arg("circuit.codegen.mode", "hilt")
 }
 
 dependencies {
@@ -56,6 +53,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.extensions)
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
+    ksp(libs.circuit.codegen)
     implementation(libs.kotlinx.collectionsImmutable)
     implementation(libs.timber)
 
