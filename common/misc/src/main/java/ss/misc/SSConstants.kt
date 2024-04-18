@@ -49,6 +49,7 @@ object SSConstants {
     const val SS_LAST_QUARTERLY_INDEX = "ss_last_quarterly_index"
     const val SS_APP_RE_BRANDING_PROMPT_SEEN = "ss_app_re_branding_prompt_seen"
     const val SS_READER_APP_BASE_URL = "file:///android_asset/reader/"
+    const val SS_READER_ARTIFACT_FOLDER_NAME = "sabbath-school-reader-latest"
     const val SS_READER_APP_ENTRYPOINT = "reader/index.html"
     const val SS_EVENT_LANGUAGE_FILTER = "ss_language_filter"
     const val SS_EVENT_ABOUT_OPEN = "ss_about_open"

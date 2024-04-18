@@ -27,7 +27,11 @@ import app.ss.models.config.AppConfig
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.io.File
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.buffer
@@ -40,9 +44,8 @@ import ss.lessons.api.SSLessonsApi
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 import timber.log.Timber
-import java.io.File
-import javax.inject.Inject
-import javax.inject.Singleton
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
 
 @Singleton
 internal class ReaderArtifactHelper @Inject constructor(
@@ -69,9 +72,11 @@ internal class ReaderArtifactHelper @Inject constructor(
                     val lastModified = response.value.headers()[LAST_MODIFIED] ?: return@launch
 
                     if (ssPrefs.getReaderArtifactLastModified() != lastModified) {
-                        downloadFile {
+                        if (downloadFile()) {
                             ssPrefs.setReaderArtifactLastModified(lastModified)
                         }
+                    } else if (!File(context.filesDir, SSConstants.SS_READER_ARTIFACT_FOLDER_NAME).exists()) {
+                        unzip()
                     }
                 }
                 is NetworkResource.Failure -> {}
@@ -81,28 +86,65 @@ internal class ReaderArtifactHelper @Inject constructor(
         Timber.e(error)
     }
 
-    private fun downloadFile(callback: () -> Unit) {
+    private suspend fun downloadFile(): Boolean {
         val destination = File(context.filesDir, SS_READER_ARTIFACT_NAME)
-        val request = Request.Builder()
-            .url(readerUrl)
-            .build()
-        try {
-            val response = okHttpClient.newCall(request).execute()
-            val body = response.body ?: run {
-                Timber.e("Failed to download reader")
-                return
-            }
-            destination.sink().buffer().use { sink ->
-                sink.writeAll(body.source())
-                callback()
-            }
+        val request = Request.Builder().url(readerUrl).build()
+        return try {
+          val response = okHttpClient.newCall(request).execute()
+          val body =
+              response.body
+                  ?: run {
+                    Timber.e("Failed to download reader")
+                    return false
+                  }
+          destination.sink().buffer().use { sink -> sink.writeAll(body.source()) }
+          unzip()
+          true
         } catch (error: Throwable) {
-            Timber.e(error)
+          Timber.e(error)
+          false
         }
     }
 
+    private suspend fun unzip() =
+      withContext(dispatcherProvider.io) {
+        val file = File(context.filesDir, SS_READER_ARTIFACT_NAME)
+        if (file.exists()) {
+          file.unzip()
+        }
+      }
+
     companion object {
         private const val LAST_MODIFIED = "last-modified"
-        private const val SS_READER_ARTIFACT_NAME = "sabbath-school-reader-latest.zip"
+        private const val SS_READER_ARTIFACT_NAME = "${SSConstants.SS_READER_ARTIFACT_FOLDER_NAME}.zip"
+    }
+}
+
+private data class ZipIO(val entry: ZipEntry, val output: File)
+
+/** Unzips this file contents. */
+private fun File.unzip() {
+    val rootFolder = File(parentFile?.absolutePath + File.separator + nameWithoutExtension)
+    if (!rootFolder.exists()) {
+        rootFolder.mkdirs()
+    }
+
+    ZipFile(this).use { zip ->
+        zip.entries()
+            .asSequence()
+            .map {
+                val outputFile = File(rootFolder.absolutePath + File.separator + it.name)
+                ZipIO(it, outputFile)
+            }
+            .map {
+                it.output.parentFile?.run { if (!exists()) mkdirs() }
+                it
+            }
+            .filter { !it.entry.isDirectory }
+            .forEach { (entry, output) ->
+                zip.getInputStream(entry).use { input ->
+                    output.outputStream().use { output -> input.copyTo(output) }
+                }
+            }
     }
 }
