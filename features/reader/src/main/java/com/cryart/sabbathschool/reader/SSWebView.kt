@@ -28,16 +28,17 @@ import android.util.AttributeSet
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
-import ss.misc.SSConstants
-import ss.prefs.model.SSReadingDisplayOptions
-import ss.prefs.model.displayTheme
-import timber.log.Timber
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
+import ss.misc.SSConstants
+import ss.misc.SSConstants.SS_READER_ARTIFACT_FOLDER_NAME
+import ss.prefs.model.SSReadingDisplayOptions
+import ss.prefs.model.displayTheme
+import timber.log.Timber
 
 @SuppressLint("SetJavaScriptEnabled")
 open class SSWebView @JvmOverloads constructor(
@@ -57,10 +58,11 @@ open class SSWebView @JvmOverloads constructor(
     open fun loadContent(contentData: String, ssReadingDisplayOptions: SSReadingDisplayOptions) {
         var baseUrl = SSConstants.SS_READER_APP_BASE_URL
 
-        val indexFile = File(context.filesDir.toString() + "/index.html")
-        var content = if (indexFile.exists()) {
-            baseUrl = "file:///" + context.filesDir + "/"
-            readFileFromFiles(context.filesDir.toString() + "/index.html")
+        val indexFile = File(context.filesDir, "${SS_READER_ARTIFACT_FOLDER_NAME}/index.html")
+        var content =
+            if (indexFile.exists()) {
+                baseUrl = "file:///${context.filesDir}/${SS_READER_ARTIFACT_FOLDER_NAME}/"
+                readFileFromFiles(indexFile)
         } else {
             readFileFromAssets(context)
         }
@@ -76,8 +78,7 @@ open class SSWebView @JvmOverloads constructor(
         }
     }
 
-    private fun readFileFromFiles(path: String): String {
-        val file = File(path)
+    private fun readFileFromFiles(file: File): String {
         return try {
             val length = file.length().toInt()
             val bytes = ByteArray(length)
