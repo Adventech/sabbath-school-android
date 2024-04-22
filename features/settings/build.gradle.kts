@@ -52,8 +52,6 @@ dependencies {
     implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.prefs.api)
 
-    implementation(libs.androidx.activity.compose)
-
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
     ksp(libs.circuit.codegen)

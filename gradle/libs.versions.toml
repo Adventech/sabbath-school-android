@@ -10,6 +10,7 @@ androidx-compose-material3 = "1.2.1"
 androidx-constraintlayout = "2.1.4"
 androidx-core = "1.13.1"
 androidx-core-splashscreen = "1.0.1"
+androidx-credentials = "1.2.2"
 androidx-datastore-prefs = "1.1.1"
 androidx-fragment = "1.7.0"
 androidx-glance = "1.0.0"
@@ -30,6 +31,7 @@ coil = "2.6.0"
 compose-compiler = "1.5.13"
 compose-compiler-kotlinVersion = "1.9.23"
 google-hilt = "2.51.1"
+google-id = "1.1.0"
 google-material = "1.12.0"
 google-play-auth = "21.0.0"
 gradle-android = "8.4.0"
@@ -96,6 +98,8 @@ androidx-compose-windowSizeClass = { module = "androidx.compose.material3:materi
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx-core-splashscreen" }
+androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "androidx-credentials" }
+androidx-credentials-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "androidx-credentials" }
 androidx-datastore-prefs = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore-prefs" }
 androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
 androidx-glance = { module = "androidx.glance:glance", version.ref = "androidx-glance" }
@@ -141,6 +145,7 @@ coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
 google-coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs_minimal:2.0.4"
 google-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "google-hilt" }
 google-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "google-hilt" }
+google-id = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "google-id" }
 google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
 google-play-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "google-play-auth" }
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
