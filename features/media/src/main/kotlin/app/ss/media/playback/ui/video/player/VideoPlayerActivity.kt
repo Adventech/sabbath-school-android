@@ -174,9 +174,9 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        val video = intent?.extras?.let {
+        val video = intent.extras?.let {
             BundleCompat.getParcelable(it, ARG_VIDEO, SSVideo::class.java)
         } ?: return
         mediaPlayer.playItem(SSMediaItem.Video(video), exoPlayerView)
@@ -241,6 +241,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     }
 
     override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
         if (mediaPlayer.playbackState.value.isPlaying) {
             enterPiP()
         }
