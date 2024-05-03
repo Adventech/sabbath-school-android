@@ -128,6 +128,7 @@ android {
 
 slack {
     features { compose() }
+    android { features { androidTest() } }
 }
 
 dependencies {

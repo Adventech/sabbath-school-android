@@ -49,6 +49,7 @@ markwon = "4.6.2"
 material-dialogs = "3.3.0"
 # @keep this version
 pdfkit = "2024.2.1"
+robolectric = "4.12.1"
 sgp = "0.16.3"
 snapper = "0.3.0"
 sortDependencies = "0.6"
@@ -68,7 +69,6 @@ test-androidx-uiautomator = "2.3.0"
 test-junit = "4.13.2"
 test-kluent = "1.73"
 test-mockk = "1.13.10"
-test-robolectric = "4.12.1"
 timber = "5.0.1"
 
 [libraries]
@@ -183,7 +183,7 @@ test-google-hilt = { module = "com.google.dagger:hilt-android-testing", version.
 test-junit = { module = "junit:junit", version.ref = "test-junit" }
 test-kluent = { module = "org.amshove.kluent:kluent-android", version.ref = "test-kluent" }
 test-mockk = { module = "io.mockk:mockk", version.ref = "test-mockk" }
-test-robolectric = { module = "org.robolectric:robolectric", version.ref = "test-robolectric" }
+test-robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 test-turbine = { module = "app.cash.turbine:turbine", version.ref = "cash-app-turbine" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 

@@ -78,6 +78,7 @@ include(
     ":libraries:storage:api",
     ":libraries:storage:test",
     ":libraries:test_utils",
+    ":libraries:test_utils:robolectric-core",
     ":libraries:ui:placeholder",
     ":libraries:workers:api",
     ":services:circuit:impl",
