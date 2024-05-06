@@ -22,6 +22,7 @@
 
 package app.ss.auth
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,9 +39,13 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -52,6 +58,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -62,6 +69,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.content.ContentSpec
+import app.ss.design.compose.extensions.snackbar.rememberSsSnackbarState
 import app.ss.design.compose.theme.LatoFontFamily
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
@@ -78,51 +86,73 @@ import app.ss.translations.R as L10nR
 @CircuitInject(LoginScreen::class, SingletonComponent::class)
 @Composable
 fun LoginScreenUI(state: State, modifier: Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(22.dp)
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Spacer(modifier = Modifier.weight(0.2f))
+    Scaffold(
+        snackbarHost = {
+            if (state is State.Default) {
+                val snackbarState = rememberSsSnackbarState(state.snackbarState)
+                SnackbarHost(snackbarState, modifier = Modifier) { data -> Snackbar(snackbarData = data) }
+            }
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+                .padding(22.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Spacer(modifier = Modifier.weight(0.2f))
 
-        Image(
-            painter = painterResource(id = AuthR.drawable.ic_logo_sspm_scaled),
-            contentDescription = null,
-            colorFilter = ColorFilter.tint(
+            Image(
+                painter = painterResource(id = AuthR.drawable.ic_logo_sspm_scaled),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(
+                    color = if (SsTheme.colors.isDark) Color.White else SsColors.BaseBlue
+                )
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = stringResource(id = L10nR.string.ss_app_name),
+                style = SsTheme.typography.headlineSmall,
                 color = if (SsTheme.colors.isDark) Color.White else SsColors.BaseBlue
             )
-        )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.weight(1f))
 
-        Text(
-            text = stringResource(id = L10nR.string.ss_app_name),
-            style = SsTheme.typography.headlineSmall,
-            color = if (SsTheme.colors.isDark) Color.White else SsColors.BaseBlue
-        )
+            AnimatedVisibility(visible = state is State.Loading) {
+                Column {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .size(48.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        Buttons(
-            enabled = state != State.Loading,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            eventSink = when (state) {
-                is State.ConfirmSignInAnonymously,
-                State.Loading -> { _ -> }
-
-                is State.Default -> state.eventSink
-                is State.Error -> state.eventSink
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
             }
-        )
 
-        Spacer(modifier = Modifier.weight(0.2f))
+            Buttons(
+                enabled = state != State.Loading,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                eventSink = when (state) {
+                    is State.ConfirmSignInAnonymously,
+                    State.Loading -> { _ -> }
 
-        // Show the confirm overlay
-        (state as? State.ConfirmSignInAnonymously)?.let { OverlayContent(state) }
+                    is State.Default -> state.eventSink
+                }
+            )
+
+            Spacer(modifier = Modifier.weight(0.2f))
+
+            // Show the confirm overlay
+            (state as? State.ConfirmSignInAnonymously)?.let { OverlayContent(state.eventSink) }
+        }
     }
+
 }
 
 @Composable
@@ -131,10 +161,12 @@ private fun Buttons(
     modifier: Modifier = Modifier,
     eventSink: (Event) -> Unit = {},
 ) {
+    val context = LocalContext.current
+
     Column(modifier = modifier.width(270.dp)) {
 
         Button(
-            onClick = { eventSink(Event.SignInWithGoogle) },
+            onClick = { eventSink(Event.SignInWithGoogle(context)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
@@ -220,8 +252,9 @@ private fun Buttons(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun OverlayContent(state: State.ConfirmSignInAnonymously) {
+private fun OverlayContent(eventSink: (OverlayEvent) -> Unit) {
     val overlayHost = LocalOverlayHost.current
+    val context = LocalContext.current
     LaunchedEffect(Unit) {
         val result = overlayHost.show(
             ssAlertDialogOverlay(
@@ -236,9 +269,9 @@ private fun OverlayContent(state: State.ConfirmSignInAnonymously) {
         )
 
         when (result) {
-            DialogResult.Confirm -> state.onConfirm()
+            DialogResult.Confirm -> eventSink(OverlayEvent.Confirm(context))
             DialogResult.Cancel,
-            DialogResult.Dismiss -> state.onDecline()
+            DialogResult.Dismiss -> eventSink(OverlayEvent.Dismiss)
         }
     }
 }
@@ -249,7 +282,20 @@ private fun UiPreview() {
     SsTheme(useDynamicTheme = false) {
         Surface {
             LoginScreenUI(
-                state = State.Default {},
+                state = State.Default(null) {},
+                modifier = Modifier,
+            )
+        }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun UiPreviewLoading() {
+    SsTheme(useDynamicTheme = false) {
+        Surface {
+            LoginScreenUI(
+                state = State.Loading,
                 modifier = Modifier,
             )
         }
@@ -263,7 +309,7 @@ private fun UiPreviewOverlay() {
         ContentWithOverlays {
             Surface {
                 LoginScreenUI(
-                    state = State.ConfirmSignInAnonymously({}, {}),
+                    state = State.ConfirmSignInAnonymously {},
                     modifier = Modifier,
                 )
             }

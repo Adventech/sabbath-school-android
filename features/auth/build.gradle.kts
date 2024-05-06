@@ -19,8 +19,11 @@ ksp {
 }
 
 dependencies {
+    implementation(projects.common.auth)
     implementation(projects.common.designCompose)
+    implementation(projects.common.models)
     implementation(projects.common.translations)
+    implementation(projects.features.lessons) // Remove when quarterlies screen is moved to circuit:api
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
 

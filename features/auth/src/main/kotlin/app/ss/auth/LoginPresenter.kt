@@ -22,10 +22,26 @@
 
 package app.ss.auth
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
+import androidx.credentials.exceptions.GetCredentialException
+import app.ss.design.compose.extensions.content.ContentSpec
+import app.ss.design.compose.extensions.snackbar.SsSnackbarState
+import app.ss.models.config.AppConfig
+import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -34,14 +50,22 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import ss.foundation.coroutines.DispatcherProvider
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.LoginScreen
 import timber.log.Timber
+import app.ss.translations.R as L10nR
 
 const val PRIVACY_POLICY_URL = "https://adventech.io/privacy-policy"
 
 class LoginPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
+    private val appConfig: AppConfig,
+    private val credentialManager: CredentialManager,
+    private val authRepository: AuthRepository,
+    private val dispatcherProvider: DispatcherProvider,
 ) : Presenter<State> {
 
     @CircuitInject(LoginScreen::class, SingletonComponent::class)
@@ -50,20 +74,39 @@ class LoginPresenter @AssistedInject constructor(
         fun create(navigator: Navigator): LoginPresenter
     }
 
+    private val getCredentialRequest: GetCredentialRequest by lazy {
+        GetCredentialRequest.Builder()
+            .addCredentialOption(GetSignInWithGoogleOption.Builder(appConfig.webClientId).build())
+            .build()
+    }
+
+
     @Composable
     override fun present(): State {
+        val scope = rememberCoroutineScope()
         var isLoading by rememberRetained { mutableStateOf(false) }
-        var isAnonymously by rememberRetained { mutableStateOf(false) }
+        var showConfirmAnonymousAuth by rememberRetained { mutableStateOf(false) }
+        var snackbarState by rememberRetained { mutableStateOf<SsSnackbarState?>(null) }
 
+        val onAuthError = {
+            isLoading = false
+            snackbarState = SsSnackbarState(message = ContentSpec.Res(L10nR.string.ss_login_failed)) {
+                snackbarState = null
+            }
+        }
         val eventSink: (Event) -> Unit = { event ->
             when (event) {
-                Event.SignInAnonymously -> {
-                    Timber.i("Sign in Anonymously")
-                    isAnonymously = true
-                }
-
-                Event.SignInWithGoogle -> {
-                    Timber.i("Sign in with Google")
+                is Event.SignInAnonymously -> showConfirmAnonymousAuth = true
+                is Event.SignInWithGoogle -> {
+                    isLoading = true
+                    scope.launch {
+                        val isAuthenticated = authWithGoogle(event.context).getOrElse { false }
+                        if (isAuthenticated) {
+                            launchMain(event.context)
+                        } else {
+                            onAuthError()
+                        }
+                    }
                 }
 
                 Event.OpenPrivacyPolicy -> navigator.goTo(CustomTabsIntentScreen(PRIVACY_POLICY_URL))
@@ -71,12 +114,79 @@ class LoginPresenter @AssistedInject constructor(
         }
         return when {
             isLoading -> State.Loading
-            isAnonymously -> State.ConfirmSignInAnonymously(
-                onConfirm = { isLoading = true },
-                onDecline = { isAnonymously = false }
-            )
+            showConfirmAnonymousAuth -> State.ConfirmSignInAnonymously { event ->
+                when (event) {
+                    is OverlayEvent.Confirm -> {
+                        isLoading = true
+                        scope.launch {
+                            val isAuthenticated = authAnonymously().getOrElse { false }
+                            if (isAuthenticated) {
+                                launchMain(event.context)
+                            } else {
+                                showConfirmAnonymousAuth = false
+                                onAuthError()
+                            }
+                        }
+                    }
 
-            else -> State.Default(eventSink)
+                    OverlayEvent.Dismiss -> showConfirmAnonymousAuth = false
+                }
+            }
+
+            else -> State.Default(snackbarState, eventSink)
         }
     }
+
+    private suspend fun authWithGoogle(context: Context): Result<Boolean> {
+        return try {
+            val response = credentialManager.getCredential(context, getCredentialRequest)
+            val authenticated = handleCredentialResponse(response)
+            Result.success(authenticated)
+        } catch (ex: GetCredentialException) {
+            Timber.e(ex)
+            Result.failure(ex)
+        }
+    }
+
+    private suspend fun handleCredentialResponse(response: GetCredentialResponse): Boolean {
+        return (response.credential as? CustomCredential)?.let { credential ->
+            if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                try {
+                    val googleIdTokenCredential = GoogleIdTokenCredential
+                        .createFrom(credential.data)
+                    val token = googleIdTokenCredential.idToken
+                    val signInResult = withContext(dispatcherProvider.default) { authRepository.signIn(token) }
+
+                    signInResult.getOrNull() is AuthResponse.Authenticated
+
+                } catch (e: GoogleIdTokenParsingException) {
+                    Timber.e("Received an invalid google id token response", e)
+                    false
+                }
+            } else {
+                Timber.e("Unexpected type of credential - ${credential.type}")
+                false
+            }
+        } ?: run {
+            Timber.e("Unexpected type of credential - ${response.credential.type}")
+            false
+        }
+    }
+
+    private suspend fun authAnonymously(): Result<Boolean> {
+        val signInResult = withContext(dispatcherProvider.default) { authRepository.signIn() }
+        return Result.success(signInResult.getOrNull() is AuthResponse.Authenticated)
+    }
+
+    /* Temporary navigation out of circuit. */
+    private fun launchMain(context: Context) {
+        with(context as Activity) {
+            val intent = QuarterliesActivity.launchIntent(this).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+            startActivity(intent)
+            finish()
+        }
+    }
+
 }
