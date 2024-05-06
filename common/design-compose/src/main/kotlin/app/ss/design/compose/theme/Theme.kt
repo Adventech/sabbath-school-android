@@ -41,11 +41,12 @@ import app.ss.design.compose.theme.color.extend
 @Composable
 fun SsTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    useDynamicTheme: Boolean = true,
     windowWidthSizeClass: WindowWidthSizeClass? = WindowWidthSizeClass.Compact,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        isS() -> {
+        useDynamicTheme && isS() -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
