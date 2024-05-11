@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,42 +13,17 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.navigation
+package ss.libraries.circuit.navigation
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.Bundle
 import com.slack.circuit.runtime.screen.Screen
+import kotlinx.parcelize.Parcelize
 
-/**
- * Navigate to different modules
- */
-interface AppNavigator {
-
-    /**
-     * Navigate to a known [Destination]
-     *
-     * If destination requires auth and current user is not signed in
-     * we will just launch the default LoginActivity screen
-     */
-    fun navigate(activity: Activity, destination: Destination, extras: Bundle? = null)
-
-    /**
-     * Navigate to a Destination from a deep-link
-     */
-    fun navigate(activity: Activity, deepLink: Uri)
-
-    /** Navigate to a circuit [Screen]. */
-    fun navigate(context: Context, screen: Screen)
-
-    fun screenIntent(context: Context, screen: Screen): Intent
-}
+/** A circuit [Screen] for opening the quarterlies screen. */
+@Parcelize object QuarterliesScreen : Screen

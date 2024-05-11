@@ -124,6 +124,10 @@ constructor(
         CircuitActivity.launch(context, screen)
     }
 
+    override fun screenIntent(context: Context, screen: Screen): Intent {
+        return CircuitActivity.launchIntent(context, screen)
+    }
+
     private fun getDestinationClass(destination: Destination): Class<*>? {
         return when (destination) {
             Destination.ABOUT -> AboutActivity::class.java

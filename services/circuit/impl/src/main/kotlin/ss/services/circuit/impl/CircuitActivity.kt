@@ -96,10 +96,11 @@ class CircuitActivity : ComponentActivity() {
         private const val ARG_EXTRA_SCREEN = "extra_screen"
 
         fun launch(context: Context, screen: Screen) {
-            val intent = Intent(context, CircuitActivity::class.java).apply {
-                putExtra(ARG_EXTRA_SCREEN, screen)
-            }
-            context.startActivity(intent)
+            context.startActivity(launchIntent(context, screen))
+        }
+
+        fun launchIntent(context: Context, screen: Screen) = Intent(context, CircuitActivity::class.java).apply {
+            putExtra(ARG_EXTRA_SCREEN, screen)
         }
     }
 }
