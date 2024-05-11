@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,42 +13,39 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.core.navigation
+package app.ss.quarterlies
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.Bundle
-import com.slack.circuit.runtime.screen.Screen
+import androidx.compose.runtime.Immutable
+import app.ss.models.QuarterlyGroup
+import app.ss.quarterlies.model.GroupedQuarterlies
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
 
-/**
- * Navigate to different modules
- */
-interface AppNavigator {
+@Immutable
+data class State(
+    val photoUrl: String?,
+    val type: GroupedQuarterlies,
+    val eventSink: (Event) -> Unit
+) : CircuitUiState
 
-    /**
-     * Navigate to a known [Destination]
-     *
-     * If destination requires auth and current user is not signed in
-     * we will just launch the default LoginActivity screen
-     */
-    fun navigate(activity: Activity, destination: Destination, extras: Bundle? = null)
+sealed interface Event : CircuitUiEvent {
 
-    /**
-     * Navigate to a Destination from a deep-link
-     */
-    fun navigate(activity: Activity, deepLink: Uri)
+    /** A quarterly with [index] has been selected.*/
+    data class QuarterlySelected(val index: String) : Event
 
-    /** Navigate to a circuit [Screen]. */
-    fun navigate(context: Context, screen: Screen)
+    /** The see all button is clicked on a grouped quarterly [group]. */
+    data class SeeAll(val group: QuarterlyGroup) : Event
 
-    fun screenIntent(context: Context, screen: Screen): Intent
+    /** The profile icon is clicked. */
+    data object ProfileClick : Event
+
+    /** The filer languages menu is clicked. */
+    data object FilterLanguages : Event
 }

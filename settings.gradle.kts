@@ -59,6 +59,7 @@ include(
     ":features:lessons:intro",
     ":features:media",
     ":features:pdf",
+    ":features:quarterlies",
     ":features:reader",
     ":features:settings",
     ":libraries:circuit:api",
