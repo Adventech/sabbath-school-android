@@ -22,9 +22,7 @@
 
 package app.ss.auth
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,7 +36,6 @@ import androidx.credentials.exceptions.GetCredentialException
 import app.ss.design.compose.extensions.content.ContentSpec
 import app.ss.design.compose.extensions.snackbar.SsSnackbarState
 import app.ss.models.config.AppConfig
-import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -55,6 +52,7 @@ import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.LoginScreen
+import ss.libraries.circuit.navigation.QuarterliesScreen
 import timber.log.Timber
 import app.ss.translations.R as L10nR
 
@@ -102,7 +100,7 @@ class LoginPresenter @AssistedInject constructor(
                     scope.launch {
                         val isAuthenticated = authWithGoogle(event.context).getOrElse { false }
                         if (isAuthenticated) {
-                            launchMain(event.context)
+                            navigator.resetRoot(QuarterliesScreen)
                         } else {
                             onAuthError()
                         }
@@ -121,7 +119,7 @@ class LoginPresenter @AssistedInject constructor(
                         scope.launch {
                             val isAuthenticated = authAnonymously().getOrElse { false }
                             if (isAuthenticated) {
-                                launchMain(event.context)
+                                navigator.resetRoot(QuarterliesScreen)
                             } else {
                                 showConfirmAnonymousAuth = false
                                 onAuthError()
@@ -176,17 +174,6 @@ class LoginPresenter @AssistedInject constructor(
     private suspend fun authAnonymously(): Result<Boolean> {
         val signInResult = withContext(dispatcherProvider.default) { authRepository.signIn() }
         return Result.success(signInResult.getOrNull() is AuthResponse.Authenticated)
-    }
-
-    /* Temporary navigation out of circuit. */
-    private fun launchMain(context: Context) {
-        with(context as Activity) {
-            val intent = QuarterliesActivity.launchIntent(this).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            }
-            startActivity(intent)
-            finish()
-        }
     }
 
 }
