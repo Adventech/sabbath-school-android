@@ -28,23 +28,18 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.TaskStackBuilder
-import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.ui.home.HomeActivity
+import com.cryart.sabbathschool.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 import ss.foundation.coroutines.flow.collectIn
-import ss.libraries.circuit.navigation.LoginScreen
-import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
     private val viewModel: SplashViewModel by viewModels()
-
-    @Inject
-    lateinit var appNavigator: AppNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +62,7 @@ class SplashActivity : AppCompatActivity() {
                     startActivities()
                 }
             }
-            LaunchState.Login -> appNavigator.navigate(this, LoginScreen)
+            LaunchState.Login -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
             LaunchState.Quarterlies -> startActivity(QuarterliesActivity.launchIntent(this@SplashActivity))
             LaunchState.Loading -> return
             LaunchState.Home -> startActivity(Intent(this, HomeActivity::class.java), null)
