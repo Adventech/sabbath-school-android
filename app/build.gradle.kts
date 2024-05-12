@@ -142,6 +142,7 @@ dependencies {
     implementation(projects.common.translations)
     implementation(projects.features.appWidgets)
     implementation(projects.features.account)
+    implementation(projects.features.auth)
     implementation(projects.features.bible)
     implementation(projects.features.languages)
     implementation(projects.features.lessons)

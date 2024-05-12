@@ -25,7 +25,6 @@ package ss.settings
 import android.content.Context
 import app.ss.design.compose.extensions.list.DividerEntity
 import app.ss.design.compose.extensions.list.ListEntity
-import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
 import io.mockk.mockk
@@ -34,7 +33,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
-import ss.libraries.circuit.navigation.LegacyDestination
+import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.SettingsScreen
 import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
@@ -82,7 +81,7 @@ class SettingsPresenterTest {
     }
 
     @Test
-    fun `present - Event account delete confirmed`() = runTest{
+    fun `present - Event account delete confirmed`() = runTest {
         val entities = listOf(DividerEntity("1"), DividerEntity("2"))
 
         val presenter = SettingsPresenter(
@@ -98,8 +97,7 @@ class SettingsPresenterTest {
 
             state.eventSick(Event.AccountDeleteConfirmed)
 
-            navigator.awaitNextScreen() shouldBeEqualTo LegacyDestination(Destination.LOGIN)
-            navigator.awaitPop()
+            navigator.awaitResetRoot().newRoot shouldBeEqualTo LoginScreen
         }
     }
 }

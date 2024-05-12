@@ -28,7 +28,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import app.ss.design.compose.extensions.list.ListEntity
-import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
@@ -41,7 +40,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
-import ss.libraries.circuit.navigation.LegacyDestination
+import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.SettingsScreen
 import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
@@ -74,10 +73,7 @@ class SettingsPresenter @AssistedInject constructor(
 
                     SettingsEntity.Account.SignOut -> {
                         repository.signOut()
-                        with(navigator) {
-                            goTo(LegacyDestination(Destination.LOGIN))
-                            pop()
-                        }
+                        navigator.resetRoot(LoginScreen)
                     }
 
                     is SettingsEntity.Reminder.Switch -> {
@@ -109,10 +105,7 @@ class SettingsPresenter @AssistedInject constructor(
                 Event.AccountDeleteConfirmed -> {
                     overlay = null
                     repository.deleteAccount()
-                    with(navigator) {
-                        goTo(LegacyDestination(Destination.LOGIN))
-                        pop()
-                    }
+                    navigator.resetRoot(LoginScreen)
                 }
 
                 is Event.SetReminderTime -> {

@@ -54,6 +54,7 @@ include(
     ":common:translations",
     ":features:account",
     ":features:app-widgets",
+    ":features:auth",
     ":features:bible",
     ":features:lessons",
     ":features:lessons:intro",

@@ -47,9 +47,9 @@ import app.ss.design.compose.widget.scaffold.SsScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.overlay.LocalOverlayHost
 import com.slack.circuit.overlay.OverlayHost
+import com.slack.circuitx.overlays.DialogResult
 import dagger.hilt.components.SingletonComponent
 import ss.libraries.circuit.navigation.SettingsScreen
-import ss.libraries.circuit.overlay.OverlayButton
 import ss.libraries.circuit.overlay.ssAlertDialogOverlay
 import ss.settings.Event
 import ss.settings.Overlay
@@ -132,24 +132,24 @@ private fun OverlayHost.ShowTimePicker(
     )
 
     LaunchedEffect(overlay) {
-        show(
+        val result = show(
             ssAlertDialogOverlay(
                 title = ContentSpec.Res(L10nR.string.ss_settings_reminder_time),
-                cancelButton = OverlayButton(
-                    title = ContentSpec.Res(android.R.string.cancel)
-                ) { eventSick(Event.OverlayDismiss) },
-                confirmButton = OverlayButton(
-                    title = ContentSpec.Res(android.R.string.ok)
-                ) {
-                    eventSick(Event.SetReminderTime(timePickerState.hour, timePickerState.minute))
+                cancelText = ContentSpec.Res(android.R.string.cancel),
+                confirmText = ContentSpec.Res(android.R.string.ok),
+                content = {
+                    TimePicker(
+                        state = timePickerState,
+                        modifier = Modifier
+                    )
                 }
-            ) {
-                TimePicker(
-                    state = timePickerState,
-                    modifier = Modifier
-                )
-            }
+            )
         )
+        when (result) {
+            DialogResult.Confirm -> eventSick(Event.SetReminderTime(timePickerState.hour, timePickerState.minute))
+            DialogResult.Cancel,
+            DialogResult.Dismiss -> eventSick(Event.OverlayDismiss)
+        }
     }
 }
 
@@ -160,22 +160,25 @@ private fun OverlayHost.ConfirmAccountDelete(
     eventSick: (Event) -> Unit,
 ) {
     LaunchedEffect(overlay) {
-        show(
+        val result = show(
             ssAlertDialogOverlay(
                 title = ContentSpec.Res(L10nR.string.ss_delete_account_question),
-                cancelButton = OverlayButton(
-                    title = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_negative)
-                ) { eventSick(Event.OverlayDismiss) },
-                confirmButton = OverlayButton(
-                    title = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_positive)
-                ) { eventSick(Event.AccountDeleteConfirmed) }
-            ) {
-                Text(
-                    text = stringResource(id = L10nR.string.ss_delete_account_warning),
-                    style = SsTheme.typography.bodyMedium
-                )
-            }
+                cancelText = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_negative),
+                confirmText = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_positive),
+                content = {
+                    Text(
+                        text = stringResource(id = L10nR.string.ss_delete_account_warning),
+                        style = SsTheme.typography.bodyMedium
+                    )
+                }
+            )
         )
+
+        when (result) {
+            DialogResult.Confirm -> eventSick(Event.AccountDeleteConfirmed)
+            DialogResult.Cancel,
+            DialogResult.Dismiss -> eventSick(Event.OverlayDismiss)
+        }
     }
 }
 
@@ -186,21 +189,23 @@ private fun OverlayHost.ShowConfirmRemoveDownloads(
     eventSick: (Event) -> Unit,
 ) {
     LaunchedEffect(overlay) {
-        show(
+        val result = show(
             ssAlertDialogOverlay(
                 title = ContentSpec.Res(L10nR.string.ss_delete_downloads),
-                cancelButton = OverlayButton(
-                    title = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_negative)
-                ) { eventSick(Event.OverlayDismiss) },
-                confirmButton = OverlayButton(
-                    title = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_positive)
-                ) { eventSick(Event.RemoveDownloads) }
-            ) {
-                Text(
-                    text = stringResource(id = L10nR.string.ss_delete_downloads_confirm),
-                    style = SsTheme.typography.bodyMedium
-                )
-            }
+                cancelText = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_negative),
+                confirmText = ContentSpec.Res(L10nR.string.ss_login_anonymously_dialog_positive),
+                content = {
+                    Text(
+                        text = stringResource(id = L10nR.string.ss_delete_downloads_confirm),
+                        style = SsTheme.typography.bodyMedium
+                    )
+                }
+            )
         )
+        when (result) {
+            DialogResult.Confirm -> eventSick(Event.RemoveDownloads)
+            DialogResult.Cancel,
+            DialogResult.Dismiss -> eventSick(Event.OverlayDismiss)
+        }
     }
 }

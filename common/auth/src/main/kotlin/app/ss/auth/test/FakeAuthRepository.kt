@@ -27,6 +27,7 @@ import app.ss.auth.AuthRepository
 import app.ss.auth.AuthResponse
 import app.ss.models.auth.SSUser
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 /**
  * Fake implementation of [AuthRepository] for use in tests.
@@ -35,26 +36,29 @@ import kotlinx.coroutines.flow.Flow
 class FakeAuthRepository : AuthRepository {
 
     var userDelegate: () -> Result<SSUser?> = { throw NotImplementedError() }
+    var signInDelegate: () -> Result<AuthResponse> = { throw NotImplementedError() }
+    var signInWithTokenDelegate: (String) -> Result<AuthResponse> = { throw NotImplementedError() }
+
+    var logoutConfirmed: Boolean = false
+        private set
+    var deleteAccountConfirmed: Boolean = false
+        private set
 
     override suspend fun getUser(): Result<SSUser?> = userDelegate()
 
     override fun getUserFlow(): Flow<SSUser?> {
-        TODO("Not yet implemented")
+        return flowOf(userDelegate().getOrNull())
     }
 
-    override suspend fun signIn(): Result<AuthResponse> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun signIn(): Result<AuthResponse> = signInDelegate()
 
-    override suspend fun signIn(token: String): Result<AuthResponse> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun signIn(token: String): Result<AuthResponse> = signInWithTokenDelegate(token)
 
     override suspend fun logout() {
-        TODO("Not yet implemented")
+        logoutConfirmed = true
     }
 
     override suspend fun deleteAccount() {
-        TODO("Not yet implemented")
+        deleteAccountConfirmed = true
     }
 }

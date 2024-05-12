@@ -34,8 +34,6 @@ import app.ss.design.compose.extensions.content.asText
 import app.ss.design.compose.theme.SsTheme
 import com.slack.circuitx.overlays.alertDialogOverlay
 
-data class OverlayButton(val title: ContentSpec, val action: () -> Unit)
-
 /**
  * An overlay that shows an [AlertDialog].
  *
@@ -44,24 +42,25 @@ data class OverlayButton(val title: ContentSpec, val action: () -> Unit)
 @OptIn(ExperimentalMaterial3Api::class)
 fun ssAlertDialogOverlay(
     title: ContentSpec,
-    cancelButton: OverlayButton,
-    confirmButton: OverlayButton,
-    content: @Composable () -> Unit,
+    cancelText: ContentSpec,
+    confirmText: ContentSpec,
+    usePlatformDefaultWidth: Boolean = false,
+    content: @Composable () -> Unit = {},
 ) =
     alertDialogOverlay(
         confirmButton = {
-          TextButton(onClick = confirmButton.action) { Text(confirmButton.title.asText()) }
+            TextButton(onClick = it) { Text(confirmText.asText()) }
         },
         dismissButton = {
-          TextButton(onClick = cancelButton.action) { Text(cancelButton.title.asText()) }
+            TextButton(onClick = it) { Text(cancelText.asText()) }
         },
         title = {
-          Text(
-              modifier = Modifier,
-              text = title.asText(),
-              style = SsTheme.typography.headlineSmall,
-          )
+            Text(
+                modifier = Modifier,
+                text = title.asText(),
+                style = SsTheme.typography.headlineSmall,
+            )
         },
         text = content,
-        properties = DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = usePlatformDefaultWidth)
     )
