@@ -19,6 +19,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 import org.junit.runner.RunWith
 import ss.foundation.coroutines.test.TestDispatcherProvider
+import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
 import app.ss.translations.R as L10nR
@@ -169,9 +170,22 @@ class LoginPresenterTest {
             ensureAllEventsConsumed()
         }
     }
+
+    @Test
+    fun `present - event - OpenPrivacyPolicy`() = runTest {
+        underTest.test {
+            val state = awaitItem()
+
+            (state as State.Default).eventSink(Event.OpenPrivacyPolicy)
+
+            fakeNavigator.awaitNextScreen() shouldBeEqualTo CustomTabsIntentScreen(PRIVACY_POLICY_URL)
+
+            ensureAllEventsConsumed()
+        }
+    }
 }
 
-class FakeCredentialManagerWrapper : CredentialManagerWrapper {
+private class FakeCredentialManagerWrapper : CredentialManagerWrapper {
 
     var getCredentialDelegate: (GetCredentialRequest) -> GetCredentialResponse = { throw NotImplementedError() }
 
