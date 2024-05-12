@@ -28,12 +28,14 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.SnackbarVisuals
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import app.ss.design.compose.extensions.content.ContentSpec
 
-/** The [SnackbarHostState] shown in the Notification settings screens. */
+/** Custom app [SnackbarHostState]. */
+@Immutable
 data class SsSnackbarState(
     val message: ContentSpec,
     val actionLabel: ContentSpec? = null,
