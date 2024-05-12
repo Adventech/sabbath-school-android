@@ -20,29 +20,19 @@
  * THE SOFTWARE.
  */
 
-package app.ss.auth
+package app.ss.auth.di
 
-import android.content.Context
-import app.ss.design.compose.extensions.snackbar.SsSnackbarState
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
+import app.ss.auth.CredentialManagerWrapper
+import app.ss.auth.CredentialManagerWrapperImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-sealed interface State : CircuitUiState {
-    data class Default(
-        val snackbarState: SsSnackbarState?,
-        val eventSink: (Event) -> Unit
-    ) : State
-    data object Loading : State
-    data class ConfirmSignInAnonymously(val eventSink: (OverlayEvent) -> Unit) : State
-}
+@InstallIn(SingletonComponent::class)
+@Module
+internal abstract class AuthFeatureBindings {
 
-sealed interface Event : CircuitUiEvent {
-    data class SignInWithGoogle(val context: Context) : Event
-    data object SignInAnonymously : Event
-    data object OpenPrivacyPolicy : Event
-}
-
-sealed interface OverlayEvent {
-    data object Dismiss : OverlayEvent
-    data object Confirm : OverlayEvent
+    @Binds
+    abstract fun bindCredentialManagerWrapper(iml: CredentialManagerWrapperImpl): CredentialManagerWrapper
 }

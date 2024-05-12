@@ -254,7 +254,6 @@ private fun Buttons(
 @Composable
 private fun OverlayContent(eventSink: (OverlayEvent) -> Unit) {
     val overlayHost = LocalOverlayHost.current
-    val context = LocalContext.current
     LaunchedEffect(Unit) {
         val result = overlayHost.show(
             ssAlertDialogOverlay(
@@ -269,7 +268,7 @@ private fun OverlayContent(eventSink: (OverlayEvent) -> Unit) {
         )
 
         when (result) {
-            DialogResult.Confirm -> eventSink(OverlayEvent.Confirm(context))
+            DialogResult.Confirm -> eventSink(OverlayEvent.Confirm)
             DialogResult.Cancel,
             DialogResult.Dismiss -> eventSink(OverlayEvent.Dismiss)
         }

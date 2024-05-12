@@ -20,20 +20,29 @@
  * THE SOFTWARE.
  */
 
-package app.ss.auth.di
+package app.ss.auth
 
 import android.content.Context
 import androidx.credentials.CredentialManager
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
+import javax.inject.Inject
 
-@InstallIn(SingletonComponent::class)
-@Module
-object AuthFeatureModule {
+/** A wrapper around [CredentialManager] for easier testing. */
+interface CredentialManagerWrapper {
+    suspend fun getCredential(
+        context: Context,
+        request: GetCredentialRequest,
+    ): GetCredentialResponse
+}
 
-    @Provides
-    fun provideCredentialManager(@ApplicationContext context: Context): CredentialManager = CredentialManager.create(context)
+internal class CredentialManagerWrapperImpl @Inject constructor(
+    @ApplicationContext context: Context,
+) : CredentialManagerWrapper {
+    private val credentialManager: CredentialManager by lazy { CredentialManager.create(context) }
+
+    override suspend fun getCredential(context: Context, request: GetCredentialRequest): GetCredentialResponse {
+        return credentialManager.getCredential(context, request)
+    }
 }

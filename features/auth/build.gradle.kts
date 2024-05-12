@@ -12,6 +12,7 @@ android {
 
 slack {
     features { compose() }
+    android { features { robolectric() } }
 }
 
 ksp {

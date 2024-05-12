@@ -28,7 +28,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
@@ -61,7 +60,7 @@ const val PRIVACY_POLICY_URL = "https://adventech.io/privacy-policy"
 class LoginPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val appConfig: AppConfig,
-    private val credentialManager: CredentialManager,
+    private val credentialManager: CredentialManagerWrapper,
     private val authRepository: AuthRepository,
     private val dispatcherProvider: DispatcherProvider,
 ) : Presenter<State> {
@@ -114,7 +113,7 @@ class LoginPresenter @AssistedInject constructor(
             isLoading -> State.Loading
             showConfirmAnonymousAuth -> State.ConfirmSignInAnonymously { event ->
                 when (event) {
-                    is OverlayEvent.Confirm -> {
+                    OverlayEvent.Confirm -> {
                         isLoading = true
                         scope.launch {
                             val isAuthenticated = authAnonymously().getOrElse { false }
