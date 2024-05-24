@@ -9,6 +9,7 @@ import app.ss.quarterlies.list.QuarterliesListScreen
 import app.ss.quarterlies.model.GroupedQuarterlies
 import app.ss.quarterlies.model.placeHolderQuarterlies
 import app.ss.quarterlies.model.spec
+import app.ss.quarterlies.overlay.UserInfo
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
@@ -22,9 +23,12 @@ import org.junit.runner.RunWith
 import ss.lessons.test.FakeQuarterliesRepository
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.libraries.circuit.navigation.LegacyDestination
+import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
+import ss.libraries.circuit.navigation.SettingsScreen
 import ss.misc.SSConstants
 import ss.prefs.api.test.FakeSSPrefs
+import app.ss.quarterlies.overlay.AccountDialogOverlay.Result as OverlayResult
 
 @RunWith(AndroidJUnit4::class)
 class QuarterliesPresenterTest {
@@ -133,6 +137,133 @@ class QuarterliesPresenterTest {
             ensureAllEventsConsumed()
         }
     }
+
+    @Test
+    fun `present - event - ProfileClick`() = runTest {
+        val quarterlies = quarterliesList()
+        val user = SSUser.fake().copy(
+            displayName = "Name",
+            email = "Email",
+            photo = "Photo"
+        )
+        fakeAuthRepository.userDelegate = { Result.success(user) }
+        fakeRepository.quarterliesMap["en" to null] = flowOf(Result.success(quarterlies))
+
+        underTest.test {
+            var state = awaitItem()
+
+            state.photoUrl shouldBeEqualTo null
+            state.type shouldBeEqualTo GroupedQuarterlies.TypeList(placeHolderQuarterlies())
+
+            state = awaitItem()
+            state.photoUrl shouldBeEqualTo user.photo
+            state.overlayState shouldBeEqualTo null
+
+            state.eventSink(Event.ProfileClick)
+            state = awaitItem()
+
+            state.overlayState!!.userInfo shouldBeEqualTo UserInfo(user.displayName, user.email, user.photo)
+
+            ensureAllEventsConsumed()
+        }
+    }
+
+    @Test
+    fun `present - overlay result - GoToAbout`() = runTest {
+        val quarterlies = quarterliesList()
+        fakeAuthRepository.userDelegate = { Result.success(SSUser.fake()) }
+        fakeRepository.quarterliesMap["en" to null] = flowOf(Result.success(quarterlies))
+
+        underTest.test {
+            awaitItem()
+
+            var state = awaitItem()
+
+            state.eventSink(Event.ProfileClick)
+            state = awaitItem()
+
+            state.overlayState!!.onResult(OverlayResult.GoToAbout)
+
+            state = awaitItem()
+            state.overlayState shouldBeEqualTo null
+
+            fakeNavigator.awaitNextScreen() shouldBeEqualTo LegacyDestination(Destination.ABOUT)
+
+            ensureAllEventsConsumed()
+        }
+    }
+
+    @Test
+    fun `present - overlay result - Dismiss`() = runTest {
+        val quarterlies = quarterliesList()
+        fakeAuthRepository.userDelegate = { Result.success(SSUser.fake()) }
+        fakeRepository.quarterliesMap["en" to null] = flowOf(Result.success(quarterlies))
+
+        underTest.test {
+            awaitItem()
+
+            var state = awaitItem()
+            state.eventSink(Event.ProfileClick)
+            state = awaitItem()
+
+            state.overlayState!!.onResult(OverlayResult.Dismiss)
+
+            state = awaitItem()
+            state.overlayState shouldBeEqualTo null
+
+            ensureAllEventsConsumed()
+        }
+    }
+
+    @Test
+    fun `present - overlay result - GoToSettings`() = runTest {
+        val quarterlies = quarterliesList()
+        fakeAuthRepository.userDelegate = { Result.success(SSUser.fake()) }
+        fakeRepository.quarterliesMap["en" to null] = flowOf(Result.success(quarterlies))
+
+        underTest.test {
+            awaitItem()
+
+            var state = awaitItem()
+            state.eventSink(Event.ProfileClick)
+            state = awaitItem()
+
+            state.overlayState!!.onResult(OverlayResult.GoToSettings)
+
+            state = awaitItem()
+            state.overlayState shouldBeEqualTo null
+
+            fakeNavigator.awaitNextScreen() shouldBeEqualTo SettingsScreen
+
+            ensureAllEventsConsumed()
+        }
+    }
+
+    @Test
+    fun `present - overlay result - SignOut`() = runTest {
+        val quarterlies = quarterliesList()
+        fakeAuthRepository.userDelegate = { Result.success(SSUser.fake()) }
+        fakeRepository.quarterliesMap["en" to null] = flowOf(Result.success(quarterlies))
+
+        underTest.test {
+            awaitItem()
+
+            var state = awaitItem()
+            state.eventSink(Event.ProfileClick)
+            state = awaitItem()
+
+            state.overlayState!!.onResult(OverlayResult.SignOut)
+
+            state = awaitItem()
+            state.overlayState shouldBeEqualTo null
+
+            fakeAuthRepository.logoutConfirmed shouldBeEqualTo true
+            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo LoginScreen
+
+            ensureAllEventsConsumed()
+        }
+    }
+
 
     private fun quarterliesList(language: String = "en") = listOf(
         SSQuarterly(
