@@ -38,6 +38,8 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Facebook
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Web
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -64,7 +66,10 @@ enum class Icons(
     Clock(MaterialIcons.Rounded.AccessTime, L10n.ss_settings_reminder_time),
     Close(MaterialIcons.Rounded.Close, L10n.ss_action_close),
     Facebook(MaterialIcons.Rounded.Facebook, L10n.ss_about_facebook),
+    Info(MaterialIcons.Rounded.Info, L10n.ss_about),
     Search(MaterialIcons.Rounded.Search, android.R.string.search_go),
+    Settings(MaterialIcons.Rounded.Settings, L10n.ss_settings),
+    Share(MaterialIcons.Rounded.Share, L10n.ss_share),
 
     Home(MaterialIcons.Outlined.Home, L10n.ss_app_name),
     HomeFilled(MaterialIcons.Filled.Home, L10n.ss_app_name),

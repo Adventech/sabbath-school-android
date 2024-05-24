@@ -20,41 +20,13 @@
  * THE SOFTWARE.
  */
 
-package app.ss.quarterlies
+package app.ss.quarterlies.overlay
 
 import androidx.compose.runtime.Immutable
-import app.ss.models.QuarterlyGroup
-import app.ss.quarterlies.model.GroupedQuarterlies
-import app.ss.quarterlies.overlay.AccountDialogOverlay
-import app.ss.quarterlies.overlay.UserInfo
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
 
 @Immutable
-data class State(
-    val photoUrl: String?,
-    val type: GroupedQuarterlies,
-    val overlayState: OverlayState?,
-    val eventSink: (Event) -> Unit,
-) : CircuitUiState
-
-sealed interface Event : CircuitUiEvent {
-
-    /** A quarterly with [index] has been selected.*/
-    data class QuarterlySelected(val index: String) : Event
-
-    /** The see all button is clicked on a grouped quarterly [group]. */
-    data class SeeAll(val group: QuarterlyGroup) : Event
-
-    /** The profile icon is clicked. */
-    data object ProfileClick : Event
-
-    /** The filer languages menu is clicked. */
-    data object FilterLanguages : Event
-}
-
-@Immutable
-data class OverlayState(
-    val userInfo: UserInfo,
-    val onResult: (AccountDialogOverlay.Result) -> Unit
+data class UserInfo(
+    val displayName: String? = null,
+    val email: String? = null,
+    val photo: String? = null
 )

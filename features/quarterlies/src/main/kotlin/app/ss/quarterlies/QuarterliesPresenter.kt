@@ -22,33 +22,46 @@
 
 package app.ss.quarterlies
 
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.core.app.ShareCompat
 import androidx.core.os.bundleOf
 import app.ss.auth.AuthRepository
 import app.ss.quarterlies.list.QuarterliesListScreen
 import app.ss.quarterlies.model.GroupedQuarterlies
 import app.ss.quarterlies.model.placeHolderQuarterlies
+import app.ss.quarterlies.overlay.UserInfo
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
+import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import ss.lessons.api.repository.QuarterliesRepository
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.libraries.circuit.navigation.LegacyDestination
+import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
+import ss.libraries.circuit.navigation.SettingsScreen
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 import timber.log.Timber
+import app.ss.quarterlies.overlay.AccountDialogOverlay.Result as OverlayResult
+import app.ss.translations.R as L10nR
 
 class QuarterliesPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
@@ -67,8 +80,11 @@ class QuarterliesPresenter @AssistedInject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     @Composable
     override fun present(): State {
-        val photoUrl by produceRetainedState<String?>(initialValue = null) {
-            value = authRepository.getUser().getOrNull()?.photo
+        val coroutineScope = rememberCoroutineScope()
+        val userInfo by produceRetainedState<UserInfo?>(initialValue = null) {
+            value = authRepository.getUser().getOrNull()?.run {
+                UserInfo(displayName, email, photo)
+            }
         }
         val quarterlies by produceRetainedState<GroupedQuarterlies>(initialValue = GroupedQuarterlies.TypeList(placeHolderQuarterlies())) {
             ssPrefs.getLanguageCodeFlow()
@@ -78,9 +94,12 @@ class QuarterliesPresenter @AssistedInject constructor(
                 .collect { value = it }
         }
 
+        var overlayState by rememberRetained { mutableStateOf<OverlayState?>(null) }
+
         return State(
-            photoUrl = photoUrl,
+            photoUrl = userInfo?.photo,
             type = quarterlies,
+            overlayState = overlayState,
             eventSink = { event ->
                 when (event) {
                     is Event.QuarterlySelected -> navigator.goTo(
@@ -91,10 +110,43 @@ class QuarterliesPresenter @AssistedInject constructor(
                     )
 
                     Event.FilterLanguages -> navigator.goTo(LanguagesScreen)
-                    Event.ProfileClick -> TODO()
+                    Event.ProfileClick -> {
+                        userInfo?.let {
+                            overlayState = OverlayState(it) { result ->
+                                overlayState = null
+                                handleOverlayResult(result, coroutineScope)
+                            }
+                        }
+                    }
                     is Event.SeeAll -> navigator.goTo(QuarterliesListScreen(event.group))
                 }
-            }
+            },
         )
+    }
+
+    private fun handleOverlayResult(result: OverlayResult, coroutineScope: CoroutineScope) {
+        when (result) {
+            OverlayResult.Dismiss -> Unit
+            OverlayResult.GoToAbout -> navigator.goTo(LegacyDestination(Destination.ABOUT))
+            OverlayResult.GoToSettings -> navigator.goTo(SettingsScreen)
+            is OverlayResult.ShareApp -> {
+                with(result.context) {
+                    val shareIntent = ShareCompat.IntentBuilder(this)
+                        .setType("text/plain")
+                        .setText(getString(L10nR.string.ss_menu_share_app_text, SSConstants.SS_APP_PLAY_STORE_LINK))
+                        .intent
+                    if (shareIntent.resolveActivity(packageManager) != null) {
+                        startActivity(Intent.createChooser(shareIntent, getString(L10nR.string.ss_menu_share_app)))
+                    }
+                }
+            }
+
+            OverlayResult.SignOut -> {
+                coroutineScope.launch {
+                    authRepository.logout()
+                    navigator.resetRoot(LoginScreen)
+                }
+            }
+        }
     }
 }

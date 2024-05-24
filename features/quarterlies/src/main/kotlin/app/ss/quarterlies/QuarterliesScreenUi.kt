@@ -32,6 +32,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -48,7 +49,9 @@ import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.quarterlies.components.QuarterlyList
+import app.ss.quarterlies.overlay.AccountDialogOverlay
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.overlay.LocalOverlayHost
 import dagger.hilt.components.SingletonComponent
 import ss.libraries.circuit.navigation.QuarterliesScreen
 import androidx.compose.material.icons.Icons as MaterialIcons
@@ -86,6 +89,17 @@ fun QuarterliesScreenUi(state: State, modifier: Modifier = Modifier) {
             onSeeAllClick = { state.eventSink(Event.SeeAll(it)) },
         )
     }
+
+    state.overlayState?.run { OverlayContent(this) }
+}
+
+@Composable
+private fun OverlayContent(state: OverlayState) {
+    val overlayHost = LocalOverlayHost.current
+
+    LaunchedEffect(state) {
+        state.run { onResult(overlayHost.show(AccountDialogOverlay(userInfo))) }
+    }
 }
 
 
@@ -111,7 +125,7 @@ private fun NavIcon(
     ContentBox(
         content = RemoteImage(
             data = photoUrl,
-            contentDescription = stringResource(id = L10nR.ss_about),
+            contentDescription = stringResource(id = L10nR.ss_account),
             loading = {
                 Spacer(
                     modifier = Modifier
