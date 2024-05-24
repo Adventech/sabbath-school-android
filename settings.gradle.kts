@@ -52,7 +52,6 @@ include(
     ":common:network",
     ":common:runtime-permissions",
     ":common:translations",
-    ":features:account",
     ":features:app-widgets",
     ":features:auth",
     ":features:bible",

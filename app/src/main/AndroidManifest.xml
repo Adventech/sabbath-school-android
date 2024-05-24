@@ -55,10 +55,6 @@
         </activity>
 
         <activity
-            android:name=".ui.login.LoginActivity"
-            android:exported="false" />
-
-        <activity
             android:name=".ui.deepLink.DeepLinkActivity"
             android:exported="true">
             <intent-filter>

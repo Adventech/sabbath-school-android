@@ -141,7 +141,6 @@ dependencies {
     implementation(projects.common.runtimePermissions)
     implementation(projects.common.translations)
     implementation(projects.features.appWidgets)
-    implementation(projects.features.account)
     implementation(projects.features.auth)
     implementation(projects.features.bible)
     implementation(projects.features.languages)
@@ -178,7 +177,6 @@ dependencies {
 
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
-    implementation(libs.google.play.auth)
 
     implementation(libs.timber)
 

@@ -33,7 +33,6 @@ compose-compiler-kotlinVersion = "1.9.23"
 google-hilt = "2.51.1"
 google-id = "1.1.0"
 google-material = "1.12.0"
-google-play-auth = "21.0.0"
 gradle-android = "8.4.1"
 gradle-cache-fix = "3.0.1"
 gradle-retry = "1.5.9"
@@ -147,7 +146,6 @@ google-hilt-android = { module = "com.google.dagger:hilt-android", version.ref =
 google-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "google-hilt" }
 google-id = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "google-id" }
 google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
-google-play-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "google-play-auth" }
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
 
 javax-annotation = { module = "javax.annotation:javax.annotation-api", version.ref = "javax-annotation" }
