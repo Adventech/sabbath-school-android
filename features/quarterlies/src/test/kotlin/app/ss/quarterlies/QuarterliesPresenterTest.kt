@@ -5,6 +5,7 @@ import app.ss.auth.test.FakeAuthRepository
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.models.auth.SSUser
+import app.ss.quarterlies.list.QuarterliesListScreen
 import app.ss.quarterlies.model.GroupedQuarterlies
 import app.ss.quarterlies.model.placeHolderQuarterlies
 import app.ss.quarterlies.model.spec
@@ -106,6 +107,28 @@ class QuarterliesPresenterTest {
             state.eventSink(Event.FilterLanguages)
 
             fakeNavigator.awaitNextScreen() shouldBeEqualTo LanguagesScreen
+
+            ensureAllEventsConsumed()
+        }
+    }
+
+    @Test
+    fun `present - event - SeeAll`() = runTest {
+        val quarterlies = quarterliesList()
+        fakeAuthRepository.userDelegate = { Result.success(SSUser.fake()) }
+        fakeRepository.quarterliesMap["en" to null] = flowOf(Result.success(quarterlies))
+
+        underTest.test {
+            var state = awaitItem()
+
+            state.photoUrl shouldBeEqualTo null
+            state.type shouldBeEqualTo GroupedQuarterlies.TypeList(placeHolderQuarterlies())
+
+            state = awaitItem()
+            state.eventSink(Event.SeeAll(QuarterlyGroup("Name", 1)))
+
+            val screen = fakeNavigator.awaitNextScreen()
+            screen shouldBeEqualTo QuarterliesListScreen(QuarterlyGroup("Name", 1))
 
             ensureAllEventsConsumed()
         }

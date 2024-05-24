@@ -20,13 +20,14 @@
  * THE SOFTWARE.
  */
 
-package app.ss.quarterlies
+package app.ss.quarterlies.list
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.core.os.bundleOf
-import app.ss.auth.AuthRepository
-import app.ss.quarterlies.list.QuarterliesListScreen
+import app.ss.quarterlies.QuarterliesUseCase
+import app.ss.quarterlies.list.QuarterliesListScreen.Event
+import app.ss.quarterlies.list.QuarterliesListScreen.State
 import app.ss.quarterlies.model.GroupedQuarterlies
 import app.ss.quarterlies.model.placeHolderQuarterlies
 import com.cryart.sabbathschool.core.navigation.Destination
@@ -43,56 +44,50 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import ss.lessons.api.repository.QuarterliesRepository
-import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.libraries.circuit.navigation.LegacyDestination
-import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 import timber.log.Timber
 
-class QuarterliesPresenter @AssistedInject constructor(
+class QuarterliesListPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
+    @Assisted private val screen: QuarterliesListScreen,
     private val repository: QuarterliesRepository,
-    private val authRepository: AuthRepository,
     private val ssPrefs: SSPrefs,
     private val quarterliesUseCase: QuarterliesUseCase
 ) : Presenter<State> {
 
-    @CircuitInject(QuarterliesScreen::class, SingletonComponent::class)
+    @CircuitInject(QuarterliesListScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
-        fun create(navigator: Navigator): QuarterliesPresenter
+        fun create(navigator: Navigator, screen: QuarterliesListScreen): QuarterliesListPresenter
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Composable
     override fun present(): State {
-        val photoUrl by produceRetainedState<String?>(initialValue = null) {
-            value = authRepository.getUser().getOrNull()?.photo
-        }
-        val quarterlies by produceRetainedState<GroupedQuarterlies>(initialValue = GroupedQuarterlies.TypeList(placeHolderQuarterlies())) {
+        val quarterlies by produceRetainedState<GroupedQuarterlies>(
+            initialValue = GroupedQuarterlies.TypeList(placeHolderQuarterlies())
+        ) {
             ssPrefs.getLanguageCodeFlow()
-                .flatMapLatest { language -> repository.getQuarterlies(language) }
+                .flatMapLatest { language -> repository.getQuarterlies(language, screen.quarterlyGroup) }
                 .map(quarterliesUseCase::group)
                 .catch { Timber.e(it) }
                 .collect { value = it }
         }
 
         return State(
-            photoUrl = photoUrl,
+            title = screen.quarterlyGroup.name,
             type = quarterlies,
             eventSink = { event ->
                 when (event) {
+                    is Event.OnNavBack -> navigator.pop()
                     is Event.QuarterlySelected -> navigator.goTo(
                         LegacyDestination(
                             Destination.LESSONS,
                             bundleOf(SSConstants.SS_QUARTERLY_INDEX_EXTRA to event.index)
                         )
                     )
-
-                    Event.FilterLanguages -> navigator.goTo(LanguagesScreen)
-                    Event.ProfileClick -> TODO()
-                    is Event.SeeAll -> navigator.goTo(QuarterliesListScreen(event.group))
                 }
             }
         )
