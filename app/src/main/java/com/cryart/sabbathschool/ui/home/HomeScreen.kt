@@ -23,18 +23,24 @@
 package com.cryart.sabbathschool.ui.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.theme.color.SsColors
+import com.cryart.sabbathschool.R
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import dagger.hilt.components.SingletonComponent
 import kotlinx.parcelize.Parcelize
-import com.cryart.sabbathschool.R
 
 @Parcelize
 object HomeScreen : Screen {
@@ -48,9 +54,28 @@ object HomeScreen : Screen {
 fun HomeScreenUi(state: HomeScreen.State, modifier: Modifier = Modifier) {
     when (state) {
         HomeScreen.State.Loading -> {
-            Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Image(painter = painterResource(id = R.drawable.ic_sspm_splash), contentDescription = null)
+            Box(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(SsColors.BaseBlue),
+                contentAlignment = Alignment.Center,
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_sspm_splash),
+                    contentDescription = null,
+                    modifier = Modifier.scale(0.9f),
+                )
             }
+        }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview() {
+    SsTheme {
+        Surface {
+            HomeScreenUi(HomeScreen.State.Loading)
         }
     }
 }
