@@ -44,6 +44,10 @@ class FakeSSPrefs(
 
     var quarterlyIndexDelegate: () -> String? = { throw NotImplementedError() }
 
+    var reminderEnabledDelegate: () -> Boolean = { false }
+    var reminderScheduledDelegate: () -> Boolean = { false }
+    var isReadingLatestQuarterlyDelegate: () -> Boolean = { false }
+
     override fun clear() {
         TODO("Not yet implemented")
     }
@@ -88,7 +92,7 @@ class FakeSSPrefs(
     }
 
     override fun reminderEnabled(): Boolean {
-        TODO("Not yet implemented")
+        return reminderEnabledDelegate()
     }
 
     override fun setReminderEnabled(enabled: Boolean) {
@@ -100,7 +104,7 @@ class FakeSSPrefs(
     }
 
     override fun isReminderScheduled(): Boolean {
-        TODO("Not yet implemented")
+        return reminderScheduledDelegate()
     }
 
     override fun setLastQuarterlyIndex(index: String?) {
@@ -128,7 +132,7 @@ class FakeSSPrefs(
     }
 
     override fun isReadingLatestQuarterly(): Boolean {
-        TODO("Not yet implemented")
+        return isReadingLatestQuarterlyDelegate()
     }
 
     override fun setReadingLatestQuarterly(state: Boolean) {

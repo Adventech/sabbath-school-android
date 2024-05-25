@@ -15,6 +15,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.lessons.SSLessonsActivity" />
         </activity>
+
+        <activity
+            android:name=".ui.lessons.SSLessonsActivity"
+            android:label="@string/blank"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.SS" />
+
     </application>
 
 </manifest>

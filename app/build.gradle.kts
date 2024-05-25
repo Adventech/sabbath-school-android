@@ -24,8 +24,9 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
     alias(libs.plugins.sgp.base)
     id("dagger.hilt.android.plugin")
@@ -131,6 +132,10 @@ slack {
     android { features { androidTest() } }
 }
 
+ksp {
+    arg("circuit.codegen.mode", "hilt")
+}
+
 dependencies {
     implementation(projects.common.auth)
     implementation(projects.common.core)
@@ -177,6 +182,7 @@ dependencies {
 
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
+    ksp(libs.circuit.codegen)
 
     implementation(libs.timber)
 

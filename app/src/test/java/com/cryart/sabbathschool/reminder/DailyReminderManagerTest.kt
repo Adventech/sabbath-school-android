@@ -60,7 +60,7 @@ class DailyReminderManagerTest {
     fun setup() {
         every { mockSSPrefs.getReminderTime() }.returns(ReminderTime(6, 30))
 
-        testSubject = DailyReminderManager(
+        testSubject = DailyReminderManagerImpl(
             appContext,
             mockAlarmManager,
             mockNotificationManager,
@@ -102,7 +102,7 @@ class DailyReminderManagerTest {
             .plusHours(6)
             .plusMinutes(30)
 
-        testSubject = DailyReminderManager(
+        testSubject = DailyReminderManagerImpl(
             appContext,
             mockAlarmManager,
             mockNotificationManager,

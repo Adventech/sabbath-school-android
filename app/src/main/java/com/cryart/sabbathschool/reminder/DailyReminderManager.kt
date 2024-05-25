@@ -34,7 +34,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
-import com.cryart.sabbathschool.ui.splash.SplashActivity
+import com.cryart.sabbathschool.ui.home.HomeActivity
 import org.joda.time.DateTime
 import ss.prefs.api.SSPrefs
 import ss.settings.DailyReminder
@@ -42,13 +42,17 @@ import timber.log.Timber
 import app.ss.translations.R as L10n
 import com.cryart.design.R as DesignR
 
-class DailyReminderManager constructor(
+interface DailyReminderManager : DailyReminder {
+    fun scheduleReminder()
+}
+
+class DailyReminderManagerImpl(
     private val context: Context,
     private val alarmManager: AlarmManager,
     private val notificationManager: NotificationManagerCompat,
     private val ssPrefs: SSPrefs,
     private val dateNow: DateTime? = null
-) : DailyReminder {
+) : DailyReminderManager {
 
     private fun getPendingIntent(
         create: Boolean
@@ -78,7 +82,7 @@ class DailyReminderManager constructor(
         }
     }
 
-    fun scheduleReminder() {
+    override fun scheduleReminder() {
         val pendingIntent = getPendingIntent(true) ?: return
         alarmManager.set(
             AlarmManager.RTC_WAKEUP,
@@ -107,7 +111,7 @@ class DailyReminderManager constructor(
             .build()
         notificationManager.createNotificationChannel(channel)
 
-        val contentIntent = Intent(context, SplashActivity::class.java).apply {
+        val contentIntent = Intent(context, HomeActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
         val flag = if (isAtLeastApi(Build.VERSION_CODES.M)) {
