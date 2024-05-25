@@ -91,7 +91,6 @@ slack {
 }
 
 dependencies {
-    implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.designCompose)

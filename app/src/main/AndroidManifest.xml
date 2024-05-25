@@ -44,19 +44,15 @@
             tools:targetApi="q" />
 
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name=".ui.home.HomeActivity"
             android:exported="true"
-            android:theme="@style/Theme.SS.Splash">
+            android:theme="@style/Theme.SS.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:exported="false" />
 
         <activity
             android:name=".ui.deepLink.DeepLinkActivity"
@@ -87,10 +83,6 @@
             android:name=".ui.about.AboutActivity"
             android:exported="false"
             android:label="@string/ss_about" />
-
-        <activity
-            android:name=".ui.home.HomeActivity"
-            android:exported="false" />
 
         <!-- Initializers -->
         <provider

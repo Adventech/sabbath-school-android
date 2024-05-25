@@ -28,6 +28,7 @@ import androidx.core.app.NotificationManagerCompat
 import app.ss.models.config.AppConfig
 import com.cryart.sabbathschool.BuildConfig
 import com.cryart.sabbathschool.reminder.DailyReminderManager
+import com.cryart.sabbathschool.reminder.DailyReminderManagerImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,7 +45,7 @@ object AppModule {
     fun provideReminderManager(
         @ApplicationContext context: Context,
         ssPrefs: SSPrefs
-    ): DailyReminderManager = DailyReminderManager(
+    ): DailyReminderManager = DailyReminderManagerImpl(
         alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager,
         notificationManager = NotificationManagerCompat.from(context),
         context = context,

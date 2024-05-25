@@ -25,6 +25,7 @@ package com.cryart.sabbathschool.navigation
 import android.app.Activity
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.BundleCompat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.auth.test.FakeAuthRepository
 import app.ss.models.auth.SSUser
@@ -32,9 +33,8 @@ import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
-import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
-import com.cryart.sabbathschool.ui.login.LoginActivity
+import com.slack.circuit.runtime.screen.Screen
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeNull
 import org.junit.After
@@ -45,8 +45,12 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.android.controller.ActivityController
 import ss.foundation.coroutines.test.TestDispatcherProvider
+import ss.libraries.circuit.navigation.LoginScreen
+import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.misc.SSConstants
 import ss.prefs.api.test.FakeSSPrefs
+
+private const val ARG_EXTRA_SCREEN = "extra_screen"
 
 @RunWith(AndroidJUnit4::class)
 class AppNavigatorImplTest {
@@ -81,19 +85,6 @@ class AppNavigatorImplTest {
     }
 
     @Test
-    fun `should navigate to Login destination`() {
-        fakeAuthRepository.userDelegate = { Result.success(null) }
-
-        navigator.navigate(activity, Destination.LOGIN)
-
-        val shadow = Shadows.shadowOf(activity)
-        val intent = shadow.nextStartedActivity
-
-        val clazz = intent.component?.className
-        clazz shouldBeEqualTo LoginActivity::class.qualifiedName
-    }
-
-    @Test
     fun `should navigate to login when not authenticated`() {
         fakeAuthRepository.userDelegate = { Result.success(null) }
 
@@ -102,8 +93,8 @@ class AppNavigatorImplTest {
         val shadow = Shadows.shadowOf(activity)
         val intent = shadow.nextStartedActivity
 
-        val clazz = intent.component?.className
-        clazz shouldBeEqualTo LoginActivity::class.qualifiedName
+        val screen = BundleCompat.getParcelable(intent.extras!!, ARG_EXTRA_SCREEN, Screen::class.java)
+        screen shouldBeEqualTo LoginScreen
     }
 
     @Test
@@ -139,8 +130,8 @@ class AppNavigatorImplTest {
         val shadow = Shadows.shadowOf(activity)
         val intent = shadow.nextStartedActivity
 
-        val clazz = intent.component?.className
-        clazz shouldBeEqualTo LoginActivity::class.qualifiedName
+        val screen = BundleCompat.getParcelable(intent.extras!!, ARG_EXTRA_SCREEN, Screen::class.java)
+        screen shouldBeEqualTo LoginScreen
     }
 
     @Test
@@ -180,7 +171,7 @@ class AppNavigatorImplTest {
         val shadow = Shadows.shadowOf(activity)
         val intent = shadow.nextStartedActivity
 
-        val clazz = intent.component?.className
-        clazz shouldBeEqualTo QuarterliesActivity::class.qualifiedName
+        val screen = BundleCompat.getParcelable(intent.extras!!, ARG_EXTRA_SCREEN, Screen::class.java)
+        screen shouldBeEqualTo QuarterliesScreen
     }
 }

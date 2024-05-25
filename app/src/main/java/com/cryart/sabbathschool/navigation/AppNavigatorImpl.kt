@@ -29,25 +29,23 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.core.app.TaskStackBuilder
 import androidx.core.os.bundleOf
-import androidx.fragment.app.FragmentActivity
 import app.ss.auth.AuthRepository
-import com.cryart.sabbathschool.account.AccountDialogFragment
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
-import com.cryart.sabbathschool.lessons.ui.quarterlies.QuarterliesActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.ui.about.AboutActivity
-import com.cryart.sabbathschool.ui.login.LoginActivity
 import com.slack.circuit.runtime.screen.Screen
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.mainScopable
+import ss.libraries.circuit.navigation.LoginScreen
+import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.prefs.api.SSPrefs
 import ss.services.circuit.impl.CircuitActivity
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /** Implementation for [AppNavigator] */
 @Singleton
@@ -66,17 +64,11 @@ constructor(
     override fun navigate(activity: Activity, destination: Destination, extras: Bundle?) {
         scope.launch(dispatcherProvider.default) {
             val clazz = getDestinationClass(destination) ?: return@launch
-            val loginClass = LoginActivity::class.java
 
-            val intent = if (clazz == loginClass || !isSignedIn()) {
-                Intent(activity, loginClass).apply {
+            val intent = if (!isSignedIn()) {
+                screenIntent(activity, LoginScreen).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
-            } else if (destination == Destination.ACCOUNT) {
-                val fragment = AccountDialogFragment()
-                val fm = (activity as? FragmentActivity)?.supportFragmentManager ?: return@launch
-                fragment.show(fm, fragment.tag)
-                return@launch
             } else {
                 Intent(activity, clazz)
             }
@@ -87,14 +79,14 @@ constructor(
             when (destination) {
                 Destination.LESSONS -> {
                     with(TaskStackBuilder.create(activity)) {
-                        addNextIntent(QuarterliesActivity.launchIntent(activity))
+                        addNextIntent(screenIntent(activity, QuarterliesScreen))
                         addNextIntent(intent)
                         startActivities()
                     }
                 }
                 Destination.READ -> {
                     with(TaskStackBuilder.create(activity)) {
-                        addNextIntent(QuarterliesActivity.launchIntent(activity))
+                        addNextIntent(screenIntent(activity, QuarterliesScreen))
                         ssPrefs.getLastQuarterlyIndex()?.let { index ->
                             addNextIntent(SSLessonsActivity.launchIntent(activity, index))
                         }
@@ -131,9 +123,7 @@ constructor(
     private fun getDestinationClass(destination: Destination): Class<*>? {
         return when (destination) {
             Destination.ABOUT -> AboutActivity::class.java
-            Destination.ACCOUNT -> AccountDialogFragment::class.java
             Destination.LESSONS -> SSLessonsActivity::class.java
-            Destination.LOGIN -> LoginActivity::class.java
             Destination.READ -> SSReadingActivity::class.java
             else -> null
         }
@@ -159,7 +149,7 @@ constructor(
      */
     private fun navigateFromWeb(activity: Activity, uri: Uri) = scope.launch(dispatcherProvider.io) {
         if (!isSignedIn()) {
-            val intent = Intent(activity, LoginActivity::class.java).apply {
+            val intent = screenIntent(activity, LoginScreen).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
             activity.startActivity(intent)
@@ -171,7 +161,7 @@ constructor(
         val lessonIndex: String
         val endIntent: Intent
         val taskBuilder = TaskStackBuilder.create(activity)
-        taskBuilder.addNextIntent(QuarterliesActivity.launchIntent(activity))
+        taskBuilder.addNextIntent(screenIntent(activity, QuarterliesScreen))
 
         if (uri.path?.matches(WEB_LINK_REGEX.toRegex()) == true && segments.size >= 2) {
             quarterlyIndex = "${segments.first()}-${segments[1]}"
@@ -203,7 +193,7 @@ constructor(
     }
 
     private fun launchNormalFlow(activity: Activity) {
-        val intent = QuarterliesActivity.launchIntent(activity).apply {
+        val intent = screenIntent(activity, QuarterliesScreen).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         activity.startActivity(intent)
