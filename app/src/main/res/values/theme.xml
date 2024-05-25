@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.SS.Splash">
-        <item name="android:windowBackground">@drawable/ss_splash_background</item>
+    <style name="Theme.SS.Home" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/ss_blue</item>
+        <item name="postSplashScreenTheme">@style/Theme.SS</item>
     </style>
 </resources>

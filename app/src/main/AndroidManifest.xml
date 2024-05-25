@@ -45,7 +45,8 @@
 
         <activity
             android:name=".ui.home.HomeActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.SS.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

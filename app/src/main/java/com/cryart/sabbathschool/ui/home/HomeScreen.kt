@@ -22,17 +22,19 @@
 
 package com.cryart.sabbathschool.ui.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import dagger.hilt.components.SingletonComponent
 import kotlinx.parcelize.Parcelize
+import com.cryart.sabbathschool.R
 
 @Parcelize
 object HomeScreen : Screen {
@@ -47,7 +49,7 @@ fun HomeScreenUi(state: HomeScreen.State, modifier: Modifier = Modifier) {
     when (state) {
         HomeScreen.State.Loading -> {
             Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+                Image(painter = painterResource(id = R.drawable.ic_sspm_splash), contentDescription = null)
             }
         }
     }
