@@ -33,6 +33,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,7 +50,6 @@ import androidx.compose.ui.unit.dp
 import androidx.tv.foundation.PivotOffsets
 import androidx.tv.foundation.lazy.list.TvLazyRow
 import androidx.tv.foundation.lazy.list.itemsIndexed
-import androidx.tv.material3.ImmersiveList
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import app.ss.tv.data.model.CategorySpec
@@ -64,20 +65,16 @@ fun CategoryVideos(
     childPadding: Padding = rememberChildPadding(),
     onVideoClick: (VideoSpec) -> Unit = {},
 ) {
-    var isListFocused by remember { mutableStateOf(false) }
+    var focusedIndex by remember { mutableStateOf<Int?>(null) }
+    val isListFocused by remember { derivedStateOf { focusedIndex != null } }
     var subTitle by remember { mutableStateOf<String?>(null) }
-    val titleAlpha by animateFloatAsState(if (isListFocused) 1f else 0.70f, label = "title")
+    val titleAlpha by animateFloatAsState(if (focusedIndex != null) 1f else 0.70f, label = "title")
 
-    ImmersiveList(
-        background = { index, listHasFocus ->
-            isListFocused = listHasFocus
-            subTitle = if (isListFocused) {
-                category.videos[index].title
-            } else null
-        },
-        modifier = modifier.height(280.dp)
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(280.dp)
     ) {
-        Column(modifier = modifier.fillMaxWidth()) {
             Text(
                 text = category.title,
                 modifier = Modifier
@@ -121,18 +118,25 @@ fun CategoryVideos(
                         video = video,
                         onVideoClick = onVideoClick,
                         modifier = Modifier
-                            .onFocusChanged { isItemFocused = it.isFocused }
+                            .onFocusChanged {
+                                isItemFocused = it.isFocused
+                                if (isItemFocused) {
+                                    focusedIndex = index
+                                }
+                            }
                             .focusProperties {
                                 if (index == 0) {
                                     left = FocusRequester.Cancel
                                 }
                             }
-                            .immersiveListItem(index),
                     )
 
                     Spacer(modifier = Modifier.width(endPadding))
                 }
             }
         }
+
+    LaunchedEffect(key1 = focusedIndex) {
+        subTitle = focusedIndex?.let { index -> category.videos[index].title }
     }
 }
