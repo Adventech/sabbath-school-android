@@ -96,6 +96,12 @@ private fun TvLazyListScope.languagesUi(state: State.Languages) {
         DenseListItem(
             selected = model.selected,
             onClick = { state.eventSink(Event.OnSelected(model.code)) },
+            headlineContent = {
+                Text(
+                    text = model.name,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            },
             modifier = Modifier.padding(top = 16.dp),
             trailingContent = {
                 if (model.selected) {
@@ -105,12 +111,7 @@ private fun TvLazyListScope.languagesUi(state: State.Languages) {
                     )
                 }
             }
-        ) {
-            Text(
-                text = model.name,
-                style = MaterialTheme.typography.titleMedium
-            )
-        }
+        )
     }
 }
 

@@ -52,10 +52,10 @@ import androidx.tv.foundation.lazy.list.TvLazyRow
 import androidx.tv.foundation.lazy.list.itemsIndexed
 import androidx.tv.foundation.lazy.list.rememberTvLazyListState
 import androidx.tv.material3.Border
+import androidx.tv.material3.Card
 import androidx.tv.material3.CardDefaults
-import androidx.tv.material3.CardLayoutDefaults
 import androidx.tv.material3.MaterialTheme
-import androidx.tv.material3.StandardCardLayout
+import androidx.tv.material3.StandardCardContainer
 import androidx.tv.material3.Text
 import app.ss.tv.presentation.extentions.asPlaceholder
 import app.ss.tv.presentation.theme.BorderWidth
@@ -169,9 +169,9 @@ private fun LoadingRow(
 private fun LoadingCard(
     modifier: Modifier = Modifier,
 ) {
-    StandardCardLayout(
+    StandardCardContainer(
         imageCard = {
-            CardLayoutDefaults.ImageCard(
+            Card(
                 onClick = { },
                 shape = CardDefaults.shape(SsCardShape),
                 border = CardDefaults.border(

@@ -37,11 +37,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Border
+import androidx.tv.material3.Card
 import androidx.tv.material3.CardDefaults
-import androidx.tv.material3.CardLayoutDefaults
 import androidx.tv.material3.Glow
 import androidx.tv.material3.MaterialTheme
-import androidx.tv.material3.StandardCardLayout
+import androidx.tv.material3.StandardCardContainer
 import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.presentation.theme.BorderWidth
 import app.ss.tv.presentation.theme.FocusedGlowElevation
@@ -59,12 +59,12 @@ fun VideoRowItem(
     onVideoClick: (VideoSpec) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    StandardCardLayout(
+    StandardCardContainer(
         modifier = modifier
             .width(CARD_WIDTH.dp),
         title = { /* Thumbnails have titles. */ },
         imageCard = {
-            CardLayoutDefaults.ImageCard(
+            Card(
                 onClick = { onVideoClick(video) },
                 interactionSource = it,
                 shape = CardDefaults.shape(SsCardShape),

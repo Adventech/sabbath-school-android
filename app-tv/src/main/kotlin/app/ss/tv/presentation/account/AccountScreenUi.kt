@@ -88,12 +88,21 @@ fun AccountScreenUi(state: State, modifier: Modifier = Modifier) {
                 .focusGroup()
                 .focusRequester(focusRequesters[0])
         ) {
-            itemsIndexed(AccountScreens.values(), key = { _, screen -> screen.name }) { index, screen ->
+            itemsIndexed(AccountScreens.entries, key = { _, screen -> screen.name }) { index, screen ->
                 DenseListItem(
                     selected = state.accountScreen == screen,
                     onClick = {
                         state.eventSink(Event.OnNav(screen))
                         focusRequesters[1].requestFocus()
+                    },
+                    headlineContent = {
+                        Text(
+                            text = stringResource(screen.title),
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.Medium
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -115,16 +124,8 @@ fun AccountScreenUi(state: State, modifier: Modifier = Modifier) {
                                 .size(20.dp),
                             contentDescription = stringResource(screen.title)
                         )
-                    }
-                ) {
-                    Text(
-                        text = stringResource(screen.title),
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.Medium
-                        ),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
+                    },
+                )
             }
         }
 

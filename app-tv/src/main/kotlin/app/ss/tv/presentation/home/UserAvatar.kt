@@ -32,14 +32,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Border
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
-import androidx.tv.material3.ToggleableSurfaceDefaults
+import androidx.tv.material3.SelectableSurfaceDefaults
 import app.ss.tv.presentation.theme.BorderWidth
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun UserAvatar(
     selected: Boolean,
@@ -47,8 +45,12 @@ fun UserAvatar(
     onClick: () -> Unit
 ) {
     Surface(
-        shape = ToggleableSurfaceDefaults.shape(shape = CircleShape),
-        border = ToggleableSurfaceDefaults.border(
+        selected = selected,
+        onClick = onClick,
+        modifier = modifier.size(32.dp),
+        shape = SelectableSurfaceDefaults.shape(shape = CircleShape),
+        scale = SelectableSurfaceDefaults.scale(focusedScale = 1f),
+        border = SelectableSurfaceDefaults.border(
             focusedBorder = Border(
                 border = BorderStroke(
                     width = BorderWidth,
@@ -64,10 +66,6 @@ fun UserAvatar(
                 shape = CircleShape
             ),
         ),
-        scale = ToggleableSurfaceDefaults.scale(focusedScale = 1f),
-        modifier = modifier.size(32.dp),
-        checked = selected,
-        onCheckedChange = { onClick() }
     ) {
         Icon(
             imageVector = Icons.Rounded.AccountCircle,
