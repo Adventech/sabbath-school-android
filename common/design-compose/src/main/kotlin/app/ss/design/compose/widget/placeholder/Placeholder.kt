@@ -36,7 +36,6 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.widget.divider.Divider
 
 /**
  * Placeholder defaults
@@ -78,7 +77,6 @@ fun PlaceholderListItem(
 
         Spacer(modifier = Modifier.height(height = 12.dp))
 
-        Divider()
     }
 }
 

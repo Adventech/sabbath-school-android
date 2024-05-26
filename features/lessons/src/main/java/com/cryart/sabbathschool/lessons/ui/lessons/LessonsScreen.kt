@@ -152,7 +152,7 @@ internal fun LessonsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun LessonsTopBar(
+internal fun LessonsTopBar(
     title: String,
     showTitle: Boolean,
     modifier: Modifier = Modifier,
@@ -280,15 +280,15 @@ private fun LessonsLazyColumn(
     }
 }
 
-private const val MIN_SOLID_ALPHA = 0.8f
+internal const val MIN_SOLID_ALPHA = 0.8f
 
 @Immutable
-data class ScrollAlpha(
+internal data class ScrollAlpha(
     val alpha: Float
 )
 
 @Composable
-private fun rememberScrollAlpha(
+internal fun rememberScrollAlpha(
     listState: LazyListState
 ): ScrollAlpha {
     val scrollAlpha by remember {

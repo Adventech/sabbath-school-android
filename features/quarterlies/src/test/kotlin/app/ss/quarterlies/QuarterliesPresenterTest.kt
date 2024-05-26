@@ -23,14 +23,13 @@ import org.junit.runner.RunWith
 import ss.lessons.test.FakeQuarterliesRepository
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.libraries.circuit.navigation.LegacyDestination
+import ss.libraries.circuit.navigation.LessonsScreen
 import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.libraries.circuit.navigation.SettingsScreen
-import ss.misc.SSConstants
 import ss.prefs.api.test.FakeSSPrefs
 import app.ss.quarterlies.overlay.AccountDialogOverlay.Result as OverlayResult
 
-@RunWith(AndroidJUnit4::class)
 class QuarterliesPresenterTest {
 
     private val selectedLanguageFlow = MutableStateFlow("en")
@@ -85,11 +84,7 @@ class QuarterliesPresenterTest {
             state = awaitItem()
             state.eventSink(Event.QuarterlySelected("key"))
 
-            val screen = fakeNavigator.awaitNextScreen() as LegacyDestination
-            with(screen) {
-                destination shouldBeEqualTo Destination.LESSONS
-                extras?.getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA) shouldBeEqualTo "key"
-            }
+            fakeNavigator.awaitNextScreen() shouldBeEqualTo LessonsScreen("key")
 
             ensureAllEventsConsumed()
         }

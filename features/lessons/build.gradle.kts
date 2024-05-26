@@ -90,6 +90,10 @@ slack {
     features { compose() }
 }
 
+ksp {
+    arg("circuit.codegen.mode", "hilt")
+}
+
 dependencies {
     implementation(projects.common.core)
     implementation(projects.common.design)
@@ -123,6 +127,7 @@ dependencies {
 
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
+    ksp(libs.circuit.codegen)
 
     implementation(libs.joda.android)
     implementation(libs.timber)

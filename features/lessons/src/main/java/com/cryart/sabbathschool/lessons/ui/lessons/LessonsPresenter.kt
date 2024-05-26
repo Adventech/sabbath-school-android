@@ -20,68 +20,41 @@
  * THE SOFTWARE.
  */
 
-package app.ss.quarterlies.list
+package com.cryart.sabbathschool.lessons.ui.lessons
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import app.ss.quarterlies.QuarterliesUseCase
-import app.ss.quarterlies.list.QuarterliesListScreen.Event
-import app.ss.quarterlies.list.QuarterliesListScreen.State
-import app.ss.quarterlies.model.GroupedQuarterlies
-import app.ss.quarterlies.model.placeHolderQuarterlies
+import app.ss.lessons.data.repository.lessons.LessonsRepository
+import app.ss.widgets.AppWidgetHelper
 import com.slack.circuit.codegen.annotations.CircuitInject
-import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import ss.lessons.api.repository.QuarterliesRepository
 import ss.libraries.circuit.navigation.LessonsScreen
 import ss.prefs.api.SSPrefs
-import timber.log.Timber
+import ss.workers.api.WorkScheduler
 
-class QuarterliesListPresenter @AssistedInject constructor(
+class LessonsPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    @Assisted private val screen: QuarterliesListScreen,
+    @Assisted private val screen: LessonsScreen,
     private val repository: QuarterliesRepository,
+    private val lessonsRepository: LessonsRepository,
     private val ssPrefs: SSPrefs,
-    private val quarterliesUseCase: QuarterliesUseCase
+    private val appWidgetHelper: AppWidgetHelper,
+    private val workScheduler: WorkScheduler,
 ) : Presenter<State> {
 
-    @CircuitInject(QuarterliesListScreen::class, SingletonComponent::class)
+    @CircuitInject(LessonsScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
-        fun create(navigator: Navigator, screen: QuarterliesListScreen): QuarterliesListPresenter
+        fun create(navigator: Navigator, screen: LessonsScreen): LessonsPresenter
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Composable
     override fun present(): State {
-        val quarterlies by produceRetainedState<GroupedQuarterlies>(
-            initialValue = GroupedQuarterlies.TypeList(placeHolderQuarterlies())
-        ) {
-            ssPrefs.getLanguageCodeFlow()
-                .flatMapLatest { language -> repository.getQuarterlies(language, screen.quarterlyGroup) }
-                .map(quarterliesUseCase::group)
-                .catch { Timber.e(it) }
-                .collect { value = it }
-        }
-
-        return State(
-            title = screen.quarterlyGroup.name,
-            type = quarterlies,
-            eventSink = { event ->
-                when (event) {
-                    is Event.OnNavBack -> navigator.pop()
-                    is Event.QuarterlySelected -> navigator.goTo(LessonsScreen(event.index))
-                }
-            }
-        )
+        return State.Loading
     }
 }

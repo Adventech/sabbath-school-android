@@ -29,7 +29,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.core.app.ShareCompat
-import androidx.core.os.bundleOf
 import app.ss.auth.AuthRepository
 import app.ss.quarterlies.list.QuarterliesListScreen
 import app.ss.quarterlies.model.GroupedQuarterlies
@@ -54,6 +53,7 @@ import kotlinx.coroutines.launch
 import ss.lessons.api.repository.QuarterliesRepository
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.libraries.circuit.navigation.LegacyDestination
+import ss.libraries.circuit.navigation.LessonsScreen
 import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.libraries.circuit.navigation.SettingsScreen
@@ -102,12 +102,7 @@ class QuarterliesPresenter @AssistedInject constructor(
             overlayState = overlayState,
             eventSink = { event ->
                 when (event) {
-                    is Event.QuarterlySelected -> navigator.goTo(
-                        LegacyDestination(
-                            Destination.LESSONS,
-                            bundleOf(SSConstants.SS_QUARTERLY_INDEX_EXTRA to event.index)
-                        )
-                    )
+                    is Event.QuarterlySelected -> navigator.goTo(LessonsScreen(event.index))
 
                     Event.FilterLanguages -> navigator.goTo(LanguagesScreen)
                     Event.ProfileClick -> {

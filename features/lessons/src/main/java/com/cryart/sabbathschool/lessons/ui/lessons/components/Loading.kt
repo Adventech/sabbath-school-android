@@ -22,13 +22,16 @@
 
 package com.cryart.sabbathschool.lessons.ui.lessons.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -104,10 +107,19 @@ private fun LessonsLoading(
 
         Spacer(modifier = Modifier.height(height = 32.dp))
 
-        Divider()
-
-        repeat(4) {
-            PlaceholderListItem()
+        repeat(6) {
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .size(18.dp)
+                        .asPlaceholder(true, shape = CircleShape)
+                )
+                PlaceholderListItem()
+            }
         }
     }
 }
