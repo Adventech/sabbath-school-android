@@ -46,7 +46,7 @@ jvmTarget = "17"
 kotlin = "2.0.0"
 kotlin-coroutines = "1.8.1"
 kotlinx-immutable = "0.3.7"
-ksp = "1.9.24-1.0.20"
+ksp = "2.0.0-1.0.21"
 markwon = "4.6.2"
 material-dialogs = "3.3.0"
 # @keep this version
@@ -258,6 +258,7 @@ gradle-retry = { id = "org.gradle.test-retry", version.ref = "gradle-retry" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "google-hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 sgp-base = { id = "com.slack.gradle.base", version.ref = "sgp" }

@@ -20,8 +20,6 @@
  * THE SOFTWARE.
  */
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     alias(libs.plugins.sgp.root)
     alias(libs.plugins.sgp.base)
@@ -36,25 +34,6 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose.compiler)
     alias(libs.plugins.kotlin.parcelize) apply false
-}
-
-/**
- * Enable Composable Metrics.
- *
- * https://chris.banes.dev/composable-metrics/
- */
-subprojects {
-    tasks.withType(KotlinCompile::class) {
-        kotlinOptions {
-            if (findProperty("ss.enableComposeCompilerReports") == "true") {
-                freeCompilerArgs = freeCompilerArgs + listOf(
-                    "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${layout.buildDirectory.dir("compose_metrics").get()}",
-                    "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${layout.buildDirectory.dir("compose_metrics").get()}"
-                )
-            }
-        }
-    }
 }
