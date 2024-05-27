@@ -22,7 +22,6 @@
 
 package ss.lessons.test
 
-import app.ss.models.LessonIntroModel
 import app.ss.models.PublishingInfo
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
@@ -47,9 +46,5 @@ class FakeQuarterliesRepository : QuarterliesRepository {
 
     override fun getPublishingInfo(): Flow<Result<PublishingInfo?>> {
         return publishingInfoFlow
-    }
-
-    override suspend fun getIntro(index: String): Result<LessonIntroModel?> {
-        TODO("Not yet implemented")
     }
 }

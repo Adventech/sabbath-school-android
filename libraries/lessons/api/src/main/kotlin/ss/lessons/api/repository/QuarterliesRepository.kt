@@ -22,7 +22,6 @@
 
 package ss.lessons.api.repository
 
-import app.ss.models.LessonIntroModel
 import app.ss.models.PublishingInfo
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
@@ -39,6 +38,4 @@ interface QuarterliesRepository {
     ): Flow<Result<List<SSQuarterly>>>
 
     fun getPublishingInfo(): Flow<Result<PublishingInfo?>>
-
-    suspend fun getIntro(index: String): Result<LessonIntroModel?>
 }

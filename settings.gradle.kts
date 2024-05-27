@@ -56,7 +56,6 @@ include(
     ":features:auth",
     ":features:bible",
     ":features:lessons",
-    ":features:lessons:intro",
     ":features:media",
     ":features:pdf",
     ":features:quarterlies",
