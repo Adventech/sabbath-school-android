@@ -58,11 +58,15 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.lessons.components.LessonItemsSpec
 import app.ss.lessons.components.LessonsFooterSpec
+import app.ss.lessons.components.LessonsTopBar
+import app.ss.lessons.components.MIN_SOLID_ALPHA
+import app.ss.lessons.components.ScrollAlpha
 import app.ss.lessons.components.footer
 import app.ss.lessons.components.footerBackgroundColor
 import app.ss.lessons.components.lessons
 import app.ss.lessons.components.loading
 import app.ss.lessons.components.quarterlyInfo
+import app.ss.lessons.components.rememberScrollAlpha
 import app.ss.lessons.components.spec.toSpec
 import app.ss.lessons.components.toSpec
 import com.slack.circuit.codegen.annotations.CircuitInject
