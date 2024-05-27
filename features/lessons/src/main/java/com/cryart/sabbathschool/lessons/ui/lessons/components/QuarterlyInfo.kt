@@ -106,7 +106,8 @@ internal fun LazyListScope.quarterlyInfo(
     info: QuarterlyInfoSpec,
     publishingInfo: PublishingInfoSpec?,
     scrollOffset: () -> Float,
-    onLessonClick: (LessonItemSpec) -> Unit
+    onLessonClick: (LessonItemSpec) -> Unit,
+    onPublishingInfoClick: () -> Unit
 ) {
     item {
         QuarterlyInfo(
@@ -123,7 +124,7 @@ internal fun LazyListScope.quarterlyInfo(
         )
     }
 
-    publishingInfo(publishingInfo)
+    publishingInfo(publishingInfo, onPublishingInfoClick)
 }
 
 @Composable

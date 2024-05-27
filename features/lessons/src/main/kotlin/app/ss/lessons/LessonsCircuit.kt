@@ -20,8 +20,9 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons
+package app.ss.lessons
 
+import android.content.Context
 import androidx.compose.runtime.Immutable
 import app.ss.models.PublishingInfo
 import app.ss.models.SSQuarterlyInfo
@@ -43,7 +44,8 @@ sealed interface State : CircuitUiState {
 sealed interface Event : CircuitUiEvent {
     data object OnNavigateBackClick : Event
     data object OnOfflineStateClick : Event
-    data object OnShareClick : Event
+    data class OnShareClick(val context: Context) : Event
     data object OnReadMoreClick : Event
     data class OnLessonClick(val lesson: LessonItemSpec) : Event
+    data object OnPublishingInfoClick : Event
 }

@@ -76,7 +76,7 @@ internal fun LazyListScope.footer(
             modifier = Modifier
                 .height(8.dp)
                 .fillMaxWidth()
-                .background(backgroundColor())
+                .background(footerBackgroundColor())
         )
     }
 
@@ -86,7 +86,7 @@ internal fun LazyListScope.footer(
             description = feature.description,
             image = feature.image,
             modifier = Modifier
-                .background(backgroundColor())
+                .background(footerBackgroundColor())
         )
     }
 
@@ -95,7 +95,7 @@ internal fun LazyListScope.footer(
             title = credit.name,
             description = credit.value,
             modifier = Modifier
-                .background(backgroundColor())
+                .background(footerBackgroundColor())
         )
     }
 
@@ -110,7 +110,7 @@ internal fun LazyListScope.footer(
             } else SsColors.BaseGrey2,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(backgroundColor())
+                .background(footerBackgroundColor())
                 .padding(
                     horizontal = 16.dp,
                     vertical = 10.dp
@@ -123,7 +123,7 @@ internal fun LazyListScope.footer(
             modifier = Modifier
                 .height(48.dp)
                 .fillMaxWidth()
-                .background(backgroundColor())
+                .background(footerBackgroundColor())
         )
     }
 
@@ -132,14 +132,14 @@ internal fun LazyListScope.footer(
             Modifier
                 .windowInsetsBottomHeight(WindowInsets.safeDrawing)
                 .fillMaxWidth()
-                .background(backgroundColor())
+                .background(footerBackgroundColor())
         )
     }
 }
 
 @Stable
 @Composable
-private fun backgroundColor(): Color = if (SsTheme.colors.isDark) {
+internal fun footerBackgroundColor(): Color = if (SsTheme.colors.isDark) {
     Color.Black.lighter()
 } else SsColors.BaseGrey1
 

@@ -20,8 +20,10 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons
+package app.ss.lessons
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -37,19 +39,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.SsScaffold
+import com.cryart.sabbathschool.lessons.ui.lessons.LessonsTopBar
+import com.cryart.sabbathschool.lessons.ui.lessons.MIN_SOLID_ALPHA
+import com.cryart.sabbathschool.lessons.ui.lessons.ScrollAlpha
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemsSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonsFooterSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.footer
+import com.cryart.sabbathschool.lessons.ui.lessons.components.footerBackgroundColor
 import com.cryart.sabbathschool.lessons.ui.lessons.components.lessons
 import com.cryart.sabbathschool.lessons.ui.lessons.components.loading
 import com.cryart.sabbathschool.lessons.ui.lessons.components.quarterlyInfo
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.toSpec
+import com.cryart.sabbathschool.lessons.ui.lessons.rememberScrollAlpha
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 
@@ -62,6 +70,7 @@ fun LessonsScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollCollapsed by remember { derivedStateOf { scrollAlpha.alpha > MIN_SOLID_ALPHA } }
     val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     val iconTint by remember { derivedStateOf { Color.White.takeUnless { collapsed } } }
+    val context = LocalContext.current
 
     SsScaffold(
         modifier = modifier,
@@ -80,13 +89,21 @@ fun LessonsScreenUi(state: State, modifier: Modifier = Modifier) {
                         iconTint = iconTint,
                         modifier = Modifier,
                         onNavClick = { state.eventSink(Event.OnNavigateBackClick) },
-                        onShareClick = { state.eventSink(Event.OnShareClick) }
+                        onShareClick = { state.eventSink(Event.OnShareClick(context)) }
                     )
                 }
             }
 
         },
     ) { innerPadding ->
+        val color by animateColorAsState(
+            targetValue = if (state is State.Success) {
+                footerBackgroundColor()
+            } else {
+                SsTheme.colors.primaryBackground
+            }, label = "background-color"
+        )
+
         LazyColumn(
             contentPadding = PaddingValues(
                 innerPadding.calculateStartPadding(LayoutDirection.Ltr),
@@ -94,8 +111,8 @@ fun LessonsScreenUi(state: State, modifier: Modifier = Modifier) {
                 innerPadding.calculateEndPadding(LayoutDirection.Ltr),
                 innerPadding.calculateBottomPadding()
             ),
-            modifier = modifier,
-            state = listState
+            modifier = modifier.background(color),
+            state = listState,
         ) {
             when (state) {
                 is State.Loading,
@@ -116,7 +133,8 @@ fun LessonsScreenUi(state: State, modifier: Modifier = Modifier) {
                             primaryColorHex = ssQuarterlyInfo.quarterly.color_primary
                         ),
                         scrollOffset = { listState.firstVisibleItemScrollOffset.toFloat() },
-                        onLessonClick = { lesson -> state.eventSink(Event.OnLessonClick(lesson)) }
+                        onLessonClick = { lesson -> state.eventSink(Event.OnLessonClick(lesson)) },
+                        onPublishingInfoClick = { state.eventSink(Event.OnPublishingInfoClick) }
                     )
 
                     lessons(

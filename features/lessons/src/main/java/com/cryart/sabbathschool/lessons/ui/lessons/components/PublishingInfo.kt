@@ -40,7 +40,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -50,19 +49,20 @@ import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconButton
-import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.PublishingInfoSpec
 import app.ss.translations.R.string as RString
 
 internal fun LazyListScope.publishingInfo(
-    publishingInfo: PublishingInfoSpec?
+    publishingInfo: PublishingInfoSpec?,
+    onClick: () -> Unit = {}
 ) {
     publishingInfo?.let {
         item {
             Surface {
                 PublishingInfo(
                     spec = publishingInfo,
-                    modifier = Modifier
+                    modifier = Modifier,
+                    onClick = onClick
                 )
             }
         }
@@ -72,17 +72,16 @@ internal fun LazyListScope.publishingInfo(
 @Composable
 private fun PublishingInfo(
     spec: PublishingInfoSpec,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
-    val context = LocalContext.current
-    val onclick: () -> Unit = { context.launchWebUrl(spec.url) }
 
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
                 .clickable(
                     enabled = true,
-                    onClick = onclick,
+                    onClick = onClick,
                     role = Role.Button
                 ),
             verticalAlignment = Alignment.CenterVertically
@@ -98,7 +97,7 @@ private fun PublishingInfo(
             )
 
             IconButton(
-                onClick = onclick,
+                onClick = onClick,
                 modifier = Modifier
                     .background(Color.parse(spec.primaryColorHex), CircleShape)
                     .size(32.dp),

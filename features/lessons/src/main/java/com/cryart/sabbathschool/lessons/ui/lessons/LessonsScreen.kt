@@ -50,6 +50,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -64,6 +65,7 @@ import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.models.LessonIntroModel
+import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import app.ss.translations.R.string as RString
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemsSpec
@@ -228,6 +230,8 @@ private fun LessonsLazyColumn(
         is PublishingInfoState.Success -> publishingInfoState.publishingInfo
     }
 
+    val context = LocalContext.current
+
     LazyColumn(
         contentPadding = PaddingValues(
             innerPadding.calculateStartPadding(LayoutDirection.Ltr),
@@ -260,7 +264,8 @@ private fun LessonsLazyColumn(
                     primaryColorHex = ssQuarterlyInfo.quarterly.color_primary
                 ),
                 scrollOffset = { listState.firstVisibleItemScrollOffset.toFloat() },
-                onLessonClick = onLessonClick
+                onLessonClick = onLessonClick,
+                onPublishingInfoClick = { publishingInfo?.let { context.launchWebUrl(publishingInfo.url) }  }
             )
 
             lessons(
