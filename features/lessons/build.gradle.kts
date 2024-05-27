@@ -90,6 +90,10 @@ slack {
     features { compose() }
 }
 
+ksp {
+    arg("circuit.codegen.mode", "hilt")
+}
+
 dependencies {
     implementation(projects.common.core)
     implementation(projects.common.design)
@@ -120,9 +124,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.extensions)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.kotlinx.collectionsImmutable)
 
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
+    ksp(libs.circuit.codegen)
 
     implementation(libs.joda.android)
     implementation(libs.timber)
@@ -135,4 +141,5 @@ dependencies {
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.testUtils)
     testImplementation(projects.libraries.foundation.coroutines.test)
+    testImplementation(projects.libraries.lessons.test)
 }

@@ -32,7 +32,6 @@ import app.ss.models.auth.SSUser
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
-import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.slack.circuit.runtime.screen.Screen
 import org.amshove.kluent.shouldBeEqualTo
@@ -45,6 +44,7 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.android.controller.ActivityController
 import ss.foundation.coroutines.test.TestDispatcherProvider
+import ss.libraries.circuit.navigation.LessonsScreen
 import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.misc.SSConstants
@@ -88,7 +88,7 @@ class AppNavigatorImplTest {
     fun `should navigate to login when not authenticated`() {
         fakeAuthRepository.userDelegate = { Result.success(null) }
 
-        navigator.navigate(activity, Destination.LESSONS)
+        navigator.navigate(activity, Destination.ABOUT)
 
         val shadow = Shadows.shadowOf(activity)
         val intent = shadow.nextStartedActivity
@@ -142,10 +142,8 @@ class AppNavigatorImplTest {
         val shadow = Shadows.shadowOf(activity)
         val intent = shadow.nextStartedActivity
 
-        val clazz = intent.component?.className
-        clazz shouldBeEqualTo SSLessonsActivity::class.qualifiedName
-
-        intent.getStringExtra(SSConstants.SS_QUARTERLY_INDEX_EXTRA) shouldBeEqualTo "en-2021-03"
+        val screen = BundleCompat.getParcelable(intent.extras!!, ARG_EXTRA_SCREEN, Screen::class.java)
+        screen shouldBeEqualTo LessonsScreen("en-2021-03")
     }
 
     @Test

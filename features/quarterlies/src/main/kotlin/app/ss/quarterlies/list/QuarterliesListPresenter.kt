@@ -24,13 +24,11 @@ package app.ss.quarterlies.list
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.core.os.bundleOf
 import app.ss.quarterlies.QuarterliesUseCase
 import app.ss.quarterlies.list.QuarterliesListScreen.Event
 import app.ss.quarterlies.list.QuarterliesListScreen.State
 import app.ss.quarterlies.model.GroupedQuarterlies
 import app.ss.quarterlies.model.placeHolderQuarterlies
-import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.Navigator
@@ -44,8 +42,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import ss.lessons.api.repository.QuarterliesRepository
-import ss.libraries.circuit.navigation.LegacyDestination
-import ss.misc.SSConstants
+import ss.libraries.circuit.navigation.LessonsScreen
 import ss.prefs.api.SSPrefs
 import timber.log.Timber
 
@@ -82,12 +79,7 @@ class QuarterliesListPresenter @AssistedInject constructor(
             eventSink = { event ->
                 when (event) {
                     is Event.OnNavBack -> navigator.pop()
-                    is Event.QuarterlySelected -> navigator.goTo(
-                        LegacyDestination(
-                            Destination.LESSONS,
-                            bundleOf(SSConstants.SS_QUARTERLY_INDEX_EXTRA to event.index)
-                        )
-                    )
+                    is Event.QuarterlySelected -> navigator.goTo(LessonsScreen(event.index))
                 }
             }
         )

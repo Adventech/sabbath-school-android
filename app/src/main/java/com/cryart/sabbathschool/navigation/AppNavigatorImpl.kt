@@ -32,7 +32,6 @@ import androidx.core.os.bundleOf
 import app.ss.auth.AuthRepository
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
-import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.ui.about.AboutActivity
 import com.slack.circuit.runtime.screen.Screen
@@ -40,6 +39,7 @@ import kotlinx.coroutines.launch
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.mainScopable
+import ss.libraries.circuit.navigation.LessonsScreen
 import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.prefs.api.SSPrefs
@@ -77,18 +77,11 @@ constructor(
             }
 
             when (destination) {
-                Destination.LESSONS -> {
-                    with(TaskStackBuilder.create(activity)) {
-                        addNextIntent(screenIntent(activity, QuarterliesScreen))
-                        addNextIntent(intent)
-                        startActivities()
-                    }
-                }
                 Destination.READ -> {
                     with(TaskStackBuilder.create(activity)) {
                         addNextIntent(screenIntent(activity, QuarterliesScreen))
                         ssPrefs.getLastQuarterlyIndex()?.let { index ->
-                            addNextIntent(SSLessonsActivity.launchIntent(activity, index))
+                            addNextIntent(screenIntent(activity, LessonsScreen(index)))
                         }
                         addNextIntent(intent)
                         startActivities()
@@ -123,7 +116,6 @@ constructor(
     private fun getDestinationClass(destination: Destination): Class<*>? {
         return when (destination) {
             Destination.ABOUT -> AboutActivity::class.java
-            Destination.LESSONS -> SSLessonsActivity::class.java
             Destination.READ -> SSReadingActivity::class.java
             else -> null
         }
@@ -177,10 +169,10 @@ constructor(
                     null
                 }
 
-                taskBuilder.addNextIntent(SSLessonsActivity.launchIntent(activity, quarterlyIndex))
+                taskBuilder.addNextIntent(screenIntent(activity, LessonsScreen(quarterlyIndex)))
                 endIntent = SSReadingActivity.launchIntent(activity, lessonIndex, readPosition)
             } else {
-                endIntent = SSLessonsActivity.launchIntent(activity, quarterlyIndex)
+                endIntent = screenIntent(activity, LessonsScreen(quarterlyIndex))
             }
 
             with(taskBuilder) {

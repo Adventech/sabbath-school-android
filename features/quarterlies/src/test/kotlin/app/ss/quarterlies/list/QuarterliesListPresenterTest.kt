@@ -7,7 +7,6 @@ import app.ss.quarterlies.QuarterliesUseCaseImpl
 import app.ss.quarterlies.model.GroupedQuarterlies
 import app.ss.quarterlies.model.placeHolderQuarterlies
 import app.ss.quarterlies.model.spec
-import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
 import kotlinx.collections.immutable.toImmutableList
@@ -16,13 +15,10 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
-import org.junit.runner.RunWith
 import ss.lessons.test.FakeQuarterliesRepository
-import ss.libraries.circuit.navigation.LegacyDestination
-import ss.misc.SSConstants
+import ss.libraries.circuit.navigation.LessonsScreen
 import ss.prefs.api.test.FakeSSPrefs
 
-@RunWith(AndroidJUnit4::class)
 class QuarterliesListPresenterTest {
 
     private val quarterlyGroup = QuarterlyGroup("Psalms", 1)
@@ -84,11 +80,7 @@ class QuarterliesListPresenterTest {
             val state = awaitItem()
             state.eventSink(QuarterliesListScreen.Event.QuarterlySelected("index"))
 
-            val screen = fakeNavigator.awaitNextScreen() as LegacyDestination
-            with(screen) {
-                destination shouldBeEqualTo Destination.LESSONS
-                extras?.getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA) shouldBeEqualTo "index"
-            }
+            fakeNavigator.awaitNextScreen() shouldBeEqualTo LessonsScreen("index")
 
             ensureAllEventsConsumed()
         }

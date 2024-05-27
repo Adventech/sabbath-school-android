@@ -22,7 +22,6 @@
 
 package ss.lessons.impl.repository
 
-import app.ss.models.LessonIntroModel
 import app.ss.models.PublishingInfo
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
@@ -33,7 +32,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
@@ -95,30 +93,17 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
         return group?.let { quarterliesDao.getFlow(code, it) } ?: quarterliesDao.getFlow(code)
     }
 
-    override fun getPublishingInfo(languageCode: String?): Flow<Result<PublishingInfo?>> =
-        publishingInfoDao.get(deviceHelper.country(), languageCode ?: ssPrefs.getLanguageCode())
+    override fun getPublishingInfo(): Flow<Result<PublishingInfo?>> =
+        publishingInfoDao.get(deviceHelper.country(), ssPrefs.getLanguageCode())
             .map {
                 val info = it?.let { PublishingInfo(it.message, it.url) }
                 Result.success(info)
             }
-            .onStart { syncHelper.syncPublishingInfo(deviceHelper.country(), languageCode ?: ssPrefs.getLanguageCode()) }
+            .onStart { syncHelper.syncPublishingInfo(deviceHelper.country(), ssPrefs.getLanguageCode()) }
             .flowOn(dispatcherProvider.io)
             .catch {
                 Timber.e(it)
                 emit(Result.failure(it))
             }
-
-    override suspend fun getIntro(index: String): Result<LessonIntroModel?> {
-        return withContext(dispatcherProvider.io) {
-            val introModel = quarterliesDao.getInfo(index)?.quarterly?.let {
-                LessonIntroModel(
-                    index = it.index,
-                    title = it.title,
-                    introduction = it.introduction ?: it.description
-                )
-            }
-            Result.success(introModel)
-        }
-    }
 
 }

@@ -4,17 +4,21 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import app.ss.widgets.AppWidgetAction
-import com.cryart.sabbathschool.lessons.ui.lessons.SSLessonsActivity
+import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
+import ss.libraries.circuit.navigation.LessonsScreen
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AppWidgetActionImpl @Inject constructor(@ApplicationContext private val appContext: Context) :
+class AppWidgetActionImpl @Inject constructor(
+    @ApplicationContext private val appContext: Context,
+    private val appNavigator: AppNavigator,
+) :
     AppWidgetAction {
   override fun launchLesson(quarterlyIndex: String): Intent =
-      SSLessonsActivity.launchIntent(appContext, quarterlyIndex)
+      appNavigator.screenIntent(appContext, LessonsScreen(quarterlyIndex))
 
   override fun launchRead(lessonIndex: String, dayIndex: String?): Intent =
       SSReadingActivity.launchIntent(appContext, lessonIndex, dayIndex).apply {

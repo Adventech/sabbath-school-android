@@ -1,11 +1,9 @@
 package com.cryart.sabbathschool.ui.home
 
 import android.content.Context
-import androidx.core.os.bundleOf
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.auth.test.FakeAuthRepository
 import app.ss.models.auth.SSUser
-import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
@@ -13,10 +11,9 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 import org.junit.runner.RunWith
-import ss.libraries.circuit.navigation.LegacyDestination
+import ss.libraries.circuit.navigation.LessonsScreen
 import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
-import ss.misc.SSConstants
 import ss.prefs.api.test.FakeSSPrefs
 
 @RunWith(AndroidJUnit4::class)
@@ -100,11 +97,8 @@ class HomePresenterTest {
 
             fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo QuarterliesScreen
 
-            val screen = fakeNavigator.awaitNextScreen() as LegacyDestination
-            with(screen) {
-                destination shouldBeEqualTo Destination.LESSONS
-                extras?.getString(SSConstants.SS_QUARTERLY_INDEX_EXTRA) shouldBeEqualTo index
-            }
+            val screen = fakeNavigator.awaitNextScreen()
+            screen shouldBeEqualTo LessonsScreen(index)
 
             ensureAllEventsConsumed()
         }

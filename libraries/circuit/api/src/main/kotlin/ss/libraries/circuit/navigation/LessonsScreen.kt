@@ -20,34 +20,10 @@
  * THE SOFTWARE.
  */
 
-package ss.workers.api.test
+package ss.libraries.circuit.navigation
 
-import androidx.annotation.VisibleForTesting
-import ss.workers.api.WorkScheduler
+import com.slack.circuit.runtime.screen.Screen
+import kotlinx.parcelize.Parcelize
 
-@VisibleForTesting
-class FakeWorkScheduler : WorkScheduler {
-
-    var preFetchImagesLanguage: String? = null
-        private set
-    var preFetchImagesImages: Set<String>? = null
-        private set
-    var quarterlySyncIndex: String? = null
-        private set
-
-    override fun preFetchImages(language: String) {
-        this.preFetchImagesLanguage = language
-    }
-
-    override fun preFetchImages(images: Set<String>) {
-        this.preFetchImagesImages = images
-    }
-
-    override fun syncQuarterly(index: String) {
-        quarterlySyncIndex = index
-    }
-
-    override fun syncQuarterlies() {
-        // no-op
-    }
-}
+@Parcelize
+data class LessonsScreen(val quarterlyIndex: String?): Screen

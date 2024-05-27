@@ -20,22 +20,43 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.api.repository
+package app.ss.lessons
 
+import android.content.Context
+import androidx.compose.runtime.Immutable
+import app.ss.lessons.components.LessonItemSpec
 import app.ss.models.PublishingInfo
-import app.ss.models.QuarterlyGroup
-import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
-import kotlinx.coroutines.flow.Flow
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
 
-interface QuarterliesRepository {
+sealed interface State : CircuitUiState {
+    data object Loading : State
+    data object Error : State
+    @Immutable
+    data class Success(
+        val quarterlyInfo: SSQuarterlyInfo,
+        val publishingInfo: PublishingInfo?,
+        val overlayState: ReadMoreOverlayState?,
+        val eventSink: (Event) -> Unit,
+    ) : State
+}
 
-    fun getQuarterly(index: String): Flow<Result<SSQuarterlyInfo>>
+sealed interface Event : CircuitUiEvent {
+    data object OnNavigateBackClick : Event
+    data object OnOfflineStateClick : Event
+    data class OnShareClick(val context: Context) : Event
+    data object OnReadMoreClick : Event
+    data class OnLessonClick(val lesson: LessonItemSpec) : Event
+    data object OnPublishingInfoClick : Event
+}
 
-    fun getQuarterlies(
-        languageCode: String? = null,
-        group: QuarterlyGroup? = null,
-    ): Flow<Result<List<SSQuarterly>>>
-
-    fun getPublishingInfo(): Flow<Result<PublishingInfo?>>
+@Immutable
+data class ReadMoreOverlayState(
+    val content: String,
+    val onResult: (Result) -> Unit
+) {
+    sealed interface Result : CircuitUiEvent {
+        data object Dismissed : Result
+    }
 }

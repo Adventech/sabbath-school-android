@@ -36,6 +36,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import ss.libraries.circuit.navigation.LegacyDestination
+import ss.libraries.circuit.navigation.LessonsScreen
 import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.misc.SSConstants
@@ -67,12 +68,7 @@ class HomePresenter @AssistedInject constructor(
                 user == null -> navigator.resetRoot(LoginScreen)
                 ssPrefs.getLastQuarterlyIndex() != null && ssPrefs.isReadingLatestQuarterly() -> {
                     navigator.resetRoot(QuarterliesScreen)
-                    navigator.goTo(
-                        LegacyDestination(
-                            Destination.LESSONS,
-                            bundleOf(SSConstants.SS_QUARTERLY_INDEX_EXTRA to ssPrefs.getLastQuarterlyIndex()!!)
-                        )
-                    )
+                    navigator.goTo(LessonsScreen(ssPrefs.getLastQuarterlyIndex()))
                 }
 
                 else -> navigator.resetRoot(QuarterliesScreen)

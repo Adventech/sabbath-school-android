@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2022. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,41 +13,29 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-package ss.workers.api.test
+package app.ss.lessons.components.spec
 
-import androidx.annotation.VisibleForTesting
-import ss.workers.api.WorkScheduler
+import app.ss.models.Feature
+import javax.annotation.concurrent.Immutable
 
-@VisibleForTesting
-class FakeWorkScheduler : WorkScheduler {
+@Immutable
+internal data class FeatureSpec(
+    val name: String,
+    val title: String,
+    val description: String,
+    val image: String
+)
 
-    var preFetchImagesLanguage: String? = null
-        private set
-    var preFetchImagesImages: Set<String>? = null
-        private set
-    var quarterlySyncIndex: String? = null
-        private set
-
-    override fun preFetchImages(language: String) {
-        this.preFetchImagesLanguage = language
-    }
-
-    override fun preFetchImages(images: Set<String>) {
-        this.preFetchImagesImages = images
-    }
-
-    override fun syncQuarterly(index: String) {
-        quarterlySyncIndex = index
-    }
-
-    override fun syncQuarterlies() {
-        // no-op
-    }
-}
+internal fun Feature.toSpec() = FeatureSpec(
+    name,
+    title,
+    description,
+    image
+)
