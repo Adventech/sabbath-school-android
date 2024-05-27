@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons.components
+package app.ss.lessons.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

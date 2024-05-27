@@ -20,15 +20,18 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons.components.spec
+package app.ss.lessons.components.spec
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Immutable
+import app.ss.lessons.components.LessonItemSpec
 import app.ss.models.OfflineState
 import app.ss.models.SSLesson
 import app.ss.models.SSQuarterlyInfo
-import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemSpec
-import com.cryart.sabbathschool.lessons.ui.lessons.components.toSpec
+import app.ss.lessons.components.toSpec
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import org.joda.time.DateTime
 import org.joda.time.DateTimeConstants
 import org.joda.time.Interval
@@ -44,8 +47,8 @@ internal data class QuarterlyInfoSpec(
     val cover: String,
     val splashImage: String?,
     val offlineState: OfflineState,
-    val lessons: List<LessonItemSpec>,
-    val features: List<FeatureSpec> = emptyList(),
+    val lessons: ImmutableList<LessonItemSpec>,
+    val features: ImmutableList<FeatureSpec> = persistentListOf(),
     val todayLessonIndex: String? = null,
     val readClick: () -> Unit = {},
     val readMoreClick: () -> Unit = {},
@@ -64,8 +67,8 @@ internal fun SSQuarterlyInfo.toSpec(
     cover = quarterly.cover,
     splashImage = quarterly.splash,
     offlineState = quarterly.offlineState,
-    lessons = lessons.map { it.toSpec() },
-    features = quarterly.features.map { it.toSpec() },
+    lessons = lessons.map { it.toSpec() }.toImmutableList(),
+    features = quarterly.features.map { it.toSpec() }.toImmutableList(),
     todayLessonIndex = findIndex(lessons),
     readMoreClick = readMoreClick,
     offlineStateClick = offlineStateClick

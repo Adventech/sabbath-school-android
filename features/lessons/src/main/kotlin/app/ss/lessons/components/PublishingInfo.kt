@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons.components
+package app.ss.lessons.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -49,7 +49,7 @@ import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconButton
-import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.PublishingInfoSpec
+import app.ss.lessons.components.spec.PublishingInfoSpec
 import app.ss.translations.R.string as RString
 
 internal fun LazyListScope.publishingInfo(

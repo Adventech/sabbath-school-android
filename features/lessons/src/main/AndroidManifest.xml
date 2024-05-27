@@ -7,20 +7,9 @@
         <activity
             android:name=".ui.readings.SSReadingActivity"
             android:label="@string/blank"
-            android:parentActivityName=".ui.lessons.SSLessonsActivity"
             android:theme="@style/Theme.SS.Full"
             android:windowSoftInputMode="adjustResize"
-            android:launchMode="singleTask">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.lessons.SSLessonsActivity" />
-        </activity>
-
-        <activity
-            android:name=".ui.lessons.SSLessonsActivity"
-            android:label="@string/blank"
-            android:launchMode="singleTop"
-            android:theme="@style/Theme.SS" />
+            android:launchMode="singleTask" />
 
     </application>
 

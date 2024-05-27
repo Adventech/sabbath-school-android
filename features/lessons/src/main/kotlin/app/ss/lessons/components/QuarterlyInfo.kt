@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons.components
+package app.ss.lessons.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
@@ -89,11 +89,11 @@ import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.ResIcon
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.text.ReadMoreText
+import app.ss.lessons.components.features.QuarterlyFeaturesRow
+import app.ss.lessons.components.spec.PublishingInfoSpec
+import app.ss.lessons.components.spec.QuarterlyInfoSpec
 import app.ss.models.OfflineState
-import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesRow
-import com.cryart.sabbathschool.lessons.ui.lessons.components.features.QuarterlyFeaturesSpec
-import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.PublishingInfoSpec
-import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.QuarterlyInfoSpec
+import kotlinx.collections.immutable.persistentListOf
 import app.ss.translations.R as L10n
 
 private enum class QuarterlyInfoType {
@@ -384,7 +384,7 @@ private fun ColumnScope.Content(
 
     val featuresRow: @Composable () -> Unit = {
         if (spec.features.isNotEmpty()) {
-            QuarterlyFeaturesRow(spec = QuarterlyFeaturesSpec(spec.features))
+            QuarterlyFeaturesRow(spec.features)
         }
     }
 
@@ -559,7 +559,7 @@ private val sampleSpec = QuarterlyInfoSpec(
     colorDark = "#4B3521",
     splashImage = "splash",
     offlineState = OfflineState.NONE,
-    lessons = emptyList(),
+    lessons = persistentListOf(),
     cover = "cover",
-    features = emptyList()
+    features = persistentListOf()
 )

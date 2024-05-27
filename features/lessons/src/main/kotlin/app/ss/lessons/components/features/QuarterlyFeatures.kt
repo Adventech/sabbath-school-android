@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons.components.features
+package app.ss.lessons.components.features
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
@@ -32,7 +32,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -43,16 +42,13 @@ import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
-import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.FeatureSpec
-
-@Immutable
-internal data class QuarterlyFeaturesSpec(
-    val features: List<FeatureSpec>
-)
+import app.ss.lessons.components.spec.FeatureSpec
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 internal fun QuarterlyFeaturesRow(
-    spec: QuarterlyFeaturesSpec,
+    features: ImmutableList<FeatureSpec>,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -64,7 +60,7 @@ internal fun QuarterlyFeaturesRow(
                 end = 16.dp
             )
     ) {
-        spec.features.forEach { feature ->
+        features.forEach { feature ->
             FeatureImage(
                 image = feature.image,
                 contentDescription = feature.title,
@@ -116,8 +112,7 @@ fun FeaturesRowPreview() {
     SsTheme {
         Surface {
             QuarterlyFeaturesRow(
-                spec = QuarterlyFeaturesSpec(
-                    features = listOf(
+                features = persistentListOf(
                         FeatureSpec(
                             image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_egw.png",
                             name = "",
@@ -132,7 +127,7 @@ fun FeaturesRowPreview() {
                             image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_inside_story.png"
                         )
                     )
-                )
+
             )
         }
     }

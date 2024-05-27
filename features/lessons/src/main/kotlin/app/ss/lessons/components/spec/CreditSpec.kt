@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons.components.spec
+package app.ss.lessons.components.spec
 
 import app.ss.models.Credit
 import javax.annotation.concurrent.Immutable

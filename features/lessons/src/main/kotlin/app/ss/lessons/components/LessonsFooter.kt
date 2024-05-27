@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons.components
+package app.ss.lessons.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -52,9 +52,9 @@ import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.color.lighter
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
-import com.cryart.sabbathschool.lessons.ui.lessons.components.features.FeatureImage
-import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.CreditSpec
-import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.FeatureSpec
+import app.ss.lessons.components.features.FeatureImage
+import app.ss.lessons.components.spec.CreditSpec
+import app.ss.lessons.components.spec.FeatureSpec
 import java.util.Calendar
 import app.ss.translations.R as L10n
 

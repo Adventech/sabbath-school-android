@@ -124,6 +124,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.extensions)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.kotlinx.collectionsImmutable)
 
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)

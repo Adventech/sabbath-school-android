@@ -20,22 +20,18 @@
  * THE SOFTWARE.
  */
 
-package com.cryart.sabbathschool.lessons.ui.lessons.components.spec
+package app.ss.lessons.components.spec
 
-import app.ss.models.Feature
-import javax.annotation.concurrent.Immutable
+import androidx.compose.runtime.Immutable
+import app.ss.models.PublishingInfo
 
 @Immutable
-internal data class FeatureSpec(
-    val name: String,
-    val title: String,
-    val description: String,
-    val image: String
+internal data class PublishingInfoSpec(
+    val message: String,
+    val url: String,
+    val primaryColorHex: String
 )
 
-internal fun Feature.toSpec() = FeatureSpec(
-    name,
-    title,
-    description,
-    image
-)
+internal fun PublishingInfo.toSpec(
+    primaryColorHex: String
+) = PublishingInfoSpec(message, url, primaryColorHex)

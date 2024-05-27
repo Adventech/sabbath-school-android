@@ -24,9 +24,9 @@ package app.ss.lessons
 
 import android.content.Context
 import androidx.compose.runtime.Immutable
+import app.ss.lessons.components.LessonItemSpec
 import app.ss.models.PublishingInfo
 import app.ss.models.SSQuarterlyInfo
-import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemSpec
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 
