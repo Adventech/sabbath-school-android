@@ -120,7 +120,7 @@ class FakeSSPrefs(
     }
 
     override fun setThemeColor(primary: String, primaryDark: String) {
-        TODO("Not yet implemented")
+
     }
 
     override fun getThemeColor(): ThemeColor {
@@ -136,6 +136,6 @@ class FakeSSPrefs(
     }
 
     override fun setReadingLatestQuarterly(state: Boolean) {
-        TODO("Not yet implemented")
+
     }
 }

@@ -32,6 +32,8 @@ class FakeWorkScheduler : WorkScheduler {
         private set
     var preFetchImagesImages: Set<String>? = null
         private set
+    var quarterlySyncIndex: String? = null
+        private set
 
     override fun preFetchImages(language: String) {
         this.preFetchImagesLanguage = language
@@ -42,7 +44,7 @@ class FakeWorkScheduler : WorkScheduler {
     }
 
     override fun syncQuarterly(index: String) {
-        // no-op
+        quarterlySyncIndex = index
     }
 
     override fun syncQuarterlies() {

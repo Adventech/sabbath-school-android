@@ -28,22 +28,25 @@ import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import ss.lessons.api.repository.QuarterliesRepository
 
 class FakeQuarterliesRepository : QuarterliesRepository {
 
     var quarterliesMap: MutableMap<Pair<String?, QuarterlyGroup?>, Flow<Result<List<SSQuarterly>>>> = mutableMapOf()
+    var quarterlyInfoMap: MutableMap<String, Flow<Result<SSQuarterlyInfo>>> = mutableMapOf()
+    var publishingInfoFlow: Flow<Result<PublishingInfo?>> = emptyFlow()
 
     override fun getQuarterly(index: String): Flow<Result<SSQuarterlyInfo>> {
-        TODO("Not yet implemented")
+       return quarterlyInfoMap[index]!!
     }
 
     override fun getQuarterlies(languageCode: String?, group: QuarterlyGroup?): Flow<Result<List<SSQuarterly>>> {
         return quarterliesMap[languageCode to group]!!
     }
 
-    override fun getPublishingInfo(languageCode: String?): Flow<Result<PublishingInfo?>> {
-        TODO("Not yet implemented")
+    override fun getPublishingInfo(): Flow<Result<PublishingInfo?>> {
+        return publishingInfoFlow
     }
 
     override suspend fun getIntro(index: String): Result<LessonIntroModel?> {

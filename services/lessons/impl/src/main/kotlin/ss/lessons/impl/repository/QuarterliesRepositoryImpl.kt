@@ -95,13 +95,13 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
         return group?.let { quarterliesDao.getFlow(code, it) } ?: quarterliesDao.getFlow(code)
     }
 
-    override fun getPublishingInfo(languageCode: String?): Flow<Result<PublishingInfo?>> =
-        publishingInfoDao.get(deviceHelper.country(), languageCode ?: ssPrefs.getLanguageCode())
+    override fun getPublishingInfo(): Flow<Result<PublishingInfo?>> =
+        publishingInfoDao.get(deviceHelper.country(), ssPrefs.getLanguageCode())
             .map {
                 val info = it?.let { PublishingInfo(it.message, it.url) }
                 Result.success(info)
             }
-            .onStart { syncHelper.syncPublishingInfo(deviceHelper.country(), languageCode ?: ssPrefs.getLanguageCode()) }
+            .onStart { syncHelper.syncPublishingInfo(deviceHelper.country(), ssPrefs.getLanguageCode()) }
             .flowOn(dispatcherProvider.io)
             .catch {
                 Timber.e(it)

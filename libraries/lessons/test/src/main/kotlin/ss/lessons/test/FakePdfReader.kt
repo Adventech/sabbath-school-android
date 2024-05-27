@@ -35,7 +35,9 @@ class FakePdfReader : PdfReader {
 
     private val localFiles: MutableSet<LocalFile> = mutableSetOf()
 
-    override fun launchIntent(pdfs: List<LessonPdf>, lessonIndex: String): Intent = Intent()
+    var launchIntentDelegate: (List<LessonPdf>, String) -> Intent = { _, _ -> Intent() }
+
+    override fun launchIntent(pdfs: List<LessonPdf>, lessonIndex: String): Intent = launchIntentDelegate(pdfs, lessonIndex)
 
     override suspend fun downloadFiles(pdfs: List<LessonPdf>): Result<List<LocalFile>> {
         val files = pdfs.map { LocalFile(it.title, Uri.parse(it.src)) }

@@ -140,4 +140,5 @@ dependencies {
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.testUtils)
     testImplementation(projects.libraries.foundation.coroutines.test)
+    testImplementation(projects.libraries.lessons.test)
 }

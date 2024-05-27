@@ -1,6 +1,5 @@
 package app.ss.quarterlies
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.auth.test.FakeAuthRepository
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSQuarterly
@@ -19,7 +18,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
-import org.junit.runner.RunWith
 import ss.lessons.test.FakeQuarterliesRepository
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.libraries.circuit.navigation.LegacyDestination

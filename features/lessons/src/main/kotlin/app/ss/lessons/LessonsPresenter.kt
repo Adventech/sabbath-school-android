@@ -28,7 +28,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import app.ss.lessons.data.repository.lessons.LessonsRepository
@@ -51,8 +50,6 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -87,15 +84,16 @@ class LessonsPresenter @AssistedInject constructor(
         fun create(navigator: Navigator, screen: LessonsScreen): LessonsPresenter
     }
 
+    private val quarterlyIndex: String
+        get() = requireNotNull(screen.quarterlyIndex ?: ssPrefs.getLastQuarterlyIndex()) { "Quarterly index should now be null" }
+
     @Composable
     override fun present(): State {
         val coroutineScope = rememberCoroutineScope()
         val quarterlyInfo by produceRetainedState<SSQuarterlyInfo?>(
             initialValue = null
         ) {
-            snapshotFlow { screen.quarterlyIndex ?: ssPrefs.getLastQuarterlyIndex() }
-                .filterNotNull()
-                .flatMapLatest(repository::getQuarterly)
+            repository.getQuarterly(quarterlyIndex)
                 .map { it.getOrNull() }
                 .onEach { info ->
                     info?.run {
