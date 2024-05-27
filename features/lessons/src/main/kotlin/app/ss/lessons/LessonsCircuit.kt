@@ -37,6 +37,7 @@ sealed interface State : CircuitUiState {
     data class Success(
         val quarterlyInfo: SSQuarterlyInfo,
         val publishingInfo: PublishingInfo?,
+        val overlayState: ReadMoreOverlayState?,
         val eventSink: (Event) -> Unit,
     ) : State
 }
@@ -48,4 +49,14 @@ sealed interface Event : CircuitUiEvent {
     data object OnReadMoreClick : Event
     data class OnLessonClick(val lesson: LessonItemSpec) : Event
     data object OnPublishingInfoClick : Event
+}
+
+@Immutable
+data class ReadMoreOverlayState(
+    val content: String,
+    val onResult: (Result) -> Unit
+) {
+    sealed interface Result : CircuitUiEvent {
+        data object Dismissed : Result
+    }
 }

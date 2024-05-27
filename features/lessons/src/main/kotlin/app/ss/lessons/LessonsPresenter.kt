@@ -25,7 +25,9 @@ package app.ss.lessons
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -39,6 +41,7 @@ import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
+import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.android.IntentScreen
@@ -110,10 +113,14 @@ class LessonsPresenter @AssistedInject constructor(
                 .collect { value = it }
         }
 
+        var overlayState by rememberRetained { mutableStateOf<ReadMoreOverlayState?>(null) }
+
         return when (val info = quarterlyInfo) {
             null -> State.Loading
-            else -> State.Success(info, publishingInfo) { event ->
-                handleEvent(event, coroutineScope, info, publishingInfo)
+            else -> State.Success(info, publishingInfo, overlayState) { event ->
+                handleEvent(event, coroutineScope, info, publishingInfo) {
+                    overlayState = it
+                }
             }
         }
     }
@@ -123,6 +130,7 @@ class LessonsPresenter @AssistedInject constructor(
         coroutineScope: CoroutineScope,
         info: SSQuarterlyInfo?,
         publishingInfo: PublishingInfo?,
+        overlayStateUpdate: (ReadMoreOverlayState?) -> Unit
     ) {
         when (event) {
             is Event.OnLessonClick -> {
@@ -140,7 +148,13 @@ class LessonsPresenter @AssistedInject constructor(
 
             Event.OnNavigateBackClick -> navigator.pop()
             Event.OnOfflineStateClick -> info?.let { handleOfflineStateClick(it) }
-            Event.OnReadMoreClick -> TODO("Hook up read more click")
+            Event.OnReadMoreClick -> info?.let {
+                overlayStateUpdate(
+                    ReadMoreOverlayState(
+                        content = it.quarterly.introduction ?: it.quarterly.description,
+                    ) { overlayStateUpdate(null) }
+                )
+            }
             is Event.OnShareClick -> info?.let { shareQuarterly(event.context, it) }
             Event.OnPublishingInfoClick -> publishingInfo?.let { navigator.goTo(CustomTabsIntentScreen(it.url)) }
         }

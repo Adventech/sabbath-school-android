@@ -22,18 +22,27 @@
 
 package app.ss.lessons
 
+import android.widget.TextView
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -43,6 +52,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import com.cryart.sabbathschool.lessons.ui.lessons.LessonsTopBar
@@ -59,7 +70,11 @@ import com.cryart.sabbathschool.lessons.ui.lessons.components.spec.toSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.components.toSpec
 import com.cryart.sabbathschool.lessons.ui.lessons.rememberScrollAlpha
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.overlay.LocalOverlayHost
 import dagger.hilt.components.SingletonComponent
+import io.noties.markwon.Markwon
+import ss.libraries.circuit.overlay.BottomSheetOverlay
+import com.cryart.design.R as DesignR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(ss.libraries.circuit.navigation.LessonsScreen::class, SingletonComponent::class)
@@ -151,12 +166,61 @@ fun LessonsScreenUi(state: State, modifier: Modifier = Modifier) {
                 }
             }
         }
+
+        (state as? State.Success)?.overlayState?.run { OverlayContent(this) }
     }
+}
+
+@Composable
+private fun OverlayContent(state: ReadMoreOverlayState) {
+    val overlayHost = LocalOverlayHost.current
+    LaunchedEffect(state) {
+        val result = overlayHost.show(
+            BottomSheetOverlay(
+                skipPartiallyExpanded = true,
+                content = {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(horizontal = 16.dp)
+                    ) {
+                        MarkdownText(
+                            text = state.content,
+                            modifier = Modifier.padding(vertical = 16.dp)
+                        )
+
+                        Spacer(modifier = Modifier.height(48.dp))
+                    }
+                }
+            )
+        )
+        when (result) {
+            BottomSheetOverlay.Result.Dismissed -> state.onResult(ReadMoreOverlayState.Result.Dismissed)
+        }
+    }
+}
+
+@Composable
+private fun MarkdownText(text: String, modifier: Modifier = Modifier) {
+    AndroidView(
+        modifier = modifier,
+        factory = { context ->
+            TextView(context)
+                .apply {
+                    setTextColor(ContextCompat.getColor(context, DesignR.color.text_markdown))
+                    setTextAppearance(DesignR.style.TextAppearance_SS_Subtitle1)
+                }
+                .also {
+                    Markwon.create(context).setMarkdown(it, text)
+                }
+        }
+    )
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview() {
+private fun PreviewLoading() {
     SsTheme {
         Surface {
             LessonsScreenUi(state = State.Loading)
