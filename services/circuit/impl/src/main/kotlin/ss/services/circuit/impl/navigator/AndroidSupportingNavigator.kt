@@ -38,10 +38,10 @@ constructor(
     @Assisted private val activity: ComponentActivity
 ) : Navigator by navigator {
 
-  override fun goTo(screen: Screen) {
-    when (screen) {
+  override fun goTo(screen: Screen): Boolean {
+    return when (screen) {
       is CustomTabsIntentScreen -> activity.launchWebUrl(screen.url)
-      is LegacyDestination -> appNavigator.navigate(activity, screen.destination, screen.extras)
+      is LegacyDestination -> true.also { appNavigator.navigate(activity, screen.destination, screen.extras) }
       else -> navigator.goTo(screen)
     }
   }

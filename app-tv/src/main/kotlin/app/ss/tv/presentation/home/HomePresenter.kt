@@ -28,7 +28,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import app.ss.tv.navigator.AndroidScreen
 import app.ss.tv.presentation.Screens
 import app.ss.tv.presentation.ScrollEvents
 import app.ss.tv.presentation.account.AccountScreen
@@ -93,7 +92,7 @@ class HomePresenter @AssistedInject constructor(
                             currentScreen = VideosScreen
                         }
 
-                        VideosScreen -> navigator.goTo(AndroidScreen.Finish)
+                        VideosScreen -> navigator.pop()
                     }
                 }
 

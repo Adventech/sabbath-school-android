@@ -27,10 +27,10 @@ import app.ss.tv.data.infoModel
 import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.repository.FakeVideosRepository
 import app.ss.tv.data.videoSpec
-import app.ss.tv.navigator.AndroidScreen
 import app.ss.tv.presentation.FakeScrollEvents
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
+import com.slack.circuitx.android.IntentScreen
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,7 +38,6 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Test
-import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.lessons.model.VideosInfoModel
 import ss.prefs.api.test.FakeSSPrefs
 
@@ -99,7 +98,7 @@ class VideosPresenterTest {
 
             state.eventSink(VideosScreen.Event.OnVideoClick(videoSpec))
 
-            navigator.awaitNextScreen() shouldBeEqualTo AndroidScreen.IntentScreen(fakeIntent)
+            navigator.awaitNextScreen() shouldBeEqualTo IntentScreen(fakeIntent)
         }
     }
 }

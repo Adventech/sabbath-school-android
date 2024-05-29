@@ -26,8 +26,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import app.ss.tv.navigator.AndroidSupportingNavigator
 import app.ss.tv.presentation.home.HomeScreen
 import app.ss.tv.presentation.splash.SplashScreen
 import app.ss.tv.presentation.theme.SSTvTheme
@@ -36,6 +34,7 @@ import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
+import com.slack.circuitx.android.rememberAndroidScreenAwareNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import javax.inject.Inject
@@ -46,9 +45,6 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var circuit: Circuit
 
-    @Inject
-    lateinit var supportingNavigatorFactory: AndroidSupportingNavigator.Factory
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,9 +52,7 @@ class MainActivity : ComponentActivity() {
             CircuitCompositionLocals(circuit = circuit) {
                 val backstack = rememberSaveableBackStack(SplashScreen)
                 val circuitNavigator = rememberCircuitNavigator(backstack)
-                val navigator = remember(circuitNavigator) {
-                    supportingNavigatorFactory.create(circuitNavigator, this)
-                }
+                val navigator = rememberAndroidScreenAwareNavigator(circuitNavigator, this)
                 SSTvTheme {
                     NavigableCircuitContent(navigator, backstack)
                 }
