@@ -22,13 +22,11 @@
 
 package app.ss.tv.presentation.home
 
-import app.ss.tv.navigator.AndroidScreen
 import app.ss.tv.presentation.FakeScrollEvents
 import app.ss.tv.presentation.Screens
 import app.ss.tv.presentation.account.AccountScreen
 import app.ss.tv.presentation.home.HomeScreen.Event
 import app.ss.tv.presentation.videos.VideosScreen
-import com.slack.circuit.foundation.Navigator
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -115,9 +113,9 @@ class HomePresenterTest {
             val state = awaitItem()
             state.eventSink(Event.OnBack)
 
-            val screen = fakeNavigator.awaitNextScreen()
+            val screen = fakeNavigator.awaitPop().poppedScreen
 
-            screen shouldBeEqualTo AndroidScreen.Finish
+            screen shouldBeEqualTo null
 
             ensureAllEventsConsumed()
         }

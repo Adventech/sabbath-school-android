@@ -29,7 +29,6 @@ import app.ss.models.media.SSVideo
 import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.model.VideoSpec
 import app.ss.tv.data.repository.VideosRepository
-import app.ss.tv.navigator.AndroidScreen
 import app.ss.tv.navigator.IntentHelper
 import app.ss.tv.presentation.ScrollEvents
 import app.ss.tv.presentation.videos.VideosScreen.Event
@@ -38,6 +37,7 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.android.IntentScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -82,7 +82,7 @@ class VideosPresenter @AssistedInject constructor(
                     is Event.OnVideoClick -> {
                         result.findVideo(event.video.id)?.let {
                             navigator.goTo(
-                                AndroidScreen.IntentScreen(intentHelper.playerIntent(it))
+                                IntentScreen(intentHelper.playerIntent(it))
                             )
                         }
                     }
