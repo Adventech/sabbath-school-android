@@ -30,6 +30,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -50,7 +51,7 @@ import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.icon.IconBox
-import app.ss.design.compose.widget.icon.IconButton
+import app.ss.design.compose.widget.icon.IconButtonSlot
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.translations.R.string as RString
 
@@ -68,7 +69,7 @@ internal fun LessonsTopBar(
         spec = TopAppBarSpec(
             topAppBarType = TopAppBarType.Small,
             actions = listOf(
-                IconButton(
+                IconButtonSlot(
                     imageVector = androidx.compose.material.icons.Icons.Rounded.Share,
                     contentDescription = stringResource(id = RString.ss_share),
                     onClick = onShareClick,
