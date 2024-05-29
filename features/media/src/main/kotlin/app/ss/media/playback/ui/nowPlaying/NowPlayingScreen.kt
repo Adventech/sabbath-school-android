@@ -48,6 +48,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -87,15 +88,15 @@ internal fun NowPlayingScreen(
 ) {
     val playbackConnection = viewModel.playbackConnection
     val playbackState by playbackConnection.playbackState
-        .collectAsStateWithLifecycle()
+        .collectAsStateWithLifecycle(LocalLifecycleOwner.current)
     val nowPlaying by viewModel.nowPlayingAudio
-        .collectAsStateWithLifecycle()
+        .collectAsStateWithLifecycle(LocalLifecycleOwner.current)
     val playbackQueue by playbackConnection.playbackQueue
-        .collectAsStateWithLifecycle()
+        .collectAsStateWithLifecycle(LocalLifecycleOwner.current)
     val playbackSpeed by playbackConnection.playbackSpeed
-        .collectAsStateWithLifecycle()
+        .collectAsStateWithLifecycle(LocalLifecycleOwner.current)
     val playbackProgressState by playbackConnection.playbackProgress
-        .collectAsStateWithLifecycle()
+        .collectAsStateWithLifecycle(LocalLifecycleOwner.current)
     val nowPlayingAudio = if (nowPlaying.id.isEmpty()) {
         playbackQueue.currentAudio ?: nowPlaying
     } else {

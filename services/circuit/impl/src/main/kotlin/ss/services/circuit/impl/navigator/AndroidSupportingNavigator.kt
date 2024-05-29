@@ -40,8 +40,8 @@ constructor(
 
   override fun goTo(screen: Screen): Boolean {
     return when (screen) {
-      is CustomTabsIntentScreen -> activity.launchWebUrl(screen.url)
-      is LegacyDestination -> true.also { appNavigator.navigate(activity, screen.destination, screen.extras) }
+      is CustomTabsIntentScreen -> false.also { activity.launchWebUrl(screen.url) }
+      is LegacyDestination -> false.also { appNavigator.navigate(activity, screen.destination, screen.extras) }
       else -> navigator.goTo(screen)
     }
   }
