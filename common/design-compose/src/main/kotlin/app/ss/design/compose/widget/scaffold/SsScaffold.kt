@@ -20,8 +20,6 @@
  * THE SOFTWARE.
  */
 
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package app.ss.design.compose.widget.scaffold
 
 import androidx.compose.foundation.clickable
@@ -30,9 +28,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.Icons as MaterialIcons
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -49,7 +48,8 @@ import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.icon.IconBox
-import app.ss.design.compose.widget.icon.IconButton
+import app.ss.design.compose.widget.icon.IconButtonSlot
+import app.ss.design.compose.widget.icon.Icons
 
 /**
  * Scaffold implements the basic material design visual layout structure.
@@ -66,6 +66,7 @@ import app.ss.design.compose.widget.icon.IconButton
  * you're using Modifier.VerticalScroll, apply this modifier to the child of the scroll, and not on
  * the scroll itself.
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SsScaffold(
     modifier: Modifier = Modifier,
@@ -82,6 +83,7 @@ fun SsScaffold(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @DevicePreviews
 @Composable
 private fun Preview() {
@@ -94,8 +96,8 @@ private fun Preview() {
                     spec = TopAppBarSpec(
                         TopAppBarType.CenterAligned,
                         actions = listOf(
-                            IconButton(
-                                imageVector = Icons.Rounded.AccountCircle,
+                            IconButtonSlot(
+                                imageVector = MaterialIcons.Rounded.AccountCircle,
                                 contentDescription = "Profile",
                                 onClick = {}
                             )
@@ -104,7 +106,7 @@ private fun Preview() {
                     title = { Text(text = "Title") },
                     navigationIcon = {
                         IconButton(onClick = {}) {
-                            IconBox(icon = app.ss.design.compose.widget.icon.Icons.ArrowBack)
+                            IconBox(icon = Icons.ArrowBack)
                         }
                     },
                     scrollBehavior = scrollBehavior

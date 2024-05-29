@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,7 +42,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.widget.icon.IconBox
-import app.ss.design.compose.widget.icon.IconButton
 import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
@@ -74,7 +74,6 @@ internal fun PlayBackControls(
 
         IconButton(
             onClick = { playbackConnection.rewind() },
-            stateLayerSize = PlayBackControlsDefaults.nonPlayButtonStateLayerSize
         ) {
             IconBox(
                 icon = IconSlot.fromResource(
@@ -90,7 +89,6 @@ internal fun PlayBackControls(
 
         IconButton(
             onClick = { playbackConnection.playPause() },
-            stateLayerSize = PlayBackControlsDefaults.playButtonStateLayerSize
         ) {
             val painter = when {
                 spec.isPlaying -> painterResource(id = MediaR.drawable.ic_audio_icon_pause)
@@ -112,7 +110,6 @@ internal fun PlayBackControls(
 
         IconButton(
             onClick = { playbackConnection.fastForward() },
-            stateLayerSize = PlayBackControlsDefaults.nonPlayButtonStateLayerSize
         ) {
             IconBox(
                 icon = IconSlot.fromResource(

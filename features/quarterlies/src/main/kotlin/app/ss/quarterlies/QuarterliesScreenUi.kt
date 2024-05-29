@@ -44,7 +44,7 @@ import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.icon.IconBox
-import app.ss.design.compose.widget.icon.IconButton
+import app.ss.design.compose.widget.icon.IconButtonSlot
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.scaffold.SsScaffold
@@ -109,7 +109,7 @@ private fun getTopAppBarSpec(
 ) = TopAppBarSpec(
     topAppBarType = TopAppBarType.Large,
     actions = listOf(
-        IconButton(
+        IconButtonSlot(
             imageVector = MaterialIcons.Rounded.Translate,
             contentDescription = stringResource(id = L10nR.ss_quarterlies_filter_languages),
             onClick = onClick

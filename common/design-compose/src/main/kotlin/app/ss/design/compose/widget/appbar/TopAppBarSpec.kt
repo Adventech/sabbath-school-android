@@ -23,10 +23,10 @@
 package app.ss.design.compose.widget.appbar
 
 import androidx.compose.runtime.Immutable
-import app.ss.design.compose.widget.icon.IconButton
+import app.ss.design.compose.widget.icon.IconButtonSlot
 
 @Immutable
 data class TopAppBarSpec(
     val topAppBarType: TopAppBarType,
-    val actions: List<IconButton> = emptyList()
+    val actions: List<IconButtonSlot> = emptyList()
 )

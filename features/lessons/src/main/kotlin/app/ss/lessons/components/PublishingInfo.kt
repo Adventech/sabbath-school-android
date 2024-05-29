@@ -34,6 +34,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,7 +49,6 @@ import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
-import app.ss.design.compose.widget.icon.IconButton
 import app.ss.lessons.components.spec.PublishingInfoSpec
 import app.ss.translations.R.string as RString
 
@@ -101,7 +101,6 @@ private fun PublishingInfo(
                 modifier = Modifier
                     .background(Color.parse(spec.primaryColorHex), CircleShape)
                     .size(32.dp),
-                stateLayerSize = 48.dp
             ) {
                 Icon(
                     Icons.AutoMirrored.Rounded.KeyboardArrowRight,
