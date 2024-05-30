@@ -2,7 +2,7 @@
 android-rate = "1.0.1"
 androidx-activity = "1.9.0"
 androidx-annotations = "1.8.0"
-androidx-appcompat = "1.6.1"
+androidx-appcompat = "1.7.0"
 androidx-browser = "1.8.0"
 androidx-compose-animation = "1.6.7"
 androidx-compose-bom = "2024.05.00"
