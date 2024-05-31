@@ -26,6 +26,7 @@ import app.ss.models.OfflineState
 import app.ss.models.SSQuarterlyInfo
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
@@ -47,10 +48,11 @@ import javax.inject.Singleton
 
 /** Common implementations for content sync. */
 internal interface SyncHelper {
-    suspend fun syncQuarterly(index: String): SSQuarterlyInfo?
-    suspend fun syncQuarterlies(language: String)
+    fun syncQuarterly(index: String)
+    suspend fun syncQuarterlyInfo(index: String): SSQuarterlyInfo?
+    fun syncQuarterlies(language: String)
     fun syncPublishingInfo(country: String, language: String)
-    suspend fun syncLanguages()
+    fun syncLanguages()
 }
 
 @Singleton
@@ -64,7 +66,13 @@ internal class SyncHelperImpl @Inject constructor(
     dispatcherProvider: DispatcherProvider
 ) : SyncHelper, Scopable by ioScopable(dispatcherProvider) {
 
-    override suspend fun syncQuarterly(index: String): SSQuarterlyInfo? {
+    private val exceptionLogger = CoroutineExceptionHandler { _, exception -> Timber.e(exception) }
+
+    override fun syncQuarterly(index: String) {
+        scope.launch(exceptionLogger) { syncQuarterlyInfo(index) }
+    }
+
+    override suspend fun syncQuarterlyInfo(index: String): SSQuarterlyInfo? {
         val language = index.substringBefore('-')
         val id = index.substringAfter('-')
 
@@ -76,20 +84,22 @@ internal class SyncHelperImpl @Inject constructor(
 
             is NetworkResource.Success -> response.value.body()?.let { quarterlyInfo ->
                 saveQuarterlyInfo(quarterlyInfo)
-                quarterlyInfo
+                return quarterlyInfo
             }
         }
     }
 
-    override suspend fun syncQuarterlies(language: String) {
-        when (val response = safeApiCall(connectivityHelper) { quarterliesApi.getQuarterlies(language) }) {
-            is NetworkResource.Failure -> Timber.e("Failed to fetch quarterlies: isNetwork=${response.isNetworkError}, ${response.errorBody}")
-            is NetworkResource.Success -> response.value.body()?.let { quarterlies ->
-                val entities = quarterlies.map {
-                    val state = quarterliesDao.getOfflineState(it.index) ?: OfflineState.NONE
-                    it.toEntity(state)
+    override fun syncQuarterlies(language: String) {
+        scope.launch(exceptionLogger) {
+            when (val response = safeApiCall(connectivityHelper) { quarterliesApi.getQuarterlies(language) }) {
+                is NetworkResource.Failure -> Timber.e("Failed to fetch quarterlies: isNetwork=${response.isNetworkError}, ${response.errorBody}")
+                is NetworkResource.Success -> response.value.body()?.let { quarterlies ->
+                    val entities = quarterlies.map {
+                        val state = quarterliesDao.getOfflineState(it.index) ?: OfflineState.NONE
+                        it.toEntity(state)
+                    }
+                    quarterliesDao.insertAll(entities)
                 }
-                quarterliesDao.insertAll(entities)
             }
         }
     }
@@ -105,7 +115,7 @@ internal class SyncHelperImpl @Inject constructor(
     }
 
     override fun syncPublishingInfo(country: String, language: String) {
-        scope.launch {
+        scope.launch(exceptionLogger) {
             when (val response = safeApiCall(connectivityHelper) {
                 quarterliesApi.getPublishingInfo(PublishingInfoRequest(country, language))
             }) {
@@ -124,11 +134,13 @@ internal class SyncHelperImpl @Inject constructor(
         }
     }
 
-    override suspend fun syncLanguages() {
-        when (val response = safeApiCall(connectivityHelper) { quarterliesApi.getLanguages() }) {
-            is NetworkResource.Failure -> Unit
-            is NetworkResource.Success -> response.value.body()?.let { data ->
-                languagesDao.insertAll(data.map { LanguageEntity(it.code, it.name, getNativeLanguageName(it.code, it.name)) })
+    override fun syncLanguages() {
+        scope.launch(exceptionLogger) {
+            when (val response = safeApiCall(connectivityHelper) { quarterliesApi.getLanguages() }) {
+                is NetworkResource.Failure -> Unit
+                is NetworkResource.Success -> response.value.body()?.let { data ->
+                    languagesDao.insertAll(data.map { LanguageEntity(it.code, it.name, getNativeLanguageName(it.code, it.name)) })
+                }
             }
         }
     }

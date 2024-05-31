@@ -93,7 +93,7 @@ internal class ContentSyncProviderImpl @Inject constructor(
 
             val covers = mutableSetOf<String>()
 
-            val quarterlyInfo = syncHelper.syncQuarterly(index)
+            val quarterlyInfo = syncHelper.syncQuarterlyInfo(index)
             quarterlyInfo?.let {
                 for (lesson in quarterlyInfo.lessons) {
                     val lessonInfoResponse = lessonsApi.getLessonInfo(language, id, lesson.id)
