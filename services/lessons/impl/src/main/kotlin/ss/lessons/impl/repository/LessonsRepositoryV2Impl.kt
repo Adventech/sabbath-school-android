@@ -29,6 +29,7 @@ import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -72,6 +73,8 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
 ) : LessonsRepositoryV2, Scopable by ioScopable(dispatcherProvider) {
 
+    private val exceptionLogger = CoroutineExceptionHandler { _, exception -> Timber.e(exception) }
+
     private val today get() = DateTime.now().withTimeAtStartOfDay()
 
     override fun getLessonInfo(
@@ -87,7 +90,7 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
             emit(Result.failure(it))
         }
 
-    private fun syncLessonInfo(lessonIndex: String) = scope.launch {
+    private fun syncLessonInfo(lessonIndex: String) = scope.launch(exceptionLogger) {
         val (language, lessonId, quarterlyId) = lessonIndex.run {
             Triple(
                 substringBefore('-'),
@@ -119,7 +122,7 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
             emit(Result.failure(it))
         }
 
-    private fun syncRead(day: SSDay) = scope.launch {
+    private fun syncRead(day: SSDay) = scope.launch(exceptionLogger) {
         when (val response = safeApiCall(connectivityHelper) { lessonsApi.getDayRead("${day.full_read_path}/index.json") }) {
             is NetworkResource.Failure -> {
                 Timber.e("Failed to fetch Day Read: isNetwork=${response.isNetworkError}, ${response.errorBody}")

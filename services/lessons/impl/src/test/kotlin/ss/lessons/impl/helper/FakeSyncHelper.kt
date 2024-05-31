@@ -25,11 +25,15 @@ package ss.lessons.impl.helper
 import app.ss.models.SSQuarterlyInfo
 
 class FakeSyncHelper : SyncHelper {
-    override suspend fun syncQuarterly(index: String): SSQuarterlyInfo? {
+    override fun syncQuarterly(index: String) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun syncQuarterlies(language: String) {
+    override suspend fun syncQuarterlyInfo(index: String): SSQuarterlyInfo? {
+        TODO("Not yet implemented")
+    }
+
+    override fun syncQuarterlies(language: String) {
         TODO("Not yet implemented")
     }
 
@@ -37,7 +41,7 @@ class FakeSyncHelper : SyncHelper {
         TODO("Not yet implemented")
     }
 
-    override suspend fun syncLanguages() {
+    override fun syncLanguages() {
         TODO("Not yet implemented")
     }
 }
