@@ -69,12 +69,4 @@
 
     <dimen name="ss_reading_navigation_menu_size">60dp</dimen>
     <dimen name="ss_reading_navigation_menu_icon_size">24dp</dimen>
-
-<!--    &lt;!&ndash; Dialogs &ndash;&gt;-->
-<!--    <dimen name="dialog_corner_radius">16dp</dimen>-->
-<!--    <dimen name="dialogPreferredPadding">24dp</dimen>-->
-<!--    <dimen name="dialogPreferredPaddingLarge">36dp</dimen> &lt;!&ndash; dialogPreferredPadding + 12dp &ndash;&gt;-->
-
-<!--    <dimen name="elevation_bottom_sheet">16dp</dimen>-->
-<!--    <dimen name="peek_height_bottom_sheet_modal">1000dp</dimen>-->
 </resources>
