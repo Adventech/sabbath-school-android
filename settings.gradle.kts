@@ -60,6 +60,7 @@ include(
     ":features:pdf",
     ":features:quarterlies",
     ":features:reader",
+    ":features:readings",
     ":features:settings",
     ":libraries:circuit:api",
     ":libraries:foundation:android",

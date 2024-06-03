@@ -1,0 +1,80 @@
+<!--
+  ~ Copyright (c) 2020 Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<resources>
+
+    <dimen name="ss_reading_misc_top_image_size">72dp</dimen>
+    <dimen name="ss_reading_misc_top_image_margin_top">150dp</dimen>
+
+    <dimen name="ss_reading_app_bar_subtitle_size">15sp</dimen>
+    <dimen name="ss_reading_navigation_bar_height">60dp</dimen>
+    <dimen name="ss_reading_sheet_margin_left">20dp</dimen>
+    <dimen name="ss_reading_sheet_margin_right">20dp</dimen>
+    <dimen name="ss_reading_sheet_margin_top">20dp</dimen>
+    <dimen name="ss_reading_sheet_margin_bottom">80dp</dimen>
+    <dimen name="ss_reading_sheet_header_padding_top">15dp</dimen>
+    <dimen name="ss_reading_sheet_header_padding_bottom">15dp</dimen>
+    <dimen name="ss_reading_sheet_header_padding_left">20dp</dimen>
+    <dimen name="ss_reading_sheet_header_padding_right">20dp</dimen>
+    <dimen name="ss_reading_sheet_header_title_text_size">13sp</dimen>
+    <dimen name="ss_reading_sheet_header_date_text_size">12sp</dimen>
+    
+    <dimen name="ss_reading_sheet_item_padding_top">10dp</dimen>
+    <dimen name="ss_reading_sheet_item_padding_bottom">10dp</dimen>
+    <dimen name="ss_reading_sheet_item_padding_left">20dp</dimen>
+    <dimen name="ss_reading_sheet_item_padding_right">20dp</dimen>
+    <dimen name="ss_reading_sheet_item_title_text_size">13sp</dimen>
+    <dimen name="ss_reading_sheet_item_date_text_size">12sp</dimen>
+    
+    <dimen name="ss_reading_toolbar_height">340dp</dimen>
+    <dimen name="ss_reading_toolbar_title_margin_bottom">50dp</dimen>
+    <dimen name="ss_reading_toolbar_title_margin_left">20dp</dimen>
+
+    <dimen name="ss_reading_context_controls_padding">10dp</dimen>
+    <dimen name="ss_reading_context_highlight_button_padding">13dp</dimen>
+    <dimen name="ss_reading_context_highlight_button_size">18dp</dimen>
+    <dimen name="ss_reading_context_extra_padding_top">13dp</dimen>
+    <dimen name="ss_reading_context_extra_padding_bottom">13dp</dimen>
+    <dimen name="ss_reading_context_extra_padding_left">18dp</dimen>
+    <dimen name="ss_reading_context_extra_padding_right">18dp</dimen>
+
+    <dimen name="ss_reading_display_options_subtitle_margin">20dp</dimen>
+    <dimen name="ss_reading_display_options_button_padding">20dp</dimen>
+    <dimen name="ss_reading_display_options_seekbar_padding_top">20dp</dimen>
+    <dimen name="ss_reading_display_options_seekbar_padding_bottom">50dp</dimen>
+    <dimen name="ss_reading_display_options_seekbar_aa_increase">20sp</dimen>
+
+    <dimen name="ss_reading_navigation_icon_size">16dp</dimen>
+    <dimen name="ss_reading_navigation_text_margin">10dp</dimen>
+    <dimen name="ss_reading_navigation_text_size">12sp</dimen>
+
+    <dimen name="ss_reading_navigation_menu_size">60dp</dimen>
+    <dimen name="ss_reading_navigation_menu_icon_size">24dp</dimen>
+
+<!--    &lt;!&ndash; Dialogs &ndash;&gt;-->
+<!--    <dimen name="dialog_corner_radius">16dp</dimen>-->
+<!--    <dimen name="dialogPreferredPadding">24dp</dimen>-->
+<!--    <dimen name="dialogPreferredPaddingLarge">36dp</dimen> &lt;!&ndash; dialogPreferredPadding + 12dp &ndash;&gt;-->
+
+<!--    <dimen name="elevation_bottom_sheet">16dp</dimen>-->
+<!--    <dimen name="peek_height_bottom_sheet_modal">1000dp</dimen>-->
+</resources>

@@ -30,9 +30,9 @@ import android.os.Bundle
 import androidx.core.app.TaskStackBuilder
 import androidx.core.os.bundleOf
 import app.ss.auth.AuthRepository
+import app.ss.readings.SSReadingActivity
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
-import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.cryart.sabbathschool.ui.about.AboutActivity
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.coroutines.launch
@@ -130,7 +130,7 @@ constructor(
     }
 
     /**
-     * Navigate to either [SSLessonsActivity] or [SSReadingActivity]
+     * Navigate to either [LessonsScreen] or [SSReadingActivity]
      * depending on the uri from web (sabbath-school.adventech.io) received.
      *
      * If no quarterly index is found in the Uri we launch normal flow.
