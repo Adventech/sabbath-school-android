@@ -29,10 +29,10 @@ import androidx.core.os.BundleCompat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.auth.test.FakeAuthRepository
 import app.ss.models.auth.SSUser
+import app.ss.readings.SSReadingActivity
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.navigation.toUri
-import com.cryart.sabbathschool.lessons.ui.readings.SSReadingActivity
 import com.slack.circuit.runtime.screen.Screen
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeNull
