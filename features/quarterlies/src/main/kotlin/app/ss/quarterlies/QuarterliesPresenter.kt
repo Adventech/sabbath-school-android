@@ -24,6 +24,7 @@ package app.ss.quarterlies
 
 import android.content.Intent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -96,6 +97,16 @@ class QuarterliesPresenter @AssistedInject constructor(
 
         var overlayState by rememberRetained { mutableStateOf<OverlayState?>(null) }
 
+        val showPrompt by rememberRetained(quarterlies) {
+            mutableStateOf(!ssPrefs.isAppReBrandingPromptShown() && quarterlies.isNotEmpty())
+        }
+        LaunchedEffect(showPrompt) {
+            if (showPrompt) {
+                ssPrefs.setAppReBrandingShown()
+                overlayState = OverlayState.BrandingInfo { overlayState = null }
+            }
+        }
+
         return State(
             photoUrl = userInfo?.photo,
             type = quarterlies,
@@ -107,7 +118,7 @@ class QuarterliesPresenter @AssistedInject constructor(
                     Event.FilterLanguages -> navigator.goTo(LanguagesScreen)
                     Event.ProfileClick -> {
                         userInfo?.let {
-                            overlayState = OverlayState(it) { result ->
+                            overlayState = OverlayState.AccountInfo(it) { result ->
                                 overlayState = null
                                 handleOverlayResult(result, coroutineScope)
                             }
@@ -142,6 +153,14 @@ class QuarterliesPresenter @AssistedInject constructor(
                     navigator.resetRoot(LoginScreen)
                 }
             }
+        }
+    }
+
+    private fun GroupedQuarterlies.isNotEmpty(): Boolean {
+        return when (this) {
+            is GroupedQuarterlies.TypeList -> data.isNotEmpty() && data.any { it.isPlaceholder.not() }
+            is GroupedQuarterlies.TypeGroup -> data.isNotEmpty()
+            GroupedQuarterlies.Empty -> false
         }
     }
 }

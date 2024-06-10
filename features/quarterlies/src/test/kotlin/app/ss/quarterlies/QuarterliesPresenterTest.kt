@@ -154,8 +154,9 @@ class QuarterliesPresenterTest {
 
             state.eventSink(Event.ProfileClick)
             state = awaitItem()
+            val overlayState = state.overlayState as OverlayState.AccountInfo
 
-            state.overlayState!!.userInfo shouldBeEqualTo UserInfo(user.displayName, user.email, user.photo)
+            overlayState.userInfo shouldBeEqualTo UserInfo(user.displayName, user.email, user.photo)
 
             ensureAllEventsConsumed()
         }
@@ -175,7 +176,8 @@ class QuarterliesPresenterTest {
             state.eventSink(Event.ProfileClick)
             state = awaitItem()
 
-            state.overlayState!!.onResult(OverlayResult.GoToAbout)
+            val overlayState = state.overlayState as OverlayState.AccountInfo
+            overlayState.onResult(OverlayResult.GoToAbout)
 
             state = awaitItem()
             state.overlayState shouldBeEqualTo null
@@ -199,7 +201,8 @@ class QuarterliesPresenterTest {
             state.eventSink(Event.ProfileClick)
             state = awaitItem()
 
-            state.overlayState!!.onResult(OverlayResult.Dismiss)
+            val overlayState = state.overlayState as OverlayState.AccountInfo
+            overlayState.onResult(OverlayResult.Dismiss)
 
             state = awaitItem()
             state.overlayState shouldBeEqualTo null
@@ -221,7 +224,8 @@ class QuarterliesPresenterTest {
             state.eventSink(Event.ProfileClick)
             state = awaitItem()
 
-            state.overlayState!!.onResult(OverlayResult.GoToSettings)
+            val overlayState = state.overlayState as OverlayState.AccountInfo
+            overlayState.onResult(OverlayResult.GoToSettings)
 
             state = awaitItem()
             state.overlayState shouldBeEqualTo null
@@ -245,7 +249,8 @@ class QuarterliesPresenterTest {
             state.eventSink(Event.ProfileClick)
             state = awaitItem()
 
-            state.overlayState!!.onResult(OverlayResult.SignOut)
+            val overlayState = state.overlayState as OverlayState.AccountInfo
+            overlayState.onResult(OverlayResult.SignOut)
 
             state = awaitItem()
             state.overlayState shouldBeEqualTo null
