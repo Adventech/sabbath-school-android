@@ -88,7 +88,7 @@ class FakeSSPrefs(
     override fun getLastQuarterlyIndex(): String? = quarterlyIndexDelegate()
 
     override fun getReaderArtifactLastModified(): String? {
-        TODO("Not yet implemented")
+        return null
     }
 
     override fun reminderEnabled(): Boolean {
@@ -96,12 +96,10 @@ class FakeSSPrefs(
     }
 
     override fun setReminderEnabled(enabled: Boolean) {
-        TODO("Not yet implemented")
+
     }
 
-    override fun isAppReBrandingPromptShown(): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun isAppReBrandingPromptShown(): Boolean = true
 
     override fun isReminderScheduled(): Boolean {
         return reminderScheduledDelegate()
@@ -112,12 +110,10 @@ class FakeSSPrefs(
     }
 
     override fun setReaderArtifactLastModified(lastModified: String) {
-        TODO("Not yet implemented")
+
     }
 
-    override fun setAppReBrandingShown() {
-        TODO("Not yet implemented")
-    }
+    override fun setAppReBrandingShown() {}
 
     override fun setThemeColor(primary: String, primaryDark: String) {
 
@@ -128,7 +124,7 @@ class FakeSSPrefs(
     }
 
     override fun setReminderScheduled(scheduled: Boolean) {
-        TODO("Not yet implemented")
+
     }
 
     override fun isReadingLatestQuarterly(): Boolean {

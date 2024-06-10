@@ -50,6 +50,7 @@ import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.quarterlies.components.QuarterlyList
 import app.ss.quarterlies.overlay.AccountDialogOverlay
+import app.ss.quarterlies.overlay.AppBrandingOverlay
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.overlay.LocalOverlayHost
 import dagger.hilt.components.SingletonComponent
@@ -98,7 +99,13 @@ private fun OverlayContent(state: OverlayState) {
     val overlayHost = LocalOverlayHost.current
 
     LaunchedEffect(state) {
-        state.run { onResult(overlayHost.show(AccountDialogOverlay(userInfo))) }
+        when (state) {
+            is OverlayState.AccountInfo -> state.onResult(overlayHost.show(AccountDialogOverlay(state.userInfo)))
+            is OverlayState.BrandingInfo -> {
+                overlayHost.show(AppBrandingOverlay())
+                state.onResult()
+            }
+        }
     }
 }
 

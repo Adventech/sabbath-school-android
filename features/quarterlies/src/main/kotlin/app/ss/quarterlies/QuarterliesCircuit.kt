@@ -53,8 +53,13 @@ sealed interface Event : CircuitUiEvent {
     data object FilterLanguages : Event
 }
 
-@Immutable
-data class OverlayState(
-    val userInfo: UserInfo,
-    val onResult: (AccountDialogOverlay.Result) -> Unit
-)
+sealed interface OverlayState {
+    @Immutable
+    data class AccountInfo(
+        val userInfo: UserInfo,
+        val onResult: (AccountDialogOverlay.Result) -> Unit
+    ): OverlayState
+
+    data class BrandingInfo(val onResult: () -> Unit) : OverlayState
+}
+
