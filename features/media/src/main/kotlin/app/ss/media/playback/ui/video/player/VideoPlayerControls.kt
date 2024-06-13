@@ -40,7 +40,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ss.design.compose.widget.icon.IconBox
@@ -61,7 +60,7 @@ internal fun VideoPlayerControls(
     onEnterPiP: (() -> Unit)? = null
 ) {
 
-    val playbackSpeed by mediaPlayer.playbackSpeed.collectAsStateWithLifecycle(LocalLifecycleOwner.current)
+    val playbackSpeed by mediaPlayer.playbackSpeed.collectAsStateWithLifecycle()
 
     Surface(color = Color.Black.copy(0.6f)) {
         Box(
@@ -134,7 +133,7 @@ private fun BoxScope.Controls(
     mediaPlayer: SSMediaPlayer,
     contentColor: Color = Color.White
 ) {
-    val playbackState by mediaPlayer.playbackState.collectAsStateWithLifecycle(LocalLifecycleOwner.current)
+    val playbackState by mediaPlayer.playbackState.collectAsStateWithLifecycle()
 
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -198,8 +197,8 @@ private fun BoxScope.Controls(
 private fun BoxScope.PlayBackProgress(
     mediaPlayer: SSMediaPlayer,
 ) {
-    val progressState by mediaPlayer.playbackProgress.collectAsStateWithLifecycle(LocalLifecycleOwner.current)
-    val playbackState by mediaPlayer.playbackState.collectAsStateWithLifecycle(LocalLifecycleOwner.current)
+    val progressState by mediaPlayer.playbackProgress.collectAsStateWithLifecycle()
+    val playbackState by mediaPlayer.playbackState.collectAsStateWithLifecycle()
 
     PlaybackProgressDuration(
         isBuffering = playbackState.isBuffering,

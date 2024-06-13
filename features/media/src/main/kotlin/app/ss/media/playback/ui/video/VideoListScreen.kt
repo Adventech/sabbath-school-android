@@ -55,7 +55,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
@@ -87,7 +86,7 @@ internal fun VideoListScreen(
     isAtTop: (Boolean) -> Unit = {},
     onVideoClick: (SSVideo) -> Unit
 ) {
-    val videoList by viewModel.videoListFlow.collectAsStateWithLifecycle(LocalLifecycleOwner.current)
+    val videoList by viewModel.videoListFlow.collectAsStateWithLifecycle()
 
     VideoListScreen(
         videoList = videoList,

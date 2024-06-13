@@ -49,7 +49,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -76,7 +75,7 @@ internal class ToolbarComponent(
     init {
         composeView.setContent {
             SsTheme {
-                val uiState by stateFlow.collectAsStateWithLifecycle(ToolbarState.Loading, LocalLifecycleOwner.current)
+                val uiState by stateFlow.collectAsStateWithLifecycle(ToolbarState.Loading)
 
                 BibleToolbar(
                     state = uiState,
