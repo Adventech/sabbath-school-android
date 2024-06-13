@@ -60,7 +60,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -102,8 +101,8 @@ fun PlaybackMiniControls(
     playbackConnection: PlaybackConnection,
     onExpand: () -> Unit
 ) {
-    val playbackState by playbackConnection.playbackState.collectAsStateWithLifecycle(LocalLifecycleOwner.current)
-    val nowPlaying by playbackConnection.nowPlaying.collectAsStateWithLifecycle(LocalLifecycleOwner.current)
+    val playbackState by playbackConnection.playbackState.collectAsStateWithLifecycle()
+    val nowPlaying by playbackConnection.nowPlaying.collectAsStateWithLifecycle()
 
     val visible = (playbackState to nowPlaying).isActive
 
@@ -208,7 +207,7 @@ private fun PlaybackProgress(
     color: Color,
     playbackConnection: PlaybackConnection
 ) {
-    val progressState by playbackConnection.playbackProgress.collectAsStateWithLifecycle(LocalLifecycleOwner.current)
+    val progressState by playbackConnection.playbackProgress.collectAsStateWithLifecycle()
     val sizeModifier = Modifier
         .height(2.dp)
         .fillMaxWidth()

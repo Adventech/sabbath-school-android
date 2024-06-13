@@ -43,7 +43,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
@@ -72,10 +71,9 @@ internal class PagesIndicatorComponent(
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 SsTheme {
-                    val state by pageStateFlow.collectAsStateWithLifecycle(LocalLifecycleOwner.current)
+                    val state by pageStateFlow.collectAsStateWithLifecycle()
                     val displayOptions by ssPrefs.displayOptionsFlow().collectAsStateWithLifecycle(
                         SSReadingDisplayOptions(composeView.context.isDarkTheme()),
-                        LocalLifecycleOwner.current
                     )
 
                     Content(
