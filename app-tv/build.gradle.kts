@@ -45,7 +45,7 @@ android {
     defaultConfig {
         applicationId = BuildAndroidConfig.APP_ID
         versionCode = appVersionCode
-        versionName = "0.5.0 - $appVersionCode"
+        versionName = "0.6.0 - $appVersionCode"
         minSdk = 25
     }
 
