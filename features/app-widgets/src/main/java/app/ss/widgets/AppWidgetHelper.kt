@@ -26,57 +26,76 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import app.ss.widgets.glance.today.TodayAppWidgetReceiver
-import app.ss.widgets.glance.today.TodayImageAppWidgetReceiver
-import app.ss.widgets.glance.week.LessonInfoWidgetReceiver
+import androidx.glance.appwidget.GlanceAppWidgetManager
+import androidx.glance.appwidget.updateAll
+import app.ss.widgets.glance.today.TodayImageAppWidget
+import app.ss.widgets.glance.week.LessonInfoWidget
 import app.ss.widgets.today.TodayAppWidget
 import app.ss.widgets.today.TodayImgAppWidget
 import app.ss.widgets.week.WeekLessonWidget
 import app.ss.widgets.work.WidgetUpdateWorker
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.defaultScopable
 import javax.inject.Inject
 
 interface AppWidgetHelper {
     fun refreshAll()
-    fun isAdded(): Boolean
+    suspend fun isAdded(): Boolean
 }
 
 internal class AppWidgetHelperImpl @Inject constructor(
-    @ApplicationContext private val context: Context
-) : AppWidgetHelper {
+    @ApplicationContext private val context: Context,
+    private val lessonInfoWidget: LessonInfoWidget.Factory,
+    private val todayWidget: app.ss.widgets.glance.today.TodayAppWidget.Factory,
+    private val todayImageAppWidget: TodayImageAppWidget.Factory,
+    private val dispatcherProvider: DispatcherProvider,
+) : AppWidgetHelper, Scopable by defaultScopable(dispatcherProvider) {
 
     private val widgets = listOf(
         TodayAppWidget::class.java,
         TodayImgAppWidget::class.java,
         WeekLessonWidget::class.java,
-
-        TodayAppWidgetReceiver::class.java,
-        TodayImageAppWidgetReceiver::class.java,
-        LessonInfoWidgetReceiver::class.java
     )
 
     override fun refreshAll() {
-        with(context) {
-            widgets.forEach { clazz ->
-                sendBroadcast(
-                    Intent(BaseWidgetProvider.REFRESH_ACTION)
-                        .setComponent(ComponentName(context, clazz))
-                )
-            }
-        }
+        scope.launch {
+            if (isAdded()) {
+                with(context) {
+                    widgets.forEach { clazz ->
+                        sendBroadcast(
+                            Intent(BaseWidgetProvider.REFRESH_ACTION)
+                                .setComponent(ComponentName(context, clazz))
+                        )
+                    }
+                }
 
-        if (isAdded()) {
-            WidgetUpdateWorker.enqueue(context)
-        } else {
-            WidgetUpdateWorker.cancel(context)
+                lessonInfoWidget.create().updateAll(context)
+                todayWidget.create().updateAll(context)
+                todayImageAppWidget.create().updateAll(context)
+
+                WidgetUpdateWorker.enqueue(context)
+            } else {
+                WidgetUpdateWorker.cancel(context)
+            }
         }
     }
 
-    override fun isAdded(): Boolean {
-        val manager = AppWidgetManager.getInstance(context)
-        return widgets.any { clazz ->
-            val widgetIds = manager.getAppWidgetIds(ComponentName(context, clazz))
-            widgetIds.isNotEmpty()
+    override suspend fun isAdded(): Boolean {
+        val appWidgetManager = AppWidgetManager.getInstance(context)
+        val glanceAppWidgetManager = GlanceAppWidgetManager(context)
+
+        val glanceWidgetIds = withContext(dispatcherProvider.default) {
+            glanceAppWidgetManager.getGlanceIds(lessonInfoWidget.create().javaClass) +
+                glanceAppWidgetManager.getGlanceIds(todayWidget.create().javaClass) +
+                glanceAppWidgetManager.getGlanceIds(todayImageAppWidget.create().javaClass)
+
         }
+        val legacyWidgetIds = widgets.map { appWidgetManager.getAppWidgetIds(ComponentName(context, it)) }
+
+        return (glanceWidgetIds + legacyWidgetIds).isNotEmpty()
     }
 }

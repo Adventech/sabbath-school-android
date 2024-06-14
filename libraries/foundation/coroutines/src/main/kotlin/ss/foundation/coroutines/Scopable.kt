@@ -36,3 +36,7 @@ fun ioScopable(dispatcherProvider: DispatcherProvider): Scopable = object : Scop
 fun mainScopable(dispatcherProvider: DispatcherProvider): Scopable = object : Scopable {
     override val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcherProvider.main)
 }
+
+fun defaultScopable(dispatcherProvider: DispatcherProvider): Scopable = object : Scopable {
+    override val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcherProvider.default)
+}

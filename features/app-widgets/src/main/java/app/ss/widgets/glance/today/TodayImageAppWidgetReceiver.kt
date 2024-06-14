@@ -22,15 +22,16 @@
 
 package app.ss.widgets.glance.today
 
-import app.ss.widgets.glance.BaseGlanceAppWidgetReceiver
+import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-internal class TodayImageAppWidgetReceiver : BaseGlanceAppWidgetReceiver<TodayImageAppWidget>() {
+internal class TodayImageAppWidgetReceiver : GlanceAppWidgetReceiver() {
 
     @Inject
     lateinit var widgetFactory: TodayImageAppWidget.Factory
 
-    override fun createWidget(): TodayImageAppWidget = widgetFactory.create()
+    override val glanceAppWidget: GlanceAppWidget get() =  widgetFactory.create()
 }
