@@ -47,8 +47,6 @@ import com.cryart.sabbathschool.core.extensions.context.toWebUri
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import com.cryart.sabbathschool.core.ui.ShareableScreen
-import com.cryart.sabbathschool.core.ui.SlidingActivity
-import app.ss.readings.R
 import app.ss.readings.databinding.SsReadingActivityBinding
 import app.ss.readings.components.AppBarComponent
 import app.ss.readings.components.ContextMenuComponent
@@ -58,6 +56,7 @@ import app.ss.readings.components.OfflineStateComponent
 import app.ss.readings.components.PagesIndicatorComponent
 import app.ss.readings.components.ProgressBarComponent
 import app.ss.readings.model.ReadingsState
+import com.cryart.sabbathschool.core.ui.SSBaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import ss.foundation.coroutines.flow.collectIn
 import ss.lessons.api.PdfReader
@@ -72,7 +71,7 @@ import kotlin.math.abs
 import app.ss.translations.R as L10n
 
 @AndroidEntryPoint
-class SSReadingActivity : SlidingActivity(), ShareableScreen {
+class SSReadingActivity : SSBaseActivity(), ShareableScreen {
 
     @Inject
     lateinit var ssPrefs: SSPrefs
