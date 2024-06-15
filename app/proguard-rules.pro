@@ -52,7 +52,8 @@
 
 -keep class net.danlew.android.joda.R$raw { *; }
 
--keepclassmembers class com.cryart.sabbathschool.** {
+# Keep custom WebView @JavascriptInterface
+-keepclassmembers class app.ss.readings.SSReadingView$SSReadViewBridge {
   *;
 }
 
@@ -71,3 +72,11 @@
 -keepattributes EnclosingClass,InnerClasses
 -keep,allowshrinking,allowobfuscation class * implements android.os.Parcelable {}
 -keep,allowshrinking,allowobfuscation class * implements android.os.Parcelable$Creator {}
+
+# Compose lifecycle
+-if public class androidx.compose.ui.platform.AndroidCompositionLocals_androidKt {
+    public static *** getLocalLifecycleOwner();
+}
+-keep public class androidx.compose.ui.platform.AndroidCompositionLocals_androidKt {
+    public static *** getLocalLifecycleOwner();
+}
