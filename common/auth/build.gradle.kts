@@ -23,19 +23,13 @@
 plugins {
     alias(libs.plugins.sgp.base)
     alias(libs.plugins.ksp)
-    id("com.android.library")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
     id("dagger.hilt.android.plugin")
-    id("kotlin-parcelize")
-    kotlin("android")
 }
 
-android {
-    namespace = "app.ss.auth"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
-}
+android { namespace = "app.ss.libraries.auth" }
 
 dependencies {
     implementation(projects.common.models)
