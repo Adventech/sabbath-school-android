@@ -55,8 +55,6 @@ import ss.libraries.circuit.navigation.QuarterliesScreen
 import timber.log.Timber
 import app.ss.translations.R as L10nR
 
-const val PRIVACY_POLICY_URL = "https://adventech.io/privacy-policy"
-
 class LoginPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val appConfig: AppConfig,
@@ -106,7 +104,8 @@ class LoginPresenter @AssistedInject constructor(
                     }
                 }
 
-                Event.OpenPrivacyPolicy -> navigator.goTo(CustomTabsIntentScreen(PRIVACY_POLICY_URL))
+                is Event.OpenPrivacyPolicy ->
+                    navigator.goTo(CustomTabsIntentScreen(event.context.getString(L10nR.string.ss_privacy_policy_url)))
             }
         }
         return when {

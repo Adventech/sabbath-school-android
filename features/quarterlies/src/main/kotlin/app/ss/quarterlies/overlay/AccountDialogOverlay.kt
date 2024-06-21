@@ -85,6 +85,7 @@ class AccountDialogOverlay(
         data object GoToSettings : Result
         data class ShareApp(val context: Context) : Result
         data object GoToAbout : Result
+        data class GoToPrivacyPolicy(val context: Context) : Result
     }
 }
 
@@ -192,6 +193,22 @@ private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onR
             leadingContent = {
                 IconBox(
                     icon = Icons.Info,
+                    modifier = Modifier
+                )
+            },
+        )
+
+        ListItem(
+            headlineContent = {
+                Text(
+                    text = stringResource(id = L10nR.ss_privacy_policy),
+                    style = SsTheme.typography.titleMedium
+                )
+            },
+            modifier = Modifier.clickable { onResult(AccountDialogOverlay.Result.GoToPrivacyPolicy(context)) },
+            leadingContent = {
+                IconBox(
+                    icon = Icons.Privacy,
                     modifier = Modifier
                 )
             },

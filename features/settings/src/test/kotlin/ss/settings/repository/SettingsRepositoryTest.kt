@@ -22,6 +22,8 @@
 
 package ss.settings.repository
 
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import app.ss.auth.AuthRepository
 import app.ss.lessons.data.repository.user.UserDataRepository
@@ -36,12 +38,14 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.lessons.test.FakeContentSyncProvider
 import ss.prefs.api.SSPrefs
 import ss.prefs.model.ReminderTime
 import ss.settings.DailyReminder
 
+@RunWith(AndroidJUnit4::class)
 class SettingsRepositoryTest {
 
     private val mockAppConfig: AppConfig = mockk()
@@ -60,7 +64,7 @@ class SettingsRepositoryTest {
         every { mockPrefs.reminderTimeFlow() }.returns(flowOf(ReminderTime(8, 0)))
 
         repository = SettingsRepositoryImpl(
-            context = mockk(),
+            context = ApplicationProvider.getApplicationContext(),
             appConfig = mockAppConfig,
             prefs = mockPrefs,
             dailyReminder = mockDailyReminder,

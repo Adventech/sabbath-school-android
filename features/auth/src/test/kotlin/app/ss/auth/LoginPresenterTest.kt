@@ -176,9 +176,9 @@ class LoginPresenterTest {
         underTest.test {
             val state = awaitItem()
 
-            (state as State.Default).eventSink(Event.OpenPrivacyPolicy)
+            (state as State.Default).eventSink(Event.OpenPrivacyPolicy(context))
 
-            fakeNavigator.awaitNextScreen() shouldBeEqualTo CustomTabsIntentScreen(PRIVACY_POLICY_URL)
+            fakeNavigator.awaitNextScreen() shouldBeEqualTo CustomTabsIntentScreen(context.getString(L10nR.string.ss_privacy_policy_url))
 
             ensureAllEventsConsumed()
         }

@@ -23,24 +23,27 @@
 package ss.settings
 
 import android.content.Context
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.design.compose.extensions.list.DividerEntity
 import app.ss.design.compose.extensions.list.ListEntity
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
-import io.mockk.mockk
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
+import org.junit.runner.RunWith
 import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.SettingsScreen
 import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
 
+@RunWith(AndroidJUnit4::class)
 class SettingsPresenterTest {
 
-    private val mockContext: Context = mockk()
+    private val context: Context = ApplicationProvider.getApplicationContext()
     private val navigator = FakeNavigator(SettingsScreen)
 
     @Test
@@ -48,8 +51,8 @@ class SettingsPresenterTest {
         val entities = listOf(DividerEntity("1"), DividerEntity("2"))
 
         val presenter = SettingsPresenter(
-            context = mockContext,
-            repository = TestRepository(entities),
+            context = context,
+            repository = FakeRepository(entities),
             navigator = navigator
         )
 
@@ -64,8 +67,8 @@ class SettingsPresenterTest {
         val entities = listOf(DividerEntity("1"), DividerEntity("2"))
 
         val presenter = SettingsPresenter(
-            context = mockContext,
-            repository = TestRepository(entities),
+            context = context,
+            repository = FakeRepository(entities),
             navigator = navigator
         )
 
@@ -85,8 +88,8 @@ class SettingsPresenterTest {
         val entities = listOf(DividerEntity("1"), DividerEntity("2"))
 
         val presenter = SettingsPresenter(
-            context = mockContext,
-            repository = TestRepository(entities),
+            context = context,
+            repository = FakeRepository(entities),
             navigator = navigator
         )
 
@@ -102,7 +105,7 @@ class SettingsPresenterTest {
     }
 }
 
-internal class TestRepository(
+internal class FakeRepository(
     private val entities: List<ListEntity>
 ) : SettingsRepository {
     override fun entitiesFlow(onEntityClick: (SettingsEntity) -> Unit): Flow<List<ListEntity>> {

@@ -221,7 +221,7 @@ private fun Buttons(
                 buildAnnotatedString {
                     append("By continuing, you agree to our Terms of Service as described in our ")
                     pushStringAnnotation(
-                        tag = "URL", annotation = PRIVACY_POLICY_URL
+                        tag = "URL", annotation = context.getString(L10nR.string.ss_privacy_policy_url)
                     )
                     withStyle(
                         style = SpanStyle(
@@ -245,7 +245,7 @@ private fun Buttons(
             annotatedText.getStringAnnotations(
                 tag = "URL", start = offset, end = offset
             ).firstOrNull()?.let { _ ->
-                eventSink(Event.OpenPrivacyPolicy)
+                eventSink(Event.OpenPrivacyPolicy(context))
             }
         }
 

@@ -33,6 +33,7 @@ sealed interface SettingsEntity {
         data object Instagram : About(L10nR.string.ss_settings_instagram_url)
         data object Version : About(L10nR.string.ss_app_playstore_url)
         data object Website : About(L10nR.string.ss_settings_website_url)
+        data object Policy : About(L10nR.string.ss_privacy_policy_url)
     }
 
     sealed interface Account: SettingsEntity {

@@ -39,7 +39,7 @@ sealed interface State : CircuitUiState {
 sealed interface Event : CircuitUiEvent {
     data class SignInWithGoogle(val context: Context) : Event
     data object SignInAnonymously : Event
-    data object OpenPrivacyPolicy : Event
+    data class OpenPrivacyPolicy(val context: Context) : Event
 }
 
 sealed interface OverlayEvent {

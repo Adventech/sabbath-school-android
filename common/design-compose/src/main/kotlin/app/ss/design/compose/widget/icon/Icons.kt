@@ -37,7 +37,9 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Facebook
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.PrivacyTip
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Web
@@ -75,6 +77,7 @@ enum class Icons(
     HomeFilled(MaterialIcons.Filled.Home, L10n.ss_app_name),
     VersionInfo(MaterialIcons.Rounded.Info, L10n.ss_settings_version),
     Website(MaterialIcons.Rounded.Web, L10n.ss_settings_website),
+    Privacy(MaterialIcons.Rounded.PrivacyTip, null),
     ;
 
     @Composable

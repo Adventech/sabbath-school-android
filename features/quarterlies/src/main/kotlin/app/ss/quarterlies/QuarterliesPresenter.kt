@@ -34,6 +34,7 @@ import app.ss.auth.AuthRepository
 import app.ss.quarterlies.list.QuarterliesListScreen
 import app.ss.quarterlies.model.GroupedQuarterlies
 import app.ss.quarterlies.model.placeHolderQuarterlies
+import app.ss.quarterlies.overlay.AccountDialogOverlay
 import app.ss.quarterlies.overlay.UserInfo
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -52,6 +53,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ss.lessons.api.repository.QuarterliesRepository
+import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.libraries.circuit.navigation.LegacyDestination
 import ss.libraries.circuit.navigation.LessonsScreen
@@ -124,6 +126,7 @@ class QuarterliesPresenter @AssistedInject constructor(
                             }
                         }
                     }
+
                     is Event.SeeAll -> navigator.goTo(QuarterliesListScreen(event.group))
                 }
             },
@@ -153,6 +156,9 @@ class QuarterliesPresenter @AssistedInject constructor(
                     navigator.resetRoot(LoginScreen)
                 }
             }
+
+            is AccountDialogOverlay.Result.GoToPrivacyPolicy ->
+                navigator.goTo(CustomTabsIntentScreen(result.context.getString(L10nR.string.ss_privacy_policy_url)))
         }
     }
 

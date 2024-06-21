@@ -167,6 +167,16 @@ internal class SettingsRepositoryImpl @Inject constructor(
             }
         ),
 
+        PrefListEntity.Generic(
+            icon = Icons.Privacy,
+            title = ContentSpec.Res(L10nR.string.ss_privacy_policy),
+            summary = ContentSpec.Res(L10nR.string.ss_settings_privacy_policy_summary),
+            id = "about-privacy-policy",
+            onClick = {
+                onEntityClick(SettingsEntity.About.Policy)
+            }
+        ),
+
         DividerEntity(id = "divider-two"),
 
         PrefListEntity.Section(

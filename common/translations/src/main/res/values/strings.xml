@@ -133,4 +133,5 @@
     <string name="ss_delete_downloads">Remove all downloads</string>
     <string name="ss_delete_downloads_confirm">By removing all downloads you will lose all the lessons content currently saved offline. Are you sure you want to proceed?</string>
     <string name="ss_search">Search</string>
+    <string name="ss_privacy_policy">Privacy Policy</string>
 </resources>
