@@ -39,10 +39,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ss.lessons.api.PdfReader
 import ss.lessons.model.LocalFile
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -88,10 +91,13 @@ class ReadPdfViewModel @Inject constructor(
 
     private fun checkMediaAvailability(lessonIndex: String) {
         viewModelScope.launch {
-            val audioAvailable = mediaRepository.getAudio(lessonIndex).data.isNullOrEmpty().not()
-            val videoAvailable = mediaRepository.getVideo(lessonIndex).data.isNullOrEmpty().not()
-
-            mediaAvailability.update { MediaAvailability(audioAvailable, videoAvailable) }
+            combine(mediaRepository.getAudio(lessonIndex), mediaRepository.getVideo(lessonIndex)) { audio, video ->
+                audio.isNotEmpty() to video.isNotEmpty()
+            }
+                .catch { Timber.e(it) }
+                .collect { (audioAvailable, videoAvailable) ->
+                    mediaAvailability.update { MediaAvailability(audioAvailable, videoAvailable) }
+                }
         }
     }
 

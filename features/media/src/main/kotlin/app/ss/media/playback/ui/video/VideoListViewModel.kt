@@ -33,8 +33,10 @@ import com.cryart.sabbathschool.core.extensions.list.subList
 import com.cryart.sabbathschool.core.response.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import ss.foundation.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -45,12 +47,11 @@ class VideoListViewModel @Inject constructor(
 ) : ViewModel() {
 
     val videoListFlow: StateFlow<VideoListData> = flowOf(savedStateHandle.lessonIndex)
-        .map { index ->
-            index?.let {
-                repository.getVideo(it)
-            } ?: Resource.success(emptyList())
-        }.map { resource ->
-            (resource.data ?: emptyList()).toData(savedStateHandle.lessonIndex)
+        .mapNotNull { it }
+        .flatMapLatest { index ->
+            repository.getVideo(index)
+        }.map { videos ->
+            videos.toData(savedStateHandle.lessonIndex)
         }
         .stateIn(viewModelScope, VideoListData.Empty)
 }

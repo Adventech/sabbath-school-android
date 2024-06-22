@@ -24,6 +24,7 @@ package ss.libraries.storage.api.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import ss.libraries.storage.api.entity.AudioFileEntity
 
 @Dao
@@ -34,6 +35,9 @@ interface AudioDao : BaseDao<AudioFileEntity> {
 
     @Query("SELECT * FROM audios WHERE targetIndex LIKE :index ORDER BY targetIndex")
     fun getBy(index: String): List<AudioFileEntity>
+
+    @Query("SELECT * FROM audios WHERE targetIndex LIKE :index ORDER BY targetIndex")
+    fun getAsFlow(index: String): Flow<List<AudioFileEntity>>
 
     @Query("UPDATE audios SET duration = :duration WHERE id = :forId")
     fun update(duration: Long, forId: String)
