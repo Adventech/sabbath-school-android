@@ -22,18 +22,19 @@
 
 package com.cryart.sabbathschool.test.di.repository
 
-import app.ss.models.media.SSAudio
-import app.ss.models.media.SSVideosInfo
 import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.models.media.AudioFile
-import com.cryart.sabbathschool.core.response.Resource
+import app.ss.models.media.SSAudio
+import app.ss.models.media.SSVideosInfo
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class FakeMediaRepository @Inject constructor() : MediaRepository {
 
-    override suspend fun getAudio(
+    override fun getAudio(
         lessonIndex: String
-    ): Resource<List<SSAudio>> = Resource.success(emptyList())
+    ): Flow<List<SSAudio>> = flowOf(emptyList())
 
     override suspend fun findAudioFile(
         id: String
@@ -48,7 +49,7 @@ class FakeMediaRepository @Inject constructor() : MediaRepository {
         lessonIndex: String
     ): List<AudioFile> = emptyList()
 
-    override suspend fun getVideo(
+    override fun getVideo(
         lessonIndex: String
-    ): Resource<List<SSVideosInfo>> = Resource.success(emptyList())
+    ): Flow<List<SSVideosInfo>> = flowOf(emptyList())
 }

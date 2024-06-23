@@ -32,18 +32,27 @@ import app.ss.models.LessonPdf
 import app.ss.models.PublishingInfo
 import app.ss.models.SSReadComments
 import app.ss.models.SSReadHighlights
+import app.ss.models.media.MediaAvailability
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.stateIn
 import ss.lessons.api.repository.LessonsRepositoryV2
 import ss.lessons.api.repository.QuarterliesRepository
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -56,11 +65,18 @@ class ReadingsViewModel @Inject constructor(
     quarterliesRepository: QuarterliesRepository,
 ) : ViewModel() {
 
-    private val _audioAvailable = MutableStateFlow(false)
-    val audioAvailableFlow: StateFlow<Boolean> get() = _audioAvailable.asStateFlow()
-
-    private val _videoAvailable = MutableStateFlow(false)
-    val videoAvailableFlow: StateFlow<Boolean> get() = _videoAvailable.asStateFlow()
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val mediaAvailability =
+        flowOf(lessonIndex)
+            .mapNotNull { it }
+            .flatMapLatest {
+                combine(mediaRepository.getAudio(it), mediaRepository.getVideo(it)) { audio, video ->
+                    MediaAvailability(audio.isNotEmpty(), video.isNotEmpty())
+                }
+            }.catch {
+                Timber.e(it)
+                emit(MediaAvailability(audio = false, video = false))
+            }.stateIn(viewModelScope, MediaAvailability(audio = false, video = false))
 
     private val _pdfAvailable = MutableStateFlow(false)
     val pdfAvailableFlow: StateFlow<Boolean> get() = _pdfAvailable.asStateFlow()
@@ -78,16 +94,9 @@ class ReadingsViewModel @Inject constructor(
     init {
         lessonIndex?.let { index ->
             viewModelScope.launch {
-                val resource = mediaRepository.getAudio(index)
-                _audioAvailable.emit(resource.data.isNullOrEmpty().not())
-            }
-            viewModelScope.launch {
-                val videoResource = mediaRepository.getVideo(index)
-                _videoAvailable.emit(videoResource.data.isNullOrEmpty().not())
-            }
-            viewModelScope.launch {
                 lessonsRepositoryV2.getLessonInfo(index)
                     .mapNotNull { it.getOrNull() }
+                    .catch { Timber.e(it) }
                     .collect { lessonInfo ->
                         val pdfs = lessonInfo.pdfs
                         _lessonPdfs.emit(index to pdfs)

@@ -26,33 +26,61 @@ import android.net.Uri
 import app.ss.models.media.AudioFile
 import app.ss.models.media.SSAudio
 import app.ss.models.media.SSVideosInfo
-import com.cryart.sabbathschool.core.response.Resource
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.defaultScopable
+import ss.lessons.api.SSMediaApi
+import ss.lessons.model.VideosInfoModel
 import ss.lessons.model.request.SSMediaRequest
 import ss.libraries.storage.api.dao.AudioDao
+import ss.libraries.storage.api.dao.VideoInfoDao
 import ss.libraries.storage.api.entity.AudioFileEntity
+import ss.libraries.storage.api.entity.VideoInfoEntity
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 interface MediaRepository {
-    suspend fun getAudio(lessonIndex: String): Resource<List<SSAudio>>
+    fun getAudio(lessonIndex: String): Flow<List<SSAudio>>
     suspend fun findAudioFile(id: String): AudioFile?
     suspend fun updateDuration(id: String, duration: Long)
     suspend fun getPlayList(lessonIndex: String): List<AudioFile>
-    suspend fun getVideo(lessonIndex: String): Resource<List<SSVideosInfo>>
+    fun getVideo(lessonIndex: String): Flow<List<SSVideosInfo>>
 }
 
 @Singleton
 internal class MediaRepositoryImpl @Inject constructor(
-    private val audioDataSource: AudioDataSource,
-    private val videoDataSource: VideoDataSource,
     private val audioDao: AudioDao,
+    private val videoInfoDao: VideoInfoDao,
+    private val mediaApi: SSMediaApi,
     private val dispatcherProvider: DispatcherProvider
-) : MediaRepository {
+) : MediaRepository, Scopable by defaultScopable(dispatcherProvider) {
 
-    override suspend fun getAudio(lessonIndex: String): Resource<List<SSAudio>> = withContext(dispatcherProvider.io) {
-        audioDataSource.get(AudioDataSource.Request(lessonIndex))
+    private val exceptionLogger = CoroutineExceptionHandler { _, exception -> Timber.e(exception) }
+
+    override fun getAudio(lessonIndex: String): Flow<List<SSAudio>> = audioDao
+        .getAsFlow("$lessonIndex%")
+        .map { entities -> entities.map { it.toSSAudio() } }
+        .onStart { syncAudio(lessonIndex) }
+        .flowOn(dispatcherProvider.io)
+
+    private fun syncAudio(lessonIndex: String) = scope.launch(exceptionLogger) {
+        val data = lessonIndex.toMediaRequest()?.let {
+            mediaApi.getAudio(it.language, it.quarterlyId).body()
+        } ?: return@launch
+        val lessonAudios = data.filter { it.targetIndex.startsWith(lessonIndex) }.map { it.toEntity() }
+
+        withContext(dispatcherProvider.io) {
+            audioDao.delete(lessonIndex)
+            audioDao.insertAll(lessonAudios)
+        }
     }
 
     override suspend fun findAudioFile(id: String): AudioFile? = withContext(dispatcherProvider.io) {
@@ -69,8 +97,26 @@ internal class MediaRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getVideo(lessonIndex: String): Resource<List<SSVideosInfo>> = withContext(dispatcherProvider.io) {
-        videoDataSource.get(VideoDataSource.Request(lessonIndex))
+    override fun getVideo(lessonIndex: String): Flow<List<SSVideosInfo>> = videoInfoDao
+        .getAsFlow(lessonIndex)
+        .map { entities -> entities.map { it.toModel() } }
+        .onStart { syncVideo(lessonIndex) }
+        .flowOn(dispatcherProvider.io)
+
+    private fun syncVideo(lessonIndex: String) = scope.launch (exceptionLogger) {
+        var apiLessonIndex = ""
+        val data = lessonIndex.toMediaRequest()?.let { ssMediaRequest ->
+            apiLessonIndex = "${ssMediaRequest.language}-${ssMediaRequest.quarterlyId}"
+            val videos = mediaApi.getVideo(ssMediaRequest.language, ssMediaRequest.quarterlyId).body()
+            videos?.mapIndexed { index, model ->
+                model.toModel("$apiLessonIndex-$index", lessonIndex)
+            }
+        } ?: return@launch
+
+        withContext(dispatcherProvider.io) {
+            videoInfoDao.delete(apiLessonIndex)
+            videoInfoDao.insertAll(data.map { it.toEntity() })
+        }
     }
 }
 
@@ -115,4 +161,28 @@ fun AudioFileEntity.toSSAudio(): SSAudio = SSAudio(
     target = target,
     targetIndex = targetIndex,
     title = title
+)
+
+private fun VideoInfoEntity.toModel(): SSVideosInfo = SSVideosInfo(
+    id = id,
+    artist = artist,
+    clips = clips,
+    lessonIndex = lessonIndex
+)
+
+private fun VideosInfoModel.toModel(
+    id: String,
+    lessonIndex: String
+): SSVideosInfo = SSVideosInfo(
+    id = id,
+    artist = artist,
+    clips = clips,
+    lessonIndex = lessonIndex
+)
+
+private fun SSVideosInfo.toEntity(): VideoInfoEntity = VideoInfoEntity(
+    id = id,
+    artist = artist,
+    clips = clips,
+    lessonIndex = lessonIndex
 )

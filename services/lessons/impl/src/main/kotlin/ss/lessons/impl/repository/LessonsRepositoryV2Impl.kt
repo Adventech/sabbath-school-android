@@ -62,7 +62,6 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private const val LESSON_READS_DEBOUNCE = 450L
 
 @Singleton
 internal class LessonsRepositoryV2Impl @Inject constructor(
@@ -132,7 +131,7 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun getLessonReads(lessonIndex: String): Flow<Result<LessonReads>> = getLessonInfo(lessonIndex)
         .flatMapLatest { result ->
             if (result.isSuccess) {
@@ -176,7 +175,6 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
                 )
             }
         }
-        .debounce(LESSON_READS_DEBOUNCE)
         .flowOn(dispatcherProvider.io)
         .catch {
             Timber.e(it)

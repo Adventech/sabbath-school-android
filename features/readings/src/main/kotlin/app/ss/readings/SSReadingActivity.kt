@@ -239,8 +239,8 @@ class SSReadingActivity : SSBaseActivity(), ShareableScreen {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        menu.findItem(R.id.ss_reading_menu_audio)?.isVisible = viewModel.audioAvailableFlow.value
-        menu.findItem(R.id.ss_reading_menu_video)?.isVisible = viewModel.videoAvailableFlow.value
+        menu.findItem(R.id.ss_reading_menu_audio)?.isVisible = viewModel.mediaAvailability.value.audio
+        menu.findItem(R.id.ss_reading_menu_video)?.isVisible = viewModel.mediaAvailability.value.video
         menu.findItem(R.id.ss_reading_menu_pdf)?.isVisible = viewModel.pdfAvailableFlow.value
         menu.findItem(R.id.ss_reading_menu_printed_resources)?.isVisible = viewModel.publishingInfo.value != null
         return super.onPrepareOptionsMenu(menu)
@@ -274,13 +274,10 @@ class SSReadingActivity : SSBaseActivity(), ShareableScreen {
             enableEdgeToEdge(statusBarStyle)
         }
 
-        viewModel.audioAvailableFlow.collectIn(this) { available ->
+        viewModel.mediaAvailability.collectIn(this) { mediaAvailability ->
             val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
-            menu.findItem(R.id.ss_reading_menu_audio)?.isVisible = available
-        }
-        viewModel.videoAvailableFlow.collectIn(this) { available ->
-            val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
-            menu.findItem(R.id.ss_reading_menu_video)?.isVisible = available
+            menu.findItem(R.id.ss_reading_menu_audio)?.isVisible = mediaAvailability.audio
+            menu.findItem(R.id.ss_reading_menu_video)?.isVisible = mediaAvailability.video
         }
         viewModel.pdfAvailableFlow.collectIn(this) { available ->
             val menu = binding.ssReadingAppBar.ssReadingToolbar.menu
