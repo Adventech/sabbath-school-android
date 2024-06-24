@@ -41,7 +41,6 @@ import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
@@ -61,8 +60,6 @@ import ss.misc.DateHelper
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-
-private const val MIN_DAYS = 7
 
 @Singleton
 internal class LessonsRepositoryV2Impl @Inject constructor(
@@ -168,7 +165,7 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
                         }
 
                     }
-                    .filterNot { (it.getOrNull()?.reads?.size ?: 0) < MIN_DAYS }
+                    .filterNot { (it.getOrNull()?.reads?.size ?: 0) < lessonInfo.days.size }
             } else {
                 flowOf(
                     Result.failure(
