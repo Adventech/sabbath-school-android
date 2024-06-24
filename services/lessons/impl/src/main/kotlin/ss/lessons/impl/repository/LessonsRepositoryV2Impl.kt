@@ -31,17 +31,17 @@ import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
@@ -62,6 +62,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private const val MIN_DAYS = 7
 
 @Singleton
 internal class LessonsRepositoryV2Impl @Inject constructor(
@@ -167,6 +168,7 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
                         }
 
                     }
+                    .filterNot { (it.getOrNull()?.reads?.size ?: 0) < MIN_DAYS }
             } else {
                 flowOf(
                     Result.failure(

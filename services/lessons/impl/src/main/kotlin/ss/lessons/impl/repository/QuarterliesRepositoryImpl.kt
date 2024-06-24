@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onStart
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
@@ -58,6 +59,7 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
     override fun getQuarterly(index: String): Flow<Result<SSQuarterlyInfo>> = quarterliesDao
         .getInfoFlow(index)
         .filterNotNull()
+        .mapNotNull { it.takeUnless { it.lessons.isEmpty() } }
         .map { entity ->
             Result.success(
                 SSQuarterlyInfo(
