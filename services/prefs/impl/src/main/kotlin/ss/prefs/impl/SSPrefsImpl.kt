@@ -95,10 +95,6 @@ internal class SSPrefsImpl(
         dispatcherProvider
     )
 
-    init {
-        handleAppLocalesPref()
-    }
-
     private fun preferencesFlow(): Flow<Preferences> = dataStore.data
         .catch { exception ->
             Timber.Forest.e(exception)
@@ -304,16 +300,6 @@ internal class SSPrefsImpl(
         sharedPreferences.edit { clear() }
         scope.launch {
             dataStore.edit { it.clear() }
-        }
-    }
-
-    private fun handleAppLocalesPref() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val locale = (context.getSystemService(Context.LOCALE_SERVICE) as LocaleManager)
-                .applicationLocales
-                .takeUnless { it.isEmpty }?.get(0) ?: Locale.forLanguageTag(getLanguageCode())
-
-            setLanguageCode(locale.language)
         }
     }
 }

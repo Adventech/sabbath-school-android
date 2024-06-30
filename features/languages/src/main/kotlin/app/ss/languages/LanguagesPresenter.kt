@@ -22,12 +22,10 @@
 
 package app.ss.languages
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.core.os.LocaleListCompat
 import app.ss.languages.state.Event
 import app.ss.languages.state.LanguageModel
 import app.ss.languages.state.LanguagesEvent
@@ -55,7 +53,6 @@ constructor(
     @Assisted private val navigator: Navigator,
     private val repository: LanguagesRepository,
     private val ssPrefs: SSPrefs,
-    private val workScheduler: WorkScheduler,
 ) : Presenter<State> {
 
     @CircuitInject(LanguagesScreen::class, SingletonComponent::class)
@@ -102,11 +99,6 @@ constructor(
     private fun modelSelected(model: LanguageModel) {
         ssPrefs.setLanguageCode(model.code)
         ssPrefs.setLastQuarterlyIndex(null)
-
-        val appLocale = LocaleListCompat.forLanguageTags(model.code)
-        AppCompatDelegate.setApplicationLocales(appLocale)
-
-        workScheduler.preFetchImages(model.code)
     }
 
     private fun List<Language>.toModels() =
