@@ -49,7 +49,6 @@ dependencies {
     implementation(projects.libraries.prefs.api)
     implementation(projects.libraries.workers.api)
 
-    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.extensions)
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)

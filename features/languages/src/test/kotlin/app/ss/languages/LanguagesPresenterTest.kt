@@ -47,14 +47,12 @@ class LanguagesPresenterTest {
     private val fakeNavigator = FakeNavigator(LanguagesScreen)
     private val fakeRepository = FakeLanguagesRepository(languagesFlow)
     private val fakeSSPrefs = FakeSSPrefs(MutableStateFlow("en"))
-    private val fakeWorkScheduler = FakeWorkScheduler()
 
     private val underTest =
         LanguagesPresenter(
             navigator = fakeNavigator,
             repository = fakeRepository,
             ssPrefs = fakeSSPrefs,
-            workScheduler = fakeWorkScheduler,
         )
 
     @Test
@@ -148,7 +146,6 @@ class LanguagesPresenterTest {
 
             fakeSSPrefs.setLanguageCode shouldBeEqualTo "es"
             fakeSSPrefs.setLastQuarterlyIndex shouldBeEqualTo null
-            fakeWorkScheduler.preFetchImagesLanguage shouldBeEqualTo "es"
 
             ensureAllEventsConsumed()
         }
