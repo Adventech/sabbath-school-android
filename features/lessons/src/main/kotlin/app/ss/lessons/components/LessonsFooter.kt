@@ -40,7 +40,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,19 +54,15 @@ import app.ss.design.compose.theme.color.SsColors
 import app.ss.lessons.components.features.FeatureImage
 import app.ss.lessons.components.spec.CreditSpec
 import app.ss.lessons.components.spec.FeatureSpec
+import kotlinx.collections.immutable.ImmutableList
 import java.util.Calendar
 import app.ss.translations.R as L10n
 
-@Immutable
-internal data class LessonsFooterSpec(
-    val credits: List<CreditSpec> = emptyList(),
-    val features: List<FeatureSpec> = emptyList()
-)
-
 internal fun LazyListScope.footer(
-    spec: LessonsFooterSpec,
+    credits: ImmutableList<CreditSpec>,
+    features: ImmutableList<FeatureSpec>,
 ) {
-    if (spec.credits.isEmpty() && spec.features.isEmpty()) {
+    if (credits.isEmpty() && features.isEmpty()) {
         return
     }
 
@@ -80,7 +75,7 @@ internal fun LazyListScope.footer(
         )
     }
 
-    items(spec.features, key = { it.hashCode() }) { feature ->
+    items(features, key = { it.hashCode() }) { feature ->
         FooterItem(
             title = feature.title,
             description = feature.description,
@@ -90,7 +85,7 @@ internal fun LazyListScope.footer(
         )
     }
 
-    items(spec.credits, key = { it.hashCode() }) { credit ->
+    items(credits, key = { it.hashCode() }) { credit ->
         FooterItem(
             title = credit.name,
             description = credit.value,
