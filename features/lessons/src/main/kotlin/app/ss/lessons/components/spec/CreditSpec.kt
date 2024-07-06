@@ -23,12 +23,18 @@
 package app.ss.lessons.components.spec
 
 import app.ss.models.Credit
+import java.util.UUID
 import javax.annotation.concurrent.Immutable
 
 @Immutable
 internal data class CreditSpec(
+    val id: String,
     val name: String,
     val value: String
 )
 
-internal fun Credit.toSpec() = CreditSpec(name, value)
+internal fun Credit.toSpec() = CreditSpec(
+    id = UUID.randomUUID().toString(), // For when BE sends bad data
+    name = name,
+    value = value,
+)

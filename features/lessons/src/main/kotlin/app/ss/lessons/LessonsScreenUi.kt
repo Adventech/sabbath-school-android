@@ -57,7 +57,6 @@ import androidx.core.content.ContextCompat
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.lessons.components.LessonItemsSpec
-import app.ss.lessons.components.LessonsFooterSpec
 import app.ss.lessons.components.LessonsTopBar
 import app.ss.lessons.components.MIN_SOLID_ALPHA
 import app.ss.lessons.components.ScrollAlpha
@@ -73,6 +72,7 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.overlay.LocalOverlayHost
 import dagger.hilt.components.SingletonComponent
 import io.noties.markwon.Markwon
+import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 import com.cryart.design.R as DesignR
 
@@ -158,10 +158,8 @@ fun LessonsScreenUi(state: State, modifier: Modifier = Modifier) {
                     )
 
                     footer(
-                        spec = LessonsFooterSpec(
-                            credits = quarterly.credits.map { it.toSpec() },
-                            features = quarterly.features.map { it.toSpec() }
-                        ),
+                        credits = quarterly.credits.map { it.toSpec() }.toImmutableList(),
+                        features = quarterly.features.map { it.toSpec() }.toImmutableList()
                     )
                 }
             }

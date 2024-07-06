@@ -29,5 +29,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Credit(
     val name: String,
-    val value: String
+    val value: String,
 )

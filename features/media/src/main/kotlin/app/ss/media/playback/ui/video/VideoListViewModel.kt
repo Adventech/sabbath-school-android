@@ -29,8 +29,6 @@ import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.models.media.SSVideosInfo
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
-import com.cryart.sabbathschool.core.extensions.list.subList
-import com.cryart.sabbathschool.core.response.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -60,9 +58,11 @@ class VideoListViewModel @Inject constructor(
 internal fun List<SSVideosInfo>.toData(
     lessonIndex: String?
 ): VideoListData = if (size == 1 && first().clips.isNotEmpty()) {
+    val allVideos = first().clips
+    val featuredVideo = allVideos.firstOrNull { it.targetIndex == lessonIndex } ?: allVideos.first()
     VideoListData.Vertical(
-        featured = first().clips.first(),
-        clips = first().clips.subList(1)
+        featured = featuredVideo,
+        clips = allVideos.subtract(setOf(featuredVideo)).toList(),
     )
 } else {
     VideoListData.Horizontal(
