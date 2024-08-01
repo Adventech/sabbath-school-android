@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name="SSReadingActivity"
+            android:name="app.ss.readings.SSReadingActivity"
             android:label="@string/blank"
             android:launchMode="singleTask"
             android:theme="@style/Theme.SS.Full"
