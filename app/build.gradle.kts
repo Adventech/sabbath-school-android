@@ -30,6 +30,7 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
     alias(libs.plugins.sgp.base)
+    alias(libs.plugins.baselineprofile)
     id("dagger.hilt.android.plugin")
 }
 
@@ -93,17 +94,6 @@ android {
 
             ndk { debugSymbolLevel = "FULL" }
         }
-
-        val benchmark by creating {
-            // Enable all the optimizations from release build through initWith(release).
-            initWith(release)
-            matchingFallbacks.add("release")
-            // Debug key signing is available to everyone.
-            signingConfig = signingConfigs.getByName("debug")
-            // Only use benchmark proguard rules
-            proguardFiles("benchmark-proguard-rules.pro")
-            isMinifyEnabled = true
-        }
     }
 
     kotlin {
@@ -140,6 +130,8 @@ ksp {
 }
 
 dependencies {
+    baselineProfile(projects.baselineprofile)
+
     implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.design)
