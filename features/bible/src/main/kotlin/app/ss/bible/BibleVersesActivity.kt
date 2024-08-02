@@ -24,8 +24,11 @@ package app.ss.bible
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import app.ss.bible.databinding.SsBibleVersesActivityBinding
 import com.cryart.sabbathschool.core.extensions.context.isDarkTheme
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
@@ -57,7 +60,15 @@ class BibleVersesActivity : AppCompatActivity(), ToolbarComponent.Callbacks {
             this
         )
 
-        viewModel.uiState.collectIn(this) { uiState ->
+        binding.ssBibleVersesView.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                val savedScrollY = savedInstanceState?.getInt(KEY_WEB_VIEW_SCROLL_POSITION) ?: return
+                binding.ssBibleVersesView.run { post { scrollTo(0, savedScrollY) } }
+            }
+        }
+
+        viewModel.uiState.collectIn(this, Lifecycle.State.CREATED) { uiState ->
             val options = uiState.displayOptions ?: SSReadingDisplayOptions(isDarkTheme())
             runOnUiThread {
                 with(binding.ssBibleVersesView) {
@@ -74,7 +85,14 @@ class BibleVersesActivity : AppCompatActivity(), ToolbarComponent.Callbacks {
         viewModel.versionSelected(version)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_WEB_VIEW_SCROLL_POSITION, binding.ssBibleVersesView.scrollY)
+    }
+
     companion object {
+        private const val KEY_WEB_VIEW_SCROLL_POSITION = "scrollY"
+
         fun launchIntent(
             context: Context,
             verse: String,
