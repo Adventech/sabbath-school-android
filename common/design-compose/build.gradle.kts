@@ -22,8 +22,8 @@
 
 plugins {
     alias(libs.plugins.sgp.base)
-    id("com.android.library")
-    id("kotlin-android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -49,7 +49,7 @@ dependencies {
     implementation(libs.androidx.compose.material)
     implementation(libs.snapper)
 
-    api(platform(libs.androidx.compose.bom))
+    api(platform(libs.androidx.compose.bom.beta))
     api(libs.bundles.compose)
     api(libs.bundles.compose.tooling)
 }
