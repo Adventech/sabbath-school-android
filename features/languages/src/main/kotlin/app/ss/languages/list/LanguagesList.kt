@@ -22,7 +22,6 @@
 
 package app.ss.languages.list
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -60,12 +59,11 @@ internal fun LanguagesList(
     ) {
         items(models, key = { it.code }) { model ->
 
-            @OptIn(ExperimentalFoundationApi::class)
             LanguageItem(
                 model = model,
                 modifier = Modifier
                     .clickable { onItemClick(model) }
-                    .animateItemPlacement()
+                    .animateItem()
             )
 
             Divider()
