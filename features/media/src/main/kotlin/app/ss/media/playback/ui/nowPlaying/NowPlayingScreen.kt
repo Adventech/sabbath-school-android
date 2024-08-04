@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
@@ -48,6 +49,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -167,7 +169,8 @@ internal fun NowPlayingScreen(
             progressState = playbackProgressState,
             onSeekTo = { progress ->
                 playbackConnection.seekTo(progress)
-            }
+            },
+            modifier = Modifier
         )
 
         Spacer(modifier = Modifier.height(spacing))
@@ -222,6 +225,16 @@ private fun BottomControls(
                 ),
                 contentColor = SsTheme.colors.iconsSecondary
             )
+        }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview () {
+    SsTheme {
+        Surface {
+            NowPlayingScreen(spec = PreviewData.nowPlayScreenSpec())
         }
     }
 }
