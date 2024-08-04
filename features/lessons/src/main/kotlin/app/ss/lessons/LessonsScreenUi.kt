@@ -53,7 +53,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.content.ContextCompat
+import app.ss.design.compose.extensions.color.toAndroidColor
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.lessons.components.LessonItemsSpec
@@ -73,11 +73,12 @@ import com.slack.circuit.overlay.LocalOverlayHost
 import dagger.hilt.components.SingletonComponent
 import io.noties.markwon.Markwon
 import kotlinx.collections.immutable.toImmutableList
+import ss.libraries.circuit.navigation.LessonsScreen
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 import com.cryart.design.R as DesignR
 
 @OptIn(ExperimentalMaterial3Api::class)
-@CircuitInject(ss.libraries.circuit.navigation.LessonsScreen::class, SingletonComponent::class)
+@CircuitInject(LessonsScreen::class, SingletonComponent::class)
 @Composable
 fun LessonsScreenUi(state: State, modifier: Modifier = Modifier) {
     val listState: LazyListState = rememberLazyListState()
@@ -185,7 +186,7 @@ private fun OverlayContent(state: ReadMoreOverlayState) {
                     ) {
                         MarkdownText(
                             text = state.content,
-                            modifier = Modifier.padding(vertical = 16.dp)
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 16.dp),
                         )
 
                         Spacer(modifier = Modifier.height(48.dp))
@@ -201,17 +202,22 @@ private fun OverlayContent(state: ReadMoreOverlayState) {
 
 @Composable
 private fun MarkdownText(text: String, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val markwon = remember { Markwon.create(context) }
+    val contentColor = SsTheme.colors.primaryForeground
+
     AndroidView(
         modifier = modifier,
-        factory = { context ->
-            TextView(context)
+        factory = { viewContext ->
+            TextView(viewContext)
                 .apply {
-                    setTextColor(ContextCompat.getColor(context, DesignR.color.text_markdown))
+                    setTextColor(contentColor.toAndroidColor())
                     setTextAppearance(DesignR.style.TextAppearance_SS_Subtitle1)
+                    setBackgroundColor(android.graphics.Color.TRANSPARENT)
                 }
-                .also {
-                    Markwon.create(context).setMarkdown(it, text)
-                }
+        },
+        update = {
+            markwon.setMarkdown(it, text)
         }
     )
 }
