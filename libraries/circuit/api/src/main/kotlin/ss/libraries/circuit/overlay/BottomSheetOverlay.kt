@@ -22,19 +22,31 @@
 
 package ss.libraries.circuit.overlay
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.theme.SsTheme
 import com.slack.circuit.overlay.Overlay
 import com.slack.circuit.overlay.OverlayNavigator
 
@@ -53,17 +65,79 @@ class BottomSheetOverlay(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content(navigator: OverlayNavigator<Result>) {
-        ModalBottomSheet(
+        OverlayModalBottomSheet(
             onDismissRequest = { navigator.finish(Result.Dismissed) },
-            modifier = Modifier,
             sheetState = rememberModalBottomSheetState(
                 skipPartiallyExpanded = skipPartiallyExpanded
             ),
-            shape = RoundedCornerShape(topStart = CORNER_RADIUS.dp, topEnd = CORNER_RADIUS.dp),
-            scrimColor = Color.Transparent,
-            windowInsets = WindowInsets.statusBars.only(WindowInsetsSides.Top)
-        ) {
-            content(this)
+            modifier = Modifier,
+            content = content,
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun OverlayModalBottomSheet(
+    onDismissRequest: () -> Unit,
+    sheetState: SheetState,
+    modifier: Modifier = Modifier,
+    content: @Composable (ColumnScope) -> Unit = {},
+) {
+    ModalBottomSheet(
+        onDismissRequest = onDismissRequest,
+        modifier = modifier,
+        sheetState = sheetState,
+        shape = RoundedCornerShape(topStart = CORNER_RADIUS.dp, topEnd = CORNER_RADIUS.dp),
+        scrimColor = Color.Transparent,
+        content = content,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@PreviewLightDark
+@Composable
+private fun BottomSheetOverlayPreview() {
+    SsTheme {
+        Surface(modifier = Modifier.fillMaxSize()) {
+            Column {
+                var openBottomSheet by remember { mutableStateOf(false) }
+                Button(
+                    onClick = { openBottomSheet = !openBottomSheet },
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(16.dp)
+                ) {
+                    Text(text = "Show Bottom Sheet")
+                }
+
+                if (openBottomSheet) {
+                    OverlayModalBottomSheet(
+                        onDismissRequest = { openBottomSheet = false },
+                        modifier = Modifier,
+                        sheetState = rememberModalBottomSheetState(
+                            skipPartiallyExpanded = true
+                        ),
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                                .padding(horizontal = 16.dp)
+                        ) {
+                            repeat(5) {
+                                Text(text = LOREM, Modifier.padding(vertical = 12.dp))
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
+
+private const val LOREM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
+    "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
