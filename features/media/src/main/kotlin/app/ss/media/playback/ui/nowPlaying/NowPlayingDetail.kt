@@ -23,29 +23,35 @@
 package app.ss.media.playback.ui.nowPlaying
 
 import android.view.MotionEvent
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.Box
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInteropFilter
-import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.Dimens
+import app.ss.design.compose.theme.SsTheme
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
 import app.ss.media.playback.ui.nowPlaying.components.CoverImage
 import app.ss.media.playback.ui.nowPlaying.components.NowPlayingColumn
@@ -53,8 +59,9 @@ import app.ss.media.playback.ui.nowPlaying.components.PlaybackQueueList
 import app.ss.media.playback.ui.spec.PlaybackQueueSpec
 import app.ss.media.playback.ui.spec.toImageSpec
 import app.ss.media.playback.ui.spec.toSpec
+import app.ss.models.media.AudioFile
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
 internal fun NowPlayingDetail(
     spec: NowPlayingScreenSpec,
@@ -63,92 +70,173 @@ internal fun NowPlayingDetail(
     modifier: Modifier = Modifier
 ) {
     val (nowPlayingAudio, playbackQueue, playbackState, _, playbackConnection, _, isDraggable) = spec
-    val expanded = boxState == BoxState.Expanded
-    var imageSize by remember { mutableStateOf(DpSize(0.dp, 0.dp)) }
-    val alignment = if (expanded) Alignment.TopCenter else Alignment.TopStart
-    val paddingTop by animateDpAsState(
-        if (expanded) 64.dp else 0.dp,
-        animationSpec = spring(
-            Spring.DampingRatioMediumBouncy,
-            stiffness = if (expanded) Spring.StiffnessVeryLow else Spring.StiffnessHigh
-        ), label = "top-padding"
-    )
-    val textPaddingTop by animateDpAsState(
-        targetValue = if (expanded) imageSize.height.plus(16.dp) else
-            imageSize.height.div(4).minus(16.dp),
-        animationSpec = if (expanded) tween(50) else spring(
-            Spring.DampingRatioLowBouncy,
-            stiffness = Spring.StiffnessLow
-        ), label = "text-padding-top"
-    )
-    val textPaddingStart by animateDpAsState(
-        targetValue = if (expanded) 0.dp else imageSize.width,
-        label = "text-padding-start"
-    )
 
-    Box(
+    Column(
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(top = 16.dp)
-            .padding(top = paddingTop.coerceAtLeast(0.dp))
     ) {
 
-        CoverImage(
-            spec = nowPlayingAudio.toImageSpec(),
-            boxState = boxState,
-            modifier = Modifier
-                .align(alignment)
-                .padding(horizontal = Dimens.grid_4),
-            heightCallback = {
-                imageSize = it
-            }
-        )
-
-        NowPlayingColumn(
-            spec = nowPlayingAudio.toSpec(),
-            boxState = boxState,
-            modifier = Modifier
-                .padding(
-                    start = textPaddingStart,
-                    top = textPaddingTop.coerceAtLeast(0.dp)
-                )
-                .padding(horizontal = Dimens.grid_4)
-                .align(alignment)
-        )
-
-        AnimatedVisibility(
-            visible = !expanded,
-            enter = fadeIn(spring(stiffness = Spring.StiffnessVeryLow)),
-            exit = fadeOut(spring(stiffness = Spring.StiffnessHigh))
-        ) {
-
-            PlaybackQueueList(
-                spec = PlaybackQueueSpec(
-                    listState = listState,
-                    queue = playbackQueue.audiosList.map { it.toSpec() },
-                    nowPlayingId = nowPlayingAudio.id,
-                    isPlaying = playbackState.isPlaying,
-                    onPlayAudio = { position ->
-                        playbackConnection.skipToItem(position)
+        SharedTransitionLayout {
+            AnimatedContent(boxState, label = "") { targetState ->
+                when (targetState) {
+                    BoxState.Collapsed -> {
+                        RowContent(
+                            nowPlayingAudio = nowPlayingAudio,
+                            boxState = targetState,
+                            sharedTransitionScope = this@SharedTransitionLayout,
+                            animatedVisibilityScope = this
+                        )
                     }
-                ),
-                modifier = Modifier
-                    .padding(top = imageSize.height.plus(16.dp))
-                    .padding(horizontal = 4.dp)
-                    .pointerInteropFilter { event ->
-                        when (event.action) {
-                            MotionEvent.ACTION_DOWN -> {
-                                if (listState.firstVisibleItemIndex > 0) {
-                                    isDraggable(false)
+
+                    BoxState.Expanded -> {
+                        ColumnContent(
+                            nowPlayingAudio = nowPlayingAudio,
+                            boxState = targetState,
+                            sharedTransitionScope = this@SharedTransitionLayout,
+                            animatedVisibilityScope = this,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+                }
+            }
+        }
+        SharedTransitionLayout {
+
+            AnimatedVisibility(
+                visible = boxState == BoxState.Collapsed,
+                enter = fadeIn(spring(stiffness = Spring.StiffnessVeryLow)),
+                exit = fadeOut(spring(stiffness = Spring.StiffnessMedium)) + slideOutVertically { it },
+                modifier = Modifier.weight(1f),
+            ) {
+
+                PlaybackQueueList(
+                    spec = PlaybackQueueSpec(
+                        listState = listState,
+                        queue = playbackQueue.audiosList.map { it.toSpec() },
+                        nowPlayingId = nowPlayingAudio.id,
+                        isPlaying = playbackState.isPlaying,
+                        onPlayAudio = { position ->
+                            playbackConnection.skipToItem(position)
+                        }
+                    ),
+                    modifier = Modifier
+                        .sharedBounds(
+                            sharedContentState = rememberSharedContentState(key = "queue-list-bounds"),
+                            animatedVisibilityScope = this,
+                        )
+                        .padding(top = 16.dp)
+                        .padding(horizontal = 4.dp)
+                        .pointerInteropFilter { event ->
+                            when (event.action) {
+                                MotionEvent.ACTION_DOWN -> {
+                                    if (listState.firstVisibleItemIndex > 0) {
+                                        isDraggable(false)
+                                    }
+                                }
+
+                                MotionEvent.ACTION_UP -> {
+                                    isDraggable(true)
                                 }
                             }
-
-                            MotionEvent.ACTION_UP -> {
-                                isDraggable(true)
-                            }
+                            false
                         }
-                        false
-                    }
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalSharedTransitionApi::class)
+@Composable
+private fun RowContent(
+    nowPlayingAudio: AudioFile,
+    boxState: BoxState,
+    modifier: Modifier = Modifier,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = Dimens.grid_4),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        with(sharedTransitionScope) {
+            CoverImage(
+                spec = nowPlayingAudio.toImageSpec(),
+                boxState = boxState,
+                modifier = Modifier
+                    .sharedElement(
+                        rememberSharedContentState(key = "image"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = { _, _ ->
+                            spring(dampingRatio = 0.8f, stiffness = 380f)
+                        },
+                    ),
+            )
+
+            NowPlayingColumn(
+                spec = nowPlayingAudio.toSpec(),
+                boxState = boxState,
+                sharedTransitionScope = this,
+                animatedVisibilityScope = animatedVisibilityScope,
+                modifier = Modifier,
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalSharedTransitionApi::class)
+@Composable
+private fun ColumnContent(
+    nowPlayingAudio: AudioFile,
+    boxState: BoxState,
+    modifier: Modifier = Modifier,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope
+) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        with(sharedTransitionScope) {
+            CoverImage(
+                spec = nowPlayingAudio.toImageSpec(),
+                boxState = boxState,
+                modifier = Modifier
+                    .sharedElement(
+                        rememberSharedContentState(key = "image"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = { _, _ ->
+                            spring(dampingRatio = 0.8f, stiffness = 380f)
+                        },
+                    ),
+            )
+
+            NowPlayingColumn(
+                spec = nowPlayingAudio.toSpec(),
+                boxState = boxState,
+                sharedTransitionScope = this,
+                animatedVisibilityScope = animatedVisibilityScope,
+                modifier = Modifier
+                    .padding(horizontal = Dimens.grid_4)
+            )
+        }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun NowPlayingDetailPreview() {
+    SsTheme {
+        Surface {
+            NowPlayingDetail(
+                spec = PreviewData.nowPlayScreenSpec(),
+                boxState = BoxState.Collapsed,
+                listState = rememberLazyListState()
             )
         }
     }

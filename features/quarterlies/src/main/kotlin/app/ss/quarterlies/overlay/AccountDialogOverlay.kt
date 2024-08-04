@@ -32,8 +32,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,7 +48,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.content.ContentBox
@@ -61,9 +63,10 @@ class AccountDialogOverlay(
     private val userInfo: UserInfo,
 ) : Overlay<AccountDialogOverlay.Result> {
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content(navigator: OverlayNavigator<Result>) {
-        Dialog(
+        BasicAlertDialog(
             content = {
                 Surface(
                     shape = AlertDialogDefaults.shape,
@@ -92,6 +95,9 @@ class AccountDialogOverlay(
 @Composable
 private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onResult: (AccountDialogOverlay.Result) -> Unit = { }) {
     val context = LocalContext.current
+    val listItemColors = ListItemDefaults.colors(
+        containerColor = AlertDialogDefaults.containerColor
+    )
 
     Column(modifier = modifier.padding(vertical = 16.dp)) {
         Row(
@@ -164,6 +170,7 @@ private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onR
                     modifier = Modifier
                 )
             },
+            colors = listItemColors,
         )
 
         ListItem(
@@ -180,6 +187,7 @@ private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onR
                     modifier = Modifier
                 )
             },
+            colors = listItemColors,
         )
 
         ListItem(
@@ -196,6 +204,7 @@ private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onR
                     modifier = Modifier
                 )
             },
+            colors = listItemColors,
         )
 
         ListItem(
@@ -212,6 +221,7 @@ private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onR
                     modifier = Modifier
                 )
             },
+            colors = listItemColors,
         )
 
     }
@@ -223,7 +233,7 @@ private val AccountImgSize = 48.dp
 @Composable
 private fun PreviewDialogContent() {
     SsTheme {
-        Surface {
+        Surface(color = AlertDialogDefaults.containerColor) {
             DialogContent(userInfo = UserInfo())
         }
     }

@@ -6,6 +6,7 @@ androidx-appcompat = "1.7.0"
 androidx-browser = "1.8.0"
 androidx-compose-animation = "1.6.8"
 androidx-compose-bom = "2024.06.00"
+androidx-compose-bom-beta = "2024.07.00-alpha02"
 androidx-compose-material3 = "1.2.1"
 androidx-constraintlayout = "2.1.4"
 androidx-core = "1.13.1"
@@ -27,7 +28,7 @@ androidx-tv = "1.0.0-alpha10"
 androidx-tv-material = "1.0.0-beta01"
 androidx-work = "2.9.0"
 cash-app-turbine = "1.1.0"
-circuit = "0.22.2"
+circuit = "0.23.0"
 coil = "2.6.0"
 google-hilt = "2.51.1"
 google-id = "1.1.1"
@@ -79,6 +80,7 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 androidx-browser = { module = "androidx.browser:browser", version.ref = "androidx-browser" }
 androidx-compose-animation = { module = "androidx.compose.animation:animation", version.ref = "androidx-compose-animation" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
+androidx-compose-bom-beta = { module = "dev.chrisbanes.compose:compose-bom", version.ref = "androidx-compose-bom-beta" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
 androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
 androidx-compose-icons = { module = "androidx.compose.material:material-icons-core" }

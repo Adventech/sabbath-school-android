@@ -23,7 +23,10 @@
 package ss.libraries.circuit.overlay
 
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -32,35 +35,76 @@ import androidx.compose.ui.window.DialogProperties
 import app.ss.design.compose.extensions.content.ContentSpec
 import app.ss.design.compose.extensions.content.asText
 import app.ss.design.compose.theme.SsTheme
-import com.slack.circuitx.overlays.alertDialogOverlay
+import com.slack.circuit.overlay.Overlay
+import com.slack.circuit.overlay.OverlayNavigator
+import com.slack.circuitx.overlays.DialogResult
+import com.slack.circuitx.overlays.DialogResult.Cancel
+import com.slack.circuitx.overlays.DialogResult.Confirm
+import com.slack.circuitx.overlays.DialogResult.Dismiss
 
 /**
  * An overlay that shows an [AlertDialog].
  *
- * @see alertDialogOverlay
  */
-@OptIn(ExperimentalMaterial3Api::class)
 fun ssAlertDialogOverlay(
     title: ContentSpec,
     cancelText: ContentSpec,
     confirmText: ContentSpec,
-    usePlatformDefaultWidth: Boolean = false,
+    usePlatformDefaultWidth: Boolean = true,
     content: @Composable () -> Unit = {},
-) =
-    alertDialogOverlay(
-        confirmButton = {
-            TextButton(onClick = it) { Text(confirmText.asText()) }
-        },
-        dismissButton = {
-            TextButton(onClick = it) { Text(cancelText.asText()) }
-        },
-        title = {
-            Text(
-                modifier = Modifier,
-                text = title.asText(),
-                style = SsTheme.typography.headlineSmall,
-            )
-        },
-        text = content,
-        properties = DialogProperties(usePlatformDefaultWidth = usePlatformDefaultWidth)
-    )
+): AlertDialogOverlay<*, DialogResult> {
+    return AlertDialogOverlay(
+        model = Unit,
+        onDismissRequest = { Dismiss },
+    ) { _, navigator ->
+        AlertDialog(
+            onDismissRequest = { navigator.finish(Dismiss) },
+            icon = null,
+            title = {
+                Text(
+                    modifier = Modifier,
+                    text = title.asText(),
+                    style = SsTheme.typography.headlineSmall,
+                )
+            },
+            text = content,
+            confirmButton = {
+                TextButton(onClick = { navigator.finish(Confirm) }) { Text(confirmText.asText()) }
+            },
+            dismissButton = {
+                TextButton(onClick = { navigator.finish(Cancel)}) { Text(cancelText.asText()) }
+            },
+            properties = DialogProperties(usePlatformDefaultWidth = usePlatformDefaultWidth)
+        )
+    }
+}
+
+class AlertDialogOverlay <Model : Any, Result : Any>(
+    private val model: Model,
+    private val onDismissRequest: () -> Result,
+    private val properties: DialogProperties = DialogProperties(),
+    private val content: @Composable (Model, OverlayNavigator<Result>) -> Unit,
+) : Overlay<Result> {
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    override fun Content(navigator: OverlayNavigator<Result>) {
+        BasicAlertDialog(
+            onDismissRequest = {
+                navigator.finish(onDismissRequest())
+            },
+            modifier = Modifier,
+            properties = properties,
+            content = {
+                Surface(
+                    shape = AlertDialogDefaults.shape,
+                    color = AlertDialogDefaults.containerColor,
+                    tonalElevation = AlertDialogDefaults.TonalElevation,
+                ) {
+                    content(model, navigator::finish)
+                }
+            },
+        )
+    }
+
+}

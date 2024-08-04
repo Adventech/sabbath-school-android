@@ -33,6 +33,16 @@ fun Color.lighter(componentDelta: Float = 0.1f): Color = makeColor(componentDelt
 fun Color.Companion.parse(colorString: String): Color =
     Color(color = android.graphics.Color.parseColor(colorString))
 
+
+fun Color.toAndroidColor(): Int {
+    return android.graphics.Color.argb(
+        (alpha * 255).toInt(),
+        (red * 255).toInt(),
+        (green * 255).toInt(),
+        (blue * 255).toInt()
+    )
+}
+
 /**
  * Create a new [Color] modifying each component
  * by componentDelta, making it either lighter or darker

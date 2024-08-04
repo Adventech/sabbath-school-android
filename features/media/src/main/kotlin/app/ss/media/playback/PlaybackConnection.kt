@@ -160,11 +160,9 @@ internal class PlaybackConnectionImpl(
     }
 
     override fun setQueue(audios: List<AudioFile>, index: Int) {
-        val audiosIds = audios.map { it.id }
         val initialId = audios.getOrNull(index)?.id ?: ""
         playbackQueueState.update {
             PlaybackQueue(
-                list = audiosIds,
                 audiosList = audios,
                 initialMediaId = initialId,
                 currentIndex = index

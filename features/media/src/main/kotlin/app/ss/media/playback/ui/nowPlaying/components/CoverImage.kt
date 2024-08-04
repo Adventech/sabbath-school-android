@@ -22,22 +22,17 @@
 
 package app.ss.media.playback.ui.nowPlaying.components
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.modifier.asPlaceholder
-import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.media.playback.ui.spec.CoverImageSpec
@@ -59,7 +54,7 @@ private enum class CoverOrientation(val key: String) : Sizes {
     };
 
     companion object {
-        private val map = values().associateBy(CoverOrientation::key)
+        private val map = entries.associateBy(CoverOrientation::key)
 
         fun fromKey(type: String) = map[type]
     }
@@ -70,14 +65,11 @@ internal fun CoverImage(
     spec: CoverImageSpec,
     modifier: Modifier = Modifier,
     boxState: BoxState = BoxState.Expanded,
-    heightCallback: (DpSize) -> Unit
 ) {
     val orientation = CoverOrientation.fromKey(spec.imageRatio) ?: CoverOrientation.PORTRAIT
     val collapsed = boxState == BoxState.Collapsed
     val width = if (collapsed) orientation.width / 2 else orientation.width
     val height = if (collapsed) orientation.height / 2 else orientation.height
-    val animatedWidth by animateDpAsState(width, label = "width")
-    val animatedHeight by animateDpAsState(height, label = "height")
     val scale = when (orientation) {
         CoverOrientation.SQUARE -> Scale.FILL
         CoverOrientation.PORTRAIT -> Scale.FIT
@@ -101,16 +93,12 @@ internal fun CoverImage(
         ),
         modifier = modifier
             .size(
-                width = animatedWidth,
-                height = animatedHeight
+                width = width,
+                height = height
             )
-            .padding(Dimens.grid_1)
+            .padding(4.dp)
             .clip(RoundedCornerShape(CoverCornerRadius))
     )
-
-    SideEffect {
-        heightCallback(DpSize(animatedWidth, animatedHeight))
-    }
 }
 
 private val CoverCornerRadius = 6.dp

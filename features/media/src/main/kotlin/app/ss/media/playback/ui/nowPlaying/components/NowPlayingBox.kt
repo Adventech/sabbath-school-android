@@ -22,7 +22,11 @@
 
 package app.ss.media.playback.ui.nowPlaying.components
 
-import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.EnterExitState
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.animateDp
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -38,7 +42,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.LatoFontFamily
 import app.ss.design.compose.theme.SsTheme
 import app.ss.media.playback.ui.spec.NowPlayingSpec
@@ -53,10 +56,13 @@ internal val sampleAudio = AudioFile(
     imageRatio = "portrait"
 )
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 internal fun NowPlayingColumn(
     spec: NowPlayingSpec,
     boxState: BoxState,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier
 ) {
     val horizontalAlignment: Alignment.Horizontal
@@ -92,28 +98,45 @@ internal fun NowPlayingColumn(
         }
     }
 
-    val animatedSpacing by animateDpAsState(targetValue = spacing, label = "spacing")
+    val animatedSpacing by animatedVisibilityScope.transition
+        .animateDp(label = "spacing") { enterExit ->
+            when (enterExit) {
+                EnterExitState.PreEnter -> 0.dp
+                EnterExitState.Visible -> spacing
+                EnterExitState.PostExit -> spacing
+            }
+        }
 
     Column(
         modifier = modifier
             .padding(
-                horizontal = Dimens.grid_2,
+                horizontal = 8.dp,
                 vertical = 24.dp
             ),
         horizontalAlignment = horizontalAlignment,
         verticalArrangement = Arrangement.spacedBy(animatedSpacing)
     ) {
-        Text(
-            text = spec.title,
-            style = titleStyle,
-            textAlign = textAlign
-        )
-        Text(
-            text = spec.artist,
-            style = artistStyle,
-            textAlign = textAlign,
-            color = SsTheme.colors.secondaryForeground
-        )
+        with(sharedTransitionScope) {
+            Text(
+                text = spec.title,
+                style = titleStyle,
+                textAlign = textAlign,
+                modifier = Modifier.sharedBounds(
+                    rememberSharedContentState(key = "title"),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                ),
+            )
+            Text(
+                text = spec.artist,
+                style = artistStyle,
+                textAlign = textAlign,
+                color = SsTheme.colors.secondaryForeground,
+                modifier = Modifier.sharedBounds(
+                    rememberSharedContentState(key = "artist"),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                )
+            )
+        }
     }
 }
 
