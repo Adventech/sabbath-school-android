@@ -25,14 +25,11 @@ package ss.libraries.media.model
 import app.ss.models.media.AudioFile
 
 data class PlaybackQueue(
-    val list: List<String> = emptyList(),
     val audiosList: List<AudioFile> = emptyList(),
     val title: String? = null,
     val initialMediaId: String = "",
     val currentIndex: Int = 0
 ) : List<AudioFile> by audiosList {
-
-    val isValid = list.isNotEmpty() && audiosList.isNotEmpty() && currentIndex >= 0
 
     val currentAudio get() = getOrNull(currentIndex)
 }
