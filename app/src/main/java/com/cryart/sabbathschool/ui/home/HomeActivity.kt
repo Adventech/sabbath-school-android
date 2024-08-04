@@ -22,6 +22,8 @@
 
 package com.cryart.sabbathschool.ui.home
 
+import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -30,8 +32,10 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import app.ss.design.compose.theme.SsTheme
+import com.cryart.sabbathschool.core.R as CoreR
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.NavigableCircuitContent
@@ -52,11 +56,15 @@ class HomeActivity : ComponentActivity() {
     @Inject
     lateinit var supportingNavigatorFactory: AndroidSupportingNavigator.Factory
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        if (resources.getBoolean(CoreR.bool.portrait_only)) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
 
         setContent {
             val windowSizeClass = calculateWindowSizeClass(activity = this)
@@ -80,6 +88,8 @@ class HomeActivity : ComponentActivity() {
                         }
                     )
                 }
+
+                splashScreen.setKeepOnScreenCondition { backstack.topRecord?.screen == HomeScreen }
             }
         }
     }

@@ -22,8 +22,10 @@
 
 package ss.services.circuit.impl
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.os.BundleCompat
 import app.ss.design.compose.theme.SsTheme
+import com.cryart.sabbathschool.core.R as CoreR
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.NavigableCircuitContent
@@ -55,10 +58,14 @@ class CircuitActivity : ComponentActivity() {
     @Inject
     lateinit var supportingNavigatorFactory: AndroidSupportingNavigator.Factory
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        if (resources.getBoolean(CoreR.bool.portrait_only)) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
 
         val screen = intent.extras?.let {
             BundleCompat.getParcelable(it, ARG_EXTRA_SCREEN, Screen::class.java)
