@@ -35,12 +35,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -61,11 +59,13 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -220,39 +220,34 @@ private fun Buttons(
             mutableStateOf(
                 buildAnnotatedString {
                     append("By continuing, you agree to our Terms of Service as described in our ")
-                    pushStringAnnotation(
-                        tag = "URL", annotation = context.getString(L10nR.string.ss_privacy_policy_url)
-                    )
-                    withStyle(
-                        style = SpanStyle(
-                            color = textColor,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = LatoFontFamily,
-                            textDecoration = TextDecoration.Underline,
+                    withLink(
+                        link = LinkAnnotation.Url(
+                            url = context.getString(L10nR.string.ss_privacy_policy_url),
+                            styles = TextLinkStyles(
+                                style = SpanStyle(
+                                    color = textColor,
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = LatoFontFamily,
+                                    textDecoration = TextDecoration.Underline,
+                                )
+                            )
                         )
                     ) {
-                        append("Privacy Policy.")
+                        append("Privacy Policy")
                     }
+                    append(".")
                     append(" Sabbath School collects User IDs to help identify and restore user saved content.")
                 }
             )
         }
-        ClickableText(
+        Text(
             text = annotatedText,
             modifier = Modifier.fillMaxWidth(),
             style = SsTheme.typography.bodySmall.copy(fontSize = 11.sp, color = textColor),
-        ) { offset ->
-            annotatedText.getStringAnnotations(
-                tag = "URL", start = offset, end = offset
-            ).firstOrNull()?.let { _ ->
-                eventSink(Event.OpenPrivacyPolicy(context))
-            }
-        }
-
+        )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun OverlayContent(eventSink: (OverlayEvent) -> Unit) {
     val overlayHost = LocalOverlayHost.current
@@ -265,7 +260,6 @@ private fun OverlayContent(eventSink: (OverlayEvent) -> Unit) {
                 content = {
                     Text(text = stringResource(id = L10nR.string.ss_login_anonymously_dialog_description))
                 },
-                usePlatformDefaultWidth = true,
             )
         )
 
