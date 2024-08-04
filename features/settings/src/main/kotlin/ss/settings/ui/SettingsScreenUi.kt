@@ -153,7 +153,6 @@ private fun OverlayHost.ShowTimePicker(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun OverlayHost.ConfirmAccountDelete(
     overlay: Overlay?,
@@ -182,7 +181,6 @@ private fun OverlayHost.ConfirmAccountDelete(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun OverlayHost.ShowConfirmRemoveDownloads(
     overlay: Overlay?,
