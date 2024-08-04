@@ -24,9 +24,7 @@ package com.cryart.sabbathschool.ui.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.core.os.bundleOf
 import app.ss.auth.AuthRepository
-import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.reminder.DailyReminderManager
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
@@ -35,11 +33,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
-import ss.libraries.circuit.navigation.LegacyDestination
 import ss.libraries.circuit.navigation.LessonsScreen
 import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
-import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 
 class HomePresenter @AssistedInject constructor(
@@ -75,6 +71,6 @@ class HomePresenter @AssistedInject constructor(
             }
         }
 
-        return HomeScreen.State.Loading
+        return HomeScreen.State
     }
 }

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.SS.Home" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/ss_blue</item>
+        <item name="windowSplashScreenBackground">@color/ss_theme_color_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo_sspm_splash</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/ss_theme_color_background</item>
         <item name="postSplashScreenTheme">@style/Theme.SS</item>
     </style>
 </resources>
