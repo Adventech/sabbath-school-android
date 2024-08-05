@@ -23,6 +23,7 @@
 package app.ss.readings
 
 import android.annotation.SuppressLint
+import android.app.assist.AssistContent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -33,6 +34,7 @@ import android.view.MenuItem
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.setViewTreeLifecycleOwner
@@ -40,14 +42,6 @@ import androidx.viewpager2.widget.ViewPager2
 import app.ss.media.playback.PlaybackViewModel
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
-import coil.load
-import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
-import com.cryart.sabbathschool.core.extensions.context.shareContent
-import com.cryart.sabbathschool.core.extensions.context.toWebUri
-import com.cryart.sabbathschool.core.extensions.view.fadeTo
-import com.cryart.sabbathschool.core.extensions.view.viewBinding
-import com.cryart.sabbathschool.core.ui.ShareableScreen
-import app.ss.readings.databinding.SsReadingActivityBinding
 import app.ss.readings.components.AppBarComponent
 import app.ss.readings.components.ContextMenuComponent
 import app.ss.readings.components.ErrorStateComponent
@@ -55,8 +49,14 @@ import app.ss.readings.components.MiniPlayerComponent
 import app.ss.readings.components.OfflineStateComponent
 import app.ss.readings.components.PagesIndicatorComponent
 import app.ss.readings.components.ProgressBarComponent
+import app.ss.readings.databinding.SsReadingActivityBinding
 import app.ss.readings.model.ReadingsState
-import com.cryart.sabbathschool.core.ui.SSBaseActivity
+import coil.load
+import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
+import com.cryart.sabbathschool.core.extensions.context.shareContent
+import com.cryart.sabbathschool.core.extensions.context.toWebUri
+import com.cryart.sabbathschool.core.extensions.view.fadeTo
+import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import ss.foundation.coroutines.flow.collectIn
 import ss.lessons.api.PdfReader
@@ -71,7 +71,7 @@ import kotlin.math.abs
 import app.ss.translations.R as L10n
 
 @AndroidEntryPoint
-class SSReadingActivity : SSBaseActivity(), ShareableScreen {
+class SSReadingActivity : AppCompatActivity() {
 
     @Inject
     lateinit var ssPrefs: SSPrefs
@@ -321,12 +321,17 @@ class SSReadingActivity : SSBaseActivity(), ShareableScreen {
         }
     }
 
-    override fun getShareWebUri(): Uri {
+    private fun getShareWebUri(): Uri {
         val position = binding.ssReadingViewPager.currentItem
         val read = readingViewAdapter.getReadAt(position)
         val readIndex = read?.shareIndex(ssReadingViewModel.lessonShareIndex, position + 1)
 
         return "${getString(L10n.string.ss_app_host)}/${readIndex ?: ""}".toWebUri()
+    }
+
+    override fun onProvideAssistContent(outContent: AssistContent) {
+        super.onProvideAssistContent(outContent)
+        outContent.webUri = getShareWebUri()
     }
 
     private fun getReadIndex(): String? {
