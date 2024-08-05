@@ -40,7 +40,7 @@ dependencyResolutionManagement {
 include(
     ":app",
     ":app-tv",
-    ":benchmark",
+    ":baselineprofile",
     ":common:auth",
     ":common:core",
     ":common:design",
