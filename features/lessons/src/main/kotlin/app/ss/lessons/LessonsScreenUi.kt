@@ -133,6 +133,7 @@ fun LessonsScreenUi(state: State, modifier: Modifier = Modifier) {
             when (state) {
                 is State.Loading,
                 is State.Error -> loading()
+
                 is State.Success -> {
                     val ssQuarterlyInfo = state.quarterlyInfo
                     val quarterly = ssQuarterlyInfo.quarterly
@@ -207,18 +208,14 @@ private fun MarkdownText(text: String, modifier: Modifier = Modifier) {
     val contentColor = SsTheme.colors.primaryForeground
 
     AndroidView(
-        modifier = modifier,
-        factory = { viewContext ->
-            TextView(viewContext)
-                .apply {
-                    setTextColor(contentColor.toAndroidColor())
-                    setTextAppearance(DesignR.style.TextAppearance_SS_Subtitle1)
-                    setBackgroundColor(android.graphics.Color.TRANSPARENT)
-                }
+        factory = { _ ->
+            TextView(context).apply {
+                markwon.setMarkdown(this, text)
+                setTextColor(contentColor.toAndroidColor())
+                setTextAppearance(DesignR.style.TextAppearance_Markdown)
+            }
         },
-        update = {
-            markwon.setMarkdown(it, text)
-        }
+        modifier = modifier,
     )
 }
 
