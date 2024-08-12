@@ -24,6 +24,7 @@ package app.ss.lessons.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -53,6 +54,7 @@ import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -81,6 +83,7 @@ import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.thenIf
+import app.ss.design.compose.theme.LocalWindowSizeClass
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.button.SsButtonDefaults
@@ -209,7 +212,7 @@ private fun CoverBox(
         modifier = modifier
             .background(Color.parse(color))
             .thenIf(splashImage != null) {
-                Modifier.height(540.dp)
+                Modifier.height(coverHeight())
             }
     ) {
         ContentBox(
@@ -226,6 +229,14 @@ private fun CoverBox(
         )
 
         content()
+    }
+}
+
+@Composable
+private fun coverHeight(): Dp {
+    return when (LocalWindowSizeClass.current?.heightSizeClass) {
+        WindowHeightSizeClass.Compact -> 320.dp
+        else -> 540.dp
     }
 }
 
@@ -331,9 +342,7 @@ private fun ContentSecondaryLarge(
 
         Spacer(modifier = Modifier.width(16.dp))
 
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
+        Column(modifier = Modifier.weight(1f)) {
             content()
         }
     }
@@ -373,7 +382,7 @@ private fun ColumnScope.Content(
             readMoreMaxLines = 3,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
                 .clickable { spec.readMoreClick() }
         )
     }
@@ -395,7 +404,7 @@ private fun ColumnScope.Content(
         textAlign = textAlign,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = SsTheme.dimens.grid_4)
             .padding(top = paddingTop, bottom = 8.dp)
     )
 
@@ -406,7 +415,7 @@ private fun ColumnScope.Content(
         textAlign = textAlign,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = SsTheme.dimens.grid_4)
             .padding(top = 8.dp, bottom = 16.dp)
     )
 
@@ -444,7 +453,7 @@ private fun ColumnScope.ReadButton(
         modifier = Modifier
             .defaultMinSize(minWidth = 140.dp)
             .align(alignment)
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = SsTheme.dimens.grid_4),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ElevatedButton(

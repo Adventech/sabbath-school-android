@@ -24,6 +24,7 @@ package app.ss.lessons.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -79,12 +80,14 @@ private fun PublishingInfo(
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
+                .padding(horizontal = SsTheme.dimens.grid_4)
                 .clickable(
                     enabled = true,
                     onClick = onClick,
                     role = Role.Button
                 ),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
                 text = spec.message,
@@ -93,7 +96,6 @@ private fun PublishingInfo(
                 modifier = Modifier
                     .weight(1f)
                     .padding(vertical = 16.dp)
-                    .padding(start = Dimens.grid_4, end = 16.dp)
             )
 
             IconButton(
@@ -108,8 +110,6 @@ private fun PublishingInfo(
                     tint = Color.White
                 )
             }
-
-            Spacer(modifier = Modifier.size(Dimens.grid_4))
         }
 
         Divider()
