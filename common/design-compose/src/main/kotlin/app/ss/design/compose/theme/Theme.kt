@@ -24,17 +24,18 @@ package app.ss.design.compose.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.Typography
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 import app.ss.design.compose.extensions.isS
 import app.ss.design.compose.theme.color.DarkColorScheme
 import app.ss.design.compose.theme.color.LightColorScheme
 import app.ss.design.compose.theme.color.LocalSsColors
-import app.ss.design.compose.theme.color.ProvideSsColors
 import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.theme.color.extend
 
@@ -42,7 +43,7 @@ import app.ss.design.compose.theme.color.extend
 fun SsTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     useDynamicTheme: Boolean = true,
-    windowWidthSizeClass: WindowWidthSizeClass? = WindowWidthSizeClass.Compact,
+    windowSizeClass: WindowSizeClass? = null,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -50,23 +51,26 @@ fun SsTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
+
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
 
-    val dimensions = when (windowWidthSizeClass) {
-        WindowWidthSizeClass.Medium -> sw600Dimensions
-        else -> smallDimensions
+    val dimensions = when (windowSizeClass?.widthSizeClass) {
+        null, WindowWidthSizeClass.Compact -> smallDimensions
+        else -> sw600Dimensions
     }
 
-    ProvideDimens(dimensions = dimensions) {
-        ProvideSsColors(ssColors = colorScheme.extend(darkTheme)) {
-            MaterialTheme(
-                colorScheme = colorScheme,
-                typography = SsTypography,
-                content = content
-            )
-        }
+    CompositionLocalProvider(
+        LocalAppDimens provides dimensions,
+        LocalSsColors provides colorScheme.extend(darkTheme),
+        LocalWindowSizeClass provides windowSizeClass,
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = SsTypography,
+            content = content,
+        )
     }
 }
 

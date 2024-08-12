@@ -25,12 +25,9 @@ package app.ss.design.compose.theme.color
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
@@ -173,12 +170,3 @@ val LightColorScheme = lightColorScheme(
     onSurface = SsColors.BaseGrey3,
     error = SsColors.BaseRed
 )
-
-@Composable
-internal fun ProvideSsColors(
-    ssColors: SsColors,
-    content: @Composable () -> Unit
-) {
-    val colors = remember { ssColors }
-    CompositionLocalProvider(LocalSsColors provides colors, content = content)
-}

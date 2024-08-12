@@ -60,9 +60,7 @@ class HomeActivity : ComponentActivity() {
 
         setContent {
             val windowSizeClass = calculateWindowSizeClass(activity = this)
-            SsTheme(
-                windowWidthSizeClass = windowSizeClass.widthSizeClass
-            ) {
+            SsTheme(windowSizeClass = windowSizeClass) {
                 val backstack = rememberSaveableBackStack(HomeScreen)
                 val circuitNavigator = rememberCircuitNavigator(backstack)
                 val supportingNavigator = remember(circuitNavigator) {
