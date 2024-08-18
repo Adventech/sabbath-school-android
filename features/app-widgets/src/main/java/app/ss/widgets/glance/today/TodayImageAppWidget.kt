@@ -37,8 +37,8 @@ import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
-import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
+import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Box
@@ -46,18 +46,13 @@ import androidx.glance.layout.ContentScale
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.unit.ColorProvider
 import app.ss.widgets.R
-import app.ss.widgets.WidgetDataProvider
+import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.extensions.clickable
-import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
 import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.model.TodayWidgetModel
 import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 
-internal class TodayImageAppWidget @AssistedInject constructor(
-    private val dataProvider: WidgetDataProvider,
-) : GlanceAppWidget() {
+internal class TodayImageAppWidget : BaseGlanceAppWidget() {
 
     data class Data(
         val model: TodayWidgetModel? = null,
@@ -69,11 +64,13 @@ internal class TodayImageAppWidget @AssistedInject constructor(
     )
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val model = dataProvider.getTodayModel()
+        val model = dataProvider(context).getTodayModel()
         val bitmap = context.fetchBitmap(model?.cover)
 
         provideContent {
-            Content(model = model, cover = bitmap)
+            SsGlanceTheme {
+                Content(model = model, cover = bitmap)
+            }
         }
     }
 
@@ -81,14 +78,11 @@ internal class TodayImageAppWidget @AssistedInject constructor(
     @SuppressLint("RestrictedApi")
     private fun Content(
         model: TodayWidgetModel?,
-        cover: Bitmap?
+        cover: Bitmap?,
+        modifier: GlanceModifier = GlanceModifier,
     ) {
-        SsGlanceTheme {
-            Box(
-                modifier = GlanceModifier
-                    .modifyAppWidgetBackground()
-                    .clickable(intent = model?.intent)
-            ) {
+        Scaffold(modifier = modifier.clickable(intent = model?.intent), horizontalPadding = 0.dp) {
+            Box(modifier = GlanceModifier) {
                 cover?.let { bitmap ->
                     Image(
                         provider = BitmapImageProvider(bitmap),
@@ -98,7 +92,7 @@ internal class TodayImageAppWidget @AssistedInject constructor(
                     )
                 }
 
-                val (modifier: GlanceModifier, textColor: ColorProvider?) = if (cover != null) {
+                val (infoModifier: GlanceModifier, textColor: ColorProvider?) = if (cover != null) {
                     GlanceModifier.background(
                         ImageProvider(R.drawable.bg_img_foreground)
                     ) to ColorProvider(Color.White)
@@ -123,14 +117,9 @@ internal class TodayImageAppWidget @AssistedInject constructor(
                             TodayInfoSpec.ReadOptions.Hidden
                         }
                     ),
-                    modifier = modifier
+                    modifier = infoModifier,
                 )
             }
         }
-    }
-
-    @AssistedFactory
-    interface Factory {
-        fun create(): TodayImageAppWidget
     }
 }

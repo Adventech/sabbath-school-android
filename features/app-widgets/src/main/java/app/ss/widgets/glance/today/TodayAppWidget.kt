@@ -35,8 +35,8 @@ import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalSize
-import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
+import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.layout.Alignment
@@ -50,47 +50,44 @@ import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.text.Text
-import app.ss.widgets.WidgetDataProvider
+import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.extensions.clickable
 import app.ss.widgets.glance.extensions.fallbackIntent
-import app.ss.widgets.glance.extensions.modifyAppWidgetBackground
 import app.ss.widgets.glance.extensions.stringResource
 import app.ss.widgets.glance.extensions.toAction
 import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.glance.theme.todayBody
 import app.ss.widgets.glance.theme.todayTitle
 import app.ss.widgets.model.TodayWidgetModel
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 import ss.misc.DateHelper
 import app.ss.translations.R as L10nR
 import app.ss.widgets.R as WidgetsR
 
-internal class TodayAppWidget @AssistedInject constructor(
-    private val dataProvider: WidgetDataProvider,
-) : GlanceAppWidget() {
+internal class TodayAppWidget : BaseGlanceAppWidget() {
 
     override val sizeMode = SizeMode.Responsive(
         setOf(smallMode, mediumMode, largeMode)
     )
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val model = dataProvider.getTodayModel()
+        val model = dataProvider(context).getTodayModel()
+
         provideContent {
-            Content(data = model)
+            SsGlanceTheme {
+                Content(data = model)
+            }
         }
     }
 
     @Composable
-    private fun Content(data: TodayWidgetModel?) {
+    private fun Content(data: TodayWidgetModel?, modifier: GlanceModifier = GlanceModifier) {
         val isSmallMode = LocalSize.current == smallMode
 
-        SsGlanceTheme {
-            Box(
-                modifier = GlanceModifier
-                    .modifyAppWidgetBackground()
-                    .clickable(intent = data?.intent)
-            ) {
+        Scaffold(
+            modifier = modifier.clickable(intent = data?.intent),
+            horizontalPadding = 0.dp
+        ) {
+            Box(modifier = GlanceModifier) {
                 WidgetAppLogo()
 
                 TodayInfo(
@@ -111,11 +108,6 @@ internal class TodayAppWidget @AssistedInject constructor(
                 )
             }
         }
-    }
-
-    @AssistedFactory
-    interface Factory {
-        fun create(): TodayAppWidget
     }
 
     companion object {
