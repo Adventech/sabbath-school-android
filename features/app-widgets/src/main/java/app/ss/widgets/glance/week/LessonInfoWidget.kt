@@ -115,7 +115,7 @@ private fun LessonInfoWidgetContent(model: WeekLessonWidgetModel?, cover: Bitmap
                             model = item,
                             modifier = GlanceModifier.fillMaxWidth()
                                 .padding(horizontal = 8.dp)
-                                .background(GlanceTheme.colors.secondaryContainer)
+                                .background(if (item.today) GlanceTheme.colors.primary else GlanceTheme.colors.secondaryContainer)
                                 .cornerRadius(8.dp)
                                 .clickable(intent = item.intent)
                         )
@@ -202,12 +202,8 @@ private val AppLogoSize = 48.dp
 @Composable
 private fun DayInfo(model: WeekDayWidgetModel, modifier: GlanceModifier = GlanceModifier) {
     val textStyle = todayBody(
-        GlanceTheme.colors.onSecondaryContainer
-    ).copy(fontSize = 13.sp)
-    val titleStyle =
-        if (model.today) {
-            todayBody(GlanceTheme.colors.onSecondaryContainer).copy(fontWeight = FontWeight.Bold)
-        } else textStyle
+        if (model.today) GlanceTheme.colors.onPrimary else GlanceTheme.colors.onSecondaryContainer
+    )
 
     Row(
         modifier = modifier.padding(vertical = 12.dp, horizontal = 4.dp),
@@ -215,7 +211,7 @@ private fun DayInfo(model: WeekDayWidgetModel, modifier: GlanceModifier = Glance
     ) {
         Text(
             text = model.title,
-            style = titleStyle,
+            style = textStyle,
             maxLines = 2,
             modifier = GlanceModifier.defaultWeight(),
         )
@@ -224,7 +220,7 @@ private fun DayInfo(model: WeekDayWidgetModel, modifier: GlanceModifier = Glance
 
         Text(
             text = model.date,
-            style = textStyle,
+            style = textStyle.copy(fontSize = 13.sp),
             maxLines = 1,
             modifier = GlanceModifier,
         )
