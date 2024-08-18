@@ -58,7 +58,6 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.SsScaffold
 import app.ss.lessons.components.LessonItemsSpec
 import app.ss.lessons.components.LessonsTopBar
-import app.ss.lessons.components.MIN_SOLID_ALPHA
 import app.ss.lessons.components.ScrollAlpha
 import app.ss.lessons.components.footer
 import app.ss.lessons.components.footerBackgroundColor
@@ -83,7 +82,6 @@ import com.cryart.design.R as DesignR
 fun LessonsScreenUi(state: State, modifier: Modifier = Modifier) {
     val listState: LazyListState = rememberLazyListState()
     val scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState)
-    val scrollCollapsed by remember { derivedStateOf { scrollAlpha.alpha > MIN_SOLID_ALPHA } }
     val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     val iconTint by remember { derivedStateOf { Color.White.takeUnless { collapsed } } }
     val context = LocalContext.current
@@ -95,9 +93,9 @@ fun LessonsScreenUi(state: State, modifier: Modifier = Modifier) {
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     color = SsTheme.colors.primaryBackground.copy(
-                        alpha = if (scrollCollapsed) 1f else scrollAlpha.alpha
+                        alpha = if (collapsed) 1f else scrollAlpha.alpha
                     ),
-                    tonalElevation = if (scrollCollapsed) 4.dp else 0.dp
+                    tonalElevation = if (collapsed) 4.dp else 0.dp
                 ) {
                     LessonsTopBar(
                         title = state.quarterlyInfo.quarterly.title,
