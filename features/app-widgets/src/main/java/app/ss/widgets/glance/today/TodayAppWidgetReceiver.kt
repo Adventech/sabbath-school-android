@@ -24,14 +24,8 @@ package app.ss.widgets.glance.today
 
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
-@AndroidEntryPoint
 internal class TodayAppWidgetReceiver : GlanceAppWidgetReceiver() {
 
-    @Inject
-    lateinit var widgetFactory: TodayAppWidget.Factory
-
-    override val glanceAppWidget: GlanceAppWidget get() = widgetFactory.create()
+    override val glanceAppWidget: GlanceAppWidget get() = TodayAppWidget()
 }

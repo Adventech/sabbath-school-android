@@ -28,10 +28,11 @@ import android.content.Context
 import android.content.Intent
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.updateAll
+import app.ss.widgets.glance.today.TodayAppWidget
 import app.ss.widgets.glance.today.TodayImageAppWidget
 import app.ss.widgets.glance.week.LessonInfoWidget
-import app.ss.widgets.today.TodayAppWidget
-import app.ss.widgets.today.TodayImgAppWidget
+import app.ss.widgets.today.TodayAppWidgetProvider
+import app.ss.widgets.today.TodayImgAppWidgetProvider
 import app.ss.widgets.week.WeekLessonWidget
 import app.ss.widgets.work.WidgetUpdateWorker
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -49,15 +50,12 @@ interface AppWidgetHelper {
 
 internal class AppWidgetHelperImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val lessonInfoWidget: LessonInfoWidget.Factory,
-    private val todayWidget: app.ss.widgets.glance.today.TodayAppWidget.Factory,
-    private val todayImageAppWidget: TodayImageAppWidget.Factory,
     private val dispatcherProvider: DispatcherProvider,
 ) : AppWidgetHelper, Scopable by defaultScopable(dispatcherProvider) {
 
     private val widgets = listOf(
-        TodayAppWidget::class.java,
-        TodayImgAppWidget::class.java,
+        TodayAppWidgetProvider::class.java,
+        TodayImgAppWidgetProvider::class.java,
         WeekLessonWidget::class.java,
     )
 
@@ -73,9 +71,9 @@ internal class AppWidgetHelperImpl @Inject constructor(
                     }
                 }
 
-                lessonInfoWidget.create().updateAll(context)
-                todayWidget.create().updateAll(context)
-                todayImageAppWidget.create().updateAll(context)
+                LessonInfoWidget().updateAll(context)
+                TodayAppWidget().updateAll(context)
+                TodayImageAppWidget().updateAll(context)
 
                 WidgetUpdateWorker.enqueue(context)
             } else {
@@ -89,9 +87,9 @@ internal class AppWidgetHelperImpl @Inject constructor(
         val glanceAppWidgetManager = GlanceAppWidgetManager(context)
 
         val glanceWidgetIds = withContext(dispatcherProvider.default) {
-            glanceAppWidgetManager.getGlanceIds(lessonInfoWidget.create().javaClass) +
-                glanceAppWidgetManager.getGlanceIds(todayWidget.create().javaClass) +
-                glanceAppWidgetManager.getGlanceIds(todayImageAppWidget.create().javaClass)
+            glanceAppWidgetManager.getGlanceIds(LessonInfoWidget().javaClass) +
+                glanceAppWidgetManager.getGlanceIds(TodayAppWidget().javaClass) +
+                glanceAppWidgetManager.getGlanceIds(TodayImageAppWidget().javaClass)
 
         }
         val legacyWidgetIds = widgets.map { appWidgetManager.getAppWidgetIds(ComponentName(context, it)) }

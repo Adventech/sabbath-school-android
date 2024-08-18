@@ -15,7 +15,7 @@ import app.ss.widgets.R as WidgetsR
  * Implementation of Today App Widget functionality.
  */
 @AndroidEntryPoint
-internal class TodayAppWidget : BaseWidgetProvider<TodayWidgetModel>() {
+internal class TodayAppWidgetProvider : BaseWidgetProvider<TodayWidgetModel>() {
 
     override val type: WidgetType
         get() = WidgetType.TODAY
