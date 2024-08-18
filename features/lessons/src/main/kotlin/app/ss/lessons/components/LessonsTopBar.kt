@@ -28,6 +28,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.material.icons.Icons as MaterialIcons
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
@@ -70,7 +71,7 @@ internal fun LessonsTopBar(
             topAppBarType = TopAppBarType.Small,
             actions = listOf(
                 IconButtonSlot(
-                    imageVector = androidx.compose.material.icons.Icons.Rounded.Share,
+                    imageVector = MaterialIcons.Rounded.Share,
                     contentDescription = stringResource(id = RString.ss_share),
                     onClick = onShareClick,
                     tint = iconTint
@@ -111,7 +112,6 @@ internal fun LessonsTopBar(
     )
 }
 
-internal const val MIN_SOLID_ALPHA = 0.8f
 
 @Immutable
 internal data class ScrollAlpha(

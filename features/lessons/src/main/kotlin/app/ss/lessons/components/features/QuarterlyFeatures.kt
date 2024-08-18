@@ -23,6 +23,7 @@
 package app.ss.lessons.components.features
 
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -54,11 +55,9 @@ internal fun QuarterlyFeaturesRow(
     Row(
         modifier = modifier
             .horizontalScroll(rememberScrollState())
-            .padding(
-                start = 16.dp,
-                bottom = 16.dp,
-                end = 16.dp
-            )
+            .padding(horizontal = SsTheme.dimens.grid_4)
+            .padding(bottom = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(22.dp)
     ) {
         features.forEach { feature ->
             FeatureImage(
@@ -69,8 +68,6 @@ internal fun QuarterlyFeaturesRow(
                     height = ImageHeight
                 )
             )
-
-            Spacer(modifier = Modifier.size(12.dp))
         }
     }
 }

@@ -22,9 +22,8 @@
 
 package app.ss.design.compose.theme
 
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -62,16 +61,9 @@ internal val sw600Dimensions = Dimensions(
     grid_8 = 64.dp
 )
 
-@Composable
-internal fun ProvideDimens(
-    dimensions: Dimensions,
-    content: @Composable () -> Unit
-) {
-    val dimensionSet = remember { dimensions }
-    CompositionLocalProvider(LocalAppDimens provides dimensionSet, content = content)
-}
-
 internal val LocalAppDimens = staticCompositionLocalOf { smallDimensions }
+
+val LocalWindowSizeClass = staticCompositionLocalOf<WindowSizeClass?> { null }
 
 val Dimens: Dimensions
     @Composable

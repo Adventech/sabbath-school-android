@@ -151,7 +151,7 @@ private fun FooterItem(
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                horizontal = 16.dp,
+                horizontal = SsTheme.dimens.grid_4,
                 vertical = 10.dp
             )
     ) {

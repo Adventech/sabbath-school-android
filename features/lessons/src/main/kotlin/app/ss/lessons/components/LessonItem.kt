@@ -23,10 +23,9 @@
 package app.ss.lessons.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -115,22 +114,23 @@ private fun LessonItem(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
+        modifier = modifier.padding(horizontal = SsTheme.dimens.grid_4),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         Text(
             text = spec.displayIndex,
             style = SsTheme.typography.titleLarge,
             color = SsTheme.colors.secondaryForeground.copy(alpha = 0.5f),
             maxLines = 1,
-            modifier = Modifier.padding(horizontal = 20.dp)
+            modifier = Modifier
         )
 
         Column(
             modifier = Modifier
                 .weight(1f)
-                .padding(vertical = 12.dp)
-                .padding(end = 20.dp)
+                .padding(vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
                 text = spec.title,
@@ -139,8 +139,6 @@ private fun LessonItem(
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
-
-            Spacer(modifier = Modifier.height(4.dp))
 
             Text(
                 text = spec.date,
