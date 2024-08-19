@@ -30,8 +30,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import app.ss.widgets.model.WidgetType
-import app.ss.widgets.today.TodayAppWidget
-import app.ss.widgets.today.TodayImgAppWidget
+import app.ss.widgets.today.TodayAppWidgetProvider
+import app.ss.widgets.today.TodayImgAppWidgetProvider
 import app.ss.widgets.week.WeekLessonWidget
 import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import javax.inject.Inject
@@ -67,8 +67,8 @@ abstract class BaseWidgetProvider<M> : AppWidgetProvider() {
             // Instruct the widget manager to update the widget
             val mgr = AppWidgetManager.getInstance(context)
             val clazz = when (type) {
-                WidgetType.TODAY -> TodayAppWidget::class.java
-                WidgetType.TODAY_IMG -> TodayImgAppWidget::class.java
+                WidgetType.TODAY -> TodayAppWidgetProvider::class.java
+                WidgetType.TODAY_IMG -> TodayImgAppWidgetProvider::class.java
                 WidgetType.WEEK_LESSON -> WeekLessonWidget::class.java
             }
             val cn = ComponentName(context, clazz)

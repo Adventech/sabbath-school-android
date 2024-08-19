@@ -27,11 +27,7 @@ import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@AndroidEntryPoint
 internal class LessonInfoWidgetReceiver : GlanceAppWidgetReceiver() {
 
-    @Inject
-    lateinit var widgetFactory: LessonInfoWidget.Factory
-
-    override val glanceAppWidget: GlanceAppWidget get() = widgetFactory.create()
+    override val glanceAppWidget: GlanceAppWidget get() = LessonInfoWidget()
 }

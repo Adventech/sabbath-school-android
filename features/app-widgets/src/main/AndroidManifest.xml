@@ -3,7 +3,7 @@
 
     <application>
         <receiver
-            android:name=".today.TodayAppWidget"
+            android:name=".today.TodayAppWidgetProvider"
             android:enabled="@bool/legacy_appwidget"
             android:exported="true"
             android:label="Today's Lesson">
@@ -16,7 +16,7 @@
                 android:resource="@xml/today_app_widget_info" />
         </receiver>
         <receiver
-            android:name=".today.TodayImgAppWidget"
+            android:name=".today.TodayImgAppWidgetProvider"
             android:enabled="@bool/legacy_appwidget"
             android:exported="true"
             android:label="Today's Lesson">

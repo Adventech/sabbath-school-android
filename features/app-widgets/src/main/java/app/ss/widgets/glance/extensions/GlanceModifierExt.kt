@@ -23,44 +23,10 @@
 package app.ss.widgets.glance.extensions
 
 import android.content.Intent
-import android.os.Build
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceModifier
-import androidx.glance.GlanceTheme
 import androidx.glance.action.Action
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.action.actionStartActivity
-import androidx.glance.appwidget.appWidgetBackground
-import androidx.glance.appwidget.cornerRadius
-import androidx.glance.background
-import androidx.glance.layout.fillMaxSize
-import androidx.glance.layout.fillMaxWidth
-import androidx.glance.layout.height
-import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
-
-@Composable
-fun GlanceModifier.modifyAppWidgetBackground() = this
-    .fillMaxSize()
-    .appWidgetBackground()
-    .background(GlanceTheme.colors.surface)
-    .appWidgetBackgroundCornerRadius()
-
-fun GlanceModifier.appWidgetBackgroundCornerRadius(): GlanceModifier {
-    if (isAtLeastApi(Build.VERSION_CODES.S)) {
-        cornerRadius(android.R.dimen.system_app_widget_background_radius)
-    } else {
-        cornerRadius(16.dp)
-    }
-    return this
-}
-
-@Composable
-fun GlanceModifier.divider(height: Dp = 0.5.dp) = this
-    .fillMaxWidth()
-    .height(height)
-    .background(GlanceTheme.colors.inverseOnSurface)
 
 private const val pkg = "com.cryart.sabbathschool"
 

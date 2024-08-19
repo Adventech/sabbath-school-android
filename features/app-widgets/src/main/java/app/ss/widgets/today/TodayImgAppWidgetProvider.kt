@@ -16,7 +16,7 @@ import app.ss.translations.R as L10nR
 import app.ss.widgets.R as WidgetsR
 
 @AndroidEntryPoint
-internal class TodayImgAppWidget : BaseWidgetProvider<TodayWidgetModel>() {
+internal class TodayImgAppWidgetProvider : BaseWidgetProvider<TodayWidgetModel>() {
 
     override val type: WidgetType
         get() = WidgetType.TODAY_IMG
