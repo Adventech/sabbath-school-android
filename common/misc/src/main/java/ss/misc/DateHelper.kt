@@ -117,4 +117,11 @@ object DateHelper {
             time
         }
     }
+
+    /** Returns true if today is in the range of the given dates **/
+    fun isNowInRange(startDate: String, endDate: String): Boolean {
+        val start = parseDate(startDate)
+        val end = parseDate(endDate)
+        return (start?.isBeforeNow == true || start?.isEqualNow == true) && (end?.isAfterNow == true || end?.isEqualNow == true)
+    }
 }
