@@ -7,7 +7,7 @@ import kotlinx.collections.immutable.ImmutableList
 @Immutable
 data class WeekModel(
     val quarterlyIndex: String,
-    val cover: Bitmap,
+    val cover: Bitmap?,
     val title: String,
     val description: String,
     val days: ImmutableList<TodayModel>,

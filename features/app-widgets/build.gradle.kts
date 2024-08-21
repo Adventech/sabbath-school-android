@@ -23,10 +23,10 @@
 plugins {
     alias(libs.plugins.sgp.base)
     alias(libs.plugins.ksp)
-    id("com.android.library")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
     id("dagger.hilt.android.plugin")
-    id("kotlin-parcelize")
-    kotlin("android")
 }
 
 android {
@@ -48,6 +48,8 @@ dependencies {
     implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
     implementation(projects.libraries.foundation.coroutines)
+    implementation(projects.libraries.prefs.api)
+    implementation(projects.libraries.storage.api)
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.glance)
@@ -56,6 +58,7 @@ dependencies {
     implementation(libs.androidx.hilt.work)
     ksp(libs.androidx.hilt.compiler)
     implementation(libs.androidx.work)
+    implementation(libs.joda.android)
 
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)

@@ -97,7 +97,7 @@ class LessonsPresenter @AssistedInject constructor(
                 .map { it.getOrNull() }
                 .onEach { info ->
                     info?.run {
-                        appWidgetHelper.refreshAll()
+                        appWidgetHelper.syncQuarterly(quarterly.index)
                         updatePrefs(quarterly)
                     }
                 }
