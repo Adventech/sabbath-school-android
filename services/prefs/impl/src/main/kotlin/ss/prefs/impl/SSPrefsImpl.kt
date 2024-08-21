@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -184,6 +185,12 @@ internal class SSPrefsImpl(
         }
     }
 
+    override fun lastQuarterlyIndex(): Flow<String?> {
+        return dataStore.data.map {
+            it[stringPreferencesKey(SSConstants.SS_LAST_QUARTERLY_INDEX)]
+        }
+    }
+
     override fun getLastQuarterlyIndex(): String? {
         return sharedPreferences.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, null)
     }
@@ -191,6 +198,17 @@ internal class SSPrefsImpl(
     override fun setLastQuarterlyIndex(index: String?) {
         sharedPreferences.edit {
             putString(SSConstants.SS_LAST_QUARTERLY_INDEX, index)
+        }
+
+        scope.launch {
+            dataStore.edit { settings ->
+                val key = stringPreferencesKey(SSConstants.SS_LAST_QUARTERLY_INDEX)
+                index?.let {
+                    settings[key] = index
+                } ?: run {
+                    settings.remove(key)
+                }
+            }
         }
     }
 

@@ -24,6 +24,7 @@ package ss.prefs.api.test
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import org.jetbrains.annotations.VisibleForTesting
 import ss.prefs.api.SSPrefs
@@ -83,6 +84,10 @@ class FakeSSPrefs(
     override fun setLanguageCode(languageCode: String) {
         setLanguageCode = languageCode
         languagesFlow.update { languageCode }
+    }
+
+    override fun lastQuarterlyIndex(): Flow<String?> {
+        return flowOf(quarterlyIndexDelegate())
     }
 
     override fun getLastQuarterlyIndex(): String? = quarterlyIndexDelegate()

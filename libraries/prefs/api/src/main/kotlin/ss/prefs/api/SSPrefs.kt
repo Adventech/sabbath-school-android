@@ -37,6 +37,7 @@ interface SSPrefs {
     fun getLanguageCode(): String
     fun getLanguageCodeFlow(): Flow<String>
     fun setLanguageCode(languageCode: String)
+    fun lastQuarterlyIndex(): Flow<String?>
     fun getLastQuarterlyIndex(): String?
     fun getReaderArtifactLastModified(): String?
     fun reminderEnabled(): Boolean
