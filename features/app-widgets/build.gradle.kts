@@ -48,6 +48,7 @@ dependencies {
     implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
     implementation(projects.libraries.foundation.coroutines)
+    implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.prefs.api)
     implementation(projects.libraries.storage.api)
 

@@ -45,6 +45,8 @@ import javax.inject.Inject
 
 interface AppWidgetRepository {
 
+    suspend fun defaultQuarterlyIndex(): String?
+
     fun weekState(context: Context): Flow<WeekWidgetState>
 
     fun todayState(context: Context? = null): Flow<TodayWidgetState>
@@ -62,7 +64,9 @@ class AppWidgetRepositoryImpl @Inject constructor(
     private fun quarterlyIndex(): Flow<String?> = ssPrefs.lastQuarterlyIndex()
         .map { it ?: defaultQuarterlyIndex() }
 
-    private suspend fun defaultQuarterlyIndex(): String? {
+    override suspend fun defaultQuarterlyIndex(): String? {
+        ssPrefs.getLastQuarterlyIndex()?.let { return it }
+
         val quarterlies = withContext(dispatcherProvider.io) {
             quarterliesDao.get(ssPrefs.getLanguageCode())
         }
