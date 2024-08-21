@@ -31,8 +31,8 @@ import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ContentSyncProvider
 import ss.lessons.api.PdfReader
 import ss.lessons.api.SSLessonsApi
+import ss.lessons.api.helper.SyncHelper
 import ss.lessons.impl.ext.toEntity
-import ss.lessons.impl.helper.SyncHelper
 import ss.libraries.storage.api.dao.LessonsDao
 import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.libraries.storage.api.dao.ReadsDao

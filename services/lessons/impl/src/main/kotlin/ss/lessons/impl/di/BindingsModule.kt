@@ -27,11 +27,11 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ss.lessons.api.ContentSyncProvider
+import ss.lessons.api.helper.SyncHelper
 import ss.lessons.api.repository.LanguagesRepository
 import ss.lessons.api.repository.LessonsRepositoryV2
 import ss.lessons.api.repository.QuarterliesRepository
 import ss.lessons.impl.ContentSyncProviderImpl
-import ss.lessons.impl.helper.SyncHelper
 import ss.lessons.impl.helper.SyncHelperImpl
 import ss.lessons.impl.repository.LanguagesRepositoryImpl
 import ss.lessons.impl.repository.LessonsRepositoryV2Impl

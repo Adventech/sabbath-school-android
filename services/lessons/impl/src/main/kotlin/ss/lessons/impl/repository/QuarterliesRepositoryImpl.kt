@@ -36,9 +36,9 @@ import kotlinx.coroutines.flow.onStart
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
+import ss.lessons.api.helper.SyncHelper
 import ss.lessons.api.repository.QuarterliesRepository
 import ss.lessons.impl.ext.toModel
-import ss.lessons.impl.helper.SyncHelper
 import ss.libraries.storage.api.dao.PublishingInfoDao
 import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.libraries.storage.api.entity.QuarterlyEntity
