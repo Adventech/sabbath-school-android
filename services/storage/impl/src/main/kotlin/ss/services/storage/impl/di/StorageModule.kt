@@ -28,6 +28,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ss.libraries.storage.api.dao.AppWidgetDao
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.BibleVersionDao
 import ss.libraries.storage.api.dao.LanguagesDao
@@ -126,6 +127,12 @@ object StorageModule {
     fun provideBibleVersionDao(
         @ApplicationContext context: Context
     ): BibleVersionDao = context.database().bibleVersionDao()
+
+    @Provides
+    @Singleton
+    fun provideAppWidgetDao(
+        @ApplicationContext context: Context
+    ): AppWidgetDao = context.database().appWidgetDao()
 }
 
 private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)
