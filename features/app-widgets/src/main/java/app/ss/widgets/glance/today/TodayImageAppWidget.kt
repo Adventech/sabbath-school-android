@@ -26,6 +26,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -47,10 +49,12 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.unit.ColorProvider
 import app.ss.widgets.R
 import app.ss.widgets.glance.BaseGlanceAppWidget
+import app.ss.widgets.glance.WidgetLoading
 import app.ss.widgets.glance.extensions.clickable
+import app.ss.widgets.glance.extensions.fallbackIntent
 import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.model.TodayWidgetModel
-import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
+import app.ss.widgets.model.TodayWidgetState
 
 internal class TodayImageAppWidget : BaseGlanceAppWidget() {
 
@@ -64,12 +68,12 @@ internal class TodayImageAppWidget : BaseGlanceAppWidget() {
     )
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val model = dataProvider(context).getTodayModel()
-        val bitmap = context.fetchBitmap(model?.cover)
+        val repository = repository(context)
 
         provideContent {
+            val state by repository.todayState(context).collectAsState(initial = TodayWidgetState.Loading)
             SsGlanceTheme {
-                Content(model = model, cover = bitmap)
+                Content(state = state)
             }
         }
     }
@@ -77,16 +81,20 @@ internal class TodayImageAppWidget : BaseGlanceAppWidget() {
     @Composable
     @SuppressLint("RestrictedApi")
     private fun Content(
-        model: TodayWidgetModel?,
-        cover: Bitmap?,
+        state: TodayWidgetState,
         modifier: GlanceModifier = GlanceModifier,
     ) {
-        Scaffold(modifier = modifier.clickable(intent = model?.intent), horizontalPadding = 0.dp) {
+        val cover = (state as? TodayWidgetState.Success)?.model?.image
+        Scaffold(
+            modifier = modifier
+                .clickable(intent = state.launchIntent),
+            horizontalPadding = 0.dp,
+        ) {
             Box(modifier = GlanceModifier) {
                 cover?.let { bitmap ->
                     Image(
                         provider = BitmapImageProvider(bitmap),
-                        contentDescription = model?.title,
+                        contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = GlanceModifier.fillMaxSize()
                     )
@@ -102,23 +110,30 @@ internal class TodayImageAppWidget : BaseGlanceAppWidget() {
                     ) to ColorProvider(GlanceTheme.colors.onPrimary.getColor(LocalContext.current))
                 }
 
-                TodayInfo(
-                    spec = TodayInfoSpec(
-                        model = model,
-                        textColor = textColor,
-                        readOptions = if (cover == null) {
-                            TodayInfoSpec.ReadOptions.Shown(
-                                ButtonDefaults.buttonColors(
-                                    backgroundColor = GlanceTheme.colors.onPrimary,
-                                    contentColor = GlanceTheme.colors.primary
-                                )
-                            )
-                        } else {
-                            TodayInfoSpec.ReadOptions.Hidden
-                        }
-                    ),
-                    modifier = infoModifier,
-                )
+                when (state) {
+                    is TodayWidgetState.Error -> Unit
+                    is TodayWidgetState.Loading -> WidgetLoading()
+                    is TodayWidgetState.Success -> {
+                        TodayInfo(
+                            spec = TodayInfoSpec(
+                                model = state.model,
+                                textColor = textColor,
+                                readOptions = if (cover == null) {
+                                    TodayInfoSpec.ReadOptions.Shown(
+                                        ButtonDefaults.buttonColors(
+                                            backgroundColor = GlanceTheme.colors.onPrimary,
+                                            contentColor = GlanceTheme.colors.primary
+                                        )
+                                    )
+                                } else {
+                                    TodayInfoSpec.ReadOptions.Hidden
+                                },
+                                launchIntent = fallbackIntent
+                            ),
+                            modifier = infoModifier,
+                        )
+                    }
+                }
             }
         }
     }
