@@ -26,12 +26,11 @@ import android.content.Intent
 import androidx.compose.runtime.Immutable
 import androidx.glance.ButtonColors
 import androidx.glance.unit.ColorProvider
-import app.ss.widgets.model.TodayModel
-import app.ss.widgets.model.TodayWidgetModel
+import app.ss.widgets.model.WeekDayModel
 
 @Immutable
 internal data class TodayInfoSpec(
-    val model: TodayModel,
+    val model: WeekDayModel,
     val textColor: ColorProvider? = null,
     val titleMaxLines: Int = 3,
     val bodyMaxLines: Int = 2,

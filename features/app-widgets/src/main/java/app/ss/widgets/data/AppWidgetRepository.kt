@@ -1,41 +1,27 @@
 package app.ss.widgets.data
 
 import android.content.Context
-import android.content.Intent
 import app.ss.models.AppWidgetDay
-import app.ss.models.SSLesson
-import app.ss.models.SSQuarterlyInfo
-import app.ss.widgets.WidgetDataProvider
 import app.ss.widgets.glance.extensions.fallbackIntent
-import app.ss.widgets.model.TodayModel
+import app.ss.widgets.model.WeekDayModel
 import app.ss.widgets.model.TodayWidgetState
 import app.ss.widgets.model.WeekModel
 import app.ss.widgets.model.WeekWidgetState
 import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
 import ss.libraries.storage.api.dao.AppWidgetDao
-import ss.libraries.storage.api.dao.LessonsDao
 import ss.libraries.storage.api.dao.QuarterliesDao
-import ss.libraries.storage.api.entity.AppWidgetEntity
-import ss.libraries.storage.api.entity.LessonEntity
-import ss.misc.DateHelper
 import ss.misc.DateHelper.formatDate
 import ss.misc.DateHelper.isNowInRange
 import ss.misc.DateHelper.parseDate
@@ -47,7 +33,7 @@ interface AppWidgetRepository {
 
     suspend fun defaultQuarterlyIndex(): String?
 
-    fun weekState(context: Context): Flow<WeekWidgetState>
+    fun weekState(context: Context? = null): Flow<WeekWidgetState>
 
     fun todayState(context: Context? = null): Flow<TodayWidgetState>
 }
@@ -75,7 +61,7 @@ class AppWidgetRepositoryImpl @Inject constructor(
         }?.index
     }
 
-    override fun weekState(context: Context): Flow<WeekWidgetState> {
+    override fun weekState(context: Context?): Flow<WeekWidgetState> {
         return quarterlyIndex()
             .filterNotNull()
             .flatMapLatest { appWidgetDao.findBy(it) }
@@ -84,7 +70,8 @@ class AppWidgetRepositoryImpl @Inject constructor(
                 WeekWidgetState.Success(
                     model = WeekModel(
                         quarterlyIndex = entity.quarterlyIndex,
-                        cover = context.fetchBitmap(entity.cover),
+                        cover = entity.cover,
+                        image = context?.fetchBitmap(entity.cover),
                         title = entity.title,
                         description = entity.description,
                         days = entity.days.map { day ->
@@ -121,10 +108,13 @@ class AppWidgetRepositoryImpl @Inject constructor(
             }
     }
 
-    private suspend fun AppWidgetDay.toModel(context: Context?) = TodayModel(
+    private suspend fun AppWidgetDay.toModel(context: Context?) = WeekDayModel(
         title = title,
         date = formatDate(date),
+        cover = image,
         image = context?.fetchBitmap(image),
+        intent = fallbackIntent,
+        today = isToday()
     )
 
     // Return true if the day is today

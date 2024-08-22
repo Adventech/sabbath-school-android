@@ -20,7 +20,7 @@ sealed interface TodayWidgetState {
 
     @Immutable
     data class Success(
-        val model: TodayModel,
-       override val launchIntent: Intent,
+        val model: WeekDayModel,
+        override val launchIntent: Intent,
     ) : TodayWidgetState
 }
