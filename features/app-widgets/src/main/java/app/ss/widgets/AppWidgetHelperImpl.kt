@@ -43,6 +43,7 @@ import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.defaultScopable
+import ss.libraries.appwidget.api.AppWidgetHelper
 import ss.libraries.storage.api.dao.AppWidgetDao
 import ss.libraries.storage.api.dao.LessonsDao
 import ss.libraries.storage.api.dao.QuarterliesDao
@@ -51,12 +52,6 @@ import ss.libraries.storage.api.entity.LessonEntity
 import ss.misc.DateHelper.isNowInRange
 import timber.log.Timber
 import javax.inject.Inject
-
-interface AppWidgetHelper {
-    fun refreshAll()
-    suspend fun isAdded(): Boolean
-    fun syncQuarterly(index: String)
-}
 
 internal class AppWidgetHelperImpl @Inject constructor(
     @ApplicationContext private val context: Context,

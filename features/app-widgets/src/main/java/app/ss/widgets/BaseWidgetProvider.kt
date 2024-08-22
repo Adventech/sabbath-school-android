@@ -41,7 +41,6 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 abstract class BaseWidgetProvider<M> : AppWidgetProvider() {
@@ -64,7 +63,6 @@ abstract class BaseWidgetProvider<M> : AppWidgetProvider() {
     override fun onReceive(context: Context, widgetIntent: Intent) {
         val action = widgetIntent.action
         if (REFRESH_ACTION == action) {
-            Timber.d("received REFRESH_ACTION from widget")
 
             // Instruct the widget manager to update the widget
             val mgr = AppWidgetManager.getInstance(context)

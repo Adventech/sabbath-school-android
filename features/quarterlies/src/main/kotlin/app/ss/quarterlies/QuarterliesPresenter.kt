@@ -51,8 +51,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ss.lessons.api.repository.QuarterliesRepository
+import ss.libraries.appwidget.api.AppWidgetHelper
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.libraries.circuit.navigation.LegacyDestination
@@ -71,7 +73,8 @@ class QuarterliesPresenter @AssistedInject constructor(
     private val repository: QuarterliesRepository,
     private val authRepository: AuthRepository,
     private val ssPrefs: SSPrefs,
-    private val quarterliesUseCase: QuarterliesUseCase
+    private val quarterliesUseCase: QuarterliesUseCase,
+    private val appWidgetHelper: AppWidgetHelper,
 ) : Presenter<State> {
 
     @CircuitInject(QuarterliesScreen::class, SingletonComponent::class)
@@ -93,6 +96,7 @@ class QuarterliesPresenter @AssistedInject constructor(
             ssPrefs.getLanguageCodeFlow()
                 .flatMapLatest { language -> repository.getQuarterlies(language) }
                 .map(quarterliesUseCase::group)
+                .onEach { appWidgetHelper.refreshAll() }
                 .catch { Timber.e(it) }
                 .collect { value = it }
         }

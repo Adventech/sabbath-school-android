@@ -13,7 +13,6 @@ import app.ss.models.SSLessonInfo
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
 import app.ss.models.SSRead
-import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.response.Resource
 import com.slack.circuit.test.FakeNavigator
@@ -28,6 +27,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import ss.lessons.test.FakePdfReader
 import ss.lessons.test.FakeQuarterliesRepository
+import ss.libraries.appwidget.test.FakeAppWidgetHelper
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.LegacyDestination
 import ss.libraries.circuit.navigation.LessonsScreen
@@ -77,7 +77,7 @@ class LessonsPresenterTest {
 
             var state = awaitItem() as State.Success
             state.quarterlyInfo shouldBeEqualTo quarterly
-            fakeAppWidgetHelper.widgetsRefreshed shouldBeEqualTo true
+            fakeAppWidgetHelper.syncedIndex shouldBeEqualTo quarterly.quarterly.index
 
             publishingInfoFlow.emit(Result.success(publishingInfo))
 
@@ -323,20 +323,4 @@ private class FakeLessonsRepository : LessonsRepository {
         TODO("Not yet implemented")
     }
 
-}
-
-private class FakeAppWidgetHelper : AppWidgetHelper {
-
-    var widgetsRefreshed: Boolean = false
-        private set
-
-    override fun refreshAll() {}
-
-    override fun syncQuarterly(index: String) {
-        widgetsRefreshed = true
-    }
-
-    override suspend fun isAdded(): Boolean {
-        return false
-    }
 }

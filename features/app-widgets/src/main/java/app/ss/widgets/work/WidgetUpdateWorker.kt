@@ -31,11 +31,11 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import app.ss.widgets.AppWidgetHelper
 import app.ss.widgets.data.AppWidgetRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import ss.lessons.api.helper.SyncHelper
+import ss.libraries.appwidget.api.AppWidgetHelper
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -85,7 +85,7 @@ internal class WidgetUpdateWorker @AssistedInject constructor(
 
             manager.enqueueUniquePeriodicWork(
                 uniqueWorkName,
-                ExistingPeriodicWorkPolicy.KEEP,
+                ExistingPeriodicWorkPolicy.UPDATE,
                 requestBuilder.build()
             )
         }

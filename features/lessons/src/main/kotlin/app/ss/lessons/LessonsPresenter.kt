@@ -35,7 +35,6 @@ import app.ss.models.OfflineState
 import app.ss.models.PublishingInfo
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
-import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.core.extensions.context.shareContent
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -57,6 +56,7 @@ import org.joda.time.DateTime
 import org.joda.time.Interval
 import ss.lessons.api.PdfReader
 import ss.lessons.api.repository.QuarterliesRepository
+import ss.libraries.appwidget.api.AppWidgetHelper
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.LegacyDestination
 import ss.libraries.circuit.navigation.LessonsScreen

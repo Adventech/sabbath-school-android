@@ -19,6 +19,7 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 import ss.lessons.test.FakeQuarterliesRepository
+import ss.libraries.appwidget.test.FakeAppWidgetHelper
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.libraries.circuit.navigation.LegacyDestination
 import ss.libraries.circuit.navigation.LessonsScreen
@@ -38,6 +39,7 @@ class QuarterliesPresenterTest {
     private val fakePrefs = FakeSSPrefs(
         languagesFlow = selectedLanguageFlow
     )
+    private val fakeAppWidgetHelper = FakeAppWidgetHelper()
 
     private val underTest = QuarterliesPresenter(
         navigator = fakeNavigator,
@@ -45,6 +47,7 @@ class QuarterliesPresenterTest {
         authRepository = fakeAuthRepository,
         ssPrefs = fakePrefs,
         quarterliesUseCase = QuarterliesUseCaseImpl(),
+        appWidgetHelper = fakeAppWidgetHelper,
     )
 
     @Test
@@ -62,6 +65,8 @@ class QuarterliesPresenterTest {
             state = awaitItem()
             state.photoUrl shouldBeEqualTo ""
             state.type shouldBeEqualTo GroupedQuarterlies.TypeList(quarterlies.map { it.spec() }.toImmutableList())
+
+            fakeAppWidgetHelper.widgetsRefreshed shouldBeEqualTo true
 
             ensureAllEventsConsumed()
         }
