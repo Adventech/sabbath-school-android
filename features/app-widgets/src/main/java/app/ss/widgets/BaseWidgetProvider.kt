@@ -56,8 +56,6 @@ abstract class BaseWidgetProvider<M> : AppWidgetProvider() {
     )
 
     @Inject
-    internal lateinit var dataProvider: WidgetDataProvider
-    @Inject
     lateinit var repository: AppWidgetRepository
 
     private val job = SupervisorJob()
