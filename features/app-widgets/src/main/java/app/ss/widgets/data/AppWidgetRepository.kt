@@ -2,7 +2,7 @@ package app.ss.widgets.data
 
 import android.content.Context
 import app.ss.models.AppWidgetDay
-import app.ss.widgets.glance.extensions.fallbackIntent
+import app.ss.widgets.AppWidgetAction
 import app.ss.widgets.model.WeekDayModel
 import app.ss.widgets.model.TodayWidgetState
 import app.ss.widgets.model.WeekModel
@@ -42,6 +42,7 @@ class AppWidgetRepositoryImpl @Inject constructor(
     private val appWidgetDao: AppWidgetDao,
     private val quarterliesDao: QuarterliesDao,
     private val ssPrefs: SSPrefs,
+    private val widgetAction: AppWidgetAction,
     private val dispatcherProvider: DispatcherProvider,
 ) : AppWidgetRepository, Scopable by ioScopable(dispatcherProvider) {
 
@@ -78,7 +79,7 @@ class AppWidgetRepositoryImpl @Inject constructor(
                             day.toModel(null)
                         }.toImmutableList()
                     ),
-                    lessonIntent = fallbackIntent
+                    lessonIntent = widgetAction.launchLesson(entity.quarterlyIndex)
                 )
             }
             .flowOn(dispatcherProvider.io)
@@ -97,7 +98,10 @@ class AppWidgetRepositoryImpl @Inject constructor(
                 day?.let {
                     TodayWidgetState.Success(
                         model = it.toModel(context),
-                        launchIntent = fallbackIntent
+                        launchIntent = widgetAction.launchRead(
+                            lessonIndex = it.lessonIndex,
+                            dayIndex = it.dayIndex.toString()
+                        )
                     )
                 } ?: TodayWidgetState.Error
             }
@@ -113,7 +117,10 @@ class AppWidgetRepositoryImpl @Inject constructor(
         date = formatDate(date),
         cover = image,
         image = context?.fetchBitmap(image),
-        intent = fallbackIntent,
+        intent = widgetAction.launchRead(
+            lessonIndex = lessonIndex,
+            dayIndex = dayIndex.toString()
+        ),
         today = isToday()
     )
 

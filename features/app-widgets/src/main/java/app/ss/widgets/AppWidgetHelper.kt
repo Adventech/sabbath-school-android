@@ -128,9 +128,10 @@ internal class AppWidgetHelperImpl @Inject constructor(
                     cover = quarterlyInfo.quarterly.cover,
                     title = quarterlyInfo.quarterly.title,
                     description = lesson.title,
-                    days = lesson.days.map { day ->
+                    days = lesson.days.mapIndexed { index, day ->
                         AppWidgetDay(
-                            readIndex = day.index,
+                            lessonIndex = lesson.index,
+                            dayIndex = index,
                             title = day.title,
                             date = day.date,
                             image = lesson.cover,

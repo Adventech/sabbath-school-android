@@ -186,7 +186,7 @@ private fun LessonInfoRow(
 
             Text(
                 text = lessonTitle,
-                style = todayBody().copy(fontSize = 13.sp),
+                style = todayBody().copy(fontSize = 12.sp),
                 maxLines = 2,
                 modifier = GlanceModifier.fillMaxWidth(),
             )

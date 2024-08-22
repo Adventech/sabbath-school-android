@@ -51,7 +51,6 @@ import app.ss.widgets.R
 import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.WidgetLoading
 import app.ss.widgets.glance.extensions.clickable
-import app.ss.widgets.glance.extensions.fallbackIntent
 import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.model.TodayWidgetModel
 import app.ss.widgets.model.TodayWidgetState
@@ -128,7 +127,7 @@ internal class TodayImageAppWidget : BaseGlanceAppWidget() {
                                 } else {
                                     TodayInfoSpec.ReadOptions.Hidden
                                 },
-                                launchIntent = fallbackIntent
+                                launchIntent = state.launchIntent
                             ),
                             modifier = infoModifier,
                         )
