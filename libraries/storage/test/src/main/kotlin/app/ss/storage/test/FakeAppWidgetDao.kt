@@ -2,11 +2,13 @@ package app.ss.storage.test
 
 import ss.libraries.storage.api.dao.AppWidgetDao
 import app.ss.models.AppWidgetDay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import ss.libraries.storage.api.entity.AppWidgetEntity
 
 class FakeAppWidgetDao : AppWidgetDao {
-    override suspend fun findBy(quarterlyIndex: String): AppWidgetEntity? {
-        return null
+    override fun findBy(quarterlyIndex: String): Flow<AppWidgetEntity?> {
+        return flowOf(null)
     }
 
     override suspend fun updateDays(quarterlyIndex: String, days: List<AppWidgetDay>) {
