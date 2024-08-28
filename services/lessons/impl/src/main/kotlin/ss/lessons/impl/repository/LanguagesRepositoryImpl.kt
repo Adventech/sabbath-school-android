@@ -29,8 +29,8 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import ss.foundation.coroutines.DispatcherProvider
+import ss.lessons.api.helper.SyncHelper
 import ss.lessons.api.repository.LanguagesRepository
-import ss.lessons.impl.helper.SyncHelper
 import ss.libraries.storage.api.dao.LanguagesDao
 import timber.log.Timber
 import java.util.Locale

@@ -19,6 +19,7 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 import ss.lessons.test.FakeQuarterliesRepository
+import ss.libraries.appwidget.test.FakeAppWidgetHelper
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.libraries.circuit.navigation.LegacyDestination
 import ss.libraries.circuit.navigation.LessonsScreen
@@ -27,6 +28,8 @@ import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.libraries.circuit.navigation.SettingsScreen
 import ss.prefs.api.test.FakeSSPrefs
 import app.ss.quarterlies.overlay.AccountDialogOverlay.Result as OverlayResult
+
+private const val QUARTERLY_INDEX = "2024-02"
 
 class QuarterliesPresenterTest {
 
@@ -37,7 +40,8 @@ class QuarterliesPresenterTest {
     private val fakeAuthRepository = FakeAuthRepository()
     private val fakePrefs = FakeSSPrefs(
         languagesFlow = selectedLanguageFlow
-    )
+    ).also { it.quarterlyIndexDelegate = { QUARTERLY_INDEX } }
+    private val fakeAppWidgetHelper = FakeAppWidgetHelper()
 
     private val underTest = QuarterliesPresenter(
         navigator = fakeNavigator,
@@ -45,6 +49,7 @@ class QuarterliesPresenterTest {
         authRepository = fakeAuthRepository,
         ssPrefs = fakePrefs,
         quarterliesUseCase = QuarterliesUseCaseImpl(),
+        appWidgetHelper = fakeAppWidgetHelper,
     )
 
     @Test
@@ -62,6 +67,8 @@ class QuarterliesPresenterTest {
             state = awaitItem()
             state.photoUrl shouldBeEqualTo ""
             state.type shouldBeEqualTo GroupedQuarterlies.TypeList(quarterlies.map { it.spec() }.toImmutableList())
+
+            fakeAppWidgetHelper.syncedIndex shouldBeEqualTo QUARTERLY_INDEX
 
             ensureAllEventsConsumed()
         }

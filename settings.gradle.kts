@@ -62,6 +62,8 @@ include(
     ":features:reader",
     ":features:readings",
     ":features:settings",
+    ":libraries:app-widget:api",
+    ":libraries:app-widget:test-fixtures",
     ":libraries:circuit:api",
     ":libraries:foundation:android",
     ":libraries:foundation:coroutines",

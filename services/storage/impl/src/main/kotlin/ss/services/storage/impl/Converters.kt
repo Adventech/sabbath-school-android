@@ -36,6 +36,7 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import app.ss.models.AppWidgetDay
 import timber.log.Timber
 import java.lang.reflect.Type
 
@@ -81,6 +82,10 @@ internal object Converters {
     }
     private val videosAdapter: JsonAdapter<List<SSVideo>> by lazy {
         val listDataType: Type = Types.newParameterizedType(List::class.java, SSVideo::class.java)
+        moshi.adapter(listDataType)
+    }
+    private val widgetDaysAdapter: JsonAdapter<List<AppWidgetDay>> by lazy {
+        val listDataType: Type = Types.newParameterizedType(List::class.java, AppWidgetDay::class.java)
         moshi.adapter(listDataType)
     }
 
@@ -171,4 +176,12 @@ internal object Converters {
 
     @TypeConverter
     fun fromVideos(videos: List<SSVideo>?): String? = videosAdapter.toJson(videos)
+
+    @TypeConverter
+    fun toWidgetDays(value: String?): List<AppWidgetDay>? = value?.let { jsonString ->
+        widgetDaysAdapter.fromJson(jsonString)
+    }
+
+    @TypeConverter
+    fun fromWidgetDays(videos: List<AppWidgetDay>?): String? = widgetDaysAdapter.toJson(videos)
 }

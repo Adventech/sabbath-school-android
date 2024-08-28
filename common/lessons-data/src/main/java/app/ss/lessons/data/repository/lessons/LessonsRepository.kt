@@ -25,21 +25,15 @@ package app.ss.lessons.data.repository.lessons
 import app.ss.models.SSDay
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
-import app.ss.models.TodayData
-import app.ss.models.WeekData
 import com.cryart.sabbathschool.core.response.Resource
 
 interface LessonsRepository {
 
     suspend fun getLessonInfo(lessonIndex: String, cached: Boolean = false): Resource<SSLessonInfo>
 
-    suspend fun getTodayRead(cached: Boolean = false): Resource<TodayData>
-
     suspend fun getDayRead(dayIndex: String): Resource<SSRead>
 
     suspend fun getDayRead(day: SSDay): Resource<SSRead>
-
-    suspend fun getWeekData(cached: Boolean = false): Resource<WeekData>
 
     fun checkReaderArtifact()
 

@@ -29,18 +29,19 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import app.ss.widgets.data.AppWidgetRepository
 import app.ss.widgets.model.WidgetType
 import app.ss.widgets.today.TodayAppWidgetProvider
 import app.ss.widgets.today.TodayImgAppWidgetProvider
 import app.ss.widgets.week.WeekLessonWidget
 import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
+import javax.inject.Inject
 
 abstract class BaseWidgetProvider<M> : AppWidgetProvider() {
 
@@ -50,11 +51,11 @@ abstract class BaseWidgetProvider<M> : AppWidgetProvider() {
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int,
-        model: M?
+        state: M?
     )
 
     @Inject
-    internal lateinit var dataProvider: WidgetDataProvider
+    lateinit var repository: AppWidgetRepository
 
     private val job = SupervisorJob()
     private val coroutineScope = CoroutineScope(Dispatchers.IO + job)
@@ -62,7 +63,6 @@ abstract class BaseWidgetProvider<M> : AppWidgetProvider() {
     override fun onReceive(context: Context, widgetIntent: Intent) {
         val action = widgetIntent.action
         if (REFRESH_ACTION == action) {
-            Timber.d("received REFRESH_ACTION from widget")
 
             // Instruct the widget manager to update the widget
             val mgr = AppWidgetManager.getInstance(context)
@@ -86,15 +86,17 @@ abstract class BaseWidgetProvider<M> : AppWidgetProvider() {
         appWidgetIds: IntArray
     ) {
         coroutineScope.launch {
-            val model: M? = when (type) {
+            val stateFlow: Flow<M?> = when (type) {
                 WidgetType.TODAY,
-                WidgetType.TODAY_IMG -> dataProvider.getTodayModel() as? M
-                WidgetType.WEEK_LESSON -> dataProvider.getWeekLessonModel() as? M
-            }
+                WidgetType.TODAY_IMG -> repository.todayState() as? Flow<M?>
+                WidgetType.WEEK_LESSON -> repository.weekState() as? Flow<M?>
+            } ?: return@launch
 
-            withContext(Dispatchers.Main) {
-                for (appWidgetId in appWidgetIds) {
-                    updateAppWidget(context, appWidgetManager, appWidgetId, model)
+            stateFlow.collect { state ->
+                withContext(Dispatchers.Main) {
+                    for (appWidgetId in appWidgetIds) {
+                        updateAppWidget(context, appWidgetManager, appWidgetId, state)
+                    }
                 }
             }
         }

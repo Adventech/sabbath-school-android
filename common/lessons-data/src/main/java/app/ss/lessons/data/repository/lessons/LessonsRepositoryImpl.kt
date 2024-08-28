@@ -22,25 +22,14 @@
 
 package app.ss.lessons.data.repository.lessons
 
-import app.ss.lessons.data.model.QuarterlyLessonInfo
-import app.ss.lessons.data.repository.quarterly.QuarterlyInfoDataSource
 import app.ss.models.SSDay
 import app.ss.models.SSLessonInfo
-import app.ss.models.SSQuarterlyInfo
 import app.ss.models.SSRead
-import app.ss.models.TodayData
-import app.ss.models.WeekData
-import app.ss.models.WeekDay
 import com.cryart.sabbathschool.core.response.Resource
 import kotlinx.coroutines.withContext
-import org.joda.time.DateTime
 import ss.foundation.coroutines.DispatcherProvider
 import ss.libraries.storage.api.dao.BibleVersionDao
-import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.libraries.storage.api.entity.BibleVersionEntity
-import ss.misc.DateHelper.formatDate
-import ss.misc.DateHelper.parseDate
-import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -48,16 +37,12 @@ import javax.inject.Singleton
 @Singleton
 internal class LessonsRepositoryImpl @Inject constructor(
     private val ssPrefs: SSPrefs,
-    private val quarterliesDao: QuarterliesDao,
-    private val quarterlyInfoDataSource: QuarterlyInfoDataSource,
     private val lessonInfoDataSource: LessonInfoDataSource,
     private val readsDataSource: ReadsDataSource,
     private val bibleVersionDao: BibleVersionDao,
     private val dispatcherProvider: DispatcherProvider,
     private val readerArtifactHelper: ReaderArtifactHelper
 ) : LessonsRepository {
-
-    private val today get() = DateTime.now().withTimeAtStartOfDay()
 
     override suspend fun getLessonInfo(lessonIndex: String, cached: Boolean): Resource<SSLessonInfo> {
         return if (cached) {
@@ -67,91 +52,6 @@ internal class LessonsRepositoryImpl @Inject constructor(
         } else {
             lessonInfoDataSource.getItem(LessonInfoDataSource.Request(lessonIndex))
         }
-    }
-
-    override suspend fun getTodayRead(cached: Boolean): Resource<TodayData> {
-        val dataResponse = getQuarterlyAndLessonInfo(cached)
-        val data = dataResponse.data ?: return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
-        val lessonInfo = data.lessonInfo
-        val quarterlyInfo = data.quarterlyInfo
-
-        if (lessonInfo.days.isEmpty()) {
-            return Resource.success(
-                TodayData(
-                    lessonInfo.lesson.index,
-                    lessonInfo.lesson.index,
-                    lessonInfo.lesson.title,
-                    formatDate(lessonInfo.lesson.start_date),
-                    lessonInfo.lesson.cover,
-                    quarterlyIndex = quarterlyInfo.quarterly.index
-                )
-            )
-        }
-
-        val todayModel = lessonInfo.days.find { day ->
-            today.isEqual(parseDate(day.date))
-        }?.let { day ->
-            TodayData(
-                day.index,
-                lessonInfo.lesson.index,
-                day.title,
-                formatDate(day.date),
-                lessonInfo.lesson.cover,
-                null
-            )
-        } ?: return Resource.error(Throwable("Error Finding Today Read"))
-
-        return Resource.success(todayModel)
-    }
-
-    private suspend fun getQuarterlyAndLessonInfo(cached: Boolean): Resource<QuarterlyLessonInfo> {
-        val quarterlyResponse = getQuarterlyInfo()
-        val quarterlyInfo = quarterlyResponse.data ?: return Resource.error(quarterlyResponse.error ?: Throwable("Invalid QuarterlyInfo"))
-        val lessonInfo = getWeekLessonInfo(quarterlyInfo, cached) ?: return Resource.error(Throwable("Invalid LessonInfo"))
-
-        return Resource.success(QuarterlyLessonInfo(quarterlyInfo, lessonInfo))
-    }
-
-    private suspend fun getQuarterlyInfo(): Resource<SSQuarterlyInfo> {
-        val index = getLastQuarterlyInfoIfCurrent()?.let {
-            return Resource.success(it)
-        } ?: getDefaultQuarterlyIndex() ?: return Resource.error(Throwable("Invalid Quarterly Index"))
-
-        return withContext(dispatcherProvider.io) {
-            quarterlyInfoDataSource.cache.getItem(QuarterlyInfoDataSource.Request(index))
-        }
-    }
-
-    private suspend fun getLastQuarterlyInfoIfCurrent(): SSQuarterlyInfo? {
-        val index = ssPrefs.getLastQuarterlyIndex() ?: return null
-        val info = withContext(dispatcherProvider.io) {
-            quarterlyInfoDataSource.cache.getItem(QuarterlyInfoDataSource.Request(index)).data
-        } ?: return null
-
-        return if (today.isBefore(parseDate(info.quarterly.end_date))) {
-            info
-        } else {
-            null
-        }
-    }
-
-    private suspend fun getDefaultQuarterlyIndex(): String? {
-        val entities = withContext(dispatcherProvider.io) {
-            quarterliesDao.get(ssPrefs.getLanguageCode())
-        }
-        val quarterly = entities.firstOrNull()
-        return quarterly?.index
-    }
-
-    private suspend fun getWeekLessonInfo(quarterlyInfo: SSQuarterlyInfo, cached: Boolean): SSLessonInfo? {
-        val lesson = quarterlyInfo.lessons.find { lesson ->
-            val startDate = parseDate(lesson.start_date)
-            val endDate = parseDate(lesson.end_date)
-
-            startDate?.isBeforeNow == true && (endDate?.isAfterNow == true || today.isEqual(endDate))
-        }
-
-        return lesson?.let { getLessonInfo(it.index, cached).data }
     }
 
     override suspend fun getDayRead(dayIndex: String): Resource<SSRead> = withContext(dispatcherProvider.io) {
@@ -167,42 +67,6 @@ internal class LessonsRepositoryImpl @Inject constructor(
                 fullPath = day.full_read_path
             )
         )
-
-    override suspend fun getWeekData(cached: Boolean): Resource<WeekData> {
-        val dataResponse = getQuarterlyAndLessonInfo(cached)
-        val (quarterlyInfo, lessonInfo) = dataResponse.data ?: return Resource.error(dataResponse.error ?: Throwable("Invalid QuarterlyInfo"))
-
-        val days = if (lessonInfo.days.isEmpty()) {
-            listOf(
-                WeekDay(
-                    index = quarterlyInfo.quarterly.index,
-                    title = lessonInfo.lesson.title,
-                    date = formatDate(lessonInfo.lesson.start_date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY_SHORT),
-                    today = false
-                )
-            )
-        } else {
-            lessonInfo.days.map { ssDay ->
-                WeekDay(
-                    ssDay.index,
-                    ssDay.title,
-                    formatDate(ssDay.date, SSConstants.SS_DATE_FORMAT_OUTPUT_DAY_SHORT),
-                    today.isEqual(parseDate(ssDay.date))
-                )
-            }.take(7)
-        }
-
-        return Resource.success(
-            WeekData(
-                quarterlyInfo.quarterly.index,
-                quarterlyInfo.quarterly.title,
-                lessonInfo.lesson.index,
-                lessonInfo.lesson.title,
-                quarterlyInfo.quarterly.cover,
-                days
-            )
-        )
-    }
 
     override fun checkReaderArtifact() {
         readerArtifactHelper.sync()

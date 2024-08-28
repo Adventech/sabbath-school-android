@@ -33,12 +33,13 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
+import ss.lessons.api.helper.SyncHelper
 import ss.lessons.api.repository.QuarterliesRepository
 import ss.lessons.impl.ext.toModel
-import ss.lessons.impl.helper.SyncHelper
 import ss.libraries.storage.api.dao.PublishingInfoDao
 import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.libraries.storage.api.entity.QuarterlyEntity
@@ -74,6 +75,25 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
             Timber.e(it)
             emit(Result.failure(it))
         }
+
+    override suspend fun getQuarterlyInfo(index: String): Result<SSQuarterlyInfo> {
+        val cached = withContext(dispatcherProvider.io) {
+            quarterliesDao.getInfo(index)?.takeUnless { it.lessons.isEmpty() }
+        }
+
+        return if (cached == null) {
+            syncHelper.syncQuarterlyInfo(index)?.let {
+                Result.success(it)
+            } ?: Result.failure(Exception("Failed to sync quarterly info"))
+        } else {
+            Result.success(
+                SSQuarterlyInfo(
+                    quarterly = cached.quarterly.toModel(),
+                    lessons = cached.lessons.sortedBy { it.order }.map { it.toModel() }
+                )
+            )
+        }
+    }
 
     override fun getQuarterlies(
         languageCode: String?,

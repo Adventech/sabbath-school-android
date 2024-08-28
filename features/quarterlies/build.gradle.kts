@@ -26,6 +26,7 @@ dependencies {
     implementation(projects.common.designCompose)
     implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
+    implementation(projects.libraries.appWidget.api)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
@@ -40,6 +41,7 @@ dependencies {
     implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
+    testImplementation(projects.libraries.appWidget.testFixtures)
     testImplementation(projects.libraries.testUtils)
     testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.lessons.test)

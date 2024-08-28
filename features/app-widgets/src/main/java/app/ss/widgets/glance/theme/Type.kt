@@ -50,7 +50,7 @@ fun todayTitle(
     color: ColorProvider? = null
 ) = textStyle(
     color = color ?: GlanceTheme.colors.onSurface,
-    fontSize = 18.sp,
+    fontSize = 17.sp,
     fontWeight = FontWeight.Bold
 )
 
@@ -59,6 +59,6 @@ fun todayBody(
     color: ColorProvider? = null
 ) = textStyle(
     color = color ?: GlanceTheme.colors.onSurfaceVariant,
-    fontSize = 15.sp,
+    fontSize = 14.sp,
     fontWeight = FontWeight.Normal
 )

@@ -22,18 +22,20 @@
 
 package app.ss.widgets.glance.today
 
+import android.content.Intent
 import androidx.compose.runtime.Immutable
 import androidx.glance.ButtonColors
 import androidx.glance.unit.ColorProvider
-import app.ss.widgets.model.TodayWidgetModel
+import app.ss.widgets.model.WeekDayModel
 
 @Immutable
 internal data class TodayInfoSpec(
-    val model: TodayWidgetModel?,
+    val model: WeekDayModel,
     val textColor: ColorProvider? = null,
     val titleMaxLines: Int = 3,
     val bodyMaxLines: Int = 2,
-    val readOptions: ReadOptions
+    val readOptions: ReadOptions,
+    val launchIntent: Intent,
 ) {
     sealed interface ReadOptions {
         data object Hidden : ReadOptions

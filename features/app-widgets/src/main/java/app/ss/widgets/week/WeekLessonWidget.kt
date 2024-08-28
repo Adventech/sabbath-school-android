@@ -34,8 +34,9 @@ import app.ss.widgets.BaseWidgetProvider
 import app.ss.widgets.R
 import app.ss.widgets.clickIntent
 import app.ss.widgets.extensions.RemoteViewsTarget
-import app.ss.widgets.model.WeekDayWidgetModel
-import app.ss.widgets.model.WeekLessonWidgetModel
+import app.ss.widgets.model.WeekDayModel
+import app.ss.widgets.model.WeekModel
+import app.ss.widgets.model.WeekWidgetState
 import app.ss.widgets.model.WidgetType
 import coil.imageLoader
 import coil.request.ImageRequest
@@ -45,7 +46,7 @@ import app.ss.translations.R as L10nR
 import com.cryart.design.R as DesignR
 
 @AndroidEntryPoint
-internal class WeekLessonWidget : BaseWidgetProvider<WeekLessonWidgetModel>() {
+internal class WeekLessonWidget : BaseWidgetProvider<WeekWidgetState>() {
 
     override val type: WidgetType
         get() = WidgetType.WEEK_LESSON
@@ -54,12 +55,15 @@ internal class WeekLessonWidget : BaseWidgetProvider<WeekLessonWidgetModel>() {
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int,
-        model: WeekLessonWidgetModel?
+        state: WeekWidgetState?
     ) {
+        val successState = state as? WeekWidgetState.Success
+        val model = successState?.model
+
         val views = RemoteViews(context.packageName, R.layout.week_lesson_app_widget)
-        views.setTextViewText(R.id.widget_quarterly_title, model?.quarterlyTitle ?: context.getString(L10nR.string.ss_widget_error_label))
-        views.setTextViewText(R.id.widget_lesson_title, model?.lessonTitle ?: context.getString(L10nR.string.ss_widget_error_label))
-        views.setOnClickPendingIntent(R.id.widget_root, model?.intent?.clickIntent(context))
+        views.setTextViewText(R.id.widget_quarterly_title, model?.title ?: context.getString(L10nR.string.ss_widget_error_label))
+        views.setTextViewText(R.id.widget_lesson_title, model?.description ?: context.getString(L10nR.string.ss_widget_error_label))
+        views.setOnClickPendingIntent(R.id.widget_root, successState?.lessonIntent?.clickIntent(context))
 
         setWeekData(context, views, model)
 
@@ -85,7 +89,7 @@ internal class WeekLessonWidget : BaseWidgetProvider<WeekLessonWidgetModel>() {
         context.imageLoader.enqueue(request)
     }
 
-    private fun setWeekData(context: Context, views: RemoteViews, model: WeekLessonWidgetModel?) {
+    private fun setWeekData(context: Context, views: RemoteViews, model: WeekModel?) {
         val default = ""
 
         val colorTextDefault = ContextCompat.getColor(context, DesignR.color.text_secondary)
@@ -141,7 +145,7 @@ internal class WeekLessonWidget : BaseWidgetProvider<WeekLessonWidgetModel>() {
         views.setOnClickPendingIntent(R.id.widget_day_seven_container, day?.intent?.clickIntent(context))
     }
 
-    private fun WeekDayWidgetModel.formattedTitle(): Spanned = buildSpannedString {
+    private fun WeekDayModel.formattedTitle(): Spanned = buildSpannedString {
         if (today) {
             bold {
                 append(title)

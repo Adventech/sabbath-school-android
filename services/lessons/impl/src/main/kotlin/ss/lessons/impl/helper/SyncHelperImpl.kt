@@ -33,6 +33,7 @@ import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.SSQuarterliesApi
+import ss.lessons.api.helper.SyncHelper
 import ss.lessons.impl.ext.toEntity
 import ss.lessons.model.request.PublishingInfoRequest
 import ss.libraries.storage.api.dao.LanguagesDao
@@ -45,15 +46,6 @@ import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
-
-/** Common implementations for content sync. */
-internal interface SyncHelper {
-    fun syncQuarterly(index: String)
-    suspend fun syncQuarterlyInfo(index: String): SSQuarterlyInfo?
-    fun syncQuarterlies(language: String)
-    fun syncPublishingInfo(country: String, language: String)
-    fun syncLanguages()
-}
 
 @Singleton
 internal class SyncHelperImpl @Inject constructor(

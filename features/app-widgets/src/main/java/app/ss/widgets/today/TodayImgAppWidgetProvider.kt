@@ -7,7 +7,7 @@ import android.widget.RemoteViews
 import app.ss.widgets.BaseWidgetProvider
 import app.ss.widgets.clickIntent
 import app.ss.widgets.extensions.RemoteViewsTarget
-import app.ss.widgets.model.TodayWidgetModel
+import app.ss.widgets.model.TodayWidgetState
 import app.ss.widgets.model.WidgetType
 import coil.imageLoader
 import coil.request.ImageRequest
@@ -16,7 +16,7 @@ import app.ss.translations.R as L10nR
 import app.ss.widgets.R as WidgetsR
 
 @AndroidEntryPoint
-internal class TodayImgAppWidgetProvider : BaseWidgetProvider<TodayWidgetModel>() {
+internal class TodayImgAppWidgetProvider : BaseWidgetProvider<TodayWidgetState>() {
 
     override val type: WidgetType
         get() = WidgetType.TODAY_IMG
@@ -25,8 +25,10 @@ internal class TodayImgAppWidgetProvider : BaseWidgetProvider<TodayWidgetModel>(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int,
-        model: TodayWidgetModel?
+        state: TodayWidgetState?
     ) {
+        val model = (state as? TodayWidgetState.Success)?.model
+
         val views = RemoteViews(context.packageName, WidgetsR.layout.today_app_widget_img)
         views.setTextViewText(WidgetsR.id.widget_lesson_date, model?.date ?: context.getString(L10nR.string.ss_widget_error_label))
         views.setTextViewText(WidgetsR.id.widget_lesson_title, model?.title ?: context.getString(L10nR.string.ss_widget_error_label))

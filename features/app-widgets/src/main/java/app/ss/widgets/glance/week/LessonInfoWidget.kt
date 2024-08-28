@@ -26,6 +26,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,16 +45,17 @@ import androidx.glance.appwidget.lazy.itemsIndexed
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Alignment
+import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.ContentScale
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
+import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.layout.width
-import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.extensions.clickable
@@ -60,9 +63,8 @@ import app.ss.widgets.glance.extensions.stringResource
 import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.glance.theme.todayBody
 import app.ss.widgets.glance.theme.todayTitle
-import app.ss.widgets.model.WeekDayWidgetModel
-import app.ss.widgets.model.WeekLessonWidgetModel
-import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
+import app.ss.widgets.model.WeekDayModel
+import app.ss.widgets.model.WeekWidgetState
 import app.ss.translations.R as L10nR
 import app.ss.widgets.R as WidgetsR
 
@@ -71,15 +73,12 @@ internal class LessonInfoWidget : BaseGlanceAppWidget() {
     override val sizeMode: SizeMode = SizeMode.Responsive(setOf(smallMode, mediumMode, largeMode))
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val model = dataProvider(context).getWeekLessonModel()
-        val cover = context.fetchBitmap(model?.cover)
+        val repository = repository(context)
 
-        provideContent { Content(model, cover) }
-    }
-
-    @Composable
-    private fun Content(model: WeekLessonWidgetModel?, cover: Bitmap?) {
-        SsGlanceTheme { LessonInfoWidgetContent(model = model, cover = cover) }
+        provideContent {
+            val state by repository.weekState(context).collectAsState(initial = WeekWidgetState.Loading)
+            SsGlanceTheme { LessonInfoWidgetContent(state) }
+        }
     }
 
     companion object {
@@ -90,42 +89,51 @@ internal class LessonInfoWidget : BaseGlanceAppWidget() {
 }
 
 @Composable
-private fun LessonInfoWidgetContent(model: WeekLessonWidgetModel?, cover: Bitmap?, modifier: GlanceModifier = GlanceModifier) {
-    val default = stringResource(L10nR.string.ss_widget_error_label)
-
+private fun LessonInfoWidgetContent(state: WeekWidgetState, modifier: GlanceModifier = GlanceModifier) {
     Scaffold(modifier = modifier, horizontalPadding = 0.dp) {
-        Column(modifier = GlanceModifier) {
-            LessonInfoRow(
-                quarterlyTitle = model?.quarterlyTitle ?: default,
-                lessonTitle = model?.lessonTitle ?: default,
-                cover = cover,
-                modifier = GlanceModifier.clickable(intent = model?.intent),
-            )
+        when (state) {
+            WeekWidgetState.Error -> Unit
+            WeekWidgetState.Loading -> LoadingContent()
+            is WeekWidgetState.Success -> SuccessContent(state)
+        }
+    }
+}
 
-            LazyColumn(modifier = GlanceModifier.defaultWeight()) {
-                val items = model?.days ?: emptyList()
+@Composable
+private fun SuccessContent(state: WeekWidgetState.Success, modifier: GlanceModifier = GlanceModifier) {
+    val model = state.model
+    Column(modifier = modifier.fillMaxSize()) {
 
-                itemsIndexed(items) { index, item ->
-                    Column(
+        LessonInfoRow(
+            quarterlyTitle = model.title,
+            lessonTitle = model.description,
+            cover = model.image,
+            modifier = GlanceModifier.clickable(intent = state.lessonIntent),
+        )
+
+        LazyColumn(modifier = GlanceModifier.defaultWeight()) {
+            val items = model.days
+
+            itemsIndexed(items) { index, item ->
+                Column(
+                    modifier = GlanceModifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp)
+                ) {
+                    DayInfo(
+                        model = item,
+                        modifier = GlanceModifier.fillMaxWidth()
+                            .padding(horizontal = 8.dp)
+                            .background(if (item.today) GlanceTheme.colors.primary else GlanceTheme.colors.secondaryContainer)
+                            .cornerRadius(8.dp)
+                            .clickable(intent = item.intent)
+                    )
+
+                    Spacer(
                         modifier = GlanceModifier
                             .fillMaxWidth()
-                            .padding(horizontal = 12.dp)
-                    ) {
-                        DayInfo(
-                            model = item,
-                            modifier = GlanceModifier.fillMaxWidth()
-                                .padding(horizontal = 8.dp)
-                                .background(if (item.today) GlanceTheme.colors.primary else GlanceTheme.colors.secondaryContainer)
-                                .cornerRadius(8.dp)
-                                .clickable(intent = item.intent)
-                        )
-
-                        Spacer(
-                            modifier = GlanceModifier
-                                .fillMaxWidth()
-                                .height(if (index == items.lastIndex) 8.dp else 4.dp)
-                        )
-                    }
+                            .height(if (index == items.lastIndex) 8.dp else 4.dp)
+                    )
                 }
             }
         }
@@ -178,7 +186,7 @@ private fun LessonInfoRow(
 
             Text(
                 text = lessonTitle,
-                style = todayBody().copy(fontSize = 13.sp),
+                style = todayBody().copy(fontSize = 12.sp),
                 maxLines = 2,
                 modifier = GlanceModifier.fillMaxWidth(),
             )
@@ -200,7 +208,7 @@ private val CoverHeight = 100.dp
 private val AppLogoSize = 48.dp
 
 @Composable
-private fun DayInfo(model: WeekDayWidgetModel, modifier: GlanceModifier = GlanceModifier) {
+private fun DayInfo(model: WeekDayModel, modifier: GlanceModifier = GlanceModifier) {
     val textStyle = todayBody(
         if (model.today) GlanceTheme.colors.onPrimary else GlanceTheme.colors.onSecondaryContainer
     )
@@ -224,5 +232,24 @@ private fun DayInfo(model: WeekDayWidgetModel, modifier: GlanceModifier = Glance
             maxLines = 1,
             modifier = GlanceModifier,
         )
+    }
+}
+
+@Composable
+private fun LoadingContent(modifier: GlanceModifier = GlanceModifier) {
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Column(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalAlignment = Alignment.Horizontal.CenterHorizontally
+        ) {
+            Text(
+                text = "Loading...",
+                style = todayBody(color = GlanceTheme.colors.onSecondaryContainer),
+                modifier = GlanceModifier
+                    .padding(vertical = 24.dp, horizontal = 32.dp)
+                    .background(GlanceTheme.colors.secondaryContainer)
+                    .cornerRadius(12.dp)
+            )
+        }
     }
 }

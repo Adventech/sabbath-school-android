@@ -24,6 +24,8 @@ package app.ss.widgets.glance.today
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,15 +53,14 @@ import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.text.Text
 import app.ss.widgets.glance.BaseGlanceAppWidget
+import app.ss.widgets.glance.WidgetLoading
 import app.ss.widgets.glance.extensions.clickable
-import app.ss.widgets.glance.extensions.fallbackIntent
 import app.ss.widgets.glance.extensions.stringResource
 import app.ss.widgets.glance.extensions.toAction
 import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.glance.theme.todayBody
 import app.ss.widgets.glance.theme.todayTitle
-import app.ss.widgets.model.TodayWidgetModel
-import ss.misc.DateHelper
+import app.ss.widgets.model.TodayWidgetState
 import app.ss.translations.R as L10nR
 import app.ss.widgets.R as WidgetsR
 
@@ -70,42 +71,51 @@ internal class TodayAppWidget : BaseGlanceAppWidget() {
     )
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val model = dataProvider(context).getTodayModel()
+        val repository = repository(context)
 
         provideContent {
+            val state by repository.todayState().collectAsState(initial = TodayWidgetState.Loading)
             SsGlanceTheme {
-                Content(data = model)
+                Content(state = state)
             }
         }
     }
 
     @Composable
-    private fun Content(data: TodayWidgetModel?, modifier: GlanceModifier = GlanceModifier) {
+    private fun Content(state: TodayWidgetState, modifier: GlanceModifier = GlanceModifier) {
         val isSmallMode = LocalSize.current == smallMode
 
         Scaffold(
-            modifier = modifier.clickable(intent = data?.intent),
+            modifier = modifier.clickable(intent = state.launchIntent),
             horizontalPadding = 0.dp
         ) {
             Box(modifier = GlanceModifier) {
                 WidgetAppLogo()
 
-                TodayInfo(
-                    spec = TodayInfoSpec(
-                        model = data,
-                        titleMaxLines = if (isSmallMode) 2 else 3,
-                        bodyMaxLines = if (isSmallMode) 1 else 2,
-                        readOptions = if (isSmallMode) {
-                            TodayInfoSpec.ReadOptions.Hidden
-                        } else {
-                            TodayInfoSpec.ReadOptions.Shown(
-                                ButtonDefaults.buttonColors(
-                                    contentColor = GlanceTheme.colors.onPrimary
-                                )
+                when (state) {
+                    is TodayWidgetState.Error -> Unit
+
+                    is TodayWidgetState.Loading -> WidgetLoading()
+                    is TodayWidgetState.Success -> {
+                        TodayInfo(
+                            spec = TodayInfoSpec(
+                                model = state.model,
+                                titleMaxLines = if (isSmallMode) 2 else 3,
+                                bodyMaxLines = if (isSmallMode) 1 else 2,
+                                readOptions = if (isSmallMode) {
+                                    TodayInfoSpec.ReadOptions.Hidden
+                                } else {
+                                    TodayInfoSpec.ReadOptions.Shown(
+                                        ButtonDefaults.buttonColors(
+                                            contentColor = GlanceTheme.colors.onPrimary
+                                        )
+                                    )
+                                },
+                                launchIntent = state.launchIntent,
                             )
-                        }
-                    )
-                )
+                        )
+                    }
+                }
             }
         }
     }
@@ -144,12 +154,7 @@ internal fun TodayInfo(
     spec: TodayInfoSpec,
     modifier: GlanceModifier = GlanceModifier
 ) {
-    val model = spec.model ?: TodayWidgetModel(
-        stringResource(L10nR.string.ss_widget_error_label),
-        DateHelper.today(),
-        "",
-        fallbackIntent
-    )
+    val model = spec.model
 
     Column(
         modifier = modifier
@@ -186,7 +191,7 @@ internal fun TodayInfo(
                     text = stringResource(L10nR.string.ss_lessons_read).uppercase(),
                     style = todayTitle(options.colors.contentColor).copy(fontSize = 14.sp),
                     maxLines = 1,
-                    onClick = model.intent.toAction(),
+                    onClick = spec.launchIntent.toAction(),
                     modifier = GlanceModifier
                         .cornerRadius(20.dp)
                         .padding(horizontal = 32.dp)

@@ -2,6 +2,7 @@ package app.ss.lessons
 
 import android.content.Intent
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import app.ss.lessons.components.LessonItemSpec
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.models.LessonPdf
 import app.ss.models.OfflineState
@@ -12,12 +13,8 @@ import app.ss.models.SSLessonInfo
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
 import app.ss.models.SSRead
-import app.ss.models.TodayData
-import app.ss.models.WeekData
-import app.ss.widgets.AppWidgetHelper
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.core.response.Resource
-import com.cryart.sabbathschool.lessons.ui.lessons.components.LessonItemSpec
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
 import com.slack.circuitx.android.IntentScreen
@@ -30,6 +27,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import ss.lessons.test.FakePdfReader
 import ss.lessons.test.FakeQuarterliesRepository
+import ss.libraries.appwidget.test.FakeAppWidgetHelper
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.LegacyDestination
 import ss.libraries.circuit.navigation.LessonsScreen
@@ -71,7 +69,7 @@ class LessonsPresenterTest {
             replay = 1,
             onBufferOverflow = BufferOverflow.DROP_OLDEST
         )
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
         fakeRepository.publishingInfoFlow = publishingInfoFlow
 
         underTest.test {
@@ -79,7 +77,7 @@ class LessonsPresenterTest {
 
             var state = awaitItem() as State.Success
             state.quarterlyInfo shouldBeEqualTo quarterly
-            fakeAppWidgetHelper.widgetsRefreshed shouldBeEqualTo true
+            fakeAppWidgetHelper.syncedIndex shouldBeEqualTo quarterly.quarterly.index
 
             publishingInfoFlow.emit(Result.success(publishingInfo))
 
@@ -97,7 +95,7 @@ class LessonsPresenterTest {
             quarterly = SSQuarterly(id = "id"),
             lessons = listOf(lesson)
         )
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
 
         underTest.test {
             awaitItem() shouldBeEqualTo State.Loading
@@ -137,7 +135,7 @@ class LessonsPresenterTest {
             days = emptyList(),
             pdfs = listOf(LessonPdf("pdf-id"))
         )
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
         fakePdfReader.launchIntentDelegate = { pdfs, index ->
             if (index == lesson.index && pdfs == lessonInfo.pdfs) {
                 fakeIntent
@@ -183,7 +181,7 @@ class LessonsPresenterTest {
             lessons = emptyList()
         )
 
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
 
         underTest.test {
             awaitItem() shouldBeEqualTo State.Loading
@@ -205,7 +203,7 @@ class LessonsPresenterTest {
             lessons = emptyList()
         )
 
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
 
         underTest.test {
             awaitItem() shouldBeEqualTo State.Loading
@@ -226,7 +224,7 @@ class LessonsPresenterTest {
             lessons = emptyList()
         )
 
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
 
         underTest.test {
             awaitItem() shouldBeEqualTo State.Loading
@@ -248,7 +246,7 @@ class LessonsPresenterTest {
             lessons = emptyList()
         )
 
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
 
         underTest.test {
             awaitItem() shouldBeEqualTo State.Loading
@@ -277,7 +275,7 @@ class LessonsPresenterTest {
         )
         val publishingInfo = PublishingInfo("message", "url")
 
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
         fakeRepository.publishingInfoFlow = flowOf(Result.success(publishingInfo))
 
         underTest.test {
@@ -305,19 +303,11 @@ private class FakeLessonsRepository : LessonsRepository {
         return getLessonInfoDelegate(lessonIndex)
     }
 
-    override suspend fun getTodayRead(cached: Boolean): Resource<TodayData> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun getDayRead(dayIndex: String): Resource<SSRead> {
         TODO("Not yet implemented")
     }
 
     override suspend fun getDayRead(day: SSDay): Resource<SSRead> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getWeekData(cached: Boolean): Resource<WeekData> {
         TODO("Not yet implemented")
     }
 
@@ -333,18 +323,4 @@ private class FakeLessonsRepository : LessonsRepository {
         TODO("Not yet implemented")
     }
 
-}
-
-private class FakeAppWidgetHelper : AppWidgetHelper {
-
-    var widgetsRefreshed: Boolean = false
-        private set
-
-    override fun refreshAll() {
-        widgetsRefreshed = true
-    }
-
-    override fun isAdded(): Boolean {
-        return false
-    }
 }
