@@ -29,6 +29,7 @@ import android.content.Intent
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.updateAll
 import app.ss.models.AppWidgetDay
+import app.ss.models.SSLesson
 import app.ss.widgets.glance.today.TodayAppWidget
 import app.ss.widgets.glance.today.TodayImageAppWidget
 import app.ss.widgets.glance.week.LessonInfoWidget
@@ -43,21 +44,20 @@ import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.defaultScopable
+import ss.lessons.api.repository.LessonsRepositoryV2
+import ss.lessons.api.repository.QuarterliesRepository
 import ss.libraries.appwidget.api.AppWidgetHelper
 import ss.libraries.storage.api.dao.AppWidgetDao
-import ss.libraries.storage.api.dao.LessonsDao
-import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.libraries.storage.api.entity.AppWidgetEntity
-import ss.libraries.storage.api.entity.LessonEntity
 import ss.misc.DateHelper.isNowInRange
 import timber.log.Timber
 import javax.inject.Inject
 
-internal class AppWidgetHelperImpl @Inject constructor(
+class AppWidgetHelperImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val appWidgetDao: AppWidgetDao,
-    private val lessonsDao: LessonsDao,
-    private val quarterliesDao: QuarterliesDao,
+    private val quarterliesRepository: QuarterliesRepository,
+    private val lessonsRepository: LessonsRepositoryV2,
     private val dispatcherProvider: DispatcherProvider,
 ) : AppWidgetHelper, Scopable by defaultScopable(dispatcherProvider) {
 
@@ -72,24 +72,28 @@ internal class AppWidgetHelperImpl @Inject constructor(
     override fun refreshAll() {
         scope.launch(exceptionLogger) {
             if (isAdded()) {
-                with(context) {
-                    widgets.forEach { clazz ->
-                        sendBroadcast(
-                            Intent(BaseWidgetProvider.REFRESH_ACTION)
-                                .setComponent(ComponentName(context, clazz))
-                        )
-                    }
-                }
-
-                LessonInfoWidget().updateAll(context)
-                TodayAppWidget().updateAll(context)
-                TodayImageAppWidget().updateAll(context)
+                updateWidgets()
 
                 WidgetUpdateWorker.enqueue(context)
             } else {
                 WidgetUpdateWorker.cancel(context)
             }
         }
+    }
+
+    private suspend fun updateWidgets() {
+        with(context) {
+            widgets.forEach { clazz ->
+                sendBroadcast(
+                    Intent(BaseWidgetProvider.REFRESH_ACTION)
+                        .setComponent(ComponentName(context, clazz))
+                )
+            }
+        }
+
+        LessonInfoWidget().updateAll(context)
+        TodayAppWidget().updateAll(context)
+        TodayImageAppWidget().updateAll(context)
     }
 
     override suspend fun isAdded(): Boolean {
@@ -108,38 +112,42 @@ internal class AppWidgetHelperImpl @Inject constructor(
     }
 
     override fun syncQuarterly(index: String) {
-        refreshAll()
-
         scope.launch(exceptionLogger) {
-            val quarterlyInfo = quarterliesDao.getInfo(index) ?: return@launch
+            if (!isAdded()) return@launch
 
-            // Only sync the latest quarterly
-            if (isNowInRange(quarterlyInfo.quarterly.start_date, quarterlyInfo.quarterly.end_date)) {
-                val lessonIndex = quarterlyInfo.lessons.firstOrNull { it.isCurrent() }?.index ?: return@launch
-                val lesson = lessonsDao.get(lessonIndex) ?: return@launch
+            updateWidgets()
 
-                val entity = AppWidgetEntity(
-                    quarterlyIndex = index,
-                    cover = quarterlyInfo.quarterly.cover,
-                    title = quarterlyInfo.quarterly.title,
-                    description = lesson.title,
-                    days = lesson.days.mapIndexed { index, day ->
-                        AppWidgetDay(
-                            lessonIndex = lesson.index,
-                            dayIndex = index,
-                            title = day.title,
-                            date = day.date,
-                            image = lesson.cover,
+            quarterliesRepository.getQuarterlyInfo(index).onSuccess { quarterlyInfo ->
+                // Only sync the latest quarterly
+                if (isNowInRange(quarterlyInfo.quarterly.start_date, quarterlyInfo.quarterly.end_date)) {
+                    val lessonIndex = quarterlyInfo.lessons.firstOrNull { it.isCurrent() }?.index ?: return@launch
+                    lessonsRepository.getLessonInfoResult(lessonIndex).onSuccess { info ->
+                        val (lesson, days, _) = info
+
+                        val entity = AppWidgetEntity(
+                            quarterlyIndex = index,
+                            cover = quarterlyInfo.quarterly.cover,
+                            title = quarterlyInfo.quarterly.title,
+                            description = lesson.title,
+                            days = days.mapIndexed { index, day ->
+                                AppWidgetDay(
+                                    lessonIndex = lesson.index,
+                                    dayIndex = index,
+                                    title = day.title,
+                                    date = day.date,
+                                    image = lesson.cover,
+                                )
+                            }
                         )
-                    }
-                )
 
-                appWidgetDao.insertItem(entity)
+                        appWidgetDao.insertItem(entity)
+                    }
+                }
             }
         }
     }
 
-    private fun LessonEntity.isCurrent(): Boolean {
+    private fun SSLesson.isCurrent(): Boolean {
         return isNowInRange(start_date, end_date)
     }
 }

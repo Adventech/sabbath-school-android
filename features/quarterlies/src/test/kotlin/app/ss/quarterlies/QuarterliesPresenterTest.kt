@@ -29,6 +29,8 @@ import ss.libraries.circuit.navigation.SettingsScreen
 import ss.prefs.api.test.FakeSSPrefs
 import app.ss.quarterlies.overlay.AccountDialogOverlay.Result as OverlayResult
 
+private const val QUARTERLY_INDEX = "2024-02"
+
 class QuarterliesPresenterTest {
 
     private val selectedLanguageFlow = MutableStateFlow("en")
@@ -38,7 +40,7 @@ class QuarterliesPresenterTest {
     private val fakeAuthRepository = FakeAuthRepository()
     private val fakePrefs = FakeSSPrefs(
         languagesFlow = selectedLanguageFlow
-    )
+    ).also { it.quarterlyIndexDelegate = { QUARTERLY_INDEX } }
     private val fakeAppWidgetHelper = FakeAppWidgetHelper()
 
     private val underTest = QuarterliesPresenter(
@@ -66,7 +68,7 @@ class QuarterliesPresenterTest {
             state.photoUrl shouldBeEqualTo ""
             state.type shouldBeEqualTo GroupedQuarterlies.TypeList(quarterlies.map { it.spec() }.toImmutableList())
 
-            fakeAppWidgetHelper.widgetsRefreshed shouldBeEqualTo true
+            fakeAppWidgetHelper.syncedIndex shouldBeEqualTo QUARTERLY_INDEX
 
             ensureAllEventsConsumed()
         }

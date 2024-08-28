@@ -69,7 +69,7 @@ class LessonsPresenterTest {
             replay = 1,
             onBufferOverflow = BufferOverflow.DROP_OLDEST
         )
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
         fakeRepository.publishingInfoFlow = publishingInfoFlow
 
         underTest.test {
@@ -95,7 +95,7 @@ class LessonsPresenterTest {
             quarterly = SSQuarterly(id = "id"),
             lessons = listOf(lesson)
         )
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
 
         underTest.test {
             awaitItem() shouldBeEqualTo State.Loading
@@ -135,7 +135,7 @@ class LessonsPresenterTest {
             days = emptyList(),
             pdfs = listOf(LessonPdf("pdf-id"))
         )
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
         fakePdfReader.launchIntentDelegate = { pdfs, index ->
             if (index == lesson.index && pdfs == lessonInfo.pdfs) {
                 fakeIntent
@@ -181,7 +181,7 @@ class LessonsPresenterTest {
             lessons = emptyList()
         )
 
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
 
         underTest.test {
             awaitItem() shouldBeEqualTo State.Loading
@@ -203,7 +203,7 @@ class LessonsPresenterTest {
             lessons = emptyList()
         )
 
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
 
         underTest.test {
             awaitItem() shouldBeEqualTo State.Loading
@@ -224,7 +224,7 @@ class LessonsPresenterTest {
             lessons = emptyList()
         )
 
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
 
         underTest.test {
             awaitItem() shouldBeEqualTo State.Loading
@@ -246,7 +246,7 @@ class LessonsPresenterTest {
             lessons = emptyList()
         )
 
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
 
         underTest.test {
             awaitItem() shouldBeEqualTo State.Loading
@@ -275,7 +275,7 @@ class LessonsPresenterTest {
         )
         val publishingInfo = PublishingInfo("message", "url")
 
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = flowOf(Result.success(quarterly))
+        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
         fakeRepository.publishingInfoFlow = flowOf(Result.success(publishingInfo))
 
         underTest.test {

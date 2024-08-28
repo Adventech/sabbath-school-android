@@ -32,6 +32,8 @@ interface QuarterliesRepository {
 
     fun getQuarterly(index: String): Flow<Result<SSQuarterlyInfo>>
 
+    suspend fun getQuarterlyInfo(index: String): Result<SSQuarterlyInfo>
+
     fun getQuarterlies(
         languageCode: String? = null,
         group: QuarterlyGroup? = null,

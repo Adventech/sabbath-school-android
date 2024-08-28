@@ -43,6 +43,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
@@ -56,6 +57,7 @@ import ss.lessons.impl.ext.toModel
 import ss.lessons.model.result.LessonReads
 import ss.libraries.storage.api.dao.LessonsDao
 import ss.libraries.storage.api.dao.ReadsDao
+import ss.libraries.storage.api.entity.LessonEntity
 import ss.misc.DateHelper
 import timber.log.Timber
 import javax.inject.Inject
@@ -87,7 +89,26 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
             emit(Result.failure(it))
         }
 
+    override suspend fun getLessonInfoResult(lessonIndex: String): Result<SSLessonInfo> {
+        val cached = withContext(dispatcherProvider.io) {
+            lessonsDao.get(lessonIndex)?.takeUnless { it.days.isEmpty() }
+        }
+
+        return if (cached == null) {
+            fetchLessonInfo(lessonIndex)?.let {
+                Result.success(it.toInfoModel())
+            } ?: Result.failure(Throwable("Failed to fetch Lesson Info: $lessonIndex"))
+        } else {
+            Result.success(cached.toInfoModel())
+        }
+    }
+
     private fun syncLessonInfo(lessonIndex: String) = scope.launch(exceptionLogger) {
+        val entity = fetchLessonInfo(lessonIndex) ?: return@launch
+        lessonsDao.insertItem(entity)
+    }
+
+    private suspend fun fetchLessonInfo(lessonIndex: String): LessonEntity? {
         val (language, lessonId, quarterlyId) = lessonIndex.run {
             Triple(
                 substringBefore('-'),
@@ -96,15 +117,15 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
                     .substringBeforeLast('-')
             )
         }
-        when (val response = safeApiCall(connectivityHelper) { lessonsApi.getLessonInfo(language, quarterlyId, lessonId) }) {
+        return when (val response = safeApiCall(connectivityHelper) { lessonsApi.getLessonInfo(language, quarterlyId, lessonId) }) {
             is NetworkResource.Failure -> {
                 Timber.e("Failed to fetch Lesson Info: isNetwork=${response.isNetworkError}, ${response.errorBody}")
+                null
             }
 
             is NetworkResource.Success -> response.value.body()?.let { info ->
                 val order = lessonsDao.get(info.lesson.index)?.order ?: 0
-                val entity = info.lesson.toEntity(order, info.days, info.pdfs)
-                lessonsDao.insertItem(entity)
+                info.lesson.toEntity(order, info.days, info.pdfs)
             }
         }
     }

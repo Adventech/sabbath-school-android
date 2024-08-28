@@ -85,7 +85,7 @@ internal class WidgetUpdateWorker @AssistedInject constructor(
 
             manager.enqueueUniquePeriodicWork(
                 uniqueWorkName,
-                ExistingPeriodicWorkPolicy.UPDATE,
+                ExistingPeriodicWorkPolicy.KEEP,
                 requestBuilder.build()
             )
         }

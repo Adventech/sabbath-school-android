@@ -31,6 +31,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.core.app.ShareCompat
 import app.ss.auth.AuthRepository
+import app.ss.models.SSQuarterly
 import app.ss.quarterlies.list.QuarterliesListScreen
 import app.ss.quarterlies.model.GroupedQuarterlies
 import app.ss.quarterlies.model.placeHolderQuarterlies
@@ -62,6 +63,7 @@ import ss.libraries.circuit.navigation.LessonsScreen
 import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.libraries.circuit.navigation.SettingsScreen
+import ss.misc.DateHelper.isNowInRange
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
 import timber.log.Timber
@@ -94,9 +96,11 @@ class QuarterliesPresenter @AssistedInject constructor(
         }
         val quarterlies by produceRetainedState<GroupedQuarterlies>(initialValue = GroupedQuarterlies.TypeList(placeHolderQuarterlies())) {
             ssPrefs.getLanguageCodeFlow()
-                .flatMapLatest { language -> repository.getQuarterlies(language) }
+                .flatMapLatest { language ->
+                    repository.getQuarterlies(language)
+                        .onEach { result -> result.maybeSync() }
+                }
                 .map(quarterliesUseCase::group)
-                .onEach { appWidgetHelper.refreshAll() }
                 .catch { Timber.e(it) }
                 .collect { value = it }
         }
@@ -171,6 +175,15 @@ class QuarterliesPresenter @AssistedInject constructor(
             is GroupedQuarterlies.TypeList -> data.isNotEmpty() && data.any { it.isPlaceholder.not() }
             is GroupedQuarterlies.TypeGroup -> data.isNotEmpty()
             GroupedQuarterlies.Empty -> false
+        }
+    }
+
+    private fun Result<List<SSQuarterly>>.maybeSync() {
+        ssPrefs.getLastQuarterlyIndex()?.let { return }
+        onSuccess { quarterlies ->
+            quarterlies.firstOrNull { quarterly ->
+                isNowInRange(quarterly.start_date, quarterly.end_date)
+            }?.let { appWidgetHelper.syncQuarterly(it.index) }
         }
     }
 }
