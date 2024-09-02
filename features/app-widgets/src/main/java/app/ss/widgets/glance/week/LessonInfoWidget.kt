@@ -214,7 +214,7 @@ private fun DayInfo(model: WeekDayModel, modifier: GlanceModifier = GlanceModifi
     )
 
     Row(
-        modifier = modifier.padding(vertical = 12.dp, horizontal = 4.dp),
+        modifier = modifier.padding(vertical = 8.dp, horizontal = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
