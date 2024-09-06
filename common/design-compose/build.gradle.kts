@@ -49,7 +49,7 @@ dependencies {
     implementation(libs.androidx.compose.material)
     implementation(libs.snapper)
 
-    api(platform(libs.androidx.compose.bom.beta))
+    api(platform(libs.androidx.compose.bom))
     api(libs.bundles.compose)
     api(libs.bundles.compose.tooling)
 }
