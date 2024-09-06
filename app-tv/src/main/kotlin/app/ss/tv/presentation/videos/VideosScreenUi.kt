@@ -34,6 +34,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -45,18 +50,13 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.tv.foundation.PivotOffsets
-import androidx.tv.foundation.lazy.list.TvLazyColumn
-import androidx.tv.foundation.lazy.list.TvLazyListScope
-import androidx.tv.foundation.lazy.list.TvLazyRow
-import androidx.tv.foundation.lazy.list.itemsIndexed
-import androidx.tv.foundation.lazy.list.rememberTvLazyListState
 import androidx.tv.material3.Border
 import androidx.tv.material3.Card
 import androidx.tv.material3.CardDefaults
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.StandardCardContainer
 import androidx.tv.material3.Text
+import app.ss.tv.presentation.extentions.PositionFocusedItemInLazyLayout
 import app.ss.tv.presentation.extentions.asPlaceholder
 import app.ss.tv.presentation.theme.BorderWidth
 import app.ss.tv.presentation.theme.Padding
@@ -73,7 +73,7 @@ import dagger.hilt.android.components.ActivityComponent
 @CircuitInject(VideosScreen::class, ActivityComponent::class)
 @Composable
 fun VideosScreenUi(state: State, modifier: Modifier = Modifier) {
-    val tvLazyListState = rememberTvLazyListState()
+    val tvLazyListState = rememberLazyListState()
     val shouldShowTopBar by remember {
         derivedStateOf {
             tvLazyListState.firstVisibleItemIndex == 0 &&
@@ -81,7 +81,7 @@ fun VideosScreenUi(state: State, modifier: Modifier = Modifier) {
         }
     }
 
-    TvLazyColumn(
+    LazyColumn(
         modifier = modifier.fillMaxSize(),
         state = tvLazyListState,
     ) {
@@ -115,7 +115,7 @@ fun VideosScreenUi(state: State, modifier: Modifier = Modifier) {
     }
 }
 
-private fun TvLazyListScope.errorItem() {
+private fun LazyListScope.errorItem() {
     item {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -129,7 +129,7 @@ private fun TvLazyListScope.errorItem() {
     }
 }
 
-private fun TvLazyListScope.loadingItem() {
+private fun LazyListScope.loadingItem() {
     item { Spacer(modifier = Modifier.padding(top = 54.dp)) }
 
     item { LoadingRow(count = 8) }
@@ -153,12 +153,13 @@ private fun LoadingRow(
         label = "",
     ) { targetCount ->
         FocusGroup {
-            TvLazyRow(
-                pivotOffsets = PivotOffsets(parentFraction = 0.07f),
-                contentPadding = PaddingValues(start = childPadding.start, end = childPadding.end)
-            ) {
-                items(targetCount) {
-                    LoadingCard(modifier = Modifier.restorableFocus())
+            PositionFocusedItemInLazyLayout {
+                LazyRow(
+                    contentPadding = PaddingValues(start = childPadding.start, end = childPadding.end)
+                ) {
+                    items(targetCount) {
+                        LoadingCard(modifier = Modifier.restorableFocus())
+                    }
                 }
             }
         }

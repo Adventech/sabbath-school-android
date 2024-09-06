@@ -32,6 +32,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -47,13 +49,11 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.tv.foundation.PivotOffsets
-import androidx.tv.foundation.lazy.list.TvLazyRow
-import androidx.tv.foundation.lazy.list.itemsIndexed
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import app.ss.tv.data.model.CategorySpec
 import app.ss.tv.data.model.VideoSpec
+import app.ss.tv.presentation.extentions.PositionFocusedItemInLazyLayout
 import app.ss.tv.presentation.theme.Padding
 import app.ss.tv.presentation.theme.rememberChildPadding
 
@@ -75,33 +75,33 @@ fun CategoryVideos(
             .fillMaxWidth()
             .height(280.dp)
     ) {
+        Text(
+            text = category.title,
+            modifier = Modifier
+                .padding(start = childPadding.start, top = childPadding.top),
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = titleAlpha),
+            style = MaterialTheme.typography.titleLarge.copy(
+                fontWeight = FontWeight.Medium,
+            ),
+        )
+
+        AnimatedVisibility(visible = isListFocused) {
             Text(
-                text = category.title,
+                text = subTitle ?: "",
                 modifier = Modifier
-                    .padding(start = childPadding.start, top = childPadding.top),
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = titleAlpha),
-                style = MaterialTheme.typography.titleLarge.copy(
+                    .padding(start = childPadding.start, end = childPadding.end, bottom = childPadding.bottom),
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.60f),
+                style = MaterialTheme.typography.titleSmall.copy(
                     fontWeight = FontWeight.Medium,
                 ),
             )
 
-            AnimatedVisibility(visible = isListFocused) {
-                Text(
-                    text = subTitle ?: "",
-                    modifier = Modifier
-                        .padding(start = childPadding.start, end = childPadding.end, bottom = childPadding.bottom),
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.60f),
-                    style = MaterialTheme.typography.titleSmall.copy(
-                        fontWeight = FontWeight.Medium,
-                    ),
-                )
+            Spacer(modifier = Modifier.height(24.dp))
+        }
 
-                Spacer(modifier = Modifier.height(24.dp))
-            }
-
-            TvLazyRow(
+        PositionFocusedItemInLazyLayout {
+            LazyRow(
                 modifier = Modifier,
-                pivotOffsets = PivotOffsets(parentFraction = 0.07f),
                 contentPadding = PaddingValues(
                     start = childPadding.start,
                     top = childPadding.top,
@@ -135,6 +135,7 @@ fun CategoryVideos(
                 }
             }
         }
+    }
 
     LaunchedEffect(key1 = focusedIndex) {
         subTitle = focusedIndex?.let { index -> category.videos[index].title }
