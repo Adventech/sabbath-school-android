@@ -127,14 +127,6 @@
         <item name="colorPrimary">?attr/colorSecondary</item>
     </style>
 
-    <style name="Theme.SS.DialogFragment">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">false</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
-        <item name="android:statusBarColor">?android:attr/windowBackground</item>
-    </style>
-
     <style name="Theme.SS.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 
     <style name="TransparentBottomSheetDialogTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
