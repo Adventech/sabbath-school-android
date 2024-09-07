@@ -38,13 +38,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.DpRect
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.height
 import androidx.compose.ui.unit.width
 import androidx.compose.ui.zIndex
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun TopBarItemIndicator(
     currentTabPosition: DpRect,
@@ -68,7 +67,12 @@ fun TopBarItemIndicator(
         modifier
             .fillMaxWidth()
             .wrapContentSize(Alignment.BottomStart)
-            .offset(x = leftOffset, y = topOffset)
+            .offset {
+                IntOffset(
+                    x = leftOffset.value.toInt(),
+                    y = topOffset.value.toInt()
+                )
+            }
             .width(width)
             .height(height)
             .background(color = pillColor, shape = shape)
