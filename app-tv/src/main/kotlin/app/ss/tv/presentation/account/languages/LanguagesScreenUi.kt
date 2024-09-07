@@ -25,6 +25,10 @@ package app.ss.tv.presentation.account.languages
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.runtime.Composable
@@ -37,10 +41,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.tv.foundation.lazy.list.TvLazyColumn
-import androidx.tv.foundation.lazy.list.TvLazyListScope
-import androidx.tv.foundation.lazy.list.itemsIndexed
-import androidx.tv.foundation.lazy.list.rememberTvLazyListState
 import androidx.tv.material3.DenseListItem
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
@@ -57,14 +57,14 @@ import app.ss.translations.R as L10nR
 @CircuitInject(LanguagesScreen::class, ActivityComponent::class)
 @Composable
 fun LanguagesScreenUi(state: State, modifier: Modifier = Modifier) {
-    val tvLazyListState = rememberTvLazyListState()
+    val lazyListState = rememberLazyListState()
     var scrollToIndex by remember { mutableIntStateOf(0) }
 
-    TvLazyColumn(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 72.dp),
-        state = tvLazyListState
+        state = lazyListState
     ) {
         item {
             Text(
@@ -86,12 +86,12 @@ fun LanguagesScreenUi(state: State, modifier: Modifier = Modifier) {
     }
 
     LaunchedEffect(scrollToIndex) {
-        tvLazyListState.animateScrollToItem(scrollToIndex, -200)
+        lazyListState.animateScrollToItem(scrollToIndex, -200)
     }
 }
 
 
-private fun TvLazyListScope.languagesUi(state: State.Languages) {
+private fun LazyListScope.languagesUi(state: State.Languages) {
     itemsIndexed(state.languages, key = { _, model -> model.code }) { _, model ->
         DenseListItem(
             selected = model.selected,

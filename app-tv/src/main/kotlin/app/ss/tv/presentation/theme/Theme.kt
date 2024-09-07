@@ -25,12 +25,10 @@ package app.ss.tv.presentation.theme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.LocalContentColor
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.darkColorScheme
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 private val DarkColorScheme = darkColorScheme(
     primary = md_theme_dark_primary,
     onPrimary = md_theme_dark_onPrimary,
@@ -61,7 +59,6 @@ private val DarkColorScheme = darkColorScheme(
     scrim = md_theme_dark_scrim,
 )
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun SSTvTheme(content: @Composable () -> Unit) {
     MaterialTheme(

@@ -20,7 +20,7 @@
   ~ THE SOFTWARE.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
     <string name="blank" translatable="false" />
 
     <string name="ss_settings_typeface_andada" translatable="false">Andada</string>
@@ -73,18 +73,6 @@
     <string name="ss_reading_display_options_typeface_pt_serif" translatable="false">@string/ss_settings_typeface_pt_serif</string>
     <string name="ss_reading_display_options_typeface_pt_sans" translatable="false">@string/ss_settings_typeface_pt_sans</string>
     <string name="ss_reading_display_options_aa" translatable="false">Aa</string>
-
-    <string name="ss_settings_key_theme" translatable="false">ss_settings_theme</string>
-    <string name="ss_settings_theme_value_default" translatable="false">theme_default</string>
-    <string name="ss_settings_theme_value_light" translatable="false">theme_light</string>
-    <string name="ss_settings_theme_value_dark" translatable="false">theme_dark</string>
-
-    <string name="ss_settings_delete_account_key" translatable="false">ss_settings_logout</string>
-
-    <string name="ss_data_consent" translatable="false">
-        By continuing, you agree to our Terms of Service as described in our <a href="https://adventech.io/privacy-policy">Privacy Policy</a>.\n
-        Sabbath School collects User IDs to help identify and restore user saved content.
-    </string>
 
     <string name="ss_widget_error_label">----</string>
 

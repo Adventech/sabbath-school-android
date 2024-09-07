@@ -63,10 +63,4 @@
     <dimen name="ss_reading_display_options_seekbar_padding_bottom">50dp</dimen>
     <dimen name="ss_reading_display_options_seekbar_aa_increase">20sp</dimen>
 
-    <dimen name="ss_reading_navigation_icon_size">16dp</dimen>
-    <dimen name="ss_reading_navigation_text_margin">10dp</dimen>
-    <dimen name="ss_reading_navigation_text_size">12sp</dimen>
-
-    <dimen name="ss_reading_navigation_menu_size">60dp</dimen>
-    <dimen name="ss_reading_navigation_menu_icon_size">24dp</dimen>
 </resources>

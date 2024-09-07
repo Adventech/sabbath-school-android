@@ -81,8 +81,8 @@ class DailyReminderManagerTest {
 
         verify {
             mockAlarmManager.set(
-                eq(AlarmManager.RTC_WAKEUP),
-                eq(alarmTime.millis),
+                AlarmManager.RTC_WAKEUP,
+                alarmTime.millis,
                 any()
             )
         }
@@ -114,8 +114,8 @@ class DailyReminderManagerTest {
 
         verify {
             mockAlarmManager.set(
-                eq(AlarmManager.RTC_WAKEUP),
-                eq(alarmTime.millis),
+                AlarmManager.RTC_WAKEUP,
+                alarmTime.millis,
                 any()
             )
         }
@@ -136,8 +136,8 @@ class DailyReminderManagerTest {
 
         verify(inverse = true) {
             mockAlarmManager.set(
-                eq(AlarmManager.RTC_WAKEUP),
-                eq(alarmTime.millis),
+                AlarmManager.RTC_WAKEUP,
+                alarmTime.millis,
                 any()
             )
         }
@@ -150,7 +150,8 @@ class DailyReminderManagerTest {
         if (ContextCompat.checkSelfPermission(
                 appContext,
                 Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED) {
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             verify {
                 mockNotificationManager.notify(
                     eq(1),

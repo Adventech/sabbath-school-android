@@ -22,7 +22,7 @@
   ~ THE SOFTWARE.
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation, UnusedResources">
     <string name="ss_app_name">"Sabbath School"</string>
     <string name="ss_channel_offline_sync">Offline Sync</string>
     <string name="ss_share">"Share"</string>
