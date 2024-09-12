@@ -23,17 +23,9 @@
 plugins {
     alias(libs.plugins.sgp.base)
     alias(libs.plugins.ksp)
-    id("com.android.library")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     id("dagger.hilt.android.plugin")
-    kotlin("android")
-}
-
-android {
-    namespace = "ss.workers.impl"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
 }
 
 dependencies {

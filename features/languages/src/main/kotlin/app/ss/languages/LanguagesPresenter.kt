@@ -45,7 +45,6 @@ import kotlinx.collections.immutable.toImmutableList
 import ss.lessons.api.repository.LanguagesRepository
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.prefs.api.SSPrefs
-import ss.workers.api.WorkScheduler
 
 class LanguagesPresenter
 @AssistedInject

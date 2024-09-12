@@ -32,6 +32,7 @@ import coil.request.ImageRequest
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
 import ss.libraries.storage.api.dao.QuarterliesDao
 import timber.log.Timber
@@ -43,6 +44,7 @@ internal class PrefetchImagesWorker @AssistedInject constructor(
     private val quarterliesDao: QuarterliesDao,
 ) : CoroutineWorker(appContext, workerParams) {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val dispatcher = Dispatchers.IO.limitedParallelism(5)
 
     override suspend fun doWork(): Result {
@@ -56,8 +58,6 @@ internal class PrefetchImagesWorker @AssistedInject constructor(
 
         withContext(dispatcher) {
             val images = inputImages?.toList() ?: language?.let { quarterliesDao.getCovers(it) } ?: return@withContext
-
-            Timber.i("Caching [${images.size}] images...")
 
             images.forEach { image ->
                 val request = ImageRequest.Builder(appContext)
