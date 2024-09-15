@@ -93,7 +93,7 @@ class SSReadPdfActivity : PdfActivity() {
     ) {
         title = getString(titleRes)
         setIcon(iconRes)
-        setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+        setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         icon?.tint(ContextCompat.getColor(this@SSReadPdfActivity, R.color.ss_icon_tint))
     }
 
