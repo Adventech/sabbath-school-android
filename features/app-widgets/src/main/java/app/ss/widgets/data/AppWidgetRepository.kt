@@ -18,13 +18,12 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import ss.foundation.coroutines.DispatcherProvider
-import ss.foundation.coroutines.Scopable
-import ss.foundation.coroutines.ioScopable
 import ss.libraries.storage.api.dao.AppWidgetDao
 import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.misc.DateHelper.formatDate
 import ss.misc.DateHelper.isNowInRange
 import ss.misc.DateHelper.parseDate
+import ss.misc.SSConstants.SS_DATE_FORMAT_OUTPUT_DAY_SHORT
 import ss.prefs.api.SSPrefs
 import timber.log.Timber
 import javax.inject.Inject
@@ -38,13 +37,15 @@ interface AppWidgetRepository {
     fun todayState(context: Context? = null): Flow<TodayWidgetState>
 }
 
+private const val MAX_DAYS = 7
+
 class AppWidgetRepositoryImpl @Inject constructor(
     private val appWidgetDao: AppWidgetDao,
     private val quarterliesDao: QuarterliesDao,
     private val ssPrefs: SSPrefs,
     private val widgetAction: AppWidgetAction,
     private val dispatcherProvider: DispatcherProvider,
-) : AppWidgetRepository, Scopable by ioScopable(dispatcherProvider) {
+) : AppWidgetRepository {
 
     private val today get() = DateTime.now().withTimeAtStartOfDay()
 
@@ -75,9 +76,11 @@ class AppWidgetRepositoryImpl @Inject constructor(
                         image = context?.fetchBitmap(entity.cover),
                         title = entity.title,
                         description = entity.description,
-                        days = entity.days.map { day ->
-                            day.toModel(null)
-                        }.toImmutableList()
+                        days = entity.days
+                            .take(MAX_DAYS)
+                            .map { day ->
+                                day.toModel(null)
+                            }.toImmutableList()
                     ),
                     lessonIntent = widgetAction.launchLesson(entity.quarterlyIndex)
                 )
@@ -114,7 +117,7 @@ class AppWidgetRepositoryImpl @Inject constructor(
 
     private suspend fun AppWidgetDay.toModel(context: Context?) = WeekDayModel(
         title = title,
-        date = formatDate(date),
+        date = formatDate(date, SS_DATE_FORMAT_OUTPUT_DAY_SHORT),
         cover = image,
         image = context?.fetchBitmap(image),
         intent = widgetAction.launchRead(
