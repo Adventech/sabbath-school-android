@@ -23,6 +23,7 @@ import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.misc.DateHelper.formatDate
 import ss.misc.DateHelper.isNowInRange
 import ss.misc.DateHelper.parseDate
+import ss.misc.SSConstants.SS_DATE_FORMAT_OUTPUT_DAY
 import ss.misc.SSConstants.SS_DATE_FORMAT_OUTPUT_DAY_SHORT
 import ss.prefs.api.SSPrefs
 import timber.log.Timber
@@ -79,7 +80,7 @@ class AppWidgetRepositoryImpl @Inject constructor(
                         days = entity.days
                             .take(MAX_DAYS)
                             .map { day ->
-                                day.toModel(null)
+                                day.toModel(null, SS_DATE_FORMAT_OUTPUT_DAY_SHORT)
                             }.toImmutableList()
                     ),
                     lessonIntent = widgetAction.launchLesson(entity.quarterlyIndex)
@@ -100,7 +101,7 @@ class AppWidgetRepositoryImpl @Inject constructor(
                 val day = entity.days.firstOrNull { it.isToday() }
                 day?.let {
                     TodayWidgetState.Success(
-                        model = it.toModel(context),
+                        model = it.toModel(context, SS_DATE_FORMAT_OUTPUT_DAY),
                         launchIntent = widgetAction.launchRead(
                             lessonIndex = it.lessonIndex,
                             dayIndex = it.dayIndex.toString()
@@ -115,9 +116,9 @@ class AppWidgetRepositoryImpl @Inject constructor(
             }
     }
 
-    private suspend fun AppWidgetDay.toModel(context: Context?) = WeekDayModel(
+    private suspend fun AppWidgetDay.toModel(context: Context?, dateFormat: String) = WeekDayModel(
         title = title,
-        date = formatDate(date, SS_DATE_FORMAT_OUTPUT_DAY_SHORT),
+        date = formatDate(date, dateFormat),
         cover = image,
         image = context?.fetchBitmap(image),
         intent = widgetAction.launchRead(
