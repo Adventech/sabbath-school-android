@@ -25,7 +25,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.sgp.base)
-    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.hilt)
 }
 
 android {

@@ -23,10 +23,10 @@
 plugins {
     alias(libs.plugins.sgp.base)
     alias(libs.plugins.ksp)
-    id("com.android.library")
-    kotlin("android")
-    id("kotlin-parcelize")
-    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.hilt)
 }
 
 android {

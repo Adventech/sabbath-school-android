@@ -26,7 +26,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
-    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.hilt)
 }
 
 slack {

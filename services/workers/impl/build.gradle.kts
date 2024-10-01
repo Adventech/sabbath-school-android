@@ -25,7 +25,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.hilt)
 }
 
 dependencies {

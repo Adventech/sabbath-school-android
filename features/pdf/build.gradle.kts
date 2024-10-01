@@ -26,9 +26,9 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.sgp.base)
     alias(libs.plugins.ksp)
-    id("com.android.library")
-    id("dagger.hilt.android.plugin")
-    kotlin("android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
 }
 
 val psPdfKitKey = readPropertyValue(
