@@ -36,6 +36,6 @@ interface VideoInfoDao : BaseDao<VideoInfoEntity> {
     @Query("SELECT * FROM video_info WHERE lessonIndex = :lessonIndex")
     fun getAsFlow(lessonIndex: String): Flow<List<VideoInfoEntity>>
 
-    @Query("DELETE FROM video_info WHERE lessonIndex = :index")
-    suspend fun delete(index: String)
+    @Query("DELETE FROM video_info")
+    suspend fun delete()
 }

@@ -40,11 +40,6 @@ class FakeMediaRepository @Inject constructor() : MediaRepository {
         id: String
     ): AudioFile? = null
 
-    override suspend fun updateDuration(
-        id: String,
-        duration: Long
-    ) {}
-
     override suspend fun getPlayList(
         lessonIndex: String
     ): List<AudioFile> = emptyList()

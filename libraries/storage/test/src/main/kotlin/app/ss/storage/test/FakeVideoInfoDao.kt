@@ -24,8 +24,6 @@ package app.ss.storage.test
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import ss.libraries.storage.api.dao.VideoInfoDao
 import ss.libraries.storage.api.entity.VideoInfoEntity
@@ -43,8 +41,8 @@ class FakeVideoInfoDao(
 
     override fun getAsFlow(lessonIndex: String): Flow<List<VideoInfoEntity>> = videoInfoFlow
 
-    override suspend fun delete(index: String) {
-        videoInfoFlow.update { entities -> entities.dropWhile { it.lessonIndex == index } }
+    override suspend fun delete() {
+        videoInfoFlow.update { emptyList() }
     }
 
     override suspend fun insertItem(item: VideoInfoEntity) {
