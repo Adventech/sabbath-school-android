@@ -26,13 +26,17 @@ import android.net.Uri
 import app.ss.models.media.AudioFile
 import app.ss.models.media.SSAudio
 import app.ss.models.media.SSVideosInfo
+import app.ss.network.NetworkResource
+import app.ss.network.safeApiCall
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.defaultScopable
@@ -50,7 +54,6 @@ import javax.inject.Singleton
 interface MediaRepository {
     fun getAudio(lessonIndex: String): Flow<List<SSAudio>>
     suspend fun findAudioFile(id: String): AudioFile?
-    suspend fun updateDuration(id: String, duration: Long)
     suspend fun getPlayList(lessonIndex: String): List<AudioFile>
     fun getVideo(lessonIndex: String): Flow<List<SSVideosInfo>>
 }
@@ -60,6 +63,7 @@ internal class MediaRepositoryImpl @Inject constructor(
     private val audioDao: AudioDao,
     private val videoInfoDao: VideoInfoDao,
     private val mediaApi: SSMediaApi,
+    private val connectivityHelper: ConnectivityHelper,
     private val dispatcherProvider: DispatcherProvider
 ) : MediaRepository, Scopable by defaultScopable(dispatcherProvider) {
 
@@ -70,25 +74,33 @@ internal class MediaRepositoryImpl @Inject constructor(
         .map { entities -> entities.map { it.toSSAudio() } }
         .onStart { syncAudio(lessonIndex) }
         .flowOn(dispatcherProvider.io)
+        .catch { Timber.e(it) }
 
     private fun syncAudio(lessonIndex: String) = scope.launch(exceptionLogger) {
-        val data = lessonIndex.toMediaRequest()?.let {
-            mediaApi.getAudio(it.language, it.quarterlyId).body()
+        val resource = lessonIndex.toMediaRequest()?.let {
+            safeApiCall(connectivityHelper) {
+                mediaApi.getAudio(it.language, it.quarterlyId)
+            }
         } ?: return@launch
-        val lessonAudios = data.filter { it.targetIndex.startsWith(lessonIndex) }.map { it.toEntity() }
+        when (resource) {
+            is NetworkResource.Failure -> {
+                Timber.e("Failed to fetch audio for $lessonIndex => ${resource.errorBody}")
+            }
+            is NetworkResource.Success -> {
+                val lessonAudios = resource.value.body()
+                    ?.filter { it.targetIndex.startsWith(lessonIndex) }
+                    ?.map { it.toEntity() } ?: emptyList()
 
-        withContext(dispatcherProvider.io) {
-            audioDao.delete(lessonIndex)
-            audioDao.insertAll(lessonAudios)
+                withContext(dispatcherProvider.io) {
+                    audioDao.delete()
+                    audioDao.insertAll(lessonAudios)
+                }
+            }
         }
     }
 
     override suspend fun findAudioFile(id: String): AudioFile? = withContext(dispatcherProvider.io) {
         audioDao.findBy(id)?.toAudio()
-    }
-
-    override suspend fun updateDuration(id: String, duration: Long) = withContext(dispatcherProvider.io) {
-        audioDao.update(duration, id)
     }
 
     override suspend fun getPlayList(lessonIndex: String): List<AudioFile> = withContext(dispatcherProvider.io) {
@@ -102,19 +114,29 @@ internal class MediaRepositoryImpl @Inject constructor(
         .map { entities -> entities.map { it.toModel() } }
         .onStart { syncVideo(lessonIndex) }
         .flowOn(dispatcherProvider.io)
+        .catch { Timber.e(it) }
 
-    private fun syncVideo(lessonIndex: String) = scope.launch (exceptionLogger) {
+    private fun syncVideo(lessonIndex: String) = scope.launch(exceptionLogger) {
         var apiLessonIndex = ""
         val data = lessonIndex.toMediaRequest()?.let { ssMediaRequest ->
             apiLessonIndex = "${ssMediaRequest.language}-${ssMediaRequest.quarterlyId}"
-            val videos = mediaApi.getVideo(ssMediaRequest.language, ssMediaRequest.quarterlyId).body()
+            val resource = safeApiCall(connectivityHelper) {
+                mediaApi.getVideo(ssMediaRequest.language, ssMediaRequest.quarterlyId)
+            }
+            val videos = when (resource) {
+                is NetworkResource.Failure -> {
+                    Timber.e("Failed to fetch video for $lessonIndex")
+                    null
+                }
+                is NetworkResource.Success -> resource.value.body()
+            }
             videos?.mapIndexed { index, model ->
                 model.toModel("$apiLessonIndex-$index", lessonIndex)
             }
         } ?: return@launch
 
         withContext(dispatcherProvider.io) {
-            videoInfoDao.delete(apiLessonIndex)
+            videoInfoDao.delete()
             videoInfoDao.insertAll(data.map { it.toEntity() })
         }
     }
