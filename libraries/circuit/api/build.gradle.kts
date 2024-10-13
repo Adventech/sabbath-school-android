@@ -21,13 +21,13 @@
  */
 
 plugins {
-    alias(libs.plugins.sgp.base)
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-parcelize")
+    alias(libs.plugins.foundry.base)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
-slack {
+foundry {
     features { compose() }
 }
 
