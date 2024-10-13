@@ -22,14 +22,14 @@
 
 package app.ss.lessons.components.features
 
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -52,14 +52,12 @@ internal fun QuarterlyFeaturesRow(
     features: ImmutableList<FeatureSpec>,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier
-            .horizontalScroll(rememberScrollState())
-            .padding(horizontal = SsTheme.dimens.grid_4)
-            .padding(bottom = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(22.dp)
+    LazyRow (
+        modifier = modifier,
+        contentPadding = PaddingValues(horizontal = SsTheme.dimens.grid_4, vertical = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        features.forEach { feature ->
+        items(features, key = { it.name }) { feature ->
             FeatureImage(
                 image = feature.image,
                 contentDescription = feature.title,
@@ -112,13 +110,13 @@ fun FeaturesRowPreview() {
                 features = persistentListOf(
                         FeatureSpec(
                             image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_egw.png",
-                            name = "",
+                            name = "egw",
                             title = "",
                             description = ""
 
                         ),
                         FeatureSpec(
-                            name = "",
+                            name = "inside-story",
                             title = "",
                             description = "",
                             image = "https://sabbath-school.adventech.io/api/v1/images/features/feature_inside_story.png"
