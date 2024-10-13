@@ -28,6 +28,7 @@ cash-app-turbine = "1.1.0"
 circuit = "0.24.0"
 coil = "2.7.0"
 desugar_jdk_libs_minimal = "2.1.2"
+foundry = "0.20.0"
 google-hilt = "2.52"
 google-id = "1.1.1"
 google-material = "1.12.0"
@@ -46,7 +47,6 @@ ksp = "2.0.20-1.0.25"
 markwon = "4.6.2"
 pdfkit = "2024.3.0"
 robolectric = "4.13"
-sgp = "0.19.4"
 snapper = "0.3.0"
 sortDependencies = "0.8"
 spotless = "6.25.0"
@@ -238,6 +238,8 @@ testing-common = [
 [plugins]
 android-application = { id = "com.android.application", version.ref = "gradle-android" }
 android-library = { id = "com.android.library", version.ref = "gradle-android" }
+foundry-base = { id = "com.slack.foundry.base", version.ref = "foundry" }
+foundry-root = { id = "com.slack.foundry.root", version.ref = "foundry" }
 gradle-cache-fix = { id = "org.gradle.android.cache-fix", version.ref = "gradle-cache-fix" }
 gradle-retry = { id = "org.gradle.test-retry", version.ref = "gradle-retry" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "google-hilt" }
@@ -246,9 +248,6 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-sgp-base = { id = "com.slack.gradle.base", version.ref = "sgp" }
-sgp-root = { id = "com.slack.gradle.root", version.ref = "sgp" }
-sgp-apkVersioning = { id = "com.slack.gradle.apk-versioning", version.ref = "sgp" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sortDependencies" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 android-test = { id = "com.android.test", version.ref = "gradle-android" }

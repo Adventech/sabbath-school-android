@@ -21,7 +21,7 @@
  */
 
 plugins {
-    alias(libs.plugins.sgp.base)
+    alias(libs.plugins.foundry.base)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -38,7 +38,7 @@ android {
     }
 }
 
-slack {
+foundry {
     features { compose() }
 }
 

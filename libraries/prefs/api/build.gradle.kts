@@ -21,12 +21,10 @@
  */
 
 plugins {
-    alias(libs.plugins.sgp.base)
-    id("com.android.library")
-    kotlin("android")
+    alias(libs.plugins.foundry.base)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
 }
-
-android { namespace = "ss.prefs.api" }
 
 dependencies {
     api(projects.libraries.prefs.model)

@@ -29,7 +29,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.sgp.base)
+    alias(libs.plugins.foundry.base)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.hilt)
 }
@@ -120,7 +120,7 @@ android {
     }
 }
 
-slack {
+foundry {
     features { compose() }
     android { features { androidTest() } }
 }
