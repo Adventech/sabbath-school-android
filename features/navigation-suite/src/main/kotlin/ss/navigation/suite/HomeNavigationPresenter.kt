@@ -41,11 +41,14 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.map
 import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
+import ss.prefs.api.SSPrefs
 
 class HomeNavigationPresenter @AssistedInject constructor(
-    @Assisted private val navigator: Navigator
+    @Assisted private val navigator: Navigator,
+    private val ssPrefs: SSPrefs,
 ) : Presenter<State> {
 
     @CircuitInject(HomeNavScreen::class, SingletonComponent::class)
@@ -56,14 +59,22 @@ class HomeNavigationPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): State {
-        val items by produceRetainedState<ImmutableList<NavbarItem>>(initialValue = persistentListOf()) {
-            value = fetchItems()
-        }
-
+        val navigationItems by rememberNavbarItems()
         var selectedScreen by rememberRetained { mutableStateOf<Screen>(QuarterliesScreen) }
 
+        val items = navigationItems
         return when {
-            items.isEmpty() -> State.Loading
+            items == null -> State.Loading
+            items.isEmpty() -> State.Fallback(
+                selectedItem = selectedScreen,
+                eventSink = { event ->
+                    when (event) {
+                        is State.Fallback.Event.OnNavEvent -> {
+                            navigator.onNavEvent(event.navEvent)
+                        }
+                    }
+                }
+            )
             else -> State.NavbarNavigation(
                 selectedItem = selectedScreen,
                 items = items,
@@ -72,6 +83,7 @@ class HomeNavigationPresenter @AssistedInject constructor(
                         is State.NavbarNavigation.Event.OnItemSelected -> {
                             selectedScreen = event.item.screen()
                         }
+
                         is State.NavbarNavigation.Event.OnNavEvent -> {
                             navigator.onNavEvent(event.navEvent)
                         }
@@ -81,8 +93,20 @@ class HomeNavigationPresenter @AssistedInject constructor(
         }
     }
 
-    private suspend fun fetchItems() : ImmutableList<NavbarItem>{
-        delay(5000)
-        return NavbarItem.entries.toImmutableList()
+    @Composable
+    private fun rememberNavbarItems() = produceRetainedState<ImmutableList<NavbarItem>?>(initialValue = null) {
+        ssPrefs.getLanguageCodeFlow()
+            .map { fetchItems(it) }
+            .collect { value = it }
+    }
+
+    // Fetch enabled items from BE
+    private suspend fun fetchItems(language: String): ImmutableList<NavbarItem> {
+        return if (language == "en") {
+            delay(1000)
+            NavbarItem.entries.toImmutableList()
+        } else {
+            persistentListOf()
+        }
     }
 }

@@ -49,6 +49,7 @@ dependencies {
     implementation(projects.common.designCompose)
     implementation(projects.common.translations)
     implementation(projects.libraries.circuit.api)
+    implementation(projects.libraries.prefs.api)
 
     implementation(libs.google.hilt.android)
     implementation(libs.material3.adaptive.navigation.suite)
