@@ -1,0 +1,61 @@
+<!--
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="22.830326dp"
+    android:viewportWidth="796.94"
+    android:viewportHeight="758.1">
+
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M183.7,417.94h40v-20c0,-94.43 76.82,-171.24 171.24,-171.24s171.24,76.81 171.24,171.24v20h40v-20c0,-116.48 -94.76,-211.24 -211.24,-211.24S183.7,281.46 183.7,397.94Z" />
+
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M66.47,548.02h663.45v40h-663.45z" />
+
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M203.7,718.1h388.98v40h-388.98z" />
+
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M376.98,0h40v134.05h-40z" />
+
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M662.89,379.96h134.05v40h-134.05z" />
+
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M0,379.96h134.05v40h-134.05z" />
+
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M570.96,197.64l94.79,-94.79l28.28,28.28l-94.79,94.79z" />
+
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M100.06,131.45l28.28,-28.28l94.79,94.79l-28.28,28.28z" />
+
+</vector>
