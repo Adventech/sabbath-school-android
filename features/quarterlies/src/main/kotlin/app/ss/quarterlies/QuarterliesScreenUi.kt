@@ -65,10 +65,11 @@ fun QuarterliesScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     SsScaffold(
+        modifier = modifier,
         topBar = {
             SsTopAppBar(
                 spec = getTopAppBarSpec { state.eventSink(Event.FilterLanguages) },
-                modifier = modifier,
+                modifier = Modifier,
                 title = { Text(text = stringResource(id = L10nR.ss_app_name)) },
                 navigationIcon = {
                     NavIcon(photoUrl = state.photoUrl) {

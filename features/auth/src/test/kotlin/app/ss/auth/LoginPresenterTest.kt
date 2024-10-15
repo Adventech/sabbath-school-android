@@ -1,3 +1,25 @@
+/*
+ * Copyright (c) 2024. Adventech <info@adventech.io>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package app.ss.auth
 
 import android.content.Context
@@ -20,8 +42,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
+import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LoginScreen
-import ss.libraries.circuit.navigation.QuarterliesScreen
 import app.ss.translations.R as L10nR
 
 private const val WEB_CLIENT_ID = "web_id"
@@ -88,7 +110,7 @@ class LoginPresenterTest {
 
             awaitItem() as State.Loading
 
-            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo QuarterliesScreen
+            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
 
             ensureAllEventsConsumed()
         }
@@ -165,7 +187,7 @@ class LoginPresenterTest {
 
             awaitItem() as State.Loading
 
-            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo QuarterliesScreen
+            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
 
             ensureAllEventsConsumed()
         }

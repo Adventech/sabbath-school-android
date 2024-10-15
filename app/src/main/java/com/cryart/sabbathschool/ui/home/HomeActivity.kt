@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import app.ss.design.compose.theme.SsTheme
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
+import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
 import com.slack.circuit.overlay.ContentWithOverlays
@@ -60,26 +61,28 @@ class HomeActivity : ComponentActivity() {
 
         setContent {
             val windowSizeClass = calculateWindowSizeClass(activity = this)
-            SsTheme(windowSizeClass = windowSizeClass) {
-                val backstack = rememberSaveableBackStack(HomeScreen)
-                val circuitNavigator = rememberCircuitNavigator(backstack)
-                val supportingNavigator = remember(circuitNavigator) {
-                    supportingNavigatorFactory.create(circuitNavigator, this)
-                }
-                val navigator = rememberAndroidScreenAwareNavigator(supportingNavigator, this)
-                ContentWithOverlays {
-                    NavigableCircuitContent(
-                        navigator,
-                        backstack,
-                        Modifier,
-                        circuit,
-                        decoration = GestureNavigationDecoration {
-                            navigator.pop()
-                        }
-                    )
-                }
+            CircuitCompositionLocals(circuit = circuit) {
+                SsTheme(windowSizeClass = windowSizeClass) {
+                    val backstack = rememberSaveableBackStack(HomeScreen)
+                    val circuitNavigator = rememberCircuitNavigator(backstack)
+                    val supportingNavigator = remember(circuitNavigator) {
+                        supportingNavigatorFactory.create(circuitNavigator, this)
+                    }
+                    val navigator = rememberAndroidScreenAwareNavigator(supportingNavigator, this)
+                    ContentWithOverlays {
+                        NavigableCircuitContent(
+                            navigator,
+                            backstack,
+                            Modifier,
+                            circuit,
+                            decoration = GestureNavigationDecoration {
+                                navigator.pop()
+                            }
+                        )
+                    }
 
-                splashScreen.setKeepOnScreenCondition { backstack.topRecord?.screen == HomeScreen }
+                    splashScreen.setKeepOnScreenCondition { backstack.topRecord?.screen == HomeScreen }
+                }
             }
         }
     }
