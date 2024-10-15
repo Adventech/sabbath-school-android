@@ -23,6 +23,11 @@
 
 package ss.navigation.suite
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
@@ -46,7 +51,12 @@ fun HomeNavigationUi(state: State, modifier: Modifier = Modifier) {
             CircularProgressIndicator()
         }
 
-        is State.Fallback -> CircuitContent(screen = state.selectedItem, modifier = modifier.fillMaxSize())
+        is State.Fallback -> CircuitContent(
+            screen = state.selectedItem,
+            modifier = modifier.fillMaxSize(),
+            onNavEvent = { state.eventSink(State.Fallback.Event.OnNavEvent(it)) },
+        )
+
         is State.NavbarNavigation -> NavigationSuite(state = state, modifier = modifier.fillMaxSize())
     }
 }
@@ -73,10 +83,18 @@ private fun NavigationSuite(
         },
         modifier = modifier,
     ) {
-        CircuitContent(
-            screen = state.selectedItem,
-            modifier = Modifier.fillMaxSize(),
-            onNavEvent = { state.eventSink(State.NavbarNavigation.Event.OnNavEvent(it)) },
-        )
+        AnimatedContent(
+            targetState = state.selectedItem,
+            transitionSpec = {
+                fadeIn(animationSpec = tween(300)).togetherWith(fadeOut(animationSpec = tween(300)))
+            },
+            label = "content",
+        ) { screen ->
+            CircuitContent(
+                screen = screen,
+                modifier = Modifier.fillMaxSize(),
+                onNavEvent = { state.eventSink(State.NavbarNavigation.Event.OnNavEvent(it)) },
+            )
+        }
     }
 }
