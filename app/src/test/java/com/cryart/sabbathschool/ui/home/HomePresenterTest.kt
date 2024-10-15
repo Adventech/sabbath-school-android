@@ -1,7 +1,6 @@
 package com.cryart.sabbathschool.ui.home
 
 import android.content.Context
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.auth.test.FakeAuthRepository
 import app.ss.models.auth.SSUser
 import com.cryart.sabbathschool.reminder.DailyReminderManager
@@ -10,13 +9,11 @@ import com.slack.circuit.test.test
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
-import org.junit.runner.RunWith
+import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LessonsScreen
 import ss.libraries.circuit.navigation.LoginScreen
-import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.prefs.api.test.FakeSSPrefs
 
-@RunWith(AndroidJUnit4::class)
 class HomePresenterTest {
 
     private val fakeNavigator = FakeNavigator(HomeScreen)
@@ -44,7 +41,7 @@ class HomePresenterTest {
             awaitItem()
 
             fakeDailyReminderManager.reminderScheduled shouldBeEqualTo true
-            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo QuarterliesScreen
+            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
 
             ensureAllEventsConsumed()
         }
@@ -63,7 +60,7 @@ class HomePresenterTest {
             awaitItem()
 
             fakeDailyReminderManager.reminderScheduled shouldBeEqualTo false
-            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo QuarterliesScreen
+            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
 
             ensureAllEventsConsumed()
         }
@@ -95,7 +92,7 @@ class HomePresenterTest {
         underTest.test {
             awaitItem()
 
-            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo QuarterliesScreen
+            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
 
             val screen = fakeNavigator.awaitNextScreen()
             screen shouldBeEqualTo LessonsScreen(index)
@@ -117,7 +114,7 @@ class HomePresenterTest {
         underTest.test {
             awaitItem()
 
-            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo QuarterliesScreen
+            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
 
             ensureAllEventsConsumed()
         }
