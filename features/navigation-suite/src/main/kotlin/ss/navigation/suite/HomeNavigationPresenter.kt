@@ -40,14 +40,15 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
 import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
+import ss.navigation.suite.data.ResourcesRepository
 import ss.prefs.api.SSPrefs
 
 class HomeNavigationPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
+    private val resourcesRepository: ResourcesRepository,
     private val ssPrefs: SSPrefs,
 ) : Presenter<State> {
 
@@ -100,13 +101,23 @@ class HomeNavigationPresenter @AssistedInject constructor(
             .collect { value = it }
     }
 
-    // Fetch enabled items from BE
+    /** Returns a list of [NavbarItem]s based on the selected [language]. */
     private suspend fun fetchItems(language: String): ImmutableList<NavbarItem> {
-        return if (language == "en") {
-            delay(1000)
-            NavbarItem.entries.toImmutableList()
-        } else {
-            persistentListOf()
-        }
+        val languages = resourcesRepository.get()
+        val resource = languages.firstOrNull { it.code == language } ?: return persistentListOf()
+
+        return buildList {
+            add(NavbarItem.SabbathSchool)
+            if (resource.aij) {
+                add(NavbarItem.AliveInJesus)
+            }
+            if (resource.pm) {
+                add(NavbarItem.PersonalMinistries)
+            }
+            if (resource.devo) {
+                add(NavbarItem.Devotionals)
+            }
+            add(NavbarItem.Account)
+        }.toImmutableList()
     }
 }
