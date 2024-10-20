@@ -23,6 +23,7 @@
 package app.ss.quarterlies.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.safeDrawing
@@ -47,12 +48,13 @@ internal fun QuarterlyList(
     quarterlies: GroupedQuarterlies,
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
+    contentPadding: PaddingValues,
     onReadClick: (String) -> Unit = {},
     onSeeAllClick: (QuarterlyGroup) -> Unit = {},
 ) {
     LazyColumn(
-        modifier = modifier
-            .testTag("quarterlies:list"),
+        contentPadding = contentPadding,
+        modifier = modifier.testTag("quarterlies:list"),
         state = state
     ) {
         when (quarterlies) {

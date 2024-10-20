@@ -20,35 +20,33 @@
  * THE SOFTWARE.
  */
 
-package ss.settings
-
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
-import app.ss.design.compose.extensions.list.ListEntity
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import kotlinx.collections.immutable.ImmutableList
-
-sealed interface Event : CircuitUiEvent {
-    data object NavBack : Event
-    data object OverlayDismiss : Event
-    data object AccountDeleteConfirmed : Event
-    data class SetReminderTime(val hour: Int, val minute: Int) : Event
-    data object RemoveDownloads : Event
+plugins {
+    alias(libs.plugins.foundry.base)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.hilt)
 }
 
-@Immutable
-data class State(
-    val showNavigation: Boolean,
-    val entities: ImmutableList<ListEntity>,
-    val overlay: Overlay?,
-    val eventSick: (Event) -> Unit,
-) : CircuitUiState
-
-@Stable
-sealed interface Overlay {
-    @Immutable
-    data class SelectReminderTime(val hour: Int, val minute: Int) : Overlay
-    data object ConfirmDeleteAccount : Overlay
-    data object ConfirmRemoveDownloads : Overlay
+foundry {
+    features { compose() }
 }
+
+
+ksp {
+    arg("circuit.codegen.mode", "hilt")
+}
+
+dependencies {
+    implementation(projects.common.designCompose)
+    implementation(projects.common.translations)
+    implementation(projects.libraries.circuit.api)
+
+    implementation(libs.google.hilt.android)
+    ksp(libs.google.hilt.compiler)
+    ksp(libs.circuit.codegen)
+
+    testImplementation(libs.bundles.testing.common)
+}
+

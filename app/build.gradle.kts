@@ -143,9 +143,11 @@ dependencies {
     implementation(projects.features.appWidgets)
     implementation(projects.features.auth)
     implementation(projects.features.bible)
+    implementation(projects.features.feed)
     implementation(projects.features.languages)
     implementation(projects.features.lessons)
     implementation(projects.features.media)
+    implementation(projects.features.navigationSuite)
     implementation(projects.features.pdf)
     implementation(projects.features.quarterlies)
     implementation(projects.features.readings)
@@ -217,8 +219,8 @@ object BuildAndroidConfig {
     const val VERSION_PROPS_FILE = "../release/build_number.properties"
 
     object Version {
-        private const val MAJOR = 4
-        private const val MINOR = 61
+        private const val MAJOR = 5
+        private const val MINOR = 0
         private const val PATCH = 0
 
         const val name = "$MAJOR.$MINOR.$PATCH"

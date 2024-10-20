@@ -1,0 +1,41 @@
+<!--
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24.454369dp"
+    android:viewportWidth="635.96"
+    android:viewportHeight="648">
+
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M542.83,423.15A316.48,316.48 0,0 0,408.3 343a183.51,183.51 0,0 0,93.09 -159.57C501.39,82.28 419.11,0 318,0S134.57,82.28 134.57,183.41A183.51,183.51 0,0 0,227.66 343,318.37 318.37,0 0,0 0,648H40A278,278 0,0 1,514.54 451.44,276.17 276.17,0 0,1 596,648h40A315.93,315.93 0,0 0,542.83 423.15ZM174.57,183.41C174.57,104.33 238.9,40 318,40s143.41,64.33 143.41,143.41S397.05,326.82 318,326.82 174.57,262.48 174.57,183.41Z" />
+
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M461.39,544.73h40v102.76h-40z" />
+
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M134.57,544.73h40v102.76h-40z" />
+
+</vector>

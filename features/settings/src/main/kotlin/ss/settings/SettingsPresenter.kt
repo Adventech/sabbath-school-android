@@ -49,14 +49,13 @@ class SettingsPresenter @AssistedInject constructor(
     @ApplicationContext private val context: Context,
     private val repository: SettingsRepository,
     @Assisted private val navigator: Navigator,
+    @Assisted private val screen: SettingsScreen,
 ) : Presenter<State> {
 
     @CircuitInject(SettingsScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
-        fun create(
-            navigator: Navigator,
-        ): SettingsPresenter
+        fun create(navigator: Navigator, screen: SettingsScreen): SettingsPresenter
     }
 
     @Composable
@@ -95,7 +94,7 @@ class SettingsPresenter @AssistedInject constructor(
                 }
             }.collect { value = it }
         }
-        return State(entities.toImmutableList(), overlay) { event ->
+        return State(screen.showNavigation, entities.toImmutableList(), overlay) { event ->
             when (event) {
                 Event.NavBack -> navigator.pop()
                 Event.OverlayDismiss -> {

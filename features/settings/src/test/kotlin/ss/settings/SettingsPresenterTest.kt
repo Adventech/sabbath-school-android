@@ -44,7 +44,8 @@ import ss.settings.repository.SettingsRepository
 class SettingsPresenterTest {
 
     private val context: Context = ApplicationProvider.getApplicationContext()
-    private val navigator = FakeNavigator(SettingsScreen)
+    private val screen = SettingsScreen(true)
+    private val navigator = FakeNavigator(screen)
 
     @Test
     fun `present - emit empty entities then default entities state`() = runTest {
@@ -53,7 +54,8 @@ class SettingsPresenterTest {
         val presenter = SettingsPresenter(
             context = context,
             repository = FakeRepository(entities),
-            navigator = navigator
+            navigator = navigator,
+            screen = screen,
         )
 
         presenter.test {
@@ -69,7 +71,8 @@ class SettingsPresenterTest {
         val presenter = SettingsPresenter(
             context = context,
             repository = FakeRepository(entities),
-            navigator = navigator
+            navigator = navigator,
+            screen = screen,
         )
 
         presenter.test {
@@ -90,7 +93,8 @@ class SettingsPresenterTest {
         val presenter = SettingsPresenter(
             context = context,
             repository = FakeRepository(entities),
-            navigator = navigator
+            navigator = navigator,
+            screen = screen,
         )
 
         presenter.test {

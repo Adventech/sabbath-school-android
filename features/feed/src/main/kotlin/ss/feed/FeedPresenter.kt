@@ -20,35 +20,29 @@
  * THE SOFTWARE.
  */
 
-package ss.settings
+package ss.feed
 
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
-import app.ss.design.compose.extensions.list.ListEntity
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import kotlinx.collections.immutable.ImmutableList
+import androidx.compose.runtime.Composable
+import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.runtime.presenter.Presenter
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.components.SingletonComponent
+import ss.libraries.circuit.navigation.FeedScreen
 
-sealed interface Event : CircuitUiEvent {
-    data object NavBack : Event
-    data object OverlayDismiss : Event
-    data object AccountDeleteConfirmed : Event
-    data class SetReminderTime(val hour: Int, val minute: Int) : Event
-    data object RemoveDownloads : Event
-}
+class FeedPresenter @AssistedInject constructor(
+    @Assisted private val screen: FeedScreen
+) : Presenter<State> {
 
-@Immutable
-data class State(
-    val showNavigation: Boolean,
-    val entities: ImmutableList<ListEntity>,
-    val overlay: Overlay?,
-    val eventSick: (Event) -> Unit,
-) : CircuitUiState
+    @CircuitInject(FeedScreen::class, SingletonComponent::class)
+    @AssistedFactory
+    interface Factory {
+        fun create(screen: FeedScreen): FeedPresenter
+    }
 
-@Stable
-sealed interface Overlay {
-    @Immutable
-    data class SelectReminderTime(val hour: Int, val minute: Int) : Overlay
-    data object ConfirmDeleteAccount : Overlay
-    data object ConfirmRemoveDownloads : Overlay
+    @Composable
+    override fun present(): State {
+        return State(screen.type)
+    }
 }

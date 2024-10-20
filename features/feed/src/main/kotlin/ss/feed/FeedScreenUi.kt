@@ -20,59 +20,56 @@
  * THE SOFTWARE.
  */
 
-package app.ss.quarterlies.list
+package ss.feed
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
-import app.ss.design.compose.widget.icon.IconBox
-import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.HazeScaffold
-import app.ss.quarterlies.components.QuarterlyList
-import app.ss.quarterlies.list.QuarterliesListScreen.Event
-import app.ss.quarterlies.list.QuarterliesListScreen.State
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
+import ss.libraries.circuit.navigation.FeedScreen
+import app.ss.translations.R.string as L10nR
 
 @OptIn(ExperimentalMaterial3Api::class)
-@CircuitInject(QuarterliesListScreen::class, SingletonComponent::class)
+@CircuitInject(FeedScreen::class, SingletonComponent::class)
 @Composable
-fun QuarterliesListScreenUi(state: State, modifier: Modifier = Modifier) {
+fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
     HazeScaffold(
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = modifier,
         topBar = {
             SsTopAppBar(
-                spec = TopAppBarSpec(TopAppBarType.Large),
-                modifier = modifier,
-                title = { Text(text = state.title) },
-                navigationIcon = {
-                    IconButton(onClick = { state.eventSink(Event.OnNavBack) }) {
-                        IconBox(Icons.ArrowBack)
-                    }
+                spec = TopAppBarSpec(topAppBarType = TopAppBarType.Large),
+                modifier = Modifier,
+                title = {
+                    Text(
+                        text = stringResource(
+                            when (state.type) {
+                                FeedScreen.Type.ALIVE_IN_JESUS -> L10nR.ss_alive_in_jesus
+                                FeedScreen.Type.PERSONAL_MINISTRIES -> L10nR.ss_personal_ministries
+                                FeedScreen.Type.DEVOTIONALS -> L10nR.ss_devotionals
+                            }
+                        )
+                    )
                 },
                 scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.largeTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent,
                     scrolledContainerColor = Color.Transparent,
                 )
             )
         },
         blurTopBar = true,
-    ) { contentPadding ->
-        QuarterlyList(
-            quarterlies = state.type,
-            contentPadding = contentPadding,
-            modifier = Modifier,
-            onReadClick = { state.eventSink(Event.QuarterlySelected(it)) },
-        )
-    }
+    ) {}
 }

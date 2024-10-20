@@ -134,4 +134,8 @@
     <string name="ss_delete_downloads_confirm">By removing all downloads you will lose all the lessons content currently saved offline. Are you sure you want to proceed?</string>
     <string name="ss_search">Search</string>
     <string name="ss_privacy_policy">Privacy Policy</string>
+
+    <string name="ss_alive_in_jesus">Alive In Jesus</string>
+    <string name="ss_personal_ministries">Personal Ministries</string>
+    <string name="ss_devotionals">Devotionals</string>
 </resources>

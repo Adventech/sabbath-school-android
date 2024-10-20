@@ -20,35 +20,14 @@
  * THE SOFTWARE.
  */
 
-package ss.settings
+package ss.lessons.api
 
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
-import app.ss.design.compose.extensions.list.ListEntity
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import kotlinx.collections.immutable.ImmutableList
+import retrofit2.Response
+import retrofit2.http.GET
+import app.ss.models.LanguageResource
 
-sealed interface Event : CircuitUiEvent {
-    data object NavBack : Event
-    data object OverlayDismiss : Event
-    data object AccountDeleteConfirmed : Event
-    data class SetReminderTime(val hour: Int, val minute: Int) : Event
-    data object RemoveDownloads : Event
-}
+interface SSResourcesApi {
 
-@Immutable
-data class State(
-    val showNavigation: Boolean,
-    val entities: ImmutableList<ListEntity>,
-    val overlay: Overlay?,
-    val eventSick: (Event) -> Unit,
-) : CircuitUiState
-
-@Stable
-sealed interface Overlay {
-    @Immutable
-    data class SelectReminderTime(val hour: Int, val minute: Int) : Overlay
-    data object ConfirmDeleteAccount : Overlay
-    data object ConfirmRemoveDownloads : Overlay
+    @GET("api/v3/resources/index.json")
+    suspend fun get(): Response<List<LanguageResource>>
 }

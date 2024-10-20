@@ -36,6 +36,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.modifier.asPlaceholder
@@ -47,7 +48,7 @@ import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButtonSlot
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
-import app.ss.design.compose.widget.scaffold.SsScaffold
+import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.quarterlies.components.QuarterlyList
 import app.ss.quarterlies.overlay.AccountDialogOverlay
 import app.ss.quarterlies.overlay.AppBrandingOverlay
@@ -64,11 +65,12 @@ import app.ss.translations.R.string as L10nR
 fun QuarterliesScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    SsScaffold(
+    HazeScaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             SsTopAppBar(
                 spec = getTopAppBarSpec { state.eventSink(Event.FilterLanguages) },
-                modifier = modifier,
+                modifier = Modifier,
                 title = { Text(text = stringResource(id = L10nR.ss_app_name)) },
                 navigationIcon = {
                     NavIcon(photoUrl = state.photoUrl) {
@@ -76,16 +78,18 @@ fun QuarterliesScreenUi(state: State, modifier: Modifier = Modifier) {
                     }
                 },
                 scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = Color.Transparent
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.Transparent,
                 )
             )
         },
-        scrollBehavior = scrollBehavior
+        blurTopBar = true,
     ) { innerPadding ->
         QuarterlyList(
             quarterlies = state.type,
-            modifier = Modifier.padding(innerPadding),
+            contentPadding = innerPadding,
+            modifier = Modifier,
             onReadClick = { state.eventSink(Event.QuarterlySelected(it)) },
             onSeeAllClick = { state.eventSink(Event.SeeAll(it)) },
         )

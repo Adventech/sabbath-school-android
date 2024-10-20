@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,36 +22,45 @@
 
 plugins {
     alias(libs.plugins.foundry.base)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-}
-
-android {
-    namespace = "app.ss.design.compose"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
-    }
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.hilt)
 }
 
 foundry {
     features { compose() }
 }
 
+android {
+    namespace = "ss.navigation.suite"
+
+    buildFeatures {
+        androidResources = true
+    }
+}
+
+ksp {
+    arg("circuit.codegen.mode", "hilt")
+}
+
 dependencies {
+    implementation(projects.common.designCompose)
+    implementation(projects.common.models)
+    implementation(projects.common.network)
     implementation(projects.common.translations)
-    implementation(projects.libraries.ui.placeholder)
+    implementation(projects.libraries.foundation.android)
+    implementation(projects.libraries.foundation.coroutines)
+    implementation(projects.libraries.circuit.api)
+    implementation(projects.libraries.lessons.api)
+    implementation(projects.libraries.prefs.api)
 
+    implementation(libs.google.hilt.android)
+    implementation(libs.material3.adaptive.navigation.suite)
     implementation(libs.timber)
-    implementation(libs.coil.compose)
-    implementation(libs.kotlin.coroutines)
+    ksp(libs.google.hilt.compiler)
+    ksp(libs.circuit.codegen)
 
-    implementation(libs.androidx.compose.material)
-    implementation(libs.snapper)
-
-    api(platform(libs.androidx.compose.bom))
-    api(libs.bundles.compose)
-    api(libs.bundles.compose.tooling)
-    api(libs.haze)
-    api(libs.haze.materials)
+    testImplementation(libs.bundles.testing.common)
 }

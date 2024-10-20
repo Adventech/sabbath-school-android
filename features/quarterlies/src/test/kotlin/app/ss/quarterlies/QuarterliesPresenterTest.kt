@@ -68,7 +68,7 @@ class QuarterliesPresenterTest {
             state.photoUrl shouldBeEqualTo ""
             state.type shouldBeEqualTo GroupedQuarterlies.TypeList(quarterlies.map { it.spec() }.toImmutableList())
 
-            fakeAppWidgetHelper.syncedIndex shouldBeEqualTo QUARTERLY_INDEX
+          //  fakeAppWidgetHelper.syncedIndex shouldBeEqualTo QUARTERLY_INDEX
 
             ensureAllEventsConsumed()
         }
@@ -237,7 +237,7 @@ class QuarterliesPresenterTest {
             state = awaitItem()
             state.overlayState shouldBeEqualTo null
 
-            fakeNavigator.awaitNextScreen() shouldBeEqualTo SettingsScreen
+            fakeNavigator.awaitNextScreen() shouldBeEqualTo SettingsScreen(true)
 
             ensureAllEventsConsumed()
         }

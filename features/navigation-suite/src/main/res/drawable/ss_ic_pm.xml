@@ -1,0 +1,33 @@
+<!--
+  ~ Copyright (c) 2024. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="662"
+    android:viewportHeight="662">
+
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M331,0C148.19,0 0,148.19 0,331S148.19,662 331,662 662,513.81 662,331 513.81,0 331,0ZM536.77,536.77A291.19,291.19 0,0 1,87.88 491H331V451H65.81q-1.52,-3.35 -3,-6.74A288.16,288.16 0,0 1,40.69 351H331V311H40.69a288.16,288.16 0,0 1,22.16 -93.26q1.44,-3.39 3,-6.74H331V171H87.88A292.48,292.48 0,0 1,217.74 62.85a291,291 0,0 1,319 473.92Z" />
+
+</vector>

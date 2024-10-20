@@ -37,6 +37,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import ss.lessons.api.SSLessonsApi
 import ss.lessons.api.SSMediaApi
 import ss.lessons.api.SSQuarterliesApi
+import ss.lessons.api.SSResourcesApi
 import ss.libraries.storage.api.dao.UserDao
 import ss.misc.SSConstants
 import java.util.concurrent.TimeUnit
@@ -115,4 +116,12 @@ object ApiModule {
         appConfig: AppConfig
     ): SSLessonsApi = retrofit(okHttpClient, baseUrl(appConfig))
         .create(SSLessonsApi::class.java)
+
+    @Provides
+    @Singleton
+    internal fun provideResourcesApi(
+        okHttpClient: OkHttpClient,
+        appConfig: AppConfig
+    ): SSResourcesApi = retrofit(okHttpClient, baseUrl(appConfig))
+        .create(SSResourcesApi::class.java)
 }
