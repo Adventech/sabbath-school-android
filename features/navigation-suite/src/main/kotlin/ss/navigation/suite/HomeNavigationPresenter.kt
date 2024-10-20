@@ -104,7 +104,10 @@ class HomeNavigationPresenter @AssistedInject constructor(
     /** Returns a list of [NavbarItem]s based on the selected [language]. */
     private suspend fun fetchItems(language: String): ImmutableList<NavbarItem> {
         val languages = resourcesRepository.get()
-        val resource = languages.firstOrNull { it.code == language } ?: return persistentListOf()
+        val resource = languages
+            .firstOrNull { it.code == language }
+            ?.takeUnless { !it.aij && !it.pm && !it.devo }
+            ?: return persistentListOf()
 
         return buildList {
             add(NavbarItem.SabbathSchool)
