@@ -39,6 +39,7 @@ sealed interface Event : CircuitUiEvent {
 
 @Immutable
 data class State(
+    val showNavigation: Boolean,
     val entities: ImmutableList<ListEntity>,
     val overlay: Overlay?,
     val eventSick: (Event) -> Unit,

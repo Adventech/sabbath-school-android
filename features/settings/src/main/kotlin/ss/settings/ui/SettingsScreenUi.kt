@@ -23,17 +23,19 @@
 package ss.settings.ui
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.content.ContentSpec
@@ -43,7 +45,7 @@ import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
-import app.ss.design.compose.widget.scaffold.SsScaffold
+import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.overlay.LocalOverlayHost
 import com.slack.circuit.overlay.OverlayHost
@@ -56,36 +58,43 @@ import ss.settings.Overlay
 import ss.settings.State
 import app.ss.translations.R as L10nR
 
+@OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(SettingsScreen::class, SingletonComponent::class)
 @Composable
 fun SettingsScreenUi(
     state: State,
     modifier: Modifier = Modifier
 ) {
-    OverlayContent(state = state)
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    @OptIn(ExperimentalMaterial3Api::class)
-    SsScaffold(
-        modifier = modifier,
+    HazeScaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             SsTopAppBar(
-                spec = TopAppBarSpec(
-                    topAppBarType = TopAppBarType.Small
-                ),
+                spec = TopAppBarSpec(topAppBarType = TopAppBarType.Large),
                 title = { Text(text = stringResource(id = L10nR.string.ss_settings)) },
                 navigationIcon = {
-                    IconButton(onClick = {
-                        state.eventSick(Event.NavBack)
-                    }) {
-                        IconBox(icon = Icons.ArrowBack)
+                    if (state.showNavigation) {
+                        IconButton(onClick = {
+                            state.eventSick(Event.NavBack)
+                        }) {
+                            IconBox(icon = Icons.ArrowBack)
+                        }
                     }
-                }
+                },
+                scrollBehavior = scrollBehavior,
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.Transparent,
+                ).takeUnless { !state.showNavigation }
             )
-        }
-    ) { paddingValues ->
+        },
+        blurTopBar = !state.showNavigation
+    ) { contentPadding ->
 
         LazyColumn(
-            modifier = Modifier.padding(paddingValues),
+            modifier = Modifier,
+            contentPadding = contentPadding,
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             items(
@@ -94,6 +103,8 @@ fun SettingsScreenUi(
             ) { item -> item.Content() }
         }
     }
+
+    OverlayContent(state = state)
 }
 
 

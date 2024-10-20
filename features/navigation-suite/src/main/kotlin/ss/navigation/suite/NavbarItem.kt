@@ -43,5 +43,5 @@ fun NavbarItem.screen(): Screen = when (this) {
     NavbarItem.AliveInJesus -> FeedScreen(FeedScreen.Type.ALIVE_IN_JESUS)
     NavbarItem.PersonalMinistries -> FeedScreen(FeedScreen.Type.PERSONAL_MINISTRIES)
     NavbarItem.Devotionals -> FeedScreen(FeedScreen.Type.DEVOTIONALS)
-    NavbarItem.Account -> SettingsScreen
+    NavbarItem.Account -> SettingsScreen(false)
 }

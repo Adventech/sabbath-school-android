@@ -145,7 +145,7 @@ class QuarterliesPresenter @AssistedInject constructor(
         when (result) {
             OverlayResult.Dismiss -> Unit
             OverlayResult.GoToAbout -> navigator.goTo(LegacyDestination(Destination.ABOUT))
-            OverlayResult.GoToSettings -> navigator.goTo(SettingsScreen)
+            OverlayResult.GoToSettings -> navigator.goTo(SettingsScreen(true))
             is OverlayResult.ShareApp -> {
                 with(result.context) {
                     val shareIntent = ShareCompat.IntentBuilder(this)
