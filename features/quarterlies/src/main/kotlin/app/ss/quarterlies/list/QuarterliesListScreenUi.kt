@@ -29,12 +29,13 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
-import app.ss.design.compose.widget.scaffold.SsScaffold
+import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.quarterlies.components.QuarterlyList
 import app.ss.quarterlies.list.QuarterliesListScreen.Event
 import app.ss.quarterlies.list.QuarterliesListScreen.State
@@ -46,7 +47,8 @@ import dagger.hilt.components.SingletonComponent
 @Composable
 fun QuarterliesListScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    SsScaffold(
+    HazeScaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             SsTopAppBar(
                 spec = TopAppBarSpec(TopAppBarType.Large),
@@ -59,15 +61,16 @@ fun QuarterliesListScreenUi(state: State, modifier: Modifier = Modifier) {
                 },
                 scrollBehavior = scrollBehavior,
                 colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = Color.Transparent
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.Transparent,
                 )
             )
         },
-        scrollBehavior = scrollBehavior
-    ) { paddingValues ->
+        blurTopBar = true,
+    ) { contentPadding ->
         QuarterlyList(
             quarterlies = state.type,
-            contentPadding = paddingValues,
+            contentPadding = contentPadding,
             modifier = Modifier,
             onReadClick = { state.eventSink(Event.QuarterlySelected(it)) },
         )
