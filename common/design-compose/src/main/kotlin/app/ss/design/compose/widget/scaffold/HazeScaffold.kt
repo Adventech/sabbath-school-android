@@ -54,7 +54,7 @@ fun HazeScaffold(
     contentColor: Color = contentColorFor(containerColor),
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     hazeState: HazeState = remember { HazeState() },
-    hazeStyle: HazeStyle = HazeMaterials.ultraThin(MaterialTheme.colorScheme.surface),
+    hazeStyle: HazeStyle = HazeMaterials.regular(MaterialTheme.colorScheme.surface),
     blurTopBar: Boolean = false,
     blurBottomBar: Boolean = false,
     content: @Composable (PaddingValues) -> Unit,
