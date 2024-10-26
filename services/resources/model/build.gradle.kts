@@ -22,42 +22,11 @@
 
 plugins {
     alias(libs.plugins.foundry.base)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.hilt)
-}
-
-foundry {
-    features { compose() }
-}
-
-android {
-    namespace = "ss.navigation.suite"
-
-    buildFeatures {
-        androidResources = true
-    }
-}
-
-ksp {
-    arg("circuit.codegen.mode", "hilt")
 }
 
 dependencies {
-    implementation(projects.common.designCompose)
-    implementation(projects.common.translations)
-    implementation(projects.libraries.foundation.coroutines)
-    implementation(projects.libraries.circuit.api)
-    implementation(projects.libraries.prefs.api)
-    implementation(projects.services.resources.api)
-
-    implementation(libs.google.hilt.android)
-    implementation(libs.material3.adaptive.navigation.suite)
-    implementation(libs.timber)
-    ksp(libs.google.hilt.compiler)
-    ksp(libs.circuit.codegen)
-
-    testImplementation(libs.bundles.testing.common)
+    api(projects.common.models)
 }

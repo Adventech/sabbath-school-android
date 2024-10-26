@@ -90,6 +90,9 @@ include(
     ":services:lessons:impl",
     ":services:media:impl",
     ":services:prefs:impl",
+    ":services:resources:api",
+    ":services:resources:impl",
+    ":services:resources:model",
     ":services:storage:impl",
     ":services:workers:impl"
 )

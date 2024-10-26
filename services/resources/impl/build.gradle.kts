@@ -20,14 +20,24 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.api
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.foundry.base)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
+}
 
-import retrofit2.Response
-import retrofit2.http.GET
-import app.ss.models.LanguageResource
+dependencies {
+    api(projects.services.resources.api)
+    implementation(projects.common.network)
+    implementation(projects.libraries.foundation.android)
+    implementation(projects.libraries.lessons.api)
+    implementation(projects.libraries.prefs.api)
 
-interface SSResourcesApi {
+    implementation(libs.androidx.annotations)
+    implementation(libs.google.hilt.android)
+    implementation(libs.timber)
 
-    @GET("api/v3/resources/index.json")
-    suspend fun get(): Response<List<LanguageResource>>
+    ksp(libs.google.hilt.compiler)
 }

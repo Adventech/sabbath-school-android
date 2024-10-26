@@ -43,8 +43,8 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.map
 import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
-import ss.navigation.suite.data.ResourcesRepository
 import ss.prefs.api.SSPrefs
+import ss.resources.api.ResourcesRepository
 
 class HomeNavigationPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
@@ -103,21 +103,21 @@ class HomeNavigationPresenter @AssistedInject constructor(
 
     /** Returns a list of [NavbarItem]s based on the selected [language]. */
     private suspend fun fetchItems(language: String): ImmutableList<NavbarItem> {
-        val languages = resourcesRepository.get()
-        val resource = languages
+        val languages = resourcesRepository.languages()
+        val model = languages.getOrElse { emptyList() }
             .firstOrNull { it.code == language }
             ?.takeUnless { !it.aij && !it.pm && !it.devo }
             ?: return persistentListOf()
 
         return buildList {
             add(NavbarItem.SabbathSchool)
-            if (resource.aij) {
+            if (model.aij) {
                 add(NavbarItem.AliveInJesus)
             }
-            if (resource.pm) {
+            if (model.pm) {
                 add(NavbarItem.PersonalMinistries)
             }
-            if (resource.devo) {
+            if (model.devo) {
                 add(NavbarItem.Devotionals)
             }
             add(NavbarItem.Account)

@@ -158,6 +158,7 @@ dependencies {
     implementation(projects.services.lessons.impl)
     implementation(projects.services.media.impl)
     implementation(projects.services.prefs.impl)
+    implementation(projects.services.resources.impl)
     implementation(projects.services.storage.impl)
     implementation(projects.services.workers.impl)
 
