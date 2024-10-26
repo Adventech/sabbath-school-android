@@ -42,8 +42,6 @@ dependencies {
 
     implementation(libs.google.hilt.android)
     implementation(libs.joda.android)
-    implementation(libs.square.moshi.adapters)
-    implementation(libs.square.moshi.codegen)
     implementation(libs.square.moshi.kotlin)
     compileOnly(libs.javax.annotation)
     implementation(libs.square.okhttp)
