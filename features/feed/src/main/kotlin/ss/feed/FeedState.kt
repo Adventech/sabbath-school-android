@@ -23,6 +23,8 @@
 package ss.feed
 
 import com.slack.circuit.runtime.CircuitUiState
-import ss.libraries.circuit.navigation.FeedScreen
 
-data class State(val type: FeedScreen.Type) : CircuitUiState
+sealed interface State : CircuitUiState {
+    object Loading : State
+    data class Success(val title: String): State
+}

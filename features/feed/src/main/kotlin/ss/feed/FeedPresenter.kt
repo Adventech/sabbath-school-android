@@ -23,16 +23,22 @@
 package ss.feed
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import ss.libraries.circuit.navigation.FeedScreen
+import ss.resources.api.ResourcesRepository
+import ss.resources.model.FeedModel
+import ss.resources.model.FeedType
 
 class FeedPresenter @AssistedInject constructor(
-    @Assisted private val screen: FeedScreen
+    @Assisted private val screen: FeedScreen,
+    private val resourcesRepository: ResourcesRepository,
 ) : Presenter<State> {
 
     @CircuitInject(FeedScreen::class, SingletonComponent::class)
@@ -43,6 +49,20 @@ class FeedPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): State {
-        return State(screen.type)
+        val model by produceRetainedState<FeedModel?>(initialValue = null) {
+            value = resourcesRepository.feed(screen.type.toFeedType()).getOrNull()
+        }
+
+        val feedModel = model
+        return when {
+            feedModel == null -> State.Loading
+            else -> State.Success(feedModel.title)
+        }
+    }
+
+    private fun FeedScreen.Type.toFeedType() = when (this) {
+        FeedScreen.Type.ALIVE_IN_JESUS -> FeedType.ALIVE_IN_JESUS
+        FeedScreen.Type.PERSONAL_MINISTRIES -> FeedType.PERSONAL_MINISTRIES
+        FeedScreen.Type.DEVOTIONALS -> FeedType.DEVOTIONALS
     }
 }
