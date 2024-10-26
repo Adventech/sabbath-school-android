@@ -41,16 +41,19 @@ dependencies {
     implementation(projects.libraries.workers.api)
 
     implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
     implementation(libs.joda.android)
+    implementation(libs.square.moshi.adapters)
+    implementation(libs.square.moshi.codegen)
     implementation(libs.square.moshi.kotlin)
-    ksp(libs.square.moshi.codegen)
     compileOnly(libs.javax.annotation)
     implementation(libs.square.okhttp)
     implementation(libs.square.okhttp.logging)
     implementation(libs.square.retrofit)
     implementation(libs.square.retrofit.converter.moshi)
     implementation(libs.timber)
+
+    ksp(libs.google.hilt.compiler)
+    ksp(libs.square.moshi.codegen)
 
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.storage.test)

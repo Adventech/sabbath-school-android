@@ -20,11 +20,15 @@
  * THE SOFTWARE.
  */
 
-package ss.resources.model
+package app.ss.models.resource
 
+import androidx.annotation.Keep
 import app.ss.models.feed.FeedGroup
+import com.squareup.moshi.JsonClass
 
-data class FeedModel(
+@Keep
+@JsonClass(generateAdapter = true)
+data class FeedResource(
     val title: String,
     val groups: List<FeedGroup>
 )

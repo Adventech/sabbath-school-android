@@ -154,6 +154,7 @@ kotlinx-collectionsImmutable = { module = "org.jetbrains.kotlinx:kotlinx-collect
 markwon-core = { module = "io.noties.markwon:core", version.ref = "markwon" }
 pdfkit = { module = "com.pspdfkit:pspdfkit", version.ref = "pdfkit" }
 snapper = { module = "dev.chrisbanes.snapper:snapper", version.ref = "snapper" }
+square-moshi-adapters = { module = "com.squareup.moshi:moshi-adapters", version.ref = "square-moshi" }
 square-moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "square-moshi" }
 square-moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "square-moshi" }
 square-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "square-okhttp3" }

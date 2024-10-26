@@ -20,10 +20,17 @@
  * THE SOFTWARE.
  */
 
-package ss.resources.model
+package app.ss.models.feed
 
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
+
+@Keep
+@JsonClass(generateAdapter = false)
 enum class FeedType {
-    ALIVE_IN_JESUS,
-    PERSONAL_MINISTRIES,
-    DEVOTIONALS,
+    UNKNOWN,
+    ss,
+    aij,
+    devo,
+    pm,
 }

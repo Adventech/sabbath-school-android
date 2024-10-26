@@ -24,6 +24,7 @@ package ss.feed
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import app.ss.models.feed.FeedType
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.presenter.Presenter
@@ -34,7 +35,6 @@ import dagger.hilt.components.SingletonComponent
 import ss.libraries.circuit.navigation.FeedScreen
 import ss.resources.api.ResourcesRepository
 import ss.resources.model.FeedModel
-import ss.resources.model.FeedType
 
 class FeedPresenter @AssistedInject constructor(
     @Assisted private val screen: FeedScreen,
@@ -61,8 +61,8 @@ class FeedPresenter @AssistedInject constructor(
     }
 
     private fun FeedScreen.Type.toFeedType() = when (this) {
-        FeedScreen.Type.ALIVE_IN_JESUS -> FeedType.ALIVE_IN_JESUS
-        FeedScreen.Type.PERSONAL_MINISTRIES -> FeedType.PERSONAL_MINISTRIES
-        FeedScreen.Type.DEVOTIONALS -> FeedType.DEVOTIONALS
+        FeedScreen.Type.ALIVE_IN_JESUS -> FeedType.aij
+        FeedScreen.Type.PERSONAL_MINISTRIES -> FeedType.pm
+        FeedScreen.Type.DEVOTIONALS -> FeedType.devo
     }
 }

@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models
+package app.ss.models.resource
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass

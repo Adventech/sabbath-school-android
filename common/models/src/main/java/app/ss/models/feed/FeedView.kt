@@ -20,11 +20,17 @@
  * THE SOFTWARE.
  */
 
-package ss.resources.model
+package app.ss.models.feed
 
-import app.ss.models.feed.FeedGroup
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 
-data class FeedModel(
-    val title: String,
-    val groups: List<FeedGroup>
-)
+@Keep
+@JsonClass(generateAdapter = false)
+enum class FeedView {
+    UNKNOWN,
+    tile,
+    banner,
+    square,
+    folio,
+}
