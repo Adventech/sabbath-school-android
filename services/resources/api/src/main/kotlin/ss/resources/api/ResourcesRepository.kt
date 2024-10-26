@@ -20,11 +20,14 @@
  * THE SOFTWARE.
  */
 
-package ss.feed
+package ss.resources.api
 
-import com.slack.circuit.runtime.CircuitUiState
+import ss.resources.model.FeedModel
+import ss.resources.model.FeedType
+import ss.resources.model.LanguageModel
 
-sealed interface State : CircuitUiState {
-    object Loading : State
-    data class Success(val title: String): State
+interface ResourcesRepository {
+    suspend fun languages(): Result<List<LanguageModel>>
+
+    suspend fun feed(type: FeedType): Result<FeedModel>
 }

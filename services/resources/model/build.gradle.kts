@@ -20,11 +20,13 @@
  * THE SOFTWARE.
  */
 
-package ss.feed
+plugins {
+    alias(libs.plugins.foundry.base)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
+}
 
-import com.slack.circuit.runtime.CircuitUiState
-
-sealed interface State : CircuitUiState {
-    object Loading : State
-    data class Success(val title: String): State
+dependencies {
+    api(projects.common.models)
 }

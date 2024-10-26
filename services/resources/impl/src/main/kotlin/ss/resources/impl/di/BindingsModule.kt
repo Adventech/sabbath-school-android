@@ -20,11 +20,19 @@
  * THE SOFTWARE.
  */
 
-package ss.feed
+package ss.resources.impl.di
 
-import com.slack.circuit.runtime.CircuitUiState
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ss.resources.api.ResourcesRepository
+import ss.resources.impl.ResourcesRepositoryImpl
 
-sealed interface State : CircuitUiState {
-    object Loading : State
-    data class Success(val title: String): State
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class BindingsModule {
+
+    @Binds
+    internal abstract fun bindResourcesRepository(impl: ResourcesRepositoryImpl): ResourcesRepository
 }

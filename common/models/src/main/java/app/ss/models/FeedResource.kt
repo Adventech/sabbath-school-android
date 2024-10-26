@@ -20,11 +20,13 @@
  * THE SOFTWARE.
  */
 
-package ss.feed
+package app.ss.models
 
-import com.slack.circuit.runtime.CircuitUiState
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 
-sealed interface State : CircuitUiState {
-    object Loading : State
-    data class Success(val title: String): State
-}
+@Keep
+@JsonClass(generateAdapter = true)
+data class FeedResource(
+    val title: String,
+)

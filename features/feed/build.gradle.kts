@@ -42,6 +42,7 @@ dependencies {
     implementation(projects.common.designCompose)
     implementation(projects.common.translations)
     implementation(projects.libraries.circuit.api)
+    implementation(projects.services.resources.api)
 
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)

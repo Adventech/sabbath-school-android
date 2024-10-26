@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,10 +34,10 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import ss.lessons.api.ResourcesApi
 import ss.lessons.api.SSLessonsApi
 import ss.lessons.api.SSMediaApi
 import ss.lessons.api.SSQuarterliesApi
-import ss.lessons.api.SSResourcesApi
 import ss.libraries.storage.api.dao.UserDao
 import ss.misc.SSConstants
 import java.util.concurrent.TimeUnit
@@ -122,6 +122,6 @@ object ApiModule {
     internal fun provideResourcesApi(
         okHttpClient: OkHttpClient,
         appConfig: AppConfig
-    ): SSResourcesApi = retrofit(okHttpClient, baseUrl(appConfig))
-        .create(SSResourcesApi::class.java)
+    ): ResourcesApi = retrofit(okHttpClient, baseUrl(appConfig))
+        .create(ResourcesApi::class.java)
 }

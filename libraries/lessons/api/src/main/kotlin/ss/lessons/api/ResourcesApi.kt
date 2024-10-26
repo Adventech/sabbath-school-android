@@ -20,11 +20,19 @@
  * THE SOFTWARE.
  */
 
-package ss.feed
+package ss.lessons.api
 
-import com.slack.circuit.runtime.CircuitUiState
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Path
+import app.ss.models.FeedResource
+import app.ss.models.LanguageResource
 
-sealed interface State : CircuitUiState {
-    object Loading : State
-    data class Success(val title: String): State
+interface ResourcesApi {
+
+    @GET("api/v3/resources/index.json")
+    suspend fun languages(): Response<List<LanguageResource>>
+
+    @GET("api/v3/{language}/{type}/index.json")
+    suspend fun feed(@Path("language") language: String, @Path("type") type: String): Response<FeedResource>
 }

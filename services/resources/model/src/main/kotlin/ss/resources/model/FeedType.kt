@@ -20,19 +20,10 @@
  * THE SOFTWARE.
  */
 
-package ss.navigation.suite.di
+package ss.resources.model
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ss.navigation.suite.data.ResourcesRepository
-import ss.navigation.suite.data.ResourcesRepositoryImpl
-
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class BindingsModule {
-
-    @Binds
-    internal abstract fun bindResourcesRepository(impl: ResourcesRepositoryImpl): ResourcesRepository
+enum class FeedType {
+    ALIVE_IN_JESUS,
+    PERSONAL_MINISTRIES,
+    DEVOTIONALS,
 }

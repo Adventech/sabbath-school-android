@@ -47,14 +47,11 @@ ksp {
 
 dependencies {
     implementation(projects.common.designCompose)
-    implementation(projects.common.models)
-    implementation(projects.common.network)
     implementation(projects.common.translations)
-    implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.circuit.api)
-    implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.prefs.api)
+    implementation(projects.services.resources.api)
 
     implementation(libs.google.hilt.android)
     implementation(libs.material3.adaptive.navigation.suite)

@@ -20,11 +20,13 @@
  * THE SOFTWARE.
  */
 
-package ss.feed
+package ss.resources.model
 
-import com.slack.circuit.runtime.CircuitUiState
-
-sealed interface State : CircuitUiState {
-    object Loading : State
-    data class Success(val title: String): State
-}
+data class LanguageModel(
+    val name: String,
+    val code: String,
+    val devo: Boolean,
+    val pm: Boolean,
+    val aij: Boolean,
+    val ss: Boolean,
+)
