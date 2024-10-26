@@ -20,11 +20,30 @@
  * THE SOFTWARE.
  */
 
-package ss.resources.model
+package app.ss.models.feed
 
-import app.ss.models.feed.FeedGroup
+import androidx.annotation.Keep
+import app.ss.models.Credit
+import app.ss.models.Feature
+import app.ss.models.resource.ResourceCovers
+import com.squareup.moshi.JsonClass
 
-data class FeedModel(
+@Keep
+@JsonClass(generateAdapter = true)
+data class FeedResource(
+    val id: String,
+    val name: String,
     val title: String,
-    val groups: List<FeedGroup>
+    val startDate: String?,
+    val endDate: String?,
+    val description: String?,
+    val introduction: String?,
+    val index: String,
+    val type: FeedType,
+    val credits: List<Credit>,
+    val features: List<Feature>,
+    val primaryColor: String,
+    val primaryColorDark: String,
+    val subtitle: String?,
+    val covers: ResourceCovers,
 )

@@ -25,8 +25,8 @@ package ss.lessons.api
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
-import app.ss.models.FeedResource
-import app.ss.models.LanguageResource
+import app.ss.models.resource.FeedResource
+import app.ss.models.resource.LanguageResource
 
 interface ResourcesApi {
 

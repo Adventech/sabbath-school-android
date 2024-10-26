@@ -22,8 +22,8 @@
 
 package ss.resources.api
 
+import app.ss.models.feed.FeedType
 import ss.resources.model.FeedModel
-import ss.resources.model.FeedType
 import ss.resources.model.LanguageModel
 
 interface ResourcesRepository {

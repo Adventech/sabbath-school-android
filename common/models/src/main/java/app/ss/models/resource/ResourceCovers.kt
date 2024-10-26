@@ -20,13 +20,16 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models
+package app.ss.models.resource
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class FeedResource(
-    val title: String,
+data class ResourceCovers(
+    val portrait: String,
+    val landscape: String,
+    val square: String,
+    val splash: String?,
 )

@@ -22,6 +22,7 @@
 
 package ss.resources.impl
 
+import app.ss.models.feed.FeedType
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import kotlinx.coroutines.withContext
@@ -34,7 +35,6 @@ import ss.resources.model.FeedModel
 import ss.resources.model.LanguageModel
 import javax.inject.Inject
 import dagger.Lazy
-import ss.resources.model.FeedType
 
 internal class ResourcesRepositoryImpl @Inject constructor(
     private val resourcesApi: ResourcesApi,
@@ -73,7 +73,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             when (val resource = safeApiCall(connectivityHelper) {
                 resourcesApi.feed(
                     language = ssPrefs.get().getLanguageCode(),
-                    type = type.toPath()
+                    type = type.name
                 )
             }) {
                 is NetworkResource.Failure -> {
@@ -83,19 +83,11 @@ internal class ResourcesRepositoryImpl @Inject constructor(
                 is NetworkResource.Success -> {
                     resource.value.body()?.let {
                         Result.success(
-                            FeedModel(title = it.title)
+                            FeedModel(title = it.title, it.groups)
                         )
                     } ?: Result.failure(Throwable("Failed to fetch feed, body is null"))
                 }
             }
-        }
-    }
-
-    private fun FeedType.toPath(): String {
-        return when (this) {
-            FeedType.ALIVE_IN_JESUS -> "aij"
-            FeedType.PERSONAL_MINISTRIES -> "pm"
-            FeedType.DEVOTIONALS -> "devo"
         }
     }
 }
