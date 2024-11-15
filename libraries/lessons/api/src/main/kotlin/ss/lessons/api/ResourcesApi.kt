@@ -25,14 +25,14 @@ package ss.lessons.api
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
-import app.ss.models.resource.FeedResource
-import app.ss.models.resource.LanguageResource
+import app.ss.models.resource.FeedResponse
+import app.ss.models.resource.LanguageResponse
 
 interface ResourcesApi {
 
     @GET("api/v3/resources/index.json")
-    suspend fun languages(): Response<List<LanguageResource>>
+    suspend fun languages(): Response<List<LanguageResponse>>
 
     @GET("api/v3/{language}/{type}/index.json")
-    suspend fun feed(@Path("language") language: String, @Path("type") type: String): Response<FeedResource>
+    suspend fun feed(@Path("language") language: String, @Path("type") type: String): Response<FeedResponse>
 }

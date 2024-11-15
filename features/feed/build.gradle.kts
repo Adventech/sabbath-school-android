@@ -44,6 +44,7 @@ dependencies {
     implementation(projects.libraries.circuit.api)
     implementation(projects.services.resources.api)
 
+    implementation(libs.coil.compose)
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
     ksp(libs.circuit.codegen)
