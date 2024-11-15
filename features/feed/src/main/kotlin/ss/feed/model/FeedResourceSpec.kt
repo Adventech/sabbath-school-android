@@ -20,16 +20,36 @@
  * THE SOFTWARE.
  */
 
-package ss.feed
+package ss.feed.model
 
+import androidx.compose.runtime.Immutable
+import app.ss.models.feed.FeedDirection
 import app.ss.models.feed.FeedGroup
-import com.slack.circuit.runtime.CircuitUiState
-import kotlinx.collections.immutable.ImmutableList
+import app.ss.models.feed.FeedResource
+import app.ss.models.feed.FeedView
+import app.ss.models.resource.ResourceCovers
 
-sealed interface State : CircuitUiState {
-    object Loading : State
-    data class Success(
-        val title: String,
-        val groups: ImmutableList<FeedGroup>
-    ) : State
+@Immutable
+internal data class FeedResourceSpec(
+    val id: String,
+    val name: String,
+    val title: String,
+    val view: FeedView,
+    val covers: ResourceCovers,
+    val direction: FeedDirection,
+    val date: String,
+    val primaryColor: String,
+)
+
+internal fun FeedResource.toSpec(group: FeedGroup): FeedResourceSpec {
+    return FeedResourceSpec(
+        id = id,
+        name = name,
+        title = title,
+        view = group.view,
+        covers = covers,
+        direction = group.direction,
+        date = "October · November · December 2024",
+        primaryColor = primaryColorDark,
+    )
 }

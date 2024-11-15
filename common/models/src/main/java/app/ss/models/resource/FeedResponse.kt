@@ -23,15 +23,12 @@
 package app.ss.models.resource
 
 import androidx.annotation.Keep
+import app.ss.models.feed.FeedGroup
 import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class LanguageResource(
-    val name: String,
-    val code: String,
-    val devo: Boolean,
-    val pm: Boolean,
-    val aij: Boolean,
-    val ss: Boolean,
+data class FeedResponse(
+    val title: String,
+    val groups: List<FeedGroup>
 )

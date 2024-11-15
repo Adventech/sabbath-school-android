@@ -22,18 +22,22 @@
 
 package ss.feed
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
+import app.ss.design.compose.widget.placeholder.PlaceholderScreen
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
+import ss.feed.components.FeedGroupList
 import ss.libraries.circuit.navigation.FeedScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,7 +47,7 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     HazeScaffold(
-        modifier = modifier,
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             SsTopAppBar(
                 spec = TopAppBarSpec(topAppBarType = TopAppBarType.Large),
@@ -64,5 +68,18 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
             )
         },
         blurTopBar = true,
-    ) {}
+    ) { contentPadding ->
+        when (state) {
+            State.Loading -> {
+                PlaceholderScreen()
+            }
+            is State.Success -> {
+                FeedGroupList(
+                    groups = state.groups,
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = contentPadding,
+                )
+            }
+        }
+    }
 }
