@@ -22,10 +22,8 @@
 
 package ss.prefs.impl
 
-import android.app.LocaleManager
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Build
 import androidx.core.content.edit
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.SharedPreferencesMigration
@@ -40,7 +38,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -98,7 +95,7 @@ internal class SSPrefsImpl(
 
     private fun preferencesFlow(): Flow<Preferences> = dataStore.data
         .catch { exception ->
-            Timber.Forest.e(exception)
+            Timber.e(exception)
             emit(emptyPreferences())
         }
 
