@@ -29,12 +29,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,6 +40,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,7 +48,7 @@ import app.ss.design.compose.extensions.color.darker
 import app.ss.design.compose.extensions.isS
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
-import app.ss.design.compose.widget.material.Slider
+import app.ss.design.compose.widget.material.LegacySlider
 import app.ss.design.compose.widget.material.SliderDefaults
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.extensions.millisToDuration
@@ -130,7 +129,7 @@ private fun BoxScope.PlaybackProgressSlider(
         inactiveTrackColor = ProgressColors.inactiveTrackColor(forceDark)
     )
 
-    Slider(
+    LegacySlider(
         value = draggingProgress ?: progressState.progress,
         onValueChange = {
             if (!isBuffering) setDraggingProgress(it)
@@ -162,23 +161,40 @@ private fun BoxScope.PlaybackProgressDuration(
             .padding(top = 8.dp)
             .padding(horizontal = 4.dp)
     ) {
-        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-            val currentDuration = when (draggingProgress != null) {
-                true -> (progressState.total.toFloat() * (draggingProgress)).toLong().millisToDuration()
-                else -> progressState.currentDuration
-            }
-            val textStyle = SsTheme.typography.titleSmall.copy(
-                fontSize = 14.sp
-            )
-            Text(
-                currentDuration,
-                style = textStyle,
-                color = SsTheme.colors.secondaryForeground
-            )
-            Text(
-                progressState.totalDuration,
-                style = textStyle,
-                color = SsTheme.colors.secondaryForeground
+        val currentDuration = when (draggingProgress != null) {
+            true -> (progressState.total.toFloat() * (draggingProgress)).toLong().millisToDuration()
+            else -> progressState.currentDuration
+        }
+        val textStyle = SsTheme.typography.titleSmall.copy(
+            fontSize = 14.sp
+        )
+        Text(
+            currentDuration,
+            style = textStyle,
+            color = SsTheme.colors.secondaryForeground
+        )
+        Text(
+            progressState.totalDuration,
+            style = textStyle,
+            color = SsTheme.colors.secondaryForeground
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun PreviewPlaybackProgressDuration() {
+    SsTheme {
+        Surface {
+            PlaybackProgressDuration(
+                isBuffering = false,
+                progressState = PlaybackProgressState(
+                    total = 10000L,
+                    position = 3500L
+                ),
+                onSeekTo = {},
+                modifier = Modifier.padding(vertical = 16.dp),
+                forceDark = false
             )
         }
     }

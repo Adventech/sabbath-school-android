@@ -22,6 +22,7 @@
 
 package app.ss.design.compose.widget.material
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.Canvas
@@ -50,10 +51,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.progressSemantics
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.contentColorFor
 import androidx.compose.material.ripple
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
@@ -87,6 +86,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import app.ss.design.compose.theme.SsTheme
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -132,8 +132,9 @@ import kotlin.math.abs
  * @param colors [SliderColors] that will be used to determine the color of the Slider parts in
  * different state. See [SliderDefaults.colors] to customize.
  */
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
-fun Slider(
+fun LegacySlider(
     value: Float,
     onValueChange: (Float) -> Unit,
     modifier: Modifier = Modifier,
@@ -227,13 +228,13 @@ fun Slider(
 }
 
 /**
- * Object to hold defaults used by [Slider]
+ * Object to hold defaults used by [LegacySlider]
  */
 object SliderDefaults {
 
     /**
      * Creates a [SliderColors] that represents the different colors used in parts of the
-     * [Slider] in different states.
+     * [LegacySlider] in different states.
      *
      * For the name references below the words "active" and "inactive" are used. Active part of
      * the slider is filled with progress, so if slider's progress is 30% out of 100%, left (or
@@ -260,14 +261,14 @@ object SliderDefaults {
      */
     @Composable
     fun colors(
-        thumbColor: Color = MaterialTheme.colors.primary,
-        disabledThumbColor: Color = MaterialTheme.colors.onSurface
+        thumbColor: Color = SsTheme.colors.primary,
+        disabledThumbColor: Color = SsTheme.colors.primaryForeground
             .copy(alpha = ContentAlpha.disabled)
-            .compositeOver(MaterialTheme.colors.surface),
-        activeTrackColor: Color = MaterialTheme.colors.primary,
+            .compositeOver(SsTheme.colors.primaryBackground),
+        activeTrackColor: Color = SsTheme.colors.primary,
         inactiveTrackColor: Color = activeTrackColor.copy(alpha = InactiveTrackAlpha),
         disabledActiveTrackColor: Color =
-            MaterialTheme.colors.onSurface.copy(alpha = DisabledActiveTrackAlpha),
+            SsTheme.colors.primaryForeground.copy(alpha = DisabledActiveTrackAlpha),
         disabledInactiveTrackColor: Color =
             disabledActiveTrackColor.copy(alpha = DisabledInactiveTrackAlpha),
         activeTickColor: Color = contentColorFor(activeTrackColor).copy(alpha = TickAlpha),
@@ -317,7 +318,7 @@ object SliderDefaults {
 }
 
 /**
- * Represents the colors used by a [Slider] and its parts in different states
+ * Represents the colors used by a [LegacySlider] and its parts in different states
  *
  * See [SliderDefaults.colors] for the default implementation that follows Material
  * specifications.
@@ -328,7 +329,7 @@ interface SliderColors {
     /**
      * Represents the color used for the sliders's thumb, depending on [enabled].
      *
-     * @param enabled whether the [Slider] is enabled or not
+     * @param enabled whether the [LegacySlider] is enabled or not
      */
     @Composable
     fun thumbColor(enabled: Boolean): State<Color>
@@ -339,7 +340,7 @@ interface SliderColors {
      * Active part is filled with progress, so if sliders progress is 30% out of 100%, left (or
      * right in RTL) 30% of the track will be active, the rest is not active.
      *
-     * @param enabled whether the [Slider] is enabled or not
+     * @param enabled whether the [LegacySlider] is enabled or not
      * @param active whether the part of the track is active of not
      */
     @Composable
@@ -353,7 +354,7 @@ interface SliderColors {
      * sliders progress is 30% out of 100%, left (or right in RTL) 30% of the track and the ticks
      * in this 30% will be active, the rest is not active.
      *
-     * @param enabled whether the [Slider] is enabled or not
+     * @param enabled whether the [LegacySlider] is enabled or not
      * @param active whether the part of the track this tick is in is active of not
      */
     @Composable
