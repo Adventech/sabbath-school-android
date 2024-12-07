@@ -73,7 +73,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             when (val resource = safeApiCall(connectivityHelper) {
                 resourcesApi.feed(
                     language = ssPrefs.get().getLanguageCode(),
-                    type = type.name
+                    type = type.name.lowercase()
                 )
             }) {
                 is NetworkResource.Failure -> {

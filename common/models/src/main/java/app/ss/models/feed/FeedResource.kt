@@ -46,4 +46,5 @@ data class FeedResource(
     val primaryColorDark: String,
     val subtitle: String?,
     val covers: ResourceCovers,
+    val kind: FeedResourceKind,
 )

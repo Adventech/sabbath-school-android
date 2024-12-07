@@ -23,14 +23,15 @@
 package app.ss.models.feed
 
 import androidx.annotation.Keep
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = false)
 enum class FeedType {
     UNKNOWN,
-    ss,
-    aij,
-    devo,
-    pm,
+    @Json(name = "ss") SS,
+    @Json(name = "aij") AIJ,
+    @Json(name = "devo") DEVO,
+    @Json(name = "pm") PM,
 }
