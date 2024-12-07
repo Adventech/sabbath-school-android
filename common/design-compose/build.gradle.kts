@@ -43,13 +43,13 @@ dependencies {
     implementation(projects.libraries.ui.placeholder)
 
     implementation(libs.timber)
-    implementation(libs.coil.compose)
     implementation(libs.kotlin.coroutines)
 
     implementation(libs.androidx.compose.material)
     implementation(libs.snapper)
 
     api(platform(libs.androidx.compose.bom))
+    api(libs.coil.compose)
     api(libs.bundles.compose)
     api(libs.bundles.compose.tooling)
     api(libs.haze)
