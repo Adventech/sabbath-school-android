@@ -49,9 +49,9 @@ import ss.feed.components.FeedResourceCover
 import ss.feed.components.FeedResourceCoverSpec
 import ss.feed.components.ResourceCoverType
 
-/** Composable for a [FeedView.FOLIO]. */
+/** Composable for a [FeedView]. */
 @Composable
-internal fun FolioView(
+internal fun FeedResourceView(
     title: String,
     coverSpec: FeedResourceCoverSpec,
     modifier: Modifier = Modifier,
@@ -93,9 +93,9 @@ private val TitleMinHeight = 20.dp
 
 @PreviewLightDark
 @Composable
-private fun FolioViewPreview() {
+private fun Preview() {
     val coverSpec = FeedResourceCoverSpec(
-        title = "The title of the folio",
+        title = "The title of the view",
         type = ResourceCoverType.PORTRAIT,
         direction = FeedDirection.VERTICAL,
         covers = ResourceCovers(
@@ -110,7 +110,7 @@ private fun FolioViewPreview() {
 
     SsTheme {
         Surface {
-            FolioView(title = coverSpec.title, coverSpec, Modifier.padding(8.dp))
+            FeedResourceView(title = coverSpec.title, coverSpec, Modifier.padding(8.dp))
         }
     }
 }

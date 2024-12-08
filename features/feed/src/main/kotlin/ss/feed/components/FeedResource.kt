@@ -28,7 +28,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import app.ss.models.feed.FeedView
-import ss.feed.components.view.FolioView
+import ss.feed.components.view.FeedResourceView
 import ss.feed.model.FeedResourceSpec
 
 @Composable
@@ -55,17 +55,8 @@ internal fun FeedResource(
         )
     }
 
-    when (spec.view) {
-        FeedView.UNKNOWN,
-        FeedView.TILE,
-        FeedView.BANNER,
-        FeedView.SQUARE -> {
-            FeedResourceCover(coverSpec)
-        }
-
-        FeedView.FOLIO -> FolioView(spec.title, coverSpec, modifier) {
-            // Send on click event
-        }
+    FeedResourceView(spec.title, coverSpec, modifier) {
+        // Send on click event
     }
 }
 
