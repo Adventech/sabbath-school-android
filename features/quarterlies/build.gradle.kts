@@ -31,6 +31,7 @@ dependencies {
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.prefs.api)
+    implementation(projects.services.auth.overlay)
 
     implementation(libs.coil.core)
     implementation(libs.google.hilt.android)
