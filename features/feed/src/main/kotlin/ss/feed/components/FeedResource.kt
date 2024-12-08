@@ -22,30 +22,13 @@
 
 package ss.feed.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import app.ss.design.compose.theme.Dimens
-import app.ss.models.feed.FeedDirection
 import app.ss.models.feed.FeedView
+import ss.feed.components.view.FolioView
 import ss.feed.model.FeedResourceSpec
 
 @Composable
@@ -57,6 +40,13 @@ internal fun FeedResource(
         mutableStateOf(
             FeedResourceCoverSpec(
                 title = spec.title,
+                type = when (spec.view) {
+                    FeedView.UNKNOWN,
+                    FeedView.TILE,
+                    FeedView.BANNER -> ResourceCoverType.LANDSCAPE
+                    FeedView.SQUARE -> ResourceCoverType.SQUARE
+                    FeedView.FOLIO -> ResourceCoverType.PORTRAIT
+                },
                 direction = spec.direction,
                 covers = spec.covers,
                 view = spec.view,
@@ -67,105 +57,15 @@ internal fun FeedResource(
 
     when (spec.view) {
         FeedView.UNKNOWN,
-        FeedView.tile,
-        FeedView.banner,
-        FeedView.square -> {
-            when (spec.direction) {
-                FeedDirection.UNKNOWN -> Unit
-                FeedDirection.vertical -> VerticalFolio(spec, coverSpec, modifier)
-                FeedDirection.horizontal -> HorizontalFolio(spec, coverSpec, modifier)
-            }
+        FeedView.TILE,
+        FeedView.BANNER,
+        FeedView.SQUARE -> {
+            FeedResourceCover(coverSpec)
         }
 
-        FeedView.folio -> {
-            when (spec.direction) {
-                FeedDirection.UNKNOWN -> Unit
-                FeedDirection.vertical -> VerticalFolio(spec, coverSpec, modifier)
-                FeedDirection.horizontal -> HorizontalFolio(spec, coverSpec, modifier)
-            }
+        FeedView.FOLIO -> FolioView(spec.title, coverSpec, modifier) {
+            // Send on click event
         }
     }
 }
 
-@Composable
-private fun VerticalFolio(spec: FeedResourceSpec, coverSpec: FeedResourceCoverSpec, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
-            .padding(
-                vertical = Dimens.grid_2,
-                horizontal = Dimens.grid_4
-            )
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        FeedResourceCover(coverSpec)
-
-        Spacer(modifier = Modifier.width(Dimens.grid_4))
-
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(end = 16.dp)
-        ) {
-            Text(
-                text = spec.date.uppercase(),
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontSize = 13.sp
-                ),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-            )
-
-            Spacer(modifier = Modifier.height(Dimens.grid_1))
-
-            Text(
-                text = spec.title,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontSize = 24.sp
-                ),
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-            )
-        }
-    }
-}
-
-@Composable
-private fun HorizontalFolio(spec: FeedResourceSpec, coverSpec: FeedResourceCoverSpec, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .width(IntrinsicSize.Min)
-            .padding(bottom = Dimens.grid_1)
-    ) {
-        FeedResourceCover(coverSpec)
-
-        Spacer(modifier = Modifier.height(Dimens.grid_2))
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .sizeIn(minHeight = TitleMinHeight),
-            verticalAlignment = Alignment.Top
-        ) {
-            Text(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = Dimens.grid_1),
-                text = spec.title,
-                style = MaterialTheme.typography.titleSmall.copy(
-                    fontSize = 15.sp
-                ),
-                color = MaterialTheme.colorScheme.onSurface,
-                lineHeight = 18.sp,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-    }
-}
-
-private val TitleMinHeight = 40.dp

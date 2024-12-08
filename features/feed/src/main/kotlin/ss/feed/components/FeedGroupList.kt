@@ -23,6 +23,7 @@
 package ss.feed.components
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -61,7 +62,7 @@ internal fun FeedGroupList(
             items(groups, key = { it.id }) { group ->
                 when (group.direction) {
                     FeedDirection.UNKNOWN -> Unit
-                    FeedDirection.vertical -> {
+                    FeedDirection.VERTICAL -> {
                         // what happens here?
 
                         group.resources.forEach { resource ->
@@ -69,11 +70,17 @@ internal fun FeedGroupList(
                         }
                     }
 
-                    FeedDirection.horizontal -> {
+                    FeedDirection.HORIZONTAL -> {
                         ResourcesRow(group)
                     }
                 }
             }
+        }
+
+        item("spacer") {
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)) // calculate bottom nav height
         }
 
     }
@@ -82,13 +89,13 @@ internal fun FeedGroupList(
 private fun LazyListScope.checkDirection(group: FeedGroup) {
     when (group.direction) {
         FeedDirection.UNKNOWN -> Unit
-        FeedDirection.vertical -> {
+        FeedDirection.VERTICAL -> {
             items(group.resources, key = { it.id }) { resource ->
                 FeedResource(resource.toSpec(group), Modifier.padding(8.dp))
             }
         }
 
-        FeedDirection.horizontal -> {
+        FeedDirection.HORIZONTAL -> {
             item(key = group.id) {
                 ResourcesRow(group)
             }
@@ -99,9 +106,7 @@ private fun LazyListScope.checkDirection(group: FeedGroup) {
 @Composable
 private fun ResourcesRow(group: FeedGroup) {
     SnappingLazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp),
+        modifier = Modifier.fillMaxWidth(),
     ) {
         items(group.resources, key = { it.id }) { resource ->
             FeedResource(resource.toSpec(group), Modifier.padding(8.dp))

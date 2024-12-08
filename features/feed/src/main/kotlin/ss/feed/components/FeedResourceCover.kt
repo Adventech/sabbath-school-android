@@ -22,24 +22,31 @@
 
 package ss.feed.components
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.Dimens
+import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.models.feed.FeedDirection
@@ -50,6 +57,7 @@ import coil.size.Scale
 @Immutable
 data class FeedResourceCoverSpec(
     val title: String,
+    val type: ResourceCoverType,
     val direction: FeedDirection,
     val covers: ResourceCovers,
     val view: FeedView,
@@ -61,65 +69,42 @@ internal fun FeedResourceCover(
     spec: FeedResourceCoverSpec,
     modifier: Modifier = Modifier,
 ) {
-
-    val aspectRatio: Float
-    val image: String
-    val scale: Scale
-
-    when (spec.view) {
-        FeedView.UNKNOWN -> return
-        FeedView.tile,
-        FeedView.banner,
-        FeedView.square -> {
-            image = spec.covers.square
-            aspectRatio = 1f
-            scale = Scale.FILL
-        }
-
-        FeedView.folio -> {
-            when (spec.direction) {
-                FeedDirection.UNKNOWN -> return
-                FeedDirection.vertical -> {
-                    image = spec.covers.portrait
-                    aspectRatio = 0.6671875f
-                }
-
-                FeedDirection.horizontal -> {
-                    image = spec.covers.landscape
-                    aspectRatio = 1.777777777777778f
-                }
-            }
-            scale = Scale.FIT
+    val image = remember(spec) {
+        when (spec.view) {
+            FeedView.UNKNOWN -> null
+            FeedView.TILE -> spec.covers.landscape
+            FeedView.BANNER -> spec.covers.landscape
+            FeedView.SQUARE -> spec.covers.square
+            FeedView.FOLIO -> spec.covers.portrait
         }
     }
+    val primaryColor = remember(spec) { Color.parse(spec.primaryColor) }
 
     val placeholder: @Composable () -> Unit = {
         Spacer(
             modifier = Modifier
                 .fillMaxSize()
-                .asPlaceholder(visible = true)
+                .background(primaryColor, RoundedCornerShape(CoverCornerRadius))
+                .asPlaceholder(visible = !LocalInspectionMode.current)
         )
     }
 
-
+    val initialWidth = LocalConfiguration.current.screenWidthDp.toFloat()
 
     CoverBox(
-        color = Color.parse(spec.primaryColor),
-        direction = spec.direction,
-        view = spec.view,
-        modifier = modifier.padding(4.dp),
+        color = primaryColor,
+        modifier = modifier
+            .size(coverSize(spec.type, spec.direction, spec.view, initialWidth)),
     ) {
         ContentBox(
             content = RemoteImage(
                 data = image,
                 contentDescription = spec.title,
-                scale = scale,
+                scale = Scale.FILL,
                 loading = placeholder,
                 error = placeholder
             ),
-            modifier = Modifier
-                 .fillMaxSize()
-                .clip(RoundedCornerShape(CoverCornerRadius))
+            modifier = Modifier.fillMaxSize()
         )
     }
 
@@ -128,42 +113,126 @@ internal fun FeedResourceCover(
 @Composable
 private fun CoverBox(
     color: Color,
-    direction: FeedDirection,
-    view: FeedView,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
-    // val COVER_MAX_WIDTH = 210.0.dp
-    val screenWidth = LocalConfiguration.current.screenWidthDp
-    var width = screenWidth.dp - 40.dp
-    var height = 200.0.dp
-
-    width = when (direction) {
-        FeedDirection.UNKNOWN -> return
-        FeedDirection.vertical -> {
-            width * 0.30f
-        }
-
-        FeedDirection.horizontal -> {
-            if (view == FeedView.banner) width * 0.9f else width * 0.70f
-        }
-    }
-
-    Box(
+    ElevatedCard(
         modifier = modifier
-            .size(width, height)
-            .padding(Dimens.grid_1)
-    ) {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize(),
-            color = color,
-            shadowElevation = 8.dp,
-            shape = RoundedCornerShape(8.dp),
-            content = content
+            .padding(Dimens.grid_1),
+        shape = RoundedCornerShape(CoverCornerRadius),
+        colors = CardDefaults.cardColors(
+            containerColor = color
+        ),
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = CoverDefaultElevation
         )
-    }
-
+    ) { content() }
 }
 
+private val CoverDefaultElevation = 8.dp
 private val CoverCornerRadius = 6.dp
+
+private val coverSpec = FeedResourceCoverSpec(
+    title = "Title",
+    type = ResourceCoverType.LANDSCAPE,
+    direction = FeedDirection.HORIZONTAL,
+    covers = ResourceCovers(
+        square = "https://via.placeholder.com/150",
+        portrait = "https://via.placeholder.com/150",
+        landscape = "https://via.placeholder.com/150",
+        splash = "https://via.placeholder.com/150"
+    ),
+    view = FeedView.FOLIO,
+    primaryColor = "#94BDFD"
+)
+private val coverSpecs = listOf(
+    coverSpec,
+    coverSpec.copy(
+        type = ResourceCoverType.PORTRAIT,
+        view = FeedView.FOLIO,
+    ),
+    coverSpec.copy(
+        type = ResourceCoverType.SQUARE,
+        direction = FeedDirection.HORIZONTAL,
+        view = FeedView.FOLIO,
+    ),
+    coverSpec.copy(
+        type = ResourceCoverType.SPLASH,
+        direction = FeedDirection.HORIZONTAL,
+        view = FeedView.FOLIO,
+    ),
+    coverSpec.copy(
+        type = ResourceCoverType.LANDSCAPE,
+        direction = FeedDirection.VERTICAL,
+        view = FeedView.FOLIO,
+    ),
+)
+
+@PreviewLightDark
+@Composable
+private fun CoverPreview() {
+    SsTheme {
+        Surface {
+            LazyColumn {
+                items(coverSpecs) { spec ->
+                    FeedResourceCover(spec)
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Calculate the size of the cover based on the [coverType], [direction], and [viewType].
+ */
+private fun coverSize(
+    coverType: ResourceCoverType,
+    direction: FeedDirection,
+    viewType: FeedView,
+    initialWidth: Float
+): DpSize {
+    var width = initialWidth - 40
+    var height = 200.0f
+
+    when (direction) {
+        FeedDirection.UNKNOWN -> Unit
+        FeedDirection.VERTICAL -> {
+            when (coverType) {
+                ResourceCoverType.LANDSCAPE -> {
+                    if (viewType == FeedView.TILE) {
+                        width *= 0.35f
+                    }
+                    height = width / coverType.aspectRatio
+                }
+
+                ResourceCoverType.PORTRAIT, ResourceCoverType.SQUARE -> {
+                    width *= 0.30f
+                }
+
+                ResourceCoverType.SPLASH -> {
+                    height = width / coverType.aspectRatio
+                }
+            }
+        }
+
+        FeedDirection.HORIZONTAL -> {
+            when (coverType) {
+                ResourceCoverType.LANDSCAPE -> {
+                    width = if (viewType == FeedView.BANNER) width * 0.9f else width * 0.70f
+                }
+
+                ResourceCoverType.PORTRAIT, ResourceCoverType.SQUARE -> {
+                    width *= 0.40f
+                }
+
+                ResourceCoverType.SPLASH -> {
+                    height = width / coverType.aspectRatio
+                }
+            }
+        }
+    }
+
+    height = width / coverType.aspectRatio
+
+    return DpSize(width.dp, height.dp)
+}
