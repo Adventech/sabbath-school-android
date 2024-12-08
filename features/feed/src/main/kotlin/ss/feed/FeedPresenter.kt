@@ -65,8 +65,8 @@ class FeedPresenter @AssistedInject constructor(
     }
 
     private fun FeedScreen.Type.toFeedType() = when (this) {
-        FeedScreen.Type.ALIVE_IN_JESUS -> FeedType.aij
-        FeedScreen.Type.PERSONAL_MINISTRIES -> FeedType.pm
-        FeedScreen.Type.DEVOTIONALS -> FeedType.devo
+        FeedScreen.Type.ALIVE_IN_JESUS -> FeedType.AIJ
+        FeedScreen.Type.PERSONAL_MINISTRIES -> FeedType.PM
+        FeedScreen.Type.DEVOTIONALS -> FeedType.DEVO
     }
 }
