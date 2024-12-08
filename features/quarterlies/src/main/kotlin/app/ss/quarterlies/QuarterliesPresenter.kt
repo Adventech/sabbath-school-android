@@ -165,7 +165,7 @@ class QuarterliesPresenter @AssistedInject constructor(
                 }
             }
 
-            is AccountDialogOverlay.Result.GoToPrivacyPolicy ->
+            is OverlayResult.GoToPrivacyPolicy ->
                 navigator.goTo(CustomTabsIntentScreen(result.context.getString(L10nR.string.ss_privacy_policy_url)))
         }
     }

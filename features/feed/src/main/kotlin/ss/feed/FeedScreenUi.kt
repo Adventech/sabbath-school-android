@@ -34,10 +34,12 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.FeedTopAppBar
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import ss.feed.components.FeedGroupList
 import ss.feed.components.view.FeedLoadingView
 import ss.libraries.circuit.navigation.FeedScreen
+import ss.services.auth.overlay.AccountDialogOverlay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(FeedScreen::class, SingletonComponent::class)
@@ -77,10 +79,18 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
             }
         }
     }
+
+    state.overlayState?.let { overlayState ->
+        OverlayEffect(overlayState) {
+            when (overlayState) {
+                is OverlayState.AccountInfo -> overlayState.onResult(show(AccountDialogOverlay(overlayState.userInfo)))
+            }
+        }
+    }
 }
 
 @PreviewLightDark
 @Composable
 private fun LoadingPreview() {
-    SsTheme { Surface { FeedScreenUi(state = State.Loading(null) {}) } }
+    SsTheme { Surface { FeedScreenUi(state = State.Loading(null, null) {}) } }
 }

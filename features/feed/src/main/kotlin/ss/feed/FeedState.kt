@@ -22,18 +22,24 @@
 
 package ss.feed
 
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import app.ss.models.feed.FeedGroup
 import app.ss.models.feed.FeedResource
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
+import ss.services.auth.overlay.AccountDialogOverlay
+import ss.services.auth.overlay.UserInfo
 
 sealed interface State : CircuitUiState {
     val photoUrl: String?
+    val overlayState: OverlayState?
     val eventSink: (Event) -> Unit
 
     data class Loading(
         override val photoUrl: String?,
+        override val overlayState: OverlayState?,
         override val eventSink: (Event) -> Unit,
     ) : State
 
@@ -41,6 +47,7 @@ sealed interface State : CircuitUiState {
         override val photoUrl: String?,
         val title: String,
         val groups: ImmutableList<FeedGroup>,
+        override val overlayState: OverlayState?,
         override val eventSink: (Event) -> Unit
     ) : State
 }
@@ -59,4 +66,13 @@ sealed interface SuccessEvent : Event {
 
     /** A feed [resource] is clicked. */
     data class OnItemClick(val resource: FeedResource) : Event
+}
+
+@Stable
+sealed interface OverlayState {
+    @Immutable
+    data class AccountInfo(
+        val userInfo: UserInfo,
+        val onResult: (AccountDialogOverlay.Result) -> Unit
+    ) : OverlayState
 }
