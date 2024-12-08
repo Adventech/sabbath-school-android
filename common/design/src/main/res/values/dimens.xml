@@ -27,7 +27,6 @@
 
     <dimen name="space">16dp</dimen>
     <dimen name="space_medium">12dp</dimen>
-    <dimen name="space_small">8dp</dimen>
 
     <dimen name="height_row">56dp</dimen>
     <dimen name="btn_min_width">140dp</dimen>
@@ -35,8 +34,6 @@
 
     <dimen name="elevation_bottom_sheet">8dp</dimen>
     <dimen name="elevation_popup">16dp</dimen>
-    <dimen name="elevation_swipe_refresh_layout">4dp</dimen>
-    <dimen name="elevation_action_bar">4dp</dimen>
 
     <!-- standard metrics -->
     <dimen name="spacing_normal">8dp</dimen>
@@ -45,15 +42,12 @@
     <dimen name="spacing_medium_large">20dp</dimen>
     <dimen name="spacing_large">32dp</dimen>
     <dimen name="spacing_list">12dp</dimen>
-    <dimen name="spacing_xlarge">48dp</dimen>
     <dimen name="spacing_huge">64dp</dimen>
 
-    <dimen name="text_size_xsmall">11sp</dimen>
     <dimen name="text_size_small">13sp</dimen>
     <dimen name="text_size_body">16sp</dimen>
     <dimen name="text_size_medium">18sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
-    <dimen name="text_size_xlarge">24sp</dimen>
 
     <dimen name="ss_behaviour_peek_height">1000dp</dimen>
     <dimen name="content_horizontal_spacing">@dimen/spacing_medium</dimen>

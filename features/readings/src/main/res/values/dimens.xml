@@ -26,24 +26,9 @@
     <dimen name="ss_reading_misc_top_image_margin_top">150dp</dimen>
 
     <dimen name="ss_reading_app_bar_subtitle_size">15sp</dimen>
-    <dimen name="ss_reading_navigation_bar_height">60dp</dimen>
     <dimen name="ss_reading_sheet_margin_left">20dp</dimen>
-    <dimen name="ss_reading_sheet_margin_right">20dp</dimen>
-    <dimen name="ss_reading_sheet_margin_top">20dp</dimen>
-    <dimen name="ss_reading_sheet_margin_bottom">80dp</dimen>
-    <dimen name="ss_reading_sheet_header_padding_top">15dp</dimen>
-    <dimen name="ss_reading_sheet_header_padding_bottom">15dp</dimen>
-    <dimen name="ss_reading_sheet_header_padding_left">20dp</dimen>
     <dimen name="ss_reading_sheet_header_padding_right">20dp</dimen>
-    <dimen name="ss_reading_sheet_header_title_text_size">13sp</dimen>
     <dimen name="ss_reading_sheet_header_date_text_size">12sp</dimen>
-    
-    <dimen name="ss_reading_sheet_item_padding_top">10dp</dimen>
-    <dimen name="ss_reading_sheet_item_padding_bottom">10dp</dimen>
-    <dimen name="ss_reading_sheet_item_padding_left">20dp</dimen>
-    <dimen name="ss_reading_sheet_item_padding_right">20dp</dimen>
-    <dimen name="ss_reading_sheet_item_title_text_size">13sp</dimen>
-    <dimen name="ss_reading_sheet_item_date_text_size">12sp</dimen>
     
     <dimen name="ss_reading_toolbar_height">340dp</dimen>
     <dimen name="ss_reading_toolbar_title_margin_bottom">50dp</dimen>
@@ -57,7 +42,6 @@
     <dimen name="ss_reading_context_extra_padding_left">18dp</dimen>
     <dimen name="ss_reading_context_extra_padding_right">18dp</dimen>
 
-    <dimen name="ss_reading_display_options_subtitle_margin">20dp</dimen>
     <dimen name="ss_reading_display_options_button_padding">20dp</dimen>
     <dimen name="ss_reading_display_options_seekbar_padding_top">20dp</dimen>
     <dimen name="ss_reading_display_options_seekbar_padding_bottom">50dp</dimen>
