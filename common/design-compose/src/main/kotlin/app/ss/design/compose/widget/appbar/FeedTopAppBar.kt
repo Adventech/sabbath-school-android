@@ -20,27 +20,74 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.widget.navigation
+package app.ss.design.compose.widget.appbar
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.rounded.Translate
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.IconButtonSlot
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.translations.R.string as L10nR
+import androidx.compose.material.icons.Icons as MaterialIcons
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FeedTopAppBar(
+    photoUrl: String?,
+    title: String,
+    modifier: Modifier = Modifier,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+    onNavigationClick: () -> Unit = {},
+    onFilterLanguagesClick: () -> Unit = {},
+) {
+    SsTopAppBar(
+        spec = TopAppBarSpec(
+            topAppBarType = TopAppBarType.Large,
+            actions = listOf(
+                IconButtonSlot(
+                    imageVector = MaterialIcons.Rounded.Translate,
+                    contentDescription = stringResource(id = L10nR.ss_quarterlies_filter_languages),
+                    onClick = onFilterLanguagesClick
+                )
+            )
+        ),
+        modifier = modifier,
+        navigationIcon = {
+            AvatarNavigationIcon(
+                photoUrl = photoUrl,
+                onClick = onNavigationClick
+            )
+        },
+        title = {
+            Text(text = title)
+        },
+        scrollBehavior = scrollBehavior,
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.Transparent,
+            scrolledContainerColor = Color.Transparent,
+        )
+    )
+}
 
 @Composable
-fun AvatarNavigationIcon(
+private fun AvatarNavigationIcon(
     photoUrl: String?,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
