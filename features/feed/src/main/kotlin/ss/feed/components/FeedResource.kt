@@ -35,6 +35,7 @@ import ss.feed.model.FeedResourceSpec
 internal fun FeedResource(
     spec: FeedResourceSpec,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     val coverSpec by remember(spec) {
         mutableStateOf(
@@ -55,8 +56,6 @@ internal fun FeedResource(
         )
     }
 
-    FeedResourceView(spec.title, coverSpec, modifier) {
-        // Send on click event
-    }
+    FeedResourceView(spec.title, coverSpec, modifier, onClick)
 }
 
